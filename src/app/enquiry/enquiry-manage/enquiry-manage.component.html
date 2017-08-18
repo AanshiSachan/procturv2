@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row">
+    <ul class="breadcrumb">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Enquiry</a></li>
+      <li>Manage Enquiry</li>
+    </ul>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6" style="float:left; margin:10px;">
+      <h3>Enquiry Management</h3>
+    </div>
+    <div class="col-md-6" style="float:right; margin:10px;">
+      <button md-button>Add Enquiry</button>
+      <button md-button>Add Enquiry Message</button>
+    </div>
+  </div>
+
+  <div class="row table-control">
+    <div class="col-md-6">
+      <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+    </div>
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-3">
+        <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" 
+        [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggle($event)">
+        </ss-multiselect-dropdown>        
+    </div>
+  </div>
+
+  <div class="row">
+    <ngx-datatable class="material" [rows]="rows" [columns]="columns" [limit]="50" [columnMode]="forced" [headerHeight]="50"
+      [footerHeight]="50" [loadingIndicator]="true" [scrollbarH]="true">
+    </ngx-datatable>
+  </div>
+
+</div>
