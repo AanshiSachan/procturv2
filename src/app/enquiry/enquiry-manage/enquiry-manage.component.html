@@ -12,29 +12,34 @@
       <h3>Enquiry Management</h3>
     </div>
     <div class="col-md-6" style="float:right; margin:10px;">
-      <button md-button>Add Enquiry</button>
+      <button md-button color="primary">Add Enquiry</button>
       <button md-button>Add Enquiry Message</button>
     </div>
   </div>
 
-  <div class="row table-control">
-    <div class="col-md-6">
-      <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+  <div class="row table table-control">
+    <div class="col-md-6" style="padding-top: 10px;">
+      <md-input-container color="accent">
+        <input mdInput #search class="search" type="text" placeholder="Search..." (keyup)="onSearch(search.value)">
+      </md-input-container>
     </div>
-    <div class="col-md-3">
-
+    <div class="col-md-4" style="padding-top: 20px;">
+      <button md-button>pdf</button>
+      <button md-button>doc</button>
+      <button md-button>csv</button>
     </div>
-    <div class="col-md-3">
-        <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" 
-        [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggle($event)">
-        </ss-multiselect-dropdown>        
+    <div class="col-md-2" style="padding-top: 10px;">
+      <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggle($event)">
+      </ss-multiselect-dropdown>
+      <button md-button><md-icon>refresh</md-icon></button>
     </div>
   </div>
 
-  <div class="row">
-    <ngx-datatable class="material" [rows]="rows" [columns]="columns" [limit]="50" [columnMode]="forced" [headerHeight]="50"
-      [footerHeight]="50" [loadingIndicator]="true" [scrollbarH]="true">
-    </ngx-datatable>
+  <div class="row table">
+    <md-progress-bar lass="app-progress" color="warn" mode="determinate" [value]="progress" aria-label="Determinate progress-bar example"></md-progress-bar>
+    <div class="col-md-12 smart-table-container">
+      <ng2-smart-table [settings]="settings" [source]="source">
+      </ng2-smart-table>
+    </div>
   </div>
-
 </div>

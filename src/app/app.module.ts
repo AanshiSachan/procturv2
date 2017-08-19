@@ -14,9 +14,10 @@ import {
 } from '@angular/material';
 import 'moment';
 import 'hammerjs';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable/src';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
+/* Custom compoonent */
 import { EnquiryComponent } from './enquiry/enquiry.component';
 import { EnquiryLeadsComponent } from './enquiry/enquiry-leads/enquiry-leads.component';
 import { EnquiryManageComponent } from './enquiry/enquiry-manage/enquiry-manage.component';
@@ -84,14 +85,12 @@ const appRoutes = [
     BrowserAnimationsModule,
     MaterialModule, MdAutocompleteModule, MdButtonModule, MdButtonToggleModule, MdCardModule, MdCheckboxModule, MdChipsModule, MdCoreModule, MdDatepickerModule, MdDialogModule, MdExpansionModule, MdGridListModule, MdIconModule, MdInputModule, MdListModule, MdMenuModule, MdNativeDateModule,
     MdPaginatorModule, MdProgressBarModule, MdProgressSpinnerModule, MdRadioModule, MdRippleModule, MdSelectModule, MdSidenavModule, MdSliderModule, MdSlideToggleModule, MdSnackBarModule, MdSortModule, MdTableModule, MdTabsModule, MdToolbarModule, MdTooltipModule,
-    NgxDatatableModule,
     MultiselectDropdownModule,
-    
+    Ng2SmartTableModule
   ],
   providers: [
     FetchenquiryService,
-    FetchenquirycampaignService,
-    
+    FetchenquirycampaignService,    
   ],
   bootstrap: [AppComponent]
 })

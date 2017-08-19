@@ -19,9 +19,10 @@ export class FetchenquirycampaignService {
   url?: string;
   headers?: Headers;
   instituteFormData: any = {};
-  dataArr = [];
+  determinate = 0;
 
   constructor(private http: Http) {
+    
     this.url = "https://app.proctur.com/CampaignServlet";
     this.instituteFormData = `institute_id=${this.instituteData.institute_id}&function_type=${this.instituteData.function_type}&username=${this.instituteData.username}&password=${this.instituteData.password}&onLoad=${this.instituteData.onLoad}&name=${this.instituteData.name}&phone=${this.instituteData.phone}&email=${this.instituteData.email}&enquiry=${this.instituteData.enquiry_no}&priority=${this.instituteData.priority}&filtered_statuses=${this.instituteData.filtered_statuses}&follow_type=${this.instituteData.follow_type}&followUpDate=${this.instituteData.followUpDate}&enquiry_date=${this.instituteData.enquiry_date}&assigned_to=${this.instituteData.assigned_to}&standard_id=${this.instituteData.standard_id}&subject_id=${this.instituteData.subject_id}&is_recent=${this.instituteData.is_recent}&filtered_slots=${this.instituteData.filtered_slots}&isDashbord=${this.instituteData.isDashbord}&enquireDateFrom=${this.instituteData.enquireDateFrom}&enquireDateTo=${this.instituteData.enquireDateTo}&updateDate=${this.instituteData.updateDate}&updateDateFrom=${this.instituteData.updateDateFrom}&updateDateTo=${this.instituteData.updateDateTo}`;
     this.headers = new Headers();
@@ -30,6 +31,7 @@ export class FetchenquirycampaignService {
   }
 
   getAllEnquiry(): Observable<EnquiryCampaign[]>{
+
     return this.http.post(this.url, this.instituteFormData, { headers: this.headers })
       .map(res => {
         return res.json().aaData

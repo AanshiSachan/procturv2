@@ -1,7 +1,6 @@
-@import '~@swimlane/ngx-datatable/release/index.css';
-@import '~@swimlane/ngx-datatable/release/themes/material.css';
-@import '~@swimlane/ngx-datatable/release/assets/icons.css';
-
+::-webkit-scrollbar { 
+    display: none;
+}
 ul.breadcrumb {
     padding: 10px 16px;
     list-style: none;
@@ -20,12 +19,67 @@ ul.breadcrumb li a {
     color: #0275d8;
     text-decoration: none;
 }
-
 ul.breadcrumb li a:hover {
     color: #01447e;
     text-decoration: underline;
 }
-
 .multiselect-container>li>a>label {
     padding: 4px 20px 3px 20px;
   }
+::ng-deep .filter-btn{
+    background: none;
+    margin: 5px;
+  }  
+::ng-deep .filter-btn::after{
+    content: "list";
+    color: white;    
+}
+::ng-deep .caret{
+    display: none;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: unset;
+    border-top: none;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+}
+
+.table{
+    background: rgba(55, 146, 111, 0.93);
+    margin-bottom: 0px;
+}
+
+::ng-deep ng2-smart-table > table tr{
+    line-height: 5em !important;
+ }
+
+::ng-deep ng2-smart-table > table tr th{
+    font-size: 1.4em !important;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    padding: .5em 1em;
+    background: darkslategray;
+    border: 0.2px solid white;
+ }
+
+::ng-deep ng2-smart-table > table tr td{
+    font-size: 1.3em !important;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    padding: .5em 1em;
+    background: #f1e3e3;
+    border-top: 0.2px solid #844545;
+    border-bottom: 0.2px solid #844545;
+ } 
+ 
+ ::ng-deep .ng2-smart-title a {
+    color: #ffffff !important;
+    text-decoration: none;
+ }
+
+ .smart-table-container{
+    overflow-x: scroll;
+ }
+
