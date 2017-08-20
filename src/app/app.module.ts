@@ -28,6 +28,24 @@ import { EnquiryHomeComponent } from './enquiry/enquiry-home/enquiry-home.compon
 /* Services */
 import { FetchenquiryService } from './services/fetchenquiry.service';
 import { FetchenquirycampaignService } from './services/fetchenquirycampaign.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardAttendanceComponent } from './dashboard/dashboard-attendance/dashboard-attendance.component';
+import { DashboardFeesComponent } from './dashboard/dashboard-fees/dashboard-fees.component';
+import { DashboardManageFeesComponent } from './dashboard/dashboard-fees/dashboard-manage-fees/dashboard-manage-fees.component';
+import { DashboardManageChequesComponent } from './dashboard/dashboard-fees/dashboard-manage-cheques/dashboard-manage-cheques.component';
+import { DashboardNotificationsComponent } from './dashboard/dashboard-notifications/dashboard-notifications.component';
+import { DashboardOthersComponent } from './dashboard/dashboard-others/dashboard-others.component';
+import { DashboardEmployeeManagementComponent } from './dashboard/dashboard-employee-management/dashboard-employee-management.component';
+import { DashboardExamsComponent } from './dashboard/dashboard-exams/dashboard-exams.component';
+import { DashboardExamsAttendanceComponent } from './dashboard/dashboard-exams/dashboard-exams-attendance/dashboard-exams-attendance.component';
+import { DashboardExamsMarksComponent } from './dashboard/dashboard-exams/dashboard-exams-marks/dashboard-exams-marks.component';
+import { DashboardSentNotificationsComponent } from './dashboard/dashboard-notifications/dashboard-sent-notifications/dashboard-sent-notifications.component';
+import { DashboardHomeComponent } from './dashboard/dashboard-home/dashboard-home.component';
+import { DashboardReportsComponent } from './dashboard/dashboard-reports/dashboard-reports.component';
+import { DashboardStudentsComponent } from './dashboard/dashboard-students/dashboard-students.component';
+import { DashboardBatchComponent } from './dashboard/dashboard-batch/dashboard-batch.component';
+import { DashboardSettingsComponent } from './dashboard/dashboard-settings/dashboard-settings.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const appRoutes = [
   {
@@ -71,7 +89,25 @@ const appRoutes = [
     EnquiryManageComponent,
     EnquiryReportComponent,
     EnquiryMasterComponent,
-    EnquiryHomeComponent
+    EnquiryHomeComponent,
+    DashboardComponent,
+    DashboardAttendanceComponent,
+    DashboardFeesComponent,
+    DashboardManageFeesComponent,
+    DashboardManageChequesComponent,
+    DashboardNotificationsComponent,
+    DashboardOthersComponent,
+    DashboardEmployeeManagementComponent,
+    DashboardExamsComponent,
+    DashboardExamsAttendanceComponent,
+    DashboardExamsMarksComponent,
+    DashboardSentNotificationsComponent,
+    DashboardHomeComponent,
+    DashboardReportsComponent,
+    DashboardStudentsComponent,
+    DashboardBatchComponent,
+    DashboardSettingsComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

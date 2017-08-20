@@ -31,7 +31,7 @@
     <div class="col-md-2" style="padding-top: 10px;">
       <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggle($event)">
       </ss-multiselect-dropdown>
-      <button md-button><md-icon>refresh</md-icon></button>
+      <button md-button (click)="refreshSource()"><md-icon>refresh</md-icon></button>
     </div>
   </div>
 
