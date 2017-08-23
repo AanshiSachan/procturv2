@@ -1,21 +1,20 @@
 import { AppComponent } from './core/app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule, Routes } from '@angular/router';
 import { DatePickerModule } from 'angular-io-datepicker';
 import { OverlayModule } from 'angular-io-overlay';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from '@angular/common/http';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  MaterialModule, MdAutocompleteModule, MdButtonModule, MdButtonToggleModule, MdCardModule, MdCheckboxModule, MdChipsModule, MdCoreModule, MdDatepickerModule, MdDialogModule, MdExpansionModule, MdGridListModule, MdIconModule, MdInputModule, MdListModule, MdMenuModule, MdNativeDateModule,
-  MdPaginatorModule, MdProgressBarModule, MdProgressSpinnerModule, MdRadioModule, MdRippleModule, MdSelectModule, MdSidenavModule, MdSliderModule, MdSlideToggleModule, MdSnackBarModule, MdSortModule, MdTableModule, MdTabsModule, MdToolbarModule, MdTooltipModule,
-} from '@angular/material';
+import { MaterialModule, MdAutocompleteModule, MdButtonModule, MdButtonToggleModule, MdCardModule, MdCheckboxModule, MdChipsModule, MdCoreModule, MdDatepickerModule, MdDialogModule, MdExpansionModule, MdGridListModule, MdIconModule, MdInputModule, MdListModule, MdMenuModule, MdNativeDateModule, MdPaginatorModule, MdProgressBarModule, MdProgressSpinnerModule, MdRadioModule, MdRippleModule, MdSelectModule, MdSidenavModule, MdSliderModule, MdSlideToggleModule, MdSnackBarModule, MdSortModule, MdTableModule, MdTabsModule, MdToolbarModule, MdTooltipModule, } from '@angular/material';
 import 'moment';
 import 'hammerjs';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+
 
 /* Custom compoonent */
 import { EnquiryComponent } from './enquiry/enquiry.component';
@@ -24,10 +23,6 @@ import { EnquiryManageComponent } from './enquiry/enquiry-manage/enquiry-manage.
 import { EnquiryReportComponent } from './enquiry/enquiry-report/enquiry-report.component';
 import { EnquiryMasterComponent } from './enquiry/enquiry-master/enquiry-master.component';
 import { EnquiryHomeComponent } from './enquiry/enquiry-home/enquiry-home.component';
-
-/* Services */
-import { FetchenquiryService } from './services/fetchenquiry.service';
-import { FetchenquirycampaignService } from './services/fetchenquirycampaign.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardAttendanceComponent } from './dashboard/dashboard-attendance/dashboard-attendance.component';
 import { DashboardFeesComponent } from './dashboard/dashboard-fees/dashboard-fees.component';
@@ -46,8 +41,36 @@ import { DashboardStudentsComponent } from './dashboard/dashboard-students/dashb
 import { DashboardBatchComponent } from './dashboard/dashboard-batch/dashboard-batch.component';
 import { DashboardSettingsComponent } from './dashboard/dashboard-settings/dashboard-settings.component';
 import { ProfileComponent } from './profile/profile.component';
+import { CustomModalComponent } from './custom/custom-modal/custom-modal.component';
+
+/* Services */
+import { FetchenquiryService } from './services/fetchenquiry.service';
+import { LoadInterceptor } from './interceptors/load-interceptor';
 
 const appRoutes = [
+  {
+    path: '',
+    component: DashboardHomeComponent,
+  },
+  /* Dashboard Routes */
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    pathMatch: 'prefix',
+    children: [
+      {
+        path: '',
+        component: DashboardHomeComponent,
+        pathMatch: 'full',
+      },
+      {
+        path: 'student',
+        component: DashboardStudentsComponent,
+        pathMatch: 'full',
+      },
+    ]
+  },
+  /* Enquiry Routes */
   {
     path: 'enquiry',
     component: EnquiryComponent,
@@ -65,7 +88,13 @@ const appRoutes = [
       {
         path: 'manage',
         component: EnquiryManageComponent,
-        pathMatch: 'full',
+        pathMatch: 'prefix',
+        /*         children: [
+                  {
+                    path: 'manage',
+                    component: EnquiryManageComponent,
+                  }          
+                ] */
       },
       {
         path: 'master',
@@ -107,10 +136,13 @@ const appRoutes = [
     DashboardStudentsComponent,
     DashboardBatchComponent,
     DashboardSettingsComponent,
-    ProfileComponent
+    ProfileComponent,
+    CustomModalComponent,
   ],
+  entryComponents: [CustomModalComponent],
   imports: [
     BrowserModule,
+    NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     FormsModule,
     ReactiveFormsModule,
@@ -126,7 +158,7 @@ const appRoutes = [
   ],
   providers: [
     FetchenquiryService,
-    FetchenquirycampaignService,    
+/*     { provide: HTTP_INTERCEPTORS, useClass: LoadInterceptor, multi: true } */
   ],
   bootstrap: [AppComponent]
 })

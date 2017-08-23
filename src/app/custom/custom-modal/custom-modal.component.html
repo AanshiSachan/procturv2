@@ -1,0 +1,34 @@
+<h2 md-dialog-title>Add Enquiry</h2>
+<md-dialog-content>
+    <form class="add-enquiry-form">
+                 <!-- Name -->    
+                 <md-input-container class="add-enquiry-form-content"><input mdInput placeholder="Enquirer Name" [formControl]="nameFormControl"><md-error *ngIf="nameFormControl.hasError('required')">Name is <strong>required</strong></md-error></md-input-container>
+                      <br>
+                 <!-- Phone -->   
+                 <md-input-container class="add-enquiry-form-content"><span mdPrefix>+91 &nbsp;</span><input type="tel" mdInput placeholder="Telephone"><md-icon mdSuffix>mode_edit</md-icon></md-input-container>
+                      <br>
+                 <!-- Email -->   
+                 <md-input-container class="add-enquiry-form-content"><input mdInput placeholder="Email" [formControl]="emailFormControl"><md-error *ngIf="emailFormControl.hasError('pattern')">Please enter a valid email address</md-error><md-error *ngIf="emailFormControl.hasError('required')">Email is <strong>required</strong></md-error></md-input-container>
+                      <br>
+                 <md-radio-group>
+                   <md-radio-button value="M">Male</md-radio-button>
+                   <md-radio-button value="F">Female</md-radio-button>
+                   <md-radio-button value="N">Not Applicable</md-radio-button>                    
+                 </md-radio-group>
+                      <br>
+                 <!-- Address --> 
+                 <md-input-container class="add-enquiry-form-content"><input mdInput placeholder="Address"></md-input-container>
+                 <md-select placeholder="City">
+                    <md-option *ngFor="let city of cities" [value]="city.value">
+                      {{ city.viewValue }}
+                    </md-option>
+                  </md-select>
+    </form>
+
+<md-dialog-actions>
+<button md-button md-dialog-close>No</button>
+<!-- Can optionally provide a result for the closing dialog. -->
+<button md-button [md-dialog-close]="true">Yes</button>
+</md-dialog-actions>
+</md-dialog-content>
+

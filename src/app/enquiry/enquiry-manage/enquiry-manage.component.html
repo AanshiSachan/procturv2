@@ -11,8 +11,8 @@
     <div class="col-md-6" style="float:left; margin:10px;">
       <h3>Enquiry Management</h3>
     </div>
-    <div class="col-md-6" style="float:right; margin:10px;">
-      <button md-button color="primary">Add Enquiry</button>
+    <div class="col-md-6" style="float:right; margin:10px; right:0">
+      <button md-button color="warn" (click)="addEnquiry()">Add Enquiry</button>
       <button md-button>Add Enquiry Message</button>
     </div>
   </div>
@@ -24,7 +24,7 @@
       </md-input-container>
     </div>
     <div class="col-md-4" style="padding-top: 20px;">
-      <button md-button>pdf</button>
+      <button md-button (click)="convertPdf()">pdf</button>
       <button md-button>doc</button>
       <button md-button>csv</button>
     </div>
@@ -36,7 +36,6 @@
   </div>
 
   <div class="row table">
-    <md-progress-bar lass="app-progress" color="warn" mode="determinate" [value]="progress" aria-label="Determinate progress-bar example"></md-progress-bar>
     <div class="col-md-12 smart-table-container">
       <ng2-smart-table [settings]="settings" [source]="source">
       </ng2-smart-table>

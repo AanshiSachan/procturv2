@@ -18,21 +18,20 @@ export class EnquiryHomeComponent implements OnInit {
     updateDateFrom: '',
     updateDateTo: ''
   };
-  parent:boolean;
+
 
   constructor(private fb: FormBuilder, private enquire: FetchenquiryService, private router: Router) {
+
     this.form = this.fb.group({
-      datepre: [null],
-      datepost: [null],
+      datepre: moment().startOf('month').format('YYYY-MM-DD'),
+      datepost: moment().format('YYYY-MM-DD'),
     });
-    this.parent = true;
-    console.log(this.parent +'state inside enquiry commponent');
   }
 
-  ngOnInit() {
-    this.parent = true;
+    ngOnInit() {
+
      this.daterange = this.enquire.daterange;
-    console.log(this.daterange);
+  /*   console.log(this.daterange); */
       this.enquire.loadenquiry(this.daterange)
       .subscribe(
       result => this.data = {
@@ -70,19 +69,22 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
   addEnquiry() {
-    this.parent = false;
+
     this.router.navigate(['enquiry/lead']);
   }
   addManage() {
-    this.parent = false;
+
     this.router.navigate(['enquiry/manage']);
   }
   addMaster() {
-    this.parent = false;
+
     this.router.navigate(['enquiry/master']);
   }
   addReport() {
-    this.parent = false;
+
     this.router.navigate(['enquiry/report']);
+  }
+  filterByCount(){
+    this.router.navigate(['enquiry/manage']);
   }
 }
