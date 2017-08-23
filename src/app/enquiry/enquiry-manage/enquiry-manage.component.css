@@ -1,6 +1,6 @@
-::-webkit-scrollbar { 
+/* ::-webkit-scrollbar { 
     display: none;
-}
+} */
 ul.breadcrumb {
     padding: 10px 16px;
     list-style: none;
@@ -46,32 +46,47 @@ ul.breadcrumb li a:hover {
     border-left: none;
 }
 
+.control-btn{
+    background: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: 900;
+    color:white;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
 .table{
-    background: rgba(55, 146, 111, 0.93);
+    background: #5273d7;
     margin-bottom: 0px;
 }
 
 ::ng-deep ng2-smart-table > table tr{
-    line-height: 5em !important;
+    line-height: 6em !important;
  }
+
+ ::ng-deep td, th {
+    min-width: fit-content !important;
+} 
 
 ::ng-deep ng2-smart-table > table tr th{
-    font-size: 1.4em !important;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    margin: 0;
-    padding: .5em 1em;
-    background: darkslategray;
-    border: 0.2px solid white;
- }
-
-::ng-deep ng2-smart-table > table tr td{
     font-size: 1.3em !important;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin: 0;
     padding: .5em 1em;
-    background: #f1e3e3;
-    border-top: 0.2px solid #844545;
-    border-bottom: 0.2px solid #844545;
+    background: #0077cb;
+    border: 0.2px solid white;
+ }
+
+::ng-deep ng2-smart-table > table tr td{
+    font-size: 1.2em !important;
+    font-weight: 900;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    padding: .5em 1em;
+    background: #FFFFFF;
+    border-top: 0.2px solid #F4EEEE;
+    border-bottom: 0.2px solid #F4EEEE;
  } 
  
  ::ng-deep .ng2-smart-title a {

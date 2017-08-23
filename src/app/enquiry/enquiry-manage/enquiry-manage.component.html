@@ -1,43 +1,44 @@
 <div class="container">
   <div class="row">
     <ul class="breadcrumb">
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Enquiry</a></li>
+      <li><a routerLink="/dashboard" routerLinkActive="active">Home</a></li>
+      <li><a routerLink="/enquiry" routerLinkActive="active">Enquiry</a></li>
       <li>Manage Enquiry</li>
     </ul>
   </div>
 
   <div class="row">
-    <div class="col-md-6" style="float:left; margin:10px;">
+    <div class="col-md-12" style="float:left; margin:10px;">
       <h3>Enquiry Management</h3>
-    </div>
-    <div class="col-md-6" style="float:right; margin:10px; right:0">
-      <button md-button color="warn" (click)="addEnquiry()">Add Enquiry</button>
-      <button md-button>Add Enquiry Message</button>
     </div>
   </div>
 
   <div class="row table table-control">
-    <div class="col-md-6" style="padding-top: 10px;">
+    <div class="col-md-5" style="padding-top: 10px;">
       <md-input-container color="accent">
         <input mdInput #search class="search" type="text" placeholder="Search..." (keyup)="onSearch(search.value)">
       </md-input-container>
     </div>
-    <div class="col-md-4" style="padding-top: 20px;">
-      <button md-button (click)="convertPdf()">pdf</button>
-      <button md-button>doc</button>
-      <button md-button>csv</button>
+    <div class="col-md-3" style="padding-top: 20px;">
+      <button class="btn control-btn" (click)="convertPdf()">pdf</button>
+      <button class="btn control-btn">doc</button>
+      <button class="btn control-btn">csv</button>
     </div>
-    <div class="col-md-2" style="padding-top: 10px;">
-      <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggle($event)">
+    <div class="col-md-4" style="padding-top: 20px;">
+      <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggle($event)" mdTooltip="Toggle Column">
       </ss-multiselect-dropdown>
-      <button md-button (click)="refreshSource()"><md-icon>refresh</md-icon></button>
+      <button class="btn control-btn" (click)="refreshSource()" mdTooltip="Refresh"><md-icon>refresh</md-icon></button>
+      <button class="btn control-btn" (click)="addEnquiry()" mdTooltip="Add Enquiry"><md-icon>add</md-icon></button>
+      <button class="btn control-btn" mdTooltip="Add Enquiry Message"><md-icon>rate_review</md-icon></button>
     </div>
   </div>
 
   <div class="row table">
     <div class="col-md-12 smart-table-container">
-      <ng2-smart-table [settings]="settings" [source]="source">
+      <ng2-smart-table [settings]="settings" [source]="source"
+      (userRowSelect)="handleGridSelected($event)"
+      (edit)="edit($event, 'edit')"
+      (editConfirm)="onEditConfirm($event, 'editConfirm')">
       </ng2-smart-table>
     </div>
   </div>

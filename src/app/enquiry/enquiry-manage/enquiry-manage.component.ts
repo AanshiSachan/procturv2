@@ -7,6 +7,7 @@ import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from 'ang
 import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import { CustomModalComponent } from '../../custom/custom-modal/custom-modal.component';
+import {MdSnackBar} from '@angular/material';
 declare var require: any;
 
 @Component({
@@ -23,27 +24,46 @@ export class EnquiryManageComponent implements OnInit {
   colid:any = [];
   pageRowData:any = [];
   pageColData: any = [];
+  gridSelected;
+  gridData: object[];
+  
   settings = {
-    mode: 'external', hideSubHeader: true,
-    actions: { add: false, edit: false, delete: false, columnTitle: '', position: 'right' },
+    mode: 'inline', hideSubHeader: true,
+    actions: { add: false, edit: true, delete: false, columnTitle: 'Edit', position: 'left' },
+    edit: {editButtonContent: '<i class="material-icons">mode_edit</i>', saveButtonContent: '<i class="material-icons">save</i>', cancelButtonContent: '<i class="material-icons">cancel</i>', confirmSave: true,},
     columns: {
       enquiry_no: { title: 'Enquiry No', filter: false, show: true }, name: { title: 'Name', filter: false, show: true }, phone: { title: 'Phone No', filter: false, show: true }, email: { title: 'Email', filter: false, show: true }, enquiry_date: { title: 'Enquiry Date', filter: false, show: true }, referred_by: { title: 'Reffered By', filter: false, show: true }, priority: { title: 'Priority', filter: false, show: true }, follow_type: { title: 'Follow type', filter: false, show: true }, status: { title: 'Status', filter: false, show: false }, institute_enquiry_id: { title: 'Enquiry ID', filter: false, show: false }, institution_id: { title: 'Institute ID', filter: false, show: false }, standard: { title: 'Standard', filter: false, show: false }, Gender: { title: 'Gender', filter: false, show: false }, subjects: { title: 'Subjects', filter: false, show: false }, statusValue: { title: 'Status Value', filter: false, show: false }, is_converted: { title: 'Is Converted', filter: false, show: false }, followUpDate: { title: 'Follow up Date', filter: false, show: false }, occupation_id: { title: 'Occupation ID', filter: false, show: false }, school_id: { title: 'School ID', filter: false, show: false }, standard_id: { title: 'Standard ID', filter: false, show: false }, subject_id: { title: 'Subject ID', filter: false, show: false }, source_id: { title: 'Source ID', filter: false, show: false }, assigned_name: { title: 'Assigned Name', filter: false, show: false }, is_recent: { title: 'Is recent', filter: false, show: false }, slot_id: { title: 'Slot ID', filter: false, show: false }, slot: { title: 'Slot', filter: false, show: false }, updateDate: { title: 'Update Date', filter: false, show: false }, isDashbord: { title: 'Is Dashboard', filter: false, show: false }, isRport: { title: 'Is Report', filter: false, show: false }, totalcount: { title: 'Total Count', filter: false, show: false }, newEnqcount: { title: 'New Enquiry Count', filter: false, show: false }, enquiry_no_date: { title: 'Enquiry Date', filter: false, show: false }, name_person: { title: 'Person Name', filter: false, show: false }, followUpDateTime: { title: 'Follow up date', filter: false, show: false }, standard_subject: { title: 'Standard subject', filter: false, show: false }, closedReasonText: { title: 'Closed Reason', filter: false, show: false }, followUpTime: { title: 'Follow up Time', filter: false, show: false }, filtered_statuses: { title: 'Filtered Status', filter: false, show: false }, filtered_slots: { title: 'Filtered Slot', filter: false, show: false },
+    },
+    pager: {
+      display: true,
+      perPage: 5
     },
   };
 
   settingUpdater = {
-    mode: 'external', hideSubHeader: true,
-    actions: { add: false, edit: false, delete: false, columnTitle: '', position: 'right' },
-    columns: {
-      enquiry_no: { title: 'Enquiry No', filter: false, show: true }, name: { title: 'Name', filter: false, show: true }, phone: { title: 'Phone No', filter: false, show: true }, email: { title: 'Email', filter: false, show: true }, enquiry_date: { title: 'Enquiry Date', filter: false, show: true }, referred_by: { title: 'Reffered By', filter: false, show: true }, priority: { title: 'Priority', filter: false, show: true }, follow_type: { title: 'Follow type', filter: false, show: true }, status: { title: 'Status', filter: false, show: false }, institute_enquiry_id: { title: 'Enquiry ID', filter: false, show: false }, institution_id: { title: 'Institute ID', filter: false, show: false }, standard: { title: 'Standard', filter: false, show: false }, Gender: { title: 'Gender', filter: false, show: false }, subjects: { title: 'Subjects', filter: false, show: false }, statusValue: { title: 'Status Value', filter: false, show: false }, is_converted: { title: 'Is Converted', filter: false, show: false }, followUpDate: { title: 'Follow up Date', filter: false, show: false }, occupation_id: { title: 'Occupation ID', filter: false, show: false }, school_id: { title: 'School ID', filter: false, show: false }, standard_id: { title: 'Standard ID', filter: false, show: false }, subject_id: { title: 'Subject ID', filter: false, show: false }, source_id: { title: 'Source ID', filter: false, show: false }, assigned_name: { title: 'Assigned Name', filter: false, show: false }, is_recent: { title: 'Is recent', filter: false, show: false }, slot_id: { title: 'Slot ID', filter: false, show: false }, slot: { title: 'Slot', filter: false, show: false }, updateDate: { title: 'Update Date', filter: false, show: false }, isDashbord: { title: 'Is Dashboard', filter: false, show: false }, isRport: { title: 'Is Report', filter: false, show: false }, totalcount: { title: 'Total Count', filter: false, show: false }, newEnqcount: { title: 'New Enquiry Count', filter: false, show: false }, enquiry_no_date: { title: 'Enquiry Date', filter: false, show: false }, name_person: { title: 'Person Name', filter: false, show: false }, followUpDateTime: { title: 'Follow up date', filter: false, show: false }, standard_subject: { title: 'Standard subject', filter: false, show: false }, closedReasonText: { title: 'Closed Reason', filter: false, show: false }, followUpTime: { title: 'Follow up Time', filter: false, show: false }, filtered_statuses: { title: 'Filtered Status', filter: false, show: false }, filtered_slots: { title: 'Filtered Slot', filter: false, show: false },
+    mode: 'inline', hideSubHeader: true,
+    actions: { add: false, edit: true, delete: false, columnTitle: 'Edit', position: 'left' },
+    edit: {editButtonContent: '<i class="material-icons">mode_edit</i>', saveButtonContent: '<i class="material-icons">save</i>', cancelButtonContent: '<i class="material-icons">cancel</i>', confirmSave: true,},
+    columns: {enquiry_no: { title: 'Enquiry No', filter: false, show: true }, name: { title: 'Name', filter: false, show: true }, phone: { title: 'Phone No', filter: false, show: true }, email: { title: 'Email', filter: false, show: true }, enquiry_date: { title: 'Enquiry Date', filter: false, show: true }, referred_by: { title: 'Reffered By', filter: false, show: true }, priority: { title: 'Priority', filter: false, show: true }, follow_type: { title: 'Follow type', filter: false, show: true }, status: { title: 'Status', filter: false, show: false }, institute_enquiry_id: { title: 'Enquiry ID', filter: false, show: false }, institution_id: { title: 'Institute ID', filter: false, show: false }, standard: { title: 'Standard', filter: false, show: false }, Gender: { title: 'Gender', filter: false, show: false }, subjects: { title: 'Subjects', filter: false, show: false }, statusValue: { title: 'Status Value', filter: false, show: false }, is_converted: { title: 'Is Converted', filter: false, show: false }, followUpDate: { title: 'Follow up Date', filter: false, show: false }, occupation_id: { title: 'Occupation ID', filter: false, show: false }, school_id: { title: 'School ID', filter: false, show: false }, standard_id: { title: 'Standard ID', filter: false, show: false }, subject_id: { title: 'Subject ID', filter: false, show: false }, source_id: { title: 'Source ID', filter: false, show: false }, assigned_name: { title: 'Assigned Name', filter: false, show: false }, is_recent: { title: 'Is recent', filter: false, show: false }, slot_id: { title: 'Slot ID', filter: false, show: false }, slot: { title: 'Slot', filter: false, show: false }, updateDate: { title: 'Update Date', filter: false, show: false }, isDashbord: { title: 'Is Dashboard', filter: false, show: false }, isRport: { title: 'Is Report', filter: false, show: false }, totalcount: { title: 'Total Count', filter: false, show: false }, newEnqcount: { title: 'New Enquiry Count', filter: false, show: false }, enquiry_no_date: { title: 'Enquiry Date', filter: false, show: false }, name_person: { title: 'Person Name', filter: false, show: false }, followUpDateTime: { title: 'Follow up date', filter: false, show: false }, standard_subject: { title: 'Standard subject', filter: false, show: false }, closedReasonText: { title: 'Closed Reason', filter: false, show: false }, followUpTime: { title: 'Follow up Time', filter: false, show: false }, filtered_statuses: { title: 'Filtered Status', filter: false, show: false }, filtered_slots: { title: 'Filtered Slot', filter: false, show: false },
+            },
+    pager: {
+      display: true,
+      perPage: 5
     },
   };
 
-  constructor(private enquire: FetchenquiryService, private dialog: MdDialog) {
+  constructor(private enquire: FetchenquiryService, private dialog: MdDialog, public snackBar: MdSnackBar) {
     this.enquire.getAllEnquiry().subscribe(data => {
       this.rows = data;
+      console.log(this.rows);
       this.source = new LocalDataSource(this.rows);
+      this.source.refresh();
     });
+  }
+
+  handleGridSelected(event) {
+    this.gridSelected = event.selected[0];
+    console.log(this.gridSelected);
   }
 
   ngOnInit() {
@@ -60,6 +80,9 @@ export class EnquiryManageComponent implements OnInit {
     var item = this.optionsModel.pop();
     this.settingUpdater.columns[item].show = !this.settingUpdater.columns[item].show;
     this.settings = Object.assign({}, this.settingUpdater);
+    this.snackBar.open(this.settingUpdater.columns[item].title, "Updated", {
+      duration: 1000,
+    });
   }
   mySettings: IMultiSelectSettings = {
     enableSearch: true, buttonClasses: 'btn material-icons filter-btn', dynamicTitleMaxItems: 3, displayAllSelectedText: true, showCheckAll: false, showUncheckAll: false, closeOnClickOutside: true, checkedStyle: 'glyphicon',
@@ -81,18 +104,27 @@ export class EnquiryManageComponent implements OnInit {
       console.log('form submitted');
     });
   }
+
   refreshSource(){
     this.source.refresh();
     this.settings = {
-      mode: 'external', hideSubHeader: true,
-      actions: { add: false, edit: false, delete: false, columnTitle: '', position: 'right' },
+      mode: 'inline', hideSubHeader: true,
+      actions: { add: false, edit: true, delete: false, columnTitle: 'Edit', position: 'left' },
+      edit: {editButtonContent: '<i class="material-icons">mode_edit</i>', saveButtonContent: '<i class="material-icons">save</i>', cancelButtonContent: '<i class="material-icons">cancel</i>', confirmSave: true,},
       columns: {
         enquiry_no: { title: 'Enquiry No', filter: false, show: true }, name: { title: 'Name', filter: false, show: true }, phone: { title: 'Phone No', filter: false, show: true }, email: { title: 'Email', filter: false, show: true }, enquiry_date: { title: 'Enquiry Date', filter: false, show: true }, referred_by: { title: 'Reffered By', filter: false, show: true }, priority: { title: 'Priority', filter: false, show: true }, follow_type: { title: 'Follow type', filter: false, show: true }, status: { title: 'Status', filter: false, show: false }, institute_enquiry_id: { title: 'Enquiry ID', filter: false, show: false }, institution_id: { title: 'Institute ID', filter: false, show: false }, standard: { title: 'Standard', filter: false, show: false }, Gender: { title: 'Gender', filter: false, show: false }, subjects: { title: 'Subjects', filter: false, show: false }, statusValue: { title: 'Status Value', filter: false, show: false }, is_converted: { title: 'Is Converted', filter: false, show: false }, followUpDate: { title: 'Follow up Date', filter: false, show: false }, occupation_id: { title: 'Occupation ID', filter: false, show: false }, school_id: { title: 'School ID', filter: false, show: false }, standard_id: { title: 'Standard ID', filter: false, show: false }, subject_id: { title: 'Subject ID', filter: false, show: false }, source_id: { title: 'Source ID', filter: false, show: false }, assigned_name: { title: 'Assigned Name', filter: false, show: false }, is_recent: { title: 'Is recent', filter: false, show: false }, slot_id: { title: 'Slot ID', filter: false, show: false }, slot: { title: 'Slot', filter: false, show: false }, updateDate: { title: 'Update Date', filter: false, show: false }, isDashbord: { title: 'Is Dashboard', filter: false, show: false }, isRport: { title: 'Is Report', filter: false, show: false }, totalcount: { title: 'Total Count', filter: false, show: false }, newEnqcount: { title: 'New Enquiry Count', filter: false, show: false }, enquiry_no_date: { title: 'Enquiry Date', filter: false, show: false }, name_person: { title: 'Person Name', filter: false, show: false }, followUpDateTime: { title: 'Follow up date', filter: false, show: false }, standard_subject: { title: 'Standard subject', filter: false, show: false }, closedReasonText: { title: 'Closed Reason', filter: false, show: false }, followUpTime: { title: 'Follow up Time', filter: false, show: false }, filtered_statuses: { title: 'Filtered Status', filter: false, show: false }, filtered_slots: { title: 'Filtered Slot', filter: false, show: false },
       },
+      pager: {
+        display: true,
+        perPage: 5
+      },
     };
+    this.snackBar.open("Table Refreshed", "", {
+      duration: 1000,
+    });
   }
 
-  convertPdf(){
+  convertPdf(){ 
     let JSPdf = require('jspdf');
     require('jspdf-autotable');
 
@@ -108,6 +140,11 @@ export class EnquiryManageComponent implements OnInit {
     console.log(this.pageRowData);
     doc.autoTable(this.pageColData, this.pageRowData);
     doc.save('table.pdf');
+  }
+
+  edit(event, eventName: string): void {
+/*     debugger; */
+    console.log(eventName);
   }
 
 }

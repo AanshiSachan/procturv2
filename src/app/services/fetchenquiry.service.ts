@@ -15,7 +15,7 @@ export class FetchenquiryService {
     institute_id: 100123,function_type: "manageSearchEnquiries",username: "31469|0",
     password: "admin@123",onLoad: 0,name: "",phone: "",
     email: "",enquiry_no: "",priority: "",filtered_statuses: "",follow_type: "",
-    followUpDate: "2017-08-16",enquiry_date: "",assigned_to: -1,standard_id: -1,subject_id: -1,is_recent: "Y",
+    followUpDate: moment().format('YYYY-MM-DD'),enquiry_date: "",assigned_to: -1,standard_id: -1,subject_id: -1,is_recent: "Y",
     filtered_slots: "",isDashbord: "",enquireDateFrom: "",enquireDateTo: "",
     updateDate: "",updateDateFrom: "",updateDateTo: "",
   }
