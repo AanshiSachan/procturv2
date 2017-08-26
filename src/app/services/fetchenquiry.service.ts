@@ -51,13 +51,21 @@ export class FetchenquiryService {
   }
 
   getAllEnquiry(): Observable<EnquiryCampaign[]>{
+ /*    console.log(moment(moment().valueOf()).format('YYYY-MM-DD')); */
     return this.http.post(this.urlCampaign, this.instituteFormData, { headers: this.headersCampaign })
       .map(res => {
       return res.json().aaData
     })
   }
 
-
-
+  getEnquiry(): Observable<EnquiryCampaign[]>{
+    return this.http.post(this.urlCampaign, this.instituteFormData, { headers: this.headersCampaign })
+      .map(res => {
+      return res.json().aaData
+    }).do(data => data.array.forEach(element => {
+      console.log(element);
+    }))
+  }
+  
 }
   

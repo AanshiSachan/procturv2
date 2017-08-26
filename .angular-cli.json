@@ -19,7 +19,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "assets/styles.css"
+        "assets/styles.css",
+        "../node_modules/angular2-busy/build/style/busy.css"
       ],
       "scripts": [
         "../node_modules/jspdf/dist/jspdf.min.js"

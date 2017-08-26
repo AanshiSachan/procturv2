@@ -19,7 +19,6 @@ export class EnquiryHomeComponent implements OnInit {
     updateDateTo: ''
   };
 
-
   constructor(private fb: FormBuilder, private enquire: FetchenquiryService, private router: Router) {
 
     this.form = this.fb.group({
@@ -69,11 +68,10 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
   addEnquiry() {
-
-    this.router.navigate(['enquiry/lead']);
+   this.router.navigate(['enquiry/lead']);
+    
   }
   addManage() {
-
     this.router.navigate(['enquiry/manage']);
   }
   addMaster() {
@@ -85,6 +83,7 @@ export class EnquiryHomeComponent implements OnInit {
     this.router.navigate(['enquiry/report']);
   }
   filterByCount(){
-    this.router.navigate(['enquiry/manage']);
+  /*     this.router.navigate(['enquiry/manage']); */
+/*   this.enquire.getEnquiry(this.daterange); */
   }
 }

@@ -1,4 +1,5 @@
-<div class="container">
+<div class="container" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}"
+style="margin:0px 0px 20px 0px;padding:0px;width:89vw;">
   <div class="row">
     <ul class="breadcrumb">
       <li><a routerLink="/dashboard" routerLinkActive="active">Home</a></li>
@@ -14,32 +15,41 @@
   </div>
 
   <div class="row table table-control">
-    <div class="col-md-5" style="padding-top: 10px;">
+    <div class="col-md-4" style="padding-top: 10px;">
       <md-input-container color="accent">
         <input mdInput #search class="search" type="text" placeholder="Search..." (keyup)="onSearch(search.value)">
       </md-input-container>
     </div>
-    <div class="col-md-3" style="padding-top: 20px;">
+    <div class="col-md-4" style="padding-top: 20px;">
       <button class="btn control-btn" (click)="convertPdf()">pdf</button>
       <button class="btn control-btn">doc</button>
       <button class="btn control-btn">csv</button>
     </div>
+
     <div class="col-md-4" style="padding-top: 20px;">
-      <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggle($event)" mdTooltip="Toggle Column">
-      </ss-multiselect-dropdown>
+      <button class="btn control-btn" (click)="onCreate()" mdTooltip="Add Enquiry"><md-icon>add</md-icon></button>
       <button class="btn control-btn" (click)="refreshSource()" mdTooltip="Refresh"><md-icon>refresh</md-icon></button>
-      <button class="btn control-btn" (click)="addEnquiry()" mdTooltip="Add Enquiry"><md-icon>add</md-icon></button>
-      <button class="btn control-btn" mdTooltip="Add Enquiry Message"><md-icon>rate_review</md-icon></button>
+      <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggle($event)" mdTooltip="Toggle Column"></ss-multiselect-dropdown>
+      <button class="btn control-btn" [mdMenuTriggerFor]="menu" *ngIf="actionBtn">
+      <md-icon>menu</md-icon>
+      </button>
+      <md-menu #menu="mdMenu" >
+      <button md-menu-item (click)="onDelete()"><md-icon>delete</md-icon></button>
+      <button md-menu-item><md-icon>mode_edit</md-icon></button>
+      <button md-menu-item mdTooltip="Add Enquiry Message"><md-icon>rate_review</md-icon></button>
+      </md-menu>
     </div>
   </div>
 
+<!--   (create)="onCreate($event)" 
+  (delete)="onDelete($event)"  -->
+
   <div class="row table">
-    <div class="col-md-12 smart-table-container">
+    <div class="col-md-12 smart-table-container" style="margin:0px 0px 20px 0px;">
       <ng2-smart-table [settings]="settings" [source]="source"
       (userRowSelect)="handleGridSelected($event)"
-      (edit)="edit($event, 'edit')"
-      (editConfirm)="onEditConfirm($event, 'editConfirm')">
-      </ng2-smart-table>
+      (edit)="onSave($event)">
+     </ng2-smart-table>
     </div>
   </div>
 </div>

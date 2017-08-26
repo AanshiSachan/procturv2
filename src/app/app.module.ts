@@ -14,7 +14,7 @@ import 'moment';
 import 'hammerjs';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-
+import { BusyModule, BusyConfig} from 'angular2-busy';
 
 /* Custom compoonent */
 import { EnquiryComponent } from './enquiry/enquiry.component';
@@ -42,6 +42,10 @@ import { DashboardBatchComponent } from './dashboard/dashboard-batch/dashboard-b
 import { DashboardSettingsComponent } from './dashboard/dashboard-settings/dashboard-settings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CustomModalComponent } from './custom/custom-modal/custom-modal.component';
+import { CustomLoaderComponent } from './custom/custom-loader/custom-loader.component';
+import { CustomAddEnquiryComponent } from './custom/custom-add-enquiry/custom-add-enquiry.component';
+import { CustomEditEnquiryComponent } from './custom/custom-edit-enquiry/custom-edit-enquiry.component';
+import { CustomErrorPageComponent } from './custom/custom-error-page/custom-error-page.component';
 
 /* Services */
 import { FetchenquiryService } from './services/fetchenquiry.service';
@@ -89,12 +93,6 @@ const appRoutes = [
         path: 'manage',
         component: EnquiryManageComponent,
         pathMatch: 'prefix',
-        /*         children: [
-                  {
-                    path: 'manage',
-                    component: EnquiryManageComponent,
-                  }          
-                ] */
       },
       {
         path: 'master',
@@ -106,7 +104,22 @@ const appRoutes = [
         component: EnquiryReportComponent,
         pathMatch: 'full',
       },
+      {
+        path: 'add',
+        component: CustomAddEnquiryComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'edit',
+        component: CustomEditEnquiryComponent,
+        pathMatch: 'full'
+      }
     ]
+  },
+  {
+    path: '**',
+    component: CustomErrorPageComponent,
+    pathMatch: 'full'
   }
 ];
 
@@ -138,8 +151,15 @@ const appRoutes = [
     DashboardSettingsComponent,
     ProfileComponent,
     CustomModalComponent,
+    CustomLoaderComponent,
+    CustomAddEnquiryComponent,
+    CustomEditEnquiryComponent,
+    CustomErrorPageComponent,
   ],
-  entryComponents: [CustomModalComponent],
+  entryComponents: [
+    CustomModalComponent,
+    CustomLoaderComponent
+  ],
   imports: [
     BrowserModule,
     NgbModule.forRoot(),
@@ -154,11 +174,12 @@ const appRoutes = [
     MaterialModule, MdAutocompleteModule, MdButtonModule, MdButtonToggleModule, MdCardModule, MdCheckboxModule, MdChipsModule, MdCoreModule, MdDatepickerModule, MdDialogModule, MdExpansionModule, MdGridListModule, MdIconModule, MdInputModule, MdListModule, MdMenuModule, MdNativeDateModule,
     MdPaginatorModule, MdProgressBarModule, MdProgressSpinnerModule, MdRadioModule, MdRippleModule, MdSelectModule, MdSidenavModule, MdSliderModule, MdSlideToggleModule, MdSnackBarModule, MdSortModule, MdTableModule, MdTabsModule, MdToolbarModule, MdTooltipModule,
     MultiselectDropdownModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    BusyModule,
   ],
   providers: [
     FetchenquiryService,
-/*     { provide: HTTP_INTERCEPTORS, useClass: LoadInterceptor, multi: true } */
+    /*     { provide: HTTP_INTERCEPTORS, useClass: LoadInterceptor, multi: true } */
   ],
   bootstrap: [AppComponent]
 })
