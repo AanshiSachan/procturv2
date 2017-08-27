@@ -50,6 +50,8 @@ import { CustomErrorPageComponent } from './custom/custom-error-page/custom-erro
 /* Services */
 import { FetchenquiryService } from './services/fetchenquiry.service';
 import { LoadInterceptor } from './interceptors/load-interceptor';
+import { CoreSidednavComponent } from './core/core-sidednav/core-sidednav.component';
+import { CoreHeaderComponent } from './core/core-header/core-header.component';
 
 const appRoutes = [
   {
@@ -68,7 +70,7 @@ const appRoutes = [
         pathMatch: 'full',
       },
       {
-        path: 'student',
+        path: 'students',
         component: DashboardStudentsComponent,
         pathMatch: 'full',
       },
@@ -155,6 +157,8 @@ const appRoutes = [
     CustomAddEnquiryComponent,
     CustomEditEnquiryComponent,
     CustomErrorPageComponent,
+    CoreSidednavComponent,
+    CoreHeaderComponent,
   ],
   entryComponents: [
     CustomModalComponent,

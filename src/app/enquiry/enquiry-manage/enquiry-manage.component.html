@@ -1,20 +1,13 @@
 <div class="container" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}"
 style="margin:0px 0px 20px 0px;padding:0px;width:89vw;">
-  <div class="row">
-    <ul class="breadcrumb">
-      <li><a routerLink="/dashboard" routerLinkActive="active">Home</a></li>
-      <li><a routerLink="/enquiry" routerLinkActive="active">Enquiry</a></li>
-      <li>Manage Enquiry</li>
-    </ul>
-  </div>
 
-  <div class="row">
+  <div class="row" style="margin:0px;padding:0px;">
     <div class="col-md-12" style="float:left; margin:10px;">
       <h3>Enquiry Management</h3>
     </div>
   </div>
 
-  <div class="row table table-control">
+  <div class="row table table-control" style="margin:0px;padding:0px;">
     <div class="col-md-4" style="padding-top: 10px;">
       <md-input-container color="accent">
         <input mdInput #search class="search" type="text" placeholder="Search..." (keyup)="onSearch(search.value)">
@@ -44,7 +37,7 @@ style="margin:0px 0px 20px 0px;padding:0px;width:89vw;">
 <!--   (create)="onCreate($event)" 
   (delete)="onDelete($event)"  -->
 
-  <div class="row table">
+  <div class="row table" style="margin:0px;padding:0px;">
     <div class="col-md-12 smart-table-container" style="margin:0px 0px 20px 0px;">
       <ng2-smart-table [settings]="settings" [source]="source"
       (userRowSelect)="handleGridSelected($event)"

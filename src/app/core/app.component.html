@@ -1,22 +1,16 @@
 <div class="container" style="margin:0px;padding:0px;">
-    <div class="row">
-        <div id="Sidenav" class="col-xs-1 col-sm-1 col-md-1 col-lg-1 side-panel a">
-            <aside >
-                <div class="inner">
-                    <ul>
-                      <li><a routerLink="/"><div class="text">Dashboard</div><span><i class="material-icons">dashboard</i></span></a></li>
-                      <li><a routerLink="/"><div class="text">Activity</div><span><i class="material-icons">local_activity</i></span></a></li>
-                      <li><a routerLink="/"><div class="text">Students</div><span><i class="material-icons">group</i></span></a></li>
-                      <li><a routerLink="/"><div class="text">Reports</div><span><i class="material-icons">description</i></span></a></li>
-                      <li><a routerLink="/"><div class="text">Profile</div><span><i class="material-icons">perm_identity</i></span></a></li>
-                      <li><a routerLink="/enquiry"><div class="text">Enquiry</div><span><i class="material-icons">assignment_ind</i></span></a></li>
-                      <li><a routerLink="/help"><div class="text">Contact Us</div><span><i class="material-icons">help</i></span></a></li>
-                    </ul>
-                </div>
-            </aside>
-        </div>
 
-        <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+    <div class="row" style="margin:0px;padding:0px;position: absolute;top: 0;">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin:0px;padding:0px;">
+            <core-header></core-header>
+        </div>
+    </div>
+
+    <div class="row" style="margin:0px;padding:0px;">
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin:0px;padding:0px;">
+            <core-sidednav></core-sidednav>
+        </div>
+        <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11" style="position: relative; top: 95px">
             <router-outlet></router-outlet>
         </div>
     </div>
