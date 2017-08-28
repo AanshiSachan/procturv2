@@ -1,6 +1,6 @@
 <header class="container header" style="margin:0px;padding:0px;">
   <div class="row header-row" style="margin:0px;padding:0px;">
-    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 logo">
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 logo" (click)="routeHome()">
       <p><i class="material-icons">all_inclusive</i> Proctur</p>
     </div>
     <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 global-search">
@@ -13,21 +13,82 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-      <div class="profile">
-        <input class="profile-toggle" type="text">
-        <div class="profile-text">Hello User</div>
-        <ul class="profile-content">
-          <li><a href="#">Profile</a></li>
-          <li><a href="#">Settings</a></li>
-          <li><a href="#">Log out</a></li>
-        </ul>
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="margin:0px;padding:0px;">
+      <div class="container profile-container" [mdMenuTriggerFor]="profile">
+        <div class="row" style="margin:0px;padding:0px;">
+        <div class="col-xs-3 profile-item"><md-icon>perm_identity</md-icon></div>
+        <div class="col-xs-9 profile-item">Hello Ronit</div>
+        </div>  
       </div>
+      <md-menu #profile="mdMenu" [overlapTrigger]="false" yPosition="below">
+          <a md-menu-item class="addItem">Profile1</a>
+          <a md-menu-item class="addItem">Profile2</a>
+          <a md-menu-item class="addItem">Profile3</a>
+          <a md-menu-item class="addItem">Profile4</a>          
+        </md-menu>
     </div>
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="margin:20px 0px 0px 0px;">
-      <div class="dropdown-text"><i class="material-icons">notifications_active</i></div>
-      <div class="dropdown-text"><i class="material-icons">add</i></div>
-      <div class="dropdown-text"><i class="material-icons">settings</i></div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="margin:10px 0px 0px 0px;">
+      <div class="dropdown-text">
+        <button md-icon-button [mdMenuTriggerFor]="notification">
+              <md-icon>notifications_active</md-icon>
+            </button>
+        <md-menu #notification="mdMenu" [overlapTrigger]="false" yPosition="below">
+        </md-menu>
+      </div>
+      <div class="dropdown-text">
+        <button md-icon-button [mdMenuTriggerFor]="addMenu">
+          <md-icon>add</md-icon>
+        </button>
+        <md-menu #addMenu="mdMenu" [overlapTrigger]="false" yPosition="below">
+            <a md-menu-item class="addItem" routerLink="/enquiry/add">Enquiry</a>
+            <a md-menu-item class="addItem">Quick Add Enquiry</a>
+            <a md-menu-item class="addItem">Student</a>
+            <a md-menu-item class="addItem">Quick Add Student</a>
+            <a md-menu-item class="addItem">Course/Batch</a>
+            <a md-menu-item class="addItem">Notification</a>
+            <a md-menu-item class="addItem">Extra Class</a>
+            <a md-menu-item class="addItem">Exam</a>
+        </md-menu>
+      </div>
+      <div class="dropdown-text">
+        <button md-icon-button [mdMenuTriggerFor]="setting">
+              <md-icon>settings</md-icon>
+            </button>
+        <md-menu #setting="mdMenu" [overlapTrigger]="false" yPosition="below">
+            <div id="accordion">
+                <div class="item">
+                  <button>User Management</button>
+                  <ul>
+                    <li>proc</li>
+                    <li>proc</li>
+                    <li>proc</li>
+                    <li>proc</li>
+                  </ul>
+                </div>
+                <div class="item">
+                  <button>Institute Settings</button>
+                  <ul>
+                    <li>Standard</li>
+                    <li>Topics</li>
+                    <li>Classroom</li>
+                    <li>Institution/School</li>
+                    <li>Slots</li>      
+                    <li>Custom Component</li>
+                    <li>Archive Data</li>
+                  </ul>
+                </div>  
+                <div class="item">
+                  <button>System Settings</button>
+                  <ul>
+                    <li>proc</li>
+                    <li>proc</li>
+                    <li>proc</li>
+                    <li>proc</li>
+                  </ul>
+                </div>
+              </div>
+        </md-menu>
+      </div>
     </div>
   </div>
 </header>

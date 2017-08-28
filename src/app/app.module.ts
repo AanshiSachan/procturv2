@@ -58,7 +58,6 @@ const appRoutes = [
     path: '',
     component: DashboardHomeComponent,
   },
-  /* Dashboard Routes */
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -76,7 +75,6 @@ const appRoutes = [
       },
     ]
   },
-  /* Enquiry Routes */
   {
     path: 'enquiry',
     component: EnquiryComponent,
