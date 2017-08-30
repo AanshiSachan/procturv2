@@ -1,67 +1,79 @@
+
+
 .form-main{
-    width: 98vw;
-    height: 100vh;
-    }
-   
-   .standard{
-    height: 100vh;
-    }
-   
-   .official{
-    height: 100vh;
-    }
-   
-   hr { 
-       display: block;
-       margin-top: 0.5em;
-       margin-bottom: 0.5em;
-       margin-left: auto;
-       margin-right: auto;
-       border-style: inset;
-       border-width: 1px;
-    } 
-   .add-form {
-       margin-left: 0.1rem;
-       height: 100vh;
-       width: 100%;
-       overflow: scroll;
-     }
-   .form-input{
-     width: 70%;
-    }
-   .enquiry-input{
-     width: 70%;
-     margin-top: 1.8rem;
-   }
-   .new-form {
-       border-left: 2px solid rgba(16, 16, 16, 0.47);
-       position: relative;
-       margin-left: 1em;
-       padding-left: 2em;
-       height: 70vh;
-     }
-   ::ng-deep .mat-input-element{
-     color: black;
-    }
-   ::ng-deep .mat-input-placeholder {
-     color: black;
-    }
-   ::ng-deep .mat-select-placeholder{
-     color: black;
-    }
-   ::ng-deep .mat-input-underline{
-     background-color: rgb(21, 101, 192);
-    }
-   ::ng-deep .mat-select-underline{
-     background-color: rgb(21, 101, 192);
-    }
-   ::ng-deep .mat-select-arrow{
-     color: rgb(0, 0, 0);
-    }
-   ::-webkit-scrollbar{
-     display: none; 
-    }
-   .card-lastupdate{
-     background: #6ec6ff;
-   } 
-   
+  width: 95vw;
+  height: 86vh;
+  }
+.standard{
+  height: 86vh;
+ }
+
+.official{
+  height: 86vh;
+ }
+
+hr { 
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+ } 
+.add-form {
+    margin-left: 0.1rem;
+    height: 76vh;
+    width: 100%;
+    overflow: scroll;
+  }
+.form-input{
+  width: 70%;
+ }
+.enquiry-input{
+  width: 70%;
+  margin-top: 1.8rem;
+ }
+.new-form {
+    position: relative;
+    margin-left: 1em;
+    padding-left: 2em;
+  }
+::ng-deep .mat-input-element{
+  color: black;
+ }
+::ng-deep .mat-input-placeholder {
+  color: black;
+ }
+::ng-deep .mat-select-placeholder{
+  color: black;
+ }
+::ng-deep .mat-input-underline{
+  background-color: rgb(21, 101, 192);
+ }
+::ng-deep .mat-select-underline{
+  background-color: rgb(21, 101, 192);
+ }
+::ng-deep .mat-select-arrow{
+  color: rgb(0, 0, 0);
+ }
+::-webkit-scrollbar{
+  display: none; 
+ }
+.card-lastupdate{
+  background: #6ec6ff;
+ } 
+.activerow{
+  background: skyblue;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+ }
+.deactiverow{
+  background: silver;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+ }

@@ -1,4 +1,142 @@
-<div class="container" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}"
+<div class="container manage-container">
+
+  <div class="row header">
+    <div class="col-md-10">
+      <h4>Enquiry List</h4>
+    </div>
+    <div class="col-md-2">
+      <button md-button class="boxbutton">Add New Enquiry</button>
+    </div>
+  </div>
+  <div class="row search">
+    <div class="col-md-6" style="margin-top: 1rem;">
+      <form class="form-wrapper">
+        <input type="text" placeholder="Search here..." required>
+        <button type="submit">Search</button>
+      </form>
+    </div>
+    <div class="col-md-4" style="margin-top: 1rem;">
+      <button md-button class="boxbutton">Filter</button>
+    </div>
+    <div class="col-md-2" style="margin-top: 1rem;">
+      <button md-button><md-icon>close</md-icon> Close Advanced Filter</button>
+    </div>
+  </div>
+  <div class="row" *ngIf="AdFilter" style="margin:0;padding:0;width:95vw;">
+    <form>
+      <div class="container" style="margin:0;width: 100%;padding: 2rem;">
+        <div class="row AdFilter-row">
+          <div class="col-md-3">
+            <md-select placeholder="Enquiry Status" class="AdFilter-input">
+              <md-option *ngFor="let state of Status" [value]="state.value">
+                {{ state.viewValue }}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="col-md-3">
+            <md-select placeholder="Enquiry Priority" class="AdFilter-input">
+              <md-option *ngFor="let state of Status" [value]="state.value">
+                {{ state.viewValue }}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="col-md-3">
+            <md-select placeholder="Enquiry Followup Type" class="AdFilter-input">
+              <md-option *ngFor="let state of Status" [value]="state.value">
+                {{ state.viewValue }}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="col-md-3">
+            <md-select placeholder="Assign To" class="AdFilter-input">
+              <md-option *ngFor="let state of Status" [value]="state.value">
+                {{ state.viewValue }}
+              </md-option>
+            </md-select>
+          </div>
+        </div>
+        <div class="row AdFilter-row">
+          <div class="col-md-3">
+            <md-select placeholder="Standard" class="AdFilter-input">
+              <md-option *ngFor="let state of Status" [value]="state.value">
+                {{ state.viewValue }}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="col-md-3">
+            <md-select placeholder="Subject" class="AdFilter-input">
+              <md-option *ngFor="let state of Status" [value]="state.value">
+                {{ state.viewValue }}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="col-md-3">
+            <md-select placeholder="Scholarship" class="AdFilter-input">
+              <md-option *ngFor="let state of Status" [value]="state.value">
+                {{ state.viewValue }}
+              </md-option>
+            </md-select>
+          </div>
+          <div class="col-md-3">
+            <md-select placeholder="Subject 2" class="AdFilter-input">
+              <md-option *ngFor="let state of Status" [value]="state.value">
+                {{ state.viewValue }}
+              </md-option>
+            </md-select>
+          </div>
+        </div>
+        <div class="row AdFilter-row">
+          <div class="col-md-3">
+            <md-input-container class="AdFilter-input">
+              <input mdInput [mdDatepicker]="updateDate" placeholder="Update date">
+              <button mdSuffix [mdDatepickerToggle]="updateDate"></button>
+            </md-input-container>
+            <md-datepicker #updateDate></md-datepicker>
+          </div>
+          <div class="col-md-3">
+            <md-input-container class="AdFilter-input">
+              <input mdInput [mdDatepicker]="enquireDateFrom" placeholder="Enquire From date">
+              <button mdSuffix [mdDatepickerToggle]="enquireDateFrom"></button>
+            </md-input-container>
+            <md-datepicker #enquireDateFrom></md-datepicker>
+          </div>
+          <div class="col-md-3">
+            <md-input-container class="AdFilter-input">
+              <input mdInput [mdDatepicker]="enquireDateTo" placeholder="Enquire To Date">
+              <button mdSuffix [mdDatepickerToggle]="enquireDateTo"></button>
+            </md-input-container>
+            <md-datepicker #enquireDateTo></md-datepicker>
+          </div>
+          <div class="col-md-3">
+            <button class="btn-Adfilter AdFilter-input">Search Now</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="container" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}"
 style="margin:0px 0px 20px 0px;padding:0px;width:95vw;">
 
   <div class="row" style="margin:0px;padding:0px;">
@@ -34,9 +172,6 @@ style="margin:0px 0px 20px 0px;padding:0px;width:95vw;">
     </div>
   </div>
 
-<!--   (create)="onCreate($event)" 
-  (delete)="onDelete($event)"  -->
-
   <div class="row table" style="margin:0px;padding:0px;">
     <div class="col-md-12 smart-table-container" style="margin:0px 0px 20px 0px;">
       <ng2-smart-table [settings]="settings" [source]="source"
@@ -45,4 +180,4 @@ style="margin:0px 0px 20px 0px;padding:0px;width:95vw;">
      </ng2-smart-table>
     </div>
   </div>
-</div>
+</div> -->

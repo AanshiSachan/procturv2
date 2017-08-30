@@ -14,13 +14,13 @@
             <div class="row add-form">
                 <form>
                     <div class="container " style="width:100%;">
-                        <div class="row">
-                            <div class="col-xs-10">
-                                <h3>Basic Details</h3>
+                        <div class="row" [ngClass]="{activerow:active, deactiverow:!active}" style="margin-top: 0.8rem;">
+                            <div class="col-xs-10" style="text-align:center;">
+                                <h4>Basic Details</h4>
                             </div>
                             <div class="col-xs-2">
                                 <button md-icon-button (click)="toggleForm()">
-                                   <md-icon >add</md-icon>
+                                  <md-icon>{{content}}</md-icon>  
                                 </button>
                             </div>
                         </div>
@@ -37,26 +37,35 @@
                     </div>
 
                     <div class="container" style="width:100%;">
-                        <div class="row">
-                            <div class="col-xs-10">
-                                <h3>Academic Details</h3>
+                        <div class="row" [ngClass]="{activerow:!active, deactiverow:active}" style="margin-top: 0.8rem;">
+                            <div class="col-xs-10" style="text-align:center;">
+                                <h4>Academic Details</h4>
                             </div>
                             <div class="col-xs-2">
                                 <button md-icon-button (click)="toggleForm()">
-                                  <md-icon >add</md-icon>
+                                    <md-icon>{{contentA}}</md-icon>
                                 </button>
                             </div>
                         </div>
                         <div class="row basic new-form" *ngIf="!active" [@Collapse]>
-                            <md-input-container class="form-input" color="primary"><input type="text" mdInput placeholder="Name"></md-input-container>
-                            <md-input-container class="form-input" color="primary"><input type="tel" mdInput placeholder="Phone Number"></md-input-container>
-                            <md-input-container class="form-input" color="primary"><input type="email" mdInput placeholder="Email ID"></md-input-container>
-                            <md-select placeholder="Gender" class="form-input" color="primary">
+                            <md-select placeholder="Institution Name" class="enquiry-input" color="primary">
                                 <md-option *ngFor="let gender of Genders" [value]="gender.value">{{ gender.viewValue }}</md-option>
                             </md-select>
-                            <md-input-container class="form-input" color="primary"><input type="text" mdInput placeholder="Address"></md-input-container>
-                            <md-input-container class="form-input" color="primary"><input type="text" mdInput placeholder="City"></md-input-container>
-                            <button class="next">Next</button>
+                            <md-select placeholder="For Standard" class="enquiry-input" color="primary">
+                                <md-option *ngFor="let gender of Genders" [value]="gender.value">{{ gender.viewValue }}</md-option>
+                            </md-select>
+                            <md-select placeholder="For Subject" class="enquiry-input" color="primary">
+                                <md-option *ngFor="let gender of Genders" [value]="gender.value">{{ gender.viewValue }}</md-option>
+                            </md-select>
+                            <md-select placeholder="Highest Qualification" class="enquiry-input" color="primary">
+                                <md-option *ngFor="let gender of Genders" [value]="gender.value">{{ gender.viewValue }}</md-option>
+                            </md-select>
+                            <md-select placeholder="Board" class="enquiry-input" color="primary">
+                                <md-option *ngFor="let gender of Genders" [value]="gender.value">{{ gender.viewValue }}</md-option>
+                            </md-select>     
+                            <md-input-container class="form-input" color="primary"><input type="text" mdInput placeholder="Year of Passing"></md-input-container>
+                            <md-input-container class="form-input" color="primary"><input type="text" mdInput placeholder="% Marks/ CGPA -Agg"></md-input-container>
+                            <md-input-container class="form-input" color="primary"><input type="text" mdInput placeholder="% Marks/ CGPA -(Maths+Science)"></md-input-container>                            
                         </div>
                     </div>
                 </form>

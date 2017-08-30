@@ -13,13 +13,13 @@ import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
         transition(
         ':enter', [
           style({transform: 'translateY(100%)', opacity: 0}),
-          animate('500ms', style({transform: 'translateY(0)', 'opacity': 1}))
+          animate('300ms', style({transform: 'translateY(0)', 'opacity': 1}))
         ]
       ),
       transition(
         ':leave', [
           style({transform: 'translateY(0)', 'opacity': 1}),
-          animate('500ms', style({transform: 'translateY(100%)', 'opacity': 0})),
+          animate('300ms', style({transform: 'translateY(100%)', 'opacity': 0})),
         ]
       )]
     )
@@ -27,20 +27,29 @@ import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 })
 export class CustomEditEnquiryComponent{
 
-  source: LocalDataSource;
-  constructor() { }
+  constructor() {
+    this.content = 'add';
+    this.contentA = 'remove';
+   }
 
-  ngOnInit() { }
   active:boolean = true;
   Genders= [
     {value: 'm', viewValue: 'Male'},
     {value: 'f', viewValue: 'Female'},
     {value: 'na', viewValue: 'Not Applicable'}
   ];
+   content:string;
+   contentA:string;
 
   toggleForm(){
+    if(this.content === 'add'){
+      this.content = 'remove';
+      this.contentA = 'add';
+    }
+    else{
+      this.content = 'add';
+      this.contentA = 'remove';
+    }
     this.active = !this.active;
-    console.log(this.active);
   }
-
 }
