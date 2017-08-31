@@ -1,48 +1,25 @@
 aside {
-  position: fixed;
-  top: 60%;
-  transform: translateY(-50%);
   left: 0;
   background: rgba(222, 217, 217, 0.59);
-  overflow: hidden;
-  width: 4vw;
-  z-index: 99;
+  width: 5vw;
   padding-left: 0px;
-  height: 100vh;
+  height: 90vh;
   }
-  ul {
-    float: right;
-    width: 100%;
-    margin: 0;
-    padding: 10px 0px 10px 0px;
-    list-style: none;
+ul {
+  width: 5vw;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  height: 90vh; 
   }
-  li {
-    text-align: right;
-    line-height: 50px;
+li {
+  text-align: end;
+  width: 5vw;
+  line-height: 5vh;
+  padding-right: 50%;
+  padding-left: 50%;
   }
-  li:hover a {
-    color: #1565c0;
-  }
-  a {
-    color: white;
-    -webkit-transition: color .2s;
-    transition: color .2s;
-  }
-  .text {
-    display: inline-block;
-    opacity: 0;
-    -webkit-transition: opacity .2s;
-    transition: opacity .2s;
-    margin-right: 20px;
-  }
-  span {
-    display: inline-block;
-    right: 0;
-    text-align: right !important;
-    width: 100%;
-    height: auto;
-    transition: background .2s;
-    padding-right: 15px;
+span {
     color: rgb(21, 101, 192);
+    font-size: -webkit-xxx-large;
   }

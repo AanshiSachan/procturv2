@@ -3,12 +3,13 @@
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
 
 .header{
-    width: 98.7vw;
-    height:10vh;
-    background: #1565c0;
     margin: 0px;
     padding:0px;
-    top:0;
+    width: 100vw;
+    height: 10vh;
+    background: #1565c0;
+    top: 0;
+    position: fixed;
   }
 
 .header-row{

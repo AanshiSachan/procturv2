@@ -11,15 +11,15 @@
   <div class="row search">
     <div class="col-md-6" style="margin-top: 1rem;">
       <form class="form-wrapper">
-        <input type="text" placeholder="Search here..." required>
+        <input type="text" placeholder="Search here..." (keyup)="onSearch(search.value)">
         <button type="submit">Search</button>
       </form>
     </div>
     <div class="col-md-4" style="margin-top: 1rem;">
-      <button md-button class="boxbutton">Filter</button>
+      <button md-button class="boxbutton" (click)="openAdFilter()">Filter</button>
     </div>
     <div class="col-md-2" style="margin-top: 1rem;">
-      <button md-button><md-icon>close</md-icon> Close Advanced Filter</button>
+      <button md-button (click)="closeAdFilter()" *ngIf="AdFilter"><md-icon>close</md-icon> Close Advanced Filter</button>
     </div>
   </div>
   <div class="row" *ngIf="AdFilter" style="margin:0;padding:0;width:95vw;">
@@ -114,70 +114,28 @@
       </div>
     </form>
   </div>
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <div class="container" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}"
-style="margin:0px 0px 20px 0px;padding:0px;width:95vw;">
-
-  <div class="row" style="margin:0px;padding:0px;">
-    <div class="col-md-12" style="float:left; margin:10px;">
-      <h3>Enquiry Management</h3>
+  <div class="row table-control">
+    <div class="container" style="width: 100%;">
+      <div class="row">
+        <div style="float: left;left: 0;font-size: larger;"><label><p>Enquiry Type</p></label></div>
+        <div class="control-input"><input type="checkbox">All</div>
+        <div class="control-input"><input type="checkbox">Open/Progress</div>
+        <div class="control-input"><input type="checkbox">Registered</div>
+        <div class="control-input"><input type="checkbox">Admitted</div>
+        <div class="control-input"><input type="checkbox">Inactive</div>
+      </div>
+      <div class="row">
+        <span style="width:75%"></span>
+        <div style="width:25%;float:right;right:0;">
+          <button md-button style="font-size: small;color: rgba(0, 0, 0, 0.52);font-family: sans-serif;"><md-icon>print</md-icon> Print</button>
+          <button md-button style="font-size: small;color: rgba(0, 0, 0, 0.52);font-family: sans-serif;"><md-icon>launch</md-icon> Export</button>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="row table table-control" style="margin:0px;padding:0px;">
-    <div class="col-md-4" style="padding-top: 10px;">
-      <md-input-container color="accent">
-        <input mdInput #search class="search" type="text" placeholder="Search..." (keyup)="onSearch(search.value)">
-      </md-input-container>
-    </div>
-    <div class="col-md-4" style="padding-top: 20px;">
-      <button class="btn control-btn" (click)="convertPdf()">pdf</button>
-      <button class="btn control-btn">doc</button>
-      <button class="btn control-btn">csv</button>
-    </div>
-
-    <div class="col-md-4" style="padding-top: 20px;">
-      <button class="btn control-btn" (click)="onCreate()" mdTooltip="Add Enquiry"><md-icon>add</md-icon></button>
-      <button class="btn control-btn" (click)="refreshSource()" mdTooltip="Refresh"><md-icon>refresh</md-icon></button>
-      <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggle($event)" mdTooltip="Toggle Column"></ss-multiselect-dropdown>
-      <button class="btn control-btn" [mdMenuTriggerFor]="menu" *ngIf="actionBtn">
-      <md-icon>menu</md-icon>
-      </button>
-      <md-menu #menu="mdMenu" >
-      <button md-menu-item (click)="onDelete()"><md-icon>delete</md-icon></button>
-      <button md-menu-item><md-icon>mode_edit</md-icon></button>
-      <button md-menu-item mdTooltip="Add Enquiry Message"><md-icon>rate_review</md-icon></button>
-      </md-menu>
-    </div>
-  </div>
-
-  <div class="row table" style="margin:0px;padding:0px;">
-    <div class="col-md-12 smart-table-container" style="margin:0px 0px 20px 0px;">
-      <ng2-smart-table [settings]="settings" [source]="source"
-      (userRowSelect)="handleGridSelected($event)"
+  <div class="row table-container" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
+      <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="handleGridSelected($event)"
       (edit)="onSave($event)">
      </ng2-smart-table>
-    </div>
   </div>
-</div> -->
+</div>

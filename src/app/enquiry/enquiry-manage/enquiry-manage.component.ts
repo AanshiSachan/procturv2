@@ -22,62 +22,7 @@ declare var require: any;
 
 export class EnquiryManageComponent implements OnInit {
 
-  AdFilter:boolean = true;
-  Status = [
-    {value: 'steak-0', viewValue: 'Steak'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos'}
-  ];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  AdFilter:boolean;
   rows: any = [];
   optionsModel: any[];
   myOptions: IMultiSelectOption[];
@@ -88,36 +33,36 @@ export class EnquiryManageComponent implements OnInit {
   gridSelected;
   gridData: object[];
   busy: Subscription;
+  Status = [
+    {value: 'steak-0', viewValue: 'Steak'},
+    {value: 'pizza-1', viewValue: 'Pizza'},
+    {value: 'tacos-2', viewValue: 'Tacos'}
+  ];
   actionBtn: boolean = true;
-
   settings = {
-    mode: 'external', hideSubHeader: true, selectMode: 'multi',
-    actions: { add: true, edit: true, delete: false, columnTitle: '', position: 'left' },
-    edit:{ editButtonContent:'<i class="material-icons">edit</i>'},
+    mode: 'external', hideSubHeader: false, selectMode: 'multi',
+    actions: { add: false, edit: false, delete: false, columnTitle: '',},
     columns: {
       enquiry_no: { title: 'Enquiry No', filter: false, show: true }, name: { title: 'Name', filter: false, show: true }, phone: { title: 'Phone No', filter: false, show: true }, email: { title: 'Email', filter: false, show: true }, enquiry_date: { title: 'Enquiry Date', filter: false, show: true }, referred_by: { title: 'Reffered By', filter: false, show: true }, priority: { title: 'Priority', filter: false, show: true }, follow_type: { title: 'Follow type', filter: false, show: true }, status: { title: 'Status', filter: false, show: false }, institute_enquiry_id: { title: 'Enquiry ID', filter: false, show: false }, institution_id: { title: 'Institute ID', filter: false, show: false }, standard: { title: 'Standard', filter: false, show: false }, Gender: { title: 'Gender', filter: false, show: false }, subjects: { title: 'Subjects', filter: false, show: false }, statusValue: { title: 'Status Value', filter: false, show: false }, is_converted: { title: 'Is Converted', filter: false, show: false }, followUpDate: { title: 'Follow up Date', filter: false, show: false }, occupation_id: { title: 'Occupation ID', filter: false, show: false }, school_id: { title: 'School ID', filter: false, show: false }, standard_id: { title: 'Standard ID', filter: false, show: false }, subject_id: { title: 'Subject ID', filter: false, show: false }, source_id: { title: 'Source ID', filter: false, show: false }, assigned_name: { title: 'Assigned Name', filter: false, show: false }, is_recent: { title: 'Is recent', filter: false, show: false }, slot_id: { title: 'Slot ID', filter: false, show: false }, slot: { title: 'Slot', filter: false, show: false }, updateDate: { title: 'Update Date', filter: false, show: false }, isDashbord: { title: 'Is Dashboard', filter: false, show: false }, isRport: { title: 'Is Report', filter: false, show: false }, totalcount: { title: 'Total Count', filter: false, show: false }, newEnqcount: { title: 'New Enquiry Count', filter: false, show: false }, enquiry_no_date: { title: 'Enquiry Date', filter: false, show: false }, name_person: { title: 'Person Name', filter: false, show: false }, followUpDateTime: { title: 'Follow up date', filter: false, show: false }, standard_subject: { title: 'Standard subject', filter: false, show: false }, closedReasonText: { title: 'Closed Reason', filter: false, show: false }, followUpTime: { title: 'Follow up Time', filter: false, show: false }, filtered_statuses: { title: 'Filtered Status', filter: false, show: false }, filtered_slots: { title: 'Filtered Slot', filter: false, show: false },
     },
     pager: {
       display: false,
-
     },
-  };
+   };
 
   settingUpdater = {
-    mode: 'external', hideSubHeader: true, selectMode: 'multi',
-    actions: { add: true, edit: true, delete: false, columnTitle: '', position: 'left' },
-    edit:{ editButtonContent:'<i class="material-icons">edit</i>'},
+    mode: 'external', hideSubHeader: false, selectMode: 'multi',
+    actions: { add: false, edit: false, delete: false, columnTitle: '',},
     columns: {enquiry_no: { title: 'Enquiry No', filter: false, show: true }, name: { title: 'Name', filter: false, show: true }, phone: { title: 'Phone No', filter: false, show: true }, email: { title: 'Email', filter: false, show: true }, enquiry_date: { title: 'Enquiry Date', filter: false, show: true }, referred_by: { title: 'Reffered By', filter: false, show: true }, priority: { title: 'Priority', filter: false, show: true }, follow_type: { title: 'Follow type', filter: false, show: true }, status: { title: 'Status', filter: false, show: false }, institute_enquiry_id: { title: 'Enquiry ID', filter: false, show: false }, institution_id: { title: 'Institute ID', filter: false, show: false }, standard: { title: 'Standard', filter: false, show: false }, Gender: { title: 'Gender', filter: false, show: false }, subjects: { title: 'Subjects', filter: false, show: false }, statusValue: { title: 'Status Value', filter: false, show: false }, is_converted: { title: 'Is Converted', filter: false, show: false }, followUpDate: { title: 'Follow up Date', filter: false, show: false }, occupation_id: { title: 'Occupation ID', filter: false, show: false }, school_id: { title: 'School ID', filter: false, show: false }, standard_id: { title: 'Standard ID', filter: false, show: false }, subject_id: { title: 'Subject ID', filter: false, show: false }, source_id: { title: 'Source ID', filter: false, show: false }, assigned_name: { title: 'Assigned Name', filter: false, show: false }, is_recent: { title: 'Is recent', filter: false, show: false }, slot_id: { title: 'Slot ID', filter: false, show: false }, slot: { title: 'Slot', filter: false, show: false }, updateDate: { title: 'Update Date', filter: false, show: false }, isDashbord: { title: 'Is Dashboard', filter: false, show: false }, isRport: { title: 'Is Report', filter: false, show: false }, totalcount: { title: 'Total Count', filter: false, show: false }, newEnqcount: { title: 'New Enquiry Count', filter: false, show: false }, enquiry_no_date: { title: 'Enquiry Date', filter: false, show: false }, name_person: { title: 'Person Name', filter: false, show: false }, followUpDateTime: { title: 'Follow up date', filter: false, show: false }, standard_subject: { title: 'Standard subject', filter: false, show: false }, closedReasonText: { title: 'Closed Reason', filter: false, show: false }, followUpTime: { title: 'Follow up Time', filter: false, show: false }, filtered_statuses: { title: 'Filtered Status', filter: false, show: false }, filtered_slots: { title: 'Filtered Slot', filter: false, show: false },
             },
     pager: {
       display: false,
     },
-  };
+   };
 
   constructor(private enquire: FetchenquiryService, private dialog: MdDialog, public snackBar: MdSnackBar, private router: Router){
     this.busy = this.enquire.getAllEnquiry().subscribe(data => {
       this.rows = data;
-      console.log(this.rows);
       this.source = new LocalDataSource(this.rows);
       this.source.refresh();
     });
@@ -130,7 +75,7 @@ export class EnquiryManageComponent implements OnInit {
         this.pageColData.push(item.name);
       }
     });
-  }
+   }
 
   toggle() {
     var item = this.optionsModel.pop();
@@ -139,25 +84,23 @@ export class EnquiryManageComponent implements OnInit {
     this.snackBar.open(this.settingUpdater.columns[item].title, "Updated", {
       duration: 1000,
     });
-  }
+   }
 
   mySettings: IMultiSelectSettings = {enableSearch: true, buttonClasses: 'btn material-icons filter-btn', dynamicTitleMaxItems: 3, displayAllSelectedText: true, showCheckAll: false, showUncheckAll: false, closeOnClickOutside: true, checkedStyle: 'glyphicon',};
-
   myTexts: IMultiSelectTexts = {checkAll: 'Select all', uncheckAll: 'Unselect all', checked: 'item selected', checkedPlural: 'items selected', searchPlaceholder: 'Find', defaultTitle: '', allSelected: 'All selected',};
-
   onSearch(query: string = '') {
-
     if (query != '') {
       this.source.setFilter([
         { field: 'institute_enquiry_id', search: query }, { field: 'institution_id', search: query }, { field: 'enquiry_no', search: query }, { field: 'name', search: query }, { field: 'phone', search: query }, { field: 'email', search: query }
       ], false);
     }
-  }
-  addEnquiry() {
-    let dialogRef = this.dialog.open(CustomModalComponent);
-     dialogRef.afterClosed().subscribe(result => {
-      console.log('form submitted');
-    });
+   }
+
+  openAdFilter(){
+    this.AdFilter =  true;
+   }
+  closeAdFilter(){
+    this.AdFilter =  false;
   }
   refreshSource(){
     this.source.refresh();
@@ -165,8 +108,7 @@ export class EnquiryManageComponent implements OnInit {
 
     this.settings = {
       mode: 'external', hideSubHeader: true, selectMode: 'multi',
-      actions: { add: true, edit: true, delete: false, columnTitle: '', position: 'left' },
-      edit:{ editButtonContent:'<i class="material-icons">edit</i>'},
+      actions: { add: false, edit: false, delete: false, columnTitle: '',},
       columns: {
         enquiry_no: { title: 'Enquiry No', filter: false, show: true }, name: { title: 'Name', filter: false, show: true }, phone: { title: 'Phone No', filter: false, show: true }, email: { title: 'Email', filter: false, show: true }, enquiry_date: { title: 'Enquiry Date', filter: false, show: true }, referred_by: { title: 'Reffered By', filter: false, show: true }, priority: { title: 'Priority', filter: false, show: true }, follow_type: { title: 'Follow type', filter: false, show: true }, status: { title: 'Status', filter: false, show: false }, institute_enquiry_id: { title: 'Enquiry ID', filter: false, show: false }, institution_id: { title: 'Institute ID', filter: false, show: false }, standard: { title: 'Standard', filter: false, show: false }, Gender: { title: 'Gender', filter: false, show: false }, subjects: { title: 'Subjects', filter: false, show: false }, statusValue: { title: 'Status Value', filter: false, show: false }, is_converted: { title: 'Is Converted', filter: false, show: false }, followUpDate: { title: 'Follow up Date', filter: false, show: false }, occupation_id: { title: 'Occupation ID', filter: false, show: false }, school_id: { title: 'School ID', filter: false, show: false }, standard_id: { title: 'Standard ID', filter: false, show: false }, subject_id: { title: 'Subject ID', filter: false, show: false }, source_id: { title: 'Source ID', filter: false, show: false }, assigned_name: { title: 'Assigned Name', filter: false, show: false }, is_recent: { title: 'Is recent', filter: false, show: false }, slot_id: { title: 'Slot ID', filter: false, show: false }, slot: { title: 'Slot', filter: false, show: false }, updateDate: { title: 'Update Date', filter: false, show: false }, isDashbord: { title: 'Is Dashboard', filter: false, show: false }, isRport: { title: 'Is Report', filter: false, show: false }, totalcount: { title: 'Total Count', filter: false, show: false }, newEnqcount: { title: 'New Enquiry Count', filter: false, show: false }, enquiry_no_date: { title: 'Enquiry Date', filter: false, show: false }, name_person: { title: 'Person Name', filter: false, show: false }, followUpDateTime: { title: 'Follow up date', filter: false, show: false }, standard_subject: { title: 'Standard subject', filter: false, show: false }, closedReasonText: { title: 'Closed Reason', filter: false, show: false }, followUpTime: { title: 'Follow up Time', filter: false, show: false }, filtered_statuses: { title: 'Filtered Status', filter: false, show: false }, filtered_slots: { title: 'Filtered Slot', filter: false, show: false },
       },
@@ -179,35 +121,8 @@ export class EnquiryManageComponent implements OnInit {
       duration: 1000,
     });
   }
-  convertPdf(){ 
-    let JSPdf = require('jspdf');
-    require('jspdf-autotable');
-
-    var doc = new JSPdf();
-    this.rows.forEach(element => {
-      this.colid.forEach(item => {
-        if(this.settings.columns[item].show){
-        this.pageColData.push(this.settings.columns[item].title); 
-        this.pageRowData.push(element);
-        }
-      })
-    });
-    console.log(this.pageRowData);
-    doc.autoTable(this.pageColData, this.pageRowData);
-    doc.save('table.pdf');
-  }
   handleGridSelected(event) {
     this.gridSelected = event.selected;
-  }
-  onCreate(): void{ 
-    this.router.navigate(['enquiry/add']);
-    }
-
-  onDelete() {
-    alert("delete" +this.gridSelected); 
-  }
-  onSave(event) {
-    this.router.navigate(['enquiry/edit']);
   }
 
 }
