@@ -1,9 +1,9 @@
 aside {
   left: 0;
   background: rgba(222, 217, 217, 0.59);
-  width: 5vw;
-  padding-left: 0px;
+  min-width: 5.5vw;
   height: 90vh;
+  position: absolute;
   }
 ul {
   width: 5vw;

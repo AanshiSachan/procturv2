@@ -3,6 +3,6 @@
 }
 .router-out{
     width: 95vw;
-    height: 90vh;
+    min-height: 90vh;
     overflow: scroll;
 }
