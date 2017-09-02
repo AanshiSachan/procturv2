@@ -133,13 +133,15 @@
  }
 .control-input{
     display: inline;
-    margin-left: 5vw;
+    margin-left: 2vw;
     font-size: larger;
  }
 .control-input input[type="checkbox"]{
-    width: 1em;
-    height: 1em;
-    cursor: pointer;
+    display: inline-block;
+    height: 16px;
+    padding: 0;
+    vertical-align: top;
+    width: 16px;
   }
 .table-container{
     margin-top: 1em;
@@ -150,7 +152,36 @@
     width: 2em;
     height: 2em;
  }
-::ng-deep.ng2-smart-titles input[type="checkbox"]{
-    width: 2em;
-    height: 2em;
-}
+::ng-deep .ng2-smart-titles input[type="checkbox"]{
+    width: 1.5em;
+    height: 1.5em;
+ }
+:host /deep/ ng2-smart-table table > thead > tr:first-child {
+    background: dodgerblue;
+    line-height: 4em;
+    height: 6em;
+ }
+::ng-deep .ng2-smart-title a{
+    color: white !important;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: bold;
+    font-family: sans-serif;
+  }
+::ng-deep .ng2-smart-title a::after{
+    border-bottom: 4px solid rgba(0, 0, 0, 0.87) !important;
+  }
+:host /deep/ ng2-smart-table table > tbody > tr {
+    height: 6em;
+    font-family: sans-serif;
+    font-size: larger;
+ }
+:host /deep/ ng2-smart-table table > tbody > tr:nth-child(even) {
+    background: rgba(204, 204, 204, 0.36);
+ }
+:host /deep/ ng2-smart-table table > tbody > tr:nth-child(odd) {
+    background: #FFF
+ }
+
+
+ 

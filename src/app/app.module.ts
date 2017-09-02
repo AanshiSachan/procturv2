@@ -46,12 +46,16 @@ import { CustomLoaderComponent } from './custom/custom-loader/custom-loader.comp
 import { CustomAddEnquiryComponent } from './custom/custom-add-enquiry/custom-add-enquiry.component';
 import { CustomEditEnquiryComponent } from './custom/custom-edit-enquiry/custom-edit-enquiry.component';
 import { CustomErrorPageComponent } from './custom/custom-error-page/custom-error-page.component';
+import { CoreSidednavComponent } from './core/core-sidednav/core-sidednav.component';
+import { CoreHeaderComponent } from './core/core-header/core-header.component';
+import { ActionButtonComponent } from './enquiry/enquiry-manage/action-button.component';
 
 /* Services */
 import { FetchenquiryService } from './services/fetchenquiry.service';
 import { LoadInterceptor } from './interceptors/load-interceptor';
-import { CoreSidednavComponent } from './core/core-sidednav/core-sidednav.component';
-import { CoreHeaderComponent } from './core/core-header/core-header.component';
+
+/* Directives */
+
 
 const appRoutes = [
   {
@@ -157,10 +161,12 @@ const appRoutes = [
     CustomErrorPageComponent,
     CoreSidednavComponent,
     CoreHeaderComponent,
+    ActionButtonComponent,
   ],
   entryComponents: [
     CustomModalComponent,
-    CustomLoaderComponent
+    CustomLoaderComponent,
+    ActionButtonComponent
   ],
   imports: [
     BrowserModule,
