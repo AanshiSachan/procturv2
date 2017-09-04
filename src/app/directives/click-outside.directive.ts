@@ -1,11 +1,11 @@
-import {Directive} from '@angular/core';
+import {Directive, ElementRef,Output, EventEmitter, HostListener} from '@angular/core';
 
 @Directive({
-  selector: '[click-outside]'
+  selector: '[clickout]'
 })
 
 export class ClickOutside{
 
-  constructor() {}
+  constructor(private ref: ElementRef) {}
 
 }

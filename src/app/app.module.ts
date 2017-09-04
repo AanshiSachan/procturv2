@@ -55,7 +55,7 @@ import { FetchenquiryService } from './services/fetchenquiry.service';
 import { LoadInterceptor } from './interceptors/load-interceptor';
 
 /* Directives */
-
+import { ClickOutside } from './directives/click-outside.directive';
 
 const appRoutes = [
   {
@@ -162,6 +162,7 @@ const appRoutes = [
     CoreSidednavComponent,
     CoreHeaderComponent,
     ActionButtonComponent,
+    ClickOutside
   ],
   entryComponents: [
     CustomModalComponent,

@@ -1,57 +1,79 @@
-import { Component, Input, OnInit, HostListener} from '@angular/core';
+import { Component, Input, OnInit, HostListener, ElementRef} from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
 
 @Component({
     template: `
-        <style>
-          .wrap{
-            width: 1rem;
-            height: auto;
-            color: rgba(0, 0, 0, 0.41);
-          }
-          .actions {
-            width: 30rem;
-            top: -3em;
-            position: absolute;
-            left: -10em;
-            background:white;
-            border: 1px solid;
-          }
-          .links{
-            padding: 0 1em 0 1em;
-            color: rgba(0, 0, 0, 0.66);
-          }
-        </style>
+  
+    <style>
+    :host /deep/ .actions{
+      max-width: 50px !important;
+      min-width: 45px !important;
+      height: 5em;
+    }
+
+    :host /deep/ .actions .mat-button-ripple mat-ripple{
+      max-width: 40px !important;
+      min-width: 20px !important;
+    }
+
+    ::ng-deep .mat-menu-panel{
+      max-width: 30em !important;
+      overflow: visible !important;
+      position: relative !important;
+      left: 10em !important;
+      top: -5em !important;
+      box-shadow: none;
+    }
+
+    ::ng-deep .mat-menu-content{
+      background: #424242;
+      width: 30em;
+    }
+
+    ::ng-deep .mat-menu-item{
+      width: 5em !important;
+      display: inline !important;      
+    }
+
+    ::ng-deep button.mat-menu-item {
+      width: 5em !important;
+    }
+
+    </style>
     
-        <button class="wrap" md-icon-button (click)="clickedInside($event)">
-        <md-icon>flash_on</md-icon>
-          <div #action class="actions" *ngIf="active">
-            <a class="links"><md-icon>autorenew</md-icon></a>
-            <a class="links"><md-icon>border_color</md-icon></a>
-            <a class="links"><md-icon>delete</md-icon></a>
-            <a class="links"><md-icon>perm_identity</md-icon></a>
-            <a class="links"><md-icon>payment</md-icon></a>                                    
-          </div>
-        </button>
-  `,
+
+
+    <button md-button [mdMenuTriggerFor]="menu" class="actions">
+    <md-icon>flash_on</md-icon></button>
+    <md-menu #menu="mdMenu" class="actionmenu">
+   
+      <button md-menu-item>
+        <md-icon>autorenew</md-icon>
+      </button>
+     
+      <button md-menu-item>
+       <md-icon>border_color</md-icon>
+      </button>
+     
+      <button md-menu-item>
+       <md-icon>delete</md-icon>
+      </button>
+
+      <button md-menu-item>
+       <md-icon>perm_identity</md-icon>
+      </button>
+
+      <button md-menu-item>
+       <md-icon>payment</md-icon>
+      </button>
+    </md-menu>
+    `,
 })
 
 export class ActionButtonComponent implements OnInit {
 
   private active:boolean = false;
-  constructor() {}
+  constructor(){}
   ngOnInit() {}
-
-  @HostListener('document:click', ['$event']) clickedOutside($event){
-    $event.preventDefault();
-    $event.stopPropagation();
-    this.active = false;
-  }
-
-  clickedInside($event: Event){
-    $event.preventDefault();
-    $event.stopPropagation();
-    this.active = true;
-  }
 
 }
