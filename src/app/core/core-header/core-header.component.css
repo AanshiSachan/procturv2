@@ -14,7 +14,7 @@
 
 .header-row{
     padding: 5px;
-}
+ }
 .logo{
     color: white;
     font-family: 'Josefin Sans', sans-serif;;
@@ -24,7 +24,7 @@
 .global-search{
     margin: 0px;
     padding: 10px 0px 0px 0px;
-}
+ }
 .wrap{
     width: 100%;
     margin: 0px;
@@ -41,7 +41,7 @@
     border: none;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-}
+ }
 .searchButton {
     position: absolute;
     width: 40px;
@@ -54,73 +54,34 @@
     border: none;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-}
+ }
 .profile-container{
   width:15em;
   margin: 0px;
   padding: 0px;
-}
+ }
 .profile-item{
   margin-top: 2rem;
   color: white;
   font-family: 'Oxygen', sans-serif;
   font-size: x-small;
-}
+ }
 .addItem{
-  color: black !important;
-}
+  color: white !important;
+ }
 ::ng-deep .mat-menu-panel{
   margin-top: 1em;
   min-height: 12em;
-}
+ }
 ::ng-deep .mat-menu-content{
-  background: white ;
-}
-#accordion {
-  margin-top: 1em;
-  width: 100%;
-  height: 100%;
-}
-#accordion .item {
-	width: 100%;
-	height: 3em;
-	overflow: hidden;
-	transition: height ease-in-out 500ms; /* css3 transition */
-	-o-transition: height ease-in-out 500ms;
-	-moz-transition: height ease-in-out 500ms;
-	-webkit-transition: height ease-in-out 500ms;	
-  margin: 0;
-  border-top: none;
-  border-right: none;
-  border-bottom:1px solid rgba(0, 0, 0, 0.07);
-}
-#accordion .item ul{
- list-style: none;
- text-align:left;
-}
-#accordion .item ul li{
- left: 0;
- line-height: 2em;
-}
-#accordion button {
-  overflow: visible;
-  background: none;
-  outline: none;
-  height: 3em;
-  width: 100%;
-  display: block;
-  border: none;
-  font-family: sans-serif;
-  font-size: larger;
-}
-#accordion div:hover {
-  height: 250px;
-  border-bottom:5px solid rgba(0, 0, 0, 0.07);
-}
+  background: rgba(0, 0, 0, 0.74) ;
+ }
+
+
 a {
     text-decoration: none;
-} 
+ } 
 .dropdown-text{
     display: inline;
     margin-left: 1em;
-}
+ }

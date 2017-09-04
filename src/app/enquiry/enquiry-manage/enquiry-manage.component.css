@@ -181,7 +181,7 @@
  }
 :host /deep/ ng2-smart-table table > tbody > tr:nth-child(odd) {
     background: #FFF
- }
+}
 
 
  
