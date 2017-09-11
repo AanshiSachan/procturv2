@@ -117,12 +117,16 @@
   <div class="row table-control">
     <div class="container" style="width: 100%;">
       <div class="row">
-        <div style="float: left;left: 0;font-size: larger;"><label><p>Enquiry Type</p></label></div>
-        <div class="control-input"><input type="checkbox">All</div>
-        <div class="control-input"><input type="checkbox">Open/Progress</div>
-        <div class="control-input"><input type="checkbox">Registered</div>
-        <div class="control-input"><input type="checkbox">Admitted</div>
-        <div class="control-input"><input type="checkbox">Inactive</div>
+        <div style="float: left;left: 0;font-size: larger;">
+          <label><p>Enquiry Type</p></label>
+        </div>
+        <div class="control-input">
+            <input type="checkbox" [id]="stats.All.value" [(ngModel)]="stats.All.checked" [disabled]="stats.All.disabled" (change)="statusFilter(stats.All)">{{stats.All.value}}
+            <input type="checkbox" [id]="stats.Open.value" [(ngModel)]="stats.Open.checked" [disabled]="stats.Open.disabled" (change)="statusFilter(stats.Open)">{{stats.Open.value}}
+            <input type="checkbox" [id]="stats.Registered.value" [(ngModel)]="stats.Registered.checked" [disabled]="stats.Registered.disabled" (change)="statusFilter(stats.Registered)">{{stats.Registered.value}}
+            <input type="checkbox" [id]="stats.Admitted.value" [(ngModel)]="stats.Admitted.checked" [disabled]="stats.Admitted.disabled" (change)="statusFilter(stats.Admitted)">{{stats.Admitted.value}}
+            <input type="checkbox" [id]="stats.Inactive.value" [(ngModel)]="stats.Inactive.checked" [disabled]="stats.Inactive.disabled" (change)="statusFilter(stats.Inactive)">{{stats.Inactive.value}}
+        </div>
       </div>
       <div class="row">
         <span style="width:75%"></span>

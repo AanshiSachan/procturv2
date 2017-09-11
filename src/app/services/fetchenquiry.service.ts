@@ -6,7 +6,9 @@ import {EnquiryCampaign} from '../model/enquirycampaign';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import 'rxjs/Rx';
+import {Subscription} from 'rxjs';
 import * as moment from 'moment';
+import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 
 @Injectable()
 export class FetchenquiryService {
@@ -18,6 +20,7 @@ export class FetchenquiryService {
     followUpDate: moment().format('YYYY-MM-DD'),enquiry_date: "",assigned_to: -1,standard_id: -1,subject_id: -1,is_recent: "Y",
     filtered_slots: "",isDashbord: "",enquireDateFrom: "",enquireDateTo: "",
     updateDate: "",updateDateFrom: "",updateDateTo: "",
+    pageNo: 1, sizeLimit: 100,
   }
 
   url: string;
@@ -26,7 +29,8 @@ export class FetchenquiryService {
   headers: Headers;
   headersCampaign: Headers;
   instituteFormData: any = {};
-
+  row: any = [];
+  filtered = [];
   daterange = {
     updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
     updateDateTo: moment().format('YYYY-MM-DD'),
@@ -35,7 +39,7 @@ export class FetchenquiryService {
   constructor(private http: Http) {
     this.url = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/dashboard/100123";
     this.urlCampaign = 'https://app.proctur.com/CampaignServlet';
-    this.instituteFormData = `institute_id=${this.instituteData.institute_id}&function_type=${this.instituteData.function_type}&username=${this.instituteData.username}&password=${this.instituteData.password}&onLoad=${this.instituteData.onLoad}&name=${this.instituteData.name}&phone=${this.instituteData.phone}&email=${this.instituteData.email}&enquiry=${this.instituteData.enquiry_no}&priority=${this.instituteData.priority}&filtered_statuses=${this.instituteData.filtered_statuses}&follow_type=${this.instituteData.follow_type}&followUpDate=${this.instituteData.followUpDate}&enquiry_date=${this.instituteData.enquiry_date}&assigned_to=${this.instituteData.assigned_to}&standard_id=${this.instituteData.standard_id}&subject_id=${this.instituteData.subject_id}&is_recent=${this.instituteData.is_recent}&filtered_slots=${this.instituteData.filtered_slots}&isDashbord=${this.instituteData.isDashbord}&enquireDateFrom=${this.instituteData.enquireDateFrom}&enquireDateTo=${this.instituteData.enquireDateTo}&updateDate=${this.instituteData.updateDate}&updateDateFrom=${this.instituteData.updateDateFrom}&updateDateTo=${this.instituteData.updateDateTo}`;
+    this.instituteFormData = `institute_id=${this.instituteData.institute_id}&function_type=${this.instituteData.function_type}&username=${this.instituteData.username}&password=${this.instituteData.password}&onLoad=${this.instituteData.onLoad}&name=${this.instituteData.name}&phone=${this.instituteData.phone}&email=${this.instituteData.email}&enquiry=${this.instituteData.enquiry_no}&priority=${this.instituteData.priority}&filtered_statuses=${this.instituteData.filtered_statuses}&follow_type=${this.instituteData.follow_type}&followUpDate=${this.instituteData.followUpDate}&enquiry_date=${this.instituteData.enquiry_date}&assigned_to=${this.instituteData.assigned_to}&standard_id=${this.instituteData.standard_id}&subject_id=${this.instituteData.subject_id}&is_recent=${this.instituteData.is_recent}&filtered_slots=${this.instituteData.filtered_slots}&isDashbord=${this.instituteData.isDashbord}&enquireDateFrom=${this.instituteData.enquireDateFrom}&enquireDateTo=${this.instituteData.enquireDateTo}&updateDate=${this.instituteData.updateDate}&updateDateFrom=${this.instituteData.updateDateFrom}&updateDateTo=${this.instituteData.updateDateTo}&page=${this.instituteData.pageNo}&size=${this.instituteData.sizeLimit}`;
     this.Authorization = "MzE0Njl8MDphZG1pbkAxMjM6MTAwMTIz";
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
@@ -51,11 +55,11 @@ export class FetchenquiryService {
   }
 
   getAllEnquiry(): Observable<EnquiryCampaign[]>{
- /*    console.log(moment(moment().valueOf()).format('YYYY-MM-DD')); */
     return this.http.post(this.urlCampaign, this.instituteFormData, { headers: this.headersCampaign })
       .map(res => {
-      return res.json().aaData
-    })
+        this.row = res.json().aaData; 
+      return this.row;
+      });
   }
 
   getEnquiry(): Observable<EnquiryCampaign[]>{
@@ -66,6 +70,6 @@ export class FetchenquiryService {
       console.log(element);
     }))
   }
-  
+
 }
   

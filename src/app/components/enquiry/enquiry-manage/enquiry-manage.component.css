@@ -136,12 +136,8 @@
     margin-left: 2vw;
     font-size: larger;
  }
-.control-input input[type="checkbox"]{
-    display: inline-block;
-    height: 16px;
-    padding: 0;
-    vertical-align: top;
-    width: 16px;
+:host /deep/ .control-input > md-checkbox > label > div{
+   border: 1px solid rgba(0, 0, 0, 0.26);
   }
 .table-container{
     margin-top: 1em;

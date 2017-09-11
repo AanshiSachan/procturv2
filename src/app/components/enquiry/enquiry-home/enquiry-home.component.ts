@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { FetchenquiryService } from '../../services/fetchenquiry.service';
+import { FetchenquiryService } from '../../../services/fetchenquiry.service';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 

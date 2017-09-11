@@ -28,4 +28,6 @@ export interface instituteInfo {
     updateDate?: any;
     updateDateFrom?: any;
     updateDateTo?: any;
+    pageNo?: any;
+    sizeLimit?: any;
 }
