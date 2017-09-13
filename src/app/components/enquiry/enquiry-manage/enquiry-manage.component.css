@@ -1,0 +1,187 @@
+.manage-container{
+    width: 95vw;
+    height: 90vh;
+ }
+.header{
+    width: 95vw;
+    min-height: 5vh;
+    margin-top: 0.5rem;
+ }
+.boxbutton{
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.44);
+    color: #1565c0;
+    font-weight: 700;
+ }
+.search{
+    margin-top: 1.2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.28);
+    background: rgba(140, 140, 140, 0.1);
+    width: 100%;
+    min-height: 15vh;
+    padding: 3rem;
+ }
+.form-wrapper {
+      background: #444;
+      background: rgba(0,0,0,.2);
+      -moz-border-radius: 10px;
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+      -moz-box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);
+      -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);
+      box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);
+  }
+.form-wrapper input {
+    width: 80%;
+    float: left;
+    border: 0;
+    background: #eee;
+    border-radius: 3px 0 0 3px;
+    height: 3em;
+    padding-left: 1em;      
+  }
+.form-wrapper input:focus {
+      outline: 0;
+      background: #fff;
+      -moz-box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+      -webkit-box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+      box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+  }
+.form-wrapper input::-webkit-input-placeholder {
+     color: #999;
+     font-weight: normal;
+     font-style: italic;
+  }
+.form-wrapper input:-moz-placeholder {
+      color: #999;
+      font-weight: normal;
+      font-style: italic;
+  }
+.form-wrapper input:-ms-input-placeholder {
+      color: #999;
+      font-weight: normal;
+      font-style: italic;
+  }    
+.form-wrapper button {
+    float: right;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    height: 3em;
+    width: 20%;
+    color: #fff;
+    text-transform: uppercase;
+    background: #1565c0;
+    border-radius: 0 3px 3px 0;
+    text-shadow: 0 -1px 0 rgba(0, 0 ,0, .3);
+  }   
+.form-wrapper button:hover{		
+      background: #60A7F9;
+  }
+.AdFilter-row{
+    min-height: 10vh; 
+ }
+::ng-deep .mat-select-trigger{
+    min-width: 230px !important;
+ }
+::ng-deep .mat-select-placeholder{
+ color: #1565c0;
+ }
+::ng-deep .mat-select-value{
+ color: black;   
+ }
+::ng-deep .mat-select-underline {
+    background-color: rgba(18, 30, 230, 0.42);
+ }
+::ng-deep .mat-select-arrow {
+    color: rgba(10, 9, 9, 0.54);
+ }
+::ng-deep .mat-input-element{
+    color:black;
+ }
+::ng-deep .mat-input-placeholder {
+    color: #1565c0;
+ }
+::ng-deep .mat-input-underline {
+    background-color: rgba(18, 30, 230, 0.42);
+ }
+::ng-deep .mat-input-infix {
+    padding: 0.37em 0 !important;
+    border-top: 0 !important;
+ }
+::ng-deep .mat-input-flex {
+    min-width: 230px !important;
+ }
+.btn-Adfilter{
+    width: 80%;
+    margin-top: -15px;
+    height: 3em;
+    background: #ff3c3c;
+    color: white;
+    outline: none;
+    border:none;
+ }
+.AdFilter-input{
+    margin-top: 1em;
+    margin-bottom: 3em;
+ }
+.table-control{
+    min-height: 10vh;
+ }
+.table-control .row{
+    min-height: 5vh;
+    margin-top: 1vh;
+ }
+.control-input{
+    display: inline;
+    margin-left: 2vw;
+    font-size: larger;
+ }
+:host /deep/ .control-input > md-checkbox > label > div{
+   border: 1px solid rgba(0, 0, 0, 0.26);
+  }
+.table-container{
+    margin-top: 1em;
+    width: 100%;
+    min-height: 50vh;
+ }
+::ng-deep .form-control{ 
+    width: 2em;
+    height: 2em;
+ }
+::ng-deep .ng2-smart-titles input[type="checkbox"]{
+    width: 1.5em;
+    height: 1.5em;
+ }
+:host /deep/ ng2-smart-table table > thead > tr:first-child {
+    background: dodgerblue;
+    line-height: 4em;
+    height: 6em;
+ }
+::ng-deep .ng2-smart-title a{
+    color: white !important;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: bold;
+    font-family: sans-serif;
+  }
+::ng-deep .ng2-smart-title a::after{
+    border-bottom: 4px solid rgba(0, 0, 0, 0.87) !important;
+  }
+:host /deep/ ng2-smart-table table > tbody > tr {
+    height: 6em;
+    font-family: sans-serif;
+    font-size: larger;
+ }
+:host /deep/ ng2-smart-table table > tbody > tr:nth-child(even) {
+    background: rgba(204, 204, 204, 0.36);
+ }
+:host /deep/ ng2-smart-table table > tbody > tr:nth-child(odd) {
+    background: #FFF
+}
+#toggleButton{
+    display: inline;
+}
+::ng-deep .dropdown-menu{
+    left: -10em !important;
+    font-size: 16px !important;    
+}

@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="row">
+    <form [formGroup]="form" (ngSubmit)="submit(form.value)">
+      <fieldset>
+        <div class="container">
+          <div class="row">
+            <legend>Enquiry Dashboard:</legend>
+            <div class="col-md-6">
+              <label>Date From</label>
+              <date-picker formControlName="datepre" style="width:fit-content"></date-picker>
+            </div>
+            <div class="col-md-6">
+              <label>Date To</label>
+              <date-picker formControlName="datepost" style="width:fit-content"></date-picker>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-12">
+              <input type="submit" value="Search" class="btn btn-primary buttons" />
+
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+
+  <div class="row">
+    <button (click)="addEnquiry()"> Leads </button>
+    <button (click)="addManage()"> Manage </button>
+    <button (click)="addMaster()"> Master </button>
+    <button (click)="addReport()"> Report </button>
+  </div>
+
+  <div class="row" style="display:flex;">
+
+    <md-card>
+      <md-card-header><h4>Total Count</h4></md-card-header>
+      <md-card-content>{{data.totalcount}}</md-card-content>
+      <md-card-footer><button md-button color="warn" (click)="filterByCount()"><i class="material-icons">keyboard_arrow_right</i></button></md-card-footer>
+    </md-card>
+
+    <md-card>
+      <md-card-header><h4>New Enquiries</h4></md-card-header>
+      <md-card-content>{{data.newenquiry}}</md-card-content>
+      <md-card-footer><button md-button color="warn"><i class="material-icons">keyboard_arrow_right</i></button></md-card-footer>
+    </md-card>
+
+    <md-card>
+      <md-card-header><h4>Closed</h4></md-card-header>
+      <md-card-content>{{data.close}}</md-card-content>
+      <md-card-footer><button md-button color="warn"><i class="material-icons">keyboard_arrow_right</i></button></md-card-footer>
+    </md-card>    
+
+    <md-card>
+      <md-card-header><h4>In Progress</h4></md-card-header>
+      <md-card-content>{{data.inprogress}}</md-card-content>
+      <md-card-footer><button md-button color="warn"><i class="material-icons">keyboard_arrow_right</i></button></md-card-footer>
+    </md-card>
+  </div>
+
+  <div class="row" style="display:flex;">
+    <md-card>
+      <md-card-header><h4>Converted</h4></md-card-header>
+      <md-card-content>{{data.converted}}</md-card-content>
+      <md-card-footer><button md-button color="warn"><i class="material-icons">keyboard_arrow_right</i></button></md-card-footer>
+    </md-card>    
+
+    <md-card>
+      <md-card-header><h4>Open</h4></md-card-header>
+      <md-card-content>{{data.open}}</md-card-content>
+      <md-card-footer><button md-button color="warn"><i class="material-icons">keyboard_arrow_right</i></button></md-card-footer>
+    </md-card>
+    
+    <md-card>
+      <md-card-header><h4>Student Admitted</h4></md-card-header>
+      <md-card-content>{{data.studentadmitted}}</md-card-content>
+      <md-card-footer><button md-button color="warn"><i class="material-icons">keyboard_arrow_right</i></button></md-card-footer>
+    </md-card>
+  </div>
+
+</div>
