@@ -22,11 +22,7 @@ declare var require: any;
 
 export class EnquiryManageComponent implements OnInit {
 
-<<<<<<< HEAD
   AdFilter:boolean; rows: any = []; optionsModel: any[]; myOptions: IMultiSelectOption[]; source: LocalDataSource; gridSelected:any; busy: Subscription; selectedCol = [];
-=======
-  AdFilter:boolean; rows: any = []; optionsModel: any[]; myOptions: IMultiSelectOption[]; source: LocalDataSource; colid:any = []; pageRowData:any = []; pageColData: any = []; gridSelected:any; busy: Subscription;
->>>>>>> 65f87292426b0885556d6b3b6a2fceb069d545d4
   stats = {
     All :       {value: 'All', prop: 'All', checked: true, disabled: false},
     Open :      {value: 'Open', prop: 'Open', checked: false, disabled: false}, 
@@ -43,10 +39,7 @@ export class EnquiryManageComponent implements OnInit {
     {value: 'pizza-1', viewValue: 'Pizza'},
     {value: 'tacos-2', viewValue: 'Tacos'}
   ];
-<<<<<<< HEAD
   
-=======
->>>>>>> 65f87292426b0885556d6b3b6a2fceb069d545d4
   settings = {
     mode: 'external', hideSubHeader: false, selectMode: 'multi',
     actions: { add: false, edit: false, delete: false, columnTitle: '',},
@@ -108,7 +101,6 @@ export class EnquiryManageComponent implements OnInit {
       this.source = new LocalDataSource(this.rows);
       this.source.refresh();
     })
-<<<<<<< HEAD
     
     this.myOptions = [{ name: 'Enquiry ID', id: 'institute_enquiry_id' }, { name: 'Institute ID', id: 'institution_id' }, { name: 'Enquiry No', id: 'enquiry_no' }, { name: 'Name', id: 'name' }, { name: 'Phone', id: 'phone' }, { name: 'Email', id: 'email' }, { name: 'Standard', id: 'standard' }, { name: 'Gender', id: 'Gender' }, { name: 'Subjects', id: 'subjects' }, { name: 'Status', id: 'status' }, { name: 'Status Value', id: 'statusValue' }, { name: 'is Converted', id: 'is_converted' }, { name: 'Follow up Date', id: 'followUpDate' }, { name: 'Occupation ID', id: 'occupation_id' }, { name: 'School ID', id: 'school_id' }, { name: 'Enquiry Date', id: 'enquiry_date' }, { name: 'Standard ID', id: 'standard_id' }, { name: 'Subject ID', id: 'subject_id' }, { name: 'Reffered by', id: 'referred_by' }, { name: 'Source ID', id: 'source_id' }, { name: 'Priority', id: 'priority' }, { name: 'Follow type', id: 'follow_type' }, { name: 'Assigned Name', id: 'assigned_name' }, { name: 'Is recent', id: 'is_recent' }, { name: 'Slot ID', id: 'slot_id' }, { name: 'Slot', id: 'slot' }, { name: 'Update Date', id: 'updateDate' }, { name: 'Is Dashboard', id: 'isDashbord' }, { name: 'Is Report', id: 'isRport' }, { name: 'Total Count', id: 'totalcount' }, { name: 'New Enquiry Count', id: 'newEnqcount' }, { name: 'Enquiry Date', id: 'enquiry_no_date' }, { name: 'Person Name', id: 'name_person' }, { name: 'Follow up date', id: 'followUpDateTime' }, { name: 'Standard subject', id: 'standard_subject' }, { name: 'Closed Reason', id: 'closedReasonText' }, { name: 'Follow up Time', id: 'followUpTime' }, { name: 'Filtered Status', id: 'filtered_statuses' }, { name: 'Filtered Slot', id: 'filtered_slots' }];
   }
@@ -132,14 +124,6 @@ export class EnquiryManageComponent implements OnInit {
     this.settings = Object.assign({}, this.settingUpdater);
     this.snackBar.open(this.settingUpdater.columns[ele].title, "Updated", {
     duration: 1000,
-=======
-    this.myOptions = [{ name: 'Enquiry ID', id: 'institute_enquiry_id' }, { name: 'Institute ID', id: 'institution_id' }, { name: 'Enquiry No', id: 'enquiry_no' }, { name: 'Name', id: 'name' }, { name: 'Phone', id: 'phone' }, { name: 'Email', id: 'email' }, { name: 'Standard', id: 'standard' }, { name: 'Gender', id: 'Gender' }, { name: 'Subjects', id: 'subjects' }, { name: 'Status', id: 'status' }, { name: 'Status Value', id: 'statusValue' }, { name: 'is Converted', id: 'is_converted' }, { name: 'Follow up Date', id: 'followUpDate' }, { name: 'Occupation ID', id: 'occupation_id' }, { name: 'School ID', id: 'school_id' }, { name: 'Enquiry Date', id: 'enquiry_date' }, { name: 'Standard ID', id: 'standard_id' }, { name: 'Subject ID', id: 'subject_id' }, { name: 'Reffered by', id: 'referred_by' }, { name: 'Source ID', id: 'source_id' }, { name: 'Priority', id: 'priority' }, { name: 'Follow type', id: 'follow_type' }, { name: 'Assigned Name', id: 'assigned_name' }, { name: 'Is recent', id: 'is_recent' }, { name: 'Slot ID', id: 'slot_id' }, { name: 'Slot', id: 'slot' }, { name: 'Update Date', id: 'updateDate' }, { name: 'Is Dashboard', id: 'isDashbord' }, { name: 'Is Report', id: 'isRport' }, { name: 'Total Count', id: 'totalcount' }, { name: 'New Enquiry Count', id: 'newEnqcount' }, { name: 'Enquiry Date', id: 'enquiry_no_date' }, { name: 'Person Name', id: 'name_person' }, { name: 'Follow up date', id: 'followUpDateTime' }, { name: 'Standard subject', id: 'standard_subject' }, { name: 'Closed Reason', id: 'closedReasonText' }, { name: 'Follow up Time', id: 'followUpTime' }, { name: 'Filtered Status', id: 'filtered_statuses' }, { name: 'Filtered Slot', id: 'filtered_slots' }];
-    this.myOptions.forEach(item => {
-      this.colid.push(item.id);
-      if(this.settings.columns[item.id].show){
-        this.pageColData.push(item.name);
-      }
->>>>>>> 65f87292426b0885556d6b3b6a2fceb069d545d4
     });
   }
 
@@ -193,7 +177,6 @@ export class EnquiryManageComponent implements OnInit {
     }
   }
 
-<<<<<<< HEAD
   mySettings: IMultiSelectSettings = {
     enableSearch: true,
     checkedStyle: 'fontawesome',
@@ -213,28 +196,6 @@ export class EnquiryManageComponent implements OnInit {
     searchNoRenderText: 'Type in search box to see results...',
     defaultTitle: '',
     allSelected: 'All selected',
-=======
-  customFilterStatus(filt, arr): any[]{
-    console.log(this.rows);
-    return filt;
-   }
-
-  toggle() {
-    var item = this.optionsModel.pop();
-    this.settingUpdater.columns[item].show = !this.settingUpdater.columns[item].show;
-    this.settings = Object.assign({}, this.settingUpdater);
-    this.snackBar.open(this.settingUpdater.columns[item].title, "Updated", {
-      duration: 1000,
-    });
-  }
-
-  mySettings: IMultiSelectSettings = {
-    enableSearch: true, buttonClasses: 'btn material-icons filter-btn', dynamicTitleMaxItems: 3, displayAllSelectedText: true, showCheckAll: false, showUncheckAll: false, closeOnClickOutside: true, checkedStyle: 'glyphicon',
-  };
-
-  myTexts: IMultiSelectTexts = {
-    checkAll: 'Select all', uncheckAll: 'Unselect all', checked: 'item selected', checkedPlural: 'items selected', searchPlaceholder: 'Find', defaultTitle: '', allSelected: 'All selected',
->>>>>>> 65f87292426b0885556d6b3b6a2fceb069d545d4
   };
   
   onSearch(query: string = '') {

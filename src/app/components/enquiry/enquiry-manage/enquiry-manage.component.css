@@ -178,7 +178,6 @@
 :host /deep/ ng2-smart-table table > tbody > tr:nth-child(odd) {
     background: #FFF
 }
-<<<<<<< HEAD
 #toggleButton{
     display: inline;
 }
@@ -186,8 +185,3 @@
     left: -10em !important;
     font-size: 16px !important;    
 }
-=======
-
-
- 
->>>>>>> 65f87292426b0885556d6b3b6a2fceb069d545d4
