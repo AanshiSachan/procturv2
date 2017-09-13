@@ -12,14 +12,23 @@
   },
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
     "@angular/animations": "^4.3.6",
     "@angular/cdk": "^2.0.0-beta.10",
+=======
+    "@angular/animations": "^4.0.0",
+    "@angular/cdk": "^2.0.0-beta.8",
+>>>>>>> 65f87292426b0885556d6b3b6a2fceb069d545d4
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
     "@angular/core": "^4.0.0",
     "@angular/forms": "^4.0.0",
     "@angular/http": "^4.0.0",
+<<<<<<< HEAD
     "@angular/material": "^2.0.0-beta.10",
+=======
+    "@angular/material": "^2.0.0-beta.8",
+>>>>>>> 65f87292426b0885556d6b3b6a2fceb069d545d4
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
@@ -39,7 +48,10 @@
     "materialize-css": "^0.100.2",
     "moment": "^2.18.1",
     "ng2-expansion-panels": "0.0.6",
+<<<<<<< HEAD
     "ng2-logger": "^1.0.3",
+=======
+>>>>>>> 65f87292426b0885556d6b3b6a2fceb069d545d4
     "ng2-material-dropdown": "^0.7.10",
     "ng2-smart-table": "^1.2.1",
     "primeng": "^4.1.3",
