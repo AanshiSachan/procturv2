@@ -50,7 +50,7 @@ import 'hammerjs';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { BusyModule, BusyConfig} from 'angular2-busy';
-
+import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 
 /* Services */
 import { FetchenquiryService } from './services/fetchenquiry.service';
@@ -189,6 +189,7 @@ const appRoutes = [
     MultiselectDropdownModule,
     Ng2SmartTableModule,
     BusyModule,
+    NgLoggerModule.forRoot(Level.LOG),
   ],
   providers: [
     FetchenquiryService,
