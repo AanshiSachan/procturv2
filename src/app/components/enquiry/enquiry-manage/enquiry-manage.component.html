@@ -23,96 +23,68 @@
     </div>
   </div>
   <div class="row" *ngIf="AdFilter" style="margin:0;padding:0;width:95vw;">
-    <!-- <form>
-      <div class="container" style="margin:0;width: 100%;padding: 2rem;">
-        <div class="row AdFilter-row">
-          <div class="col-md-3">
-            <md-select placeholder="Enquiry Status" class="AdFilter-input">
-              <md-option *ngFor="let state of Status" [value]="state.value">
-                {{ state.viewValue }}
-              </md-option>
-            </md-select>
-          </div>
-          <div class="col-md-3">
-            <md-select placeholder="Enquiry Priority" class="AdFilter-input">
-              <md-option *ngFor="let state of Status" [value]="state.value">
-                {{ state.viewValue }}
-              </md-option>
-            </md-select>
-          </div>
-          <div class="col-md-3">
-            <md-select placeholder="Enquiry Followup Type" class="AdFilter-input">
-              <md-option *ngFor="let state of Status" [value]="state.value">
-                {{ state.viewValue }}
-              </md-option>
-            </md-select>
-          </div>
-          <div class="col-md-3">
-            <md-select placeholder="Assign To" class="AdFilter-input">
-              <md-option *ngFor="let state of Status" [value]="state.value">
-                {{ state.viewValue }}
-              </md-option>
-            </md-select>
-          </div>
-        </div>
-        <div class="row AdFilter-row">
-          <div class="col-md-3">
-            <md-select placeholder="Standard" class="AdFilter-input">
-              <md-option *ngFor="let state of Status" [value]="state.value">
-                {{ state.viewValue }}
-              </md-option>
-            </md-select>
-          </div>
-          <div class="col-md-3">
-            <md-select placeholder="Subject" class="AdFilter-input">
-              <md-option *ngFor="let state of Status" [value]="state.value">
-                {{ state.viewValue }}
-              </md-option>
-            </md-select>
-          </div>
-          <div class="col-md-3">
-            <md-select placeholder="Scholarship" class="AdFilter-input">
-              <md-option *ngFor="let state of Status" [value]="state.value">
-                {{ state.viewValue }}
-              </md-option>
-            </md-select>
-          </div>
-          <div class="col-md-3">
-            <md-select placeholder="Subject 2" class="AdFilter-input">
-              <md-option *ngFor="let state of Status" [value]="state.value">
-                {{ state.viewValue }}
-              </md-option>
-            </md-select>
-          </div>
-        </div>
-        <div class="row AdFilter-row">
-          <div class="col-md-3">
-            <md-input-container class="AdFilter-input">
-              <input mdInput [mdDatepicker]="updateDate" placeholder="Update date">
-              <button mdSuffix [mdDatepickerToggle]="updateDate"></button>
-            </md-input-container>
-            <md-datepicker #updateDate></md-datepicker>
-          </div>
-          <div class="col-md-3">
-            <md-input-container class="AdFilter-input">
-              <input mdInput [mdDatepicker]="enquireDateFrom" placeholder="Enquire From date">
-              <button mdSuffix [mdDatepickerToggle]="enquireDateFrom"></button>
-            </md-input-container>
-            <md-datepicker #enquireDateFrom></md-datepicker>
-          </div>
-          <div class="col-md-3">
-            <md-input-container class="AdFilter-input">
-              <input mdInput [mdDatepicker]="enquireDateTo" placeholder="Enquire To Date">
-              <button mdSuffix [mdDatepickerToggle]="enquireDateTo"></button>
-            </md-input-container>
-            <md-datepicker #enquireDateTo></md-datepicker>
-          </div>
-          <div class="col-md-3">
-            <button class="btn-Adfilter AdFilter-input">Search Now</button>
-          </div>
-        </div>
-      </div>
-    </form> -->
+
+    <form (ngSubmmit)="filterAdvanced($event)">
+
+      <md-select placeholder="Enquiry Status" class="AdFilter-input" [(ngModel)]="formData.filtered_statuses" name="status">
+        <md-option *ngFor="let status of enqstatus" [value]="status.data_key">
+          {{ status.data_value }}
+        </md-option>
+      </md-select>
+
+      <md-select placeholder="Enquiry Priority" class="AdFilter-input" [(ngModel)]="formData.priority" name="priority">
+        <md-option *ngFor="let priority of enqPriority" [value]="priority.data_key">
+          {{ priority.data_value }}
+        </md-option>
+      </md-select>
+
+      <md-select placeholder="Enquiry Followup Type" class="AdFilter-input" [(ngModel)]="formData.followType" name="followType">
+        <md-option *ngFor="let follow of enqFollowType" [value]="follow.data_key">
+          {{ follow.data_value }}
+        </md-option>
+      </md-select>
+
+      <md-select placeholder="Assign To" class="AdFilter-input" [(ngModel)]="formData.assigned_to" name="assignTo">
+        <md-option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
+          {{ assigned.name }}
+        </md-option>
+      </md-select>
+
+      <md-select placeholder="Standard" class="AdFilter-input" [(ngModel)]="formData.standard_id" name="standard">
+        <md-option *ngFor="let std of enqStd" [value]="std.standard_id">
+          {{ std.standard_name }}
+        </md-option>
+      </md-select>
+
+      <md-select placeholder="Subject" class="AdFilter-input" [(ngModel)]="formData.subject_id" name="subject">
+        <md-option *ngFor="let sub of Status" [value]="sub.value">
+          {{ sub.viewValue }}
+        </md-option>
+      </md-select>
+
+      <md-select placeholder="Scholarship" class="AdFilter-input" name="scholarship">
+        <md-option *ngFor="let schol of enqScholarship" [value]="schol">
+          {{ schol }}
+        </md-option>
+      </md-select>
+
+      <md-select placeholder="Subject 2" class="AdFilter-input" name="subject2">
+        <md-option *ngFor="let state of enqSub2" [value]="state">
+          {{ state }}
+        </md-option>
+      </md-select>
+
+      <md-form-field>
+        <input mdInput [mdDatepicker]="myDatepicker" [(ngModel)]="formData.updateDate" name="UD">
+        <md-datepicker-toggle mdSuffix [for]="myDatepicker"></md-datepicker-toggle>
+        <md-datepicker #myDatepicker></md-datepicker>
+      </md-form-field>
+
+      <button class="btn-Adfilter AdFilter-input">
+        Search Now
+      </button>
+
+    </form>
   </div>
   <div class="row table-control">
     <div class="container" style="width: 100%;">
@@ -121,11 +93,14 @@
           <label><p>Enquiry Type</p></label>
         </div>
         <div class="control-input">
-            <input type="checkbox" [id]="stats.All.value" [(ngModel)]="stats.All.checked" [disabled]="stats.All.disabled" (change)="statusFilter(stats.All)">{{stats.All.value}}
-            <input type="checkbox" [id]="stats.Open.value" [(ngModel)]="stats.Open.checked" [disabled]="stats.Open.disabled" (change)="statusFilter(stats.Open)">{{stats.Open.value}}
-            <input type="checkbox" [id]="stats.Registered.value" [(ngModel)]="stats.Registered.checked" [disabled]="stats.Registered.disabled" (change)="statusFilter(stats.Registered)">{{stats.Registered.value}}
-            <input type="checkbox" [id]="stats.Admitted.value" [(ngModel)]="stats.Admitted.checked" [disabled]="stats.Admitted.disabled" (change)="statusFilter(stats.Admitted)">{{stats.Admitted.value}}
-            <input type="checkbox" [id]="stats.Inactive.value" [(ngModel)]="stats.Inactive.checked" [disabled]="stats.Inactive.disabled" (change)="statusFilter(stats.Inactive)">{{stats.Inactive.value}}
+          <input type="checkbox" [id]="stats.All.value" [(ngModel)]="stats.All.checked" [disabled]="stats.All.disabled" (change)="statusFilter(stats.All)">{{stats.All.value}}
+          <input type="checkbox" [id]="stats.Open.value" [(ngModel)]="stats.Open.checked" [disabled]="stats.Open.disabled" (change)="statusFilter(stats.Open)">{{stats.Open.value}}
+          <input type="checkbox" [id]="stats.Registered.value" [(ngModel)]="stats.Registered.checked" [disabled]="stats.Registered.disabled"
+            (change)="statusFilter(stats.Registered)">{{stats.Registered.value}}
+          <input type="checkbox" [id]="stats.Admitted.value" [(ngModel)]="stats.Admitted.checked" [disabled]="stats.Admitted.disabled"
+            (change)="statusFilter(stats.Admitted)">{{stats.Admitted.value}}
+          <input type="checkbox" [id]="stats.Inactive.value" [(ngModel)]="stats.Inactive.checked" [disabled]="stats.Inactive.disabled"
+            (change)="statusFilter(stats.Inactive)">{{stats.Inactive.value}}
         </div>
       </div>
       <div class="row">
@@ -134,9 +109,7 @@
           <button md-button style="font-size: small;color: rgba(0, 0, 0, 0.52);font-family: sans-serif;"><md-icon>print</md-icon> Print</button>
           <button md-button style="font-size: small;color: rgba(0, 0, 0, 0.52);font-family: sans-serif;"><md-icon>launch</md-icon> Export</button>
           <div id="toggleButton">
-            <ss-multiselect-dropdown [options]="myOptions"
-            [texts]="myTexts" [settings]="mySettings"
-            [(ngModel)]="optionsModel" (ngModelChange)="toggleOptionChange($event)">
+            <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggleOptionChange($event)">
             </ss-multiselect-dropdown>
           </div>
         </div>
@@ -144,14 +117,9 @@
     </div>
   </div>
   <div class="row table-container" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
-      <ng2-smart-table 
-      [settings]="settings" [source]="source"
-      (create)="onCreate($event)" 
-      (delete)="onDelete($event)" 
-      (edit)="onSave($event)"
-      (userRowSelect)="handleGridSelected($event)"
-      >
-     </ng2-smart-table>
+    <ng2-smart-table [settings]="settings" [source]="source" (create)="onCreate($event)" (delete)="onDelete($event)" (edit)="onSave($event)"
+      (userRowSelect)="handleGridSelected($event)">
+    </ng2-smart-table>
   </div>
 
 </div>
