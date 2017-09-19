@@ -1,0 +1,380 @@
+//  import VARIABLES 
+@import "../css/common/variables";
+
+/* Import Font CSS*/
+
+@import "../css/fonts/fonts";
+
+/*/ import reset css*/
+
+@import "../css/reset";
+
+/*/ import themes css*/
+
+@import "../css/themes/default";
+
+/* import commom css*/
+
+@import "../css/common/common";
+
+/* import header css*/
+
+@import "../css/wrapper";
+
+/* import header css*/
+
+/* @import "../components/header/header"; */
+
+/*==========================================import filter css=========================*/
+
+/* @import "../components/middle/enquiryListComponent/enquirylist"; */
+
+/* import middle css*/
+
+/* @import "../components/middle/middle"; */
+
+/* import popup c css*/
+
+/* @import "../components/popup/popup"; */
+
+/*============================left sidebar fix menu=======================*/
+
+/* @import "../components/leftNav/leftnav"; */
+
+/*============================bulk enquiry=======================*/
+
+/* @import "../components/addBulkEnquiry/bulkenquiry"; */
+
+/*==============================css for middle right common Component ==============================*/
+
+
+/*==========================================Responsive css==============================*/
+
+@media only screen and (min-width: 768px) and (max-width:960px) {
+    .middle-section {
+        padding: 15px 0;
+    }
+    .middle-left {
+        width: 65%;
+    }
+    .middle-right {
+        width: 35%
+    }
+    .btn {
+        height: 29px;
+        padding: 7px 6px;
+        font-size: 12px;
+    }
+    .normal-field {
+        height: 29px;
+    }
+    .middle-top h1 {
+        margin-top: 5px;
+        font-size: 15px;
+        margin-bottom: 10px;
+    }
+    .header-search .form-ctrl-head {
+        width: 200px;
+    }
+    .header-search {
+        left: 20px;
+        top: 7px;
+    }
+    .login-tube {
+        margin-right: 0;
+    }
+    .btn.cancle,
+    .btn.redBtn {
+        font-size: 12px;
+        height: 32px;
+    }
+    .popupWrapper .popup {
+        max-width: 77%;
+    }
+    .common-right-section h4 {
+        font-size: 14px;
+    }
+    .file-wrapper {
+        padding-left: 15px;
+    }
+    .file-upload-box .select-file-upload ul li label {
+        font-size: 14px;
+    }
+    .file-upload-box .select-file-upload ul li .choose-file input[type="text"] {
+        height: 28px;
+    }
+    .file-upload-box .file-uploaded {
+        margin: 10px 0 15px;
+        font-size: 14px;
+    }
+    .progress-bar-wrapper {
+        width: 70%;
+    }
+    .file-upload-box .drag-drop-box {
+        margin-top: 30px;
+    }
+    .file-upload-box {
+        padding: 15px 00px;
+        max-width: none;
+    }
+    .search-data td {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width:767px) {
+    header {
+        padding: 5px 5px;
+        &>div {
+            width: 100%;
+        }
+        .logo {
+            text-align: center;
+            margin: 0 auto;
+            width: 129px;
+            float: none;
+        }
+        #searchHeader {
+            display: none;
+        }
+        .login-nav>li .user-info {
+            margin-right: 15px;
+            width: 119px;
+        }
+        .login-nav>li {
+            padding: 0 7px;
+        }
+    }
+    #middleWrapper {
+        width: 100%;
+    }
+    main {
+        padding-top: 92px;
+        padding-left: 0;
+        width: 100%;
+    }
+    .common-nav {
+        display: none;
+    }
+    .middle-section {
+        padding: 5px 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .middle-left {
+        width: 100%;
+        padding: 0;
+    }
+    .middle-top h1 {
+        margin-top: 8px;
+        margin-bottom: 10px;
+        float: none;
+    }
+    .middle-top {
+        aside {
+            float: left;
+        }
+    }
+    .btn {
+        padding: 4px 7px;
+        font-size: 12px;
+        height: 31px;
+        margin-left: 0;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+    .accordian-section {
+        padding: 15px 0px 0;
+    }
+    .accordian-section .accordian-content {
+        padding-left: 40px;
+    }
+    .create-institution {
+        right: auto;
+        left: 0;
+        bottom: -15px;
+    }
+    .middle-bottom {
+        aside {
+            float: left;
+            margin-top: 10px;
+            width: 100%;
+        }
+    }
+    .btn.cancle {
+        font-size: 12px;
+        height: 32px;
+    }
+    .btn.redBtn {
+        font-size: 12px;
+        height: 32px;
+    }
+    .middle-right {
+        width: 100%;
+        margin-top: 30px;
+        padding: 0;
+    }
+    .common-right-section {
+        margin-top: 20px;
+    }
+    .normal-field {
+        height: 31px;
+    }
+    .filter-right .btn {
+        margin-top: 10px;
+    }
+    .closeFilter {
+        margin-top: 20px;
+        font-size: 12px;
+    }
+    .middle-main.hasFilter:before {
+        // display: none;
+        top: 111px;
+    }
+    .search-enquiry-type-filter {
+        margin-top: 10px;
+        .filter-label {
+            margin-bottom: 10px;
+        }
+    }
+    .type-filter li {
+        margin: 0 10px;
+        width: auto;
+        margin-top: 10px;
+        margin-left: 0;
+    }
+    .filter-res label {
+        margin-bottom: 15px;
+        display: block;
+    }
+    .login-tube {
+        margin-right: 0;
+    }
+    .boxPadding15,
+    .middle-left,
+    .middle-right,
+    .middle-full {
+        padding: 0;
+    }
+    .filter-fields .field-wrapper {
+        margin: 6px 0;
+    }
+    .file-wrapper {
+        padding-left: 15px;
+    }
+    .file-upload-box .select-file-upload ul li label {
+        font-size: 14px;
+    }
+    .file-upload-box .select-file-upload ul li .choose-file input[type="text"] {
+        height: 28px;
+    }
+    .file-upload-box .file-uploaded {
+        margin: 10px 0 15px;
+        font-size: 14px;
+    }
+    .progress-bar-wrapper {
+        width: 100%;
+    }
+    .file-upload-box .drag-drop-box {
+        margin-top: 30px;
+    }
+    .file-upload-box {
+        padding: 15px 00px;
+        max-width: none;
+    }
+    .search-data td {
+        font-size: 12px;
+    }
+}
+
+
+/*===================================theme change=====================*/
+
+.green-theme {
+    .btn.fullBlue {
+        background: green;
+        border-color: green;
+        color: #fff;
+    }
+    a,
+    .btn {
+        color: green;
+    }
+    .btn.redBtn {
+        color: #fff;
+    }
+    header {
+        background: #035d03;
+    }
+    .cls-1 {
+        stroke: green;
+    }
+    .nav-list>li:hover,
+    .nav-list>li.active {
+        background: green;
+        box-shadow: 0px 0px 0px 1px green;
+        border-bottom: 1px solid green;
+    }
+    .accordian-section .accordian-heading h4 .open-accor,
+    .accordian-section .accordian-heading h4 .close-accor,
+    .close-accor,
+    .open-accor {
+        color: green;
+        border-color: green;
+    }
+    .export-print .print-icon:hover,
+    .export-print .export-icon:hover,
+    .print-output-section li:hover,
+    .field-wrapper.has-value .form-ctrl+label,
+    .field-wrapper .form-ctrl:focus+label,
+    .login-tube nav>ul>li .dropdown>ul li a:hover,
+    .field-checkbox-wrapper .form-checkbox:checked+label {
+        color: green;
+    }
+    .upload-bar>div,
+    .accordian-section .accordian>li.active .circle-accor,
+    .accordian-section .accordian>li.data-filled .circle-accor,
+    .table-head-menu span {
+        background: green;
+    }
+    .shadow-box {
+        background: rgba(0, 128, 0, 0.26);
+    }
+    th {
+        background: #035d03;
+    }
+    table tr.selected {
+        background: rgba(3, 93, 3, 0.2) !important;
+    }
+    .enquiry-action .cls-1 {
+        stroke: transparent;
+    }
+    .closeFilter svg .cls-1,
+    .action-menu-inner ul li:hover .cls-2,
+    .action-menu-inner ul li:hover .cls-3,
+    .print-output-section li:first-child:hover svg .cls-1,
+    .print-output-section li.svg-icon:hover .cls-2,
+    .closePopup:hover .cls-1,
+    .enquiry-action:hover .action-icon svg .cls-2 {
+        stroke: green;
+    }
+    .action-menu-inner ul li:hover {
+        color: green;
+        .cls-2 {
+            stroke: green;
+        }
+    }
+    .accordian-section .accordian>li.active .circle-accor,
+    .accordian-section .accordian>li.data-filled .circle-accor,
+    .field-wrapper .form-ctrl:focus,
+    .field-checkbox-wrapper .form-checkbox:checked+label:after,
+    .field-checkbox-wrapper .form-checkbox:checked+label:before {
+        border-color: green;
+    }
+    .accordian-section .accordian>li.data-filled .accordian-heading h4 {
+        background: rgba(3, 93, 3, 0.29);
+    }
+    .field-wrapper.datePickerBox:after {
+        background-image: url(/../images/calendargreen.svg);
+    }
+}

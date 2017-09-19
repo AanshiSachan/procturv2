@@ -19,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "assets/styles.scss",
+        "assets/css/style.scss",
         "../node_modules/angular2-busy/build/style/busy.css"
       ],
       "scripts": [

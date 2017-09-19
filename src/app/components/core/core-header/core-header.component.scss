@@ -1,0 +1,243 @@
+@import "../../../../assets/css/style.scss";
+@import "../../../../assets/css/wrapper.scss";
+@import "../../../../assets/css/common/common.scss";
+@import "../../../../assets/css/common/grid.scss";
+@import "../../../../assets/css/common/variables.scss";
+
+header {
+    background: $header-bg;
+    padding: 5px 15px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 103;
+    box-sizing: $border-box;
+    min-height: 60px;
+    color: $bg-white;
+}
+
+.logo {
+    margin-top: 5px;
+    span {
+        display: inline-block;
+        width: 86px;
+        color: $bg-white;
+        font-size: 16px;
+    }
+}
+
+
+/*===========================header search tube========================*/
+
+.header-search {
+    position: relative;
+    left: 80px;
+    top: 7px;
+    .form-ctrl-head {
+        border: 1px solid $header-border;
+        padding: 5px;
+        width: 265px;
+        box-sizing: border-box;
+        padding-right: 35px;
+        height: 35px;
+        font-size: 16px;
+        color: #ccd1d9;
+    }
+    .form-btn-head {
+        background: transparent;
+        position: absolute;
+        width: 37px;
+        top: 0;
+        right: 0;
+        height: 100%;
+        cursor: pointer;
+        svg {
+            width: 21px;
+        }
+    }
+}
+
+
+/*===========================header menu navigation=============================*/
+
+
+/* =================right side nav bar==================*/
+
+.login-tube {
+    padding-top: 7px;
+    margin-right: 40px;
+}
+
+.login-nav {
+    &>li {
+        display: inline-block;
+        padding: 0 7px;
+        cursor: pointer;
+        vertical-align: text-bottom;
+        .dropdown {
+            // display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            padding-top: 10px;
+        }
+        &:hover {
+            .dropdown {
+                // display: block;
+            }
+            .icons {
+                box-shadow: 0px 5px 6px 0px #034979;
+                border-color: #034979;
+                border-top-color: #035188;
+            }
+        }
+        .icons {
+            width: 35px;
+            height: 35px;
+            // border: 1px solid $border-color;
+            display: block;
+            text-align: center;
+            box-sizing: border-box;
+            border-radius: 50%;
+            padding-top: 3px;
+            transition: all 0.5s;
+            border: 1px solid transparent;
+            svg {
+                width: 25px;
+                .cls-1 {
+                    stroke: #ffffff;
+                }
+            }
+        }
+        .user-info {
+            white-space: nowrap;
+            margin-right: 40px;
+            width: 119px;
+            display: block;
+            position: relative;
+            &>.icons {
+                display: inline-block;
+                vertical-align: middle;
+            }
+            &>span {
+                vertical-align: middle;
+                display: inline-block;
+            }
+            &:after {
+                display: inline-block;
+                font: normal normal normal 14px/1 FontAwesome;
+                font-size: inherit;
+                text-rendering: auto;
+                -webkit-font-smoothing: antialiased;
+                content: "\f107";
+                font-size: 17px;
+                position: absolute;
+                right: -12px;
+                top: 10px;
+            }
+        }
+    }
+}
+
+.notify-value {
+    position: absolute;
+    top: 3px;
+    left: 26px;
+    background: red;
+    min-width: 17px;
+    height: 17px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 17px;
+    font-size: 10px;
+}
+
+.dropdown {
+    &>ul {
+        background: $bg-white;
+        padding: 10px 20px 10px;
+        // width: 200px;
+        border: 1px solid $header-border;
+        border-top: 0;
+        margin-top: 3px;
+        box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 6px 10px 0 rgba(0, 0, 0, 0.12);
+        li {
+            color: #333;
+            strong {
+                font-weight: 600;
+                display: block;
+            }
+            a {
+                display: block;
+                color: #333;
+            }
+        }
+    }
+}
+
+.login-tube nav>ul>li {
+    display: inline-block;
+    position: relative;
+}
+
+.login-tube nav>ul>li>a {
+    color: #333;
+    text-decoration: none;
+    padding: 5px 10px;
+    display: block;
+    transition: all 2s;
+}
+
+.login-tube nav>ul>li:hover>a,
+.login-tube nav>ul>li>a:hover {
+    text-decoration: none;
+    background: #ccc;
+}
+
+.login-tube nav>ul>li .dropdown {
+    position: absolute;
+    visibility: hidden;
+    right: 0px;
+    top: 100%;
+    min-width: 300px;
+    border-top: 0;
+    opacity: 0;
+    -webkit-transition: all .3s cubic-bezier(.55, 0, .55, .2);
+    transition: all .3s cubic-bezier(.55, 0, .55, .2);
+    -webkit-transition-duration: .25s;
+    transition-duration: .25s;
+    transform: scale(0.5);
+    &>ul {
+        li {
+            line-height: normal;
+            a {
+                display: block;
+                margin: 5px 0;
+                &:hover {
+                    color: $common-blue;
+                }
+            }
+        }
+        ul {
+            padding-left: 15px;
+            padding-top: 10px;
+            ul {
+                padding-top: 0;
+            }
+        }
+    }
+}
+.login-tube nav>ul>li:hover .dropdown {
+    visibility: visible;
+    position: absolute;
+    opacity: 1;
+    right: 0;
+    top: 100%;
+    -webkit-transition: all .4s cubic-bezier(.25, .8, .25, 1);
+    transition: all .4s cubic-bezier(.25, .8, .25, 1);
+    -webkit-transition-duration: .5s;
+    transition-duration: .5s;
+    transform: scale(1);
+} 

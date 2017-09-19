@@ -1,93 +1,178 @@
-<header class="container header" style="margin:0px;padding:0px;">
-  <div class="row header-row" style="margin:0px;padding:0px;">
-    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 logo" (click)="routeHome()">
-      <p><i class="material-icons">all_inclusive</i> Proctur</p>
+<header id="header" class="header">
+  <div class="">
+    <div class="logo pull-left">
+      <a href="#">
+                  <img src="../../../../assets/images/logo.png" alt="COACHING INSTITUTE" title="COACHING INSTITUTE" />
+                  <span>COACHING INSTITUTE</span>
+              </a>
     </div>
-    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 global-search">
-      <div class="wrap">
-        <div class="search">
-          <input type="text" class="searchTerm" placeholder="  Search...">
-          <button type="submit" class="searchButton">
-                 <i class="material-icons">search</i>
-              </button>
+    <div class="pull-left" id="searchHeader">
+      <section class="header-search">
+        <div class="pos-rel">
+          <input type="text" class="form-ctrl-head" value="" />
+          <button class="form-btn-head">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="504 4 22 22">
+                  <defs>
+                    <style>
+                      .cls-1, .cls-2, .cls-3 {
+                        fill: none;
+                      }
+                
+                      .cls-1, .cls-2 {
+                        stroke: #0060a3;
+                        stroke-width: 1.3px;
+                      }
+                
+                      .cls-1 {
+                        stroke-miterlimit: 10;
+                      }
+                    </style>
+                  </defs>
+                  <g id="Group_1199" data-name="Group 1199" transform="translate(-46 -16)">
+                    <g id="Group_1190" data-name="Group 1190" transform="translate(-1)">
+                      <circle id="Ellipse_28" data-name="Ellipse 28" class="cls-1" cx="8.75" cy="8.75" r="8.75" transform="translate(552 21)"/>
+                      <path id="Path_449" data-name="Path 449" class="cls-2" d="M5,5,0,0" transform="translate(567 36)"/>
+                    </g>
+                    <rect id="Rectangle_683" data-name="Rectangle 683" class="cls-3" width="22" height="22" transform="translate(550 20)"/>
+                  </g>
+                </svg>      
+          </button>
         </div>
-      </div>
+      </section>
     </div>
-    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="margin:0px;padding:0px;">
-      <div class="container profile-container" [mdMenuTriggerFor]="profile">
-        <div class="row" style="margin:0px;padding:0px;">
-        <div class="col-xs-3 profile-item"><md-icon>perm_identity</md-icon></div>
-        <div class="col-xs-9 profile-item">Hello Ronit</div>
-        </div>  
-      </div>
-      <md-menu #profile="mdMenu" [overlapTrigger]="false" yPosition="below">
-          <a md-menu-item class="addItem">Profile1</a>
-          <a md-menu-item class="addItem">Profile2</a>
-          <a md-menu-item class="addItem">Profile3</a>
-          <a md-menu-item class="addItem">Profile4</a>          
-        </md-menu>
-    </div>
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="margin:10px 0px 0px 0px;text-align: center;">
-      <div class="dropdown-text">
-        <button md-icon-button [mdMenuTriggerFor]="notification">
-              <md-icon>notifications_active</md-icon>
-            </button>
-        <md-menu #notification="mdMenu" [overlapTrigger]="false" yPosition="below">
-        </md-menu>
-      </div>
-      <div class="dropdown-text">
-        <button md-icon-button [mdMenuTriggerFor]="addMenu">
-          <md-icon>add</md-icon>
-        </button>
-        <md-menu #addMenu="mdMenu" [overlapTrigger]="false" yPosition="below">
-            <a md-menu-item class="addItem" routerLink="/enquiry/add">Enquiry</a>
-            <a md-menu-item class="addItem">Quick Add Enquiry</a>
-            <a md-menu-item class="addItem">Student</a>
-            <a md-menu-item class="addItem">Quick Add Student</a>
-            <a md-menu-item class="addItem">Course/Batch</a>
-            <a md-menu-item class="addItem">Notification</a>
-            <a md-menu-item class="addItem">Extra Class</a>
-            <a md-menu-item class="addItem">Exam</a>
-        </md-menu>
-      </div>
-      <div class="dropdown-text">
-        <button md-icon-button [mdMenuTriggerFor]="rootMenu">
-          <md-icon>settings</md-icon>
-        </button>
+    <div class="pull-right" id="loginTube">
+      <section class="login-tube">
+        <nav>
+          <ul class="login-nav">
+            <li class="pos-rel">
+              <div class="user-info">
+                <i class="icons">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="26px" viewBox="881 2 24 24">
+                                      <g id="Group_1195" data-name="Group 1195" transform="translate(-46 -16)">
+                                          <g id="Group_1191" data-name="Group 1191" transform="translate(3)">
+                                          <path id="Path_16" data-name="Path 16" class="cls-1" d="M14.224,14.868c-1.688,0-3.678-1.869-4.462-4.522-.663,0-1.206-.784-1.266-1.688a1.809,1.809,0,0,1,.9-1.869C9.582,3.171,10.607,1,14.224,1s4.643,2.171,4.824,5.788c.6.121.965.9.9,1.869s-.6,1.688-1.266,1.688C17.9,13,15.912,14.868,14.224,14.868Z" transform="translate(922.026 19)"/>
+                                          <path id="Path_17" data-name="Path 17" class="cls-1" d="M14.868,20.5c3.859.9,6.632,2.894,6.632,6.934a26.124,26.124,0,0,1-10.25,1.809A26.124,26.124,0,0,1,1,27.434C1,23.394,3.774,21.4,7.632,20.5" transform="translate(925 11.257)"/>
+                                          </g>
+                                          <rect id="Rectangle_682" data-name="Rectangle 682" class="cls-2" width="24" height="24" transform="translate(927 18)"/>
+                                      </g>
+                                      </svg>
+                                  </i>
+                <span>Hi Puneet</span>
+                <div class="dropdown">
+                  <ul class="user-detail">
+                    <li>
+                      <a href="#">Profile</a>
+                    </li>
+                    <li>
+                      <a href="#">Logout</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <li class="pos-rel">
+              <div class="notification">
+                <i class="icons">
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="1078 2 24 24">
+                                      <g id="Group_1196" data-name="Group 1196" transform="translate(-46 -16)">
+                                          <g id="Group_1192" data-name="Group 1192" transform="translate(-0.143)">
+                                          <path id="Path_13" data-name="Path 13" class="cls-1" d="M16.771,29.8v.129a3.235,3.235,0,0,1-6.471,0V29.8" transform="translate(1122.666 7.835)"/>
+                                          <path id="Path_14" data-name="Path 14" class="cls-1" d="M16.182,3.588V2.941a1.941,1.941,0,0,0-3.882,0v.647" transform="translate(1121.96 18)"/>
+                                          <path id="Path_15" data-name="Path 15" class="cls-1" d="M4.535,10.824a5.824,5.824,0,1,1,11.647,0v1.165a8.376,8.376,0,0,0,1.553,4.918l1.682,2.329s-2.135,1.941-9.059,1.941S1.3,19.235,1.3,19.235l1.682-2.329a8.235,8.235,0,0,0,1.553-4.918V10.824Z" transform="translate(1125.843 16.588)"/>
+                                          </g>
+                                          <rect id="Rectangle_679" data-name="Rectangle 679" class="cls-2" width="24" height="24" transform="translate(1124 18)"/>
+                                      </g>
+                                  </svg>    
+                                  </i>
+                <span class="notify-value">3</span>
+              </div>
+            </li>
+            <li class="pos-rel">
+              <i class="icons">
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="1128 2 24 24">
+                                      <g id="Group_1197" data-name="Group 1197" transform="translate(-46 -16)">
+                                          <g id="Group_1193" data-name="Group 1193" transform="translate(0 1)">
+                                          <line id="Line_36" data-name="Line 36" class="cls-1" y2="10.425" transform="translate(1185.846 23.571)"/>
+                                          <line id="Line_37" data-name="Line 37" class="cls-1" x1="10.425" transform="translate(1180.633 28.784)"/>
+                                          <path id="Path_87" data-name="Path 87" class="cls-1" d="M2.231,5.644,9.615,1.4a2.506,2.506,0,0,1,2.462,0l7.385,4.246A2.482,2.482,0,0,1,20.692,7.8v8.554a2.642,2.642,0,0,1-1.231,2.154l-7.385,4.246a2.506,2.506,0,0,1-2.462,0L2.231,18.383A2.482,2.482,0,0,1,1,16.229V7.737A2.458,2.458,0,0,1,2.231,5.644Z" transform="translate(1175 16.925)"/>
+                                          </g>
+                                          <rect id="Rectangle_680" data-name="Rectangle 680" class="cls-2" width="24" height="24" transform="translate(1174 18)"/>
+                                      </g>
+                                  </svg>
 
-        <md-menu #rootMenu="mdMenu">
-          <button md-menu-item>Administration</button>          
-          <button md-menu-item [mdMenuTriggerFor]="user">User Management</button>
-          <button md-menu-item [mdMenuTriggerFor]="institute">Institute Settings</button>
-          <button md-menu-item [mdMenuTriggerFor]="system">System Settings</button>
-        </md-menu>
-        
-        <md-menu #user="mdMenu">
-          <button md-menu-item>Fee Settings</button>
-          <button md-menu-item>Fee Settings</button>
-          <button md-menu-item>Fee Settings</button>
-          <button md-menu-item>Fee Settings</button>
-          <button md-menu-item>Fee Settings</button>
-          <button md-menu-item>Fee Settings</button>          
-        </md-menu>
-        <md-menu #institute="mdMenu">
-          <button md-menu-item>Standard</button>
-          <button md-menu-item>Topics</button>
-          <button md-menu-item>ClassRoom</button>
-          <button md-menu-item>Institution/School</button>
-          <button md-menu-item>Slots</button>
-          <button md-menu-item>Custom Component</button>
-          <button md-menu-item>Archieve Data</button>          
-        </md-menu>
-        <md-menu #system="mdMenu">
-          <button md-menu-item>Holiday List</button>
-          <button md-menu-item>Fee Settings</button>
-          <button md-menu-item>Fee Settings</button>
-          <button md-menu-item>Fee Settings</button>
-          <button md-menu-item>Fee Settings</button>
-          <button md-menu-item>Fee Settings</button>          
-        </md-menu>
-      </div>
+                                  </i>
+            </li>
+            <li class="pos-rel">
+              <i class="icons">
+                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="1171 2 24 24">
+                                      <g id="Group_1198" data-name="Group 1198" transform="translate(-46 -16)">
+                                          <g id="Group_1194" data-name="Group 1194" transform="translate(-0.143 0.5)">
+                                          <path id="Path_12" data-name="Path 12" class="cls-1" d="M4.177,9.377A13.717,13.717,0,0,1,4.8,7.748L3.493,6.119A1.18,1.18,0,0,1,3.55,4.548l.969-.989A1.121,1.121,0,0,1,6.058,3.5L7.71,4.839a5.412,5.412,0,0,1,1.6-.64l.228-2.152A1.175,1.175,0,0,1,10.673,1h1.368a1.175,1.175,0,0,1,1.14,1.047L13.409,4.2a13.111,13.111,0,0,1,1.6.64l1.653-1.4A1.185,1.185,0,0,1,18.2,3.5l.969.989a1.18,1.18,0,0,1,.057,1.571L17.91,7.748a5.661,5.661,0,0,1,.627,1.629l2.108.233a1.181,1.181,0,0,1,1.026,1.163v1.4a1.181,1.181,0,0,1-1.026,1.163l-2.108.233a13.718,13.718,0,0,1-.627,1.629l1.368,1.687a1.248,1.248,0,0,1-.057,1.571l-.969.989a1.121,1.121,0,0,1-1.539.058l-1.653-1.338a5.412,5.412,0,0,1-1.6.64l-.228,2.152A1.175,1.175,0,0,1,12.1,22H10.73a1.175,1.175,0,0,1-1.14-1.047L9.363,18.8a13.11,13.11,0,0,1-1.6-.64l-1.653,1.4A1.185,1.185,0,0,1,4.576,19.5l-.969-.989a1.18,1.18,0,0,1-.057-1.571l1.311-1.687a5.661,5.661,0,0,1-.627-1.629l-2.108-.233A1.181,1.181,0,0,1,1.1,12.227v-1.4A1.181,1.181,0,0,1,2.126,9.668Z" transform="translate(1218.043 18.5)"/>
+                                          <circle id="Ellipse_1" data-name="Ellipse 1" class="cls-1" cx="3.419" cy="3.419" r="3.419" transform="translate(1225.924 26.838)"/>
+                                          </g>
+                                          <rect id="Rectangle_681" data-name="Rectangle 681" class="cls-2" width="24" height="24" transform="translate(1217 18)"/>
+                                      </g>
+                                  </svg>
+                                 </i>
+              <div class="dropdown">
+                <ul class="user-detail">
+                  <li>
+                    <div><strong>Administration</strong></div>
+                    <ul>
+                      <li>
+                        <strong><a href="#">User Management</a></strong>
+                      </li>
+                      <li>
+                        <strong><a href="#">Institute Settings</a></strong>
+                        <div>
+                          <ul>
+                            <li>
+                              <span><a href="#">Standard</a></span>
+                            </li>
+                            <li>
+                              <span><a href="#">Topics</a></span>
+                            </li>
+                            <li>
+                              <span><a href="#">ClassRoom</a></span>
+                            </li>
+                            <li>
+                              <span><a href="#">Institution/School</a></span>
+                            </li>
+                            <li>
+                              <span><a href="#">Slots</a></span>
+                            </li>
+                            <li>
+                              <span><a href="#">Custom Components</a></span>
+                            </li>
+                            <li>
+                              <span><a href="#">Archive Data</a></span>
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+
+                      <li>
+                        <strong><a href="#">System Settings</a></strong>
+                        <div>
+                          <li>
+                            <span><a href="#">Holiday List</a></span>
+                          </li>
+                          <li>
+                            <span><a href="#">Fee Settings</a></span>
+                          </li>
+                          <li>
+                            <a href="#">Logout</a>
+                          </li>
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </section>
     </div>
   </div>
 </header>

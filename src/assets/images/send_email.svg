@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="14181 435 26 22">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #8b8b8b;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="Group_1232" data-name="Group 1232" transform="translate(13654 -6)">
+    <g id="Group_1231" data-name="Group 1231">
+      <rect id="Rectangle_694" data-name="Rectangle 694" class="cls-1" width="26" height="22" transform="translate(527 441)"/>
+    </g>
+    <g id="Symbol_11_6" data-name="Symbol 11 – 6" transform="translate(-205 -24)">
+      <g id="Group_656" data-name="Group 656" transform="translate(736 466)">
+        <path id="Path_171" data-name="Path 171" class="cls-2" d="M13,25.348a5.884,5.884,0,0,1-2.87.87,5.884,5.884,0,0,1-2.87-.87C6.783,25.087,1,21,1,21v9.13a1.281,1.281,0,0,0,1.3,1.3H17.957a1.281,1.281,0,0,0,1.3-1.3V21S13.478,25.087,13,25.348Z" transform="translate(-1 -11.435)"/>
+        <line id="Line_131" data-name="Line 131" class="cls-2" x2="4.348" y2="4.348" transform="translate(12.457 14.348)"/>
+        <line id="Line_132" data-name="Line 132" class="cls-2" x1="4.348" y2="4.348" transform="translate(1.78 14.348)"/>
+        <path id="Path_172" data-name="Path 172" class="cls-2" d="M39.043,16.2v-.435a1.489,1.489,0,0,0-.652-1.174L36,12.5" transform="translate(-20.429 -7)"/>
+        <path id="Path_173" data-name="Path 173" class="cls-2" d="M1,16.2v-.435a1.489,1.489,0,0,1,.652-1.174L4.043,12.5" transform="translate(-1 -7)"/>
+        <path id="Path_174" data-name="Path 174" class="cls-2" d="M37.3,3.174h2.174V2.739A1.717,1.717,0,0,0,37.739,1H36" transform="translate(-20.429 -1)"/>
+        <path id="Path_175" data-name="Path 175" class="cls-2" d="M8,11.87v-8.7A2.153,2.153,0,0,1,10.174,1H22.348a2.153,2.153,0,0,0-2.174,2.174v8.7" transform="translate(-4.886 -1)"/>
+        <line id="Line_133" data-name="Line 133" class="cls-2" x2="7.118" transform="translate(5.784 4.304)"/>
+        <line id="Line_134" data-name="Line 134" class="cls-2" x2="7.118" transform="translate(5.784 6.696)"/>
+        <line id="Line_135" data-name="Line 135" class="cls-2" x2="4.36" transform="translate(5.784 9.087)"/>
+      </g>
+    </g>
+  </g>
+</svg>

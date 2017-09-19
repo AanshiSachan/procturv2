@@ -1,0 +1,58 @@
+@import "../../../../assets/css/style.scss";
+@import "../../../../assets/css/wrapper.scss";
+@import "../../../../assets/css/common/common.scss";
+@import "../../../../assets/css/common/grid.scss";
+@import "../../../../assets/css/common/variables.scss";
+
+.nav-list {
+    &>li {
+        text-align: center;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid $border-common;
+        background: $leftMenuBg;
+        transition: all 0.6s linear;
+        cursor: pointer;
+        svg {
+            width: 29px;
+        }
+        span {
+            display: block;
+            font-size: 10px;
+        }
+        &:hover,
+        &.active {
+            background: $leftMenuHoverBg;
+            box-shadow: 0px 0px 0px 1px $leftMenuHoverBg;
+            border-bottom: 1px solid $leftMenuHoverBg;
+            color: $leftMenuTextHoverColor;
+            span {
+                color: $leftMenuTextHoverColor;
+            }
+            .cls-1 {
+                stroke: $leftMenuTextHoverColor;
+            }
+        }
+        .icon {
+            img {
+                width: 30px;
+            }
+        }
+    }
+}
+
+.header-search {
+    .cls-1,
+    .cls-2,
+    .cls-3 {
+        fill: none;
+    }
+    .cls-1,
+    .cls-2 {
+        stroke: #0060a3;
+        stroke-width: 1.3px;
+    }
+    .cls-1 {
+        stroke-miterlimit: 10;
+    }
+}
