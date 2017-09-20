@@ -21,7 +21,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-enquiry-manage',
   templateUrl: './enquiry-manage.component.html',
-  styleUrls: ['./enquiry-manage.component.css']
+  styleUrls: ['./enquiry-manage.component.scss']
 })
 
 export class EnquiryManageComponent implements OnInit {
@@ -359,5 +359,9 @@ export class EnquiryManageComponent implements OnInit {
   validate(formdata): boolean{
        
     return false;
+  }
+
+  redirectToAdd(){
+    this.router.navigate(['/enquiry/addEnquiry']);
   }
 }
