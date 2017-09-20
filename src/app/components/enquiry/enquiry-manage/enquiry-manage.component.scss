@@ -540,18 +540,15 @@ ul.customDropdown li:hover {
     font-size: 11px !important;
     font-weight: normal !important;
 }
-:host /deep/ ng2-smart-table table > thead > tr:first-child > th:first-child input[type="checkbox"]:not(:checked){
-    background: white;
-    width: 20px;
-    height: 20px;
-    margin: 0px 0px 0px 10px;
+:host /deep/ ng2-smart-table table > thead > tr:first-child > th:first-child > div {
+    background: #004a7e;
 }
-:host /deep/ ng2-smart-table table > thead > tr:first-child > th:first-child input[type="checkbox"]:checked{
-    background: white;
-    width: 20px;
-    height: 20px;
-    margin: 0px 0px 0px 10px;
-    content: '\2713';
-   color: #09ad7e;
-   transition: all .2s;
+::ng-deep .dropdown-menu{
+    left: -150px;
+}
+:host /deep/ ng2-smart-table table > tbody > tr:nth-child(even) > td:first-child > div{
+    background: none;
+ }
+:host /deep/ ng2-smart-table table > tbody > tr:nth-child(odd) > td:first-child > div {
+    background: none;
 }
