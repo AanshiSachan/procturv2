@@ -192,15 +192,31 @@
     padding-right: 0;
 }
 
-.closeFilter {
+.AdFilter-field {
+    box-sizing: border-box;
+    z-index: 1;
+    box-shadow: rgb(226, 224, 224) 0px 2px 1px;
+    padding: 0px 15px 20px;
+    background: rgb(255, 255, 255);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(204, 204, 204);
+    border-image: initial;
+    .field-wrapper {
+        margin: 15px 0;
+    }
+}
+
+.closeAdFilter {
     float: right;
     margin-top: 8px;
     font-size: 14px;
     font-weight: 600;
     color: $redBtn;
-    display: none;
+
     svg {
         width: 15px;
+        height: 16px;
         display: inline-block;
         vertical-align: bottom;
         margin-right: 4px;
@@ -209,13 +225,15 @@
             stroke-miterlimit: 10;
             stroke-width: 2;
         }
+        .cls-2 {
+            stroke: none;
+        }
     }
 }
 
 .filter-res {
     margin-top: 20px;
 }
-
 
 /*===========================================action tooltip of table===================*/
 

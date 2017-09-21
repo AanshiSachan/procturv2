@@ -1,248 +1,241 @@
 <div class="middle-section clearFix" id="enquiryList">
-<aside class="middle-full" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
-  <section class="middle-top mb0 clearFix">
-    <h1 class="pull-left">
-      Enquiry List
-    </h1>
-    <aside class="pull-right">
-      <input type="button" value="Add New Enquiry" class="btn" (click)="redirectToAdd()"/>
-    </aside>
-  </section>
-  <section class="middle-main clearFix" id="middleMainForEnquiryList">
-    <section class="common-search-filter" id="searchFilter">
-      <div class="filter-search">
-        <div class="filter-box clearFix">
-          <div class="c-lg-6 c-md-6 c-sm-6">
-            <div class="search-filter-wrapper">
-              <input type="text" class="normal-field" value="" placeholder="Search Student Name/Contact No." />
-              <input type="button" class="normal-btn fullBlue btn" value="Search" />
+  <aside class="middle-full" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
+    <section class="middle-top mb0 clearFix">
+      <h1 class="pull-left">
+        Enquiry List
+      </h1>
+      <aside class="pull-right">
+        <input type="button" value="Add New Enquiry" class="btn" (click)="redirectToAdd()" />
+      </aside>
+    </section>
+    <section class="middle-main clearFix" id="middleMainForEnquiryList">
+      <section class="common-search-filter" id="searchFilter">
+        <div class="filter-search">
+          <div class="filter-box clearFix">
+            <div class="c-lg-6 c-md-6 c-sm-6">
+              <div class="search-filter-wrapper">
+                <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No." (keyup.enter)="onSearch(search.value)">
+                <input type="button" class="normal-btn fullBlue btn" value="Search" />
+              </div>
             </div>
-          </div>
-
-          <div class="c-lg-6 c-md-6 c-sm-6">
-            <div class="filter-right">
-              <input type="button" class="btn showFilterBtn" value="Filter" />
-              <a href="javascript:void(0);" class="closeFilter">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
-                  <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
-                    <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                      <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                      <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            <div class="c-lg-6 c-md-6 c-sm-6">
+              <div class="filter-right">
+                <input type="button" class="btn showFilterBtn" value="Filter" (click)="openAdFilter()" />
+                <a href="javascript:void(0);" class="closeAdFilter" (click)="closeAdFilter()" *ngIf="AdFilter">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
+                    <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
+                      <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                        <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                        <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                      </g>
+                      <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)" />
                     </g>
-                    <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)" />
-                  </g>
-                </svg>
-                Close Advance Filter</a>
+                  </svg>
+                  Close Advance Filter
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="AdFilter-field" *ngIf="AdFilter">
+            <div class="row">
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper">
+                  <select id="enquiryStatus" class="form-ctrl">
+                            <option></option>
+                            <option>Male</option>
+                          </select>
+                  <label for="enquiryStatus">Enquiry Status</label>
+                </div>
+              </div>
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper">
+                  <select id="enquiryPriority" class="form-ctrl">
+                             <option></option>
+                             <option>Male</option>
+                          </select>
+                  <label for="enquiryPriority">Enquiry Priority</label>
+                </div>
+              </div>
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper">
+                  <select id="followupType" class="form-ctrl">
+                             <option></option>
+                             <option>Male</option>
+                          </select>
+                  <label for="followupType">Enquiry Followup Type</label>
+                </div>
+              </div>
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper">
+                  <select id="assignTo" class="form-ctrl">
+                             <option></option>
+                             <option>Male</option>
+                          </select>
+                  <label for="assignTo">Assign To</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper">
+                  <select id="standard" class="form-ctrl">
+                                                          <option></option>
+                                                          <option>Male</option>
+                                                      </select>
+                  <label for="standard">Standard</label>
+                </div>
+              </div>
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper">
+                  <select id="selectSub" class="form-ctrl">
+                                                          <option></option>
+                                                          <option>Male</option>
+                                                      </select>
+                  <label for="selectSub">Subject</label>
+                </div>
+              </div>
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper">
+                  <select id="scolarShip" class="form-ctrl">
+                                                          <option></option>
+                                                          <option>Male</option>
+                                                      </select>
+                  <label for="scolarShip">scolarship</label>
+                </div>
+              </div>
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper">
+                  <select id="subject2" class="form-ctrl">
+                                                          <option></option>
+                                                          <option>Male</option>
+                                                      </select>
+                  <label for="subject2">Subject 2</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper datePickerBox">
+                  <input type="text" value="" id="updateDate" class="form-ctrl" />
+                  <label for="updateDate">Update Date</label>
+                </div>
+              </div>
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper datePickerBox">
+                  <input type="text" value="" id="enquiryFromDate" class="form-ctrl" />
+                  <label for="enquiryFromDate">Enquiry From Date</label>
+                </div>
+              </div>
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper datePickerBox">
+                  <input type="text" value="" id="enquiryToDate" class="form-ctrl" />
+                  <label for="enquiryToDate">Enquiry To Date</label>
+                </div>
+              </div>
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper">
+                  <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" />
+                </div>
+
+              </div>
             </div>
           </div>
         </div>
-        <div class="filter-fields">
-          <div class="row">
-            <div class="c-lg-3 c-md-3 c-sm-3">
-              <div class="field-wrapper">
-                <select id="enquiryStatus" class="form-ctrl">
-                  <option></option>
-                  <option>Male</option>
-                </select>
-                <label for="enquiryStatus">Enquiry Status</label>
-              </div>
-            </div>
-            <div class="c-lg-3 c-md-3 c-sm-3">
-              <div class="field-wrapper">
-                <select id="enquiryPriority" class="form-ctrl">
-                   <option></option>
-                   <option>Male</option>
-                </select>
-                <label for="enquiryPriority">Enquiry Priority</label>
-              </div>
-            </div>
-            <div class="c-lg-3 c-md-3 c-sm-3">
-              <div class="field-wrapper">
-                <select id="followupType" class="form-ctrl">
-                   <option></option>
-                   <option>Male</option>
-                </select>
-                <label for="followupType">Enquiry Followup Type</label>
-              </div>
-            </div>
-            <div class="c-lg-3 c-md-3 c-sm-3">
-              <div class="field-wrapper">
-                <select id="assignTo" class="form-ctrl">
-                   <option></option>
-                   <option>Male</option>
-                </select>
-                <label for="assignTo">Assign To</label>
-              </div>
-            </div>
+      </section>
+      <section class="search-enquiry-type-filter">
+        <div class="row">
+          <div class="c-lg-12 c-sm-12 c-md-12">
+            <span class="filter-label pull-left">Enquiry Type</span>
+            <ul class="pull-left type-filter">
+              <li>
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.All.value" [(ngModel)]="stats.All.checked"
+                    [disabled]="stats.All.disabled" (change)="statusFilter(stats.All)" />
+                  <label>All</label>
+                </div>
+              </li>
+              <li>
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Open.value" [(ngModel)]="stats.Open.checked"
+                    [disabled]="stats.Open.disabled" (change)="statusFilter(stats.Open)" />
+                  <label>Open/In Progress</label>
+                </div>
+              </li>
+              <li>
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Registered.value" [(ngModel)]="stats.Registered.checked"
+                    [disabled]="stats.Registered.disabled" (change)="statusFilter(stats.Registered)" />
+                  <label>Registered</label>
+                </div>
+              </li>
+              <li>
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Admitted.value" [(ngModel)]="stats.Admitted.checked"
+                    [disabled]="stats.Admitted.disabled" (change)="statusFilter(stats.Admitted)" />
+                  <label>Admitted</label>
+                </div>
+              </li>
+              <li>
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Inactive.value" [(ngModel)]="stats.Inactive.checked"
+                    [disabled]="stats.Inactive.disabled" (change)="statusFilter(stats.Inactive)" />
+                  <label>Inactive</label>
+                </div>
+              </li>
+            </ul>
           </div>
-          <div class="row">
-            <div class="c-lg-3 c-md-3 c-sm-3">
-              <div class="field-wrapper">
-                <select id="standard" class="form-ctrl">
-                                                <option></option>
-                                                <option>Male</option>
-                                            </select>
-                <label for="standard">Standard</label>
-              </div>
-            </div>
-            <div class="c-lg-3 c-md-3 c-sm-3">
-              <div class="field-wrapper">
-                <select id="selectSub" class="form-ctrl">
-                                                <option></option>
-                                                <option>Male</option>
-                                            </select>
-                <label for="selectSub">Subject</label>
-              </div>
-            </div>
-            <div class="c-lg-3 c-md-3 c-sm-3">
-              <div class="field-wrapper">
-                <select id="scolarShip" class="form-ctrl">
-                                                <option></option>
-                                                <option>Male</option>
-                                            </select>
-                <label for="scolarShip">scolarship</label>
-              </div>
-            </div>
-            <div class="c-lg-3 c-md-3 c-sm-3">
-              <div class="field-wrapper">
-                <select id="subject2" class="form-ctrl">
-                                                <option></option>
-                                                <option>Male</option>
-                                            </select>
-                <label for="subject2">Subject 2</label>
-              </div>
-            </div>
+        </div>
+      </section>
+      <section class="search-data">
+        <div class="row class filter-res">
+          <div class="c-lg-6 c-md-6 c-sm-6">
+            <label>Showing 1 to 6 of 215 Students</label>
           </div>
-          <div class="row">
-            <div class="c-lg-3 c-md-3 c-sm-3">
-              <div class="field-wrapper datePickerBox">
-                <input type="text" value="" id="updateDate" class="form-ctrl" />
-                <label for="updateDate">Update Date</label>
-              </div>
-            </div>
-            <div class="c-lg-3 c-md-3 c-sm-3">
-              <div class="field-wrapper datePickerBox">
-                <input type="text" value="" id="enquiryFromDate" class="form-ctrl" />
-                <label for="enquiryFromDate">Enquiry From Date</label>
-              </div>
-            </div>
-            <div class="c-lg-3 c-md-3 c-sm-3">
-              <div class="field-wrapper datePickerBox">
-                <input type="text" value="" id="enquiryToDate" class="form-ctrl" />
-                <label for="enquiryToDate">Enquiry To Date</label>
-              </div>
-            </div>
-            <div class="c-lg-3 c-md-3 c-sm-3">
-              <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" />
+          <div class="c-lg-6 c-md-6 c-sm-6 align-right">
+            <ul class="export-print">
+              <li class="print-icon">
+                Print
+              </li>
+              <li class="export-icon">
+                Export
+              </li>
+              <li>
+                <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggleOptionChange($event)">
+                </ss-multiselect-dropdown>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-lg-12 c-md-12 c-sm-12">
+            <div class="table table-responsive table-container">
+              <ng2-smart-table [settings]="settings" [source]="source" (create)="onCreate($event)" (delete)="onDelete($event)" (edit)="onSave($event)"
+                (userRowSelect)="handleGridSelected($event)">
+              </ng2-smart-table>
             </div>
           </div>
         </div>
-      </div>
+        <div class="row filter-res pagination">
+          <div class="c-lg-6 c-md-6 c-sm-6">
+            <label>Showing 1 to 6 of 215 Students</label>
+          </div>
+          <div class="c-lg-6 c-md-6 c-sm-6 align-right">
+            <ul class="pagination">
+              <li>
+                <a href="#"> Previous</a>
+              </li>
+              <li>1</li>
+              <li>2</li>
+              <li>3</li>
+              <li>
+                <a href="#">  Next</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
     </section>
-    <section class="search-enquiry-type-filter">
-      <div class="row">
-        <div class="c-lg-12 c-sm-12 c-md-12">
-          <span class="filter-label pull-left">Enquiry Type</span>
-          <ul class="pull-left type-filter">
-            <li>
-              <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" name="check" class="form-checkbox" 
-                [id]="stats.All.value" [(ngModel)]="stats.All.checked" [disabled]="stats.All.disabled" 
-                (change)="statusFilter(stats.All)"/>
-                <label>All</label>
-              </div>
-            </li>
-            <li>
-              <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" name="check" class="form-checkbox" 
-                [id]="stats.Open.value" [(ngModel)]="stats.Open.checked" [disabled]="stats.Open.disabled" 
-                (change)="statusFilter(stats.Open)"/>
-                <label>Open/In Progress</label>
-              </div>
-            </li>
-            <li>
-              <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" name="check" class="form-checkbox" 
-                [id]="stats.Registered.value" [(ngModel)]="stats.Registered.checked" 
-                [disabled]="stats.Registered.disabled"
-                (change)="statusFilter(stats.Registered)"/>
-                <label>Registered</label>
-              </div>
-            </li>
-            <li>
-              <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" name="check" class="form-checkbox" 
-                [id]="stats.Admitted.value" [(ngModel)]="stats.Admitted.checked" 
-                [disabled]="stats.Admitted.disabled"
-                (change)="statusFilter(stats.Admitted)"/>
-                <label>Admitted</label>
-              </div>
-            </li>
-            <li>
-              <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" name="check" class="form-checkbox" 
-                [id]="stats.Inactive.value" [(ngModel)]="stats.Inactive.checked" 
-                [disabled]="stats.Inactive.disabled"
-                (change)="statusFilter(stats.Inactive)"/>
-                <label>Inactive</label>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-    <section class="search-data">
-      <div class="row class filter-res">
-        <div class="c-lg-6 c-md-6 c-sm-6">
-          <label>Showing 1 to 6 of 215 Students</label>
-        </div>
-        <div class="c-lg-6 c-md-6 c-sm-6 align-right">
-          <ul class="export-print">
-            <li class="print-icon">
-              Print
-            </li>
-            <li class="export-icon">
-              Export
-            </li>
-            <li>
-              <ss-multiselect-dropdown [options]="myOptions" 
-              [texts]="myTexts" [settings]="mySettings" 
-              [(ngModel)]="optionsModel" (ngModelChange)="toggleOptionChange($event)">
-              </ss-multiselect-dropdown>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="row">
-        <div class="c-lg-12 c-md-12 c-sm-12">
-          <div class="table table-responsive table-container">
-            <ng2-smart-table [settings]="settings" [source]="source" (create)="onCreate($event)" (delete)="onDelete($event)" (edit)="onSave($event)"
-              (userRowSelect)="handleGridSelected($event)">
-            </ng2-smart-table>
-          </div>
-        </div>
-      </div>
-      <div class="row filter-res pagination">
-        <div class="c-lg-6 c-md-6 c-sm-6">
-          <label>Showing 1 to 6 of 215 Students</label>
-        </div>
-        <div class="c-lg-6 c-md-6 c-sm-6 align-right">
-          <ul class="pagination">
-            <li>
-              <a href="#"> Previous</a>
-            </li>
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>
-              <a href="#">  Next</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-  </section>
-</aside>
+  </aside>
 </div>
 <!-- <div class="container manage-container">
 
