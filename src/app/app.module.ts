@@ -27,7 +27,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule, MdAutocompleteModule, MdButtonModule, MdButtonToggleModule, MdCardModule, MdCheckboxModule, MdChipsModule, MdCoreModule, MdDatepickerModule, MdDialogModule, MdExpansionModule, MdGridListModule, MdIconModule, MdInputModule, MdListModule, MdMenuModule, MdNativeDateModule, MdPaginatorModule, MdProgressBarModule, MdProgressSpinnerModule, MdRadioModule, MdRippleModule, MdSelectModule, MdSidenavModule, MdSliderModule, MdSlideToggleModule, MdSnackBarModule, MdSortModule, MdTableModule, MdTabsModule, MdToolbarModule, MdTooltipModule, } from '@angular/material';
 import 'moment';
 import 'hammerjs';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
@@ -43,6 +42,7 @@ import { LoadInterceptor } from './interceptors/load-interceptor';
 
 /* Directives */
 import { ClickOutside } from './directives/click-outside.directive';
+import { FormInput } from './directives/form-input.directive';
 
 
 const appRoutes = [
@@ -119,7 +119,8 @@ const appRoutes = [
     CoreHeaderComponent,
     ActionButtonComponent,
     ClickOutside,
-    EnquiryAddComponent
+    EnquiryAddComponent,
+    FormInput
   ],
   entryComponents: [
     CustomModalComponent,
@@ -137,8 +138,6 @@ const appRoutes = [
     HttpClientModule,
     HttpModule,
     BrowserAnimationsModule,
-    MaterialModule, MdAutocompleteModule, MdButtonModule, MdButtonToggleModule, MdCardModule, MdCheckboxModule, MdChipsModule, MdCoreModule, MdDatepickerModule, MdDialogModule, MdExpansionModule, MdGridListModule, MdIconModule, MdInputModule, MdListModule, MdMenuModule, MdNativeDateModule,
-    MdPaginatorModule, MdProgressBarModule, MdProgressSpinnerModule, MdRadioModule, MdRippleModule, MdSelectModule, MdSidenavModule, MdSliderModule, MdSlideToggleModule, MdSnackBarModule, MdSortModule, MdTableModule, MdTabsModule, MdToolbarModule, MdTooltipModule,
     MultiselectDropdownModule,
     Ng2SmartTableModule,
     BusyModule,

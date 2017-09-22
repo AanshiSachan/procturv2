@@ -1,4 +1,4 @@
-{
+ {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
     "name": "proctur"
@@ -23,8 +23,7 @@
         "../node_modules/angular2-busy/build/style/busy.css"
       ],
       "scripts": [
-        "../node_modules/jspdf/dist/jspdf.min.js",
-        "./src/assets/js/enquiry.js"
+        
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

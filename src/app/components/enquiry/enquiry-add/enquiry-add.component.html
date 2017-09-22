@@ -1,378 +1,275 @@
 <section class="middle-section clearFix">
-  
-  <aside class="pull-left middle-left " id="addNewEnquiry">
-    <section class="middle-top clearFix">
-      <h1 class="pull-left">
-        Add New Enquiry
-      </h1>
-      <aside class="pull-right">
-        <input type="button" value="Pay Registration Fees" class="btn">
-        <input type="button" value="Add Bulk Enquiry" class="btn">
-      </aside>
-    </section>
+  <form ng-submit="">
+    <aside class="pull-left middle-left " id="addNewEnquiry">
+      <section class="middle-top clearFix">
+        <h1 class="pull-left">
+          Add New Enquiry
+        </h1>
+        <aside class="pull-right">
+          <input type="button" value="Pay Registration Fees" class="btn">
+          <input type="button" value="Add Bulk Enquiry" class="btn">
+        </aside>
+      </section>
 
-    <section class="middle-main clearFix" id="middleMain">
-      <div class="add-new-enquiry-form accordian-section">
-          <ul class="accordian ">
-              <li class="active  data-filled">
-                  <div class="accordian-heading">
-                      <h4>
-                          <span class="circle-accor">1</span> Details
-                          <span class="open-accor">+</span>
-                          <span class="close-accor">-</span>
-                      </h4>
+      <section class="middle-main clearFix" id="middleMain">
+        <div class="add-new-enquiry-form accordian-section">
+          <ul class="accordian">
+            <li class="active data-filled" id="basicDetails">
+              <div class="accordian-heading">
+                <h4>
+                  <span class="circle-accor">1</span> Details
+                  <span class="open-accor" id="openBasic" (click)="toggleForm($event)">+</span>
+                  <span class="close-accor" id="closeBasic" (click)="toggleForm($event)">-</span>
+                </h4>
+              </div>
+              <div class="accordian-content">
+                <div class="form-type1">
+                  <div class="field-wrapper">
+                    <input type="text" value="" id="userName" class="form-ctrl" formInput/>
+                    <label for="userName">Name*</label>
                   </div>
-                  <div class="accordian-content">
-                      <div class="form-type1">
-                          <div class="field-wrapper">
-                              <input type="text" value="" id="userName" class="form-ctrl" />
-                              <label for="userName">Name*</label>
-                          </div>
-                          <div class="field-wrapper">
-                              <input type="text" value="" id="userNumber" class="form-ctrl" />
-                              <label for="userNumber">Phone No*</label>
-                          </div>
-                          <div class="more-detail">
-                              <a href="#">Fetch Lead Details</a>
-                          </div>
-                          <div class="field-wrapper">
-                              <input type="text" value="" id="userEmail" class="form-ctrl" />
-                              <label for="userEmail">Email ID*</label>
-                          </div>
-                          <div class="field-wrapper">
-                              <select id="userGender" class="form-ctrl">
-                                                  <option></option>
-                                                  <option>Male</option>
-                                                  <option>Female</option>
-                                              </select>
-                              <label for="userGender">Gender</label>
-                          </div>
-                          <div class="field-wrapper">
-                              <input type="text" value="" id="userAddress" class="form-ctrl" />
-                              <label for="userAddress">Address</label>
-                          </div>
-                          <div class="field-wrapper">
-                              <input type="text" value="" id="userCity" class="form-ctrl" />
-                              <label for="userCity">City</label>
-                          </div>
-                          <div class="more-detail">
-                              <a href="#">+ &nbsp; Add Additional Details</a>
-                          </div>
-                      </div>
+                  <div class="field-wrapper">
+                    <input type="text" value="" id="userNumber" class="form-ctrl" formInput/>
+                    <label for="userNumber">Phone No*</label>
                   </div>
-              </li>
-              <li class="data-filled">
-                  <div class="accordian-heading">
-                      <h4><span class="circle-accor">2</span> Academics Details
-                          <span class="close-accor">-</span>
-                          <span class="open-accor">+</span>
-                      </h4>
+                  <div class="more-detail">
+                    <a href="#">Fetch Lead Details</a>
                   </div>
-                  <div class="accordian-content">
-                      <div class="form-type2">
-                          <div class="field-wrapper">
-                              <select id="institutionName" class="form-ctrl">
+                  <div class="field-wrapper">
+                    <input type="text" value="" id="userEmail" class="form-ctrl" formInput/>
+                    <label for="userEmail">Email ID*</label>
+                  </div>
+                  <div class="field-wrapper">
+                    <select id="userGender" class="form-ctrl" formInput>
+                       <option></option>
+                       <option>Male</option>
+                       <option>Female</option>
+                    </select>
+                    <label for="userGender">Gender</label>
+                  </div>
+                  <div class="field-wrapper">
+                    <input type="text" value="" id="userAddress" class="form-ctrl" formInput/>
+                    <label for="userAddress">Address</label>
+                  </div>
+                  <div class="field-wrapper">
+                    <input type="text" value="" id="userCity" class="form-ctrl" formInput/>
+                    <label for="userCity">City</label>
+                  </div>
+                  <div class="more-detail">
+                    <a>+ &nbsp; Add Additional Details</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="data-filled" id="academicDetails">
+              <div class="accordian-heading">
+                <h4><span class="circle-accor">2</span> Academics Details
+                  <span class="close-accor" id="closeAcademic" (click)="toggleForm($event)">-</span>
+                  <span class="open-accor" id="openAcademic" (click)="toggleForm($event)">+</span>
+                </h4>
+              </div>
+              <div class="accordian-content">
+                <div class="form-type2">
+                  <div class="field-wrapper">
+                    <select id="institutionName" class="form-ctrl" formInput>
                                                   <option></option>
                                                   <option>DUDUDU</option>
                                               </select>
-                              <label for="institutionName">Institution Name</label>
-                              <a href="#" class="create-institution">+ Create Institution</a>
-                          </div>
-                          <div class="field-wrapper">
-                              <select id="forStandard" class="form-ctrl">
+                    <label for="institutionName">Institution Name</label>
+                    <a href="#" class="create-institution">+ Create Institution</a>
+                  </div>
+                  <div class="field-wrapper">
+                    <select id="forStandard" class="form-ctrl" formInput>
                                                   <option></option>
                                                   <option>Standard</option>
                                               </select>
-                              <label for="forStandard">For Standard</label>
-                              <div class="questionInfo">
-                                  <span class="qInfoIcon">?</span>
-                              </div>
-                          </div>
-                          <div class="field-wrapper">
-                              <select id="forSubject" class="form-ctrl">
+                    <label for="forStandard">For Standard</label>
+                    <div class="questionInfo">
+                      <span class="qInfoIcon">?</span>
+                    </div>
+                  </div>
+                  <div class="field-wrapper">
+                    <select id="forSubject" class="form-ctrl" formInput>
                                                   <option></option>
                                                   <option>Maths</option>
                                               </select>
-                              <label for="forSubject">For Subject</label>
-                              <div class="questionInfo">
-                                  <span class="qInfoIcon">?</span>
-                              </div>
-                          </div>
-                          <div class="field-wrapper">
-                              <select id="highestQualification" class="form-ctrl">
+                    <label for="forSubject">For Subject</label>
+                    <div class="questionInfo">
+                      <span class="qInfoIcon">?</span>
+                    </div>
+                  </div>
+                  <div class="field-wrapper">
+                    <select id="highestQualification" class="form-ctrl" formInput>
                                                   <option></option>
                                                   <option>MA</option>
                                               </select>
-                              <label for="highestQualification">Highest Qualification*</label>
-                              <div class="questionInfo">
-                                  <span class="qInfoIcon">?</span>
-                              </div>
-                          </div>
-                          <div class="field-wrapper">
-                              <select id="board" class="form-ctrl">
+                    <label for="highestQualification">Highest Qualification*</label>
+                    <div class="questionInfo">
+                      <span class="qInfoIcon">?</span>
+                    </div>
+                  </div>
+                  <div class="field-wrapper">
+                    <select id="board" class="form-ctrl" formInput>
                                                   <option></option>
                                                   <option>Board</option>
                                               </select>
-                              <label for="board">Board</label>
-                              <div class="questionInfo">
-                                  <span class="qInfoIcon">?</span>
-                              </div>
-                          </div>
-                          <div class="field-wrapper">
-                              <input type="text" value="" id="yearOfPassing" class="form-ctrl" />
-                              <label for="yearOfPassing">Year Of Passing</label>
-                          </div>
-                          <div class="field-wrapper">
-                              <input type="text" value="" id="percentageMark" class="form-ctrl" />
-                              <label for="percentageMark">% Marks/CGPA - Agg.</label>
-                          </div>
-                          <div class="field-wrapper">
-                              <input type="text" value="" id="percentageMarkMandS" class="form-ctrl" />
-                              <label for="percentageMarkMandS">% Marks/CGPA - [Math+Science]</label>
-                          </div>
-                      </div>
+                    <label for="board">Board</label>
+                    <div class="questionInfo">
+                      <span class="qInfoIcon">?</span>
+                    </div>
                   </div>
-              </li>
-          </ul>
-        <!-- <ul class="accordian ">
-          <li class=" data-filled">
-            <div class="accordian-heading">
-              <h4>
-                <span class="circle-accor">1</span> Details
-                <span class="open-accor">+</span>
-              </h4>
-            </div>
-            <div class="accordian-content">
-
-            </div>
-          </li>
-          <li class="active">
-            <div class="accordian-heading">
-              <h4><span class="circle-accor">2</span> Academics Details</h4>
-            </div>
-            <div class="accordian-content">
-              <div class="form-type2">
-                <div class="field-wrapper customSelectWrapper">
-                  <select id="institutionName" class="form-ctrl" style="opacity: 1;">
-                                     <option></option>
-                                     <option>DUDUDU</option>
-                                 </select>
-                  <label for="institutionName">Institution Name</label>
-                  <a href="#" class="create-institution">+ Create Institution</a>
-                  <ul class="customDropdown">
-                    <li></li>
-                    <li>DUDUDU</li>
-                  </ul>
-                </div>
-                <div class="field-wrapper customSelectWrapper">
-                  <select id="forStandard" class="form-ctrl" style="opacity: 1;">
-                                     <option></option>
-                                     <option>Standard</option>
-                                 </select>
-                  <label for="forStandard">For Standard</label>
-                  <div class="questionInfo">
-                    <span class="qInfoIcon">?</span>
+                  <div class="field-wrapper">
+                    <input type="text" value="" id="yearOfPassing" class="form-ctrl" formInput/>
+                    <label for="yearOfPassing">Year Of Passing</label>
                   </div>
-                  <ul class="customDropdown">
-                    <li></li>
-                    <li>Standard</li>
-                  </ul>
-                </div>
-                <div class="field-wrapper customSelectWrapper">
-                  <select id="forSubject" class="form-ctrl" style="opacity: 1;">
-                                     <option></option>
-                                     <option>Maths</option>
-                                 </select>
-                  <label for="forSubject">For Subject</label>
-                  <div class="questionInfo">
-                    <span class="qInfoIcon">?</span>
+                  <div class="field-wrapper">
+                    <input type="text" value="" id="percentageMark" class="form-ctrl" formInput/>
+                    <label for="percentageMark">% Marks/CGPA - Agg.</label>
                   </div>
-                  <ul class="customDropdown">
-                    <li></li>
-                    <li>Maths</li>
-                  </ul>
-                </div>
-                <div class="field-wrapper customSelectWrapper">
-                  <select id="highestQualification" class="form-ctrl" style="opacity: 1;">
-                                     <option></option>
-                                     <option>MA</option>
-                                 </select>
-                  <label for="highestQualification">Highest Qualification*</label>
-                  <div class="questionInfo">
-                    <span class="qInfoIcon">?</span>
+                  <div class="field-wrapper">
+                    <input type="text" value="" id="percentageMarkMandS" class="form-ctrl" formInput/>
+                    <label for="percentageMarkMandS">% Marks/CGPA - [Math+Science]</label>
                   </div>
-                  <ul class="customDropdown">
-                    <li></li>
-                    <li>MA</li>
-                  </ul>
-                </div>
-                <div class="field-wrapper customSelectWrapper">
-                  <select id="board" class="form-ctrl" style="opacity: 1;">
-                                     <option></option>
-                                     <option>Board</option>
-                                 </select>
-                  <label for="board">Board</label>
-                  <div class="questionInfo">
-                    <span class="qInfoIcon">?</span>
-                  </div>
-                  <ul class="customDropdown">
-                    <li></li>
-                    <li>Board</li>
-                  </ul>
-                </div>
-                <div class="field-wrapper">
-                  <input type="text" value="" id="yearOfPassing" class="form-ctrl">
-                  <label for="yearOfPassing">Year Of Passing</label>
-                </div>
-                <div class="field-wrapper">
-                  <input type="text" value="" id="percentageMark" class="form-ctrl">
-                  <label for="percentageMark">% Marks/CGPA - Agg.</label>
-                </div>
-                <div class="field-wrapper">
-                  <input type="text" value="" id="percentageMarkMandS" class="form-ctrl">
-                  <label for="percentageMarkMandS">% Marks/CGPA - [Math+Science]</label>
                 </div>
               </div>
-            </div>
-          </li>
-        </ul> -->
-      </div>
-    </section>
-
-    <section class="middle-bottom clearFix">
-      <div class="pull-left">
-        <div class="field-checkbox-wrapper">
-          <input type="checkbox" value="" class="form-checkbox" id="addNextEnquiry">
-          <label for="addNextEnquiry">Add Next Enquiry</label>
+            </li>
+          </ul>
         </div>
-      </div>
-      <aside class="pull-right">
-        <input type="button" value="Cancel" class="btn cancle">
-        <input type="button" value="Save and Continue" class="btn redBtn">
-      </aside>
-    </section>
-  </aside>
+      </section>
 
-  <aside class="pull-right middle-right" id="rightSideBar">
-    <!--Last enquiry information-->
-    <section class="shadow-box clearfix">
-      <div class="last-added-info">
-        <ul>
-          <li>
-            <span class="last-user-name"><strong>Last Added Name -</strong><dfn>Shani Maurya</dfn></span>
-            <span class="view-details"><a href="#">View details</a></span>
-          </li>
-          <li>
-            <span class="last-Enquiry-no"><strong>Enquiry No. -</strong><dfn>1020</dfn></span>
-            <span class="enquiry-time">5 min ago</span>
-          </li>
-        </ul>
-      </div>
-    </section>
-    <!-- Enquiry Details official use-->
-    <section class="enquiry-detail common-right-section">
-      <h4><strong>Enquiry Details</strong> (Official Use)</h4>
-      <div class="box-shadow-lite">
-        <div class="field-wrapper">
-          <input type="text" value="" id="name" class="form-ctrl">
-          <label for="name">Name</label>
-          <span class="follow-up-date-icon">
-                        <img src="images/calendar.svg" alt="">
-                    </span>
+      <section class="middle-bottom clearFix">
+        <div class="pull-left">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" class="form-checkbox" id="addNextEnquiry">
+            <label for="addNextEnquiry">Add Next Enquiry</label>
+          </div>
         </div>
-        <div class="field-wrapper customSelectWrapper">
-          <select id="eStatus" class="form-ctrl" style="opacity: 1;">
+        <aside class="pull-right">
+          <input type="button" value="Cancel" class="btn cancle">
+          <input type="button" value="Save and Continue" class="btn redBtn">
+        </aside>
+      </section>
+    </aside>
+
+    <aside class="pull-right middle-right" id="rightSideBar">
+      <!--Last enquiry information-->
+      <section class="shadow-box clearfix">
+        <div class="last-added-info">
+          <ul>
+            <li>
+              <span class="last-user-name"><strong>Last Added Name -</strong><dfn>Shani Maurya</dfn></span>
+              <span class="view-details"><a href="#">View details</a></span>
+            </li>
+            <li>
+              <span class="last-Enquiry-no"><strong>Enquiry No. -</strong><dfn>1020</dfn></span>
+              <span class="enquiry-time">5 min ago</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <!-- Enquiry Details official use-->
+      <section class="enquiry-detail common-right-section">
+        <h4><strong>Enquiry Details</strong> (Official Use)</h4>
+        <div class="box-shadow-lite">
+          <div class="field-wrapper">
+            <input type="text" value="" id="name" class="form-ctrl" formInput>
+            <label for="name">Name</label>
+            <span class="follow-up-date-icon">
+              <img src="./assets/images/calendar.svg" alt="">
+          </span>
+          </div>
+          <div class="field-wrapper customSelectWrapper">
+            <select id="eStatus" class="form-ctrl" formInput style="opacity: 1;">
                         <option></option>
                         <option>Pending</option>
                         <option>Pending</option>
                         <option>Pending</option>
                         <option>Pending</option>
-                    </select>
-          <label for="eStatus">Enquiry Status</label>
-          <ul class="customDropdown">
+            </select>
+            <label for="eStatus">Enquiry Status</label>
+            <!--           <ul class="customDropdown">
             <li></li>
             <li>Pending</li>
             <li>Pending</li>
             <li>Pending</li>
             <li>Pending</li>
-          </ul>
+          </ul> -->
+          </div>
+          <div class="field-wrapper customSelectWrapper">
+            <select id="priority" class="form-ctrl" style="opacity: 1;" formInput>
+               <option></option>
+               <option>Done</option>
+            </select>
+            <label for="priority">Enquiry Status</label>
+            <!-- <ul class="customDropdown">
+              <li></li>
+              <li>Done</li>
+            </ul> -->
+          </div>
+          <div class="field-wrapper customSelectWrapper">
+            <select id="followUpType" class="form-ctrl" style="opacity: 1;" formInput>
+               <option></option>
+               <option>Done</option>
+            </select>
+            <label for="followUpType">Follow Up Type</label>
+            <!-- <ul class="customDropdown">
+              <li></li>
+              <li>Done</li>
+            </ul> -->
+          </div>
+          <div class="field-wrapper">
+            <input type="text" value="" id="followUpDate" class="form-ctrl" formInput>
+            <label for="followUpDate">Follow Up Date</label>
+            <span class="follow-up-date-icon">
+              <img src="./assets/images/calendar.svg" alt="">
+            </span>
+          </div>
+          <div class="field-wrapper customSelectWrapper">
+            <select id="source" class="form-ctrl" style="opacity: 1;" formInput>
+               <option></option>
+               <option>Done</option>
+            </select>
+            <label for="source">Source</label>
+            <span class="open-accor">+</span>
+            <!-- <ul class="customDropdown">
+              <li></li>
+              <li>Done</li>
+            </ul> -->
+          </div>
+          <div class="field-wrapper customSelectWrapper">
+            <select id="refferedBy" class="form-ctrl" style="opacity: 1;" formInput>
+               <option></option>
+              <option>Done</option>
+            </select>
+            <label for="refferedBy">Reffered By</label>
+            <span class="open-accor">+</span>
+            <!-- <ul class="customDropdown">
+              <li></li>
+              <li>Done</li>
+            </ul> -->
+          </div>
+          <div class="field-wrapper customSelectWrapper">
+            <select id="assignedTo" class="form-ctrl" style="opacity: 1;" formInput>
+              <option></option>
+              <option>Done</option>
+            </select>
+            <label for="assignedTo">Assigned To</label>
+            <!-- <ul class="customDropdown">
+              <li></li>
+              <li>Done</li>
+            </ul> -->
+          </div>
+          <div class="field-wrapper">
+            <input type="text" value="" id="Remarks" class="form-ctrl" formInput>
+            <label for="Remarks">Remarks</label>
+          </div>
+          <div class="clear-detail">
+            <a>Clear Details</a>
+          </div>
         </div>
-        <div class="field-wrapper customSelectWrapper">
-          <select id="priority" class="form-ctrl" style="opacity: 1;">
-                        <option></option>
-                        <option>Done</option>
-                    </select>
-          <label for="priority">Enquiry Status</label>
-          <ul class="customDropdown">
-            <li></li>
-            <li>Done</li>
-          </ul>
-        </div>
-        <div class="field-wrapper customSelectWrapper">
-          <select id="followUpType" class="form-ctrl" style="opacity: 1;">
-                        <option></option>
-                        <option>Done</option>
-                    </select>
-          <label for="followUpType">Follow Up Type</label>
-          <ul class="customDropdown">
-            <li></li>
-            <li>Done</li>
-          </ul>
-        </div>
-        <div class="field-wrapper">
-          <input type="text" value="" id="followUpDate" class="form-ctrl">
-          <label for="followUpDate">Follow Up Date</label>
-          <span class="follow-up-date-icon">
-                        <img src="images/calendar.svg" alt="">
-                    </span>
 
-        </div>
-        <div class="field-wrapper customSelectWrapper">
-          <select id="source" class="form-ctrl" style="opacity: 1;">
-                        <option></option>
-                        <option>Done</option>
-                    </select>
-          <label for="source">Source</label>
-          <span class="open-accor">+</span>
-          <ul class="customDropdown">
-            <li></li>
-            <li>Done</li>
-          </ul>
-        </div>
-        <div class="field-wrapper customSelectWrapper">
-          <select id="refferedBy" class="form-ctrl" style="opacity: 1;">
-                        <option></option>
-                        <option>Done</option>
-                    </select>
-          <label for="refferedBy">Reffered By</label>
-          <span class="open-accor">+</span>
-          <ul class="customDropdown">
-            <li></li>
-            <li>Done</li>
-          </ul>
-        </div>
-        <div class="field-wrapper customSelectWrapper">
-          <select id="assignedTo" class="form-ctrl" style="opacity: 1;">
-                        <option></option>
-                        <option>Done</option>
-                    </select>
-          <label for="assignedTo">Assigned To</label>
-          <ul class="customDropdown">
-            <li></li>
-            <li>Done</li>
-          </ul>
-        </div>
-        <div class="field-wrapper">
-          <input type="text" value="" id="Remarks" class="form-ctrl">
-          <label for="Remarks">Remarks</label>
-        </div>
-        <div class="clear-detail">
-          <a href="#">Clear Details</a>
-        </div>
-      </div>
+      </section>
 
-    </section>
-
-  </aside>
-
+    </aside>
+  </form>
 </section>
