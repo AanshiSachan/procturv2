@@ -123,9 +123,6 @@ export class EnquiryManageComponent implements OnInit {
   };
 
   constructor(private enquire: FetchenquiryService, private router: Router, private logger: Logger, private adfilterFB: FormBuilder){
-    this.adFilterForm = adfilterFB.group({
-      
-    })
   }
   
   ngOnInit() {
@@ -189,8 +186,8 @@ export class EnquiryManageComponent implements OnInit {
   }
 
   toggleOptionChange(ev){
-    console.log(ev);
-    console.log(this.optionsModel);
+    //console.log(ev);
+    //console.log(this.optionsModel);
     this.settings = {
       mode: 'external', hideSubHeader: false, selectMode: 'multi',
       actions: { add: false, edit: false, delete: false, columnTitle: '',},
@@ -281,19 +278,21 @@ export class EnquiryManageComponent implements OnInit {
   };
   
   onSearch(query: string = '') {
-    if (query != '') {
-      this.source.setFilter([
-        { field: 'institute_enquiry_id', search: query }, { field: 'institution_id', search: query }, { field: 'enquiry_no', search: query }, { field: 'name', search: query }, { field: 'phone', search: query }, { field: 'email', search: query }
+    let searchData = this.source;
+    if (query == '' || query == ' ' || query == null || query == undefined) {
+      this.source = searchData;
+    }
+    else{
+      searchData.setFilter([
+        { field: 'name', search: query }, { field: 'phone', search: query }
       ], false);
     }
   }
 
   openAdFilter(){
     this.AdFilter =  true;
-    console.log(this.formData);
     //let instituteFormData = `institute_id=${this.instituteData.institute_id}&function_type=${this.instituteData.function_type}&username=${this.instituteData.username}&password=${this.instituteData.password}&onLoad=${this.instituteData.onLoad}&name=${this.instituteData.name}&phone=${this.instituteData.phone}&email=${this.instituteData.email}&enquiry=${this.instituteData.enquiry_no}&priority=${this.instituteData.priority}&filtered_statuses=${this.instituteData.filtered_statuses}&follow_type=${this.instituteData.follow_type}&followUpDate=${this.instituteData.followUpDate}&enquiry_date=${this.instituteData.enquiry_date}&assigned_to=${this.instituteData.assigned_to}&standard_id=${this.instituteData.standard_id}&subject_id=${this.instituteData.subject_id}&is_recent=${this.instituteData.is_recent}&filtered_slots=${this.instituteData.filtered_slots}&isDashbord=${this.instituteData.isDashbord}&enquireDateFrom=${this.instituteData.enquireDateFrom}&enquireDateTo=${this.instituteData.enquireDateTo}&updateDate=${this.instituteData.updateDate}&updateDateFrom=${this.instituteData.updateDateFrom}&updateDateTo=${this.instituteData.updateDateTo}&page=${this.instituteData.pageNo}&size=${this.instituteData.sizeLimit}`;
   }
-  
   closeAdFilter(){
     this.AdFilter =  false;
   }

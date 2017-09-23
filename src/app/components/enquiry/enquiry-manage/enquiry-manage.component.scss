@@ -533,7 +533,10 @@ ul.customDropdown li:hover {
     background: #004a7e !important;
 }
 :host /deep/ ng2-smart-table table > thead > tr:first-child > th{
-    padding: 15px 5px;
+    padding: 5px 10px;
+}
+:host /deep/ ng2-smart-table table > thead > tr:nth-child(even){
+    display: none
 }
 :host /deep/ .ng2-smart-title a{
     font-size: 11px !important;
@@ -547,6 +550,13 @@ ul.customDropdown li:hover {
 }
 ::ng-deep .ng2-smart-title a::after{
     border-bottom: 4px solid rgba(0, 0, 0, 0.87) !important;
+}
+:host /deep/ ng2-smart-table table > tbody > tr > td{
+    transition: all 0.5s;
+    font-size: 12px !important;
+    line-height: normal;
+    border-bottom: 1px solid #fff;
+    padding: 6px 6px;
 }
 :host /deep/ ng2-smart-table table > tbody > tr:nth-child(even) {
     background: rgba(204, 204, 204, 0.36);

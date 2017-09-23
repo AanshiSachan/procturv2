@@ -14,8 +14,8 @@
           <div class="filter-box clearFix">
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="search-filter-wrapper">
-                <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No." (keyup.enter)="onSearch(search.value)">
-                <input type="button" class="normal-btn fullBlue btn" value="Search" />
+                <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No." (keyup)="onSearch(search.value)">
+                <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="onSearch(search.value)"/>
               </div>
             </div>
             <div class="c-lg-6 c-md-6 c-sm-6">
@@ -40,36 +40,42 @@
             <div class="row">
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="enquiryStatus" class="form-ctrl">
-                            <option></option>
-                            <option>Male</option>
-                          </select>
+                  <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="formData.filtered_statuses" name="status" formInput>
+                            <option value=""></option>
+                            <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
+                  </select>
                   <label for="enquiryStatus">Enquiry Status</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="enquiryPriority" class="form-ctrl">
+                  <select id="enquiryPriority" class="form-ctrl" [(ngModel)]="formData.followType" name="followType" formInput>
                              <option></option>
-                             <option>Male</option>
+                             <option *ngFor="let follow of enqFollowType" [value]="follow.data_key">
+                              {{follow.data_value}}
+                             </option>
                           </select>
                   <label for="enquiryPriority">Enquiry Priority</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="followupType" class="form-ctrl">
+                  <select id="followupType" class="form-ctrl" [(ngModel)]="formData.followType" name="followType" formInput>
                              <option></option>
-                             <option>Male</option>
+                             <option *ngFor="let follow of enqFollowType" [value]="follow.data_key">
+                              {{ follow.data_value }} 
+                             </option>
                           </select>
                   <label for="followupType">Enquiry Followup Type</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="assignTo" class="form-ctrl">
+                  <select id="assignTo" class="form-ctrl" [(ngModel)]="formData.assigned_to" name="assignTo" formInput>
                              <option></option>
-                             <option>Male</option>
+                             <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
+                              {{ assigned.name }}
+                             </option>
                           </select>
                   <label for="assignTo">Assign To</label>
                 </div>
@@ -78,37 +84,45 @@
             <div class="row">
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="standard" class="form-ctrl">
-                                                          <option></option>
-                                                          <option>Male</option>
-                                                      </select>
+                  <select id="standard" class="form-ctrl" [(ngModel)]="formData.standard_id" name="standard" formInput>
+                     <option></option>
+                     <option *ngFor="let std of enqStd" [value]="std.standard_id">
+                      {{ std.standard_name }}                       
+                     </option>
+                  </select>
                   <label for="standard">Standard</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="selectSub" class="form-ctrl">
-                                                          <option></option>
-                                                          <option>Male</option>
-                                                      </select>
+                  <select id="selectSub" class="form-ctrl" [(ngModel)]="formData.subject_id" name="subject" formInput>
+                    <option></option>
+                    <option *ngFor="let sub of Status" [value]="sub.value">
+                      {{ sub.viewValue }}
+                    </option>
+                  </select>
                   <label for="selectSub">Subject</label>
                 </div>
               </div>
-              <div class="c-lg-3 c-md-3 c-sm-3">
+              <div class="c-lg-3 c-md-3 c-sm-3" name="scholarship">
                 <div class="field-wrapper">
-                  <select id="scolarShip" class="form-ctrl">
-                                                          <option></option>
-                                                          <option>Male</option>
-                                                      </select>
+                  <select id="scolarShip" class="form-ctrl" formInput>
+                    <option></option>
+                    <option *ngFor="let schol of enqScholarship" [value]="schol">
+                      {{ schol }}
+                    </option>
+                  </select>
                   <label for="scolarShip">scolarship</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="subject2" class="form-ctrl">
-                                                          <option></option>
-                                                          <option>Male</option>
-                                                      </select>
+                  <select id="subject2" class="form-ctrl" name="subject2" formInput>
+                    <option></option>
+                    <option *ngFor="let state of enqSub2" [value]="state">
+                      {{ state }}
+                    </option>
+                  </select>
                   <label for="subject2">Subject 2</label>
                 </div>
               </div>
@@ -116,27 +130,26 @@
             <div class="row">
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="updateDate" class="form-ctrl" />
+                  <input type="text" value="" id="updateDate" class="form-ctrl" [(ngModel)]="formData.updateDate" name="UD" formInput/>
                   <label for="updateDate">Update Date</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="enquiryFromDate" class="form-ctrl" />
+                  <input type="text" value="" id="enquiryFromDate" class="form-ctrl" [(ngModel)]="formData.enquireDateFrom" name="EFD" formInput/>
                   <label for="enquiryFromDate">Enquiry From Date</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="enquiryToDate" class="form-ctrl" />
+                  <input type="text" value="" id="enquiryToDate" class="form-ctrl" [(ngModel)]="formData.enquireDateTo" name="ETD" formInput/>
                   <label for="enquiryToDate">Enquiry To Date</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" />
+                  <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" formInput/>
                 </div>
-
               </div>
             </div>
           </div>
@@ -219,19 +232,6 @@
           <div class="c-lg-12 c-md-12 c-sm-12">
             <label>Showing 1 to 6 of 215 Students</label>
           </div>
-<!--           <div class="c-lg-6 c-md-6 c-sm-6 align-right">
-            <ul class="pagination">
-              <li>
-                <a href="#"> Previous</a>
-              </li>
-              <li>1</li>
-              <li>2</li>
-              <li>3</li>
-              <li>
-                <a href="#">  Next</a>
-              </li>
-            </ul>
-          </div> -->
         </div>
       </section>
     </section>
@@ -239,82 +239,12 @@
 </div>
 <!-- <div class="container manage-container">
 
-  <div class="row header">
-    <div class="col-md-10">
-      <h4>Enquiry List</h4>
-    </div>
-    <div class="col-md-2">
-      <button md-button class="boxbutton">Add New Enquiry</button>
-    </div>
-  </div>
-  <div class="row search">
-    <div class="col-md-6" style="margin-top: 1rem;">
-      <form class="form-wrapper">
-        <input #search type="text" placeholder="Search here..." (keyup.enter)="onSearch(search.value)">
-        <button type="submit">Search</button>
-      </form>
-    </div>
-    <div class="col-md-4" style="margin-top: 1rem;">
-      <button md-button class="boxbutton" (click)="openAdFilter()">Filter</button>
-    </div>
-    <div class="col-md-2" style="margin-top: 1rem;">
-      <button md-button (click)="closeAdFilter()" *ngIf="AdFilter"><md-icon>close</md-icon> Close Advanced Filter</button>
-    </div>
-  </div>
   <div class="row" *ngIf="AdFilter" style="margin:0;padding:0;width:95vw;">
 
     <form (ngSubmmit)="filterAdvanced($event)">
 
-      <md-select placeholder="Enquiry Status" class="AdFilter-input" [(ngModel)]="formData.filtered_statuses" name="status">
-        <md-option *ngFor="let status of enqstatus" [value]="status.data_key">
-          {{ status.data_value }}
-        </md-option>
-      </md-select>
-
-      <md-select placeholder="Enquiry Priority" class="AdFilter-input" [(ngModel)]="formData.priority" name="priority">
-        <md-option *ngFor="let priority of enqPriority" [value]="priority.data_key">
-          {{ priority.data_value }}
-        </md-option>
-      </md-select>
-
-      <md-select placeholder="Enquiry Followup Type" class="AdFilter-input" [(ngModel)]="formData.followType" name="followType">
-        <md-option *ngFor="let follow of enqFollowType" [value]="follow.data_key">
-          {{ follow.data_value }}
-        </md-option>
-      </md-select>
-
-      <md-select placeholder="Assign To" class="AdFilter-input" [(ngModel)]="formData.assigned_to" name="assignTo">
-        <md-option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
-          {{ assigned.name }}
-        </md-option>
-      </md-select>
-
-      <md-select placeholder="Standard" class="AdFilter-input" [(ngModel)]="formData.standard_id" name="standard">
-        <md-option *ngFor="let std of enqStd" [value]="std.standard_id">
-          {{ std.standard_name }}
-        </md-option>
-      </md-select>
-
-      <md-select placeholder="Subject" class="AdFilter-input" [(ngModel)]="formData.subject_id" name="subject">
-        <md-option *ngFor="let sub of Status" [value]="sub.value">
-          {{ sub.viewValue }}
-        </md-option>
-      </md-select>
-
-      <md-select placeholder="Scholarship" class="AdFilter-input" name="scholarship">
-        <md-option *ngFor="let schol of enqScholarship" [value]="schol">
-          {{ schol }}
-        </md-option>
-      </md-select>
-
-      <md-select placeholder="Subject 2" class="AdFilter-input" name="subject2">
-        <md-option *ngFor="let state of enqSub2" [value]="state">
-          {{ state }}
-        </md-option>
-      </md-select>
-
       <md-form-field>
-        <input mdInput [mdDatepicker]="myDatepicker" [(ngModel)]="formData.updateDate" name="UD">
+        <input mdInput [mdDatepicker]="myDatepicker" >
         <md-datepicker-toggle mdSuffix [for]="myDatepicker"></md-datepicker-toggle>
         <md-datepicker #myDatepicker></md-datepicker>
       </md-form-field>
@@ -324,41 +254,6 @@
       </button>
 
     </form>
-  </div>
-  <div class="row table-control">
-    <div class="container" style="width: 100%;">
-      <div class="row">
-        <div style="float: left;left: 0;font-size: larger;">
-          <label><p>Enquiry Type</p></label>
-        </div>
-        <div class="control-input">
-          <input type="checkbox" [id]="stats.All.value" [(ngModel)]="stats.All.checked" [disabled]="stats.All.disabled" (change)="statusFilter(stats.All)">{{stats.All.value}}
-          <input type="checkbox" [id]="stats.Open.value" [(ngModel)]="stats.Open.checked" [disabled]="stats.Open.disabled" (change)="statusFilter(stats.Open)">{{stats.Open.value}}
-          <input type="checkbox" [id]="stats.Registered.value" [(ngModel)]="stats.Registered.checked" [disabled]="stats.Registered.disabled"
-            (change)="statusFilter(stats.Registered)">{{stats.Registered.value}}
-          <input type="checkbox" [id]="stats.Admitted.value" [(ngModel)]="stats.Admitted.checked" [disabled]="stats.Admitted.disabled"
-            (change)="statusFilter(stats.Admitted)">{{stats.Admitted.value}}
-          <input type="checkbox" [id]="stats.Inactive.value" [(ngModel)]="stats.Inactive.checked" [disabled]="stats.Inactive.disabled"
-            (change)="statusFilter(stats.Inactive)">{{stats.Inactive.value}}
-        </div>
-      </div>
-      <div class="row">
-        <span style="width:75%"></span>
-        <div style="width:25%;float:right;right:0;">
-          <button md-button style="font-size: small;color: rgba(0, 0, 0, 0.52);font-family: sans-serif;"><md-icon>print</md-icon> Print</button>
-          <button md-button style="font-size: small;color: rgba(0, 0, 0, 0.52);font-family: sans-serif;"><md-icon>launch</md-icon> Export</button>
-          <div id="toggleButton">
-            <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggleOptionChange($event)">
-            </ss-multiselect-dropdown>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row table-container" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
-    <ng2-smart-table [settings]="settings" [source]="source" (create)="onCreate($event)" (delete)="onDelete($event)" (edit)="onSave($event)"
-      (userRowSelect)="handleGridSelected($event)">
-    </ng2-smart-table>
   </div>
 
 </div> -->
