@@ -39,6 +39,7 @@
     "material-design-icons": "^3.0.1",
     "materialize-css": "^0.100.2",
     "moment": "^2.18.1",
+    "ng2-datepicker": "^2.0.3",
     "ng2-expansion-panels": "0.0.6",
     "ng2-logger": "^1.0.3",
     "ng2-material-dropdown": "^0.7.10",

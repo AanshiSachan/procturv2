@@ -25,34 +25,35 @@
               <div class="accordian-content">
                 <div class="form-type1">
                   <div class="field-wrapper">
-                    <input type="text" value="" id="userName" class="form-ctrl" formInput/>
+                    <input type="text" value="" id="userName" class="form-ctrl" [(ngModel)]="addFormData.name" name="name" formInput/>
                     <label for="userName">Name*</label>
                   </div>
                   <div class="field-wrapper">
-                    <input type="text" value="" id="userNumber" class="form-ctrl" formInput/>
+                    <input type="text" value="" id="userNumber" class="form-ctrl" [(ngModel)]="addFormData.phone" name="phoneno" formInput/>
                     <label for="userNumber">Phone No*</label>
                   </div>
                   <div class="more-detail">
-                    <a href="#">Fetch Lead Details</a>
+                    <a (click)="getLeadDetails()">Fetch Lead Details</a>
                   </div>
                   <div class="field-wrapper">
-                    <input type="text" value="" id="userEmail" class="form-ctrl" formInput/>
+                    <input type="text" value="" id="userEmail" class="form-ctrl" [(ngModel)]="addFormData.email" name="email" formInput/>
                     <label for="userEmail">Email ID*</label>
                   </div>
                   <div class="field-wrapper">
-                    <select id="userGender" class="form-ctrl" formInput>
+                    <select id="userGender" class="form-ctrl" [(ngModel)]="addFormData.gender" name="gender" formInput>
                        <option></option>
                        <option>Male</option>
                        <option>Female</option>
+                       <option>N/A</option>                       
                     </select>
                     <label for="userGender">Gender</label>
                   </div>
                   <div class="field-wrapper">
-                    <input type="text" value="" id="userAddress" class="form-ctrl" formInput/>
+                    <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="addFormData.address" name="address" formInput/>
                     <label for="userAddress">Address</label>
                   </div>
                   <div class="field-wrapper">
-                    <input type="text" value="" id="userCity" class="form-ctrl" formInput/>
+                    <input type="text" value="" id="userCity" class="form-ctrl" [(ngModel)]="addFormData.city" name="city" formInput/>
                     <label for="userCity">City</label>
                   </div>
                   <div class="more-detail">
@@ -71,63 +72,63 @@
               <div class="accordian-content">
                 <div class="form-type2">
                   <div class="field-wrapper">
-                    <select id="institutionName" class="form-ctrl" formInput>
-                                                  <option></option>
-                                                  <option>DUDUDU</option>
-                                              </select>
+                    <select id="institutionName" class="form-ctrl" [(ngModel)]="addFormData.institute_name" name="institutename" formInput>
+                        <option></option>
+                        <option></option>
+                    </select>
                     <label for="institutionName">Institution Name</label>
                     <a href="#" class="create-institution">+ Create Institution</a>
                   </div>
                   <div class="field-wrapper">
-                    <select id="forStandard" class="form-ctrl" formInput>
-                                                  <option></option>
-                                                  <option>Standard</option>
-                                              </select>
+                    <select id="forStandard" class="form-ctrl" [(ngModel)]="addFormData.standard" name="standard" formInput>
+                       <option></option>
+                       <option>Standard</option>
+                    </select>
                     <label for="forStandard">For Standard</label>
                     <div class="questionInfo">
                       <span class="qInfoIcon">?</span>
                     </div>
                   </div>
                   <div class="field-wrapper">
-                    <select id="forSubject" class="form-ctrl" formInput>
-                                                  <option></option>
-                                                  <option>Maths</option>
-                                              </select>
+                    <select id="forSubject" class="form-ctrl" [(ngModel)]="addFormData.subject" name="subject" formInput>
+                       <option></option>
+                       <option>Maths</option>
+                    </select>
                     <label for="forSubject">For Subject</label>
                     <div class="questionInfo">
                       <span class="qInfoIcon">?</span>
                     </div>
                   </div>
                   <div class="field-wrapper">
-                    <select id="highestQualification" class="form-ctrl" formInput>
-                                                  <option></option>
-                                                  <option>MA</option>
-                                              </select>
+                    <select id="highestQualification" class="form-ctrl" [(ngModel)]="addFormData.qualification" name="qualification" formInput>
+                      <option></option>
+                      <option>MA</option>
+                    </select>
                     <label for="highestQualification">Highest Qualification*</label>
                     <div class="questionInfo">
                       <span class="qInfoIcon">?</span>
                     </div>
                   </div>
                   <div class="field-wrapper">
-                    <select id="board" class="form-ctrl" formInput>
-                                                  <option></option>
-                                                  <option>Board</option>
-                                              </select>
+                    <select id="board" class="form-ctrl" [(ngModel)]="addFormData.board" name="board" formInput>
+                       <option></option>
+                       <option>Board</option>
+                    </select>
                     <label for="board">Board</label>
                     <div class="questionInfo">
                       <span class="qInfoIcon">?</span>
                     </div>
                   </div>
                   <div class="field-wrapper">
-                    <input type="text" value="" id="yearOfPassing" class="form-ctrl" formInput/>
+                    <input type="text" value="" id="yearOfPassing" class="form-ctrl" [(ngModel)]="addFormData.yearOfPassing" name="yop" formInput/>
                     <label for="yearOfPassing">Year Of Passing</label>
                   </div>
                   <div class="field-wrapper">
-                    <input type="text" value="" id="percentageMark" class="form-ctrl" formInput/>
+                    <input type="text" value="" id="percentageMark" class="form-ctrl" [(ngModel)]="addFormData.percentGPA" name="percentGPA" formInput/>
                     <label for="percentageMark">% Marks/CGPA - Agg.</label>
                   </div>
                   <div class="field-wrapper">
-                    <input type="text" value="" id="percentageMarkMandS" class="form-ctrl" formInput/>
+                    <input type="text" value="" id="percentageMarkMandS" class="form-ctrl" [(ngModel)]="addFormData.percentGPA_MS" name="percentGPA_MS" formInput/>
                     <label for="percentageMarkMandS">% Marks/CGPA - [Math+Science]</label>
                   </div>
                 </div>
@@ -145,7 +146,7 @@
           </div>
         </div>
         <aside class="pull-right">
-          <input type="button" value="Cancel" class="btn cancle">
+          <input type="button" value="Cancel" class="btn cancle" routerLink="/enquiry/manage">
           <input type="button" value="Save and Continue" class="btn redBtn">
         </aside>
       </section>
@@ -158,7 +159,7 @@
           <ul>
             <li>
               <span class="last-user-name"><strong>Last Added Name -</strong><dfn>Shani Maurya</dfn></span>
-              <span class="view-details"><a href="#">View details</a></span>
+              <span class="view-details"><a (click)="openLastDetailModal()">View details</a></span>
             </li>
             <li>
               <span class="last-Enquiry-no"><strong>Enquiry No. -</strong><dfn>1020</dfn></span>
@@ -172,14 +173,14 @@
         <h4><strong>Enquiry Details</strong> (Official Use)</h4>
         <div class="box-shadow-lite">
           <div class="field-wrapper">
-            <input type="text" value="" id="name" class="form-ctrl" formInput>
-            <label for="name">Name</label>
+            <input type="text" value="" id="name" class="form-ctrl" [(ngModel)]="addFormData.enquiryDate" name="enquiryDate" formInput>
+            <label for="name">Enquiry Date</label>
             <span class="follow-up-date-icon">
               <img src="./assets/images/calendar.svg" alt="">
           </span>
           </div>
           <div class="field-wrapper customSelectWrapper">
-            <select id="eStatus" class="form-ctrl" formInput style="opacity: 1;">
+            <select id="eStatus" class="form-ctrl" formInput style="opacity: 1;" [(ngModel)]="addFormData.enquiryStatus" name="status">
                         <option></option>
                         <option>Pending</option>
                         <option>Pending</option>
@@ -187,87 +188,59 @@
                         <option>Pending</option>
             </select>
             <label for="eStatus">Enquiry Status</label>
-            <!--           <ul class="customDropdown">
-            <li></li>
-            <li>Pending</li>
-            <li>Pending</li>
-            <li>Pending</li>
-            <li>Pending</li>
-          </ul> -->
           </div>
           <div class="field-wrapper customSelectWrapper">
-            <select id="priority" class="form-ctrl" style="opacity: 1;" formInput>
+            <select id="priority" class="form-ctrl" style="opacity: 1;" formInput [(ngModel)]="addFormData.enquiryPriority" name="enquiryPriority">
                <option></option>
                <option>Done</option>
             </select>
-            <label for="priority">Enquiry Status</label>
-            <!-- <ul class="customDropdown">
-              <li></li>
-              <li>Done</li>
-            </ul> -->
+            <label for="priority">Enquiry Priority</label>
           </div>
           <div class="field-wrapper customSelectWrapper">
-            <select id="followUpType" class="form-ctrl" style="opacity: 1;" formInput>
+            <select id="followUpType" class="form-ctrl" style="opacity: 1;" formInput [(ngModel)]="addFormData.followType" name="followtype">
                <option></option>
                <option>Done</option>
             </select>
             <label for="followUpType">Follow Up Type</label>
-            <!-- <ul class="customDropdown">
-              <li></li>
-              <li>Done</li>
-            </ul> -->
           </div>
           <div class="field-wrapper">
-            <input type="text" value="" id="followUpDate" class="form-ctrl" formInput>
+            <input type="text" value="" id="followUpDate" class="form-ctrl" formInput [(ngModel)]="addFormData.followUp" name="followup">
             <label for="followUpDate">Follow Up Date</label>
             <span class="follow-up-date-icon">
               <img src="./assets/images/calendar.svg" alt="">
             </span>
           </div>
           <div class="field-wrapper customSelectWrapper">
-            <select id="source" class="form-ctrl" style="opacity: 1;" formInput>
+            <select id="source" class="form-ctrl" style="opacity: 1;" formInput [(ngModel)]="addFormData.source" name="source">
                <option></option>
                <option>Done</option>
             </select>
             <label for="source">Source</label>
             <span class="open-accor">+</span>
-            <!-- <ul class="customDropdown">
-              <li></li>
-              <li>Done</li>
-            </ul> -->
           </div>
           <div class="field-wrapper customSelectWrapper">
-            <select id="refferedBy" class="form-ctrl" style="opacity: 1;" formInput>
+            <select id="refferedBy" class="form-ctrl" style="opacity: 1;" formInput [(ngModel)]="addFormData.reffered" name="reffered">
                <option></option>
               <option>Done</option>
             </select>
             <label for="refferedBy">Reffered By</label>
             <span class="open-accor">+</span>
-            <!-- <ul class="customDropdown">
-              <li></li>
-              <li>Done</li>
-            </ul> -->
           </div>
           <div class="field-wrapper customSelectWrapper">
-            <select id="assignedTo" class="form-ctrl" style="opacity: 1;" formInput>
+            <select id="assignedTo" class="form-ctrl" style="opacity: 1;" formInput [(ngModel)]="addFormData.assignedTo" name="assigned">
               <option></option>
               <option>Done</option>
             </select>
             <label for="assignedTo">Assigned To</label>
-            <!-- <ul class="customDropdown">
-              <li></li>
-              <li>Done</li>
-            </ul> -->
           </div>
           <div class="field-wrapper">
-            <input type="text" value="" id="Remarks" class="form-ctrl" formInput>
+            <input type="text" value="" id="Remarks" class="form-ctrl" formInput [(ngModel)]="addFormData.remarks" name="remarks">
             <label for="Remarks">Remarks</label>
           </div>
           <div class="clear-detail">
-            <a>Clear Details</a>
+            <a (click)="clearFormData()">Clear Details</a>
           </div>
         </div>
-
       </section>
 
     </aside>

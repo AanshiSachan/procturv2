@@ -129,8 +129,8 @@
             </div>
             <div class="row">
               <div class="c-lg-3 c-md-3 c-sm-3">
-                <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="updateDate" class="form-ctrl" [(ngModel)]="formData.updateDate" name="UD" formInput/>
+                <div class="field-wrapper datePickerBox input-group date">
+                  <input type="text" value="02-16-2012" id="updateDate" class="form-ctrl form-control" [(ngModel)]="formData.updateDate" name="UD" formInput/>
                   <label for="updateDate">Update Date</label>
                 </div>
               </div>
@@ -237,23 +237,3 @@
     </section>
   </aside>
 </div>
-<!-- <div class="container manage-container">
-
-  <div class="row" *ngIf="AdFilter" style="margin:0;padding:0;width:95vw;">
-
-    <form (ngSubmmit)="filterAdvanced($event)">
-
-      <md-form-field>
-        <input mdInput [mdDatepicker]="myDatepicker" >
-        <md-datepicker-toggle mdSuffix [for]="myDatepicker"></md-datepicker-toggle>
-        <md-datepicker #myDatepicker></md-datepicker>
-      </md-form-field>
-
-      <button class="btn-Adfilter AdFilter-input">
-        Search Now
-      </button>
-
-    </form>
-  </div>
-
-</div> -->

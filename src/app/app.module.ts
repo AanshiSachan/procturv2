@@ -9,13 +9,12 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DashboardHomeComponent } from './components/dashboard/dashboard-home/dashboard-home.component';
 import { DashboardStudentsComponent } from './components/dashboard/dashboard-students/dashboard-students.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { CustomModalComponent } from './components/custom/custom-modal/custom-modal.component';
-import { CustomLoaderComponent } from './components/custom/custom-loader/custom-loader.component';
-import { CustomAddEnquiryComponent } from './components/custom/custom-add-enquiry/custom-add-enquiry.component';
-import { CustomEditEnquiryComponent } from './components/custom/custom-edit-enquiry/custom-edit-enquiry.component';
 import { CustomErrorPageComponent } from './components/custom/custom-error-page/custom-error-page.component';
 import { ActionButtonComponent } from './components/enquiry/enquiry-manage/action-button.component';
 import { EnquiryAddComponent } from './components/enquiry/enquiry-add/enquiry-add.component';
+import { EnquiryConfirmModalComponent } from './components/custom/enquiry-confirm-modal/enquiry-confirm-modal.component';
+
+
 /* Modules */
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -33,17 +32,18 @@ import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { BusyModule, BusyConfig} from 'angular2-busy';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
+import { NgDatepickerModule } from 'ng2-datepicker';
 
 /* Services */
 import { FetchenquiryService } from './services/fetchenquiry.service';
-
+import { FetchprefilldataService } from './services/fetchprefilldata.service';
 /* Interceptors */
 import { LoadInterceptor } from './interceptors/load-interceptor';
 
 /* Directives */
 import { ClickOutside } from './directives/click-outside.directive';
 import { FormInput } from './directives/form-input.directive';
-
+import { CalendarComponent } from './components/custom/calendar/calendar.component';
 
 const appRoutes = [
   {
@@ -85,11 +85,6 @@ const appRoutes = [
         path: 'addEnquiry',
         component: EnquiryAddComponent,
         pathMatch: 'prefix'
-      },
-      {
-        path: 'edit',
-        component: CustomEditEnquiryComponent,
-        pathMatch: 'full'
       }
     ]
   },
@@ -110,22 +105,20 @@ const appRoutes = [
     DashboardHomeComponent,
     DashboardStudentsComponent,
     ProfileComponent,
-    CustomModalComponent,
-    CustomLoaderComponent,
-    CustomAddEnquiryComponent,
-    CustomEditEnquiryComponent,
     CustomErrorPageComponent,
     CoreSidednavComponent,
     CoreHeaderComponent,
     ActionButtonComponent,
     ClickOutside,
     EnquiryAddComponent,
-    FormInput
+    FormInput,
+    EnquiryConfirmModalComponent,
+    CalendarComponent
   ],
   entryComponents: [
-    CustomModalComponent,
-    CustomLoaderComponent,
-    ActionButtonComponent
+    ActionButtonComponent,
+    EnquiryConfirmModalComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -142,13 +135,14 @@ const appRoutes = [
     Ng2SmartTableModule,
     BusyModule,
     NgLoggerModule.forRoot(Level.LOG),
+    NgDatepickerModule
   ],
   providers: [
     FetchenquiryService,
+    FetchprefilldataService
     /*     { provide: HTTP_INTERCEPTORS, useClass: LoadInterceptor, multi: true } */
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
 }

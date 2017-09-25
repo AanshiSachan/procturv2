@@ -1,22 +1,22 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FetchenquiryService } from '../../../services/fetchenquiry.service';
-import { Observable } from 'rxjs/Rx';
-import { EnquiryCampaign } from '../../../model/enquirycampaign';
-import 'rxjs/Rx';
-import {Subscription} from 'rxjs';
+import { Component, OnInit, ViewChild} from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
 import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
-import {MdDialog, MdDialogRef} from '@angular/material';
-import {MdSnackBar} from '@angular/material';
-import { CustomAddEnquiryComponent } from '../../custom/custom-add-enquiry/custom-add-enquiry.component';
-import { CustomEditEnquiryComponent } from '../../custom/custom-edit-enquiry/custom-edit-enquiry.component';
-import { ActionButtonComponent } from './action-button.component';
-import { Router } from '@angular/router';
-declare var require: any;
 import { Logger } from '@nsalaun/ng-logger';
-import { instituteInfo } from '../../../model/instituteinfo';
 import * as moment from 'moment';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { EnquiryCampaign } from '../../../model/enquirycampaign';
+import { ActionButtonComponent } from './action-button.component';
+import { instituteInfo } from '../../../model/instituteinfo';
+import { FetchenquiryService } from '../../../services/fetchenquiry.service';
+import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+
+import { Observable } from 'rxjs/Rx';
+import {Subscription} from 'rxjs';
+import 'rxjs/Rx';
+import { DatepickerOptions } from 'ng2-datepicker';
 
 @Component({
   selector: 'app-enquiry-manage',
@@ -24,13 +24,26 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./enquiry-manage.component.scss']
 })
 
-export class EnquiryManageComponent implements OnInit {
+export class EnquiryManageComponent implements OnInit{
 
-  AdFilter:boolean; rows: any = []; optionsModel = []; checkedOpt: any[]; myOptions: IMultiSelectOption[]; source: LocalDataSource; gridSelected:any; 
-  busy: Subscription; selectedCol = []; check: boolean = true; disable: boolean = true; checkedStatus =[]; filtered = [];
-  enqstatus: any = []; enqPriority: any = []; enqFollowType: any = []; enqAssignTo: any = []; enqStd: any = []; enqSub: any = []; enqScholarship: any = []; enqSub2: any = [];
-  updateDate: any; adFilterForm: FormGroup; 
-
+  AdFilter:boolean; 
+  rows: any = []; 
+  optionsModel = []; 
+  checkedOpt: any[]; 
+  myOptions: IMultiSelectOption[]; 
+  source: LocalDataSource; 
+  busy: Subscription; 
+  checkedStatus =[]; 
+  filtered = [];
+  enqstatus: any = []; 
+  enqPriority: any = []; 
+  enqFollowType: any = []; 
+  enqAssignTo: any = []; 
+  enqStd: any = []; 
+  enqSub: any = []; 
+  enqScholarship: any = []; 
+  enqSub2: any = [];
+  adFilterForm: FormGroup;
   formData: instituteInfo = {
     institute_id: 100123, 
     function_type: "manageSearchEnquiries", 
@@ -60,7 +73,14 @@ export class EnquiryManageComponent implements OnInit {
     pageNo: 1, 
     sizeLimit: 100,
   }
-
+  datepickerOptions: DatepickerOptions = {
+    minYear: 1970,
+    maxYear: 2030,
+    displayFormat: 'MMM D[,] YYYY',
+    barTitleFormat: 'MMMM YYYY',
+    firstCalendarDay: 0,
+  };
+  date: Date;
   stats = {
     All :       {value: 'All', prop: 'All', checked: true, disabled: false},
     Open :      {value: 'Open', prop: 'Open', checked: false, disabled: false}, 
@@ -122,16 +142,12 @@ export class EnquiryManageComponent implements OnInit {
     },
   };
 
-  constructor(private enquire: FetchenquiryService, private router: Router, private logger: Logger, private adfilterFB: FormBuilder){
+  constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private adfilterFB: FormBuilder){
   }
   
   ngOnInit() {
-    this.busy = this.enquire.getAllEnquiry().map(data => {
-      this.rows = data;
-     }).subscribe(data => {
-      this.source = new LocalDataSource(this.rows);
-      this.source.refresh();
-    })
+    this.logger.group("ngOnInit Performed");
+    this.logger.log("column static data loaded");
     this.myOptions = [{ name: 'Enquiry ID', id: 'institute_enquiry_id'}, { name: 'Institute ID', id: 'institution_id' }, { name: 'Enquiry No', id: 'enquiry_no' }, { name: 'Name', id: 'name' }, { name: 'Phone', id: 'phone' }, { name: 'Email', id: 'email' }, { name: 'Standard', id: 'standard' }, { name: 'Gender', id: 'Gender' }, { name: 'Subjects', id: 'subjects' }, { name: 'Status', id: 'status' }, { name: 'Status Value', id: 'statusValue' }, { name: 'is Converted', id: 'is_converted' }, { name: 'Follow up Date', id: 'followUpDate' }, { name: 'Occupation ID', id: 'occupation_id' }, { name: 'School ID', id: 'school_id' }, { name: 'Enquiry Date', id: 'enquiry_date' }, { name: 'Standard ID', id: 'standard_id' }, { name: 'Subject ID', id: 'subject_id' }, { name: 'Reffered by', id: 'referred_by' }, { name: 'Source ID', id: 'source_id' }, { name: 'Priority', id: 'priority' }, { name: 'Follow type', id: 'follow_type' }, { name: 'Assigned Name', id: 'assigned_name' }, { name: 'Is recent', id: 'is_recent' }, { name: 'Slot ID', id: 'slot_id' }, { name: 'Slot', id: 'slot' }, { name: 'Update Date', id: 'updateDate' }, { name: 'Is Dashboard', id: 'isDashbord' }, { name: 'Is Report', id: 'isRport' }, { name: 'Total Count', id: 'totalcount' }, { name: 'New Enquiry Count', id: 'newEnqcount' }, { name: 'Enquiry Date', id: 'enquiry_no_date' }, { name: 'Person Name', id: 'name_person' }, { name: 'Follow up date', id: 'followUpDateTime' }, { name: 'Standard subject', id: 'standard_subject' }, { name: 'Closed Reason', id: 'closedReasonText' }, { name: 'Follow up Time', id: 'followUpTime' }, { name: 'Filtered Status', id: 'filtered_statuses' }, { name: 'Filtered Slot', id: 'filtered_slots' }];
     this.myOptions.forEach  (el => 
       {
@@ -139,32 +155,36 @@ export class EnquiryManageComponent implements OnInit {
         this.optionsModel.push(el.id);
       }
     })
-    this.FetchEnquiryPrefilledData();    
-    this.logger.group("ngOnit");
-    this.logger.log("initialized Http Calls for fetching form prefilled data and table Data");
-    this.logger.log(this.optionsModel);
-    this.logger.debug("Completed Http Calls");
+    this.busy = this.enquire.getAllEnquiry().map(data => {
+      this.rows = data;
+     }).subscribe(data => {
+      this.source = new LocalDataSource(this.rows);
+      this.source.refresh();
+    });
+    this.logger.log(this.myOptions);
+    this.FetchEnquiryPrefilledData();
+    this.logger.log("Prefill data loaded, added data on filter open");
     this.logger.groupEnd();
   }
 
   FetchEnquiryPrefilledData(){
-    this.enquire.getEnqStatus().subscribe(
+    this.prefill.getEnqStatus().subscribe(
       data => {this.enqstatus = data;},
       err => { console.log(err); }
     );
-    this.enquire.getEnqPriority().subscribe(
+    this.prefill.getEnqPriority().subscribe(
       data => { this.enqPriority = data; },
       err => { console.log(err); }
     );
-    this.enquire.getFollowupType().subscribe(
+    this.prefill.getFollowupType().subscribe(
       data => { this.enqFollowType = data },
       err => { console.log(err); }
     );
-    this.enquire.getAssignTo().subscribe(
+    this.prefill.getAssignTo().subscribe(
       data => { this.enqAssignTo = data; },
       err => { console.log(err); }
     );
-    this.enquire.getScholarPrefillData().subscribe(
+    this.prefill.getScholarPrefillData().subscribe(
       data => { 
         //console.log(data);
         data.forEach(el => {
@@ -179,7 +199,7 @@ export class EnquiryManageComponent implements OnInit {
       },
       err => { console.log(err); }
     );
-    this.enquire.getEnqStardards().subscribe(
+    this.prefill.getEnqStardards().subscribe(
       data => { this.enqStd = data;},
       err => { console.log(err); }
     );
@@ -290,7 +310,15 @@ export class EnquiryManageComponent implements OnInit {
   }
 
   openAdFilter(){
+    this.logger.group("Advanced filter opened");
     this.AdFilter =  true;
+    this.logger.log(this.enqstatus);
+    this.logger.log(this.enqPriority);
+    this.logger.log(this.enqAssignTo);
+    this.logger.log(this.enqFollowType);
+    this.logger.log(this.enqScholarship);
+    this.logger.log(this.enqStd);
+    this.logger.groupEnd();
     //let instituteFormData = `institute_id=${this.instituteData.institute_id}&function_type=${this.instituteData.function_type}&username=${this.instituteData.username}&password=${this.instituteData.password}&onLoad=${this.instituteData.onLoad}&name=${this.instituteData.name}&phone=${this.instituteData.phone}&email=${this.instituteData.email}&enquiry=${this.instituteData.enquiry_no}&priority=${this.instituteData.priority}&filtered_statuses=${this.instituteData.filtered_statuses}&follow_type=${this.instituteData.follow_type}&followUpDate=${this.instituteData.followUpDate}&enquiry_date=${this.instituteData.enquiry_date}&assigned_to=${this.instituteData.assigned_to}&standard_id=${this.instituteData.standard_id}&subject_id=${this.instituteData.subject_id}&is_recent=${this.instituteData.is_recent}&filtered_slots=${this.instituteData.filtered_slots}&isDashbord=${this.instituteData.isDashbord}&enquireDateFrom=${this.instituteData.enquireDateFrom}&enquireDateTo=${this.instituteData.enquireDateTo}&updateDate=${this.instituteData.updateDate}&updateDateFrom=${this.instituteData.updateDateFrom}&updateDateTo=${this.instituteData.updateDateTo}&page=${this.instituteData.pageNo}&size=${this.instituteData.sizeLimit}`;
   }
   closeAdFilter(){
@@ -338,7 +366,6 @@ export class EnquiryManageComponent implements OnInit {
   }
 
   handleGridSelected(event) {
-    this.gridSelected = event.selected;
   }
 
   filterAdvanced(event){
