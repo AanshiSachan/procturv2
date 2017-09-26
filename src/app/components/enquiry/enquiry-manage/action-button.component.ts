@@ -36,10 +36,10 @@ import { ViewCell } from 'ng2-smart-table';
     width: 350px;
     border-radius: 0;
     border: 1px solid #ccc;
-    bottom: 15px;
+    bottom: 10px;
     box-shadow: 0px 2px 4px 1px #ccc;
     transform: translateX(-50%);
-    left: 50%;
+    left: 42%;
    }
   
    .action-menu-inner ul {
@@ -114,17 +114,17 @@ import { ViewCell } from 'ng2-smart-table';
   </style>
   <div class="enquiry-action">
   <div>
-  <button class="btn table-action-icon"  (click)="openMenu($event)" >
+  <button class="btn table-action-icon" style="outline:none;border:none;" (click)="openMenu($event)" >
     <img src="./assets/images/action_hover.svg" height="20" width="20">
   </button>
-  <div class="action-menu" *ngIf="showMenu" (mouseleave)="closeMenu()">
+  <div class="action-menu" *ngIf="showMenu" (mouseleave)="closeMenu()" (click)="closeMenu()">
   <div class="action-menu-inner">
       <ul>
           <li>
-              <i>
+              <i (click)="openUpdatePopup()">
                <svg xmlns="http://www.w3.org/2000/svg" viewBox="11716 358 26 22" class="action-icon">
                   <g id="Group_1238" data-name="Group 1238" transform="translate(10862 -6)">
-                      <rect id="Rectangle_393" data-name="Rectangle 393" class="cls-1" width="26" height="22" transform="translate(854 364)"/>
+                      <rect id="Rectangle_393" data-name="Rectangle 393" class="cls-1" width="26" height="22" transform="translate(854 364)" style="stroke:none;"/>
                       <g id="Group_791" data-name="Group 791" transform="translate(857 365)">
                       <path id="Path_210" data-name="Path 210" class="cls-2" d="M3.6,3.7l3,.263L6.334,6.907" transform="translate(-2.195 -2.269)"/>
                       <path id="Path_211" data-name="Path 211" class="cls-2" d="M13,1.673A10.094,10.094,0,0,1,24.355,4.512,10,10,0,0,1,23.146,18.6" transform="translate(-6.653 -0.978)"/>
@@ -139,31 +139,29 @@ import { ViewCell } from 'ng2-smart-table';
                   Update <br>Enquiry
               </span>
           </li>
-          <li class="edit-detail-icon">
-              <i>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="11778 358 26 22" class="action-icon">
-
-              <g id="Group_1234" data-name="Group 1234" transform="translate(10862 -6)">
-                  <rect id="Rectangle_697" data-name="Rectangle 697" class="cls-1" width="26" height="22" transform="translate(916 364)"/>
+          <li>
+              <i (click)="openEditPopup()">
+                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="11778 358 26 22" class="action-icon">
+                 <g id="Group_1234" data-name="Group 1234" transform="translate(10862 -6)">
+                  <rect id="Rectangle_697" data-name="Rectangle 697" class="cls-1" width="26" height="22" transform="translate(916 364)" style="stroke:none;"/>
                   <g id="Group_1126" data-name="Group 1126" transform="translate(-0.478 -0.386)">
                   <path id="Path_215" data-name="Path 215" class="cls-2" d="M0,0H17.753" transform="translate(920.478 385.386)"/>
                   <path id="Path_214" data-name="Path 214" class="cls-3" d="M8.492,16.068,3,17.621l1.553-5.492,10.6-10.6a1.877,1.877,0,0,1,2.718,0L19.089,2.7a1.877,1.877,0,0,1,0,2.718Z" transform="translate(919.142 364.436)"/>
                   <line id="Line_159" data-name="Line 159" class="cls-3" x1="3.883" y1="3.883" transform="translate(932.738 367.578)"/>
                   </g>
-              </g>
-              </svg>    
-                  
+                 </g>
+                 </svg>           
               </i>
               <span>
                   Edit <br> Details
               </span>
           </li>
           <li>
-              <i>
+              <i (click)="openDeletePopup()">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="11841 358 26 22" class="action-icon">
 
                   <g id="Group_1237" data-name="Group 1237" transform="translate(10862 -6)">
-                      <rect id="Rectangle_698" data-name="Rectangle 698" class="cls-1" width="26" height="22" transform="translate(979 364)"/>
+                      <rect id="Rectangle_698" data-name="Rectangle 698" class="cls-1" width="26" height="22" transform="translate(979 364)" style="stroke:none;"/>
                       <g id="Group_795" data-name="Group 795" transform="translate(981 365)">
                       <path id="Path_216" data-name="Path 216" class="cls-2" d="M20.294,6V20.706a2.36,2.36,0,0,1-2.353,2.353H7.353A2.36,2.36,0,0,1,5,20.706V6" transform="translate(-2.059 -3.059)"/>
                       <line id="Line_160" data-name="Line 160" class="cls-2" x2="21.176" transform="translate(0 2.941)"/>
@@ -180,10 +178,10 @@ import { ViewCell } from 'ng2-smart-table';
               </span>
           </li>
           <li>
-              <i>
+              <i (click)="openConvertPopup()">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="11900 358 26 22" class="action-icon">
                     <g id="Group_1235" data-name="Group 1235" transform="translate(10862 -6)">
-                      <rect id="Rectangle_699" data-name="Rectangle 699" class="cls-1" width="26" height="22" transform="translate(1038 364)"/>
+                      <rect id="Rectangle_699" data-name="Rectangle 699" class="cls-1" width="26" height="22" transform="translate(1038 364)" style="stroke:none;"/>
                       <g id="Group_943" data-name="Group 943" transform="translate(-10894.121 -490.387)">
                       <g id="Group_796" data-name="Group 796" transform="translate(11935.121 855.387)">
                           <path id="Path_219" data-name="Path 219" class="cls-2" d="M14.084,14.529c-1.647,0-3.588-1.824-4.353-4.412-.647,0-1.176-.765-1.235-1.647a1.765,1.765,0,0,1,.882-1.824C9.555,3.118,10.555,1,14.084,1s4.529,2.118,4.706,5.647c.588.118.941.882.882,1.824s-.588,1.647-1.235,1.647C17.673,12.706,15.731,14.529,14.084,14.529Z" transform="translate(-4.084 -1)"/>
@@ -199,10 +197,10 @@ import { ViewCell } from 'ng2-smart-table';
               </span>
           </li>
           <li>
-              <i>
+              <i (click)="openPaymentPopup()">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="11966 358 26 22" class="action-icon">
                     <g id="Group_1236" data-name="Group 1236" transform="translate(10862 -6)">
-                      <rect id="Rectangle_700" data-name="Rectangle 700" class="cls-1" width="26" height="22" transform="translate(1104 364)"/>
+                      <rect id="Rectangle_700" data-name="Rectangle 700" class="cls-1" width="26" height="22" transform="translate(1104 364)" style="stroke:none;"/>
                       <g id="Group_946" data-name="Group 946" transform="translate(1128 368) rotate(90)">
                       <g id="Group_1233" data-name="Group 1233">
                           <path id="Path_239" data-name="Path 239" class="cls-2" d="M17,38.4v-.755s1.277-.83,1.277-1.887V35" transform="translate(-9.191 -21.169)"/>
@@ -214,9 +212,9 @@ import { ViewCell } from 'ng2-smart-table';
                           <path id="Path_244" data-name="Path 244" class="cls-2" d="M6,26.762l3.4-3.019c.766-.679,2,1.019,1.064,2.076L9.4,26.762v1.132A1.534,1.534,0,0,1,7.7,29.4" transform="translate(-2.872 -14.063)"/>
                       </g>
                       </g>
-                  </g>
-                  </svg>
-                  </i>
+                      </g>
+                      </svg>
+              </i>
               <span>
                  Pay  <br>
                  Restistration Fees
@@ -237,13 +235,11 @@ export class ActionButtonComponent implements OnInit {
   private showMenu: boolean = false;
   constructor() {}
   ngOnInit() {}
-
-  openMenu(ev){
-    this.showMenu = true;
-  }
-
-  closeMenu(){
-    this.showMenu = false;
-  }
-
+  openMenu(ev){this.showMenu = true;}
+  closeMenu(){this.showMenu = false;}
+  openUpdatePopup(){}
+  openEditPopup(){}
+  openDeletePopup(){}
+  openConvertPopup(){}
+  openPaymentPopup(){}  
 }

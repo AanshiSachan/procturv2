@@ -15,7 +15,7 @@
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="search-filter-wrapper">
                 <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No." (keyup)="onSearch(search.value)">
-                <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="onSearch(search.value)"/>
+                <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="onSearch(search.value)" />
               </div>
             </div>
             <div class="c-lg-6 c-md-6 c-sm-6">
@@ -129,8 +129,9 @@
             </div>
             <div class="row">
               <div class="c-lg-3 c-md-3 c-sm-3">
-                <div class="field-wrapper datePickerBox input-group date">
-                  <input type="text" value="02-16-2012" id="updateDate" class="form-ctrl form-control" [(ngModel)]="formData.updateDate" name="UD" formInput/>
+                <div class="field-wrapper datePickerBox">
+                  <input type="text" value="" id="updateDate" class="form-ctrl" ngbDatepicker #d1="ngbDatepicker" [(ngModel)]="formData.updateDate"
+                    (focus)="d1.open()" name="UD" formInput/>
                   <label for="updateDate">Update Date</label>
                 </div>
               </div>
@@ -236,4 +237,595 @@
       </section>
     </section>
   </aside>
+
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="updatePopup">
+    <div class="popup pos-abs">
+      <div class="popup-wrapper pos-rel">
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeUpdatePopup()">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
+                              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
+                              </g>
+                              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
+                          </g>
+                      </svg>                
+                  </span>
+        <div class="popup-content">
+          <h2>Update Enquiry - Enquiry No: 1050</h2>
+          <div class="update-enquiry-form overflowHidden">
+            <div class="">
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <select id="priorityEdit" class="form-ctrl" formInput>
+                                         <option>Select Priority</option>
+                                         <option>Select Priority</option>
+                                     </select>
+                    <label for="priorityEdit">Priority</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <select id="selectFollowupEdit" class="form-ctrl" formInput>
+                                         <option>Select Follow Up Type</option>
+                                         <option>DEBIT</option>
+                                     </select>
+                    <label for="selectFollowupEdit">Follow Up Type</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value datePickerBox">
+                    <input type="text" value="Follow Up Date" placeholder="" id="followUPdataEdit" class="form-ctrl" formInput/>
+                    <label for="followUPdataEdit">Follow Up Data</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <select id="enquiryStatusEdit" class="form-ctrl" formInput>
+                                         <option>In Progress</option>
+                                         <option>DEBIT</option>
+                                     </select>
+                    <label for="enquiryStatusEdit">Enquiry Status</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value datePickerBox">
+                    <input type="text" value="12 August, 2017" placeholder="" id="commentDateEdit" class="form-ctrl" formInput/>
+                    <label for="commentDateEdit">Comment Date</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <input type="text" value="Call back next week" placeholder="" id="addcommentEdit" class="form-ctrl" formInput/>
+                    <label for="addcommentEdit">Add Comment Edit</label>
+                  </div>
+                </div>
+              </div>
+              <h4>Comment History</h4>
+              <div class="enquiry-update-history table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Comment</th>
+                      <th>Commented On</th>
+                      <th>Commented By</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Call back after 1 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Amresh Sir</td>
+                    </tr>
+                    <tr>
+                      <td>Call back after 5 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Puneet Sir</td>
+                    </tr>
+                    <tr>
+                      <td>Call back after 5 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Puneet Sir</td>
+                    </tr>
+                    <tr>
+                      <td>Call back after 5 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Puneet Sir</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="">
+                <div class="clearfix">
+                  <aside class="pull-right popup-btn">
+                    <input type="button" value="Cancel" class="btn" (click)="openConfirmationPopup()">
+                    <input type="button" value="Update" class="redBtn btn">
+                  </aside>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="editPopup">
+    <div class="popup pos-abs">
+      <div class="popup-wrapper pos-rel">
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeUpdatePopup()">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
+                                </g>
+                                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
+                            </g>
+                        </svg>                
+                    </span>
+        <div class="popup-content">
+          <h2>Update Enquiry - Enquiry No: 1050</h2>
+          <div class="update-enquiry-form overflowHidden">
+            <div class="">
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <select id="priorityEdit" class="form-ctrl" formInput>
+                                           <option>Select Priority</option>
+                                           <option>Select Priority</option>
+                                       </select>
+                    <label for="priorityEdit">Priority</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <select id="selectFollowupEdit" class="form-ctrl" formInput>
+                                           <option>Select Follow Up Type</option>
+                                           <option>DEBIT</option>
+                                       </select>
+                    <label for="selectFollowupEdit">Follow Up Type</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value datePickerBox">
+                    <input type="text" value="Follow Up Date" placeholder="" id="followUPdataEdit" class="form-ctrl" formInput/>
+                    <label for="followUPdataEdit">Follow Up Data</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <select id="enquiryStatusEdit" class="form-ctrl" formInput>
+                                           <option>In Progress</option>
+                                           <option>DEBIT</option>
+                                       </select>
+                    <label for="enquiryStatusEdit">Enquiry Status</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value datePickerBox">
+                    <input type="text" value="12 August, 2017" placeholder="" id="commentDateEdit" class="form-ctrl" formInput/>
+                    <label for="commentDateEdit">Comment Date</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <input type="text" value="Call back next week" placeholder="" id="addcommentEdit" class="form-ctrl" formInput/>
+                    <label for="addcommentEdit">Add Comment Edit</label>
+                  </div>
+                </div>
+              </div>
+              <h4>Comment History</h4>
+              <div class="enquiry-update-history table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Comment</th>
+                      <th>Commented On</th>
+                      <th>Commented By</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Call back after 1 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Amresh Sir</td>
+                    </tr>
+                    <tr>
+                      <td>Call back after 5 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Puneet Sir</td>
+                    </tr>
+                    <tr>
+                      <td>Call back after 5 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Puneet Sir</td>
+                    </tr>
+                    <tr>
+                      <td>Call back after 5 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Puneet Sir</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="">
+                <div class="clearfix">
+                  <aside class="pull-right popup-btn">
+                    <input type="button" value="Cancel" class="btn" (click)="openConfirmationPopup()">
+                    <input type="button" value="Update" class="redBtn btn">
+                  </aside>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="deletePopup">
+    <div class="popup pos-abs">
+      <div class="popup-wrapper pos-rel">
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeUpdatePopup()">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
+                              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
+                              </g>
+                              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
+                          </g>
+                      </svg>                
+                  </span>
+        <div class="popup-content">
+          <h2>Update Enquiry - Enquiry No: 1050</h2>
+          <div class="update-enquiry-form overflowHidden">
+            <div class="">
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <select id="priorityEdit" class="form-ctrl" formInput>
+                                         <option>Select Priority</option>
+                                         <option>Select Priority</option>
+                                     </select>
+                    <label for="priorityEdit">Priority</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <select id="selectFollowupEdit" class="form-ctrl" formInput>
+                                         <option>Select Follow Up Type</option>
+                                         <option>DEBIT</option>
+                                     </select>
+                    <label for="selectFollowupEdit">Follow Up Type</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value datePickerBox">
+                    <input type="text" value="Follow Up Date" placeholder="" id="followUPdataEdit" class="form-ctrl" formInput/>
+                    <label for="followUPdataEdit">Follow Up Data</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <select id="enquiryStatusEdit" class="form-ctrl" formInput>
+                                         <option>In Progress</option>
+                                         <option>DEBIT</option>
+                                     </select>
+                    <label for="enquiryStatusEdit">Enquiry Status</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value datePickerBox">
+                    <input type="text" value="12 August, 2017" placeholder="" id="commentDateEdit" class="form-ctrl" formInput/>
+                    <label for="commentDateEdit">Comment Date</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <input type="text" value="Call back next week" placeholder="" id="addcommentEdit" class="form-ctrl" formInput/>
+                    <label for="addcommentEdit">Add Comment Edit</label>
+                  </div>
+                </div>
+              </div>
+              <h4>Comment History</h4>
+              <div class="enquiry-update-history table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Comment</th>
+                      <th>Commented On</th>
+                      <th>Commented By</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Call back after 1 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Amresh Sir</td>
+                    </tr>
+                    <tr>
+                      <td>Call back after 5 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Puneet Sir</td>
+                    </tr>
+                    <tr>
+                      <td>Call back after 5 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Puneet Sir</td>
+                    </tr>
+                    <tr>
+                      <td>Call back after 5 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Puneet Sir</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="">
+                <div class="clearfix">
+                  <aside class="pull-right popup-btn">
+                    <input type="button" value="Cancel" class="btn" (click)="openConfirmationPopup()">
+                    <input type="button" value="Update" class="redBtn btn">
+                  </aside>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="convertPopup">
+    <div class="popup pos-abs">
+      <div class="popup-wrapper pos-rel">
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeUpdatePopup()">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
+                                </g>
+                                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
+                            </g>
+                        </svg>                
+                    </span>
+        <div class="popup-content">
+          <h2>Update Enquiry - Enquiry No: 1050</h2>
+          <div class="update-enquiry-form overflowHidden">
+            <div class="">
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <select id="priorityEdit" class="form-ctrl" formInput>
+                                           <option>Select Priority</option>
+                                           <option>Select Priority</option>
+                                       </select>
+                    <label for="priorityEdit">Priority</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <select id="selectFollowupEdit" class="form-ctrl" formInput>
+                                           <option>Select Follow Up Type</option>
+                                           <option>DEBIT</option>
+                                       </select>
+                    <label for="selectFollowupEdit">Follow Up Type</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value datePickerBox">
+                    <input type="text" value="Follow Up Date" placeholder="" id="followUPdataEdit" class="form-ctrl" formInput/>
+                    <label for="followUPdataEdit">Follow Up Data</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <select id="enquiryStatusEdit" class="form-ctrl" formInput>
+                                           <option>In Progress</option>
+                                           <option>DEBIT</option>
+                                       </select>
+                    <label for="enquiryStatusEdit">Enquiry Status</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value datePickerBox">
+                    <input type="text" value="12 August, 2017" placeholder="" id="commentDateEdit" class="form-ctrl" formInput/>
+                    <label for="commentDateEdit">Comment Date</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <input type="text" value="Call back next week" placeholder="" id="addcommentEdit" class="form-ctrl" formInput/>
+                    <label for="addcommentEdit">Add Comment Edit</label>
+                  </div>
+                </div>
+              </div>
+              <h4>Comment History</h4>
+              <div class="enquiry-update-history table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Comment</th>
+                      <th>Commented On</th>
+                      <th>Commented By</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Call back after 1 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Amresh Sir</td>
+                    </tr>
+                    <tr>
+                      <td>Call back after 5 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Puneet Sir</td>
+                    </tr>
+                    <tr>
+                      <td>Call back after 5 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Puneet Sir</td>
+                    </tr>
+                    <tr>
+                      <td>Call back after 5 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Puneet Sir</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="">
+                <div class="clearfix">
+                  <aside class="pull-right popup-btn">
+                    <input type="button" value="Cancel" class="btn" (click)="openConfirmationPopup()">
+                    <input type="button" value="Update" class="redBtn btn">
+                  </aside>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="paymentPopup">
+    <div class="popup pos-abs">
+      <div class="popup-wrapper pos-rel">
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeUpdatePopup()">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
+                                </g>
+                                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
+                            </g>
+                        </svg>                
+                    </span>
+        <div class="popup-content">
+          <h2>Update Enquiry - Enquiry No: 1050</h2>
+          <div class="update-enquiry-form overflowHidden">
+            <div class="">
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <select id="priorityEdit" class="form-ctrl" formInput>
+                                           <option>Select Priority</option>
+                                           <option>Select Priority</option>
+                                       </select>
+                    <label for="priorityEdit">Priority</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <select id="selectFollowupEdit" class="form-ctrl" formInput>
+                                           <option>Select Follow Up Type</option>
+                                           <option>DEBIT</option>
+                                       </select>
+                    <label for="selectFollowupEdit">Follow Up Type</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value datePickerBox">
+                    <input type="text" value="Follow Up Date" placeholder="" id="followUPdataEdit" class="form-ctrl" formInput/>
+                    <label for="followUPdataEdit">Follow Up Data</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <select id="enquiryStatusEdit" class="form-ctrl" formInput>
+                                           <option>In Progress</option>
+                                           <option>DEBIT</option>
+                                       </select>
+                    <label for="enquiryStatusEdit">Enquiry Status</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value datePickerBox">
+                    <input type="text" value="12 August, 2017" placeholder="" id="commentDateEdit" class="form-ctrl" formInput/>
+                    <label for="commentDateEdit">Comment Date</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <input type="text" value="Call back next week" placeholder="" id="addcommentEdit" class="form-ctrl" formInput/>
+                    <label for="addcommentEdit">Add Comment Edit</label>
+                  </div>
+                </div>
+              </div>
+              <h4>Comment History</h4>
+              <div class="enquiry-update-history table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Comment</th>
+                      <th>Commented On</th>
+                      <th>Commented By</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Call back after 1 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Amresh Sir</td>
+                    </tr>
+                    <tr>
+                      <td>Call back after 5 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Puneet Sir</td>
+                    </tr>
+                    <tr>
+                      <td>Call back after 5 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Puneet Sir</td>
+                    </tr>
+                    <tr>
+                      <td>Call back after 5 week</td>
+                      <td>09 Aug, 2017 06:48:54 PM</td>
+                      <td>Puneet Sir</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="">
+                <div class="clearfix">
+                  <aside class="pull-right popup-btn">
+                    <input type="button" value="Cancel" class="btn" (click)="openConfirmationPopup()">
+                    <input type="button" value="Update" class="redBtn btn">
+                  </aside>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </div>

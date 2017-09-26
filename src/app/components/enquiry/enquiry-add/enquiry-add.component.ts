@@ -38,7 +38,8 @@ export class EnquiryAddComponent implements OnInit{
   refferedBy: any = [];
   occupation: any = [];
   lastDetail: any = [];
-
+  confimationPop: boolean= false;
+  updatePop: boolean= false;
   addFormData = {
     name: null,
     phone: null,
@@ -160,7 +161,6 @@ export class EnquiryAddComponent implements OnInit{
       err => { console.log(err); }
     );
   }
-
   getLeadDetails(){
    if(this.addFormData.phone != null){
     let data = this.prefill.fetchLeadDetails(this.addFormData.phone);
@@ -169,12 +169,22 @@ export class EnquiryAddComponent implements OnInit{
     alert("Please enter the phone number to fetch details")
    }
   }
-
-  openLastDetailModal(){
-    this.prefill.confirm();
+  clearFormData(){}
+  openConfirmationPopup(){
+    this.closeUpdatePopup();
+    console.log("confirmation popup opened");
+    this.confimationPop = true;
   }
-
-  clearFormData(){
+  closePopUp(){
+    console.log("confirmation popup closed");
+    this.confimationPop = false;
   }
-  
+  openUpdatePopup(){
+    this.closePopUp();
+    this.updatePop = true;
+    console.log("edit popup opened");
+  }
+  closeUpdatePopup(){
+    this.updatePop = false;
+  }
 }
