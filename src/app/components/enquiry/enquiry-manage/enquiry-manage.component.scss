@@ -528,12 +528,23 @@ ul.customDropdown li:hover {
     background: #f5f5f5;
 }
 
+/* Data table Settings */
 
 :host /deep/ ng2-smart-table table > thead > tr:first-child{
-    background: #004a7e !important;
+    background: #f7f7f7;
+    transition: all 0.5s;
 }
 :host /deep/ ng2-smart-table table > thead > tr:first-child > th{
-    padding: 5px 10px;
+    padding: 10px 10px;
+    background: #004a7e;
+    color: #fff;
+    font-size: 11px;
+    font-weight: normal;
+    vertical-align: middle;
+    line-height: 20px;
+    .ng2-smart-title{
+        min-width: 70px;
+    }
 }
 :host /deep/ ng2-smart-table table > thead > tr:nth-child(even){
     display: none
@@ -553,10 +564,10 @@ ul.customDropdown li:hover {
 }
 :host /deep/ ng2-smart-table table > tbody > tr > td{
     transition: all 0.5s;
-    font-size: 12px !important;
+    font-size: 14px !important;
     line-height: normal;
     border-bottom: 1px solid #fff;
-    padding: 6px 6px;
+    padding: 6px 2px;
 }
 :host /deep/ ng2-smart-table table > tbody > tr:nth-child(even) {
     background: rgba(204, 204, 204, 0.36);

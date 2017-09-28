@@ -112,8 +112,8 @@ export class EnquiryManageComponent implements OnInit {
     },
     pager: {
       display: true,
-      perPage: 5,
-    },
+      perPage: 10,
+    }, 
   };
 
   settingUpdater = {
@@ -140,7 +140,7 @@ export class EnquiryManageComponent implements OnInit {
     },
     pager: {
       display: true,
-      perPage: 5,
+      perPage: 10,
     },
   };
 
@@ -218,7 +218,7 @@ export class EnquiryManageComponent implements OnInit {
       },
       pager: {
         display: true,
-        perPage: 5,
+        perPage: 10,
       },
     };
     this.settingUpdater = Object.assign({}, this.settings);
@@ -353,7 +353,7 @@ export class EnquiryManageComponent implements OnInit {
       },
       pager: {
         display: true,
-        perPage: 5,
+        perPage: 10,
       },
     };
     this.settingUpdater = Object.assign({}, this.settings);
