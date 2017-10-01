@@ -1,0 +1,480 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+@import "./src/app/components/enquiry/enquiry-add/enquiry-add.component.scss";
+
+.student-flow-wrapper {
+    padding: 0 15px;
+}
+
+.map-courses {
+    margin: 15px 0 10px;
+    font-size: 13px;
+    strong {
+        font-weight: 600;
+    }
+}
+
+.common-right-section {
+    &:first-child {
+        margin-top: 15px;
+    }
+}
+
+.need-help {
+    .questionInfo {
+        margin-right: 2px;
+        height: 20px;
+        width: 20px;
+        display: inline-block;
+        vertical-align: middle;
+        .qInfoIcon {
+            color: $common-blue;
+            border-color: $common-blue;
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            display: block;
+            text-align: center;
+            box-sizing: border-box;
+            line-height: 20px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 0px 0px 1px 0px #ccc inset;
+            color: #888;
+            transition: all 0.6s linear;
+        }
+    }
+    padding-top: 8px;
+    a {
+        font-size: 13px;
+        font-weight: 600;
+    }
+}
+
+.fee-detail {
+    .btn {
+        margin-left: 0;
+        min-width: 150px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+}
+
+.fee-box {
+    min-height: 300px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.apply-tax {
+    margin-top: 20px;
+}
+
+.installment-detail {
+    padding: 15px 0 0;
+}
+
+.fee-install-table {
+    .table-responsive {
+        table {
+            th,
+            td {
+                text-align: center;
+                padding: 10px 5px;
+            }
+            th {
+                text-transform: capitalize;
+                font-size: 14px;
+            }
+            tbody {
+                tr {
+                    td {
+                        .field-checkbox-wrapper {
+                            display: inline-block;
+                            overflow: initial;
+                            margin-left: 0;
+                            width: auto;
+                            position: relative;
+                            background: transparent;
+                            .form-checkbox {
+                                z-index: 2;
+                            }
+                            .form-checkbox+label {
+                                font-size: 16px;
+                                margin-left: 7px;
+                                font-weight: 600;
+                                vertical-align: middle;
+                                &:after,
+                                &:before {
+                                    z-index: 1;
+                                }
+                            }
+                            &:after {
+                                content: '';
+                                width: 20px;
+                                height: 20px;
+                                background: #fff;
+                                left: 0;
+                                top: 0;
+                                position: absolute;
+                            }
+                        }
+                        .fa-trash-o {
+                            color: $redBtn;
+                            font-size: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.manage-additional-deal {
+    margin-bottom: 20px;
+}
+
+.fee-detail-right {
+    .box-shadow-lite {
+        padding: 10px;
+    }
+}
+
+.fee-detail-total-calc {
+    &>div {
+        padding: 15px 0;
+        border-bottom: 1px solid $border-color;
+        &.total-fee {
+            border-top: 1px solid $border-color;
+            border-bottom: 0;
+            span {
+                font-size: 14px;
+                font-weight: bold;
+            }
+        }
+        &.amount-paid {
+            padding: 10px;
+            background: #ebfdeb;
+            border: 1px solid #b8d0b8;
+            margin-bottom: 15px;
+        }
+        &.amount-due {
+            padding: 10px;
+            background: #fdd9e0;
+            border: 1px solid #e1b0b9;
+            margin-bottom: 5px;
+        }
+    }
+    .fdtc-label {
+        font-size: 13px;
+    }
+    .fdtc-value {
+        font-size: 13px;
+        font-weight: 600;
+        text-align: right;
+        a {
+            font-weight: 400;
+            font-size: 12px;
+            display: block;
+            color: inherit;
+            margin-top: 3px;
+        }
+    }
+}
+
+.radio-options {
+    text-align: center;
+    margin-top: 40px;
+    &>div {
+        display: inline-block;
+        margin-right: 10px;
+        margin-bottom: 15px;
+    }
+}
+
+.student-table {
+    overflow: inherit;
+    .fa-sticky-note-o {
+        font-size: 18px;
+        color: #333;
+    }
+}
+
+.allocation {
+    .form-type1 {
+        p {
+            margin-top: 4px;
+        }
+    }
+}
+
+.done-section {
+    padding: 20px 0;
+    border-bottom: 4px solid #ffd800;
+    min-height: 200px;
+    position: relative;
+    p {
+        font-size: 14px;
+        font-weight: 600;
+        max-width: 80%;
+    }
+    .close-btns {
+        position: absolute;
+        right: 10px;
+        top: 15px;
+        width: 20px;
+        height: 20px;
+        padding: 2px;
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+    .btn {
+        position: absolute;
+        right: 0;
+        bottom: 20px;
+        width: 150px;
+    }
+}
+
+.middle-section {
+    padding: 15px;
+}
+
+.boxPadding15 {
+    box-sizing: $border-box;
+    padding: 0 15px;
+}
+
+.middle-left {
+    width: 70%;
+    @extend .boxPadding15;
+}
+
+.middle-right {
+    width: 30%;
+    box-sizing: $border-box;
+    padding: 0 15px;
+    @extend .boxPadding15;
+}
+
+.form-type2 {
+    .questionInfo {
+        position: absolute;
+        right: 0px;
+        bottom: 5px;
+        z-index: 2;
+    }
+}
+
+/*=====================================middle top section css===================*/
+
+.middle-top {
+    padding-bottom: 10px;
+    border-bottom: 1px solid $borderccc;
+    margin-bottom: 10px;
+    h1 {
+        margin-top: 8px;
+    }
+}
+
+.btn {
+    padding: 7px 12px;
+    background: $bg-white;
+    border: 1px solid $borderccc;
+    margin-left: 10px;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    box-sizing: border-box;
+    height: 35px;
+    cursor: pointer;
+    color: $common-blue;
+}
+
+.btn.fullBlue {
+    background: $common-blue;
+    border: 1px solid $common-blue;
+    color: $bg-white;
+}
+
+.btn.cancle {
+    background: $bg-white;
+    border: 1px solid $borderccc;
+    color: $common-blue;
+    font-size: 16px;
+    height: 40px;
+}
+
+.btn.redBtn {
+    background: $redBtn;
+    border: 1px solid $redBtn;
+    color: $bg-white;
+    font-size: 16px;
+    height: 40px;
+}
+
+
+/*==================================middle bottom css=========================*/
+
+.middle-bottom {
+    padding-top: 15px;
+    border-top: 1px solid $borderccc;
+    margin-top: 15px;
+    .field-checkbox-wrapper {
+        margin-top: 3px;
+    }
+    .btn {
+        margin-left: 0;
+        margin-right: 10px;
+    }
+}
+
+
+/* import accordian css*/
+
+
+
+/*==========================Middle Enquiry CSS=================================*/
+
+.middle-full {
+    @extend .boxPadding15;
+}
+
+.cls-1,
+.cls-2 {
+    fill: none;
+}
+
+.cls-1 {
+    stroke: $common-blue;
+    stroke-miterlimit: 10;
+}
+
+/* ======================= Right Side bar CSS =================================== */
+
+.shadow-box {
+    box-shadow: 0px 2px 2px #7d7d7d;
+    padding: 7px;
+    // background: $header-bg;
+    border-radius: 2px;
+    background: $lightBlue;
+}
+
+.last-added-info {
+    ul {
+        li {
+            line-height: normal;
+            padding: 2px 0;
+            display: inline-block;
+            width: 100%;
+            vertical-align: top;
+        }
+    }
+    font-size: 12px;
+    strong {
+        font-weight: 600;
+        color: #28384a;
+    }
+    .view-details {
+        float: right;
+        font-size: 11px;
+        a {
+            // color: #777777;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    .enquiry-time {
+        float: right;
+        font-size: 10px;
+        color: #28384a;
+        margin-top: 4px;
+    }
+}
+
+
+/*=======================Right bottom lite shadow box======================*/
+
+.box-shadow-lite {
+    box-shadow: 0px 1px 2px 0px #ccc;
+    padding: 10px 0 10px 10px;
+    border-top: 1px solid #e8e8e8;
+    .field-wrapper {
+        padding-right: 40px;
+        .open-accor {
+            width: 17px;
+            font-size: 17px;
+            height: 17px;
+            line-height: 18px;
+            position: absolute;
+            right: 4px;
+            top: 19px;
+            z-index: 2;
+        }
+        &:first-child {
+            margin-top: -10px;
+        }
+    }
+}
+
+.common-right-section {
+    margin-top: 30px;
+    h4 {
+        margin-bottom: 7px;
+        color: #28383A;
+        font-size: 16px;
+        strong {
+            font-weight: 600;
+        }
+    }
+    .clear-detail {
+        margin-top: 10px;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+}
+
+.follow-up-date-icon {
+    position: absolute;
+    position: absolute;
+    right: 7px;
+    top: 20px;
+    cursor: pointer;
+    img {
+        width: 21px;
+    }
+}
+
+/* ======================== Responsive Data ================================== */
+
+@media only screen and (max-width: 767px) {
+    .fee-detail.row,
+    .installment-detail,
+    .student-flow-wrapper .middle-full.row,
+    .helpDetail.row,
+    .student-flow.row {
+        margin: 0;
+    }
+    .student-flow-wrapper {
+        padding: 0;
+    }
+    .allocation.row {
+        margin: 0;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .student-table {
+        // /* overflow: inherit; */
+        overflow: auto;
+        .table-heading-menu {
+            display: none;
+        }
+    }
+}

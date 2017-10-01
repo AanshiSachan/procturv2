@@ -5,15 +5,14 @@ import { CoreHeaderComponent } from './components/core/core-header/core-header.c
 import { EnquiryComponent } from './components/enquiry/enquiry.component';
 import { EnquiryHomeComponent } from './components/enquiry/enquiry-home/enquiry-home.component';
 import { EnquiryManageComponent } from './components/enquiry/enquiry-manage/enquiry-manage.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { DashboardHomeComponent } from './components/dashboard/dashboard-home/dashboard-home.component';
-import { DashboardStudentsComponent } from './components/dashboard/dashboard-students/dashboard-students.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { CustomErrorPageComponent } from './components/custom/custom-error-page/custom-error-page.component';
 import { ActionButtonComponent } from './components/enquiry/enquiry-manage/action-button.component';
 import { EnquiryAddComponent } from './components/enquiry/enquiry-add/enquiry-add.component';
 import { EnquiryConfirmModalComponent } from './components/custom/enquiry-confirm-modal/enquiry-confirm-modal.component';
-
+import { CalendarComponent } from './components/custom/calendar/calendar.component';
+import { EnquiryBulkaddComponent } from './components/enquiry/enquiry-bulkadd/enquiry-bulkadd.component';
+import { StudentHomeComponent } from './components/students/student-home/student-home.component';
 
 /* Modules */
 import { BrowserModule } from '@angular/platform-browser';
@@ -43,29 +42,13 @@ import { LoadInterceptor } from './interceptors/load-interceptor';
 /* Directives */
 import { ClickOutside } from './directives/click-outside.directive';
 import { FormInput } from './directives/form-input.directive';
-import { CalendarComponent } from './components/custom/calendar/calendar.component';
+import { SelectorDirective } from './directives/selector.directive';
 
 const appRoutes = [
+  
   {
     path: '',
-    component: DashboardHomeComponent,
-  },
-  {
-    path: 'dashboard',
-    component: DashboardComponent,
-    pathMatch: 'prefix',
-    children: [
-      {
-        path: '',
-        component: DashboardHomeComponent,
-        pathMatch: 'full',
-      },
-      {
-        path: 'students',
-        component: DashboardStudentsComponent,
-        pathMatch: 'full',
-      },
-    ]
+    component: EnquiryManageComponent,
   },
   {
     path: 'enquiry',
@@ -74,7 +57,7 @@ const appRoutes = [
     children: [
       {
         path: '',
-        component: EnquiryHomeComponent,
+        component: EnquiryManageComponent,
       },
       {
         path: 'manage',
@@ -85,8 +68,18 @@ const appRoutes = [
         path: 'addEnquiry',
         component: EnquiryAddComponent,
         pathMatch: 'prefix'
+      },
+      {
+        path: 'addBulkEnquiry',
+        component: EnquiryBulkaddComponent,
+        pathMatch: 'prefix'
       }
     ]
+  },
+  {
+    path: 'student',
+    component: StudentHomeComponent,
+    pathMatch: 'full',
   },
   {
     path: '**',
@@ -101,9 +94,6 @@ const appRoutes = [
     EnquiryComponent,
     EnquiryManageComponent,
     EnquiryHomeComponent,
-    DashboardComponent,
-    DashboardHomeComponent,
-    DashboardStudentsComponent,
     ProfileComponent,
     CustomErrorPageComponent,
     CoreSidednavComponent,
@@ -113,7 +103,10 @@ const appRoutes = [
     EnquiryAddComponent,
     FormInput,
     EnquiryConfirmModalComponent,
-    CalendarComponent
+    CalendarComponent,
+    SelectorDirective,
+    EnquiryBulkaddComponent,
+    StudentHomeComponent
   ],
   entryComponents: [
     ActionButtonComponent,

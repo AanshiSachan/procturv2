@@ -7,7 +7,7 @@ import { Directive , ElementRef , Renderer, HostListener } from '@angular/core';
   export class FormInput { 
 
     constructor(private el: ElementRef, private renderer: Renderer) {
-        console.log(renderer.listen);
+     //   console.log(renderer.listen);
     }
 
     @HostListener('document:click', ['$event'])

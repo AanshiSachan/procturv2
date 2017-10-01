@@ -21,270 +21,297 @@
 
 @import "../css/wrapper";
 
-/* import header css*/
 
-/* @import "../components/header/header"; */
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: local("Open Sans Bold"), local("OpenSans-Bold"), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff) format("woff");
+}
+  
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 300;
+    src: local("Open Sans Light"), local("OpenSans-Light"), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format("woff");
+}
+  
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    src: local("Open Sans Semibold"), local("OpenSans-Semibold"), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff) format("woff");
+}
+  
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local("Open Sans"), local("OpenSans"), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format("woff");
+}
 
-/*==========================================import filter css=========================*/
-
-/* @import "../components/middle/enquiryListComponent/enquirylist"; */
-
-/* import middle css*/
-
-/* @import "../components/middle/middle"; */
-
-/* import popup c css*/
-
-/* @import "../components/popup/popup"; */
-
-/*============================left sidebar fix menu=======================*/
-
-/* @import "../components/leftNav/leftnav"; */
-
-/*============================bulk enquiry=======================*/
-
-/* @import "../components/addBulkEnquiry/bulkenquiry"; */
-
-/*==============================css for middle right common Component ==============================*/
-
+table {
+    th,
+    td {
+        text-align: center;
+    }
+    tbody {
+        .field-checkbox-wrapper {
+            display: inline-block;
+            overflow: initial;
+        }
+    }
+}
 
 /*==========================================Responsive css==============================*/
 
 @media only screen and (min-width: 768px) and (max-width:960px) {
-    .middle-section {
-        padding: 15px 0;
-    }
-    .middle-left {
-        width: 65%;
-    }
-    .middle-right {
-        width: 35%
-    }
-    .btn {
-        height: 29px;
-        padding: 7px 6px;
-        font-size: 12px;
-    }
-    .normal-field {
-        height: 29px;
-    }
-    .middle-top h1 {
-        margin-top: 5px;
-        font-size: 15px;
-        margin-bottom: 10px;
-    }
-    .header-search .form-ctrl-head {
-        width: 200px;
-    }
-    .header-search {
-        left: 20px;
-        top: 7px;
-    }
-    .login-tube {
-        margin-right: 0;
-    }
-    .btn.cancle,
-    .btn.redBtn {
-        font-size: 12px;
-        height: 32px;
-    }
-    .popupWrapper .popup {
-        max-width: 77%;
-    }
-    .common-right-section h4 {
-        font-size: 14px;
-    }
-    .file-wrapper {
-        padding-left: 15px;
-    }
-    .file-upload-box .select-file-upload ul li label {
-        font-size: 14px;
-    }
-    .file-upload-box .select-file-upload ul li .choose-file input[type="text"] {
-        height: 28px;
-    }
-    .file-upload-box .file-uploaded {
-        margin: 10px 0 15px;
-        font-size: 14px;
-    }
-    .progress-bar-wrapper {
-        width: 70%;
-    }
-    .file-upload-box .drag-drop-box {
-        margin-top: 30px;
-    }
-    .file-upload-box {
-        padding: 15px 00px;
-        max-width: none;
-    }
-    .search-data td {
-        font-size: 12px;
-    }
-}
-
-@media only screen and (max-width:767px) {
-    header {
-        padding: 5px 5px;
-        &>div {
-            width: 100%;
+        .middle-section {
+            padding: 15px 0;
         }
-        .logo {
-            text-align: center;
-            margin: 0 auto;
-            width: 129px;
-            float: none;
+        .middle-left {
+            width: 65%;
         }
-        #searchHeader {
-            display: none;
+        .middle-right {
+            width: 35%
         }
-        .login-nav>li .user-info {
-            margin-right: 15px;
-            width: 119px;
+        .btn {
+            height: 29px;
+            padding: 7px 6px;
+            font-size: 12px;
         }
-        .login-nav>li {
-            padding: 0 7px;
+        .normal-field {
+            height: 29px;
         }
-    }
-    #middleWrapper {
-        width: 100%;
-    }
-    main {
-        padding-top: 92px;
-        padding-left: 0;
-        width: 100%;
-    }
-    .common-nav {
-        display: none;
-    }
-    .middle-section {
-        padding: 5px 15px;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    .middle-left {
-        width: 100%;
-        padding: 0;
-    }
-    .middle-top h1 {
-        margin-top: 8px;
-        margin-bottom: 10px;
-        float: none;
-    }
-    .middle-top {
-        aside {
-            float: left;
-        }
-    }
-    .btn {
-        padding: 4px 7px;
-        font-size: 12px;
-        height: 31px;
-        margin-left: 0;
-        margin-right: 10px;
-        margin-bottom: 10px;
-    }
-    .accordian-section {
-        padding: 15px 0px 0;
-    }
-    .accordian-section .accordian-content {
-        padding-left: 40px;
-    }
-    .create-institution {
-        right: auto;
-        left: 0;
-        bottom: -15px;
-    }
-    .middle-bottom {
-        aside {
-            float: left;
-            margin-top: 10px;
-            width: 100%;
-        }
-    }
-    .btn.cancle {
-        font-size: 12px;
-        height: 32px;
-    }
-    .btn.redBtn {
-        font-size: 12px;
-        height: 32px;
-    }
-    .middle-right {
-        width: 100%;
-        margin-top: 30px;
-        padding: 0;
-    }
-    .common-right-section {
-        margin-top: 20px;
-    }
-    .normal-field {
-        height: 31px;
-    }
-    .filter-right .btn {
-        margin-top: 10px;
-    }
-    .closeFilter {
-        margin-top: 20px;
-        font-size: 12px;
-    }
-    .middle-main.hasFilter:before {
-        // display: none;
-        top: 111px;
-    }
-    .search-enquiry-type-filter {
-        margin-top: 10px;
-        .filter-label {
+        .middle-top h1 {
+            margin-top: 5px;
+            font-size: 15px;
             margin-bottom: 10px;
         }
+        .header-search .form-ctrl-head {
+            width: 200px;
+        }
+        .header-search {
+            left: 20px;
+            top: 7px;
+        }
+        .login-tube {
+            margin-right: 0;
+        }
+        .btn.cancle,
+        .btn.redBtn {
+            font-size: 12px;
+            height: 32px;
+        }
+        .popupWrapper .popup {
+            max-width: 77%;
+        }
+        .common-right-section h4 {
+            font-size: 14px;
+        }
+        .file-wrapper {
+            padding-left: 15px;
+        }
+        .file-upload-box .select-file-upload ul li label {
+            font-size: 14px;
+        }
+        .file-upload-box .select-file-upload ul li .choose-file input[type="text"] {
+            height: 28px;
+        }
+        .file-upload-box .file-uploaded {
+            margin: 10px 0 15px;
+            font-size: 14px;
+        }
+        .progress-bar-wrapper {
+            width: 70%;
+        }
+        .file-upload-box .drag-drop-box {
+            margin-top: 30px;
+        }
+        .file-upload-box {
+            padding: 15px 00px;
+            max-width: none;
+        }
+        .search-data td {
+            font-size: 12px;
+        }
+}
+
+/* @media only screen and (min-width:768px) {
+    .visible-xs {
+        display: none !important;
     }
-    .type-filter li {
-        margin: 0 10px;
-        width: auto;
-        margin-top: 10px;
-        margin-left: 0;
-    }
-    .filter-res label {
-        margin-bottom: 15px;
-        display: block;
-    }
-    .login-tube {
-        margin-right: 0;
-    }
-    .boxPadding15,
-    .middle-left,
-    .middle-right,
-    .middle-full {
-        padding: 0;
-    }
-    .filter-fields .field-wrapper {
-        margin: 6px 0;
-    }
-    .file-wrapper {
-        padding-left: 15px;
-    }
-    .file-upload-box .select-file-upload ul li label {
-        font-size: 14px;
-    }
-    .file-upload-box .select-file-upload ul li .choose-file input[type="text"] {
-        height: 28px;
-    }
-    .file-upload-box .file-uploaded {
-        margin: 10px 0 15px;
-        font-size: 14px;
-    }
-    .progress-bar-wrapper {
-        width: 100%;
-    }
-    .file-upload-box .drag-drop-box {
-        margin-top: 30px;
-    }
-    .file-upload-box {
-        padding: 15px 00px;
-        max-width: none;
-    }
-    .search-data td {
-        font-size: 12px;
-    }
+} */
+
+@media only screen and (max-width:767px) {
+        header {
+            padding: 5px 5px;
+            &>div {
+                width: 100%;
+            }
+            .logo {
+                text-align: center;
+                margin: 0 auto;
+                width: 129px;
+                float: none;
+            }
+            #searchHeader {
+                display: none;
+            }
+            .login-nav>li .user-info {
+                margin-right: 15px;
+                width: 119px;
+            }
+            .login-nav>li {
+                padding: 0 7px;
+            }
+        }
+        #middleWrapper {
+            width: 100%;
+        }
+        main {
+            padding-top: 92px;
+            padding-left: 0;
+            width: 100%;
+        }
+        #loginTube {
+            width: 100%;
+        }
+        .login-tube {
+            float: right;
+        }
+        .common-nav {
+            display: none;
+        }
+        .middle-section {
+            padding: 5px 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .middle-left {
+            width: 100%;
+            padding: 0;
+        }
+        .middle-top h1 {
+            margin-top: 8px;
+            margin-bottom: 10px;
+            float: none;
+        }
+        .middle-top {
+            aside {
+                float: left;
+            }
+        }
+        .btn {
+            padding: 4px 7px;
+            font-size: 12px;
+            height: 31px;
+            margin-left: 0;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .accordian-section {
+            padding: 15px 0px 0;
+        }
+        .accordian-section .accordian-content {
+            padding-left: 40px;
+        }
+        .create-institution {
+            right: auto;
+            left: 0;
+            bottom: -15px;
+        }
+        .middle-bottom {
+            aside {
+                float: left;
+                margin-top: 10px;
+                width: 100%;
+            }
+        }
+        .btn.cancle {
+            font-size: 12px;
+            height: 32px;
+        }
+        .btn.redBtn {
+            font-size: 12px;
+            height: 32px;
+        }
+        .middle-right {
+            width: 100%;
+            margin-top: 30px;
+            padding: 0;
+        }
+        .common-right-section {
+            margin-top: 20px;
+        }
+        .normal-field {
+            height: 31px;
+        }
+        .filter-right .btn {
+            margin-top: 10px;
+        }
+        .closeFilter {
+            margin-top: 20px;
+            font-size: 12px;
+        }
+        .middle-main.hasFilter:before {
+            // display: none;
+            top: 111px;
+        }
+        .search-enquiry-type-filter {
+            margin-top: 10px;
+            .filter-label {
+                margin-bottom: 10px;
+            }
+        }
+        .type-filter li {
+            margin: 0 10px;
+            width: auto;
+            margin-top: 10px;
+            margin-left: 0;
+        }
+        .filter-res label {
+            margin-bottom: 15px;
+            display: block;
+        }
+        .login-tube {
+            margin-right: 0;
+        }
+        .boxPadding15,
+        .middle-left,
+        .middle-right,
+        .middle-full {
+            padding: 0;
+        }
+        .filter-fields .field-wrapper {
+            margin: 6px 0;
+        }
+        .file-wrapper {
+            padding-left: 15px;
+        }
+        .file-upload-box .select-file-upload ul li label {
+            font-size: 14px;
+        }
+        .file-upload-box .select-file-upload ul li .choose-file input[type="text"] {
+            height: 28px;
+        }
+        .file-upload-box .file-uploaded {
+            margin: 10px 0 15px;
+            font-size: 14px;
+        }
+        .progress-bar-wrapper {
+            width: 100%;
+        }
+        .file-upload-box .drag-drop-box {
+            margin-top: 30px;
+        }
+        .file-upload-box {
+            padding: 15px 00px;
+            max-width: none;
+        }
+        .search-data td {
+            font-size: 12px;
+        }
 }
 
 

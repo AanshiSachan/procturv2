@@ -388,8 +388,5 @@ export class EnquiryManageComponent implements OnInit {
 
     return false;
   }
-
-  redirectToAdd() {
-    this.router.navigate(['/enquiry/addEnquiry']);
-  }
+  
 }

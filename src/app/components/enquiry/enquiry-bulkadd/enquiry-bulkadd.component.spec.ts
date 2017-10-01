@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardHomeComponent } from './dashboard-home.component';
+import { EnquiryBulkaddComponent } from './enquiry-bulkadd.component';
 
-describe('DashboardHomeComponent', () => {
-  let component: DashboardHomeComponent;
-  let fixture: ComponentFixture<DashboardHomeComponent>;
+describe('EnquiryBulkaddComponent', () => {
+  let component: EnquiryBulkaddComponent;
+  let fixture: ComponentFixture<EnquiryBulkaddComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DashboardHomeComponent ]
+      declarations: [ EnquiryBulkaddComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardHomeComponent);
+    fixture = TestBed.createComponent(EnquiryBulkaddComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

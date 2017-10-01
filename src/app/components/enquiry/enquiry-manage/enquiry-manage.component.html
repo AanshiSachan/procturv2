@@ -5,7 +5,8 @@
         Enquiry List
       </h1>
       <aside class="pull-right">
-        <input type="button" value="Add New Enquiry" class="btn" (click)="redirectToAdd()" />
+        <input type="button" value="Add New Enquiry" class="btn" routerLink='/enquiry/addEnquiry' />
+        <input type="button" value="Add Bulk Enquiry" routerLink='/enquiry/addBulkEnquiry' class="btn">
       </aside>
     </section>
     <section class="middle-main clearFix" id="middleMainForEnquiryList">
@@ -40,7 +41,7 @@
             <div class="row">
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="formData.filtered_statuses" name="status" formInput>
+                  <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="formData.filtered_statuses" name="status" formInput Iselector>
                             <option value=""></option>
                             <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
                   </select>
