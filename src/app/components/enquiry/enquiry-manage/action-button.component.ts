@@ -1,9 +1,10 @@
-import { Component, Input, OnInit, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
+import { PopupHandlerService } from '../../../services/popup-handler.service';
 
 @Component({
-  template:
-  `
+    template:
+    `
   <style>
 
    .table-action-icon{
@@ -36,7 +37,7 @@ import { ViewCell } from 'ng2-smart-table';
     width: 350px;
     border-radius: 0;
     border: 1px solid #ccc;
-    bottom: 10px;
+    bottom: 0px;
     box-shadow: 0px 2px 4px 1px #ccc;
     transform: translateX(-50%);
     left: 42%;
@@ -114,15 +115,15 @@ import { ViewCell } from 'ng2-smart-table';
   </style>
   <div class="enquiry-action">
   <div>
-  <button class="btn table-action-icon" style="outline:none;border:none;" (click)="openMenu($event)" >
+  <button class="btn table-action-icon" style="outline:none;border:none;" (click)="openMenu()" >
     <img src="./assets/images/action_hover.svg" height="20" width="20">
   </button>
   <div class="action-menu" *ngIf="showMenu" (mouseleave)="closeMenu()" (click)="closeMenu()">
   <div class="action-menu-inner">
       <ul>
-          <li>
-              <i (click)="openUpdatePopup()">
-               <svg xmlns="http://www.w3.org/2000/svg" viewBox="11716 358 26 22" class="action-icon">
+          <li (click)="openPopup('update')">
+              <i>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="11716 358 26 22" class="action-icon">
                   <g id="Group_1238" data-name="Group 1238" transform="translate(10862 -6)">
                       <rect id="Rectangle_393" data-name="Rectangle 393" class="cls-1" width="26" height="22" transform="translate(854 364)" style="stroke:none;"/>
                       <g id="Group_791" data-name="Group 791" transform="translate(857 365)">
@@ -133,31 +134,31 @@ import { ViewCell } from 'ng2-smart-table';
                       <line id="Line_157" data-name="Line 157" class="cls-2" x1="0.789" y2="0.683" transform="translate(15.652 17.623)"/>
                       </g>
                   </g>
-              </svg>    
+                </svg>    
               </i>
               <span>
                   Update <br>Enquiry
               </span>
           </li>
-          <li>
-              <i (click)="openEditPopup()">
-                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="11778 358 26 22" class="action-icon">
-                 <g id="Group_1234" data-name="Group 1234" transform="translate(10862 -6)">
-                  <rect id="Rectangle_697" data-name="Rectangle 697" class="cls-1" width="26" height="22" transform="translate(916 364)" style="stroke:none;"/>
-                  <g id="Group_1126" data-name="Group 1126" transform="translate(-0.478 -0.386)">
-                  <path id="Path_215" data-name="Path 215" class="cls-2" d="M0,0H17.753" transform="translate(920.478 385.386)"/>
-                  <path id="Path_214" data-name="Path 214" class="cls-3" d="M8.492,16.068,3,17.621l1.553-5.492,10.6-10.6a1.877,1.877,0,0,1,2.718,0L19.089,2.7a1.877,1.877,0,0,1,0,2.718Z" transform="translate(919.142 364.436)"/>
-                  <line id="Line_159" data-name="Line 159" class="cls-3" x1="3.883" y1="3.883" transform="translate(932.738 367.578)"/>
-                  </g>
-                 </g>
-                 </svg>           
+          <li class="edit-detail-icon" (click)="NavigateToEdit($event)">
+              <i>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="11778 358 26 22" class="action-icon">
+                    <g id="Group_1234" data-name="Group 1234" transform="translate(10862 -6)">
+                    <rect id="Rectangle_697" data-name="Rectangle 697" class="cls-1" width="26" height="22" transform="translate(916 364)" style="stroke:none;"></rect>
+                    <g id="Group_1126" data-name="Group 1126" transform="translate(-0.478 -0.386)">
+                    <path id="Path_215" data-name="Path 215" class="cls-2" d="M0,0H17.753" transform="translate(920.478 385.386)"></path>
+                    <path id="Path_214" data-name="Path 214" style="stroke:#0060a3" class="cls-3" d="M8.492,16.068,3,17.621l1.553-5.492,10.6-10.6a1.877,1.877,0,0,1,2.718,0L19.089,2.7a1.877,1.877,0,0,1,0,2.718Z" transform="translate(919.142 364.436)"></path>
+                    <line id="Line_159" data-name="Line 159" class="cls-3" x1="3.883" y1="3.883" transform="translate(932.738 367.578)"></line>
+                    </g>
+                    </g>
+                    </svg>           
               </i>
-              <span>
+              <span >
                   Edit <br> Details
               </span>
           </li>
-          <li>
-              <i (click)="openDeletePopup()">
+          <li (click)="openPopup('delete')">
+              <i>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="11841 358 26 22" class="action-icon">
 
                   <g id="Group_1237" data-name="Group 1237" transform="translate(10862 -6)">
@@ -177,8 +178,8 @@ import { ViewCell } from 'ng2-smart-table';
                   Delete  <br>Entry
               </span>
           </li>
-          <li>
-              <i (click)="openConvertPopup()">
+          <li (click)="openPopup('convert')">
+              <i>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="11900 358 26 22" class="action-icon">
                     <g id="Group_1235" data-name="Group 1235" transform="translate(10862 -6)">
                       <rect id="Rectangle_699" data-name="Rectangle 699" class="cls-1" width="26" height="22" transform="translate(1038 364)" style="stroke:none;"/>
@@ -196,8 +197,8 @@ import { ViewCell } from 'ng2-smart-table';
                   Convert <br> to Student
               </span>
           </li>
-          <li>
-              <i (click)="openPaymentPopup()">
+          <li (click)="openPopup('payment')">
+              <i>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="11966 358 26 22" class="action-icon">
                     <g id="Group_1236" data-name="Group 1236" transform="translate(10862 -6)">
                       <rect id="Rectangle_700" data-name="Rectangle 700" class="cls-1" width="26" height="22" transform="translate(1104 364)" style="stroke:none;"/>
@@ -229,17 +230,25 @@ import { ViewCell } from 'ng2-smart-table';
 })
 
 
-
 export class ActionButtonComponent implements OnInit {
 
-  private showMenu: boolean = false;
-  constructor() {}
-  ngOnInit() {}
-  openMenu(ev){this.showMenu = true;}
-  closeMenu(){this.showMenu = false;}
-  openUpdatePopup(){}
-  openEditPopup(){}
-  openDeletePopup(){}
-  openConvertPopup(){}
-  openPaymentPopup(){}  
+
+    private showMenu: boolean = false;
+    message:string = "";
+
+    constructor(private pops: PopupHandlerService) { }
+    
+    ngOnInit() { 
+      this.pops.currentMessage.subscribe(message => this.message = message);
+    }
+    
+    openMenu() {
+      this.showMenu = true;
+    }
+    
+    closeMenu() { this.showMenu = false; }
+    
+    openPopup(eventData){
+        this.pops.changeMessage(eventData);
+    }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 
@@ -17,6 +17,7 @@ import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { PopupHandlerService } from '../../../services/popup-handler.service';
 
 @Component({
   selector: 'app-enquiry-manage',
@@ -24,7 +25,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./enquiry-manage.component.scss']
 })
 
-export class EnquiryManageComponent implements OnInit {
+export class EnquiryManageComponent implements OnInit{
 
   AdFilter: boolean;
   rows: any = [];
@@ -73,11 +74,6 @@ export class EnquiryManageComponent implements OnInit {
     pageNo: 1,
     sizeLimit: 100,
   }
-  updatePopup:boolean = false;
-  editPopup:boolean = false;
-  deletePopup:boolean = false;
-  convertPopup:boolean = false;
-  paymentPopup:boolean = false;    
   date: Date;
   stats = {
     All: { value: 'All', prop: 'All', checked: true, disabled: false },
@@ -89,10 +85,11 @@ export class EnquiryManageComponent implements OnInit {
   newItem = {
     EndTime: null,
   };
-
+  message: string = '';
+  rowData: any;
 
   settings = {
-    mode: 'external', hideSubHeader: false, selectMode: 'multi',
+    mode: 'external', hideSubHeader: false,
     actions: { add: false, edit: false, delete: false, columnTitle: '', },
     columns: {
       enquiry_no: { title: 'Enquiry No.', filter: false, show: true },
@@ -117,7 +114,7 @@ export class EnquiryManageComponent implements OnInit {
   };
 
   settingUpdater = {
-    mode: 'external', hideSubHeader: false, selectMode: 'multi',
+    mode: 'external', hideSubHeader: false,
     actions: { add: false, edit: false, delete: false, columnTitle: '', },
     columns: {
       enquiry_no: { title: 'Enquiry No.', filter: false, show: true },
@@ -144,7 +141,7 @@ export class EnquiryManageComponent implements OnInit {
     },
   };
 
-  constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private fb: FormBuilder) {
+  constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private fb: FormBuilder, private pops: PopupHandlerService) {
   }
 
   ngOnInit() {
@@ -167,6 +164,8 @@ export class EnquiryManageComponent implements OnInit {
     this.FetchEnquiryPrefilledData();
     this.logger.log("Prefill data loaded, added data on filter open");
     this.logger.groupEnd();
+
+    this.pops.currentMessage.subscribe(message => this.message = message);
   }
 
   FetchEnquiryPrefilledData() {
@@ -211,7 +210,7 @@ export class EnquiryManageComponent implements OnInit {
     //console.log(ev);
     //console.log(this.optionsModel);
     this.settings = {
-      mode: 'external', hideSubHeader: false, selectMode: 'multi',
+      mode: 'external', hideSubHeader: false,
       actions: { add: false, edit: false, delete: false, columnTitle: '', },
       columns: {
         enquiry_no: { title: 'Enquiry No.', filter: false, show: false }, enquiry_date: { title: 'Enquiry Date', filter: false, show: false }, name: { title: 'Student Name', filter: false, show: false }, phone: { title: 'Contact No.', filter: false, show: false }, priority: { title: 'Priority', filter: false, show: false }, follow_type: { title: 'Follow type', filter: false, show: false }, followUpDate: { title: 'Follow up Date', filter: false, show: false }, assigned_name: { title: 'Assigned To', filter: false, show: false }, standard: { title: 'Standard', filter: false, show: false }, subjects: { title: 'Subjects', filter: false, show: false }, action: { title: 'Action', filter: false, type: 'custom', renderComponent: ActionButtonComponent }, updateDate: { title: 'Update Date', filter: false, show: false }, statusValue: { title: 'Status Value', filter: false, show: false }, enquiry_no_date: { title: 'Enquiry No. & Date', filter: false, show: false }, followUpTime: { title: 'Follow up Time', filter: false, show: false }, followUpDateTime: { title: 'Follow up dateTime', filter: false, show: false }, filtered_statuses: { title: 'Filtered Status', filter: false, show: false }, email: { title: 'Email', filter: false, show: false }, referred_by: { title: 'Reffered By', filter: false, show: false }, status: { title: 'Status', filter: false, show: false }, institute_enquiry_id: { title: 'Enquiry ID', filter: false, show: false }, institution_id: { title: 'Institute ID', filter: false, show: false }, Gender: { title: 'Gender', filter: false, show: false }, is_converted: { title: 'Is Converted', filter: false, show: false }, occupation_id: { title: 'Occupation ID', filter: false, show: false }, school_id: { title: 'School ID', filter: false, show: false }, standard_id: { title: 'Standard ID', filter: false, show: false }, subject_id: { title: 'Subject ID', filter: false, show: false }, source_id: { title: 'Source ID', filter: false, show: false }, is_recent: { title: 'Is recent', filter: false, show: false }, slot_id: { title: 'Slot ID', filter: false, show: false }, slot: { title: 'Slot', filter: false, show: false }, isDashbord: { title: 'Is Dashboard', filter: false, show: false }, isRport: { title: 'Is Report', filter: false, show: false }, totalcount: { title: 'Total Count', filter: false, show: false }, newEnqcount: { title: 'New Enquiry Count', filter: false, show: false }, name_person: { title: 'Person Name', filter: false, show: false }, standard_subject: { title: 'Standard subject', filter: false, show: false }, closedReasonText: { title: 'Closed Reason', filter: false, show: false }, filtered_slots: { title: 'Filtered Slot', filter: false, show: false },
@@ -333,7 +332,7 @@ export class EnquiryManageComponent implements OnInit {
     this.source.refresh();
     this.optionsModel = [];
     this.settings = {
-      mode: 'external', hideSubHeader: false, selectMode: 'multi',
+      mode: 'external', hideSubHeader: false,
       actions: { add: false, edit: false, delete: false, columnTitle: '', },
       columns: {
         enquiry_no: { title: 'Enquiry No.', filter: false, show: true },
@@ -366,10 +365,11 @@ export class EnquiryManageComponent implements OnInit {
   }
 
   onSave(event) {
-    /*     this.source.add() */
   }
 
-  handleGridSelected(event) {
+  rowClicked(rowD){
+    this.rowData = rowD.data;
+    console.log(this.rowData);
   }
 
   filterAdvanced(event) {
@@ -387,6 +387,10 @@ export class EnquiryManageComponent implements OnInit {
   validate(formdata): boolean {
 
     return false;
+  }
+ 
+  closePopup(){
+    this.pops.changeMessage('');
   }
   
 }

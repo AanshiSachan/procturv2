@@ -36,6 +36,8 @@ import { NgDatepickerModule } from 'ng2-datepicker';
 /* Services */
 import { FetchenquiryService } from './services/fetchenquiry.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
+import { PopupHandlerService } from './services/popup-handler.service';
+
 /* Interceptors */
 import { LoadInterceptor } from './interceptors/load-interceptor';
 
@@ -132,8 +134,8 @@ const appRoutes = [
   ],
   providers: [
     FetchenquiryService,
-    FetchprefilldataService
-    /*     { provide: HTTP_INTERCEPTORS, useClass: LoadInterceptor, multi: true } */
+    FetchprefilldataService,
+    PopupHandlerService
   ],
   bootstrap: [AppComponent]
 })
