@@ -46,6 +46,9 @@ import { ClickOutside } from './directives/click-outside.directive';
 import { FormInput } from './directives/form-input.directive';
 import { SelectorDirective } from './directives/selector.directive';
 
+/* Pipes */
+import { FormDatePipe } from './pipes/form-date.pipe';
+
 const appRoutes = [
   
   {
@@ -108,7 +111,8 @@ const appRoutes = [
     CalendarComponent,
     SelectorDirective,
     EnquiryBulkaddComponent,
-    StudentHomeComponent
+    StudentHomeComponent,
+    FormDatePipe
   ],
   entryComponents: [
     ActionButtonComponent,
@@ -134,6 +138,10 @@ const appRoutes = [
   ],
   providers: [
     FetchenquiryService,
+    
+    
+    
+    
     FetchprefilldataService,
     PopupHandlerService
   ],

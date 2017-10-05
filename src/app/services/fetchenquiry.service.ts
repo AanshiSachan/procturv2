@@ -13,16 +13,7 @@ import * as moment from 'moment';
 @Injectable()
 export class FetchenquiryService {
 
-  instituteData: instituteInfo = {
-    institute_id: 100123, function_type: "manageSearchEnquiries", username: "31469|0",
-    password: "admin@123", onLoad: 0, name: "", phone: "",
-    email: "", enquiry_no: "", priority: "", filtered_statuses: "", follow_type: "",
-    followUpDate: moment().format('YYYY-MM-DD'), enquiry_date: "", assigned_to: -1, standard_id: -1, subject_id: -1, is_recent: "Y",
-    filtered_slots: "", isDashbord: "", enquireDateFrom: "", enquireDateTo: "",
-    updateDate: "", updateDateFrom: "", updateDateTo: "",
-    pageNo: 1, sizeLimit: 100,
-  }
-
+  instituteData: instituteInfo;
   url: string; 
   urlCampaign: string;
   Authorization: string; 
@@ -38,8 +29,8 @@ export class FetchenquiryService {
   };
 
   constructor(private http: Http) {
+
     this.Authorization = "MzE0Njl8MDphZG1pbkAxMjM6MTAwMTIz";
-    this.instituteFormData = `institute_id=${this.instituteData.institute_id}&function_type=${this.instituteData.function_type}&username=${this.instituteData.username}&password=${this.instituteData.password}&onLoad=${this.instituteData.onLoad}&name=${this.instituteData.name}&phone=${this.instituteData.phone}&email=${this.instituteData.email}&enquiry=${this.instituteData.enquiry_no}&priority=${this.instituteData.priority}&filtered_statuses=${this.instituteData.filtered_statuses}&follow_type=${this.instituteData.follow_type}&followUpDate=${this.instituteData.followUpDate}&enquiry_date=${this.instituteData.enquiry_date}&assigned_to=${this.instituteData.assigned_to}&standard_id=${this.instituteData.standard_id}&subject_id=${this.instituteData.subject_id}&is_recent=${this.instituteData.is_recent}&filtered_slots=${this.instituteData.filtered_slots}&isDashbord=${this.instituteData.isDashbord}&enquireDateFrom=${this.instituteData.enquireDateFrom}&enquireDateTo=${this.instituteData.enquireDateTo}&updateDate=${this.instituteData.updateDate}&updateDateFrom=${this.instituteData.updateDateFrom}&updateDateTo=${this.instituteData.updateDateTo}&page=${this.instituteData.pageNo}&size=${this.instituteData.sizeLimit}`;
 
     this.url = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/dashboard/100123";
     this.urlCampaign = 'https://app.proctur.com/CampaignServlet';
@@ -57,7 +48,10 @@ export class FetchenquiryService {
       .map(result => result.json());
   }
 
-  getAllEnquiry(): Observable<EnquiryCampaign[]> {
+  getAllEnquiry(instituteData: instituteInfo): Observable<EnquiryCampaign[]> {
+
+    this.instituteFormData = `institute_id=${instituteData.institute_id}&function_type=${instituteData.function_type}&username=${instituteData.username}&password=${instituteData.password}&onLoad=${instituteData.onLoad}&name=${instituteData.name}&phone=${instituteData.phone}&email=${instituteData.email}&enquiry=${instituteData.enquiry_no}&priority=${instituteData.priority}&filtered_statuses=${instituteData.filtered_statuses}&follow_type=${instituteData.follow_type}&followUpDate=${instituteData.followUpDate}&enquiry_date=${instituteData.enquiry_date}&assigned_to=${instituteData.assigned_to}&standard_id=${instituteData.standard_id}&subject_id=${instituteData.subject_id}&is_recent=${instituteData.is_recent}&filtered_slots=${instituteData.filtered_slots}&isDashbord=${instituteData.isDashbord}&enquireDateFrom=${instituteData.enquireDateFrom}&enquireDateTo=${instituteData.enquireDateTo}&updateDate=${instituteData.updateDate}&updateDateFrom=${instituteData.updateDateFrom}&updateDateTo=${instituteData.updateDateTo}&page=${instituteData.pageNo}&size=${instituteData.sizeLimit}`;
+    
     return this.http.post(this.urlCampaign, this.instituteFormData, { headers: this.headersCampaign })
       .map(res => {
         this.row = res.json().aaData;

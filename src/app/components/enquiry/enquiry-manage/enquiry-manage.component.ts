@@ -19,6 +19,7 @@ import 'rxjs/Rx';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { PopupHandlerService } from '../../../services/popup-handler.service';
 
+
 @Component({
   selector: 'app-enquiry-manage',
   templateUrl: './enquiry-manage.component.html',
@@ -41,39 +42,19 @@ export class EnquiryManageComponent implements OnInit{
   enqFollowType: any = [];
   enqAssignTo: any = [];
   enqStd: any = [];
-  enqSub: any = [];
+  enqSubject: any = [];
   enqScholarship: any = [];
   enqSub2: any = [];
   adFilterForm: FormGroup;
-  formData: instituteInfo = {
-    institute_id: 100123,
-    function_type: "manageSearchEnquiries",
-    username: "31469|0",
-    password: "admin@123",
-    onLoad: 0,
-    name: "",
-    phone: "",
-    email: "",
-    enquiry_no: "",
-    priority: "",
-    filtered_statuses: "",
-    follow_type: "",
-    followUpDate: moment().format('YYYY-MM-DD'),
-    enquiry_date: "",
-    assigned_to: -1,
-    standard_id: -1,
-    subject_id: -1,
-    is_recent: "Y",
-    filtered_slots: "",
-    isDashbord: "",
-    enquireDateFrom: null,
-    enquireDateTo: null,
-    updateDate: null,
-    updateDateFrom: "",
-    updateDateTo: "",
-    pageNo: 1,
-    sizeLimit: 100,
-  }
+  instituteData: instituteInfo = {
+    institute_id: 100123, function_type: "manageSearchEnquiries", username: "31469|0",
+    password: "admin@123", onLoad: 0, name: "", phone: "",
+    email: "", enquiry_no: "", priority: "", filtered_statuses: "", follow_type: "",
+    followUpDate: moment().format('YYYY-MM-DD'), enquiry_date: "", assigned_to: -1, standard_id: -1, subject_id: -1, is_recent: "Y",
+    filtered_slots: "", isDashbord: "", enquireDateFrom: "", enquireDateTo: "",
+    updateDate: "", updateDateFrom: "", updateDateTo: "",
+    pageNo: 1, sizeLimit: 100,
+  };
   today: number = Date.now();
   date: Date;
   stats = {
@@ -88,7 +69,6 @@ export class EnquiryManageComponent implements OnInit{
   };
   message: string = '';
   rowData: any;
-
   settings = {
     mode: 'external', hideSubHeader: false,
     actions: { add: false, edit: false, delete: false, columnTitle: '', },
@@ -113,7 +93,15 @@ export class EnquiryManageComponent implements OnInit{
       perPage: 10,
     }, 
   };
-
+  advancedFilterForm: instituteInfo = {
+    institute_id: 100123, function_type: "manageSearchEnquiries", username: "31469|0",
+    password: "admin@123", onLoad: 0, name: "", phone: "",
+    email: "", enquiry_no: "", priority: "", filtered_statuses: "", follow_type: "",
+    followUpDate: moment().format('YYYY-MM-DD'), enquiry_date: "", assigned_to: -1, standard_id: -1, subject_id: -1, is_recent: "Y",
+    filtered_slots: "", isDashbord: "", enquireDateFrom: "", enquireDateTo: "",
+    updateDate: "", updateDateFrom: "", updateDateTo: "",
+    pageNo: 1, sizeLimit: 100,
+  };
   settingUpdater = {
     mode: 'external', hideSubHeader: false,
     actions: { add: false, edit: false, delete: false, columnTitle: '', },
@@ -141,10 +129,9 @@ export class EnquiryManageComponent implements OnInit{
       perPage: 10,
     },
   };
-
   constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private fb: FormBuilder, private pops: PopupHandlerService) {
+    this.AdFilter = false;
   }
-
   ngOnInit() {
     this.logger.group("ngOnInit Performed");
     this.logger.log("column static data loaded");
@@ -154,7 +141,7 @@ export class EnquiryManageComponent implements OnInit{
         this.optionsModel.push(el.id);
       }
     })
-    this.busy = this.enquire.getAllEnquiry().map(data => {
+    this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
       this.rows = data;
     }).subscribe(data => {
       this.source = new LocalDataSource(this.rows);
@@ -168,7 +155,6 @@ export class EnquiryManageComponent implements OnInit{
 
     this.pops.currentMessage.subscribe(message => this.message = message);
   }
-
   FetchEnquiryPrefilledData() {
     this.prefill.getEnqStatus().subscribe(
       data => { this.enqstatus = data; },
@@ -206,7 +192,6 @@ export class EnquiryManageComponent implements OnInit{
       err => { console.log(err); }
     );
   }
-
   toggleOptionChange(ev) {
     //console.log(ev);
     //console.log(this.optionsModel);
@@ -227,7 +212,6 @@ export class EnquiryManageComponent implements OnInit{
     })
     this.settings = Object.assign({}, this.settingUpdater);
   }
-
   statusFilter(checkerObj) {
     if (this.stats.Open.checked === true || this.stats.Registered.checked === true || this.stats.Admitted.checked === true || this.stats.Inactive.checked === true) {
       this.stats.All.checked = false;
@@ -271,7 +255,7 @@ export class EnquiryManageComponent implements OnInit{
       this.stats.All.checked = true;
       this.checkedStatus = [];
       console.log("array emptied, now refresh data source");
-      this.busy = this.enquire.getAllEnquiry().map(data => {
+      this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
         this.rows = data;
       }).subscribe(data => {
         this.source = new LocalDataSource(this.rows);
@@ -279,7 +263,6 @@ export class EnquiryManageComponent implements OnInit{
       })
     }
   }
-
   mySettings: IMultiSelectSettings = {
     enableSearch: true,
     checkedStyle: 'checkboxes',
@@ -288,7 +271,6 @@ export class EnquiryManageComponent implements OnInit{
     dynamicTitleMaxItems: 0,
     displayAllSelectedText: false
   };
-
   myTexts: IMultiSelectTexts = {
     checkAll: 'Select all',
     uncheckAll: 'Unselect all',
@@ -300,7 +282,6 @@ export class EnquiryManageComponent implements OnInit{
     defaultTitle: '',
     allSelected: 'All selected',
   };
-
   onSearch(query: string = '') {
     let searchData = this.source;
     if (query == '' || query == ' ' || query == null || query == undefined) {
@@ -312,23 +293,25 @@ export class EnquiryManageComponent implements OnInit{
       ], false);
     }
   }
-
   openAdFilter() {
-    this.logger.group("Advanced filter opened");
-    this.AdFilter = true;
-    this.logger.log(this.enqstatus);
-    this.logger.log(this.enqPriority);
-    this.logger.log(this.enqAssignTo);
-    this.logger.log(this.enqFollowType);
-    this.logger.log(this.enqScholarship);
-    this.logger.log(this.enqStd);
-    this.logger.groupEnd();
-    //let instituteFormData = `institute_id=${this.instituteData.institute_id}&function_type=${this.instituteData.function_type}&username=${this.instituteData.username}&password=${this.instituteData.password}&onLoad=${this.instituteData.onLoad}&name=${this.instituteData.name}&phone=${this.instituteData.phone}&email=${this.instituteData.email}&enquiry=${this.instituteData.enquiry_no}&priority=${this.instituteData.priority}&filtered_statuses=${this.instituteData.filtered_statuses}&follow_type=${this.instituteData.follow_type}&followUpDate=${this.instituteData.followUpDate}&enquiry_date=${this.instituteData.enquiry_date}&assigned_to=${this.instituteData.assigned_to}&standard_id=${this.instituteData.standard_id}&subject_id=${this.instituteData.subject_id}&is_recent=${this.instituteData.is_recent}&filtered_slots=${this.instituteData.filtered_slots}&isDashbord=${this.instituteData.isDashbord}&enquireDateFrom=${this.instituteData.enquireDateFrom}&enquireDateTo=${this.instituteData.enquireDateTo}&updateDate=${this.instituteData.updateDate}&updateDateFrom=${this.instituteData.updateDateFrom}&updateDateTo=${this.instituteData.updateDateTo}&page=${this.instituteData.pageNo}&size=${this.instituteData.sizeLimit}`;
+    if(this.AdFilter === false){
+      this.AdFilter = true;
+      this.logger.group("Advanced filter opened");
+      this.logger.log(this.enqstatus);
+      this.logger.log(this.enqPriority);
+      this.logger.log(this.enqAssignTo);
+      this.logger.log(this.enqFollowType);
+      this.logger.log(this.enqScholarship);
+      this.logger.log(this.enqStd);
+      this.logger.groupEnd();
+    }
+    else{
+      this.AdFilter = false;
+    }
   }
   closeAdFilter() {
     this.AdFilter = false;
   }
-
   refreshSource() {
     this.source.refresh();
     this.optionsModel = [];
@@ -358,40 +341,35 @@ export class EnquiryManageComponent implements OnInit{
     };
     this.settingUpdater = Object.assign({}, this.settings);
   }
-
   onCreate(event) {
   }
-
   onDelete(event) {
   }
-
   onSave(event) {
   }
-
   rowClicked(rowD){
     this.rowData = rowD.data;
-    console.log(this.rowData);
+   // console.log(this.rowData);
   }
-
-  filterAdvanced(event) {
-    console.log(event);
-    if (this.validate(event)) {
-      /* Perform Filter Task  
-          Perform Http Request and Send Data via Post
-      */
-    }
-    else {
-      console.log("Please revalidate the submitted data");
-    }
+  filterAdvanced(){
+    console.log(this.advancedFilterForm);
+    this.busy = this.enquire.getAllEnquiry(this.advancedFilterForm).map(data => {
+      this.rows = data;
+    }).subscribe(data => {
+      this.source = new LocalDataSource(this.rows);
+      this.source.refresh();
+    });
   }
-
-  validate(formdata): boolean {
-
-    return false;
-  }
- 
   closePopup(){
     this.pops.changeMessage('');
   }
-  
+  fetchEnquirySubject(){
+    this.prefill.getEnqSubjects(this.advancedFilterForm.standard_id).subscribe(
+      data => { 
+        this.enqSubject = data;
+        console.log(this.enqSubject);
+      },
+      err => { console.log(err); }
+    );
+  }
 }

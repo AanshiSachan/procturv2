@@ -95,8 +95,11 @@ export class FetchprefilldataService {
   }
 
   getEnqSubjects(id): any{
+    console.log(id);
     this.urlSubject= "https://app.proctur.com/StdMgmtWebAPI/api/v1/subjects/standards/" +id;
-    this.http.get(this.urlSubject, {headers: this.headers})
+    return this.http.get(this.urlSubject, {headers: this.headers}).map(res => {
+      return res.json();
+    })
   }
 
   getSchoolDetails(): any{

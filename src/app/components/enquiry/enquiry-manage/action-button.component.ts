@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
 import { PopupHandlerService } from '../../../services/popup-handler.service';
+import { Router } from '@angular/router';
 
 @Component({
     template:
@@ -140,7 +141,7 @@ import { PopupHandlerService } from '../../../services/popup-handler.service';
                   Update <br>Enquiry
               </span>
           </li>
-          <li class="edit-detail-icon" (click)="NavigateToEdit($event)">
+          <li class="edit-detail-icon" (click)="NavigateToEdit()">
               <i>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="11778 358 26 22" class="action-icon">
                     <g id="Group_1234" data-name="Group 1234" transform="translate(10862 -6)">
@@ -236,7 +237,7 @@ export class ActionButtonComponent implements OnInit {
     private showMenu: boolean = false;
     message:string = "";
 
-    constructor(private pops: PopupHandlerService) { }
+    constructor(private pops: PopupHandlerService, private router: Router) { }
     
     ngOnInit() { 
       this.pops.currentMessage.subscribe(message => this.message = message);
@@ -250,5 +251,9 @@ export class ActionButtonComponent implements OnInit {
     
     openPopup(eventData){
         this.pops.changeMessage(eventData);
+    }
+
+    NavigateToEdit(){
+        this.router.navigate(['/enquiry/editEnquiry']);
     }
 }

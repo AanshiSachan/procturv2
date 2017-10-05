@@ -898,3 +898,9 @@ ul.customDropdown li:hover {
 :host /deep/ ::-webkit-scrollbar{
     display: none;
 }
+
+
+.unstyled-calendar::-webkit-inner-spin-button,
+.unstyled-calendar::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none;    
+}
