@@ -74,6 +74,7 @@ export class EnquiryManageComponent implements OnInit{
     pageNo: 1,
     sizeLimit: 100,
   }
+  today: number = Date.now();
   date: Date;
   stats = {
     All: { value: 'All', prop: 'All', checked: true, disabled: false },
