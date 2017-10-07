@@ -8,7 +8,6 @@ import { Observer } from 'rxjs/Observer';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
-import {NgbModal, NgbModalOptions, NgbActiveModal,  ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { EnquiryConfirmModalComponent } from '../components/custom/enquiry-confirm-modal/enquiry-confirm-modal.component';
 
 @Injectable()
@@ -27,11 +26,14 @@ export class FetchprefilldataService {
   urlOccupation: string;
   urlLastDetail: string;
   urlLeadDetails: string;
+  urlInstituteCreate: string;
+  urlSubmitNewEnquiry: string;
   Authorization: string; 
   headers: Headers; 
- 
-  constructor(private http: Http, private modalService: NgbModal) { 
+  headersPost: Headers;
 
+  constructor(private http: Http) { 
+    this.urlSubmitNewEnquiry = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/100123";
     this.urlAssignTo = "https://app.proctur.com/StdMgmtWebAPI/api/v1/profiles/100123";
     this.urlScholarSub = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/fetchCustomEnquiryComponents/100123?id=0&isSearhable=Y&page=1";
     this.urlEnqsta = "https://app.proctur.com/StdMgmtWebAPI/api/v1/masterData/type/SPEC_ENQUIRY_STATUS";
@@ -43,12 +45,14 @@ export class FetchprefilldataService {
     this.urlLeadReffered = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry_campaign/master/lead_referred_by/100123/all";
     this.urlOccupation = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry_campaign/master/occupation/100123/all";
     this.urlLastDetail = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/100123/fetchLastEnquiryDetails";
-    this.urlLeadDetails = "https://app.proctur.com/StdMgmtWebAPI/api/v1/campaign/getLeadDetailsForMobileNo/100123/"
     this.Authorization = "MzE0Njl8MDphZG1pbkAxMjM6MTAwMTIz";
 
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
     this.headers.append("Authorization", this.Authorization);
+
+    this.headersPost = new Headers();
+    this.headersPost.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
   }
 
   getAssignTo(): any {
@@ -138,16 +142,71 @@ export class FetchprefilldataService {
   }
 
   fetchLeadDetails(number): any{
-    this.urlLeadDetails +=number;
-    console.log(this.urlLeadDetails);
+    this.urlLeadDetails = "https://app.proctur.com/StdMgmtWebAPI/api/v1/campaign/getLeadDetailsForMobileNo/100123/" +number;
+    //console.log(this.urlLeadDetails);
     return this.http.get(this.urlLeadDetails, { headers: this.headers })
     .map(res => {
       return res.json();
     })
   }
 
-  confirm(){
-    const modalRef = this.modalService.open(EnquiryConfirmModalComponent);
+  createNewInstitute(data){
+    this.urlInstituteCreate = 'https://app.proctur.com/StdMgmtWebAPI/api/v1/schools';
+    let newInstituteForm:any = {
+      school_name: data.instituteName,
+      is_active: data.isActive,
+      institution_id: "100123",
+    };
+    let responseData: any;
+    return this.http.post(this.urlInstituteCreate, newInstituteForm ,{ headers: this.headers }).map(res => {
+      responseData = res.json();
+      //console.log(responseData);
+      return responseData;
+    });
   }
   
+  postNewEnquiry(data){
+    let responseData: any;
+    let newFormData = {
+      name: data.name,
+      phone: data.phone,
+      email: data.email,
+      gender: data.gender,
+      phone2: data.phone2,
+      email2: data.email2,
+      curr_address: data.curr_address,
+      parent_name: data.parent_name,
+      parent_phone: data.parent_phone,
+      parent_email: data.parent_email,
+      city: data.city,
+      occupation_id: "-1",
+      school_id: data.institution_id,
+      qualification: "",
+      grade: "",
+      enquiry_date: data.enquiry_date,
+      standard_id: data.standard_id,
+      subject_id: data.subject_id,
+      referred_by: data.referred_by,
+      source_id: data.source_id,
+      fee_committed: data.fee_committed,
+      discount_offered: data.discount_offered,
+      priority: data.priority,
+      enquiry: data.enquiry,
+      follow_type: data.follow_type,
+      followUpDate: data.followUpDate,
+      religion: null,
+      link: data.link,
+      slot_id: null,
+      closedReason: "",
+      demo_by_id: "",
+      status: data.status,
+      assigned_to: data.assigned_to,
+      followUpTime: "",
+      lead_id: -1
+    }
+    return this.http.post(this.urlSubmitNewEnquiry, newFormData ,{ headers: this.headers }).map(res => {
+      responseData = res.json();
+      return responseData;
+    });
+  }
 }

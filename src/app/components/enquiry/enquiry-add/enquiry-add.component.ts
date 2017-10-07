@@ -9,6 +9,7 @@ import * as moment from 'moment';
 
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
 import { instituteInfo } from '../../../model/instituteinfo';
+import { addEnquiryForm } from '../../../model/add-enquiry-form';
 import { FetchenquiryService } from '../../../services/fetchenquiry.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { EnquiryConfirmModalComponent } from '../../custom/enquiry-confirm-modal/enquiry-confirm-modal.component';
@@ -25,54 +26,62 @@ import 'rxjs/Rx';
 
 export class EnquiryAddComponent implements OnInit{
 
-  enqstatus: any = []; 
-  enqPriority: any = []; 
-  enqFollowType: any = []; 
-  enqAssignTo: any = []; 
-  enqStd: any = []; 
-  enqSub: any = []; 
-  enqScholarship: any = []; 
-  enqSub2: any = [];
-  school: any = [];
-  sourceLead: any = [];
-  refferedBy: any = [];
-  occupation: any = [];
-  lastDetail: any = [];
-  confimationPop: boolean= false;
-  updatePop: boolean= false;
-  addFormData = {
-    name: null,
-    phone: null,
-    email: null,
-    gender: null,
-    address: null,
-    city: null,
-    institute_name: null,
-    standard: null,
-    subject: null,
-    qualification: null,
-    board:  null,
-    yearOfPassing: null,
-    percentGPA: null,
-    percentGPA_MS: null,
-    enquiryDate: null,
-    enquiryStatus: null,
-    enquiryPriority: null,
-    followType: null,
-    followUp: null,
-    source: null,
-    reffered: null,
-    assignedTo: null,
-    remarks: null,
-  };
+  enqstatus: any = []; enqPriority: any = []; enqFollowType: any = []; 
+  enqAssignTo: any = []; enqStd: any = []; enqSub: any = []; 
+  enqScholarship: any = []; enqSub2: any = []; school: any = [];
+  sourceLead: any = []; refferedBy: any = []; occupation: any = [];
+  lastDetail: any = []; confimationPop: boolean= false; updatePop: boolean= false;
+  newEnqData: addEnquiryForm;
+  additionDetails:boolean = false; addInsitute: boolean = false;
+  createInstitute = {
+    instituteName: "",
+    isActive: "N" 
+  }
+  todayDate: number = Date.now();
 
   constructor(private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private adfilterFB: FormBuilder){
   }
-
   ngOnInit() {
     this.FetchEnquiryPrefilledData();
+    this.newEnqData = {
+      name: null,
+      phone: null,
+      email: null,
+      gender: null,
+      phone2: null,
+      email2: null,
+      curr_address: null,
+      parent_name: null,
+      parent_phone: null,
+      parent_email: null,
+      city: null,
+      occupation_id: null,
+      school_id: null,
+      qualification: null,
+      grade: null,
+      enquiry_date: null,
+      standard_id: null,
+      subject_id: null,
+      referred_by: null,
+      source_id: null,
+      fee_committed: null,
+      discount_offered: null,
+      priority: null,
+      enquiry: null,
+      follow_type: null,
+      followUpDate: null,
+      religion: null,
+      link: null,
+      slot_id: null,
+      closedReason: null,
+      demo_by_id: null,
+      status: null,
+      assigned_to: null,
+      followUpTime: null,
+      lead_id: null,
+      enqCustomLi: null       
+    };
   }
-
   toggleForm(event) {
     let eleid = event.srcElement.id;
     console.log(eleid);
@@ -103,7 +112,6 @@ export class EnquiryAddComponent implements OnInit{
       basic.add('active');
     }
   }
-
   FetchEnquiryPrefilledData(){
     this.prefill.getEnqStatus().subscribe(
       data => {this.enqstatus = data;},
@@ -118,7 +126,7 @@ export class EnquiryAddComponent implements OnInit{
       err => { console.log(err); }
     );
     this.prefill.getAssignTo().subscribe(
-      data => { this.enqAssignTo = data; },
+      data => { this.enqAssignTo = data;},
       err => { console.log(err); }
     );
     this.prefill.getScholarPrefillData().subscribe(
@@ -161,15 +169,131 @@ export class EnquiryAddComponent implements OnInit{
       err => { console.log(err); }
     );
   }
-  getLeadDetails(){
-   if(this.addFormData.phone != null){
-    let data = this.prefill.fetchLeadDetails(this.addFormData.phone);
-   }
-   else{
-    alert("Please enter the phone number to fetch details")
-   }
+  showAdditionDetails(){
+    this.additionDetails = !this.additionDetails;
   }
-  clearFormData(){}
+  getLeadDetails(){
+    console.log(this.newEnqData.phone);
+    if(this.validatePhone(this.newEnqData.phone)){
+      this.prefill.fetchLeadDetails(this.newEnqData.phone).subscribe(
+        data => { this.updateForm(data) },
+        err => { alert(err.message); }
+      )
+    }
+  }
+  validatePhone(num){
+    console.log(num);
+    if(num != null){
+      return this.newEnqData.phone.length === 10;
+    }
+    else{
+
+      alert('please enter an input');
+    }
+  }
+  updateForm(data){
+    this.newEnqData.curr_address = data.address;
+    this.newEnqData.assigned_to = data.assigned_to;
+    this.newEnqData.city = data.city;
+    this.newEnqData.email = data.email;
+    this.newEnqData.gender = data.gender;
+    this.newEnqData.name = data.name;
+    this.newEnqData.referred_by = data.referred_by;
+    this.newEnqData.source_id = data.source_id;
+  }
+  toggleInstituteActive(event){
+    if(event){
+      this.createInstitute.isActive = "Y";
+    }
+    else{
+      this.createInstitute.isActive = "N";
+    }
+
+  }
+  addInstituteData(){
+    this.prefill.createNewInstitute(this.createInstitute).subscribe(el => {
+      if(el.message === "OK"){
+        this.prefill.getSchoolDetails().subscribe(
+          data => { this.school = data;},
+          err => { alert(err); }
+        );
+        alert("institute Added");
+      }
+      else{
+        alert("Institute Name already exist!");
+      }
+    });
+  }
+  fetchSubject(value){
+    //console.log(value);
+    this.newEnqData.standard_id = value;
+    this.prefill.getEnqSubjects(this.newEnqData.standard_id).subscribe(
+      data => {this.enqSub = data; console.log(data);},
+      err => { console.log(err); } 
+    )
+  }
+  /* PopUp related Functions */
+  openAddInstitute(){
+    this.addInsitute = true;
+  }
+  closeInstituteAdder(){
+    this.addInsitute = false;
+  }
+  openAddSource(){}
+  closeAddSource(){}
+  openAddRefer(){}
+  closeAddRefer(){}
+  clearFormData(){
+    this.newEnqData = {
+      name: null,
+      phone: null,
+      email: null,
+      gender: null,
+      phone2: null,
+      email2: null,
+      curr_address: null,
+      parent_name: null,
+      parent_phone: null,
+      parent_email: null,
+      city: null,
+      occupation_id: null,
+      school_id: null,
+      qualification: null,
+      grade: null,
+      enquiry_date: null,
+      standard_id: null,
+      subject_id: null,
+      referred_by: null,
+      source_id: null,
+      fee_committed: null,
+      discount_offered: null,
+      priority: null,
+      enquiry: null,
+      follow_type: null,
+      followUpDate: null,
+      religion: null,
+      link: null,
+      slot_id: null,
+      closedReason: null,
+      demo_by_id: null,
+      status: null,
+      assigned_to: null,
+      followUpTime: null,
+      lead_id: null,
+      enqCustomLi: null       
+    };
+  }
+  submitForm(){
+    this.prefill.postNewEnquiry(this.newEnqData).subscribe(
+      data => { 
+        this.lastDetail = data;
+        if(data.statusCode == 200){
+          this.openConfirmationPopup();
+        }
+       },
+      err => { console.log(err); }
+    )
+  }
   openConfirmationPopup(){
     this.closeUpdatePopup();
     console.log("confirmation popup opened");

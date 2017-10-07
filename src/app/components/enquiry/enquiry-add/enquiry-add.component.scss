@@ -617,3 +617,8 @@
 .row.extraMargin {
     margin: 10px -15px 20px;
 }
+
+.unstyled-calendar::-webkit-inner-spin-button,
+.unstyled-calendar::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none;    
+}

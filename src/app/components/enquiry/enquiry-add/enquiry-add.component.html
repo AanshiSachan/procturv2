@@ -1,252 +1,303 @@
 <section class="middle-section clearFix">
-  <form ng-submit="">
-    <aside class="pull-left middle-left " id="addNewEnquiry">
-      <section class="middle-top clearFix">
-        <h1 class="pull-left">
-          Add New Enquiry
-        </h1>
-        <aside class="pull-right">
-          <input type="button" value="Pay Registration Fees" class="btn">
-        </aside>
-      </section>
-      <!-- Accordian Menu Element -->
-      <section class="middle-main clearFix" id="middleMain">
-        <div class="add-new-enquiry-form accordian-section">
-          <ul class="accordian">
-            <li class="active data-filled" id="basicDetails">
-              <div class="accordian-heading">
-                <h4>
-                  <span class="circle-accor">1</span> Details
-                  <span class="open-accor" id="openBasic" (click)="toggleForm($event)">+</span>
-                  <span class="close-accor" id="closeBasic" (click)="toggleForm($event)">-</span>
-                </h4>
-              </div>
-              <div class="accordian-content">
-                <div class="form-type1">
-                  <div class="field-wrapper">
-                    <input type="text" value="" id="userName" class="form-ctrl" [(ngModel)]="addFormData.name" name="name" formInput/>
-                    <label for="userName">Name*</label>
-                  </div>
-                  <div class="field-wrapper">
-                    <input type="text" value="" id="userNumber" class="form-ctrl" [(ngModel)]="addFormData.phone" name="phoneno" formInput/>
-                    <label for="userNumber">Phone No*</label>
-                  </div>
-                  <div class="more-detail">
-                    <a (click)="getLeadDetails()">Fetch Lead Details</a>
-                  </div>
-                  <div class="field-wrapper">
-                    <input type="text" value="" id="userEmail" class="form-ctrl" [(ngModel)]="addFormData.email" name="email" formInput/>
-                    <label for="userEmail">Email ID*</label>
-                  </div>
-                  <div class="field-wrapper">
-                    <select id="userGender" class="form-ctrl" [(ngModel)]="addFormData.gender" name="gender" formInput>
+  <!-- Left Side Form -->
+  <aside class="pull-left middle-left " id="addNewEnquiry">
+    <!-- Header -->
+    <section class="middle-top clearFix">
+      <h1 class="pull-left">
+        Add New Enquiry
+      </h1>
+      <aside class="pull-right">
+        <input type="button" value="Pay Registration Fees" class="btn">
+      </aside>
+    </section>
+    <!-- Accordian Menu Element -->
+    <section class="middle-main clearFix" id="middleMain">
+      <div class="add-new-enquiry-form accordian-section">
+        <ul class="accordian">
+          <!-- Basic Form -->
+          <li class="active data-filled" id="basicDetails">
+            <!-- Accordian Toggler -->
+            <div class="accordian-heading">
+              <h4>
+                <span class="circle-accor">1</span> Details
+                <span class="open-accor" id="openBasic" (click)="toggleForm($event)">+</span>
+                <span class="close-accor" id="closeBasic" (click)="toggleForm($event)">-</span>
+              </h4>
+            </div>
+            <!-- Accordian Form 1 -->
+            <div class="accordian-content">
+              <div class="form-type1">
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="userName" class="form-ctrl" [(ngModel)]="newEnqData.name" name="name" formInput/>
+                  <label for="userName">Name*</label>
+                </div>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="userNumber" class="form-ctrl" [(ngModel)]="newEnqData.phone" name="phoneno" formInput/>
+                  <label for="userNumber">Phone No*</label>
+                </div>
+                <div class="more-detail">
+                  <a (click)="getLeadDetails()" style="cursor:pointer">Fetch Lead Details</a>
+                </div>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="userEmail" class="form-ctrl" [(ngModel)]="newEnqData.email" name="email" formInput/>
+                  <label for="userEmail">Email ID*</label>
+                </div>
+                <div class="field-wrapper has-value">
+                  <select id="userGender" class="form-ctrl" [(ngModel)]="newEnqData.gender" name="gender" formInput>
                        <option></option>
                        <option>Male</option>
                        <option>Female</option>
-                       <option>N/A</option>                       
+                       <option>NA</option>                       
                     </select>
-                    <label for="userGender">Gender</label>
-                  </div>
-                  <div class="field-wrapper">
-                    <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="addFormData.address" name="address" formInput/>
-                    <label for="userAddress">Address</label>
-                  </div>
-                  <div class="field-wrapper">
-                    <input type="text" value="" id="userCity" class="form-ctrl" [(ngModel)]="addFormData.city" name="city" formInput/>
-                    <label for="userCity">City</label>
-                  </div>
-                  <div class="more-detail">
-                    <a>+ &nbsp; Add Additional Details</a>
-                  </div>
+                  <label for="userGender">Gender</label>
+                </div>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="newEnqData.curr_address" name="address" formInput/>
+                  <label for="userAddress">Address</label>
+                </div>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="userCity" class="form-ctrl" [(ngModel)]="newEnqData.city" name="city" formInput/>
+                  <label for="userCity">City</label>
+                </div>
+                <div class="more-detail">
+                  <a (click)="showAdditionDetails()" style="cursor:pointer">+ &nbsp; Add Additional Details</a>
                 </div>
               </div>
-            </li>
-            <li class="data-filled" id="academicDetails">
-              <div class="accordian-heading">
-                <h4><span class="circle-accor">2</span> Academics Details
-                  <span class="close-accor" id="closeAcademic" (click)="toggleForm($event)">-</span>
-                  <span class="open-accor" id="openAcademic" (click)="toggleForm($event)">+</span>
-                </h4>
+              <div class="form-type1" *ngIf="additionDetails">
+                <br>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="altContact" class="form-ctrl" [(ngModel)]="newEnqData.phone2" name="altContact" formInput/>
+                  <label for="altContact">Alternate Contact</label>
+                </div>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="altEmail" class="form-ctrl" [(ngModel)]="newEnqData.email2" name="altemail" formInput/>
+                  <label for="altEmail">Alternate Email ID</label>
+                </div>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="guardianName" class="form-ctrl" [(ngModel)]="newEnqData.parent_name" name="guardianName"
+                    formInput/>
+                  <label for="guardianName">Gaurdian Name</label>
+                </div>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="guardianContact" class="form-ctrl" [(ngModel)]="newEnqData.parent_phone" name="guardianContact"
+                    formInput/>
+                  <label for="guardianContact">Gaurdian Contact</label>
+                </div>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="guardianEmail" class="form-ctrl" [(ngModel)]="newEnqData.parent_email" name="guardianEmail"
+                    formInput/>
+                  <label for="guardianEmail">Gaurdian Email</label>
+                </div>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="enquirerLink" class="form-ctrl" [(ngModel)]="newEnqData.link" name="enquirerLink" formInput/>
+                  <label for="enquirerLink">Link Details</label>
+                </div>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="feeCommitted" class="form-ctrl" [(ngModel)]="newEnqData.fee_committed" name="feeCommitted"
+                    formInput/>
+                  <label for="feeCommitted">Fees Committed Details</label>
+                </div>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="discountOffered" class="form-ctrl" [(ngModel)]="newEnqData.discount_offered" name="discountOffered"
+                    formInput/>
+                  <label for="discountOffered">Discount Offered Details</label>
+                </div>
               </div>
-              <div class="accordian-content">
-                <div class="form-type2">
-                  <div class="field-wrapper">
-                    <select id="institutionName" class="form-ctrl" [(ngModel)]="addFormData.institute_name" name="institutename" formInput>
-                        <option></option>
-                        <option></option>
+            </div>
+          </li>
+          <!-- Academic Form 2-->
+          <li class="data-filled" id="academicDetails">
+            <div class="accordian-heading">
+              <h4><span class="circle-accor">2</span> Academics Details
+                <span class="close-accor" id="closeAcademic" (click)="toggleForm($event)">-</span>
+                <span class="open-accor" id="openAcademic" (click)="toggleForm($event)">+</span>
+              </h4>
+            </div>
+            <div class="accordian-content">
+              <div class="form-type2">
+                <div class="field-wrapper has-value">
+                  <select id="institutionName" class="form-ctrl" [(ngModel)]="newEnqData.school_id" name="institutename" formInput>
+                        <option value=""></option>
+                        <option *ngFor="let institute of school" [value]="institute.school_id">
+                          {{institute.school_name}}
+                        </option>
                     </select>
-                    <label for="institutionName">Institution Name</label>
-                    <a href="#" class="create-institution">+ Create Institution</a>
-                  </div>
-                  <div class="field-wrapper">
-                    <select id="forStandard" class="form-ctrl" [(ngModel)]="addFormData.standard" name="standard" formInput>
-                       <option></option>
-                       <option>Standard</option>
+                  <label for="institutionName">Institution Name</label>
+                  <a (click)="openAddInstitute()" class="create-institution" style="cursor:pointer">+ Create Institution</a>
+                </div>
+                <div class="field-wrapper has-value">
+                  <select id="forStandard" class="form-ctrl" [ngModel]="newEnqData.standard_id" (ngModelChange)="fetchSubject($event)" name="standard"
+                    formInput>
+                       <option value=""></option>
+                       <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
                     </select>
-                    <label for="forStandard">For Standard</label>
-                    <div class="questionInfo">
-                      <span class="qInfoIcon">?</span>
-                    </div>
+                  <label for="forStandard">For Standard</label>
+                  <div class="questionInfo">
+                    <span class="qInfoIcon">?</span>
                   </div>
-                  <div class="field-wrapper">
-                    <select id="forSubject" class="form-ctrl" [(ngModel)]="addFormData.subject" name="subject" formInput>
-                       <option></option>
-                       <option>Maths</option>
+                </div>
+                <div class="field-wrapper has-value">
+                  <select id="forSubject" class="form-ctrl" [(ngModel)]="newEnqData.subject_id" name="subject" formInput>
+                       <option value=""></option>
+                       <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
                     </select>
-                    <label for="forSubject">For Subject</label>
-                    <div class="questionInfo">
-                      <span class="qInfoIcon">?</span>
-                    </div>
+                  <label for="forSubject">For Subject</label>
+                  <div class="questionInfo">
+                    <span class="qInfoIcon">?</span>
                   </div>
-                  <div class="field-wrapper">
-                    <select id="highestQualification" class="form-ctrl" [(ngModel)]="addFormData.qualification" name="qualification" formInput>
+                </div>
+                <!-- <div class="field-wrapper">
+                  <select id="highestQualification" class="form-ctrl" [(ngModel)]="" name="newEnqData.qualification" formInput>
                       <option></option>
                       <option>MA</option>
                     </select>
-                    <label for="highestQualification">Highest Qualification*</label>
-                    <div class="questionInfo">
-                      <span class="qInfoIcon">?</span>
-                    </div>
+                  <label for="highestQualification">Highest Qualification*</label>
+                  <div class="questionInfo">
+                    <span class="qInfoIcon">?</span>
                   </div>
-                  <div class="field-wrapper">
-                    <select id="board" class="form-ctrl" [(ngModel)]="addFormData.board" name="board" formInput>
+                </div>
+                <div class="field-wrapper">
+                  <select id="board" class="form-ctrl" [(ngModel)]="newEnqData.board" name="board" formInput>
                        <option></option>
                        <option>Board</option>
                     </select>
-                    <label for="board">Board</label>
-                    <div class="questionInfo">
-                      <span class="qInfoIcon">?</span>
-                    </div>
-                  </div>
-                  <div class="field-wrapper">
-                    <input type="text" value="" id="yearOfPassing" class="form-ctrl" [(ngModel)]="addFormData.yearOfPassing" name="yop" formInput/>
-                    <label for="yearOfPassing">Year Of Passing</label>
-                  </div>
-                  <div class="field-wrapper">
-                    <input type="text" value="" id="percentageMark" class="form-ctrl" [(ngModel)]="addFormData.percentGPA" name="percentGPA"
-                      formInput/>
-                    <label for="percentageMark">% Marks/CGPA - Agg.</label>
-                  </div>
-                  <div class="field-wrapper">
-                    <input type="text" value="" id="percentageMarkMandS" class="form-ctrl" [(ngModel)]="addFormData.percentGPA_MS" name="percentGPA_MS"
-                      formInput/>
-                    <label for="percentageMarkMandS">% Marks/CGPA - [Math+Science]</label>
+                  <label for="board">Board</label>
+                  <div class="questionInfo">
+                    <span class="qInfoIcon">?</span>
                   </div>
                 </div>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="yearOfPassing" class="form-ctrl" [(ngModel)]="addFormData.yearOfPassing" name="yop" formInput/>
+                  <label for="yearOfPassing">Year Of Passing</label>
+                </div>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="percentageMark" class="form-ctrl" [(ngModel)]="addFormData.percentGPA" name="percentGPA"
+                    formInput/>
+                  <label for="percentageMark">% Marks/CGPA - Agg.</label>
+                </div>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="percentageMarkMandS" class="form-ctrl" [(ngModel)]="addFormData.percentGPA_MS" name="percentGPA_MS"
+                    formInput/>
+                  <label for="percentageMarkMandS">% Marks/CGPA - [Math+Science]</label>
+                </div> -->
               </div>
-            </li>
-          </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <!-- Footer for Accordian Menu -->
+    <section class="middle-bottom clearFix">
+      <div class="pull-left">
+        <div class="field-checkbox-wrapper">
+          <input type="checkbox" value="" class="form-checkbox" id="addNextEnquiry">
+          <label for="addNextEnquiry">Add Next Enquiry</label>
         </div>
-      </section>
-      <!-- Footer for Accordian Menu -->
-      <section class="middle-bottom clearFix">
-        <div class="pull-left">
-          <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" id="addNextEnquiry">
-            <label for="addNextEnquiry">Add Next Enquiry</label>
-          </div>
-        </div>
-        <aside class="pull-right">
-          <input type="button" value="Cancel" class="btn cancle" routerLink="/enquiry/manage">
-          <input type="button" value="Save and Continue" class="btn redBtn">
-        </aside>
-      </section>
-    </aside>
-    <!-- Right side form for Office purrpose only -->
-    <aside class="pull-right middle-right" id="rightSideBar">
-      <!--Last enquiry information-->
-      <section class="shadow-box clearfix">
-        <div class="last-added-info">
-          <ul>
-            <li>
-              <span class="last-user-name"><strong>Last Added Name -</strong><dfn>Shani Maurya</dfn></span>
-              <span class="view-details"><a (click)="openConfirmationPopup()">View details</a></span>
-            </li>
-            <li>
-              <span class="last-Enquiry-no"><strong>Enquiry No. -</strong><dfn>1020</dfn></span>
-              <span class="enquiry-time">5 min ago</span>
-            </li>
-          </ul>
-        </div>
-      </section>
-      <!-- Enquiry Details official use-->
-      <section class="enquiry-detail common-right-section">
-        <h4><strong>Enquiry Details</strong> (Official Use)</h4>
-        <div class="box-shadow-lite">
-          <div class="field-wrapper">
-            <input type="text" value="" id="name" class="form-ctrl" [(ngModel)]="addFormData.enquiryDate" name="enquiryDate" formInput>
-            <label for="name">Enquiry Date</label>
-            <span class="follow-up-date-icon">
+      </div>
+      <aside class="pull-right">
+        <input type="button" value="Cancel" class="btn cancle" routerLink="/enquiry/manage">
+        <input type="button" value="Save and Continue" class="btn redBtn" (click)="submitForm()">
+      </aside>
+    </section>
+  </aside>
+  <!-- Right side form for Office purrpose only -->
+  <aside class="pull-right middle-right" id="rightSideBar">
+    <!--Last enquiry information-->
+    <section class="shadow-box clearfix">
+      <div class="last-added-info">
+        <ul>
+          <li>
+            <span class="last-user-name"><strong>Last Added Name -</strong><dfn>Shani Maurya</dfn></span>
+            <span class="view-details"><a (click)="openConfirmationPopup()">View details</a></span>
+          </li>
+          <li>
+            <span class="last-Enquiry-no"><strong>Enquiry No. -</strong><dfn>1020</dfn></span>
+            <span class="enquiry-time">5 min ago</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <!-- Enquiry Details official use-->
+    <section class="enquiry-detail common-right-section">
+      <h4><strong>Enquiry Details</strong> (Official Use)</h4>
+      <div class="box-shadow-lite">
+        <div class="field-wrapper">
+          <input type="text" value="" id="enquiryDate" class="form-ctrl unstyled-calendar" [(ngModel)]="newEnqData.enquiry_date" name="enquiryDate"
+            onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput>
+          <label for="enquiryDate">Enquiry Date</label>
+          <span class="follow-up-date-icon">
               <img src="./assets/images/calendar.svg" alt="">
           </span>
-          </div>
-          <div class="field-wrapper customSelectWrapper">
-            <select id="eStatus" class="form-ctrl" formInput style="opacity: 1;" [(ngModel)]="addFormData.enquiryStatus" name="status">
-                        <option></option>
-                        <option>Pending</option>
-                        <option>Pending</option>
-                        <option>Pending</option>
-                        <option>Pending</option>
+        </div>
+        <div class="field-wrapper ">
+          <select id="eStatus" class="form-ctrl" [(ngModel)]="newEnqData.status" name="status" formInput>
+            <option value = "" ></option>
+            <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
+          </select>
+          <label for="eStatus">Enquiry Status</label>
+        </div>
+        <div class="field-wrapper ">
+          <select id="priority" class="form-ctrl" [(ngModel)]="newEnqData.priority" name="priority" formInput>
+               <option value = "" ></option>
+               <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
+                 {{priority.data_value}}
+               </option>
             </select>
-            <label for="eStatus">Enquiry Status</label>
-          </div>
-          <div class="field-wrapper customSelectWrapper">
-            <select id="priority" class="form-ctrl" style="opacity: 1;" formInput [(ngModel)]="addFormData.enquiryPriority" name="enquiryPriority">
-               <option></option>
-               <option>Done</option>
+          <label for="priority">Enquiry Priority</label>
+        </div>
+        <div class="field-wrapper ">
+          <select id="followUpType" class="form-ctrl" [(ngModel)]="newEnqData.follow_type" name="followtype" formInput>
+               <option value=""></option>
+               <option *ngFor="let followUp of enqFollowType" [value]="followUp.data_key">
+                 {{followUp.data_value}}
+               </option>
             </select>
-            <label for="priority">Enquiry Priority</label>
-          </div>
-          <div class="field-wrapper customSelectWrapper">
-            <select id="followUpType" class="form-ctrl" style="opacity: 1;" formInput [(ngModel)]="addFormData.followType" name="followtype">
-               <option></option>
-               <option>Done</option>
-            </select>
-            <label for="followUpType">Follow Up Type</label>
-          </div>
-          <div class="field-wrapper">
-            <input type="text" value="" id="followUpDate" class="form-ctrl" formInput [(ngModel)]="addFormData.followUp" name="followup">
-            <label for="followUpDate">Follow Up Date</label>
-            <span class="follow-up-date-icon">
+          <label for="followUpType">Follow Up Type</label>
+        </div>
+        <div class="field-wrapper ">
+          <input type="text" value="" id="followUpDate" class="form-ctrl unstyled-calendar" [(ngModel)]="newEnqData.followUpDate" name="followUpDate" 
+           onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput>
+          <label for="followUpDate">Follow Up Date</label>
+          <span class="follow-up-date-icon">
               <img src="./assets/images/calendar.svg" alt="">
             </span>
-          </div>
-          <div class="field-wrapper customSelectWrapper">
-            <select id="source" class="form-ctrl" style="opacity: 1;" formInput [(ngModel)]="addFormData.source" name="source">
-               <option></option>
-               <option>Done</option>
-            </select>
-            <label for="source">Source</label>
-            <span class="open-accor">+</span>
-          </div>
-          <div class="field-wrapper customSelectWrapper">
-            <select id="refferedBy" class="form-ctrl" style="opacity: 1;" formInput [(ngModel)]="addFormData.reffered" name="reffered">
-               <option></option>
-              <option>Done</option>
-            </select>
-            <label for="refferedBy">Reffered By</label>
-            <span class="open-accor">+</span>
-          </div>
-          <div class="field-wrapper customSelectWrapper">
-            <select id="assignedTo" class="form-ctrl" style="opacity: 1;" formInput [(ngModel)]="addFormData.assignedTo" name="assigned">
-              <option></option>
-              <option>Done</option>
-            </select>
-            <label for="assignedTo">Assigned To</label>
-          </div>
-          <div class="field-wrapper">
-            <input type="text" value="" id="Remarks" class="form-ctrl" formInput [(ngModel)]="addFormData.remarks" name="remarks">
-            <label for="Remarks">Remarks</label>
-          </div>
-          <div class="clear-detail">
-            <a (click)="clearFormData()">Clear Details</a>
-          </div>
         </div>
-      </section>
+        <div class="field-wrapper ">
+          <select id="source" class="form-ctrl" [(ngModel)]="newEnqData.source_id" name="source" formInput>
+               <option value=""></option>
+               <option *ngFor="let source of sourceLead" [value]="source.id">{{source.name}}</option>
+            </select>
+          <label for="source">Source</label>
+          <span style="cursor:pointer" (click)="openAddSource()" class="open-accor">+</span>
+        </div>
+        <div class="field-wrapper">
+          <select id="refferedBy" class="form-ctrl" [(ngModel)]="newEnqData.referred_by" name="reffered" formInput>
+               <option value=""></option>
+              <option *ngFor="let refer of refferedBy" [value]="refer.id">{{refer.name}}</option>
+          </select>
+          <label for="refferedBy">Reffered By</label>
+          <span style="cursor:pointer" class="open-accor" (click)="openAddRefer()">+</span>
+        </div>
+        <div class="field-wrapper">
+          <select id="assignedTo" class="form-ctrl" [(ngModel)]="newEnqData.assigned_to" name="assigned_to" formInput>
+              <option value=""></option>
+              <option *ngFor="let assign of enqAssignTo" [value]="assign.userid">{{assign.name}}</option>
+            </select>
+          <label for="assignedTo">Assigned To</label>
+        </div>
+        <div class="field-wrapper">
+          <input type="text" value="" id="Remarks" class="form-ctrl" [(ngModel)]="newEnqData.enquiry" name="remarks" formInput>
+          <label for="Remarks">Remarks</label>
+        </div>
+        <div class="clear-detail">
+          <a (click)="clearFormData()" style="cursor:pointer">Clear Details</a>
+        </div>
+      </div>
+    </section>
 
-    </aside>
-  </form>
+  </aside>
 </section>
+
 <!-- Confirmation PopUp -->
 <section id="popup" class="popupWrapper fadeIn" *ngIf="confimationPop">
   <div class="popup pos-abs">
@@ -270,7 +321,7 @@
             <p>If you like to make any changes to the last submitted enquiry, kindly click <a (click)="openUpdatePopup()">Edit</a></p>
           </div>
           <div class="">
-            <p>You have submitted <strong>103 New Enquiry </strong> as on <strong>Friday, 21st July 17</strong></p>
+            <p>You have submitted <strong>{{lastDetail.otherDetails.total_new_enquiries}} New Enquiry </strong> as on <strong>{{todayDate | date }}</strong></p>
             <p>If you like to view complete Enquiry List now, click <a routerLink="/enquiry/manage">More Info</a></p>
           </div>
           <div>
@@ -285,117 +336,45 @@
   </div>
 </section>
 
-<!-- Update PopUp -->
-<section id="popup" class="popupWrapper fadeIn" *ngIf="updatePop">
+<!-- Add New institute -->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="addInsitute">
   <div class="popup pos-abs">
     <div class="popup-wrapper pos-rel">
-      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeUpdatePopup()">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
-                          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
-                          </g>
-                          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
-                      </g>
-                  </svg>                
-              </span>
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeInstituteAdder()">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                              <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                                  <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                  <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
+                                  <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
+                                  </g>
+                                  <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
+                              </g>
+                          </svg>                
+                      </span>
       <div class="popup-content">
-        <h2>Update Enquiry - Enquiry No: 1050</h2>
+        <h2>Create Institution</h2>
         <div class="update-enquiry-form overflowHidden">
+          <div class="enquiry-update-history">
+            <div class="form-type1">
+              <div class="field-wrapper">
+                <input type="text" value="" id="instituteName" class="form-ctrl" [(ngModel)]="createInstitute.instituteName" name="instituteName"
+                  formInput/>
+                <label for="instituteName">Institute Name</label>
+              </div>
+              <br>
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" value="" name="check" class="form-checkbox" [ngModel]="createInstitute.isActive" (ngModelChange)="toggleInstituteActive($event)"
+                />
+                <label>Is Active</label>
+              </div>
+            </div>
+          </div>
           <div class="">
-            <div class="row">
-              <div class="c-lg-6 c-md-6 c-sm-6">
-                <div class="field-wrapper">
-                  <select id="priorityEdit" class="form-ctrl" formInput>
-                                     <option>Select Priority</option>
-                                     <option>Select Priority</option>
-                                 </select>
-                  <label for="priorityEdit">Priority</label>
-                </div>
-              </div>
-              <div class="c-lg-6 c-md-6 c-sm-6">
-                <div class="field-wrapper">
-                  <select id="selectFollowupEdit" class="form-ctrl" formInput>
-                                     <option>Select Follow Up Type</option>
-                                     <option>DEBIT</option>
-                                 </select>
-                  <label for="selectFollowupEdit">Follow Up Type</label>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="c-lg-6 c-md-6 c-sm-6">
-                <div class="field-wrapper has-value datePickerBox">
-                  <input type="text" value="Follow Up Date" placeholder="" id="followUPdataEdit" class="form-ctrl" formInput/>
-                  <label for="followUPdataEdit">Follow Up Data</label>
-                </div>
-              </div>
-              <div class="c-lg-6 c-md-6 c-sm-6">
-                <div class="field-wrapper">
-                  <select id="enquiryStatusEdit" class="form-ctrl" formInput>
-                                     <option>In Progress</option>
-                                     <option>DEBIT</option>
-                                 </select>
-                  <label for="enquiryStatusEdit">Enquiry Status</label>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="c-lg-6 c-md-6 c-sm-6">
-                <div class="field-wrapper has-value datePickerBox">
-                  <input type="text" value="12 August, 2017" placeholder="" id="commentDateEdit" class="form-ctrl" formInput/>
-                  <label for="commentDateEdit">Comment Date</label>
-                </div>
-              </div>
-              <div class="c-lg-6 c-md-6 c-sm-6">
-                <div class="field-wrapper">
-                  <input type="text" value="Call back next week" placeholder="" id="addcommentEdit" class="form-ctrl" formInput/>
-                  <label for="addcommentEdit">Add Comment Edit</label>
-                </div>
-              </div>
-            </div>
-            <h4>Comment History</h4>
-            <div class="enquiry-update-history table-responsive">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Comment</th>
-                    <th>Commented On</th>
-                    <th>Commented By</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Call back after 1 week</td>
-                    <td>09 Aug, 2017 06:48:54 PM</td>
-                    <td>Amresh Sir</td>
-                  </tr>
-                  <tr>
-                    <td>Call back after 5 week</td>
-                    <td>09 Aug, 2017 06:48:54 PM</td>
-                    <td>Puneet Sir</td>
-                  </tr>
-                  <tr>
-                    <td>Call back after 5 week</td>
-                    <td>09 Aug, 2017 06:48:54 PM</td>
-                    <td>Puneet Sir</td>
-                  </tr>
-                  <tr>
-                    <td>Call back after 5 week</td>
-                    <td>09 Aug, 2017 06:48:54 PM</td>
-                    <td>Puneet Sir</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="">
-              <div class="clearfix">
-                <aside class="pull-right popup-btn">
-                  <input type="button" value="Cancel" class="btn" (click)="openConfirmationPopup()">
-                  <input type="button" value="Update" class="redBtn btn">
-                </aside>
-              </div>
+            <div class="clearfix">
+              <aside class="pull-right popup-btn">
+                <input type="button" value="Cancel" class="btn" (click)="closeInstituteAdder()">
+                <input type="button" value="Convert" class="redBtn btn" (click)="addInstituteData()">
+              </aside>
             </div>
           </div>
         </div>
