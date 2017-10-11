@@ -8,8 +8,10 @@ export class PopupHandlerService {
   
   constructor(){}
 
+  /* Message variable */
   currentMessage = this.messageSource.asObservable();
 
+  /* Function to update the message which can be read across multiple components */
   changeMessage(message: string){
     this.messageSource.next(message);
   }

@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 
 @Component({
   selector: 'core-sidednav',
   templateUrl: './core-sidednav.component.html',
   styleUrls: ['./core-sidednav.component.scss']
 })
-export class CoreSidednavComponent implements OnInit {
+
+export class CoreSidednavComponent{
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
+  /* Function to set the clicked li tab active*/
   setActive(ev){
     let id = ev.srcElement.id;
 
@@ -37,6 +36,7 @@ export class CoreSidednavComponent implements OnInit {
 
   }
 
+  /* Function to set the id for setActive function to act upon */
   toggler(id){
     if(id === 'lione' || id === 'li1'){
       id = 'lione';

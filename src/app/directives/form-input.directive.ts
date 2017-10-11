@@ -6,10 +6,9 @@ import { Directive , ElementRef , Renderer, HostListener } from '@angular/core';
 
   export class FormInput { 
 
-    constructor(private el: ElementRef, private renderer: Renderer) {
-     //   console.log(renderer.listen);
-    }
+    constructor(private el: ElementRef, private renderer: Renderer) {}
 
+    /* When focus is removed and the value of tag is examined and class added accordingly */
     @HostListener('document:click', ['$event'])
     handleClick(event: Event) {
       this.el.nativeElement.addEventListener('blur', function(event){

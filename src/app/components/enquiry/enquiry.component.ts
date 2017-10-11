@@ -9,6 +9,7 @@ export class EnquiryComponent implements OnInit {
   constructor() {
   }
 
+  /* OnInit recheck the status of li tab and set it to active here */
   ngOnInit() {
     document.getElementById('lione').classList.add('active');
     document.getElementById('litwo').classList.remove('active');
@@ -22,4 +23,5 @@ export class EnquiryComponent implements OnInit {
     document.getElementById('liten').classList.remove('active');
     document.getElementById('lieleven').classList.remove('active');
   }
+
 }

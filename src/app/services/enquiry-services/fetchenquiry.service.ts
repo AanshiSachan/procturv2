@@ -13,23 +13,21 @@ import * as moment from 'moment';
 @Injectable()
 export class FetchenquiryService {
 
+  /* Declare variable */
   instituteData: instituteInfo;
   url: string; 
   urlCampaign: string;
   Authorization: string; 
   headers: Headers; 
   headersCampaign: Headers; 
-
   instituteFormData: any = {}; 
   row: any = []; 
   filtered = [];
-  daterange = {
-    updateDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
-    updateDateTo: moment().format('YYYY-MM-DD'),
-  };
 
+
+
+  /* initialize the value of variables on service call */
   constructor(private http: Http) {
-
     this.Authorization = "MzE0Njl8MDphZG1pbkAxMjM6MTAwMTIz";
     this.url = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/dashboard/100123";
     this.headers = new Headers();
@@ -37,6 +35,7 @@ export class FetchenquiryService {
     this.headers.append("Authorization", this.Authorization);
   }
 
+  /* Function to fetch json data for all enquiry as per the input institute data  */
   getAllEnquiry(instituteData: instituteInfo): Observable<EnquiryCampaign[]> {
     this.instituteFormData = JSON.parse(JSON.stringify(instituteData));
     console.log(this.instituteFormData);

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 @Component({
     template:
+    /* HTML content for the rendered component with CSS style as well */
     `
   <style>
 
@@ -233,26 +234,33 @@ import { Router } from '@angular/router';
 
 export class ActionButtonComponent implements OnInit {
 
-
+    /* Variable for displayng the popUp */
     private showMenu: boolean = false;
+    
+    /* message to describe which popup to be opened  */
     message:string = "";
 
     constructor(private pops: PopupHandlerService, private router: Router) { }
     
+    /* OnInit function to listen the changes in message value from service */
     ngOnInit() { 
       this.pops.currentMessage.subscribe(message => this.message = message);
     }
     
+    /* open action menu on click */
     openMenu() {
       this.showMenu = true;
     }
     
+    /* close action menu on events  */
     closeMenu() { this.showMenu = false; }
     
+    /* function to determine which pop up has to be opened on parent component */
     openPopup(eventData){
         this.pops.changeMessage(eventData);
     }
 
+    /* if user select edit navigate him to edit page directly from here */
     NavigateToEdit(){
         this.router.navigate(['/enquiry/editEnquiry']);
     }

@@ -3,6 +3,8 @@ import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse } fr
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 
+/* Interceptor to keep track of all HTTP request and update the value on service key accordingly */
+
 @Injectable()
 export class LoadInterceptor/*  implements HttpInterceptor  */{
   

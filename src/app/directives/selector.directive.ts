@@ -8,6 +8,7 @@ export class SelectorDirective {
   constructor(private el: ElementRef, private renderer: Renderer) {  
   }
 
+  /* Selector for converting select-option HTML to UL-LI format */
   @HostListener('document:click', ['$event'])
   handleClick(elm: Event) {
     this.el.nativeElement.addEventListener('focus', function(elm){

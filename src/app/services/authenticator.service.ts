@@ -3,6 +3,8 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map'
  
+/* Method declared for future purpose for setting authorization after successfull login */
+
 @Injectable()
 export class AuthenticatorService {
     public token: string;

@@ -12,6 +12,7 @@ export class StudentAddComponent implements OnInit {
   ngOnInit() {
   }
 
+  /* Function to navigate through the Student Add Form, the input provide details for view to be set active */
   navigateTo(text){
     console.log(text);
     if(text === "kyc"){

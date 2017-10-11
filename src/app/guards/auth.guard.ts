@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
  
+/* For future purpose when routing will be allowed only if router is activated */
+
 @Injectable()
 export class AuthGuard implements CanActivate {
  
