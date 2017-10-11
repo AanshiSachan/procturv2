@@ -185,6 +185,12 @@
     margin: 0;
     line-height: 10px;
     font-weight: 600;
+    cursor: pointer; 
+    a{
+        line-height: 1;
+        border: none;
+        padding: 0px 12px;
+    }
 }
 
 .pagination li:last-child {

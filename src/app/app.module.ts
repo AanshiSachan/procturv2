@@ -1,5 +1,5 @@
 /* Components */
-import { AppComponent } from './components/core/app.component';
+import { AppComponent } from './app.component';
 import { CoreSidednavComponent } from './components/core/core-sidednav/core-sidednav.component';
 import { CoreHeaderComponent } from './components/core/core-header/core-header.component';
 import { EnquiryComponent } from './components/enquiry/enquiry.component';
@@ -9,11 +9,12 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { CustomErrorPageComponent } from './components/custom/custom-error-page/custom-error-page.component';
 import { ActionButtonComponent } from './components/enquiry/enquiry-manage/action-button.component';
 import { EnquiryAddComponent } from './components/enquiry/enquiry-add/enquiry-add.component';
-import { EnquiryConfirmModalComponent } from './components/custom/enquiry-confirm-modal/enquiry-confirm-modal.component';
 import { CalendarComponent } from './components/custom/calendar/calendar.component';
 import { EnquiryBulkaddComponent } from './components/enquiry/enquiry-bulkadd/enquiry-bulkadd.component';
+import { StudentsComponent } from './components/students/students.component';
 import { StudentHomeComponent } from './components/students/student-home/student-home.component';
-
+import { StudentAddComponent } from './components/students/student-add/student-add.component';
+import { PopUpComponent } from './components/custom/pop-up/pop-up.component';
 /* Modules */
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -34,10 +35,10 @@ import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { NgDatepickerModule } from 'ng2-datepicker';
 
 /* Services */
-import { FetchenquiryService } from './services/fetchenquiry.service';
+import { FetchenquiryService } from './services/enquiry-services/fetchenquiry.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
-import { PopupHandlerService } from './services/popup-handler.service';
-
+import { PopupHandlerService } from './services/enquiry-services/popup-handler.service';
+import { FetchStudentService } from './services/student-services/fetch-student.service';
 /* Interceptors */
 import { LoadInterceptor } from './interceptors/load-interceptor';
 
@@ -50,11 +51,11 @@ import { SelectorDirective } from './directives/selector.directive';
 import { FormDatePipe } from './pipes/form-date.pipe';
 
 const appRoutes = [
-  
   {
     path: '',
     component: EnquiryManageComponent,
   },
+ 
   {
     path: 'enquiry',
     component: EnquiryComponent,
@@ -81,11 +82,30 @@ const appRoutes = [
       }
     ]
   },
+  
   {
     path: 'student',
-    component: StudentHomeComponent,
-    pathMatch: 'full',
+    component: StudentsComponent,
+    pathMatch: 'prefix',
+    children: [
+      {
+        path: '',
+        component: StudentHomeComponent,
+        pathMatch: 'prefix',
+      },
+      {
+        path: 'home',
+        component: StudentHomeComponent,
+        pathMatch: 'prefix',
+      },
+      {
+        path: 'add',
+        component: StudentAddComponent,
+        pathMatch: 'prefix',
+      }
+    ]
   },
+
   {
     path: '**',
     component: CustomErrorPageComponent,
@@ -107,16 +127,17 @@ const appRoutes = [
     ClickOutside,
     EnquiryAddComponent,
     FormInput,
-    EnquiryConfirmModalComponent,
     CalendarComponent,
     SelectorDirective,
     EnquiryBulkaddComponent,
     StudentHomeComponent,
-    FormDatePipe
+    FormDatePipe,
+    StudentAddComponent,
+    StudentsComponent,
+    PopUpComponent
   ],
   entryComponents: [
     ActionButtonComponent,
-    EnquiryConfirmModalComponent,
     CalendarComponent
   ],
   imports: [
@@ -138,12 +159,9 @@ const appRoutes = [
   ],
   providers: [
     FetchenquiryService,
-    
-    
-    
-    
     FetchprefilldataService,
-    PopupHandlerService
+    PopupHandlerService,
+    FetchStudentService
   ],
   bootstrap: [AppComponent]
 })

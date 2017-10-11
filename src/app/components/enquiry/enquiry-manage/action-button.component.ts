@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
-import { PopupHandlerService } from '../../../services/popup-handler.service';
+import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 import { Router } from '@angular/router';
 
 @Component({

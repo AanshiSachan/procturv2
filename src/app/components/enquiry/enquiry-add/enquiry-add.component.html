@@ -27,23 +27,27 @@
             <!-- Accordian Form 1 -->
             <div class="accordian-content">
               <div class="form-type1">
-                <div class="field-wrapper has-value">
-                  <input type="text" value="" id="userName" class="form-ctrl" [(ngModel)]="newEnqData.name" name="name" formInput/>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="userName" class="form-ctrl" [(ngModel)]="newEnqData.name" 
+                  name="name" required maxlength="50" formInput/>
                   <label for="userName">Name*</label>
                 </div>
-                <div class="field-wrapper has-value">
-                  <input type="text" value="" id="userNumber" class="form-ctrl" [(ngModel)]="newEnqData.phone" name="phoneno" formInput/>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="userNumber" class="form-ctrl" [(ngModel)]="newEnqData.phone" 
+                  name="phoneno" maxlength="10" minlength="10" required pattern="[789][0-9]{9}" formInput/>
                   <label for="userNumber">Phone No*</label>
                 </div>
                 <div class="more-detail">
                   <a (click)="getLeadDetails()" style="cursor:pointer">Fetch Lead Details</a>
                 </div>
-                <div class="field-wrapper has-value">
-                  <input type="text" value="" id="userEmail" class="form-ctrl" [(ngModel)]="newEnqData.email" name="email" formInput/>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="userEmail" class="form-ctrl" [(ngModel)]="newEnqData.email" 
+                  pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
+                  name="email" required formInput/>
                   <label for="userEmail">Email ID*</label>
                 </div>
-                <div class="field-wrapper has-value">
-                  <select id="userGender" class="form-ctrl" [(ngModel)]="newEnqData.gender" name="gender" formInput>
+                <div class="field-wrapper">
+                  <select id="userGender" class="form-ctrl" [(ngModel)]="newEnqData.gender" name="gender" required formInput>
                        <option></option>
                        <option>Male</option>
                        <option>Female</option>
@@ -51,12 +55,12 @@
                     </select>
                   <label for="userGender">Gender</label>
                 </div>
-                <div class="field-wrapper has-value">
-                  <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="newEnqData.curr_address" name="address" formInput/>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="newEnqData.curr_address" name="address" required formInput/>
                   <label for="userAddress">Address</label>
                 </div>
-                <div class="field-wrapper has-value">
-                  <input type="text" value="" id="userCity" class="form-ctrl" [(ngModel)]="newEnqData.city" name="city" formInput/>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="userCity" class="form-ctrl" [(ngModel)]="newEnqData.city" name="city" required formInput/>
                   <label for="userCity">City</label>
                 </div>
                 <div class="more-detail">
@@ -65,41 +69,52 @@
               </div>
               <div class="form-type1" *ngIf="additionDetails">
                 <br>
-                <div class="field-wrapper has-value">
-                  <input type="text" value="" id="altContact" class="form-ctrl" [(ngModel)]="newEnqData.phone2" name="altContact" formInput/>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="altContact" class="form-ctrl" 
+                  [(ngModel)]="newEnqData.phone2" name="altContact" 
+                  maxlength="10" minlength="10" pattern="[789][0-9]{9}" formInput/>
                   <label for="altContact">Alternate Contact</label>
                 </div>
-                <div class="field-wrapper has-value">
-                  <input type="text" value="" id="altEmail" class="form-ctrl" [(ngModel)]="newEnqData.email2" name="altemail" formInput/>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="altEmail" class="form-ctrl" 
+                  [(ngModel)]="newEnqData.email2" name="altemail" 
+                  pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" formInput/>
                   <label for="altEmail">Alternate Email ID</label>
                 </div>
-                <div class="field-wrapper has-value">
-                  <input type="text" value="" id="guardianName" class="form-ctrl" [(ngModel)]="newEnqData.parent_name" name="guardianName"
+                <div class="field-wrapper">
+                  <input type="text" value="" id="guardianName" class="form-ctrl" 
+                  [(ngModel)]="newEnqData.parent_name" name="guardianName"
+                  maxlength="50" required
                     formInput/>
                   <label for="guardianName">Gaurdian Name</label>
                 </div>
-                <div class="field-wrapper has-value">
-                  <input type="text" value="" id="guardianContact" class="form-ctrl" [(ngModel)]="newEnqData.parent_phone" name="guardianContact"
-                    formInput/>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="guardianContact" class="form-ctrl" 
+                  [(ngModel)]="newEnqData.parent_phone" name="guardianContact"
+                  maxlength="10" minlength="10" pattern="[789][0-9]{9}" formInput/>
                   <label for="guardianContact">Gaurdian Contact</label>
                 </div>
-                <div class="field-wrapper has-value">
-                  <input type="text" value="" id="guardianEmail" class="form-ctrl" [(ngModel)]="newEnqData.parent_email" name="guardianEmail"
-                    formInput/>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="guardianEmail" class="form-ctrl" 
+                  [(ngModel)]="newEnqData.parent_email" name="guardianEmail"
+                  pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" formInput/>
                   <label for="guardianEmail">Gaurdian Email</label>
                 </div>
-                <div class="field-wrapper has-value">
-                  <input type="text" value="" id="enquirerLink" class="form-ctrl" [(ngModel)]="newEnqData.link" name="enquirerLink" formInput/>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="enquirerLink" class="form-ctrl" 
+                  [(ngModel)]="newEnqData.link" name="enquirerLink" formInput/>
                   <label for="enquirerLink">Link Details</label>
                 </div>
-                <div class="field-wrapper has-value">
-                  <input type="text" value="" id="feeCommitted" class="form-ctrl" [(ngModel)]="newEnqData.fee_committed" name="feeCommitted"
-                    formInput/>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="feeCommitted" class="form-ctrl" 
+                  [(ngModel)]="newEnqData.fee_committed" name="feeCommitted"
+                  pattern="[0-9]" formInput/>
                   <label for="feeCommitted">Fees Committed Details</label>
                 </div>
-                <div class="field-wrapper has-value">
-                  <input type="text" value="" id="discountOffered" class="form-ctrl" [(ngModel)]="newEnqData.discount_offered" name="discountOffered"
-                    formInput/>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="discountOffered" class="form-ctrl" 
+                  [(ngModel)]="newEnqData.discount_offered" name="discountOffered"
+                   pattern="[0-9]" formInput/>
                   <label for="discountOffered">Discount Offered Details</label>
                 </div>
               </div>
@@ -115,8 +130,9 @@
             </div>
             <div class="accordian-content">
               <div class="form-type2">
-                <div class="field-wrapper has-value">
-                  <select id="institutionName" class="form-ctrl" [(ngModel)]="newEnqData.school_id" name="institutename" formInput>
+                <div class="field-wrapper">
+                  <select id="institutionName" class="form-ctrl" [(ngModel)]="newEnqData.school_id" 
+                  name="institutename" required formInput>
                         <option value=""></option>
                         <option *ngFor="let institute of school" [value]="institute.school_id">
                           {{institute.school_name}}
@@ -125,8 +141,9 @@
                   <label for="institutionName">Institution Name</label>
                   <a (click)="openAddInstitute()" class="create-institution" style="cursor:pointer">+ Create Institution</a>
                 </div>
-                <div class="field-wrapper has-value">
-                  <select id="forStandard" class="form-ctrl" [ngModel]="newEnqData.standard_id" (ngModelChange)="fetchSubject($event)" name="standard"
+                <div class="field-wrapper">
+                  <select id="forStandard" class="form-ctrl" [ngModel]="newEnqData.standard_id" (ngModelChange)="fetchSubject($event)" 
+                  required name="standard"
                     formInput>
                        <option value=""></option>
                        <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
@@ -136,8 +153,9 @@
                     <span class="qInfoIcon">?</span>
                   </div>
                 </div>
-                <div class="field-wrapper has-value">
-                  <select id="forSubject" class="form-ctrl" [(ngModel)]="newEnqData.subject_id" name="subject" formInput>
+                <div class="field-wrapper">
+                  <select id="forSubject" class="form-ctrl" [(ngModel)]="newEnqData.subject_id" 
+                  required name="subject" formInput>
                        <option value=""></option>
                        <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
                     </select>
@@ -208,7 +226,7 @@
         <ul>
           <li>
             <span class="last-user-name"><strong>Last Added Name -</strong><dfn>Shani Maurya</dfn></span>
-            <span class="view-details"><a (click)="openConfirmationPopup()">View details</a></span>
+            <span class="view-details"><a style="cursor:pointer">View details</a></span>
           </li>
           <li>
             <span class="last-Enquiry-no"><strong>Enquiry No. -</strong><dfn>1020</dfn></span>
@@ -221,23 +239,24 @@
     <section class="enquiry-detail common-right-section">
       <h4><strong>Enquiry Details</strong> (Official Use)</h4>
       <div class="box-shadow-lite">
-        <div class="field-wrapper">
+        <div class="field-wrapper has-value">
           <input type="text" value="" id="enquiryDate" class="form-ctrl unstyled-calendar" [(ngModel)]="newEnqData.enquiry_date" name="enquiryDate"
-            onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput>
+            onfocus="(this.type='date')" onfocusout="(this.type='text')" 
+            formInput>
           <label for="enquiryDate">Enquiry Date</label>
           <span class="follow-up-date-icon">
               <img src="./assets/images/calendar.svg" alt="">
           </span>
         </div>
         <div class="field-wrapper ">
-          <select id="eStatus" class="form-ctrl" [(ngModel)]="newEnqData.status" name="status" formInput>
+          <select id="eStatus" class="form-ctrl" [(ngModel)]="newEnqData.status" name="status" required formInput>
             <option value = "" ></option>
             <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
           </select>
           <label for="eStatus">Enquiry Status</label>
         </div>
         <div class="field-wrapper ">
-          <select id="priority" class="form-ctrl" [(ngModel)]="newEnqData.priority" name="priority" formInput>
+          <select id="priority" class="form-ctrl" [(ngModel)]="newEnqData.priority" name="priority" required formInput>
                <option value = "" ></option>
                <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
                  {{priority.data_value}}
@@ -246,7 +265,7 @@
           <label for="priority">Enquiry Priority</label>
         </div>
         <div class="field-wrapper ">
-          <select id="followUpType" class="form-ctrl" [(ngModel)]="newEnqData.follow_type" name="followtype" formInput>
+          <select id="followUpType" class="form-ctrl" [(ngModel)]="newEnqData.follow_type" name="followtype" required formInput>
                <option value=""></option>
                <option *ngFor="let followUp of enqFollowType" [value]="followUp.data_key">
                  {{followUp.data_value}}
@@ -255,31 +274,31 @@
           <label for="followUpType">Follow Up Type</label>
         </div>
         <div class="field-wrapper ">
-          <input type="text" value="" id="followUpDate" class="form-ctrl unstyled-calendar" [(ngModel)]="newEnqData.followUpDate" name="followUpDate" 
-           onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput>
+          <input type="text" value="" id="followUpDate" class="form-ctrl unstyled-calendar" [(ngModel)]="newEnqData.followUpDate" name="followUpDate"
+            onfocus="(this.type='date')" onfocusout="(this.type='text')" required formInput>
           <label for="followUpDate">Follow Up Date</label>
           <span class="follow-up-date-icon">
               <img src="./assets/images/calendar.svg" alt="">
             </span>
         </div>
         <div class="field-wrapper ">
-          <select id="source" class="form-ctrl" [(ngModel)]="newEnqData.source_id" name="source" formInput>
+          <select id="source" class="form-ctrl" [(ngModel)]="newEnqData.source_id" name="source" required formInput>
                <option value=""></option>
                <option *ngFor="let source of sourceLead" [value]="source.id">{{source.name}}</option>
-            </select>
+          </select>
           <label for="source">Source</label>
-          <span style="cursor:pointer" (click)="openAddSource()" class="open-accor">+</span>
+          <span style="cursor:pointer; line-height:15px;" (click)="showAddSourcePops()" class="open-accor">+</span>
         </div>
         <div class="field-wrapper">
-          <select id="refferedBy" class="form-ctrl" [(ngModel)]="newEnqData.referred_by" name="reffered" formInput>
+          <select id="refferedBy" class="form-ctrl" [(ngModel)]="newEnqData.referred_by" name="reffered" required formInput>
                <option value=""></option>
               <option *ngFor="let refer of refferedBy" [value]="refer.id">{{refer.name}}</option>
           </select>
           <label for="refferedBy">Reffered By</label>
-          <span style="cursor:pointer" class="open-accor" (click)="openAddRefer()">+</span>
+          <span style="cursor:pointer; line-height:15px;" class="open-accor" (click)="showAddReferPops()">+</span>
         </div>
         <div class="field-wrapper">
-          <select id="assignedTo" class="form-ctrl" [(ngModel)]="newEnqData.assigned_to" name="assigned_to" formInput>
+          <select id="assignedTo" class="form-ctrl" [(ngModel)]="newEnqData.assigned_to" name="assigned_to" required formInput>
               <option value=""></option>
               <option *ngFor="let assign of enqAssignTo" [value]="assign.userid">{{assign.name}}</option>
             </select>
@@ -335,50 +354,107 @@
     </div>
   </div>
 </section>
-
 <!-- Add New institute -->
-<section id="popup" class="popupWrapper fadeIn" *ngIf="addInsitute">
-  <div class="popup pos-abs">
-    <div class="popup-wrapper pos-rel">
-      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeInstituteAdder()">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                              <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                                  <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                                  <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
-                                  <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
-                                  </g>
-                                  <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
-                              </g>
-                          </svg>                
-                      </span>
-      <div class="popup-content">
-        <h2>Create Institution</h2>
-        <div class="update-enquiry-form overflowHidden">
-          <div class="enquiry-update-history">
-            <div class="form-type1">
-              <div class="field-wrapper">
-                <input type="text" value="" id="instituteName" class="form-ctrl" [(ngModel)]="createInstitute.instituteName" name="instituteName"
-                  formInput/>
-                <label for="instituteName">Institute Name</label>
-              </div>
-              <br>
-              <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" name="check" class="form-checkbox" [ngModel]="createInstitute.isActive" (ngModelChange)="toggleInstituteActive($event)"
-                />
-                <label>Is Active</label>
-              </div>
-            </div>
-          </div>
-          <div class="">
-            <div class="clearfix">
-              <aside class="pull-right popup-btn">
-                <input type="button" value="Cancel" class="btn" (click)="closeInstituteAdder()">
-                <input type="button" value="Convert" class="redBtn btn" (click)="addInstituteData()">
-              </aside>
-            </div>
-          </div>
-        </div>
+<pop-up [hidden]="!isInstitutePop">
+  <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeInstituteAdder()" close-button>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+              <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
+                </g>
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
+              </g>
+            </svg>                
+  </span>
+
+  <h2 popup-header>Create Institution</h2>
+
+  <div class="enquiry-update-history" popup-content>
+    <div class="form-type1">
+      <div class="field-wrapper">
+        <input type="text" value="" id="instituteName" class="form-ctrl" [(ngModel)]="createInstitute.instituteName" name="instituteName"
+          formInput/>
+        <label for="instituteName">Institute Name</label>
+      </div>
+      <br>
+      <div class="field-checkbox-wrapper">
+        <input type="checkbox" value="" name="check" class="form-checkbox" [ngModel]="createInstitute.isActive" (ngModelChange)="toggleInstituteActive($event)"
+        />
+        <label>Is Active</label>
       </div>
     </div>
   </div>
-</section>
+
+  <div class="" popup-footer>
+    <div class="clearfix">
+      <aside class="pull-right popup-btn">
+        <input type="button" value="Cancel" class="btn" (click)="closeInstituteAdder()">
+        <input type="button" value="Create" class="redBtn btn" (click)="addInstituteData()">
+      </aside>
+    </div>
+  </div>
+</pop-up>
+<!-- Add New Source -->
+<pop-up [hidden]="!isSourcePop">
+  <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="hideAddSourcePops()" close-button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
+            </g>
+          </svg>                
+  </span>
+  <h2 popup-header>Add Source</h2>
+  <div class="enquiry-update-history" popup-content>
+    <div class="form-type1">
+      <div class="field-wrapper">
+        <input type="text" value="" id="sourceName" class="form-ctrl" [(ngModel)]="createSource.name" name="sourceName" formInput/>
+        <label for="sourceName">Source Name</label>
+      </div>
+    </div>
+  </div>
+  <div class="" popup-footer>
+    <div class="clearfix">
+      <aside class="pull-right popup-btn">
+        <input type="button" value="Cancel" class="btn" (click)="hideAddSourcePops()">
+        <input type="button" value="Add Source" class="redBtn btn" (click)="addSourceData()">
+      </aside>
+    </div>
+  </div>
+</pop-up>
+<!-- Add New Source -->
+<pop-up [hidden]="!isRefferPop">
+  <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="hideAddReferPops()" close-button>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+              <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
+                </g>
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
+              </g>
+            </svg>                
+    </span>
+  <h2 popup-header>Add Referrer </h2>
+  <div class="enquiry-update-history" popup-content>
+    <div class="form-type1">
+      <div class="field-wrapper">
+        <input type="text" value="" id="refererName" class="form-ctrl" [(ngModel)]="createReferer.name" name="refererName"
+          formInput/>
+        <label for="refererName">Reffered By</label>
+      </div>
+    </div>
+  </div>
+  <div class="" popup-footer>
+    <div class="clearfix">
+      <aside class="pull-right popup-btn">
+        <input type="button" value="Cancel" class="btn" (click)="hideAddReferPops()">
+        <input type="button" value="Submit Referrer" class="redBtn btn" (click)="addReferData()">
+      </aside>
+    </div>
+  </div>
+</pop-up>

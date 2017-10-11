@@ -1,450 +1,189 @@
 <section class="middle-section clearFix">
+    <aside class="middle-full row">
 
-  <section class="" id="studentFlow">
-    <!-- =====================  Form Navigations================= -->
-    <section class="student-tab">
-      <ul class="nav-tab">
-        <li class="active" id="li-one">
-          <div>
-            <span>1</span>
-            <p>Personal Details</p>
-          </div>
-        </li>
-        <li class="" id="li-two">
-          <div>
-            <span>2</span>
-            <p>KYC Details</p>
-          </div>
+        <!--====================================middle Top section==========================-->
+        <section class="middle-top mb0 clearFix">
+            <h1 class="pull-left">
+                Student List
+            </h1>
+            <aside class="pull-right">
+                <input type="button" value="Add New Enquiry" class="btn" routerLink="/enquiry/addEnquiry">
+                <input type="button" value="Add Student" class="btn" routerLink="/student/add">
+            </aside>
+        </section>
+        <!--====================================middle <Main> section==========================-->
+        <section class="middle-main clearFix" id="studentList">
+            <section class="common-search-filter" id="searchFilter">
+                <div class="filter-search">
+                    <!-- Advanced Filter -->
+                    <div class="filter-box clearFix hide">
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            <div class="search-filter-wrapper">
+                                <input type="text" class="normal-field" value="" placeholder="Search Student Name/Contact No.">
+                                <input type="button" class="normal-btn fullBlue btn" value="Search">
+                            </div>
+                        </div>
 
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            <div class="filter-right">
+                                <input type="button" class="btn showFilterBtn" value="Filter">
+                                <a href="javascript:void(0);" class="closeFilter">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
+                                        <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
+                                            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"></line>
+                                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"></line>
+                                            </g>
+                                            <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)"></rect>
+                                        </g>
+                                    </svg>
+                                    Close Advance Filter</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-fields">
+                        <div class="row">
+                            <div class="c-lg-3 c-md-3 c-sm-3">
+                                <div class="field-wrapper customSelectWrapper">
+                                    <select id="sStandard" class="form-ctrl" style="opacity: 1;">
+                                                        <option></option>
+                                                        <option>Male</option>
+                                                    </select>
+                                    <label for="sStandard">Select Standard</label>
+                                    <ul class="customDropdown">
+                                        <li></li>
+                                        <li>Male</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="c-lg-3 c-md-3 c-sm-3">
+                                <div class="field-wrapper customSelectWrapper">
+                                    <select id="masterCource" class="form-ctrl" style="opacity: 1;">
+                                                        <option></option>
+                                                        <option>Male</option>
+                                                    </select>
+                                    <label for="masterCource">Master Cource</label>
+                                    <ul class="customDropdown">
+                                        <li></li>
+                                        <li>Male</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="c-lg-3 c-md-3 c-sm-3">
+                                <div class="field-wrapper customSelectWrapper">
+                                    <select id="sCource" class="form-ctrl" style="opacity: 1;">
+                                                        <option></option>
+                                                        <option>Cource</option>
+                                                    </select>
+                                    <label for="sCource">Cource</label>
+                                    <ul class="customDropdown">
+                                        <li></li>
+                                        <li>Cource</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="c-lg-3 c-md-3 c-sm-3">
+                                <div class="radio-options">
+                                    <div class="field-radio-wrapper">
+                                        <input type="radio" value="" name="sFilter" class="form-radio" id="active">
+                                        <label for="active">Active</label>
+                                    </div>
+                                    <div class="field-radio-wrapper">
+                                        <input type="radio" value="" name="sFilter" class="form-radio" id="Inactive">
+                                        <label for="Inactive">Inactive</label>
+                                    </div>
+                                    <div class="field-radio-wrapper">
+                                        <input type="radio" value="" name="sFilter" class="form-radio" id="both">
+                                        <label for="both">both</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="c-lg-3 c-md-3 c-sm-3">
+                                <div class="field-wrapper customSelectWrapper">
+                                    <select id="icustom" class="form-ctrl" style="opacity: 1;">
+                                                        <option></option>
+                                                        <option>Male</option>
+                                                    </select>
+                                    <label for="icustom">Institutional/Custom2</label>
+                                    <ul class="customDropdown">
+                                        <li></li>
+                                        <li>Male</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="c-lg-3 c-md-3 c-sm-3">
+                                <div class="field-wrapper customSelectWrapper">
+                                    <select id="eno" class="form-ctrl" style="opacity: 1;">
+                                                        <option></option>
+                                                        <option>Enrollment No</option>
+                                                    </select>
+                                    <label for="eno">Enrollment No.</label>
+                                    <ul class="customDropdown">
+                                        <li></li>
+                                        <li>Enrollment No</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="c-lg-3 c-md-3 c-sm-3">
+                                <input type="button" class="btn filterSearchBtn redBtn" value="Search Now">
+                            </div>
+                        </div>
+                    </div>
 
-        </li>
-        <li class="" id="li-three">
-          <div>
-            <span>3</span>
-            <p>Fee Details</p>
-          </div>
-        </li>
-        <li class="" id="li-four">
-          <div>
-            <span>4</span>
-            <p>Inventory</p>
-          </div>
-        </li>
-      </ul>
-    </section>
-
-    <!-- ========Student Main Enquiry Form ====================== -->
-    <section class="student-flow-wrapper boxPadding15" id="studentForm">
-
-      <!-- Form Header -->
-      <section class="middle-top clearFix">
-        <h1 class="pull-left">
-          Personal Details
-        </h1>
-        <aside class="pull-right">
-          <div class="need-help">
-            <div class="questionInfo">
-              <span class="qInfoIcon">?</span>
-              <div class="tooltip-box-field">
-                Show-Why and when to quick Add Student
-              </div>
-            </div>
-            <a href="#">Need help?</a>
-          </div>
-        </aside>
-      </section>
-
-      <!-- Main Enquiry Form -->
-      <section class="clearFix student-flow  row" id="studentFlow">
-        <aside class="pull-left middle-left">
-          <div class="form-type1">
-            <div class="field-wrapper">
-              <input type="text" value="" id="sName" class="form-ctrl">
-              <label for="sName">Student Name*</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="cNumber" class="form-ctrl">
-              <label for="cNumber">Contact Number*</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="sEmail" class="form-ctrl">
-              <label for="sEmail">Email ID</label>
-            </div>
-            <div class="field-wrapper customSelectWrapper">
-              <select id="userGender" class="form-ctrl">
-                          <option></option>
-                          <option>Male</option>
-                          <option>Female</option>
-                      </select>
-              <label for="userGender">Gender</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="parentName" class="form-ctrl">
-              <label for="parentName">Parent Name</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="parentContactNo" class="form-ctrl">
-              <label for="parentContactNo">Parent Contact Number</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="parentEmail" class="form-ctrl">
-              <label for="parentEmail">Parent Email ID</label>
-            </div>
-            <div class="more-detail">
-              <a href="#">+ &nbsp; Add Additional Details</a>
-            </div>
-          </div>
-
-          <div class="form-type2">
-            <h2>Additional Details</h2>
-            <div class="field-wrapper datePickerBox">
-              <input type="text" value="" id="sdob" class="form-ctrl">
-              <label for="sdob">Date of Birth</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="currentAdd" class="form-ctrl">
-              <label for="currentAdd">Current Address Line1</label>
-
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="currentAdd2" class="form-ctrl">
-              <label for="currentAdd2">Current Address Line2</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="gurdianName" class="form-ctrl">
-              <label for="gurdianName">Gurdian Name</label>
-              <div class="questionInfo pos-rel">
-                <span class="qInfoIcon">?</span>
-                <div class="tooltip-box-field">
-                  Show-Why and when to quick Add Student
                 </div>
-              </div>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="gurdianContact" class="form-ctrl">
-              <label for="gurdianContact">Gurdian Contact Number</label>
-              <div class="questionInfo pos-rel">
-                <span class="qInfoIcon">?</span>
-                <div class="tooltip-box-field">
-                  Show-Why and when to quick Add Student
-                </div>
-              </div>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="gurdianEmail" class="form-ctrl">
-              <label for="gurdianEmail">Gurdian Email Id</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="addCommentNote" class="form-ctrl">
-              <label for="addCommentNote">Add Comment Note</label>
-            </div>
-          </div>
-        </aside>
-        <aside class="pull-right middle-right" id="studentRightSideBar">
-          <div class="common-right-section">
-            <h4><strong>Enquiry Details</strong></h4>
-            <section class="shadow-box clearfix">
-              <div class="last-added-info">
-                <ul>
-                  <li>
-                    <span class="last-user-name"><strong>Last Added Name -</strong><dfn>Shani Maurya</dfn></span>
-                    <span class="view-details"><a href="#">View details</a></span>
-                  </li>
-                  <li>
-                    <span class="last-Enquiry-no"><strong>Enquiry No. -</strong><dfn>1020</dfn></span>
-
-                  </li>
-                  <li>
-                    <span class="status"><strong>Status -</strong> <strong> <dfn class="admitted-status">Open</dfn></strong></span>
-
-                  </li>
-                </ul>
-              </div>
             </section>
-          </div>
-          <!-- Enquiry Details official use-->
-          <section class="enquiry-detail common-right-section">
-            <h4><strong>Administration Details</strong> (Official Use)</h4>
-            <div class="box-shadow-lite">
-              <div class="field-wrapper">
-                <input type="text" value="" id="doj" class="form-ctrl" />
-                <label for="doj">Date of Joining</label>
-                <span class="follow-up-date-icon">
-                                    <img src="images/calendar.svg" alt="" />
-                                </span>
-              </div>
-              <div class="field-wrapper">
-                <select id="schoolStitution" class="form-ctrl">
-                                    <option></option>
-                                    <option>Pending</option>
-                                    <option>Pending</option>
-                                    <option>Pending</option>
-                                    <option>Pending</option>
-                                </select>
-                <label for="schoolStitution">School/Institution</label>
-                <span class="open-accor">+</span>
-              </div>
-              <div class="field-wrapper">
-                <select id="standard" class="form-ctrl">
-                                    <option></option>
-                                    <option>Done</option>
-                                </select>
-                <label for="standard">Standards</label>
-              </div>
-              <div class="field-wrapper">
-                <select id="assignCourses" class="form-ctrl">
-                                    <option></option>
-                                    <option>Done</option>
-                                </select>
-                <label for="assignCourses">Assign Courses</label>
-              </div>
-              <div class="map-courses">
-                <a href="#"><strong>Map Courses</strong></a>
-              </div>
-            </div>
-
-          </section>
-        </aside>
-      </section>
-      <section class="middle-bottom clearFix">
-        <div class="pull-left">
-          <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" id="quickAddStudent">
-            <label for="quickAddStudent">Quick Add Student</label>
-            <div class="questionInfo pos-rel">
-              <span class="qInfoIcon">?</span>
-              <div class="tooltip-box-field">
-                Show-Why and when to quick Add Student
-              </div>
-            </div>
-          </div>
-        </div>
-        <aside class="pull-right">
-          <input type="button" value="Cancel" class="btn cancle">
-          <input type="button" value="Save and Continue" class="btn redBtn" (click)="navigateTo('kyc')">
-          <input type="button" value="Submit" class="btn hide redBtn">
-        </aside>
-      </section>
-    </section>
-
-    <!-- ======================KYC Form========================== -->
-    <section class="student-flow-wrapper hide" id="kyc">
-      <section class="kyc-section ">
-        <section class="middle-top clearFix">
-          <h1 class="pull-left">
-            KYC Details
-          </h1>
-          <aside class="pull-right">
-            <div class="need-help">
-              <div class="questionInfo">
-                <span class="qInfoIcon">?</span>
-              </div>
-              <a href="#">Need help?</a>
-            </div>
-          </aside>
-        </section>
-      </section>
-      <section class="clearFix student-flow row " id="studentFlow">
-        <aside class="pull-left middle-left">
-          <div class="form-type1">
-            <div class="field-wrapper">
-              <input type="text" value="" id="adhar" class="form-ctrl">
-              <label for="adhar">Adhar Number*</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="enroll" class="form-ctrl">
-              <label for="enroll">Enrollment No*</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="otherInfo1" class="form-ctrl">
-              <label for="otherInfo1">Other Info</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="otherInfo2" class="form-ctrl">
-              <label for="otherInfo2">Other Info</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="otherInfo3" class="form-ctrl">
-              <label for="otherInfo3">Other Info</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="otherInfo4" class="form-ctrl">
-              <label for="otherInfo4">Other Info</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="otherInfo5" class="form-ctrl">
-              <label for="otherInfo5">Other Info</label>
-            </div>
-          </div>
-
-        </aside>
-      </section>
-      <section class="middle-bottom clearFix ">
-        <div class="pull-left">
-          <input type="button" value="Back" class="btn" (click)="navigateTo('studentForm')">
-        </div>
-        <aside class="pull-right">
-          <input type="button" value="Cancel" class="btn cancle">
-          <input type="button" value="Save and Continue" class="btn redBtn" (click)="navigateTo('feeDetails')">
-          <input type="button" value="Submit" class="btn hide redBtn">
-        </aside>
-      </section>
-    </section>
-
-
-    <!-- =============== Fee Details =============================== -->
-    <section class="student-flow-wrapper hide" id="feeDetails">
-      <section class="fee-detail">
-        <section class="middle-top clearFix">
-          <h1 class="pull-left">
-            Fee Details
-          </h1>
-          <aside class="pull-right">
-            <div class="need-help">
-              <div class="questionInfo">
-                <span class="qInfoIcon">?</span>
-              </div>
-              <a href="#">Need help?</a>
-            </div>
-          </aside>
-        </section>
-      </section>
-
-      <section class="clearFix fee-detail row" id="feedetail">
-        <aside class="pull-left middle-left">
-          <div class="form-type1 fee-box">
-            <h2>Define Fee Schedule</h2>
-            <div class="field-wrapper customSelectWrapper">
-              <select id="feeStructure" class="form-ctrl">
-                  <option></option>
-                  <option>Fee Structure*</option>
-                  <option>feeStructure1</option>
-              </select>
-              <label for="feeStructure">Fee Structure*</label>
-            </div>
-            <div class="field-wrapper datePickerBox">
-              <input type="text" value="" id="effectiveDate" class="form-ctrl">
-              <label for="effectiveDate">Effective Date*</label>
-            </div>
-            <input type="button" value="Apply" class="btn fullBlue">
-          </div>
-          <a href="#" class="next">Next</a>
-        </aside>
-        <aside class="pull-left middle-left">
-          <div class="form-type2 fee-box">
-            <h2>Manage Installments</h2>
-            <div class="field-wrapper">
-              <input type="text" value="" id="mtotal" class="form-ctrl">
-              <label for="mtotal">Total Amount (Rs)*</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="tDiscount" class="form-ctrl">
-              <label for="tDiscount">Total Discount (Rs)*</label>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="discountReason" class="form-ctrl">
-              <label for="discountReason">Discount Reason</label>
-              <div class="questionInfo">
-                <span class="qInfoIcon">?</span>
-              </div>
-            </div>
-            <div class="field-wrapper">
-              <input type="text" value="" id="noInstallment" class="form-ctrl">
-              <label for="noInstallment">No of Installments*</label>
-            </div>
-            <div class="apply-tax">
-              <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" class="form-checkbox" id="applyTax">
-                <label for="applyTax">Apply Tax(18%)</label>
-              </div>
-            </div>
-            <input type="button" value="Create Installment" class="btn fullBlue">
-          </div>
-          <a href="#" class="prev">Previous</a>
-          <a href="#" class="next">Next</a>
-        </aside>
-      </section>
-    </section>
-
-    <!-- =============== Inventory =============================== -->
-    <section class="student-flow-wrapper hide" id="feeDetails">
-      <!--===========================================allocation inventory item===========================-->
-      <section class="clearFix allocation row" id="allocationInventoryItem">
-
-        <aside class="middle-full">
-          <section class="middle-top clearFix">
-            <h1 class="pull-left">
-              Inventory
-            </h1>
-            <aside class="pull-right">
-              <div class="need-help">
-                <div class="questionInfo">
-                  <span class="qInfoIcon">?</span>
+            <section class="search-data">
+                <!-- Data Download and Export Options Here -->
+                <div class="row class filter-res">
+                    <div class="c-lg-6 c-md-6 c-sm-6">
+                        <label>Showing 1 to 6 of 215 Students</label>
+                    </div>
+                    <div class="c-lg-6 c-md-6 c-sm-6 align-right">
+                        <ul class="export-print">
+                            <li class="report-icon">
+                                Student Report
+                            </li>
+                            <li class="print-icon">
+                                Print
+                            </li>
+                            <li class="export-icon">Export
+                                <div class="other-dropdown">
+                                    <ul>
+                                        <li> PDF</li>
+                                        <li> Excel</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <a href="#">Need help?</a>
-              </div>
-            </aside>
-          </section>
-          <div class="form-type1 fee-box">
-            <h2>allocation Inventory Item</h2>
-            <div class="field-wrapper customSelectWrapper">
-              <select id="allItem" class="form-ctrl">
-                            <option></option>
-                            <option>Fee Structure*</option>
-                            <option>feeStructure1</option>
-                        </select>
-              <label for="allItem">Items*</label>
+                <!-- Student  Table  Here-->
+                <div class="row">
+                    <div class="c-lg-12 c-md-12 c-sm-12">
+                        <div class="table table-responsive student-table">
+                            <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="rowClicked($event)">
+                            </ng2-smart-table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <div class="row filter-res pagination" style="width: 100%;">
+                    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                        <ul class="pagination">
+                            <li>
+                                <a (click)="fetchPrevious()"> Previous</a>
+                            </li>
+                            <li>1</li>
+                            <li>
+                                <a (click)="fetchNext()">  Next</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </section>
 
-            </div>
-            <p>Available Items: 2</p>
-            <div class="field-wrapper">
-              <input type="text" value="" id="units" class="form-ctrl">
-              <label for="units">Unites*</label>
-            </div>
-            <!--<div class="fee-detail">      
-                         <input type="button" value="Apply" class="btn fullBlue">
-                     </div>-->
-          </div>
-          <section class="middle-bottom clearFix ">
-            <div class="pull-left">
-              <input type="button" value="Back" class="btn">
-            </div>
-            <aside class="pull-right">
-              <input type="button" value="Cancel" class="btn cancle">
-              <input type="button" value="Skip" class="btn cancle">
-              <input type="button" value="Submit" class="btn redBtn">
-            </aside>
-          </section>
-        </aside>
-      </section>
-
-      <!--===========================================allocation inventory item===========================-->
-      <section class="clearFix helpDetail row" id="helpDetail">
-        <aside class="middle-full">
-          <section class="middle-top clearFix">
-            <h1 class="pull-left">
-              Help Details
-            </h1>
-          </section>
-          <section class="done-section">
-            <span class="close-btns">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                              <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                                  <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                                  <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"></line>
-                                  <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"></line>
-                                  </g>
-                                  <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)"></rect>
-                              </g>
-                          </svg>
-                      </span>
-            <p>Here you will get details of how to go about using this form</p>
-            <input type="button" value="Done" class="btn fullBlue" />
-          </section>
-        </aside>
-      </section>
-
-    </section>
-
-  </section>
+    </aside>
 </section>

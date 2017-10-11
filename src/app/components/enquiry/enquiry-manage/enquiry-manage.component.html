@@ -1,4 +1,5 @@
 <div class="middle-section clearFix" id="enquiryList">
+  <!-- Main View -->
   <aside class="middle-full" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
     <!-- Navigation to other tabs -->
     <section class="middle-top mb0 clearFix">
@@ -91,7 +92,8 @@
             <div class="row">
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="standard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" name="standard" (ngModelChange)="fetchEnquirySubject()" formInput>
+                  <select id="standard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" name="standard" (ngModelChange)="fetchEnquirySubject()"
+                    formInput>
                      <option></option>
                      <option *ngFor="let std of enqStd" [value]="std.standard_id">
                       {{ std.standard_name }}                       
@@ -137,25 +139,28 @@
             <div class="row">
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper datePickerBox has-value">
-                  <input type="text" value="" id="updateDate" class="form-ctrl unstyled-calendar" [(ngModel)]="advancedFilterForm.updateDate" name="UD" onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput/>
+                  <input type="text" value="" id="updateDate" class="form-ctrl unstyled-calendar" [(ngModel)]="advancedFilterForm.updateDate"
+                    name="UD" onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput/>
                   <label for="updateDate">Update Date</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="enquiryFromDate" class="form-ctrl unstyled-calendar" [(ngModel)]="advancedFilterForm.enquireDateFrom" name="EFD" onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput/>
+                  <input type="text" value="" id="enquiryFromDate" class="form-ctrl unstyled-calendar" [(ngModel)]="advancedFilterForm.enquireDateFrom"
+                    name="EFD" onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput/>
                   <label for="enquiryFromDate">Enquiry From Date</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="enquiryToDate" class="form-ctrl unstyled-calendar" [(ngModel)]="advancedFilterForm.enquireDateTo" name="ETD" onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput/>
+                  <input type="text" value="" id="enquiryToDate" class="form-ctrl unstyled-calendar" [(ngModel)]="advancedFilterForm.enquireDateTo"
+                    name="ETD" onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput/>
                   <label for="enquiryToDate">Enquiry To Date</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" (click)="filterAdvanced()"/>
+                  <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" (click)="filterAdvanced()" />
                 </div>
               </div>
             </div>
@@ -207,8 +212,9 @@
           </div>
         </div>
       </section>
-      <!-- Export and Toggler Here -->
+
       <section class="search-data">
+        <!-- Export and Toggler Here -->
         <div class="row class filter-res">
           <div class="c-lg-6 c-md-6 c-sm-6">
             <label>Showing 1 to 6 of 215 Students</label>
@@ -228,6 +234,7 @@
             </ul>
           </div>
         </div>
+        <!-- Enquiry DataTable -->
         <div class="row">
           <div class="c-lg-12 c-md-12 c-sm-12">
             <div class="table table-responsive table-container">
@@ -236,9 +243,17 @@
             </div>
           </div>
         </div>
-        <div class="row filter-res pagination">
-          <div class="c-lg-12 c-md-12 c-sm-12">
-            <label>Showing 1 to 6 of 215 Students</label>
+        <div class="row filter-res pagination" style="width: 100%;">
+          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+            <ul class="pagination">
+              <li>
+                <a (click)="fetchPrevious()"> Previous</a>
+              </li>
+              <li id="pageNO">1</li>
+              <li>
+                <a (click)="fetchNext()">  Next</a>
+              </li>
+            </ul>
           </div>
         </div>
       </section>

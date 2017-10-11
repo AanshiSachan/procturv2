@@ -16,6 +16,7 @@ export interface instituteInfo {
     enquiry_no?: any;
     priority?: any;
     filtered_statuses?: any;
+    status?: any;
     follow_type?: any;
     followUpDate?: any;
     enquiry_date?: any;
@@ -28,6 +29,12 @@ export interface instituteInfo {
     updateDate?: any;
     updateDateFrom?: any;
     updateDateTo?: any;
-    pageNo?: any;
-    sizeLimit?: any;
+    is_load?: any;
+    mobile?: any;
+    language_inst_status?: any;
+    slot_id?: any;
+    master_course_name?: any;
+    start_index ?: any;
+    batch_size ?: any;
+    closedReason?: any;
 }
