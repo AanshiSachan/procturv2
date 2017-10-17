@@ -28,8 +28,8 @@ export class FetchenquiryService {
 
   /* initialize the value of variables on service call */
   constructor(private http: Http) {
-    this.Authorization = "MzE0Njl8MDphZG1pbkAxMjM6MTAwMTIz";
-    this.url = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/dashboard/100123";
+    this.Authorization = "MzE1MjV8MDpwcm9jdHVyYTQ6MTAwMTI2";
+    this.url = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/dashboard/100126";
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
     this.headers.append("Authorization", this.Authorization);
@@ -38,8 +38,8 @@ export class FetchenquiryService {
   /* Function to fetch json data for all enquiry as per the input institute data  */
   getAllEnquiry(instituteData: instituteInfo): Observable<EnquiryCampaign[]> {
     this.instituteFormData = JSON.parse(JSON.stringify(instituteData));
-    console.log(this.instituteFormData);
-    this.urlCampaign = 'https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/search/100123';
+    //console.log(this.instituteFormData);
+    this.urlCampaign = 'https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/search/100126';
     this.headersCampaign = new Headers();
     this.headersCampaign.append("Content-Type", "application/json");
     this.headersCampaign.append("Authorization", this.Authorization);

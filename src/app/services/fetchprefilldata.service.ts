@@ -14,11 +14,29 @@ export class FetchprefilldataService {
 
   /* Variable Declaration to urls and headers */
 
-  urlAssignTo: string; urlScholarSub: string; urlEnqsta: string; urlFollType: string;
-  urlEnqPri: string; urlStdSub: string; urlSubject: string; urlSchool: string;
-  urlLeadSource: string; urlLeadReffered: string; urlOccupation: string; urlLastDetail: string;
-  urlLeadDetails: string; urlInstituteCreate: string; urlSubmitNewEnquiry: string; urlAddSource: string;
-  urlAddReferer: string; Authorization: string; headers: Headers; headersPost: Headers;
+  urlAssignTo: string;  // assigned to
+  urlScholarSub: string;  // scholarship
+  urlEnqsta: string;   // enquiry status
+  urlFollType: string;  // enquiry follow up
+  urlEnqPri: string;   // enquiry priority
+  urlStdSub: string;   // enquiry standard 
+  urlSubject: string;   // enquiry subject 
+  urlSchool: string;  // institute details
+  urlLeadSource: string;  //  source
+  urlLeadReffered: string;  // reffered by
+  urlOccupation: string;   // occupation details
+  urlLastDetail: string;  // last added data
+  urlLeadDetails: string;   // fetch lead details
+  urlInstituteCreate: string;   //  create new institute
+  urlSubmitNewEnquiry: string;   // submit new enquiry 
+  urlAddSource: string;  // add new source
+  urlAddReferer: string;   // add new reference
+  urlPaymentModes: string;  // payment methods
+  urlFetchComments: string; // fetch data for update enquiry
+
+  Authorization: string; 
+  headers: Headers; 
+  headersPost: Headers;
   institute_id: number = 100123;
 
 
@@ -27,7 +45,7 @@ export class FetchprefilldataService {
     this.urlSubmitNewEnquiry = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/100123";
     this.urlAssignTo = "https://app.proctur.com/StdMgmtWebAPI/api/v1/profiles/100123";
     this.urlScholarSub = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/fetchCustomEnquiryComponents/100123?id=0&isSearhable=Y&page=1";
-    this.urlEnqsta = "https://app.proctur.com/StdMgmtWebAPI/api/v1/masterData/type/SPEC_ENQUIRY_STATUS";
+    this.urlEnqsta = "https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/getEnquiryStatuses";
     this.urlEnqPri = "https://app.proctur.com/StdMgmtWebAPI/api/v1/masterData/type/ENQ_PRIORITY";
     this.urlFollType = "https://app.proctur.com/StdMgmtWebAPI/api/v1/masterData/type/ENQ_FOLLOW_TYPE";
     this.urlStdSub = "https://app.proctur.com/StdMgmtWebAPI/api/v1/standards/all/100123?active=Y";
@@ -38,6 +56,7 @@ export class FetchprefilldataService {
     this.urlLastDetail = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/100123/fetchLastEnquiryDetails";
     this.urlAddSource = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry_campaign/master/lead_source";
     this.urlAddReferer = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry_campaign/master/lead_referred_by";
+    this.urlPaymentModes = "https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/getAllConfiguredEnquiryFeePaymentModes";
 
     this.Authorization = "MzE0Njl8MDphZG1pbkAxMjM6MTAwMTIz";
     this.headers = new Headers();
@@ -235,5 +254,20 @@ export class FetchprefilldataService {
       return response;
     })
   }
+
+  /* fetch payment modes */
+  fetchPaymentModes(){
+    return this.http.get(this.urlPaymentModes, {headers: this.headers}).map(
+      data => {return data.json()},
+      err => {alert(err.json())})
+  }
+
+  /* Fetch comments for the selected enquiryID */
+  fetchCommentsForEnquiry(id){
+    this.urlFetchComments = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/comments/100123/" +id;
+    return this.http.get(this.urlFetchComments, {headers: this.headers})
+    .map(data => {
+      return data.json();
+    })}
 
 }

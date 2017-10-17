@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import 'moment';
 import 'hammerjs';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
-import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { Ng2SmartTableModule } from '../../../ng2-smart-table';
 import { BusyModule, BusyConfig} from 'angular2-busy';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { NgDatepickerModule } from 'ng2-datepicker';
@@ -24,18 +24,18 @@ import { NgDatepickerModule } from 'ng2-datepicker';
         ReactiveFormsModule,
         OverlayModule,
         DatePickerModule,
+        CommonModule,
+        StudentRoutingModule,
         MultiselectDropdownModule,
         Ng2SmartTableModule,
         BusyModule,
         NgLoggerModule.forRoot(Level.LOG),
-        NgDatepickerModule,
-        CommonModule,
-        StudentRoutingModule
+        NgDatepickerModule
       ],
     declarations: [
         StudentsComponent,
         StudentAddComponent,
-        StudentHomeComponent
+        StudentHomeComponent,
     ]
 })
 export class StudentModule {

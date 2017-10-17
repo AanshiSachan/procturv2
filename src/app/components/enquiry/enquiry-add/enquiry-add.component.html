@@ -337,16 +337,16 @@
         <div class="confirmation-popup-content">
           <div class="">
             <p>Thank you for submitting New Enquiry.</p>
-            <p>If you like to make any changes to the last submitted enquiry, kindly click <a (click)="openUpdatePopup()">Edit</a></p>
+            <p>If you like to make any changes to the last submitted enquiry, kindly click <a style="cursor:pointer" routerLink="/enquiry/edit">Edit</a></p>
           </div>
           <div class="">
             <p>You have submitted <strong>{{lastDetail.otherDetails.total_new_enquiries}} New Enquiry </strong> as on <strong>{{todayDate | date }}</strong></p>
-            <p>If you like to view complete Enquiry List now, click <a routerLink="/enquiry/manage">More Info</a></p>
+            <p>If you like to view complete Enquiry List now, click <a style="cursor:pointer" routerLink="/enquiry">More Info</a></p>
           </div>
           <div>
             <div class="pull-right add-form-btns">
-              <a href="#">Add new enquiry</a>
-              <a href="#">Add Bulk enquiry</a>
+              <a style="cursor:pointer" (click)="reloadEnquiryForm()">Add new enquiry</a>
+              <a style="cursor:pointer" routerLink="/enquiry/addBulkEnquiry">Add Bulk enquiry</a>
             </div>
           </div>
         </div>

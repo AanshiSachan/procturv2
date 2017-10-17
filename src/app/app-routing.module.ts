@@ -7,12 +7,8 @@ import { RouterModule } from '@angular/router';
         RouterModule.forRoot([
             { path: '', redirectTo: '/enquiry', pathMatch: 'full' },
             { path: 'enquiry', loadChildren: 'app/components/enquiry/enquiry.module#EnquiryModule' },
-            { path: 'student', loadChildren: 'app/components/students/student.module#StudentModule' }
-            /* {
-                path: '**',
-                component: CustomErrorPageComponent,
-                pathMatch: 'full'
-            } */
+            { path: 'student', loadChildren: 'app/components/students/student.module#StudentModule' },
+            { path: 'common', loadChildren: 'app/components/custom/custom.module#CustomModule' },
         ])
     ],
     exports: [

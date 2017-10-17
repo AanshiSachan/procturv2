@@ -1,6 +1,8 @@
 <div class="middle-section clearFix" id="enquiryList">
+
   <!-- Main View -->
   <aside class="middle-full" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
+
     <!-- Navigation to other tabs -->
     <section class="middle-top mb0 clearFix">
       <h1 class="pull-left">
@@ -13,6 +15,7 @@
     </section>
     <!-- Enquiry Page Start here -->
     <section class="middle-main clearFix" id="middleMainForEnquiryList">
+
       <!-- Search bar and Advanced Filter -->
       <section class="common-search-filter" id="searchFilter">
         <div class="filter-search">
@@ -20,8 +23,9 @@
             <!-- Search Bar -->
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="search-filter-wrapper">
-                <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No." (keyup)="onSearch(search.value)">
-                <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="onSearch(search.value)" />
+                <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No." style="font-size:12px; margin: 0px 5px 0px -5px;"
+                  [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
+                <input type="button" class="normal-btn fullBlue btn" value="Search" style="margin-left:2px" (click)="searchDatabase()" />
               </div>
             </div>
             <!-- Advanced Filter Trigger -->
@@ -58,33 +62,33 @@
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
                   <select id="enquiryPriority" class="form-ctrl" [(ngModel)]="advancedFilterForm.priority" name="priority" formInput>
-                             <option></option>
-                             <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
-                              {{priority.data_value}}
-                             </option>
-                          </select>
+                    <option></option>
+                    <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
+                      {{priority.data_value}}
+                    </option>
+                  </select>
                   <label for="enquiryPriority">Enquiry Priority</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
                   <select id="followupType" class="form-ctrl" [(ngModel)]="advancedFilterForm.follow_type" name="followType" formInput>
-                             <option></option>
-                             <option *ngFor="let follow of enqFollowType" [value]="follow.data_key">
-                              {{ follow.data_value }} 
-                             </option>
-                          </select>
+                    <option></option>
+                    <option *ngFor="let follow of enqFollowType" [value]="follow.data_key">
+                      {{ follow.data_value }}
+                    </option>
+                  </select>
                   <label for="followupType">Enquiry Followup Type</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
                   <select id="assignTo" class="form-ctrl" [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo" formInput>
-                             <option></option>
-                             <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
-                              {{ assigned.name }}
-                             </option>
-                          </select>
+                    <option></option>
+                    <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
+                      {{ assigned.name }}
+                    </option>
+                  </select>
                   <label for="assignTo">Assign To</label>
                 </div>
               </div>
@@ -94,10 +98,10 @@
                 <div class="field-wrapper">
                   <select id="standard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" name="standard" (ngModelChange)="fetchEnquirySubject()"
                     formInput>
-                     <option></option>
-                     <option *ngFor="let std of enqStd" [value]="std.standard_id">
-                      {{ std.standard_name }}                       
-                     </option>
+                    <option></option>
+                    <option *ngFor="let std of enqStd" [value]="std.standard_id">
+                      {{ std.standard_name }}
+                    </option>
                   </select>
                   <label for="standard">Standard</label>
                 </div>
@@ -145,14 +149,14 @@
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
-                <div class="field-wrapper datePickerBox">
+                <div class="field-wrapper datePickerBox has-value">
                   <input type="text" value="" id="enquiryFromDate" class="form-ctrl unstyled-calendar" [(ngModel)]="advancedFilterForm.enquireDateFrom"
                     name="EFD" onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput/>
                   <label for="enquiryFromDate">Enquiry From Date</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
-                <div class="field-wrapper datePickerBox">
+                <div class="field-wrapper datePickerBox has-value">
                   <input type="text" value="" id="enquiryToDate" class="form-ctrl unstyled-calendar" [(ngModel)]="advancedFilterForm.enquireDateTo"
                     name="ETD" onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput/>
                   <label for="enquiryToDate">Enquiry To Date</label>
@@ -167,6 +171,7 @@
           </div>
         </div>
       </section>
+
       <!-- Checkboxes Filter -->
       <section class="search-enquiry-type-filter">
         <div class="row">
@@ -213,17 +218,18 @@
         </div>
       </section>
 
+      <!-- Data Table and Pagination -->
       <section class="search-data">
         <!-- Export and Toggler Here -->
         <div class="row class filter-res">
           <div class="c-lg-6 c-md-6 c-sm-6">
-            <label>Showing 1 to 6 of 215 Students</label>
+            <label>Showing 1 to {{displayBatchSize}} of {{totalEnquiry}} Enquiries</label>
           </div>
           <div class="c-lg-6 c-md-6 c-sm-6 align-right">
             <ul class="export-print">
-              <!-- <li class="print-icon">
-                Print
-              </li> -->
+              <li>
+                <input id="bulk-action" type="button" value="Bulk Actions" class="btn" disabled/>
+              </li>
               <li class="export-icon">
                 Export
               </li>
@@ -243,37 +249,56 @@
             </div>
           </div>
         </div>
+        <!-- Paginator Here -->
         <div class="row filter-res pagination" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <ul class="pagination">
-              <li>
+
+              <li id="previous">
                 <a (click)="fetchPrevious()"> Previous</a>
               </li>
-              <li id="pageNO">1</li>
-              <li>
-                <a (click)="fetchNext()">  Next</a>
+
+              <li *ngFor="let page of pageArray" (click)="fetchDataByPage(page)">{{page}}</li>
+
+              <li id="next">
+                <a (click)="fetchNext()"> Next</a>
               </li>
+
+              <li class="batch-size">
+                <select class="" [ngModel]="displayBatchSize" (ngModelChange)="updateTableBatchSize($event)">
+                  <option>5</option>
+                  <option>10</option>
+                  <option>25</option>
+                  <option>50</option>
+                  <option>100</option>
+                </select>
+              </li>
+
             </ul>
           </div>
         </div>
       </section>
+
     </section>
   </aside>
+
+
   <!-- Update PopUp -->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'update'">
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
-                              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
-                              </g>
-                              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
-                          </g>
-                      </svg>                
-                  </span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
+            </g>
+          </svg>
+        </span>
         <div class="popup-content">
           <h2>Update Enquiry - Enquiry No: {{rowData.enquiry_no}}</h2>
           <div class="update-enquiry-form overflowHidden">
@@ -284,7 +309,7 @@
                     <select id="priorityEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="rowData.priority" name="priority" formInput>
                       <option></option>
                       <option *ngFor="let priority of enqPriority" [value]="priority.data_value" [attr.selected]="priority.data_value == rowData.priority ? '' : null">
-                         {{priority.data_value}}
+                        {{priority.data_value}}
                       </option>
                     </select>
                     <label for="priorityEdit">Priority</label>
@@ -294,11 +319,11 @@
                   <div class="field-wrapper has-value">
                     <select id="selectFollowupEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="rowData.follow_type" name="follow_type"
                       formInput>
-                          <option></option>
-                          <option *ngFor="let followT of enqFollowType" [value]="followT.data_value" [attr.selected]="followT.data_value == rowData.follow_type ? '' : null">
-                             {{followT.data_value}}
-                          </option>
-                        </select>
+                      <option></option>
+                      <option *ngFor="let followT of enqFollowType" [value]="followT.data_value" [attr.selected]="followT.data_value == rowData.follow_type ? '' : null">
+                        {{followT.data_value}}
+                      </option>
+                    </select>
                     <label for="selectFollowupEdit">Follow Up Type</label>
                   </div>
                 </div>
@@ -306,8 +331,8 @@
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value datePickerBox">
-                    <input type="text" value="{{rowData.followUpDate | date: 'dd/MM/yyyy'}}" placeholder="" id="followUPdateEdit" class="form-ctrl"
-                      formInput/>
+                    <input type="text" class="form-ctrl" value="{{rowData.followUpDate | date: 'dd/MM/yyyy'}}" placeholder="" [(ngModel)]="rowData.followUpDate"
+                      id="followUPdateEdit" formInput/>
                     <label for="followUPdateEdit">Follow Up Date</label>
                   </div>
                 </div>
@@ -317,24 +342,24 @@
                       formInput>
                       <option></option>
                       <option *ngFor="let status of enqstatus" [value]="status.data_value" [attr.selected]="status.data_value == rowData.statusValue ? '' : null">
-                         {{status.data_value}}
+                        {{status.data_value}}
                       </option>
                     </select>
-                    <label for="priorityEdit">Priority</label>
+                    <label for="enquiryStatusEdit">Status</label>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value datePickerBox">
-                    <input type="text" value="{{rowData.updateDate | date: 'dd/MM/yyyy'}}" placeholder="" id="commentDateEdit" class="form-ctrl"
+                    <input type="text" value="{{today | date: 'dd/MM/yyyy'}}" placeholder="" id="commentDateEdit" class="form-ctrl" [(ngModel)]="updateFormData.commentDate"
                       formInput/>
                     <label for="commentDateEdit">Comment Date</label>
                   </div>
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper">
-                    <input type="text" value="" placeholder="" id="addcommentEdit" class="form-ctrl" formInput/>
+                    <input type="text" value="" placeholder="" id="addcommentEdit" class="form-ctrl" [(ngModel)]="updateFormData.comment" formInput/>
                     <label for="addcommentEdit">Add Comment Edit</label>
                   </div>
                 </div>
@@ -342,6 +367,7 @@
               <h4>Comment History</h4>
               <div class="enquiry-update-history table-responsive">
                 <table>
+
                   <thead>
                     <tr>
                       <th>Comment</th>
@@ -349,26 +375,12 @@
                       <th>Commented By</th>
                     </tr>
                   </thead>
+
                   <tbody>
-                    <tr>
-                      <td>Call back after 1 week</td>
-                      <td>09 Aug, 2017 06:48:54 PM</td>
-                      <td>Amresh Sir</td>
-                    </tr>
-                    <tr>
-                      <td>Call back after 5 week</td>
-                      <td>09 Aug, 2017 06:48:54 PM</td>
-                      <td>Puneet Sir</td>
-                    </tr>
-                    <tr>
-                      <td>Call back after 5 week</td>
-                      <td>09 Aug, 2017 06:48:54 PM</td>
-                      <td>Puneet Sir</td>
-                    </tr>
-                    <tr>
-                      <td>Call back after 5 week</td>
-                      <td>09 Aug, 2017 06:48:54 PM</td>
-                      <td>Puneet Sir</td>
+                    <tr *ngFor="let item of updateFormComments; let i=index;">
+                      <td>{{updateFormComments[i]}}</td>
+                      <td>{{updateFormCommentsOn[i]}}</td>
+                      <td>{{updateFormCommentsBy[i]}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -377,7 +389,7 @@
                 <div class="clearfix">
                   <aside class="pull-right popup-btn">
                     <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                    <input type="button" value="Update" class="redBtn btn">
+                    <input type="button" value="Update" class="redBtn btn" (click)="pushUpdatedEnquiry()">
                   </aside>
                 </div>
               </div>
@@ -387,21 +399,25 @@
       </div>
     </div>
   </section>
+
+
+
   <!-- Delete PopUp -->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'delete'">
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
-                              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
-                              </g>
-                              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
-                          </g>
-                      </svg>                
-                  </span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
+            </g>
+          </svg>
+        </span>
         <div class="popup-content">
           <h2>Delete Enquiry - Enquiry No: {{rowData.enquiry_no}}</h2>
           <div class="update-enquiry-form overflowHidden">
@@ -412,7 +428,7 @@
               <div class="clearfix">
                 <aside class="pull-right popup-btn">
                   <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                  <input type="button" value="Delete" class="redBtn btn" (click)="deleteRow(rowData)">
+                  <input type="button" value="Delete" class="redBtn btn" (click)="DeleteEnquiry()">
                 </aside>
               </div>
             </div>
@@ -421,21 +437,25 @@
       </div>
     </div>
   </section>
+
+
+
   <!-- Convert PopUp -->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'convert'">
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
-                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
-                                </g>
-                                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
-                            </g>
-                        </svg>                
-                    </span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
+            </g>
+          </svg>
+        </span>
         <div class="popup-content">
           <h2>Convert Enquiry - Enquiry No: {{rowData.enquiry_no}}</h2>
           <div class="update-enquiry-form overflowHidden">
@@ -455,21 +475,25 @@
       </div>
     </div>
   </section>
+
+
+
   <!-- Payment PopUp -->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'payment'">
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
-                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
-                                </g>
-                                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
-                            </g>
-                        </svg>                
-                    </span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
+            </g>
+          </svg>
+        </span>
         <div class="popup-content">
           <h2>Registration Fee</h2>
           <div class="registration-fee-form overflowHidden">
@@ -477,16 +501,17 @@
               <div class="row extraMargin">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
-                    <input type="text" value="{{today | date}}" id="pDate" class="form-ctrl" formInput/>
+                    <input type="text" value="" id="pDate" class="form-ctrl" [ngModel]="registrationForm.paymentDate" name="pDate" formInput/>
                     <label for="pDate">Payment Date</label>
                   </div>
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper">
-                    <select id="paymentMode" class="form-ctrl" formInput>
-                        <option></option>
-                        <option></option>
-                        <option>DEBIT</option>
+                    <select id="paymentMode" class="form-ctrl" [(ngModel)]="registrationForm.paymentMode" formInput>
+                      <option></option>
+                      <option *ngFor="let payment of paymentMode" [value]="payment">
+                        {{payment}}
+                      </option>
                     </select>
                     <label for="paymentMode">Payment Mode</label>
                   </div>
@@ -495,13 +520,14 @@
               <div class="row extraMargin">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper">
-                    <input type="text" value="" id="remark" class="form-ctrl" formInput/>
+                    <input type="text" value="" id="remark" class="form-ctrl" [(ngModel)]="registrationForm.amount" name="remark" formInput/>
                     <label for="remark">Remarks</label>
                   </div>
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper">
-                    <input type="text" value="" id="referenceNo" class="form-ctrl" formInput/>
+                    <input type="text" value="" id="referenceNo" class="form-ctrl" [(ngModel)]="registrationForm.reference" name="reference"
+                      formInput/>
                     <label for="referenceNo">Reference No.</label>
                   </div>
                 </div>
@@ -606,7 +632,7 @@
                 <div class="c-lg-12 c-md-12 c-sm-12">
                   <aside class="pull-right popup-btn">
                     <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                    <input type="button" value="Save and Continue" class="btn redBtn">
+                    <input type="button" value="Save and Continue" class="btn redBtn" (click)="registerPayment()">
                   </aside>
                 </div>
               </div>
@@ -616,5 +642,7 @@
       </div>
     </div>
   </section>
+
+
 
 </div>

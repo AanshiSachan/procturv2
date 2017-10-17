@@ -7,17 +7,25 @@ import {EnquiryManageComponent} from './enquiry-manage/enquiry-manage.component'
 import {EnquiryRoutingModule} from "./enquiry-routing.module";
 import { PopUpComponent } from '../custom/pop-up/pop-up.component';
 import {ActionButtonComponent} from './enquiry-manage/action-button.component';
+import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
+import {FormInput} from '../../directives/form-input.directive';
 
+
+
+/* Modules */
 import { DatePickerModule } from 'angular-io-datepicker';
 import { OverlayModule } from 'angular-io-overlay';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import 'moment';
 import 'hammerjs';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
-import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { Ng2SmartTableModule } from '../../../ng2-smart-table';
 import { BusyModule, BusyConfig} from 'angular2-busy';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { NgDatepickerModule } from 'ng2-datepicker';
+import {CsvService} from "angular2-json2csv";
+
+
 
 @NgModule({
     imports: [
@@ -31,19 +39,25 @@ import { NgDatepickerModule } from 'ng2-datepicker';
         NgLoggerModule.forRoot(Level.LOG),
         NgDatepickerModule,
         CommonModule,
-        EnquiryRoutingModule
+        EnquiryRoutingModule,
       ],
     declarations: [
         EnquiryComponent,
         EnquiryAddComponent,
         EnquiryBulkaddComponent,
         EnquiryManageComponent,
+        ActionButtonComponent,
         PopUpComponent,
-        ActionButtonComponent
+        EnquiryEditComponent,
+        FormInput
     ],
     entryComponents: [
-        ActionButtonComponent,
+        ActionButtonComponent
       ],
+    providers: [
+        CsvService
+    ]  
 })
 export class EnquiryModule {
+    
 }

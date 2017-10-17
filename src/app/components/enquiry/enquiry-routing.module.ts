@@ -5,6 +5,7 @@ import {EnquiryAddComponent} from './enquiry-add/enquiry-add.component';
 import {EnquiryBulkaddComponent} from './enquiry-bulkadd/enquiry-bulkadd.component';
 import {EnquiryManageComponent} from './enquiry-manage/enquiry-manage.component';
 import {ActionButtonComponent} from './enquiry-manage/action-button.component';
+import {EnquiryEditComponent} from './enquiry-edit/enquiry-edit.component';
 
 @NgModule({
     imports: [
@@ -19,7 +20,7 @@ import {ActionButtonComponent} from './enquiry-manage/action-button.component';
                         component: EnquiryManageComponent
                     },
                     {
-                        path: '/manage',
+                        path: 'manage',
                         component: EnquiryManageComponent,
                         pathMatch: 'prefix',
                     },
@@ -29,11 +30,15 @@ import {ActionButtonComponent} from './enquiry-manage/action-button.component';
                       pathMatch: 'prefix'
                     },
                     {
+                      path: 'edit',
+                      component: EnquiryEditComponent,
+                      pathMatch: 'prefix'
+                    },
+                    {
                       path: 'addBulkEnquiry',
                       component: EnquiryBulkaddComponent,
                       pathMatch: 'prefix'
                     }
-
                 ]
             }
         ])

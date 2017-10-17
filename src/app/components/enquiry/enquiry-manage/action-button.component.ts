@@ -115,9 +115,10 @@ import { Router } from '@angular/router';
      width: 28px;
    }
   </style>
+  
   <div class="enquiry-action">
   <div>
-  <button class="btn table-action-icon" style="outline:none;border:none;" (click)="openMenu()" >
+  <button class="btn table-action-icon" style="outline:none;border:none;" (click)="openMenu($event)" >
     <img src="./assets/images/action_hover.svg" height="20" width="20">
   </button>
   <div class="action-menu" *ngIf="showMenu" (mouseleave)="closeMenu()" (click)="closeMenu()">
@@ -199,7 +200,7 @@ import { Router } from '@angular/router';
                   Convert <br> to Student
               </span>
           </li>
-          <li (click)="openPopup('payment')">
+          <li (click)="openPopup('payment')" *ngIf="isProfessional">
               <i>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="11966 358 26 22" class="action-icon">
                     <g id="Group_1236" data-name="Group 1236" transform="translate(10862 -6)">
@@ -236,7 +237,7 @@ export class ActionButtonComponent implements OnInit {
 
     /* Variable for displayng the popUp */
     private showMenu: boolean = false;
-    
+    private isProfessional: boolean = false;
     /* message to describe which popup to be opened  */
     message:string = "";
 
@@ -248,7 +249,7 @@ export class ActionButtonComponent implements OnInit {
     }
     
     /* open action menu on click */
-    openMenu() {
+    openMenu(ev) {
       this.showMenu = true;
     }
     

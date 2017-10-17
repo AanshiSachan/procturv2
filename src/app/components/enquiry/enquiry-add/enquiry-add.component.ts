@@ -454,4 +454,12 @@ export class EnquiryAddComponent implements OnInit{
     }
   }
 
+
+  /* Reload the Enquiry Form and clear data */
+  reloadEnquiryForm(){
+    this.clearFormData();
+    this.closePopUp();
+  }
+
+
 }

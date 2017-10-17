@@ -11,7 +11,7 @@ import { FetchStudentService } from '../../../services/student-services/fetch-st
 
 
 import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
-import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
+import { Ng2SmartTableModule, LocalDataSource } from '../../../../ng2-smart-table';
 import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
 
