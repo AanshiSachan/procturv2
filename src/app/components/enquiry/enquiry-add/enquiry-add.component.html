@@ -28,39 +28,62 @@
             <div class="accordian-content">
               <div class="form-type1">
                 <div class="field-wrapper">
-                  <input type="text" value="" id="userName" class="form-ctrl" [(ngModel)]="newEnqData.name" 
-                  name="name" required maxlength="50" formInput/>
-                  <label for="userName">Name*</label>
+                  <input type="text" value="" id="name" #name="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.name" name="name"
+                    maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+" required formInput/>
+                  <label for="name">Name*</label>
+                  <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+                    <div *ngIf="name.errors.required">
+                      name is required.
+                    </div>
+                    <div *ngIf="name.errors.pattern">
+                      name cannot have special characters or numbers.
+                    </div>
+                  </div>
                 </div>
                 <div class="field-wrapper">
-                  <input type="text" value="" id="userNumber" class="form-ctrl" [(ngModel)]="newEnqData.phone" 
-                  name="phoneno" maxlength="10" minlength="10" required pattern="[789][0-9]{9}" formInput/>
-                  <label for="userNumber">Phone No*</label>
+                  <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [ngModel]="newEnqData.phone" (ngModelChange)="updatePhoneFetchRecords($event)" name="phone" maxlength="10"
+                    minlength="10" required pattern="[789][0-9]{9}" formInput/>
+                  <label for="phone">Phone No*</label>
+                  <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="alert alert-danger">
+                    <div *ngIf="phone.errors.required">
+                      phone number is required.
+                    </div>
+                    <div *ngIf="phone.errors.pattern">
+                      Please enter a valid number.
+                    </div>
+                  </div>
                 </div>
                 <div class="more-detail">
                   <a (click)="getLeadDetails()" style="cursor:pointer">Fetch Lead Details</a>
                 </div>
                 <div class="field-wrapper">
-                  <input type="text" value="" id="userEmail" class="form-ctrl" [(ngModel)]="newEnqData.email" 
-                  pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
-                  name="email" required formInput/>
-                  <label for="userEmail">Email ID*</label>
+                  <input type="text" value="" id="email" #email="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.email" name="email"
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required formInput/>
+                  <label for="email">Email ID*</label>
+                  <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+                    <div *ngIf="email.errors.required">
+                      email ID is required.
+                    </div>
+                    <div *ngIf="email.errors.pattern">
+                      Please enter a valid email ID.
+                    </div>
+                  </div>
                 </div>
                 <div class="field-wrapper">
-                  <select id="userGender" class="form-ctrl" [(ngModel)]="newEnqData.gender" name="gender" required formInput>
-                       <option></option>
-                       <option>Male</option>
-                       <option>Female</option>
-                       <option>NA</option>                       
-                    </select>
-                  <label for="userGender">Gender</label>
+                  <select class="form-ctrl" [(ngModel)]="newEnqData.gender" name="gender" id="gender" required formInput>
+                    <option></option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>NA</option>
+                  </select>
+                  <label for="gender">Gender</label>
                 </div>
                 <div class="field-wrapper">
-                  <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="newEnqData.curr_address" name="address" required formInput/>
+                  <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="newEnqData.curr_address" name="address" formInput/>
                   <label for="userAddress">Address</label>
                 </div>
                 <div class="field-wrapper">
-                  <input type="text" value="" id="userCity" class="form-ctrl" [(ngModel)]="newEnqData.city" name="city" required formInput/>
+                  <input type="text" value="" id="userCity" class="form-ctrl" [(ngModel)]="newEnqData.city" name="city" formInput/>
                   <label for="userCity">City</label>
                 </div>
                 <div class="more-detail">
@@ -70,52 +93,78 @@
               <div class="form-type1" *ngIf="additionDetails">
                 <br>
                 <div class="field-wrapper">
-                  <input type="text" value="" id="altContact" class="form-ctrl" 
-                  [(ngModel)]="newEnqData.phone2" name="altContact" 
-                  maxlength="10" minlength="10" pattern="[789][0-9]{9}" formInput/>
+                  <input type="text" value="" id="phone2" #phone2="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.phone2" name="phone2" maxlength="10"
+                    minlength="10" pattern="[789][0-9]{9}" formInput/>
                   <label for="altContact">Alternate Contact</label>
+                  <div *ngIf="phone2.invalid && (phone2.dirty || phone2.touched)" class="alert alert-danger">
+                    <div *ngIf="phone2.errors.pattern">
+                      Please enter a valid number.
+                    </div>
+                  </div>
                 </div>
                 <div class="field-wrapper">
-                  <input type="text" value="" id="altEmail" class="form-ctrl" 
-                  [(ngModel)]="newEnqData.email2" name="altemail" 
-                  pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" formInput/>
-                  <label for="altEmail">Alternate Email ID</label>
+                  <input type="text" value="" id="email2" #email2="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.email2" name="email2"
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" formInput/>
+                  <label for="email2">Email ID*</label>
+                  <div *ngIf="email2.invalid && (email2.dirty || email2.touched)" class="alert alert-danger">
+                    <div *ngIf="email2.errors.pattern">
+                      Please enter a valid email ID.
+                    </div>
+                  </div>
                 </div>
                 <div class="field-wrapper">
-                  <input type="text" value="" id="guardianName" class="form-ctrl" 
-                  [(ngModel)]="newEnqData.parent_name" name="guardianName"
-                  maxlength="50" required
-                    formInput/>
+                  <input type="text" value="" id="guardianName" class="form-ctrl" [(ngModel)]="newEnqData.parent_name" name="guardianName"
+                  pattern="[a-zA-Z .]+[a-zA-Z .]+" maxlength="50" #guardianName="ngModel" formInput/>
                   <label for="guardianName">Gaurdian Name</label>
+                  <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)" class="alert alert-danger">
+                    <div *ngIf="guardianName.errors.pattern">
+                      name cannot have special characters or numbers.
+                    </div>
+                  </div>
                 </div>
                 <div class="field-wrapper">
-                  <input type="text" value="" id="guardianContact" class="form-ctrl" 
-                  [(ngModel)]="newEnqData.parent_phone" name="guardianContact"
-                  maxlength="10" minlength="10" pattern="[789][0-9]{9}" formInput/>
+                  <input type="text" value="" id="guardianContact" class="form-ctrl" [(ngModel)]="newEnqData.parent_phone" name="guardianContact"
+                    maxlength="10" minlength="10" pattern="[789][0-9]{9}" #guardianContact="ngModel" formInput/>
                   <label for="guardianContact">Gaurdian Contact</label>
+                  <div *ngIf="guardianContact.invalid && (guardianContact.dirty || guardianContact.touched)" class="alert alert-danger">
+                    <div *ngIf="guardianContact.errors.pattern">
+                      Please enter a valid contact number.
+                    </div>
+                  </div>                  
                 </div>
                 <div class="field-wrapper">
-                  <input type="text" value="" id="guardianEmail" class="form-ctrl" 
-                  [(ngModel)]="newEnqData.parent_email" name="guardianEmail"
-                  pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" formInput/>
+                  <input type="text" value="" id="guardianEmail" class="form-ctrl" [(ngModel)]="newEnqData.parent_email" name="guardianEmail"
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #guardianEmail="ngModel" formInput/>
                   <label for="guardianEmail">Gaurdian Email</label>
+                  <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)" class="alert alert-danger">
+                    <div *ngIf="guardianEmail.errors.pattern">
+                      Please enter a valid email Id.
+                    </div>
+                  </div>
                 </div>
                 <div class="field-wrapper">
-                  <input type="text" value="" id="enquirerLink" class="form-ctrl" 
-                  [(ngModel)]="newEnqData.link" name="enquirerLink" formInput/>
+                  <input type="text" value="" id="enquirerLink" class="form-ctrl" [(ngModel)]="newEnqData.link" name="enquirerLink" formInput/>
                   <label for="enquirerLink">Link Details</label>
                 </div>
                 <div class="field-wrapper">
-                  <input type="text" value="" id="feeCommitted" class="form-ctrl" 
-                  [(ngModel)]="newEnqData.fee_committed" name="feeCommitted"
-                  pattern="[0-9]" formInput/>
+                  <input type="text" value="" id="feeCommitted" class="form-ctrl" [(ngModel)]="newEnqData.fee_committed" name="feeCommitted"
+                    pattern="[0-9]+" #feeCommitted="ngModel" formInput/>
                   <label for="feeCommitted">Fees Committed Details</label>
+                  <div *ngIf="feeCommitted.invalid && (feeCommitted.dirty || feeCommitted.touched)" class="alert alert-danger">
+                    <div *ngIf="feeCommitted.errors.pattern">
+                      Fee cannot have alphabets or special characters.
+                    </div>
+                  </div>  
                 </div>
                 <div class="field-wrapper">
-                  <input type="text" value="" id="discountOffered" class="form-ctrl" 
-                  [(ngModel)]="newEnqData.discount_offered" name="discountOffered"
-                   pattern="[0-9]" formInput/>
-                  <label for="discountOffered">Discount Offered Details</label>
+                  <input type="text" value="" id="discount" class="form-ctrl" [(ngModel)]="newEnqData.discount_offered" name="discount"
+                    pattern="[0-9]+" #discount="ngModel" formInput/>
+                  <label for="discount">Discount Offered Details</label>
+                  <div *ngIf="discount.invalid && (discount.dirty || discount.touched)" class="alert alert-danger">
+                    <div *ngIf="discount.errors.pattern">
+                      discount cannot have alphabets or special characters.
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -123,7 +172,8 @@
           <!-- Academic Form 2-->
           <li class="data-filled" id="academicDetails">
             <div class="accordian-heading">
-              <h4><span class="circle-accor">2</span> Academics Details
+              <h4>
+                <span class="circle-accor">2</span> Academics Details
                 <span class="close-accor" id="closeAcademic" (click)="toggleForm($event)">-</span>
                 <span class="open-accor" id="openAcademic" (click)="toggleForm($event)">+</span>
               </h4>
@@ -131,34 +181,31 @@
             <div class="accordian-content">
               <div class="form-type2">
                 <div class="field-wrapper">
-                  <select id="institutionName" class="form-ctrl" [(ngModel)]="newEnqData.school_id" 
-                  name="institutename" required formInput>
-                        <option value=""></option>
-                        <option *ngFor="let institute of school" [value]="institute.school_id">
-                          {{institute.school_name}}
-                        </option>
-                    </select>
+                  <select id="institutionName" class="form-ctrl" [(ngModel)]="newEnqData.school_id" name="institutename" required formInput>
+                    <option value=""></option>
+                    <option *ngFor="let institute of school" [value]="institute.school_id">
+                      {{institute.school_name}}
+                    </option>
+                  </select>
                   <label for="institutionName">Institution Name</label>
                   <a (click)="openAddInstitute()" class="create-institution" style="cursor:pointer">+ Create Institution</a>
                 </div>
                 <div class="field-wrapper">
-                  <select id="forStandard" class="form-ctrl" [ngModel]="newEnqData.standard_id" (ngModelChange)="fetchSubject($event)" 
-                  required name="standard"
-                    formInput>
-                       <option value=""></option>
-                       <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
-                    </select>
+                  <select id="forStandard" class="form-ctrl" [ngModel]="newEnqData.standard_id" (ngModelChange)="fetchSubject($event)" required
+                    name="standard" formInput>
+                    <option value=""></option>
+                    <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
+                  </select>
                   <label for="forStandard">For Standard</label>
                   <div class="questionInfo">
                     <span class="qInfoIcon">?</span>
                   </div>
                 </div>
                 <div class="field-wrapper">
-                  <select id="forSubject" class="form-ctrl" [(ngModel)]="newEnqData.subject_id" 
-                  required name="subject" formInput>
-                       <option value=""></option>
-                       <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
-                    </select>
+                  <select id="forSubject" class="form-ctrl" [(ngModel)]="newEnqData.subject_id" required name="subject" formInput>
+                    <option value=""></option>
+                    <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
+                  </select>
                   <label for="forSubject">For Subject</label>
                   <div class="questionInfo">
                     <span class="qInfoIcon">?</span>
@@ -225,11 +272,19 @@
       <div class="last-added-info">
         <ul>
           <li>
-            <span class="last-user-name"><strong>Last Added Name -</strong><dfn>Shani Maurya</dfn></span>
-            <span class="view-details"><a style="cursor:pointer">View details</a></span>
+            <span class="last-user-name">
+              <strong>Last Added Name -</strong>
+              <dfn>Shani Maurya</dfn>
+            </span>
+            <span class="view-details">
+              <a style="cursor:pointer">View details</a>
+            </span>
           </li>
           <li>
-            <span class="last-Enquiry-no"><strong>Enquiry No. -</strong><dfn>1020</dfn></span>
+            <span class="last-Enquiry-no">
+              <strong>Enquiry No. -</strong>
+              <dfn>1020</dfn>
+            </span>
             <span class="enquiry-time">5 min ago</span>
           </li>
         </ul>
@@ -237,40 +292,40 @@
     </section>
     <!-- Enquiry Details official use-->
     <section class="enquiry-detail common-right-section">
-      <h4><strong>Enquiry Details</strong> (Official Use)</h4>
+      <h4>
+        <strong>Enquiry Details</strong> (Official Use)</h4>
       <div class="box-shadow-lite">
         <div class="field-wrapper has-value">
           <input type="text" value="" id="enquiryDate" class="form-ctrl unstyled-calendar" [(ngModel)]="newEnqData.enquiry_date" name="enquiryDate"
-            onfocus="(this.type='date')" onfocusout="(this.type='text')" 
-            formInput>
+            onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput>
           <label for="enquiryDate">Enquiry Date</label>
           <span class="follow-up-date-icon">
-              <img src="./assets/images/calendar.svg" alt="">
+            <img src="./assets/images/calendar.svg" alt="">
           </span>
         </div>
         <div class="field-wrapper ">
           <select id="eStatus" class="form-ctrl" [(ngModel)]="newEnqData.status" name="status" required formInput>
-            <option value = "" ></option>
+            <option value=""></option>
             <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
           </select>
           <label for="eStatus">Enquiry Status</label>
         </div>
         <div class="field-wrapper ">
           <select id="priority" class="form-ctrl" [(ngModel)]="newEnqData.priority" name="priority" required formInput>
-               <option value = "" ></option>
-               <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
-                 {{priority.data_value}}
-               </option>
-            </select>
+            <option value=""></option>
+            <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
+              {{priority.data_value}}
+            </option>
+          </select>
           <label for="priority">Enquiry Priority</label>
         </div>
         <div class="field-wrapper ">
           <select id="followUpType" class="form-ctrl" [(ngModel)]="newEnqData.follow_type" name="followtype" required formInput>
-               <option value=""></option>
-               <option *ngFor="let followUp of enqFollowType" [value]="followUp.data_key">
-                 {{followUp.data_value}}
-               </option>
-            </select>
+            <option value=""></option>
+            <option *ngFor="let followUp of enqFollowType" [value]="followUp.data_key">
+              {{followUp.data_value}}
+            </option>
+          </select>
           <label for="followUpType">Follow Up Type</label>
         </div>
         <div class="field-wrapper ">
@@ -278,30 +333,30 @@
             onfocus="(this.type='date')" onfocusout="(this.type='text')" required formInput>
           <label for="followUpDate">Follow Up Date</label>
           <span class="follow-up-date-icon">
-              <img src="./assets/images/calendar.svg" alt="">
-            </span>
+            <img src="./assets/images/calendar.svg" alt="">
+          </span>
         </div>
         <div class="field-wrapper ">
           <select id="source" class="form-ctrl" [(ngModel)]="newEnqData.source_id" name="source" required formInput>
-               <option value=""></option>
-               <option *ngFor="let source of sourceLead" [value]="source.id">{{source.name}}</option>
+            <option value=""></option>
+            <option *ngFor="let source of sourceLead" [value]="source.id">{{source.name}}</option>
           </select>
           <label for="source">Source</label>
           <span style="cursor:pointer; line-height:15px;" (click)="showAddSourcePops()" class="open-accor">+</span>
         </div>
         <div class="field-wrapper">
           <select id="refferedBy" class="form-ctrl" [(ngModel)]="newEnqData.referred_by" name="reffered" required formInput>
-               <option value=""></option>
-              <option *ngFor="let refer of refferedBy" [value]="refer.id">{{refer.name}}</option>
+            <option value=""></option>
+            <option *ngFor="let refer of refferedBy" [value]="refer.id">{{refer.name}}</option>
           </select>
           <label for="refferedBy">Reffered By</label>
           <span style="cursor:pointer; line-height:15px;" class="open-accor" (click)="showAddReferPops()">+</span>
         </div>
         <div class="field-wrapper">
           <select id="assignedTo" class="form-ctrl" [(ngModel)]="newEnqData.assigned_to" name="assigned_to" required formInput>
-              <option value=""></option>
-              <option *ngFor="let assign of enqAssignTo" [value]="assign.userid">{{assign.name}}</option>
-            </select>
+            <option value=""></option>
+            <option *ngFor="let assign of enqAssignTo" [value]="assign.userid">{{assign.name}}</option>
+          </select>
           <label for="assignedTo">Assigned To</label>
         </div>
         <div class="field-wrapper">
@@ -322,26 +377,34 @@
   <div class="popup pos-abs">
     <div class="popup-wrapper pos-rel">
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopUp()">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
-                          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
-                          </g>
-                          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
-                      </g>
-                  </svg>                
-              </span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
       <div class="popup-content">
         <h2>Confirmation</h2>
         <div class="confirmation-popup-content">
           <div class="">
             <p>Thank you for submitting New Enquiry.</p>
-            <p>If you like to make any changes to the last submitted enquiry, kindly click <a style="cursor:pointer" routerLink="/enquiry/edit">Edit</a></p>
+            <p>If you like to make any changes to the last submitted enquiry, kindly click
+              <a style="cursor:pointer" routerLink="/enquiry/edit">Edit</a>
+            </p>
           </div>
           <div class="">
-            <p>You have submitted <strong>{{lastDetail.otherDetails.total_new_enquiries}} New Enquiry </strong> as on <strong>{{todayDate | date }}</strong></p>
-            <p>If you like to view complete Enquiry List now, click <a style="cursor:pointer" routerLink="/enquiry">More Info</a></p>
+            <p>You have submitted
+              <strong>{{lastDetail.otherDetails.total_new_enquiries}} New Enquiry </strong> as on
+              <strong>{{todayDate | date }}</strong>
+            </p>
+            <p>If you like to view complete Enquiry List now, click
+              <a style="cursor:pointer" routerLink="/enquiry">More Info</a>
+            </p>
           </div>
           <div>
             <div class="pull-right add-form-btns">
@@ -358,14 +421,15 @@
 <pop-up [hidden]="!isInstitutePop">
   <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeInstituteAdder()" close-button>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-              <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
-                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
-                </g>
-                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
-              </g>
-            </svg>                
+      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+        </g>
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+        />
+      </g>
+    </svg>
   </span>
 
   <h2 popup-header>Create Institution</h2>
@@ -398,15 +462,16 @@
 <!-- Add New Source -->
 <pop-up [hidden]="!isSourcePop">
   <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="hideAddSourcePops()" close-button>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
-              </g>
-              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
-            </g>
-          </svg>                
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+        </g>
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+        />
+      </g>
+    </svg>
   </span>
   <h2 popup-header>Add Source</h2>
   <div class="enquiry-update-history" popup-content>
@@ -429,22 +494,22 @@
 <!-- Add New Source -->
 <pop-up [hidden]="!isRefferPop">
   <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="hideAddReferPops()" close-button>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-              <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"/>
-                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"/>
-                </g>
-                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"/>
-              </g>
-            </svg>                
-    </span>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+        </g>
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+        />
+      </g>
+    </svg>
+  </span>
   <h2 popup-header>Add Referrer </h2>
   <div class="enquiry-update-history" popup-content>
     <div class="form-type1">
       <div class="field-wrapper">
-        <input type="text" value="" id="refererName" class="form-ctrl" [(ngModel)]="createReferer.name" name="refererName"
-          formInput/>
+        <input type="text" value="" id="refererName" class="form-ctrl" [(ngModel)]="createReferer.name" name="refererName" formInput/>
         <label for="refererName">Reffered By</label>
       </div>
     </div>

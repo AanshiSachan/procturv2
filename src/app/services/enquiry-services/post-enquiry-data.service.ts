@@ -7,6 +7,7 @@ import { Observer } from 'rxjs/Observer';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment'; */
+import {AuthenticatorService} from '../authenticator.service'
 
 @Injectable()
 export class PostEnquiryDataService {
@@ -19,12 +20,13 @@ export class PostEnquiryDataService {
 
   Authorization: string; 
   headers: Headers; 
-  institute_id: number = 100126;
+  institute_id: number;
 
 
   /* Instantiate http Object at load */
-  constructor(private http: Http) {
-    this.Authorization = "MzE1MjV8MDpwcm9jdHVyYTQ6MTAwMTI2";
+  constructor(private http: Http, private auth: AuthenticatorService) {
+    this.Authorization = this.auth.getAuthToken();
+    this.institute_id = this.auth.getInstituteId();
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
     this.headers.append("Authorization", this.Authorization);
@@ -44,14 +46,14 @@ export class PostEnquiryDataService {
     this.headers.append("X-Requested-With", "XMLHttpRequest");
     return this.http.delete(this.urlDeleteById, {headers: this.headers}).map(res => {
       data => { return data.json};
-    })
+    });
   }
 
   updateRegisterationPayment(data){
     this.urlRegisterPayment = "https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/payRegistrationFees";
     return this.http.post(this.urlRegisterPayment, data, {headers: this.headers}).map(data => {
       return data.json();
-    })
+    });
   }
-
+  
 }

@@ -10,10 +10,6 @@ import { instituteInfo } from '../../../model/instituteinfo';
 import { addEnquiryForm } from '../../../model/add-enquiry-form';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-
-
-import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
-import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
 
@@ -70,7 +66,6 @@ export class EnquiryAddComponent implements OnInit{
     inst_id: this.institute_id
   }
 
-
   constructor(private prefill: FetchprefilldataService, private router: Router, private logger: Logger){}
 
   /* OnInit Initialized */
@@ -118,7 +113,7 @@ export class EnquiryAddComponent implements OnInit{
     };
   }
   
-  /* Function for Toggling ng2-smart-table columns */
+  /* Function for Toggling Form Visibility */
   toggleForm(event) {
     let eleid = event.srcElement.id;
     console.log(eleid);
@@ -214,14 +209,23 @@ export class EnquiryAddComponent implements OnInit{
     this.additionDetails = !this.additionDetails;
   }
 
+  /* On Phone Number input by user update model and fetch lead records if any */
+  updatePhoneFetchRecords(data){
+    this.newEnqData.phone = data;    
+    this.prefill.fetchLeadDetails(this.newEnqData.phone).subscribe(
+      data => { this.updateForm(data) },
+      err => {alert(err.message);}
+    );
+  }
+
   /* Function to fetch lead details on basis of the phone number provided by user */
   getLeadDetails(){
     console.log(this.newEnqData.phone);
     if(this.validatePhone(this.newEnqData.phone)){
       this.prefill.fetchLeadDetails(this.newEnqData.phone).subscribe(
         data => { this.updateForm(data) },
-        err => { alert(err.message); }
-      )
+        err => {alert(err.message);}
+      );
     }
   }
 

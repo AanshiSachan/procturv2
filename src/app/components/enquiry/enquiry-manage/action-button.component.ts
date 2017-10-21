@@ -117,14 +117,17 @@ import { Router } from '@angular/router';
   </style>
   
   <div class="enquiry-action">
-  <div>
-  <button class="btn table-action-icon" style="outline:none;border:none;" (click)="openMenu($event)" >
+
+    <button class="btn table-action-icon action_button" style="outline:none;border:none;" (click)="openMenu($event)" >
     <img src="./assets/images/action_hover.svg" height="20" width="20">
-  </button>
-  <div class="action-menu" *ngIf="showMenu" (mouseleave)="closeMenu()" (click)="closeMenu()">
-  <div class="action-menu-inner">
+    </button>
+  
+    <div class="action-menu" *ngIf="showMenu" (mouseleave)="closeMenu()" (click)="closeMenu()">
+  
+     <div class="action-menu-inner">
+
       <ul>
-          <li (click)="openPopup('update')">
+        <li (click)="openPopup('update')">
               <i>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="11716 358 26 22" class="action-icon">
                   <g id="Group_1238" data-name="Group 1238" transform="translate(10862 -6)">
@@ -142,8 +145,8 @@ import { Router } from '@angular/router';
               <span>
                   Update <br>Enquiry
               </span>
-          </li>
-          <li class="edit-detail-icon" (click)="NavigateToEdit()">
+        </li>
+        <li class="edit-detail-icon" (click)="NavigateToEdit()">
               <i>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="11778 358 26 22" class="action-icon">
                     <g id="Group_1234" data-name="Group 1234" transform="translate(10862 -6)">
@@ -159,8 +162,8 @@ import { Router } from '@angular/router';
               <span >
                   Edit <br> Details
               </span>
-          </li>
-          <li (click)="openPopup('delete')">
+        </li>
+        <li (click)="openPopup('delete')">
               <i>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="11841 358 26 22" class="action-icon">
 
@@ -180,8 +183,8 @@ import { Router } from '@angular/router';
               <span>
                   Delete  <br>Entry
               </span>
-          </li>
-          <li (click)="openPopup('convert')">
+        </li>
+        <li (click)="openPopup('convert')">
               <i>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="11900 358 26 22" class="action-icon">
                     <g id="Group_1235" data-name="Group 1235" transform="translate(10862 -6)">
@@ -199,8 +202,8 @@ import { Router } from '@angular/router';
               <span>
                   Convert <br> to Student
               </span>
-          </li>
-          <li (click)="openPopup('payment')" *ngIf="isProfessional">
+        </li>
+        <li (click)="openPopup('payment')" *ngIf="isProfessional">
               <i>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="11966 358 26 22" class="action-icon">
                     <g id="Group_1236" data-name="Group 1236" transform="translate(10862 -6)">
@@ -223,11 +226,13 @@ import { Router } from '@angular/router';
                  Pay  <br>
                  Restistration Fees
               </span>
-          </li>
-      </ul>
-  </div>
-  </div>
-  </div>
+        </li>
+       </ul>
+      
+     </div>
+  
+    </div>
+
   </div>
   `,
 })
@@ -238,31 +243,34 @@ export class ActionButtonComponent implements OnInit {
     /* Variable for displayng the popUp */
     private showMenu: boolean = false;
     private isProfessional: boolean = false;
+    private isActionDisabled: boolean;
+
     /* message to describe which popup to be opened  */
-    message:string = "";
+    message: string = "";
 
     constructor(private pops: PopupHandlerService, private router: Router) { }
-    
+
     /* OnInit function to listen the changes in message value from service */
-    ngOnInit() { 
-      this.pops.currentMessage.subscribe(message => this.message = message);
+    ngOnInit() {
+        this.pops.currentMessage.subscribe(message => this.message = message);
+        this.pops.currentActionValue.subscribe(data => this.isActionDisabled = data);
     }
-    
+
     /* open action menu on click */
     openMenu(ev) {
-      this.showMenu = true;
+        this.showMenu = true;
     }
-    
+
     /* close action menu on events  */
     closeMenu() { this.showMenu = false; }
-    
+
     /* function to determine which pop up has to be opened on parent component */
-    openPopup(eventData){
+    openPopup(eventData) {
         this.pops.changeMessage(eventData);
     }
 
     /* if user select edit navigate him to edit page directly from here */
-    NavigateToEdit(){
-        this.router.navigate(['/enquiry/editEnquiry']);
+    NavigateToEdit() {
+        this.router.navigate(['/enquiry/edit']);
     }
 }

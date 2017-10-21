@@ -136,22 +136,12 @@ input {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    &:valid{
-        background: white;
-    }
-    &:invalid{
-        border-bottom: 1px solid red !important;
-    }
 }
 
 
 input:focus {  
     &:valid {
     background: white;
-    }
-  
-    &:invalid {
-        border-bottom: 1px solid red !important;
     }
 }
 

@@ -22,7 +22,7 @@ import * as moment from 'moment';
 
 import { CsvService } from "angular2-json2csv";
 
- 
+
 @Component({
   selector: 'app-enquiry-manage',
   templateUrl: './enquiry-manage.component.html',
@@ -34,38 +34,68 @@ export class EnquiryManageComponent implements OnInit {
   /* Variable Declaration */
 
   private AdFilter: boolean = false;
+
   private rows: any = [];
+
   private optionsModel = [];
+
   private checkedOpt: any[];
+
   private myOptions: IMultiSelectOption[];
+
   private source: LocalDataSource;
+
   busy: Subscription;
+
   private checkedStatus = [];
+
   private filtered = [];
+
   private enqstatus: any = [];
+
   private enqPriority: any = [];
+
   private enqFollowType: any = [];
+
   private enqAssignTo: any = [];
+
   private enqStd: any = [];
+
   private enqSubject: any = [];
+
   private enqScholarship: any = [];
+
   private enqSub2: any = [];
+
   private paymentMode: any = [];
-  adFilterForm: FormGroup;
-  institute_id: any = "100123";
+
   today: number = Date.now();
+
   date: Date;
+
   searchBarData: any = null;
+
   displayBatchSize: number = 5;
+
   incrementFlag: boolean = true;
+
   updateFormComments: any = [];
+
   updateFormCommentsBy: any = [];
+
   updateFormCommentsOn: any = [];
 
   PageIndex: number = 0;
+
   maxPageSize: number = 0;
+
   pageArray: any = [];
+
   totalEnquiry: number = 0;
+
+  isProfessional: boolean = false;
+
+  isActionDisabled: boolean = false;
 
   /* Model for institute Data */
   instituteData: instituteInfo = {
@@ -146,6 +176,9 @@ export class EnquiryManageComponent implements OnInit {
   /* Variable to handdle popups */
   message: string = '';
 
+
+  /* Variable to store JSON.stringify value and update service for multi-component communication */
+  rowDataJson: string = '';
 
   /* Array to store user selected rows */
   rowData: any;
@@ -269,10 +302,6 @@ export class EnquiryManageComponent implements OnInit {
   /* OnInit Function */
   ngOnInit() {
 
-    /* this.logger.group("ngOnInit Performed");
-    this.logger.log("column static data loaded"); */
-
-
     /* Model for toggle Menu Dropdown */
     this.myOptions = [{ name: 'Enquiry ID', id: 'institute_enquiry_id' }, { name: 'Institute ID', id: 'institution_id' }, { name: 'Enquiry No', id: 'enquiry_no' }, { name: 'Name', id: 'name' }, { name: 'Phone', id: 'phone' }, { name: 'Email', id: 'email' }, { name: 'Standard', id: 'standard' }, { name: 'Gender', id: 'Gender' }, { name: 'Subjects', id: 'subjects' }, { name: 'Status', id: 'status' }, { name: 'Status Value', id: 'statusValue' }, { name: 'is Converted', id: 'is_converted' }, { name: 'Follow up Date', id: 'followUpDate' }, { name: 'Occupation ID', id: 'occupation_id' }, { name: 'School ID', id: 'school_id' }, { name: 'Enquiry Date', id: 'enquiry_date' }, { name: 'Standard ID', id: 'standard_id' }, { name: 'Subject ID', id: 'subject_id' }, { name: 'Reffered by', id: 'referred_by' }, { name: 'Source ID', id: 'source_id' }, { name: 'Priority', id: 'priority' }, { name: 'Follow type', id: 'follow_type' }, { name: 'Assigned Name', id: 'assigned_name' }, { name: 'Is recent', id: 'is_recent' }, { name: 'Slot ID', id: 'slot_id' }, { name: 'Slot', id: 'slot' }, { name: 'Update Date', id: 'updateDate' }, { name: 'Is Dashboard', id: 'isDashbord' }, { name: 'Is Report', id: 'isRport' }, { name: 'Total Count', id: 'totalcount' }, { name: 'New Enquiry Count', id: 'newEnqcount' }, { name: 'Enquiry Date', id: 'enquiry_no_date' }, { name: 'Person Name', id: 'name_person' }, { name: 'Follow up date', id: 'followUpDateTime' }, { name: 'Standard subject', id: 'standard_subject' }, { name: 'Closed Reason', id: 'closedReasonText' }, { name: 'Follow up Time', id: 'followUpTime' }, { name: 'Filtered Status', id: 'filtered_statuses' }, { name: 'Filtered Slot', id: 'filtered_slots' }];
 
@@ -290,12 +319,13 @@ export class EnquiryManageComponent implements OnInit {
 
     /* Fetch prefill data after table data load completes */
     this.FetchEnquiryPrefilledData();
-    /* this.logger.log("Prefill data loaded, added data on filter open");
-    this.logger.groupEnd(); */
 
     /* Fetch the status of message from  popup handler service */
     this.pops.currentMessage.subscribe(message => this.message = message);
+    this.pops.currentRowJson.subscribe(data => this.rowDataJson = data);
+    this.pops.currentActionValue.subscribe(data => this.isActionDisabled = data);
   }
+
 
 
   /* Function to convert all select-option tag to ul-li 
@@ -359,6 +389,8 @@ export class EnquiryManageComponent implements OnInit {
       }
     });
   }*/
+
+
 
 
   /* Load Table data with respect to the institute data provided */
@@ -663,20 +695,56 @@ export class EnquiryManageComponent implements OnInit {
   /* Function to handle event on table row click*/
   rowClicked(ev) {
     //console.log(ev);
+    /* Perform Action for Multiple selected Row */
     if (ev.isSelected) {
       /* more than  one row is selected */
-      document.getElementById('bulk-action').removeAttribute('disabled'); 
-      console.log(ev.selected);
+      if (ev.selected.length === 1) {
+        document.getElementById('bulk-action').removeAttribute('disabled');
+        /* Perform Action for Multiple selected Row */
+        let allData = ev.selected;
+        console.log(allData);
 
+        /* Perform Action for Single row Clicked */
+        /* This is the row that the user has clicked recently */
+        this.rowData = ev.data;
+        this.pops.changeRowData(JSON.stringify(this.rowData));
+        this.prefill.fetchCommentsForEnquiry(this.rowData.institute_enquiry_id).subscribe(res => {
+          this.updateFormComments = res.comments;
+          this.updateFormCommentsOn = res.commentedOn;
+          this.updateFormCommentsBy = res.commentedBy;
+        });
+      }
+      else {
+        document.getElementById('bulk-action').removeAttribute('disabled');
+        this.pops.changeActionStatus(true);
+        let allData = ev.selected;
+        console.log(allData);
+      }
     }
+    /* Perform Action for Multiple selected Row */
     else if (ev.isSelected === null) {
-      document.getElementById('bulk-action').removeAttribute('disabled'); 
-      console.log(ev);
-
+      let allData = ev.selected;
+      console.log(allData.length);
+      if(allData.length == 0){
+        document.getElementById('bulk-action').setAttribute('disabled', 'true');
+        var nodes =  document.getElementsByClassName('action_button');
+        [].forEach.call(nodes, function(el){
+          el.removeAttribute('disabled');
+        });
+      }
+      else{
+        document.getElementById('bulk-action').removeAttribute('disabled');
+        var nodes =  document.getElementsByClassName('action_button');
+        [].forEach.call(nodes, function(el){
+          el.setAttribute('disabled', true);
+        });
+      }
     }
     else {
-      /* Perform Single Row Selction Action */
+      /* Perform Single Row Selction Action
+      This is the row that the user has clicked recently */
       this.rowData = ev.data;
+      this.pops.changeRowData(JSON.stringify(this.rowData));
       this.prefill.fetchCommentsForEnquiry(this.rowData.institute_enquiry_id).subscribe(res => {
         this.updateFormComments = res.comments;
         this.updateFormCommentsOn = res.commentedOn;

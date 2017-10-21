@@ -2,7 +2,7 @@
 import { AppComponent } from './app.component';
 import { CoreSidednavComponent } from './components/core/core-sidednav/core-sidednav.component';
 import { CoreHeaderComponent } from './components/core/core-header/core-header.component';
-
+import { LoginComponent } from './components/login/login.component';
 
 /* Modules */
 import { BrowserModule } from '@angular/platform-browser';
@@ -21,7 +21,9 @@ import { FetchprefilldataService } from './services/fetchprefilldata.service';
 import { PopupHandlerService } from './services/enquiry-services/popup-handler.service';
 import { FetchStudentService } from './services/student-services/fetch-student.service';
 import {PostEnquiryDataService} from './services/enquiry-services/post-enquiry-data.service';
-
+import {AuthenticatorService} from './services/authenticator.service';
+import {LoginService} from './services/login-services/login.service';
+import {AlertService} from './services/alert.service';
 
 /* Interceptors */
 import { LoadInterceptor } from './interceptors/load-interceptor';
@@ -31,11 +33,13 @@ import {AppRoutingModule} from './app-routing.module';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     CoreSidednavComponent,
     CoreHeaderComponent,
+    LoginComponent,
     ],
   entryComponents: [
   ],
@@ -55,7 +59,9 @@ import {AppRoutingModule} from './app-routing.module';
     FetchprefilldataService,
     PopupHandlerService,
     FetchStudentService,
-    PostEnquiryDataService
+    PostEnquiryDataService,
+    AuthenticatorService,
+    LoginService,
   ],
   bootstrap: [AppComponent]
 })

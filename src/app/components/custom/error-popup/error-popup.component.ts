@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
   selector: 'app-error-popup',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ErrorPopupComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  message: any;
+  
+  //   constructor(private alertService: AlertService) { }
+  
+     ngOnInit() {
+    //     this.alertService.getMessage().subscribe(message => { this.message = message; });
+     }
 
 }
