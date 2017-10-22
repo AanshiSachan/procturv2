@@ -20,7 +20,8 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
 
   constructor(private login: LoginService, private route: Router, private actroute: ActivatedRoute){
-    if(localStorage.getItem('clientData') != null){
+    
+    if(sessionStorage.getItem('Authorization') != null){
       this.route.navigate(['/enquiry']);
     }
   }
@@ -62,7 +63,21 @@ export class LoginComponent implements OnInit {
         alert('Invalid Username or Password!!, please try again later');
       }
       else {
-        localStorage.setItem('clientData', JSON.stringify(el));
+        console.log(el);
+        sessionStorage.setItem('institute_id', el.data.institution_id);
+        sessionStorage.setItem('institute_type', el.data.institute_type);
+
+        sessionStorage.setItem('logo_url', el.data.logo_url);
+        sessionStorage.setItem('inst_announcement', el.data.inst_announcement);
+
+        sessionStorage.setItem('userid', el.data.userid);
+        sessionStorage.setItem('userType', el.data.userType);
+        sessionStorage.setItem('password', el.data.password);
+
+        let Authorization = btoa(el.data.userid +"|" +el.data.userType +":" +el.data.password +":" +el.data.institution_id);
+
+        sessionStorage.setItem('Authorization', Authorization);
+        
         this.route.navigate(['/enquiry']);  
         this.removeFullscreen();
       }

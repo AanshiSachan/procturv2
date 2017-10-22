@@ -22,7 +22,6 @@ export class LoginService {
   }
 
 
-
   postLoginDetails(data): any{
     console.log(data);
     return this.http.post(this.urlLogin, data, {headers: this.headers}).map(res => {
@@ -33,7 +32,7 @@ export class LoginService {
 
   logoutUser(): boolean{
     // remove user from local storage to log user out
-    localStorage.removeItem('clientData');
+    localStorage.clear();
     return true;
   }
 

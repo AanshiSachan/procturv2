@@ -23,9 +23,6 @@ import { Ng2SmartTableModule } from '../../../ng2-smart-table';
 import { BusyModule, BusyConfig} from 'angular2-busy';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { NgDatepickerModule } from 'ng2-datepicker';
-import {CsvService} from "angular2-json2csv";
-
-
 
 @NgModule({
     imports: [
@@ -55,7 +52,6 @@ import {CsvService} from "angular2-json2csv";
         ActionButtonComponent
       ],
     providers: [
-        CsvService
     ]  
 })
 export class EnquiryModule {

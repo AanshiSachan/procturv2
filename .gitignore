@@ -5,10 +5,10 @@
 /tmp
 /out-tsc
 
-# dependencies
-/node_modules
+# dependencies /node_modules
 
-# IDEs and editors
+#
+ IDEs and editors
 /.idea
 .project
 .classpath

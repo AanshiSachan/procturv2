@@ -20,8 +20,6 @@ import { Ng2SmartTableModule, LocalDataSource } from '../../../../ng2-smart-tabl
 import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
 
-import { CsvService } from "angular2-json2csv";
-
 
 @Component({
   selector: 'app-enquiry-manage',
@@ -296,7 +294,7 @@ export class EnquiryManageComponent implements OnInit {
 
 
   /* ===========================  ====================================== */
-  constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private fb: FormBuilder, private pops: PopupHandlerService, private _csvService: CsvService, private postdata: PostEnquiryDataService) { }
+  constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private fb: FormBuilder, private pops: PopupHandlerService, private postdata: PostEnquiryDataService) { }
 
 
   /* OnInit Function */
@@ -315,7 +313,7 @@ export class EnquiryManageComponent implements OnInit {
     /* Load paginated enquiry data from server */
     this.busy = this.loadTableDatatoSource(this.instituteData);
 
-    this.logger.log(this.myOptions);
+    //this.logger.log(this.myOptions);
 
     /* Fetch prefill data after table data load completes */
     this.FetchEnquiryPrefilledData();
@@ -406,8 +404,8 @@ export class EnquiryManageComponent implements OnInit {
         this.totalEnquiry = this.rows[0].totalcount;
         this.setPageSize(this.rows[0].totalcount);
         this.pageArray = Array(this.maxPageSize).fill(1).map((x, i) => i);
-        console.log(this.pageArray);
-        console.log(this.maxPageSize);
+        //console.log(this.pageArray);
+        //console.log(this.maxPageSize);
       });
     }
     /* simply returns data obtained from server */
