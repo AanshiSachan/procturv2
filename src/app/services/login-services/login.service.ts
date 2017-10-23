@@ -32,7 +32,7 @@ export class LoginService {
 
   logoutUser(): boolean{
     // remove user from local storage to log user out
-    localStorage.clear();
+    sessionStorage.clear();
     return true;
   }
 

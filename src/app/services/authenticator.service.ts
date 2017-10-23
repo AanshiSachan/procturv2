@@ -8,15 +8,15 @@ import 'rxjs/add/operator/map'
 @Injectable()
 export class AuthenticatorService {
     public token: string = null;
-    public institute_id: number = null;
-    public institute_type: any;
+    public institute_id: any = null;
+    public institute_type: any = null;
+    public institution_type: any = null;
 
     constructor() {
-        // set token if saved in local storage
-        //this.institute_id = JSON.parse(localStorage.getItem('institute_id'));
-        ///this.token = JSON.parse(localStorage.getItem('token'));
-        this.institute_id = 100123;
-        this.token = 'MzE0Njl8MDphZG1pbkAxMjM6MTAwMTIz';
+        // set token if saved in session storage
+        this.institute_id = sessionStorage.getItem('institute_id');
+        this.token = sessionStorage.getItem('Authorization');
+        this.institute_type = sessionStorage.getItem('institute_type');
     }
 
     getAuthToken(){
@@ -29,6 +29,12 @@ export class AuthenticatorService {
     }
 
     getInstituteType(){
+        if(this.institute_type != null){
+            return this.institute_type;
+        }
+        else{
+            alert('You are not authorized to view the content, please login to continue');
+        }
     }
 
     getInstituteId(){
