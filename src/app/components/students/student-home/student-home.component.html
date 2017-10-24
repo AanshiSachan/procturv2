@@ -16,7 +16,7 @@
             <section class="common-search-filter" id="searchFilter">
                 <div class="filter-search">
                     <!-- Advanced Filter -->
-                    <div class="filter-box clearFix hide">
+                    <div class="filter-box clearFix">
                         <div class="c-lg-6 c-md-6 c-sm-6">
                             <div class="search-filter-wrapper">
                                 <input type="text" class="normal-field" value="" placeholder="Search Student Name/Contact No.">
@@ -26,29 +26,31 @@
 
                         <div class="c-lg-6 c-md-6 c-sm-6">
                             <div class="filter-right">
-                                <input type="button" class="btn showFilterBtn" value="Filter">
-                                <a href="javascript:void(0);" class="closeFilter">
+                                <input type="button" class="btn showFilterBtn" value="Filter" (click)="openAdvancedFilter()">
+                                <a class="closeFilter" *ngIf="advancedFilter" (click)="closeAdvancedFilter()"> 
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
                                         <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
                                             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
                                                 <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"></line>
                                                 <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"></line>
                                             </g>
-                                            <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)"></rect>
+                                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke: none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"></rect>
                                         </g>
                                     </svg>
-                                    Close Advance Filter</a>
+                                    Close Advance Filter
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <div class="filter-fields">
+
+                    <div class="filter-fields" *ngIf="advancedFilter">
                         <div class="row">
                             <div class="c-lg-3 c-md-3 c-sm-3">
                                 <div class="field-wrapper customSelectWrapper">
                                     <select id="sStandard" class="form-ctrl" style="opacity: 1;">
-                                                        <option></option>
-                                                        <option>Male</option>
-                                                    </select>
+                                        <option></option>
+                                        <option>Male</option>
+                                    </select>
                                     <label for="sStandard">Select Standard</label>
                                     <ul class="customDropdown">
                                         <li></li>
@@ -59,9 +61,9 @@
                             <div class="c-lg-3 c-md-3 c-sm-3">
                                 <div class="field-wrapper customSelectWrapper">
                                     <select id="masterCource" class="form-ctrl" style="opacity: 1;">
-                                                        <option></option>
-                                                        <option>Male</option>
-                                                    </select>
+                                        <option></option>
+                                        <option>Male</option>
+                                    </select>
                                     <label for="masterCource">Master Cource</label>
                                     <ul class="customDropdown">
                                         <li></li>
@@ -72,9 +74,9 @@
                             <div class="c-lg-3 c-md-3 c-sm-3">
                                 <div class="field-wrapper customSelectWrapper">
                                     <select id="sCource" class="form-ctrl" style="opacity: 1;">
-                                                        <option></option>
-                                                        <option>Cource</option>
-                                                    </select>
+                                        <option></option>
+                                        <option>Cource</option>
+                                    </select>
                                     <label for="sCource">Cource</label>
                                     <ul class="customDropdown">
                                         <li></li>
@@ -103,9 +105,9 @@
                             <div class="c-lg-3 c-md-3 c-sm-3">
                                 <div class="field-wrapper customSelectWrapper">
                                     <select id="icustom" class="form-ctrl" style="opacity: 1;">
-                                                        <option></option>
-                                                        <option>Male</option>
-                                                    </select>
+                                        <option></option>
+                                        <option>Male</option>
+                                    </select>
                                     <label for="icustom">Institutional/Custom2</label>
                                     <ul class="customDropdown">
                                         <li></li>
@@ -116,9 +118,9 @@
                             <div class="c-lg-3 c-md-3 c-sm-3">
                                 <div class="field-wrapper customSelectWrapper">
                                     <select id="eno" class="form-ctrl" style="opacity: 1;">
-                                                        <option></option>
-                                                        <option>Enrollment No</option>
-                                                    </select>
+                                        <option></option>
+                                        <option>Enrollment No</option>
+                                    </select>
                                     <label for="eno">Enrollment No.</label>
                                     <ul class="customDropdown">
                                         <li></li>
@@ -145,16 +147,11 @@
                             <li class="report-icon">
                                 Student Report
                             </li>
-                            <li class="print-icon">
-                                Print
+                            <li class="">
+                               
                             </li>
-                            <li class="export-icon">Export
-                                <div class="other-dropdown">
-                                    <ul>
-                                        <li> PDF</li>
-                                        <li> Excel</li>
-                                    </ul>
-                                </div>
+                            <li class="export-icon">
+                                Export
                             </li>
                         </ul>
                     </div>
@@ -163,25 +160,39 @@
                 <div class="row">
                     <div class="c-lg-12 c-md-12 c-sm-12">
                         <div class="table table-responsive student-table">
-                            <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="rowClicked($event)">
+                            <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="rowSelected($event)">
                             </ng2-smart-table>
                         </div>
                     </div>
                 </div>
                 <!-- Pagination -->
                 <div class="row filter-res pagination" style="width: 100%;">
-                    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                        <ul class="pagination">
-                            <li>
-                                <a (click)="fetchPrevious()"> Previous</a>
+                        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                          <ul class="pagination">
+              
+                            <li id="previous">
+                              <a (click)="fetchPrevious()"> Previous</a>
                             </li>
-                            <li>1</li>
-                            <li>
-                                <a (click)="fetchNext()">  Next</a>
+              
+                            <li *ngFor="let page of pageArray" (click)="fetchDataByPage(page)">{{page}}</li>
+              
+                            <li id="next">
+                              <a (click)="fetchNext()"> Next</a>
                             </li>
-                        </ul>
-                    </div>
-                </div>
+              
+                            <li class="batch-size">
+                              <select class="" [ngModel]="displayBatchSize" (ngModelChange)="updateTableBatchSize($event)">
+                                <option>5</option>
+                                <option>10</option>
+                                <option>25</option>
+                                <option>50</option>
+                                <option>100</option>
+                              </select>
+                            </li>
+              
+                          </ul>
+                        </div>
+                      </div>
             </section>
         </section>
 

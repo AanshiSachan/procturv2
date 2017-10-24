@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AddStudentPrefillService} from '../../../services/student-services/add-student-prefill.service';
+
 
 @Component({
   selector: 'app-student-add',
@@ -7,9 +9,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StudentAddComponent implements OnInit {
 
-  constructor() { }
+  private studentAddFormData = {
+    sname: "",
+    cNumber: "",
+    sEmail: "",
+    parentName: "",
+    parentContactNo: "",
+    parentEmail: "",
+    sdob: "",
+    currentAdd: "",
+    currentAdd2: "",
+    gurdianName: "",
+    gurdianContact: "",
+    gurdianEmail: "",
+    addCommentNote: ""
+
+  }
+  private additionalBasicDetails: boolean = false;
+
+  constructor(private studentPrefillService: AddStudentPrefillService) { }
 
   ngOnInit() {
+
+    this.fetchPrefillFormData();
+
   }
 
   /* Function to navigate through the Student Add Form, the input provide details for view to be set active */
@@ -47,4 +70,19 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
+
+
+  /* Fetch and store the prefill data to be displayed on dropdown menu */
+  fetchPrefillFormData(){
+
+    this.studentPrefillService.fetchInventoryList().subscribe(data => {
+      console.log(data);
+    })
+
+  }
+
+  /* Function to show/hide Addition Details Form section */
+  toggleAdditionalBasicDetails(){
+    this.additionalBasicDetails = !this.additionalBasicDetails;
+  }
 }

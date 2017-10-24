@@ -228,7 +228,14 @@
           <div class="c-lg-6 c-md-6 c-sm-6 align-right">
             <ul class="export-print">
               <li>
-                <input id="bulk-action" type="button" value="Bulk Actions" class="btn" disabled/>
+                  <div class="bulk-dropdown">
+                      <button id="bulk-action" (click)="bulkActionFunction()" class="btn bulk-dropbtn">Bulk Actions</button>
+                      <div id="bulk-drop" class="bulk-dropdown-content">
+                        <a >Send SMS</a>
+                        <a >Delete</a>
+                        <a >To be Added.. </a>
+                      </div>
+                    </div>
               </li>
               <li class="export-icon">
                 Export
@@ -300,15 +307,15 @@
           </svg>
         </span>
         <div class="popup-content">
-          <h2>Update Enquiry - Enquiry No: {{rowData.enquiry_no}}</h2>
+          <h2>Update Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
           <div class="update-enquiry-form overflowHidden">
             <div class="">
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
-                    <select id="priorityEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="rowData.priority" name="priority" formInput>
+                    <select id="priorityEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.priority" name="priority" formInput>
                       <option></option>
-                      <option *ngFor="let priority of enqPriority" [value]="priority.data_value" [attr.selected]="priority.data_value == rowData.priority ? '' : null">
+                      <option *ngFor="let priority of enqPriority" [value]="priority.data_value" [attr.selected]="priority.data_value == selectedRow.priority ? '' : null">
                         {{priority.data_value}}
                       </option>
                     </select>
@@ -317,10 +324,10 @@
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
-                    <select id="selectFollowupEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="rowData.follow_type" name="follow_type"
+                    <select id="selectFollowupEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.follow_type" name="follow_type"
                       formInput>
                       <option></option>
-                      <option *ngFor="let followT of enqFollowType" [value]="followT.data_value" [attr.selected]="followT.data_value == rowData.follow_type ? '' : null">
+                      <option *ngFor="let followT of enqFollowType" [value]="followT.data_value" [attr.selected]="followT.data_value == selectedRow.follow_type ? '' : null">
                         {{followT.data_value}}
                       </option>
                     </select>
@@ -331,17 +338,17 @@
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value datePickerBox">
-                    <input type="text" class="form-ctrl" value="{{rowData.followUpDate | date: 'dd/MM/yyyy'}}" placeholder="" [(ngModel)]="rowData.followUpDate"
+                    <input type="text" class="form-ctrl" value="{{selectedRow.followUpDate | date: 'dd/MM/yyyy'}}" placeholder="" [(ngModel)]="selectedRow.followUpDate"
                       id="followUPdateEdit" formInput/>
                     <label for="followUPdateEdit">Follow Up Date</label>
                   </div>
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
-                    <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="rowData.statusValue" name="statusValue"
+                    <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.statusValue" name="statusValue"
                       formInput>
                       <option></option>
-                      <option *ngFor="let status of enqstatus" [value]="status.data_value" [attr.selected]="status.data_value == rowData.statusValue ? '' : null">
+                      <option *ngFor="let status of enqstatus" [value]="status.data_value" [attr.selected]="status.data_value == selectedRow.statusValue ? '' : null">
                         {{status.data_value}}
                       </option>
                     </select>
@@ -419,7 +426,7 @@
           </svg>
         </span>
         <div class="popup-content">
-          <h2>Delete Enquiry - Enquiry No: {{rowData.enquiry_no}}</h2>
+          <h2>Delete Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
           <div class="update-enquiry-form overflowHidden">
             <div class="enquiry-update-history">
               <h4>Are you Sure you wish to delete this data, it cannot be recovered later.</h4>
@@ -457,16 +464,16 @@
           </svg>
         </span>
         <div class="popup-content">
-          <h2>Convert Enquiry - Enquiry No: {{rowData.enquiry_no}}</h2>
+          <h2>Convert Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
           <div class="update-enquiry-form overflowHidden">
             <div class="enquiry-update-history">
-              <h4> You will be converting {{rowData.name}} to student, this is irreversible </h4>
+              <h4> You will be converting {{selectedRow.name}} to student, this is irreversible </h4>
             </div>
             <div class="">
               <div class="clearfix">
                 <aside class="pull-right popup-btn">
                   <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                  <input type="button" value="Convert" class="redBtn btn" (click)="convertRow(rowData)">
+                  <input type="button" value="Convert" class="redBtn btn" (click)="convertRow(selectedRow)">
                 </aside>
               </div>
             </div>

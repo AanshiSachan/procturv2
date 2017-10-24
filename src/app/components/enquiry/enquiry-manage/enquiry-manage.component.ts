@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
@@ -95,6 +95,9 @@ export class EnquiryManageComponent implements OnInit {
 
   isActionDisabled: boolean = false;
 
+  private selectedRow:any;
+  private selectedRowGroup:any;
+
   /* Model for institute Data */
   instituteData: instituteInfo = {
     name: "",
@@ -176,10 +179,9 @@ export class EnquiryManageComponent implements OnInit {
 
 
   /* Variable to store JSON.stringify value and update service for multi-component communication */
-  rowDataJson: string = '';
+  selectedRowJson: string = '';
 
-  /* Array to store user selected rows */
-  rowData: any;
+
 
 
   /* Default Settings for ng2-smart-table */
@@ -320,7 +322,7 @@ export class EnquiryManageComponent implements OnInit {
 
     /* Fetch the status of message from  popup handler service */
     this.pops.currentMessage.subscribe(message => this.message = message);
-    this.pops.currentRowJson.subscribe(data => this.rowDataJson = data);
+    this.pops.currentRowJson.subscribe(data => this.selectedRowJson = data);
     this.pops.currentActionValue.subscribe(data => this.isActionDisabled = data);
   }
 
@@ -692,76 +694,56 @@ export class EnquiryManageComponent implements OnInit {
 
   /* Function to handle event on table row click*/
   rowClicked(ev) {
-    //console.log(ev);
-    /* Perform Action for Multiple selected Row */
-    if (ev.isSelected) {
-      /* more than  one row is selected */
-      if (ev.selected.length === 1) {
-        document.getElementById('bulk-action').removeAttribute('disabled');
-        /* Perform Action for Multiple selected Row */
-        let allData = ev.selected;
-        console.log(allData);
 
-        /* Perform Action for Single row Clicked */
-        /* This is the row that the user has clicked recently */
-        this.rowData = ev.data;
-        this.pops.changeRowData(JSON.stringify(this.rowData));
-        this.prefill.fetchCommentsForEnquiry(this.rowData.institute_enquiry_id).subscribe(res => {
+
+    /* If all records are not selected then check for true/false status */
+    if (ev.data != null) {
+      /* If true, that is multiple option have been checked but not all */
+      if (ev.isSelected) {
+        let allSelected = ev.selected;
+        let currentSelected = ev.data;
+        this.selectedRow = currentSelected;
+        this.selectedRowGroup = allSelected;
+        console.log(this.selectedRow);
+        console.log("all selected Rows");
+        console.log(this.selectedRowGroup);
+        this.pops.changeRowData(JSON.stringify(this.selectedRow));
+        this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
+          this.updateFormComments = res.comments;
+          this.updateFormCommentsOn = res.commentedOn;
+          this.updateFormCommentsBy = res.commentedBy;
+        });
+        
+      }
+      /* If false, that is only a single input has been selected */
+      else {
+        console.log(ev);
+        this.selectedRow = ev.data;
+        this.pops.changeRowData(JSON.stringify(this.selectedRow));
+        this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
           this.updateFormComments = res.comments;
           this.updateFormCommentsOn = res.commentedOn;
           this.updateFormCommentsBy = res.commentedBy;
         });
       }
-      else {
-        document.getElementById('bulk-action').removeAttribute('disabled');
-        this.pops.changeActionStatus(true);
-        let allData = ev.selected;
-        console.log(allData);
-      }
     }
-    /* Perform Action for Multiple selected Row */
-    else if (ev.isSelected === null) {
-      let allData = ev.selected;
-      console.log(allData.length);
-      if(allData.length == 0){
-        document.getElementById('bulk-action').setAttribute('disabled', 'true');
-        var nodes =  document.getElementsByClassName('action_button');
-        [].forEach.call(nodes, function(el){
-          el.removeAttribute('disabled');
-        });
-      }
-      else{
-        document.getElementById('bulk-action').removeAttribute('disabled');
-        var nodes =  document.getElementsByClassName('action_button');
-        [].forEach.call(nodes, function(el){
-          el.setAttribute('disabled', true);
-        });
-      }
-    }
+    /* All records in the page have been selected */
     else {
-      /* Perform Single Row Selction Action
-      This is the row that the user has clicked recently */
-      this.rowData = ev.data;
-      this.pops.changeRowData(JSON.stringify(this.rowData));
-      this.prefill.fetchCommentsForEnquiry(this.rowData.institute_enquiry_id).subscribe(res => {
-        this.updateFormComments = res.comments;
-        this.updateFormCommentsOn = res.commentedOn;
-        this.updateFormCommentsBy = res.commentedBy;
-      })
+      console.log(ev);
+      this.selectedRowGroup = ev.selected;
     }
   }
 
 
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
-
-    this.updateFormData.priority = this.rowData.statusValue;
-    this.updateFormData.follow_type = this.rowData.follow_type;
-    this.updateFormData.status = this.rowData.status.toString();
-    this.updateFormData.followUpDate = moment(this.rowData.followUpDate).format('YYYY-MM-DD');
+    this.updateFormData.priority = this.selectedRow.statusValue;
+    this.updateFormData.follow_type = this.selectedRow.follow_type;
+    this.updateFormData.status = this.selectedRow.status.toString();
+    this.updateFormData.followUpDate = moment(this.selectedRow.followUpDate).format('YYYY-MM-DD');
     this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
     console.log(this.updateFormData);
-    this.postdata.updateEnquiryForm(this.rowData.institute_enquiry_id, this.updateFormData).subscribe(res => {
+    this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData).subscribe(res => {
       alert('data updated' + res);
       this.closePopup();
     })
@@ -770,7 +752,8 @@ export class EnquiryManageComponent implements OnInit {
 
   /* Delete Enquiry  */
   DeleteEnquiry() {
-    this.postdata.deleteEnquiryById(this.rowData.institute_enquiry_id).subscribe(
+    console.log(this.selectedRow);
+    this.postdata.deleteEnquiryById(this.selectedRow.institute_enquiry_id).subscribe(
       res => { alert("Enquiry Has been Deleted"); this.closePopup(); this.busy = this.loadTableDatatoSource(this.instituteData); },
       err => { alert("admitted/converted/registered enquiry cannot be deleted" + err.message); this.closePopup(); this.busy = this.loadTableDatatoSource(this.instituteData); }
     )
@@ -779,12 +762,14 @@ export class EnquiryManageComponent implements OnInit {
 
   /* Make Registration Payment Data update */
   registerPayment() {
-    this.registrationForm.institute_enquiry_id = this.rowData.institute_enquiry_id.toString();
+    this.registrationForm.institute_enquiry_id = this.selectedRow.institute_enquiry_id.toString();
     this.postdata.updateRegisterationPayment(this.registrationForm).subscribe(
       res => { alert("registration added" + res) },
       err => { alert("err" + err) }
     );
   }
+
+
 
   /* Function to perform advanced filter and update table data */
   filterAdvanced() {
@@ -797,10 +782,14 @@ export class EnquiryManageComponent implements OnInit {
     });
   }
 
+
+
   /* common function to close popups */
   closePopup() {
     this.pops.changeMessage('');
   }
+
+
 
   /* fetch subject when user selects any standard on select menu */
   fetchEnquirySubject() {
@@ -836,6 +825,9 @@ export class EnquiryManageComponent implements OnInit {
     }
   }
 
+
+
+
   incrementStartIndex() {
     if (this.incrementFlag) {
       return this.instituteData.start_index + this.instituteData.batch_size + 1;
@@ -844,6 +836,8 @@ export class EnquiryManageComponent implements OnInit {
       return this.instituteData.start_index;
     }
   }
+
+
 
   /* Fetch previous set of data from server and update table */
   fetchPrevious() {
@@ -862,6 +856,8 @@ export class EnquiryManageComponent implements OnInit {
     }
   }
 
+
+
   /* Fetches Data as per the user selected batch size */
   updateTableBatchSize(num) {
     this.displayBatchSize = parseInt(num);
@@ -875,9 +871,45 @@ export class EnquiryManageComponent implements OnInit {
   }
 
 
+
+
   /* Fetch Table Data as per Page Number */
   fetchDataByPage(pid) {
     console.log(pid);
+  }
+
+
+  /* Toggle DropDown Menu on Click */
+  bulkActionFunction() {
+    document.getElementById("bulk-drop").classList.toggle("show");
+  }
+
+
+
+  // Function to close the open menu if the user clicks outside of them
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+
+    /* Hide Bulk-action dropdown on click outside button */
+    if (!this.validateElementForId(event.target, "bulk-action")) {
+      var dropdowns = document.getElementsByClassName("bulk-dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+
+    /* Future Purpose */
+  }
+
+
+  validateElementForId(HTMLElement, id: string): boolean {
+    if (HTMLElement.id === id) {
+      return true;
+    }
   }
 
 }

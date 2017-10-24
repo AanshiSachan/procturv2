@@ -82,10 +82,9 @@
     box-sizing: border-box;
     z-index: 1;
     left: 0;
-    top: 70%;
+    top: 100%;
     transition: all 0.3s;
-    visibility: hidden;
-    opacity: 0;
+    opacity: 1;
     box-shadow: 0px 2px 1px #e2e0e0;
     .field-wrapper {
         margin: 15px 0;
@@ -152,7 +151,7 @@
         }
     }
     .report-icon {
-        //background: url('../../../../assets/images/expensesg.svg') no-repeat;
+        background: url(../../../../assets/images/expensesg.svg) no-repeat;
         margin-left: 25px;
     }
     .report-icon,
@@ -238,7 +237,7 @@
     font-size: 14px;
     font-weight: 600;
     color: $redBtn;
-    display: none;
+    cursor: pointer;
     svg {
         width: 15px;
         display: inline-block;
@@ -553,6 +552,11 @@ ul.customDropdown li:hover {
 
 
 /* Data table Settings */
+
+.student-table{
+    max-height: 300px;
+    overflow: scroll;
+}
 
 :host /deep/ ng2-smart-table table > thead > tr:first-child{
     background: #f7f7f7;

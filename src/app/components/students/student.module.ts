@@ -4,6 +4,7 @@ import {StudentsComponent}    from './students.component';
 import {StudentAddComponent}  from './student-add/student-add.component'
 import {StudentHomeComponent} from './student-home/student-home.component';
 import {StudentRoutingModule} from './student-routing.module';
+import {AddStudentPrefillService} from '../../services/student-services/add-student-prefill.service';
 
 
 import { DatePickerModule } from 'angular-io-datepicker';
@@ -36,6 +37,9 @@ import { NgDatepickerModule } from 'ng2-datepicker';
         StudentsComponent,
         StudentAddComponent,
         StudentHomeComponent,
+    ],
+    providers: [
+        AddStudentPrefillService
     ]
 })
 export class StudentModule {
