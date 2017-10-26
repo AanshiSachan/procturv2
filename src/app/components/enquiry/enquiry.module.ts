@@ -1,15 +1,15 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {CustomModule} from '../custom/custom.module';
 import {EnquiryComponent} from './enquiry.component';
 import {EnquiryAddComponent} from './enquiry-add/enquiry-add.component';
 import {EnquiryBulkaddComponent} from './enquiry-bulkadd/enquiry-bulkadd.component';
 import {EnquiryManageComponent} from './enquiry-manage/enquiry-manage.component';
 import {EnquiryRoutingModule} from "./enquiry-routing.module";
-import { PopUpComponent } from '../custom/pop-up/pop-up.component';
 import {ActionButtonComponent} from './enquiry-manage/action-button.component';
 import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
-import {FormInput} from '../../directives/form-input.directive';
-
+import {EnquiryPopUpComponent} from './enquiry-pop-up/enquiry-pop-up.component';
+import {EnquiryInput} from './enquiry-directives/enquiry-input.directive';
 
 
 /* Modules */
@@ -37,6 +37,7 @@ import { NgDatepickerModule } from 'ng2-datepicker';
         NgDatepickerModule,
         CommonModule,
         EnquiryRoutingModule,
+        CustomModule
       ],
     declarations: [
         EnquiryComponent,
@@ -44,9 +45,9 @@ import { NgDatepickerModule } from 'ng2-datepicker';
         EnquiryBulkaddComponent,
         EnquiryManageComponent,
         ActionButtonComponent,
-        PopUpComponent,
         EnquiryEditComponent,
-        FormInput
+        EnquiryPopUpComponent,
+        EnquiryInput
     ],
     entryComponents: [
         ActionButtonComponent

@@ -1,0 +1,680 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+
+.middle-section {
+    padding: 15px;
+}
+
+.boxPadding15 {
+    box-sizing: $border-box;
+    padding: 0 15px;
+}
+
+.middle-left {
+    width: 70%;
+    @extend .boxPadding15;
+}
+
+.middle-right {
+    width: 30%;
+    box-sizing: $border-box;
+    padding: 0 15px;
+    @extend .boxPadding15;
+}
+
+.accordian-section {
+  padding: 15px 10px 0;
+  .accordian-heading {
+      h4 {
+          font-size: 14px;
+          font-weight: 600;
+          color: #ddd;
+          .open-accor {
+              display: none;
+              float: $pull-R;
+              width: 24px;
+              font-size: 24px;
+              height: 24px;
+              text-align: center;
+              border: 1px solid $common-blue;
+              border-radius: 50%;
+              line-height: 24px;
+              margin-right: 4px;
+              margin-top: 3px;
+              cursor: pointer;
+              color: $common-blue;
+          }
+          .close-accor {
+              //display: none;
+              float: $pull-R;
+              width: 24px;
+              font-size: 31px;
+              height: 24px;
+              text-align: center;
+              border: 1px solid $common-blue;
+              border-radius: 50%;
+              line-height: 16px;
+              margin-right: 4px;
+              margin-top: 3px;
+              cursor: pointer;
+              color: $common-blue;
+              font-weight: 400;
+          }
+      }
+  }
+  .accordian-content {
+      padding-left: 50px;
+  }
+  .accordian {
+      &>li {
+          position: relative;
+          padding-bottom: 25px;
+          &:before {
+              content: '';
+              width: 1px;
+              height: 90.5%;
+              position: absolute;
+              background: #cccccc;
+              z-index: 0;
+              left: 15px;
+              top: 34px;
+              display: block;
+          }
+          &:last-child:before {
+              display: none;
+          }
+          &.active,
+          &.data-filled {
+              .circle-accor {
+                  background: $leftMenuHoverBg;
+                  color: $bg-white;
+                  border-color: $leftMenuHoverBg;
+              }
+              .accordian-heading {
+                  h4 {
+                      color: #333;
+                  }
+              }
+          }
+          &.data-filled {
+              .accordian-content {
+                  display: none;
+              }
+              .accordian-heading {
+                  h4 {
+                      color: #444;
+                      border: 1px solid #eaecee;
+                      padding: 1px;
+                      border-radius: 20px;
+                      background: #e6f2fe;
+                      .open-accor {
+                          display: block;
+                      }
+                      .close-accor {
+                          display: none;
+                      }
+                  }
+              }
+          }
+          &.data-filled.active {
+              .accordian-content {
+                  display: block;
+              }
+              .accordian-heading {
+                  h4 {
+                      .open-accor {
+                          display: none;
+                      }
+                      .close-accor {
+                          display: block;
+                      }
+                  }
+              }
+          }
+      }
+  }
+}
+
+.more-detail {
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.circle-accor {
+  display: inline-block;
+  width: 32px;
+  border-radius: 50%;
+  text-align: center;
+  box-sizing: border-box;
+  padding-top: 4px;
+  font-size: 14px;
+  background: #f0f0f0;
+  height: 32px;
+  border: 1px solid #bbb;
+  margin-right: 5px;
+  color: #ceced1;
+  padding: 0;
+  line-height: 30px;
+}
+
+.form-type2,
+.form-type1 {
+  max-width: 360px;
+}
+
+.paddingR30 {
+  padding-right: 30px;
+}
+
+.form-type2 {
+  .field-wrapper {
+      padding-right: 35px;
+  }
+  .customSelectWrapper:after {
+      right: 35px;
+  }
+}
+
+.questionInfo {
+  position: absolute;
+  right: 0px;
+  bottom: 5px;
+  height: 20px;
+  width: 20px;
+  z-index: 2;
+  .qInfoIcon {
+      width: 20px;
+      height: 20px;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      display: block;
+      text-align: center;
+      box-sizing: border-box;
+      line-height: 20px;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      box-shadow: 0px 0px 1px 0px #ccc inset;
+      color: #888;
+      transition: all 0.6s linear;
+      &:hover {
+          border-color: $header-bg;
+          box-shadow: 0px 0px 1px 0px $header-bg inset;
+          color: $header-bg;
+      }
+  }
+}
+
+.create-institution {
+  position: absolute;
+  right: -98px;
+  white-space: nowrap;
+  bottom: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.shadow-box {
+    box-shadow: 0px 2px 2px #7d7d7d;
+    padding: 7px;
+    // background: $header-bg;
+    border-radius: 2px;
+    background: $lightBlue;
+}
+
+.last-added-info {
+    ul {
+        li {
+            line-height: normal;
+            padding: 2px 0;
+            display: inline-block;
+            width: 100%;
+            vertical-align: top;
+        }
+    }
+    font-size: 12px;
+    strong {
+        font-weight: 600;
+        color: #28384a;
+    }
+    .view-details {
+        float: right;
+        font-size: 11px;
+        a {
+            // color: #777777;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    .enquiry-time {
+        float: right;
+        font-size: 10px;
+        color: #28384a;
+        margin-top: 4px;
+    }
+}
+
+
+/*=======================Right bottom lite shadow box======================*/
+
+.box-shadow-lite {
+    box-shadow: 0px 1px 2px 0px #ccc;
+    padding: 10px 0 10px 10px;
+    border-top: 1px solid #e8e8e8;
+    .field-wrapper {
+        padding-right: 40px;
+        .open-accor {
+            width: 17px;
+            font-size: 17px;
+            height: 17px;
+            line-height: 18px;
+            position: absolute;
+            right: 4px;
+            top: 19px;
+            z-index: 2;
+        }
+        &:first-child {
+            margin-top: -10px;
+        }
+    }
+}
+
+.common-right-section {
+    margin-top: 30px;
+    h4 {
+        margin-bottom: 7px;
+        color: #28383A;
+        font-size: 16px;
+        strong {
+            font-weight: 600;
+        }
+    }
+    .clear-detail {
+        margin-top: 10px;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+}
+
+.follow-up-date-icon {
+    position: absolute;
+    position: absolute;
+    right: 7px;
+    top: 20px;
+    cursor: pointer;
+    img {
+        width: 21px;
+    }
+}
+
+
+
+/* popUp Scss */
+
+.popupWrapper {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    top: 60px;
+    right: 0;
+    left: 0px;
+    background: rgba(230, 230, 230, 0.5);
+    z-index: 100;
+    // display: none;  
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;
+    .popup {
+        max-width: 850px;
+        // max-height: 350px;
+        width: 100%;
+        height: auto;
+        left: 0;
+        right: 0;
+        top: 5%;
+        bottom: 0;
+        margin: auto;
+        // transform: translateY(-50%);
+    }
+}
+
+.popup-wrapper {
+    padding: 20px 20px;
+    // height: 100%;
+    box-sizing: border-box;
+    box-shadow: 1px 8px 20px 5px #9c9c9c;
+    transition: unset;
+    background: #fff;
+    h2 {
+        margin-bottom: 15px;
+        font-size: 22px;
+    }
+    h4 {
+        margin: 25px 0 15px;
+        font-weight: 600;
+    }
+}
+
+.closePopup {
+    right: 10px;
+    top: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 20px;
+    width: 26px;
+    height: 26px;
+    box-sizing: border-box;
+    text-align: center;
+    padding-top: 3px;
+    display: none;
+    &.bottomRight {
+        bottom: 2px;
+        top: auto;
+        left: auto;
+        right: 0;
+    }
+    &.topLeft {
+        left: 0;
+        right: auto;
+        top: 1px;
+        bottom: auto;
+    }
+    &.bottomLeft {
+        left: 0;
+        right: auto;
+        bottom: 2px;
+        top: auto;
+    }
+    svg {
+        width: 16px;
+        .cls-1 {
+            stroke: #c1c1c1;
+            stroke-width: 2px;
+        }
+    }
+    &:hover {
+        .cls-1 {
+            stroke: $common-blue;
+        }
+    }
+}
+
+.popup-content {
+    height: 100%;
+    overflow: hidden;
+    visibility: visible;
+}
+
+.fadeIn {
+    opacity: 1;
+    visibility: visible;
+}
+
+// =======================================css for mob popup
+.popupWrapperMob {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.5);
+    visibility: hidden;
+    // opacity: 0;
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;
+    .closePopup {
+        right: -25px;
+        top: -27px;
+        display: block;
+    }
+}
+
+.popup-mob {
+    left: 0;
+    width: 100%;
+    max-height: 70%;
+    background: #fff;
+    padding: 30px;
+    box-sizing: border-box;
+    height: 100%;
+    overflow: auto;
+    z-index: 1;
+    bottom: -70%;
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;
+}
+
+.popupWrapperMob.showPopupMob {
+    z-index: 100;
+    visibility: visible;
+    opacity: 1;
+}
+
+.popupWrapperMob.showPopupMob .popup-mob {
+    bottom: 0;
+}
+
+
+.fee-install-table {
+    .table-responsive {
+        table {
+            th,
+            td {
+                text-align: center;
+                padding: 10px 5px;
+            }
+            th {
+                text-transform: capitalize;
+                font-size: 14px;
+            }
+            tbody {
+                tr {
+                    td {
+                        .field-checkbox-wrapper {
+                            display: inline-block;
+                            overflow: initial;
+                            margin-left: 0;
+                            width: auto;
+                            position: relative;
+                            background: transparent;
+                            .form-checkbox {
+                                z-index: 2;
+                            }
+                            .form-checkbox+label {
+                                font-size: 16px;
+                                margin-left: 7px;
+                                font-weight: 600;
+                                vertical-align: middle;
+                                &:after,
+                                &:before {
+                                    z-index: 1;
+                                }
+                            }
+                            &:after {
+                                content: '';
+                                width: 20px;
+                                height: 20px;
+                                background: #fff;
+                                left: 0;
+                                top: 0;
+                                position: absolute;
+                            }
+                        }
+                        .fa-trash-o {
+                            color: $redBtn;
+                            font-size: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*=========================================registration popup form css==================*/
+
+.registration-fee-form {
+    overflow: hidden;
+}
+
+.print-output-section {
+    margin: 35px 0 25px;
+    border-top: 1px solid $border-color;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $border-color;
+    text-align: center;
+    font-size: 0;
+    li {
+        display: inline-block;
+        padding: 0 15px;
+        box-sizing: border-box;
+        width: 25%;
+        border-right: 1px solid $border-color;
+        font-size: 15px;
+        cursor: pointer;
+        color: #929292;
+        &:last-child {
+            border-right: 0;
+        }
+        &:hover {
+            color: $common-blue;
+        }
+        svg {
+            width: 30px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+            .cls-1 {
+                stroke: none;
+                stroke: #929292;
+            }
+        }
+        &.svg-icon {
+            .cls-1 {
+                stroke: none;
+            }
+            .cls-2 {
+                stroke: #929292;
+            }
+            &:hover {
+                .cls-2 {
+                    stroke: $common-blue;
+                }
+            }
+        }
+        &:first-child:hover {
+            svg {
+                .cls-1 {
+                    stroke: $common-blue;
+                }
+            }
+        }
+    }
+}
+
+
+/*=======================================confirmation =========================*/
+
+.confirmation-popup-content {
+    line-height: normal;
+    &>div {
+        margin-bottom: 10px;
+        &:first-child {
+            margin-bottom: 20px;
+        }
+        a,
+        p {
+            font-size: 16px;
+            line-height: 22px;
+        }
+        a {
+            font-weight: 600;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    }
+    strong {
+        font-weight: 600;
+    }
+    .add-form-btns {
+        a {
+            margin-left: 20px;
+            font-size: 14px;
+        }
+    }
+}
+
+.popup-btn {
+    margin-top: 20px;
+    .btn {
+        font-size: 16px;
+        height: 40px;
+        color: #333;
+        &.redBtn {
+            color: $bg-white;
+            min-width: 160px;
+        }
+    }
+}
+
+.update-enquiry-form table th {
+    text-align: left;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.update-enquiry-form table td {
+    text-align: left;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.enquiry-update-history {
+    max-height: 110px;
+    overflow: auto;
+}
+
+.update-enquiry-form {
+    .row {
+        margin: 10px -15px 20px;
+    }
+}
+
+.confirmation-popup-content:after {
+    content: '';
+    height: 8px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #8bc34a;
+}
+
+.row.extraMargin {
+    margin: 10px -15px 20px;
+}
+
+.unstyled-calendar::-webkit-inner-spin-button,
+.unstyled-calendar::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none;    
+}

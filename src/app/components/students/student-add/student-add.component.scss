@@ -17,6 +17,10 @@
     }
 }
 
+.navigator{
+
+}
+
 .common-right-section {
     &:first-child {
         margin-top: 15px;
@@ -335,6 +339,64 @@
 }
 
 
+.fee-install-table {
+    margin: 10px 0px 0px 0px;
+    .table-responsive {
+        max-height: 400px;
+        table {
+            th,
+            td {
+                text-align: center;
+                padding: 10px 5px;
+            }
+            th {
+                text-transform: capitalize;
+                font-size: 14px;
+            }
+            tbody {
+                tr {
+                    td {
+                        .field-checkbox-wrapper {
+                            display: inline-block;
+                            overflow: initial;
+                            margin-left: 0;
+                            width: auto;
+                            position: relative;
+                            background: transparent;
+                            .form-checkbox {
+                                z-index: 2;
+                            }
+                            .form-checkbox+label {
+                                font-size: 16px;
+                                margin-left: 7px;
+                                font-weight: 600;
+                                vertical-align: middle;
+                                &:after,
+                                &:before {
+                                    z-index: 1;
+                                }
+                            }
+                            &:after {
+                                content: '';
+                                width: 16px;
+                                height: 16px;
+                                background: #fff;
+                                left: 0;
+                                top: 0;
+                                position: absolute;
+                            }
+                        }
+                        .fa-trash-o {
+                            color: $redBtn;
+                            font-size: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 /* import accordian css*/
 
 
@@ -399,6 +461,8 @@
 }
 
 
+
+
 /*=======================Right bottom lite shadow box======================*/
 
 .box-shadow-lite {
@@ -450,6 +514,13 @@
         width: 21px;
     }
 }
+
+.unstyled-calendar::-webkit-inner-spin-button,
+.unstyled-calendar::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none;    
+}
+
+
 
 /* ======================== Responsive Data ================================== */
 

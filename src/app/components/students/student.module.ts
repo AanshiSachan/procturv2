@@ -1,10 +1,13 @@
-import {NgModule}       from '@angular/core';
-import {CommonModule}   from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {CustomModule} from '../custom/custom.module';
 import {StudentsComponent}    from './students.component';
 import {StudentAddComponent}  from './student-add/student-add.component'
 import {StudentHomeComponent} from './student-home/student-home.component';
 import {StudentRoutingModule} from './student-routing.module';
 import {AddStudentPrefillService} from '../../services/student-services/add-student-prefill.service';
+import {studentInput} from './student-directives/student-input.directive';
+import {StudentPopUpComponent} from './student-pop-up/student-pop-up.component';
 
 
 import { DatePickerModule } from 'angular-io-datepicker';
@@ -31,12 +34,15 @@ import { NgDatepickerModule } from 'ng2-datepicker';
         Ng2SmartTableModule,
         BusyModule,
         NgLoggerModule.forRoot(Level.LOG),
-        NgDatepickerModule
+        NgDatepickerModule,
+        CustomModule
       ],
     declarations: [
         StudentsComponent,
         StudentAddComponent,
         StudentHomeComponent,
+        studentInput,
+        StudentPopUpComponent
     ],
     providers: [
         AddStudentPrefillService

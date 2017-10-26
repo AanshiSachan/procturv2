@@ -34,6 +34,7 @@ export class FetchprefilldataService {
   urlAddReferer: string;   // add new reference
   urlPaymentModes: string;  // payment methods
   urlFetchComments: string; // fetch data for update enquiry
+  urlCustomComponent: string; //url for custom component
 
   Authorization: string; 
   headers: Headers; 
@@ -130,7 +131,7 @@ export class FetchprefilldataService {
     })
   }
 
-  /* fetch prefill data institute name*/  
+  /* return the list of institute name and their respective ID */  
   getSchoolDetails(): any {
 
     this.urlSchool = "https://app.proctur.com/StdMgmtWebAPI/api/v1/schools/all/" +this.institute_id +"?active=Y";
@@ -211,6 +212,8 @@ export class FetchprefilldataService {
     });
   }
 
+
+
   /* function to create new enquiry */    
   postNewEnquiry(data) {
     let responseData: any;
@@ -260,6 +263,8 @@ export class FetchprefilldataService {
     });
   }
 
+
+
   /* function to create new source */    
   createSource(data) {
     let response: any = null;
@@ -269,6 +274,8 @@ export class FetchprefilldataService {
       return response;
     })
   }
+
+
 
   /* function to create new reference */    
   createReferer(data) {
@@ -280,6 +287,8 @@ export class FetchprefilldataService {
     })
   }
 
+
+
   /* fetch payment modes */
   fetchPaymentModes(){
 
@@ -290,12 +299,27 @@ export class FetchprefilldataService {
       err => {alert(err.json())})
   }
 
+
+
   /* Fetch comments for the selected enquiryID */
   fetchCommentsForEnquiry(id){
     this.urlFetchComments = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/comments/" +this.institute_id +"/" +id;
     return this.http.get(this.urlFetchComments, {headers: this.headers})
     .map(data => {
       return data.json();
-    })}
+    })
+  }
+
+
+
+  /* return the list of custom component for the selected institute ID */
+  fetchCustomComponent(): any{
+    this.urlCustomComponent = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=undefined&student_enq_id=&page=2";
+    return this.http.get(this.urlCustomComponent, {headers: this.headers})
+    .map(
+      data => {return data.json},
+      err => { console.log("an error occurred while fetching custom component for student add view");}
+    );
+  }
 
 }

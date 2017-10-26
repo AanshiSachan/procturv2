@@ -25,11 +25,15 @@ import {AuthenticatorService} from './services/authenticator.service';
 import {LoginService} from './services/login-services/login.service';
 import {AlertService} from './services/alert.service';
 
+
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+
 /* Interceptors */
 import { LoadInterceptor } from './interceptors/load-interceptor';
 
 /* Modules */
 import {AppRoutingModule} from './app-routing.module';
+import { CourseComponent } from './components/course/course.component';
 
 
 
@@ -40,6 +44,7 @@ import {AppRoutingModule} from './app-routing.module';
     CoreSidednavComponent,
     CoreHeaderComponent,
     LoginComponent,
+    CourseComponent,
     ],
   entryComponents: [
   ],
@@ -53,6 +58,7 @@ import {AppRoutingModule} from './app-routing.module';
     HttpClientModule,
     HttpModule,
     BrowserAnimationsModule,
+    Ng2SmartTableModule
   ],
   providers: [
     FetchenquiryService,

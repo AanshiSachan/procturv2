@@ -52,7 +52,7 @@
             <div class="row">
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="advancedFilterForm.filtered_statuses" name="status" formInput Iselector>
+                  <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="advancedFilterForm.filtered_statuses" name="status" enquiryInput Iselector>
                     <option value=""></option>
                     <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
                   </select>
@@ -61,7 +61,7 @@
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="enquiryPriority" class="form-ctrl" [(ngModel)]="advancedFilterForm.priority" name="priority" formInput>
+                  <select id="enquiryPriority" class="form-ctrl" [(ngModel)]="advancedFilterForm.priority" name="priority" enquiryInput>
                     <option></option>
                     <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
                       {{priority.data_value}}
@@ -72,7 +72,7 @@
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="followupType" class="form-ctrl" [(ngModel)]="advancedFilterForm.follow_type" name="followType" formInput>
+                  <select id="followupType" class="form-ctrl" [(ngModel)]="advancedFilterForm.follow_type" name="followType" enquiryInput>
                     <option></option>
                     <option *ngFor="let follow of enqFollowType" [value]="follow.data_key">
                       {{ follow.data_value }}
@@ -83,7 +83,7 @@
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="assignTo" class="form-ctrl" [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo" formInput>
+                  <select id="assignTo" class="form-ctrl" [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo" enquiryInput>
                     <option></option>
                     <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
                       {{ assigned.name }}
@@ -97,7 +97,7 @@
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
                   <select id="standard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" name="standard" (ngModelChange)="fetchEnquirySubject()"
-                    formInput>
+                    enquiryInput>
                     <option></option>
                     <option *ngFor="let std of enqStd" [value]="std.standard_id">
                       {{ std.standard_name }}
@@ -108,7 +108,7 @@
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="selectSub" class="form-ctrl" [(ngModel)]="advancedFilterForm.subject_id" name="subject" formInput>
+                  <select id="selectSub" class="form-ctrl" [(ngModel)]="advancedFilterForm.subject_id" name="subject" enquiryInput>
                     <option></option>
                     <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">
                       {{ subject.subject_name }}
@@ -119,7 +119,7 @@
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="scholarship" class="form-ctrl" formInput>
+                  <select id="scholarship" class="form-ctrl" enquiryInput>
                     <option></option>
                     <option *ngFor="let schol of enqScholarship" [value]="schol">
                       {{ schol }}
@@ -130,7 +130,7 @@
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper">
-                  <select id="subject2" class="form-ctrl" name="subject2" formInput>
+                  <select id="subject2" class="form-ctrl" name="subject2" enquiryInput>
                     <option></option>
                     <option *ngFor="let state of enqSub2" [value]="state">
                       {{ state }}
@@ -144,21 +144,21 @@
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper datePickerBox has-value">
                   <input type="text" value="" id="updateDate" class="form-ctrl unstyled-calendar" [(ngModel)]="advancedFilterForm.updateDate"
-                    name="UD" onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput/>
+                    name="UD" onfocus="(this.type='date')" onfocusout="(this.type='text')" enquiryInput/>
                   <label for="updateDate">Update Date</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper datePickerBox has-value">
                   <input type="text" value="" id="enquiryFromDate" class="form-ctrl unstyled-calendar" [(ngModel)]="advancedFilterForm.enquireDateFrom"
-                    name="EFD" onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput/>
+                    name="EFD" onfocus="(this.type='date')" onfocusout="(this.type='text')" enquiryInput/>
                   <label for="enquiryFromDate">Enquiry From Date</label>
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper datePickerBox has-value">
                   <input type="text" value="" id="enquiryToDate" class="form-ctrl unstyled-calendar" [(ngModel)]="advancedFilterForm.enquireDateTo"
-                    name="ETD" onfocus="(this.type='date')" onfocusout="(this.type='text')" formInput/>
+                    name="ETD" onfocus="(this.type='date')" onfocusout="(this.type='text')" enquiryInput/>
                   <label for="enquiryToDate">Enquiry To Date</label>
                 </div>
               </div>
@@ -313,7 +313,7 @@
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
-                    <select id="priorityEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.priority" name="priority" formInput>
+                    <select id="priorityEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.priority" name="priority" enquiryInput>
                       <option></option>
                       <option *ngFor="let priority of enqPriority" [value]="priority.data_value" [attr.selected]="priority.data_value == selectedRow.priority ? '' : null">
                         {{priority.data_value}}
@@ -325,7 +325,7 @@
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
                     <select id="selectFollowupEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.follow_type" name="follow_type"
-                      formInput>
+                      enquiryInput>
                       <option></option>
                       <option *ngFor="let followT of enqFollowType" [value]="followT.data_value" [attr.selected]="followT.data_value == selectedRow.follow_type ? '' : null">
                         {{followT.data_value}}
@@ -339,14 +339,14 @@
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value datePickerBox">
                     <input type="text" class="form-ctrl" value="{{selectedRow.followUpDate | date: 'dd/MM/yyyy'}}" placeholder="" [(ngModel)]="selectedRow.followUpDate"
-                      id="followUPdateEdit" formInput/>
+                      id="followUPdateEdit" enquiryInput/>
                     <label for="followUPdateEdit">Follow Up Date</label>
                   </div>
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
                     <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.statusValue" name="statusValue"
-                      formInput>
+                      enquiryInput>
                       <option></option>
                       <option *ngFor="let status of enqstatus" [value]="status.data_value" [attr.selected]="status.data_value == selectedRow.statusValue ? '' : null">
                         {{status.data_value}}
@@ -360,13 +360,13 @@
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value datePickerBox">
                     <input type="text" value="{{today | date: 'dd/MM/yyyy'}}" placeholder="" id="commentDateEdit" class="form-ctrl" [(ngModel)]="updateFormData.commentDate"
-                      formInput/>
+                      enquiryInput/>
                     <label for="commentDateEdit">Comment Date</label>
                   </div>
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper">
-                    <input type="text" value="" placeholder="" id="addcommentEdit" class="form-ctrl" [(ngModel)]="updateFormData.comment" formInput/>
+                    <input type="text" value="" placeholder="" id="addcommentEdit" class="form-ctrl" [(ngModel)]="updateFormData.comment" enquiryInput/>
                     <label for="addcommentEdit">Add Comment Edit</label>
                   </div>
                 </div>
@@ -508,13 +508,13 @@
               <div class="row extraMargin">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
-                    <input type="text" value="" id="pDate" class="form-ctrl" [ngModel]="registrationForm.paymentDate" name="pDate" formInput/>
+                    <input type="text" value="" id="pDate" class="form-ctrl" [ngModel]="registrationForm.paymentDate" name="pDate" enquiryInput/>
                     <label for="pDate">Payment Date</label>
                   </div>
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper">
-                    <select id="paymentMode" class="form-ctrl" [(ngModel)]="registrationForm.paymentMode" formInput>
+                    <select id="paymentMode" class="form-ctrl" [(ngModel)]="registrationForm.paymentMode" enquiryInput>
                       <option></option>
                       <option *ngFor="let payment of paymentMode" [value]="payment">
                         {{payment}}
@@ -527,14 +527,14 @@
               <div class="row extraMargin">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper">
-                    <input type="text" value="" id="remark" class="form-ctrl" [(ngModel)]="registrationForm.amount" name="remark" formInput/>
+                    <input type="text" value="" id="remark" class="form-ctrl" [(ngModel)]="registrationForm.amount" name="remark" enquiryInput/>
                     <label for="remark">Remarks</label>
                   </div>
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper">
                     <input type="text" value="" id="referenceNo" class="form-ctrl" [(ngModel)]="registrationForm.reference" name="reference"
-                      formInput/>
+                      enquiryInput/>
                     <label for="referenceNo">Reference No.</label>
                   </div>
                 </div>
