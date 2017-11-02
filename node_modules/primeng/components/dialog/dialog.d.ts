@@ -1,9 +1,13 @@
-import { ElementRef, AfterViewInit, AfterViewChecked, OnDestroy, EventEmitter, Renderer2 } from '@angular/core';
+import { ElementRef, AfterViewInit, AfterViewChecked, OnDestroy, EventEmitter, Renderer2, QueryList, NgZone } from '@angular/core';
 import { DomHandler } from '../dom/domhandler';
+import { Header } from '../common/shared';
 export declare class Dialog implements AfterViewInit, AfterViewChecked, OnDestroy {
     el: ElementRef;
     domHandler: DomHandler;
     renderer: Renderer2;
+    zone: NgZone;
+    id: string;
+    ariaLabelledBy: string;
     header: string;
     draggable: boolean;
     resizable: boolean;
@@ -26,8 +30,10 @@ export declare class Dialog implements AfterViewInit, AfterViewChecked, OnDestro
     showHeader: boolean;
     breakpoint: number;
     blockScroll: boolean;
-    headerFacet: any;
-    footerFacet: any;
+    autoZIndex: boolean;
+    baseZIndex: number;
+    headerFacet: QueryList<Header>;
+    footerFacet: QueryList<Header>;
     containerViewChild: ElementRef;
     headerViewChild: ElementRef;
     contentViewChild: ElementRef;
@@ -36,11 +42,11 @@ export declare class Dialog implements AfterViewInit, AfterViewChecked, OnDestro
     visibleChange: EventEmitter<any>;
     _visible: boolean;
     dragging: boolean;
-    documentDragListener: Function;
+    documentDragListener: any;
     resizing: boolean;
-    documentResizeListener: Function;
-    documentResizeEndListener: Function;
-    documentResponsiveListener: Function;
+    documentResizeListener: any;
+    documentResizeEndListener: any;
+    documentResponsiveListener: any;
     documentEscapeListener: Function;
     maskClickListener: Function;
     lastPageX: number;
@@ -51,7 +57,7 @@ export declare class Dialog implements AfterViewInit, AfterViewChecked, OnDestro
     preventVisibleChangePropagation: boolean;
     executePostDisplayActions: boolean;
     initialized: boolean;
-    constructor(el: ElementRef, domHandler: DomHandler, renderer: Renderer2);
+    constructor(el: ElementRef, domHandler: DomHandler, renderer: Renderer2, zone: NgZone);
     visible: boolean;
     ngAfterViewChecked(): void;
     show(): void;
@@ -70,6 +76,7 @@ export declare class Dialog implements AfterViewInit, AfterViewChecked, OnDestro
     endDrag(event: MouseEvent): void;
     initResize(event: MouseEvent): void;
     onResize(event: MouseEvent): void;
+    onResizeEnd(event: MouseEvent): void;
     bindGlobalListeners(): void;
     unbindGlobalListeners(): void;
     bindDocumentDragListener(): void;
@@ -78,6 +85,7 @@ export declare class Dialog implements AfterViewInit, AfterViewChecked, OnDestro
     unbindDocumentResizeListeners(): void;
     bindDocumentResponsiveListener(): void;
     unbindDocumentResponsiveListener(): void;
+    onWindowResize(event: any): void;
     bindDocumentEscapeListener(): void;
     unbindDocumentEscapeListener(): void;
     ngOnDestroy(): void;

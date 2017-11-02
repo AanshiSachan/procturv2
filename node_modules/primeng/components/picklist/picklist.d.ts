@@ -22,12 +22,15 @@ export declare class PickList implements AfterViewChecked, AfterContentInit {
     showTargetControls: boolean;
     sourceFilterPlaceholder: string;
     targetFilterPlaceholder: string;
+    disabled: boolean;
     onMoveToSource: EventEmitter<any>;
     onMoveAllToSource: EventEmitter<any>;
     onMoveAllToTarget: EventEmitter<any>;
     onMoveToTarget: EventEmitter<any>;
     onSourceReorder: EventEmitter<any>;
     onTargetReorder: EventEmitter<any>;
+    onSourceSelect: EventEmitter<any>;
+    onTargetSelect: EventEmitter<any>;
     listViewSourceChild: ElementRef;
     listViewTargetChild: ElementRef;
     templates: QueryList<any>;
@@ -55,7 +58,7 @@ export declare class PickList implements AfterViewChecked, AfterContentInit {
     constructor(el: ElementRef, domHandler: DomHandler, objectUtils: ObjectUtils);
     ngAfterContentInit(): void;
     ngAfterViewChecked(): void;
-    onItemClick(event: any, item: any, selectedItems: any[]): void;
+    onItemClick(event: any, item: any, selectedItems: any[], callback: EventEmitter<any>): void;
     onSourceItemDblClick(): void;
     onTargetItemDblClick(): void;
     onFilter(event: KeyboardEvent, data: any[], listType: number): void;
@@ -80,7 +83,7 @@ export declare class PickList implements AfterViewChecked, AfterContentInit {
     onDrop(event: DragEvent, index: number, listType: number): void;
     onDragEnd(event: DragEvent): void;
     onListDrop(event: DragEvent, listType: number): void;
-    insert(fromIndex: any, fromList: any, toIndex: any, toList: any): void;
+    insert(fromIndex: any, fromList: any, toIndex: any, toList: any, callback: any): void;
     onListMouseMove(event: MouseEvent, listType: number): void;
     onListDragLeave(): void;
 }

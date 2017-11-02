@@ -35,6 +35,7 @@ export class FetchprefilldataService {
   urlPaymentModes: string;  // payment methods
   urlFetchComments: string; // fetch data for update enquiry
   urlCustomComponent: string; //url for custom component
+  urlEnquiryByID: string; //url for enquiry edit data
 
   Authorization: string; 
   headers: Headers; 
@@ -45,7 +46,7 @@ export class FetchprefilldataService {
   /* set default value for each url, header and autherization on service creation */
   constructor(private http: Http, private auth: AuthenticatorService) {
     this.Authorization = this.auth.getAuthToken();
-    console.log(this.Authorization);
+    //console.log(this.Authorization);
     this.institute_id = this.auth.getInstituteId();
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
@@ -183,12 +184,12 @@ export class FetchprefilldataService {
     return this.http.get(this.urlLastDetail, { headers: this.headers })
       .map(res => {
         return res.json();
-      })
+      });
   }
 
   /* fetch prefill data as per the lead information provided */  
   fetchLeadDetails(number): any {
-    this.urlLeadDetails = "https://app.proctur.com/StdMgmtWebAPI/api/v1/campaign/getLeadDetailsForMobileNo/" + this.institute_id + number;
+    this.urlLeadDetails = "https://app.proctur.com/StdMgmtWebAPI/api/v1/campaign/getLeadDetailsForMobileNo/" + this.institute_id +"/" + number;
     //console.log(this.urlLeadDetails);
     return this.http.get(this.urlLeadDetails, { headers: this.headers })
       .map(res => {
@@ -314,12 +315,29 @@ export class FetchprefilldataService {
 
   /* return the list of custom component for the selected institute ID */
   fetchCustomComponent(): any{
-    this.urlCustomComponent = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=undefined&student_enq_id=&page=2";
+    this.urlCustomComponent = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=undefined&page=1";
     return this.http.get(this.urlCustomComponent, {headers: this.headers})
     .map(
-      data => {return data.json},
+      data => {return data.json();},
       err => { console.log("an error occurred while fetching custom component for student add view");}
     );
   }
+
+
+
+  /* return the data for user selected list to be edited */
+  fetchEnquiryByInstituteID(id): any{
+
+    this.urlEnquiryByID = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/" +this.institute_id +"/" +id;
+
+    return this.http.get(this.urlEnquiryByID, {headers: this.headers}).map(res => {
+      return res.json();
+    },
+    err => {
+      console.log("error loading row Data to Edit, please try again later");
+    })
+
+  }
+
 
 }

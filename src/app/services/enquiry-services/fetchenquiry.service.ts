@@ -24,6 +24,7 @@ export class FetchenquiryService {
   row: any = []; 
   filtered = [];
   institute_id: number;
+  urlDownloadTemplate: string;
 
   /* initialize the value of variables on service call */
   constructor(private http: Http, private auth: AuthenticatorService) {
@@ -34,6 +35,7 @@ export class FetchenquiryService {
     this.headers.append("Content-Type", "application/json");
     this.headers.append("Authorization", this.Authorization);
   }
+
 
   /* Function to fetch json data for all enquiry as per the input institute data  */
   getAllEnquiry(instituteData: instituteInfo): Observable<EnquiryCampaign[]> {
@@ -49,5 +51,17 @@ export class FetchenquiryService {
       });
   }
 
+
+  /* return the template user has to edit */
+  fetchDownloadTemplate(){
+    this.urlDownloadTemplate = "https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/download/bulkUploadEnquiriesTemplate";
+
+    return this.http.get(this.urlDownloadTemplate, {headers: this.headers}).map(
+      data => {return data.json()},
+      err => {console.log("error fetching template");}
+    )
+  }
+
+  
 
 }

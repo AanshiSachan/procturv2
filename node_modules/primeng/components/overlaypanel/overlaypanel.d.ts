@@ -1,6 +1,6 @@
-import { OnInit, AfterViewInit, OnDestroy, EventEmitter, Renderer2, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { AfterViewInit, AfterViewChecked, OnDestroy, EventEmitter, Renderer2, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { DomHandler } from '../dom/domhandler';
-export declare class OverlayPanel implements OnInit, AfterViewInit, OnDestroy {
+export declare class OverlayPanel implements AfterViewInit, AfterViewChecked, OnDestroy {
     el: ElementRef;
     domHandler: DomHandler;
     renderer: Renderer2;
@@ -18,15 +18,20 @@ export declare class OverlayPanel implements OnInit, AfterViewInit, OnDestroy {
     visible: boolean;
     documentClickListener: any;
     selfClick: boolean;
-    targetEvent: boolean;
     target: any;
+    willHide: boolean;
+    willShow: boolean;
+    targetClickEvent: boolean;
+    closeClick: boolean;
     constructor(el: ElementRef, domHandler: DomHandler, renderer: Renderer2, cd: ChangeDetectorRef);
-    ngOnInit(): void;
     ngAfterViewInit(): void;
+    ngAfterViewChecked(): void;
+    bindDocumentClickListener(): void;
+    unbindDocumentClickListener(): void;
     toggle(event: any, target?: any): void;
     show(event: any, target?: any): void;
     hide(): void;
-    onPanelClick(): void;
+    onPanelClick(event: any): void;
     onCloseClick(event: any): void;
     ngOnDestroy(): void;
 }

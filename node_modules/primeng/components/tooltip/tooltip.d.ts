@@ -29,6 +29,7 @@ export declare class Tooltip implements OnDestroy {
     onMouseLeave(e: Event): void;
     onFocus(e: Event): void;
     onBlur(e: Event): void;
+    onClick(e: Event): void;
     activate(): void;
     deactivate(useDelay: any): void;
     text: string;

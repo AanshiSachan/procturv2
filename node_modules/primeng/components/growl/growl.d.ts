@@ -13,14 +13,14 @@ export declare class Growl implements AfterViewInit, DoCheck, OnDestroy {
     style: any;
     styleClass: string;
     immutable: boolean;
+    autoZIndex: boolean;
+    baseZIndex: number;
     onClick: EventEmitter<any>;
     onHover: EventEmitter<any>;
     onClose: EventEmitter<any>;
     valueChange: EventEmitter<Message[]>;
     containerViewChild: ElementRef;
     _value: Message[];
-    zIndex: number;
-    container: HTMLDivElement;
     timeout: any;
     preventRerender: boolean;
     differ: any;

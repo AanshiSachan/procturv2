@@ -85,6 +85,7 @@ var Schedule = (function () {
             eventConstraint: this.eventConstraint,
             eventRender: this.eventRender,
             dayRender: this.dayRender,
+            navLinks: this.navLinks,
             dayClick: function (date, jsEvent, view) {
                 _this.onDayClick.emit({
                     'date': date,
@@ -442,6 +443,10 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", Function)
 ], Schedule.prototype, "dayRender", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], Schedule.prototype, "navLinks", void 0);
 __decorate([
     core_1.Input(),
     __metadata("design:type", Object)

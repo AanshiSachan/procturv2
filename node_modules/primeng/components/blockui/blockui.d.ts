@@ -4,6 +4,8 @@ export declare class BlockUI implements AfterViewInit, OnDestroy {
     el: ElementRef;
     domHandler: DomHandler;
     target: any;
+    autoZIndex: boolean;
+    baseZIndex: number;
     mask: ElementRef;
     _blocked: boolean;
     constructor(el: ElementRef, domHandler: DomHandler);

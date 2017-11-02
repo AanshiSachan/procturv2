@@ -1,28 +1,7 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/Router'
 import {trigger, animate, style, group, animateChild, query, stagger, transition} from '@angular/animations';
-
-
-/* export const routerTransition = trigger('routerTransition', [
-  transition('* <=> *', [
-    query(':enter, :leave', style({ position: 'fixed', width:'100%' }), 
-    { optional: true }),
-
-    group([
-      query(':enter', [
-        style({ transform: 'translateX(100%)' }),
-        animate('0.5s ease-in-out', style({ transform: 'translateX(0%)' }))
-      ], 
-      { optional: true }),
-      query(':leave', [
-        style({ transform: 'translateX(0%)' }),
-        animate('0.5s ease-in-out', style({ transform: 'translateX(-100%)' }))
-      ], { optional: true }),
-    ])
-  ])
-]); */
-
-
+import {ToasterModule, Toast, ToasterService, ToasterConfig} from 'angular2-toaster';
 
 @Component({
   selector: 'app-root',
@@ -32,5 +11,36 @@ import {trigger, animate, style, group, animateChild, query, stagger, transition
 })
 export class AppComponent {
 
+  /* ToasterConfig ==> {
+    animation: 'fade', 'flyLeft', 'flyRight', 'slideDown', and 'slideUp'
+    limit: number
+    tapToDismiss: false
+    showCloseButton: true === or else ==== 'warning': true, 'error': false'
+    newestOnTop: false
+    timeout: 2000
+    mouseoverTimerStop: false
+  } */
+
+  private toasterService: ToasterService;
+  public config : ToasterConfig = new ToasterConfig({
+    positionClass: 'toast-top-right',
+    limit: 1,
+    timeout: 2000,
+    mouseoverTimerStop: true,
+  });
+  constructor(toasterService: ToasterService) {
+    this.toasterService = toasterService;
+  }
+
+  popToast(data) {
+    var toast: Toast = {
+      type: data.type,
+      title: data.title,
+      body: data.body
+    };    
+    this.toasterService.pop(toast);
+  }
+
+  
 }
 

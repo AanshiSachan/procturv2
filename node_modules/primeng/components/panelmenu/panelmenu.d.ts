@@ -10,7 +10,9 @@ export declare class PanelMenu extends BasePanelMenuItem {
     model: MenuItem[];
     style: any;
     styleClass: string;
+    multiple: boolean;
     animating: boolean;
+    collapseAll(): void;
     handleClick(event: any, item: any): void;
     onToggleDone(): void;
 }

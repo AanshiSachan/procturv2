@@ -41,7 +41,7 @@ var InputSwitch = (function () {
         this.offLabelChild = this.domHandler.findSingle(this.offContainer, 'span.ui-inputswitch-offlabel');
     };
     InputSwitch.prototype.ngAfterViewChecked = function () {
-        if (this.container.offsetParent && !this.initialized) {
+        if (this.container && this.container.offsetParent && !this.initialized) {
             this.render();
         }
     };

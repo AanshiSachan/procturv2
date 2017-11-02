@@ -9,6 +9,7 @@ export declare class Panel implements BlockableUI {
     styleClass: string;
     expandIcon: string;
     collapseIcon: string;
+    showHeader: boolean;
     collapsedChange: EventEmitter<any>;
     onBeforeToggle: EventEmitter<any>;
     onAfterToggle: EventEmitter<any>;

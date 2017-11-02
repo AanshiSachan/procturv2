@@ -19,6 +19,7 @@ var Panel = (function () {
         this.collapsed = false;
         this.expandIcon = 'fa-plus';
         this.collapseIcon = 'fa-minus';
+        this.showHeader = true;
         this.collapsedChange = new core_1.EventEmitter();
         this.onBeforeToggle = new core_1.EventEmitter();
         this.onAfterToggle = new core_1.EventEmitter();
@@ -83,6 +84,10 @@ __decorate([
     __metadata("design:type", String)
 ], Panel.prototype, "collapseIcon", void 0);
 __decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean)
+], Panel.prototype, "showHeader", void 0);
+__decorate([
     core_1.Output(),
     __metadata("design:type", core_1.EventEmitter)
 ], Panel.prototype, "collapsedChange", void 0);
@@ -101,7 +106,7 @@ __decorate([
 Panel = __decorate([
     core_1.Component({
         selector: 'p-panel',
-        template: "\n        <div [ngClass]=\"'ui-panel ui-widget ui-widget-content ui-corner-all'\" [ngStyle]=\"style\" [class]=\"styleClass\">\n            <div class=\"ui-panel-titlebar ui-widget-header ui-helper-clearfix ui-corner-all\">\n                <span class=\"ui-panel-title\" *ngIf=\"header\">{{header}}</span>\n                <ng-content select=\"p-header\"></ng-content>\n                <a *ngIf=\"toggleable\" class=\"ui-panel-titlebar-icon ui-panel-titlebar-toggler ui-corner-all ui-state-default\" href=\"#\"\n                    (click)=\"toggle($event)\">\n                    <span [class]=\"collapsed ? 'fa fa-fw ' + expandIcon : 'fa fa-fw ' + collapseIcon\"></span>\n                </a>\n            </div>\n            <div class=\"ui-panel-content-wrapper\" [@panelContent]=\"collapsed ? 'hidden' : 'visible'\" (@panelContent.done)=\"onToggleDone($event)\"\n                [ngClass]=\"{'ui-panel-content-wrapper-overflown': collapsed||animating}\">\n                <div class=\"ui-panel-content ui-widget-content\">\n                    <ng-content></ng-content>\n                </div>\n                \n                <div class=\"ui-panel-footer ui-widget-content\" *ngIf=\"footerFacet\">\n                    <ng-content select=\"p-footer\"></ng-content>\n                </div>\n            </div>\n        </div>\n    ",
+        template: "\n        <div [ngClass]=\"'ui-panel ui-widget ui-widget-content ui-corner-all'\" [ngStyle]=\"style\" [class]=\"styleClass\">\n            <div class=\"ui-panel-titlebar ui-widget-header ui-helper-clearfix ui-corner-all\" *ngIf=\"showHeader\">\n                <span class=\"ui-panel-title\" *ngIf=\"header\">{{header}}</span>\n                <ng-content select=\"p-header\"></ng-content>\n                <a *ngIf=\"toggleable\" class=\"ui-panel-titlebar-icon ui-panel-titlebar-toggler ui-corner-all ui-state-default\" href=\"#\"\n                    (click)=\"toggle($event)\">\n                    <span [class]=\"collapsed ? 'fa fa-fw ' + expandIcon : 'fa fa-fw ' + collapseIcon\"></span>\n                </a>\n            </div>\n            <div class=\"ui-panel-content-wrapper\" [@panelContent]=\"collapsed ? 'hidden' : 'visible'\" (@panelContent.done)=\"onToggleDone($event)\"\n                [ngClass]=\"{'ui-panel-content-wrapper-overflown': collapsed||animating}\">\n                <div class=\"ui-panel-content ui-widget-content\">\n                    <ng-content></ng-content>\n                </div>\n                \n                <div class=\"ui-panel-footer ui-widget-content\" *ngIf=\"footerFacet\">\n                    <ng-content select=\"p-footer\"></ng-content>\n                </div>\n            </div>\n        </div>\n    ",
         animations: [
             animations_1.trigger('panelContent', [
                 animations_1.state('hidden', animations_1.style({

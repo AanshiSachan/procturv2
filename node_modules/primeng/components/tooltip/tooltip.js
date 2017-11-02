@@ -47,6 +47,11 @@ var Tooltip = (function () {
             this.deactivate(true);
         }
     };
+    Tooltip.prototype.onClick = function (e) {
+        if (this.tooltipEvent === 'hover') {
+            this.deactivate(true);
+        }
+    };
     Tooltip.prototype.activate = function () {
         var _this = this;
         this.active = true;
@@ -337,6 +342,12 @@ __decorate([
     __metadata("design:paramtypes", [Event]),
     __metadata("design:returntype", void 0)
 ], Tooltip.prototype, "onBlur", null);
+__decorate([
+    core_1.HostListener('click', ['$event']),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Event]),
+    __metadata("design:returntype", void 0)
+], Tooltip.prototype, "onClick", null);
 __decorate([
     core_1.Input('pTooltip'),
     __metadata("design:type", String),

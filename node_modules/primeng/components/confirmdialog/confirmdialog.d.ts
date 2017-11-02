@@ -1,4 +1,4 @@
-import { ElementRef, AfterViewInit, OnDestroy, AfterViewChecked, Renderer2 } from '@angular/core';
+import { ElementRef, AfterViewInit, OnDestroy, AfterViewChecked, Renderer2, NgZone } from '@angular/core';
 import { DomHandler } from '../dom/domhandler';
 import { Confirmation } from '../common/confirmation';
 import { ConfirmationService } from '../common/confirmationservice';
@@ -8,6 +8,7 @@ export declare class ConfirmDialog implements AfterViewInit, AfterViewChecked, O
     domHandler: DomHandler;
     renderer: Renderer2;
     private confirmationService;
+    zone: NgZone;
     header: string;
     icon: string;
     message: string;
@@ -35,7 +36,7 @@ export declare class ConfirmDialog implements AfterViewInit, AfterViewChecked, O
     positionInitialized: boolean;
     subscription: Subscription;
     executePostShowActions: boolean;
-    constructor(el: ElementRef, domHandler: DomHandler, renderer: Renderer2, confirmationService: ConfirmationService);
+    constructor(el: ElementRef, domHandler: DomHandler, renderer: Renderer2, confirmationService: ConfirmationService, zone: NgZone);
     visible: boolean;
     ngAfterViewInit(): void;
     ngAfterViewChecked(): void;
@@ -45,6 +46,8 @@ export declare class ConfirmDialog implements AfterViewInit, AfterViewChecked, O
     close(event: Event): void;
     hide(): void;
     moveOnTop(): void;
+    bindGlobalListeners(): void;
+    unbindGlobalListeners(): void;
     ngOnDestroy(): void;
     accept(): void;
     reject(): void;

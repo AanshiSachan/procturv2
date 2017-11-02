@@ -44,6 +44,9 @@ var Checkbox = (function () {
             else
                 this.removeValue();
             this.onModelChange(this.model);
+            if (this.formControl) {
+                this.formControl.setValue(this.model);
+            }
         }
         else {
             this.onModelChange(this.checked);
@@ -129,6 +132,10 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", String)
 ], Checkbox.prototype, "styleClass", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", forms_1.FormControl)
+], Checkbox.prototype, "formControl", void 0);
 __decorate([
     core_1.Output(),
     __metadata("design:type", core_1.EventEmitter)

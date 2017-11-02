@@ -108,6 +108,17 @@ var ObjectUtils = (function () {
             value.splice(to, 0, value.splice(from, 1)[0]);
         }
     };
+    ObjectUtils.prototype.generateSelectItems = function (val, field) {
+        var selectItems;
+        if (val && val.length) {
+            selectItems = [];
+            for (var _i = 0, val_1 = val; _i < val_1.length; _i++) {
+                var item = val_1[_i];
+                selectItems.push({ label: this.resolveFieldData(item, field), value: item });
+            }
+        }
+        return selectItems;
+    };
     return ObjectUtils;
 }());
 ObjectUtils = __decorate([

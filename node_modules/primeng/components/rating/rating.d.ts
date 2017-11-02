@@ -6,6 +6,12 @@ export declare class Rating implements ControlValueAccessor {
     readonly: boolean;
     stars: number;
     cancel: boolean;
+    iconOnClass: string;
+    iconOnStyle: any;
+    iconOffClass: string;
+    iconOffStyle: any;
+    iconCancelClass: string;
+    iconCancelStyle: any;
     onRate: EventEmitter<any>;
     onCancel: EventEmitter<any>;
     value: number;

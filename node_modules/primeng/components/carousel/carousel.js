@@ -94,8 +94,10 @@ var Carousel = (function () {
     };
     Carousel.prototype.updateMobileDropdown = function () {
         this.mobileDropdownOptions = [];
-        for (var i = 0; i < this.value.length; i++) {
-            this.mobileDropdownOptions.push(i);
+        if (this.value && this.value.length) {
+            for (var i = 0; i < this.value.length; i++) {
+                this.mobileDropdownOptions.push(i);
+            }
         }
     };
     Carousel.prototype.render = function () {

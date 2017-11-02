@@ -21,6 +21,9 @@ var Rating = (function () {
     function Rating() {
         this.stars = 5;
         this.cancel = true;
+        this.iconOnClass = 'fa-star';
+        this.iconOffClass = 'fa-star-o';
+        this.iconCancelClass = 'fa-ban';
         this.onRate = new core_1.EventEmitter();
         this.onCancel = new core_1.EventEmitter();
         this.onModelChange = function () { };
@@ -84,6 +87,30 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Rating.prototype, "cancel", void 0);
 __decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], Rating.prototype, "iconOnClass", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], Rating.prototype, "iconOnStyle", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], Rating.prototype, "iconOffClass", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], Rating.prototype, "iconOffStyle", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], Rating.prototype, "iconCancelClass", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], Rating.prototype, "iconCancelStyle", void 0);
+__decorate([
     core_1.Output(),
     __metadata("design:type", core_1.EventEmitter)
 ], Rating.prototype, "onRate", void 0);
@@ -94,7 +121,7 @@ __decorate([
 Rating = __decorate([
     core_1.Component({
         selector: 'p-rating',
-        template: "\n        <div class=\"ui-rating\" [ngClass]=\"{'ui-state-disabled': disabled}\">\n            <a href=\"#\" *ngIf=\"cancel\" (click)=\"clear($event)\">\n                <span class=\"fa fa-ban\"></span>\n            </a>\n            <a href=\"#\" *ngFor=\"let star of starsArray;let i=index\" (click)=\"rate($event,i)\">\n                <span class=\"fa\" [ngClass]=\"{'fa-star-o': (!value || i >= value), 'fa-star':(i < value)}\"></span>\n            </a>\n        </div>\n    ",
+        template: "\n        <div class=\"ui-rating\" [ngClass]=\"{'ui-state-disabled': disabled}\">\n            <a href=\"#\" *ngIf=\"cancel\" (click)=\"clear($event)\">\n                <span class=\"fa\" [ngClass]=\"iconCancelClass\" [ngStyle]=\"iconCancelStyle\"></span>\n            </a>\n            <a href=\"#\" *ngFor=\"let star of starsArray;let i=index\" (click)=\"rate($event,i)\">\n                <span class=\"fa\" \n                    [ngClass]=\"(!value || i >= value) ? iconOffClass : iconOnClass\"\n                    [ngStyle]=\"(!value || i >= value) ? iconOffStyle : iconOnStyle\"\n                ></span>\n            </a>\n        </div>\n    ",
         providers: [exports.RATING_VALUE_ACCESSOR]
     })
 ], Rating);

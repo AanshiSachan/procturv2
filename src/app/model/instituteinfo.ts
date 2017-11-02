@@ -37,4 +37,5 @@ export interface instituteInfo {
     start_index ?: any;
     batch_size ?: any;
     closedReason?: any;
+    enqCustomLi?: any;
 }

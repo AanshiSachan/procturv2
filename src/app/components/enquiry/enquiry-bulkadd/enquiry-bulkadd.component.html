@@ -4,7 +4,9 @@
       Bulk Enquiry Upload
     </h1>
     <aside class="pull-right">
-      <input type="button" value="Download Bulk Upload .xls Template" class="btn" />
+      <a id="template_link">
+      <input type="button" value="Download Bulk Upload .xls Template" class="btn" (click)="downloadTemplate()"/>
+      </a>
       <input type="button" value="Add Single Enquiry" routerLink='/enquiry/addEnquiry' class="btn" />
     </aside>
   </section>

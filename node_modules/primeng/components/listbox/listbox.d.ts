@@ -1,4 +1,4 @@
-import { ElementRef, EventEmitter, AfterContentInit, QueryList, TemplateRef } from '@angular/core';
+import { ElementRef, EventEmitter, AfterContentInit, QueryList, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { SelectItem } from '../common/selectitem';
 import { DomHandler } from '../dom/domhandler';
 import { ObjectUtils } from '../utils/objectutils';
@@ -8,31 +8,37 @@ export declare class Listbox implements AfterContentInit, ControlValueAccessor {
     el: ElementRef;
     domHandler: DomHandler;
     objectUtils: ObjectUtils;
-    options: SelectItem[];
+    cd: ChangeDetectorRef;
     multiple: boolean;
     style: any;
     styleClass: string;
     listStyle: any;
+    readonly: boolean;
     disabled: boolean;
     checkbox: boolean;
     filter: boolean;
+    filterMode: string;
     metaKeySelection: boolean;
     dataKey: string;
     showToggleAll: boolean;
+    optionLabel: string;
     onChange: EventEmitter<any>;
     onDblClick: EventEmitter<any>;
+    headerFacet: any;
     footerFacet: any;
     templates: QueryList<any>;
     itemTemplate: TemplateRef<any>;
     filterValue: string;
-    visibleOptions: SelectItem[];
     filtered: boolean;
     value: any;
     onModelChange: Function;
     onModelTouched: Function;
     checkboxClick: boolean;
     optionTouched: boolean;
-    constructor(el: ElementRef, domHandler: DomHandler, objectUtils: ObjectUtils);
+    focus: boolean;
+    _options: any[];
+    constructor(el: ElementRef, domHandler: DomHandler, objectUtils: ObjectUtils, cd: ChangeDetectorRef);
+    options: any[];
     ngAfterContentInit(): void;
     writeValue(value: any): void;
     registerOnChange(fn: Function): void;
@@ -51,6 +57,8 @@ export declare class Listbox implements AfterContentInit, ControlValueAccessor {
     isItemVisible(option: SelectItem): boolean;
     onDoubleClick(event: Event, option: SelectItem): any;
     onCheckboxClick(event: Event, option: SelectItem): void;
+    onInputFocus(event: any): void;
+    onInputBlur(event: any): void;
 }
 export declare class ListboxModule {
 }

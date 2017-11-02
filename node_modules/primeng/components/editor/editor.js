@@ -91,6 +91,22 @@ var Editor = (function () {
     Editor.prototype.getQuill = function () {
         return this.quill;
     };
+    Object.defineProperty(Editor.prototype, "readonly", {
+        get: function () {
+            return this._readonly;
+        },
+        set: function (val) {
+            this._readonly = val;
+            if (this.quill) {
+                if (this._readonly)
+                    this.quill.disable();
+                else
+                    this.quill.enable();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Editor;
 }());
 __decorate([
@@ -119,16 +135,17 @@ __decorate([
 ], Editor.prototype, "placeholder", void 0);
 __decorate([
     core_1.Input(),
-    __metadata("design:type", Boolean)
-], Editor.prototype, "readonly", void 0);
-__decorate([
-    core_1.Input(),
     __metadata("design:type", Array)
 ], Editor.prototype, "formats", void 0);
 __decorate([
     core_1.Output(),
     __metadata("design:type", core_1.EventEmitter)
 ], Editor.prototype, "onInit", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Boolean),
+    __metadata("design:paramtypes", [Boolean])
+], Editor.prototype, "readonly", null);
 Editor = __decorate([
     core_1.Component({
         selector: 'p-editor',

@@ -1,15 +1,18 @@
 <section class="middle-section clearFix">
+
   <!-- Left Side Form -->
   <aside class="pull-left middle-left " id="addNewEnquiry">
+
     <!-- Header -->
     <section class="middle-top clearFix">
       <h1 class="pull-left">
         Edit Enquiry
       </h1>
       <aside class="pull-right">
-        <input type="button" value="Pay Registration Fees" class="btn">
+        <!-- <input type="button" value="Pay Registration Fees" class="btn"> -->
       </aside>
     </section>
+
     <!-- Accordian Menu Element -->
     <section class="middle-main clearFix" id="middleMain">
       <div class="add-new-enquiry-form accordian-section">
@@ -27,9 +30,9 @@
             <!-- Accordian Form 1 -->
             <div class="accordian-content">
               <div class="form-type1">
-                <div class="field-wrapper">
-                  <input type="text" value="" id="name" #name="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.name" name="name"
-                    maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+" required enquiryInput/>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="name" #name="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.name" name="name" maxlength="50"
+                    pattern="[a-zA-Z .]+[a-zA-Z .]+" required enquiryInput/>
                   <label for="name">Name*</label>
                   <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
                     <div *ngIf="name.errors.required">
@@ -40,7 +43,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="field-wrapper">
+                <div class="field-wrapper has-value">
                   <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.phone" name="phone" maxlength="10"
                     minlength="10" required pattern="[789][0-9]{9}" enquiryInput/>
                   <label for="phone">Phone No*</label>
@@ -53,9 +56,9 @@
                     </div>
                   </div>
                 </div>
-                <div class="field-wrapper">
-                  <input type="text" value="" id="email" #email="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.email" name="email"
-                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required enquiryInput/>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="email" #email="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                    required enquiryInput/>
                   <label for="email">Email ID*</label>
                   <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
                     <div *ngIf="email.errors.required">
@@ -66,20 +69,20 @@
                     </div>
                   </div>
                 </div>
-                <div class="field-wrapper">
+                <div class="field-wrapper has-value">
                   <select class="form-ctrl" [(ngModel)]="editEnqData.gender" name="gender" id="gender" required enquiryInput>
-                    <option></option>
-                    <option>Male</option>
-                    <option>Female</option>
-                    <option>NA</option>
+                    <option value=""></option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Na">NA</option>
                   </select>
                   <label for="gender">Gender</label>
                 </div>
-                <div class="field-wrapper">
+                <div class="field-wrapper has-value">
                   <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="editEnqData.curr_address" name="address" enquiryInput/>
                   <label for="userAddress">Address</label>
                 </div>
-                <div class="field-wrapper">
+                <div class="field-wrapper has-value">
                   <input type="text" value="" id="userCity" class="form-ctrl" [(ngModel)]="editEnqData.city" name="city" enquiryInput/>
                   <label for="userCity">City</label>
                 </div>
@@ -89,9 +92,9 @@
               </div>
               <div class="form-type1" *ngIf="additionDetails">
                 <br>
-                <div class="field-wrapper">
-                  <input type="text" value="" id="phone2" #phone2="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.phone2" name="phone2" maxlength="10"
-                    minlength="10" pattern="[789][0-9]{9}" enquiryInput/>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="phone2" #phone2="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.phone2" name="phone2"
+                    maxlength="10" minlength="10" pattern="[789][0-9]{9}" enquiryInput/>
                   <label for="altContact">Alternate Contact</label>
                   <div *ngIf="phone2.invalid && (phone2.dirty || phone2.touched)" class="alert alert-danger">
                     <div *ngIf="phone2.errors.pattern">
@@ -99,9 +102,9 @@
                     </div>
                   </div>
                 </div>
-                <div class="field-wrapper">
+                <div class="field-wrapper has-value">
                   <input type="text" value="" id="email2" #email2="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.email2" name="email2"
-                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" enquiryInput/>
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" enquiryInput/>
                   <label for="email2">Email ID*</label>
                   <div *ngIf="email2.invalid && (email2.dirty || email2.touched)" class="alert alert-danger">
                     <div *ngIf="email2.errors.pattern">
@@ -109,9 +112,9 @@
                     </div>
                   </div>
                 </div>
-                <div class="field-wrapper">
+                <div class="field-wrapper has-value">
                   <input type="text" value="" id="guardianName" class="form-ctrl" [(ngModel)]="editEnqData.parent_name" name="guardianName"
-                  pattern="[a-zA-Z .]+[a-zA-Z .]+" maxlength="50" #guardianName="ngModel" enquiryInput/>
+                    pattern="[a-zA-Z .]+[a-zA-Z .]+" maxlength="50" #guardianName="ngModel" enquiryInput/>
                   <label for="guardianName">Gaurdian Name</label>
                   <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)" class="alert alert-danger">
                     <div *ngIf="guardianName.errors.pattern">
@@ -119,7 +122,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="field-wrapper">
+                <div class="field-wrapper has-value">
                   <input type="text" value="" id="guardianContact" class="form-ctrl" [(ngModel)]="editEnqData.parent_phone" name="guardianContact"
                     maxlength="10" minlength="10" pattern="[789][0-9]{9}" #guardianContact="ngModel" enquiryInput/>
                   <label for="guardianContact">Gaurdian Contact</label>
@@ -127,11 +130,11 @@
                     <div *ngIf="guardianContact.errors.pattern">
                       Please enter a valid contact number.
                     </div>
-                  </div>                  
+                  </div>
                 </div>
-                <div class="field-wrapper">
+                <div class="field-wrapper has-value">
                   <input type="text" value="" id="guardianEmail" class="form-ctrl" [(ngModel)]="editEnqData.parent_email" name="guardianEmail"
-                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #guardianEmail="ngModel" enquiryInput/>
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #guardianEmail="ngModel" enquiryInput/>
                   <label for="guardianEmail">Gaurdian Email</label>
                   <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)" class="alert alert-danger">
                     <div *ngIf="guardianEmail.errors.pattern">
@@ -139,11 +142,11 @@
                     </div>
                   </div>
                 </div>
-                <div class="field-wrapper">
+                <div class="field-wrapper has-value">
                   <input type="text" value="" id="enquirerLink" class="form-ctrl" [(ngModel)]="editEnqData.link" name="enquirerLink" enquiryInput/>
                   <label for="enquirerLink">Link Details</label>
                 </div>
-                <div class="field-wrapper">
+                <div class="field-wrapper has-value">
                   <input type="text" value="" id="feeCommitted" class="form-ctrl" [(ngModel)]="editEnqData.fee_committed" name="feeCommitted"
                     pattern="[0-9]+" #feeCommitted="ngModel" enquiryInput/>
                   <label for="feeCommitted">Fees Committed Details</label>
@@ -151,11 +154,11 @@
                     <div *ngIf="feeCommitted.errors.pattern">
                       Fee cannot have alphabets or special characters.
                     </div>
-                  </div>  
+                  </div>
                 </div>
-                <div class="field-wrapper">
-                  <input type="text" value="" id="discount" class="form-ctrl" [(ngModel)]="editEnqData.discount_offered" name="discount"
-                    pattern="[0-9]+" #discount="ngModel" enquiryInput/>
+                <div class="field-wrapper has-value">
+                  <input type="text" value="" id="discount" class="form-ctrl" [(ngModel)]="editEnqData.discount_offered" name="discount" pattern="[0-9]+"
+                    #discount="ngModel" enquiryInput/>
                   <label for="discount">Discount Offered Details</label>
                   <div *ngIf="discount.invalid && (discount.dirty || discount.touched)" class="alert alert-danger">
                     <div *ngIf="discount.errors.pattern">
@@ -177,95 +180,72 @@
             </div>
             <div class="accordian-content">
               <div class="form-type2">
-                <div class="field-wrapper">
-                  <select id="institutionName" class="form-ctrl" [(ngModel)]="editEnqData.school_id" name="institutename" required enquiryInput>
+                <div class="field-wrapper has-value">
+                  <select id="institutionName" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="editEnqData.school_id" name="institutename"
+                    enquiryInput>
                     <option value=""></option>
-                    <option *ngFor="let institute of school" [value]="institute.school_id">
+                    <option *ngFor="let institute of school" [value]="institute.school_id" [attr.selected]="institute.school_id == editEnqData.school_id ? '' : null" >
                       {{institute.school_name}}
                     </option>
                   </select>
                   <label for="institutionName">Institution Name</label>
-                  <a (click)="openAddInstitute()" class="create-institution" style="cursor:pointer">+ Create Institution</a>
                 </div>
-                <div class="field-wrapper">
-                  <select id="forStandard" class="form-ctrl" [ngModel]="editEnqData.standard_id" (ngModelChange)="fetchSubject($event)" required
-                    name="standard" enquiryInput>
-                    <option value=""></option>
-                    <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
+                <div class="field-wrapper has-value">
+                  <select id="editStandard" class="form-ctrl" [(ngModel)]="editEnqData.standard_id" (ngModelChange)="fetchSubject($event)" name="editStandard"
+                    enquiryInput>
+                    <option></option>
+                    <option *ngFor="let stand of enqStd" [value]="stand.standard_id" [attr.selected]="stand.standard_id == editEnqData.standard_id ? '' : null">
+                      {{stand.standard_name}}
+                    </option>
                   </select>
-                  <label for="forStandard">For Standard</label>
+                  <label for="editStandard">For Standard</label>
                   <div class="questionInfo">
                     <span class="qInfoIcon">?</span>
                   </div>
                 </div>
-                <div class="field-wrapper">
+                <div class="field-wrapper has-value">
                   <select id="forSubject" class="form-ctrl" [(ngModel)]="editEnqData.subject_id" required name="subject" enquiryInput>
                     <option value=""></option>
-                    <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
+                    <option *ngFor="let subject of enqSub" [value]="subject.subject_id" [attr.selected]="subject.subject_id == editEnqData.subject_id ? '' : null">
+                      {{subject.subject_name}}
+                    </option>
                   </select>
                   <label for="forSubject">For Subject</label>
                   <div class="questionInfo">
                     <span class="qInfoIcon">?</span>
                   </div>
                 </div>
-                <!-- <div class="field-wrapper">
-                  <select id="highestQualification" class="form-ctrl" [(ngModel)]="" name="editEnqData.qualification" enquiryInput>
-                      <option></option>
-                      <option>MA</option>
-                    </select>
-                  <label for="highestQualification">Highest Qualification*</label>
-                  <div class="questionInfo">
-                    <span class="qInfoIcon">?</span>
-                  </div>
-                </div>
-                <div class="field-wrapper">
-                  <select id="board" class="form-ctrl" [(ngModel)]="editEnqData.board" name="board" enquiryInput>
-                       <option></option>
-                       <option>Board</option>
-                    </select>
-                  <label for="board">Board</label>
-                  <div class="questionInfo">
-                    <span class="qInfoIcon">?</span>
-                  </div>
-                </div>
-                <div class="field-wrapper">
-                  <input type="text" value="" id="yearOfPassing" class="form-ctrl" [(ngModel)]="addFormData.yearOfPassing" name="yop" enquiryInput/>
-                  <label for="yearOfPassing">Year Of Passing</label>
-                </div>
-                <div class="field-wrapper">
-                  <input type="text" value="" id="percentageMark" class="form-ctrl" [(ngModel)]="addFormData.percentGPA" name="percentGPA"
-                    enquiryInput/>
-                  <label for="percentageMark">% Marks/CGPA - Agg.</label>
-                </div>
-                <div class="field-wrapper">
-                  <input type="text" value="" id="percentageMarkMandS" class="form-ctrl" [(ngModel)]="addFormData.percentGPA_MS" name="percentGPA_MS"
-                    enquiryInput/>
-                  <label for="percentageMarkMandS">% Marks/CGPA - [Math+Science]</label>
-                </div> -->
+
+              </div>
+              <div class="form-type2" id="custom-component-section">
               </div>
             </div>
           </li>
         </ul>
       </div>
     </section>
+
     <!-- Footer for Accordian Menu -->
     <section class="middle-bottom clearFix">
       <div class="pull-left">
-        <div class="field-checkbox-wrapper">
+        <!-- <div class="field-checkbox-wrapper">
           <input type="checkbox" value="" class="form-checkbox" id="addNextEnquiry">
           <label for="addNextEnquiry">Add Next Enquiry</label>
-        </div>
+        </div> -->
       </div>
       <aside class="pull-right">
         <input type="button" value="Cancel" class="btn cancle" routerLink="/enquiry">
         <input type="button" value="Save and Continue" class="btn redBtn" (click)="submitForm()">
       </aside>
     </section>
+
   </aside>
+
   <!-- Right side form for Office purrpose only -->
   <aside class="pull-right middle-right" id="rightSideBar">
+
     <!--Last enquiry information-->
-    <section class="shadow-box clearfix">
+    <!-- <section class="shadow-box clearfix">
       <div class="last-added-info">
         <ul>
           <li>
@@ -286,11 +266,12 @@
           </li>
         </ul>
       </div>
-    </section>
+    </section> -->
+
     <!-- Enquiry Details official use-->
     <section class="enquiry-detail common-right-section">
       <h4>
-        <strong>Enquiry Details</strong> (Official Use)</h4>
+        <strong>Enquiry Details</strong>(Official Use)</h4>
       <div class="box-shadow-lite">
         <div class="field-wrapper has-value">
           <input type="text" value="" id="enquiryDate" class="form-ctrl unstyled-calendar" [(ngModel)]="editEnqData.enquiry_date" name="enquiryDate"
@@ -300,14 +281,14 @@
             <img src="./assets/images/calendar.svg" alt="">
           </span>
         </div>
-        <div class="field-wrapper ">
+        <div class="field-wrapper has-value">
           <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status" required enquiryInput>
             <option value=""></option>
             <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
           </select>
           <label for="eStatus">Enquiry Status</label>
         </div>
-        <div class="field-wrapper ">
+        <div class="field-wrapper has-value">
           <select id="priority" class="form-ctrl" [(ngModel)]="editEnqData.priority" name="priority" required enquiryInput>
             <option value=""></option>
             <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
@@ -316,7 +297,7 @@
           </select>
           <label for="priority">Enquiry Priority</label>
         </div>
-        <div class="field-wrapper ">
+        <div class="field-wrapper has-value">
           <select id="followUpType" class="form-ctrl" [(ngModel)]="editEnqData.follow_type" name="followtype" required enquiryInput>
             <option value=""></option>
             <option *ngFor="let followUp of enqFollowType" [value]="followUp.data_key">
@@ -325,44 +306,44 @@
           </select>
           <label for="followUpType">Follow Up Type</label>
         </div>
-        <div class="field-wrapper ">
-          <input type="text" value="" id="followUpDate" class="form-ctrl unstyled-calendar" [(ngModel)]="editEnqData.followUpDate" name="followUpDate"
-            onfocus="(this.type='date')" onfocusout="(this.type='text')" required enquiryInput>
+        <div class="field-wrapper has-value">
+          <input type="text" value="" id="followUpDate" class="form-ctrl unstyled-calendar" [(ngModel)]="editEnqData.followUpDate"
+            name="followUpDate" onfocus="(this.type='date')" onfocusout="(this.type='text')" required enquiryInput>
           <label for="followUpDate">Follow Up Date</label>
           <span class="follow-up-date-icon">
             <img src="./assets/images/calendar.svg" alt="">
           </span>
         </div>
-        <div class="field-wrapper ">
+        <div class="field-wrapper has-value">
           <select id="source" class="form-ctrl" [(ngModel)]="editEnqData.source_id" name="source" required enquiryInput>
             <option value=""></option>
             <option *ngFor="let source of sourceLead" [value]="source.id">{{source.name}}</option>
           </select>
           <label for="source">Source</label>
-          <span style="cursor:pointer; line-height:15px;" (click)="showAddSourcePops()" class="open-accor">+</span>
+          <!-- <span style="cursor:pointer; line-height:15px;" (click)="showAddSourcePops()" class="open-accor">+</span> -->
         </div>
-        <div class="field-wrapper">
+        <div class="field-wrapper has-value">
           <select id="refferedBy" class="form-ctrl" [(ngModel)]="editEnqData.referred_by" name="reffered" required enquiryInput>
             <option value=""></option>
             <option *ngFor="let refer of refferedBy" [value]="refer.id">{{refer.name}}</option>
           </select>
           <label for="refferedBy">Reffered By</label>
-          <span style="cursor:pointer; line-height:15px;" class="open-accor" (click)="showAddReferPops()">+</span>
+          <!-- <span style="cursor:pointer; line-height:15px;" class="open-accor" (click)="showAddReferPops()">+</span> -->
         </div>
-        <div class="field-wrapper">
+        <div class="field-wrapper has-value">
           <select id="assignedTo" class="form-ctrl" [(ngModel)]="editEnqData.assigned_to" name="assigned_to" required enquiryInput>
             <option value=""></option>
             <option *ngFor="let assign of enqAssignTo" [value]="assign.userid">{{assign.name}}</option>
           </select>
           <label for="assignedTo">Assigned To</label>
         </div>
-        <div class="field-wrapper">
+        <div class="field-wrapper has-value">
           <input type="text" value="" id="Remarks" class="form-ctrl" [(ngModel)]="editEnqData.enquiry" name="remarks" enquiryInput>
           <label for="Remarks">Remarks</label>
         </div>
-        <div class="clear-detail">
+        <!-- <div class="clear-detail">
           <a (click)="clearFormData()" style="cursor:pointer">Clear Details</a>
-        </div>
+        </div> -->
       </div>
     </section>
 

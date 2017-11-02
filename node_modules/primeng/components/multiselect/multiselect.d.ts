@@ -1,18 +1,15 @@
-import { ElementRef, OnInit, AfterViewInit, AfterContentInit, AfterViewChecked, DoCheck, OnDestroy, Renderer2, EventEmitter, IterableDiffers, ChangeDetectorRef, TemplateRef, QueryList } from '@angular/core';
+import { ElementRef, OnInit, AfterViewInit, AfterContentInit, AfterViewChecked, OnDestroy, Renderer2, EventEmitter, ChangeDetectorRef, TemplateRef, QueryList } from '@angular/core';
 import { SelectItem } from '../common/selectitem';
 import { DomHandler } from '../dom/domhandler';
 import { ObjectUtils } from '../utils/objectutils';
 import { ControlValueAccessor } from '@angular/forms';
 export declare const MULTISELECT_VALUE_ACCESSOR: any;
-export declare class MultiSelect implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked, DoCheck, OnDestroy, ControlValueAccessor {
+export declare class MultiSelect implements OnInit, AfterViewInit, AfterContentInit, AfterViewChecked, OnDestroy, ControlValueAccessor {
     el: ElementRef;
     domHandler: DomHandler;
     renderer: Renderer2;
     objectUtils: ObjectUtils;
     private cd;
-    options: SelectItem[];
-    onChange: EventEmitter<any>;
-    onBlur: EventEmitter<any>;
     scrollHeight: string;
     defaultLabel: string;
     style: any;
@@ -30,9 +27,18 @@ export declare class MultiSelect implements OnInit, AfterViewInit, AfterContentI
     maxSelectedLabels: number;
     selectedItemsLabel: string;
     showToggleAll: boolean;
+    resetFilterOnHide: boolean;
+    dropdownIcon: string;
+    optionLabel: string;
     containerViewChild: ElementRef;
     panelViewChild: ElementRef;
+    filterInputChild: ElementRef;
     templates: QueryList<any>;
+    onChange: EventEmitter<any>;
+    onFocus: EventEmitter<any>;
+    onBlur: EventEmitter<any>;
+    onPanelShow: EventEmitter<any>;
+    onPanelHide: EventEmitter<any>;
     value: any[];
     onModelChange: Function;
     onModelTouched: Function;
@@ -46,15 +52,14 @@ export declare class MultiSelect implements OnInit, AfterViewInit, AfterContentI
     filterValue: string;
     visibleOptions: SelectItem[];
     filtered: boolean;
-    valueDiffer: any;
-    optionsDiffer: any;
     itemTemplate: TemplateRef<any>;
-    constructor(el: ElementRef, domHandler: DomHandler, renderer: Renderer2, differs: IterableDiffers, objectUtils: ObjectUtils, cd: ChangeDetectorRef);
+    _options: any[];
+    constructor(el: ElementRef, domHandler: DomHandler, renderer: Renderer2, objectUtils: ObjectUtils, cd: ChangeDetectorRef);
+    options: any[];
     ngOnInit(): void;
     ngAfterContentInit(): void;
     ngAfterViewInit(): void;
     ngAfterViewChecked(): void;
-    ngDoCheck(): void;
     writeValue(value: any): void;
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
@@ -68,7 +73,7 @@ export declare class MultiSelect implements OnInit, AfterViewInit, AfterContentI
     hide(): void;
     close(event: any): void;
     onMouseclick(event: any, input: any): void;
-    onFocus(event: any): void;
+    onInputFocus(event: any): void;
     onInputBlur(event: any): void;
     updateLabel(): void;
     findLabelByValue(val: any): string;

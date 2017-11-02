@@ -17,12 +17,13 @@ var shared_1 = require("../common/shared");
 var button_1 = require("../button/button");
 var confirmationservice_1 = require("../common/confirmationservice");
 var ConfirmDialog = (function () {
-    function ConfirmDialog(el, domHandler, renderer, confirmationService) {
+    function ConfirmDialog(el, domHandler, renderer, confirmationService, zone) {
         var _this = this;
         this.el = el;
         this.domHandler = domHandler;
         this.renderer = renderer;
         this.confirmationService = confirmationService;
+        this.zone = zone;
         this.acceptIcon = 'fa-check';
         this.acceptLabel = 'Yes';
         this.acceptVisible = true;
@@ -64,6 +65,7 @@ var ConfirmDialog = (function () {
                     this.positionInitialized = true;
                 }
                 this.el.nativeElement.children[0].style.zIndex = ++domhandler_1.DomHandler.zindex;
+                this.bindGlobalListeners();
                 this.executePostShowActions = true;
             }
             if (this._visible)
@@ -75,22 +77,7 @@ var ConfirmDialog = (function () {
         configurable: true
     });
     ConfirmDialog.prototype.ngAfterViewInit = function () {
-        var _this = this;
         this.contentContainer = this.domHandler.findSingle(this.el.nativeElement, '.ui-dialog-content');
-        if (this.responsive) {
-            this.documentResponsiveListener = this.renderer.listen('window', 'resize', function (event) {
-                _this.center();
-            });
-        }
-        if (this.closeOnEscape && this.closable) {
-            this.documentEscapeListener = this.renderer.listen('document', 'keydown', function (event) {
-                if (event.which == 27) {
-                    if (_this.el.nativeElement.children[0].style.zIndex == domhandler_1.DomHandler.zindex) {
-                        _this.close(event);
-                    }
-                }
-            });
-        }
         if (this.appendTo) {
             if (this.appendTo === 'body')
                 document.body.appendChild(this.el.nativeElement);
@@ -147,9 +134,38 @@ var ConfirmDialog = (function () {
     };
     ConfirmDialog.prototype.hide = function () {
         this.visible = false;
+        this.unbindGlobalListeners();
     };
     ConfirmDialog.prototype.moveOnTop = function () {
         this.el.nativeElement.children[0].style.zIndex = ++domhandler_1.DomHandler.zindex;
+    };
+    ConfirmDialog.prototype.bindGlobalListeners = function () {
+        var _this = this;
+        if (this.closeOnEscape && this.closable && !this.documentEscapeListener) {
+            this.documentEscapeListener = this.renderer.listen('document', 'keydown', function (event) {
+                if (event.which == 27) {
+                    if (_this.el.nativeElement.children[0].style.zIndex == domhandler_1.DomHandler.zindex && _this.visible) {
+                        _this.close(event);
+                    }
+                }
+            });
+        }
+        if (this.responsive) {
+            this.zone.runOutsideAngular(function () {
+                _this.documentResponsiveListener = _this.center.bind(_this);
+                window.addEventListener('resize', _this.documentResponsiveListener);
+            });
+        }
+    };
+    ConfirmDialog.prototype.unbindGlobalListeners = function () {
+        if (this.documentEscapeListener) {
+            this.documentEscapeListener();
+            this.documentEscapeListener = null;
+        }
+        if (this.documentResponsiveListener) {
+            window.removeEventListener('resize', this.documentResponsiveListener);
+            this.documentResponsiveListener = null;
+        }
     };
     ConfirmDialog.prototype.ngOnDestroy = function () {
         this.disableModality();
@@ -260,7 +276,7 @@ __decorate([
 ConfirmDialog = __decorate([
     core_1.Component({
         selector: 'p-confirmDialog',
-        template: "\n        <div [ngClass]=\"{'ui-dialog ui-confirmdialog ui-widget ui-widget-content ui-corner-all ui-shadow':true,'ui-dialog-rtl':rtl}\" \n            [style.display]=\"visible ? 'block' : 'none'\" [style.width.px]=\"width\" [style.height.px]=\"height\" (mousedown)=\"moveOnTop()\" [@dialogState]=\"visible ? 'visible' : 'hidden'\">\n            <div class=\"ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-top\">\n                <span class=\"ui-dialog-title\" *ngIf=\"header\">{{header}}</span>\n                <a *ngIf=\"closable\" [ngClass]=\"{'ui-dialog-titlebar-icon ui-dialog-titlebar-close ui-corner-all':true}\" href=\"#\" role=\"button\" (click)=\"close($event)\">\n                    <span class=\"fa fa-fw fa-close\"></span>\n                </a>\n            </div>\n            <div class=\"ui-dialog-content ui-widget-content\">\n                <i [ngClass]=\"'fa'\" [class]=\"icon\"></i>\n                <span class=\"ui-confirmdialog-message\" [innerHTML]=\"message\"></span>\n            </div>\n            <div class=\"ui-dialog-footer ui-widget-content\" *ngIf=\"footer\">\n                <ng-content select=\"p-footer\"></ng-content>\n            </div>\n            <div class=\"ui-dialog-footer ui-widget-content\" *ngIf=\"!footer\">\n                <button type=\"button\" pButton [icon]=\"acceptIcon\" [label]=\"acceptLabel\" (click)=\"accept()\" *ngIf=\"acceptVisible\"></button>\n                <button type=\"button\" pButton [icon]=\"rejectIcon\" [label]=\"rejectLabel\" (click)=\"reject()\" *ngIf=\"rejectVisible\"></button>\n            </div>\n        </div>\n    ",
+        template: "\n        <div [ngClass]=\"{'ui-dialog ui-confirmdialog ui-widget ui-widget-content ui-corner-all ui-shadow':true,'ui-dialog-rtl':rtl}\" \n            [style.display]=\"visible ? 'block' : 'none'\" [style.width.px]=\"width\" [style.height.px]=\"height\" (mousedown)=\"moveOnTop()\" [@dialogState]=\"visible ? 'visible' : 'hidden'\">\n            <div class=\"ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-top\">\n                <span class=\"ui-dialog-title\" *ngIf=\"header\">{{header}}</span>\n                <a *ngIf=\"closable\" [ngClass]=\"{'ui-dialog-titlebar-icon ui-dialog-titlebar-close ui-corner-all':true}\" href=\"#\" role=\"button\" (click)=\"close($event)\">\n                    <span class=\"fa fa-fw fa-close\"></span>\n                </a>\n            </div>\n            <div class=\"ui-dialog-content ui-widget-content\">\n                <i [ngClass]=\"'fa'\" [class]=\"icon\" *ngIf=\"icon\"></i>\n                <span class=\"ui-confirmdialog-message\" [innerHTML]=\"message\"></span>\n            </div>\n            <div class=\"ui-dialog-footer ui-widget-content\" *ngIf=\"footer\">\n                <ng-content select=\"p-footer\"></ng-content>\n            </div>\n            <div class=\"ui-dialog-footer ui-widget-content\" *ngIf=\"!footer\">\n                <button type=\"button\" pButton [icon]=\"acceptIcon\" [label]=\"acceptLabel\" (click)=\"accept()\" *ngIf=\"acceptVisible\"></button>\n                <button type=\"button\" pButton [icon]=\"rejectIcon\" [label]=\"rejectLabel\" (click)=\"reject()\" *ngIf=\"rejectVisible\"></button>\n            </div>\n        </div>\n    ",
         animations: [
             animations_1.trigger('dialogState', [
                 animations_1.state('hidden', animations_1.style({
@@ -276,7 +292,7 @@ ConfirmDialog = __decorate([
         providers: [domhandler_1.DomHandler]
     }),
     __metadata("design:paramtypes", [core_1.ElementRef, domhandler_1.DomHandler,
-        core_1.Renderer2, confirmationservice_1.ConfirmationService])
+        core_1.Renderer2, confirmationservice_1.ConfirmationService, core_1.NgZone])
 ], ConfirmDialog);
 exports.ConfirmDialog = ConfirmDialog;
 var ConfirmDialogModule = (function () {

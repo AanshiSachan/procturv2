@@ -47,16 +47,16 @@ var ColorPicker = (function () {
         this.pickHue(event);
     };
     ColorPicker.prototype.pickHue = function (event) {
-        var top = this.hueViewChild.nativeElement.getBoundingClientRect().top + document.body.scrollTop;
+        var top = this.hueViewChild.nativeElement.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0);
         this.value = this.validateHSB({
             h: Math.floor(360 * (150 - Math.max(0, Math.min(150, (event.pageY - top)))) / 150),
-            s: 100,
-            b: 100
+            s: this.value.s,
+            b: this.value.b
         });
         this.updateColorSelector();
         this.updateUI();
         this.updateModel();
-        this.onChange.emit({ originalEvent: event, value: this.value });
+        this.onChange.emit({ originalEvent: event, value: this.getValueToUpdate() });
     };
     ColorPicker.prototype.onColorMousedown = function (event) {
         if (this.disabled) {
@@ -69,7 +69,7 @@ var ColorPicker = (function () {
     };
     ColorPicker.prototype.pickColor = function (event) {
         var rect = this.colorSelectorViewChild.nativeElement.getBoundingClientRect();
-        var top = rect.top + document.body.scrollTop;
+        var top = rect.top + (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0);
         var left = rect.left + document.body.scrollLeft;
         var saturation = Math.floor(100 * (Math.max(0, Math.min(150, (event.pageX - left)))) / 150);
         var brightness = Math.floor(100 * (150 - Math.max(0, Math.min(150, (event.pageY - top)))) / 150);

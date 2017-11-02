@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
+import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
+import 'rxjs/Rx';
+import { Base64 } from 'js-base64';
 
 @Component({
   selector: 'app-enquiry-bulkadd',
@@ -7,9 +11,47 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EnquiryBulkaddComponent implements OnInit {
 
-  constructor() { }
+  constructor(private fetchData: FetchenquiryService, private postData: PostEnquiryDataService) {
+  }
 
   ngOnInit() {
+  }
+
+  downloadTemplate() {
+    this.fetchData.fetchDownloadTemplate().subscribe(
+      res => {
+
+        let docString = atob(res.document)
+          .split('')
+          .map(c => {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join('');
+        let format = res.format;
+        let fileName = res.docTitle;
+        let file = new Blob([docString], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('template_link');
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        dwldLink.click();
+      },
+      err => {
+        console.log(err.responseJSON.message);
+      })
+  }
+
+  convertToXls(str) {
+
+  }
+
+  uploadSingleBulkSheet() {
+
+  }
+
+  uploadMultipleBulkSheet() {
+
   }
 
 }

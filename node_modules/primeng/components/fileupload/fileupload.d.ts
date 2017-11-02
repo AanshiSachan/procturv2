@@ -50,11 +50,14 @@ export declare class FileUpload implements OnInit, AfterViewInit, AfterContentIn
     contentTemplate: TemplateRef<any>;
     toolbarTemplate: TemplateRef<any>;
     focus: boolean;
+    selfInputChange: boolean;
     constructor(domHandler: DomHandler, sanitizer: DomSanitizer, zone: NgZone);
     ngOnInit(): void;
     ngAfterContentInit(): void;
     ngAfterViewInit(): void;
     onFileSelect(event: any): void;
+    isFileSelected(file: File): boolean;
+    isIE11(): boolean;
     validate(file: File): boolean;
     private isFileTypeValid(file);
     getTypeClass(fileType: string): string;

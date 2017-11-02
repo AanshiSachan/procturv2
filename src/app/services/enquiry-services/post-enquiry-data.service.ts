@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Request, Headers } from '@angular/http';
-/* import { instituteInfo } from '../model/instituteinfo';
-import { EnquiryCampaign } from '../model/enquirycampaign';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
 import 'rxjs/Rx';
-import { Subscription } from 'rxjs';
-import * as moment from 'moment'; */
+import * as moment from 'moment';
 import {AuthenticatorService} from '../authenticator.service'
 
 @Injectable()
@@ -16,7 +11,8 @@ export class PostEnquiryDataService {
   urlUpdateEnquiryForm: string;
   urlDeleteById: string;
   urlRegisterPayment: string;
-
+  urlEditFormUpdater: string;
+  urlPostEnquiry: string;
 
   Authorization: string; 
   headers: Headers; 
@@ -56,4 +52,22 @@ export class PostEnquiryDataService {
     });
   }
   
+
+  editFormUpdater(id, data){
+    this.urlEditFormUpdater = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/" +this.institute_id +"/" +id;
+
+    return this.http.put(this.urlEditFormUpdater, data, {headers: this.headers})
+    .map(data => {
+      return data.json();
+    });
+  }
+
+
+  postNewEnquiry(data){
+    this.urlPostEnquiry = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/" +this.institute_id;
+    return this.http.post(this.urlPostEnquiry, data, {headers: this.headers}).map(
+      data=> {return data.json();}
+    )
+  }
+
 }

@@ -34,8 +34,7 @@ import { LoadInterceptor } from './interceptors/load-interceptor';
 /* Modules */
 import {AppRoutingModule} from './app-routing.module';
 import { CourseComponent } from './components/course/course.component';
-
-
+import {ToasterModule} from 'angular2-toaster';
 
 
 @NgModule({
@@ -58,7 +57,8 @@ import { CourseComponent } from './components/course/course.component';
     HttpClientModule,
     HttpModule,
     BrowserAnimationsModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    ToasterModule
   ],
   providers: [
     FetchenquiryService,

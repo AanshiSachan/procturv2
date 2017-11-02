@@ -10,7 +10,7 @@ import {ActionButtonComponent} from './enquiry-manage/action-button.component';
 import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
 import {EnquiryPopUpComponent} from './enquiry-pop-up/enquiry-pop-up.component';
 import {EnquiryInput} from './enquiry-directives/enquiry-input.directive';
-
+import {UserCreatedComponent} from '../custom/user-created/user-created.component';
 
 /* Modules */
 import { DatePickerModule } from 'angular-io-datepicker';
@@ -47,7 +47,8 @@ import { NgDatepickerModule } from 'ng2-datepicker';
         ActionButtonComponent,
         EnquiryEditComponent,
         EnquiryPopUpComponent,
-        EnquiryInput
+        EnquiryInput,
+        UserCreatedComponent
     ],
     entryComponents: [
         ActionButtonComponent

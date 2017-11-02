@@ -11,9 +11,11 @@ import { instituteInfo } from '../../../model/instituteinfo';
 import { addEnquiryForm } from '../../../model/add-enquiry-form';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-enquiry-edit',
@@ -23,7 +25,6 @@ import * as moment from 'moment';
 export class EnquiryEditComponent implements OnInit {
 
   /* Variable Declarations */
-
   /* Prefill Field Value for Form*/
   enqstatus: any = [];
   enqPriority: any = [];
@@ -39,12 +40,18 @@ export class EnquiryEditComponent implements OnInit {
   occupation: any = [];
   lastDetail: any = [];
 
+  customComponentArr: any = [];
+  temporaryCustomComponentObjStore: any = {
+    component_id : null,
+    component_value: null
+  }
+
   /* Popup Handler */
   confimationPop: boolean = false;
   updatePop: boolean = false;
 
   /* Form Support */
-  editEnqData: addEnquiryForm = {
+  editEnqData = {
     name: null,
     phone: null,
     email: null,
@@ -80,7 +87,7 @@ export class EnquiryEditComponent implements OnInit {
     assigned_to: null,
     followUpTime: null,
     lead_id: null,
-    enqCustomLi: null       
+    enqCustomLi: null
   };
   additionDetails: boolean = false;
   institute_id: any = "100123";
@@ -108,73 +115,67 @@ export class EnquiryEditComponent implements OnInit {
     inst_id: this.institute_id
   }
 
-  /* Variable to store JSON.stringify value and update service for multi-component communication */
-  rowDataJson: string = null;
-  rowData: any;
-  constructor(private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private pops: PopupHandlerService) { }
+  standard_id: number = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
+  constructor(private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private pops: PopupHandlerService, private poster: PostEnquiryDataService) {
+    if (sessionStorage.getItem('Authorization') == null) {
+      this.router.navigateByUrl('/login');
+    }
+    else {
+      if (localStorage.getItem('institute_enquiry_id') == null) {
+        alert('please select a row to edit');
+        this.router.navigateByUrl('/enquiry');
+      }
+      else {
+        this.updateEnquiryData();
+      }
+    }
+  }
+
 
   /* OnInit Initialized */
   ngOnInit() {
-
     this.FetchEnquiryPrefilledData();
-
-    this.pops.currentRowJson.subscribe(data => this.rowDataJson = data);
-
-    if (this.rowDataJson.length > 1) {
-     
-      this.rowData = JSON.parse(this.rowDataJson);
-     
-      this.updateEditFormPrefill(this.rowData);
-     
-      console.log(this.rowData.gender);
-     
-     
-      /* Model for Enquiry Data */
-      this.editEnqData = {
-        name: this.rowData.name,
-        phone: this.rowData.phone,
-        email: this.rowData.email,
-        gender: this.rowData.gender,
-        phone2: this.rowData.phone2,
-        email2: this.rowData.email2,
-        curr_address: this.rowData.curr_address,
-        parent_name: this.rowData.parent_name,
-        parent_phone: this.rowData.parent_phone,
-        parent_email: this.rowData.parent_email,
-        city: this.rowData.city,
-        occupation_id: this.rowData.occupation_id,
-        school_id: this.rowData.school_id,
-        qualification: this.rowData.qualification,
-        grade: this.rowData.grade,
-        enquiry_date: this.rowData.enquiry_date,
-        standard_id: this.rowData.standard_id,
-        subject_id: this.rowData.subject_id,
-        referred_by: this.rowData.refferedBy,
-        source_id: this.rowData.source_id,
-        fee_committed: this.rowData.fee_committed,
-        discount_offered: this.rowData.discount_offered,
-        priority: this.rowData.priority,
-        enquiry: this.rowData.enquiry,
-        follow_type: this.rowData.follow_type,
-        followUpDate: this.rowData.followUpDate,
-        religion: this.rowData.religion,
-        link: this.rowData.link,
-        slot_id: this.rowData.slot_id,
-        closedReason: this.rowData.closedReason,
-        demo_by_id: this.rowData.demo_by_id,
-        status: this.rowData.status,
-        assigned_to: this.rowData.assigned_to,
-        followUpTime: this.rowData.followUpTime,
-        lead_id: this.rowData.lead_id,
-        enqCustomLi: null
-      };
-    }
-    else {
-      alert("please select an enquiry from the list to edit details");
-      this.router.navigate(['/enquiry'])
-    }
-
   }
+
+
+  /* set the enquiry feilds for Form */
+  updateEnquiryData() {
+    let id = localStorage.getItem('institute_enquiry_id');
+    this.prefill.fetchEnquiryByInstituteID(id)
+      .subscribe(data => {
+        this.editEnqData = data;
+        this.fetchSubject(this.editEnqData.standard_id);
+      });
+  }
+
 
   /* Function for Toggling Form Visibility */
   toggleForm(event) {
@@ -208,24 +209,36 @@ export class EnquiryEditComponent implements OnInit {
     }
   }
 
+
+
   /* Function to fetch prefill data for form creation */
   FetchEnquiryPrefilledData() {
+
+
     this.prefill.getEnqStatus().subscribe(
       data => { this.enqstatus = data; },
       err => { console.log(err); }
     );
+
+
     this.prefill.getEnqPriority().subscribe(
       data => { this.enqPriority = data; },
       err => { console.log(err); }
     );
+
+
     this.prefill.getFollowupType().subscribe(
       data => { this.enqFollowType = data },
       err => { console.log(err); }
     );
+
+
     this.prefill.getAssignTo().subscribe(
       data => { this.enqAssignTo = data; },
       err => { console.log(err); }
     );
+
+
     this.prefill.getScholarPrefillData().subscribe(
       data => {
         //console.log(data);
@@ -241,31 +254,108 @@ export class EnquiryEditComponent implements OnInit {
       },
       err => { console.log(err); }
     );
+
+
     this.prefill.getEnqStardards().subscribe(
-      data => { this.enqStd = data; },
+      data => {
+        this.enqStd = data; //console.log(this.enqStd) 
+      },
       err => { console.log(err); }
     );
+
+
     this.prefill.getSchoolDetails().subscribe(
-      data => { this.school = data; },
+      data => {
+        this.school = data; //console.log(this.school); 
+      },
       err => { console.log(err); }
     );
+
+
     this.prefill.getLeadSource().subscribe(
       data => { this.sourceLead = data; },
       err => { console.log(err); }
     );
+
+
     this.prefill.getLeadReffered().subscribe(
       data => { this.refferedBy = data; },
       err => { console.log(err); }
     );
+
+
     this.prefill.getOccupation().subscribe(
       data => { this.occupation = data; },
       err => { console.log(err); }
     );
+
+
     this.prefill.fetchLastDetail().subscribe(
       data => { this.lastDetail = data; },
       err => { console.log(err); }
     );
+
+
+    this.prefill.fetchCustomComponent().subscribe(data => {
+
+      data.forEach(el => {
+/*         this.customComponentObj.component_id = el.component_id;
+        this.customComponentObj.component_value = ""
+        this.customComponentArr.push(this.customComponentObj); */
+        //console.log(el);
+
+        let customElement = "";
+
+        /* detect type of input  example Case taken for select*/
+        if (el.type == 1) {
+          // this is a text input
+          customElement += '<div class=\"field-wrapper has-value\"><input type=\"text\" value=\"\" id=\"' + el.component_id + '\" class=\"form-ctrl\" [(ngModel)]=\"\" name=\"' + el +'\" required enquiryInput/><label for=\"' + el.component_id + '\">' + el.label + '</label>';
+        }
+
+        else if (el.type == 2) {
+          // this is a checkbox
+          customElement += '<br><div class=\"field-checkbox-wrapper\"><input type=\"checkbox\" value=\"\" class=\"form-checkbox\" id=\"\"><label for=\"' + el.label + '\">' + el.label + '</label></div>';
+        }
+
+        else if (el.type == 3) {
+          // this is a select list
+          customElement += '<div class=\"field-wrapper has-value\"><select id=\"\" class=\"form-ctrl\" required name=\"\" ng-reflect-name=\"\" ng-reflect-model=\"' +this.temporaryCustomComponentObjStore +'\" ng-reflect-model-change=\"updateCustomComponent($event)\" enquiryInput><option value=\"\"></option>';
+
+          let customArr = el.prefilled_data.split(",");
+          let tempObj = {
+            component_id: el.component_id,
+            component_value: ""
+          };
+          //console.log(customArr);
+          customArr.forEach(ob => {
+            tempObj.component_value = ob;
+            console.log(tempObj);
+            customElement += '<option value=\"' +tempObj +'\">' +ob +'</option>';
+          });
+          customElement += '</select><label for=\"\">' + el.label + '</label></div>';
+          console.log(customElement);
+        }
+
+        else if (el.type == 4) {
+          //this is a select multiselect list 
+          customElement += '<div class=\"field-wrapper has-value\"><select id=\"\" class=\"form-ctrl\" required name=\"\" multiple enquiryInput><option value=\"\"></option>';
+          let customArr = el.prefilled_data.split(",");
+          console.log(customArr);
+          customArr.forEach(ob => {
+            customElement += '<option value=\"' +ob +'\">' +ob +'</option>';
+          });
+          customElement += '</select><label for=\"\">' + el.label + '</label></div>';
+        }
+
+        /* update the HTML DOM */
+        console.log(customElement);
+        document.getElementById('custom-component-section').innerHTML += customElement;
+      });
+    });
+
   }
+
+
 
   /* Function to Toggle visibility of additional details div */
   showAdditionDetails() {
@@ -273,15 +363,21 @@ export class EnquiryEditComponent implements OnInit {
   }
 
 
+
   /* Function to fetch subject when user selects a standard from dropdown */
   fetchSubject(value) {
-    //console.log(value);
-    this.editEnqData.standard_id = value;
+    console.log(value);
     this.prefill.getEnqSubjects(this.editEnqData.standard_id).subscribe(
-      data => { this.enqSub = data; console.log(data); },
-      err => { console.log(err); }
-    )
+      data => {
+        this.enqSub = data;
+        console.log(data);
+      },
+      err => { //console.log(err); 
+      }
+    );
   }
+
+
 
   /* Function to clear the form data */
   clearFormData() {
@@ -326,8 +422,31 @@ export class EnquiryEditComponent implements OnInit {
   }
 
 
+
   /* Update the  prefill form data to the view */
   updateEditFormPrefill(data) {
-    []
+  }
+
+
+  /* Submit the form and return the status code for function performed */
+  submitForm() {
+    console.log(this.editEnqData);
+    let id = localStorage.getItem('institute_enquiry_id');
+    this.poster.editFormUpdater(id, this.editEnqData)
+      .subscribe(
+      data => { console.log(data); },
+      err => { alert(err) })
+  }
+
+  validateFormBeforeSubmittion() {
+
+  }
+
+
+  formSubmittedPopupHandler() { }
+
+
+  updateCustomComponent(val){
+    console.log(val);
   }
 }

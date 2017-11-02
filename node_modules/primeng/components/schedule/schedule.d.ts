@@ -41,6 +41,7 @@ export declare class Schedule implements DoCheck, OnDestroy, OnInit, OnChanges, 
     timeFormat: string | null;
     eventRender: Function;
     dayRender: Function;
+    navLinks: boolean;
     options: any;
     onDayClick: EventEmitter<any>;
     onDrop: EventEmitter<any>;

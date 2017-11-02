@@ -11,10 +11,10 @@ export declare class Editor implements AfterViewInit, ControlValueAccessor {
     style: any;
     styleClass: string;
     placeholder: string;
-    readonly: boolean;
     formats: string[];
     onInit: EventEmitter<any>;
     value: string;
+    _readonly: boolean;
     onModelChange: Function;
     onModelTouched: Function;
     quill: any;
@@ -24,6 +24,7 @@ export declare class Editor implements AfterViewInit, ControlValueAccessor {
     registerOnChange(fn: Function): void;
     registerOnTouched(fn: Function): void;
     getQuill(): any;
+    readonly: boolean;
 }
 export declare class EditorModule {
 }

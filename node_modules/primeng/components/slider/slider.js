@@ -32,6 +32,7 @@ var Slider = (function () {
         this.handleValues = [];
         this.onModelChange = function () { };
         this.onModelTouched = function () { };
+        this.handleIndex = 0;
     }
     Slider.prototype.onMouseDown = function (event, index) {
         if (this.disabled) {
@@ -100,12 +101,14 @@ var Slider = (function () {
                 _this.mouseupListener = _this.renderer.listen('document', 'mouseup', function (event) {
                     if (_this.dragging) {
                         _this.dragging = false;
-                        if (_this.range) {
-                            _this.onSlideEnd.emit({ originalEvent: event, values: _this.values });
-                        }
-                        else {
-                            _this.onSlideEnd.emit({ originalEvent: event, value: _this.value });
-                        }
+                        _this.ngZone.run(function () {
+                            if (_this.range) {
+                                _this.onSlideEnd.emit({ originalEvent: event, values: _this.values });
+                            }
+                            else {
+                                _this.onSlideEnd.emit({ originalEvent: event, value: _this.value });
+                            }
+                        });
                     }
                 });
             }
@@ -142,16 +145,15 @@ var Slider = (function () {
     };
     Slider.prototype.handleStepChange = function (newValue, oldValue) {
         var diff = (newValue - oldValue);
-        if (diff < 0 && (-1 * diff) >= this.step / 2) {
-            newValue = oldValue - this.step;
-            this.updateValue(newValue);
-            this.updateHandleValue();
+        var val = oldValue;
+        if (diff < 0) {
+            val = oldValue + Math.ceil((newValue - oldValue) / this.step) * this.step;
         }
-        else if (diff > 0 && diff >= this.step / 2) {
-            newValue = oldValue + this.step;
-            this.updateValue(newValue);
-            this.updateHandleValue();
+        else if (diff > 0) {
+            val = oldValue + Math.floor((newValue - oldValue) / this.step) * this.step;
         }
+        this.updateValue(val);
+        this.updateHandleValue();
     };
     Slider.prototype.writeValue = function (value) {
         if (this.range)
@@ -209,9 +211,9 @@ var Slider = (function () {
     };
     Slider.prototype.calculateHandleValue = function (event) {
         if (this.orientation === 'horizontal')
-            return Math.floor(((event.pageX - this.initX) * 100) / (this.barWidth));
+            return ((event.pageX - this.initX) * 100) / (this.barWidth);
         else
-            return Math.floor((((this.initY + this.barHeight) - event.pageY) * 100) / (this.barHeight));
+            return (((this.initY + this.barHeight) - event.pageY) * 100) / (this.barHeight);
     };
     Slider.prototype.updateHandleValue = function () {
         if (this.range) {

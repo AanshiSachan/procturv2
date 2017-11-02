@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 var domhandler_1 = require("../dom/domhandler");
+var animations_1 = require("@angular/animations");
 var OverlayPanel = (function () {
     function OverlayPanel(el, domHandler, renderer, cd) {
         this.el = el;
@@ -25,19 +26,6 @@ var OverlayPanel = (function () {
         this.onAfterHide = new core_1.EventEmitter();
         this.visible = false;
     }
-    OverlayPanel.prototype.ngOnInit = function () {
-        var _this = this;
-        if (this.dismissable) {
-            this.documentClickListener = this.renderer.listen('document', 'click', function () {
-                if (!_this.selfClick && !_this.targetEvent) {
-                    _this.hide();
-                }
-                _this.selfClick = false;
-                _this.targetEvent = false;
-                _this.cd.markForCheck();
-            });
-        }
-    };
     OverlayPanel.prototype.ngAfterViewInit = function () {
         this.container = this.el.nativeElement.children[0];
         if (this.appendTo) {
@@ -47,9 +35,39 @@ var OverlayPanel = (function () {
                 this.domHandler.appendChild(this.container, this.appendTo);
         }
     };
+    OverlayPanel.prototype.ngAfterViewChecked = function () {
+        if (this.willShow) {
+            this.domHandler.absolutePosition(this.container, this.target);
+            this.bindDocumentClickListener();
+            this.onAfterShow.emit(null);
+            this.willShow = false;
+        }
+        if (this.willHide) {
+            this.onAfterHide.emit(null);
+            this.willHide = false;
+        }
+    };
+    OverlayPanel.prototype.bindDocumentClickListener = function () {
+        var _this = this;
+        if (!this.documentClickListener && this.dismissable) {
+            this.documentClickListener = this.renderer.listen('document', 'click', function () {
+                if (!_this.selfClick && !_this.targetClickEvent) {
+                    _this.hide();
+                }
+                _this.selfClick = false;
+                _this.targetClickEvent = false;
+                _this.cd.markForCheck();
+            });
+        }
+    };
+    OverlayPanel.prototype.unbindDocumentClickListener = function () {
+        if (this.documentClickListener) {
+            this.documentClickListener();
+            this.documentClickListener = null;
+        }
+    };
     OverlayPanel.prototype.toggle = function (event, target) {
-        var currentTarget = (target || event.currentTarget || event.target);
-        if (!this.target || this.target == currentTarget) {
+        if (!this.target || this.target === (target || event.currentTarget || event.target)) {
             if (this.visible)
                 this.hide();
             else
@@ -58,51 +76,42 @@ var OverlayPanel = (function () {
         else {
             this.show(event, target);
         }
-        if (this.dismissable) {
-            this.targetEvent = true;
-        }
-        this.target = currentTarget;
     };
     OverlayPanel.prototype.show = function (event, target) {
-        if (this.dismissable) {
-            this.targetEvent = true;
-        }
         this.onBeforeShow.emit(null);
-        var elementTarget = target || event.currentTarget || event.target;
+        this.target = target || event.currentTarget || event.target;
         this.container.style.zIndex = ++domhandler_1.DomHandler.zindex;
-        if (this.visible) {
-            this.domHandler.absolutePosition(this.container, elementTarget);
+        this.visible = true;
+        this.willShow = true;
+        if (event.type === 'click') {
+            this.targetClickEvent = true;
         }
-        else {
-            this.visible = true;
-            this.domHandler.absolutePosition(this.container, elementTarget);
-            this.domHandler.fadeIn(this.container, 250);
-        }
-        this.onAfterShow.emit(null);
     };
     OverlayPanel.prototype.hide = function () {
         if (this.visible) {
             this.onBeforeHide.emit(null);
+            this.willHide = true;
             this.visible = false;
-            this.onAfterHide.emit(null);
+            this.selfClick = false;
+            this.targetClickEvent = false;
+            this.unbindDocumentClickListener();
         }
     };
-    OverlayPanel.prototype.onPanelClick = function () {
-        if (this.dismissable) {
+    OverlayPanel.prototype.onPanelClick = function (event) {
+        if (this.closeClick) {
+            this.hide();
+            this.closeClick = false;
+        }
+        else if (this.dismissable) {
             this.selfClick = true;
         }
     };
     OverlayPanel.prototype.onCloseClick = function (event) {
-        this.hide();
-        if (this.dismissable) {
-            this.selfClick = true;
-        }
+        this.closeClick = true;
         event.preventDefault();
     };
     OverlayPanel.prototype.ngOnDestroy = function () {
-        if (this.documentClickListener) {
-            this.documentClickListener();
-        }
+        this.unbindDocumentClickListener();
         if (this.appendTo) {
             this.el.nativeElement.appendChild(this.container);
         }
@@ -149,7 +158,19 @@ __decorate([
 OverlayPanel = __decorate([
     core_1.Component({
         selector: 'p-overlayPanel',
-        template: "\n        <div [ngClass]=\"'ui-overlaypanel ui-widget ui-widget-content ui-corner-all ui-shadow'\" [ngStyle]=\"style\" [class]=\"styleClass\"\n            [style.display]=\"visible ? 'block' : 'none'\" (click)=\"onPanelClick()\">\n            <div class=\"ui-overlaypanel-content\">\n                <ng-content></ng-content>\n            </div>\n            <a href=\"#\" *ngIf=\"showCloseIcon\" class=\"ui-overlaypanel-close ui-state-default\" (click)=\"onCloseClick($event)\">\n                <span class=\"fa fa-fw fa-close\"></span>\n            </a>\n        </div>\n    ",
+        template: "\n        <div [ngClass]=\"'ui-overlaypanel ui-widget ui-widget-content ui-corner-all ui-shadow'\" [ngStyle]=\"style\" [class]=\"styleClass\"\n            [style.display]=\"visible ? 'block' : 'none'\" (click)=\"onPanelClick($event)\" [@panelState]=\"visible ? 'visible' : 'hidden'\">\n            <div class=\"ui-overlaypanel-content\">\n                <ng-content></ng-content>\n            </div>\n            <a href=\"#\" *ngIf=\"showCloseIcon\" class=\"ui-overlaypanel-close ui-state-default\" (click)=\"onCloseClick($event)\">\n                <span class=\"fa fa-fw fa-close\"></span>\n            </a>\n        </div>\n    ",
+        animations: [
+            animations_1.trigger('panelState', [
+                animations_1.state('hidden', animations_1.style({
+                    opacity: 0
+                })),
+                animations_1.state('visible', animations_1.style({
+                    opacity: 1
+                })),
+                animations_1.transition('visible => hidden', animations_1.animate('400ms ease-in')),
+                animations_1.transition('hidden => visible', animations_1.animate('400ms ease-out'))
+            ])
+        ],
         providers: [domhandler_1.DomHandler]
     }),
     __metadata("design:paramtypes", [core_1.ElementRef, domhandler_1.DomHandler, core_1.Renderer2, core_1.ChangeDetectorRef])

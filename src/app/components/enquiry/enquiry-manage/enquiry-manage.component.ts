@@ -27,12 +27,9 @@ import * as moment from 'moment';
   styleUrls: ['./enquiry-manage.component.scss']
 })
 
-export class EnquiryManageComponent implements OnInit {
+export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
   /* Variable Declaration */
-
-  private AdFilter: boolean = false;
-
   private rows: any = [];
 
   private optionsModel = [];
@@ -95,8 +92,8 @@ export class EnquiryManageComponent implements OnInit {
 
   isActionDisabled: boolean = false;
 
-  private selectedRow:any;
-  private selectedRowGroup:any;
+  private selectedRow: any;
+  private selectedRowGroup: any;
 
   /* Model for institute Data */
   instituteData: instituteInfo = {
@@ -124,8 +121,7 @@ export class EnquiryManageComponent implements OnInit {
     start_index: 0,
     batch_size: this.displayBatchSize,
     closedReason: "",
-    //onLoad: 0,
-    // filtered_statuses: ""
+    enqCustomLi: null
   };
 
 
@@ -236,10 +232,23 @@ export class EnquiryManageComponent implements OnInit {
     start_index: 0,
     batch_size: this.displayBatchSize,
     closedReason: "",
-    //onLoad: 0,
-    // filtered_statuses: ""
+    enqCustomLi: ""
   };
 
+
+  /* Custom Component skelton Object*/
+  customComponentObj = {
+    component_id: "",
+    enq_custom_value: ""
+  }
+
+
+  /* Array to Store Custom Component Object */
+  customComponentArr: any = [];
+
+
+  /* string format to update html of custom component */
+  customComponentElement: string = '';
 
   /* Clone for ng2-smart-table setting that can be updated and assigned on toggle */
   settingUpdater = {
@@ -327,6 +336,9 @@ export class EnquiryManageComponent implements OnInit {
   }
 
 
+  /* After View Has Loaded */
+  ngAfterViewInit(): void {
+  }
 
   /* Function to convert all select-option tag to ul-li 
   convertSelectToUl() {
@@ -429,26 +441,36 @@ export class EnquiryManageComponent implements OnInit {
 
   /* Function to fetch prefill data for advanced filter */
   FetchEnquiryPrefilledData() {
+
+
     /* Status */
     this.prefill.getEnqStatus().subscribe(
       data => { this.enqstatus = data; },
       err => { console.log(err); }
     );
+
+
     /* Priority */
     this.prefill.getEnqPriority().subscribe(
       data => { this.enqPriority = data; },
       err => { console.log(err); }
     );
+
+
     /* FollowUp Type */
     this.prefill.getFollowupType().subscribe(
       data => { this.enqFollowType = data },
       err => { console.log(err); }
     );
+
+
     /* Assign To */
     this.prefill.getAssignTo().subscribe(
       data => { this.enqAssignTo = data; },
       err => { console.log(err); }
     );
+
+
     /* Scholarship */
     this.prefill.getScholarPrefillData().subscribe(
       data => {
@@ -465,20 +487,64 @@ export class EnquiryManageComponent implements OnInit {
       },
       err => { console.log(err); }
     );
+
+
     /* Standard */
     this.prefill.getEnqStardards().subscribe(
       data => { this.enqStd = data; },
       err => { console.log(err); }
     );
+
+
     /* Payment Modes */
     this.prefill.fetchPaymentModes().subscribe(
       data => { this.paymentMode = data; },
       err => { alert("error loading payment modes"); }
     )
+
+
+
+    /* Custom Components */
+    this.prefill.fetchCustomComponent().subscribe(data => {
+
+      data.forEach(element => {
+        if (element.is_searchable === "Y") {
+          this.customComponentArr.push(element);
+          console.log(element);
+        }
+      });
+
+      let custom_element = "";
+      let dataSize = this.customComponentArr.length
+      let rowSize = Math.ceil(dataSize / 3);
+      console.log(dataSize +" == dataSize --- " +rowSize +" == rowSize --")
+
+      let temp = 1;
+      for (var j = 0; j < rowSize; j++) {
+        custom_element += '<div class=\"row\">';
+        for (var i = temp; i <= dataSize; i++) {
+          if (i % 3 == 0) {
+            custom_element += '<div class=\"c-lg-4 c-md-4 c-sm-4\"> <div class=\"field-wrapper\"> <select class=\"form-ctrl\" enquiryInput><option value=\"\"></option></select><label></label></div></div>';
+            temp = i + 1;
+            break;
+          }
+          else {
+            custom_element += '<div class=\"c-lg-4 c-md-4 c-sm-4\"> <div class=\"field-wrapper\"> <select class=\"form-ctrl\" enquiryInput><option value=\"\"></option></select><label></label></div></div>';
+          }
+        }
+        custom_element += '</div>';
+      }
+      this.customComponentElement = custom_element;
+      //console.log(this.customComponentElement);
+      document.getElementById('custom-component-section').innerHTML += this.customComponentElement;
+    });
+
+
+    
   }
 
 
-  /* Function to toggle smart table column on click event */
+  /*   Function to toggle smart table column on click event */
   toggleOptionChange(ev) {
 
     this.settings = {
@@ -491,11 +557,13 @@ export class EnquiryManageComponent implements OnInit {
         display: false
       },
     };
+    console.log("Start");
     this.settingUpdater = Object.assign({}, this.settings);
     this.optionsModel.forEach(el => {
       this.settingUpdater.columns[el].show = true;
-    })
+    });    
     this.settings = Object.assign({}, this.settingUpdater);
+    console.log(JSON.stringify(this.settings));
   }
 
 
@@ -517,7 +585,7 @@ export class EnquiryManageComponent implements OnInit {
           arr = arr.concat(temp);
         });
         this.source = new LocalDataSource(arr);
-        console.log(arr);
+        //console.log(arr);
       }
       else if (checkerObj.checked === false) {
         var index = this.checkedStatus.indexOf(checkerObj.prop);
@@ -535,7 +603,7 @@ export class EnquiryManageComponent implements OnInit {
           arr = arr.concat(temp);
         });
         this.source = new LocalDataSource(arr);
-        console.log(arr);
+        //console.log(arr);
       }
     }
     else if (this.stats.Open.checked === false && this.stats.Registered.checked === false && this.stats.Admitted.checked === false && this.stats.Inactive.checked === false) {
@@ -668,27 +736,17 @@ export class EnquiryManageComponent implements OnInit {
 
   /* Function to open advanced filter */
   openAdFilter() {
-    if (this.AdFilter === false) {
-      this.AdFilter = true;
-      this.logger.group("Advanced filter opened");
-      this.logger.log(this.enqstatus);
-      this.logger.log(this.enqPriority);
-      this.logger.log(this.enqAssignTo);
-      this.logger.log(this.enqFollowType);
-      this.logger.log(this.enqScholarship);
-      this.logger.log(this.enqStd);
-      this.logger.groupEnd();
-      //this.convertSelectToUl();
-    }
-    else {
-      this.AdFilter = false;
-    }
+    //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
+    document.getElementById('adFilterExit').classList.remove('hide');
+    document.getElementById('advanced-filter-section').classList.remove('hide');
   }
 
 
   /* Function to close advanced filter */
   closeAdFilter() {
-    this.AdFilter = false;
+    //document.getElementById('middleMainForEnquiryList').classList.remove('hasFilter');
+    document.getElementById('adFilterExit').classList.add('hide');
+    document.getElementById('advanced-filter-section').classList.add('hide');
   }
 
 
@@ -707,19 +765,19 @@ export class EnquiryManageComponent implements OnInit {
         console.log(this.selectedRow);
         console.log("all selected Rows");
         console.log(this.selectedRowGroup);
-        this.pops.changeRowData(JSON.stringify(this.selectedRow));
+        localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
         this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
           this.updateFormComments = res.comments;
           this.updateFormCommentsOn = res.commentedOn;
           this.updateFormCommentsBy = res.commentedBy;
         });
-        
+
       }
       /* If false, that is only a single input has been selected */
       else {
         console.log(ev);
         this.selectedRow = ev.data;
-        this.pops.changeRowData(JSON.stringify(this.selectedRow));
+        localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
         this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
           this.updateFormComments = res.comments;
           this.updateFormCommentsOn = res.commentedOn;
