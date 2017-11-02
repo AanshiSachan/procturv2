@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 
-
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { addEnquiryForm } from '../../../model/add-enquiry-form';
@@ -13,6 +12,7 @@ import { FetchenquiryService } from '../../../services/enquiry-services/fetchenq
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
+import { AppComponent } from '../../../app.component';
 import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
 
@@ -25,7 +25,6 @@ import * as moment from 'moment';
 export class EnquiryEditComponent implements OnInit {
 
   /* Variable Declarations */
-  /* Prefill Field Value for Form*/
   enqstatus: any = [];
   enqPriority: any = [];
   enqFollowType: any = [];
@@ -39,118 +38,87 @@ export class EnquiryEditComponent implements OnInit {
   refferedBy: any = [];
   occupation: any = [];
   lastDetail: any = [];
-
-  customComponentArr: any = [];
-  temporaryCustomComponentObjStore: any = {
-    component_id : null,
-    component_value: null
-  }
-
-  /* Popup Handler */
   confimationPop: boolean = false;
   updatePop: boolean = false;
-
-  /* Form Support */
-  editEnqData = {
-    name: null,
-    phone: null,
-    email: null,
-    gender: null,
-    phone2: null,
-    email2: null,
-    curr_address: null,
-    parent_name: null,
-    parent_phone: null,
-    parent_email: null,
-    city: null,
-    occupation_id: null,
-    school_id: null,
-    qualification: null,
-    grade: null,
+  editEnqData: addEnquiryForm = {
+    name: "",
+    phone: "",
+    email: "",
+    gender: "",
+    phone2: "",
+    email2: "",
+    curr_address: "",
+    parent_name: "",
+    parent_phone: "",
+    parent_email: "",
+    city: "",
+    occupation_id: "-1",
+    school_id: "-1",
+    qualification: "",
+    grade: "",
     enquiry_date: moment().format('YYYY-MM-DD'),
-    standard_id: null,
-    subject_id: null,
-    referred_by: null,
-    source_id: null,
-    fee_committed: null,
-    discount_offered: null,
-    priority: null,
-    enquiry: null,
-    follow_type: null,
-    followUpDate: null,
+    standard_id: "-1",
+    subject_id: "-1",
+    referred_by: "-1",
+    source_id: "-1",
+    fee_committed: "",
+    discount_offered: "",
+    priority: "",
+    enquiry: "",
+    follow_type: "",
+    followUpDate: "",
     religion: null,
-    link: null,
+    link: "",
     slot_id: null,
-    closedReason: null,
-    demo_by_id: null,
-    status: null,
-    assigned_to: null,
-    followUpTime: null,
-    lead_id: null,
-    enqCustomLi: null
+    closedReason: "",
+    demo_by_id: "",
+    status: "",
+    assigned_to: "-1",
+    followUpTime: "",
+    lead_id: -1,
+    enqCustomLi: []
   };
   additionDetails: boolean = false;
   institute_id: any = "100123";
   todayDate: number = Date.now();
-
   isSourcePop: boolean = false;
   isInstitutePop: boolean = false;
   isRefferPop: boolean = false;
-
-  /* Model for Creating Institute */
-  createInstitute = {
-    instituteName: "",
-    isActive: "N"
-  }
-
-  /* Model for Creating Source */
-  createSource = {
-    name: "",
-    inst_id: this.institute_id,
-  }
-
-  /* Model for Creating Reference */
-  createReferer = {
-    name: "",
-    inst_id: this.institute_id
-  }
-
-  standard_id: number = 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  newEnquiryFormGroup: FormGroup;
+  componentPrefill: any = [];
+  componentListObject: any = {};
+  emptyCustomComponent: any;
+  selectedComponent: any;
+  componentRenderer: any = [];
+  isCustomComponentValid: boolean = true;
+  isFormValid: boolean = false;
+  lastUpdated: any;
+  errorMessage: any;
+  submitError: boolean = false;
+  addNextCheck: boolean = false;
 
 
 
 
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
-  constructor(private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private pops: PopupHandlerService, private poster: PostEnquiryDataService) {
+  constructor(private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private pops: PopupHandlerService, private poster: PostEnquiryDataService, private appC: AppComponent) {
     if (sessionStorage.getItem('Authorization') == null) {
+      let data = {
+        type: "error",
+        title: "User not logged-in",
+        body: "Please login to continue"
+      }
+      this.appC.popToast(data);
       this.router.navigateByUrl('/login');
     }
     else {
       if (localStorage.getItem('institute_enquiry_id') == null) {
-        alert('please select a row to edit');
+        let data = {
+          type: "error",
+          title: "Record Not Found",
+          body: "Please select a row to edit"
+        }
+        this.appC.popToast(data);
         this.router.navigateByUrl('/enquiry');
       }
       else {
@@ -166,6 +134,7 @@ export class EnquiryEditComponent implements OnInit {
   }
 
 
+
   /* set the enquiry feilds for Form */
   updateEnquiryData() {
     let id = localStorage.getItem('institute_enquiry_id');
@@ -175,6 +144,8 @@ export class EnquiryEditComponent implements OnInit {
         this.fetchSubject(this.editEnqData.standard_id);
       });
   }
+
+
 
 
   /* Function for Toggling Form Visibility */
@@ -211,6 +182,7 @@ export class EnquiryEditComponent implements OnInit {
 
 
 
+
   /* Function to fetch prefill data for form creation */
   FetchEnquiryPrefilledData() {
 
@@ -221,10 +193,12 @@ export class EnquiryEditComponent implements OnInit {
     );
 
 
+
     this.prefill.getEnqPriority().subscribe(
       data => { this.enqPriority = data; },
       err => { console.log(err); }
     );
+
 
 
     this.prefill.getFollowupType().subscribe(
@@ -233,10 +207,12 @@ export class EnquiryEditComponent implements OnInit {
     );
 
 
+
     this.prefill.getAssignTo().subscribe(
       data => { this.enqAssignTo = data; },
       err => { console.log(err); }
     );
+
 
 
     this.prefill.getScholarPrefillData().subscribe(
@@ -256,20 +232,20 @@ export class EnquiryEditComponent implements OnInit {
     );
 
 
+
+
     this.prefill.getEnqStardards().subscribe(
-      data => {
-        this.enqStd = data; //console.log(this.enqStd) 
-      },
+      data => { this.enqStd = data; },
       err => { console.log(err); }
     );
+
 
 
     this.prefill.getSchoolDetails().subscribe(
-      data => {
-        this.school = data; //console.log(this.school); 
-      },
+      data => { this.school = data; },
       err => { console.log(err); }
     );
+
 
 
     this.prefill.getLeadSource().subscribe(
@@ -278,10 +254,12 @@ export class EnquiryEditComponent implements OnInit {
     );
 
 
+
     this.prefill.getLeadReffered().subscribe(
       data => { this.refferedBy = data; },
       err => { console.log(err); }
     );
+
 
 
     this.prefill.getOccupation().subscribe(
@@ -290,70 +268,43 @@ export class EnquiryEditComponent implements OnInit {
     );
 
 
+
     this.prefill.fetchLastDetail().subscribe(
-      data => { this.lastDetail = data; },
+      data => {
+        this.lastDetail = data;
+        let createTime = new Date(data.enquiry_creation_datetime);
+        this.lastUpdated = moment(createTime).fromNow();
+      },
       err => { console.log(err); }
     );
 
 
-    this.prefill.fetchCustomComponent().subscribe(data => {
 
-      data.forEach(el => {
-/*         this.customComponentObj.component_id = el.component_id;
-        this.customComponentObj.component_value = ""
-        this.customComponentArr.push(this.customComponentObj); */
-        //console.log(el);
-
-        let customElement = "";
-
-        /* detect type of input  example Case taken for select*/
-        if (el.type == 1) {
-          // this is a text input
-          customElement += '<div class=\"field-wrapper has-value\"><input type=\"text\" value=\"\" id=\"' + el.component_id + '\" class=\"form-ctrl\" [(ngModel)]=\"\" name=\"' + el +'\" required enquiryInput/><label for=\"' + el.component_id + '\">' + el.label + '</label>';
-        }
-
-        else if (el.type == 2) {
-          // this is a checkbox
-          customElement += '<br><div class=\"field-checkbox-wrapper\"><input type=\"checkbox\" value=\"\" class=\"form-checkbox\" id=\"\"><label for=\"' + el.label + '\">' + el.label + '</label></div>';
-        }
-
-        else if (el.type == 3) {
-          // this is a select list
-          customElement += '<div class=\"field-wrapper has-value\"><select id=\"\" class=\"form-ctrl\" required name=\"\" ng-reflect-name=\"\" ng-reflect-model=\"' +this.temporaryCustomComponentObjStore +'\" ng-reflect-model-change=\"updateCustomComponent($event)\" enquiryInput><option value=\"\"></option>';
-
-          let customArr = el.prefilled_data.split(",");
-          let tempObj = {
+    this.prefill.fetchCustomComponent()
+      .subscribe(
+      data => {
+        //console.log(data);
+        data.forEach(el => {
+          let temp = {
             component_id: el.component_id,
-            component_value: ""
-          };
-          //console.log(customArr);
-          customArr.forEach(ob => {
-            tempObj.component_value = ob;
-            console.log(tempObj);
-            customElement += '<option value=\"' +tempObj +'\">' +ob +'</option>';
-          });
-          customElement += '</select><label for=\"\">' + el.label + '</label></div>';
-          console.log(customElement);
-        }
-
-        else if (el.type == 4) {
-          //this is a select multiselect list 
-          customElement += '<div class=\"field-wrapper has-value\"><select id=\"\" class=\"form-ctrl\" required name=\"\" multiple enquiryInput><option value=\"\"></option>';
-          let customArr = el.prefilled_data.split(",");
-          console.log(customArr);
-          customArr.forEach(ob => {
-            customElement += '<option value=\"' +ob +'\">' +ob +'</option>';
-          });
-          customElement += '</select><label for=\"\">' + el.label + '</label></div>';
-        }
-
-        /* update the HTML DOM */
-        console.log(customElement);
-        document.getElementById('custom-component-section').innerHTML += customElement;
+            enq_custom_id: "0",
+            enq_custom_value: ""
+          }
+          let index = el.component_id.toString();
+          //console.log(index)
+          this.componentListObject[index] = temp;
+          let dataArr = el.prefilled_data.split(',');
+          el.prefilled_data = dataArr
+          this.componentPrefill.push(el);
+        });
+        this.emptyCustomComponent = this.componentListObject;
+      },
+      err => {
+        console.log("error");
       });
-    });
-
   }
+
+
 
 
 
@@ -364,18 +315,145 @@ export class EnquiryEditComponent implements OnInit {
 
 
 
+
   /* Function to fetch subject when user selects a standard from dropdown */
   fetchSubject(value) {
-    console.log(value);
+    //console.log(value);
+    this.editEnqData.standard_id = value;
     this.prefill.getEnqSubjects(this.editEnqData.standard_id).subscribe(
-      data => {
-        this.enqSub = data;
-        console.log(data);
-      },
-      err => { //console.log(err); 
-      }
-    );
+      data => { this.enqSub = data; console.log(data); },
+      err => { console.log(err); }
+    )
   }
+
+
+
+
+  /* Function to submit validated form data */
+  submitForm() {
+
+    //Validates if the custom component required fields are selected or not
+    this.componentPrefill.forEach(el => {
+      /* Required Field not set */
+      if (el.is_required == "Y" && this.componentListObject[el.component_id].enq_custom_value == "") {
+        this.isCustomComponentValid = false;
+        let data = {
+          type: "error",
+          title: "Form Data Incomplete or Incorrect",
+          body: "Please Select the required Fields in Academic Details"
+        }
+        this.appC.popToast(data);
+      }
+      /* Required field set push data */
+      else if (el.is_required == "Y" && this.componentListObject[el.component_id].enq_custom_value != "") {
+
+        if (typeof this.componentListObject[el.component_id].enq_custom_value == "boolean") {
+          if (this.componentListObject[el.component_id].enq_custom_value) {
+            this.componentListObject[el.component_id].enq_custom_value = "Y";
+            this.editEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
+            this.isCustomComponentValid = true;
+          }
+          else {
+            this.componentListObject[el.component_id].enq_custom_value = "N";
+            this.editEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
+            this.isCustomComponentValid = true;
+          }
+        }
+        else {
+          this.editEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
+          this.isCustomComponentValid = true;
+        }
+      }
+      /* Not required field */
+      else if (el.is_required == "N") {
+        if (typeof this.componentListObject[el.component_id].enq_custom_value == "boolean") {
+          if (this.componentListObject[el.component_id].enq_custom_value) {
+            this.componentListObject[el.component_id].enq_custom_value = "Y";
+            this.editEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
+            this.isCustomComponentValid = true;
+          }
+          else {
+            this.componentListObject[el.component_id].enq_custom_value = "N";
+            this.editEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
+            this.isCustomComponentValid = true;
+          }
+        }
+        else {
+          this.editEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
+          this.isCustomComponentValid = true;
+        }
+      }
+    });
+
+    /* Validate the predefine required fields of the form */
+    this.isFormValid = this.ValidateFormDataBeforeSubmit();
+
+    /* Upload Data if the formData is valid */
+    if (this.isFormValid && this.isCustomComponentValid) {
+      this.poster.postNewEnquiry(this.editEnqData).subscribe(
+        data => {
+          //console.log(data); 
+          if (this.addNextCheck) {
+            console.log(this.addNextCheck);
+            let msg = {
+              type: "success",
+              title: "New Enquiry Added",
+              body: "Your enquiry has been submitted"
+            }
+            this.appC.popToast(msg);
+            this.clearFormData();
+          }
+          else {
+            console.log(this.addNextCheck);
+            this.prefill.fetchLastDetail().subscribe(el =>
+              data => {
+                this.lastDetail = data;
+                let createTime = new Date(data.enquiry_creation_datetime);
+                this.lastUpdated = moment(createTime).fromNow();
+              }
+            );
+            this.clearFormData();
+          }
+        },
+        err => {
+          let data = {
+            type: "error",
+            title: "Error Posting New Enquiry",
+            body: err.message
+          }
+          this.appC.popToast(data);
+        }
+      );
+    }
+    /* Do Nothing if the formData is Still Invalid  */
+    else {
+      this.editEnqData.enqCustomLi = [];
+      this.submitError = true;
+
+    }
+  }
+
+
+
+  /* Validate the Entire FormData Once Before Uploading= */
+  ValidateFormDataBeforeSubmit(): boolean {
+
+    if ((this.editEnqData.name == null || this.editEnqData.name == "") || (this.editEnqData.phone == null || this.editEnqData.phone == "") || (this.editEnqData.enquiry_date == null || this.editEnqData.enquiry_date == "")) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+
+
+  /* Function to store the data of Custom Component in to Base64 encoded array string */
+  customComponentUpdated(val, data) {
+    this.componentListObject[data.component_id].enq_custom_value = val;
+    console.log(this.componentListObject);
+  }
+
 
 
 
@@ -423,30 +501,4 @@ export class EnquiryEditComponent implements OnInit {
 
 
 
-  /* Update the  prefill form data to the view */
-  updateEditFormPrefill(data) {
-  }
-
-
-  /* Submit the form and return the status code for function performed */
-  submitForm() {
-    console.log(this.editEnqData);
-    let id = localStorage.getItem('institute_enquiry_id');
-    this.poster.editFormUpdater(id, this.editEnqData)
-      .subscribe(
-      data => { console.log(data); },
-      err => { alert(err) })
-  }
-
-  validateFormBeforeSubmittion() {
-
-  }
-
-
-  formSubmittedPopupHandler() { }
-
-
-  updateCustomComponent(val){
-    console.log(val);
-  }
 }

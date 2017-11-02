@@ -24,7 +24,6 @@ import * as moment from 'moment';
 export class EnquiryAddComponent implements OnInit {
 
   /* Variable Declarations */
-
   enqstatus: any = [];
   enqPriority: any = [];
   enqFollowType: any = [];
@@ -80,7 +79,10 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-  constructor(private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private appC: AppComponent, private poster: PostEnquiryDataService) { }
+  constructor(private prefill: FetchprefilldataService, private router: Router, 
+    private logger: Logger, private appC: AppComponent, private poster: PostEnquiryDataService) {
+
+   }
 
 
 
@@ -163,6 +165,7 @@ export class EnquiryAddComponent implements OnInit {
       basic.add('active');
     }
   }
+
 
 
 
@@ -291,12 +294,14 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
+
   /* Function to Toggle visibility of additional details div */
   showAdditionDetails() {
     this.additionDetails = !this.additionDetails;
   }
 
 
+ 
 
 
   /* On Phone Number input by user update model and fetch lead records if any */
@@ -306,6 +311,7 @@ export class EnquiryAddComponent implements OnInit {
       err => { }
     );
   }
+
 
 
 
@@ -331,15 +337,12 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
+
   /* Function to validate the number provided by user  and return data back to getLeadDetails*/
   validatePhone(num) {
     //console.log(num);
     if (num != null) {
       return this.newEnqData.phone.length === 10;
-    }
-    else {
-
-      console.log('please enter an input');
     }
   }
 
@@ -760,7 +763,6 @@ export class EnquiryAddComponent implements OnInit {
   navigateToEdit(val) {
     console.log(val);
   }
-
 
 
 }

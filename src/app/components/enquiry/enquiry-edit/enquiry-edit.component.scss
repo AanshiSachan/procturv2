@@ -163,6 +163,12 @@
 .form-type2,
 .form-type1 {
   max-width: 360px;
+  .field-wrapper{
+      .invalid-alert{
+        color: red;
+        background: rgba(255, 255, 255, 0);
+      }
+  }
 }
 
 .paddingR30 {
