@@ -47,7 +47,7 @@
                     </div>
                   </div>
                   <div class="field-wrapper has-value">
-                    <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.phone" (focusout)="updatePhoneFetchRecords()"
+                    <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.phone"
                       name="phone" maxlength="10" minlength="10" required pattern="[789][0-9]{9}" enquiryInput/>
                     <label for="phone">Phone No*</label>
                     <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="alert invalid-alert">
@@ -191,7 +191,6 @@
                       </option>
                     </select>
                     <label for="institutionName">Institution Name</label>
-                    <a (click)="openAddInstitute()" class="create-institution" style="cursor:pointer">+ Create Institution</a>
                   </div>
                   <div class="field-wrapper has-value">
                     <select id="editStandard" class="form-ctrl" [ngModel]="editEnqData.standard_id" (ngModelChange)="fetchSubject($event)" name="editStandard"
@@ -200,9 +199,9 @@
                       <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
                     </select>
                     <label for="editStandard">For Standard</label>
-                    <div class="questionInfo">
+                    <!-- <div class="questionInfo">
                       <span class="qInfoIcon">?</span>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="field-wrapper has-value">
                     <select id="forSubject" class="form-ctrl" [(ngModel)]="editEnqData.subject_id" name="subject" enquiryInput>
@@ -210,9 +209,9 @@
                       <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
                     </select>
                     <label for="forSubject">For Subject</label>
-                    <div class="questionInfo">
+                    <!-- <div class="questionInfo">
                       <span class="qInfoIcon">?</span>
-                    </div>
+                    </div> -->
                   </div>
                   <custom-component *ngFor="let component of componentPrefill">
 
@@ -272,6 +271,7 @@
           <input type="button" value="Submit" [disabled]="!myForm.form.valid" class="btn redBtn" (click)="submitForm()">
         </aside>
       </section>
+
     </aside>
 
     <!-- Right side form for Office purrpose only -->
@@ -351,7 +351,6 @@
               <option *ngFor="let source of sourceLead" [value]="source.id">{{source.name}}</option>
             </select>
             <label for="source">Source</label>
-            <span style="cursor:pointer; line-height:15px;" (click)="showAddSourcePops()" class="open-accor">+</span>
           </div>
           <div class="field-wrapper has-value">
             <select id="refferedBy" class="form-ctrl" [(ngModel)]="editEnqData.referred_by" name="reffered" enquiryInput>
@@ -359,7 +358,6 @@
               <option *ngFor="let refer of refferedBy" [value]="refer.id">{{refer.name}}</option>
             </select>
             <label for="refferedBy">Reffered By</label>
-            <span style="cursor:pointer; line-height:15px;" class="open-accor" (click)="showAddReferPops()">+</span>
           </div>
           <div class="field-wrapper has-value">
             <select id="assignedTo" class="form-ctrl" [(ngModel)]="editEnqData.assigned_to" name="assigned_to" enquiryInput>

@@ -26,74 +26,51 @@ import * as moment from 'moment';
   templateUrl: './enquiry-manage.component.html',
   styleUrls: ['./enquiry-manage.component.scss']
 })
-
 export class EnquiryManageComponent implements OnInit, AfterViewInit {
+
+
 
   /* Variable Declaration */
   private rows: any = [];
-
   private optionsModel = [];
-
   private checkedOpt: any[];
-
   private myOptions: IMultiSelectOption[];
-
   private source: LocalDataSource;
-
   busy: Subscription;
-
   private checkedStatus = [];
-
   private filtered = [];
-
   private enqstatus: any = [];
-
   private enqPriority: any = [];
-
   private enqFollowType: any = [];
-
   private enqAssignTo: any = [];
-
   private enqStd: any = [];
-
   private enqSubject: any = [];
-
   private enqScholarship: any = [];
-
   private enqSub2: any = [];
-
   private paymentMode: any = [];
-
   today: number = Date.now();
-
-  date: Date;
-
   searchBarData: any = null;
-
   displayBatchSize: number = 5;
-
   incrementFlag: boolean = true;
-
   updateFormComments: any = [];
-
   updateFormCommentsBy: any = [];
-
   updateFormCommentsOn: any = [];
-
   PageIndex: number = 0;
-
   maxPageSize: number = 0;
-
   pageArray: any = [];
-
   totalEnquiry: number = 0;
-
   isProfessional: boolean = false;
-
   isActionDisabled: boolean = false;
-
   private selectedRow: any;
   private selectedRowGroup: any;
+  componentPrefill: any = [];
+  componentListObject: any = {};
+  emptyCustomComponent: any;
+  componentRenderer: any = [];
+  customComponentResponse: any = [];
+
+
+
 
   /* Model for institute Data */
   instituteData: instituteInfo = {
@@ -125,6 +102,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   };
 
 
+
+
   /* Model for Enquiry Update Popup Form */
   updateFormData: updateEnquiryForm = {
     comment: "",
@@ -148,6 +127,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
+
+
   /* Model For Registration, valid only for professional institute 
   where status is registred else will thow an error with status code 400 */
   registrationForm = {
@@ -160,6 +141,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
+
+
   /* Model for checkbox toggler to update data table */
   stats = {
     All: { value: 'All', prop: 'All', checked: true, disabled: false },
@@ -170,8 +153,12 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   };
 
 
-  /* Variable to handdle popups */
+
+
+  /* Variable to handle popups */
   message: string = '';
+
+
 
 
   /* Variable to store JSON.stringify value and update service for multi-component communication */
@@ -206,6 +193,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   };
 
 
+
+
   /* Form for advanced filter  */
   advancedFilterForm: instituteInfo = {
     name: "",
@@ -232,23 +221,11 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     start_index: 0,
     batch_size: this.displayBatchSize,
     closedReason: "",
-    enqCustomLi: ""
+    enqCustomLi: null
   };
 
 
-  /* Custom Component skelton Object*/
-  customComponentObj = {
-    component_id: "",
-    enq_custom_value: ""
-  }
 
-
-  /* Array to Store Custom Component Object */
-  customComponentArr: any = [];
-
-
-  /* string format to update html of custom component */
-  customComponentElement: string = '';
 
   /* Clone for ng2-smart-table setting that can be updated and assigned on toggle */
   settingUpdater = {
@@ -279,6 +256,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   };
 
 
+
+
   /* Setting for Multiselect dropdown menu */
   mySettings: IMultiSelectSettings = {
     enableSearch: true,
@@ -288,6 +267,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     dynamicTitleMaxItems: 0,
     displayAllSelectedText: false
   };
+
+
 
 
   /* Default Text for Multiselect dropdown menu */
@@ -304,8 +285,12 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   };
 
 
+
+
   /* ===========================  ====================================== */
   constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private fb: FormBuilder, private pops: PopupHandlerService, private postdata: PostEnquiryDataService) { }
+
+
 
 
   /* OnInit Function */
@@ -336,9 +321,13 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
+
+
   /* After View Has Loaded */
   ngAfterViewInit(): void {
   }
+
+
 
   /* Function to convert all select-option tag to ul-li 
   convertSelectToUl() {
@@ -434,13 +423,19 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
 
+
   /* Set Max Page Size for Paginator */
   setPageSize(num) {
     this.maxPageSize = Math.round(num / this.instituteData.batch_size);
   }
 
+
+
+
   /* Function to fetch prefill data for advanced filter */
   FetchEnquiryPrefilledData() {
+
+
 
 
     /* Status */
@@ -503,45 +498,37 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     )
 
 
-
     /* Custom Components */
-    this.prefill.fetchCustomComponent().subscribe(data => {
+    this.prefill.fetchCustomComponent().subscribe(
+      data => {
 
-      data.forEach(element => {
-        if (element.is_searchable === "Y") {
-          this.customComponentArr.push(element);
-          console.log(element);
-        }
-      });
+        /* Create a base for storing the custom component Value via json on client side */
+        data.forEach(el => {
 
-      let custom_element = "";
-      let dataSize = this.customComponentArr.length
-      let rowSize = Math.ceil(dataSize / 3);
-      console.log(dataSize +" == dataSize --- " +rowSize +" == rowSize --")
-
-      let temp = 1;
-      for (var j = 0; j < rowSize; j++) {
-        custom_element += '<div class=\"row\">';
-        for (var i = temp; i <= dataSize; i++) {
-          if (i % 3 == 0) {
-            custom_element += '<div class=\"c-lg-4 c-md-4 c-sm-4\"> <div class=\"field-wrapper\"> <select class=\"form-ctrl\" enquiryInput><option value=\"\"></option></select><label></label></div></div>';
-            temp = i + 1;
-            break;
+          let temp = {
+            component_id: el.component_id,
+            enq_custom_id: "0",
+            enq_custom_value: ""
           }
-          else {
-            custom_element += '<div class=\"c-lg-4 c-md-4 c-sm-4\"> <div class=\"field-wrapper\"> <select class=\"form-ctrl\" enquiryInput><option value=\"\"></option></select><label></label></div></div>';
-          }
-        }
-        custom_element += '</div>';
+          let index = el.component_id.toString();
+          this.componentListObject[index] = temp;
+          let dataArr = el.prefilled_data.split(',');
+          el.prefilled_data = dataArr
+          this.componentPrefill.push(el);
+          //console.log(this.componentPrefill);
+        });
+        //console.log(this.componentListObject);
+        this.emptyCustomComponent = this.componentListObject;
+
+      },
+      err => {
+        //console.log("error");
       }
-      this.customComponentElement = custom_element;
-      //console.log(this.customComponentElement);
-      document.getElementById('custom-component-section').innerHTML += this.customComponentElement;
-    });
+    );
 
-
-    
   }
+
+
 
 
   /*   Function to toggle smart table column on click event */
@@ -561,10 +548,12 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     this.settingUpdater = Object.assign({}, this.settings);
     this.optionsModel.forEach(el => {
       this.settingUpdater.columns[el].show = true;
-    });    
+    });
     this.settings = Object.assign({}, this.settingUpdater);
     console.log(JSON.stringify(this.settings));
   }
+
+
 
 
   /* Function to toggle table data on checkbox click */
@@ -619,6 +608,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       })
     }
   }
+
+
 
 
 
@@ -721,6 +712,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
 
+
   /* regex validation for name atleast one word required */
   validateString(data: string) {
     return /^[a-zA-Z ]{1,40}$/.test(data);
@@ -728,10 +720,13 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
 
+
   /* Custom validation suited only for indian mobile numbers*/
   validateNumber(data) {
     return /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/.test(data);;
   }
+
+
 
 
   /* Function to open advanced filter */
@@ -742,6 +737,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
+
+
   /* Function to close advanced filter */
   closeAdFilter() {
     //document.getElementById('middleMainForEnquiryList').classList.remove('hasFilter');
@@ -750,8 +747,11 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
+
+
   /* Function to handle event on table row click*/
   rowClicked(ev) {
+
 
 
     /* If all records are not selected then check for true/false status */
@@ -793,6 +793,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
+
+
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
     this.updateFormData.priority = this.selectedRow.statusValue;
@@ -808,6 +810,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
+
+
   /* Delete Enquiry  */
   DeleteEnquiry() {
     console.log(this.selectedRow);
@@ -816,6 +820,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       err => { alert("admitted/converted/registered enquiry cannot be deleted" + err.message); this.closePopup(); this.busy = this.loadTableDatatoSource(this.instituteData); }
     )
   }
+
+
 
 
   /* Make Registration Payment Data update */
@@ -829,9 +835,23 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
 
+
   /* Function to perform advanced filter and update table data */
   filterAdvanced() {
-    console.log(this.advancedFilterForm);
+
+    /* a temporary array to store the user selected  */
+    let tempArr = [];
+
+    /* Update user selected custom component */
+    this.componentPrefill.forEach(el => {
+      /* If user has selected the component value will not be empty*/
+      if (this.componentListObject[el.component_id].enq_custom_value != "") {
+        tempArr.push(this.componentListObject[el.component_id]);
+      }
+    });
+    //this.advancedFilterForm.enqCustomLi = btoa(tempArr.toString());
+    //console.log(this.advancedFilterForm.enqCustomLi);
+
     this.busy = this.enquire.getAllEnquiry(this.advancedFilterForm).map(data => {
       this.rows = data;
     }).subscribe(data => {
@@ -842,10 +862,12 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
 
+
   /* common function to close popups */
   closePopup() {
     this.pops.changeMessage('');
   }
+
 
 
 
@@ -859,6 +881,9 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       err => { console.log(err); }
     );
   }
+
+
+
 
   /* Fetch next set of data from server and update table */
   fetchNext() {
@@ -937,10 +962,13 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
+
+
   /* Toggle DropDown Menu on Click */
   bulkActionFunction() {
     document.getElementById("bulk-drop").classList.toggle("show");
   }
+
 
 
 
@@ -964,10 +992,54 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
+
   validateElementForId(HTMLElement, id: string): boolean {
     if (HTMLElement.id === id) {
       return true;
     }
   }
+
+
+  /* Function to store the data of Custom Component in to Base64 encoded array string */
+  customComponentUpdated(val, data) {
+    this.componentListObject[data.component_id].enq_custom_value = val;
+    console.log(this.componentListObject);
+  }
+
+
+
+  /* Fetch all the enquiries as xls file */
+  downloadAllEnquiries() {
+    this.enquire.fetchAllEnquiryAsXls(this.advancedFilterForm).subscribe(
+      res => {
+        let byteArr = this.convertBase64ToArray(res.document);
+        let format = res.format;
+        let fileName = res.docTitle;
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('enq_download');
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        dwldLink.click();
+      },
+      err => {
+        console.log(err.responseJSON.message);
+      })
+  }
+
+
+  convertBase64ToArray(val) {
+
+    var binary_string = window.atob(val);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+
+  }
+
 
 }

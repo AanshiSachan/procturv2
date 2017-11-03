@@ -21,15 +21,10 @@ export class EnquiryBulkaddComponent implements OnInit {
     this.fetchData.fetchDownloadTemplate().subscribe(
       res => {
 
-        let docString = atob(res.document)
-          .split('')
-          .map(c => {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-          })
-          .join('');
+        let byteArr = this.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
-        let file = new Blob([docString], { type: 'text/csv;charset=utf-8;' });
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
         let dwldLink = document.getElementById('template_link');
         dwldLink.setAttribute("href", url);
@@ -42,7 +37,15 @@ export class EnquiryBulkaddComponent implements OnInit {
       })
   }
 
-  convertToXls(str) {
+  convertBase64ToArray(val) {
+
+    var binary_string =  window.atob(val);
+    var len = binary_string.length;
+    var bytes = new Uint8Array( len );
+    for (var i = 0; i < len; i++)        {
+        bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
 
   }
 

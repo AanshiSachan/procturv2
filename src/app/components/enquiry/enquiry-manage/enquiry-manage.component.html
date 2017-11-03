@@ -142,9 +142,50 @@
                 </div>
               </div>
             </div>
-            <div id="custom-component-section">
 
-            </div>
+            <custom-component *ngFor="let component of componentPrefill">
+
+              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y' " input-def>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
+                    (ngModelChange)="customComponentUpdated($event, component)" class="form-ctrl" name="component.label" enquiryInput/>
+                  <label for="component.label">{{component.label}}</label>
+                </div>
+              </div>
+
+
+              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y' " input-def>
+                <div class="field-checkbox-wrapper">
+                  <input class="form-checkbox" id="component.label" name="component.label" type="checkbox" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
+                    (ngModelChange)="customComponentUpdated($event, component)" value="">
+                    <label for="component.label">{{component.label}}</label>
+                </div>
+              </div>
+
+              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3 && component.is_searchable == 'Y' " input-def>
+                <div class="field-wrapper">
+                  <select id="component.label" class="form-ctrl" name="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
+                    (ngModelChange)="customComponentUpdated($event, component)" enquiryInput>
+                    <option value=""></option>
+                    <option *ngFor="let opt of component.prefilled_data" value="{{opt}}">{{opt}}</option>
+                  </select>
+                  <label for="component.label">{{component.label}}</label>
+                </div>
+              </div>
+
+              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 && component.is_searchable == 'Y' " input-def>
+                <div class="field-wrapper">
+                  <select id="component.label" class="form-ctrl" name="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
+                    (ngModelChange)="customComponentUpdated($event, component)" multiple enquiryInput>
+                    <option value=""></option>
+                    <option *ngFor="let opt of component.prefilled_data" value="component">{{opt}}</option>
+                  </select>
+                  <label for="component.label">{{component.label}}</label>
+                </div>
+              </div>
+
+            </custom-component>
+
             <div class="row">
               <div class="c-lg-12 c-md-12 c-sm-12">
                 <div class="field-wrapper">
@@ -221,7 +262,8 @@
                   </div>
                 </div>
               </li>
-              <li class="export-icon">
+              <li class="export-icon" (click)="downloadAllEnquiries()">
+                  <a id="enq_download"></a>
                 Export
               </li>
               <li>
@@ -636,4 +678,3 @@
   </section>
 
 </div>
-

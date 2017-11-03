@@ -50,7 +50,6 @@ export class EnquiryAddComponent implements OnInit {
   componentPrefill: any = [];
   componentListObject: any = {};
   emptyCustomComponent: any;
-  selectedComponent: any;
   componentRenderer: any = [];
   isCustomComponentValid: boolean = true;
   isFormValid: boolean = false;
@@ -79,10 +78,10 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-  constructor(private prefill: FetchprefilldataService, private router: Router, 
+  constructor(private prefill: FetchprefilldataService, private router: Router,
     private logger: Logger, private appC: AppComponent, private poster: PostEnquiryDataService) {
 
-   }
+  }
 
 
 
@@ -137,7 +136,7 @@ export class EnquiryAddComponent implements OnInit {
   /* Function for Toggling Form Visibility */
   toggleForm(event) {
     let eleid = event.srcElement.id;
-    console.log(eleid);
+    //console.log(eleid);
     if (eleid == "openBasic") {
       var academic = document.getElementById('academicDetails').classList;
       academic.remove('active');
@@ -152,10 +151,10 @@ export class EnquiryAddComponent implements OnInit {
     }
     else if (eleid == "openAcademic") {
       var basic = document.getElementById('basicDetails').classList;
-      console.log(basic);
+      //console.log(basic);
       basic.remove('active');
       var academic = document.getElementById('academicDetails').classList;
-      console.log(academic);
+      //console.log(academic);
       academic.add('active');
     }
     else if (eleid == "closeAcademic") {
@@ -176,28 +175,36 @@ export class EnquiryAddComponent implements OnInit {
 
     this.prefill.getEnqStatus().subscribe(
       data => { this.enqstatus = data; },
-      err => { console.log(err); }
+      err => {
+        //  console.log(err); 
+      }
     );
 
 
 
     this.prefill.getEnqPriority().subscribe(
       data => { this.enqPriority = data; },
-      err => { console.log(err); }
+      err => {
+        //  console.log(err); 
+      }
     );
 
 
 
     this.prefill.getFollowupType().subscribe(
       data => { this.enqFollowType = data },
-      err => { console.log(err); }
+      err => {
+        //  console.log(err); 
+      }
     );
 
 
 
     this.prefill.getAssignTo().subscribe(
       data => { this.enqAssignTo = data; },
-      err => { console.log(err); }
+      err => {
+        //   console.log(err); 
+      }
     );
 
 
@@ -215,7 +222,9 @@ export class EnquiryAddComponent implements OnInit {
           }
         })
       },
-      err => { console.log(err); }
+      err => {
+        //  console.log(err);
+      }
     );
 
 
@@ -223,35 +232,45 @@ export class EnquiryAddComponent implements OnInit {
 
     this.prefill.getEnqStardards().subscribe(
       data => { this.enqStd = data; },
-      err => { console.log(err); }
+      err => {
+        //  console.log(err);
+      }
     );
 
 
 
     this.prefill.getSchoolDetails().subscribe(
       data => { this.school = data; },
-      err => { console.log(err); }
+      err => {
+        //  console.log(err);
+      }
     );
 
 
 
     this.prefill.getLeadSource().subscribe(
       data => { this.sourceLead = data; },
-      err => { console.log(err); }
+      err => {
+        //   console.log(err);
+      }
     );
 
 
 
     this.prefill.getLeadReffered().subscribe(
       data => { this.refferedBy = data; },
-      err => { console.log(err); }
+      err => {
+        //  console.log(err);
+      }
     );
 
 
 
     this.prefill.getOccupation().subscribe(
       data => { this.occupation = data; },
-      err => { console.log(err); }
+      err => {
+        //   console.log(err); 
+      }
     );
 
 
@@ -262,7 +281,9 @@ export class EnquiryAddComponent implements OnInit {
         let createTime = new Date(data.enquiry_creation_datetime);
         this.lastUpdated = moment(createTime).fromNow();
       },
-      err => { console.log(err); }
+      err => {
+        // console.log(err);
+      }
     );
 
 
@@ -287,8 +308,9 @@ export class EnquiryAddComponent implements OnInit {
         this.emptyCustomComponent = this.componentListObject;
       },
       err => {
-        console.log("error");
-      });
+        //console.log("error");
+      }
+    );
   }
 
 
@@ -301,7 +323,7 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
- 
+
 
 
   /* On Phone Number input by user update model and fetch lead records if any */
@@ -369,8 +391,13 @@ export class EnquiryAddComponent implements OnInit {
     //console.log(value);
     this.newEnqData.standard_id = value;
     this.prefill.getEnqSubjects(this.newEnqData.standard_id).subscribe(
-      data => { this.enqSub = data; console.log(data); },
-      err => { console.log(err); }
+      data => {
+      this.enqSub = data;
+        // console.log(data); 
+      },
+      err => {
+        //  console.log(err); 
+      }
     )
   }
 
@@ -487,7 +514,7 @@ export class EnquiryAddComponent implements OnInit {
         data => {
           //console.log(data); 
           if (this.addNextCheck) {
-            console.log(this.addNextCheck);
+            //  console.log(this.addNextCheck);
             let msg = {
               type: "success",
               title: "New Enquiry Added",
@@ -497,7 +524,7 @@ export class EnquiryAddComponent implements OnInit {
             this.clearFormData();
           }
           else {
-            console.log(this.addNextCheck);
+            // console.log(this.addNextCheck);
             this.prefill.fetchLastDetail().subscribe(el =>
               data => {
                 this.lastDetail = data;
@@ -554,7 +581,9 @@ export class EnquiryAddComponent implements OnInit {
         let createTime = new Date(data.enquiry_creation_datetime);
         this.lastUpdated = moment(createTime).fromNow();
       },
-      err => { console.log(err); }
+      err => {
+        //  console.log(err);
+      }
     )
   }
 
@@ -564,7 +593,7 @@ export class EnquiryAddComponent implements OnInit {
 
   /* Function to open confirmation popup on succesfull form submission  */
   openConfirmationPopup() {
-    console.log("confirmation popup opened");
+    //  console.log("confirmation popup opened");
     this.confimationPop = true;
   }
 
@@ -574,7 +603,7 @@ export class EnquiryAddComponent implements OnInit {
 
   /* Function to close the confirmation popup */
   closePopUp() {
-    console.log("confirmation popup closed");
+    // console.log("confirmation popup closed");
     this.confimationPop = false;
   }
 
@@ -586,7 +615,7 @@ export class EnquiryAddComponent implements OnInit {
   openUpdatePopup() {
     this.closePopUp();
     this.updatePop = true;
-    console.log("edit popup opened");
+    // console.log("edit popup opened");
   }
 
 
@@ -623,23 +652,25 @@ export class EnquiryAddComponent implements OnInit {
     if (this.createSource.name != "") {
       this.prefill.createSource(this.createSource).subscribe(
         data => {
-          console.log(data.message);
+          // console.log(data.message);
           this.prefill.getLeadSource().subscribe(
             data => {
               this.sourceLead = data;
               this.hideAddSourcePops();
             },
             err => {
-              console.log(err);
+              //  console.log(err);
               this.hideAddSourcePops();
             }
           );
         },
-        err => { console.log(err.message) }
+        err => {
+          //  console.log(err.message) 
+        }
       );
     }
     else {
-      console.log("please enter a valid input");
+      // console.log("please enter a valid input");
     }
   }
 
@@ -660,7 +691,7 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-  
+
 
   /* function to set-unset isActive status for add institute */
   toggleInstituteActive(event) {
@@ -683,18 +714,18 @@ export class EnquiryAddComponent implements OnInit {
         this.prefill.getSchoolDetails().subscribe(
           data => {
             this.school = data;
-            console.log('data added');
+            // console.log('data added');
             this.closeInstituteAdder();
           },
           err => {
-            console.log(err);
+            // console.log(err);
             this.closeInstituteAdder();
           }
         );
-        console.log("institute Added");
+        // console.log("institute Added");
       }
       else {
-        console.log("Institute Name already exist!");
+        // console.log("Institute Name already exist!");
       }
     });
   }
@@ -723,27 +754,29 @@ export class EnquiryAddComponent implements OnInit {
     if (this.createReferer.name != "") {
       this.prefill.createReferer(this.createReferer).subscribe(
         data => {
-          console.log(data.message);
+          // console.log(data.message);
           this.prefill.getLeadReffered().subscribe(
             data => { this.refferedBy = data; },
-            err => { console.log(err); }
+            err => {
+              //  console.log(err); 
+            }
           );
           this.hideAddReferPops();
         },
         err => {
-          console.log(err.message);
+          // console.log(err.message);
           this.hideAddReferPops();
         }
       )
     }
     else {
-      console.log("please enter a valid input!");
+      // console.log("please enter a valid input!");
     }
   }
 
 
 
-  
+
   /* Reload the Enquiry Form and clear data */
   reloadEnquiryForm() {
     this.clearFormData();
@@ -754,14 +787,14 @@ export class EnquiryAddComponent implements OnInit {
 
   customComponentUpdated(val, data) {
     this.componentListObject[data.component_id].enq_custom_value = val;
-    console.log(this.componentListObject);
+    // console.log(this.componentListObject);
   }
 
 
 
 
   navigateToEdit(val) {
-    console.log(val);
+    // console.log(val);
   }
 
 
