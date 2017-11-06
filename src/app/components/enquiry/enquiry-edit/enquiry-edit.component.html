@@ -312,13 +312,10 @@
             </select>
             <label for="followUpType">Follow Up Type</label>
           </div>
-          <div class="field-wrapper has-value ">
-            <input type="text" value="" id="followUpDate" class="form-ctrl unstyled-calendar" [(ngModel)]="editEnqData.followUpDate" name="followUpDate"
-              onfocus="(this.type='date')" onfocusout="(this.type='text')" enquiryInput>
+          <div class="field-wrapper has-value datePickerBox" enquiryDate>
+            <input type="text" value="" id="followUpDate" class="form-ctrl" 
+            [(ngModel)]="editEnqData.followUpDate" name="followUpDate" bsDatepicker>
             <label for="followUpDate">Follow Up Date</label>
-            <span class="follow-up-date-icon">
-              <img src="./assets/images/calendar.svg" alt="">
-            </span>
           </div>
           <div class="field-wrapper has-value ">
             <select id="source" class="form-ctrl" [(ngModel)]="editEnqData.source_id" name="source" enquiryInput>

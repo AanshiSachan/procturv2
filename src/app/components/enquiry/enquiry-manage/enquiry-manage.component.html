@@ -1,468 +1,672 @@
 <div class="middle-section clearFix" id="enquiryList">
-  
-    <!-- Main View -->
-    <aside class="middle-full" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
-  
-      <!-- Navigation to other tabs -->
-      <section class="middle-top mb0 clearFix">
-        <h1 class="pull-left">
-          Enquiry List
-        </h1>
-        <aside class="pull-right">
-          <input type="button" value="Add New Enquiry" class="btn" routerLink='/enquiry/addEnquiry' />
-          <input type="button" value="Add Bulk Enquiry" routerLink='/enquiry/addBulkEnquiry' class="btn">
-        </aside>
-      </section>
-      <!-- Enquiry Page Start here -->
-      <section class="middle-main clearFix" id="middleMainForEnquiryList">
-  
-        <!-- Search bar and Advanced Filter -->
-        <section class="common-search-filter" id="searchFilter">
-          <div class="filter-search">
-            <div class="filter-box clearFix">
-              <!-- Search Bar -->
-              <div class="c-lg-6 c-md-6 c-sm-6">
-                <div class="search-filter-wrapper">
-                  <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No." style="font-size:12px; margin: 0px 5px 0px -5px;"
-                    [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
-                  <input type="button" class="normal-btn fullBlue btn" value="Search" style="margin-left:2px" (click)="searchDatabase()" />
+
+  <!-- Main View -->
+  <aside class="middle-full" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
+
+    <!-- Navigation to other tabs -->
+    <section class="middle-top mb0 clearFix">
+      <h1 class="pull-left">
+        Enquiry List
+      </h1>
+      <aside class="pull-right">
+        <input type="button" value="Add New Enquiry" class="btn" routerLink='/enquiry/addEnquiry' />
+        <input type="button" value="Add Bulk Enquiry" routerLink='/enquiry/addBulkEnquiry' class="btn">
+      </aside>
+    </section>
+    <!-- Enquiry Page Start here -->
+    <section class="middle-main clearFix" id="middleMainForEnquiryList">
+
+      <!-- Search bar and Advanced Filter -->
+      <section class="common-search-filter" id="searchFilter">
+        <div class="filter-search">
+          <div class="filter-box clearFix">
+            <!-- Search Bar -->
+            <div class="c-lg-6 c-md-6 c-sm-6">
+              <div class="search-filter-wrapper">
+                <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No." style="font-size:12px; margin: 0px 5px 0px -5px;"
+                  [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
+                <input type="button" class="normal-btn fullBlue btn" value="Search" style="margin-left:2px" (click)="searchDatabase()" />
+              </div>
+            </div>
+            <!-- Advanced Filter Trigger -->
+            <div class="c-lg-6 c-md-6 c-sm-6">
+              <div class="filter-right">
+                <input type="button" class="btn showFilterBtn" value="Filter" (click)="openAdFilter()" />
+                <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide" (click)="closeAdFilter()">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
+                    <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
+                      <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                        <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                        <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                      </g>
+                      <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)" />
+                    </g>
+                  </svg>
+                  Close Advance Filter
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- Advanced Filter Div Element -->
+          <div class="AdFilter-field hide" id="advanced-filter-section">
+            <div class="row">
+              <div class="c-lg-4 c-md-4 c-sm-4">
+                <div class="field-wrapper">
+                  <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="advancedFilterForm.filtered_statuses" name="status" enquiryInput
+                    Iselector>
+                    <option value=""></option>
+                    <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
+                  </select>
+                  <label for="enquiryStatus">Enquiry Status</label>
                 </div>
               </div>
-              <!-- Advanced Filter Trigger -->
-              <div class="c-lg-6 c-md-6 c-sm-6">
-                <div class="filter-right">
-                  <input type="button" class="btn showFilterBtn" value="Filter" (click)="openAdFilter()" />
-                  <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide" (click)="closeAdFilter()">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
-                      <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
-                        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-                        </g>
-                        <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)" />
-                      </g>
-                    </svg>
-                    Close Advance Filter
-                  </a>
+              <div class="c-lg-4 c-md-4 c-sm-4">
+                <div class="field-wrapper">
+                  <select id="enquiryPriority" class="form-ctrl" [(ngModel)]="advancedFilterForm.priority" name="priority" enquiryInput>
+                    <option></option>
+                    <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
+                      {{priority.data_value}}
+                    </option>
+                  </select>
+                  <label for="enquiryPriority">Enquiry Priority</label>
+                </div>
+              </div>
+              <div class="c-lg-4 c-md-4 c-sm-4">
+                <div class="field-wrapper">
+                  <select id="followupType" class="form-ctrl" [(ngModel)]="advancedFilterForm.follow_type" name="followType" enquiryInput>
+                    <option></option>
+                    <option *ngFor="let follow of enqFollowType" [value]="follow.data_key">
+                      {{ follow.data_value }}
+                    </option>
+                  </select>
+                  <label for="followupType">Enquiry Followup Type</label>
                 </div>
               </div>
             </div>
-            <!-- Advanced Filter Div Element -->
-            <div class="AdFilter-field hide" id="advanced-filter-section">
-              <div class="row">
-                <div class="c-lg-4 c-md-4 c-sm-4">
-                  <div class="field-wrapper">
-                    <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="advancedFilterForm.filtered_statuses" name="status" enquiryInput
-                      Iselector>
-                      <option value=""></option>
-                      <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
-                    </select>
-                    <label for="enquiryStatus">Enquiry Status</label>
+            <div class="row">
+              <div class="c-lg-4 c-md-4 c-sm-4">
+                <div class="field-wrapper">
+                  <select id="standard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" name="standard" (ngModelChange)="fetchEnquirySubject()"
+                    enquiryInput>
+                    <option></option>
+                    <option *ngFor="let std of enqStd" [value]="std.standard_id">
+                      {{ std.standard_name }}
+                    </option>
+                  </select>
+                  <label for="standard">Standard</label>
+                </div>
+              </div>
+              <div class="c-lg-4 c-md-4 c-sm-4">
+                <div class="field-wrapper">
+                  <select id="selectSub" class="form-ctrl" [(ngModel)]="advancedFilterForm.subject_id" name="subject" enquiryInput>
+                    <option></option>
+                    <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">
+                      {{ subject.subject_name }}
+                    </option>
+                  </select>
+                  <label for="selectSub">Subject</label>
+                </div>
+              </div>
+              <div class="c-lg-4 c-md-4 c-sm-4">
+                <div class="field-wrapper">
+                  <select id="assignTo" class="form-ctrl" [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo" enquiryInput>
+                    <option></option>
+                    <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
+                      {{ assigned.name }}
+                    </option>
+                  </select>
+                  <label for="assignTo">Assign To</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="c-lg-4 c-md-4 c-sm-4">
+                <div class="field-wrapper datePickerBox has-value" enquiryDate>
+                  <input type="text" value="" id="updateDate" class="form-ctrl" [(ngModel)]="advancedFilterForm.updateDate" name="UD" bsDatepicker
+                  />
+                  <label for="updateDate">Update Date</label>
+                </div>
+              </div>
+              <div class="c-lg-4 c-md-4 c-sm-4">
+                <div class="field-wrapper datePickerBox has-value" enquiryDate>
+                  <input type="text" value="" id="enquiryFromDate" class="form-ctrl" [(ngModel)]="advancedFilterForm.enquireDateFrom" name="EFD"
+                    bsDatepicker/>
+                  <label for="enquiryFromDate">Enquiry From Date</label>
+                </div>
+              </div>
+              <div class="c-lg-4 c-md-4 c-sm-4">
+                <div class="field-wrapper datePickerBox has-value" enquiryDate>
+                  <input type="text" value="" id="enquiryToDate" class="form-ctrl" [(ngModel)]="advancedFilterForm.enquireDateTo" name="ETD"
+                    bsDatepicker/>
+                  <label for="enquiryToDate">Enquiry To Date</label>
+                </div>
+              </div>
+            </div>
+
+            <custom-component *ngFor="let component of componentPrefill">
+
+              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y' " input-def>
+                <div class="field-wrapper">
+                  <input type="text" value="" id="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
+                    (ngModelChange)="customComponentUpdated($event, component)" class="form-ctrl" name="component.label" enquiryInput/>
+                  <label for="component.label">{{component.label}}</label>
+                </div>
+              </div>
+
+
+              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y' " input-def>
+                <div class="field-checkbox-wrapper">
+                  <input class="form-checkbox" id="component.label" name="component.label" type="checkbox" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
+                    (ngModelChange)="customComponentUpdated($event, component)" value="">
+                  <label for="component.label">{{component.label}}</label>
+                </div>
+              </div>
+
+              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3 && component.is_searchable == 'Y' " input-def>
+                <div class="field-wrapper">
+                  <select id="component.label" class="form-ctrl" name="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
+                    (ngModelChange)="customComponentUpdated($event, component)" enquiryInput>
+                    <option value=""></option>
+                    <option *ngFor="let opt of component.prefilled_data" value="{{opt}}">{{opt}}</option>
+                  </select>
+                  <label for="component.label">{{component.label}}</label>
+                </div>
+              </div>
+
+              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 && component.is_searchable == 'Y' " input-def>
+                <div class="field-wrapper">
+                  <select id="component.label" class="form-ctrl" name="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
+                    (ngModelChange)="customComponentUpdated($event, component)" multiple enquiryInput>
+                    <option value=""></option>
+                    <option *ngFor="let opt of component.prefilled_data" value="component">{{opt}}</option>
+                  </select>
+                  <label for="component.label">{{component.label}}</label>
+                </div>
+              </div>
+
+            </custom-component>
+
+            <div class="row">
+              <div class="c-lg-12 c-md-12 c-sm-12">
+                <div class="field-wrapper">
+                  <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" (click)="filterAdvanced()" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Checkboxes Filter -->
+      <section class="search-enquiry-type-filter">
+        <div class="row">
+          <div class="c-lg-12 c-sm-12 c-md-12">
+            <span class="filter-label pull-left">Enquiry Type</span>
+            <ul class="pull-left type-filter">
+              <li>
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.All.value" [(ngModel)]="stats.All.checked"
+                    [disabled]="stats.All.disabled" (change)="statusFilter(stats.All)" />
+                  <label>All</label>
+                </div>
+              </li>
+              <li>
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Open.value" [(ngModel)]="stats.Open.checked"
+                    [disabled]="stats.Open.disabled" (change)="statusFilter(stats.Open)" />
+                  <label>Open/In Progress</label>
+                </div>
+              </li>
+              <li *ngIf="isProfessional">
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Registered.value" [(ngModel)]="stats.Registered.checked"
+                    [disabled]="stats.Registered.disabled" (change)="statusFilter(stats.Registered)" />
+                  <label>Registered</label>
+                </div>
+              </li>
+              <li>
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Admitted.value" [(ngModel)]="stats.Admitted.checked"
+                    [disabled]="stats.Admitted.disabled" (change)="statusFilter(stats.Admitted)" />
+                  <label>Admitted</label>
+                </div>
+              </li>
+              <li>
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Inactive.value" [(ngModel)]="stats.Inactive.checked"
+                    [disabled]="stats.Inactive.disabled" (change)="statusFilter(stats.Inactive)" />
+                  <label>Inactive</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data Table and Pagination -->
+      <section class="search-data">
+        <!-- Export and Toggler Here -->
+        <div class="row class filter-res">
+          <div class="c-lg-6 c-md-6 c-sm-6">
+            <label>Showing 1 to {{displayBatchSize}} of {{totalEnquiry}} Enquiries</label>
+          </div>
+          <div class="c-lg-6 c-md-6 c-sm-6 align-right">
+            <ul class="export-print">
+              <li>
+                <div class="bulk-dropdown">
+                  <button id="bulk-action" (click)="bulkActionFunction()" class="btn bulk-dropbtn">Bulk Actions</button>
+                  <div id="bulk-drop" class="bulk-dropdown-content">
+                    <a>Send SMS</a>
+                    <a>Delete</a>
+                    <a>To be Added.. </a>
                   </div>
                 </div>
-                <div class="c-lg-4 c-md-4 c-sm-4">
-                  <div class="field-wrapper">
-                    <select id="enquiryPriority" class="form-ctrl" [(ngModel)]="advancedFilterForm.priority" name="priority" enquiryInput>
+              </li>
+              <li class="export-icon" (click)="downloadAllEnquiries()">
+                <a id="enq_download"></a>
+                Export
+              </li>
+              <li>
+                <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggleOptionChange($event)">
+                </ss-multiselect-dropdown>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Enquiry DataTable -->
+        <div class="row">
+          <div class="c-lg-12 c-md-12 c-sm-12">
+            <div class="table table-responsive table-container">
+              <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="rowClicked($event)">
+              </ng2-smart-table>
+            </div>
+          </div>
+        </div>
+        <!-- Paginator Here -->
+        <div class="row filter-res pagination" style="width: 100%;">
+          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+            <ul class="pagination">
+
+              <li id="previous">
+                <a (click)="fetchPrevious()"> Previous</a>
+              </li>
+
+              <li *ngFor="let page of pageArray" (click)="fetchDataByPage(page)">{{page}}</li>
+
+              <li id="next">
+                <a (click)="fetchNext()"> Next</a>
+              </li>
+
+              <li class="batch-size">
+                <select class="" [ngModel]="displayBatchSize" (ngModelChange)="updateTableBatchSize($event)">
+                  <option>5</option>
+                  <option>10</option>
+                  <option>25</option>
+                  <option>50</option>
+                  <option>100</option>
+                </select>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </section>
+  </aside>
+
+
+  <!-- Update PopUp -->
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'update'">
+    <div class="popup pos-abs">
+      <div class="popup-wrapper pos-rel">
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
+            </g>
+          </svg>
+        </span>
+        <div class="popup-content">
+          <h2>Update Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
+          <div class="update-enquiry-form overflowHidden">
+            <div class="">
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value">
+                    <select id="priorityEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.priority" name="priority"
+                      enquiryInput>
                       <option></option>
-                      <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
+                      <option *ngFor="let priority of enqPriority" [value]="priority.data_value" [attr.selected]="priority.data_value == selectedRow.priority ? '' : null">
                         {{priority.data_value}}
                       </option>
                     </select>
-                    <label for="enquiryPriority">Enquiry Priority</label>
+                    <label for="priorityEdit">Priority</label>
                   </div>
                 </div>
-                <div class="c-lg-4 c-md-4 c-sm-4">
-                  <div class="field-wrapper">
-                    <select id="followupType" class="form-ctrl" [(ngModel)]="advancedFilterForm.follow_type" name="followType" enquiryInput>
-                      <option></option>
-                      <option *ngFor="let follow of enqFollowType" [value]="follow.data_key">
-                        {{ follow.data_value }}
-                      </option>
-                    </select>
-                    <label for="followupType">Enquiry Followup Type</label>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="c-lg-4 c-md-4 c-sm-4">
-                  <div class="field-wrapper">
-                    <select id="standard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" name="standard" (ngModelChange)="fetchEnquirySubject()"
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value">
+                    <select id="selectFollowupEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.follow_type" name="follow_type"
                       enquiryInput>
                       <option></option>
-                      <option *ngFor="let std of enqStd" [value]="std.standard_id">
-                        {{ std.standard_name }}
+                      <option *ngFor="let followT of enqFollowType" [value]="followT.data_value" [attr.selected]="followT.data_value == selectedRow.follow_type ? '' : null">
+                        {{followT.data_value}}
                       </option>
                     </select>
-                    <label for="standard">Standard</label>
-                  </div>
-                </div>
-                <div class="c-lg-4 c-md-4 c-sm-4">
-                  <div class="field-wrapper">
-                    <select id="selectSub" class="form-ctrl" [(ngModel)]="advancedFilterForm.subject_id" name="subject" enquiryInput>
-                      <option></option>
-                      <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">
-                        {{ subject.subject_name }}
-                      </option>
-                    </select>
-                    <label for="selectSub">Subject</label>
-                  </div>
-                </div>
-                <div class="c-lg-4 c-md-4 c-sm-4">
-                  <div class="field-wrapper">
-                    <select id="assignTo" class="form-ctrl" [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo" enquiryInput>
-                      <option></option>
-                      <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
-                        {{ assigned.name }}
-                      </option>
-                    </select>
-                    <label for="assignTo">Assign To</label>
+                    <label for="selectFollowupEdit">Follow Up Type</label>
                   </div>
                 </div>
               </div>
               <div class="row">
-                <div class="c-lg-4 c-md-4 c-sm-4">
-                  <div class="field-wrapper datePickerBox has-value" enquiryDate>
-                    <input type="text" value="" id="updateDate" class="form-ctrl" 
-                    [(ngModel)]="advancedFilterForm.updateDate" name="UD" bsDatepicker />
-                    <label for="updateDate">Update Date</label>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value datePickerBox" enquiryDate>
+                    <input type="text" class="form-ctrl" value="" placeholder="" [(ngModel)]="selectedRow.followUpDate" id="followUPdateEdit"
+                      bsDatepicker />
+                    <label for="followUPdateEdit">Follow Up Date</label>
                   </div>
                 </div>
-                <div class="c-lg-4 c-md-4 c-sm-4">
-                  <div class="field-wrapper datePickerBox has-value" enquiryDate>
-                    <input type="text" value="" id="enquiryFromDate" class="form-ctrl" [(ngModel)]="advancedFilterForm.enquireDateFrom"
-                      name="EFD" bsDatepicker/>
-                    <label for="enquiryFromDate">Enquiry From Date</label>
-                  </div>
-                </div>
-                <div class="c-lg-4 c-md-4 c-sm-4">
-                  <div class="field-wrapper datePickerBox has-value" enquiryDate>
-                    <input type="text" value="" id="enquiryToDate" class="form-ctrl" [(ngModel)]="advancedFilterForm.enquireDateTo"
-                      name="ETD" bsDatepicker/>
-                    <label for="enquiryToDate">Enquiry To Date</label>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value">
+                    <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.statusValue" name="statusValue"
+                      enquiryInput>
+                      <option></option>
+                      <option *ngFor="let status of enqstatus" [value]="status.data_value" [attr.selected]="status.data_value == selectedRow.statusValue ? '' : null">
+                        {{status.data_value}}
+                      </option>
+                    </select>
+                    <label for="enquiryStatusEdit">Status</label>
                   </div>
                 </div>
               </div>
-  
-              <custom-component *ngFor="let component of componentPrefill">
-  
-                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y' " input-def>
-                  <div class="field-wrapper">
-                    <input type="text" value="" id="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
-                      (ngModelChange)="customComponentUpdated($event, component)" class="form-ctrl" name="component.label" enquiryInput/>
-                    <label for="component.label">{{component.label}}</label>
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value datePickerBox" enquiryDate>
+                    <input type="text" value="" placeholder="" id="commentDateEdit" class="form-ctrl" [(ngModel)]="updateFormData.commentDate"
+                      bsDatepicker/>
+                    <label for="commentDateEdit">Comment Date</label>
                   </div>
                 </div>
-  
-  
-                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y' " input-def>
-                  <div class="field-checkbox-wrapper">
-                    <input class="form-checkbox" id="component.label" name="component.label" type="checkbox" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
-                      (ngModelChange)="customComponentUpdated($event, component)" value="">
-                      <label for="component.label">{{component.label}}</label>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <input type="text" value="" placeholder="" id="addcommentEdit" class="form-ctrl" [(ngModel)]="updateFormData.comment" enquiryInput/>
+                    <label for="addcommentEdit">Add Comment Edit</label>
                   </div>
                 </div>
-  
-                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3 && component.is_searchable == 'Y' " input-def>
+              </div>
+              <h4>Comment History</h4>
+              <div class="enquiry-update-history table-responsive">
+                <table>
+
+                  <thead>
+                    <tr>
+                      <th>Comment</th>
+                      <th>Commented On</th>
+                      <th>Commented By</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr *ngFor="let item of updateFormComments; let i=index;">
+                      <td>{{updateFormComments[i]}}</td>
+                      <td>{{updateFormCommentsOn[i]}}</td>
+                      <td>{{updateFormCommentsBy[i]}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="">
+                <div class="clearfix">
+                  <aside class="pull-right popup-btn">
+                    <input type="button" value="Cancel" class="btn" (click)="closePopup()">
+                    <input type="button" value="Update" class="redBtn btn" (click)="pushUpdatedEnquiry()">
+                  </aside>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Delete PopUp -->
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'delete'">
+    <div class="popup pos-abs">
+      <div class="popup-wrapper pos-rel">
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
+            </g>
+          </svg>
+        </span>
+        <div class="popup-content">
+          <h2>Delete Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
+          <div class="update-enquiry-form overflowHidden">
+            <div class="enquiry-update-history">
+              <h4>Are you Sure you wish to delete this data, it cannot be recovered later.</h4>
+            </div>
+            <div class="">
+              <div class="clearfix">
+                <aside class="pull-right popup-btn">
+                  <input type="button" value="Cancel" class="btn" (click)="closePopup()">
+                  <input type="button" value="Delete" class="redBtn btn" (click)="DeleteEnquiry()">
+                </aside>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Convert PopUp -->
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'convert'">
+    <div class="popup pos-abs">
+      <div class="popup-wrapper pos-rel">
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
+            </g>
+          </svg>
+        </span>
+        <div class="popup-content">
+          <h2>Convert Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
+          <div class="update-enquiry-form overflowHidden">
+            <div class="enquiry-update-history">
+              <h4> You will be converting {{selectedRow.name}} to student, this is irreversible </h4>
+            </div>
+            <div class="">
+              <div class="clearfix">
+                <aside class="pull-right popup-btn">
+                  <input type="button" value="Cancel" class="btn" (click)="closePopup()">
+                  <input type="button" value="Convert" class="redBtn btn" (click)="convertRow(selectedRow)">
+                </aside>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Payment PopUp -->
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'payment'">
+    <div class="popup pos-abs">
+      <div class="popup-wrapper pos-rel">
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
+            </g>
+          </svg>
+        </span>
+        <div class="popup-content">
+          <h2>Registration Fee</h2>
+          <div class="registration-fee-form overflowHidden">
+            <div class="">
+              <div class="row extraMargin">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value">
+                    <input type="text" value="" id="pDate" class="form-ctrl" [ngModel]="registrationForm.paymentDate" name="pDate" enquiryInput/>
+                    <label for="pDate">Payment Date</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper">
-                    <select id="component.label" class="form-ctrl" name="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
-                      (ngModelChange)="customComponentUpdated($event, component)" enquiryInput>
-                      <option value=""></option>
-                      <option *ngFor="let opt of component.prefilled_data" value="{{opt}}">{{opt}}</option>
+                    <select id="paymentMode" class="form-ctrl" [(ngModel)]="registrationForm.paymentMode" enquiryInput>
+                      <option></option>
+                      <option *ngFor="let payment of paymentMode" [value]="payment">
+                        {{payment}}
+                      </option>
                     </select>
-                    <label for="component.label">{{component.label}}</label>
+                    <label for="paymentMode">Payment Mode</label>
                   </div>
                 </div>
-  
-                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 && component.is_searchable == 'Y' " input-def>
+              </div>
+              <div class="row extraMargin">
+                <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper">
-                    <select id="component.label" class="form-ctrl" name="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
-                      (ngModelChange)="customComponentUpdated($event, component)" multiple enquiryInput>
-                      <option value=""></option>
-                      <option *ngFor="let opt of component.prefilled_data" value="component">{{opt}}</option>
-                    </select>
-                    <label for="component.label">{{component.label}}</label>
+                    <input type="text" value="" id="remark" class="form-ctrl" [(ngModel)]="registrationForm.amount" name="remark" enquiryInput/>
+                    <label for="remark">Remarks</label>
                   </div>
                 </div>
-  
-              </custom-component>
-  
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <input type="text" value="" id="referenceNo" class="form-ctrl" [(ngModel)]="registrationForm.reference" name="reference"
+                      enquiryInput/>
+                    <label for="referenceNo">Reference No.</label>
+                  </div>
+                </div>
+              </div>
               <div class="row">
                 <div class="c-lg-12 c-md-12 c-sm-12">
-                  <div class="field-wrapper">
-                    <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" (click)="filterAdvanced()" />
-                  </div>
+                  <ul class="print-output-section">
+                    <li>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9177 266 26 22">
+                        <g id="Group_1224" data-name="Group 1224" transform="translate(8100 -6)">
+                          <g id="Group_1222" data-name="Group 1222">
+                            <g id="Group_1212" data-name="Group 1212">
+                              <path id="Path_163" data-name="Path 163" class="cls-1" d="M37,22.478h4.174a1.047,1.047,0,0,0,1.043-1.043V12.043A1.047,1.047,0,0,0,41.174,11H39.087"
+                                transform="translate(1059.782 267.47)" />
+                              <path id="Path_164" data-name="Path 164" class="cls-1" d="M4.13,11H2.043A1.047,1.047,0,0,0,1,12.043v9.391a1.047,1.047,0,0,0,1.043,1.043H6.217"
+                                transform="translate(1077 267.47)" />
+                              <rect id="Rectangle_269" data-name="Rectangle 269" class="cls-1" width="13.565" height="10.435" transform="translate(1083.217 273)"
+                              />
+                              <rect id="Rectangle_270" data-name="Rectangle 270" class="cls-1" width="13.565" height="5.217" transform="translate(1083.217 287.77)"
+                              />
+                              <line id="Line_125" data-name="Line 125" class="cls-1" x2="19.826" transform="translate(1080.087 283.94)" />
+                              <line id="Line_126" data-name="Line 126" class="cls-1" y2="1.094" transform="translate(1080.609 286.128)" />
+                              <line id="Line_127" data-name="Line 127" class="cls-1" y1="6.564" transform="translate(1081.13 275.735)" />
+                              <line id="Line_128" data-name="Line 128" class="cls-1" y1="6.564" transform="translate(1098.87 275.735)" />
+                            </g>
+                            <rect id="Rectangle_690" data-name="Rectangle 690" class="cls-2" width="26" height="22" transform="translate(1077 272)" />
+                          </g>
+                        </g>
+                      </svg>
+                      <span>Print Fee Receipt</span>
+                    </li>
+                    <li class="svg-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="14181 435 26 22">
+                        <g id="Group_1232" data-name="Group 1232" transform="translate(13654 -6)">
+                          <g id="Group_1231" data-name="Group 1231">
+                            <rect id="Rectangle_694" data-name="Rectangle 694" class="cls-1" width="26" height="22" transform="translate(527 441)" />
+                          </g>
+                          <g id="Symbol_11_6" data-name="Symbol 11 – 6" transform="translate(-205 -24)">
+                            <g id="Group_656" data-name="Group 656" transform="translate(736 466)">
+                              <path id="Path_171" data-name="Path 171" class="cls-2" d="M13,25.348a5.884,5.884,0,0,1-2.87.87,5.884,5.884,0,0,1-2.87-.87C6.783,25.087,1,21,1,21v9.13a1.281,1.281,0,0,0,1.3,1.3H17.957a1.281,1.281,0,0,0,1.3-1.3V21S13.478,25.087,13,25.348Z"
+                                transform="translate(-1 -11.435)" />
+                              <line id="Line_131" data-name="Line 131" class="cls-2" x2="4.348" y2="4.348" transform="translate(12.457 14.348)" />
+                              <line id="Line_132" data-name="Line 132" class="cls-2" x1="4.348" y2="4.348" transform="translate(1.78 14.348)" />
+                              <path id="Path_172" data-name="Path 172" class="cls-2" d="M39.043,16.2v-.435a1.489,1.489,0,0,0-.652-1.174L36,12.5" transform="translate(-20.429 -7)"
+                              />
+                              <path id="Path_173" data-name="Path 173" class="cls-2" d="M1,16.2v-.435a1.489,1.489,0,0,1,.652-1.174L4.043,12.5" transform="translate(-1 -7)"
+                              />
+                              <path id="Path_174" data-name="Path 174" class="cls-2" d="M37.3,3.174h2.174V2.739A1.717,1.717,0,0,0,37.739,1H36" transform="translate(-20.429 -1)"
+                              />
+                              <path id="Path_175" data-name="Path 175" class="cls-2" d="M8,11.87v-8.7A2.153,2.153,0,0,1,10.174,1H22.348a2.153,2.153,0,0,0-2.174,2.174v8.7"
+                                transform="translate(-4.886 -1)" />
+                              <line id="Line_133" data-name="Line 133" class="cls-2" x2="7.118" transform="translate(5.784 4.304)" />
+                              <line id="Line_134" data-name="Line 134" class="cls-2" x2="7.118" transform="translate(5.784 6.696)" />
+                              <line id="Line_135" data-name="Line 135" class="cls-2" x2="4.36" transform="translate(5.784 9.087)" />
+                            </g>
+                          </g>
+                        </g>
+                      </svg>
+
+                      <span>Send Email</span>
+                    </li>
+                    <li class="svg-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="14362 435 26 22">
+                        <g id="Group_1230" data-name="Group 1230" transform="translate(13654 -6)">
+                          <rect id="Rectangle_695" data-name="Rectangle 695" class="cls-1" width="26" height="22" transform="translate(708 441)" />
+                          <g id="Symbol_12_5" data-name="Symbol 12 – 5" transform="translate(53 -16)">
+                            <path id="Path_161" data-name="Path 161" class="cls-2" d="M21,32v3.158H1V32" transform="translate(657 442.842)" />
+                            <path id="Path_162" data-name="Path 162" class="cls-2" d="M8,19l6.316,6.316L20.632,19" transform="translate(653.684 449)"
+                            />
+                            <line id="Line_124" data-name="Line 124" class="cls-2" y1="16.316" transform="translate(668 458)" />
+                          </g>
+                        </g>
+                      </svg>
+                      <span>PDF Download</span>
+                    </li>
+                    <li class="svg-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="14535 435 26 22">
+                        <g id="Group_1229" data-name="Group 1229" transform="translate(13654 -6)">
+                          <rect id="Rectangle_696" data-name="Rectangle 696" class="cls-1" width="26" height="22" transform="translate(881 441)" />
+                          <g id="Symbol_9_5" data-name="Symbol 9 – 5" transform="translate(151 82)">
+                            <path id="Path_165" data-name="Path 165" class="cls-2" d="M17,38.255V37.4a3.167,3.167,0,0,0,1.277-2.128V34" transform="translate(725.808 340.043)"
+                            />
+                            <path id="Path_166" data-name="Path 166" class="cls-2" d="M4.979,21,2.851,22.7A1.937,1.937,0,0,0,2,24.4v6.383" transform="translate(734.426 347.511)"
+                            />
+                            <path id="Path_167" data-name="Path 167" class="cls-2" d="M1,45.7V44H8.66v1.7" transform="translate(735 334.298)" />
+                            <path id="Path_168" data-name="Path 168" class="cls-2" d="M6,27.167l3.4-3.4c.766-.766,2,1.149,1.064,2.34L9.4,27.167v1.277a1.588,1.588,0,0,1-1.7,1.7"
+                              transform="translate(732.128 346.024)" />
+                            <path id="Path_169" data-name="Path 169" class="cls-2" d="M9,12.915V1.851A.854.854,0,0,1,9.851,1h7.66l2.553,2.553V14.191a.854.854,0,0,1-.851.851H11.128"
+                              transform="translate(730.404 359)" />
+                            <path id="Path_170" data-name="Path 170" class="cls-2" d="M28,4V5.7h1.7" transform="translate(719.489 357.277)" />
+                            <line id="Line_129" data-name="Line 129" class="cls-2" x2="6.383" transform="translate(741.957 365.532)" />
+                            <line id="Line_130" data-name="Line 130" class="cls-2" x2="3.404" transform="translate(741.957 367.234)" />
+                          </g>
+                        </g>
+                      </svg>
+                      <span>Receipt Preview</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-  
-        <!-- Checkboxes Filter -->
-        <section class="search-enquiry-type-filter">
-          <div class="row">
-            <div class="c-lg-12 c-sm-12 c-md-12">
-              <span class="filter-label pull-left">Enquiry Type</span>
-              <ul class="pull-left type-filter">
-                <li>
-                  <div class="field-checkbox-wrapper">
-                    <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.All.value" [(ngModel)]="stats.All.checked"
-                      [disabled]="stats.All.disabled" (change)="statusFilter(stats.All)" />
-                    <label>All</label>
-                  </div>
-                </li>
-                <li>
-                  <div class="field-checkbox-wrapper">
-                    <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Open.value" [(ngModel)]="stats.Open.checked"
-                      [disabled]="stats.Open.disabled" (change)="statusFilter(stats.Open)" />
-                    <label>Open/In Progress</label>
-                  </div>
-                </li>
-                <li *ngIf="isProfessional">
-                  <div class="field-checkbox-wrapper">
-                    <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Registered.value" [(ngModel)]="stats.Registered.checked"
-                      [disabled]="stats.Registered.disabled" (change)="statusFilter(stats.Registered)" />
-                    <label>Registered</label>
-                  </div>
-                </li>
-                <li>
-                  <div class="field-checkbox-wrapper">
-                    <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Admitted.value" [(ngModel)]="stats.Admitted.checked"
-                      [disabled]="stats.Admitted.disabled" (change)="statusFilter(stats.Admitted)" />
-                    <label>Admitted</label>
-                  </div>
-                </li>
-                <li>
-                  <div class="field-checkbox-wrapper">
-                    <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Inactive.value" [(ngModel)]="stats.Inactive.checked"
-                      [disabled]="stats.Inactive.disabled" (change)="statusFilter(stats.Inactive)" />
-                    <label>Inactive</label>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </section>
-  
-        <!-- Data Table and Pagination -->
-        <section class="search-data">
-          <!-- Export and Toggler Here -->
-          <div class="row class filter-res">
-            <div class="c-lg-6 c-md-6 c-sm-6">
-              <label>Showing 1 to {{displayBatchSize}} of {{totalEnquiry}} Enquiries</label>
-            </div>
-            <div class="c-lg-6 c-md-6 c-sm-6 align-right">
-              <ul class="export-print">
-                <li>
-                  <div class="bulk-dropdown">
-                    <button id="bulk-action" (click)="bulkActionFunction()" class="btn bulk-dropbtn">Bulk Actions</button>
-                    <div id="bulk-drop" class="bulk-dropdown-content">
-                      <a>Send SMS</a>
-                      <a>Delete</a>
-                      <a>To be Added.. </a>
-                    </div>
-                  </div>
-                </li>
-                <li class="export-icon" (click)="downloadAllEnquiries()">
-                    <a id="enq_download"></a>
-                  Export
-                </li>
-                <li>
-                  <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggleOptionChange($event)">
-                  </ss-multiselect-dropdown>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <!-- Enquiry DataTable -->
-          <div class="row">
-            <div class="c-lg-12 c-md-12 c-sm-12">
-              <div class="table table-responsive table-container">
-                <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="rowClicked($event)">
-                </ng2-smart-table>
-              </div>
-            </div>
-          </div>
-          <!-- Paginator Here -->
-          <div class="row filter-res pagination" style="width: 100%;">
-            <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-              <ul class="pagination">
-  
-                <li id="previous">
-                  <a (click)="fetchPrevious()"> Previous</a>
-                </li>
-  
-                <li *ngFor="let page of pageArray" (click)="fetchDataByPage(page)">{{page}}</li>
-  
-                <li id="next">
-                  <a (click)="fetchNext()"> Next</a>
-                </li>
-  
-                <li class="batch-size">
-                  <select class="" [ngModel]="displayBatchSize" (ngModelChange)="updateTableBatchSize($event)">
-                    <option>5</option>
-                    <option>10</option>
-                    <option>25</option>
-                    <option>50</option>
-                    <option>100</option>
-                  </select>
-                </li>
-  
-              </ul>
-            </div>
-          </div>
-        </section>
-  
-      </section>
-    </aside>
-  
-  
-    <!-- Update PopUp -->
-    <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'update'">
-      <div class="popup pos-abs">
-        <div class="popup-wrapper pos-rel">
-          <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-              <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                  <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                  <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-                </g>
-                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                />
-              </g>
-            </svg>
-          </span>
-          <div class="popup-content">
-            <h2>Update Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
-            <div class="update-enquiry-form overflowHidden">
-              <div class="">
-                <div class="row">
-                  <div class="c-lg-6 c-md-6 c-sm-6">
-                    <div class="field-wrapper has-value">
-                      <select id="priorityEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.priority" name="priority"
-                        enquiryInput>
-                        <option></option>
-                        <option *ngFor="let priority of enqPriority" [value]="priority.data_value" [attr.selected]="priority.data_value == selectedRow.priority ? '' : null">
-                          {{priority.data_value}}
-                        </option>
-                      </select>
-                      <label for="priorityEdit">Priority</label>
-                    </div>
-                  </div>
-                  <div class="c-lg-6 c-md-6 c-sm-6">
-                    <div class="field-wrapper has-value">
-                      <select id="selectFollowupEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.follow_type" name="follow_type"
-                        enquiryInput>
-                        <option></option>
-                        <option *ngFor="let followT of enqFollowType" [value]="followT.data_value" [attr.selected]="followT.data_value == selectedRow.follow_type ? '' : null">
-                          {{followT.data_value}}
-                        </option>
-                      </select>
-                      <label for="selectFollowupEdit">Follow Up Type</label>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="c-lg-6 c-md-6 c-sm-6">
-                    <div class="field-wrapper has-value datePickerBox" enquiryDate>
-                      <input type="text" class="form-ctrl" value="" placeholder="" 
-                      [(ngModel)]="selectedRow.followUpDate" id="followUPdateEdit" bsDatepicker />
-                      <label for="followUPdateEdit">Follow Up Date</label>
-                    </div>
-                  </div>
-                  <div class="c-lg-6 c-md-6 c-sm-6">
-                    <div class="field-wrapper has-value">
-                      <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.statusValue" name="statusValue"
-                        enquiryInput>
-                        <option></option>
-                        <option *ngFor="let status of enqstatus" [value]="status.data_value" [attr.selected]="status.data_value == selectedRow.statusValue ? '' : null">
-                          {{status.data_value}}
-                        </option>
-                      </select>
-                      <label for="enquiryStatusEdit">Status</label>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="c-lg-6 c-md-6 c-sm-6">
-                    <div class="field-wrapper has-value datePickerBox" enquiryDate>
-                      <input type="text" value="" placeholder="" id="commentDateEdit" class="form-ctrl"
-                       [(ngModel)]="updateFormData.commentDate" bsDatepicker/>
-                      <label for="commentDateEdit">Comment Date</label>
-                    </div>
-                  </div>
-                  <div class="c-lg-6 c-md-6 c-sm-6">
-                    <div class="field-wrapper">
-                      <input type="text" value="" placeholder="" id="addcommentEdit" class="form-ctrl" [(ngModel)]="updateFormData.comment" enquiryInput/>
-                      <label for="addcommentEdit">Add Comment Edit</label>
-                    </div>
-                  </div>
-                </div>
-                <h4>Comment History</h4>
-                <div class="enquiry-update-history table-responsive">
-                  <table>
-  
-                    <thead>
-                      <tr>
-                        <th>Comment</th>
-                        <th>Commented On</th>
-                        <th>Commented By</th>
-                      </tr>
-                    </thead>
-  
-                    <tbody>
-                      <tr *ngFor="let item of updateFormComments; let i=index;">
-                        <td>{{updateFormComments[i]}}</td>
-                        <td>{{updateFormCommentsOn[i]}}</td>
-                        <td>{{updateFormCommentsBy[i]}}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="">
-                  <div class="clearfix">
-                    <aside class="pull-right popup-btn">
-                      <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                      <input type="button" value="Update" class="redBtn btn" (click)="pushUpdatedEnquiry()">
-                    </aside>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  
-  
-  
-    <!-- Delete PopUp -->
-    <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'delete'">
-      <div class="popup pos-abs">
-        <div class="popup-wrapper pos-rel">
-          <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-              <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                  <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                  <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-                </g>
-                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                />
-              </g>
-            </svg>
-          </span>
-          <div class="popup-content">
-            <h2>Delete Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
-            <div class="update-enquiry-form overflowHidden">
-              <div class="enquiry-update-history">
-                <h4>Are you Sure you wish to delete this data, it cannot be recovered later.</h4>
-              </div>
-              <div class="">
-                <div class="clearfix">
+              <div class="row">
+                <div class="c-lg-12 c-md-12 c-sm-12">
                   <aside class="pull-right popup-btn">
                     <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                    <input type="button" value="Delete" class="redBtn btn" (click)="DeleteEnquiry()">
+                    <input type="button" value="Save and Continue" class="btn redBtn" (click)="registerPayment()">
                   </aside>
                 </div>
               </div>
@@ -470,211 +674,45 @@
           </div>
         </div>
       </div>
-    </section>
-  
-  
-  
-    <!-- Convert PopUp -->
-    <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'convert'">
-      <div class="popup pos-abs">
-        <div class="popup-wrapper pos-rel">
-          <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-              <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                  <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                  <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-                </g>
-                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                />
+    </div>
+  </section>
+
+
+  <!-- Delete PopUp -->
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'sms'">
+    <div class="popup pos-abs">
+      <div class="popup-wrapper pos-rel">
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
               </g>
-            </svg>
-          </span>
-          <div class="popup-content">
-            <h2>Convert Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
-            <div class="update-enquiry-form overflowHidden">
-              <div class="enquiry-update-history">
-                <h4> You will be converting {{selectedRow.name}} to student, this is irreversible </h4>
-              </div>
-              <div class="">
-                <div class="clearfix">
-                  <aside class="pull-right popup-btn">
-                    <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                    <input type="button" value="Convert" class="redBtn btn" (click)="convertRow(selectedRow)">
-                  </aside>
-                </div>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
+            </g>
+          </svg>
+        </span>
+        <div class="popup-content">
+          <h2>Send SMS - Enquiry No: {{selectedRow.enquiry_no}}</h2>
+          <div class="update-enquiry-form overflowHidden">
+            <div class="enquiry-update-history">
+              <h4>Test Test Test Test</h4>
+            </div>
+            <div class="">
+              <div class="clearfix">
+                <aside class="pull-right popup-btn">
+                  <input type="button" value="Cancel" class="btn" (click)="closePopup()">
+                  <input type="button" value="Delete" class="redBtn btn" (click)="DeleteEnquiry()">
+                </aside>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  
-  
-  
-    <!-- Payment PopUp -->
-    <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'payment'">
-      <div class="popup pos-abs">
-        <div class="popup-wrapper pos-rel">
-          <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-              <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                  <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                  <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-                </g>
-                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                />
-              </g>
-            </svg>
-          </span>
-          <div class="popup-content">
-            <h2>Registration Fee</h2>
-            <div class="registration-fee-form overflowHidden">
-              <div class="">
-                <div class="row extraMargin">
-                  <div class="c-lg-6 c-md-6 c-sm-6">
-                    <div class="field-wrapper has-value">
-                      <input type="text" value="" id="pDate" class="form-ctrl" [ngModel]="registrationForm.paymentDate" name="pDate" enquiryInput/>
-                      <label for="pDate">Payment Date</label>
-                    </div>
-                  </div>
-                  <div class="c-lg-6 c-md-6 c-sm-6">
-                    <div class="field-wrapper">
-                      <select id="paymentMode" class="form-ctrl" [(ngModel)]="registrationForm.paymentMode" enquiryInput>
-                        <option></option>
-                        <option *ngFor="let payment of paymentMode" [value]="payment">
-                          {{payment}}
-                        </option>
-                      </select>
-                      <label for="paymentMode">Payment Mode</label>
-                    </div>
-                  </div>
-                </div>
-                <div class="row extraMargin">
-                  <div class="c-lg-6 c-md-6 c-sm-6">
-                    <div class="field-wrapper">
-                      <input type="text" value="" id="remark" class="form-ctrl" [(ngModel)]="registrationForm.amount" name="remark" enquiryInput/>
-                      <label for="remark">Remarks</label>
-                    </div>
-                  </div>
-                  <div class="c-lg-6 c-md-6 c-sm-6">
-                    <div class="field-wrapper">
-                      <input type="text" value="" id="referenceNo" class="form-ctrl" [(ngModel)]="registrationForm.reference" name="reference"
-                        enquiryInput/>
-                      <label for="referenceNo">Reference No.</label>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="c-lg-12 c-md-12 c-sm-12">
-                    <ul class="print-output-section">
-                      <li>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9177 266 26 22">
-                          <g id="Group_1224" data-name="Group 1224" transform="translate(8100 -6)">
-                            <g id="Group_1222" data-name="Group 1222">
-                              <g id="Group_1212" data-name="Group 1212">
-                                <path id="Path_163" data-name="Path 163" class="cls-1" d="M37,22.478h4.174a1.047,1.047,0,0,0,1.043-1.043V12.043A1.047,1.047,0,0,0,41.174,11H39.087"
-                                  transform="translate(1059.782 267.47)" />
-                                <path id="Path_164" data-name="Path 164" class="cls-1" d="M4.13,11H2.043A1.047,1.047,0,0,0,1,12.043v9.391a1.047,1.047,0,0,0,1.043,1.043H6.217"
-                                  transform="translate(1077 267.47)" />
-                                <rect id="Rectangle_269" data-name="Rectangle 269" class="cls-1" width="13.565" height="10.435" transform="translate(1083.217 273)"
-                                />
-                                <rect id="Rectangle_270" data-name="Rectangle 270" class="cls-1" width="13.565" height="5.217" transform="translate(1083.217 287.77)"
-                                />
-                                <line id="Line_125" data-name="Line 125" class="cls-1" x2="19.826" transform="translate(1080.087 283.94)" />
-                                <line id="Line_126" data-name="Line 126" class="cls-1" y2="1.094" transform="translate(1080.609 286.128)" />
-                                <line id="Line_127" data-name="Line 127" class="cls-1" y1="6.564" transform="translate(1081.13 275.735)" />
-                                <line id="Line_128" data-name="Line 128" class="cls-1" y1="6.564" transform="translate(1098.87 275.735)" />
-                              </g>
-                              <rect id="Rectangle_690" data-name="Rectangle 690" class="cls-2" width="26" height="22" transform="translate(1077 272)" />
-                            </g>
-                          </g>
-                        </svg>
-                        <span>Print Fee Receipt</span>
-                      </li>
-                      <li class="svg-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="14181 435 26 22">
-                          <g id="Group_1232" data-name="Group 1232" transform="translate(13654 -6)">
-                            <g id="Group_1231" data-name="Group 1231">
-                              <rect id="Rectangle_694" data-name="Rectangle 694" class="cls-1" width="26" height="22" transform="translate(527 441)" />
-                            </g>
-                            <g id="Symbol_11_6" data-name="Symbol 11 – 6" transform="translate(-205 -24)">
-                              <g id="Group_656" data-name="Group 656" transform="translate(736 466)">
-                                <path id="Path_171" data-name="Path 171" class="cls-2" d="M13,25.348a5.884,5.884,0,0,1-2.87.87,5.884,5.884,0,0,1-2.87-.87C6.783,25.087,1,21,1,21v9.13a1.281,1.281,0,0,0,1.3,1.3H17.957a1.281,1.281,0,0,0,1.3-1.3V21S13.478,25.087,13,25.348Z"
-                                  transform="translate(-1 -11.435)" />
-                                <line id="Line_131" data-name="Line 131" class="cls-2" x2="4.348" y2="4.348" transform="translate(12.457 14.348)" />
-                                <line id="Line_132" data-name="Line 132" class="cls-2" x1="4.348" y2="4.348" transform="translate(1.78 14.348)" />
-                                <path id="Path_172" data-name="Path 172" class="cls-2" d="M39.043,16.2v-.435a1.489,1.489,0,0,0-.652-1.174L36,12.5" transform="translate(-20.429 -7)"
-                                />
-                                <path id="Path_173" data-name="Path 173" class="cls-2" d="M1,16.2v-.435a1.489,1.489,0,0,1,.652-1.174L4.043,12.5" transform="translate(-1 -7)"
-                                />
-                                <path id="Path_174" data-name="Path 174" class="cls-2" d="M37.3,3.174h2.174V2.739A1.717,1.717,0,0,0,37.739,1H36" transform="translate(-20.429 -1)"
-                                />
-                                <path id="Path_175" data-name="Path 175" class="cls-2" d="M8,11.87v-8.7A2.153,2.153,0,0,1,10.174,1H22.348a2.153,2.153,0,0,0-2.174,2.174v8.7"
-                                  transform="translate(-4.886 -1)" />
-                                <line id="Line_133" data-name="Line 133" class="cls-2" x2="7.118" transform="translate(5.784 4.304)" />
-                                <line id="Line_134" data-name="Line 134" class="cls-2" x2="7.118" transform="translate(5.784 6.696)" />
-                                <line id="Line_135" data-name="Line 135" class="cls-2" x2="4.36" transform="translate(5.784 9.087)" />
-                              </g>
-                            </g>
-                          </g>
-                        </svg>
-  
-                        <span>Send Email</span>
-                      </li>
-                      <li class="svg-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="14362 435 26 22">
-                          <g id="Group_1230" data-name="Group 1230" transform="translate(13654 -6)">
-                            <rect id="Rectangle_695" data-name="Rectangle 695" class="cls-1" width="26" height="22" transform="translate(708 441)" />
-                            <g id="Symbol_12_5" data-name="Symbol 12 – 5" transform="translate(53 -16)">
-                              <path id="Path_161" data-name="Path 161" class="cls-2" d="M21,32v3.158H1V32" transform="translate(657 442.842)" />
-                              <path id="Path_162" data-name="Path 162" class="cls-2" d="M8,19l6.316,6.316L20.632,19" transform="translate(653.684 449)"
-                              />
-                              <line id="Line_124" data-name="Line 124" class="cls-2" y1="16.316" transform="translate(668 458)" />
-                            </g>
-                          </g>
-                        </svg>
-                        <span>PDF Download</span>
-                      </li>
-                      <li class="svg-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="14535 435 26 22">
-                          <g id="Group_1229" data-name="Group 1229" transform="translate(13654 -6)">
-                            <rect id="Rectangle_696" data-name="Rectangle 696" class="cls-1" width="26" height="22" transform="translate(881 441)" />
-                            <g id="Symbol_9_5" data-name="Symbol 9 – 5" transform="translate(151 82)">
-                              <path id="Path_165" data-name="Path 165" class="cls-2" d="M17,38.255V37.4a3.167,3.167,0,0,0,1.277-2.128V34" transform="translate(725.808 340.043)"
-                              />
-                              <path id="Path_166" data-name="Path 166" class="cls-2" d="M4.979,21,2.851,22.7A1.937,1.937,0,0,0,2,24.4v6.383" transform="translate(734.426 347.511)"
-                              />
-                              <path id="Path_167" data-name="Path 167" class="cls-2" d="M1,45.7V44H8.66v1.7" transform="translate(735 334.298)" />
-                              <path id="Path_168" data-name="Path 168" class="cls-2" d="M6,27.167l3.4-3.4c.766-.766,2,1.149,1.064,2.34L9.4,27.167v1.277a1.588,1.588,0,0,1-1.7,1.7"
-                                transform="translate(732.128 346.024)" />
-                              <path id="Path_169" data-name="Path 169" class="cls-2" d="M9,12.915V1.851A.854.854,0,0,1,9.851,1h7.66l2.553,2.553V14.191a.854.854,0,0,1-.851.851H11.128"
-                                transform="translate(730.404 359)" />
-                              <path id="Path_170" data-name="Path 170" class="cls-2" d="M28,4V5.7h1.7" transform="translate(719.489 357.277)" />
-                              <line id="Line_129" data-name="Line 129" class="cls-2" x2="6.383" transform="translate(741.957 365.532)" />
-                              <line id="Line_130" data-name="Line 130" class="cls-2" x2="3.404" transform="translate(741.957 367.234)" />
-                            </g>
-                          </g>
-                        </svg>
-                        <span>Receipt Preview</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="c-lg-12 c-md-12 c-sm-12">
-                    <aside class="pull-right popup-btn">
-                      <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                      <input type="button" value="Save and Continue" class="btn redBtn" (click)="registerPayment()">
-                    </aside>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  
-  </div>
+    </div>
+  </section>
+
+
+</div>
