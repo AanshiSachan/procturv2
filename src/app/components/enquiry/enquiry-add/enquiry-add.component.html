@@ -44,7 +44,8 @@
                     </div>
                   </div>
                   <div class="field-wrapper">
-                    <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.phone" (focusout)="updatePhoneFetchRecords()"
+                    <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.phone"
+                     (focusout)="updatePhoneFetchRecords()"
                       name="phone" maxlength="10" minlength="10" required pattern="[789][0-9]{9}" enquiryInput/>
                     <label for="phone">Phone No*</label>
                     <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="alert invalid-alert">
@@ -299,22 +300,19 @@
         <h4>
           <strong>Enquiry Details</strong> (Official Use)</h4>
         <div class="box-shadow-lite">
-          <div class="field-wrapper has-value">
-            <input type="text" value="" id="enquiryDate" class="form-ctrl unstyled-calendar" [(ngModel)]="newEnqData.enquiry_date" name="enquiryDate"
-              onfocus="(this.type='date')" onfocusout="(this.type='text')" enquiryInput>
+          <div class="field-wrapper datePickerBox has-value" enquiryDate>
+            <input type="text" value="" id="enquiryDate" class="form-ctrl" 
+            [(ngModel)]="newEnqData.enquiry_date" name="enquiryDate" bsDatepicker>
             <label for="enquiryDate">Enquiry Date</label>
-            <span class="follow-up-date-icon">
-              <img src="./assets/images/calendar.svg" alt="">
-            </span>
           </div>
-          <div class="field-wrapper ">
-            <select id="eStatus" class="form-ctrl" [(ngModel)]="newEnqData.status" name="status" enquiryInput>
+          <div class="field-wrapper has-value">
+            <select id="eStatus" class="form-ctrl" [(ngModel)]="newEnqData.status" name="status" disabled>
               <option value=""></option>
-              <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
+              <option *ngFor="let status of enqstatus" [value]="status.data_key" [attr.selected]="status.data_value == 'Open' ? '' : null">{{status.data_value}}</option>
             </select>
             <label for="eStatus">Enquiry Status</label>
           </div>
-          <div class="field-wrapper ">
+          <div class="field-wrapper">
             <select id="priority" class="form-ctrl" [(ngModel)]="newEnqData.priority" name="priority" enquiryInput>
               <option value=""></option>
               <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
@@ -332,13 +330,10 @@
             </select>
             <label for="followUpType">Follow Up Type</label>
           </div>
-          <div class="field-wrapper ">
-            <input type="text" value="" id="followUpDate" class="form-ctrl unstyled-calendar" [(ngModel)]="newEnqData.followUpDate" name="followUpDate"
-              onfocus="(this.type='date')" onfocusout="(this.type='text')" enquiryInput>
+          <div class="field-wrapper datePickerBox" enquiryDate>
+            <input type="text" value="" id="followUpDate" class="form-ctrl" name="followUpDate"
+            [(ngModel)]="newEnqData.followUpDate" bsDatepicker>
             <label for="followUpDate">Follow Up Date</label>
-            <span class="follow-up-date-icon">
-              <img src="./assets/images/calendar.svg" alt="">
-            </span>
           </div>
           <div class="field-wrapper ">
             <select id="source" class="form-ctrl" [(ngModel)]="newEnqData.source_id" name="source" enquiryInput>

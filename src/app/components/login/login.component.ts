@@ -19,9 +19,9 @@ export class LoginComponent implements OnInit {
   loading = false;
   returnUrl: string;
 
-  constructor(private login: LoginService, private route: Router, private actroute: ActivatedRoute){
-    
-    if(sessionStorage.getItem('Authorization') != null){
+  constructor(private login: LoginService, private route: Router, private actroute: ActivatedRoute) {
+
+    if (sessionStorage.getItem('Authorization') != null) {
       this.route.navigate(['/enquiry']);
     }
   }
@@ -29,12 +29,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     /* hide header and sidebar from the view onInit to give the user the full screen view of the web app  */
     this.fullscreenLogin();
- 
+
     this.loginDataForm = {
       alternate_email_id: null,
       password: null
     }
- 
+
   }
 
 
@@ -51,19 +51,20 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  
+
   /**/
   loginViaServer() {
-    
+
     this.loading = true;
 
     this.login.postLoginDetails(this.loginDataForm).subscribe(el => {
+      console.log(el);
+      
       if (el.data == null) {
         this.loading = false;
         alert('Invalid Username or Password!!, please try again later');
       }
       else {
-        console.log(el);
         sessionStorage.setItem('institute_id', el.data.institution_id);
         sessionStorage.setItem('institute_type', el.data.institute_type);
 
@@ -74,11 +75,11 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('userType', el.data.userType);
         sessionStorage.setItem('password', el.data.password);
 
-        let Authorization = btoa(el.data.userid +"|" +el.data.userType +":" +el.data.password +":" +el.data.institution_id);
+        let Authorization = btoa(el.data.userid + "|" + el.data.userType + ":" + el.data.password + ":" + el.data.institution_id);
 
         sessionStorage.setItem('Authorization', Authorization);
-        
-        this.route.navigate(['/enquiry']);  
+
+        this.route.navigate(['/enquiry']);
         this.removeFullscreen();
       }
     });

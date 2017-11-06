@@ -57,4 +57,18 @@ export class EnquiryBulkaddComponent implements OnInit {
 
   }
 
+
+  msgs: any[];
+  
+  uploadedFiles: any[] = [];
+
+  onUpload(event) {
+      for(let file of event.files) {
+          this.uploadedFiles.push(file);
+      }
+  
+      this.msgs = [];
+      this.msgs.push({severity: 'info', summary: 'File Uploaded', detail: ''});
+  }
+
 }

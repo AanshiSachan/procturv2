@@ -21,6 +21,7 @@ import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
 
 
+
 @Component({
   selector: 'app-enquiry-manage',
   templateUrl: './enquiry-manage.component.html',
@@ -48,7 +49,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   private enqScholarship: any = [];
   private enqSub2: any = [];
   private paymentMode: any = [];
-  today: number = Date.now();
+  today: any = Date.now();
   searchBarData: any = null;
   displayBatchSize: number = 5;
   incrementFlag: boolean = true;
@@ -61,8 +62,113 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   totalEnquiry: number = 0;
   isProfessional: boolean = false;
   isActionDisabled: boolean = false;
-  private selectedRow: any;
-  private selectedRowGroup: any;
+  selectedRow: any = {
+    address:null,
+    amount:0,
+    assigned_name:"",
+    assigned_to:null,
+    batch_size:null,
+    city:null,
+    closedReason:null,
+    closedReasonText:"",
+    comment: null,
+    commentDate: null,
+    commentedBy: null,
+    commentedOn: null,
+    comments: null,
+    course_types: null,
+    curr_address: null,
+    demo_by_id: null,
+    discount_offered: null,
+    email: "",
+    email2: null,
+    enqCustomLi: null,
+    enqLi: null,
+    enqStudentstatusMap: null,
+    enquireDateFrom: null,
+    enquireDateTo: null,
+    enquiry: null,
+    enquiryIdList: null,
+    enquiry_creation_datetime: "",
+    enquiry_date: "",
+    enquiry_no: null,
+    enquiry_no_date: "",
+    failure_reason: "",
+    fee_committed: null,
+    filtered_slots: "",
+    filtered_statuses: "",
+    followUpDate: "",
+    followUpDateTime: "",
+    followUpTime: "",
+    follow_type: "",
+    from_date: null,
+    gender: null,
+    grade: null,
+    inst_enquiry_handler_no: null,
+    institute_enquiry_id: 0,
+    institution_id: 0,
+    invoice_no: 0,
+    isDashbord: "",
+    isEnquiryUpdate: "",
+    isEnquiryV2Update: "",
+    isRegisterFeeUpdate: "",
+    isRport: "",
+    is_converted: "",
+    is_recent: "",
+    lead_id: null,
+    link: null,
+    name: "",
+    name_person: "",
+    newEnqcount: null,
+    occupation_id: null,
+    occupation_name: "",
+    otherReference: null,
+    parent_email: null,
+    parent_name: null,
+    parent_phone: null,
+    pastResult: null,
+    pastResultEvaluationType: null,
+    paymentDate: null,
+    paymentMode: null,
+    phone: "",
+    phone2: null,
+    priority: "",
+    promotional_sms: null,
+    qualification: null,
+    reference: null,
+    reference_no: null,
+    referred_by: null,
+    referred_by_name: "",
+    religion: null,
+    reportType: null,
+    school: null,
+    school_id: null,
+    slot: "",
+    slot_id: null,
+    source_id: null,
+    source_name: "",
+    standard: "",
+    standard_id: null,
+    standard_subject: "",
+    start_index: null,
+    status: null,
+    statusMap: null,
+    statusMasterMap: null,
+    statusValue: "",
+    statuses: null,
+    subject_id: null,
+    subjects: "",
+    teacherArray: null,
+    to_date: null,
+    totalFeesCollected: null,
+    totalcount: null,
+    transactional_sms: "",
+    uniqueCatName: null,
+    updateDate: "",
+    updateDateFrom: null,
+    updateDateTo: null,
+  };
+  selectedRowGroup: any;
   componentPrefill: any = [];
   componentListObject: any = {};
   emptyCustomComponent: any;
@@ -213,9 +319,9 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     slot_id: -1,
     filtered_slots: "",
     isDashbord: "N",
-    enquireDateFrom: "",
-    enquireDateTo: "",
-    updateDate: "",
+    enquireDateFrom: moment().format('YYYY-MM-DD'),
+    enquireDateTo: moment().format('YYYY-MM-DD'),
+    updateDate: moment().format('YYYY-MM-DD'),
     updateDateFrom: "",
     updateDateTo: "",
     start_index: 0,
@@ -531,7 +637,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
 
-  /*   Function to toggle smart table column on click event */
+  /* Function to toggle smart table column on click event */
   toggleOptionChange(ev) {
 
     this.settings = {
@@ -544,13 +650,13 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
         display: false
       },
     };
-    console.log("Start");
+    //console.log("Start");
     this.settingUpdater = Object.assign({}, this.settings);
     this.optionsModel.forEach(el => {
       this.settingUpdater.columns[el].show = true;
     });
     this.settings = Object.assign({}, this.settingUpdater);
-    console.log(JSON.stringify(this.settings));
+    //console.log(JSON.stringify(this.settings));
   }
 
 
@@ -751,9 +857,6 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
   /* Function to handle event on table row click*/
   rowClicked(ev) {
-
-
-
     /* If all records are not selected then check for true/false status */
     if (ev.data != null) {
       /* If true, that is multiple option have been checked but not all */

@@ -10,8 +10,6 @@ import {studentInput} from './student-directives/student-input.directive';
 import {StudentPopUpComponent} from './student-pop-up/student-pop-up.component';
 
 
-import { DatePickerModule } from 'angular-io-datepicker';
-import { OverlayModule } from 'angular-io-overlay';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import 'moment';
 import 'hammerjs';
@@ -20,14 +18,12 @@ import { Ng2SmartTableModule } from '../../../ng2-smart-table';
 import { BusyModule, BusyConfig} from 'angular2-busy';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { NgDatepickerModule } from 'ng2-datepicker';
-
+import {CalendarModule} from 'primeng/primeng';
 
 @NgModule({
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        OverlayModule,
-        DatePickerModule,
         CommonModule,
         StudentRoutingModule,
         MultiselectDropdownModule,

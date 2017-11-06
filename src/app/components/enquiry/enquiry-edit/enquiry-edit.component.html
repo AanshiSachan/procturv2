@@ -30,7 +30,7 @@
                   <span class="close-accor" id="closeBasic" (click)="toggleForm($event)">-</span>
                 </h4>
               </div>
-              <!-- Accordian Form 1 -->
+              <!    -- Accordian Form 1 -->
               <div class="accordian-content">
                 <div class="form-type1">
                   <div class="field-wrapper has-value">
@@ -276,41 +276,16 @@
 
     <!-- Right side form for Office purrpose only -->
     <aside class="pull-right middle-right" id="rightSideBar">
-      <!--Last enquiry information-->
-      <!-- <section class="shadow-box clearfix">
-        <div class="last-added-info">
-          <ul>
-            <li>
-              <span class="last-user-name">
-                <strong>Last Added Name -</strong>
-                <dfn>{{lastDetail.name}}</dfn>
-              </span>
-              <span class="view-details">
-                <a style="cursor:pointer" (click)="navigateToEdit(lastDetail.enquiry_no)">View details</a>
-              </span>
-            </li>
-            <li>
-              <span class="last-Enquiry-no">
-                <strong>Enquiry No. -</strong>
-                <dfn>{{lastDetail.enquiry_no}}</dfn>
-              </span>
-              <span class="enquiry-time">{{lastUpdated}}</span>
-            </li>
-          </ul>
-        </div>
-      </section> -->
+
       <!-- Enquiry Details official use-->
       <section class="enquiry-detail common-right-section">
         <h4>
           <strong>Enquiry Details</strong> (Official Use)</h4>
         <div class="box-shadow-lite">
-          <div class="field-wrapper has-value has-value">
-            <input type="text" value="" id="enquiryDate" class="form-ctrl unstyled-calendar" [(ngModel)]="editEnqData.enquiry_date" name="enquiryDate"
-              onfocus="(this.type='date')" onfocusout="(this.type='text')" enquiryInput>
+          <div class="field-wrapper has-value datePickerBox" enquiryDate>
+            <input type="text" value="" id="enquiryDate" class="form-ctrl" 
+            [(ngModel)]="editEnqData.enquiry_date" name="enquiryDate" bsDatepicker>
             <label for="enquiryDate">Enquiry Date</label>
-            <span class="follow-up-date-icon">
-              <img src="./assets/images/calendar.svg" alt="">
-            </span>
           </div>
           <div class="field-wrapper has-value ">
             <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status" enquiryInput>
@@ -370,9 +345,6 @@
             <input type="text" value="" id="Remarks" class="form-ctrl" [(ngModel)]="editEnqData.enquiry" name="remarks" enquiryInput>
             <label for="Remarks">Remarks</label>
           </div>
-          <!-- <div class="clear-detail">
-            <a (click)="clearFormData()" style="cursor:pointer">Clear Details</a>
-          </div> -->
         </div>
       </section>
 

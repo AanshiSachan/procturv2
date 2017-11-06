@@ -619,9 +619,9 @@ ul.customDropdown li:hover {
 :host /deep/ ng2-smart-table table > tbody > tr:nth-child(odd) > td:first-child > div {
     background: none;
 }
-:host /deep/ ::-webkit-scrollbar{
+/* :host /deep/ ::-webkit-scrollbar{
     display: none;
-}
+} */
 .unstyled-calendar::-webkit-inner-spin-button,
 .unstyled-calendar::-webkit-calendar-picker-indicator {
     -webkit-appearance: none;    

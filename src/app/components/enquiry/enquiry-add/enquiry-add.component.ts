@@ -122,7 +122,7 @@ export class EnquiryAddComponent implements OnInit {
       slot_id: null,
       closedReason: "",
       demo_by_id: "",
-      status: "",
+      status: "0",
       assigned_to: "-1",
       followUpTime: "",
       lead_id: -1,
@@ -174,7 +174,7 @@ export class EnquiryAddComponent implements OnInit {
 
 
     this.prefill.getEnqStatus().subscribe(
-      data => { this.enqstatus = data; },
+      data => { this.enqstatus = data;},
       err => {
         //  console.log(err); 
       }
