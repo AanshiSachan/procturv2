@@ -37,9 +37,12 @@ export class EnquiryDateInput {
     /* function to add remove has-value class */
     this.el.nativeElement.addEventListener('focusout', function (event) {
       if (event.target.nodeName == "INPUT") {
-        event.target.parentNode.classList.add('has-value');
+        if (event.target.value != '') {
+          event.target.parentNode.classList.add('has-value');
+        } else {
+          event.target.parentNode.classList.remove('has-value');
+        }
       }
-
     });
 
     this.el.nativeElement.addEventListener('click', function (event) {

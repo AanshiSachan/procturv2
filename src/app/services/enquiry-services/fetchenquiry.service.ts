@@ -19,13 +19,14 @@ export class FetchenquiryService {
   urlCampaign: string;
   Authorization: string;
   headers: Headers;
-  headersCampaign: Headers;
+  headersEncoded: Headers;
   instituteFormData: any = {};
   row: any = [];
   filtered = [];
   institute_id: number;
   urlDownloadTemplate: string;
   urlDownloadAllEnquiry: string;
+  urlFetchAllSms: string;
 
   /* initialize the value of variables on service call */
   constructor(private http: Http, private auth: AuthenticatorService) {
@@ -35,6 +36,10 @@ export class FetchenquiryService {
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
     this.headers.append("Authorization", this.Authorization);
+
+    this.headersEncoded = new Headers();
+    this.headersEncoded.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+    
   }
 
 
@@ -42,10 +47,8 @@ export class FetchenquiryService {
   getAllEnquiry(instituteData: instituteInfo): Observable<EnquiryCampaign[]> {
     this.instituteFormData = JSON.parse(JSON.stringify(instituteData));
     this.urlCampaign = 'https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/search/' + this.institute_id;
-    this.headersCampaign = new Headers();
-    this.headersCampaign.append("Content-Type", "application/json");
-    this.headersCampaign.append("Authorization", this.Authorization);
-    return this.http.post(this.urlCampaign, this.instituteFormData, { headers: this.headersCampaign })
+
+    return this.http.post(this.urlCampaign, this.instituteFormData, { headers: this.headers })
       .map(res => {
         this.row = res.json();
         return this.row;
@@ -64,7 +67,7 @@ export class FetchenquiryService {
   }
 
 
-
+  /* return the json to construct a list of student enquiry to xls */
   fetchAllEnquiryAsXls(data) {
     this.urlDownloadAllEnquiry = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/all/download/" +this.institute_id;
 
@@ -72,6 +75,26 @@ export class FetchenquiryService {
       data => { return data.json() },
       err => { console.log("error fetching template"); }
     );
+  }
+
+
+  fetchAllSms(){
+    this.urlFetchAllSms = 'https://app.proctur.com/CampaignServlet';
+
+    let data = {
+      institute_id: this.institute_id,
+      function_type: 'fetch_campaign_messages',
+      username: sessionStorage.getItem('userid') +'|' +sessionStorage.getItem('userType'),
+      password: sessionStorage.getItem('password'),
+      feature_type: 2,
+    }
+
+
+    let dataString = `institute_id=${data.institute_id}&function_type=${data.function_type}&username=${data.username}&password=${data.password}&feature_type=${data.feature_type}`;
+
+    return this.http.post(this.urlFetchAllSms, dataString, {headers: this.headersEncoded}).map(
+      res=> { return res.json().aaData;}
+    )
   }
 
 }

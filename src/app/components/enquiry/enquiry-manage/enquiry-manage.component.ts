@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
 import { ActionButtonComponent } from './action-button.component';
+import {SmsOptionComponent} from './sms-option.component';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { updateEnquiryForm } from '../../../model/update-enquiry-form';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
@@ -36,7 +37,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   private optionsModel = [];
   private checkedOpt: any[];
   private myOptions: IMultiSelectOption[];
-  private source: LocalDataSource;
+  private sourceEnquiry: LocalDataSource;
+  private smsPopSource: LocalDataSource;
   busy: Subscription;
   private checkedStatus = [];
   private filtered = [];
@@ -63,14 +65,14 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   isProfessional: boolean = false;
   isActionDisabled: boolean = false;
   selectedRow: any = {
-    address:null,
-    amount:0,
-    assigned_name:"",
-    assigned_to:null,
-    batch_size:null,
-    city:null,
-    closedReason:null,
-    closedReasonText:"",
+    address: null,
+    amount: 0,
+    assigned_name: "",
+    assigned_to: null,
+    batch_size: null,
+    city: null,
+    closedReason: null,
+    closedReasonText: "",
     comment: null,
     commentDate: null,
     commentedBy: null,
@@ -174,6 +176,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   emptyCustomComponent: any;
   componentRenderer: any = [];
   customComponentResponse: any = [];
+  selectedSMS:any;
 
 
 
@@ -274,7 +277,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
   /* Default Settings for ng2-smart-table */
-  settings = {
+  settingsEnquiry = {
     selectMode: 'multi', mode: 'external', hideSubHeader: false,
     actions: { add: false, edit: false, delete: false, columnTitle: '', },
     columns: {
@@ -297,6 +300,66 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       display: false
     },
   };
+
+
+
+
+
+  /* Clone for ng2-smart-table setting that can be updated and assigned on toggle */
+  settingsEnquiryUpdater = {
+    selectMode: 'multi', mode: 'external', hideSubHeader: false,
+    actions: { add: false, edit: false, delete: false, columnTitle: '', },
+    columns: {
+      enquiry_no: { title: 'Enquiry No.', filter: false, show: true },
+      enquiry_date: { title: 'Enquiry Date', filter: false, show: true },
+      name: { title: 'Student Name', filter: false, show: true },
+      phone: { title: 'Contact No.', filter: false, show: true },
+      priority: { title: 'Priority', filter: false, show: true },
+      follow_type: { title: 'Follow type', filter: false, show: true },
+      followUpDate: { title: 'Follow up Date', filter: false, show: true },
+      assigned_name: { title: 'Assigned To', filter: false, show: true },
+      standard: { title: 'Standard', filter: false, show: true },
+      subjects: { title: 'Subjects', filter: false, show: true },
+      action: {
+        title: 'Action', filter: false, type: 'custom',
+        renderComponent: ActionButtonComponent
+      },
+      updateDate: { title: 'Update Date', filter: false, show: true },
+      statusValue: { title: 'Status Value', filter: false, show: true },
+      enquiry_no_date: { title: 'Enquiry No. & Date', filter: false, show: false }, followUpTime: { title: 'Follow up Time', filter: false, show: false }, followUpDateTime: { title: 'Follow up dateTime', filter: false, show: false }, filtered_statuses: { title: 'Filtered Status', filter: false, show: false }, email: { title: 'Email', filter: false, show: false }, referred_by: { title: 'Reffered By', filter: false, show: false }, status: { title: 'Status', filter: false, show: false }, institute_enquiry_id: { title: 'Enquiry ID', filter: false, show: false }, institution_id: { title: 'Institute ID', filter: false, show: false }, Gender: { title: 'Gender', filter: false, show: false }, is_converted: { title: 'Is Converted', filter: false, show: false }, occupation_id: { title: 'Occupation ID', filter: false, show: false }, school_id: { title: 'School ID', filter: false, show: false }, standard_id: { title: 'Standard ID', filter: false, show: false }, subject_id: { title: 'Subject ID', filter: false, show: false }, source_id: { title: 'Source ID', filter: false, show: false }, is_recent: { title: 'Is recent', filter: false, show: false }, slot_id: { title: 'Slot ID', filter: false, show: false }, slot: { title: 'Slot', filter: false, show: false }, isDashbord: { title: 'Is Dashboard', filter: false, show: false }, isRport: { title: 'Is Report', filter: false, show: false }, totalcount: { title: 'Total Count', filter: false, show: false }, newEnqcount: { title: 'New Enquiry Count', filter: false, show: false }, name_person: { title: 'Person Name', filter: false, show: false }, standard_subject: { title: 'Standard subject', filter: false, show: false }, closedReasonText: { title: 'Closed Reason', filter: false, show: false }, filtered_slots: { title: 'Filtered Slot', filter: false, show: false },
+    },
+    pager: {
+      display: false
+    },
+  };
+
+
+
+
+
+  /* Settings for SMS Table Display */
+  settingsSmsPopup = {
+    selectMode: 'single', mode: 'external', hideSubHeader: false,
+    actions: { add: false, edit: false, delete: false, columnTitle: '', },
+    columns: {
+      message: {title: 'Message', filter: false, show: true},
+      statusValue : {title: 'Status.', filter: false, show: true},
+      status: {title: 'Status Key', filter: false, show: false},
+      campaign_list_id: {title: 'Campaign List.', filter: false, show: false},
+      campaign_list_message_id : {title: 'Campaign List Id.', filter: false, show: false},
+      date : {title: 'Date.', filter: false, show: false},
+      feature_type : {title: 'Feature Type.', filter: false, show: false},
+      institute_name : {title: 'Institute Name.', filter: false, show: false},
+      message_id : {title: 'Message Id.', filter: false, show: false},
+      sms_type : {title: 'Sms Type.', filter: false, show: false},
+      action: {
+        title: ' ', filter: false, type: 'custom',
+        renderComponent: SmsOptionComponent
+      },
+    }
+  };
+
+
 
 
 
@@ -330,36 +393,6 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     enqCustomLi: null
   };
 
-
-
-
-  /* Clone for ng2-smart-table setting that can be updated and assigned on toggle */
-  settingUpdater = {
-    selectMode: 'multi', mode: 'external', hideSubHeader: false,
-    actions: { add: false, edit: false, delete: false, columnTitle: '', },
-    columns: {
-      enquiry_no: { title: 'Enquiry No.', filter: false, show: true },
-      enquiry_date: { title: 'Enquiry Date', filter: false, show: true },
-      name: { title: 'Student Name', filter: false, show: true },
-      phone: { title: 'Contact No.', filter: false, show: true },
-      priority: { title: 'Priority', filter: false, show: true },
-      follow_type: { title: 'Follow type', filter: false, show: true },
-      followUpDate: { title: 'Follow up Date', filter: false, show: true },
-      assigned_name: { title: 'Assigned To', filter: false, show: true },
-      standard: { title: 'Standard', filter: false, show: true },
-      subjects: { title: 'Subjects', filter: false, show: true },
-      action: {
-        title: 'Action', filter: false, type: 'custom',
-        renderComponent: ActionButtonComponent
-      },
-      updateDate: { title: 'Update Date', filter: false, show: true },
-      statusValue: { title: 'Status Value', filter: false, show: true },
-      enquiry_no_date: { title: 'Enquiry No. & Date', filter: false, show: false }, followUpTime: { title: 'Follow up Time', filter: false, show: false }, followUpDateTime: { title: 'Follow up dateTime', filter: false, show: false }, filtered_statuses: { title: 'Filtered Status', filter: false, show: false }, email: { title: 'Email', filter: false, show: false }, referred_by: { title: 'Reffered By', filter: false, show: false }, status: { title: 'Status', filter: false, show: false }, institute_enquiry_id: { title: 'Enquiry ID', filter: false, show: false }, institution_id: { title: 'Institute ID', filter: false, show: false }, Gender: { title: 'Gender', filter: false, show: false }, is_converted: { title: 'Is Converted', filter: false, show: false }, occupation_id: { title: 'Occupation ID', filter: false, show: false }, school_id: { title: 'School ID', filter: false, show: false }, standard_id: { title: 'Standard ID', filter: false, show: false }, subject_id: { title: 'Subject ID', filter: false, show: false }, source_id: { title: 'Source ID', filter: false, show: false }, is_recent: { title: 'Is recent', filter: false, show: false }, slot_id: { title: 'Slot ID', filter: false, show: false }, slot: { title: 'Slot', filter: false, show: false }, isDashbord: { title: 'Is Dashboard', filter: false, show: false }, isRport: { title: 'Is Report', filter: false, show: false }, totalcount: { title: 'Total Count', filter: false, show: false }, newEnqcount: { title: 'New Enquiry Count', filter: false, show: false }, name_person: { title: 'Person Name', filter: false, show: false }, standard_subject: { title: 'Standard subject', filter: false, show: false }, closedReasonText: { title: 'Closed Reason', filter: false, show: false }, filtered_slots: { title: 'Filtered Slot', filter: false, show: false },
-    },
-    pager: {
-      display: false
-    },
-  };
 
 
 
@@ -407,7 +440,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
     /* If show attribute on table settings, set the checked value on dropdown menu  */
     this.myOptions.forEach(el => {
-      if (this.settings.columns[el.id].show) {
+      if (this.settingsEnquiry.columns[el.id].show) {
         this.optionsModel.push(el.id);
       }
     })
@@ -421,7 +454,13 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     this.FetchEnquiryPrefilledData();
 
     /* Fetch the status of message from  popup handler service */
-    this.pops.currentMessage.subscribe(message => this.message = message);
+    this.pops.currentMessage.subscribe(message => {
+      if(message == 'sms'){
+        this.smsServicesInvoked();
+        this.message = message        
+      }
+      this.message = message
+    });
     this.pops.currentRowJson.subscribe(data => this.selectedRowJson = data);
     this.pops.currentActionValue.subscribe(data => this.isActionDisabled = data);
   }
@@ -509,7 +548,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       return this.enquire.getAllEnquiry(obj).map(data => {
         this.rows = data;
       }).subscribe(data => {
-        this.source = new LocalDataSource(this.rows);
+        this.sourceEnquiry = new LocalDataSource(this.rows);
         this.totalEnquiry = this.rows[0].totalcount;
         this.setPageSize(this.rows[0].totalcount);
         this.pageArray = Array(this.maxPageSize).fill(1).map((x, i) => i);
@@ -522,7 +561,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       return this.enquire.getAllEnquiry(obj).map(data => {
         this.rows = data;
       }).subscribe(data => {
-        this.source = new LocalDataSource(this.rows);
+        this.sourceEnquiry = new LocalDataSource(this.rows);
       });
     }
   }
@@ -593,14 +632,14 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     /* Standard */
     this.prefill.getEnqStardards().subscribe(
       data => { this.enqStd = data; },
-      err => { console.log(err); }
+      err => { }
     );
 
 
     /* Payment Modes */
     this.prefill.fetchPaymentModes().subscribe(
       data => { this.paymentMode = data; },
-      err => { alert("error loading payment modes"); }
+      err => {}
     )
 
 
@@ -640,7 +679,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   /* Function to toggle smart table column on click event */
   toggleOptionChange(ev) {
 
-    this.settings = {
+    this.settingsEnquiry = {
       selectMode: 'multi', mode: 'external', hideSubHeader: false,
       actions: { add: false, edit: false, delete: false, columnTitle: '', },
       columns: {
@@ -651,11 +690,11 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       },
     };
     //console.log("Start");
-    this.settingUpdater = Object.assign({}, this.settings);
+    this.settingsEnquiryUpdater = Object.assign({}, this.settingsEnquiry);
     this.optionsModel.forEach(el => {
-      this.settingUpdater.columns[el].show = true;
+      this.settingsEnquiryUpdater.columns[el].show = true;
     });
-    this.settings = Object.assign({}, this.settingUpdater);
+    this.settingsEnquiry = Object.assign({}, this.settingsEnquiryUpdater);
     //console.log(JSON.stringify(this.settings));
   }
 
@@ -679,7 +718,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
           temp = temp2;
           arr = arr.concat(temp);
         });
-        this.source = new LocalDataSource(arr);
+        this.sourceEnquiry = new LocalDataSource(arr);
         //console.log(arr);
       }
       else if (checkerObj.checked === false) {
@@ -697,7 +736,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
           temp = temp2;
           arr = arr.concat(temp);
         });
-        this.source = new LocalDataSource(arr);
+        this.sourceEnquiry = new LocalDataSource(arr);
         //console.log(arr);
       }
     }
@@ -709,8 +748,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
         this.rows = data;
       }).subscribe(data => {
-        this.source = new LocalDataSource(this.rows);
-        this.source.refresh();
+        this.sourceEnquiry = new LocalDataSource(this.rows);
+        this.sourceEnquiry.refresh();
       })
     }
   }
@@ -726,8 +765,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
         this.rows = data;
       }).subscribe(data => {
-        this.source = new LocalDataSource(this.rows);
-        this.source.refresh();
+        this.sourceEnquiry = new LocalDataSource(this.rows);
+        this.sourceEnquiry.refresh();
       });
     }
     else {
@@ -764,8 +803,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
           this.busy = this.enquire.getAllEnquiry(tempFormData).map(data => {
             this.rows = data;
           }).subscribe(data => {
-            this.source = new LocalDataSource(this.rows);
-            this.source.refresh();
+            this.sourceEnquiry = new LocalDataSource(this.rows);
+            this.sourceEnquiry.refresh();
           });
         }
         else {
@@ -805,8 +844,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
           this.busy = this.enquire.getAllEnquiry(tempFormData).map(data => {
             this.rows = data;
           }).subscribe(data => {
-            this.source = new LocalDataSource(this.rows);
-            this.source.refresh();
+            this.sourceEnquiry = new LocalDataSource(this.rows);
+            this.sourceEnquiry.refresh();
           });
         }
         else {
@@ -939,6 +978,25 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
 
+
+  /* Services to be performed for bulk sms and single sms fuctionalities */
+  smsServicesInvoked(){
+    this.enquire.fetchAllSms().subscribe(
+      data => {
+        this.smsPopSource = data;
+      },
+      err => {
+        let msg = {
+          
+        }
+      }
+    )
+  }
+
+
+
+
+
   /* Function to perform advanced filter and update table data */
   filterAdvanced() {
 
@@ -958,8 +1016,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     this.busy = this.enquire.getAllEnquiry(this.advancedFilterForm).map(data => {
       this.rows = data;
     }).subscribe(data => {
-      this.source = new LocalDataSource(this.rows);
-      this.source.refresh();
+      this.sourceEnquiry = new LocalDataSource(this.rows);
+      this.sourceEnquiry.refresh();
     });
   }
 
@@ -1000,7 +1058,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
         this.rows = data;
       }).subscribe(data => {
         if (this.rows.length > 0) {
-          this.source = new LocalDataSource(this.rows);
+          this.sourceEnquiry = new LocalDataSource(this.rows);
           document.getElementById('previous').classList.remove('hide');
         }
         else {
@@ -1034,7 +1092,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
         this.rows = data;
       }).subscribe(data => {
-        this.source = new LocalDataSource(this.rows);
+        this.sourceEnquiry = new LocalDataSource(this.rows);
       });
     }
     else {
@@ -1051,8 +1109,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
       this.rows = data;
     }).subscribe(data => {
-      this.source = new LocalDataSource(this.rows);
-      this.source.refresh();
+      this.sourceEnquiry = new LocalDataSource(this.rows);
+      this.sourceEnquiry.refresh();
     });
   }
 

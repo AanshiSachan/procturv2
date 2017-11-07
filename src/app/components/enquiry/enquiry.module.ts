@@ -7,6 +7,7 @@ import { EnquiryBulkaddComponent } from './enquiry-bulkadd/enquiry-bulkadd.compo
 import { EnquiryManageComponent } from './enquiry-manage/enquiry-manage.component';
 import { EnquiryRoutingModule } from "./enquiry-routing.module";
 import { ActionButtonComponent } from './enquiry-manage/action-button.component';
+import {SmsOptionComponent} from './enquiry-manage/sms-option.component';
 import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
 import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component';
 import { EnquiryInput, EnquiryDateInput } from './enquiry-directives/enquiry-input.directive';
@@ -45,6 +46,7 @@ import { FileUploadModule } from 'primeng/primeng';
         EnquiryBulkaddComponent,
         EnquiryManageComponent,
         ActionButtonComponent,
+        SmsOptionComponent,
         EnquiryEditComponent,
         EnquiryPopUpComponent,
         EnquiryInput,
@@ -52,7 +54,8 @@ import { FileUploadModule } from 'primeng/primeng';
         UserCreatedComponent
     ],
     entryComponents: [
-        ActionButtonComponent
+        ActionButtonComponent,
+        SmsOptionComponent
     ],
     providers: [
     ]

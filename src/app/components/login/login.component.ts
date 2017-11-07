@@ -65,6 +65,7 @@ export class LoginComponent implements OnInit {
         alert('Invalid Username or Password!!, please try again later');
       }
       else {
+        console.log(el);
         sessionStorage.setItem('institute_id', el.data.institution_id);
         sessionStorage.setItem('institute_type', el.data.institute_type);
 

@@ -121,6 +121,8 @@
     }
 }
 
+
+
 /*=======================filter type==============*/
 
 .search-enquiry-type-filter {
@@ -859,6 +861,105 @@ ul.customDropdown li:hover {
 .row.extraMargin {
     margin: 10px -15px 20px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.sms-form{
+    .row {
+    margin: 0px -15px;
+    }
+}
+
+.sms-middle-section{
+    padding: 5px 5px;
+}
+
+.sms-update{
+    min-height: 300px;
+    .sms-table{
+        min-height: 300px;
+        border-top: 1px solid $border-common;
+        border-right: 0.5px solid $border-common;
+        width: 70%;
+        padding-left: 2px;
+        .sms-add-icon{
+            cursor: pointer;
+            width: 30%;
+            height: 20px;
+            &::before{
+                content: ' + ';
+                border: 0.7px solid $common-blue;
+                color: $common-blue;
+                border-radius: 50%;
+                padding: 0px 1px 0px 5px;
+                font-size: 14px;
+                margin-right: 8px;
+                font-weight: bolder;
+                cursor: pointer;
+            }
+        }
+        .sms-search-field{
+            padding: 5px 10px;
+            border: 1px solid $border-common;
+            width: 65%;
+            box-sizing: border-box;
+            margin: 0px 5px 0px 0px;
+            float: left;
+            border-right: 0;
+            height: 35px;
+            font-size: 14px;
+            outline: none;
+        }
+        .sms-search-btn{
+            padding: 8px 10px;
+            width: 25%;
+            box-sizing: border-box;
+            float: left;
+            color: #fff;
+            cursor: pointer;
+        }
+    }
+    .sms-preview{
+        min-height: 300px;
+        border-top: 1px solid $border-common;
+        border-left: 0.5px solid $border-common;
+        width:30%;  
+        padding: 0px 5px;
+    }
+}
+
+.field-sms-wrapper{
+    position: relative;
+    padding-top: 10px;
+    min-height: 180px;
+    border: 1px solid $border-common;
+}
+
+
+
+
 
 /* Data table Settings */
 

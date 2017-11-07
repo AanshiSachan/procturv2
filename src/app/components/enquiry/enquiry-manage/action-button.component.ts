@@ -231,7 +231,7 @@ import { Router } from '@angular/router';
          </span>
       </li>
 
-      <li (click)="openPopup('sms')">
+      <li (click)="openPopup('sms')" >
         <i>
          <svg xmlns="http://www.w3.org/2000/svg" viewBox="14181 435 26 22" class="action-icon">
           <g id="Group_1232" data-name="Group 1232" transform="translate(13654 -6)">
@@ -300,7 +300,7 @@ export class ActionButtonComponent implements OnInit {
 
     /* function to determine which pop up has to be opened on parent component */
     openPopup(eventData) {
-        this.pops.changeMessage(eventData);
+      this.pops.changeMessage(eventData);
     }
 
     /* if user select edit navigate him to edit page directly from here */

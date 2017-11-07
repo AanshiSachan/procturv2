@@ -277,7 +277,7 @@
         <div class="row">
           <div class="c-lg-12 c-md-12 c-sm-12">
             <div class="table table-responsive table-container">
-              <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="rowClicked($event)">
+              <ng2-smart-table [settings]="settingsEnquiry" [source]="sourceEnquiry" (userRowSelect)="rowClicked($event)">
               </ng2-smart-table>
             </div>
           </div>
@@ -678,9 +678,10 @@
   </section>
 
 
-  <!-- Delete PopUp -->
+  <!-- SMS PopUp -->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'sms'">
-    <div class="popup pos-abs">
+    <!-- -->
+    <div class="popup pos-abs" style="max-width:80%">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -695,18 +696,89 @@
           </svg>
         </span>
         <div class="popup-content">
-          <h2>Send SMS - Enquiry No: {{selectedRow.enquiry_no}}</h2>
-          <div class="update-enquiry-form overflowHidden">
-            <div class="enquiry-update-history">
-              <h4>Test Test Test Test</h4>
-            </div>
-            <div class="">
-              <div class="clearfix">
-                <aside class="pull-right popup-btn">
-                  <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                  <input type="button" value="Delete" class="redBtn btn" (click)="DeleteEnquiry()">
-                </aside>
-              </div>
+          <h2>Send SMS </h2>
+          <div class="sms-form overflowHidden">
+            <div class="sms-update">
+              <aside class="pull-left sms-table">
+
+                <div class="sms-top-section">
+
+                  <div class="row">
+                    <div class="c-lg-12">
+                      <h4 class="sms-add-icon">
+                        Create New Message
+                      </h4>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="c-lg-12">
+                      <h4>
+                        Message List
+                      </h4>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="c-lg-7 c-md-7 c-sm-7" style="padding-top: 10px;">
+                      <label>Showing 1 to xx of xxx SMS</label>
+                    </div>
+                    <div class="c-lg-5 c-md-5 c-sm-5 align-right">
+                      <div class="search-filter-wrapper">
+                        <input type="text" class="sms-search-field" placeholder="Search SMS" name="searchData">
+                        <input type="button" class="sms-search-btn fullBlue btn" value="Search" />
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="sms-middle-section">
+                  <div class="row">
+                    <div class="c-lg-12 c-md-12 c-sm-12">
+                      <div class="table table-responsive table-container">
+                        <ng2-smart-table [settings]="settingsSmsPopup" [source]="smsPopSource">
+                        </ng2-smart-table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </aside>
+
+
+              <aside class="pull-right sms-preview">
+                <div class="sms-preview-header">
+                  <div class="row">
+                    <div class="c-lg-6 c-md-6 c-sm-6">
+                      <h4>xx Users Selected</h4>
+                    </div>
+                    <div class="c-lg-6 c-md-6 c-sm-6" style="padding:24px 0px;">
+                      <a style="cursor:pointer;">Change</a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="c-lg-12 c-md-12 c-sm-12">
+                      Available SMS Quota: XXXX
+                    </div>
+                  </div>
+                </div>
+                <div class="sms-preview-content">
+                  <div class="field-sms-wrapper">
+                    <input type="text" placeholder="Enter Message" id="sms-content" value="" [(ngModel)]="selectedSMS" />
+                  </div>
+                </div>
+                <div class="sms-preview-footer">
+                  <div class="">
+                    <div class="clearfix">
+                      <aside class="popup-btn">
+                        <input type="button" value="Cancel" class="btn">
+                        <input type="button" value="Send SMS" class="redBtn btn">
+                      </aside>
+                    </div>
+                  </div>
+                </div>
+              </aside>
             </div>
           </div>
         </div>
