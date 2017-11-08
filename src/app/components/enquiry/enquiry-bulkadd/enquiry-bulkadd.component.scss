@@ -2,11 +2,11 @@
 
 ::ng-deep .bs-datepicker-container{
     padding: 10px;
-    background: #004b7f;
+    background: $header-bg;
   }
   
   ::ng-deep .bs-datepicker-head{
-    background-color: #004c80;
+    background-color: $header-bg;
     color: white;
     border-top: 1px solid white;
     border-left: 1px solid white;
@@ -140,4 +140,33 @@
 
 .file-wrapper {
     padding-left: 35px;
+}
+
+::ng-deep .ui-fileupload{
+    width: 100%;
+    cursor: pointer;
+}
+
+::ng-deep .ui-fileupload-buttonbar{
+    background: $header-bg;
+    width: 70vw;
+}
+
+::ng-deep .ui-fileupload-content{
+    min-height: 200px;
+    width: 70vw;
+    padding: 5px;
+    border-top: none;
+    border-right: 3px dashed $border-common;
+    border-bottom: 3px dashed $border-common;
+    border-left: 3px dashed $border-common;
+    cursor: pointer;
+    &::after{
+        content: "Drag & Drop Files Here";
+        color: rgba(0, 0, 0, 0.09);
+        position: absolute;
+        top: 35%;
+        left: 25%;
+        font-size: 36px;
+    }
 }

@@ -64,6 +64,17 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   totalEnquiry: number = 0;
   isProfessional: boolean = false;
   isActionDisabled: boolean = false;
+
+
+
+
+
+
+
+
+
+
+
   selectedRow: any = {
     address: null,
     amount: 0,
@@ -176,7 +187,19 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   emptyCustomComponent: any;
   componentRenderer: any = [];
   customComponentResponse: any = [];
-  selectedSMS:any;
+  
+  
+  
+  selectedSMS:any= {
+    message: "",
+    message_id: "",
+    sms_type: "",
+    status: "",
+    statusValue: "",
+    date: "",
+    feature_type: "",
+    institute_name: "",
+  };
 
 
 
@@ -1203,4 +1226,9 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
+  smsRowSelected(ev){
+    if(ev.isSelected){
+      this.selectedSMS.message = ev.data.message;
+    }
+  }
 }

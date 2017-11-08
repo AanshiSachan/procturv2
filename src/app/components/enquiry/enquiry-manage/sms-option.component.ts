@@ -13,12 +13,15 @@ import { Router } from '@angular/router';
     .sms-option-list li{
         display:inline;
     }
+    .cursor{
+        cursor:pointer;
+    }
     </style>
     
     <div class="sms-options">
     <ul class="sms-option-list">
-    <li><a>Copy</a></li>
-    <li><a>Edit</a></li>
+    <li class="cursor"><a class="cursor">Copy</a></li>
+    <li class="cursor"><a class="cursor">Edit</a></li>
     </ul>
     </div>
 

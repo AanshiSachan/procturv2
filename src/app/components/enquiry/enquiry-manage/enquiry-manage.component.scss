@@ -894,6 +894,12 @@ ul.customDropdown li:hover {
 
 .sms-middle-section{
     padding: 5px 5px;
+    .table-container{
+        max-width: 100%;
+        min-height: 200px;
+        overflow: auto;
+        max-height: 300px;
+    }
 }
 
 .sms-update{
@@ -901,7 +907,7 @@ ul.customDropdown li:hover {
     .sms-table{
         min-height: 300px;
         border-top: 1px solid $border-common;
-        border-right: 0.5px solid $border-common;
+        border-right: 1px solid $border-common;
         width: 70%;
         padding-left: 2px;
         .sms-add-icon{
@@ -944,7 +950,6 @@ ul.customDropdown li:hover {
     .sms-preview{
         min-height: 300px;
         border-top: 1px solid $border-common;
-        border-left: 0.5px solid $border-common;
         width:30%;  
         padding: 0px 5px;
     }
@@ -953,8 +958,18 @@ ul.customDropdown li:hover {
 .field-sms-wrapper{
     position: relative;
     padding-top: 10px;
-    min-height: 180px;
     border: 1px solid $border-common;
+    overflow: hidden;
+    textarea {
+        width: 100%;
+        max-height: 300px;
+        color: #555555;
+        transition: background-color 0.2s ease 0s;
+        &::focus {
+            background: none repeat scroll 0 0 #FFFFFF;
+            outline-width: 0;
+        }
+      }
 }
 
 

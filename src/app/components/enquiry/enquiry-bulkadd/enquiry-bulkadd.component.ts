@@ -3,6 +3,7 @@ import { FetchenquiryService } from '../../../services/enquiry-services/fetchenq
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import 'rxjs/Rx';
 import { Base64 } from 'js-base64';
+import { AppComponent } from '../../../app.component';
 
 @Component({
   selector: 'app-enquiry-bulkadd',
@@ -11,7 +12,12 @@ import { Base64 } from 'js-base64';
 })
 export class EnquiryBulkaddComponent implements OnInit {
 
-  constructor(private fetchData: FetchenquiryService, private postData: PostEnquiryDataService) {
+  uploadedFiles: any[] = [];
+  isCancelUpload:boolean = false;
+  isUploadingXls:boolean = true;
+
+
+  constructor(private fetchData: FetchenquiryService, private postData: PostEnquiryDataService, private appC: AppComponent) {
   }
 
   ngOnInit() {
@@ -39,36 +45,39 @@ export class EnquiryBulkaddComponent implements OnInit {
 
   convertBase64ToArray(val) {
 
-    var binary_string =  window.atob(val);
+    var binary_string = window.atob(val);
     var len = binary_string.length;
-    var bytes = new Uint8Array( len );
-    for (var i = 0; i < len; i++)        {
-        bytes[i] = binary_string.charCodeAt(i);
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
     }
     return bytes.buffer;
 
   }
 
-  uploadSingleBulkSheet() {
+  uploadAllXls(ev) {
 
-  }
+    for (let file of ev.files) {
 
-  uploadMultipleBulkSheet() {
-
-  }
-
-
-  msgs: any[];
-  
-  uploadedFiles: any[] = [];
-
-  onUpload(event) {
-      for(let file of event.files) {
-          this.uploadedFiles.push(file);
+      if(this.isCancelUpload){
+        this.isUploadingXls = false;
       }
-  
-      this.msgs = [];
-      this.msgs.push({severity: 'info', summary: 'File Uploaded', detail: ''});
+      else{
+        this.postData.uploadEnquiryXls(file).subscribe(
+          res => {
+            console.log(res);
+          },
+          err => {
+            let data = {
+              type: "error",
+              title: "Error Uploading Data",
+              body: "Please contact proctur support team"
+            }
+            this.appC.popToast(data);
+          }
+        )
+      }
+    }
   }
 
 }

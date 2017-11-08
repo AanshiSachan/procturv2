@@ -699,6 +699,7 @@
           <h2>Send SMS </h2>
           <div class="sms-form overflowHidden">
             <div class="sms-update">
+
               <aside class="pull-left sms-table">
 
                 <div class="sms-top-section">
@@ -737,7 +738,8 @@
                   <div class="row">
                     <div class="c-lg-12 c-md-12 c-sm-12">
                       <div class="table table-responsive table-container">
-                        <ng2-smart-table [settings]="settingsSmsPopup" [source]="smsPopSource">
+                        <ng2-smart-table [settings]="settingsSmsPopup" 
+                        [source]="smsPopSource" (userRowSelect)="smsRowSelected($event)">
                         </ng2-smart-table>
                       </div>
                     </div>
@@ -765,20 +767,24 @@
                 </div>
                 <div class="sms-preview-content">
                   <div class="field-sms-wrapper">
-                    <input type="text" placeholder="Enter Message" id="sms-content" value="" [(ngModel)]="selectedSMS" />
+                      <textarea placeholder="Edit Message Here" rows="20" cols="4" 
+                      autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
+                      id="sms-content" value="" [(ngModel)]="selectedSMS.message">
+                      </textarea>
                   </div>
                 </div>
                 <div class="sms-preview-footer">
                   <div class="">
                     <div class="clearfix">
                       <aside class="popup-btn">
-                        <input type="button" value="Cancel" class="btn">
+                        <input type="button" value="Cancel" class="btn"  (click)="closePopup()">
                         <input type="button" value="Send SMS" class="redBtn btn">
                       </aside>
                     </div>
                   </div>
                 </div>
               </aside>
+       
             </div>
           </div>
         </div>
@@ -786,5 +792,8 @@
     </div>
   </section>
 
+
+
+  
 
 </div>
