@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
 import { ActionButtonComponent } from './action-button.component';
-import {SmsOptionComponent} from './sms-option.component';
+import { SmsOptionComponent } from './sms-option.component';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { updateEnquiryForm } from '../../../model/update-enquiry-form';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
@@ -13,7 +13,7 @@ import { PopupHandlerService } from '../../../services/enquiry-services/popup-ha
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-
+import { AppComponent } from '../../../app.component';
 
 /* Third party imports */
 import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
@@ -64,8 +64,12 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   totalEnquiry: number = 0;
   isProfessional: boolean = false;
   isActionDisabled: boolean = false;
-
-
+  isMessageAddOpen: boolean = false;
+  newSmsString = {
+    data: "",
+    length: 0,
+    type: "",
+  };
 
 
 
@@ -187,10 +191,10 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   emptyCustomComponent: any;
   componentRenderer: any = [];
   customComponentResponse: any = [];
-  
-  
-  
-  selectedSMS:any= {
+
+
+
+  selectedSMS: any = {
     message: "",
     message_id: "",
     sms_type: "",
@@ -365,20 +369,23 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     selectMode: 'single', mode: 'external', hideSubHeader: false,
     actions: { add: false, edit: false, delete: false, columnTitle: '', },
     columns: {
-      message: {title: 'Message', filter: false, show: true},
-      statusValue : {title: 'Status.', filter: false, show: true},
-      status: {title: 'Status Key', filter: false, show: false},
-      campaign_list_id: {title: 'Campaign List.', filter: false, show: false},
-      campaign_list_message_id : {title: 'Campaign List Id.', filter: false, show: false},
-      date : {title: 'Date.', filter: false, show: false},
-      feature_type : {title: 'Feature Type.', filter: false, show: false},
-      institute_name : {title: 'Institute Name.', filter: false, show: false},
-      message_id : {title: 'Message Id.', filter: false, show: false},
-      sms_type : {title: 'Sms Type.', filter: false, show: false},
+      message: { title: 'Message', filter: false, show: true },
+      statusValue: { title: 'Status.', filter: false, show: true },
+      date: { title: 'Date.', filter: false, show: true },
+      status: { title: 'Status Key', filter: false, show: false },
+      campaign_list_id: { title: 'Campaign List.', filter: false, show: false },
+      campaign_list_message_id: { title: 'Campaign List Id.', filter: false, show: false },
+      feature_type: { title: 'Feature Type.', filter: false, show: false },
+      institute_name: { title: 'Institute Name.', filter: false, show: false },
+      message_id: { title: 'Message Id.', filter: false, show: false },
+      sms_type: { title: 'Sms Type.', filter: false, show: false },
       action: {
         title: ' ', filter: false, type: 'custom',
         renderComponent: SmsOptionComponent
       },
+    },
+    pager: {
+      display: false
     }
   };
 
@@ -450,7 +457,12 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
   /* ===========================  ====================================== */
-  constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private fb: FormBuilder, private pops: PopupHandlerService, private postdata: PostEnquiryDataService) { }
+  constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService, 
+    private router: Router,
+    private logger: Logger, private fb: FormBuilder, private pops: PopupHandlerService,
+    private postdata: PostEnquiryDataService, private appC: AppComponent) {
+
+  }
 
 
 
@@ -459,7 +471,11 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   ngOnInit() {
 
     /* Model for toggle Menu Dropdown */
-    this.myOptions = [{ name: 'Enquiry ID', id: 'institute_enquiry_id' }, { name: 'Institute ID', id: 'institution_id' }, { name: 'Enquiry No', id: 'enquiry_no' }, { name: 'Name', id: 'name' }, { name: 'Phone', id: 'phone' }, { name: 'Email', id: 'email' }, { name: 'Standard', id: 'standard' }, { name: 'Gender', id: 'Gender' }, { name: 'Subjects', id: 'subjects' }, { name: 'Status', id: 'status' }, { name: 'Status Value', id: 'statusValue' }, { name: 'is Converted', id: 'is_converted' }, { name: 'Follow up Date', id: 'followUpDate' }, { name: 'Occupation ID', id: 'occupation_id' }, { name: 'School ID', id: 'school_id' }, { name: 'Enquiry Date', id: 'enquiry_date' }, { name: 'Standard ID', id: 'standard_id' }, { name: 'Subject ID', id: 'subject_id' }, { name: 'Reffered by', id: 'referred_by' }, { name: 'Source ID', id: 'source_id' }, { name: 'Priority', id: 'priority' }, { name: 'Follow type', id: 'follow_type' }, { name: 'Assigned Name', id: 'assigned_name' }, { name: 'Is recent', id: 'is_recent' }, { name: 'Slot ID', id: 'slot_id' }, { name: 'Slot', id: 'slot' }, { name: 'Update Date', id: 'updateDate' }, { name: 'Is Dashboard', id: 'isDashbord' }, { name: 'Is Report', id: 'isRport' }, { name: 'Total Count', id: 'totalcount' }, { name: 'New Enquiry Count', id: 'newEnqcount' }, { name: 'Enquiry Date', id: 'enquiry_no_date' }, { name: 'Person Name', id: 'name_person' }, { name: 'Follow up date', id: 'followUpDateTime' }, { name: 'Standard subject', id: 'standard_subject' }, { name: 'Closed Reason', id: 'closedReasonText' }, { name: 'Follow up Time', id: 'followUpTime' }, { name: 'Filtered Status', id: 'filtered_statuses' }, { name: 'Filtered Slot', id: 'filtered_slots' }];
+    this.myOptions = [
+      { name: 'Enquiry ID', id: 'institute_enquiry_id' },
+      { name: 'Institute ID', id: 'institution_id' },
+      { name: 'Enquiry No', id: 'enquiry_no' },
+      { name: 'Name', id: 'name' }, { name: 'Phone', id: 'phone' }, { name: 'Email', id: 'email' }, { name: 'Standard', id: 'standard' }, { name: 'Gender', id: 'Gender' }, { name: 'Subjects', id: 'subjects' }, { name: 'Status', id: 'status' }, { name: 'Status Value', id: 'statusValue' }, { name: 'is Converted', id: 'is_converted' }, { name: 'Follow up Date', id: 'followUpDate' }, { name: 'Occupation ID', id: 'occupation_id' }, { name: 'School ID', id: 'school_id' }, { name: 'Enquiry Date', id: 'enquiry_date' }, { name: 'Standard ID', id: 'standard_id' }, { name: 'Subject ID', id: 'subject_id' }, { name: 'Reffered by', id: 'referred_by' }, { name: 'Source ID', id: 'source_id' }, { name: 'Priority', id: 'priority' }, { name: 'Follow type', id: 'follow_type' }, { name: 'Assigned Name', id: 'assigned_name' }, { name: 'Is recent', id: 'is_recent' }, { name: 'Slot ID', id: 'slot_id' }, { name: 'Slot', id: 'slot' }, { name: 'Update Date', id: 'updateDate' }, { name: 'Is Dashboard', id: 'isDashbord' }, { name: 'Is Report', id: 'isRport' }, { name: 'Total Count', id: 'totalcount' }, { name: 'New Enquiry Count', id: 'newEnqcount' }, { name: 'Enquiry Date', id: 'enquiry_no_date' }, { name: 'Person Name', id: 'name_person' }, { name: 'Follow up date', id: 'followUpDateTime' }, { name: 'Standard subject', id: 'standard_subject' }, { name: 'Closed Reason', id: 'closedReasonText' }, { name: 'Follow up Time', id: 'followUpTime' }, { name: 'Filtered Status', id: 'filtered_statuses' }, { name: 'Filtered Slot', id: 'filtered_slots' }];
 
     /* If show attribute on table settings, set the checked value on dropdown menu  */
     this.myOptions.forEach(el => {
@@ -471,16 +487,14 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     /* Load paginated enquiry data from server */
     this.busy = this.loadTableDatatoSource(this.instituteData);
 
-    //this.logger.log(this.myOptions);
-
     /* Fetch prefill data after table data load completes */
     this.FetchEnquiryPrefilledData();
 
     /* Fetch the status of message from  popup handler service */
     this.pops.currentMessage.subscribe(message => {
-      if(message == 'sms'){
+      if (message == 'sms') {
         this.smsServicesInvoked();
-        this.message = message        
+        this.message = message;
       }
       this.message = message
     });
@@ -662,7 +676,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     /* Payment Modes */
     this.prefill.fetchPaymentModes().subscribe(
       data => { this.paymentMode = data; },
-      err => {}
+      err => { }
     )
 
 
@@ -923,13 +937,11 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     if (ev.data != null) {
       /* If true, that is multiple option have been checked but not all */
       if (ev.isSelected) {
-        let allSelected = ev.selected;
-        let currentSelected = ev.data;
-        this.selectedRow = currentSelected;
-        this.selectedRowGroup = allSelected;
-        console.log(this.selectedRow);
-        console.log("all selected Rows");
-        console.log(this.selectedRowGroup);
+        this.selectedRow = ev.data;
+        this.selectedRowGroup = ev.selected;
+        //console.log(this.selectedRow);
+        //console.log("all selected Rows");
+        //console.log(this.selectedRowGroup);
         localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
         this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
           this.updateFormComments = res.comments;
@@ -940,7 +952,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       }
       /* If false, that is only a single input has been selected */
       else {
-        console.log(ev);
+        //console.log(ev);
         this.selectedRow = ev.data;
         localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
         this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
@@ -952,7 +964,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     }
     /* All records in the page have been selected */
     else {
-      console.log(ev);
+      //console.log(ev);
       this.selectedRowGroup = ev.selected;
     }
   }
@@ -1003,17 +1015,21 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
   /* Services to be performed for bulk sms and single sms fuctionalities */
-  smsServicesInvoked(){
+  smsServicesInvoked() {
+
+    /* store the data from server and update table */
     this.enquire.fetchAllSms().subscribe(
       data => {
         this.smsPopSource = data;
       },
       err => {
         let msg = {
-          
+
         }
       }
-    )
+    );
+
+
   }
 
 
@@ -1177,6 +1193,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
 
+
+
   validateElementForId(HTMLElement, id: string): boolean {
     if (HTMLElement.id === id) {
       return true;
@@ -1184,11 +1202,16 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
+
+
   /* Function to store the data of Custom Component in to Base64 encoded array string */
   customComponentUpdated(val, data) {
     this.componentListObject[data.component_id].enq_custom_value = val;
     console.log(this.componentListObject);
   }
+
+
+
 
 
 
@@ -1213,6 +1236,9 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
+
+
+  /* Converts base64 string into a byte[] */
   convertBase64ToArray(val) {
 
     var binary_string = window.atob(val);
@@ -1226,9 +1252,99 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
-  smsRowSelected(ev){
-    if(ev.isSelected){
+
+  /* Stores data for row user has clicked of selected */
+  smsRowSelected(ev) {
+    if (ev.isSelected) {
       this.selectedSMS.message = ev.data.message;
     }
   }
+
+
+
+  /* toggle visibility for add new sms DIV */
+  addNewMessage() {
+    //console.log(document.getElementById('sms-toggler-icon').innerHTML);
+    let content = document.getElementById('sms-toggler-icon').innerHTML;
+
+    if (content == "-") {
+      document.getElementById('sms-toggler-icon').innerHTML = "+";
+      this.isMessageAddOpen = false;
+    }
+    else if (content == "+") {
+      document.getElementById('sms-toggler-icon').innerHTML = "-";
+      this.isMessageAddOpen = true;
+    }
+  }
+
+
+  /* push new sms template to server and update the table */
+  addNewSmsTemplate() {
+    if (this.newSmsString.data == '' || this.newSmsString.data == ' ') {
+      let msg = {
+        type: 'error',
+        title: 'Empty Input',
+        body: 'Please enter a valid text message'
+      }
+      this.appC.popToast(msg);
+    }
+    else {
+      let sms = {
+        feature_type: 2,
+        message: this.newSmsString.data,
+        sms_type: "Promotional"
+      }
+
+      this.postdata.addNewSmsTemplate(sms).subscribe(
+        res => {
+          if (res.statusCode == 200) {
+            let msg = {
+              type: "success",
+              title: "New SMS Added",
+              body: ""
+            }
+            this.appC.popToast(msg);
+            this.newSmsString.data = '';
+            this.enquire.fetchAllSms().subscribe(
+              data => {
+                this.smsPopSource = data;
+              },
+              err => {
+                let msg = {
+        
+                }
+              }
+            );
+          }
+        },
+        err => { }
+      )
+    }
+  }
+
+
+  smsStringUpdate(ev) {
+
+    let stringArr = this.newSmsString.data.split('');
+    //console.log(stringArr);
+    this.newSmsString.length = 0;
+    stringArr.forEach(ch => {
+      if (ch.charCodeAt(0) <= 127) {
+        /* Unicode text detected */
+        //console.log(ch.charCodeAt(0));
+        this.newSmsString.length = this.newSmsString.length + 1;
+      }
+      else {
+        /* Non unicode detected */
+        //console.log(ch.charCodeAt(0));
+        this.newSmsString.length = this.newSmsString.length + 1;
+      }
+    });
+  }
+
+
+  copySMS() {
+    alert("copied");
+  }
+
 }

@@ -1,4 +1,4 @@
-<div class="middle-section clearFix" id="enquiryList">
+<div class="middle-section clearFix" id="enquiryList" #enquiryManager>
 
   <!-- Main View -->
   <aside class="middle-full" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
@@ -534,8 +534,8 @@
             <div class="">
               <div class="row extraMargin">
                 <div class="c-lg-6 c-md-6 c-sm-6">
-                  <div class="field-wrapper has-value">
-                    <input type="text" value="" id="pDate" class="form-ctrl" [ngModel]="registrationForm.paymentDate" name="pDate" enquiryInput/>
+                  <div class="field-wrapper has-value" enquiryDate>
+                    <input type="text" value="" id="pDate" class="form-ctrl" [ngModel]="registrationForm.paymentDate" name="pDate" bsDatepicker/>
                     <label for="pDate">Payment Date</label>
                   </div>
                 </div>
@@ -587,7 +587,8 @@
                               <line id="Line_127" data-name="Line 127" class="cls-1" y1="6.564" transform="translate(1081.13 275.735)" />
                               <line id="Line_128" data-name="Line 128" class="cls-1" y1="6.564" transform="translate(1098.87 275.735)" />
                             </g>
-                            <rect id="Rectangle_690" data-name="Rectangle 690" class="cls-2" width="26" height="22" transform="translate(1077 272)" />
+                            <rect id="Rectangle_690" data-name="Rectangle 690" class="cls-2" width="26" height="22" transform="translate(1077 272)" style="stroke:none"
+                            />
                           </g>
                         </g>
                       </svg>
@@ -597,7 +598,8 @@
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="14181 435 26 22">
                         <g id="Group_1232" data-name="Group 1232" transform="translate(13654 -6)">
                           <g id="Group_1231" data-name="Group 1231">
-                            <rect id="Rectangle_694" data-name="Rectangle 694" class="cls-1" width="26" height="22" transform="translate(527 441)" />
+                            <rect id="Rectangle_694" data-name="Rectangle 694" class="cls-1" width="26" height="22" transform="translate(527 441)" style="stroke:none"
+                            />
                           </g>
                           <g id="Symbol_11_6" data-name="Symbol 11 – 6" transform="translate(-205 -24)">
                             <g id="Group_656" data-name="Group 656" transform="translate(736 466)">
@@ -626,7 +628,8 @@
                     <li class="svg-icon">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="14362 435 26 22">
                         <g id="Group_1230" data-name="Group 1230" transform="translate(13654 -6)">
-                          <rect id="Rectangle_695" data-name="Rectangle 695" class="cls-1" width="26" height="22" transform="translate(708 441)" />
+                          <rect id="Rectangle_695" data-name="Rectangle 695" class="cls-1" width="26" height="22" transform="translate(708 441)" style="stroke:none"
+                          />
                           <g id="Symbol_12_5" data-name="Symbol 12 – 5" transform="translate(53 -16)">
                             <path id="Path_161" data-name="Path 161" class="cls-2" d="M21,32v3.158H1V32" transform="translate(657 442.842)" />
                             <path id="Path_162" data-name="Path 162" class="cls-2" d="M8,19l6.316,6.316L20.632,19" transform="translate(653.684 449)"
@@ -640,7 +643,8 @@
                     <li class="svg-icon">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="14535 435 26 22">
                         <g id="Group_1229" data-name="Group 1229" transform="translate(13654 -6)">
-                          <rect id="Rectangle_696" data-name="Rectangle 696" class="cls-1" width="26" height="22" transform="translate(881 441)" />
+                          <rect id="Rectangle_696" data-name="Rectangle 696" class="cls-1" width="26" height="22" transform="translate(881 441)" style="stroke:none"
+                          />
                           <g id="Symbol_9_5" data-name="Symbol 9 – 5" transform="translate(151 82)">
                             <path id="Path_165" data-name="Path 165" class="cls-2" d="M17,38.255V37.4a3.167,3.167,0,0,0,1.277-2.128V34" transform="translate(725.808 340.043)"
                             />
@@ -681,8 +685,9 @@
   <!-- SMS PopUp -->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'sms'">
     <!-- -->
-    <div class="popup pos-abs" style="max-width:80%">
+    <div class="popup pos-abs" style="max-width:85%">
       <div class="popup-wrapper pos-rel">
+
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
             <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -695,21 +700,48 @@
             </g>
           </svg>
         </span>
+
         <div class="popup-content">
           <h2>Send SMS </h2>
-          <div class="sms-form overflowHidden">
+          <div class="sms-form" style="max-height: 450px; display: flex;overflow-y: scroll;overflow-x: hidden;">
             <div class="sms-update">
 
               <aside class="pull-left sms-table">
-
                 <div class="sms-top-section">
 
                   <div class="row">
                     <div class="c-lg-12">
-                      <h4 class="sms-add-icon">
-                        Create New Message
-                      </h4>
+                      <div class="clearFix add-edit">
+                        <a class="expend-box" (click)="addNewMessage()">
+                          <i class="add-sms" id="sms-toggler-icon">+</i>
+                          <span>Create New Courses</span>
+                        </a>
+                      </div>
                     </div>
+                  </div>
+
+                  <div class="row" *ngIf="isMessageAddOpen">
+                    <section class="clearFix new-sms-form">
+                      <div class="row">
+                        <div class="c-lg-6 c-sm-6 c-md-6 c-xs-6 pull-left new-sms-wrapper">
+                          <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="enter new SMS here"
+                            [(ngModel)]="newSmsString.data" (keyup)="smsStringUpdate($event)" aria-haspopup="true" value="">
+                        </textarea>
+                        </div>
+
+                        <div class="c-lg-2 c-sm-2 c-md-2 c-xs-2">
+                          <label>{{newSmsString.length}}</label>
+                        </div>
+
+                        <div class="c-lg-4 c-sm-4 c-md-4 c-xs-4 pull-right">
+                          <aside class="pull-left create-cancel-small">
+                            <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()">
+                            <input type="button" class="btn redBtn" value="Save SMS" (click)="addNewSmsTemplate()">
+                          </aside>
+                        </div>
+
+                      </div>
+                    </section>
                   </div>
 
                   <div class="row">
@@ -727,7 +759,6 @@
                     <div class="c-lg-5 c-md-5 c-sm-5 align-right">
                       <div class="search-filter-wrapper">
                         <input type="text" class="sms-search-field" placeholder="Search SMS" name="searchData">
-                        <input type="button" class="sms-search-btn fullBlue btn" value="Search" />
                       </div>
                     </div>
                   </div>
@@ -738,8 +769,7 @@
                   <div class="row">
                     <div class="c-lg-12 c-md-12 c-sm-12">
                       <div class="table table-responsive table-container">
-                        <ng2-smart-table [settings]="settingsSmsPopup" 
-                        [source]="smsPopSource" (userRowSelect)="smsRowSelected($event)">
+                        <ng2-smart-table [settings]="settingsSmsPopup" [source]="smsPopSource" (userRowSelect)="smsRowSelected($event)">
                         </ng2-smart-table>
                       </div>
                     </div>
@@ -767,8 +797,7 @@
                 </div>
                 <div class="sms-preview-content">
                   <div class="field-sms-wrapper">
-                      <textarea placeholder="Edit Message Here" rows="20" cols="4" 
-                      autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
+                    <textarea placeholder="Edit Message Here" rows="20" cols="1" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
                       id="sms-content" value="" [(ngModel)]="selectedSMS.message">
                       </textarea>
                   </div>
@@ -777,23 +806,23 @@
                   <div class="">
                     <div class="clearfix">
                       <aside class="popup-btn">
-                        <input type="button" value="Cancel" class="btn"  (click)="closePopup()">
+                        <input type="button" value="Cancel" class="btn" (click)="closePopup()">
                         <input type="button" value="Send SMS" class="redBtn btn">
                       </aside>
                     </div>
                   </div>
                 </div>
               </aside>
-       
+
             </div>
           </div>
         </div>
+
+
       </div>
     </div>
   </section>
 
 
-
-  
 
 </div>

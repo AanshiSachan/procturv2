@@ -14,6 +14,7 @@ export class PostEnquiryDataService {
   urlEditFormUpdater: string;
   urlPostEnquiry: string;
   urlPostXlsDocument: string;
+  urlUploadSmsTemplate: string;
 
   Authorization: string;
   headers: Headers;
@@ -93,4 +94,13 @@ export class PostEnquiryDataService {
 
   }
 
+
+  addNewSmsTemplate(msg){
+    this.urlUploadSmsTemplate = "https://app.proctur.com/StdMgmtWebAPI/api/v1/campaign/message/100123";
+
+    return this.http.post(this.urlUploadSmsTemplate, msg, {headers: this.headers}).map(
+      res => {return res.json()},
+      err => {}
+    );
+  }
 }

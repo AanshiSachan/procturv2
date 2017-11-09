@@ -1,12 +1,13 @@
 import { Component, OnInit, HostListener, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
+
 @Component({
     template:
     /* HTML content for the rendered component with CSS style as well */
     `
     
-    <style>
+  <style>
     .sms-option-list{
         list-style: none;
     }
@@ -16,14 +17,14 @@ import { Router } from '@angular/router';
     .cursor{
         cursor:pointer;
     }
-    </style>
+  </style>
     
-    <div class="sms-options">
+  <div class="sms-options" (copyEvent)="enquiryManager.copySMS()">
     <ul class="sms-option-list">
-    <li class="cursor"><a class="cursor">Copy</a></li>
-    <li class="cursor"><a class="cursor">Edit</a></li>
+    <li class="cursor"><a class="cursor" (click)="emitCopy()">Copy</a></li>
+    <li class="cursor"><a class="cursor" (click)="emitEdit()">Edit</a></li>
     </ul>
-    </div>
+  </div>
 
 
     `,
@@ -32,10 +33,18 @@ import { Router } from '@angular/router';
 
 export class SmsOptionComponent implements OnInit {
 
-
     constructor(private router: Router) { }
 
     /* OnInit function to listen the changes in message value from service */
     ngOnInit() {}
 
+
+
+    emitCopy(){
+      console.log("copy text invoked");
+    }
+
+    emitEdit(){
+      console.log("edit text invoked");
+    }
 }

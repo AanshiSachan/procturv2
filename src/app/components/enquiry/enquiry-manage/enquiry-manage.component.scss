@@ -904,28 +904,13 @@ ul.customDropdown li:hover {
 
 .sms-update{
     min-height: 300px;
+    width: 100%;
     .sms-table{
         min-height: 300px;
         border-top: 1px solid $border-common;
         border-right: 1px solid $border-common;
         width: 70%;
         padding-left: 2px;
-        .sms-add-icon{
-            cursor: pointer;
-            width: 30%;
-            height: 20px;
-            &::before{
-                content: ' + ';
-                border: 0.7px solid $common-blue;
-                color: $common-blue;
-                border-radius: 50%;
-                padding: 0px 1px 0px 5px;
-                font-size: 14px;
-                margin-right: 8px;
-                font-weight: bolder;
-                cursor: pointer;
-            }
-        }
         .sms-search-field{
             padding: 5px 10px;
             border: 1px solid $border-common;
@@ -938,14 +923,6 @@ ul.customDropdown li:hover {
             font-size: 14px;
             outline: none;
         }
-        .sms-search-btn{
-            padding: 8px 10px;
-            width: 25%;
-            box-sizing: border-box;
-            float: left;
-            color: #fff;
-            cursor: pointer;
-        }
     }
     .sms-preview{
         min-height: 300px;
@@ -954,6 +931,7 @@ ul.customDropdown li:hover {
         padding: 0px 5px;
     }
 }
+
 
 .field-sms-wrapper{
     position: relative;
@@ -972,7 +950,38 @@ ul.customDropdown li:hover {
       }
 }
 
+.new-sms-form{
+    padding: 0px;
+    width: 100%;
+    .row{
+        margin: 0px;
+    }
+    .new-sms-wrapper{
+        .new-sms-textarea{
+            width: 100%;
+            border: 1px solid $border-common;
+            padding: 5px;            
+        }
+    }
 
+}
+
+.add-edit{
+    cursor: pointer;
+    .add-sms{
+        line-height: 8px;
+        padding: 4px 0px 0px 0px;
+        font-size: 24px;
+        border: 1px solid #0084f6;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin-right: 7px;
+        vertical-align: middle;
+        text-align: center;
+    }
+}
 
 
 

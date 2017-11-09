@@ -52,6 +52,7 @@ export class EnquiryAddComponent implements OnInit {
   emptyCustomComponent: any;
   componentRenderer: any = [];
   isCustomComponentValid: boolean = true;
+  isCustomComponentStillValid: boolean = false;
   isFormValid: boolean = false;
   lastUpdated: any;
   errorMessage: any;
@@ -174,7 +175,7 @@ export class EnquiryAddComponent implements OnInit {
 
 
     this.prefill.getEnqStatus().subscribe(
-      data => { this.enqstatus = data;},
+      data => { this.enqstatus = data; },
       err => {
         //  console.log(err); 
       }
@@ -310,7 +311,7 @@ export class EnquiryAddComponent implements OnInit {
       err => {
         //console.log("error");
       }
-    );
+      );
   }
 
 
@@ -392,7 +393,7 @@ export class EnquiryAddComponent implements OnInit {
     this.newEnqData.standard_id = value;
     this.prefill.getEnqSubjects(this.newEnqData.standard_id).subscribe(
       data => {
-      this.enqSub = data;
+        this.enqSub = data;
         // console.log(data); 
       },
       err => {
@@ -453,60 +454,12 @@ export class EnquiryAddComponent implements OnInit {
   submitForm() {
 
     //Validates if the custom component required fields are selected or not
-    this.componentPrefill.forEach(el => {
-      /* Required Field not set */
-      if (el.is_required == "Y" && this.componentListObject[el.component_id].enq_custom_value == "") {
-        this.isCustomComponentValid = false;
-        let data = {
-          type: "error",
-          title: "Form Data Incomplete or Incorrect",
-          body: "Please Select the required Fields in Academic Details"
-        }
-        this.appC.popToast(data);
-      }
-      /* Required field set push data */
-      else if (el.is_required == "Y" && this.componentListObject[el.component_id].enq_custom_value != "") {
-
-        if (typeof this.componentListObject[el.component_id].enq_custom_value == "boolean") {
-          if (this.componentListObject[el.component_id].enq_custom_value) {
-            this.componentListObject[el.component_id].enq_custom_value = "Y";
-            this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-            this.isCustomComponentValid = true;
-          }
-          else {
-            this.componentListObject[el.component_id].enq_custom_value = "N";
-            this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-            this.isCustomComponentValid = true;
-          }
-        }
-        else {
-          this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-          this.isCustomComponentValid = true;
-        }
-      }
-      /* Not required field */
-      else if (el.is_required == "N") {
-        if (typeof this.componentListObject[el.component_id].enq_custom_value == "boolean") {
-          if (this.componentListObject[el.component_id].enq_custom_value) {
-            this.componentListObject[el.component_id].enq_custom_value = "Y";
-            this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-            this.isCustomComponentValid = true;
-          }
-          else {
-            this.componentListObject[el.component_id].enq_custom_value = "N";
-            this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-            this.isCustomComponentValid = true;
-          }
-        }
-        else {
-          this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-          this.isCustomComponentValid = true;
-        }
-      }
-    });
+    let customComponentValidator = this.validateCustomComponent();
 
     /* Validate the predefine required fields of the form */
     this.isFormValid = this.ValidateFormDataBeforeSubmit();
+
+    console.log(this.isFormValid&&customComponentValidator);
 
     /* Upload Data if the formData is valid */
     if (this.isFormValid && this.isCustomComponentValid) {
@@ -549,11 +502,74 @@ export class EnquiryAddComponent implements OnInit {
     /* Do Nothing if the formData is Still Invalid  */
     else {
       this.newEnqData.enqCustomLi = [];
-      this.submitError = true;
 
+      this.submitError = true;
     }
   }
 
+
+
+
+  validateCustomComponent(): boolean {
+
+    let temp = false;
+
+    this.componentPrefill.forEach(el => {
+
+      if (el.is_required == "Y") {
+        /* Required Field not set */
+        if (this.componentListObject[el.component_id].enq_custom_value == "") {
+          this.isCustomComponentValid = false;
+          this.newEnqData.enqCustomLi = [];
+          let data = {
+            type: "error",
+            title: "Form Data Incomplete or Incorrect",
+            body: "Please Select the required Fields in Academic Details"
+          }
+          this.appC.popToast(data);
+        }
+        /* Required field set push data */
+        else if (this.componentListObject[el.component_id].enq_custom_value != "") {
+          if (typeof this.componentListObject[el.component_id].enq_custom_value == "boolean") {
+            if (this.componentListObject[el.component_id].enq_custom_value) {
+              this.componentListObject[el.component_id].enq_custom_value = "Y";
+              this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
+              this.isCustomComponentValid = true;
+            }
+            else {
+              this.componentListObject[el.component_id].enq_custom_value = "N";
+              this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
+              this.isCustomComponentValid = true;
+            }
+          }
+          else {
+            this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
+            this.isCustomComponentValid = true;
+          }
+        }
+      }
+      else if (el.is_required == "N") {
+        /* Not required field */
+        if (typeof this.componentListObject[el.component_id].enq_custom_value == "boolean") {
+          if (this.componentListObject[el.component_id].enq_custom_value) {
+            this.componentListObject[el.component_id].enq_custom_value = "Y";
+            this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
+            this.isCustomComponentStillValid = true;
+          }
+          else {
+            this.componentListObject[el.component_id].enq_custom_value = "N";
+            this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
+            this.isCustomComponentStillValid = true;
+          }
+        }
+        else {
+          this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
+          this.isCustomComponentStillValid = true;
+        }
+      }
+    });
+    return (this.isCustomComponentValid&&this.isCustomComponentStillValid);
+  }
 
 
 

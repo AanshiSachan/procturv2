@@ -86,7 +86,7 @@ export class FetchenquiryService {
       function_type: 'fetch_campaign_messages',
       username: sessionStorage.getItem('userid') +'|' +sessionStorage.getItem('userType'),
       password: sessionStorage.getItem('password'),
-      feature_type: 2,
+      feature_type: 2
     }
 
 
@@ -97,4 +97,6 @@ export class FetchenquiryService {
     )
   }
 
+
+  
 }

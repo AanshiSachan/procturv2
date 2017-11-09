@@ -23,7 +23,7 @@ import { Ng2SmartTableModule } from '../../../ng2-smart-table';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { FileUploadModule } from 'primeng/primeng';
+import { FileUploadModule, SplitButtonModule } from 'primeng/primeng';
 
 
 @NgModule({
@@ -38,7 +38,8 @@ import { FileUploadModule } from 'primeng/primeng';
         EnquiryRoutingModule,
         CustomModule,
         BsDatepickerModule,
-        FileUploadModule
+        FileUploadModule,
+        SplitButtonModule
     ],
     declarations: [
         EnquiryComponent,
