@@ -253,14 +253,15 @@
           <div class="c-lg-6 c-md-6 c-sm-6 align-right">
             <ul class="export-print">
               <li>
-                <div class="bulk-dropdown">
+                <!-- <div class="bulk-dropdown">
                   <button id="bulk-action" (click)="bulkActionFunction()" class="btn bulk-dropbtn">Bulk Actions</button>
                   <div id="bulk-drop" class="bulk-dropdown-content">
                     <a>Send SMS</a>
                     <a>Delete</a>
                     <a>To be Added.. </a>
                   </div>
-                </div>
+                </div> -->
+                <p-splitButton label="Send Bulk SMS" icon="fa-check" (onClick)="sendBulkSms()" [model]="bulkAddItems"></p-splitButton>
               </li>
               <li class="export-icon" (click)="downloadAllEnquiries()">
                 <a id="enq_download"></a>
@@ -286,27 +287,13 @@
         <div class="row filter-res pagination" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <ul class="pagination">
-
-              <li id="previous">
-                <a (click)="fetchPrevious()"> Previous</a>
+              <li>
+                <a > Previous</a>
               </li>
-
-              <li *ngFor="let page of pageArray" (click)="fetchDataByPage(page)">{{page}}</li>
-
-              <li id="next">
-                <a (click)="fetchNext()"> Next</a>
+              <li class="index-value" *ngFor="let index of indexJSON" (click)="fectchTableDataByPage(index)">{{index.value}}</li>
+              <li>
+                <a > Next</a>
               </li>
-
-              <li class="batch-size">
-                <select class="" [ngModel]="displayBatchSize" (ngModelChange)="updateTableBatchSize($event)">
-                  <option>5</option>
-                  <option>10</option>
-                  <option>25</option>
-                  <option>50</option>
-                  <option>100</option>
-                </select>
-              </li>
-
             </ul>
           </div>
         </div>

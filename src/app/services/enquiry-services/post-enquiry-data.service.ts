@@ -32,7 +32,7 @@ export class PostEnquiryDataService {
   }
 
   updateEnquiryForm(id, data) {
-    this.urlUpdateEnquiryForm = this.baseURL +"/api/v1/enquiry/status/" + this.institute_id + "/" + id;
+    this.urlUpdateEnquiryForm = this.baseURL + "/api/v1/enquiry/status/" + this.institute_id + "/" + id;
 
     return this.http.put(this.urlUpdateEnquiryForm, data, { headers: this.headers }).map(res => {
       return res.json();
@@ -41,7 +41,7 @@ export class PostEnquiryDataService {
 
 
   deleteEnquiryById(id) {
-    this.urlDeleteById = this.baseURL +"/api/v1/enquiry/delete/" + this.institute_id + "/" + id;
+    this.urlDeleteById = this.baseURL + "/api/v1/enquiry/delete/" + this.institute_id + "/" + id;
     this.headers.append("X-Requested-With", "XMLHttpRequest");
     return this.http.delete(this.urlDeleteById, { headers: this.headers }).map(res => {
       data => { return data.json };
@@ -49,7 +49,7 @@ export class PostEnquiryDataService {
   }
 
   updateRegisterationPayment(data) {
-    this.urlRegisterPayment = this.baseURL +"/api/v2/enquiry_manager/payRegistrationFees";
+    this.urlRegisterPayment = this.baseURL + "/api/v2/enquiry_manager/payRegistrationFees";
     return this.http.post(this.urlRegisterPayment, data, { headers: this.headers }).map(data => {
       return data.json();
     });
@@ -57,7 +57,7 @@ export class PostEnquiryDataService {
 
 
   editFormUpdater(id, data) {
-    this.urlEditFormUpdater = this.baseURL +"/api/v1/enquiry/" + this.institute_id + "/" + id;
+    this.urlEditFormUpdater = this.baseURL + "/api/v1/enquiry/" + this.institute_id + "/" + id;
 
     return this.http.put(this.urlEditFormUpdater, data, { headers: this.headers })
       .map(data => {
@@ -67,7 +67,7 @@ export class PostEnquiryDataService {
 
 
   postNewEnquiry(data) {
-    this.urlPostEnquiry = this.baseURL +"/api/v1/enquiry/" + this.institute_id;
+    this.urlPostEnquiry = this.baseURL + "/api/v1/enquiry/" + this.institute_id;
     return this.http.post(this.urlPostEnquiry, data, { headers: this.headers }).map(
       data => { return data.json(); }
     )
@@ -76,31 +76,42 @@ export class PostEnquiryDataService {
 
 
   uploadEnquiryXls(file) {
-    
-    let formdata = new FormData();
-    formdata.append("file", file);
-
-    this.headerFormData = new Headers();
-    //this.headerFormData.append("Content-Type", "application/json");
-    //this.headerFormData.append("processData", "false");
-    this.headerFormData.append("Content-Type", "multipart/form-data");
-    this.headerFormData.append("Authorization", this.Authorization);
 
     this.urlPostXlsDocument = this.baseURL +"/api/v2/enquiry_manager/bulkUploadEnquiries";
 
-    return this.http.post(this.urlPostXlsDocument, formdata, {headers: this.headerFormData}).map(
-      res => { return res.json();}
-    )
+    let formdata = new FormData();
+    formdata.append("file", file);
+
+    let xhr: XMLHttpRequest = new XMLHttpRequest();
+    xhr.open("POST", this.urlPostXlsDocument , true);
+
+    xhr.setRequestHeader("processData", "false");
+    xhr.setRequestHeader("contentType", "false");
+    xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+    xhr.setRequestHeader("enctype", "multipart/form-data");
+    xhr.setRequestHeader("Authorization", this.Authorization);
+
+    //Call function when onload.
+    xhr.onreadystatechange  = function () {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          console.log(xhr.response);
+        } else {
+          console.log(xhr.response);
+        }
+      }
+    }
+    xhr.send(formdata); 
 
   }
 
 
-  addNewSmsTemplate(msg){
+  addNewSmsTemplate(msg) {
     this.urlUploadSmsTemplate = "https://app.proctur.com/StdMgmtWebAPI/api/v1/campaign/message/100123";
 
-    return this.http.post(this.urlUploadSmsTemplate, msg, {headers: this.headers}).map(
-      res => {return res.json()},
-      err => {}
+    return this.http.post(this.urlUploadSmsTemplate, msg, { headers: this.headers }).map(
+      res => { return res.json() },
+      err => { }
     );
   }
 }

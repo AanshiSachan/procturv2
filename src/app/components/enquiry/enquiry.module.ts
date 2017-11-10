@@ -7,7 +7,7 @@ import { EnquiryBulkaddComponent } from './enquiry-bulkadd/enquiry-bulkadd.compo
 import { EnquiryManageComponent } from './enquiry-manage/enquiry-manage.component';
 import { EnquiryRoutingModule } from "./enquiry-routing.module";
 import { ActionButtonComponent } from './enquiry-manage/action-button.component';
-import {SmsOptionComponent} from './enquiry-manage/sms-option.component';
+import { SmsOptionComponent } from './enquiry-manage/sms-option.component';
 import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
 import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component';
 import { EnquiryInput, EnquiryDateInput } from './enquiry-directives/enquiry-input.directive';
@@ -23,7 +23,7 @@ import { Ng2SmartTableModule } from '../../../ng2-smart-table';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { FileUploadModule, SplitButtonModule } from 'primeng/primeng';
+import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 
 
 @NgModule({
@@ -39,7 +39,8 @@ import { FileUploadModule, SplitButtonModule } from 'primeng/primeng';
         CustomModule,
         BsDatepickerModule,
         FileUploadModule,
-        SplitButtonModule
+        SplitButtonModule,
+        MenuModule
     ],
     declarations: [
         EnquiryComponent,

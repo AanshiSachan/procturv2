@@ -12,10 +12,10 @@ import { AppComponent } from '../../../app.component';
 })
 export class EnquiryBulkaddComponent implements OnInit {
 
-  uploadedFiles: any[] = [];
-  isCancelUpload:boolean = false;
-  isUploadingXls:boolean = true;
-
+  isCancelUpload: boolean = false;
+  isUploadingXls: boolean = false;
+  progress: number = 0;
+  fileLoading:string = "";
 
   constructor(private fetchData: FetchenquiryService, private postData: PostEnquiryDataService, private appC: AppComponent) {
   }
@@ -35,7 +35,7 @@ export class EnquiryBulkaddComponent implements OnInit {
         let dwldLink = document.getElementById('template_link');
         dwldLink.setAttribute("href", url);
         dwldLink.setAttribute("download", fileName);
-        document.body.appendChild(dwldLink);
+
         dwldLink.click();
       },
       err => {
@@ -55,29 +55,52 @@ export class EnquiryBulkaddComponent implements OnInit {
 
   }
 
-  uploadAllXls(ev) {
 
-    for (let file of ev.files) {
-
-      if(this.isCancelUpload){
-        this.isUploadingXls = false;
-      }
-      else{
-        this.postData.uploadEnquiryXls(file).subscribe(
-          res => {
-            console.log(res);
-          },
-          err => {
-            let data = {
-              type: "error",
-              title: "Error Uploading Data",
-              body: "Please contact proctur support team"
-            }
-            this.appC.popToast(data);
-          }
-        )
-      }
-    }
+  updateXlsHeaders(ev) {
+    ev.xhr.setRequestHeader("processData", "false");
+    ev.xhr.setRequestHeader("contentType", "false");
+    ev.xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+    ev.xhr.setRequestHeader("enctype", "multipart/form-data");
+    ev.xhr.setRequestHeader("Authorization", sessionStorage.getItem("Authorization"));
   }
 
+  uploadHandler(event) {
+    for (let file of event.files) {
+
+      let formdata = new FormData();
+      formdata.append("file", file);
+      let urlPostXlsDocument = "https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/bulkUploadEnquiries";
+      let xhr: XMLHttpRequest = new XMLHttpRequest();
+      xhr.open("POST", urlPostXlsDocument, true);
+      xhr.setRequestHeader("processData", "false");
+      xhr.setRequestHeader("contentType", "false");
+      xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      xhr.setRequestHeader("enctype", "multipart/form-data");
+      xhr.setRequestHeader("Authorization", sessionStorage.getItem('Authorization'));
+      this.isUploadingXls = true;
+      xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
+        if (e.lengthComputable) {
+          this.progress = Math.round((e.loaded * 100) / e.total);
+          document.getElementById('progress-width').style.width = this.progress +'%';
+          this.fileLoading = file.name;
+        }
+      }, false);
+
+      //Call function when onload.
+      xhr.onreadystatechange = () => {
+        if(xhr.readyState == 4) {
+            this.progress = 0;
+          if (xhr.status >= 200 && xhr.status < 300) {
+            this.isUploadingXls = false;
+            console.log(xhr.response);
+          } else {
+            this.isUploadingXls = false;
+            console.log(xhr.response);
+          }
+        }
+      }
+      xhr.send(formdata);
+    }
+    event.files = [];
+  }
 }

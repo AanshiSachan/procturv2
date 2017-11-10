@@ -1072,6 +1072,70 @@ ul.customDropdown li:hover {
 ::ng-deep .bs-datepicker-body{
   padding: 5px;
 }
+::ng-deep .ui-splitbutton{
+    position: relative;
+    display: inline-block;
+    zoom: 1;
+    background: #fff;
+    border: none;
+    font-size: 14px !important;
+    font-weight: 500;
+    box-sizing: border-box;
+    height: 35px;
+    cursor: pointer;
+    color: #0084f6;
+    padding: 3px 0px 0px 0px;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 14px;
+    .ui-button{
+        background: #fff;
+        color: #0084f6 !important;
+        font-family: 'Open Sans', Arial, sans-serif;
+        font-size: 14px;
+        height: 35px !important;
+        font-weight: 600;
+        border: 1px solid $border-common !important;
+    }
+    .ui-menu{
+        border: none;
+        color: #1b1d1f;
+        background: #f6f7f9 0 0 repeat-x;
+        background: none;
+        top: 40px !important;
+        left: -10px !important;
+        outline: none;
+        box-shadow: none;
+        font-family: 'Open Sans', Arial, sans-serif;
+        font-size: 14px;
+        .ui-menu-list{
+            font-family: 'Open Sans', Arial, sans-serif;
+            font-size: 14px;
+            .ui-menuitem{
+                font-family: 'Open Sans', Arial, sans-serif;
+                font-size: 14px;
+                width: 100%;
+                min-width: 200px;
+                min-height: 39px;
+                clear: both;
+                margin: .125em 0;
+                padding: 5px;
+                color: #0084f6;
+                margin: 0px 0px 2px 0px;
+                border: 0.5px solid rgba(128, 128, 128, 0.43) !important;
+                box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.48);
+                background: white;
+                a{
+                    color: #0084f6 !important; 
+                    font-family: 'Open Sans', Arial, sans-serif !important;
+                    font-size: 14px !important;
+                    &:hover{
+                        background: white;  
+                      }
+                }
+            }
+        }
+    }    
+}
 
 /* ======================== DropDown Menu ================================= */
 

@@ -20,7 +20,7 @@ import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from 'ang
 import { Ng2SmartTableModule, LocalDataSource } from '../../../../ng2-smart-table';
 import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
-
+import { MenuItem } from 'primeng/primeng'
 
 
 @Component({
@@ -60,7 +60,6 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   updateFormCommentsOn: any = [];
   PageIndex: number = 0;
   maxPageSize: number = 0;
-  pageArray: any = [];
   totalEnquiry: number = 0;
   isProfessional: boolean = false;
   isActionDisabled: boolean = false;
@@ -70,14 +69,10 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     length: 0,
     type: "",
   };
+  /* items added on ngOnInit */
+  bulkAddItems: MenuItem[];
 
-
-
-
-
-
-
-
+  indexJSON = [];
 
   selectedRow: any = {
     address: null,
@@ -185,6 +180,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     updateDateFrom: null,
     updateDateTo: null,
   };
+
   selectedRowGroup: any;
   componentPrefill: any = [];
   componentListObject: any = {};
@@ -457,7 +453,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
   /* ===========================  ====================================== */
-  constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService, 
+  constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService,
     private router: Router,
     private logger: Logger, private fb: FormBuilder, private pops: PopupHandlerService,
     private postdata: PostEnquiryDataService, private appC: AppComponent) {
@@ -478,6 +474,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       { name: 'Name', id: 'name' }, { name: 'Phone', id: 'phone' }, { name: 'Email', id: 'email' }, { name: 'Standard', id: 'standard' }, { name: 'Gender', id: 'Gender' }, { name: 'Subjects', id: 'subjects' }, { name: 'Status', id: 'status' }, { name: 'Status Value', id: 'statusValue' }, { name: 'is Converted', id: 'is_converted' }, { name: 'Follow up Date', id: 'followUpDate' }, { name: 'Occupation ID', id: 'occupation_id' }, { name: 'School ID', id: 'school_id' }, { name: 'Enquiry Date', id: 'enquiry_date' }, { name: 'Standard ID', id: 'standard_id' }, { name: 'Subject ID', id: 'subject_id' }, { name: 'Reffered by', id: 'referred_by' }, { name: 'Source ID', id: 'source_id' }, { name: 'Priority', id: 'priority' }, { name: 'Follow type', id: 'follow_type' }, { name: 'Assigned Name', id: 'assigned_name' }, { name: 'Is recent', id: 'is_recent' }, { name: 'Slot ID', id: 'slot_id' }, { name: 'Slot', id: 'slot' }, { name: 'Update Date', id: 'updateDate' }, { name: 'Is Dashboard', id: 'isDashbord' }, { name: 'Is Report', id: 'isRport' }, { name: 'Total Count', id: 'totalcount' }, { name: 'New Enquiry Count', id: 'newEnqcount' }, { name: 'Enquiry Date', id: 'enquiry_no_date' }, { name: 'Person Name', id: 'name_person' }, { name: 'Follow up date', id: 'followUpDateTime' }, { name: 'Standard subject', id: 'standard_subject' }, { name: 'Closed Reason', id: 'closedReasonText' }, { name: 'Follow up Time', id: 'followUpTime' }, { name: 'Filtered Status', id: 'filtered_statuses' }, { name: 'Filtered Slot', id: 'filtered_slots' }];
 
     /* If show attribute on table settings, set the checked value on dropdown menu  */
+
     this.myOptions.forEach(el => {
       if (this.settingsEnquiry.columns[el.id].show) {
         this.optionsModel.push(el.id);
@@ -489,6 +486,17 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
     /* Fetch prefill data after table data load completes */
     this.FetchEnquiryPrefilledData();
+
+
+    /* Dropdown items for Bulk Actions */
+    this.bulkAddItems = [
+      {
+        label: 'Delete', icon: 'fa-close', command: () => {
+          alert('Delete selected');
+        }
+      }
+    ];
+
 
     /* Fetch the status of message from  popup handler service */
     this.pops.currentMessage.subscribe(message => {
@@ -507,6 +515,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
   /* After View Has Loaded */
   ngAfterViewInit(): void {
+
   }
 
 
@@ -578,19 +587,14 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
   /* Load Table data with respect to the institute data provided */
   loadTableDatatoSource(obj) {
-
     /* If start_index is zero then fetch table data and set page size for paginator */
     if (obj.start_index === 0) {
-      document.getElementById('previous').classList.add('hide');
-      return this.enquire.getAllEnquiry(obj).map(data => {
+      return this.enquire.getAllEnquiry(obj).subscribe(data => {
         this.rows = data;
-      }).subscribe(data => {
         this.sourceEnquiry = new LocalDataSource(this.rows);
         this.totalEnquiry = this.rows[0].totalcount;
-        this.setPageSize(this.rows[0].totalcount);
-        this.pageArray = Array(this.maxPageSize).fill(1).map((x, i) => i);
-        //console.log(this.pageArray);
-        //console.log(this.maxPageSize);
+        this.indexJSON = [];
+        this.setPageSize(this.totalEnquiry);
       });
     }
     /* simply returns data obtained from server */
@@ -601,14 +605,6 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
         this.sourceEnquiry = new LocalDataSource(this.rows);
       });
     }
-  }
-
-
-
-
-  /* Set Max Page Size for Paginator */
-  setPageSize(num) {
-    this.maxPageSize = Math.round(num / this.instituteData.batch_size);
   }
 
 
@@ -1311,7 +1307,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
               },
               err => {
                 let msg = {
-        
+
                 }
               }
             );
@@ -1345,6 +1341,37 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
   copySMS() {
     alert("copied");
+  }
+
+
+  setPageSize(totalCount) {
+    let pageSize = Math.ceil(totalCount / this.instituteData.batch_size);
+    let index = {
+      value: null,
+      start_index: null,
+      end_index: null
+    }
+    let start: number = 0;
+
+    for (var i = 1; i <= pageSize; i++) {
+      index = {
+        value: i,
+        start_index: start,
+        end_index: start + 4
+      }
+      this.indexJSON.push(index);
+      start = start + 5;
+    }
+
+    //console.log(this.indexJSON);
+  }
+
+  fectchTableDataByPage(index) {
+    this.instituteData.start_index = index.start_index;
+    this.busy = this.loadTableDatatoSource(this.instituteData);
+
+    
+
   }
 
 }

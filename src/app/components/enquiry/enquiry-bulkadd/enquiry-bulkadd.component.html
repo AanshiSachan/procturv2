@@ -24,14 +24,18 @@
                 <input type="text" class="uploadFileField" value="" /><input type="button" class="btn fullBlue" value="Browse"
                 />
               </div> -->
-              <p-fileUpload name="myfile[]" url="./" multiple="multiple" 
-              accept="application/vnd.ms-excel" customUpload="true" 
-              (uploadHandler)="uploadAllXls($event)" [showCancelButton]="false">
+              <p-fileUpload 
+                url="https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/bulkUploadEnquiries" 
+                multiple="multiple"
+                accept="application/vnd.ms-excel" 
+                customUpload="true"
+                (uploadHandler)="uploadHandler($event)" 
+                [showCancelButton]="false">
               </p-fileUpload>
+
               <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls" >
-                <!-- -->
                 <div class="file-uploaded">
-                  <span>
+                  <!-- <span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
                       <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
                         <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
@@ -41,16 +45,16 @@
                         <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)" style="stroke:none;"></rect>
                       </g>
                     </svg>
-                  </span> 
-                  Upload Text
+                  </span>  -->
+                  {{fileLoading}}
                 </div>
                 <div class="progress-bar-wrapper">
                   <div class="upload-bar">
-                    <div></div>
+                    <div id="progress-width"></div>
                   </div>
-                  <span>35% Complete</span>
+                  <span>{{progress}} Complete</span>
                 </div>
-                <label class="cancel-upload">Cancel upload</label>
+                <!-- <label class="cancel-upload">Cancel upload</label> -->
               </div>
             </li>
           </ul>
