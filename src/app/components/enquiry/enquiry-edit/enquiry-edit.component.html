@@ -65,7 +65,7 @@
                   <div class="field-wrapper has-value">
                     <input type="text" value="" id="email" #email="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                       enquiryInput/>
-                    <label for="email">Email ID*</label>
+                    <label for="email">Email ID</label>
                     <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert invalid-alert">
                       <div *ngIf="email.errors.pattern">
                         Please enter a valid email ID.
@@ -108,7 +108,7 @@
                   <div class="field-wrapper has-value">
                     <input type="text" value="" id="email2" #email2="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.email2" name="email2"
                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" enquiryInput/>
-                    <label for="email2">Email ID*</label>
+                    <label for="email2">Alternate Email ID</label>
                     <div *ngIf="email2.invalid && (email2.dirty || email2.touched)" class="alert invalid-alert">
                       <div *ngIf="email2.errors.pattern">
                         Please enter a valid email ID.
@@ -118,7 +118,7 @@
                   <div class="field-wrapper has-value">
                     <input type="text" value="" id="guardianName" class="form-ctrl" [(ngModel)]="editEnqData.parent_name" name="guardianName"
                       pattern="[a-zA-Z .]+[a-zA-Z .]+" maxlength="50" #guardianName="ngModel" enquiryInput/>
-                    <label for="guardianName">Gaurdian Name</label>
+                    <label for="guardianName">Guardian Name</label>
                     <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianName.errors.pattern">
                         name cannot have special characters or numbers.
@@ -128,7 +128,7 @@
                   <div class="field-wrapper has-value">
                     <input type="text" value="" id="guardianContact" class="form-ctrl" [(ngModel)]="editEnqData.parent_phone" name="guardianContact"
                       maxlength="10" minlength="10" pattern="[789][0-9]{9}" #guardianContact="ngModel" enquiryInput/>
-                    <label for="guardianContact">Gaurdian Contact</label>
+                    <label for="guardianContact">Guardian Contact</label>
                     <div *ngIf="guardianContact.invalid && (guardianContact.dirty || guardianContact.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianContact.errors.pattern">
                         Please enter a valid contact number.
@@ -138,7 +138,7 @@
                   <div class="field-wrapper has-value">
                     <input type="text" value="" id="guardianEmail" class="form-ctrl" [(ngModel)]="editEnqData.parent_email" name="guardianEmail"
                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #guardianEmail="ngModel" enquiryInput/>
-                    <label for="guardianEmail">Gaurdian Email</label>
+                    <label for="guardianEmail">Guardian Email</label>
                     <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianEmail.errors.pattern">
                         Please enter a valid email Id.
@@ -329,7 +329,7 @@
               <option value=""></option>
               <option *ngFor="let refer of refferedBy" [value]="refer.id">{{refer.name}}</option>
             </select>
-            <label for="refferedBy">Reffered By</label>
+            <label for="refferedBy">Referred By</label>
           </div>
           <div class="field-wrapper has-value">
             <select id="assignedTo" class="form-ctrl" [(ngModel)]="editEnqData.assigned_to" name="assigned_to" enquiryInput>

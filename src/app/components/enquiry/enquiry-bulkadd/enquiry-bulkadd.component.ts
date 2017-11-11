@@ -68,16 +68,22 @@ export class EnquiryBulkaddComponent implements OnInit {
     for (let file of event.files) {
 
       let formdata = new FormData();
+      
       formdata.append("file", file);
+      
       let urlPostXlsDocument = "https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/bulkUploadEnquiries";
+      
       let xhr: XMLHttpRequest = new XMLHttpRequest();
+      
       xhr.open("POST", urlPostXlsDocument, true);
       xhr.setRequestHeader("processData", "false");
       xhr.setRequestHeader("contentType", "false");
       xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
       xhr.setRequestHeader("enctype", "multipart/form-data");
       xhr.setRequestHeader("Authorization", sessionStorage.getItem('Authorization'));
+      
       this.isUploadingXls = true;
+      
       xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
         if (e.lengthComputable) {
           this.progress = Math.round((e.loaded * 100) / e.total);
@@ -92,13 +98,26 @@ export class EnquiryBulkaddComponent implements OnInit {
             this.progress = 0;
           if (xhr.status >= 200 && xhr.status < 300) {
             this.isUploadingXls = false;
-            console.log(xhr.response);
+            let data = {
+              type: 'success',
+              title: "File uploaded",
+              body: xhr.response.fileName
+            }
+            this.appC.popToast(data);
+            //console.log(xhr.response);
           } else {
             this.isUploadingXls = false;
-            console.log(xhr.response);
+            let data = {
+              type: 'error',
+              title: "File uploaded Failed",
+              body: xhr.response.fileName
+            }
+            this.appC.popToast(data);
+            //console.log(xhr.response);
           }
         }
       }
+      
       xhr.send(formdata);
     }
     event.files = [];

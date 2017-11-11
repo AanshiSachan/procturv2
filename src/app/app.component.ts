@@ -25,7 +25,7 @@ export class AppComponent {
   public config : ToasterConfig = new ToasterConfig({
     positionClass: 'toast-top-right',
     limit: 1,
-    timeout: 2000,
+    timeout: 5000,
     mouseoverTimerStop: true,
   });
   constructor(toasterService: ToasterService) {

@@ -53,7 +53,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   private paymentMode: any = [];
   today: any = Date.now();
   searchBarData: any = null;
-  displayBatchSize: number = 5;
+  displayBatchSize: number = 10;
   incrementFlag: boolean = true;
   updateFormComments: any = [];
   updateFormCommentsBy: any = [];
@@ -619,38 +619,66 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     /* Status */
     this.prefill.getEnqStatus().subscribe(
       data => { this.enqstatus = data; },
-      err => { console.log(err); }
+      err => { 
+        let alert = {
+        type: 'error',
+        title: 'Failed To Load Data',
+        body: 'Please check your internet connection or refresh'        
+      }
+      this.appC.popToast(alert); 
+     }
     );
 
 
     /* Priority */
     this.prefill.getEnqPriority().subscribe(
       data => { this.enqPriority = data; },
-      err => { console.log(err); }
+      err => { 
+        let alert = {
+          type: 'error',
+          title: 'Failed To Load Data',
+          body: 'Please check your internet connection or refresh'        
+        }
+        this.appC.popToast(alert); 
+       }
     );
 
 
     /* FollowUp Type */
     this.prefill.getFollowupType().subscribe(
       data => { this.enqFollowType = data },
-      err => { console.log(err); }
+      err => { 
+        let alert = {
+          type: 'error',
+          title: 'Failed To Load Data',
+          body: 'Please check your internet connection or refresh'        
+        }
+        this.appC.popToast(alert); 
+       }
     );
 
 
     /* Assign To */
     this.prefill.getAssignTo().subscribe(
       data => { this.enqAssignTo = data; },
-      err => { console.log(err); }
+      err => { 
+        let alert = {
+          type: 'error',
+          title: 'Failed To Load Data',
+          body: 'Please check your internet connection or refresh'        
+        }
+        this.appC.popToast(alert); 
+       }
     );
 
 
     /* Scholarship */
     this.prefill.getScholarPrefillData().subscribe(
       data => {
-        //console.log(data);
+        
         data.forEach(el => {
           if (el.label == "Scholarship") {
-            //console.log(el);
+            
             this.enqScholarship = el.prefilled_data.split(',');
           }
           else if (el.label == "Subject2") {
@@ -658,21 +686,42 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
           }
         })
       },
-      err => { console.log(err); }
+      err => { 
+        let alert = {
+          type: 'error',
+          title: 'Failed To Load Data',
+          body: 'Please check your internet connection or refresh'        
+        }
+        this.appC.popToast(alert); 
+       }
     );
 
 
     /* Standard */
     this.prefill.getEnqStardards().subscribe(
       data => { this.enqStd = data; },
-      err => { }
+      err => {
+        let alert = {
+          type: 'error',
+          title: 'Failed To Load Data',
+          body: 'Please check your internet connection or refresh'        
+        }
+        this.appC.popToast(alert); 
+       }
     );
 
 
     /* Payment Modes */
     this.prefill.fetchPaymentModes().subscribe(
       data => { this.paymentMode = data; },
-      err => { }
+      err => {
+        let alert = {
+          type: 'error',
+          title: 'Failed To Load Data',
+          body: 'Please check your internet connection or refresh'        
+        }
+        this.appC.popToast(alert); 
+       }
     )
 
 
@@ -695,12 +744,17 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
           this.componentPrefill.push(el);
           //console.log(this.componentPrefill);
         });
-        //console.log(this.componentListObject);
+        
         this.emptyCustomComponent = this.componentListObject;
 
       },
       err => {
-        //console.log("error");
+        let alert = {
+          type: 'error',
+          title: 'Failed To Load Data',
+          body: 'Please check your internet connection or refresh'        
+        }
+        this.appC.popToast(alert); 
       }
     );
 
@@ -722,13 +776,13 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
         display: false
       },
     };
-    //console.log("Start");
+
     this.settingsEnquiryUpdater = Object.assign({}, this.settingsEnquiry);
     this.optionsModel.forEach(el => {
       this.settingsEnquiryUpdater.columns[el].show = true;
     });
     this.settingsEnquiry = Object.assign({}, this.settingsEnquiryUpdater);
-    //console.log(JSON.stringify(this.settings));
+
   }
 
 
@@ -752,7 +806,6 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
           arr = arr.concat(temp);
         });
         this.sourceEnquiry = new LocalDataSource(arr);
-        //console.log(arr);
       }
       else if (checkerObj.checked === false) {
         var index = this.checkedStatus.indexOf(checkerObj.prop);
@@ -770,14 +823,12 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
           arr = arr.concat(temp);
         });
         this.sourceEnquiry = new LocalDataSource(arr);
-        //console.log(arr);
       }
     }
     else if (this.stats.Open.checked === false && this.stats.Registered.checked === false && this.stats.Admitted.checked === false && this.stats.Inactive.checked === false) {
       this.stats.All.disabled = false;
       this.stats.All.checked = true;
       this.checkedStatus = [];
-      console.log("array emptied, now refresh data source");
       this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
         this.rows = data;
       }).subscribe(data => {
@@ -794,7 +845,12 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   /* Function to search data on smart table */
   searchDatabase() {
     if (this.searchBarData === "" || this.searchBarData === " " || this.searchBarData === null) {
-      alert("Please enter a valid input");
+      let alert = {
+        type: 'error',
+        title: 'Invalid Input',
+        body: 'Please enter a value to be searched'        
+      }
+      this.appC.popToast(alert);
       this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
         this.rows = data;
       }).subscribe(data => {
@@ -814,7 +870,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
             priority: "",
             status: -1,
             follow_type: "",
-            followUpDate: moment().format('YYYY-MM-DD'),
+            followUpDate: "",
             enquiry_date: "",
             assigned_to: -1,
             standard_id: -1,
@@ -837,16 +893,27 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
             this.rows = data;
           }).subscribe(data => {
             this.sourceEnquiry = new LocalDataSource(this.rows);
+            let alert = {
+              type: 'success',
+              title: 'Records Updated',
+              body: 'Search complete'        
+            }
+            this.appC.popToast(alert);
             this.sourceEnquiry.refresh();
           });
         }
         else {
-          alert("please enter a valid name");
+          let alert = {
+            type: 'error',
+            title: 'Invalid Name',
+            body: 'Please enter a valid name'        
+          }
+          this.appC.popToast(alert);
         }
       }
       /* Number detected */
       else {
-        if (this.validateNumber(this.searchBarData) + "not valid") {
+        if (this.validateNumber(this.searchBarData)) {
           let tempFormData = {
             name: "",
             phone: "",
@@ -855,7 +922,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
             priority: "",
             status: -1,
             follow_type: "",
-            followUpDate: moment().format('YYYY-MM-DD'),
+            followUpDate: "",
             enquiry_date: "",
             assigned_to: -1,
             standard_id: -1,
@@ -882,7 +949,12 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
           });
         }
         else {
-          alert("please enter a valid number");
+          let alert = {
+            type: 'error',
+            title: 'Invalid Number',
+            body: 'Please enter a valid mobile number'        
+          }
+          this.appC.popToast(alert);
         }
       }
     }
@@ -935,9 +1007,6 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       if (ev.isSelected) {
         this.selectedRow = ev.data;
         this.selectedRowGroup = ev.selected;
-        //console.log(this.selectedRow);
-        //console.log("all selected Rows");
-        //console.log(this.selectedRowGroup);
         localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
         this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
           this.updateFormComments = res.comments;
@@ -948,7 +1017,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       }
       /* If false, that is only a single input has been selected */
       else {
-        //console.log(ev);
+
         this.selectedRow = ev.data;
         localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
         this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
@@ -960,7 +1029,6 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     }
     /* All records in the page have been selected */
     else {
-      //console.log(ev);
       this.selectedRowGroup = ev.selected;
     }
   }
@@ -975,10 +1043,23 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     this.updateFormData.status = this.selectedRow.status.toString();
     this.updateFormData.followUpDate = moment(this.selectedRow.followUpDate).format('YYYY-MM-DD');
     this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
-    console.log(this.updateFormData);
-    this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData).subscribe(res => {
-      alert('data updated' + res);
+    this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData)
+    .subscribe(res => {  
+      let alert = {
+        type: 'success',
+        title: 'Enquiry Updated',
+        body: 'Your enquiry has been successfully submitted'        
+      }
+      this.appC.popToast(alert); 
       this.closePopup();
+    },
+    err => {
+      let alert = {
+        type: 'error',
+        title: 'Failed To Update Enquiry',
+        body: 'There was an error processing your request'
+      }
+      this.appC.popToast(alert); 
     })
   }
 
@@ -986,11 +1067,28 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
   /* Delete Enquiry  */
-  DeleteEnquiry() {
-    console.log(this.selectedRow);
+  deleteEnquiry() {
     this.postdata.deleteEnquiryById(this.selectedRow.institute_enquiry_id).subscribe(
-      res => { alert("Enquiry Has been Deleted"); this.closePopup(); this.busy = this.loadTableDatatoSource(this.instituteData); },
-      err => { alert("admitted/converted/registered enquiry cannot be deleted" + err.message); this.closePopup(); this.busy = this.loadTableDatatoSource(this.instituteData); }
+      res => { 
+        let alert = {
+          type: 'success',
+          title: 'Enquiry Deleted',
+          body: 'Your enquiry has been deleted'        
+        }
+        this.appC.popToast(alert);
+        this.closePopup(); 
+        this.busy = this.loadTableDatatoSource(this.instituteData); 
+      },
+      err => { 
+        let alert = {
+          type: 'error',
+          title: 'Failed To Delete Enquiry',
+          body: 'There was an error processing your request' +err.message
+        }
+        this.appC.popToast(alert);
+        this.closePopup(); 
+        this.busy = this.loadTableDatatoSource(this.instituteData); 
+      }
     )
   }
 
@@ -1001,8 +1099,12 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   registerPayment() {
     this.registrationForm.institute_enquiry_id = this.selectedRow.institute_enquiry_id.toString();
     this.postdata.updateRegisterationPayment(this.registrationForm).subscribe(
-      res => { alert("registration added" + res) },
-      err => { alert("err" + err) }
+      res => { 
+        alert("registration added" + res)
+       },
+      err => { 
+        alert("err" + err)
+       }
     );
   }
 
@@ -1045,7 +1147,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
         tempArr.push(this.componentListObject[el.component_id]);
       }
     });
-    //this.advancedFilterForm.enqCustomLi = btoa(tempArr.toString());
+    this.advancedFilterForm.enqCustomLi = tempArr;
     //console.log(this.advancedFilterForm.enqCustomLi);
 
     this.busy = this.enquire.getAllEnquiry(this.advancedFilterForm).map(data => {

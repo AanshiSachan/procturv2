@@ -62,7 +62,7 @@ export class EnquiryAddComponent implements OnInit {
   /* Model for Creating Institute */
   createInstitute = {
     instituteName: "",
-    isActive: "N"
+    isActive: "Y"
   }
 
   /* Model for Creating Source */
@@ -807,10 +807,10 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-
-
   navigateToEdit(val) {
-    // console.log(val);
+    console.log(this.lastDetail);
+    /* localStorage.setItem('institute_enquiry_id', val);
+    this.router.navigate(['/enquiry/edit']); */    
   }
 
 
