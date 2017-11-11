@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import {AuthenticatorService} from '../authenticator.service';
+import { AuthenticatorService } from '../authenticator.service';
 
 
 @Injectable()
@@ -12,9 +12,10 @@ export class LoginService {
 
   urlLogin: string;
   headers: Headers;
-
-
-  constructor(private http: Http) { 
+  validateOTPurl: string;
+  regenerateOTPurl: string;
+  forgotPasswordURL: string;
+  constructor(private http: Http) {
 
     this.urlLogin = "https://app.proctur.com/StdMgmtWebAPI/api/v1/alternateLogin";
     this.headers = new Headers();
@@ -22,17 +23,39 @@ export class LoginService {
   }
 
 
-  postLoginDetails(data): any{
+  postLoginDetails(data): any {
     console.log(data);
-    return this.http.post(this.urlLogin, data, {headers: this.headers}).map(res => {
+    return this.http.post(this.urlLogin, data, { headers: this.headers }).map(res => {
       return res.json();
     });
   }
 
+  validateOTPCode(data) {
+    this.validateOTPurl = "https://app.proctur.com/StdMgmtWebAPI/api/v1/alternateLogin/register/validateOTP";
+    return this.http.post(this.validateOTPurl, data, { headers: this.headers }).map(res => {
+      return res.json();
+    })
+  }
 
-  logoutUser(): boolean{
+  regenerateOTP(data) {
+    this.regenerateOTPurl = "https://app.proctur.com/StdMgmtWebAPI/api/v1/authenticate/regenerateOTP";
+    return this.http.post(this.regenerateOTPurl, data, { headers: this.headers }).map(res => {
+      return res.json();
+    })
+  }
+
+  forgotPassowrdServiceMethod(data) {
+    this.forgotPasswordURL = "https://app.proctur.com/StdMgmtWebAPI/api/v1/alternateLogin/forgotPswd";
+    return this.http.post(this.forgotPasswordURL, data, { headers: this.headers }).map(
+      res => {
+        return res.json();
+      })
+  }
+
+  logoutUser(): boolean {
     // remove user from local storage to log user out
     sessionStorage.clear();
+    localStorage.clear();
     return true;
   }
 

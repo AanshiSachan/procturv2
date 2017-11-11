@@ -2,7 +2,7 @@
 import { AppComponent } from './app.component';
 import { CoreSidednavComponent } from './components/core/core-sidednav/core-sidednav.component';
 import { CoreHeaderComponent } from './components/core/core-header/core-header.component';
-import { LoginComponent } from './components/login/login.component';
+
 
 /* Modules */
 import { BrowserModule } from '@angular/platform-browser';
@@ -31,7 +31,6 @@ import { LoadInterceptor } from './interceptors/load-interceptor';
 
 /* Modules */
 import { AppRoutingModule } from './app-routing.module';
-import { CourseComponent } from './components/course/course.component';
 import { ToasterModule } from 'angular2-toaster';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
@@ -51,9 +50,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
   declarations: [
     AppComponent,
     CoreSidednavComponent,
-    CoreHeaderComponent,
-    LoginComponent,
-    CourseComponent,
+    CoreHeaderComponent
   ],
   entryComponents: [
   ],

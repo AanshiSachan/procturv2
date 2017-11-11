@@ -13,9 +13,9 @@ export class CoreHeaderComponent{
   constructor(private log : LoginService, private router: Router){}
 
   logout(){
-    console.log("logging user out");
+    //console.log("logging user out");
     if(this.log.logoutUser()){
-      this.router.navigate(['/login']);
+      this.router.navigate(['/authPage']);
     }
   }
 

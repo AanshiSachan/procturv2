@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
     imports: [
         RouterModule.forRoot([
-            { path: '', redirectTo: '/login', pathMatch: 'full' },
-            { path: 'login', component: LoginComponent, pathMatch: 'full'},
+            { path: '', redirectTo: '/authPage', pathMatch: 'full' },
+            { path: 'authPage', loadChildren: 'app/components/auth-page/auth-page.module#AuthPageModule' },
+            { path: 'course', loadChildren: 'app/components/course/course.module#CourseModule' },
             { path: 'enquiry', loadChildren: 'app/components/enquiry/enquiry.module#EnquiryModule' },
             { path: 'student', loadChildren: 'app/components/students/student.module#StudentModule' },
             { path: 'common', loadChildren: 'app/components/custom/custom.module#CustomModule' },

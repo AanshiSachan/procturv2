@@ -81,7 +81,9 @@ export class EnquiryAddComponent implements OnInit {
 
   constructor(private prefill: FetchprefilldataService, private router: Router,
     private logger: Logger, private appC: AppComponent, private poster: PostEnquiryDataService) {
-
+      if(sessionStorage.getItem('Authorization') == null){
+        this.router.navigate(['/authPage']);
+       }
   }
 
 

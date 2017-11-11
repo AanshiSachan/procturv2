@@ -1,24 +1,24 @@
 import { NgModule }     from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { CourseComponent } from './course.component';
-import { ScheduleHomeComponent } from './schedule-home/schedule-home.component';
+import { AuthPageComponent } from './auth-page.component';
+import { LoginPageComponent } from './login-page/login-page.component';
 
 @NgModule({
     imports: [
         RouterModule.forChild([
             {
                 path: '',
-                component: CourseComponent,
+                component: AuthPageComponent,
                 pathMatch: 'prefix',
                 children: [
                     {
                         path: '',
-                        component: ScheduleHomeComponent
+                        component: LoginPageComponent
                     },
                     {
-                        path: 'courseHome',
-                        component: ScheduleHomeComponent,
+                        path: 'loginAuth',
+                        component: LoginPageComponent,
                         pathMatch: 'prefix',
                     }
                 ]
@@ -29,5 +29,5 @@ import { ScheduleHomeComponent } from './schedule-home/schedule-home.component';
         RouterModule
     ]
 })
-export class CoursePageRoutingModule {
+export class AuthPageRoutingModule {
 }

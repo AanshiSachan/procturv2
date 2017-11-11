@@ -4,22 +4,54 @@
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
 
+/* Login Page Background */
+
+.gradient {
+  height: 100vh;
+}
+
+.blue-gradient {
+  background-color: #004a7e;
+  position: fixed;
+  overflow: auto;
+  top:0;
+  left: 0;
+  min-width: 100vw;
+  background: linear-gradient(to right bottom,rgba(0,72,126,.97),rgba(0,74,126,.97) 50%,rgba(114,183,227,.97));
+}
+
 /* BOX LOGIN */
 .box{
 	position: relative;
 	margin: auto;
-	height: 410px;
-  top: 40px;
+	height: 500px;
+  top: 25px;
 	left: 0;
-	z-index: 200;
 	right: 0;
-	width:400px;
-	color:#666;
-	border-radius: 3px;
-	background: #FFF;
+	width:890px;
+	border-radius: 4px;
+	background: rgb(234,234,234);
   margin-bottom: 100px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2);
   overflow: hidden;
+  z-index: 1;
+}
+
+.login-box{
+	position: absolute;
+	margin: auto;
+	height: 540px;
+  top: 85px;
+	left: 480px;
+	right: 0;
+  width:320px;
+	border-radius: 4px;
+	background: rgb(255,255,255);
+  margin-bottom: 100px;
+  box-shadow: 0 5px 10px 0 rgba(0,0,0,0.15), 0 0 2px 0 rgba(0,0,0,0.2);
+  overflow: hidden;
+  z-index: 2;
+  transition: left .8s cubic-bezier(.175,.885,.26,1.055);
 }
 
 #header{
@@ -225,6 +257,155 @@ label 				 {
    color: #b2dfdb; 
 }
 
+.field-radio-wrapper{
+  margin: 30px 10px;
+  .form-radio{
+    margin: 6px 0px;
+      padding: 0px;
+  }
+  label{
+      padding: 1px 20px;
+  }
+}
+
+.auth-page-header{
+  .row{
+    margin-left: 15%;
+    padding-top: 20px;
+  }
+  h5{
+    color: white;
+  }
+}
+
+.login-wrapper{
+  .row{
+    width: 100%;
+    margin: 0px;
+    padding: 5px;
+    color: #58666e;
+    h2{
+      color: #58666e;
+      font-weight: 600;
+    }
+    hr{
+      border: 0.5px ridge rgb(193, 191, 191)
+    }
+    .left-div-wrapper{
+      left: 5%;
+      top:60px;
+    }
+    .footer-wrapper{
+      margin-top:30%;
+      width: 100%;
+    }
+    .second-left-div-wrapper{
+      left: 5%;
+      top:60px;
+      margin-top: 40px;
+    }
+    .left-p-div{
+      margin-top: 12px;
+    }
+    p{
+      text-align: left;
+    }
+    .call-icon{
+      font-family: FontAwesome;
+      border: 1px solid;
+      width: 40px;
+      height: 40px;
+      padding-left: 8px;
+      vertical-align: middle;
+      border-radius:  10px;
+      font-size: 30px;
+      color: rgb(23,56,75);
+      padding-top: 2px;
+    }
+    .footer-contact-wrapper{
+      padding:10px 40px 0px 10px;
+      .c-xs-6{
+        padding-left: 30px;
+        color: rgb(23,56,75);
+      }
+      span{
+        font-size: 22px;
+      }
+    }
+  }
+}
+.login-form-wrapper{
+  h2{
+    padding: 40px 80px 10px 52px;
+    color: #58666e;
+  }
+  .field-wrapper{
+    width: 70%;
+    left: 15%;
+    margin-top: 10%;
+  }
+  .password{
+    margin-top: 5%;
+  }
+  .forgot-password{
+    float: right;
+    margin-right: 12%;
+    padding-top: 5px;
+  }
+  .login-field-btn{
+    .login-btn{
+      margin-top: 5%;
+      width: 70%;
+    }
+  }
+  .agreement-row{
+    margin-top: 2%;
+    width: 75%;
+    margin-left: 15%;
+  }
+  .insititute-field-wrapper{
+    width: 90%;
+    left: 0%;
+    margin: 0;
+    .insititue-list-header{
+      padding:10px 80px 0px 52px;
+    }
+  }
+  .insititue-field-wrapper{
+    height: 350px;
+    overflow-y: auto;
+    .row{
+      margin: 0px;
+    }
+    .field-institute-wrapper{
+      margin: 10px 40px;
+      margin-bottom: 0;
+      cursor: pointer;
+      padding: 15px;
+      box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.15), 0 0 2px 0 rgba(0, 0, 0, 0.2);
+      &::after{
+        content:'\2794';
+        color: #58666e;
+        font-size: 20px;
+        float: right;
+      }
+    }
+  }
+}
+
+.field-wrapper{
+  .invalid-alert{
+    color: red;
+    background: rgba(255, 255, 255, 0);
+    box-shadow: none;
+  }
+} 
+
+
+.field-radio-wrapper .form-radio+label:after {
+  left: 2px !important;
+  top: 2px !important;
+}
 
 $transition: all 0.3s;
 $shadow-L1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);

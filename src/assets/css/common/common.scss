@@ -25,6 +25,83 @@
 }
 
 
+
+.table-responsive {
+    max-width: 100%;
+    overflow: auto;
+}
+
+.field-wrapper {
+    position: relative;
+    padding-top: 10px;
+    &.datePickerBox {
+        .form-ctrl {
+            position: relative;
+            z-index: 1;
+            background: transparent;
+        }
+        &:after {
+            content: '';
+            background: url("/../../../../assets/images/calendar.svg") no-repeat;
+            position: absolute;
+            right: 0;
+            top: 18px;
+            width: 21px;
+            height: 21px;
+            z-index: 0;
+        }
+    }
+}
+
+.filter-fields {
+    .field-wrapper {
+        &.has-value .form-ctrl+label,
+        .form-ctrl:focus+label {
+            top: 0;
+        }
+    }
+}
+
+
+:host /deep/ .bs-datepicker{
+    .bs-datepicker-container{
+        padding: 10px;
+        background: #004b7f;
+    }
+
+}
+
+:host /deep/ bs-days-calendar-view{
+    .bs-datepicker-head{
+        background-color: #004c80;
+        color: white;
+        border-top: 1px solid white;
+        border-left: 1px solid white;
+        border-right: 1px solid white;
+        min-width: 300px !important;
+        font-weight: 800;
+    }
+    .bs-datepicker-body{
+        padding: 5px;
+        
+    }
+}
+
+
+
+
+
+
+
+/* ================================================================================================= */
+/* ================================================================================================= */
+/* ================================================================================================= */
+/* ================================================================================================= */
+/* ================================================================================================= */
+/* ================================================================================================= */
+
+
+
 .fbold {
     font-weight: 700;
 }
@@ -155,10 +232,6 @@ h3 {
     overflow: hidden;
 }
 
-.overflowScroll{
-    overflow: scroll;
-}
-
 
 /*===============================call grid view css====================*/
 
@@ -182,7 +255,7 @@ h3 {
         }
         &:after {
             content: '';
-            background: url("/../../../../assets/images/calendar.svg") no-repeat;
+            background: url('/../../../../assets/images/calendar.svg') no-repeat;
             position: absolute;
             right: 0;
             top: 18px;
@@ -202,36 +275,6 @@ h3 {
     }
 }
 
-
-:host /deep/ .bs-datepicker{
-    .bs-datepicker-container{
-        padding: 10px;
-        background: #004b7f;
-    }
-
-}
-
-:host /deep/ bs-days-calendar-view{
-    .bs-datepicker-head{
-        background-color: #004c80;
-        color: white;
-        border-top: 1px solid white;
-        border-left: 1px solid white;
-        border-right: 1px solid white;
-        min-width: 300px !important;
-        font-weight: 800;
-    }
-    .bs-datepicker-body{
-        padding: 5px;
-        
-    }
-}
-
-select{
-    option{
-
-    }
-}
 
 /* text field  */
 
@@ -547,6 +590,10 @@ table tr.selected {
 
 .btn.normal-btn {
     margin: 0;
+}
+
+.middle-bottom .btn.redBtn {
+    margin-right: 0;
 }
 
 .customSelectWrapper select {
@@ -1010,4 +1057,21 @@ select.form-new-field {
 
 @media only screen and (max-width:640px) {}
 
+
 /*======================================common menu icon=====================*/
+
+.edit-icon {
+    background: url('/../../../../assets/images/edit_details.svg') no-repeat;
+    width: 19px;
+    height: 19px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.view-icon {
+    background: url('/../../../../assets/images/view_details.svg') no-repeat;
+    width: 13px;
+    height: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}

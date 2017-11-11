@@ -4,6 +4,7 @@ import { PostEnquiryDataService } from '../../../services/enquiry-services/post-
 import 'rxjs/Rx';
 import { Base64 } from 'js-base64';
 import { AppComponent } from '../../../app.component';
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'app-enquiry-bulkadd',
@@ -17,7 +18,10 @@ export class EnquiryBulkaddComponent implements OnInit {
   progress: number = 0;
   fileLoading:string = "";
 
-  constructor(private fetchData: FetchenquiryService, private postData: PostEnquiryDataService, private appC: AppComponent) {
+  constructor(private fetchData: FetchenquiryService, private postData: PostEnquiryDataService, private appC: AppComponent, private router: Router) {
+    if(sessionStorage.getItem('Authorization') == null){
+      this.router.navigate(['/authPage']);
+     }
   }
 
   ngOnInit() {

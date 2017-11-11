@@ -63,255 +63,254 @@ table {
     }
 }
 
+
 /*==========================================Responsive css==============================*/
 
 @media only screen and (min-width: 768px) and (max-width:960px) {
-        .middle-section {
-            padding: 15px 0;
-        }
-        .middle-left {
-            width: 65%;
-        }
-        .middle-right {
-            width: 35%
-        }
-        .btn {
-            height: 29px;
-            padding: 7px 6px;
-            font-size: 12px;
-        }
-        .normal-field {
-            height: 29px;
-        }
-        .middle-top h1 {
-            margin-top: 5px;
-            font-size: 15px;
-            margin-bottom: 10px;
-        }
-        .header-search .form-ctrl-head {
-            width: 200px;
-        }
-        .header-search {
-            left: 20px;
-            top: 7px;
-        }
-        .login-tube {
-            margin-right: 0;
-        }
-        .btn.cancle,
-        .btn.redBtn {
-            font-size: 12px;
-            height: 32px;
-        }
-        .popupWrapper .popup {
-            max-width: 77%;
-        }
-        .common-right-section h4 {
-            font-size: 14px;
-        }
-        .file-wrapper {
-            padding-left: 15px;
-        }
-        .file-upload-box .select-file-upload ul li label {
-            font-size: 14px;
-        }
-        .file-upload-box .select-file-upload ul li .choose-file input[type="text"] {
-            height: 28px;
-        }
-        .file-upload-box .file-uploaded {
-            margin: 10px 0 15px;
-            font-size: 14px;
-        }
-        .progress-bar-wrapper {
-            width: 70%;
-        }
-        .file-upload-box .drag-drop-box {
-            margin-top: 30px;
-        }
-        .file-upload-box {
-            padding: 15px 00px;
-            max-width: none;
-        }
-        .search-data td {
-            font-size: 12px;
-        }
+    .middle-section {
+        padding: 15px 0;
+    }
+    .middle-left {
+        width: 65%;
+    }
+    .middle-right {
+        width: 35%
+    }
+    .btn {
+        height: 29px;
+        padding: 7px 6px;
+        font-size: 12px;
+    }
+    .normal-field {
+        height: 29px;
+    }
+    .middle-top h1 {
+        margin-top: 5px;
+        font-size: 15px;
+        margin-bottom: 10px;
+    }
+    .header-search .form-ctrl-head {
+        width: 200px;
+    }
+    .header-search {
+        left: 20px;
+        top: 7px;
+    }
+    .login-tube {
+        margin-right: 0;
+    }
+    .btn.cancle,
+    .btn.redBtn {
+        font-size: 12px;
+        height: 32px;
+    }
+    .popupWrapper .popup {
+        max-width: 77%;
+    }
+    .common-right-section h4 {
+        font-size: 14px;
+    }
+    .file-wrapper {
+        padding-left: 15px;
+    }
+    .file-upload-box .select-file-upload ul li label {
+        font-size: 14px;
+    }
+    .file-upload-box .select-file-upload ul li .choose-file input[type="text"] {
+        height: 28px;
+    }
+    .file-upload-box .file-uploaded {
+        margin: 10px 0 15px;
+        font-size: 14px;
+    }
+    .progress-bar-wrapper {
+        width: 70%;
+    }
+    .file-upload-box .drag-drop-box {
+        margin-top: 30px;
+    }
+    .file-upload-box {
+        padding: 15px 00px;
+        max-width: none;
+    }
+    .search-data td {
+        font-size: 12px;
+    }
 }
 
-/* @media only screen and (min-width:768px) {
+@media only screen and (min-width:768px) {
     .visible-xs {
         display: none !important;
     }
-} */
+}
 
 @media only screen and (max-width:767px) {
-        header {
-            padding: 5px 5px;
-            &>div {
-                width: 100%;
-            }
-            .logo {
-                text-align: center;
-                margin: 0 auto;
-                width: 129px;
-                float: none;
-            }
-            #searchHeader {
-                display: none;
-            }
-            .login-nav>li .user-info {
-                margin-right: 15px;
-                width: 119px;
-            }
-            .login-nav>li {
-                padding: 0 7px;
-            }
-        }
-        #middleWrapper {
+    header {
+        padding: 5px 5px;
+        &>div {
             width: 100%;
         }
-        main {
-            padding-top: 92px;
-            padding-left: 0;
-            width: 100%;
+        .logo {
+            text-align: center;
+            margin: 0 auto;
+            width: 129px;
+            float: left;
+            margin-left: 5px;
         }
-        #loginTube {
-            width: 100%;
-        }
-        .login-tube {
-            float: right;
-        }
-        .common-nav {
+        #searchHeader {
             display: none;
         }
-        .middle-section {
-            padding: 5px 15px;
-            width: 100%;
-            box-sizing: border-box;
+        .login-nav>li .user-info {
+            margin-right: 15px;
+            width: 119px;
         }
-        .middle-left {
-            width: 100%;
-            padding: 0;
+        .login-nav>li {
+            padding: 0 7px;
         }
-        .middle-top h1 {
-            margin-top: 8px;
+    }
+    #middleWrapper {
+        width: 100%;
+    }
+    main {
+        padding-top: 92px;
+        padding-left: 0;
+        width: 100%;
+    }
+    #loginTube {
+        width: 100%;
+    }
+    .login-tube {
+        float: right;
+    }
+    .middle-section {
+        padding: 5px 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .middle-left {
+        width: 100%;
+        padding: 0;
+    }
+    .middle-top h1 {
+        margin-top: 8px;
+        margin-bottom: 10px;
+        float: none;
+    }
+    .middle-top {
+        aside {
+            float: left;
+        }
+    }
+    .btn {
+        padding: 4px 7px;
+        font-size: 12px;
+        height: 31px;
+        margin-left: 0;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+    .accordian-section {
+        padding: 15px 0px 0;
+    }
+    .accordian-section .accordian-content {
+        padding-left: 40px;
+    }
+    .create-institution {
+        right: auto;
+        left: 0;
+        bottom: -15px;
+    }
+    .middle-bottom {
+        aside {
+            float: left;
+            margin-top: 10px;
+            width: 100%;
+        }
+    }
+    .btn.cancle {
+        font-size: 12px;
+        height: 32px;
+    }
+    .btn.redBtn {
+        font-size: 12px;
+        height: 32px;
+    }
+    .middle-right {
+        width: 100%;
+        margin-top: 30px;
+        padding: 0;
+    }
+    .common-right-section {
+        margin-top: 20px;
+    }
+    .normal-field {
+        height: 31px;
+    }
+    .filter-right .btn {
+        margin-top: 10px;
+    }
+    .closeFilter {
+        margin-top: 20px;
+        font-size: 12px;
+    }
+    .middle-main.hasFilter:before {
+        // display: none;
+        top: 111px;
+    }
+    .search-enquiry-type-filter {
+        margin-top: 10px;
+        .filter-label {
             margin-bottom: 10px;
-            float: none;
         }
-        .middle-top {
-            aside {
-                float: left;
-            }
-        }
-        .btn {
-            padding: 4px 7px;
-            font-size: 12px;
-            height: 31px;
-            margin-left: 0;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-        .accordian-section {
-            padding: 15px 0px 0;
-        }
-        .accordian-section .accordian-content {
-            padding-left: 40px;
-        }
-        .create-institution {
-            right: auto;
-            left: 0;
-            bottom: -15px;
-        }
-        .middle-bottom {
-            aside {
-                float: left;
-                margin-top: 10px;
-                width: 100%;
-            }
-        }
-        .btn.cancle {
-            font-size: 12px;
-            height: 32px;
-        }
-        .btn.redBtn {
-            font-size: 12px;
-            height: 32px;
-        }
-        .middle-right {
-            width: 100%;
-            margin-top: 30px;
-            padding: 0;
-        }
-        .common-right-section {
-            margin-top: 20px;
-        }
-        .normal-field {
-            height: 31px;
-        }
-        .filter-right .btn {
-            margin-top: 10px;
-        }
-        .closeFilter {
-            margin-top: 20px;
-            font-size: 12px;
-        }
-        .middle-main.hasFilter:before {
-            // display: none;
-            top: 111px;
-        }
-        .search-enquiry-type-filter {
-            margin-top: 10px;
-            .filter-label {
-                margin-bottom: 10px;
-            }
-        }
-        .type-filter li {
-            margin: 0 10px;
-            width: auto;
-            margin-top: 10px;
-            margin-left: 0;
-        }
-        .filter-res label {
-            margin-bottom: 15px;
-            display: block;
-        }
-        .login-tube {
-            margin-right: 0;
-        }
-        .boxPadding15,
-        .middle-left,
-        .middle-right,
-        .middle-full {
-            padding: 0;
-        }
-        .filter-fields .field-wrapper {
-            margin: 6px 0;
-        }
-        .file-wrapper {
-            padding-left: 15px;
-        }
-        .file-upload-box .select-file-upload ul li label {
-            font-size: 14px;
-        }
-        .file-upload-box .select-file-upload ul li .choose-file input[type="text"] {
-            height: 28px;
-        }
-        .file-upload-box .file-uploaded {
-            margin: 10px 0 15px;
-            font-size: 14px;
-        }
-        .progress-bar-wrapper {
-            width: 100%;
-        }
-        .file-upload-box .drag-drop-box {
-            margin-top: 30px;
-        }
-        .file-upload-box {
-            padding: 15px 00px;
-            max-width: none;
-        }
-        .search-data td {
-            font-size: 12px;
-        }
+    }
+    .type-filter li {
+        margin: 0 10px;
+        width: auto;
+        margin-top: 10px;
+        margin-left: 0;
+    }
+    .filter-res label {
+        margin-bottom: 15px;
+        display: block;
+    }
+    .login-tube {
+        margin-right: 0;
+    }
+    .boxPadding15,
+    .middle-left,
+    .middle-right,
+    .middle-full {
+        padding: 0;
+    }
+    .filter-fields .field-wrapper {
+        margin: 6px 0;
+    }
+    .file-wrapper {
+        padding-left: 15px;
+    }
+    .file-upload-box .select-file-upload ul li label {
+        font-size: 14px;
+    }
+    .file-upload-box .select-file-upload ul li .choose-file input[type="text"] {
+        height: 28px;
+    }
+    .file-upload-box .file-uploaded {
+        margin: 10px 0 15px;
+        font-size: 14px;
+    }
+    .progress-bar-wrapper {
+        width: 100%;
+    }
+    .file-upload-box .drag-drop-box {
+        margin-top: 30px;
+    }
+    .file-upload-box {
+        padding: 15px 00px;
+        max-width: none;
+    }
+    .search-data td {
+        font-size: 12px;
+    }
 }
 
 
@@ -402,6 +401,6 @@ table {
         background: rgba(3, 93, 3, 0.29);
     }
     .field-wrapper.datePickerBox:after {
-        background-image: url(/../images/calendargreen.svg);
+        background-image: url(/../../../assets/images/calendargreen.svg);
     }
 }

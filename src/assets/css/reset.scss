@@ -138,13 +138,6 @@ input {
     appearance: none;
 }
 
-
-input:focus {  
-    &:valid {
-    background: white;
-    }
-}
-
 img {
     max-width: 100%;
     height: auto;

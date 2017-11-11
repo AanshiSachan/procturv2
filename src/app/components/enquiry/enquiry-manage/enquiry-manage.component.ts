@@ -451,14 +451,20 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
 
-
-  /* ===========================  ====================================== */
+    
+  /* ============================= Delaration Fin ==================================== */
+  /* ================================================================= */
+  /* ================================================================= */
+  /* ================================================================= */
+  /* ================================================================= */
   constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService,
     private router: Router,
     private logger: Logger, private fb: FormBuilder, private pops: PopupHandlerService,
     private postdata: PostEnquiryDataService, private appC: AppComponent) {
-
-  }
+     if(sessionStorage.getItem('Authorization') == null){
+      this.router.navigate(['/authPage']);
+     }
+  }  
 
 
 
