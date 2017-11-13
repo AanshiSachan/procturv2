@@ -29,7 +29,6 @@ import {CalendarModule} from 'primeng/primeng';
         Ng2SmartTableModule,
         BusyModule,
         NgLoggerModule.forRoot(Level.LOG),
-
       ],
     declarations: [
         StudentsComponent,
