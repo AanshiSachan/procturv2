@@ -18,6 +18,7 @@ export class FetchStudentService {
   authorization: string;
   institute_id: number;
   headers: Headers; 
+  baseUrl:string = "";
 
   constructor(private http: Http, private auth: AuthenticatorService) {
     this.authorization = this.auth.getAuthToken();
@@ -27,7 +28,7 @@ export class FetchStudentService {
    }
 
   fetchAllStudentDetails(instituteData: instituteInfo): Observable<Students[]>{
-    this.url = "https://app.proctur.com/ResponseList";
+    this.url = "http://test999.proctur.com/ResponseList";
     let instituteFormData = `institute_id=${instituteData.institute_id}&function_type=${instituteData.function_type}&username=${instituteData.username}&password=${instituteData.password}&school=${instituteData.school}&standard_id=${instituteData.standard_id}&batch_id=${instituteData.batch_id}&is_load=${instituteData.is_load}&name=${instituteData.name}&is_active=${instituteData.is_active}&mobile=${instituteData.mobile}&language_inst_status=${instituteData.language_inst_status}&subject_id=${instituteData.subject_id}&slot_id=${instituteData.slot_id}&master_course_name=${instituteData.master_course_name}&course_id=${instituteData.course_id}&start_index=${instituteData.start_index}&batch_size=${instituteData.batch_size}`;
     return this.http.post(this.url, instituteFormData, { headers: this.headers })
     .map(res => {

@@ -27,12 +27,13 @@ export class FetchenquiryService {
   urlDownloadTemplate: string;
   urlDownloadAllEnquiry: string;
   urlFetchAllSms: string;
+  baseUrl:string = "http://test999.proctur.com/StdMgmtWebAPI";
 
   /* initialize the value of variables on service call */
   constructor(private http: Http, private auth: AuthenticatorService) {
     this.Authorization = this.auth.getAuthToken();
     this.institute_id = this.auth.getInstituteId();
-    this.url = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/dashboard/" + this.institute_id;
+    this.url = this.baseUrl +"/api/v1/enquiry/dashboard/" + this.institute_id;
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
     this.headers.append("Authorization", this.Authorization);
@@ -46,7 +47,7 @@ export class FetchenquiryService {
   /* Function to fetch json data for all enquiry as per the input institute data  */
   getAllEnquiry(instituteData: instituteInfo): Observable<EnquiryCampaign[]> {
     this.instituteFormData = JSON.parse(JSON.stringify(instituteData));
-    this.urlCampaign = 'https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/search/' + this.institute_id;
+    this.urlCampaign = this.baseUrl +'/api/v2/enquiry_manager/search/' + this.institute_id;
 
     return this.http.post(this.urlCampaign, this.instituteFormData, { headers: this.headers })
       .map(res => {
@@ -58,28 +59,32 @@ export class FetchenquiryService {
 
   /* return the template user has to edit */
   fetchDownloadTemplate() {
-    this.urlDownloadTemplate = "https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/download/bulkUploadEnquiriesTemplate";
+    this.urlDownloadTemplate = this.baseUrl +"/api/v2/enquiry_manager/download/bulkUploadEnquiriesTemplate";
 
     return this.http.get(this.urlDownloadTemplate, { headers: this.headers }).map(
       data => { return data.json() },
-      err => { console.log("error fetching template"); }
+      err => { 
+      //  console.log("error fetching template");
+       }
     );
   }
 
 
   /* return the json to construct a list of student enquiry to xls */
   fetchAllEnquiryAsXls(data) {
-    this.urlDownloadAllEnquiry = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/all/download/" +this.institute_id;
+    this.urlDownloadAllEnquiry = this.baseUrl +"/api/v1/enquiry/all/download/" +this.institute_id;
 
     return this.http.post(this.urlDownloadAllEnquiry, data, { headers: this.headers }).map(
       data => { return data.json() },
-      err => { console.log("error fetching template"); }
+      err => { 
+      //  console.log("error fetching template"); 
+      }
     );
   }
 
 
   fetchAllSms(){
-    this.urlFetchAllSms = 'https://app.proctur.com/CampaignServlet';
+    this.urlFetchAllSms = 'http://test999.proctur.com/CampaignServlet';
 
     let data = {
       institute_id: this.institute_id,

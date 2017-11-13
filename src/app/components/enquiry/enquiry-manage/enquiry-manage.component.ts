@@ -17,7 +17,7 @@ import { AppComponent } from '../../../app.component';
 
 /* Third party imports */
 import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
-import { Ng2SmartTableModule, LocalDataSource } from '../../../../ng2-smart-table';
+import { Ng2SmartTableModule, LocalDataSource } from '../../../../assets/imported_modules/ng2-smart-table';
 import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
 import { MenuItem } from 'primeng/primeng'

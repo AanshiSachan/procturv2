@@ -9,7 +9,6 @@ import { RouterModule } from '@angular/router';
             { path: 'course', loadChildren: 'app/components/course/course.module#CourseModule' },
             { path: 'enquiry', loadChildren: 'app/components/enquiry/enquiry.module#EnquiryModule' },
             { path: 'student', loadChildren: 'app/components/students/student.module#StudentModule' },
-            { path: 'common', loadChildren: 'app/components/custom/custom.module#CustomModule' },
         ])
     ],
     exports: [

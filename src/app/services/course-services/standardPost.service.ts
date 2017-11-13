@@ -7,21 +7,20 @@ import 'rxjs/Rx';
 
 @Injectable()
 export class StandardServices {
-    baseURL: string;
-    createNewStandardURL: string;
+    baseURL: string = "http://test999.proctur.com/StdMgmtWebAPI";
+    urlNewStandard: string;
     headers: Headers;
 
     constructor(private http: Http) {
-        this.baseURL = "https://app.proctur.com/StdMgmtWebAPI";
         this.headers = new Headers();
         this.headers.append("Content-Type", "application/json;charset=UTF-8");
         this.headers.append("Authorization", sessionStorage.getItem('Authorization'));
     }
 
     createNewStandard(std) {
-        this.createNewStandardURL = this.baseURL + "/api/v1/standards";
+        this.urlNewStandard = this.baseURL + "/api/v1/standards";
         let data  = JSON.parse(JSON.stringify(std));
-        return this.http.post(this.createNewStandardURL, data , { headers: this.headers })
+        return this.http.post(this.urlNewStandard, data , { headers: this.headers })
         .map(res => {
             return res.json();
         },

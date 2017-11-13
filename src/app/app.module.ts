@@ -24,7 +24,7 @@ import { LoginService } from './services/login-services/login.service';
 import { AlertService } from './services/alert.service';
 import {StandardServices} from './services/course-services/standardPost.service'
 
-import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { Ng2SmartTableModule } from '../assets/imported_modules/ng2-smart-table';
 
 /* Interceptors */
 import { LoadInterceptor } from './interceptors/load-interceptor';

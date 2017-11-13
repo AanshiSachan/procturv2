@@ -15,9 +15,11 @@ export class LoginService {
   validateOTPurl: string;
   regenerateOTPurl: string;
   forgotPasswordURL: string;
+  baseUrl:string = 'http://test999.proctur.com/StdMgmtWebAPI';
+
   constructor(private http: Http) {
 
-    this.urlLogin = "https://app.proctur.com/StdMgmtWebAPI/api/v1/alternateLogin";
+    this.urlLogin = this.baseUrl +"/api/v1/alternateLogin";
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
   }
@@ -31,21 +33,21 @@ export class LoginService {
   }
 
   validateOTPCode(data) {
-    this.validateOTPurl = "https://app.proctur.com/StdMgmtWebAPI/api/v1/alternateLogin/register/validateOTP";
+    this.validateOTPurl = this.baseUrl +"/api/v1/alternateLogin/register/validateOTP";
     return this.http.post(this.validateOTPurl, data, { headers: this.headers }).map(res => {
       return res.json();
     })
   }
 
   regenerateOTP(data) {
-    this.regenerateOTPurl = "https://app.proctur.com/StdMgmtWebAPI/api/v1/authenticate/regenerateOTP";
+    this.regenerateOTPurl = this.baseUrl + "/api/v1/authenticate/regenerateOTP";
     return this.http.post(this.regenerateOTPurl, data, { headers: this.headers }).map(res => {
       return res.json();
     })
   }
 
   forgotPassowrdServiceMethod(data) {
-    this.forgotPasswordURL = "https://app.proctur.com/StdMgmtWebAPI/api/v1/alternateLogin/forgotPswd";
+    this.forgotPasswordURL = this.baseUrl + "/api/v1/alternateLogin/forgotPswd";
     return this.http.post(this.forgotPasswordURL, data, { headers: this.headers }).map(
       res => {
         return res.json();

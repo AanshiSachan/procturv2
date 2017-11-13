@@ -212,7 +212,7 @@
                       <span class="qInfoIcon">?</span>
                     </div>
                   </div>
-                  <custom-component *ngFor="let component of componentPrefill">
+                  <custom-enquiry *ngFor="let component of componentPrefill">
 
                     <div class="field-wrapper" *ngIf="component.type == 1" input-def>
                       <input type="text" value="" id="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
@@ -250,7 +250,7 @@
                       <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
                     </div>
 
-                  </custom-component>
+                  </custom-enquiry>
                 </div>
               </div>
             </li>

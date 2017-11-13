@@ -75,7 +75,7 @@ export class EnquiryBulkaddComponent implements OnInit {
       
       formdata.append("file", file);
       
-      let urlPostXlsDocument = "https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/bulkUploadEnquiries";
+      let urlPostXlsDocument = "http://test999.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/bulkUploadEnquiries";
       
       let xhr: XMLHttpRequest = new XMLHttpRequest();
       

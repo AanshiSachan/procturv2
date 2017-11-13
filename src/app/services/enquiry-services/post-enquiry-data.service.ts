@@ -20,7 +20,7 @@ export class PostEnquiryDataService {
   headers: Headers;
   headerFormData: Headers;
   institute_id: number;
-  baseURL: string = "https://app.proctur.com/StdMgmtWebAPI";
+  baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
 
   /* Instantiate http Object at load */
   constructor(private http: Http, private auth: AuthenticatorService) {
@@ -32,7 +32,7 @@ export class PostEnquiryDataService {
   }
 
   updateEnquiryForm(id, data) {
-    this.urlUpdateEnquiryForm = this.baseURL + "/api/v1/enquiry/status/" + this.institute_id + "/" + id;
+    this.urlUpdateEnquiryForm = this.baseUrl + "/api/v1/enquiry/status/" + this.institute_id + "/" + id;
 
     return this.http.put(this.urlUpdateEnquiryForm, data, { headers: this.headers }).map(res => {
       return res.json();
@@ -41,7 +41,7 @@ export class PostEnquiryDataService {
 
 
   deleteEnquiryById(id) {
-    this.urlDeleteById = this.baseURL + "/api/v1/enquiry/delete/" + this.institute_id + "/" + id;
+    this.urlDeleteById = this.baseUrl + "/api/v1/enquiry/delete/" + this.institute_id + "/" + id;
     this.headers.append("X-Requested-With", "XMLHttpRequest");
     return this.http.delete(this.urlDeleteById, { headers: this.headers }).map(res => {
       data => { return data.json };
@@ -49,7 +49,7 @@ export class PostEnquiryDataService {
   }
 
   updateRegisterationPayment(data) {
-    this.urlRegisterPayment = this.baseURL + "/api/v2/enquiry_manager/payRegistrationFees";
+    this.urlRegisterPayment = this.baseUrl + "/api/v2/enquiry_manager/payRegistrationFees";
     return this.http.post(this.urlRegisterPayment, data, { headers: this.headers }).map(data => {
       return data.json();
     });
@@ -57,7 +57,7 @@ export class PostEnquiryDataService {
 
 
   editFormUpdater(id, data) {
-    this.urlEditFormUpdater = this.baseURL + "/api/v1/enquiry/" + this.institute_id + "/" + id;
+    this.urlEditFormUpdater = this.baseUrl + "/api/v1/enquiry/" + this.institute_id + "/" + id;
 
     return this.http.put(this.urlEditFormUpdater, data, { headers: this.headers })
       .map(data => {
@@ -67,7 +67,7 @@ export class PostEnquiryDataService {
 
 
   postNewEnquiry(data) {
-    this.urlPostEnquiry = this.baseURL + "/api/v1/enquiry/" + this.institute_id;
+    this.urlPostEnquiry = this.baseUrl + "/api/v1/enquiry/" + this.institute_id;
     return this.http.post(this.urlPostEnquiry, data, { headers: this.headers }).map(
       data => { return data.json(); }
     )
@@ -77,7 +77,7 @@ export class PostEnquiryDataService {
 
   uploadEnquiryXls(file) {
 
-    this.urlPostXlsDocument = this.baseURL +"/api/v2/enquiry_manager/bulkUploadEnquiries";
+    this.urlPostXlsDocument = this.baseUrl +"/api/v2/enquiry_manager/bulkUploadEnquiries";
 
     let formdata = new FormData();
     formdata.append("file", file);

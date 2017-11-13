@@ -36,17 +36,20 @@ export class FetchprefilldataService {
   urlFetchComments: string; // fetch data for update enquiry
   urlCustomComponent: string; //url for custom component
   urlEnquiryByID: string; //url for enquiry edit data
-
+  baseUrl: string = 'http://test999.proctur.com/StdMgmtWebAPI';
   Authorization: string; 
   headers: Headers; 
   headersPost: Headers;
   institute_id: number;
 
 
+
+
+
+
   /* set default value for each url, header and autherization on service creation */
   constructor(private http: Http, private auth: AuthenticatorService) {
     this.Authorization = this.auth.getAuthToken();
-    //console.log(this.Authorization);
     this.institute_id = this.auth.getInstituteId();
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
@@ -56,22 +59,30 @@ export class FetchprefilldataService {
     this.headersPost.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
   }
 
+
+
+
+
   /* fetch prefill data assigned to */
   getAssignTo(): any {
 
-    this.urlAssignTo = "https://app.proctur.com/StdMgmtWebAPI/api/v1/profiles/" +this.institute_id;
+    this.urlAssignTo = this.baseUrl +"/api/v1/profiles/" +this.institute_id;
 
     let content = JSON.stringify({ "user_Type": 0 });
     return this.http.post(this.urlAssignTo, content, { headers: this.headers })
       .map(res => {
         return res.json()
-      });
+    });
   }
+
+
+
+
 
   /* fetch prefill data scholarship */  
   getScholarPrefillData(): any {
 
-    this.urlScholarSub = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=Y&page=1";
+    this.urlScholarSub = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=Y&page=1";
 
     return this.http.get(this.urlScholarSub, { headers: this.headers })
       .map(res => {
@@ -79,10 +90,14 @@ export class FetchprefilldataService {
       })
   }
 
+
+
+
+
   /* fetch prefill data status */  
   getEnqStatus(): any {
 
-    this.urlEnqsta = "https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/getEnquiryStatuses";
+    this.urlEnqsta = this.baseUrl + "/api/v2/enquiry_manager/getEnquiryStatuses";
 
     return this.http.get(this.urlEnqsta, { headers: this.headers })
       .map(res => {
@@ -90,10 +105,14 @@ export class FetchprefilldataService {
       })
   }
 
+
+
+
+
   /* fetch prefill data priority*/  
   getEnqPriority(): any {
 
-    this.urlEnqPri = "https://app.proctur.com/StdMgmtWebAPI/api/v1/masterData/type/ENQ_PRIORITY";
+    this.urlEnqPri = this.baseUrl + "/api/v1/masterData/type/ENQ_PRIORITY";
 
     return this.http.get(this.urlEnqPri, { headers: this.headers })
       .map(res => {
@@ -101,10 +120,14 @@ export class FetchprefilldataService {
       })
   }
 
+
+
+
+
   /* fetch prefill data followup type*/  
   getFollowupType(): any {
 
-    this.urlFollType = "https://app.proctur.com/StdMgmtWebAPI/api/v1/masterData/type/ENQ_FOLLOW_TYPE";
+    this.urlFollType = this.baseUrl + "/api/v1/masterData/type/ENQ_FOLLOW_TYPE";
 
     return this.http.get(this.urlFollType, { headers: this.headers })
       .map(res => {
@@ -112,10 +135,13 @@ export class FetchprefilldataService {
       })
   }
 
+
+
+
   /* fetch prefill data standards*/  
   getEnqStardards(): any {
 
-    this.urlStdSub = "https://app.proctur.com/StdMgmtWebAPI/api/v1/standards/all/" +this.institute_id +"?active=Y";
+    this.urlStdSub = this.baseUrl + "/api/v1/standards/all/" +this.institute_id +"?active=Y";
 
     return this.http.get(this.urlStdSub, { headers: this.headers })
       .map(res => {
@@ -123,19 +149,25 @@ export class FetchprefilldataService {
       })
   }
 
+
+
+
   /* fetch prefill data subjects*/  
   getEnqSubjects(id): any {
     console.log(id);
-    this.urlSubject = "https://app.proctur.com/StdMgmtWebAPI/api/v1/subjects/standards/" + id;
+    this.urlSubject = this.baseUrl + "/api/v1/subjects/standards/" + id;
     return this.http.get(this.urlSubject, { headers: this.headers }).map(res => {
       return res.json();
     })
   }
 
+
+
+
   /* return the list of institute name and their respective ID */  
   getSchoolDetails(): any {
 
-    this.urlSchool = "https://app.proctur.com/StdMgmtWebAPI/api/v1/schools/all/" +this.institute_id +"?active=Y";
+    this.urlSchool = this.baseUrl + "/api/v1/schools/all/" +this.institute_id +"?active=Y";
 
     return this.http.get(this.urlSchool, { headers: this.headers })
       .map(res => {
@@ -143,10 +175,13 @@ export class FetchprefilldataService {
       })
   }
 
+
+
+
   /* fetch prefill data source*/  
   getLeadSource(): any {
 
-    this.urlLeadSource = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry_campaign/master/lead_source/" +this.institute_id +"/all";
+    this.urlLeadSource = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_source/" +this.institute_id +"/all";
 
     return this.http.get(this.urlLeadSource, { headers: this.headers })
       .map(res => {
@@ -154,10 +189,14 @@ export class FetchprefilldataService {
       })
   }
 
+
+
+
+
   /* fetch prefill data reference*/  
   getLeadReffered(): any {
 
-    this.urlLeadReffered = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry_campaign/master/lead_referred_by/" +this.institute_id +"/all";
+    this.urlLeadReffered = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_referred_by/" +this.institute_id +"/all";
 
     return this.http.get(this.urlLeadReffered, { headers: this.headers })
       .map(res => {
@@ -165,10 +204,13 @@ export class FetchprefilldataService {
       })
   }
 
+
+
+
   /* fetch prefill data occupation*/  
   getOccupation(): any {
 
-    this.urlOccupation = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry_campaign/master/occupation/" +this.institute_id +"/all";
+    this.urlOccupation = this.baseUrl + "/api/v1/enquiry_campaign/master/occupation/" +this.institute_id +"/all";
 
     return this.http.get(this.urlOccupation, { headers: this.headers })
       .map(res => {
@@ -176,10 +218,13 @@ export class FetchprefilldataService {
       })
   }
 
+
+
+
   /* fetch prefill data last enquiry form data uploaded*/  
   fetchLastDetail(): any {
 
-    this.urlLastDetail = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/" +this.institute_id +"/fetchLastEnquiryDetails";
+    this.urlLastDetail = this.baseUrl + "/api/v1/enquiry/" +this.institute_id +"/fetchLastEnquiryDetails";
 
     return this.http.get(this.urlLastDetail, { headers: this.headers })
       .map(res => {
@@ -187,9 +232,12 @@ export class FetchprefilldataService {
       });
   }
 
+
+
+
   /* fetch prefill data as per the lead information provided */  
   fetchLeadDetails(number): any {
-    this.urlLeadDetails = "https://app.proctur.com/StdMgmtWebAPI/api/v1/campaign/getLeadDetailsForMobileNo/" + this.institute_id +"/" + number;
+    this.urlLeadDetails = this.baseUrl + "/api/v1/campaign/getLeadDetailsForMobileNo/" + this.institute_id +"/" + number;
     //console.log(this.urlLeadDetails);
     return this.http.get(this.urlLeadDetails, { headers: this.headers })
       .map(res => {
@@ -197,9 +245,12 @@ export class FetchprefilldataService {
       })
   }
 
+
+
+
   /* function to create new institute */
   createNewInstitute(data) {
-    this.urlInstituteCreate = 'https://app.proctur.com/StdMgmtWebAPI/api/v1/schools';
+    this.urlInstituteCreate = this.baseUrl + '/api/v1/schools';
     let newInstituteForm: any = {
       school_name: data.instituteName,
       is_active: data.isActive,
@@ -212,6 +263,7 @@ export class FetchprefilldataService {
       return responseData;
     });
   }
+
 
 
 
@@ -256,7 +308,7 @@ export class FetchprefilldataService {
       lead_id: -1
     }
 
-    this.urlSubmitNewEnquiry = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/" +this.institute_id;
+    this.urlSubmitNewEnquiry = this.baseUrl + "/api/v1/enquiry/" +this.institute_id;
 
     return this.http.post(this.urlSubmitNewEnquiry, newFormData, { headers: this.headers }).map(res => {
       responseData = res.json();
@@ -266,10 +318,12 @@ export class FetchprefilldataService {
 
 
 
+
+
   /* function to create new source */    
   createSource(data) {
     let response: any = null;
-    this.urlAddSource = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry_campaign/master/lead_source";
+    this.urlAddSource = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_source";
     return this.http.post(this.urlAddSource, data, { headers: this.headers }).map(res => {
       response = res.json();
       return response;
@@ -278,10 +332,11 @@ export class FetchprefilldataService {
 
 
 
+
   /* function to create new reference */    
   createReferer(data) {
     let response: any = null;
-    this.urlAddReferer = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry_campaign/master/lead_referred_by";
+    this.urlAddReferer = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_referred_by";
     return this.http.post(this.urlAddReferer, data, { headers: this.headers }).map(res => {
       response = res.json();
       return response;
@@ -290,10 +345,11 @@ export class FetchprefilldataService {
 
 
 
+
   /* fetch payment modes */
   fetchPaymentModes(){
 
-    this.urlPaymentModes = "https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/getAllConfiguredEnquiryFeePaymentModes";
+    this.urlPaymentModes = this.baseUrl + "/api/v2/enquiry_manager/getAllConfiguredEnquiryFeePaymentModes";
 
     return this.http.get(this.urlPaymentModes, {headers: this.headers}).map(
       data => {return data.json()},
@@ -302,9 +358,10 @@ export class FetchprefilldataService {
 
 
 
+
   /* Fetch comments for the selected enquiryID */
   fetchCommentsForEnquiry(id){
-    this.urlFetchComments = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/comments/" +this.institute_id +"/" +id;
+    this.urlFetchComments = this.baseUrl + "/api/v1/enquiry/comments/" +this.institute_id +"/" +id;
     return this.http.get(this.urlFetchComments, {headers: this.headers})
     .map(data => {
       return data.json();
@@ -313,31 +370,32 @@ export class FetchprefilldataService {
 
 
 
+
   /* return the list of custom component for the selected institute ID */
   fetchCustomComponent(): any{
-    this.urlCustomComponent = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=undefined&page=1";
+    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=undefined&page=1";
     return this.http.get(this.urlCustomComponent, {headers: this.headers})
     .map(
       data => {return data.json();},
-      err => { console.log("an error occurred while fetching custom component for student add view");}
+      err => { 
+       //console.log("an error occurred while fetching custom component for student add view");
+      }
     );
   }
 
 
+  
 
   /* return the data for user selected list to be edited */
   fetchEnquiryByInstituteID(id): any{
 
-    this.urlEnquiryByID = "https://app.proctur.com/StdMgmtWebAPI/api/v1/enquiry/" +this.institute_id +"/" +id;
+    this.urlEnquiryByID = this.baseUrl + "/api/v1/enquiry/" +this.institute_id +"/" +id;
 
     return this.http.get(this.urlEnquiryByID, {headers: this.headers}).map(res => {
       return res.json();
     },
     err => {
-      console.log("error loading row Data to Edit, please try again later");
-    })
-
+    //  console.log("error loading row Data to Edit, please try again later");
+    });
   }
-
-
 }

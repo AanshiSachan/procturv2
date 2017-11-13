@@ -1095,6 +1095,15 @@ ul.customDropdown li:hover {
         height: 35px !important;
         font-weight: 600;
         border: 1px solid $border-common !important;
+        &:hover{
+            color: white !important;
+        }
+        &:active{
+            color: white !important;            
+        }
+        &:focus{
+            color: white !important;            
+        }
     }
     .ui-menu{
         border: none;
