@@ -17,7 +17,6 @@ import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { Ng2SmartTableModule } from '../../../assets/imported_modules/ng2-smart-table';
 import { BusyModule, BusyConfig} from 'angular2-busy';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
-import { NgDatepickerModule } from 'ng2-datepicker';
 import {CalendarModule} from 'primeng/primeng';
 
 @NgModule({
@@ -30,7 +29,6 @@ import {CalendarModule} from 'primeng/primeng';
         Ng2SmartTableModule,
         BusyModule,
         NgLoggerModule.forRoot(Level.LOG),
-        NgDatepickerModule,
 
       ],
     declarations: [
