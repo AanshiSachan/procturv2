@@ -1,15 +1,35 @@
 <div class="middle-section clearFix" id="enquiryList">
-  <section class="middle-top clearFix">
-    <h1 class="pull-left">
-      Bulk Enquiry Upload
-    </h1>
-    <aside class="pull-right">
-      <a id="template_link">
-        <input type="button" value="Download Bulk Upload .xls Template" class="btn" (click)="downloadTemplate()" />
-      </a>
-      <input type="button" value="Add Single Enquiry" routerLink='/enquiry/addEnquiry' class="btn" />
-    </aside>
+
+  <section class="middle-top clearFix bulk-header">
+
+    <div class="row">
+      <ul class="breadc">
+
+        <li>
+          <a class="bread-list" [routerLink]="['../']">Enquiry List</a>
+        </li>
+
+        <li>
+          <a class="current">Bulk Enquiry</a>
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="row">
+      <h1 class="pull-left">
+        Bulk Enquiry Upload
+      </h1>
+      <aside class="pull-right">
+        <a id="template_link">
+          <input type="button" value="Download Bulk Upload .xls Template" class="btn" (click)="downloadTemplate()" />
+        </a>
+        <input type="button" value="Add Single Enquiry" routerLink='/enquiry/addEnquiry' class="btn" />
+      </aside>
+    </div>
+
   </section>
+
   <!--====================================middle <Main> section==========================-->
   <section class="middle-main clearFix" id="bulkEnquiryMain">
     <div class="file-upload-box">
@@ -18,15 +38,11 @@
         <div class="file-wrapper">
           <ul>
             <li>
-              <p-fileUpload 
-                url="https://app.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/bulkUploadEnquiries"
-                accept="application/vnd.ms-excel" 
-                customUpload="true"
-                (uploadHandler)="uploadHandler($event)" 
-                [showCancelButton]="false">
+              <p-fileUpload url="https://test999.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/bulkUploadEnquiries" accept="application/vnd.ms-excel"
+                customUpload="true" (uploadHandler)="uploadHandler($event)" [showCancelButton]="false">
               </p-fileUpload>
 
-              <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls" >
+              <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
                 <div class="file-uploaded">
                   <!-- <span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -41,7 +57,7 @@
                   </span>  -->
                   {{fileLoading}}
                 </div>
-                  <div class="progress-bar-wrapper">
+                <div class="progress-bar-wrapper">
                   <div class="upload-bar">
                     <div id="progress-width"></div>
                   </div>
@@ -52,7 +68,7 @@
           </ul>
         </div>
       </div>
-      
+
     </div>
   </section>
 </div>

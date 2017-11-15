@@ -64,11 +64,19 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   isProfessional: boolean = false;
   isActionDisabled: boolean = false;
   isMessageAddOpen: boolean = false;
+  isMultiSms: boolean = false;
+  smsSelectedRowsLength: number = 0;
+
   newSmsString = {
     data: "",
     length: 0,
     type: "",
   };
+
+  smsSelectedRows: any;
+  smsGroupSelected: any[] = [];
+
+
   /* items added on ngOnInit */
   bulkAddItems: MenuItem[];
 
@@ -188,7 +196,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   componentRenderer: any = [];
   customComponentResponse: any = [];
 
-
+  smsBtnToggle: boolean = false;
 
   selectedSMS: any = {
     message: "",
@@ -201,7 +209,10 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     institute_name: "",
   };
 
-
+  sendSmsFormData: any = {
+    baseIds: [],
+    messageArray: []
+  };
 
 
   /* Model for institute Data */
@@ -399,7 +410,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     priority: "",
     status: -1,
     follow_type: "",
-    followUpDate: moment().format('YYYY-MM-DD'),
+    followUpDate: "",
     enquiry_date: "",
     assigned_to: -1,
     standard_id: -1,
@@ -408,9 +419,9 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     slot_id: -1,
     filtered_slots: "",
     isDashbord: "N",
-    enquireDateFrom: moment().format('YYYY-MM-DD'),
-    enquireDateTo: moment().format('YYYY-MM-DD'),
-    updateDate: moment().format('YYYY-MM-DD'),
+    enquireDateFrom: "",
+    enquireDateTo: "",
+    updateDate: "",
     updateDateFrom: "",
     updateDateTo: "",
     start_index: 0,
@@ -451,7 +462,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
 
-    
+
   /* ============================= Delaration Fin ==================================== */
   /* ================================================================= */
   /* ================================================================= */
@@ -461,10 +472,10 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     private router: Router,
     private logger: Logger, private fb: FormBuilder, private pops: PopupHandlerService,
     private postdata: PostEnquiryDataService, private appC: AppComponent) {
-     if(sessionStorage.getItem('Authorization') == null){
+    if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
-     }
-  }  
+    }
+  }
 
 
 
@@ -477,7 +488,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       { name: 'Enquiry ID', id: 'institute_enquiry_id' },
       { name: 'Institute ID', id: 'institution_id' },
       { name: 'Enquiry No', id: 'enquiry_no' },
-      { name: 'Name', id: 'name' }, { name: 'Phone', id: 'phone' }, { name: 'Email', id: 'email' }, { name: 'Standard', id: 'standard' }, { name: 'Gender', id: 'Gender' }, { name: 'Subjects', id: 'subjects' }, { name: 'Status', id: 'status' }, { name: 'Status Value', id: 'statusValue' }, { name: 'is Converted', id: 'is_converted' }, { name: 'Follow up Date', id: 'followUpDate' }, { name: 'Occupation ID', id: 'occupation_id' }, { name: 'School ID', id: 'school_id' }, { name: 'Enquiry Date', id: 'enquiry_date' }, { name: 'Standard ID', id: 'standard_id' }, { name: 'Subject ID', id: 'subject_id' }, { name: 'Reffered by', id: 'referred_by' }, { name: 'Source ID', id: 'source_id' }, { name: 'Priority', id: 'priority' }, { name: 'Follow type', id: 'follow_type' }, { name: 'Assigned Name', id: 'assigned_name' }, { name: 'Is recent', id: 'is_recent' }, { name: 'Slot ID', id: 'slot_id' }, { name: 'Slot', id: 'slot' }, { name: 'Update Date', id: 'updateDate' }, { name: 'Is Dashboard', id: 'isDashbord' }, { name: 'Is Report', id: 'isRport' }, { name: 'Total Count', id: 'totalcount' }, { name: 'New Enquiry Count', id: 'newEnqcount' }, { name: 'Enquiry Date', id: 'enquiry_no_date' }, { name: 'Person Name', id: 'name_person' }, { name: 'Follow up date', id: 'followUpDateTime' }, { name: 'Standard subject', id: 'standard_subject' }, { name: 'Closed Reason', id: 'closedReasonText' }, { name: 'Follow up Time', id: 'followUpTime' }, { name: 'Filtered Status', id: 'filtered_statuses' }, { name: 'Filtered Slot', id: 'filtered_slots' }];
+      { name: 'Name', id: 'name' }, { name: 'Phone', id: 'phone' }, { name: 'Email', id: 'email' }, { name: 'Standard', id: 'standard' }, { name: 'Gender', id: 'Gender' }, { name: 'Subjects', id: 'subjects' }, { name: 'Status', id: 'status' }, { name: 'Status Value', id: 'statusValue' }, { name: 'is Converted', id: 'is_converted' }, { name: 'Follow up Date', id: 'followUpDate' }, { name: 'Occupation ID', id: 'occupation_id' }, { name: 'School ID', id: 'school_id' }, { name: 'Enquiry Date', id: 'enquiry_date' }, { name: 'Standard ID', id: 'standard_id' }, { name: 'Subject ID', id: 'subject_id' }, { name: 'Reffered by', id: 'referred_by' }, { name: 'Source ID', id: 'source_id' }, { name: 'Priority', id: 'priority' }, { name: 'Follow type', id: 'follow_type' }, { name: 'Assigned Name', id: 'assigned_name' }, { name: 'Is recent', id: 'is_recent' }, { name: 'Slot ID', id: 'slot_id' }, { name: 'Slot', id: 'slot' }, { name: 'Update Date', id: 'updateDate' }, { name: 'Is Dashboard', id: 'isDashbord' }, { name: 'Is Report', id: 'isRport' }, { name: 'Total Count', id: 'totalcount' }, { name: 'New Enquiry Count', id: 'newEnqcount' }, { name: 'Enquiry Date', id: 'enquiry_no_date' }, { name: 'Person Name', id: 'name_person' }, { name: 'Follow up date', id: 'followUpDateTime' }, { name: 'Standard subject', id: 'standard_subject' }, { name: 'Closed Reason', id: 'closedReasonText' }, { name: 'Follow up Time', id: 'followUpTime' }, { name: 'Filtered Status', id: 'filtered_statuses' }, { name: 'Filtered Slot', id: 'filtered_slots' }
+    ];
 
     /* If show attribute on table settings, set the checked value on dropdown menu  */
 
@@ -498,7 +510,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     this.bulkAddItems = [
       {
         label: 'Delete', icon: 'fa-close', command: () => {
-          alert('Delete selected');
+          this.bulkDeleteEnquiries();
         }
       }
     ];
@@ -509,11 +521,22 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       if (message == 'sms') {
         this.smsServicesInvoked();
         this.message = message;
+        this.smsSelectedRows = this.selectedRow;
       }
       this.message = message
     });
-    this.pops.currentRowJson.subscribe(data => this.selectedRowJson = data);
-    this.pops.currentActionValue.subscribe(data => this.isActionDisabled = data);
+
+
+    /* SMS message service handler to communicate between components */
+    this.pops.currentSms.subscribe(res => {
+      if (res == 'copy') {
+        this.copySMS();
+      }
+      else if (res == 'edit') {
+        this.editSms();
+      }
+    });
+
   }
 
 
@@ -526,8 +549,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
 
-  /* Function to convert all select-option tag to ul-li 
-  convertSelectToUl() {
+  /* Function to convert all select-option tag to ul-li */
+  /*convertSelectToUl() {
 
     var myNodeListOne = document.querySelectorAll('.form-ctrl');
 
@@ -615,7 +638,6 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
 
-
   /* Function to fetch prefill data for advanced filter */
   FetchEnquiryPrefilledData() {
 
@@ -625,66 +647,66 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     /* Status */
     this.prefill.getEnqStatus().subscribe(
       data => { this.enqstatus = data; },
-      err => { 
+      err => {
         let alert = {
-        type: 'error',
-        title: 'Failed To Load Data',
-        body: 'Please check your internet connection or refresh'        
+          type: 'error',
+          title: 'Failed To Load Data',
+          body: 'Please check your internet connection or refresh'
+        }
+        this.appC.popToast(alert);
       }
-      this.appC.popToast(alert); 
-     }
     );
 
 
     /* Priority */
     this.prefill.getEnqPriority().subscribe(
       data => { this.enqPriority = data; },
-      err => { 
+      err => {
         let alert = {
           type: 'error',
           title: 'Failed To Load Data',
-          body: 'Please check your internet connection or refresh'        
+          body: 'Please check your internet connection or refresh'
         }
-        this.appC.popToast(alert); 
-       }
+        this.appC.popToast(alert);
+      }
     );
 
 
     /* FollowUp Type */
     this.prefill.getFollowupType().subscribe(
       data => { this.enqFollowType = data },
-      err => { 
+      err => {
         let alert = {
           type: 'error',
           title: 'Failed To Load Data',
-          body: 'Please check your internet connection or refresh'        
+          body: 'Please check your internet connection or refresh'
         }
-        this.appC.popToast(alert); 
-       }
+        this.appC.popToast(alert);
+      }
     );
 
 
     /* Assign To */
     this.prefill.getAssignTo().subscribe(
       data => { this.enqAssignTo = data; },
-      err => { 
+      err => {
         let alert = {
           type: 'error',
           title: 'Failed To Load Data',
-          body: 'Please check your internet connection or refresh'        
+          body: 'Please check your internet connection or refresh'
         }
-        this.appC.popToast(alert); 
-       }
+        this.appC.popToast(alert);
+      }
     );
 
 
     /* Scholarship */
     this.prefill.getScholarPrefillData().subscribe(
       data => {
-        
+
         data.forEach(el => {
           if (el.label == "Scholarship") {
-            
+
             this.enqScholarship = el.prefilled_data.split(',');
           }
           else if (el.label == "Subject2") {
@@ -692,14 +714,14 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
           }
         })
       },
-      err => { 
+      err => {
         let alert = {
           type: 'error',
           title: 'Failed To Load Data',
-          body: 'Please check your internet connection or refresh'        
+          body: 'Please check your internet connection or refresh'
         }
-        this.appC.popToast(alert); 
-       }
+        this.appC.popToast(alert);
+      }
     );
 
 
@@ -710,10 +732,10 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
         let alert = {
           type: 'error',
           title: 'Failed To Load Data',
-          body: 'Please check your internet connection or refresh'        
+          body: 'Please check your internet connection or refresh'
         }
-        this.appC.popToast(alert); 
-       }
+        this.appC.popToast(alert);
+      }
     );
 
 
@@ -724,10 +746,10 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
         let alert = {
           type: 'error',
           title: 'Failed To Load Data',
-          body: 'Please check your internet connection or refresh'        
+          body: 'Please check your internet connection or refresh'
         }
-        this.appC.popToast(alert); 
-       }
+        this.appC.popToast(alert);
+      }
     )
 
 
@@ -750,7 +772,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
           this.componentPrefill.push(el);
           //console.log(this.componentPrefill);
         });
-        
+
         this.emptyCustomComponent = this.componentListObject;
 
       },
@@ -758,9 +780,9 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
         let alert = {
           type: 'error',
           title: 'Failed To Load Data',
-          body: 'Please check your internet connection or refresh'        
+          body: 'Please check your internet connection or refresh'
         }
-        this.appC.popToast(alert); 
+        this.appC.popToast(alert);
       }
     );
 
@@ -854,7 +876,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       let alert = {
         type: 'error',
         title: 'Invalid Input',
-        body: 'Please enter a value to be searched'        
+        body: 'Please enter a value to be searched'
       }
       this.appC.popToast(alert);
       this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
@@ -902,7 +924,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
             let alert = {
               type: 'success',
               title: 'Records Updated',
-              body: 'Search complete'        
+              body: 'Search complete'
             }
             this.appC.popToast(alert);
             this.sourceEnquiry.refresh();
@@ -912,7 +934,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
           let alert = {
             type: 'error',
             title: 'Invalid Name',
-            body: 'Please enter a valid name'        
+            body: 'Please enter a valid name'
           }
           this.appC.popToast(alert);
         }
@@ -958,7 +980,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
           let alert = {
             type: 'error',
             title: 'Invalid Number',
-            body: 'Please enter a valid mobile number'        
+            body: 'Please enter a valid mobile number'
           }
           this.appC.popToast(alert);
         }
@@ -1011,9 +1033,11 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     if (ev.data != null) {
       /* If true, that is multiple option have been checked but not all */
       if (ev.isSelected) {
+        //console.log(ev);
         this.selectedRow = ev.data;
         this.selectedRowGroup = ev.selected;
         localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
+
         this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
           this.updateFormComments = res.comments;
           this.updateFormCommentsOn = res.commentedOn;
@@ -1023,7 +1047,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       }
       /* If false, that is only a single input has been selected */
       else {
-
+        //console.log(ev);
         this.selectedRow = ev.data;
         localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
         this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
@@ -1035,6 +1059,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     }
     /* All records in the page have been selected */
     else {
+      //console.log(ev);
       this.selectedRowGroup = ev.selected;
     }
   }
@@ -1050,23 +1075,23 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     this.updateFormData.followUpDate = moment(this.selectedRow.followUpDate).format('YYYY-MM-DD');
     this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
     this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData)
-    .subscribe(res => {  
-      let alert = {
-        type: 'success',
-        title: 'Enquiry Updated',
-        body: 'Your enquiry has been successfully submitted'        
-      }
-      this.appC.popToast(alert); 
-      this.closePopup();
-    },
-    err => {
-      let alert = {
-        type: 'error',
-        title: 'Failed To Update Enquiry',
-        body: 'There was an error processing your request'
-      }
-      this.appC.popToast(alert); 
-    })
+      .subscribe(res => {
+        let alert = {
+          type: 'success',
+          title: 'Enquiry Updated',
+          body: 'Your enquiry has been successfully submitted'
+        }
+        this.appC.popToast(alert);
+        this.closePopup();
+      },
+      err => {
+        let alert = {
+          type: 'error',
+          title: 'Failed To Update Enquiry',
+          body: 'There was an error processing your request'
+        }
+        this.appC.popToast(alert);
+      })
   }
 
 
@@ -1075,25 +1100,25 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   /* Delete Enquiry  */
   deleteEnquiry() {
     this.postdata.deleteEnquiryById(this.selectedRow.institute_enquiry_id).subscribe(
-      res => { 
+      res => {
         let alert = {
           type: 'success',
           title: 'Enquiry Deleted',
-          body: 'Your enquiry has been deleted'        
+          body: 'Your enquiry has been deleted'
         }
         this.appC.popToast(alert);
-        this.closePopup(); 
-        this.busy = this.loadTableDatatoSource(this.instituteData); 
+        this.closePopup();
+        this.busy = this.loadTableDatatoSource(this.instituteData);
       },
-      err => { 
+      err => {
         let alert = {
           type: 'error',
           title: 'Failed To Delete Enquiry',
-          body: 'There was an error processing your request' +err.message
+          body: 'There was an error processing your request' + err.message
         }
         this.appC.popToast(alert);
-        this.closePopup(); 
-        this.busy = this.loadTableDatatoSource(this.instituteData); 
+        this.closePopup();
+        this.busy = this.loadTableDatatoSource(this.instituteData);
       }
     )
   }
@@ -1105,12 +1130,12 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   registerPayment() {
     this.registrationForm.institute_enquiry_id = this.selectedRow.institute_enquiry_id.toString();
     this.postdata.updateRegisterationPayment(this.registrationForm).subscribe(
-      res => { 
+      res => {
         alert("registration added" + res)
-       },
-      err => { 
+      },
+      err => {
         alert("err" + err)
-       }
+      }
     );
   }
 
@@ -1118,24 +1143,91 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
 
-  /* Services to be performed for bulk sms and single sms fuctionalities */
+  /* Service to fetch sms records from server and update table*/
   smsServicesInvoked() {
-
     /* store the data from server and update table */
     this.enquire.fetchAllSms().subscribe(
       data => {
         this.smsPopSource = data;
+        console.log(data);
       },
       err => {
         let msg = {
-
+          type: 'error',
+          title: "Error loading SMS",
+          body: "Please check your internet connection or refresh"
         }
+        this.appC.popToast(msg);
       }
     );
-
-
   }
 
+
+
+
+  /* Trigger Bulk Send SMS PopUp */
+  sendBulkSms() {
+
+    //console.log(this.selectedRowGroup);
+
+    if (this.selectedRowGroup != null || this.selectedRowGroup != undefined) {
+      this.isMultiSms = true;
+      this.smsServicesInvoked();
+      this.smsSelectedRowsLength = this.selectedRowGroup.length;
+    }
+    else {
+      let msg = {
+        type: 'warning',
+        title: 'Please Select An Enquiry To Send Bulk SMS'
+      }
+      this.appC.popToast(msg)
+    }
+  }
+
+
+
+  /* Close Bulk Enquiry Popup and clear the field records and state */
+  closeBulkSms() {
+    this.isMultiSms = false;
+    this.isMessageAddOpen = false;
+    this.newSmsString.data = "";
+    this.newSmsString.length = 0;
+    this.smsSelectedRows = null;
+    this.sendSmsFormData = {
+      baseIds: [],
+      messageArray: []
+    };
+  }
+
+
+
+
+  bulkDeleteEnquiries() {
+    if (this.selectedRowGroup != null || this.selectedRowGroup != undefined) {
+      if(confirm('You are about to delete multiple enquiries')){
+        let deleteString: string ='';
+        this.selectedRowGroup.forEach(el=> {
+          deleteString = deleteString +',' +el.institute_enquiry_id;
+        });
+
+        let data = {
+          enquiryIdList: deleteString.slice(1),
+          institution_id: sessionStorage.getItem('institute_id')
+        };
+
+        //this.postdata.deleteEnquiryBulk(data).subscribe
+
+      }
+      
+    }
+    else {
+      let msg = {
+        type: 'warning',
+        title: 'Please Select An Enquiry To Be Deleted'
+      }
+      this.appC.popToast(msg)
+    }
+  }
 
 
 
@@ -1161,6 +1253,34 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     }).subscribe(data => {
       this.sourceEnquiry = new LocalDataSource(this.rows);
       this.sourceEnquiry.refresh();
+      /* this.advancedFilterForm = {
+        name: "",
+        phone: "",
+        email: "",
+        enquiry_no: "",
+        priority: "",
+        status: -1,
+        follow_type: "",
+        followUpDate: "",
+        enquiry_date: "",
+        assigned_to: -1,
+        standard_id: -1,
+        subject_id: -1,
+        is_recent: "Y",
+        slot_id: -1,
+        filtered_slots: "",
+        isDashbord: "N",
+        enquireDateFrom: "",
+        enquireDateTo: "",
+        updateDate: "",
+        updateDateFrom: "",
+        updateDateTo: "",
+        start_index: 0,
+        batch_size: this.displayBatchSize,
+        closedReason: "",
+        enqCustomLi: null
+      }; */
+      this.closeAdFilter();
     });
   }
 
@@ -1170,6 +1290,14 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   /* common function to close popups */
   closePopup() {
     this.pops.changeMessage('');
+    this.isMessageAddOpen = false;
+    this.newSmsString.data = "";
+    this.newSmsString.length = 0;
+    this.smsSelectedRows = null;
+    this.sendSmsFormData = {
+      baseIds: [],
+      messageArray: []
+    };
   }
 
 
@@ -1360,7 +1488,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   /* Stores data for row user has clicked of selected */
   smsRowSelected(ev) {
     if (ev.isSelected) {
-      this.selectedSMS.message = ev.data.message;
+      this.selectedSMS = ev.data;
     }
   }
 
@@ -1373,6 +1501,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
     if (content == "-") {
       document.getElementById('sms-toggler-icon').innerHTML = "+";
+      this.newSmsString.data = "";
+      this.newSmsString.length = 0;
       this.isMessageAddOpen = false;
     }
     else if (content == "+") {
@@ -1396,7 +1526,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       let sms = {
         feature_type: 2,
         message: this.newSmsString.data,
-        sms_type: "Promotional"
+        sms_type: "Transactional"
       }
 
       this.postdata.addNewSmsTemplate(sms).subscribe(
@@ -1427,6 +1557,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
+
+
   smsStringUpdate(ev) {
 
     let stringArr = this.newSmsString.data.split('');
@@ -1447,9 +1579,170 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
+
   copySMS() {
-    alert("copied");
+    //let content = (document.getElementById('sms-content')).value;
   }
+
+
+
+  editSms() {
+    this.smsBtnToggle = true;
+  }
+
+
+
+  cancelSmsEdit() {
+    this.smsBtnToggle = false;
+  }
+
+
+
+  saveEditedSms() {
+
+    let data = {
+      message: this.selectedSMS.message
+    }
+
+    this.postdata.saveEditedSms(this.selectedSMS.message_id, data).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: "SMS Template saved",
+          body: 'Your sms has been sent for approval'
+        }
+        this.appC.popToast(msg);
+        this.cancelSmsEdit();
+        this.smsServicesInvoked();
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: "Failed To Edit SMS Template",
+          body: 'Please check your internet connection or try again later'
+        }
+        this.appC.popToast(msg);
+      }
+    )
+  }
+
+
+
+  sendSmsTemplate() {
+
+    if (this.selectedSMS.message != null && this.selectedSMS.message != '') {
+
+      /* Denied */
+      if (this.selectedSMS.statusValue == 'Open') {
+        let msg = {
+          type: 'warning',
+          title: 'Unable To Send SMS',
+          body: 'Your sms template is pending approval, kindly contact support'
+        }
+        this.appC.popToast(msg);
+      }
+
+      /* Rejected  */
+      else if (this.selectedSMS.statusValue == 'Rejected') {
+
+        let msg = {
+          type: 'error',
+          title: 'Unable To Send SMS',
+          body: 'Your sms template has been rejected, kindly contact support'
+        }
+        this.appC.popToast(msg);
+
+      }
+
+      /* Ok Send SMS */
+      else if (this.selectedSMS.statusValue == 'Approved') {
+
+        /* Send Multi SMS */
+        if (this.isMultiSms) {
+          let userId = [];
+
+          //console.log(this.selectedRowGroup);
+
+          this.selectedRowGroup.forEach(el => {
+            //console.log(el);
+            userId.push(el.institute_enquiry_id);
+          });
+
+
+
+          let messageId = [];
+          messageId.push((this.selectedSMS.message_id).toString());
+
+          this.sendSmsFormData.baseIds = userId;
+          this.sendSmsFormData.messageArray = messageId;
+
+          this.postdata.sendSmsToEnquirer(this.sendSmsFormData).subscribe(
+            res => {
+              console.log(res);
+              let msg = {
+                type: 'success',
+                title: 'SMS sent',
+                body: "Your sms has been sent and will be delivered shortly"
+              }
+              this.appC.popToast(msg);
+            },
+            err => {
+              let msg = {
+                type: 'error',
+                title: 'Unable To Send SMS',
+                body: "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify."
+              }
+              this.appC.popToast(msg);
+            }
+          )
+
+        }
+        /* Send Single SMS */
+        else {
+
+          let userId = [];
+          userId.push((this.selectedRow.institute_enquiry_id).toString());
+          let messageId = [];
+          messageId.push((this.selectedSMS.message_id).toString());
+
+          this.sendSmsFormData.baseIds = userId;
+          this.sendSmsFormData.messageArray = messageId;
+
+          this.postdata.sendSmsToEnquirer(this.sendSmsFormData).subscribe(
+            res => {
+              console.log(res);
+              let msg = {
+                type: 'success',
+                title: 'SMS sent',
+                body: "Your sms has been sent and will be delivered shortly"
+              }
+              this.appC.popToast(msg);
+            },
+            err => {
+              let msg = {
+                type: 'error',
+                title: 'Unable To Send SMS',
+                body: "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify."
+               }
+              this.appC.popToast(msg);
+            }
+          )
+        }
+      }
+    }
+    else {
+      let msg = {
+        type: 'error',
+        title: 'Cannot Send Blank SMS',
+        body: 'Please select an approved SMS Template to be sent'
+      }
+      this.appC.popToast(msg);
+    }
+
+
+
+  }
+
 
 
   setPageSize(totalCount) {
@@ -1474,12 +1767,15 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     //console.log(this.indexJSON);
   }
 
+
+
   fectchTableDataByPage(index) {
     this.instituteData.start_index = index.start_index;
     this.busy = this.loadTableDatatoSource(this.instituteData);
 
-    
+
 
   }
+
 
 }

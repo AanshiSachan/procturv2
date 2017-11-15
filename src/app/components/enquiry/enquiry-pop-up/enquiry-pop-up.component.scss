@@ -4,6 +4,21 @@
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
 
+
+.table-data-overflow{
+    table{
+        tbody{
+            td {
+                max-width: 100px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+}
+
+
 .middle-section {
     padding: 15px;
 }
@@ -138,24 +153,7 @@
   }
 }
 
-::ng-deep .bs-datepicker-container{
-    padding: 10px;
-    background: #004b7f;
-  }
-  
-  ::ng-deep .bs-datepicker-head{
-    background-color: #004c80;
-    color: white;
-    border-top: 1px solid white;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
-    min-width: 300px !important;
-    font-weight: 800;
-  }
-  
-  ::ng-deep .bs-datepicker-body{
-    padding: 5px;
-  }
+
 
 .more-detail {
   margin-top: 10px;
@@ -635,9 +633,4 @@
 
 .row.extraMargin {
     margin: 10px -15px 20px;
-}
-
-.unstyled-calendar::-webkit-inner-spin-button,
-.unstyled-calendar::-webkit-calendar-picker-indicator {
-    -webkit-appearance: none;    
 }

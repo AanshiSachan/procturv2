@@ -89,8 +89,8 @@ export class FetchenquiryService {
     let data = {
       institute_id: this.institute_id,
       function_type: 'fetch_campaign_messages',
-      username: sessionStorage.getItem('userid') +'|' +sessionStorage.getItem('userType'),
-      password: sessionStorage.getItem('password'),
+      username: JSON.parse(sessionStorage.getItem('institute_info')).userid +'|' +JSON.parse(sessionStorage.getItem('institute_info')).userType,
+      password: JSON.parse(sessionStorage.getItem('institute_info')).password,
       feature_type: 2
     }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 
 @Component({
     template:
@@ -33,7 +33,11 @@ import { Router } from '@angular/router';
 
 export class SmsOptionComponent implements OnInit {
 
-    constructor(private router: Router) { }
+    sms: string = "";
+
+    constructor(private router: Router, private pops: PopupHandlerService) {
+      this.pops.currentMessage.subscribe(data => this.sms = data);
+     }
 
     /* OnInit function to listen the changes in message value from service */
     ngOnInit() {}
@@ -41,10 +45,10 @@ export class SmsOptionComponent implements OnInit {
 
 
     emitCopy(){
-      console.log("copy text invoked");
+      this.pops.changeSmsMessage('copy');
     }
 
     emitEdit(){
-      console.log("edit text invoked");
+      this.pops.changeSmsMessage('edit');
     }
 }

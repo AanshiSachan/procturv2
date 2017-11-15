@@ -4,18 +4,31 @@
 
     <!-- Left Side Form -->
     <aside class="pull-left middle-left " id="addNewEnquiry">
-      
+
       <!-- Header -->
       <section class="middle-top clearFix">
-        <h1 class="pull-left">
-          Edit Enquiry
-        </h1>
+        <div class="row">
+          <ul class="breadc">
 
-        <aside class="pull-right">      
-          <!-- <input type="button" value="Add Bulk Enquiry" [routerLink]="['../addBulkEnquiry']" class="btn"> -->
-        </aside>
+            <li>
+              <a class="bread-list" [routerLink]="['../']">Enquiry List</a>
+            </li>
+
+            <li>
+              <a class="current">Edit Enquiry</a>
+            </li>
+
+          </ul>
+        </div>
+
+        <div class="row">
+          <h1 class="pull-left">
+            Edit Enquiry
+          </h1>
+        </div>
+
       </section>
-      
+
       <!-- Accordian Menu Element -->
       <section class="middle-main clearFix" id="middleMain">
         <div class="add-new-enquiry-form accordian-section">
@@ -47,8 +60,8 @@
                     </div>
                   </div>
                   <div class="field-wrapper has-value">
-                    <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.phone"
-                      name="phone" maxlength="10" minlength="10" required pattern="[789][0-9]{9}" enquiryInput/>
+                    <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.phone" name="phone" maxlength="10"
+                      minlength="10" required pattern="[789][0-9]{9}" enquiryInput/>
                     <label for="phone">Phone No*</label>
                     <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="alert invalid-alert">
                       <div *ngIf="phone.errors.required">
@@ -283,8 +296,8 @@
           <strong>Enquiry Details</strong> (Official Use)</h4>
         <div class="box-shadow-lite">
           <div class="field-wrapper has-value datePickerBox" enquiryDate>
-            <input type="text" value="" id="enquiryDate" class="form-ctrl" 
-            [(ngModel)]="editEnqData.enquiry_date" name="enquiryDate" bsDatepicker>
+            <input type="text" value="" id="enquiryDate" class="form-ctrl" [(ngModel)]="editEnqData.enquiry_date" name="enquiryDate"
+              bsDatepicker>
             <label for="enquiryDate">Enquiry Date</label>
           </div>
           <div class="field-wrapper has-value ">
@@ -313,8 +326,8 @@
             <label for="followUpType">Follow Up Type</label>
           </div>
           <div class="field-wrapper has-value datePickerBox" enquiryDate>
-            <input type="text" value="" id="followUpDate" class="form-ctrl" 
-            [(ngModel)]="editEnqData.followUpDate" name="followUpDate" bsDatepicker>
+            <input type="text" value="" id="followUpDate" class="form-ctrl" [(ngModel)]="editEnqData.followUpDate" name="followUpDate"
+              bsDatepicker>
             <label for="followUpDate">Follow Up Date</label>
           </div>
           <div class="field-wrapper has-value ">

@@ -1,5 +1,6 @@
 <div class="middle-section clearFix" id="enquiryList" #enquiryManager>
 
+
   <!-- Main View -->
   <aside class="middle-full" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
 
@@ -121,21 +122,21 @@
             </div>
             <div class="row">
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper datePickerBox has-value" enquiryDate>
+                <div class="field-wrapper datePickerBox" enquiryDate>
                   <input type="text" value="" id="updateDate" class="form-ctrl" [(ngModel)]="advancedFilterForm.updateDate" name="UD" bsDatepicker
                   />
                   <label for="updateDate">Update Date</label>
                 </div>
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper datePickerBox has-value" enquiryDate>
+                <div class="field-wrapper datePickerBox" enquiryDate>
                   <input type="text" value="" id="enquiryFromDate" class="form-ctrl" [(ngModel)]="advancedFilterForm.enquireDateFrom" name="EFD"
                     bsDatepicker/>
                   <label for="enquiryFromDate">Enquiry From Date</label>
                 </div>
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper datePickerBox has-value" enquiryDate>
+                <div class="field-wrapper datePickerBox" enquiryDate>
                   <input type="text" value="" id="enquiryToDate" class="form-ctrl" [(ngModel)]="advancedFilterForm.enquireDateTo" name="ETD"
                     bsDatepicker/>
                   <label for="enquiryToDate">Enquiry To Date</label>
@@ -196,6 +197,8 @@
           </div>
         </div>
       </section>
+
+
 
       <!-- Checkboxes Filter -->
       <section class="search-enquiry-type-filter">
@@ -288,11 +291,11 @@
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <ul class="pagination">
               <li>
-                <a > Previous</a>
+                <a> Previous</a>
               </li>
               <li class="index-value" *ngFor="let index of indexJSON" (click)="fectchTableDataByPage(index)">{{index.value}}</li>
               <li>
-                <a > Next</a>
+                <a> Next</a>
               </li>
             </ul>
           </div>
@@ -301,6 +304,8 @@
 
     </section>
   </aside>
+
+
 
 
   <!-- Update PopUp -->
@@ -423,6 +428,8 @@
 
 
 
+
+
   <!-- Delete PopUp -->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'delete'">
     <div class="popup pos-abs">
@@ -461,6 +468,8 @@
 
 
 
+
+
   <!-- Convert PopUp -->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'convert'">
     <div class="popup pos-abs">
@@ -496,6 +505,7 @@
       </div>
     </div>
   </section>
+
 
 
 
@@ -669,10 +679,13 @@
   </section>
 
 
-  <!-- SMS PopUp -->
+
+
+
+  <!-- SMS PopUp Single-->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'sms'">
     <!-- -->
-    <div class="popup pos-abs" style="max-width:85%">
+    <div class="popup pos-abs popup-body-container">
       <div class="popup-wrapper pos-rel">
 
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -690,7 +703,7 @@
 
         <div class="popup-content">
           <h2>Send SMS </h2>
-          <div class="sms-form" style="max-height: 450px; display: flex;overflow-y: scroll;overflow-x: hidden;">
+          <div class="sms-form sms-popup-content">
             <div class="sms-update">
 
               <aside class="pull-left sms-table">
@@ -701,7 +714,7 @@
                       <div class="clearFix add-edit">
                         <a class="expend-box" (click)="addNewMessage()">
                           <i class="add-sms" id="sms-toggler-icon">+</i>
-                          <span>Create New Courses</span>
+                          <span>Create New Sms</span>
                         </a>
                       </div>
                     </div>
@@ -755,7 +768,7 @@
                 <div class="sms-middle-section">
                   <div class="row">
                     <div class="c-lg-12 c-md-12 c-sm-12">
-                      <div class="table table-responsive table-container">
+                      <div class="table table-responsive table-container table-data-overflow">
                         <ng2-smart-table [settings]="settingsSmsPopup" [source]="smsPopSource" (userRowSelect)="smsRowSelected($event)">
                         </ng2-smart-table>
                       </div>
@@ -770,10 +783,10 @@
                 <div class="sms-preview-header">
                   <div class="row">
                     <div class="c-lg-6 c-md-6 c-sm-6">
-                      <h4>xx Users Selected</h4>
+                      <h4>Enquiry No. {{smsSelectedRows.enquiry_no}} Selected</h4>
                     </div>
                     <div class="c-lg-6 c-md-6 c-sm-6" style="padding:24px 0px;">
-                      <a style="cursor:pointer;">Change</a>
+                      <a style="cursor:pointer;" (click)="closePopup()">Change</a>
                     </div>
                   </div>
                   <div class="row">
@@ -785,7 +798,7 @@
                 <div class="sms-preview-content">
                   <div class="field-sms-wrapper">
                     <textarea placeholder="Edit Message Here" rows="20" cols="1" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
-                      id="sms-content" value="" [(ngModel)]="selectedSMS.message">
+                      id="sms-content" value="" [(ngModel)]="selectedSMS.message" [disabled]="!smsBtnToggle">
                       </textarea>
                   </div>
                 </div>
@@ -793,8 +806,10 @@
                   <div class="">
                     <div class="clearfix">
                       <aside class="popup-btn">
-                        <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                        <input type="button" value="Send SMS" class="redBtn btn">
+                        <input type="button" value="Cancel" class="btn" *ngIf="smsBtnToggle" (click)="cancelSmsEdit()">
+                        <input type="button" value="Save" class="redBtn btn" *ngIf="smsBtnToggle" (click)="saveEditedSms()">
+                        <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closePopup()">
+                        <input type="button" value="Send SMS" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
                       </aside>
                     </div>
                   </div>
@@ -811,5 +826,149 @@
   </section>
 
 
+
+  <!-- SMS PopUp MultiRow Selected-->
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="isMultiSms">
+
+    <!--  -->
+    <div class="popup pos-abs popup-body-container">
+      <div class="popup-wrapper pos-rel">
+
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeBulkSms()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
+            </g>
+          </svg>
+        </span>
+
+        <div class="popup-content">
+          <h2>Send SMS </h2>
+          <div class="sms-form sms-popup-content">
+            <div class="sms-update">
+
+              <aside class="pull-left sms-table">
+                <div class="sms-top-section">
+
+                  <div class="row">
+                    <div class="c-lg-12">
+                      <div class="clearFix add-edit">
+                        <a class="expend-box" (click)="addNewMessage()">
+                          <i class="add-sms" id="sms-toggler-icon">+</i>
+                          <span>Create New Sms</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" *ngIf="isMessageAddOpen">
+                    <section class="clearFix new-sms-form">
+                      <div class="row">
+                        <div class="c-lg-6 c-sm-6 c-md-6 c-xs-6 pull-left new-sms-wrapper">
+                          <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="enter new SMS here"
+                            [(ngModel)]="newSmsString.data" (keyup)="smsStringUpdate($event)" aria-haspopup="true" value="">
+                            </textarea>
+                        </div>
+
+                        <div class="c-lg-2 c-sm-2 c-md-2 c-xs-2">
+                          <label>{{newSmsString.length}}</label>
+                        </div>
+
+                        <div class="c-lg-4 c-sm-4 c-md-4 c-xs-4 pull-right">
+                          <aside class="pull-left create-cancel-small">
+                            <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()">
+                            <input type="button" class="btn redBtn" value="Save SMS" (click)="addNewSmsTemplate()">
+                          </aside>
+                        </div>
+
+                      </div>
+                    </section>
+                  </div>
+
+                  <div class="row">
+                    <div class="c-lg-12">
+                      <h4>
+                        Message List
+                      </h4>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="c-lg-7 c-md-7 c-sm-7" style="padding-top: 10px;">
+                      <label>Showing 1 to xx of xxx SMS</label>
+                    </div>
+                    <div class="c-lg-5 c-md-5 c-sm-5 align-right">
+                      <div class="search-filter-wrapper">
+                        <input type="text" class="sms-search-field" placeholder="Search SMS" name="searchData">
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="sms-middle-section">
+                  <div class="row">
+                    <div class="c-lg-12 c-md-12 c-sm-12">
+                      <div class="table table-responsive table-container table-data-overflow">
+                        <ng2-smart-table [settings]="settingsSmsPopup" [source]="smsPopSource" (userRowSelect)="smsRowSelected($event)">
+                        </ng2-smart-table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </aside>
+
+
+              <aside class="pull-right sms-preview">
+                <div class="sms-preview-header">
+                  <div class="row">
+                    <div class="c-lg-6 c-md-6 c-sm-6">
+                      <h4>{{smsSelectedRowsLength}} Users Selected</h4>
+                    </div>
+                    <div class="c-lg-6 c-md-6 c-sm-6" style="padding:24px 0px;">
+                      <a style="cursor:pointer;" (click)="closeBulkSms()">Change</a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="c-lg-12 c-md-12 c-sm-12">
+                      Available SMS Quota: XXXX
+                    </div>
+                  </div>
+                </div>
+                <div class="sms-preview-content">
+                  <div class="field-sms-wrapper">
+                    <textarea placeholder="Edit Message Here" rows="20" cols="1" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
+                      id="sms-content" value="" [(ngModel)]="selectedSMS.message" [disabled]="!smsBtnToggle">
+                          </textarea>
+                  </div>
+                </div>
+                <div class="sms-preview-footer">
+                  <div class="">
+                    <div class="clearfix">
+                      <aside class="popup-btn">
+                        <input type="button" value="Cancel" class="btn" *ngIf="smsBtnToggle" (click)="cancelSmsEdit()">
+                        <input type="button" value="Save" class="redBtn btn" *ngIf="smsBtnToggle" (click)="saveEditedSms()">
+                        <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closeBulkSms()">
+                        <input type="button" value="Send SMS" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
+                      </aside>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
 
 </div>

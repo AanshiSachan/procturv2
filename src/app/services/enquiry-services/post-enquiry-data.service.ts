@@ -77,13 +77,13 @@ export class PostEnquiryDataService {
 
   uploadEnquiryXls(file) {
 
-    this.urlPostXlsDocument = this.baseUrl +"/api/v2/enquiry_manager/bulkUploadEnquiries";
+    this.urlPostXlsDocument = this.baseUrl + "/api/v2/enquiry_manager/bulkUploadEnquiries";
 
     let formdata = new FormData();
     formdata.append("file", file);
 
     let xhr: XMLHttpRequest = new XMLHttpRequest();
-    xhr.open("POST", this.urlPostXlsDocument , true);
+    xhr.open("POST", this.urlPostXlsDocument, true);
 
     xhr.setRequestHeader("processData", "false");
     xhr.setRequestHeader("contentType", "false");
@@ -92,7 +92,7 @@ export class PostEnquiryDataService {
     xhr.setRequestHeader("Authorization", this.Authorization);
 
     //Call function when onload.
-    xhr.onreadystatechange  = function () {
+    xhr.onreadystatechange = function () {
       if (xhr.readyState == XMLHttpRequest.DONE) {
         if (xhr.status === 200) {
           console.log(xhr.response);
@@ -101,17 +101,51 @@ export class PostEnquiryDataService {
         }
       }
     }
-    xhr.send(formdata); 
+    xhr.send(formdata);
 
   }
 
 
   addNewSmsTemplate(msg) {
-    this.urlUploadSmsTemplate = "https://app.proctur.com/StdMgmtWebAPI/api/v1/campaign/message/100123";
+    this.urlUploadSmsTemplate = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id;
 
     return this.http.post(this.urlUploadSmsTemplate, msg, { headers: this.headers }).map(
-      res => { return res.json() },
+      res => {
+        return res.json()
+      },
       err => { }
     );
   }
+
+
+  saveEditedSms(id, data){
+
+    let urlEditedSms = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id +'/' +id
+
+    return this.http.put(urlEditedSms, data, {headers: this.headers}).map(
+      res => { return res.json();}
+    )
+
+  }
+
+
+
+  sendSmsToEnquirer(data){
+
+    let urlSendSmsToEnquirer = this.baseUrl +"/api/v1/enquiry_manager/sendSMS/" +this.institute_id;
+
+    return this.http.post(urlSendSmsToEnquirer, data, {headers: this.headers}).map(
+      res => { return res.json() }
+    )
+  }
+
+
+  deleteEnquiryBulk(data){
+
+    let urlDeleteBulk = this.baseUrl +'/api/v1/enquiry/' +this.institute_id +'/bulkDeleteEnquiries';
+
+    //return this.http.delete
+
+  }
+
 }

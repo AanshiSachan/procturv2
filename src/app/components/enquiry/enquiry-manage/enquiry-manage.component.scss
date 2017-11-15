@@ -1,5 +1,182 @@
 @import "./src/assets/css/style.scss";
 
+
+:host /deep/ .table-data-overflow{
+     ng2-smart-table table {
+        tbody{
+            tr{
+                td:first-child{
+                    max-width: 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+}
+
+/* Data table Settings */
+
+:host /deep/ ng2-smart-table table > thead > tr:first-child{
+    background: #f7f7f7;
+    transition: all 0.5s;
+}
+:host /deep/ ng2-smart-table table > thead > tr:first-child > th{
+    padding: 10px 10px;
+    background: #004a7e;
+    color: #fff;
+    font-size: 11px;
+    font-weight: normal;
+    vertical-align: middle;
+    line-height: 20px;
+    .ng2-smart-title{
+        min-width: 70px;
+    }
+}
+:host /deep/ ng2-smart-table table > thead > tr:nth-child(even){
+    display: none
+}
+:host /deep/ .ng2-smart-title a{
+    font-size: 11px !important;
+    font-weight: normal !important;
+    color: #fff !important;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    margin: 0;
+    padding: 0;
+}
+::ng-deep .ng2-smart-title a::after{
+    border-bottom: 4px solid rgba(0, 0, 0, 0.87) !important;
+}
+:host /deep/ ng2-smart-table table > tbody > tr > td{
+    transition: all 0.5s;
+    font-size: 14px !important;
+    line-height: normal;
+    border-bottom: 1px solid #fff;
+    padding: 6px 2px;
+}
+:host /deep/ ng2-smart-table table > tbody > tr:nth-child(even) {
+    background: rgba(204, 204, 204, 0.36);
+    font-size: 11px !important;
+    font-weight: normal !important;
+ }
+:host /deep/ ng2-smart-table table > tbody > tr:nth-child(odd) {
+    background: #FFF;
+    font-size: 11px !important;
+    font-weight: normal !important;
+}
+:host /deep/ ng2-smart-table table > thead > tr:first-child > th:first-child > div {
+    background: #004a7e;
+}
+::ng-deep .dropdown-menu{
+    left: -150px;
+}
+:host /deep/ ng2-smart-table table > tbody > tr:nth-child(even) > td:first-child > div{
+    background: none;
+ }
+:host /deep/ ng2-smart-table table > tbody > tr:nth-child(odd) > td:first-child > div {
+    background: none;
+}
+/* :host /deep/ ::-webkit-scrollbar{
+    display: none;
+} */
+
+
+
+::ng-deep .bs-datepicker-container{
+  padding: 10px;
+  background: #004b7f;
+}
+
+::ng-deep .bs-datepicker-head{
+  background-color: #004c80;
+  color: white;
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  min-width: 300px !important;
+  font-weight: 800;
+}
+
+::ng-deep .bs-datepicker-body{
+  padding: 5px;
+}
+::ng-deep .ui-splitbutton{
+    position: relative;
+    display: inline-block;
+    zoom: 1;
+    background: #fff;
+    border: none;
+    font-size: 14px !important;
+    font-weight: 500;
+    box-sizing: border-box;
+    height: 35px;
+    cursor: pointer;
+    color: #0084f6;
+    padding: 3px 0px 0px 0px;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 14px;
+    .ui-button{
+        background: #fff;
+        color: #0084f6 !important;
+        font-family: 'Open Sans', Arial, sans-serif;
+        font-size: 14px;
+        height: 35px !important;
+        font-weight: 600;
+        border: 1px solid $border-common !important;
+        &:hover{
+            color: white !important;
+        }
+        &:active{
+            color: white !important;            
+        }
+        &:focus{
+            color: white !important;            
+        }
+    }
+    .ui-menu{
+        border: none;
+        color: #1b1d1f;
+        background: #f6f7f9 0 0 repeat-x;
+        background: none;
+        top: 40px !important;
+        left: -10px !important;
+        outline: none;
+        box-shadow: none;
+        font-family: 'Open Sans', Arial, sans-serif;
+        font-size: 14px;
+        .ui-menu-list{
+            font-family: 'Open Sans', Arial, sans-serif;
+            font-size: 14px;
+            .ui-menuitem{
+                font-family: 'Open Sans', Arial, sans-serif;
+                font-size: 14px;
+                width: 100%;
+                min-width: 200px;
+                min-height: 39px;
+                clear: both;
+                margin: .125em 0;
+                padding: 5px;
+                color: #0084f6;
+                margin: 0px 0px 2px 0px;
+                border: 0.5px solid rgba(128, 128, 128, 0.43) !important;
+                box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.48);
+                background: white;
+                a{
+                    color: #0084f6 !important; 
+                    font-family: 'Open Sans', Arial, sans-serif !important;
+                    font-size: 14px !important;
+                    &:hover{
+                        background: white;  
+                      }
+                }
+            }
+        }
+    }    
+}
+
 .middle-main {
     position: relative;
     &:before {
@@ -892,6 +1069,18 @@ ul.customDropdown li:hover {
     }
 }
 
+.popup-body-container{
+    max-width:85% !important;
+    top: 2% !important;
+    left: 5% !important;
+}
+
+.sms-popup-content{
+    max-height: 80% !important; 
+    display: flex !important;
+    overflow: hidden !important;
+}
+
 .sms-middle-section{
     padding: 5px 5px;
     .table-container{
@@ -903,14 +1092,17 @@ ul.customDropdown li:hover {
 }
 
 .sms-update{
-    min-height: 300px;
+    min-height: 100%;
     width: 100%;
     .sms-table{
         min-height: 300px;
+        max-height: 450px;
         border-top: 1px solid $border-common;
         border-right: 1px solid $border-common;
         width: 70%;
         padding-left: 2px;
+        overflow-y: scroll;
+        overflow-x: hidden;
         .sms-search-field{
             padding: 5px 10px;
             border: 1px solid $border-common;
@@ -925,10 +1117,14 @@ ul.customDropdown li:hover {
         }
     }
     .sms-preview{
-        min-height: 300px;
+        min-height: 450px;
         border-top: 1px solid $border-common;
         width:30%;  
         padding: 0px 5px;
+        .sms-preview-header{
+            margin-bottom: 25px;
+
+        }
     }
 }
 
@@ -940,7 +1136,7 @@ ul.customDropdown li:hover {
     overflow: hidden;
     textarea {
         width: 100%;
-        max-height: 300px;
+        max-height: 200px;
         color: #555555;
         transition: background-color 0.2s ease 0s;
         &::focus {
@@ -985,166 +1181,7 @@ ul.customDropdown li:hover {
 
 
 
-/* Data table Settings */
 
-:host /deep/ ng2-smart-table table > thead > tr:first-child{
-    background: #f7f7f7;
-    transition: all 0.5s;
-}
-:host /deep/ ng2-smart-table table > thead > tr:first-child > th{
-    padding: 10px 10px;
-    background: #004a7e;
-    color: #fff;
-    font-size: 11px;
-    font-weight: normal;
-    vertical-align: middle;
-    line-height: 20px;
-    .ng2-smart-title{
-        min-width: 70px;
-    }
-}
-:host /deep/ ng2-smart-table table > thead > tr:nth-child(even){
-    display: none
-}
-:host /deep/ .ng2-smart-title a{
-    font-size: 11px !important;
-    font-weight: normal !important;
-    color: #fff !important;
-    border: 0;
-    font: inherit;
-    vertical-align: baseline;
-    margin: 0;
-    padding: 0;
-}
-::ng-deep .ng2-smart-title a::after{
-    border-bottom: 4px solid rgba(0, 0, 0, 0.87) !important;
-}
-:host /deep/ ng2-smart-table table > tbody > tr > td{
-    transition: all 0.5s;
-    font-size: 14px !important;
-    line-height: normal;
-    border-bottom: 1px solid #fff;
-    padding: 6px 2px;
-}
-:host /deep/ ng2-smart-table table > tbody > tr:nth-child(even) {
-    background: rgba(204, 204, 204, 0.36);
-    font-size: 11px !important;
-    font-weight: normal !important;
- }
-:host /deep/ ng2-smart-table table > tbody > tr:nth-child(odd) {
-    background: #FFF;
-    font-size: 11px !important;
-    font-weight: normal !important;
-}
-:host /deep/ ng2-smart-table table > thead > tr:first-child > th:first-child > div {
-    background: #004a7e;
-}
-::ng-deep .dropdown-menu{
-    left: -150px;
-}
-:host /deep/ ng2-smart-table table > tbody > tr:nth-child(even) > td:first-child > div{
-    background: none;
- }
-:host /deep/ ng2-smart-table table > tbody > tr:nth-child(odd) > td:first-child > div {
-    background: none;
-}
-/* :host /deep/ ::-webkit-scrollbar{
-    display: none;
-} */
-
-
-
-::ng-deep .bs-datepicker-container{
-  padding: 10px;
-  background: #004b7f;
-}
-
-::ng-deep .bs-datepicker-head{
-  background-color: #004c80;
-  color: white;
-  border-top: 1px solid white;
-  border-left: 1px solid white;
-  border-right: 1px solid white;
-  min-width: 300px !important;
-  font-weight: 800;
-}
-
-::ng-deep .bs-datepicker-body{
-  padding: 5px;
-}
-::ng-deep .ui-splitbutton{
-    position: relative;
-    display: inline-block;
-    zoom: 1;
-    background: #fff;
-    border: none;
-    font-size: 14px !important;
-    font-weight: 500;
-    box-sizing: border-box;
-    height: 35px;
-    cursor: pointer;
-    color: #0084f6;
-    padding: 3px 0px 0px 0px;
-    font-family: 'Open Sans', Arial, sans-serif;
-    font-size: 14px;
-    .ui-button{
-        background: #fff;
-        color: #0084f6 !important;
-        font-family: 'Open Sans', Arial, sans-serif;
-        font-size: 14px;
-        height: 35px !important;
-        font-weight: 600;
-        border: 1px solid $border-common !important;
-        &:hover{
-            color: white !important;
-        }
-        &:active{
-            color: white !important;            
-        }
-        &:focus{
-            color: white !important;            
-        }
-    }
-    .ui-menu{
-        border: none;
-        color: #1b1d1f;
-        background: #f6f7f9 0 0 repeat-x;
-        background: none;
-        top: 40px !important;
-        left: -10px !important;
-        outline: none;
-        box-shadow: none;
-        font-family: 'Open Sans', Arial, sans-serif;
-        font-size: 14px;
-        .ui-menu-list{
-            font-family: 'Open Sans', Arial, sans-serif;
-            font-size: 14px;
-            .ui-menuitem{
-                font-family: 'Open Sans', Arial, sans-serif;
-                font-size: 14px;
-                width: 100%;
-                min-width: 200px;
-                min-height: 39px;
-                clear: both;
-                margin: .125em 0;
-                padding: 5px;
-                color: #0084f6;
-                margin: 0px 0px 2px 0px;
-                border: 0.5px solid rgba(128, 128, 128, 0.43) !important;
-                box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.48);
-                background: white;
-                a{
-                    color: #0084f6 !important; 
-                    font-family: 'Open Sans', Arial, sans-serif !important;
-                    font-size: 14px !important;
-                    &:hover{
-                        background: white;  
-                      }
-                }
-            }
-        }
-    }    
-}
 
 /* ======================== DropDown Menu ================================= */
 

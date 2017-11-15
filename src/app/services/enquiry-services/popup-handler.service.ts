@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject }    from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
@@ -10,8 +11,9 @@ export class PopupHandlerService {
 
   private actionButtonSource = new BehaviorSubject<boolean>(false);
 
-  constructor(){}
+  private smsButtonSource = new BehaviorSubject<string>('');
 
+  constructor(){}
   
   /* Message variable */
   currentMessage = this.messageSource.asObservable();
@@ -19,6 +21,12 @@ export class PopupHandlerService {
   currentRowJson = this.rowDataSource.asObservable();
 
   currentActionValue = this.actionButtonSource.asObservable();
+
+  currentSms = this.smsButtonSource.asObservable();
+
+
+
+
 
   /* Function to update the message which can be read across multiple components */
   changeMessage(message: string){
@@ -33,6 +41,11 @@ export class PopupHandlerService {
   /* Function to update disable and enable action button */
   changeActionStatus(data: boolean){
     this.actionButtonSource.next(data);
+  }
+
+
+  changeSmsMessage(sms: string){
+    this.smsButtonSource.next(sms);
   }
 
 }

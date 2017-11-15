@@ -93,6 +93,36 @@
 
 
 
+.breadc{
+    text-align: center;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+    width: 100%;
+    li{
+        float: left;
+        margin: 6px 2px 0px 6px;
+        height:30px;
+      }
+      a{
+        padding: 0px;
+        float: left;
+        cursor: pointer;
+        text-decoration: none;
+        color: #777;
+        text-shadow: 1px 1px 0 rgba(255,255,255,.9); 
+        position: relative;
+      }
+      .bread-list{
+        text-decoration: underline;
+        &::after{
+         content: ' / ';
+        }
+      }
+      .current{
+        text-decoration: underline;
+      }
+  }
 
 /* ================================================================================================= */
 /* ================================================================================================= */

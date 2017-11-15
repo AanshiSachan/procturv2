@@ -1,17 +1,36 @@
 <section class="middle-section clearFix">
 
+
   <form (ngSubmit)="save()" #myForm="ngForm">
 
     <!-- Left Side Form -->
     <aside class="pull-left middle-left " id="addNewEnquiry">
       <!-- Header -->
       <section class="middle-top clearFix">
-        <h1 class="pull-left">
-          Add New Enquiry
-        </h1>
-        <aside class="pull-right">
-          <input type="button" value="Add Bulk Enquiry" [routerLink]="['../addBulkEnquiry']" class="btn">
-        </aside>
+
+        <div class="row">
+          <ul class="breadc">
+
+            <li>
+              <a class="bread-list" [routerLink]="['../']">Enquiry List</a>
+            </li>
+
+            <li>
+              <a class="current">Add Enquiry</a>
+            </li>
+
+          </ul>
+        </div>
+
+        <div class="row">
+          <h1 class="pull-left">
+            Add New Enquiry
+          </h1>
+          <aside class="pull-right">
+            <input type="button" value="Add Bulk Enquiry" [routerLink]="['../addBulkEnquiry']" class="btn">
+          </aside>
+        </div>
+
       </section>
       <!-- Accordian Menu Element -->
       <section class="middle-main clearFix" id="middleMain">
@@ -44,8 +63,7 @@
                     </div>
                   </div>
                   <div class="field-wrapper">
-                    <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.phone"
-                     (focusout)="updatePhoneFetchRecords()"
+                    <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.phone" (focusout)="updatePhoneFetchRecords()"
                       name="phone" maxlength="10" minlength="10" required pattern="[789][0-9]{9}" enquiryInput/>
                     <label for="phone">Phone No*</label>
                     <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="alert invalid-alert">
@@ -200,6 +218,9 @@
                     <label for="editStandard">For Standard</label>
                     <div class="questionInfo">
                       <span class="qInfoIcon">?</span>
+                      <div class="tooltip-box-field">
+                        Enquirer select a standard to fetch related subject
+                      </div>
                     </div>
                   </div>
                   <div class="field-wrapper">
@@ -210,6 +231,9 @@
                     <label for="forSubject">For Subject</label>
                     <div class="questionInfo">
                       <span class="qInfoIcon">?</span>
+                      <div class="tooltip-box-field">
+                        Subject with relation to the standard opted
+                      </div>
                     </div>
                   </div>
                   <custom-enquiry *ngFor="let component of componentPrefill">
@@ -223,7 +247,7 @@
                     </div>
 
                     <div class="field-checkbox-wrapper" *ngIf="component.type == 2" input-def>
-                      
+
                       <input class="form-checkbox" id="component.label" name="component.label" type="checkbox" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
                         (ngModelChange)="customComponentUpdated($event, component)" value="">
                       <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
@@ -304,8 +328,7 @@
           <strong>Enquiry Details</strong> (Official Use)</h4>
         <div class="box-shadow-lite">
           <div class="field-wrapper datePickerBox has-value" enquiryDate>
-            <input type="text" value="" id="enquiryDate" class="form-ctrl" 
-            [(ngModel)]="newEnqData.enquiry_date" name="enquiryDate" bsDatepicker>
+            <input type="text" value="" id="enquiryDate" class="form-ctrl" [(ngModel)]="newEnqData.enquiry_date" name="enquiryDate" bsDatepicker>
             <label for="enquiryDate">Enquiry Date</label>
           </div>
           <div class="field-wrapper has-value">
@@ -334,8 +357,8 @@
             <label for="followUpType">Follow Up Type</label>
           </div>
           <div class="field-wrapper datePickerBox" enquiryDate>
-            <input type="text" value="" id="followUpDate" class="form-ctrl" name="followUpDate"
-            [(ngModel)]="newEnqData.followUpDate" bsDatepicker>
+            <input type="text" value="" id="followUpDate" class="form-ctrl" name="followUpDate" [(ngModel)]="newEnqData.followUpDate"
+              bsDatepicker>
             <label for="followUpDate">Follow Up Date</label>
           </div>
           <div class="field-wrapper ">
@@ -374,6 +397,7 @@
     </aside>
 
   </form>
+
 
 </section>
 

@@ -42,5 +42,18 @@ export class AppComponent {
   }
 
   
+  removeFullscreen() {
+    var header = document.getElementsByTagName('core-header');
+    var sidebar = document.getElementsByTagName('core-sidednav');
+
+    document.getElementById('login-center-block').classList.add('hide');
+
+    [].forEach.call(header, function (el) {
+      el.classList.remove('hide');
+    });
+    [].forEach.call(sidebar, function (el) {
+      el.classList.remove('hide');
+    });
+  }
 }
 
