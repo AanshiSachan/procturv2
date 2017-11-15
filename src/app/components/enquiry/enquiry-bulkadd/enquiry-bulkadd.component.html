@@ -38,8 +38,17 @@
         <div class="file-wrapper">
           <ul>
             <li>
+<<<<<<< HEAD
               <p-fileUpload url="https://test999.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/bulkUploadEnquiries" accept="application/vnd.ms-excel"
                 customUpload="true" (uploadHandler)="uploadHandler($event)" [showCancelButton]="false">
+=======
+              <p-fileUpload 
+                url="http://test999.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/bulkUploadEnquiries"
+                accept="application/vnd.ms-excel" 
+                customUpload="true"
+                (uploadHandler)="uploadHandler($event)" 
+                [showCancelButton]="false">
+>>>>>>> 38ea440a2abca1c498f8485056a5329df6cb1565
               </p-fileUpload>
 
               <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
