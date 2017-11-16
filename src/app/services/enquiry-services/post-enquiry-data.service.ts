@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Request, Headers } from '@angular/http';
+import { Http, Response, Request, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/Rx';
 import * as moment from 'moment';
 import { AuthenticatorService } from '../authenticator.service'
@@ -144,7 +144,16 @@ export class PostEnquiryDataService {
 
     let urlDeleteBulk = this.baseUrl +'/api/v1/enquiry/' +this.institute_id +'/bulkDeleteEnquiries';
 
-    //return this.http.delete
+    let options = new RequestOptions(
+      {
+        headers: this.headers,
+        body: data
+      }
+    );
+
+    return this.http.delete(urlDeleteBulk, options).map(
+      res => { return res.json();} 
+    )
 
   }
 

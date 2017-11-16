@@ -3,8 +3,8 @@
 
 /* Scrollbar thickness changed here for vertical display */
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 5px;
+    height: 5px;
 }
  
 /* Track */
@@ -18,7 +18,7 @@
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    background: rgba(50, 86, 245, 0.829); 
+    background: rgba(0, 47, 255, 0.4); 
     -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.5); 
 }
 ::-webkit-scrollbar-thumb:window-inactive {
@@ -122,7 +122,28 @@
       .current{
         text-decoration: underline;
       }
-  }
+}
+
+
+.pagination{
+    li{
+        a{
+            &:hover{
+                color: #23527c !important;
+                background-color: none !important;
+                border-color: none !important;
+                outline: none !important;
+            }
+            &:focus{
+                z-index: 2 !important;
+                color: #23527c !important;
+                background-color: none !important;
+                border-color: none !important;
+                outline: none !important;
+            }
+        }
+    }
+}
 
 /* ================================================================================================= */
 /* ================================================================================================= */

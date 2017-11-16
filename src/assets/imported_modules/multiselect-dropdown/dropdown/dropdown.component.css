@@ -1,0 +1,34 @@
+a {
+  outline: none !important;
+}
+
+.dropdown-inline {
+  display: inline-block;
+}
+
+.dropdown-toggle {
+border: none !important;
+outline: none !important;
+font-weight: 500;
+color: #888 !important;
+box-shadow: none !important;
+-webkit-box-shadow: none !important;
+
+}
+
+.dropdown-toggle::before {
+  content: "\f03b";
+  font-family: "FontAwesome";
+}
+
+.dropdown-toggle::active {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
+.dropdown-toggle::hover{
+  background: none !important;
+  color: #0084f6 !important;
+  outline: none !important;
+}

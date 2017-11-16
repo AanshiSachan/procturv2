@@ -108,7 +108,7 @@ export class MultiselectDropdown implements OnInit, OnChanges, DoCheck, OnDestro
   defaultSettings: IMultiSelectSettings = {
     closeOnClickOutside: true,
     pullRight: false,
-    enableSearch: false,
+    enableSearch: true,
     searchRenderLimit: 0,
     searchRenderAfter: 1,
     searchMaxLimit: 0,

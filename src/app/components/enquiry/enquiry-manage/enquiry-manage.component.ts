@@ -16,7 +16,7 @@ import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
 
 /* Third party imports */
-import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
+import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from '../../../../assets/imported_modules/multiselect-dropdown';
 import { Ng2SmartTableModule, LocalDataSource } from '../../../../assets/imported_modules/ng2-smart-table';
 import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
@@ -66,7 +66,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   isMessageAddOpen: boolean = false;
   isMultiSms: boolean = false;
   smsSelectedRowsLength: number = 0;
-
+  sizeArr: any[] = [5, 10, 25, 50, 100];
   newSmsString = {
     data: "",
     length: 0,
@@ -244,7 +244,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     enqCustomLi: null
   };
 
-
+  availableSMS: number = 0;
+  smsDataLength: number = 0;
 
 
   /* Model for Enquiry Update Popup Form */
@@ -798,7 +799,49 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       selectMode: 'multi', mode: 'external', hideSubHeader: false,
       actions: { add: false, edit: false, delete: false, columnTitle: '', },
       columns: {
-        enquiry_no: { title: 'Enquiry No.', filter: false, show: false }, enquiry_date: { title: 'Enquiry Date', filter: false, show: false }, name: { title: 'Student Name', filter: false, show: false }, phone: { title: 'Contact No.', filter: false, show: false }, priority: { title: 'Priority', filter: false, show: false }, follow_type: { title: 'Follow type', filter: false, show: false }, followUpDate: { title: 'Follow up Date', filter: false, show: false }, assigned_name: { title: 'Assigned To', filter: false, show: false }, standard: { title: 'Standard', filter: false, show: false }, subjects: { title: 'Subjects', filter: false, show: false }, action: { title: 'Action', filter: false, type: 'custom', renderComponent: ActionButtonComponent }, updateDate: { title: 'Update Date', filter: false, show: false }, statusValue: { title: 'Status Value', filter: false, show: false }, enquiry_no_date: { title: 'Enquiry No. & Date', filter: false, show: false }, followUpTime: { title: 'Follow up Time', filter: false, show: false }, followUpDateTime: { title: 'Follow up dateTime', filter: false, show: false }, filtered_statuses: { title: 'Filtered Status', filter: false, show: false }, email: { title: 'Email', filter: false, show: false }, referred_by: { title: 'Reffered By', filter: false, show: false }, status: { title: 'Status', filter: false, show: false }, institute_enquiry_id: { title: 'Enquiry ID', filter: false, show: false }, institution_id: { title: 'Institute ID', filter: false, show: false }, Gender: { title: 'Gender', filter: false, show: false }, is_converted: { title: 'Is Converted', filter: false, show: false }, occupation_id: { title: 'Occupation ID', filter: false, show: false }, school_id: { title: 'School ID', filter: false, show: false }, standard_id: { title: 'Standard ID', filter: false, show: false }, subject_id: { title: 'Subject ID', filter: false, show: false }, source_id: { title: 'Source ID', filter: false, show: false }, is_recent: { title: 'Is recent', filter: false, show: false }, slot_id: { title: 'Slot ID', filter: false, show: false }, slot: { title: 'Slot', filter: false, show: false }, isDashbord: { title: 'Is Dashboard', filter: false, show: false }, isRport: { title: 'Is Report', filter: false, show: false }, totalcount: { title: 'Total Count', filter: false, show: false }, newEnqcount: { title: 'New Enquiry Count', filter: false, show: false }, name_person: { title: 'Person Name', filter: false, show: false }, standard_subject: { title: 'Standard subject', filter: false, show: false }, closedReasonText: { title: 'Closed Reason', filter: false, show: false }, filtered_slots: { title: 'Filtered Slot', filter: false, show: false },
+        enquiry_no: { title: 'Enquiry No.', filter: false, show: false },
+        enquiry_date: { title: 'Enquiry Date', filter: false, show: false },
+        name: { title: 'Student Name', filter: false, show: false },
+        phone: { title: 'Contact No.', filter: false, show: false },
+        priority: { title: 'Priority', filter: false, show: false },
+        follow_type: { title: 'Follow type', filter: false, show: false },
+        followUpDate: { title: 'Follow up Date', filter: false, show: false },
+        assigned_name: { title: 'Assigned To', filter: false, show: false },
+        standard: { title: 'Standard', filter: false, show: false },
+        subjects: { title: 'Subjects', filter: false, show: false },
+        action: {
+          title: 'Action', filter: false, type: 'custom',
+          renderComponent: ActionButtonComponent
+        },
+        updateDate: { title: 'Update Date', filter: false, show: false },
+        statusValue: { title: 'Status Value', filter: false, show: false },
+        enquiry_no_date: { title: 'Enquiry No. & Date', filter: false, show: false },
+        followUpTime: { title: 'Follow up Time', filter: false, show: false },
+        followUpDateTime: { title: 'Follow up dateTime', filter: false, show: false },
+        filtered_statuses: { title: 'Filtered Status', filter: false, show: false },
+        email: { title: 'Email', filter: false, show: false },
+        referred_by: { title: 'Reffered By', filter: false, show: false },
+        status: { title: 'Status', filter: false, show: false },
+        institute_enquiry_id: { title: 'Enquiry ID', filter: false, show: false },
+        institution_id: { title: 'Institute ID', filter: false, show: false },
+        Gender: { title: 'Gender', filter: false, show: false },
+        is_converted: { title: 'Is Converted', filter: false, show: false },
+        occupation_id: { title: 'Occupation ID', filter: false, show: false },
+        school_id: { title: 'School ID', filter: false, show: false },
+        standard_id: { title: 'Standard ID', filter: false, show: false },
+        subject_id: { title: 'Subject ID', filter: false, show: false },
+        source_id: { title: 'Source ID', filter: false, show: false },
+        is_recent: { title: 'Is recent', filter: false, show: false },
+        slot_id: { title: 'Slot ID', filter: false, show: false },
+        slot: { title: 'Slot', filter: false, show: false },
+        isDashbord: { title: 'Is Dashboard', filter: false, show: false },
+        isRport: { title: 'Is Report', filter: false, show: false },
+        totalcount: { title: 'Total Count', filter: false, show: false },
+        newEnqcount: { title: 'New Enquiry Count', filter: false, show: false },
+        name_person: { title: 'Person Name', filter: false, show: false },
+        standard_subject: { title: 'Standard subject', filter: false, show: false },
+        closedReasonText: { title: 'Closed Reason', filter: false, show: false },
+        filtered_slots: { title: 'Filtered Slot', filter: false, show: false },
       },
       pager: {
         display: false
@@ -873,16 +916,42 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   /* Function to search data on smart table */
   searchDatabase() {
     if (this.searchBarData === "" || this.searchBarData === " " || this.searchBarData === null) {
-      let alert = {
-        type: 'error',
-        title: 'Invalid Input',
-        body: 'Please enter a value to be searched'
-      }
-      this.appC.popToast(alert);
+
+      this.instituteData = {
+        name: "",
+        phone: "",
+        email: "",
+        enquiry_no: "",
+        priority: "",
+        status: -1,
+        follow_type: "",
+        followUpDate: "",
+        enquiry_date: "",
+        assigned_to: -1,
+        standard_id: -1,
+        subject_id: -1,
+        is_recent: "Y",
+        slot_id: -1,
+        filtered_slots: "",
+        isDashbord: "N",
+        enquireDateFrom: "",
+        enquireDateTo: "",
+        updateDate: "",
+        updateDateFrom: "",
+        updateDateTo: "",
+        start_index: 0,
+        batch_size: this.displayBatchSize,
+        closedReason: "",
+        enqCustomLi: null
+      };
+
       this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
         this.rows = data;
       }).subscribe(data => {
         this.sourceEnquiry = new LocalDataSource(this.rows);
+        this.totalEnquiry = this.rows[0].totalcount;
+        this.indexJSON = [];
+        this.setPageSize(this.totalEnquiry);
         this.sourceEnquiry.refresh();
       });
     }
@@ -921,20 +990,17 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
             this.rows = data;
           }).subscribe(data => {
             this.sourceEnquiry = new LocalDataSource(this.rows);
-            let alert = {
-              type: 'success',
-              title: 'Records Updated',
-              body: 'Search complete'
-            }
-            this.appC.popToast(alert);
+            this.totalEnquiry = this.rows[0].totalcount;
+            this.indexJSON = [];
+            this.setPageSize(this.totalEnquiry);
             this.sourceEnquiry.refresh();
           });
         }
         else {
           let alert = {
             type: 'error',
-            title: 'Invalid Name',
-            body: 'Please enter a valid name'
+            title: 'Failed To Delete Enquiry',
+            body: 'There was an error processing your request'
           }
           this.appC.popToast(alert);
         }
@@ -973,16 +1039,46 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
             this.rows = data;
           }).subscribe(data => {
             this.sourceEnquiry = new LocalDataSource(this.rows);
+            this.totalEnquiry = this.rows[0].totalcount;
+            this.indexJSON = [];
+            this.setPageSize(this.totalEnquiry);
             this.sourceEnquiry.refresh();
           });
         }
         else {
-          let alert = {
-            type: 'error',
-            title: 'Invalid Number',
-            body: 'Please enter a valid mobile number'
-          }
-          this.appC.popToast(alert);
+          let tempFormData = {
+            name: "",
+            phone: "",
+            email: "",
+            enquiry_no: "",
+            priority: "",
+            status: -1,
+            follow_type: "",
+            followUpDate: "",
+            enquiry_date: "",
+            assigned_to: -1,
+            standard_id: -1,
+            subject_id: -1,
+            is_recent: "Y",
+            slot_id: -1,
+            filtered_slots: "",
+            isDashbord: "N",
+            enquireDateFrom: "",
+            enquireDateTo: "",
+            updateDate: "",
+            updateDateFrom: "",
+            updateDateTo: "",
+            start_index: 0,
+            batch_size: this.displayBatchSize,
+            closedReason: "",
+          };
+          tempFormData.enquiry_no = this.searchBarData
+          this.busy = this.enquire.getAllEnquiry(tempFormData).map(data => {
+            this.rows = data;
+          }).subscribe(data => {
+            this.sourceEnquiry = new LocalDataSource(this.rows);
+            this.sourceEnquiry.refresh();
+          });
         }
       }
     }
@@ -1149,7 +1245,9 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     this.enquire.fetchAllSms().subscribe(
       data => {
         this.smsPopSource = data;
-        console.log(data);
+        this.smsDataLength = data.length;
+        this.availableSMS = data[0].institute_sms_quota_available
+
       },
       err => {
         let msg = {
@@ -1190,6 +1288,17 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   closeBulkSms() {
     this.isMultiSms = false;
     this.isMessageAddOpen = false;
+    this.smsBtnToggle = false;
+    this.selectedSMS = {
+      message: "",
+      message_id: "",
+      sms_type: "",
+      status: "",
+      statusValue: "",
+      date: "",
+      feature_type: "",
+      institute_name: "",
+    };
     this.newSmsString.data = "";
     this.newSmsString.length = 0;
     this.smsSelectedRows = null;
@@ -1204,10 +1313,10 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
   bulkDeleteEnquiries() {
     if (this.selectedRowGroup != null || this.selectedRowGroup != undefined) {
-      if(confirm('You are about to delete multiple enquiries')){
-        let deleteString: string ='';
-        this.selectedRowGroup.forEach(el=> {
-          deleteString = deleteString +',' +el.institute_enquiry_id;
+      if (confirm('You are about to delete multiple enquiries')) {
+        let deleteString: string = '';
+        this.selectedRowGroup.forEach(el => {
+          deleteString = deleteString + ',' + el.institute_enquiry_id;
         });
 
         let data = {
@@ -1215,10 +1324,31 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
           institution_id: sessionStorage.getItem('institute_id')
         };
 
-        //this.postdata.deleteEnquiryBulk(data).subscribe
+        this.postdata.deleteEnquiryBulk(data).subscribe(
+          res => {
+
+            let alert = {
+              type: 'success',
+              title: 'Enquiry Deleted from Record',
+              body: 'Your delete request has been processed'
+            }
+            this.appC.popToast(alert);
+
+          },
+          err => {
+
+            let alert = {
+              type: 'error',
+              title: 'Failed To Delete Enquiry',
+              body: err.message
+            }
+            this.appC.popToast(alert);
+
+          }
+        )
 
       }
-      
+
     }
     else {
       let msg = {
@@ -1235,8 +1365,10 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   /* Function to perform advanced filter and update table data */
   filterAdvanced() {
 
+
     /* a temporary array to store the user selected  */
     let tempArr = [];
+
 
     /* Update user selected custom component */
     this.componentPrefill.forEach(el => {
@@ -1245,43 +1377,96 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
         tempArr.push(this.componentListObject[el.component_id]);
       }
     });
+
+
     this.advancedFilterForm.enqCustomLi = tempArr;
-    //console.log(this.advancedFilterForm.enqCustomLi);
+    this.instituteData = this.advancedFilterForm;
+
+
 
     this.busy = this.enquire.getAllEnquiry(this.advancedFilterForm).map(data => {
       this.rows = data;
-    }).subscribe(data => {
-      this.sourceEnquiry = new LocalDataSource(this.rows);
-      this.sourceEnquiry.refresh();
-      /* this.advancedFilterForm = {
-        name: "",
-        phone: "",
-        email: "",
-        enquiry_no: "",
-        priority: "",
-        status: -1,
-        follow_type: "",
-        followUpDate: "",
-        enquiry_date: "",
-        assigned_to: -1,
-        standard_id: -1,
-        subject_id: -1,
-        is_recent: "Y",
-        slot_id: -1,
-        filtered_slots: "",
-        isDashbord: "N",
-        enquireDateFrom: "",
-        enquireDateTo: "",
-        updateDate: "",
-        updateDateFrom: "",
-        updateDateTo: "",
-        start_index: 0,
-        batch_size: this.displayBatchSize,
-        closedReason: "",
-        enqCustomLi: null
-      }; */
-      this.closeAdFilter();
-    });
+    }).subscribe(
+      data => {
+        this.sourceEnquiry = new LocalDataSource(this.rows);
+        if (this.rows.length != 0) {
+          this.totalEnquiry = this.rows[0].totalcount;
+          this.indexJSON = [];
+          this.setPageSize(this.totalEnquiry);
+          this.sourceEnquiry.refresh();
+          /* clear advanced filter form and close div */
+          this.advancedFilterForm = {
+            name: "",
+            phone: "",
+            email: "",
+            enquiry_no: "",
+            priority: "",
+            status: -1,
+            follow_type: "",
+            followUpDate: "",
+            enquiry_date: "",
+            assigned_to: -1,
+            standard_id: -1,
+            subject_id: -1,
+            is_recent: "Y",
+            slot_id: -1,
+            filtered_slots: "",
+            isDashbord: "N",
+            enquireDateFrom: "",
+            enquireDateTo: "",
+            updateDate: "",
+            updateDateFrom: "",
+            updateDateTo: "",
+            start_index: 0,
+            batch_size: this.displayBatchSize,
+            closedReason: "",
+            enqCustomLi: null
+          };
+          this.closeAdFilter();
+        }
+        else {
+          let alert = {
+            type: 'error',
+            title: 'No Records Found',
+            body: 'We did not find any enquiry for the specified query'
+          }
+          this.appC.popToast(alert);
+          this.advancedFilterForm = {
+            name: "",
+            phone: "",
+            email: "",
+            enquiry_no: "",
+            priority: "",
+            status: -1,
+            follow_type: "",
+            followUpDate: "",
+            enquiry_date: "",
+            assigned_to: -1,
+            standard_id: -1,
+            subject_id: -1,
+            is_recent: "Y",
+            slot_id: -1,
+            filtered_slots: "",
+            isDashbord: "N",
+            enquireDateFrom: "",
+            enquireDateTo: "",
+            updateDate: "",
+            updateDateFrom: "",
+            updateDateTo: "",
+            start_index: 0,
+            batch_size: this.displayBatchSize,
+            closedReason: "",
+            enqCustomLi: null
+          };
+          this.searchBarData = '';
+          this.searchDatabase();
+          this.closeAdFilter();
+        }
+      },
+      err => {
+
+      }
+      );
   }
 
 
@@ -1291,9 +1476,20 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   closePopup() {
     this.pops.changeMessage('');
     this.isMessageAddOpen = false;
+    this.smsBtnToggle = false;
     this.newSmsString.data = "";
     this.newSmsString.length = 0;
     this.smsSelectedRows = null;
+    this.selectedSMS = {
+      message: "",
+      message_id: "",
+      sms_type: "",
+      status: "",
+      statusValue: "",
+      date: "",
+      feature_type: "",
+      institute_name: "",
+    };
     this.sendSmsFormData = {
       baseIds: [],
       messageArray: []
@@ -1319,36 +1515,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
   /* Fetch next set of data from server and update table */
   fetchNext() {
+    if (this.instituteData.start_index < this.totalEnquiry) {
 
-    /* Fetch Next Set of information only when start index is greater than or equal to zero */
-    if (this.instituteData.start_index >= 0) {
-
-      this.instituteData.start_index = this.incrementStartIndex();
-      console.log(this.instituteData.start_index);
-      this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
-        this.rows = data;
-      }).subscribe(data => {
-        if (this.rows.length > 0) {
-          this.sourceEnquiry = new LocalDataSource(this.rows);
-          document.getElementById('previous').classList.remove('hide');
-        }
-        else {
-          document.getElementById('next').classList.add('hide');
-          this.incrementFlag = false;
-        }
-      });
-    }
-  }
-
-
-
-
-  incrementStartIndex() {
-    if (this.incrementFlag) {
-      return this.instituteData.start_index + this.instituteData.batch_size + 1;
-    }
-    else {
-      return this.instituteData.start_index;
     }
   }
 
@@ -1356,18 +1524,8 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
   /* Fetch previous set of data from server and update table */
   fetchPrevious() {
-    if (this.instituteData.start_index > this.instituteData.batch_size) {
-      this.incrementFlag = true;
-      document.getElementById('next').classList.remove('hide');
-      this.instituteData.start_index = this.instituteData.start_index - this.instituteData.batch_size - 1;
-      this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
-        this.rows = data;
-      }).subscribe(data => {
-        this.sourceEnquiry = new LocalDataSource(this.rows);
-      });
-    }
-    else {
-      document.getElementById('previous').classList.remove('hide');
+    if (this.instituteData.start_index > 0) {
+      console.log(this.instituteData.start_index);
     }
   }
 
@@ -1377,21 +1535,18 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   updateTableBatchSize(num) {
     this.displayBatchSize = parseInt(num);
     this.instituteData.batch_size = this.displayBatchSize;
+    this.instituteData.start_index = 0;
     this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
       this.rows = data;
     }).subscribe(data => {
       this.sourceEnquiry = new LocalDataSource(this.rows);
+      this.totalEnquiry = this.rows[0].totalcount;
+      this.indexJSON = [];
+      this.setPageSize(this.totalEnquiry);
       this.sourceEnquiry.refresh();
     });
   }
 
-
-
-
-  /* Fetch Table Data as per Page Number */
-  fetchDataByPage(pid) {
-    console.log(pid);
-  }
 
 
 
@@ -1449,7 +1604,36 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
   /* Fetch all the enquiries as xls file */
   downloadAllEnquiries() {
-    this.enquire.fetchAllEnquiryAsXls(this.advancedFilterForm).subscribe(
+
+    let data = {
+      name: "",
+      phone: "",
+      email: "",
+      enquiry_no: "",
+      priority: "",
+      status: -1,
+      follow_type: "",
+      followUpDate: "",
+      enquiry_date: "",
+      assigned_to: -1,
+      standard_id: -1,
+      subject_id: -1,
+      is_recent: "Y",
+      slot_id: -1,
+      filtered_slots: "",
+      isDashbord: "N",
+      enquireDateFrom: "",
+      enquireDateTo: "",
+      updateDate: "",
+      updateDateFrom: "",
+      updateDateTo: "",
+      start_index: 0,
+      batch_size: this.displayBatchSize,
+      closedReason: "",
+      enqCustomLi: null
+    };
+
+    this.enquire.fetchAllEnquiryAsXls(data).subscribe(
       res => {
         let byteArr = this.convertBase64ToArray(res.document);
         let format = res.format;
@@ -1463,7 +1647,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
         dwldLink.click();
       },
       err => {
-        console.log(err.responseJSON.message);
+
       })
   }
 
@@ -1723,7 +1907,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
                 type: 'error',
                 title: 'Unable To Send SMS',
                 body: "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify."
-               }
+              }
               this.appC.popToast(msg);
             }
           )
@@ -1772,9 +1956,11 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   fectchTableDataByPage(index) {
     this.instituteData.start_index = index.start_index;
     this.busy = this.loadTableDatatoSource(this.instituteData);
+  }
 
 
-
+  smsContentUpdated(ev) {
+    alert(ev);
   }
 
 

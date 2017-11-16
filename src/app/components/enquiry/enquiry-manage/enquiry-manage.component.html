@@ -24,7 +24,7 @@
             <!-- Search Bar -->
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="search-filter-wrapper">
-                <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No." style="font-size:12px; margin: 0px 5px 0px -5px;"
+                <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No./Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;"
                   [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
                 <input type="button" class="normal-btn fullBlue btn" value="Search" style="margin-left:2px" (click)="searchDatabase()" />
               </div>
@@ -250,20 +250,28 @@
       <section class="search-data">
         <!-- Export and Toggler Here -->
         <div class="row class filter-res">
-          <div class="c-lg-6 c-md-6 c-sm-6">
-            <label>Showing 1 to {{displayBatchSize}} of {{totalEnquiry}} Enquiries</label>
+          <div class="c-lg-6 c-md-6 c-sm-6 align-left">
+            <ul class="export-print">
+              <li>
+                <label>Showing 1 to {{(displayBatchSize > totalEnquiry)? totalEnquiry: displayBatchSize}} of {{totalEnquiry}} Enquiries</label>
+              </li>
+              <li>
+                <div class="bulk-dropdown">
+                  <button id="bulk-action" (click)="bulkActionFunction()" class="btn bulk-dropbtn">
+                   Page Size: {{displayBatchSize}}
+                  </button>
+                  <div id="bulk-drop" class="bulk-dropdown-content">
+                    <a *ngFor="let size of sizeArr" (click)="updateTableBatchSize(size)">
+                      {{size}}
+                    </a>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
           <div class="c-lg-6 c-md-6 c-sm-6 align-right">
             <ul class="export-print">
               <li>
-                <!-- <div class="bulk-dropdown">
-                  <button id="bulk-action" (click)="bulkActionFunction()" class="btn bulk-dropbtn">Bulk Actions</button>
-                  <div id="bulk-drop" class="bulk-dropdown-content">
-                    <a>Send SMS</a>
-                    <a>Delete</a>
-                    <a>To be Added.. </a>
-                  </div>
-                </div> -->
                 <p-splitButton label="Send Bulk SMS" icon="fa-check" (onClick)="sendBulkSms()" [model]="bulkAddItems"></p-splitButton>
               </li>
               <li class="export-icon" (click)="downloadAllEnquiries()">
@@ -291,15 +299,18 @@
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <ul class="pagination">
               <li>
-                <a> Previous</a>
+                <a (click)="fetchPrevious()"> Previous</a>
               </li>
-              <li class="index-value" *ngFor="let index of indexJSON" (click)="fectchTableDataByPage(index)">{{index.value}}</li>
+              <li class="index-value" *ngFor="let index of indexJSON" (click)="fectchTableDataByPage(index)">
+                {{index.value}}
+              </li>
               <li>
-                <a> Next</a>
+                <a (click)="fetchNext()"> Next</a>
               </li>
             </ul>
           </div>
         </div>
+        
       </section>
 
     </section>
@@ -754,7 +765,7 @@
 
                   <div class="row">
                     <div class="c-lg-7 c-md-7 c-sm-7" style="padding-top: 10px;">
-                      <label>Showing 1 to xx of xxx SMS</label>
+                      <label>Showing 1 to {{smsDataLength}} of {{smsDataLength}} SMS</label>
                     </div>
                     <div class="c-lg-5 c-md-5 c-sm-5 align-right">
                       <div class="search-filter-wrapper">
@@ -791,14 +802,15 @@
                   </div>
                   <div class="row">
                     <div class="c-lg-12 c-md-12 c-sm-12">
-                      Available SMS Quota: XXXX
+                      Available SMS Quota: {{availableSMS}}
                     </div>
                   </div>
                 </div>
                 <div class="sms-preview-content">
                   <div class="field-sms-wrapper">
                     <textarea placeholder="Edit Message Here" rows="20" cols="1" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
-                      id="sms-content" value="" [(ngModel)]="selectedSMS.message" [disabled]="!smsBtnToggle">
+                      id="sms-content" value="" [(ngModel)]="selectedSMS.message" (ngModelChange)="smsContentUpdated($event)"
+                      [disabled]="!smsBtnToggle">
                       </textarea>
                   </div>
                 </div>
@@ -900,7 +912,7 @@
 
                   <div class="row">
                     <div class="c-lg-7 c-md-7 c-sm-7" style="padding-top: 10px;">
-                      <label>Showing 1 to xx of xxx SMS</label>
+                      <label>Showing 1 to {{smsDataLength}} of {{smsDataLength}} SMS</label>
                     </div>
                     <div class="c-lg-5 c-md-5 c-sm-5 align-right">
                       <div class="search-filter-wrapper">
@@ -937,14 +949,15 @@
                   </div>
                   <div class="row">
                     <div class="c-lg-12 c-md-12 c-sm-12">
-                      Available SMS Quota: XXXX
+                      Available SMS Quota: {{availableSMS}}
                     </div>
                   </div>
                 </div>
                 <div class="sms-preview-content">
                   <div class="field-sms-wrapper">
                     <textarea placeholder="Edit Message Here" rows="20" cols="1" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
-                      id="sms-content" value="" [(ngModel)]="selectedSMS.message" [disabled]="!smsBtnToggle">
+                      id="sms-content" value="" [(ngModel)]="selectedSMS.message" (ngModelChange)="smsContentUpdated($event)"
+                      [disabled]="!smsBtnToggle">
                           </textarea>
                   </div>
                 </div>

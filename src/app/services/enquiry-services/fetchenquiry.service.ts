@@ -54,7 +54,7 @@ export class FetchenquiryService {
         this.row = res.json();
         return this.row;
       });
-  }
+    }
 
 
   /* return the template user has to edit */
@@ -84,7 +84,7 @@ export class FetchenquiryService {
 
 
   fetchAllSms(){
-    this.urlFetchAllSms = 'http://test999.proctur.com/CampaignServlet';
+/*     this.urlFetchAllSms = 'http://test999.proctur.com/CampaignServlet';
 
     let data = {
       institute_id: this.institute_id,
@@ -99,7 +99,20 @@ export class FetchenquiryService {
 
     return this.http.post(this.urlFetchAllSms, dataString, {headers: this.headersEncoded}).map(
       res=> { return res.json().aaData;}
-    )
+    ) */
+
+    this.urlFetchAllSms = this.baseUrl +"/api/v1/campaign/message/" +this.institute_id +"/all";
+
+    let data = {
+      feature_type: 2,
+      sms_type: "Transactional"
+    }
+
+    
+    return this.http.post(this.urlFetchAllSms, data, {headers: this.headers}).map(
+      res => { return res.json()}
+    );
+
   }
 
 
