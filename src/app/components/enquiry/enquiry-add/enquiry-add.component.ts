@@ -41,11 +41,11 @@ export class EnquiryAddComponent implements OnInit {
   updatePop: boolean = false;
   newEnqData: addEnquiryForm;
   additionDetails: boolean = false;
-  institute_id: any = "100123";
+
   todayDate: number = Date.now();
   isSourcePop: boolean = false;
   isInstitutePop: boolean = false;
-  isRefferPop: boolean = false;
+  isReferPop: boolean = false;
   newEnquiryFormGroup: FormGroup;
   componentPrefill: any = [];
   componentListObject: any = {};
@@ -59,6 +59,18 @@ export class EnquiryAddComponent implements OnInit {
   submitError: boolean = false;
   addNextCheck: boolean = false;
 
+  isNewInstitute: boolean = false;
+  /* Institute List for edit and delete purpose */
+  instituteList: any;
+
+  isNewSource: boolean = false;
+  /* Institute List for edit and delete purpose */
+  sourceList: any;
+
+  isNewRefer: boolean = false;
+  /* Institute List for edit and delete purpose */
+  referList: any;
+
   /* Model for Creating Institute */
   createInstitute = {
     instituteName: "",
@@ -68,22 +80,20 @@ export class EnquiryAddComponent implements OnInit {
   /* Model for Creating Source */
   createSource = {
     name: "",
-    inst_id: this.institute_id,
+    inst_id: sessionStorage.getItem('institute_id'),
   }
 
   /* Model for Creating Reference */
   createReferer = {
     name: "",
-    inst_id: this.institute_id
+    inst_id: sessionStorage.getItem('institute_id')
   }
-
-
 
   constructor(private prefill: FetchprefilldataService, private router: Router,
     private logger: Logger, private appC: AppComponent, private poster: PostEnquiryDataService) {
-      if(sessionStorage.getItem('Authorization') == null){
-        this.router.navigate(['/authPage']);
-       }
+    if (sessionStorage.getItem('Authorization') == null) {
+      this.router.navigate(['/authPage']);
+    }
   }
 
 
@@ -212,7 +222,7 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-    this.prefill.getScholarPrefillData().subscribe(
+    /* this.prefill.getScholarPrefillData().subscribe(
       data => {
         //console.log(data);
         data.forEach(el => {
@@ -228,7 +238,7 @@ export class EnquiryAddComponent implements OnInit {
       err => {
         //  console.log(err);
       }
-    );
+    ); */
 
 
 
@@ -243,7 +253,14 @@ export class EnquiryAddComponent implements OnInit {
 
 
     this.prefill.getSchoolDetails().subscribe(
-      data => { this.school = data; },
+      data => {
+        this.school = data;
+        this.instituteList = this.school;
+
+        this.instituteList.forEach(el => {
+          el.edit = false;
+        });
+      },
       err => {
         //  console.log(err);
       }
@@ -252,7 +269,13 @@ export class EnquiryAddComponent implements OnInit {
 
 
     this.prefill.getLeadSource().subscribe(
-      data => { this.sourceLead = data; },
+      data => {
+        this.sourceLead = data;
+        this.sourceList = this.sourceLead;
+        this.sourceList.forEach(el => {
+          el.edit = false;
+        });
+      },
       err => {
         //   console.log(err);
       }
@@ -261,7 +284,14 @@ export class EnquiryAddComponent implements OnInit {
 
 
     this.prefill.getLeadReffered().subscribe(
-      data => { this.refferedBy = data; },
+      data => {
+        this.refferedBy = data;
+        this.referList = this.refferedBy;
+
+        this.referList.forEach(el => {
+          el.edit = false;
+        });
+      },
       err => {
         //  console.log(err);
       }
@@ -461,7 +491,7 @@ export class EnquiryAddComponent implements OnInit {
     /* Validate the predefine required fields of the form */
     this.isFormValid = this.ValidateFormDataBeforeSubmit();
 
-    console.log(this.isFormValid&&customComponentValidator);
+    console.log(this.isFormValid && customComponentValidator);
 
     /* Upload Data if the formData is valid */
     if (this.isFormValid && this.isCustomComponentValid) {
@@ -570,7 +600,7 @@ export class EnquiryAddComponent implements OnInit {
         }
       }
     });
-    return (this.isCustomComponentValid&&this.isCustomComponentStillValid);
+    return (this.isCustomComponentValid && this.isCustomComponentStillValid);
   }
 
 
@@ -665,95 +695,13 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-  /* function to add source on server */
-  addSourceData() {
-    if (this.createSource.name != "") {
-      this.prefill.createSource(this.createSource).subscribe(
-        data => {
-          // console.log(data.message);
-          this.prefill.getLeadSource().subscribe(
-            data => {
-              this.sourceLead = data;
-              this.hideAddSourcePops();
-            },
-            err => {
-              //  console.log(err);
-              this.hideAddSourcePops();
-            }
-          );
-        },
-        err => {
-          //  console.log(err.message) 
-        }
-      );
-    }
-    else {
-      // console.log("please enter a valid input");
-    }
-  }
-
-
-
-
-  /* function to open popup to add institute */
-  openAddInstitute() {
-    this.isInstitutePop = true;
-  }
-
-
-
-
-  /* function to hide popup to add institute */
-  closeInstituteAdder() {
-    this.isInstitutePop = false;
-  }
-
-
-
-
-  /* function to set-unset isActive status for add institute */
-  toggleInstituteActive(event) {
-    if (event) {
-      this.createInstitute.isActive = "Y";
-    }
-    else {
-      this.createInstitute.isActive = "N";
-    }
-
-  }
-
-
-
-
-  /* function to add institute data to server */
-  addInstituteData() {
-    this.prefill.createNewInstitute(this.createInstitute).subscribe(el => {
-      if (el.message === "OK") {
-        this.prefill.getSchoolDetails().subscribe(
-          data => {
-            this.school = data;
-            // console.log('data added');
-            this.closeInstituteAdder();
-          },
-          err => {
-            // console.log(err);
-            this.closeInstituteAdder();
-          }
-        );
-        // console.log("institute Added");
-      }
-      else {
-        // console.log("Institute Name already exist!");
-      }
-    });
-  }
 
 
 
 
   /* function to show popup for adding reference */
   showAddReferPops() {
-    this.isRefferPop = true;
+    this.isReferPop = true;
   }
 
 
@@ -761,36 +709,11 @@ export class EnquiryAddComponent implements OnInit {
 
   /* function to hide popup for adding reference */
   hideAddReferPops() {
-    this.isRefferPop = false;
+    this.isReferPop = false;
   }
 
 
 
-
-  /* function to add new reference to server */
-  addReferData() {
-    if (this.createReferer.name != "") {
-      this.prefill.createReferer(this.createReferer).subscribe(
-        data => {
-          // console.log(data.message);
-          this.prefill.getLeadReffered().subscribe(
-            data => { this.refferedBy = data; },
-            err => {
-              //  console.log(err); 
-            }
-          );
-          this.hideAddReferPops();
-        },
-        err => {
-          // console.log(err.message);
-          this.hideAddReferPops();
-        }
-      )
-    }
-    else {
-      // console.log("please enter a valid input!");
-    }
-  }
 
 
 
@@ -810,10 +733,500 @@ export class EnquiryAddComponent implements OnInit {
 
 
   navigateToEdit(val) {
-    console.log(this.lastDetail);
-    /* localStorage.setItem('institute_enquiry_id', val);
-    this.router.navigate(['/enquiry/edit']); */    
+    localStorage.setItem('institute_enquiry_id', val);
+    this.router.navigate(['/enquiry/edit']);
   }
+
+
+
+
+
+  /* --------------------------------------------------------------------------------------------------------- */
+  /* ---------------------------------------------- Institute Editor Logic ------------------------------------------------- */
+  /* --------------------------------------------------------------------------------------------------------- */
+
+  /* function to open popup to add institute */
+  openAddInstitute() {
+    this.isInstitutePop = true;
+  }
+
+  /* function to hide popup to add institute */
+  closeInstituteAdder() {
+    this.isInstitutePop = false;
+    this.isNewInstitute = false;
+    this.createInstitute.instituteName = '';
+    this.fetchInstituteInfo();
+  }
+
+  /* function to set-unset isActive status for add institute */
+  toggleInstituteActive(event) {
+    if (event) {
+      this.createInstitute.isActive = "Y";
+    }
+    else {
+      this.createInstitute.isActive = "N";
+    }
+
+  }
+
+  /* function to add institute data to server */
+  addInstituteData() {
+    this.prefill.createNewInstitute(this.createInstitute).subscribe(el => {
+      if (el.message === "OK") {
+        this.prefill.getSchoolDetails().subscribe(
+          data => {
+            this.school = data;
+            this.instituteList = this.school;
+            this.instituteList.forEach(el => {
+              el.edit = false;
+            });
+
+            this.closeAddInstitute();
+          },
+          err => {
+            let alert = {
+              type: 'error',
+              title: 'Failed To Add Institute',
+              body: 'There was an error processing your request'
+            }
+          this.appC.popToast(alert);
+          }
+        );
+        // console.log("institute Added");
+      }
+      else {
+        // console.log("Institute Name already exist!");
+      }
+    });
+  }
+
+  /* toggle visibility of new institute form */
+  toggleInstituteAdd() {
+
+    let icon = document.getElementById('add-institute-icon').innerHTML;
+    if (icon == '+') {
+      this.isNewInstitute = true;
+      document.getElementById('add-institute-icon').innerHTML = '-';
+    }
+    else if (icon == '-') {
+      this.isNewInstitute = false;
+      this.createInstitute.instituteName = '';
+      document.getElementById('add-institute-icon').innerHTML = '+';
+    }
+  }
+
+  /* close add new institute */
+  closeAddInstitute() {
+    this.isNewInstitute = false;
+    document.getElementById('add-institute-icon').innerHTML = '+';
+    this.createInstitute.instituteName = '';
+  }
+
+  fetchInstituteInfo() {
+    this.prefill.getSchoolDetails().subscribe(
+      data => {
+        this.school = data;
+        this.instituteList = this.school;
+        this.instituteList.forEach(el => {
+          el.edit = false;
+        });
+      },
+    )
+  }
+
+  editInstitute(id) {
+    this.instituteList.forEach(el => {
+      if (el.school_id == id) {
+        el.edit = true;
+      }
+    });
+  }
+
+  cancelEditInstitute(id) {
+    this.fetchInstituteInfo();
+  }
+
+  updateInstitute(id) {
+    this.instituteList.forEach(el => {
+      if (el.school_id == id) {
+        this.poster.updateInstituteDetails(id, el).subscribe(
+          res => {
+            let alert = {
+              type: 'success',
+              title: 'institute Name Update',
+            }
+            this.appC.popToast(alert);
+            this.fetchInstituteInfo();
+          },
+          err => {
+            let alert = {
+              type: 'error',
+              title: 'We coudn\'t process your request',
+              body: err.message
+            }
+            this.appC.popToast(alert);
+            this.fetchInstituteInfo();
+          }
+        )
+      }
+    });
+  }
+
+  deleteInstitute(id) {
+    this.poster.deleteInstitute(id).subscribe(
+      res => {
+        let alert = {
+          type: 'success',
+          title: 'Institute Record Deleted',
+          body: " The institute data has been removed from your account"
+        }
+        this.appC.popToast(alert);
+        this.fetchInstituteInfo();
+      },
+      err => {
+        let alert = {
+          type: 'error',
+          title: 'Your Delete Request Has Been Denied',
+          body: "The requested institute is currently in use and cannot be deleted"
+        }
+        this.appC.popToast(alert);
+        this.fetchInstituteInfo();
+      }
+    )
+  }
+
+
+
+
+
+
+
+  /* --------------------------------------------------------------------------------------------------------- */
+  /* ---------------------------------------------- Reference Editor Logic ------------------------------------------------- */
+  /* --------------------------------------------------------------------------------------------------------- */
+
+  
+  /* function to open popup to add Reference */
+  openAddRefer() {
+    this.isReferPop = true;
+  }
+
+  /* function to hide popup to add Reference */
+  closeReferAdder() {
+    this.isReferPop = false;
+    this.isNewRefer = false;
+    this.createReferer.name = '';
+    this.fetchReferInfo();
+  }
+
+
+  /* function to add Reference data to server */
+  addReferData() {
+    this.prefill.createReferer(this.createReferer).subscribe(
+      el => {
+        this.prefill.getLeadReffered().subscribe(
+          res => {
+            this.refferedBy = res;
+            this.referList = this.refferedBy;
+            this.referList.forEach(el => {
+              el.edit = false;
+            });
+            this.closeAddRefer();
+
+          }
+        )
+      },
+      err => {
+
+      }
+    );
+  }
+
+
+
+  /* toggle visibility of new Reference form */
+  toggleReferAdd() {
+
+    let icon = document.getElementById('add-refer-icon').innerHTML;
+    if (icon == '+') {
+      this.isNewRefer = true;
+      document.getElementById('add-refer-icon').innerHTML = '-';
+    }
+    else if (icon == '-') {
+      this.isNewRefer = false;
+      this.createReferer.name = '';
+      document.getElementById('add-refer-icon').innerHTML = '+';
+    }
+  }
+
+
+
+  /* close add new Reference */
+  closeAddRefer() {
+    this.isNewRefer = false;
+    document.getElementById('add-refer-icon').innerHTML = '+';
+    this.createReferer.name = '';
+  }
+
+
+
+  fetchReferInfo() {
+    this.prefill.getLeadReffered().subscribe(
+      data => {
+        this.refferedBy = data;
+        this.referList = this.refferedBy;
+        this.referList.forEach(el => {
+          el.edit = false;
+        });
+      },
+    )
+  }
+
+
+
+  editRefer(id) {
+    this.referList.forEach(el => {
+      if (el.id == id) {
+        el.edit = true;
+      }
+    });
+  }
+
+
+
+  cancelEditRefer(id) {
+    this.fetchReferInfo();
+  }
+
+
+
+  updateRefer(id) {
+    this.referList.forEach(el => {
+      if (el.id == id) {
+        let data = {
+          id: id,
+          name: el.name,
+          inst_id: sessionStorage.getItem('institute_id')
+        };
+        this.poster.updateReferDetails(data).subscribe(
+          res => {
+
+            let alert = {
+              type: 'success',
+              title: 'Reference Updated',
+            }
+            this.appC.popToast(alert);
+            this.fetchReferInfo();
+          },
+          err => {
+            let alert = {
+              type: 'error',
+              title: 'Failed To Update Reference',
+              body: 'There was an error processing your request'
+            }
+            this.appC.popToast(alert);
+          }
+        )
+      }
+    });
+  }
+
+
+
+  deleteRefer(id) {
+    this.referList.forEach(el => {
+      if (el.id == id) {
+        let data = {
+          id: id,
+          name: el.name,
+          inst_id: sessionStorage.getItem('institute_id')
+        };
+        this.poster.deleteRefer(data).subscribe(
+          res => {
+            let alert = {
+              type: 'success',
+              title: 'Reference Deleted',
+            }
+            this.appC.popToast(alert);
+            this.fetchReferInfo();
+          },
+          err => {
+            let alert = {
+              type: 'error',
+              title: 'Failed To Delete Reference',
+              body: 'There was an error processing your request'
+            }
+            this.appC.popToast(alert);
+          }
+        )
+      }
+    });
+  }
+
+
+
+
+
+
+
+
+  /* --------------------------------------------------------------------------------------------------------- */
+  /* ---------------------------------------------- Source Editor Logic ------------------------------------------------- */
+  /* --------------------------------------------------------------------------------------------------------- */
+
+  /* function to open popup to add Source */
+  openAddSource() {
+    this.isSourcePop = true;
+  }
+
+  /* function to hide popup to add Source */
+  closeSourceAdder() {
+    this.isSourcePop = false;
+    this.isNewSource = false;
+    this.createSource.name = '';
+    this.fetchSourceInfo();
+  }
+
+
+
+
+  /* function to add Source data to server */
+  addSourceData() {
+    this.prefill.createSource(this.createSource).subscribe(
+      el => {
+        this.fetchSourceInfo();
+        this.closeAddSource();
+      },
+      err => {
+
+      }
+    );
+  }
+
+
+
+  /* toggle visibility of new Source form */
+  toggleSourceAdd() {
+
+    let icon = document.getElementById('add-source-icon').innerHTML;
+    if (icon == '+') {
+      this.isNewSource = true;
+      document.getElementById('add-source-icon').innerHTML = '-';
+    }
+    else if (icon == '-') {
+      this.isNewSource = false;
+      this.createSource.name = '';
+      document.getElementById('add-source-icon').innerHTML = '+';
+    }
+  }
+
+
+
+  /* close add new Source */
+  closeAddSource() {
+    this.isNewSource = false;
+    document.getElementById('add-source-icon').innerHTML = '+';
+    this.createSource.name = '';
+  }
+
+
+  /* Source */
+  fetchSourceInfo() {
+    this.prefill.getLeadSource().subscribe(
+      data => {
+        this.sourceLead = data;
+        this.sourceList = this.sourceLead;
+        this.sourceList.forEach(el => {
+          el.edit = false;
+        });
+      },
+    )
+  }
+
+
+  /* Source */
+  editSource(id) {
+    this.sourceList.forEach(el => {
+      if (el.id == id) {
+        el.edit = true;
+      }
+    });
+  }
+
+
+  /* Source */
+  cancelEditSource(id) {
+    this.sourceList = this.sourceLead;
+  }
+
+
+  /* Source */
+  updateSource(id) {
+    this.sourceList.forEach(el => {
+      if (el.id == id) {
+        let data = {
+          id: id,
+          name: el.name,
+          inst_id: sessionStorage.getItem('institute_id')
+        }
+        this.poster.updateSourceDetails(data).subscribe(
+          res => {
+            let alert = {
+              type: 'success',
+              title: 'Source Updated',
+            }
+            this.appC.popToast(alert);
+            this.fetchSourceInfo();
+          },
+          err => {
+            let alert = {
+              type: 'error',
+              title: 'Failed To Update Source',
+              body: 'There was an error processing your request'
+            }
+            this.appC.popToast(alert);
+          }
+        )
+      }
+    });
+  }
+
+
+  /* Source */
+  deleteSource(id) {
+    this.sourceList.forEach(el => {
+      if (el.id == id) {
+        let data = {
+          id: id,
+          name: el.name,
+          inst_id: sessionStorage.getItem('institute_id')
+        }
+        this.poster.deleteSource(data).subscribe(
+          res => {
+            let alert = {
+              type: 'success',
+              title: 'Source Deleted',
+              body: 'Your request has been processed'
+            }
+            this.appC.popToast(alert);
+            this.fetchSourceInfo();
+          },
+          err => {
+            let alert = {
+              type: 'error',
+              title: 'Failed To Delete Source',
+              body: 'There was an error processing your request'
+            }
+            this.appC.popToast(alert);
+          }
+        )
+      }
+    });
+  }
+
+
+
+
 
 
 }

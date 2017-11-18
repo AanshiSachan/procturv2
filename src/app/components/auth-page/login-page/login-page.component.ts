@@ -13,7 +13,7 @@ import { InstituteLoginInfo } from '../../../model/multiInstituteLoginData';
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
-export class LoginPageComponent implements OnInit {
+export class LoginPageComponent {
 
   loginDataForm: LoginAuth;
   loading = false;
@@ -31,7 +31,7 @@ export class LoginPageComponent implements OnInit {
     institute_id: "",
     institute_name: "",
     userId: ""
-    
+
   }
   multiUserListObj: any = {
     alternate_email_id: "",
@@ -70,15 +70,24 @@ export class LoginPageComponent implements OnInit {
 
   constructor(private login: LoginService, private route: Router, private actroute: ActivatedRoute,
     private toastCtrl: AppComponent) {
-  }
 
-  ngOnInit() {
     /* hide header and sidebar from the view onInit to give the user the full screen view of the web app  */
-    this.fullscreenLogin();
 
-    this.loginDataForm = {
-      alternate_email_id: "",
-      password: ""
+    if (sessionStorage.getItem('Authorization') != null && sessionStorage.getItem('Authorization') != null) {
+      this.fullscreenLogin();
+      this.loginDataForm = {
+        alternate_email_id: "",
+        password: ""
+      }
+      this.route.navigateByUrl('enquiry');
+    }
+    /* If Null then continue login else move to enq */
+    else {
+      this.fullscreenLogin();
+      this.loginDataForm = {
+        alternate_email_id: "",
+        password: ""
+      }
     }
 
   }
@@ -172,6 +181,17 @@ export class LoginPageComponent implements OnInit {
     let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
     sessionStorage.setItem('Authorization', Authorization);
     sessionStorage.setItem('institute_id', institute_data.institution_id);
+    sessionStorage.setItem('username', institute_data.username);
+    sessionStorage.setItem('institute_name', institute_data.institute_name);
+    sessionStorage.setItem('message', institute_data.message);
+    sessionStorage.setItem('name', institute_data.name);
+    sessionStorage.setItem('institute_type', institute_data.institute_type);
+    sessionStorage.setItem('fb_page_url', institute_data.fb_page_url);
+    sessionStorage.setItem('about_us_text', institute_data.about_us_text);
+    sessionStorage.setItem('mobile_no', institute_data.mobile_no);
+    sessionStorage.setItem('inst_announcement', institute_data.inst_announcement);
+    sessionStorage.setItem('alternate_email_id', institute_data.alternate_email_id);
+    sessionStorage.setItem('logo_url', institute_data.logo_url);
     this.route.navigate(['/enquiry']);
     //
   }

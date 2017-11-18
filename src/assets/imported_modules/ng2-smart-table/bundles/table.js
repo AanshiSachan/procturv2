@@ -3044,7 +3044,7 @@ let Ng2SmartTableComponent = class Ng2SmartTableComponent {
                 id: '',
                 class: '',
             },
-            noDataMessage: 'No data found',
+            noDataMessage: '',
             columns: {},
             pager: {
                 display: true,

@@ -309,7 +309,7 @@
                 <dfn>{{lastDetail.name}}</dfn>
               </span>
               <span class="view-details">
-                <a style="cursor:pointer" (click)="navigateToEdit(lastDetail.enquiry_no)">View details</a>
+                <a style="cursor:pointer" (click)="navigateToEdit(lastDetail.institute_enquiry_id)">View details</a>
               </span>
             </li>
             <li>
@@ -455,6 +455,7 @@
 
 <!-- Add New institute -->
 <enquiry-pop-up [hidden]="!isInstitutePop">
+
   <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeInstituteAdder()" close-button>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
       <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -468,32 +469,95 @@
     </svg>
   </span>
 
-  <h2 popup-header>Create Institution</h2>
+  <h2 popup-header>Institute Editor</h2>
 
-  <div class="enquiry-update-history" popup-content>
-    <div class="form-type1">
-      <div class="field-wrapper">
-        <input type="text" value="" id="instituteName" class="form-ctrl" [(ngModel)]="createInstitute.instituteName" name="instituteName"
-          enquiryInput/>
-        <label for="instituteName">Institute Name</label>
+  <div class="institute-editor" popup-content>
+
+    <div class="row clearFix add-edit">
+      <a class="expend-box" (click)="toggleInstituteAdd()">
+        <i id="add-institute-icon">+</i>
+        <span>Create New Institute</span>
+      </a>
+    </div>
+
+    <section class="row clearFix create-standard-form" *ngIf="isNewInstitute">
+      <div class="row">
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
+          <div class="field-wrapper">
+            <input type="text" value="" id="instituteName" class="form-ctrl" [(ngModel)]="createInstitute.instituteName" name="instituteName"
+              enquiryInput/>
+            <label for="instituteName">Institute Name</label>
+          </div>
+        </div>
+
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right">
+          <aside class="pull-right">
+            <input type="button" value="Cancel" class="btn" (click)="closeAddInstitute()">
+            <input type="button" value="Create" class="redBtn btn" (click)="addInstituteData()">
+          </aside>
+        </div>
+
       </div>
-      <br>
-      <!-- <div class="field-checkbox-wrapper">
-        <input type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="createInstitute.isActive" (ngModelChange)="toggleInstituteActive($event)"
-        />
-        <label>Is Active</label>
-      </div> -->
+    </section>
+
+    <div class="row">
+      <div class="table-responsive institute-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Institute Name</th>
+              <th> Action </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sch of instituteList">
+              <td *ngIf="!sch.edit">
+                <div class="inst-name">
+                  {{sch.school_name}}
+                </div>
+              </td>
+
+              <td *ngIf="sch.edit">
+                <div class="field-wrapper has-value">
+                  <input type="text" [(ngModel)]="sch.school_name" class="form-ctrl" name="instituteName" enquiryInput/>
+                  <label for="instituteName">Institute Name</label>
+                </div>
+              </td>
+
+              <td class="edit-view-btn" *ngIf="!sch.edit">
+                <div class="">
+                  <a (click)="editInstitute(sch.school_id)" style="cursor:pointer">
+                    <i class="edit-icon cursor-icon" aria-hidden="true"></i>Edit
+                  </a>
+                </div>
+                <div class="">
+                  <a (click)="deleteInstitute(sch.school_id)" style="cursor:pointer">
+                    <i class="view-icon cursor-icon" aria-hidden="true"></i>Delete
+                  </a>
+                </div>
+              </td>
+
+              <td class="edit-view-btn" *ngIf="sch.edit">
+                <div class="">
+                  <a (click)="cancelEditInstitute(sch.school_id)" style="cursor:pointer">
+                    <i class="edit-icon" aria-hidden="true"></i>Cancel
+                  </a>
+                </div>
+                <div class="">
+                  <a (click)="updateInstitute(sch.school_id)" style="cursor:pointer">
+                    <i class="view-icon update-icon" aria-hidden="true"></i>Update
+                  </a>
+                </div>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+
   </div>
 
-  <div class="" popup-footer>
-    <div class="clearfix">
-      <aside class="pull-right popup-btn">
-        <input type="button" value="Cancel" class="btn" (click)="closeInstituteAdder()">
-        <input type="button" value="Create" class="redBtn btn" (click)="addInstituteData()">
-      </aside>
-    </div>
-  </div>
 </enquiry-pop-up>
 
 
@@ -512,30 +576,103 @@
       </g>
     </svg>
   </span>
-  <h2 popup-header>Add Source</h2>
-  <div class="enquiry-update-history" popup-content>
-    <div class="form-type1">
-      <div class="field-wrapper">
-        <input type="text" value="" id="sourceName" class="form-ctrl" [(ngModel)]="createSource.name" name="sourceName" enquiryInput/>
-        <label for="sourceName">Source Name</label>
+
+  <h2 popup-header> Source Editor</h2>
+
+  <div class="institute-editor" popup-content>
+
+    <div class="row clearFix add-edit">
+      <a class="expend-box" (click)="toggleSourceAdd()">
+        <i id="add-source-icon">+</i>
+        <span>Create New Source</span>
+      </a>
+    </div>
+
+    <section class="row clearFix create-standard-form" *ngIf="isNewSource">
+      <div class="row">
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
+          <div class="field-wrapper">
+            <input type="text" value="" id="sourceName" class="form-ctrl" [(ngModel)]="createSource.name" name="sourceName" enquiryInput/>
+            <label for="sourceName">Source Name</label>
+          </div>
+        </div>
+
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right">
+          <aside class="pull-right">
+            <input type="button" value="Cancel" class="btn" (click)="closeAddSource()">
+            <input type="button" value="Create" class="redBtn btn" (click)="addSourceData()">
+          </aside>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="row">
+      <div class="table-responsive institute-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Source Name</th>
+              <th> Action </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sch of sourceList">
+              <td *ngIf="!sch.edit">
+                <div class="inst-name">
+                  {{sch.name}}
+                </div>
+              </td>
+
+              <td *ngIf="sch.edit">
+                <div class="field-wrapper has-value">
+                  <input type="text" [(ngModel)]="sch.name" class="form-ctrl" name="sourceName" enquiryInput/>
+                  <label for="sourceName">Source Name</label>
+                </div>
+              </td>
+
+              <td class="edit-view-btn" *ngIf="!sch.edit">
+                <div class="">
+                  <a (click)="editSource(sch.id)" style="cursor:pointer">
+                    <i class="edit-icon cursor-icon" aria-hidden="true"></i>Edit
+                  </a>
+                </div>
+                <div class="">
+                  <a (click)="deleteSource(sch.id)" style="cursor:pointer">
+                    <i class="view-icon cursor-icon" aria-hidden="true"></i>Delete
+                  </a>
+                </div>
+              </td>
+
+              <td class="edit-view-btn" *ngIf="sch.edit">
+                <div class="">
+                  <a (click)="cancelEditSource(sch.id)" style="cursor:pointer">
+                    <i class="edit-icon" aria-hidden="true"></i>Cancel
+                  </a>
+                </div>
+                <div class="">
+                  <a (click)="updateSource(sch.id)" style="cursor:pointer">
+                    <i class="view-icon update-icon" aria-hidden="true"></i>Update
+                  </a>
+                </div>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+
   </div>
-  <div class="" popup-footer>
-    <div class="clearfix">
-      <aside class="pull-right popup-btn">
-        <input type="button" value="Cancel" class="btn" (click)="hideAddSourcePops()">
-        <input type="button" value="Add Source" class="redBtn btn" (click)="addSourceData()">
-      </aside>
-    </div>
-  </div>
+
 </enquiry-pop-up>
 
 
 
 
 <!-- Add New Reference -->
-<enquiry-pop-up [hidden]="!isRefferPop">
+<enquiry-pop-up [hidden]="!isReferPop">
+
   <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="hideAddReferPops()" close-button>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
       <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -548,21 +685,93 @@
       </g>
     </svg>
   </span>
+
   <h2 popup-header>Add Referrer </h2>
-  <div class="enquiry-update-history" popup-content>
-    <div class="form-type1">
-      <div class="field-wrapper">
-        <input type="text" value="" id="refererName" class="form-ctrl" [(ngModel)]="createReferer.name" name="refererName" enquiryInput/>
-        <label for="refererName">Referred By</label>
+
+  <div class="institute-editor" popup-content>
+
+    <div class="row clearFix add-edit">
+      <a class="expend-box" (click)="toggleReferAdd()">
+        <i id="add-refer-icon">+</i>
+        <span>Create New Reference</span>
+      </a>
+    </div>
+
+    <section class="row clearFix create-standard-form" *ngIf="isNewRefer">
+      <div class="row">
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
+          <div class="field-wrapper">
+            <input type="text" value="" id="referName" class="form-ctrl" [(ngModel)]="createReferer.name" name="referName" enquiryInput/>
+            <label for="referName">Refer Name</label>
+          </div>
+        </div>
+
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right">
+          <aside class="pull-right">
+            <input type="button" value="Cancel" class="btn" (click)="closeAddRefer()">
+            <input type="button" value="Create" class="redBtn btn" (click)="addReferData()">
+          </aside>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="row">
+      <div class="table-responsive institute-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Reference Name</th>
+              <th> Action </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sch of referList">
+              <td *ngIf="!sch.edit">
+                <div class="inst-name">
+                  {{sch.name}}
+                </div>
+              </td>
+
+              <td *ngIf="sch.edit">
+                <div class="field-wrapper has-value">
+                  <input type="text" [(ngModel)]="sch.name" class="form-ctrl" name="sourceName" enquiryInput/>
+                  <label for="sourceName">Referer</label>
+                </div>
+              </td>
+
+              <td class="edit-view-btn" *ngIf="!sch.edit">
+                <div class="">
+                  <a (click)="editRefer(sch.id)" style="cursor:pointer">
+                    <i class="edit-icon cursor-icon" aria-hidden="true"></i>Edit
+                  </a>
+                </div>
+                <div class="">
+                  <a (click)="deleteRefer(sch.id)" style="cursor:pointer">
+                    <i class="view-icon cursor-icon" aria-hidden="true"></i>Delete
+                  </a>
+                </div>
+              </td>
+
+              <td class="edit-view-btn" *ngIf="sch.edit">
+                <div class="">
+                  <a (click)="cancelEditRefer(sch.id)" style="cursor:pointer">
+                    <i class="edit-icon" aria-hidden="true"></i>Cancel
+                  </a>
+                </div>
+                <div class="">
+                  <a (click)="updateRefer(sch.id)" style="cursor:pointer">
+                    <i class="view-icon update-icon" aria-hidden="true"></i>Update
+                  </a>
+                </div>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+
   </div>
-  <div class="" popup-footer>
-    <div class="clearfix">
-      <aside class="pull-right popup-btn">
-        <input type="button" value="Cancel" class="btn" (click)="hideAddReferPops()">
-        <input type="button" value="Submit Referrer" class="redBtn btn" (click)="addReferData()">
-      </aside>
-    </div>
-  </div>
+
 </enquiry-pop-up>

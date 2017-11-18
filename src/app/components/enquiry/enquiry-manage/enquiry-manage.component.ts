@@ -861,6 +861,9 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
   /* Function to toggle table data on checkbox click */
   statusFilter(checkerObj) {
+
+    console.log(checkerObj);
+    console.log(this.stats);
     if (this.stats.Open.checked === true || this.stats.Registered.checked === true || this.stats.Admitted.checked === true || this.stats.Inactive.checked === true) {
       this.stats.All.checked = false;
       this.stats.All.disabled = true;
@@ -1594,7 +1597,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   /* Function to store the data of Custom Component in to Base64 encoded array string */
   customComponentUpdated(val, data) {
     this.componentListObject[data.component_id].enq_custom_value = val;
-    console.log(this.componentListObject);
+    //console.log(this.componentListObject);
   }
 
 
@@ -1942,10 +1945,10 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       index = {
         value: i,
         start_index: start,
-        end_index: start + 4
+        end_index: start + (this.displayBatchSize -1)
       }
       this.indexJSON.push(index);
-      start = start + 5;
+      start = start + this.displayBatchSize;
     }
 
     //console.log(this.indexJSON);

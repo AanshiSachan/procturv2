@@ -118,31 +118,31 @@ export class PostEnquiryDataService {
   }
 
 
-  saveEditedSms(id, data){
+  saveEditedSms(id, data) {
 
-    let urlEditedSms = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id +'/' +id
+    let urlEditedSms = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id + '/' + id
 
-    return this.http.put(urlEditedSms, data, {headers: this.headers}).map(
-      res => { return res.json();}
+    return this.http.put(urlEditedSms, data, { headers: this.headers }).map(
+      res => { return res.json(); }
     )
 
   }
 
 
 
-  sendSmsToEnquirer(data){
+  sendSmsToEnquirer(data) {
 
-    let urlSendSmsToEnquirer = this.baseUrl +"/api/v1/enquiry_manager/sendSMS/" +this.institute_id;
+    let urlSendSmsToEnquirer = this.baseUrl + "/api/v1/enquiry_manager/sendSMS/" + this.institute_id;
 
-    return this.http.post(urlSendSmsToEnquirer, data, {headers: this.headers}).map(
+    return this.http.post(urlSendSmsToEnquirer, data, { headers: this.headers }).map(
       res => { return res.json() }
     )
   }
 
 
-  deleteEnquiryBulk(data){
+  deleteEnquiryBulk(data) {
 
-    let urlDeleteBulk = this.baseUrl +'/api/v1/enquiry/' +this.institute_id +'/bulkDeleteEnquiries';
+    let urlDeleteBulk = this.baseUrl + '/api/v1/enquiry/' + this.institute_id + '/bulkDeleteEnquiries';
 
     let options = new RequestOptions(
       {
@@ -152,9 +152,100 @@ export class PostEnquiryDataService {
     );
 
     return this.http.delete(urlDeleteBulk, options).map(
-      res => { return res.json();} 
+      res => { return res.json(); }
     )
 
   }
 
+
+  updateInstituteDetails(id, req) {
+
+    let urlInstituteUpdater = this.baseUrl + "/api/v1/schools/" + id;
+
+    let data = {
+      school_name: req.school_name,
+      is_active: "Y",
+      institution_id: this.institute_id
+    }
+
+    return this.http.put(urlInstituteUpdater, data, { headers: this.headers }).map(
+      res => { return res.json(); }
+    )
+
+  }
+
+
+  deleteInstitute(id) {
+
+    let urlInstituteDeleter = this.baseUrl + "/api/v1/schools/" + id;
+
+    return this.http.delete(urlInstituteDeleter, { headers: this.headers }).map(
+      res => { return res.json(); }
+    )
+  }
+
+
+  updateSourceDetails(data) {
+
+    let urlUpdateSource = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_source";
+
+    return this.http.put(urlUpdateSource, data, { headers: this.headers }).map(
+      res => {
+        return res.json();
+      }
+    )
+
+  }
+
+
+  deleteSource(data) {
+    let urlDelete = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_source";
+
+    let options = new RequestOptions(
+      {
+        headers: this.headers,
+        body: data
+      }
+    );
+
+    return this.http.delete(urlDelete, options).map(
+      res => {
+        return res.json();
+      }
+    )
+
+  }
+
+
+
+  updateReferDetails(data) {
+
+    let urlUpdateRefer = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_referred_by";
+
+    return this.http.put(urlUpdateRefer, data, { headers: this.headers }).map(
+      res => {
+        return res.json();
+      }
+    )
+
+  }
+
+
+  deleteRefer(data) {
+    let urlDelete = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_referred_by";
+
+    let options = new RequestOptions(
+      {
+        headers: this.headers,
+        body: data
+      }
+    );
+
+    return this.http.delete(urlDelete, options).map(
+      res => {
+        return res.json();
+      }
+    )
+  }
+  
 }

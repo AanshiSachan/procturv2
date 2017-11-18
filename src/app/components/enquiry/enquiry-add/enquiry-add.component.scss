@@ -3,6 +3,7 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
+@import "./src/app/components/course/schedule-home/schedule-home.component.scss";
 
 ::ng-deep .bs-datepicker-container{
     padding: 10px;
@@ -639,11 +640,88 @@
     background: #8bc34a;
 }
 
+.institute-editor {
+    max-height: 450px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    .row{
+        padding: 15px;
+    }
+    .cursor-icon{
+        cursor: pointer;
+    }
+
+
+}
+
+.institute-table{
+    table{
+        tbody{
+            tr{
+                height: 45px;
+                td{
+                    .field-wrapper{
+                        .invalid-alert{
+                          color: red;
+                          background: rgba(255, 255, 255, 0);
+                        }
+                    }
+                
+                    .field-wrapper .form-ctrl {
+                        display: block;
+                        width: 100%;
+                        box-sizing: border-box;
+                        padding: 0px 0px 0px 6px;
+                        outline: none;
+                        border: 0;
+                        border-bottom: solid 1px #e2ebee;
+                        height: 36px;
+                        box-shadow: none;
+                        border-radius: 0;
+                        line-height: 24px;
+                    }
+                    
+                    .field-wrapper label {
+                        position: absolute;
+                        top: 22px;
+                        font-size: 14px;
+                        left: 0px;
+                        transition: all 0.2s ease-in-out;
+                        color: #777;
+                    }
+                    
+                    .field-wrapper .form-ctrl:focus {
+                        padding: 12px 0 6px;
+                        border-bottom: solid 2px $common-blue;
+                        box-shadow: none;
+                        line-height: 26px;
+                    }
+                    
+                    .field-wrapper.has-value .form-ctrl+label,
+                    .field-wrapper .form-ctrl:focus+label {
+                        font-size: 12px;
+                        top: 6px;
+                        left: 0px;
+                    }
+                    
+                    .field-wrapper.has-value .form-ctrl+label,
+                    .field-wrapper .form-ctrl:focus+label {
+                        color: $common-blue;
+                        font-size: 12px;
+                    }
+                
+                    &:first-child{
+                        padding-left: 50px;
+                    }
+                }
+            }
+        }
+    }
+}
+
 .row.extraMargin {
     margin: 10px -15px 20px;
 }
 
-.unstyled-calendar::-webkit-inner-spin-button,
-.unstyled-calendar::-webkit-calendar-picker-indicator {
-    -webkit-appearance: none;    
-}
+

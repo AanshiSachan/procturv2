@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import {LoginService} from '../../../services/login-services/login.service';
 import {Router} from '@angular/router';
 
@@ -8,9 +8,17 @@ import {Router} from '@angular/router';
   templateUrl: './core-header.component.html',
   styleUrls: ['./core-header.component.scss']
 })
-export class CoreHeaderComponent{
+export class CoreHeaderComponent implements OnInit{
+
+  ngOnInit(){
+
+  }
  
-  constructor(private log : LoginService, private router: Router){}
+  userName: string = sessionStorage.getItem('name');
+
+
+  constructor(private log : LoginService, private router: Router){
+  }
 
   logout(){
     //console.log("logging user out");

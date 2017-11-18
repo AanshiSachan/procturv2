@@ -46,6 +46,7 @@ export class StudentAddComponent implements OnInit {
     language_inst_status: null,
     stuCustomLi: []
   }
+
   private quickAddStudent: boolean = false;
   private additionalBasicDetails: boolean = false;
   private instituteList: any = [];
@@ -55,7 +56,9 @@ export class StudentAddComponent implements OnInit {
   private assignedBatch:string = "";
   
 
-  constructor(private studentPrefillService: AddStudentPrefillService, private prefill: FetchprefilldataService) { }
+  constructor(private studentPrefillService: AddStudentPrefillService, private prefill: FetchprefilldataService) { 
+    
+  }
 
   ngOnInit() {
 
@@ -65,7 +68,7 @@ export class StudentAddComponent implements OnInit {
 
   /* Function to navigate through the Student Add Form on button Click Save/Submit*/
   navigateTo(text) {
-    console.log(text);
+    
     if (text === "studentForm") {
 
       document.getElementById('li-one').classList.add('active');
@@ -123,27 +126,28 @@ export class StudentAddComponent implements OnInit {
   switchToView(id) {
     switch (id) {
       case "studentForm-icon": {
-        console.log(id);
+        //console.log(id);
         this.navigateTo("studentForm");
         break;
       }
       case "kyc-icon": {
-        console.log(id);
+        //console.log(id);
         this.navigateTo("kyc");
         break;
       }
       case "feeDetails-icon": {
-        console.log(id);
+        //console.log(id);
         this.navigateTo("feeDetails");
         break;
       }
       case "inventory-icon": {
-        console.log(id);
+        //console.log(id);
         this.navigateTo("inventory");        
         break;
       }
       default: {
-        console.log("some error has occured");
+        //console.log("some error has occured");
+        this.navigateTo("studentForm");
         break;
       }
     }
@@ -222,4 +226,5 @@ export class StudentAddComponent implements OnInit {
 
   /* align the user selected batch into input and update the data into array to be updated to server */
   assignBatch(){}
+
 }

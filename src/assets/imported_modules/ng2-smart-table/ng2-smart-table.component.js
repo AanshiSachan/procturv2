@@ -63,7 +63,7 @@ var Ng2SmartTableComponent = (function () {
                 id: '',
                 class: '',
             },
-            noDataMessage: 'Loading your data, please wait',
+            noDataMessage: '',
             columns: {},
             pager: {
                 display: true,
