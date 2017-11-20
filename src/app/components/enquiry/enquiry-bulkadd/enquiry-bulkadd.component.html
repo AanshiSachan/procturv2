@@ -1,5 +1,8 @@
 <div class="middle-section clearFix" id="enquiryList">
 
+
+
+
   <section class="middle-top clearFix bulk-header">
 
     <div class="row">
@@ -21,14 +24,17 @@
         Bulk Enquiry Upload
       </h1>
       <aside class="pull-right">
+        <input type="button" value="Bulk Update Report" (click)="bulkStatusReporter()" class="btn" />
         <a id="template_link">
-          <input type="button" value="Download Bulk Upload .xls Template" class="btn" (click)="downloadTemplate()" />
+          <input type="button" value="Download Upload Template" class="btn" (click)="downloadTemplate()" />
         </a>
-        <input type="button" value="Add Single Enquiry" routerLink='/enquiry/addEnquiry' class="btn" />
+        <input type="button" value="Add New Enquiry" routerLink='/enquiry/addEnquiry' class="btn" />
       </aside>
     </div>
 
   </section>
+
+
 
   <!--====================================middle <Main> section==========================-->
   <section class="middle-main clearFix" id="bulkEnquiryMain">
@@ -38,34 +44,19 @@
         <div class="file-wrapper">
           <ul>
             <li>
-              <p-fileUpload 
-                url="http://test999.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/bulkUploadEnquiries"
-                accept="application/vnd.ms-excel" 
-                customUpload="true"
-                (uploadHandler)="uploadHandler($event)" 
-                [showCancelButton]="false">
+              <p-fileUpload url="http://test999.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/bulkUploadEnquiries" accept="application/vnd.ms-excel"
+                customUpload="true" (uploadHandler)="uploadHandler($event)" [showCancelButton]="false">
               </p-fileUpload>
 
               <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
                 <div class="file-uploaded">
-                  <!-- <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"></line>
-                          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"></line>
-                        </g>
-                        <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)" style="stroke:none;"></rect>
-                      </g>
-                    </svg>
-                  </span>  -->
                   {{fileLoading}}
                 </div>
                 <div class="progress-bar-wrapper">
                   <div class="upload-bar">
                     <div id="progress-width"></div>
                   </div>
-                  <span>{{progress}} Complete</span>
+                  <span>{{progress}} %</span>
                 </div>
               </div>
             </li>
@@ -75,4 +66,65 @@
 
     </div>
   </section>
+
+
+
+
+
+  <!-- ================================================================================= -->
+  <!-- ========================= Bulk Update Status =================================== -->
+  <enquiry-pop-up [hidden]="!isBulkUploadStatus">
+
+    <span class="closePopup pos-abs fbold " id="popupCloseBtn" (click)="closeBulkStatus()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+
+    <h2 id="bulk-head" popup-header>Bulk Enquiry Update Status</h2>
+
+    <div class="bulk-enquiry-form" popup-content>
+
+      <div class="row">
+        <div class="table-responsive bulk-update-report">
+          <table>
+            <thead>
+              <tr>
+                <th>File Name</th>
+                <th>Upload Date</th>
+                <th>Total Count</th>
+                <th>Success Count</th>
+                <th>Failure Count</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor = "let record of bulkUploadRecords">
+                <td>{{record.list_name}}</td>
+                <td>{{record.created_date}}</td>
+                <td>{{record.total_count}}</td>
+                <td>{{record.success_count}}</td>
+                <td>{{record.failure_count}}</td>
+                <td>
+                  <a [id]="record.list_id" class="download-icon" (click)="downloadBulkStatusReport(record)">
+                    Download Report
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </enquiry-pop-up>
+
 </div>

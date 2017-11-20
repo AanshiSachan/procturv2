@@ -1,4 +1,7 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener, AfterViewInit } from '@angular/core';
+import {
+  Component, OnInit, ViewChild, Input, Output,
+  EventEmitter, HostListener, AfterViewInit, OnDestroy
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
@@ -28,9 +31,7 @@ import { MenuItem } from 'primeng/primeng'
   templateUrl: './enquiry-manage.component.html',
   styleUrls: ['./enquiry-manage.component.scss']
 })
-export class EnquiryManageComponent implements OnInit, AfterViewInit {
-
-
+export class EnquiryManageComponent implements OnInit, OnDestroy {
 
   /* Variable Declaration */
   private rows: any = [];
@@ -73,6 +74,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     type: "",
   };
 
+  statusString: any[] = [];
   smsSelectedRows: any;
   smsGroupSelected: any[] = [];
 
@@ -214,6 +216,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     messageArray: []
   };
 
+  private isConverted: boolean = true;
 
   /* Model for institute Data */
   instituteData: instituteInfo = {
@@ -410,6 +413,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
     enquiry_no: "",
     priority: "",
     status: -1,
+    filtered_statuses: "",
     follow_type: "",
     followUpDate: "",
     enquiry_date: "",
@@ -484,6 +488,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   /* OnInit Function */
   ngOnInit() {
 
+    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     /* Model for toggle Menu Dropdown */
     this.myOptions = [
       { name: 'Enquiry ID', id: 'institute_enquiry_id' },
@@ -498,7 +503,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       if (this.settingsEnquiry.columns[el.id].show) {
         this.optionsModel.push(el.id);
       }
-    })
+    });
 
     /* Load paginated enquiry data from server */
     this.busy = this.loadTableDatatoSource(this.instituteData);
@@ -530,10 +535,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
     /* SMS message service handler to communicate between components */
     this.pops.currentSms.subscribe(res => {
-      if (res == 'copy') {
-        this.copySMS();
-      }
-      else if (res == 'edit') {
+      if (res == 'edit') {
         this.editSms();
       }
     });
@@ -542,9 +544,10 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
 
-
-  /* After View Has Loaded */
-  ngAfterViewInit(): void {
+  /* Clear row and datasource for smart table */
+  ngOnDestroy() {
+    this.rows = null;
+    this.sourceEnquiry = null;
 
   }
 
@@ -643,66 +646,34 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   FetchEnquiryPrefilledData() {
 
 
-
-
     /* Status */
     this.prefill.getEnqStatus().subscribe(
-      data => { this.enqstatus = data; },
-      err => {
-        let alert = {
-          type: 'error',
-          title: 'Failed To Load Data',
-          body: 'Please check your internet connection or refresh'
-        }
-        this.appC.popToast(alert);
+      data => {
+        this.enqstatus = data;
       }
     );
 
 
     /* Priority */
     this.prefill.getEnqPriority().subscribe(
-      data => { this.enqPriority = data; },
-      err => {
-        let alert = {
-          type: 'error',
-          title: 'Failed To Load Data',
-          body: 'Please check your internet connection or refresh'
-        }
-        this.appC.popToast(alert);
-      }
+      data => { this.enqPriority = data; }
     );
 
 
     /* FollowUp Type */
     this.prefill.getFollowupType().subscribe(
-      data => { this.enqFollowType = data },
-      err => {
-        let alert = {
-          type: 'error',
-          title: 'Failed To Load Data',
-          body: 'Please check your internet connection or refresh'
-        }
-        this.appC.popToast(alert);
-      }
+      data => { this.enqFollowType = data }
     );
 
 
     /* Assign To */
     this.prefill.getAssignTo().subscribe(
-      data => { this.enqAssignTo = data; },
-      err => {
-        let alert = {
-          type: 'error',
-          title: 'Failed To Load Data',
-          body: 'Please check your internet connection or refresh'
-        }
-        this.appC.popToast(alert);
-      }
+      data => { this.enqAssignTo = data; }
     );
 
 
     /* Scholarship */
-    this.prefill.getScholarPrefillData().subscribe(
+    /* this.prefill.getScholarPrefillData().subscribe(
       data => {
 
         data.forEach(el => {
@@ -714,43 +685,19 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
             this.enqSub2 = el.prefilled_data.split(',');
           }
         })
-      },
-      err => {
-        let alert = {
-          type: 'error',
-          title: 'Failed To Load Data',
-          body: 'Please check your internet connection or refresh'
-        }
-        this.appC.popToast(alert);
       }
-    );
+    ); */
 
 
     /* Standard */
     this.prefill.getEnqStardards().subscribe(
-      data => { this.enqStd = data; },
-      err => {
-        let alert = {
-          type: 'error',
-          title: 'Failed To Load Data',
-          body: 'Please check your internet connection or refresh'
-        }
-        this.appC.popToast(alert);
-      }
+      data => { this.enqStd = data; }
     );
 
 
     /* Payment Modes */
     this.prefill.fetchPaymentModes().subscribe(
-      data => { this.paymentMode = data; },
-      err => {
-        let alert = {
-          type: 'error',
-          title: 'Failed To Load Data',
-          body: 'Please check your internet connection or refresh'
-        }
-        this.appC.popToast(alert);
-      }
+      data => { this.paymentMode = data; }
     )
 
 
@@ -776,17 +723,16 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
         this.emptyCustomComponent = this.componentListObject;
 
-      },
-      err => {
-        let alert = {
-          type: 'error',
-          title: 'Failed To Load Data',
-          body: 'Please check your internet connection or refresh'
-        }
-        this.appC.popToast(alert);
       }
     );
 
+
+    /* Registration Fee Payment JSON */
+    this.prefill.fetchRegistrationFeeDetails().subscribe(
+      res => {
+        console.log(res);
+      }
+    )
   }
 
 
@@ -862,54 +808,537 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   /* Function to toggle table data on checkbox click */
   statusFilter(checkerObj) {
 
-    console.log(checkerObj);
-    console.log(this.stats);
-    if (this.stats.Open.checked === true || this.stats.Registered.checked === true || this.stats.Admitted.checked === true || this.stats.Inactive.checked === true) {
+
+
+    if (checkerObj.value == "All") {
+      if (checkerObj.checked) {
+        this.stats.Admitted.checked = false;
+        this.stats.Inactive.checked = false;
+        this.stats.Open.checked = false;
+        this.stats.Registered.checked = false;
+        this.instituteData = {
+          name: "",
+          phone: "",
+          email: "",
+          enquiry_no: "",
+          priority: "",
+          status: -1,
+          follow_type: "",
+          followUpDate: "",
+          enquiry_date: "",
+          assigned_to: -1,
+          standard_id: -1,
+          subject_id: -1,
+          is_recent: "Y",
+          slot_id: -1,
+          filtered_slots: "",
+          isDashbord: "N",
+          enquireDateFrom: "",
+          enquireDateTo: "",
+          updateDate: "",
+          updateDateFrom: "",
+          updateDateTo: "",
+          start_index: 0,
+          batch_size: this.displayBatchSize,
+          closedReason: "",
+          enqCustomLi: null
+        };
+        this.loadTableDatatoSource(this.instituteData);
+      }
+    }
+
+
+
+
+    else if (checkerObj.value == "Admitted") {
       this.stats.All.checked = false;
-      this.stats.All.disabled = true;
-      if (checkerObj.checked === true) {
-        this.checkedStatus.push(checkerObj.prop);
-        let temp2 = [];
-        let temp = [];
-        let arr = [];
-        this.checkedStatus.forEach(el => {
-          temp2 = this.rows.filter(row => {
-            return row.statusValue === el
-          });
-          temp = temp2;
-          arr = arr.concat(temp);
-        });
-        this.sourceEnquiry = new LocalDataSource(arr);
+
+      if (this.stats.Admitted.checked) {
+        this.statusString.push('12');
+
+        let stat = this.statusString.join(',');
+        this.instituteData = {
+          name: "",
+          phone: "",
+          email: "",
+          enquiry_no: "",
+          priority: "",
+          status: -1,
+          filtered_statuses: stat,
+          follow_type: "",
+          followUpDate: "",
+          enquiry_date: "",
+          assigned_to: -1,
+          standard_id: -1,
+          subject_id: -1,
+          is_recent: "Y",
+          slot_id: -1,
+          filtered_slots: "",
+          isDashbord: "N",
+          enquireDateFrom: "",
+          enquireDateTo: "",
+          updateDate: "",
+          updateDateFrom: "",
+          updateDateTo: "",
+          start_index: 0,
+          batch_size: this.displayBatchSize,
+          closedReason: "",
+          enqCustomLi: null
+        };
+        this.loadTableDatatoSource(this.instituteData);
+
       }
-      else if (checkerObj.checked === false) {
-        var index = this.checkedStatus.indexOf(checkerObj.prop);
-        if (index > -1) {
-          this.checkedStatus.splice(index, 1);
+
+      else {
+        let index = this.statusString.indexOf('12');
+        if (index !== -1) {
+          this.statusString.splice(index, 1);
         }
-        let temp2 = [];
-        let temp = [];
-        let arr = [];
-        this.checkedStatus.forEach(el => {
-          temp2 = this.rows.filter(row => {
-            return row.statusValue === el
-          });
-          temp = temp2;
-          arr = arr.concat(temp);
-        });
-        this.sourceEnquiry = new LocalDataSource(arr);
+
+        if (this.statusString.length == 0) {
+          //alert(this.statusString.length);
+          this.stats.All.checked = true;
+          this.stats.Admitted.checked = false;
+          this.stats.Inactive.checked = false;
+          this.stats.Open.checked = false;
+          this.stats.Registered.checked = false;
+          this.instituteData = {
+            name: "",
+            phone: "",
+            email: "",
+            enquiry_no: "",
+            priority: "",
+            status: -1,
+            follow_type: "",
+            followUpDate: "",
+            enquiry_date: "",
+            assigned_to: -1,
+            standard_id: -1,
+            subject_id: -1,
+            is_recent: "Y",
+            slot_id: -1,
+            filtered_slots: "",
+            isDashbord: "N",
+            enquireDateFrom: "",
+            enquireDateTo: "",
+            updateDate: "",
+            updateDateFrom: "",
+            updateDateTo: "",
+            start_index: 0,
+            batch_size: this.displayBatchSize,
+            closedReason: "",
+            enqCustomLi: null
+          };
+          this.loadTableDatatoSource(this.instituteData);
+        }
+        else if (this.statusString.length != 0) {
+          let stat = this.statusString.join(',');
+          this.instituteData = {
+            name: "",
+            phone: "",
+            email: "",
+            enquiry_no: "",
+            priority: "",
+            status: -1,
+            filtered_statuses: stat,
+            follow_type: "",
+            followUpDate: "",
+            enquiry_date: "",
+            assigned_to: -1,
+            standard_id: -1,
+            subject_id: -1,
+            is_recent: "Y",
+            slot_id: -1,
+            filtered_slots: "",
+            isDashbord: "N",
+            enquireDateFrom: "",
+            enquireDateTo: "",
+            updateDate: "",
+            updateDateFrom: "",
+            updateDateTo: "",
+            start_index: 0,
+            batch_size: this.displayBatchSize,
+            closedReason: "",
+            enqCustomLi: null
+          };
+          this.loadTableDatatoSource(this.instituteData);
+        }
       }
+
     }
-    else if (this.stats.Open.checked === false && this.stats.Registered.checked === false && this.stats.Admitted.checked === false && this.stats.Inactive.checked === false) {
-      this.stats.All.disabled = false;
-      this.stats.All.checked = true;
-      this.checkedStatus = [];
-      this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
-        this.rows = data;
-      }).subscribe(data => {
-        this.sourceEnquiry = new LocalDataSource(this.rows);
-        this.sourceEnquiry.refresh();
-      })
+
+
+
+
+    else if (checkerObj.value == "Inactive") {
+      this.stats.All.checked = false;
+
+      if (this.stats.Inactive.checked) {
+        this.statusString.push('1');
+
+        let stat = this.statusString.join(',');
+
+        this.instituteData = {
+          name: "",
+          phone: "",
+          email: "",
+          enquiry_no: "",
+          priority: "",
+          status: -1,
+          filtered_statuses: stat,
+          follow_type: "",
+          followUpDate: "",
+          enquiry_date: "",
+          assigned_to: -1,
+          standard_id: -1,
+          subject_id: -1,
+          is_recent: "Y",
+          slot_id: -1,
+          filtered_slots: "",
+          isDashbord: "N",
+          enquireDateFrom: "",
+          enquireDateTo: "",
+          updateDate: "",
+          updateDateFrom: "",
+          updateDateTo: "",
+          start_index: 0,
+          batch_size: this.displayBatchSize,
+          closedReason: "",
+          enqCustomLi: null
+        };
+
+        this.loadTableDatatoSource(this.instituteData);
+      }
+
+      else {
+        let index = this.statusString.indexOf('1');
+        if (index !== -1) {
+          this.statusString.splice(index, 1);
+        }
+
+        if (this.statusString.length == 0) {
+          //alert(this.statusString.length);
+          this.stats.All.checked = true;
+          this.stats.Admitted.checked = false;
+          this.stats.Inactive.checked = false;
+          this.stats.Open.checked = false;
+          this.stats.Registered.checked = false;
+          this.instituteData = {
+            name: "",
+            phone: "",
+            email: "",
+            enquiry_no: "",
+            priority: "",
+            status: -1,
+            follow_type: "",
+            followUpDate: "",
+            enquiry_date: "",
+            assigned_to: -1,
+            standard_id: -1,
+            subject_id: -1,
+            is_recent: "Y",
+            slot_id: -1,
+            filtered_slots: "",
+            isDashbord: "N",
+            enquireDateFrom: "",
+            enquireDateTo: "",
+            updateDate: "",
+            updateDateFrom: "",
+            updateDateTo: "",
+            start_index: 0,
+            batch_size: this.displayBatchSize,
+            closedReason: "",
+            enqCustomLi: null
+          };
+          this.loadTableDatatoSource(this.instituteData);
+        }
+        else if (this.statusString.length != 0) {
+          let stat = this.statusString.join(',');
+          this.instituteData = {
+            name: "",
+            phone: "",
+            email: "",
+            enquiry_no: "",
+            priority: "",
+            status: -1,
+            filtered_statuses: stat,
+            follow_type: "",
+            followUpDate: "",
+            enquiry_date: "",
+            assigned_to: -1,
+            standard_id: -1,
+            subject_id: -1,
+            is_recent: "Y",
+            slot_id: -1,
+            filtered_slots: "",
+            isDashbord: "N",
+            enquireDateFrom: "",
+            enquireDateTo: "",
+            updateDate: "",
+            updateDateFrom: "",
+            updateDateTo: "",
+            start_index: 0,
+            batch_size: this.displayBatchSize,
+            closedReason: "",
+            enqCustomLi: null
+          };
+          this.loadTableDatatoSource(this.instituteData);
+        }
+      }
+
     }
+
+
+
+
+
+    else if (checkerObj.value == "Open") {
+      this.stats.All.checked = false;
+
+      if (this.stats.Open.checked) {
+        this.statusString.push('0');
+        this.statusString.push('3');
+
+
+        let stat = this.statusString.join(',');
+        this.instituteData = {
+          name: "",
+          phone: "",
+          email: "",
+          enquiry_no: "",
+          priority: "",
+          status: -1,
+          filtered_statuses: stat,
+          follow_type: "",
+          followUpDate: "",
+          enquiry_date: "",
+          assigned_to: -1,
+          standard_id: -1,
+          subject_id: -1,
+          is_recent: "Y",
+          slot_id: -1,
+          filtered_slots: "",
+          isDashbord: "N",
+          enquireDateFrom: "",
+          enquireDateTo: "",
+          updateDate: "",
+          updateDateFrom: "",
+          updateDateTo: "",
+          start_index: 0,
+          batch_size: this.displayBatchSize,
+          closedReason: "",
+          enqCustomLi: null
+        };
+        this.loadTableDatatoSource(this.instituteData);
+      }
+
+      else {
+        let index = this.statusString.indexOf('0');
+        if (index !== -1) {
+          this.statusString.splice(index, 1);
+        }
+
+
+        let index2 = this.statusString.indexOf('3');
+        if (index2 !== -1) {
+          this.statusString.splice(index2, 1);
+        }
+
+        if (this.statusString.length == 0) {
+          //alert(this.statusString.length);
+          this.stats.All.checked = true;
+          this.stats.Admitted.checked = false;
+          this.stats.Inactive.checked = false;
+          this.stats.Open.checked = false;
+          this.stats.Registered.checked = false;
+          this.instituteData = {
+            name: "",
+            phone: "",
+            email: "",
+            enquiry_no: "",
+            priority: "",
+            status: -1,
+            follow_type: "",
+            followUpDate: "",
+            enquiry_date: "",
+            assigned_to: -1,
+            standard_id: -1,
+            subject_id: -1,
+            is_recent: "Y",
+            slot_id: -1,
+            filtered_slots: "",
+            isDashbord: "N",
+            enquireDateFrom: "",
+            enquireDateTo: "",
+            updateDate: "",
+            updateDateFrom: "",
+            updateDateTo: "",
+            start_index: 0,
+            batch_size: this.displayBatchSize,
+            closedReason: "",
+            enqCustomLi: null
+          };
+          this.loadTableDatatoSource(this.instituteData);
+        }
+        else if (this.statusString.length != 0) {
+          let stat = this.statusString.join(',');
+          this.instituteData = {
+            name: "",
+            phone: "",
+            email: "",
+            enquiry_no: "",
+            priority: "",
+            status: -1,
+            filtered_statuses: stat,
+            follow_type: "",
+            followUpDate: "",
+            enquiry_date: "",
+            assigned_to: -1,
+            standard_id: -1,
+            subject_id: -1,
+            is_recent: "Y",
+            slot_id: -1,
+            filtered_slots: "",
+            isDashbord: "N",
+            enquireDateFrom: "",
+            enquireDateTo: "",
+            updateDate: "",
+            updateDateFrom: "",
+            updateDateTo: "",
+            start_index: 0,
+            batch_size: this.displayBatchSize,
+            closedReason: "",
+            enqCustomLi: null
+          };
+          this.loadTableDatatoSource(this.instituteData);
+        }
+
+      }
+
+    }
+
+
+
+
+
+    else if (checkerObj.value == "Registered") {
+      this.stats.All.checked = false;
+      if (this.stats.Registered.checked) {
+        this.statusString.push('11');
+
+        let stat = this.statusString.join(',');
+        this.instituteData = {
+          name: "",
+          phone: "",
+          email: "",
+          enquiry_no: "",
+          priority: "",
+          status: -1,
+          filtered_statuses: stat,
+          follow_type: "",
+          followUpDate: "",
+          enquiry_date: "",
+          assigned_to: -1,
+          standard_id: -1,
+          subject_id: -1,
+          is_recent: "Y",
+          slot_id: -1,
+          filtered_slots: "",
+          isDashbord: "N",
+          enquireDateFrom: "",
+          enquireDateTo: "",
+          updateDate: "",
+          updateDateFrom: "",
+          updateDateTo: "",
+          start_index: 0,
+          batch_size: this.displayBatchSize,
+          closedReason: "",
+          enqCustomLi: null
+        };
+        this.loadTableDatatoSource(this.instituteData);
+      }
+
+      else {
+        let index = this.statusString.indexOf('11');
+        if (index !== -1) {
+          this.statusString.splice(index, 1);
+        }
+
+        if (this.statusString.length == 0) {
+          //alert(this.statusString.length);
+          this.stats.All.checked = true;
+          this.stats.Admitted.checked = false;
+          this.stats.Inactive.checked = false;
+          this.stats.Open.checked = false;
+          this.stats.Registered.checked = false;
+          this.instituteData = {
+            name: "",
+            phone: "",
+            email: "",
+            enquiry_no: "",
+            priority: "",
+            status: -1,
+            follow_type: "",
+            followUpDate: "",
+            enquiry_date: "",
+            assigned_to: -1,
+            standard_id: -1,
+            subject_id: -1,
+            is_recent: "Y",
+            slot_id: -1,
+            filtered_slots: "",
+            isDashbord: "N",
+            enquireDateFrom: "",
+            enquireDateTo: "",
+            updateDate: "",
+            updateDateFrom: "",
+            updateDateTo: "",
+            start_index: 0,
+            batch_size: this.displayBatchSize,
+            closedReason: "",
+            enqCustomLi: null
+          };
+          this.loadTableDatatoSource(this.instituteData);
+        }
+        else if (this.statusString.length != 0) {
+          let stat = this.statusString.join(',');
+          this.instituteData = {
+            name: "",
+            phone: "",
+            email: "",
+            enquiry_no: "",
+            priority: "",
+            status: -1,
+            filtered_statuses: stat,
+            follow_type: "",
+            followUpDate: "",
+            enquiry_date: "",
+            assigned_to: -1,
+            standard_id: -1,
+            subject_id: -1,
+            is_recent: "Y",
+            slot_id: -1,
+            filtered_slots: "",
+            isDashbord: "N",
+            enquireDateFrom: "",
+            enquireDateTo: "",
+            updateDate: "",
+            updateDateFrom: "",
+            updateDateTo: "",
+            start_index: 0,
+            batch_size: this.displayBatchSize,
+            closedReason: "",
+            enqCustomLi: null
+          };
+          this.loadTableDatatoSource(this.instituteData);
+        }
+
+      }
+
+    }
+
+
+
   }
 
 
@@ -1128,15 +1557,17 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
   /* Function to handle event on table row click*/
   rowClicked(ev) {
+
     /* If all records are not selected then check for true/false status */
     if (ev.data != null) {
+
       /* If true, that is multiple option have been checked but not all */
       if (ev.isSelected) {
         //console.log(ev);
         this.selectedRow = ev.data;
         this.selectedRowGroup = ev.selected;
+        this.isConverted = this.selectedRow.status == 11;
         localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
-
         this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
           this.updateFormComments = res.comments;
           this.updateFormCommentsOn = res.commentedOn;
@@ -1144,10 +1575,12 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
         });
 
       }
+
       /* If false, that is only a single input has been selected */
       else {
         //console.log(ev);
         this.selectedRow = ev.data;
+        this.isConverted = this.selectedRow.status == 11;
         localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
         this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
           this.updateFormComments = res.comments;
@@ -1156,6 +1589,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
         });
       }
     }
+
     /* All records in the page have been selected */
     else {
       //console.log(ev);
@@ -1767,10 +2201,6 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
 
 
 
-  copySMS() {
-    //let content = (document.getElementById('sms-content')).value;
-  }
-
 
 
   editSms() {
@@ -1945,7 +2375,7 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
       index = {
         value: i,
         start_index: start,
-        end_index: start + (this.displayBatchSize -1)
+        end_index: start + (this.displayBatchSize - 1)
       }
       this.indexJSON.push(index);
       start = start + this.displayBatchSize;
@@ -1962,8 +2392,10 @@ export class EnquiryManageComponent implements OnInit, AfterViewInit {
   }
 
 
-  smsContentUpdated(ev) {
-    alert(ev);
+  convertRow(ev) {
+    localStorage.setItem('studentPrefill', JSON.stringify(ev));
+    this.router.navigate(['student/add'])
+    this.closePopup();
   }
 
 

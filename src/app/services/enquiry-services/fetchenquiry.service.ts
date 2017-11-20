@@ -84,22 +84,7 @@ export class FetchenquiryService {
 
 
   fetchAllSms(){
-/*     this.urlFetchAllSms = 'http://test999.proctur.com/CampaignServlet';
 
-    let data = {
-      institute_id: this.institute_id,
-      function_type: 'fetch_campaign_messages',
-      username: JSON.parse(sessionStorage.getItem('institute_info')).userid +'|' +JSON.parse(sessionStorage.getItem('institute_info')).userType,
-      password: JSON.parse(sessionStorage.getItem('institute_info')).password,
-      feature_type: 2
-    }
-
-
-    let dataString = `institute_id=${data.institute_id}&function_type=${data.function_type}&username=${data.username}&password=${data.password}&feature_type=${data.feature_type}`;
-
-    return this.http.post(this.urlFetchAllSms, dataString, {headers: this.headersEncoded}).map(
-      res=> { return res.json().aaData;}
-    ) */
 
     this.urlFetchAllSms = this.baseUrl +"/api/v1/campaign/message/" +this.institute_id +"/all";
 
@@ -116,5 +101,15 @@ export class FetchenquiryService {
   }
 
 
+
+  fetchBulkReport(id){
+   let urlEnquiryBulkReport = this.baseUrl +"/api/v1/bulkUpload/" +this.institute_id +"/download/" +id;
+
+   return this.http.get(urlEnquiryBulkReport, {headers: this.headers}).map(
+     res => {
+       return res.json();
+     }
+   )
+  }
   
 }

@@ -1,0 +1,50 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+
+
+.row{
+    margin: 0px 15px;
+}
+
+.row.extraMargin {
+    margin: 10px 0px 25px 0px;
+}
+
+.custom-comp-header{
+    .row{
+        margin: 0px 15px;
+    }
+}
+
+.custom-comp-tablewrapper{
+    margin: 15px;
+    table{
+        thead{
+            tr{
+                line-height: 20px;
+            }
+        }
+        tbody{
+            tr{
+
+            }
+        }
+    }
+}
+
+
+.custom-table-action{
+    ul{
+        li{
+            display: inline-block;
+            margin: 0px 5px; 
+            a{
+               cursor: pointer;
+
+            }
+        }
+    }
+}

@@ -187,7 +187,7 @@ import { Router } from '@angular/router';
         </span>
       </li>
 
-      <li (click)="openPopup('convert')">
+      <li (click)="openPopup('convert')" >
         <i>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="11900 358 26 22" class="action-icon">
            <g id="Group_1235" data-name="Group 1235" transform="translate(10862 -6)">
@@ -276,6 +276,7 @@ export class ActionButtonComponent implements OnInit {
     private isProfessional: boolean = false;
     private isActionDisabled: boolean;
 
+
     /* message to describe which popup to be opened  */
     message: string = "";
 
@@ -286,6 +287,7 @@ export class ActionButtonComponent implements OnInit {
         if(sessionStorage.getItem('institute_type') === 'LANG'){
             this.isProfessional = true;
         }
+
         this.pops.currentMessage.subscribe(message => this.message = message);
         this.pops.currentActionValue.subscribe(data => this.isActionDisabled = data);
     }

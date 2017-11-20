@@ -3,7 +3,7 @@
     <div class="logo pull-left">
       <a routerLink="/enquiry">
                   <img src="./assets/images/logo.png" alt="COACHING INSTITUTE" title="COACHING INSTITUTE" />
-                  <span>COACHING INSTITUTE</span>
+                  <span>{{instituteName}}</span>
               </a>
     </div>
     <div class="pull-left" id="searchHeader">
@@ -120,32 +120,32 @@
                     <div><strong>Administration</strong></div>
                     <ul>
                       <li>
-                        <strong><a href="#">User Management</a></strong>
+                        <strong><a >User Management</a></strong>
                       </li>
                       <li>
-                        <strong><a href="#">Institute Settings</a></strong>
+                        <strong><a >Institute Settings</a></strong>
                         <div>
                           <ul>
                             <li>
-                              <span><a href="#">Standard</a></span>
+                              <span><a >Standard</a></span>
                             </li>
                             <li>
-                              <span><a href="#">Topics</a></span>
+                              <span><a >Topics</a></span>
                             </li>
                             <li>
-                              <span><a href="#">ClassRoom</a></span>
+                              <span><a >ClassRoom</a></span>
                             </li>
                             <li>
-                              <span><a href="#">Institution/School</a></span>
+                              <span><a >Institution/School</a></span>
                             </li>
                             <li>
-                              <span><a href="#">Slots</a></span>
+                              <span><a >Slots</a></span>
                             </li>
                             <li>
-                              <span><a href="#">Custom Components</a></span>
+                              <span><a [routerLink]="['custom/CustomComponent']">Custom Components</a></span>
                             </li>
                             <li>
-                              <span><a href="#">Archive Data</a></span>
+                              <span><a >Archive Data</a></span>
                             </li>
                           </ul>
                         </div>

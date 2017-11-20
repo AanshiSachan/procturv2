@@ -34,6 +34,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ToasterModule } from 'angular2-toaster';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -50,7 +51,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
   declarations: [
     AppComponent,
     CoreSidednavComponent,
-    CoreHeaderComponent
+    CoreHeaderComponent,
   ],
   entryComponents: [
   ],

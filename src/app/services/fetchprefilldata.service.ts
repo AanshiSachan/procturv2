@@ -398,4 +398,55 @@ export class FetchprefilldataService {
     //  console.log("error loading row Data to Edit, please try again later");
     });
   }
+
+
+  fetchRegistrationFeeDetails(){
+    let urlRegistrationFeeDetail = this.baseUrl + "/api/v2/enquiry_manager/fetchInstituteRegistrationFeesDetails";
+
+    let data = {
+      institution_id: this.institute_id
+    }
+
+    return this.http.post(urlRegistrationFeeDetail, data, {headers: this.headers}).map(
+      res => { return res.json()}
+    )
+  }
+
+  
+
+  fetchBulkUpdateStatusReport(){
+
+    let urlBulkUpdateStatus = this.baseUrl +"/api/v1/bulkUpload/" +this.institute_id;
+
+    let data ={
+      func_type: "enquiryBulkUpload"    
+    }
+
+    return this.http.post(urlBulkUpdateStatus, data, {headers: this.headers}).map(
+      res => { return res.json() }
+    )
+  }
+
+
+  fetchComponentGenerator(){
+
+    let urlComponentGenerator = this.baseUrl +'/api/v1/masterData/type/CUSTOM_COMPONENT_TYPE';
+
+    return this.http.get(urlComponentGenerator, {headers: this.headers}).map(
+      res => { return res.json()}
+    );
+  }
+
+
+  fetchUserCreatedComponent(){
+
+    let urlUserComponent = this.baseUrl +"/api/v1/instCustomComp/getAll/" +this.institute_id +"?page=2";
+
+    return this.http.get(urlUserComponent, {headers: this.headers}).map(
+      res => {
+        return res.json();
+      }
+    );
+
+  }
 }

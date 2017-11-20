@@ -1,0 +1,142 @@
+<div class="middle-section clearFix" id="enquiryList">
+
+  <section class="middle-top clearFix custom-comp-header">
+
+    <div class="row">
+
+      <h1 class="pull-left">
+        Create Custom Component
+      </h1>
+
+      <aside class="pull-right">
+        <input type="button" value="Manage Enquiries" class="btn" />
+        <input type="button" value="Manage Students" class="btn" />
+      </aside>
+    </div>
+
+  </section>
+
+
+  <section class="middle-main clearFix">
+
+    <div class="row">
+      <div class="clearFix add-edit">
+        <a>
+          <i>+</i>
+          <span>Create New Component</span>
+        </a>
+      </div>
+    </div>
+
+
+    <div class="">
+      <form>
+
+        <div class="row extraMargin">
+          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+            <div class="field-wrapper">
+              <input type="text" class="form-ctrl">
+              <label for="">Label</label>
+            </div>
+          </div>
+          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+            <div class="field-wrapper">
+              <select id="" class="form-ctrl">
+                <option value=""></option>
+              </select>
+              <label for="">Type</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row extraMargin">
+          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+            <div class="field-wrapper">
+              <input type="text" class="form-ctrl">
+              <label for="">Prefilled Data</label>
+            </div>
+          </div>
+          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+            <div class="field-wrapper">
+              <input type="text" class="form-ctrl">
+              <label for="">Description</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row extraMargin">
+          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" class="form-checkbox">
+              <label for="addNextEnquiry">Is Required</label>
+            </div>
+
+          </div>
+          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" class="form-checkbox">
+              <label for="addNextEnquiry">Is Searchable</label>
+            </div>
+
+          </div>
+        </div>
+
+
+        <div class="row extraMargin">
+          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+            <div class="field-wrapper">
+              <input type="text" class="form-ctrl">
+              <label for="">Sequence</label>
+            </div>
+          </div>
+          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="custom-comp-tablewrapper">
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Label</th>
+              <th>Type</th>
+              <th>Prefilled Data</th>
+              <th>Description</th>
+              <th>Is Required</th>
+              <th>Is Searchable</th>
+              <th>Sequence</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let comp of userCreatedComponent">
+              <td>{{comp.label}}</td>
+              <td>{{comp.type}}</td>
+              <td>{{comp.prefilled_data}}</td>
+              <td>{{comp.description}}</td>
+              <td>{{comp.is_required}}</td>
+              <td>{{comp.is_searchable}}</td>
+              <td>{{comp.sequence_number}}</td>
+              <td class="custom-table-action">
+                <ul >
+                  <li>
+                    <a>Edit</a>
+                  </li>
+                  <li>
+                    <a>Delete</a>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+
+</div>

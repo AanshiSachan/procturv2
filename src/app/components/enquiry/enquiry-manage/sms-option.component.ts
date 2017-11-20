@@ -21,11 +21,9 @@ import { PopupHandlerService } from '../../../services/enquiry-services/popup-ha
     
   <div class="sms-options" (copyEvent)="enquiryManager.copySMS()">
     <ul class="sms-option-list">
-    <li class="cursor"><a class="cursor" (click)="emitCopy()">Copy</a></li>
     <li class="cursor"><a class="cursor" (click)="emitEdit()">Edit</a></li>
     </ul>
   </div>
-
 
     `,
 })
@@ -41,12 +39,6 @@ export class SmsOptionComponent implements OnInit {
 
     /* OnInit function to listen the changes in message value from service */
     ngOnInit() {}
-
-
-
-    emitCopy(){
-      this.pops.changeSmsMessage('copy');
-    }
 
     emitEdit(){
       this.pops.changeSmsMessage('edit');

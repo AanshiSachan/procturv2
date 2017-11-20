@@ -1,4 +1,9 @@
 @import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+
 
 
 :host /deep/ .table-data-overflow{
@@ -79,10 +84,32 @@
 :host /deep/ ng2-smart-table table > tbody > tr:nth-child(odd) > td:first-child > div {
     background: none;
 }
-/* :host /deep/ ::-webkit-scrollbar{
-    display: none;
-} */
 
+.registration-table{
+    padding: 30px 0px;
+    table{
+        thead{
+            tr{
+                line-height: 25px;
+            }
+        }
+        tbody{
+            tr{
+               line-height: 20px;
+                td{
+                    text-overflow: ellipsis;
+                    .download-icon{
+                        cursor: pointer;
+                        &::after{
+                            content: "\f0ed";
+                            font-family: FontAwesome;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 
 ::ng-deep .bs-datepicker-container{
