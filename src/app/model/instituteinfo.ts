@@ -38,4 +38,6 @@ export interface instituteInfo {
     batch_size ?: any;
     closedReason?: any;
     enqCustomLi?: any;
+    sorted_by?: any;
+    order_by?: any;
 }

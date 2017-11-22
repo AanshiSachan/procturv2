@@ -1,6 +1,6 @@
 import {
   Component, OnInit, ViewChild, Input, Output,
-  EventEmitter, HostListener, AfterViewInit, OnDestroy
+  EventEmitter, HostListener, AfterViewInit, OnDestroy, ElementRef, Renderer2
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
@@ -244,7 +244,9 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     start_index: 0,
     batch_size: this.displayBatchSize,
     closedReason: "",
-    enqCustomLi: null
+    enqCustomLi: null,
+    sorted_by: "",
+    order_by: "",
   };
 
   availableSMS: number = 0;
@@ -540,6 +542,8 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
       }
     });
 
+    sessionStorage.setItem('displayBatchSize', this.displayBatchSize.toString());
+
   }
 
 
@@ -548,72 +552,8 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.rows = null;
     this.sourceEnquiry = null;
-
+    alert("component deleted");
   }
-
-
-
-  /* Function to convert all select-option tag to ul-li */
-  /*convertSelectToUl() {
-
-    var myNodeListOne = document.querySelectorAll('.form-ctrl');
-
-    [].forEach.call(myNodeListOne, function (elm) {
-      if (elm.tagName == 'SELECT') {
-        var allOptions = elm.getElementsByTagName('option');
-        var allreadyCustomDropDown = elm.parentNode.querySelector('.customDropdown');
-        if (allreadyCustomDropDown != null) {
-          allreadyCustomDropDown.remove();
-        }
-        if (allOptions.length > 0) {
-          var listWrapper = document.createElement('ul');
-          listWrapper.classList.add('customDropdown');
-          for (var i = 0; i < allOptions.length; i++) {
-            var list = document.createElement('li');
-            list.innerHTML = allOptions[i].innerHTML;
-            listWrapper.appendChild(list);
-          }
-          elm.parentNode.appendChild(listWrapper);
-          elm.parentNode.classList.add('customSelectWrapper');
-          var listNode = listWrapper.querySelectorAll('li');
-          [].forEach.call(listNode, function (liList) {
-            liList.addEventListener('click', function () {
-              liList.parentNode.parentNode.querySelector('.form-ctrl').value = liList.innerHTML;
-              liList.parentNode.parentNode.classList.add('has-value');
-              liList.parentNode.classList.remove('visibleDropdown');
-              liList.parentNode.parentNode.querySelector('.form-ctrl').style.opacity = 1;
-            })
-          })
-        }
-
-      }
-    });
-
-    var myNodeListTwo = document.querySelectorAll('select.form-ctrl');
-
-    [].forEach.call(myNodeListTwo, function (elm) {
-      elm.addEventListener('click', function () {
-        var listDropdown = document.querySelectorAll('.customDropdown');
-        [].forEach.call(listDropdown, function (elm1) {
-          elm1.parentNode.querySelector('.customDropdown').classList.remove('visibleDropdown');
-        });
-        elm.style.opacity = 0;
-        elm.parentNode.querySelector('.customDropdown').classList.add('visibleDropdown');
-      });
-    });
-
-    document.addEventListener('click', (e) => {
-      let parent = (<HTMLElement>(<HTMLElement>e.target).parentNode);
-      if (!parent.classList.contains('customDropdown')
-        && !parent.classList.contains('customSelectWrapper')) {
-        var nodeDropdown = document.querySelectorAll('.customDropdown');
-        [].forEach.call(nodeDropdown, function (elm) {
-          elm.classList.remove('visibleDropdown');
-          elm.parentNode.querySelector('.form-ctrl').style.opacity = 1;
-        });
-      }
-    });
-  }*/
 
 
 
@@ -623,11 +563,30 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     /* If start_index is zero then fetch table data and set page size for paginator */
     if (obj.start_index === 0) {
       return this.enquire.getAllEnquiry(obj).subscribe(data => {
-        this.rows = data;
-        this.sourceEnquiry = new LocalDataSource(this.rows);
-        this.totalEnquiry = this.rows[0].totalcount;
-        this.indexJSON = [];
-        this.setPageSize(this.totalEnquiry);
+        if (sessionStorage.getItem('pageI') != null && this.indexJSON.length != 0) {
+          for (var i = 1; i <= this.maxPageSize; i++) {
+            if (i == parseInt(sessionStorage.getItem('pageI'))) {
+              document.getElementById('page' + i).classList.add('active');
+            }
+            else {
+              document.getElementById('page' + i).classList.remove('active');
+            }
+          }
+
+          this.rows = data;
+          this.sourceEnquiry = new LocalDataSource(this.rows);
+          this.totalEnquiry = this.rows[0].totalcount;
+          this.indexJSON = [];
+          this.setPageSize(this.totalEnquiry);
+        }
+        else {
+          this.rows = data;
+          this.sourceEnquiry = new LocalDataSource(this.rows);
+          this.totalEnquiry = this.rows[0].totalcount;
+          this.indexJSON = [];
+          this.setPageSize(this.totalEnquiry);
+          document.getElementById('page1').classList.add('active');
+        }
       });
     }
     /* simply returns data obtained from server */
@@ -635,7 +594,21 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
       return this.enquire.getAllEnquiry(obj).map(data => {
         this.rows = data;
       }).subscribe(data => {
-        this.sourceEnquiry = new LocalDataSource(this.rows);
+        if (sessionStorage.getItem('pageI') != null && this.indexJSON.length != 0) {
+          for (var i = 1; i <= this.maxPageSize; i++) {
+            if (i == parseInt(sessionStorage.getItem('pageI'))) {
+              document.getElementById('page' + i).classList.add('active');
+            }
+            else {
+              document.getElementById('page' + i).classList.remove('active');
+            }
+          }
+          this.sourceEnquiry = new LocalDataSource(this.rows);
+        }
+        else {
+          this.sourceEnquiry = new LocalDataSource(this.rows);
+          document.getElementById('page1').classList.add('active');
+        }
       });
     }
   }
@@ -1952,8 +1925,11 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
 
   /* Fetch next set of data from server and update table */
   fetchNext() {
-    if (this.instituteData.start_index < this.totalEnquiry) {
-
+    if ((this.instituteData.start_index + this.instituteData.batch_size) < this.totalEnquiry) {
+      this.instituteData.start_index = this.instituteData.start_index + this.instituteData.batch_size;
+      this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
+      this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
+      this.loadTableDatatoSource(this.instituteData);
     }
   }
 
@@ -1962,7 +1938,10 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   /* Fetch previous set of data from server and update table */
   fetchPrevious() {
     if (this.instituteData.start_index > 0) {
-      console.log(this.instituteData.start_index);
+      this.instituteData.start_index = this.instituteData.start_index - this.instituteData.batch_size;
+      this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
+      this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
+      this.loadTableDatatoSource(this.instituteData);
     }
   }
 
@@ -1971,6 +1950,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   /* Fetches Data as per the user selected batch size */
   updateTableBatchSize(num) {
     this.displayBatchSize = parseInt(num);
+    sessionStorage.setItem('displayBatchSize', num);
     this.instituteData.batch_size = this.displayBatchSize;
     this.instituteData.start_index = 0;
     this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
@@ -2364,6 +2344,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
 
   setPageSize(totalCount) {
     let pageSize = Math.ceil(totalCount / this.instituteData.batch_size);
+    this.maxPageSize = pageSize;
     let index = {
       value: null,
       start_index: null,
@@ -2380,14 +2361,15 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
       this.indexJSON.push(index);
       start = start + this.displayBatchSize;
     }
-
-    //console.log(this.indexJSON);
   }
 
 
 
   fectchTableDataByPage(index) {
     this.instituteData.start_index = index.start_index;
+    this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
+    this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
+    sessionStorage.setItem('pageI', index.value);
     this.busy = this.loadTableDatatoSource(this.instituteData);
   }
 
@@ -2398,5 +2380,67 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     this.closePopup();
   }
 
+
+  /* Function to convert all select-option tag to ul-li */
+  /*convertSelectToUl() {
+
+    var myNodeListOne = document.querySelectorAll('.form-ctrl');
+
+    [].forEach.call(myNodeListOne, function (elm) {
+      if (elm.tagName == 'SELECT') {
+        var allOptions = elm.getElementsByTagName('option');
+        var allreadyCustomDropDown = elm.parentNode.querySelector('.customDropdown');
+        if (allreadyCustomDropDown != null) {
+          allreadyCustomDropDown.remove();
+        }
+        if (allOptions.length > 0) {
+          var listWrapper = document.createElement('ul');
+          listWrapper.classList.add('customDropdown');
+          for (var i = 0; i < allOptions.length; i++) {
+            var list = document.createElement('li');
+            list.innerHTML = allOptions[i].innerHTML;
+            listWrapper.appendChild(list);
+          }
+          elm.parentNode.appendChild(listWrapper);
+          elm.parentNode.classList.add('customSelectWrapper');
+          var listNode = listWrapper.querySelectorAll('li');
+          [].forEach.call(listNode, function (liList) {
+            liList.addEventListener('click', function () {
+              liList.parentNode.parentNode.querySelector('.form-ctrl').value = liList.innerHTML;
+              liList.parentNode.parentNode.classList.add('has-value');
+              liList.parentNode.classList.remove('visibleDropdown');
+              liList.parentNode.parentNode.querySelector('.form-ctrl').style.opacity = 1;
+            })
+          })
+        }
+
+      }
+    });
+
+    var myNodeListTwo = document.querySelectorAll('select.form-ctrl');
+
+    [].forEach.call(myNodeListTwo, function (elm) {
+      elm.addEventListener('click', function () {
+        var listDropdown = document.querySelectorAll('.customDropdown');
+        [].forEach.call(listDropdown, function (elm1) {
+          elm1.parentNode.querySelector('.customDropdown').classList.remove('visibleDropdown');
+        });
+        elm.style.opacity = 0;
+        elm.parentNode.querySelector('.customDropdown').classList.add('visibleDropdown');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      let parent = (<HTMLElement>(<HTMLElement>e.target).parentNode);
+      if (!parent.classList.contains('customDropdown')
+        && !parent.classList.contains('customSelectWrapper')) {
+        var nodeDropdown = document.querySelectorAll('.customDropdown');
+        [].forEach.call(nodeDropdown, function (elm) {
+          elm.classList.remove('visibleDropdown');
+          elm.parentNode.querySelector('.form-ctrl').style.opacity = 1;
+        });
+      }
+    });
+  }*/
 
 }

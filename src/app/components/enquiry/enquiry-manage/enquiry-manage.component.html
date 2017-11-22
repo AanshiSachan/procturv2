@@ -302,7 +302,7 @@
                 <a (click)="fetchPrevious()"> Previous</a>
               </li>
               <li class="index-value" *ngFor="let index of indexJSON" (click)="fectchTableDataByPage(index)">
-                {{index.value}}
+                <a class="index-num" [id]="'page'+index.value">{{index.value}}</a>
               </li>
               <li>
                 <a (click)="fetchNext()"> Next</a>

@@ -247,5 +247,56 @@ export class PostEnquiryDataService {
       }
     )
   }
-  
+
+
+  addNewCustomComponent(req) {
+
+    let urlCreateCustomComponent = this.baseUrl + "/api/v1/instCustomComp/create";
+
+    return this.http.post(urlCreateCustomComponent, req, { headers: this.headers }).map(
+      res => { return res.json() }
+    )
+
+  }
+
+
+  deleteCustomComponent(id) {
+
+    let urlDeleteCustomComponent = this.baseUrl + "/api/v1/instCustomComp/delete/" + this.institute_id + "/" + id;
+
+    return this.http.delete(urlDeleteCustomComponent, { headers: this.headers }).map(
+      res => { return res.json() }
+    );
+  }
+
+
+  updateCustomComponent(req) {
+
+    let data = {
+      comp_length: req.comp_length,
+      component_id: req.component_id,
+      description: req.description,
+      institution_id: this.institute_id,
+      is_required: req.is_required,
+      is_searchable: req.is_searchable,
+      label: req.label,
+      page: req.page,
+      prefilled_data: req.prefilled_data,
+      sequence_number: req.sequence_number,
+      type: req.type,
+    }
+
+    let urlUpdateCustomComponent = this.baseUrl + "/api/v1/instCustomComp/update";
+
+    return this.http.put(urlUpdateCustomComponent, data, { headers: this.headers }).map(
+      res => {
+        return res.json();
+      }
+    );
+
+  }
+
+
+
+
 }

@@ -37,13 +37,75 @@ var TitleComponent = (function () {
     TitleComponent.prototype._sort = function (event) {
         event.preventDefault();
         this.changeSortDirection();
-        this.source.setSort([
-            {
-                field: this.column.id,
-                direction: this.currentDirection,
-                compare: this.column.getCompareFunction(),
-            },
-        ]);
+
+        var displaysize = sessionStorage.getItem('displayBatchSize');
+
+        /* Custom server sided sorting */
+        var tempFormData = {
+            name: "",
+            phone: "",
+            email: "",
+            enquiry_no: "",
+            priority: "",
+            status: -1,
+            follow_type: "",
+            followUpDate: "",
+            enquiry_date: "",
+            assigned_to: -1,
+            standard_id: -1,
+            subject_id: -1,
+            is_recent: "Y",
+            slot_id: -1,
+            filtered_slots: "",
+            isDashbord: "N",
+            enquireDateFrom: "",
+            enquireDateTo: "",
+            updateDate: "",
+            updateDateFrom: "",
+            updateDateTo: "",
+            start_index: 0,
+            batch_size: displaysize,
+            closedReason: "",
+            sorted_by: this.column.id,
+            order_by: this.currentDirection == 'asc' ? 'desc' : 'asc'
+        };
+
+        var xReq = new XMLHttpRequest();
+        var urlSort = "http://test999.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/search/" + sessionStorage.getItem('institute_id');
+
+        xReq.open("POST", urlSort, true);
+
+        xReq.setRequestHeader("Content-Type", "application/json");
+        xReq.setRequestHeader("Access-Control-Allow-Origin", "*");
+        xReq.setRequestHeader("Authorization", sessionStorage.getItem('Authorization'));
+
+        xReq.onreadystatechange = () => {
+            if (xReq.readyState == 4) {
+                if (xReq.status >= 200 && xReq.status < 300) {
+                    this.source.data = JSON.parse(xReq.response);
+                    sessionStorage.setItem('sorted_by', this.column.id);
+                    sessionStorage.setItem('order_by', this.currentDirection)
+                    this.source.setSort([
+                        {
+                            field: this.column.id,
+                            direction: this.currentDirection,
+                            compare: this.column.getCompareFunction(),
+                        },
+                    ]);
+                } 
+                else {
+                    this.source.setSort([
+                        {
+                            field: this.column.id,
+                            direction: this.currentDirection,
+                            compare: this.column.getCompareFunction(),
+                        },
+                    ]);
+                }
+            }
+        }
+
+        xReq.send(JSON.stringify(tempFormData));
         this.sort.emit(null);
     };
     TitleComponent.prototype.changeSortDirection = function () {
