@@ -29,8 +29,18 @@
                 <input type="button" class="normal-btn fullBlue btn" value="Search" style="margin-left:2px" (click)="searchDatabase()" />
               </div>
             </div>
+
+            <!-- followup date handler -->
+            <div class="c-lg-2 c-md-2 c-sm-2">
+              <div class="field-wrapper datePickerBox has-value">
+                <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="instituteData.followUpDate" (ngModelChange)='searchDatabase()'
+                  name="followupdate" bsDatepicker/>
+                <label for="followupdate">Followup Date</label>
+              </div>
+            </div>
+
             <!-- Advanced Filter Trigger -->
-            <div class="c-lg-6 c-md-6 c-sm-6">
+            <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="filter-right">
                 <input type="button" class="btn showFilterBtn" value="Filter" (click)="openAdFilter()" />
                 <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide" (click)="closeAdFilter()">
@@ -497,7 +507,7 @@
             </g>
           </svg>
         </span>
-        
+
         <!-- If Not converted -->
         <div class="popup-content" *ngIf="!isConverted">
           <h2>Convert Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
@@ -562,45 +572,74 @@
           <h2>Registration Fee</h2>
           <div class="registration-fee-form overflowHidden">
             <div class="">
-              <div class="row extraMargin">
-                <div class="c-lg-6 c-md-6 c-sm-6">
-                  <div class="field-wrapper has-value" enquiryDate>
-                    <input type="text" value="" id="pDate" class="form-ctrl" [ngModel]="registrationForm.paymentDate" name="pDate" bsDatepicker/>
-                    <label for="pDate">Payment Date</label>
-                  </div>
-                </div>
-                <div class="c-lg-6 c-md-6 c-sm-6">
-                  <div class="field-wrapper">
-                    <select id="paymentMode" class="form-ctrl" [(ngModel)]="registrationForm.paymentMode" enquiryInput>
-                      <option></option>
-                      <option *ngFor="let payment of paymentMode" [value]="payment">
-                        {{payment}}
-                      </option>
-                    </select>
-                    <label for="paymentMode">Payment Mode</label>
-                  </div>
-                </div>
+
+              <!-- student has invoice and registered with status 11 -->
+              <div class="enquiry-update-history" *ngIf="hasReceipt">
+                <h4>
+                  A payment towards the enquiry has been updated with reference number ##, you may download the receipt for your reference
+                </h4>
               </div>
-              <div class="row extraMargin">
-                <div class="c-lg-6 c-md-6 c-sm-6">
-                  <div class="field-wrapper">
-                    <input type="text" value="" id="remark" class="form-ctrl" [(ngModel)]="registrationForm.amount" name="remark" enquiryInput/>
-                    <label for="remark">Remarks</label>
+
+              <!-- any one of above case has failed -->
+              <div class="payment-form" *ngIf="!hasReceipt">
+
+                <!-- status admitted or registered but no open, inprogress or closed  -->
+                <div class="" *ngIf="isadmitted">
+                  <div class="row extraMargin">
+                    <div class="c-lg-6 c-md-6 c-sm-6">
+                      <div class="field-wrapper has-value" enquiryDate>
+                        <input type="text" value="" id="pDate" class="form-ctrl" [ngModel]="registrationForm.paymentDate" name="pDate" bsDatepicker/>
+                        <label for="pDate">Payment Date</label>
+                      </div>
+                    </div>
+                    <div class="c-lg-6 c-md-6 c-sm-6">
+                      <div class="field-wrapper">
+                        <select id="paymentMode" class="form-ctrl" [(ngModel)]="registrationForm.paymentMode" enquiryInput>
+                          <option></option>
+                          <option *ngFor="let payment of paymentMode" [value]="payment">
+                            {{payment}}
+                          </option>
+                        </select>
+                        <label for="paymentMode">Payment Mode</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row extraMargin">
+                    <div class="c-lg-6 c-md-6 c-sm-6">
+                      <div class="field-wrapper">
+                        <input type="text" value="" id="remark" class="form-ctrl" [(ngModel)]="registrationForm.amount" name="remark" enquiryInput/>
+                        <label for="remark">Amount</label>
+                      </div>
+                    </div>
+                    <div class="c-lg-6 c-md-6 c-sm-6">
+                      <div class="field-wrapper">
+                        <input type="text" value="" id="referenceNo" class="form-ctrl" [(ngModel)]="registrationForm.reference" name="reference"
+                          enquiryInput/>
+                        <label for="referenceNo">Reference No.</label>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="c-lg-6 c-md-6 c-sm-6">
-                  <div class="field-wrapper">
-                    <input type="text" value="" id="referenceNo" class="form-ctrl" [(ngModel)]="registrationForm.reference" name="reference"
-                      enquiryInput/>
-                    <label for="referenceNo">Reference No.</label>
-                  </div>
-                </div>
+
+                <!-- status open, inprogress or converted but not closed-->
+                <h4 *ngIf="notClosednAdmitted">
+                  The requested enquiry has not yet been converted to student, please select the convert to student option from menu.
+                </h4>
+
+                <!-- status closed-->
+                <h4 *ngIf="isClosed">
+                  The Enquiry has been closed or converted as a student.
+                </h4>
+
               </div>
-              <div class="row">
+
+              <!-- Icon for DownLoad -->
+              <div class="row" *ngIf="hasReceipt">
                 <div class="c-lg-12 c-md-12 c-sm-12">
                   <ul class="print-output-section">
 
-                    <li>
+                    <!-- <li>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9177 266 26 22">
                         <g id="Group_1224" data-name="Group 1224" transform="translate(8100 -6)">
                           <g id="Group_1222" data-name="Group 1222">
@@ -624,9 +663,9 @@
                         </g>
                       </svg>
                       <span>Print Fee Receipt</span>
-                    </li>
+                    </li> -->
 
-                    <li class="svg-icon">
+                    <li class="svg-icon" (click)="downloadReceiptPdf()">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="14362 435 26 22">
                         <g id="Group_1230" data-name="Group 1230" transform="translate(13654 -6)">
                           <rect id="Rectangle_695" data-name="Rectangle 695" class="cls-1" width="26" height="22" transform="translate(708 441)" style="stroke:none"
@@ -639,6 +678,7 @@
                           </g>
                         </g>
                       </svg>
+                      <a id="reg-pdf-link"></a>
                       <span>PDF Download</span>
                     </li>
 
@@ -646,43 +686,39 @@
                 </div>
               </div>
 
-              <div class="registration-table row">
-                <div class="table-responsive">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Reference Nummber</th>
-                        <th>Payment Date</th>
-                        <th>Amount</th>
-                        <th>Payment Mode</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Test Text</td>
-                        <td>Test Text</td>
-                        <td>Test Text</td>
-                        <td>Test Text</td>
-                        <td>
-                          <a class="download-icon" (click)="downloadBulkStatusReport($event)">
-                            Download Report
-                          </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              <!-- Footer 1-->
+              <div class="row" *ngIf="!hasReceipt">
 
-              <div class="row">
-                <div class="c-lg-12 c-md-12 c-sm-12">
+                <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="isadmitted">
                   <aside class="pull-right popup-btn">
                     <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                    <input type="button" value="Save and Continue" class="btn redBtn" (click)="registerPayment()">
+                    <input type="button" value="Save" class="btn redBtn" (click)="registerPayment()">
+                  </aside>
+                </div>
+
+                <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="notClosednAdmitted">
+                  <aside class="pull-right popup-btn">
+                    <input type="button" value="Ok" class="btn" (click)="closePopup()">
+                  </aside>
+                </div>
+
+                <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="isClosed">
+                  <aside class="pull-right popup-btn">
+                    <input type="button" value="Ok" class="btn" (click)="closePopup()">
+                  </aside>
+                </div>
+
+              </div>
+
+              <!-- Footer 2-->
+              <div class="row" *ngIf="hasReceipt">
+                <div class="c-lg-12 c-md-12 c-sm-12">
+                  <aside class="pull-right popup-btn">
+                    <input type="button" value="Ok" class="btn" (click)="closePopup()">
                   </aside>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -810,8 +846,7 @@
                 <div class="sms-preview-content">
                   <div class="field-sms-wrapper">
                     <textarea placeholder="Edit Message Here" rows="20" cols="1" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
-                      id="sms-content" value="" [(ngModel)]="selectedSMS.message"
-                      [disabled]="!smsBtnToggle">
+                      id="sms-content" value="" [(ngModel)]="selectedSMS.message" [disabled]="!smsBtnToggle">
                       </textarea>
                   </div>
                 </div>
@@ -957,8 +992,7 @@
                 <div class="sms-preview-content">
                   <div class="field-sms-wrapper">
                     <textarea placeholder="Edit Message Here" rows="20" cols="1" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
-                      id="sms-content" value="" [(ngModel)]="selectedSMS.message"
-                      [disabled]="!smsBtnToggle">
+                      id="sms-content" value="" [(ngModel)]="selectedSMS.message" [disabled]="!smsBtnToggle">
                           </textarea>
                   </div>
                 </div>

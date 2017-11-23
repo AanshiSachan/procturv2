@@ -9,14 +9,15 @@ import { BooleanConverter } from './create-custom-comp/create-custom-comp.compon
 /* Modules */
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CreateCustomCompComponent } from './create-custom-comp/create-custom-comp.component';
-
+import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 
 @NgModule({
     imports: [
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        CustomCommonRoutingModule
+        CustomCommonRoutingModule,
+        BsDatepickerModule
     ],
     declarations: [
         CustomCommonComponent,

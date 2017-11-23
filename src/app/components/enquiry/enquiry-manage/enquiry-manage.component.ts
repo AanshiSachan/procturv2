@@ -216,7 +216,12 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     messageArray: []
   };
 
-  private isConverted: boolean = true;
+  private isConverted: boolean = false;
+  private hasReceipt: boolean = false;
+  private isadmitted: boolean = false;
+  private notClosednAdmitted: boolean = false;
+  private isClosed: boolean = false;
+
 
   /* Model for institute Data */
   instituteData: instituteInfo = {
@@ -531,7 +536,9 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
         this.message = message;
         this.smsSelectedRows = this.selectedRow;
       }
-      this.message = message
+      else {
+        this.message = message
+      }
     });
 
 
@@ -552,7 +559,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.rows = null;
     this.sourceEnquiry = null;
-    alert("component deleted");
+    //alert("component deleted");
   }
 
 
@@ -585,7 +592,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
           this.totalEnquiry = this.rows[0].totalcount;
           this.indexJSON = [];
           this.setPageSize(this.totalEnquiry);
-          document.getElementById('page1').classList.add('active');
+          //document.getElementById('page1').classList.add('active');
         }
       });
     }
@@ -607,7 +614,6 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
         }
         else {
           this.sourceEnquiry = new LocalDataSource(this.rows);
-          document.getElementById('page1').classList.add('active');
         }
       });
     }
@@ -623,6 +629,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     this.prefill.getEnqStatus().subscribe(
       data => {
         this.enqstatus = data;
+        console.log(this.enqstatus)
       }
     );
 
@@ -1309,9 +1316,6 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
       }
 
     }
-
-
-
   }
 
 
@@ -1539,27 +1543,94 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
         //console.log(ev);
         this.selectedRow = ev.data;
         this.selectedRowGroup = ev.selected;
-        this.isConverted = this.selectedRow.status == 11;
-        localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
-        this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
-          this.updateFormComments = res.comments;
-          this.updateFormCommentsOn = res.commentedOn;
-          this.updateFormCommentsBy = res.commentedBy;
-        });
-
+        this.isConverted = this.selectedRow.status == 11 ? true : false;
+        //this.isRegistered = this.selectedRow
+        if ((this.selectedRow.status == 11) && (this.selectedRow.invoice_no != 0)) {
+          this.hasReceipt = true;
+          localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
+          this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
+            this.updateFormComments = res.comments;
+            this.updateFormCommentsOn = res.commentedOn;
+            this.updateFormCommentsBy = res.commentedBy;
+          });
+        }
+        else {
+          /* open, inprogress or converted */
+          if (this.selectedRow.status == 0 || this.selectedRow.status == 3 || this.selectedRow.status == 2) {
+            this.notClosednAdmitted = true;
+            this.isadmitted = false;
+            this.isClosed = false;
+            this.hasReceipt = false;
+          }
+          /* admitted or registered */
+          else if (this.selectedRow.status == 11) {
+            this.notClosednAdmitted = false;
+            this.isadmitted = true;
+            this.isClosed = false;
+            this.hasReceipt = false;
+          }
+          /* closed */
+          else if (this.selectedRow.status == 1 || this.selectedRow.status == 12) {
+            this.notClosednAdmitted = false;
+            this.isadmitted = false;
+            this.isClosed = true;
+            this.hasReceipt = false;
+          }
+          localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
+          this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
+            this.updateFormComments = res.comments;
+            this.updateFormCommentsOn = res.commentedOn;
+            this.updateFormCommentsBy = res.commentedBy;
+          });
+        }
       }
 
       /* If false, that is only a single input has been selected */
       else {
         //console.log(ev);
         this.selectedRow = ev.data;
-        this.isConverted = this.selectedRow.status == 11;
-        localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
-        this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
-          this.updateFormComments = res.comments;
-          this.updateFormCommentsOn = res.commentedOn;
-          this.updateFormCommentsBy = res.commentedBy;
-        });
+        this.isConverted = this.selectedRow.status == 11 ? true : false;
+
+        /* student admitted with invoice */
+        if ((this.selectedRow.status == 11) && (this.selectedRow.invoice_no != 0)) {
+          this.hasReceipt = true;
+          localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
+          this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
+            this.updateFormComments = res.comments;
+            this.updateFormCommentsOn = res.commentedOn;
+            this.updateFormCommentsBy = res.commentedBy;
+          });
+        }
+        else {
+          /* open, inprogress or converted */
+          if (this.selectedRow.status == 0 || this.selectedRow.status == 3 || this.selectedRow.status == 2) {
+            this.notClosednAdmitted = true;
+            this.isadmitted = false;
+            this.isClosed = false;
+            this.hasReceipt = false;
+          }
+
+          /* admitted or registered */
+          else if (this.selectedRow.status == 11) {
+            this.notClosednAdmitted = false;
+            this.isadmitted = true;
+            this.isClosed = false;
+            this.hasReceipt = false;
+          }
+          /* closed */
+          else if (this.selectedRow.status == 1 || this.selectedRow.status == 12) {
+            this.notClosednAdmitted = false;
+            this.isadmitted = false;
+            this.isClosed = true;
+            this.hasReceipt = false;
+          }
+          localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
+          this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
+            this.updateFormComments = res.comments;
+            this.updateFormCommentsOn = res.commentedOn;
+            this.updateFormCommentsBy = res.commentedBy;
+          });
+        }
       }
     }
 
@@ -1568,6 +1639,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
       //console.log(ev);
       this.selectedRowGroup = ev.selected;
     }
+
   }
 
 
@@ -1637,10 +1709,28 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     this.registrationForm.institute_enquiry_id = this.selectedRow.institute_enquiry_id.toString();
     this.postdata.updateRegisterationPayment(this.registrationForm).subscribe(
       res => {
-        alert("registration added" + res)
+        let alert = {
+          type: 'success',
+          title: 'Registration Fee Updated',
+        }
+        this.appC.popToast(alert);
+        this.hasReceipt = true;
+        this.registrationForm = {
+          institute_enquiry_id: "",
+          amount: "",
+          paymentDate: "",
+          paymentMode: "",
+          //remark: "",
+          reference: "",
+        }
       },
       err => {
-        alert("err" + err)
+        let alert = {
+          type: 'error',
+          title: 'Failed To Update Registration Fee',
+          body: 'There was an error processing your request'
+        }
+        this.appC.popToast(alert);
       }
     );
   }
@@ -1904,6 +1994,14 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
       baseIds: [],
       messageArray: []
     };
+    this.registrationForm = {
+      institute_enquiry_id: "",
+      amount: "",
+      paymentDate: moment().format('YYYY-MM-DD'),
+      paymentMode: "",
+      //remark: "",
+      reference: "",
+    }
   }
 
 
@@ -1914,9 +2012,11 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     this.prefill.getEnqSubjects(this.advancedFilterForm.standard_id).subscribe(
       data => {
         this.enqSubject = data;
-        console.log(this.enqSubject);
+        //console.log(this.enqSubject);
       },
-      err => { console.log(err); }
+      err => {
+        //  console.log(err); 
+      }
     );
   }
 
@@ -2183,6 +2283,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
 
 
 
+
   editSms() {
     this.smsBtnToggle = true;
   }
@@ -2361,6 +2462,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
       this.indexJSON.push(index);
       start = start + this.displayBatchSize;
     }
+    //document.getElementById('page1').classList.add('active');
   }
 
 
@@ -2379,6 +2481,27 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     this.router.navigate(['student/add'])
     this.closePopup();
   }
+
+
+  downloadReceiptPdf() {
+
+    this.enquire.fetchReceiptPdf(this.selectedRow.invoice_no).subscribe(
+      res => {
+        let byteArr = this.convertBase64ToArray(res.document);
+        let format = res.format;
+        let fileName = res.docTitle;
+        let file = new Blob([byteArr], { type: 'application/pdf' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('reg-pdf-link');
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        dwldLink.click();
+      },
+      err => { }
+    )
+
+  }
+
 
 
   /* Function to convert all select-option tag to ul-li */

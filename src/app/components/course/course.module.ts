@@ -6,24 +6,26 @@ import { CoursePageRoutingModule } from './course-routing.module';
 /* Modules */
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CourseInput } from './course-directives/course-directives.directive';
+import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 
 @NgModule({
     imports: [
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        CoursePageRoutingModule
-      ],
+        CoursePageRoutingModule,
+        BsDatepickerModule
+    ],
     declarations: [
         CourseComponent,
         ScheduleHomeComponent,
         CourseInput
     ],
     entryComponents: [
-      ],
+    ],
     providers: [
-    ]  
+    ]
 })
 export class CourseModule {
-    
+
 }

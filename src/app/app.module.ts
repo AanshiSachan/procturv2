@@ -32,7 +32,7 @@ import { LoadInterceptor } from './interceptors/load-interceptor';
 /* Modules */
 import { AppRoutingModule } from './app-routing.module';
 import { ToasterModule } from 'angular2-toaster';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerModule } from '../assets/imported_modules/ngx-bootstrap/datepicker';
 
 
 @NgModule({

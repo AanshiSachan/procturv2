@@ -114,4 +114,15 @@ export class FetchenquiryService {
 
   
 
+  fetchReceiptPdf(num){
+
+    let urlPdf = this.baseUrl +"/api/v2/enquiry_manager/downloadRegistrationFeesReceipt/" + num;
+
+   return this.http.get(urlPdf, {headers: this.headers}).map(
+      res => {
+        return res.json();
+      }
+    )
+  }
+
 }
