@@ -10,13 +10,18 @@ import { Router } from '@angular/router';
 })
 export class CoreHeaderComponent implements OnInit {
 
-  instituteName: string = sessionStorage.getItem('institute_name');
-  userName: string = sessionStorage.getItem('name');
+  instituteName: string;
+  userName: string;
 
   ngOnInit() {
     
-    this.instituteName = sessionStorage.getItem('institute_name');
-    this.userName = sessionStorage.getItem('name');
+    this.log.currentInstitute.subscribe(res => {
+      this.instituteName = res;
+    });
+
+    this.log.currentUsername.subscribe(res => {
+      this.userName = res;
+    });
 
   }
 
@@ -24,7 +29,6 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   logout() {
-
     //console.log("logging user out");
     if (this.log.logoutUser()) {
       this.router.navigate(['/authPage']);

@@ -105,7 +105,7 @@
 
 .pagination {
     li {
-        a {
+        /* a {
             &:hover {
                 color: #23527c !important;
                 background-color: none !important;
@@ -119,14 +119,14 @@
                 border-color: none !important;
                 outline: none !important;
             }
-        }
-        .active {
+        } */
+/*         .active {
             background: $common-blue;
             color: white;
             line-height: 18px;
             padding: 4px 8px 0px 8px;
             margin: 0px 0px -3px 0px;
-        }
+        } */
     }
 }
 

@@ -25,6 +25,7 @@ import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
 import { MenuItem } from 'primeng/primeng';
 import { Pipe, PipeTransform } from '@angular/core';
+import { LoginService } from '../../../services/login-services/login.service';
 
 
 @Component({
@@ -336,15 +337,16 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
       name: { title: 'Student Name', filter: false, show: true },
       phone: { title: 'Contact No.', filter: false, show: true },
       priority: { title: 'Priority', filter: false, show: true },
-      follow_type: { title: 'Follow type', filter: false, show: true },
       followUpDate: { title: 'Follow up Date', filter: false, show: true },
       assigned_name: { title: 'Assigned To', filter: false, show: true },
-      standard: { title: 'Standard', filter: false, show: true },
-      subjects: { title: 'Subjects', filter: false, show: true },
       action: { title: 'Action', filter: false, type: 'custom', renderComponent: ActionButtonComponent },
-      updateDate: { title: 'Update Date', filter: false, show: true },
-      statusValue: { title: 'Status Value', filter: false, show: true },
-      enquiry_no_date: { title: 'Enquiry No. & Date', filter: false, show: false }, followUpTime: { title: 'Follow up Time', filter: false, show: false }, followUpDateTime: { title: 'Follow up dateTime', filter: false, show: false }, filtered_statuses: { title: 'Filtered Status', filter: false, show: false }, email: { title: 'Email', filter: false, show: false }, referred_by: { title: 'Reffered By', filter: false, show: false }, status: { title: 'Status', filter: false, show: false }, institute_enquiry_id: { title: 'Enquiry ID', filter: false, show: false }, institution_id: { title: 'Institute ID', filter: false, show: false }, Gender: { title: 'Gender', filter: false, show: false }, is_converted: { title: 'Is Converted', filter: false, show: false }, occupation_id: { title: 'Occupation ID', filter: false, show: false }, school_id: { title: 'School ID', filter: false, show: false }, standard_id: { title: 'Standard ID', filter: false, show: false }, subject_id: { title: 'Subject ID', filter: false, show: false }, source_id: { title: 'Source ID', filter: false, show: false }, is_recent: { title: 'Is recent', filter: false, show: false }, slot_id: { title: 'Slot ID', filter: false, show: false }, slot: { title: 'Slot', filter: false, show: false }, isDashbord: { title: 'Is Dashboard', filter: false, show: false }, isRport: { title: 'Is Report', filter: false, show: false }, totalcount: { title: 'Total Count', filter: false, show: false }, newEnqcount: { title: 'New Enquiry Count', filter: false, show: false }, name_person: { title: 'Person Name', filter: false, show: false }, standard_subject: { title: 'Standard subject', filter: false, show: false }, closedReasonText: { title: 'Closed Reason', filter: false, show: false }, filtered_slots: { title: 'Filtered Slot', filter: false, show: false },
+      statusValue: { title: 'Status', filter: false, show: true },
+      follow_type: { title: 'Follow type', filter: false, show: false },
+      standard: { title: 'Standard', filter: false, show: false },
+      subjects: { title: 'Subjects', filter: false, show: false },
+      updateDate: { title: 'Update Date', filter: false, show: false },
+      email: { title: 'Email', filter: false, show: false },
+      Gender: { title: 'Gender', filter: false, show: false },
     },
     pager: {
       display: false
@@ -365,18 +367,16 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
       name: { title: 'Student Name', filter: false, show: true },
       phone: { title: 'Contact No.', filter: false, show: true },
       priority: { title: 'Priority', filter: false, show: true },
-      follow_type: { title: 'Follow type', filter: false, show: true },
       followUpDate: { title: 'Follow up Date', filter: false, show: true },
       assigned_name: { title: 'Assigned To', filter: false, show: true },
-      standard: { title: 'Standard', filter: false, show: true },
-      subjects: { title: 'Subjects', filter: false, show: true },
-      action: {
-        title: 'Action', filter: false, type: 'custom',
-        renderComponent: ActionButtonComponent
-      },
-      updateDate: { title: 'Update Date', filter: false, show: true },
-      statusValue: { title: 'Status Value', filter: false, show: true },
-      enquiry_no_date: { title: 'Enquiry No. & Date', filter: false, show: false }, followUpTime: { title: 'Follow up Time', filter: false, show: false }, followUpDateTime: { title: 'Follow up dateTime', filter: false, show: false }, filtered_statuses: { title: 'Filtered Status', filter: false, show: false }, email: { title: 'Email', filter: false, show: false }, referred_by: { title: 'Reffered By', filter: false, show: false }, status: { title: 'Status', filter: false, show: false }, institute_enquiry_id: { title: 'Enquiry ID', filter: false, show: false }, institution_id: { title: 'Institute ID', filter: false, show: false }, Gender: { title: 'Gender', filter: false, show: false }, is_converted: { title: 'Is Converted', filter: false, show: false }, occupation_id: { title: 'Occupation ID', filter: false, show: false }, school_id: { title: 'School ID', filter: false, show: false }, standard_id: { title: 'Standard ID', filter: false, show: false }, subject_id: { title: 'Subject ID', filter: false, show: false }, source_id: { title: 'Source ID', filter: false, show: false }, is_recent: { title: 'Is recent', filter: false, show: false }, slot_id: { title: 'Slot ID', filter: false, show: false }, slot: { title: 'Slot', filter: false, show: false }, isDashbord: { title: 'Is Dashboard', filter: false, show: false }, isRport: { title: 'Is Report', filter: false, show: false }, totalcount: { title: 'Total Count', filter: false, show: false }, newEnqcount: { title: 'New Enquiry Count', filter: false, show: false }, name_person: { title: 'Person Name', filter: false, show: false }, standard_subject: { title: 'Standard subject', filter: false, show: false }, closedReasonText: { title: 'Closed Reason', filter: false, show: false }, filtered_slots: { title: 'Filtered Slot', filter: false, show: false },
+      action: { title: 'Action', filter: false, type: 'custom', renderComponent: ActionButtonComponent },
+      statusValue: { title: 'Status', filter: false, show: true },
+      follow_type: { title: 'Follow type', filter: false, show: false },
+      standard: { title: 'Standard', filter: false, show: false },
+      subjects: { title: 'Subjects', filter: false, show: false },
+      updateDate: { title: 'Update Date', filter: false, show: false },
+      email: { title: 'Email', filter: false, show: false },
+      Gender: { title: 'Gender', filter: false, show: false },
     },
     pager: {
       display: false
@@ -486,9 +486,9 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   /* ================================================================= */
   /* ================================================================= */
   constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService,
-    private router: Router,
-    private logger: Logger, private fb: FormBuilder, private pops: PopupHandlerService,
-    private postdata: PostEnquiryDataService, private appC: AppComponent) {
+    private router: Router, private logger: Logger, private fb: FormBuilder, 
+    private pops: PopupHandlerService, private postdata: PostEnquiryDataService, 
+    private appC: AppComponent, private login: LoginService) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -503,10 +503,20 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     /* Model for toggle Menu Dropdown */
     this.myOptions = [
-      { name: 'Enquiry ID', id: 'institute_enquiry_id' },
-      { name: 'Institute ID', id: 'institution_id' },
+      { name: 'Assigned Name', id: 'assigned_name' },
+      { name: 'Email', id: 'email' },
       { name: 'Enquiry No', id: 'enquiry_no' },
-      { name: 'Name', id: 'name' }, { name: 'Phone', id: 'phone' }, { name: 'Email', id: 'email' }, { name: 'Standard', id: 'standard' }, { name: 'Gender', id: 'Gender' }, { name: 'Subjects', id: 'subjects' }, { name: 'Status', id: 'status' }, { name: 'Status Value', id: 'statusValue' }, { name: 'is Converted', id: 'is_converted' }, { name: 'Follow up Date', id: 'followUpDate' }, { name: 'Occupation ID', id: 'occupation_id' }, { name: 'School ID', id: 'school_id' }, { name: 'Enquiry Date', id: 'enquiry_date' }, { name: 'Standard ID', id: 'standard_id' }, { name: 'Subject ID', id: 'subject_id' }, { name: 'Reffered by', id: 'referred_by' }, { name: 'Source ID', id: 'source_id' }, { name: 'Priority', id: 'priority' }, { name: 'Follow type', id: 'follow_type' }, { name: 'Assigned Name', id: 'assigned_name' }, { name: 'Is recent', id: 'is_recent' }, { name: 'Slot ID', id: 'slot_id' }, { name: 'Slot', id: 'slot' }, { name: 'Update Date', id: 'updateDate' }, { name: 'Is Dashboard', id: 'isDashbord' }, { name: 'Is Report', id: 'isRport' }, { name: 'Total Count', id: 'totalcount' }, { name: 'New Enquiry Count', id: 'newEnqcount' }, { name: 'Enquiry Date', id: 'enquiry_no_date' }, { name: 'Person Name', id: 'name_person' }, { name: 'Follow up date', id: 'followUpDateTime' }, { name: 'Standard subject', id: 'standard_subject' }, { name: 'Closed Reason', id: 'closedReasonText' }, { name: 'Follow up Time', id: 'followUpTime' }, { name: 'Filtered Status', id: 'filtered_statuses' }, { name: 'Filtered Slot', id: 'filtered_slots' }
+      { name: 'Enquiry Date', id: 'enquiry_date' },
+      { name: 'Follow up Date', id: 'followUpDate' },
+      { name: 'Follow type', id: 'follow_type' },
+      { name: 'Gender', id: 'Gender' },
+      { name: 'Phone', id: 'phone' },
+      { name: 'Priority', id: 'priority' },
+      { name: 'Name', id: 'name' },
+      { name: 'Standard', id: 'standard' },
+      { name: 'Status', id: 'statusValue' },
+      { name: 'Subjects', id: 'subjects' },
+      { name: 'Update Date', id: 'updateDate' }
     ];
 
     /* If show attribute on table settings, set the checked value on dropdown menu  */
@@ -546,13 +556,15 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
       }
     });
 
-
     /* SMS message service handler to communicate between components */
     this.pops.currentSms.subscribe(res => {
       if (res == 'edit') {
         this.editSms();
       }
     });
+
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
 
     sessionStorage.setItem('displayBatchSize', this.displayBatchSize.toString());
 
@@ -861,55 +873,26 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
       selectMode: 'multi', mode: 'external', hideSubHeader: false,
       actions: { add: false, edit: false, delete: false, columnTitle: '', },
       columns: {
-        enquiry_no: { title: 'Enquiry No.', filter: false, show: false },
-        enquiry_date: { title: 'Enquiry Date', filter: false, show: false },
-        name: { title: 'Student Name', filter: false, show: false },
-        phone: { title: 'Contact No.', filter: false, show: false },
-        priority: { title: 'Priority', filter: false, show: false },
+        enquiry_no: { title: 'Enquiry No.', filter: false, show: true },
+        enquiry_date: { title: 'Enquiry Date', filter: false, show: true },
+        name: { title: 'Student Name', filter: false, show: true },
+        phone: { title: 'Contact No.', filter: false, show: true },
+        priority: { title: 'Priority', filter: false, show: true },
+        followUpDate: { title: 'Follow up Date', filter: false, show: true },
+        assigned_name: { title: 'Assigned To', filter: false, show: true },
+        action: { title: 'Action', filter: false, type: 'custom', renderComponent: ActionButtonComponent },
+        statusValue: { title: 'Status', filter: false, show: true },
         follow_type: { title: 'Follow type', filter: false, show: false },
-        followUpDate: { title: 'Follow up Date', filter: false, show: false },
-        assigned_name: { title: 'Assigned To', filter: false, show: false },
         standard: { title: 'Standard', filter: false, show: false },
         subjects: { title: 'Subjects', filter: false, show: false },
-        action: {
-          title: 'Action', filter: false, type: 'custom',
-          renderComponent: ActionButtonComponent
-        },
         updateDate: { title: 'Update Date', filter: false, show: false },
-        statusValue: { title: 'Status Value', filter: false, show: false },
-        enquiry_no_date: { title: 'Enquiry No. & Date', filter: false, show: false },
-        followUpTime: { title: 'Follow up Time', filter: false, show: false },
-        followUpDateTime: { title: 'Follow up dateTime', filter: false, show: false },
-        filtered_statuses: { title: 'Filtered Status', filter: false, show: false },
         email: { title: 'Email', filter: false, show: false },
-        referred_by: { title: 'Reffered By', filter: false, show: false },
-        status: { title: 'Status', filter: false, show: false },
-        institute_enquiry_id: { title: 'Enquiry ID', filter: false, show: false },
-        institution_id: { title: 'Institute ID', filter: false, show: false },
-        Gender: { title: 'Gender', filter: false, show: false },
-        is_converted: { title: 'Is Converted', filter: false, show: false },
-        occupation_id: { title: 'Occupation ID', filter: false, show: false },
-        school_id: { title: 'School ID', filter: false, show: false },
-        standard_id: { title: 'Standard ID', filter: false, show: false },
-        subject_id: { title: 'Subject ID', filter: false, show: false },
-        source_id: { title: 'Source ID', filter: false, show: false },
-        is_recent: { title: 'Is recent', filter: false, show: false },
-        slot_id: { title: 'Slot ID', filter: false, show: false },
-        slot: { title: 'Slot', filter: false, show: false },
-        isDashbord: { title: 'Is Dashboard', filter: false, show: false },
-        isRport: { title: 'Is Report', filter: false, show: false },
-        totalcount: { title: 'Total Count', filter: false, show: false },
-        newEnqcount: { title: 'New Enquiry Count', filter: false, show: false },
-        name_person: { title: 'Person Name', filter: false, show: false },
-        standard_subject: { title: 'Standard subject', filter: false, show: false },
-        closedReasonText: { title: 'Closed Reason', filter: false, show: false },
-        filtered_slots: { title: 'Filtered Slot', filter: false, show: false },
+        Gender: { title: 'Gender', filter: false, show: false }
       },
       pager: {
         display: false
       },
     };
-
     this.settingsEnquiryUpdater = Object.assign({}, this.settingsEnquiry);
     this.optionsModel.forEach(el => {
       this.settingsEnquiryUpdater.columns[el].show = true;
@@ -2218,6 +2201,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   /* Fetches Data as per the user selected batch size */
   updateTableBatchSize(num) {
     this.displayBatchSize = parseInt(num);
+    this.bulkActionFunction();
     sessionStorage.setItem('displayBatchSize', num);
     this.instituteData.batch_size = this.displayBatchSize;
     this.instituteData.start_index = 0;

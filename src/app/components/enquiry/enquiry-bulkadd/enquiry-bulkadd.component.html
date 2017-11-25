@@ -1,4 +1,4 @@
-<div class="middle-section clearFix" id="enquiryList">
+<div class="middle-section clearFix" id="enquiryList" (click)="inputClicked()">
 
 
 
@@ -26,7 +26,7 @@
       <aside class="pull-right">
         <input type="button" value="Bulk Update Report" (click)="bulkStatusReporter()" class="btn" />
         <a id="template_link">
-          <input type="button" value="Download Upload Template" class="btn" (click)="downloadTemplate()" />
+          <input type="button" value="Download Template" class="btn" (click)="downloadTemplate()" />
         </a>
         <input type="button" value="Add New Enquiry" routerLink='/enquiry/addEnquiry' class="btn" />
       </aside>

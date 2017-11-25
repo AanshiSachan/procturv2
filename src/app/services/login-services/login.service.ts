@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
+import { Subject }    from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AuthenticatorService } from '../authenticator.service';
 
 
@@ -16,6 +18,21 @@ export class LoginService {
   regenerateOTPurl: string;
   forgotPasswordURL: string;
   baseUrl:string = 'http://test999.proctur.com/StdMgmtWebAPI';
+
+
+  /* institute name and username subscriber */
+  private instituteNameSource = new BehaviorSubject<string>('');
+  private userNameSource = new BehaviorSubject<string>('');
+  currentInstitute = this.instituteNameSource.asObservable();
+  currentUsername = this.userNameSource.asObservable();
+
+  changeInstituteStatus(institute: string){
+    this.instituteNameSource.next(institute);
+  }
+  
+  changeNameStatus(name: string){
+    this.userNameSource.next(name);
+  }
 
   constructor(private http: Http) {
 
@@ -58,6 +75,7 @@ export class LoginService {
     // remove user from local storage to log user out
     sessionStorage.clear();
     localStorage.clear();
+
     return true;
   }
 

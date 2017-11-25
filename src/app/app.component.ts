@@ -36,7 +36,8 @@ export class AppComponent implements OnInit {
   isRippleLoad: boolean = true;
 
 
-  constructor(toasterService: ToasterService, private router: Router, private load: LoaderHandlingService) {
+  constructor(toasterService: ToasterService, private router: Router,
+    private load: LoaderHandlingService) {
     this.toasterService = toasterService;
   }
 
@@ -44,19 +45,19 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.router.events.subscribe(event => {
-      if(event instanceof NavigationStart) {
+      if (event instanceof NavigationStart) {
         this.isRippleLoad = true;
         console.log("NavigationStart");
       }
-      else if(event instanceof NavigationEnd){
+      else if (event instanceof NavigationEnd) {
         this.isRippleLoad = false;
         console.log("NavigationEnd");
       }
-      else if(event instanceof NavigationCancel){
+      else if (event instanceof NavigationCancel) {
         this.isRippleLoad = false;
         console.log("NavigationCancel");
       }
-      else if(event instanceof NavigationError){
+      else if (event instanceof NavigationError) {
         this.isRippleLoad = false;
         console.log("NavigationError");
       }

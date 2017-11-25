@@ -14,6 +14,7 @@ import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from 'ang
 import { Ng2SmartTableModule, LocalDataSource } from '../../../../assets/imported_modules/ng2-smart-table';
 import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
+import { LoginService } from '../../../services/login-services/login.service';
 
 
 @Component({
@@ -42,7 +43,7 @@ export class StudentHomeComponent implements OnInit {
   private enqSub2: any = [];
   private advancedFilter: boolean = false;
   private selectedRow: any;
-  private selectedRowGroup:any;
+  private selectedRowGroup: any;
   private displayBatchSize: number = 5;
 
   /* Model for institute Data for fetching student enquiry */
@@ -111,7 +112,8 @@ export class StudentHomeComponent implements OnInit {
   };
 
 
-  constructor(private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private studentFetch: FetchStudentService) { }
+  constructor(private prefill: FetchprefilldataService, private router: Router,
+    private logger: Logger, private studentFetch: FetchStudentService, private login: LoginService) { }
 
 
   /* OnInit function to set toggle default columns and load student data for table*/
@@ -124,6 +126,10 @@ export class StudentHomeComponent implements OnInit {
       this.source = new LocalDataSource(this.rows);
       this.source.refresh();
     });
+
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
+
   }
 
 
@@ -162,13 +168,13 @@ export class StudentHomeComponent implements OnInit {
     else {
       this.selectedRowGroup = ev.selected;
     }
-    
+
   }
 
 
 
   /* Batch Size Update Function */
-  updateTableBatchSize(ev){
+  updateTableBatchSize(ev) {
     console.log(ev);
   }
 

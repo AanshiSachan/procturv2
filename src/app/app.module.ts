@@ -33,6 +33,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { AppRoutingModule } from './app-routing.module';
 import { ToasterModule } from 'angular2-toaster';
 import { BsDatepickerModule } from '../assets/imported_modules/ngx-bootstrap/datepicker';
+import { ErrorComponent } from './components/error/error.component';
+import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
 
 
 @NgModule({
@@ -52,7 +54,9 @@ import { BsDatepickerModule } from '../assets/imported_modules/ngx-bootstrap/dat
     AppComponent,
     CoreSidednavComponent,
     CoreHeaderComponent,
-    AppLoaderComponent
+    AppLoaderComponent,
+    ErrorComponent,
+    ComingSoonComponent
   ],
   entryComponents: [
   ],

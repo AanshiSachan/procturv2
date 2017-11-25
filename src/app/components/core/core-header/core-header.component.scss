@@ -113,7 +113,7 @@ header {
         .user-info {
             white-space: nowrap;
             margin-right: 40px;
-            width: 119px;
+            width: auto;
             display: block;
             position: relative;
             &>.icons {
@@ -133,7 +133,7 @@ header {
                 content: "\f107";
                 font-size: 17px;
                 position: absolute;
-                right: -12px;
+                right: -20px;
                 top: 10px;
             }
         }
