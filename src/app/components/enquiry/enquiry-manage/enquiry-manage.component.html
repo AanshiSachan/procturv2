@@ -1,9 +1,8 @@
-<div class="middle-section clearFix" id="enquiryList" #enquiryManager>
+<div class="middle-section clearFix" id="enquiryList" (click)="inputClicked()" #enquiryManager>
 
 
   <!-- Main View -->
   <aside class="middle-full" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
-
     <!-- Navigation to other tabs -->
     <section class="middle-top mb0 clearFix">
       <h1 class="pull-left">
@@ -22,20 +21,17 @@
         <div class="filter-search">
           <div class="filter-box clearFix">
             <!-- Search Bar -->
-            <div class="c-lg-6 c-md-6 c-sm-6">
+            <div class="c-lg-8 c-md-8 c-sm-8">
               <div class="search-filter-wrapper">
                 <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No./Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;"
                   [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
-                <input type="button" class="normal-btn fullBlue btn" value="Search" style="margin-left:2px" (click)="searchDatabase()" />
-              </div>
-            </div>
-
-            <!-- followup date handler -->
-            <div class="c-lg-2 c-md-2 c-sm-2">
-              <div class="field-wrapper datePickerBox has-value">
-                <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="instituteData.followUpDate" (ngModelChange)='searchDatabase()'
-                  name="followupdate" bsDatepicker/>
-                <label for="followupdate">Followup Date</label>
+                <!-- followup date handler -->
+                <div class="field-wrapper datePickerBox has-value">
+                  <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="searchBarDate" placeholder="FollowUp Date" style="cursor: pointer;"
+                    (keyup.enter)="searchDatabase()" name="followupdate" bsDatepicker/>
+                  <label for="followupdate"></label>
+                </div>
+                <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
               </div>
             </div>
 
@@ -63,7 +59,7 @@
             <div class="row">
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
-                  <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="advancedFilterForm.filtered_statuses" name="status" enquiryInput
+                  <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="advancedFilterForm.filtered_statuses" name="status"
                     Iselector>
                     <option value=""></option>
                     <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
@@ -73,7 +69,7 @@
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
-                  <select id="enquiryPriority" class="form-ctrl" [(ngModel)]="advancedFilterForm.priority" name="priority" enquiryInput>
+                  <select id="enquiryPriority" class="form-ctrl" [(ngModel)]="advancedFilterForm.priority" name="priority"  >
                     <option></option>
                     <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
                       {{priority.data_value}}
@@ -84,7 +80,7 @@
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
-                  <select id="followupType" class="form-ctrl" [(ngModel)]="advancedFilterForm.follow_type" name="followType" enquiryInput>
+                  <select id="followupType" class="form-ctrl" [(ngModel)]="advancedFilterForm.follow_type" name="followType"  >
                     <option></option>
                     <option *ngFor="let follow of enqFollowType" [value]="follow.data_key">
                       {{ follow.data_value }}
@@ -98,7 +94,7 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
                   <select id="standard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" name="standard" (ngModelChange)="fetchEnquirySubject()"
-                    enquiryInput>
+                     >
                     <option></option>
                     <option *ngFor="let std of enqStd" [value]="std.standard_id">
                       {{ std.standard_name }}
@@ -109,7 +105,7 @@
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
-                  <select id="selectSub" class="form-ctrl" [(ngModel)]="advancedFilterForm.subject_id" name="subject" enquiryInput>
+                  <select id="selectSub" class="form-ctrl" [(ngModel)]="advancedFilterForm.subject_id" name="subject"  >
                     <option></option>
                     <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">
                       {{ subject.subject_name }}
@@ -120,7 +116,7 @@
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
-                  <select id="assignTo" class="form-ctrl" [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo" enquiryInput>
+                  <select id="assignTo" class="form-ctrl" [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo"  >
                     <option></option>
                     <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
                       {{ assigned.name }}
@@ -132,21 +128,20 @@
             </div>
             <div class="row">
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper datePickerBox" enquiryDate>
-                  <input type="text" value="" id="updateDate" class="form-ctrl" [(ngModel)]="advancedFilterForm.updateDate" name="UD" bsDatepicker
-                  />
+                <div class="field-wrapper datePickerBox"   >
+                  <input type="text" value="" id="updateDate" class="form-ctrl" [(ngModel)]="advancedFilterForm.updateDate" name="UD" bsDatepicker/>
                   <label for="updateDate">Update Date</label>
                 </div>
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper datePickerBox" enquiryDate>
+                <div class="field-wrapper datePickerBox"   >
                   <input type="text" value="" id="enquiryFromDate" class="form-ctrl" [(ngModel)]="advancedFilterForm.enquireDateFrom" name="EFD"
                     bsDatepicker/>
                   <label for="enquiryFromDate">Enquiry From Date</label>
                 </div>
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper datePickerBox" enquiryDate>
+                <div class="field-wrapper datePickerBox"   >
                   <input type="text" value="" id="enquiryToDate" class="form-ctrl" [(ngModel)]="advancedFilterForm.enquireDateTo" name="ETD"
                     bsDatepicker/>
                   <label for="enquiryToDate">Enquiry To Date</label>
@@ -159,7 +154,7 @@
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y' " input-def>
                 <div class="field-wrapper">
                   <input type="text" value="" id="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
-                    (ngModelChange)="customComponentUpdated($event, component)" class="form-ctrl" name="component.label" enquiryInput/>
+                    (ngModelChange)="customComponentUpdated($event, component)" class="form-ctrl" name="component.label"  />
                   <label for="component.label">{{component.label}}</label>
                 </div>
               </div>
@@ -176,7 +171,7 @@
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3 && component.is_searchable == 'Y' " input-def>
                 <div class="field-wrapper">
                   <select id="component.label" class="form-ctrl" name="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
-                    (ngModelChange)="customComponentUpdated($event, component)" enquiryInput>
+                    (ngModelChange)="customComponentUpdated($event, component)"  >
                     <option value=""></option>
                     <option *ngFor="let opt of component.prefilled_data" value="{{opt}}">{{opt}}</option>
                   </select>
@@ -187,7 +182,7 @@
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 && component.is_searchable == 'Y' " input-def>
                 <div class="field-wrapper">
                   <select id="component.label" class="form-ctrl" name="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
-                    (ngModelChange)="customComponentUpdated($event, component)" multiple enquiryInput>
+                    (ngModelChange)="customComponentUpdated($event, component)" multiple  >
                     <option value=""></option>
                     <option *ngFor="let opt of component.prefilled_data" value="component">{{opt}}</option>
                   </select>
@@ -205,6 +200,7 @@
               </div>
             </div>
           </div>
+
         </div>
       </section>
 
@@ -267,7 +263,7 @@
               </li>
               <li>
                 <div class="bulk-dropdown">
-                  <button id="bulk-action" (click)="bulkActionFunction()" class="btn bulk-dropbtn">
+                  <button id="bulk-action" #bulkaction (click)="bulkActionFunction()" class="btn bulk-dropbtn">
                     Page Size: {{displayBatchSize}}
                   </button>
                   <div id="bulk-drop" class="bulk-dropdown-content">
@@ -346,14 +342,14 @@
           </svg>
         </span>
         <div class="popup-content">
-          <h2>Update Enquiry - Enquiry No: {{selectedRow.enquiry_no}}</h2>
+          <h2>Update Enquiry No: {{selectedRow.enquiry_no}} | Enquirer: {{selectedRow.name}} </h2>
           <div class="update-enquiry-form overflowHidden">
             <div class="">
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
                     <select id="priorityEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.priority" name="priority"
-                      enquiryInput>
+                       >
                       <option></option>
                       <option *ngFor="let priority of enqPriority" [value]="priority.data_value" [attr.selected]="priority.data_value == selectedRow.priority ? '' : null">
                         {{priority.data_value}}
@@ -365,7 +361,7 @@
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
                     <select id="selectFollowupEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.follow_type" name="follow_type"
-                      enquiryInput>
+                       >
                       <option></option>
                       <option *ngFor="let followT of enqFollowType" [value]="followT.data_value" [attr.selected]="followT.data_value == selectedRow.follow_type ? '' : null">
                         {{followT.data_value}}
@@ -377,7 +373,7 @@
               </div>
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
-                  <div class="field-wrapper has-value datePickerBox" enquiryDate>
+                  <div class="field-wrapper has-value datePickerBox"   >
                     <input type="text" class="form-ctrl" value="" placeholder="" [(ngModel)]="selectedRow.followUpDate" id="followUPdateEdit"
                       bsDatepicker />
                     <label for="followUPdateEdit">Follow Up Date</label>
@@ -385,10 +381,12 @@
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
-                    <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.statusValue" name="statusValue"
-                      enquiryInput>
+                    <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.statusValue" (ngModelChange)="updateStatusForEnquiryUpdate($event)"
+                      name="statusValue"  >
                       <option></option>
-                      <option *ngFor="let status of enqstatus" [value]="status.data_value" [attr.selected]="status.data_value == selectedRow.statusValue ? '' : null">
+                      <option *ngFor="let status of enqstatus" [value]="status.data_key" [attr.selected]="status.data_value == selectedRow.statusValue ? '' : null"
+                        [hidden]="status.data_key == 12 ? true : false">
+
                         {{status.data_value}}
                       </option>
                     </select>
@@ -398,7 +396,7 @@
               </div>
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
-                  <div class="field-wrapper has-value datePickerBox" enquiryDate>
+                  <div class="field-wrapper has-value datePickerBox"   >
                     <input type="text" value="" placeholder="" id="commentDateEdit" class="form-ctrl" [(ngModel)]="updateFormData.commentDate"
                       bsDatepicker/>
                     <label for="commentDateEdit">Comment Date</label>
@@ -406,7 +404,7 @@
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper">
-                    <input type="text" value="" placeholder="" id="addcommentEdit" class="form-ctrl" [(ngModel)]="updateFormData.comment" enquiryInput/>
+                    <input type="text" value="" placeholder="" id="addcommentEdit" class="form-ctrl" [(ngModel)]="updateFormData.comment"  />
                     <label for="addcommentEdit">Add Comment Edit</label>
                   </div>
                 </div>
@@ -446,6 +444,7 @@
       </div>
     </div>
   </section>
+
 
 
 
@@ -587,14 +586,14 @@
                 <div class="" *ngIf="isadmitted">
                   <div class="row extraMargin">
                     <div class="c-lg-6 c-md-6 c-sm-6">
-                      <div class="field-wrapper has-value" enquiryDate>
+                      <div class="field-wrapper has-value"   >
                         <input type="text" value="" id="pDate" class="form-ctrl" [ngModel]="registrationForm.paymentDate" name="pDate" bsDatepicker/>
                         <label for="pDate">Payment Date</label>
                       </div>
                     </div>
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper">
-                        <select id="paymentMode" class="form-ctrl" [(ngModel)]="registrationForm.paymentMode" enquiryInput>
+                        <select id="paymentMode" class="form-ctrl" [(ngModel)]="registrationForm.paymentMode"  >
                           <option></option>
                           <option *ngFor="let payment of paymentMode" [value]="payment">
                             {{payment}}
@@ -608,14 +607,14 @@
                   <div class="row extraMargin">
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper">
-                        <input type="text" value="" id="remark" class="form-ctrl" [(ngModel)]="registrationForm.amount" name="remark" enquiryInput/>
+                        <input type="text" value="" id="remark" class="form-ctrl" [(ngModel)]="registrationForm.amount" name="remark"  />
                         <label for="remark">Amount</label>
                       </div>
                     </div>
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper">
                         <input type="text" value="" id="referenceNo" class="form-ctrl" [(ngModel)]="registrationForm.reference" name="reference"
-                          enquiryInput/>
+                           />
                         <label for="referenceNo">Reference No.</label>
                       </div>
                     </div>
@@ -806,7 +805,8 @@
                     </div>
                     <div class="c-lg-5 c-md-5 c-sm-5 align-right">
                       <div class="search-filter-wrapper">
-                        <input type="text" class="sms-search-field" placeholder="Search SMS" name="searchData">
+                        <input type="text" class="sms-search-field" placeholder="Search SMS" #smssearch [(ngModel)]="smsSearchData" name="searchData"
+                          (keyup.enter)="onSearch(smssearch.value)">
                       </div>
                     </div>
                   </div>
@@ -854,8 +854,8 @@
                   <div class="">
                     <div class="clearfix">
                       <aside class="popup-btn">
-                        <input type="button" value="Cancel" class="btn" *ngIf="smsBtnToggle" (click)="cancelSmsEdit()">
-                        <input type="button" value="Save" class="redBtn btn" *ngIf="smsBtnToggle" (click)="saveEditedSms()">
+                        <input type="button" value="Cancel Edit" class="btn" *ngIf="smsBtnToggle" (click)="cancelSmsEdit()">
+                        <input type="button" value="Save Template" class="redBtn btn" *ngIf="smsBtnToggle" (click)="saveEditedSms()">
                         <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closePopup()">
                         <input type="button" value="Send SMS" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
                       </aside>
@@ -952,7 +952,8 @@
                     </div>
                     <div class="c-lg-5 c-md-5 c-sm-5 align-right">
                       <div class="search-filter-wrapper">
-                        <input type="text" class="sms-search-field" placeholder="Search SMS" name="searchData">
+                        <input type="text" class="sms-search-field" placeholder="Search SMS" #smssearch [(ngModel)]="smsSearchData" name="searchData"
+                          (keyup.enter)="onSearch(smssearch.value)">
                       </div>
                     </div>
                   </div>

@@ -23,7 +23,8 @@ import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from '../
 import { Ng2SmartTableModule, LocalDataSource } from '../../../../assets/imported_modules/ng2-smart-table';
 import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
-import { MenuItem } from 'primeng/primeng'
+import { MenuItem } from 'primeng/primeng';
+import { Pipe, PipeTransform } from '@angular/core';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   private checkedOpt: any[];
   private myOptions: IMultiSelectOption[];
   private sourceEnquiry: LocalDataSource;
-  private smsPopSource: LocalDataSource;
+  smsPopSource: LocalDataSource;
   busy: Subscription;
   private checkedStatus = [];
   private filtered = [];
@@ -54,6 +55,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   private paymentMode: any = [];
   today: any = Date.now();
   searchBarData: any = null;
+  searchBarDate: any = '';
   displayBatchSize: number = 10;
   incrementFlag: boolean = true;
   updateFormComments: any = [];
@@ -216,6 +218,8 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     messageArray: []
   };
 
+  smsSearchData: string = "";
+
   private isConverted: boolean = false;
   private hasReceipt: boolean = false;
   private isadmitted: boolean = false;
@@ -262,7 +266,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   updateFormData: updateEnquiryForm = {
     comment: "",
     status: "",
-    institution_id: "100123",
+    institution_id: sessionStorage.getItem('institute_id'),
     isEnquiryUpdate: "Y",
     closedReason: null,
     slot_id: null,
@@ -305,6 +309,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     Admitted: { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
     Inactive: { value: 'Inactive', prop: 'Converted', checked: false, disabled: false },
   };
+
 
 
 
@@ -559,7 +564,6 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.rows = null;
     this.sourceEnquiry = null;
-    //alert("component deleted");
   }
 
 
@@ -567,8 +571,20 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
 
   /* Load Table data with respect to the institute data provided */
   loadTableDatatoSource(obj) {
+
+    this.unselectAllRow();
+
     /* If start_index is zero then fetch table data and set page size for paginator */
     if (obj.start_index === 0) {
+      /* manual conversion of date object to date string as accepted by server */
+      obj.followUpDate = obj.followUpDate == '' ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
+      obj.enquiry_date = obj.enquiry_date == '' ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
+      obj.enquireDateFrom = obj.enquireDateFrom == '' ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
+      obj.enquireDateTo = obj.enquireDateTo == '' ? '' : moment(obj.enquireDateTo).format('YYYY-MM-DD');
+      obj.updateDate = obj.updateDate == '' ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
+      obj.updateDateFrom = obj.updateDateFrom == '' ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
+      obj.updateDateTo = obj.updateDateTo == '' ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
+
       return this.enquire.getAllEnquiry(obj).subscribe(data => {
         if (sessionStorage.getItem('pageI') != null && this.indexJSON.length != 0) {
           for (var i = 1; i <= this.maxPageSize; i++) {
@@ -598,6 +614,15 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     }
     /* simply returns data obtained from server */
     else {
+      /* manual conversion of date object to date string as accepted by server */
+      obj.followUpDate = obj.followUpDate == '' ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
+      obj.enquiry_date = obj.enquiry_date == '' ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
+      obj.enquireDateFrom = obj.enquireDateFrom == '' ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
+      obj.enquireDateTo = obj.enquireDateTo == '' ? '' : moment(obj.enquireDateTo).format('YYYY-MM-DD');
+      obj.updateDate = obj.updateDate == '' ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
+      obj.updateDateFrom = obj.updateDateFrom == '' ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
+      obj.updateDateTo = obj.updateDateTo == '' ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
+
       return this.enquire.getAllEnquiry(obj).map(data => {
         this.rows = data;
       }).subscribe(data => {
@@ -621,15 +646,126 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
 
 
 
+  /* onload clear all selected Row */
+  unselectAllRow() {
+    this.selectedRowGroup = [];
+    this.selectedRow = {
+      address: null,
+      amount: 0,
+      assigned_name: "",
+      assigned_to: null,
+      batch_size: null,
+      city: null,
+      closedReason: null,
+      closedReasonText: "",
+      comment: null,
+      commentDate: null,
+      commentedBy: null,
+      commentedOn: null,
+      comments: null,
+      course_types: null,
+      curr_address: null,
+      demo_by_id: null,
+      discount_offered: null,
+      email: "",
+      email2: null,
+      enqCustomLi: null,
+      enqLi: null,
+      enqStudentstatusMap: null,
+      enquireDateFrom: null,
+      enquireDateTo: null,
+      enquiry: null,
+      enquiryIdList: null,
+      enquiry_creation_datetime: "",
+      enquiry_date: "",
+      enquiry_no: null,
+      enquiry_no_date: "",
+      failure_reason: "",
+      fee_committed: null,
+      filtered_slots: "",
+      filtered_statuses: "",
+      followUpDate: "",
+      followUpDateTime: "",
+      followUpTime: "",
+      follow_type: "",
+      from_date: null,
+      gender: null,
+      grade: null,
+      inst_enquiry_handler_no: null,
+      institute_enquiry_id: 0,
+      institution_id: 0,
+      invoice_no: 0,
+      isDashbord: "",
+      isEnquiryUpdate: "",
+      isEnquiryV2Update: "",
+      isRegisterFeeUpdate: "",
+      isRport: "",
+      is_converted: "",
+      is_recent: "",
+      lead_id: null,
+      link: null,
+      name: "",
+      name_person: "",
+      newEnqcount: null,
+      occupation_id: null,
+      occupation_name: "",
+      otherReference: null,
+      parent_email: null,
+      parent_name: null,
+      parent_phone: null,
+      pastResult: null,
+      pastResultEvaluationType: null,
+      paymentDate: null,
+      paymentMode: null,
+      phone: "",
+      phone2: null,
+      priority: "",
+      promotional_sms: null,
+      qualification: null,
+      reference: null,
+      reference_no: null,
+      referred_by: null,
+      referred_by_name: "",
+      religion: null,
+      reportType: null,
+      school: null,
+      school_id: null,
+      slot: "",
+      slot_id: null,
+      source_id: null,
+      source_name: "",
+      standard: "",
+      standard_id: null,
+      standard_subject: "",
+      start_index: null,
+      status: null,
+      statusMap: null,
+      statusMasterMap: null,
+      statusValue: "",
+      statuses: null,
+      subject_id: null,
+      subjects: "",
+      teacherArray: null,
+      to_date: null,
+      totalFeesCollected: null,
+      totalcount: null,
+      transactional_sms: "",
+      uniqueCatName: null,
+      updateDate: "",
+      updateDateFrom: null,
+      updateDateTo: null,
+    };
+  }
+
+
+
   /* Function to fetch prefill data for advanced filter */
   FetchEnquiryPrefilledData() {
-
-
     /* Status */
     this.prefill.getEnqStatus().subscribe(
       data => {
         this.enqstatus = data;
-        console.log(this.enqstatus)
+        // console.log(this.enqstatus)
       }
     );
 
@@ -876,7 +1012,6 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
         }
 
         if (this.statusString.length == 0) {
-          //alert(this.statusString.length);
           this.stats.All.checked = true;
           this.stats.Admitted.checked = false;
           this.stats.Inactive.checked = false;
@@ -997,7 +1132,6 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
         }
 
         if (this.statusString.length == 0) {
-          //alert(this.statusString.length);
           this.stats.All.checked = true;
           this.stats.Admitted.checked = false;
           this.stats.Inactive.checked = false;
@@ -1125,7 +1259,6 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
         }
 
         if (this.statusString.length == 0) {
-          //alert(this.statusString.length);
           this.stats.All.checked = true;
           this.stats.Admitted.checked = false;
           this.stats.Inactive.checked = false;
@@ -1245,7 +1378,6 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
         }
 
         if (this.statusString.length == 0) {
-          //alert(this.statusString.length);
           this.stats.All.checked = true;
           this.stats.Admitted.checked = false;
           this.stats.Inactive.checked = false;
@@ -1334,7 +1466,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
         priority: "",
         status: -1,
         follow_type: "",
-        followUpDate: "",
+        followUpDate: this.searchBarDate != '' ? this.searchBarDate : '',
         enquiry_date: "",
         assigned_to: -1,
         standard_id: -1,
@@ -1394,7 +1526,8 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
             batch_size: this.displayBatchSize,
             closedReason: "",
           };
-          tempFormData.name = this.searchBarData
+          tempFormData.name = this.searchBarData;
+          tempFormData.followUpDate = this.searchBarDate != '' ? this.searchBarDate : '';
           this.busy = this.enquire.getAllEnquiry(tempFormData).map(data => {
             this.rows = data;
           }).subscribe(data => {
@@ -1443,7 +1576,8 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
             batch_size: this.displayBatchSize,
             closedReason: "",
           };
-          tempFormData.phone = this.searchBarData
+          tempFormData.phone = this.searchBarData;
+          tempFormData.followUpDate = this.searchBarDate != '' ? this.searchBarDate : '';
           this.busy = this.enquire.getAllEnquiry(tempFormData).map(data => {
             this.rows = data;
           }).subscribe(data => {
@@ -1482,6 +1616,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
             closedReason: "",
           };
           tempFormData.enquiry_no = this.searchBarData
+          tempFormData.followUpDate = this.searchBarDate != '' ? this.searchBarDate : '';
           this.busy = this.enquire.getAllEnquiry(tempFormData).map(data => {
             this.rows = data;
           }).subscribe(data => {
@@ -1543,7 +1678,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
         //console.log(ev);
         this.selectedRow = ev.data;
         this.selectedRowGroup = ev.selected;
-        this.isConverted = this.selectedRow.status == 11 ? true : false;
+        this.isConverted = this.selectedRow.status == 12 ? true : false;
         //this.isRegistered = this.selectedRow
         if ((this.selectedRow.status == 11) && (this.selectedRow.invoice_no != 0)) {
           this.hasReceipt = true;
@@ -1589,7 +1724,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
       else {
         //console.log(ev);
         this.selectedRow = ev.data;
-        this.isConverted = this.selectedRow.status == 11 ? true : false;
+        this.isConverted = this.selectedRow.status == 12 ? true : false;
 
         /* student admitted with invoice */
         if ((this.selectedRow.status == 11) && (this.selectedRow.invoice_no != 0)) {
@@ -1647,11 +1782,13 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
 
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
-    this.updateFormData.priority = this.selectedRow.statusValue;
+    this.updateFormData.priority = this.selectedRow.priority;
     this.updateFormData.follow_type = this.selectedRow.follow_type;
     this.updateFormData.status = this.selectedRow.status.toString();
     this.updateFormData.followUpDate = moment(this.selectedRow.followUpDate).format('YYYY-MM-DD');
+    this.updateFormData.commentDate = moment(this.updateFormData.commentDate).format('LLL');
     this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
+
     this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData)
       .subscribe(res => {
         let alert = {
@@ -1672,6 +1809,12 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
       })
   }
 
+
+
+  /* update the enquiry id for enquiry update pop up */
+  updateStatusForEnquiryUpdate(val) {
+    this.selectedRow.status = val;
+  }
 
 
 
@@ -1744,7 +1887,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     /* store the data from server and update table */
     this.enquire.fetchAllSms().subscribe(
       data => {
-        this.smsPopSource = data;
+        this.smsPopSource = new LocalDataSource(data);
         this.smsDataLength = data.length;
         this.availableSMS = data[0].institute_sms_quota_available
 
@@ -1864,8 +2007,6 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
 
   /* Function to perform advanced filter and update table data */
   filterAdvanced() {
-
-
     /* a temporary array to store the user selected  */
     let tempArr = [];
 
@@ -1883,8 +2024,17 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     this.instituteData = this.advancedFilterForm;
 
 
+    this.advancedFilterForm.followUpDate = this.advancedFilterForm.followUpDate == '' ? '' : moment(this.advancedFilterForm.followUpDate).format('YYYY-MM-DD');
+    this.advancedFilterForm.enquiry_date = this.advancedFilterForm.enquiry_date == '' ? '' : moment(this.advancedFilterForm.enquiry_date).format('YYYY-MM-DD');
+    this.advancedFilterForm.enquireDateFrom = this.advancedFilterForm.enquireDateFrom == '' ? '' : moment(this.advancedFilterForm.enquireDateFrom).format('YYYY-MM-DD');
+    this.advancedFilterForm.enquireDateTo = this.advancedFilterForm.enquireDateTo == '' ? '' : moment(this.advancedFilterForm.enquireDateTo).format('YYYY-MM-DD');
+    this.advancedFilterForm.updateDate = this.advancedFilterForm.updateDate == '' ? '' : moment(this.advancedFilterForm.updateDate).format('YYYY-MM-DD');
+    this.advancedFilterForm.updateDateFrom = this.advancedFilterForm.updateDateFrom == '' ? '' : moment(this.advancedFilterForm.updateDateFrom).format('YYYY-MM-DD');
+    this.advancedFilterForm.updateDateTo = this.advancedFilterForm.updateDateTo == '' ? '' : moment(this.advancedFilterForm.updateDateTo).format('YYYY-MM-DD');
 
-    this.busy = this.enquire.getAllEnquiry(this.advancedFilterForm).map(data => {
+    //console.log(moment(this.advancedFilterForm.updateDate).format('YYYY-MM-DD'));
+    this.instituteData = this.advancedFilterForm;
+    this.busy = this.enquire.getAllEnquiry(this.instituteData).map(data => {
       this.rows = data;
     }).subscribe(
       data => {
@@ -1894,8 +2044,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
           this.indexJSON = [];
           this.setPageSize(this.totalEnquiry);
           this.sourceEnquiry.refresh();
-          /* clear advanced filter form and close div */
-          this.advancedFilterForm = {
+          /* this.advancedFilterForm = {
             name: "",
             phone: "",
             email: "",
@@ -1921,17 +2070,17 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
             batch_size: this.displayBatchSize,
             closedReason: "",
             enqCustomLi: null
-          };
+          }; */
           this.closeAdFilter();
         }
         else {
           let alert = {
-            type: 'error',
+            type: 'info',
             title: 'No Records Found',
             body: 'We did not find any enquiry for the specified query'
           }
           this.appC.popToast(alert);
-          this.advancedFilterForm = {
+          /* this.advancedFilterForm = {
             name: "",
             phone: "",
             email: "",
@@ -1957,14 +2106,13 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
             batch_size: this.displayBatchSize,
             closedReason: "",
             enqCustomLi: null
-          };
+          }; */
           this.searchBarData = '';
-          this.searchDatabase();
+          //this.searchDatabase();
           this.closeAdFilter();
         }
       },
       err => {
-
       }
       );
   }
@@ -2002,6 +2150,26 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
       //remark: "",
       reference: "",
     }
+    this.updateFormData = {
+      comment: "",
+      status: "",
+      institution_id: sessionStorage.getItem('institute_id'),
+      isEnquiryUpdate: "Y",
+      closedReason: null,
+      slot_id: null,
+      priority: "",
+      follow_type: "",
+      followUpDate: "",
+      commentDate: moment().format('YYYY-MM-DD'),
+      followUpTime: "",
+      isEnquiryV2Update: "N",
+      isRegisterFeeUpdate: "N",
+      amount: null,
+      paymentMode: null,
+      paymentDate: null,
+      reference: null,
+    }
+    this.loadTableDatatoSource(this.instituteData);
   }
 
 
@@ -2074,26 +2242,6 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   }
 
 
-
-
-  // Function to close the open menu if the user clicks outside of them
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-
-    /* Hide Bulk-action dropdown on click outside button */
-    if (!this.validateElementForId(event.target, "bulk-action")) {
-      var dropdowns = document.getElementsByClassName("bulk-dropdown-content");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
-        }
-      }
-    }
-
-    /* Future Purpose */
-  }
 
 
 
@@ -2190,6 +2338,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   smsRowSelected(ev) {
     if (ev.isSelected) {
       this.selectedSMS = ev.data;
+      this.smsBtnToggle = false;
     }
   }
 
@@ -2242,7 +2391,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
             this.newSmsString.data = '';
             this.enquire.fetchAllSms().subscribe(
               data => {
-                this.smsPopSource = data;
+                this.smsPopSource = new LocalDataSource(data);
               },
               err => {
                 let msg = {
@@ -2281,9 +2430,6 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
 
 
 
-
-
-
   editSms() {
     this.smsBtnToggle = true;
   }
@@ -2292,6 +2438,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
 
   cancelSmsEdit() {
     this.smsBtnToggle = false;
+    this.smsServicesInvoked();
   }
 
 
@@ -2311,7 +2458,6 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
         }
         this.appC.popToast(msg);
         this.cancelSmsEdit();
-        this.smsServicesInvoked();
       },
       err => {
         let msg = {
@@ -2503,6 +2649,42 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   }
 
 
+  onSearch(query: string = '') {
+
+    this.smsPopSource.setFilter(
+      [{
+        field: 'message',
+        search: query
+      }], false
+    )
+
+  }
+
+
+  /* Customiized click detection strategy */
+  inputClicked() {
+    var nodelist = document.querySelectorAll('.form-ctrl');
+    [].forEach.call(nodelist, (elm) => {
+      elm.addEventListener('blur', function (event) {
+        if (event.target.value != '') {
+          event.target.parentNode.classList.add('has-value');
+        } else {
+          event.target.parentNode.classList.remove('has-value');
+        }
+      });
+    });
+
+    /* var dropdowns = document.getElementsByClassName("bulk-dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    } */
+
+  }
+
 
   /* Function to convert all select-option tag to ul-li */
   /*convertSelectToUl() {
@@ -2566,4 +2748,31 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     });
   }*/
 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@Pipe({ name: 'dateConverter' })
+
+export class DateConverter implements PipeTransform {
+  transform(value: any, exponent: any): any {
+
+    console.log(value);
+
+    return null;
+
+  }
 }

@@ -24,7 +24,6 @@ export class AuthenticatorService {
             return this.token;
         }
         else{
-            alert('You are not authorized to view the content, please login to continue');
         }
     }
 
@@ -33,7 +32,6 @@ export class AuthenticatorService {
             return this.institute_type;
         }
         else{
-            alert('You are not authorized to view the content, please login to continue');
         }
     }
 
@@ -42,7 +40,6 @@ export class AuthenticatorService {
             return this.institute_id;
         }
         else{
-            alert('something went wrong, please refresh or try again later');
         }
     }
 }

@@ -101,7 +101,7 @@ header {
             box-sizing: border-box;
             border-radius: 50%;
             padding-top: 3px;
-            transition: all 0.5s;
+            transition: all 0.1s;
             border: 1px solid transparent;
             svg {
                 width: 25px;
@@ -187,7 +187,7 @@ header {
     text-decoration: none;
     padding: 5px 10px;
     display: block;
-    transition: all 2s;
+    transition: all 0.4s;
 }
 
 .login-tube nav>ul>li:hover>a,
@@ -204,10 +204,10 @@ header {
     min-width: 300px;
     border-top: 0;
     opacity: 0;
-    -webkit-transition: all .3s cubic-bezier(.55, 0, .55, .2);
-    transition: all .3s cubic-bezier(.55, 0, .55, .2);
+    -webkit-transition: all .1s cubic-bezier(.55, 0, .55, .2);
+    transition: all .1s cubic-bezier(.55, 0, .55, .2);
     -webkit-transition-duration: .25s;
-    transition-duration: .25s;
+    transition-duration: .2s;
     transform: scale(0.5);
     &>ul {
         li {

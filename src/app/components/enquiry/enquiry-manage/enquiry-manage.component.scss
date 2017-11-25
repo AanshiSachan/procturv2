@@ -3,14 +3,11 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-
-
-
-:host /deep/ .table-data-overflow{
-     ng2-smart-table table {
-        tbody{
-            tr{
-                td:first-child{
+:host /deep/ .table-data-overflow {
+    ng2-smart-table table {
+        tbody {
+            tr {
+                td:first-child {
                     max-width: 0;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -21,13 +18,15 @@
     }
 }
 
+
 /* Data table Settings */
 
-:host /deep/ ng2-smart-table table > thead > tr:first-child{
+:host /deep/ ng2-smart-table table>thead>tr:first-child {
     background: #f7f7f7;
     transition: all 0.5s;
 }
-:host /deep/ ng2-smart-table table > thead > tr:first-child > th{
+
+:host /deep/ ng2-smart-table table>thead>tr:first-child>th {
     padding: 10px 10px;
     background: #004a7e;
     color: #fff;
@@ -35,14 +34,16 @@
     font-weight: normal;
     vertical-align: middle;
     line-height: 20px;
-    .ng2-smart-title{
+    .ng2-smart-title {
         min-width: 70px;
     }
 }
-:host /deep/ ng2-smart-table table > thead > tr:nth-child(even){
+
+:host /deep/ ng2-smart-table table>thead>tr:nth-child(even) {
     display: none
 }
-:host /deep/ .ng2-smart-title a{
+
+:host /deep/ .ng2-smart-title a {
     font-size: 11px !important;
     font-weight: normal !important;
     color: #fff !important;
@@ -52,55 +53,140 @@
     margin: 0;
     padding: 0;
 }
-::ng-deep .ng2-smart-title a::after{
+
+::ng-deep .ng2-smart-title a::after {
     border-bottom: 4px solid rgba(0, 0, 0, 0.87) !important;
 }
-:host /deep/ ng2-smart-table table > tbody > tr > td{
+
+:host /deep/ ng2-smart-table table>tbody>tr>td {
     transition: all 0.5s;
     font-size: 14px !important;
     line-height: normal;
     border-bottom: 1px solid #fff;
     padding: 6px 2px;
 }
-:host /deep/ ng2-smart-table table > tbody > tr:nth-child(even) {
+
+:host /deep/ ng2-smart-table table>tbody>tr:nth-child(even) {
     background: rgba(204, 204, 204, 0.36);
     font-size: 11px !important;
     font-weight: normal !important;
- }
-:host /deep/ ng2-smart-table table > tbody > tr:nth-child(odd) {
+}
+
+:host /deep/ ng2-smart-table table>tbody>tr:nth-child(odd) {
     background: #FFF;
     font-size: 11px !important;
     font-weight: normal !important;
 }
-:host /deep/ ng2-smart-table table > thead > tr:first-child > th:first-child > div {
+
+:host /deep/ ng2-smart-table table>thead>tr:first-child>th:first-child>div {
     background: #004a7e;
 }
-::ng-deep .dropdown-menu{
+
+::ng-deep .dropdown-menu {
     left: -150px;
 }
-:host /deep/ ng2-smart-table table > tbody > tr:nth-child(even) > td:first-child > div{
-    background: none;
- }
-:host /deep/ ng2-smart-table table > tbody > tr:nth-child(odd) > td:first-child > div {
+
+:host /deep/ ng2-smart-table table>tbody>tr:nth-child(even)>td:first-child>div {
     background: none;
 }
 
-.registration-table{
+:host /deep/ ng2-smart-table table>tbody>tr:nth-child(odd)>td:first-child>div {
+    background: none;
+}
+
+.search-filter-wrapper {
+    .normal-field {
+        padding: 7px 10px;
+        border: 1px solid #ccc;
+        width: 50%;
+        box-sizing: border-box;
+        margin: 0;
+        float: left;
+        border-right: 0;
+        height: 35px;
+        font-size: 14px;
+    }
+
+    .normal-btn {
+        padding: 8px 10px;
+        width: 20%;
+        box-sizing: border-box;
+        float: left;
+        cursor: pointer;
+    }
+
+    .field-wrapper{
+        position: relative;
+        padding-top: 0px !important;
+        width: 30%;
+        float: left !important;
+        .form-ctrl{
+            border-top: none !important;
+            border-right: none !important;
+            border-left: none !important;
+
+        }
+    }
+
+    .field-wrapper label{
+        position: absolute !important;
+        left: 10% !important;
+        top: 1% !important;
+        &:after{
+            left: 85% !important;
+            top: 10px !important;
+        }
+    }
+
+    .field-wrapper {
+        position: relative;
+        padding-top: 1px;
+        &.datePickerBox {
+            .form-ctrl {
+                position: relative;
+                z-index: 1;
+                background: transparent;
+                padding: 7px 10px;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+                margin: 0;
+                float: left;
+                border-right: 0;
+                height: 35px;
+                font-size: 14px;
+                width: 85% !important;
+            }
+            &:after {
+                 content: '';
+                background: url('/../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                left: 75% !important;
+                top: 5px !important;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+
+}
+
+.registration-table {
     padding: 30px 0px;
-    table{
-        thead{
-            tr{
+    table {
+        thead {
+            tr {
                 line-height: 25px;
             }
         }
-        tbody{
-            tr{
-               line-height: 20px;
-                td{
+        tbody {
+            tr {
+                line-height: 20px;
+                td {
                     text-overflow: ellipsis;
-                    .download-icon{
+                    .download-icon {
                         cursor: pointer;
-                        &::after{
+                        &::after {
                             content: "\f0ed";
                             font-family: FontAwesome;
                         }
@@ -112,25 +198,7 @@
 }
 
 
-::ng-deep .bs-datepicker-container{
-  padding: 10px;
-  background: #004b7f;
-}
-
-::ng-deep .bs-datepicker-head{
-  background-color: #004c80;
-  color: white;
-  border-top: 1px solid white;
-  border-left: 1px solid white;
-  border-right: 1px solid white;
-  min-width: 300px !important;
-  font-weight: 800;
-}
-
-::ng-deep .bs-datepicker-body{
-  padding: 5px;
-}
-::ng-deep .ui-splitbutton{
+::ng-deep .ui-splitbutton {
     position: relative;
     display: inline-block;
     zoom: 1;
@@ -145,7 +213,7 @@
     padding: 3px 0px 0px 0px;
     font-family: 'Open Sans', Arial, sans-serif;
     font-size: 14px;
-    .ui-button{
+    .ui-button {
         background: #fff;
         color: #0084f6 !important;
         font-family: 'Open Sans', Arial, sans-serif;
@@ -153,17 +221,17 @@
         height: 35px !important;
         font-weight: 600;
         border: 1px solid $border-common !important;
-        &:hover{
+        &:hover {
             color: white !important;
         }
-        &:active{
-            color: white !important;            
+        &:active {
+            color: white !important;
         }
-        &:focus{
-            color: white !important;            
+        &:focus {
+            color: white !important;
         }
     }
-    .ui-menu{
+    .ui-menu {
         border: none;
         color: #1b1d1f;
         background: #f6f7f9 0 0 repeat-x;
@@ -174,10 +242,10 @@
         box-shadow: none;
         font-family: 'Open Sans', Arial, sans-serif;
         font-size: 14px;
-        .ui-menu-list{
+        .ui-menu-list {
             font-family: 'Open Sans', Arial, sans-serif;
             font-size: 14px;
-            .ui-menuitem{
+            .ui-menuitem {
                 font-family: 'Open Sans', Arial, sans-serif;
                 font-size: 14px;
                 width: 100%;
@@ -191,17 +259,17 @@
                 border: 0.5px solid rgba(128, 128, 128, 0.43) !important;
                 box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.48);
                 background: white;
-                a{
-                    color: #0084f6 !important; 
+                a {
+                    color: #0084f6 !important;
                     font-family: 'Open Sans', Arial, sans-serif !important;
                     font-size: 14px !important;
-                    &:hover{
-                        background: white;  
-                      }
+                    &:hover {
+                        background: white;
+                    }
                 }
             }
         }
-    }    
+    }
 }
 
 .middle-main {
@@ -304,27 +372,30 @@
 
 .common-nav {
     display: none;
- }
+}
+
 .middle-section {
     padding: 5px 15px;
     width: 100%;
     box-sizing: border-box;
- }
+}
+
 .middle-left {
     width: 100%;
     padding: 0;
- }
+}
+
 .middle-top h1 {
     margin-top: 8px;
     margin-bottom: 10px;
     float: none;
- }
+}
+
 .middle-top {
     aside {
         float: left;
     }
 }
-
 
 
 /*=======================filter type==============*/
@@ -385,7 +456,7 @@
     margin-top: 15px;
 }
 
-.pagination{
+.pagination {
     .first {
         &:before {
             content: "« ";
@@ -394,13 +465,13 @@
         }
     }
     .last {
-		&:after {
+        &:after {
             content: " »";
             font-size: 16px;
-			font-weight: 800;
-		}
+            font-weight: 800;
+        }
     }
-    .batch-size{
+    .batch-size {
         font-size: 16px;
         font-weight: 800;
         border-bottom: 1px solid black;
@@ -411,8 +482,8 @@
         margin: 0;
         line-height: 10px;
         font-weight: 800;
-        cursor: pointer; 
-        a{
+        cursor: pointer;
+        a {
             line-height: 10px;
             font-size: 16px;
             font-weight: 800;
@@ -448,7 +519,6 @@
     font-size: 14px;
     font-weight: 600;
     color: $redBtn;
-
     svg {
         width: 15px;
         height: 16px;
@@ -469,6 +539,7 @@
 .filter-res {
     margin-top: 20px;
 }
+
 
 /*===========================================action tooltip of table===================*/
 
@@ -620,6 +691,7 @@
     }
 }
 
+
 /*=====================================mobile head menu css===========================*/
 
 .table-head-menu {
@@ -762,6 +834,7 @@ ul.customDropdown li:hover {
     background: #f5f5f5;
 }
 
+
 /* popUp Scss */
 
 .popupWrapper {
@@ -773,8 +846,7 @@ ul.customDropdown li:hover {
     right: 0;
     left: 0px;
     background: rgba(230, 230, 230, 0.5);
-    z-index: 100;
-    // display: none;  
+    z-index: 100; // display: none;  
     visibility: hidden;
     opacity: 0;
     -webkit-transition: all 0.5s ease-in;
@@ -783,22 +855,19 @@ ul.customDropdown li:hover {
     -o-transition: all 0.5s ease-in;
     transition: all 0.5s ease-in;
     .popup {
-        max-width: 850px;
-        // max-height: 350px;
+        max-width: 850px; // max-height: 350px;
         width: 100%;
         height: auto;
         left: 0;
         right: 0;
         top: 5%;
         bottom: 0;
-        margin: auto;
-        // transform: translateY(-50%);
+        margin: auto; // transform: translateY(-50%);
     }
 }
 
 .popup-wrapper {
-    padding: 20px 20px;
-    // height: 100%;
+    padding: 20px 20px; // height: 100%;
     box-sizing: border-box;
     box-shadow: 1px 8px 20px 5px #9c9c9c;
     transition: unset;
@@ -879,8 +948,7 @@ ul.customDropdown li:hover {
     left: 0;
     z-index: 100;
     background: rgba(0, 0, 0, 0.5);
-    visibility: hidden;
-    // opacity: 0;
+    visibility: hidden; // opacity: 0;
     -webkit-transition: all 0.5s ease-in;
     -moz-transition: all 0.5s ease-in;
     -ms-transition: all 0.5s ease-in;
@@ -984,6 +1052,7 @@ ul.customDropdown li:hover {
     }
 }
 
+
 /*=======================================confirmation =========================*/
 
 .confirmation-popup-content {
@@ -1066,51 +1135,27 @@ ul.customDropdown li:hover {
     margin: 10px -15px 20px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.sms-form{
+.sms-form {
     .row {
-    margin: 0px -15px;
+        margin: 0px -15px;
     }
 }
 
-.popup-body-container{
-    max-width:85% !important;
+.popup-body-container {
+    max-width: 85% !important;
     top: 2% !important;
     left: 5% !important;
 }
 
-.sms-popup-content{
-    max-height: 80% !important; 
+.sms-popup-content {
+    max-height: 80% !important;
     display: flex !important;
     overflow: hidden !important;
 }
 
-.sms-middle-section{
+.sms-middle-section {
     padding: 5px 5px;
-    .table-container{
+    .table-container {
         max-width: 100%;
         min-height: 200px;
         overflow: auto;
@@ -1118,10 +1163,10 @@ ul.customDropdown li:hover {
     }
 }
 
-.sms-update{
+.sms-update {
     min-height: 100%;
     width: 100%;
-    .sms-table{
+    .sms-table {
         min-height: 300px;
         max-height: 450px;
         border-top: 1px solid $border-common;
@@ -1130,7 +1175,7 @@ ul.customDropdown li:hover {
         padding-left: 2px;
         overflow-y: scroll;
         overflow-x: hidden;
-        .sms-search-field{
+        .sms-search-field {
             padding: 5px 10px;
             border: 1px solid $border-common;
             width: 65%;
@@ -1143,20 +1188,18 @@ ul.customDropdown li:hover {
             outline: none;
         }
     }
-    .sms-preview{
+    .sms-preview {
         min-height: 450px;
         border-top: 1px solid $border-common;
-        width:30%;  
+        width: 30%;
         padding: 0px 5px;
-        .sms-preview-header{
+        .sms-preview-header {
             margin-bottom: 25px;
-
         }
     }
 }
 
-
-.field-sms-wrapper{
+.field-sms-wrapper {
     position: relative;
     padding-top: 10px;
     border: 1px solid $border-common;
@@ -1170,28 +1213,27 @@ ul.customDropdown li:hover {
             background: none repeat scroll 0 0 #FFFFFF;
             outline-width: 0;
         }
-      }
+    }
 }
 
-.new-sms-form{
+.new-sms-form {
     padding: 0px;
     width: 100%;
-    .row{
+    .row {
         margin: 0px;
     }
-    .new-sms-wrapper{
-        .new-sms-textarea{
+    .new-sms-wrapper {
+        .new-sms-textarea {
             width: 100%;
             border: 1px solid $border-common;
-            padding: 5px;            
+            padding: 5px;
         }
     }
-
 }
 
-.add-edit{
+.add-edit {
     cursor: pointer;
-    .add-sms{
+    .add-sms {
         line-height: 8px;
         padding: 4px 0px 0px 0px;
         font-size: 24px;
@@ -1207,12 +1249,11 @@ ul.customDropdown li:hover {
 }
 
 
-
-
-
 /* ======================== DropDown Menu ================================= */
 
+
 /* Dropdown Button */
+
 .bulk-dropbtn {
     padding: 7px 12px;
     background: #fff;
@@ -1227,30 +1268,39 @@ ul.customDropdown li:hover {
     color: #0084f6;
 }
 
+
 /* Dropdown button on hover & focus */
-.bulk-dropbtn:hover, .bulk-dropbtn:focus {
+
+.bulk-dropbtn:hover,
+.bulk-dropbtn:focus {
     background-color: #0084f6;
     color: white;
 }
 
+
 /* The container <div> - needed to position the dropdown content */
+
 .bulk-dropdown {
     position: relative;
     display: inline-block;
 }
 
+
 /* Dropdown Content (Hidden by Default) */
+
 .bulk-dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
     text-align: center;
 }
 
+
 /* Links inside the dropdown */
+
 .bulk-dropdown-content a {
     color: black;
     padding: 12px 16px;
@@ -1258,5 +1308,9 @@ ul.customDropdown li:hover {
     display: block;
 }
 
+
 /* Change color of dropdown links on hover */
-.bulk-dropdown-content a:hover {background-color: #f1f1f1}
+
+.bulk-dropdown-content a:hover {
+    background-color: #f1f1f1
+}

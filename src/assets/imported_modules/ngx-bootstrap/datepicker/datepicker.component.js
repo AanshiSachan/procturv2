@@ -15,7 +15,7 @@ var DatePickerComponent = (function () {
         /** sets datepicker mode, supports: `day`, `month`, `year` */
         this.datepickerMode = 'day';
         /** if false week numbers will be hidden */
-        this.showWeeks = true;
+        this.showWeeks = false;
         this.selectionDone = new EventEmitter(undefined);
         /** callback to invoke when the activeDate is changed. */
         this.activeDateChange = new EventEmitter(undefined);

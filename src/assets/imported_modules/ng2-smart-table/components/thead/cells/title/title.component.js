@@ -79,7 +79,8 @@ var TitleComponent = (function () {
         xReq.setRequestHeader("Access-Control-Allow-Origin", "*");
         xReq.setRequestHeader("Authorization", sessionStorage.getItem('Authorization'));
 
-        xReq.onreadystatechange = () => {
+        xReq.onreadystatechange = function(){
+            
             if (xReq.readyState == 4) {
                 if (xReq.status >= 200 && xReq.status < 300) {
                     this.source.data = JSON.parse(xReq.response);

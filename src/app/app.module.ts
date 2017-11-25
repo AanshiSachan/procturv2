@@ -2,7 +2,7 @@
 import { AppComponent } from './app.component';
 import { CoreSidednavComponent } from './components/core/core-sidednav/core-sidednav.component';
 import { CoreHeaderComponent } from './components/core/core-header/core-header.component';
-
+import { AppLoaderComponent } from './components/app-loader/app-loader.component'
 
 /* Modules */
 import { BrowserModule } from '@angular/platform-browser';
@@ -22,13 +22,13 @@ import { PostEnquiryDataService } from './services/enquiry-services/post-enquiry
 import { AuthenticatorService } from './services/authenticator.service';
 import { LoginService } from './services/login-services/login.service';
 import { AlertService } from './services/alert.service';
-import {StandardServices} from './services/course-services/standardPost.service'
-
+import { StandardServices } from './services/course-services/standardPost.service'
+import { LoaderHandlingService } from './services/loading-services/loader-handling.service';
 import { Ng2SmartTableModule } from '../assets/imported_modules/ng2-smart-table';
 
 /* Interceptors */
 import { LoadInterceptor } from './interceptors/load-interceptor';
-
+import { AuthGuard } from './guards/auth.guard';
 /* Modules */
 import { AppRoutingModule } from './app-routing.module';
 import { ToasterModule } from 'angular2-toaster';
@@ -52,6 +52,7 @@ import { BsDatepickerModule } from '../assets/imported_modules/ngx-bootstrap/dat
     AppComponent,
     CoreSidednavComponent,
     CoreHeaderComponent,
+    AppLoaderComponent
   ],
   entryComponents: [
   ],
@@ -63,10 +64,11 @@ import { BsDatepickerModule } from '../assets/imported_modules/ngx-bootstrap/dat
     PostEnquiryDataService,
     AuthenticatorService,
     LoginService,
-    StandardServices
+    StandardServices,
+    AuthGuard,
+    LoaderHandlingService
   ],
   bootstrap: [AppComponent]
 })
-
 export class AppModule {
 }

@@ -32,7 +32,7 @@ var _exports = [
 ];
 var BsDatepickerModule = (function () {
     function BsDatepickerModule() {
-        warnOnce("BsDatepickerModule is under development,\n      BREAKING CHANGES are possible,\n      PLEASE, read changelog");
+        //warnOnce("BsDatepickerModule is under development,\n      BREAKING CHANGES are possible,\n      PLEASE, read changelog");
     }
     BsDatepickerModule.forRoot = function () {
         return {

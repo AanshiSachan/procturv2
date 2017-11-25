@@ -5,24 +5,7 @@
 @import "./src/assets/css/common/variables.scss";
 @import "./src/app/components/course/schedule-home/schedule-home.component.scss";
 
-::ng-deep .bs-datepicker-container{
-    padding: 10px;
-    background: #004b7f;
-  }
-  
-  ::ng-deep .bs-datepicker-head{
-    background-color: #004c80;
-    color: white;
-    border-top: 1px solid white;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
-    min-width: 300px !important;
-    font-weight: 800;
-  }
-  
-  ::ng-deep .bs-datepicker-body{
-    padding: 5px;
-  }
+
 
 .middle-section {
     padding: 15px;
@@ -225,7 +208,7 @@
       cursor: pointer;
       box-shadow: 0px 0px 1px 0px #ccc inset;
       color: #888;
-      transition: all 0.6s linear;
+      transition: all 0.2s linear;
       &:hover {
           border-color: $header-bg;
           box-shadow: 0px 0px 1px 0px $header-bg inset;
@@ -354,11 +337,11 @@
     // display: none;  
     visibility: hidden;
     opacity: 0;
-    -webkit-transition: all 0.5s ease-in;
-    -moz-transition: all 0.5s ease-in;
-    -ms-transition: all 0.5s ease-in;
-    -o-transition: all 0.5s ease-in;
-    transition: all 0.5s ease-in;
+    -webkit-transition: all 0.1s ease-in;
+    -moz-transition: all 0.1s ease-in;
+    -ms-transition: all 0.1s ease-in;
+    -o-transition: all 0.1s ease-in;
+    transition: all 0.1s ease-in;
     .popup {
         max-width: 850px;
         // max-height: 350px;
@@ -458,11 +441,11 @@
     background: rgba(0, 0, 0, 0.5);
     visibility: hidden;
     // opacity: 0;
-    -webkit-transition: all 0.5s ease-in;
-    -moz-transition: all 0.5s ease-in;
-    -ms-transition: all 0.5s ease-in;
-    -o-transition: all 0.5s ease-in;
-    transition: all 0.5s ease-in;
+    -webkit-transition: all 0.1s ease-in;
+    -moz-transition: all 0.1s ease-in;
+    -ms-transition: all 0.1s ease-in;
+    -o-transition: all 0.1s ease-in;
+    transition: all 0.1s ease-in;
     .closePopup {
         right: -25px;
         top: -27px;
@@ -481,11 +464,11 @@
     overflow: auto;
     z-index: 1;
     bottom: -70%;
-    -webkit-transition: all 0.5s ease-in;
-    -moz-transition: all 0.5s ease-in;
-    -ms-transition: all 0.5s ease-in;
-    -o-transition: all 0.5s ease-in;
-    transition: all 0.5s ease-in;
+    -webkit-transition: all 0.1s ease-in;
+    -moz-transition: all 0.1s ease-in;
+    -ms-transition: all 0.1s ease-in;
+    -o-transition: all 0.1s ease-in;
+    transition: all 0.1s ease-in;
 }
 
 .popupWrapperMob.showPopupMob {

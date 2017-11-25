@@ -51,7 +51,7 @@
   box-shadow: 0 5px 10px 0 rgba(0,0,0,0.15), 0 0 2px 0 rgba(0,0,0,0.2);
   overflow: hidden;
   z-index: 2;
-  transition: left .8s cubic-bezier(.175,.885,.26,1.055);
+  transition: left .1s cubic-bezier(.175,.885,.26,1.055);
 }
 
 #header{
@@ -127,8 +127,8 @@
 	margin:20px auto;
 	display:block;
 	cursor:pointer;
-    -webkit-transition: all 0.4s;
-	transition: all 0.4s;
+    -webkit-transition: all 0.1s;
+	transition: all 0.1s;
 	border-radius: 2px;
 }
 
@@ -140,8 +140,8 @@
 .box button:hover{
 		background: #009688;
   color: #FFF;
-    -webkit-transition: all 0.4s;
-	transition: all 0.4s;
+    -webkit-transition: all 0.1s;
+	transition: all 0.1s;
 }
 
 .box p{
@@ -176,9 +176,9 @@ label 				 {
   pointer-events:none;
   left:5px;
   top:10px;
-  transition:0.2s ease all; 
-  -moz-transition:0.2s ease all; 
-  -webkit-transition:0.2s ease all;
+  transition:0.1s ease all; 
+  -moz-transition:0.1s ease all; 
+  -webkit-transition:0.1s ease all;
 }
 
 /* active state */
@@ -197,9 +197,9 @@ label 				 {
   bottom:1px; 
   position:absolute;
   background: #009688; 
-  transition:0.2s ease all; 
-  -moz-transition:0.2s ease all; 
-  -webkit-transition:0.2s ease all;
+  transition:0.1s ease all; 
+  -moz-transition:0.1s ease all; 
+  -webkit-transition:0.1s ease all;
 }
 .bar:before {
   left:50%;
@@ -407,7 +407,7 @@ label 				 {
   top: 2px !important;
 }
 
-$transition: all 0.3s;
+$transition: all 0.1s;
 $shadow-L1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 $shadow-L2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 $shadow-L3: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);

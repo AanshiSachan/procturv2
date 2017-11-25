@@ -319,7 +319,7 @@ export class CreateCustomCompComponent implements OnInit {
 
   deleteRow(data) {
 
-    if(confirm("Do you really wish to delete this component")){
+    if (confirm("Do you really wish to delete this component")) {
       this.postdata.deleteCustomComponent(data.component_id).subscribe(
         res => {
           let alert = {
@@ -445,6 +445,20 @@ export class CreateCustomCompComponent implements OnInit {
         );
       }
     }
+  }
+
+
+  inputClicked() {
+    var nodelist = document.querySelectorAll('.form-ctrl');
+    [].forEach.call(nodelist, (elm) => {
+      elm.addEventListener('blur', function (event) {
+        if (event.target.value != '') {
+          event.target.parentNode.classList.add('has-value');
+        } else {
+          event.target.parentNode.classList.remove('has-value');
+        }
+      });
+    });
   }
 
 }

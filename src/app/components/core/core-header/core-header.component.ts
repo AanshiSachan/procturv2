@@ -10,20 +10,21 @@ import { Router } from '@angular/router';
 })
 export class CoreHeaderComponent implements OnInit {
 
-  ngOnInit() {
-
-  }
-
   instituteName: string = sessionStorage.getItem('institute_name');
   userName: string = sessionStorage.getItem('name');
 
-
-  constructor(private log: LoginService, private router: Router) {
+  ngOnInit() {
+    
     this.instituteName = sessionStorage.getItem('institute_name');
     this.userName = sessionStorage.getItem('name');
+
+  }
+
+  constructor(private log: LoginService, private router: Router) {
   }
 
   logout() {
+
     //console.log("logging user out");
     if (this.log.logoutUser()) {
       this.router.navigate(['/authPage']);

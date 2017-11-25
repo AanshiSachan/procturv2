@@ -8,6 +8,8 @@ import { LoginService } from '../../../services/login-services/login.service';
 import { LoginAuth } from '../../../model/login-auth';
 import { instituteList } from '../../../model/institute-list-auth-popup';
 import { InstituteLoginInfo } from '../../../model/multiInstituteLoginData';
+import { LoaderHandlingService } from '../../../services/loading-services/loader-handling.service';
+
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -15,6 +17,11 @@ import { InstituteLoginInfo } from '../../../model/multiInstituteLoginData';
 })
 export class LoginPageComponent {
 
+
+
+
+
+  /* Variable Declaration */
   loginDataForm: LoginAuth;
   loading = false;
   returnUrl: string;
@@ -27,6 +34,9 @@ export class LoginPageComponent {
   countDown: any;
   counter: number = 30;
   no_email_found: boolean = false;
+
+
+
   instituteListObj: instituteList = {
     institute_id: "",
     institute_name: "",
@@ -41,14 +51,19 @@ export class LoginPageComponent {
     userType: "",
     user_role: ""
   }
+
+
+
   selectedMultiInstitute: any;
   selectedUserRole: any;
+  
   multiInstituteLoginInfo: InstituteLoginInfo = {
     alternate_email_id: "",
     password: "",
     userid: "",
     institution_id: ""
   }
+  
   userListArr: any[] = [];
   multiUserLoginInfo: any = {
     alternate_email_id: "",
@@ -57,6 +72,7 @@ export class LoginPageComponent {
     institution_id: "",
     user_role: ""
   }
+
 
   otpVerificationPhoneNumber: string;
   otpVerificationInfo: any = {
@@ -68,12 +84,14 @@ export class LoginPageComponent {
     otp_validate_mode: 1
   }
 
+
+
+
   constructor(private login: LoginService, private route: Router, private actroute: ActivatedRoute,
     private toastCtrl: AppComponent) {
 
     /* hide header and sidebar from the view onInit to give the user the full screen view of the web app  */
-
-    if (sessionStorage.getItem('Authorization') != null && sessionStorage.getItem('Authorization') != null) {
+    if (sessionStorage.getItem('Authorization') != null){
       this.fullscreenLogin();
       this.loginDataForm = {
         alternate_email_id: "",
@@ -93,6 +111,10 @@ export class LoginPageComponent {
   }
 
 
+
+
+
+
   /* Function to hide element with tag name header and sidebar */
   fullscreenLogin() {
     var header = document.getElementsByTagName('core-header');
@@ -105,6 +127,9 @@ export class LoginPageComponent {
       el.classList.add('hide');
     });
   }
+
+
+
 
 
   /*
@@ -137,6 +162,10 @@ export class LoginPageComponent {
   }
   //END - 0
 
+
+
+
+
   //Method to decide where to take user when he/she Logs in (START - 1)
   checkForAuthOptions(res) {
     let login_option: number = res.login_option;
@@ -163,6 +192,10 @@ export class LoginPageComponent {
   }
   //End - 1
 
+
+
+
+
   //if login is fails ( Start - 2)
   alternateLoginFailure() {
     let data = {
@@ -173,6 +206,11 @@ export class LoginPageComponent {
     this.toastCtrl.popToast(data);
   }
   //End -2
+
+
+
+
+
 
   //if login is successfull ( Start - 3)
   alternateLoginSuccess(res) {
@@ -196,6 +234,12 @@ export class LoginPageComponent {
     //
   }
   //End - 3
+
+
+
+
+
+
   //if login email is not verified ( Start - 4 )
   alternateLoginEmailNotVerified() {
     let data = {
@@ -206,6 +250,12 @@ export class LoginPageComponent {
     this.toastCtrl.popToast(data);
   }
   //End - 4
+
+
+
+
+
+
   //if login email is registered in multi insititute ( Start - 5 )
   alternateLoginMultiInstitute(data) {
 
@@ -221,6 +271,12 @@ export class LoginPageComponent {
     this.showInstituteList();
   }
   //End - 5
+
+
+
+
+
+
   alternateLoginMultiInstituteData(u_id, inst_id) {
     this.multiInstituteLoginInfo.userid = u_id;
     this.multiInstituteLoginInfo.institution_id = inst_id;
@@ -233,6 +289,13 @@ export class LoginPageComponent {
       this.checkForAuthOptions(el);
     });
   }
+
+
+
+
+
+
+
   //if user mobile no. is not verified ( Start - 6 )
   OTPVerification(res) {
     this.OTPRegenerateData = res;
@@ -249,6 +312,12 @@ export class LoginPageComponent {
       .map(() => --this.counter);
   }
   //END - 6
+
+
+
+
+
+
   //if login email is registered as multi user ( Start - 7 )
   alternateLoginMultiUser(data) {
     this.userListArr = [];
@@ -269,6 +338,11 @@ export class LoginPageComponent {
     this.showUserList();
   }
 
+
+
+
+
+
   alternateLoginMultiUserData(u_id, u_role, inst_id) {
     this.multiUserLoginInfo.userid = u_id;
     this.multiUserLoginInfo.user_role = u_role;
@@ -282,6 +356,12 @@ export class LoginPageComponent {
     });
   }
   //END - 7
+
+
+
+
+
+
   alternateLoginOTPVerification() {
     console.log("##### trying to Validate OTP #####");
     //console.log(this.otpVerificationInfo);
@@ -319,6 +399,11 @@ export class LoginPageComponent {
       })
     }
   }
+
+
+
+
+
   alternateLoginOTPRegenerate() {
     console.log("##### in Regenerate Method ######");
     //console.log(this.OTPRegenerateData);
@@ -328,6 +413,10 @@ export class LoginPageComponent {
       this.OTPVerification(el);
     })
   }
+
+
+
+
 
   forgotPassword() {
     let forgotPasswordData = {
@@ -359,32 +448,60 @@ export class LoginPageComponent {
         })
     }
   }
+
+
+
+
+
   showInstituteList() {
     this.isInstituteListPop = true;
   }
+
+
+
+
   showUserList() {
     this.isUserListPop = true;
   }
+
+
+
   closeUserList() {
     this.isUserListPop = false;
   }
+
+
+
   /* function to hide isInstituteList popup */
   closeInstituteList() {
     this.isInstituteListPop = false;
   }
 
+
+
   showOTPValidationModal() {
     this.OTPVerificationPopUp = true;
   }
+
+
+
+
   /* function to hide popup to add institute */
   closeOTPValidationModal() {
     this.OTPVerificationPopUp = false;
   }
+
+
+
+
   openGetAdvice() {
     let url = "http://proctur.com/get-advice/";
     window.open(url);
   }
 
+
+
+  
   removeFullscreen() {
     var header = document.getElementsByTagName('core-header');
     var sidebar = document.getElementsByTagName('core-sidednav');

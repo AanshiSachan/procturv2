@@ -1,31 +1,36 @@
 @import "variables";
 
-
 /* Scrollbar thickness changed here for vertical display */
+
 ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
 }
- 
+
+
 /* Track */
+
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3); 
+    -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
     -webkit-border-radius: 5px;
     border-radius: 5px;
 }
- 
+
+
 /* Handle */
+
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    background: rgba(0, 47, 255, 0.4); 
-    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.5); 
-}
-::-webkit-scrollbar-thumb:window-inactive {
-	background: rgba(0, 47, 255, 0.4); 
+    background: rgba(0, 47, 255, 0.4);
+    -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
 }
 
-.cursor-icon{
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0, 47, 255, 0.4);
+}
+
+.cursor-icon {
     cursor: pointer;
 }
 
@@ -66,77 +71,48 @@
 }
 
 
-:host /deep/ .bs-datepicker{
-    .bs-datepicker-container{
-        padding: 10px;
-        background: #004b7f;
-    }
 
-}
-
-:host /deep/ bs-days-calendar-view{
-    .bs-datepicker-head{
-        background-color: #004c80;
-        color: white;
-        border-top: 1px solid white;
-        border-left: 1px solid white;
-        border-right: 1px solid white;
-        min-width: 300px !important;
-        font-weight: 800;
-    }
-    .bs-datepicker-body{
-        padding: 5px;
-        
-    }
-}
-
-
-
-
-
-
-.breadc{
+.breadc {
     text-align: center;
     padding: 0;
     list-style: none;
     overflow: hidden;
     width: 100%;
-    li{
+    li {
         float: left;
         margin: 6px 2px 0px 6px;
-        height:30px;
-      }
-      a{
+        height: 30px;
+    }
+    a {
         padding: 0px;
         float: left;
         cursor: pointer;
         text-decoration: none;
         color: #777;
-        text-shadow: 1px 1px 0 rgba(255,255,255,.9); 
+        text-shadow: 1px 1px 0 rgba(255, 255, 255, .9);
         position: relative;
-      }
-      .bread-list{
+    }
+    .bread-list {
         text-decoration: underline;
-        &::after{
-         content: ' / ';
+        &::after {
+            content: ' / ';
         }
-      }
-      .current{
+    }
+    .current {
         text-decoration: underline;
-      }
+    }
 }
 
-
-.pagination{
-    li{
-        a{
-            &:hover{
+.pagination {
+    li {
+        a {
+            &:hover {
                 color: #23527c !important;
                 background-color: none !important;
                 border-color: none !important;
                 outline: none !important;
             }
-            &:focus{
+            &:focus {
                 z-index: 2 !important;
                 color: #23527c !important;
                 background-color: none !important;
@@ -144,7 +120,7 @@
                 outline: none !important;
             }
         }
-        .active{
+        .active {
             background: $common-blue;
             color: white;
             line-height: 18px;
@@ -154,14 +130,63 @@
     }
 }
 
-/* ================================================================================================= */
-/* ================================================================================================= */
-/* ================================================================================================= */
-/* ================================================================================================= */
-/* ================================================================================================= */
+:host /deep/ .bs-datepicker {
+    .bs-datepicker-container {
+        padding: 10px;
+        background: #004b7f;
+    }
+}
+
+:host /deep/ bs-days-calendar-view {
+    .bs-datepicker-head {
+        background-color: #004c80;
+        color: white;
+        border-top: 1px solid white;
+        border-left: 1px solid white;
+        border-right: 1px solid white;
+        min-width: 300px !important;
+        font-weight: 800;
+    }
+    .bs-datepicker-body {
+        padding: 5px;
+    }
+}
+
+::ng-deep .bs-datepicker-container {
+    padding: 10px;
+    background: #004b7f;
+}
+
+ ::ng-deep .bs-datepicker-head {
+    background-color: #004c80;
+    color: white;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    min-width: 300px !important;
+    font-weight: 800;
+}
+
+ ::ng-deep .bs-datepicker-body {
+    padding: 5px;
+}
+
 /* ================================================================================================= */
 
 
+/* ================================================================================================= */
+
+
+/* ================================================================================================= */
+
+
+/* ================================================================================================= */
+
+
+/* ================================================================================================= */
+
+
+/* ================================================================================================= */
 
 .fbold {
     font-weight: 700;
@@ -358,7 +383,7 @@ h3 {
     top: 22px;
     font-size: 14px;
     left: 0px;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.1s ease-in-out;
     color: #777;
 }
 
@@ -404,7 +429,7 @@ h3 {
 
 .field-radio-wrapper .form-radio+label {
     vertical-align: middle;
-    transition: all 0.4s;
+    transition: all 0.1s;
 }
 
 .field-radio-wrapper .form-radio+label:after {
@@ -416,7 +441,7 @@ h3 {
     position: absolute;
     left: 0;
     top: 0;
-    transition: all 0.3s;
+    transition: all 0.1s;
 }
 
 .field-radio-wrapper .form-radio:checked+label:after {
@@ -424,7 +449,7 @@ h3 {
 }
 
 .field-radio-wrapper .form-radio+label:before {
-    transition: all 0.3s;
+    transition: all 0.1s;
     width: 1px;
     height: 1px;
     left: 9px;
@@ -462,7 +487,7 @@ h3 {
 
 .field-checkbox-wrapper .form-checkbox+label {
     vertical-align: middle;
-    transition: all 0.4s;
+    transition: all 0.1s;
     font-size: 14px;
     display: inline-block;
 }
@@ -476,7 +501,7 @@ h3 {
     position: absolute;
     left: 0;
     top: 0;
-    transition: all 0.3s;
+    transition: all 0.1s;
 }
 
 .field-checkbox-wrapper .form-checkbox:checked+label:after {
@@ -484,7 +509,7 @@ h3 {
 }
 
 .field-checkbox-wrapper .form-checkbox+label:before {
-    transition: all 0.3s;
+    transition: all 0.1s;
     width: 1px;
     height: 1px;
     left: 8px;
@@ -559,7 +584,7 @@ td {
 }
 
 table tr {
-    transition: all 0.5s;
+    transition: all 0.1s;
 }
 
 table tr:nth-child(even) {
@@ -881,7 +906,7 @@ select.form-new-field {
     top: -8px;
     visibility: hidden;
     opacity: 0;
-    transition: all 0.3s linear 0.1s;
+    transition: all 0.1s linear 0.1s;
     font-size: 11px;
     border-radius: 4px;
     padding: 3px 5px;
@@ -912,7 +937,7 @@ select.form-new-field {
     top: -2px;
     visibility: hidden;
     opacity: 0;
-    transition: all 0.3s linear 0.1s;
+    transition: all 0.1s linear 0.1s;
     font-size: 11px;
     border-radius: 4px;
     padding: 3px 5px;
@@ -1074,8 +1099,7 @@ select.form-new-field {
         width: 73px;
         bottom: auto;
         margin: 0;
-        top: 15px;
-        // /* margin: auto; */
+        top: 15px; // /* margin: auto; */
     }
     .tooltip-box-field {
         right: 16px;

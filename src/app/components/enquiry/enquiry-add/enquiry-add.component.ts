@@ -1130,7 +1130,7 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-  /* Source */
+  /* Source fetch via API*/
   fetchSourceInfo() {
     this.prefill.getLeadSource().subscribe(
       data => {
@@ -1144,7 +1144,7 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-  /* Source */
+  /* Source edit open*/
   editSource(id) {
     this.sourceList.forEach(el => {
       if (el.id == id) {
@@ -1154,13 +1154,13 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-  /* Source */
+  /* Source edit cancel*/
   cancelEditSource(id) {
-    this.sourceList = this.sourceLead;
+    this.fetchSourceInfo();
   }
 
 
-  /* Source */
+  /* Source update*/
   updateSource(id) {
     this.sourceList.forEach(el => {
       if (el.id == id) {
@@ -1192,7 +1192,7 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-  /* Source */
+  /* Source delete*/
   deleteSource(id) {
     this.sourceList.forEach(el => {
       if (el.id == id) {
@@ -1223,8 +1223,6 @@ export class EnquiryAddComponent implements OnInit {
       }
     });
   }
-
-
 
 
 

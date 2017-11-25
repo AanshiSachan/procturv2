@@ -24,7 +24,7 @@ import { BusyModule, BusyConfig } from 'angular2-busy';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
-
+import { DateConverter } from './enquiry-manage/enquiry-manage.component';
 
 @NgModule({
     imports: [
@@ -53,7 +53,7 @@ import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'prime
         EnquiryInput,
         EnquiryDateInput,
         UserEnquiryComponent,
-        
+        DateConverter
     ],
     entryComponents: [
         ActionButtonComponent,

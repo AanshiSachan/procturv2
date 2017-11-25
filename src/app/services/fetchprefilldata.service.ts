@@ -154,7 +154,7 @@ export class FetchprefilldataService {
 
   /* fetch prefill data subjects*/  
   getEnqSubjects(id): any {
-    console.log(id);
+    
     this.urlSubject = this.baseUrl + "/api/v1/subjects/standards/" + id;
     return this.http.get(this.urlSubject, { headers: this.headers }).map(res => {
       return res.json();
@@ -238,7 +238,7 @@ export class FetchprefilldataService {
   /* fetch prefill data as per the lead information provided */  
   fetchLeadDetails(number): any {
     this.urlLeadDetails = this.baseUrl + "/api/v1/campaign/getLeadDetailsForMobileNo/" + this.institute_id +"/" + number;
-    //console.log(this.urlLeadDetails);
+   
     return this.http.get(this.urlLeadDetails, { headers: this.headers })
       .map(res => {
         return res.json();
@@ -259,7 +259,7 @@ export class FetchprefilldataService {
     let responseData: any;
     return this.http.post(this.urlInstituteCreate, newInstituteForm, { headers: this.headers }).map(res => {
       responseData = res.json();
-      //console.log(responseData);
+   
       return responseData;
     });
   }
@@ -353,7 +353,7 @@ export class FetchprefilldataService {
 
     return this.http.get(this.urlPaymentModes, {headers: this.headers}).map(
       data => {return data.json()},
-      err => {alert(err.json())})
+    )
   }
 
 
@@ -376,10 +376,11 @@ export class FetchprefilldataService {
     this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=undefined&page=1";
     return this.http.get(this.urlCustomComponent, {headers: this.headers})
     .map(
-      data => {return data.json();},
+      data => {
+        return data.json();
+      },
       err => { 
-       //console.log("an error occurred while fetching custom component for student add view");
-      }
+       }
     );
   }
 
@@ -395,8 +396,7 @@ export class FetchprefilldataService {
       return res.json();
     },
     err => {
-    //  console.log("error loading row Data to Edit, please try again later");
-    });
+   });
   }
 
 

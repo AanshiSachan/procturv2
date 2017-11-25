@@ -7,24 +7,6 @@
 @import "./src/app/components/enquiry/enquiry-add/enquiry-add.component.scss";
 
 
-  ::ng-deep .bs-datepicker-container{
-    padding: 10px;
-    background: $header-bg;
-  }
-  
-  ::ng-deep .bs-datepicker-head{
-    background-color: $header-bg;
-    color: white;
-    border-top: 1px solid white;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
-    min-width: 300px !important;
-    font-weight: 800;
-  }
-  
-  ::ng-deep .bs-datepicker-body{
-    padding: 5px;
-  }
 
 
   .bulk-update-report{
