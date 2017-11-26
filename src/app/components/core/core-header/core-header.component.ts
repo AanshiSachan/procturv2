@@ -12,6 +12,7 @@ export class CoreHeaderComponent implements OnInit {
 
   instituteName: string;
   userName: string;
+  menuToggler: boolean = false;
 
   ngOnInit() {
     
@@ -32,6 +33,21 @@ export class CoreHeaderComponent implements OnInit {
     //console.log("logging user out");
     if (this.log.logoutUser()) {
       this.router.navigate(['/authPage']);
+    }
+  }
+
+  triggerOverlayMenu(){
+    if(this.menuToggler){
+      this.menuToggler = false;
+      document.getElementById('menu-close').classList.add('hide');
+      document.getElementById('menu-open').classList.remove('hide');
+      this.log.changeMenuStatus(this.menuToggler);
+    }
+    else{
+      this.menuToggler = true;
+      document.getElementById('menu-close').classList.remove('hide');
+      document.getElementById('menu-open').classList.add('hide');
+      this.log.changeMenuStatus(this.menuToggler);
     }
   }
 

@@ -3,6 +3,7 @@ import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationErr
 import { trigger, animate, style, group, animateChild, query, stagger, transition } from '@angular/animations';
 import { ToasterModule, Toast, ToasterService, ToasterConfig } from 'angular2-toaster';
 import { LoaderHandlingService } from './services/loading-services/loader-handling.service';
+import { LoginService } from './services/login-services/login.service';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit {
   } */
 
   private toasterService: ToasterService;
+  isMenuVisible: boolean = false;
 
   public config: ToasterConfig = new ToasterConfig({
     positionClass: 'toast-top-right',
@@ -37,7 +39,7 @@ export class AppComponent implements OnInit {
 
 
   constructor(toasterService: ToasterService, private router: Router,
-    private load: LoaderHandlingService) {
+    private load: LoaderHandlingService, private log: LoginService) {
     this.toasterService = toasterService;
   }
 
@@ -62,6 +64,10 @@ export class AppComponent implements OnInit {
         console.log("NavigationError");
       }
     });
+
+    this.log.currentMenuState.subscribe(el => {
+      this.isMenuVisible = el;
+    })
   }
 
 

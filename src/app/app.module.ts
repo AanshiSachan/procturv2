@@ -35,6 +35,7 @@ import { ToasterModule } from 'angular2-toaster';
 import { BsDatepickerModule } from '../assets/imported_modules/ngx-bootstrap/datepicker';
 import { ErrorComponent } from './components/error/error.component';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
+import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { ComingSoonComponent } from './components/coming-soon/coming-soon.compon
     CoreHeaderComponent,
     AppLoaderComponent,
     ErrorComponent,
-    ComingSoonComponent
+    ComingSoonComponent,
+    OverlayMenuComponent
   ],
   entryComponents: [
   ],

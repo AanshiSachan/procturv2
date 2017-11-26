@@ -149,7 +149,7 @@ import { Router } from '@angular/router';
       </li>
 
       <li (click)="openPopup('convert')" > 
-        <img src="./assets/images/student.svg" height="20" width="30">
+        <img src="./assets/images/convert_student.svg" height="20" width="30">
         <span>
           Convert <br> to Student
         </span>

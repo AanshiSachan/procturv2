@@ -3,7 +3,6 @@
 @import "../../../../assets/css/common/common.scss";
 @import "../../../../assets/css/common/grid.scss";
 @import "../../../../assets/css/common/variables.scss";
-
 header {
     background: $header-bg;
     padding: 5px 15px;
@@ -94,8 +93,7 @@ header {
         }
         .icons {
             width: 35px;
-            height: 35px;
-            // border: 1px solid $border-color;
+            height: 35px; // border: 1px solid $border-color;
             display: block;
             text-align: center;
             box-sizing: border-box;
@@ -157,8 +155,7 @@ header {
 .dropdown {
     &>ul {
         background: $bg-white;
-        padding: 10px 20px 10px;
-        // width: 200px;
+        padding: 10px 20px 10px; // width: 200px;
         border: 1px solid $header-border;
         border-top: 0;
         margin-top: 3px;
@@ -229,6 +226,7 @@ header {
         }
     }
 }
+
 .login-tube nav>ul>li:hover .dropdown {
     visibility: visible;
     position: absolute;
@@ -240,4 +238,14 @@ header {
     -webkit-transition-duration: .5s;
     transition-duration: .5s;
     transform: scale(1);
-} 
+}
+
+.humburgerMenu {
+    width: 36px;
+    position: absolute;
+    right: 12px;
+    float: left;
+    top: 10px;
+    cursor: pointer;
+    z-index: 11;
+}

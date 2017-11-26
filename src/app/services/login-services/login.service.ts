@@ -23,8 +23,11 @@ export class LoginService {
   /* institute name and username subscriber */
   private instituteNameSource = new BehaviorSubject<string>('');
   private userNameSource = new BehaviorSubject<string>('');
+  private overlayMenu = new BehaviorSubject<boolean>(false);
+
   currentInstitute = this.instituteNameSource.asObservable();
   currentUsername = this.userNameSource.asObservable();
+  currentMenuState = this.overlayMenu.asObservable();
 
   changeInstituteStatus(institute: string){
     this.instituteNameSource.next(institute);
@@ -32,6 +35,10 @@ export class LoginService {
   
   changeNameStatus(name: string){
     this.userNameSource.next(name);
+  }
+
+  changeMenuStatus(menu: boolean){
+    this.overlayMenu.next(menu);
   }
 
   constructor(private http: Http) {
