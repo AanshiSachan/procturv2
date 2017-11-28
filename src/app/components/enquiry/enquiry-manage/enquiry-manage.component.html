@@ -26,10 +26,10 @@
                 <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No./Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;"
                   [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
                 <!-- followup date handler -->
-                <div class="field-wrapper datePickerBox has-value">
-                  <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="searchBarDate" placeholder="FollowUp Date" style="cursor: pointer;"
+                <div class="field-wrapper datePickerBox">
+                  <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="searchBarDate" style="cursor: pointer;"
                     (keyup.enter)="searchDatabase()" name="followupdate" bsDatepicker/>
-                  <label for="followupdate"></label>
+                  <label for="followupdate">Followup Date</label>
                 </div>
                 <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
               </div>
@@ -38,7 +38,7 @@
             <!-- Advanced Filter Trigger -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="filter-right">
-                <input type="button" class="btn showFilterBtn" value="Filter" (click)="openAdFilter()" />
+                <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Advanced Filter</a>
                 <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide" (click)="closeAdFilter()">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
                     <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
@@ -54,13 +54,13 @@
               </div>
             </div>
           </div>
+
           <!-- Advanced Filter Div Element -->
           <div class="AdFilter-field hide" id="advanced-filter-section">
             <div class="row">
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="field-wrapper">
-                  <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="advancedFilterForm.filtered_statuses" name="status"
-                    Iselector>
+                  <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="advancedFilterForm.filtered_statuses" name="status">
                     <option value=""></option>
                     <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
                   </select>
@@ -263,9 +263,9 @@
               </li>
               <li>
                 <div class="bulk-dropdown">
-                  <button id="bulk-action" #bulkaction (click)="bulkActionFunction()" class="btn bulk-dropbtn">
-                    Page Size: {{displayBatchSize}}
-                  </button>
+                  <label id="bulk-action" #bulkaction (click)="bulkActionFunction()" class="bulk-dropbtn">
+                    Enquiry per page : {{displayBatchSize}}
+                  </label>
                   <div id="bulk-drop" class="bulk-dropdown-content">
                     <a *ngFor="let size of sizeArr" (click)="updateTableBatchSize(size)">
                       {{size}}

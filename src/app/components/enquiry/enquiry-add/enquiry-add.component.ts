@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
-
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { addEnquiryForm } from '../../../model/add-enquiry-form';
@@ -39,7 +38,44 @@ export class EnquiryAddComponent implements OnInit {
   lastDetail: any = [];
   confimationPop: boolean = false;
   updatePop: boolean = false;
-  newEnqData: addEnquiryForm;
+  newEnqData: addEnquiryForm = {
+    name: "",
+    phone: "",
+    email: "",
+    gender: "",
+    phone2: "",
+    email2: "",
+    curr_address: "",
+    parent_name: "",
+    parent_phone: "",
+    parent_email: "",
+    city: "",
+    occupation_id: "-1",
+    school_id: "-1",
+    qualification: "",
+    grade: "",
+    enquiry_date: moment().format('YYYY-MM-DD'),
+    standard_id: "-1",
+    subject_id: "-1",
+    referred_by: "-1",
+    source_id: "-1",
+    fee_committed: "",
+    discount_offered: "",
+    priority: "",
+    enquiry: "",
+    follow_type: "",
+    followUpDate: "",
+    religion: null,
+    link: "",
+    slot_id: null,
+    closedReason: "",
+    demo_by_id: "",
+    status: "0",
+    assigned_to: "-1",
+    followUpTime: "",
+    lead_id: -1,
+    enqCustomLi: []
+  };
   additionDetails: boolean = false;
 
   todayDate: number = Date.now();
@@ -483,7 +519,7 @@ export class EnquiryAddComponent implements OnInit {
 
 
   /* Function to submit validated form data */
-  submitForm() {
+  submitForm(form: NgForm) {
 
     //Validates if the custom component required fields are selected or not
     let customComponentValidator = this.validateCustomComponent();
@@ -491,7 +527,7 @@ export class EnquiryAddComponent implements OnInit {
     /* Validate the predefine required fields of the form */
     this.isFormValid = this.ValidateFormDataBeforeSubmit();
 
-    console.log(this.isFormValid && customComponentValidator);
+    //console.log(this.isFormValid && customComponentValidator);
 
     /* Upload Data if the formData is valid */
     if (this.isFormValid && this.isCustomComponentValid) {
@@ -505,6 +541,7 @@ export class EnquiryAddComponent implements OnInit {
               title: "New Enquiry Added",
               body: "Your enquiry has been submitted"
             }
+            form.reset();
             this.appC.popToast(msg);
             this.clearFormData();
           }
@@ -518,6 +555,7 @@ export class EnquiryAddComponent implements OnInit {
               }
             );
             this.openConfirmationPopup();
+            form.reset();
             this.clearFormData();
           }
         },
@@ -534,7 +572,6 @@ export class EnquiryAddComponent implements OnInit {
     /* Do Nothing if the formData is Still Invalid  */
     else {
       this.newEnqData.enqCustomLi = [];
-
       this.submitError = true;
     }
   }

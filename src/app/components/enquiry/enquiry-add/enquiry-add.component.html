@@ -1,7 +1,7 @@
 <section class="middle-section clearFix" (click)="inputClicked()">
 
 
-  <form (ngSubmit)="save()" #myForm="ngForm">
+  <form novalidate #myForm="ngForm" (ngSubmit)="submitForm(myForm)" >
 
     <!-- Left Side Form -->
     <aside class="pull-left middle-left " id="addNewEnquiry">
@@ -291,7 +291,7 @@
         </div>
         <aside class="pull-right">
           <input type="button" value="Cancel" class="btn cancle" routerLink="/enquiry">
-          <input type="button" value="Submit" [disabled]="!myForm.form.valid" class="btn redBtn" (click)="submitForm()">
+          <input type="button" value="Submit" [disabled]="!myForm.form.valid" class="btn redBtn" (click)="submitForm(myForm)">
         </aside>
       </section>
     </aside>

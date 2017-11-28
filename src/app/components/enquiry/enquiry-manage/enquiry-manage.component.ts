@@ -56,7 +56,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   private paymentMode: any = [];
   today: any = Date.now();
   searchBarData: any = null;
-  searchBarDate: any = '';
+  searchBarDate: any = moment().format('YYYY-MM-DD');
   displayBatchSize: number = 10;
   incrementFlag: boolean = true;
   updateFormComments: any = [];
@@ -1633,6 +1633,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   /* Function to open advanced filter */
   openAdFilter() {
     //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
+    document.getElementById('adFilterOpen').classList.add('hide');
     document.getElementById('adFilterExit').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.remove('hide');
   }
@@ -1644,6 +1645,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   closeAdFilter() {
     //document.getElementById('middleMainForEnquiryList').classList.remove('hasFilter');
     document.getElementById('adFilterExit').classList.add('hide');
+    document.getElementById('adFilterOpen').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.add('hide');
   }
 

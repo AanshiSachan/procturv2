@@ -1,6 +1,13 @@
-<section class="middle-section clearFix">
+<section class="middle-section clearFix" (click)="inputClicked()">
+
 
   <section class="" id="studentFlow">
+
+
+
+
+
+    <!-- ======================================================== -->
     <!-- =====================  Form Navigations================= -->
     <section class="student-tab">
       <ul class="nav-tab">
@@ -30,7 +37,16 @@
         </li>
       </ul>
     </section>
+    <!-- ======================================================== -->
+    <!-- ======================================================== -->
 
+
+
+
+
+
+    <!-- ======================================================== -->
+    <!-- ======================================================== -->
     <!-- ========Student Main Enquiry Form ====================== -->
     <section class="student-flow-wrapper boxPadding15" id="studentForm">
 
@@ -56,11 +72,12 @@
       <section class="clearFix student-flow  row" id="studentFlow">
         <aside class="pull-left middle-left">
           <div class="form-type1">
+
             <div class="field-wrapper">
-              <input type="text" value="" class="form-ctrl" studentInput id="sName" [(ngModel)]="studentAddFormData.student_name" maxlength="50"
+              <input type="text" value="" class="form-ctrl" id="sName" [(ngModel)]="studentAddFormData.student_name" maxlength="50" name="sName"
                 pattern="[a-zA-Z .]+[a-zA-Z .]+" #sname="ngModel" required>
               <label for="sName">Student Name*</label>
-              <div *ngIf="sname.invalid && (sname.dirty || sname.touched)" class="alert alert-danger">
+              <div *ngIf="sname.invalid && (sname.dirty || sname.touched)" class="alert invalid-alert">
                 <div *ngIf="sname.errors.required">
                   name is required.
                 </div>
@@ -69,11 +86,12 @@
                 </div>
               </div>
             </div>
+
             <div class="field-wrapper">
-              <input type="text" value="" id="cNumber" class="form-ctrl" studentInput [(ngModel)]="studentAddFormData.student_phone" maxlength="10"
-                minlength="10" #cNumber="ngModel" pattern="[789][0-9]{9}" required/>
+              <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="studentAddFormData.student_phone" maxlength="10"
+                name="cNumber" minlength="10" #cNumber="ngModel" pattern="[789][0-9]{9}" required/>
               <label for="cNumber">Contact Number*</label>
-              <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert alert-danger">
+              <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
                 <div *ngIf="cNumber.errors.required">
                   phone number is required.
                 </div>
@@ -82,11 +100,12 @@
                 </div>
               </div>
             </div>
+
             <div class="field-wrapper">
-              <input type="text" value="" id="sEmail" class="form-ctrl" studentInput [(ngModel)]="studentAddFormData.student_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
-                #sEmail="ngModel" required/>
+              <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.student_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                name="sEmail" #sEmail="ngModel" required/>
               <label for="sEmail">Email ID</label>
-              <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert alert-danger">
+              <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">
                 <div *ngIf="sEmail.errors.required">
                   email ID is required.
                 </div>
@@ -95,44 +114,50 @@
                 </div>
               </div>
             </div>
-            <div class="field-wrapper customSelectWrapper">
-              <select id="userGender" class="form-ctrl" studentInput [(ngModel)]="studentAddFormData.student_sex">
+
+            <div class="field-wrapper">
+              <select id="userGender" class="form-ctrl" [(ngModel)]="studentAddFormData.student_sex" name="userGender">
                 <option></option>
                 <option>Male</option>
                 <option>Female</option>
+                <option>NA</option>
               </select>
               <label for="userGender">Gender</label>
             </div>
+
             <div class="field-wrapper">
-              <input type="text" value="" id="parentName" class="form-ctrl" studentInput [(ngModel)]="studentAddFormData.parent_name" maxlength="50"
-                pattern="[a-zA-Z .]+[a-zA-Z .]+" #parentName="ngModel">
+              <input type="text" value="" id="parentName" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_name" maxlength="50"
+                name="parentName" pattern="[a-zA-Z .]+[a-zA-Z .]+" #parentName="ngModel">
               <label for="parentName">Parent Name</label>
-              <div *ngIf="parentName.invalid && (parentName.dirty || parentName.touched)" class="alert alert-danger">
+              <div *ngIf="parentName.invalid && (parentName.dirty || parentName.touched)" class="alert invalid-alert">
                 <div *ngIf="parentName.errors.pattern">
                   name cannot have special characters or numbers.
                 </div>
               </div>
             </div>
+
             <div class="field-wrapper">
-              <input type="text" value="" id="parentContactNo" class="form-ctrl" studentInput [(ngModel)]="studentAddFormData.parent_phone"
+              <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
                 maxlength="10" minlength="10" pattern="[789][0-9]{9}" #parentContactNo="ngModel" />
               <label for="parentContactNo">Parent Contact Number</label>
-              <div *ngIf="parentContactNo.invalid && (parentContactNo.dirty || parentContactNo.touched)" class="alert alert-danger">
+              <div *ngIf="parentContactNo.invalid && (parentContactNo.dirty || parentContactNo.touched)" class="alert invalid-alert">
                 <div *ngIf="parentContactNo.errors.pattern">
                   Please enter a valid number.
                 </div>
               </div>
             </div>
+
             <div class="field-wrapper">
-              <input type="text" value="" id="parentEmail" class="form-ctrl" studentInput [(ngModel)]="studentAddFormData.parent_email"
+              <input type="text" value="" id="parentEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_email" name="parentEmail"
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #parentEmail="ngModel">
               <label for="parentEmail">Parent Email ID</label>
-              <div *ngIf="parentEmail.invalid && (parentEmail.dirty || parentEmail.touched)" class="alert alert-danger">
+              <div *ngIf="parentEmail.invalid && (parentEmail.dirty || parentEmail.touched)" class="alert invalid-alert">
                 <div *ngIf="parentEmail.errors.pattern">
                   Please enter a valid email ID.
                 </div>
               </div>
             </div>
+
             <div class="more-detail">
               <a style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+ &nbsp; Add Additional Details</a>
             </div>
@@ -140,33 +165,33 @@
 
           <div class="form-type2" *ngIf="additionalBasicDetails">
             <h2>Additional Details</h2>
+
             <div class="field-wrapper datePickerBox">
-              <input type="text" value="" id="sdob" class="form-ctrl" studentInput [(ngModel)]="studentAddFormData.dob" #sdob="ngModel"
-                required>
+              <input type="text" value="" id="sdob" class="form-ctrl" name="sdob" [(ngModel)]="studentAddFormData.dob" #sdob="ngModel"
+              bsDatepicker required>
               <label for="sdob">Date of Birth</label>
-              <div *ngIf="sdob.invalid && (sdob.dirty || sdob.touched)" class="alert alert-danger">
+              <div *ngIf="sdob.invalid && (sdob.dirty || sdob.touched)" class="alert invalid-alert">
                 <div *ngIf="sdob.errors.required">
                   Date of Birth is required.
                 </div>
               </div>
             </div>
+
             <div class="field-wrapper">
-              <input type="text" value="" id="currentAdd" [(ngModel)]="studentAddFormData.student_curr_addr" class="form-ctrl" studentInput>
+              <input type="text" value="" id="currentAdd" name="currentAdd" [(ngModel)]="studentAddFormData.student_curr_addr" class="form-ctrl">
               <label for="currentAdd">Current Address Line1</label>
             </div>
-            <!-- <div class="field-wrapper">
-              <input type="text" value="" id="currentAdd2" class="form-ctrl" studentInput>
-              <label for="currentAdd2">Current Address Line2</label>
-            </div> -->
+
             <div class="field-wrapper">
-              <input type="text" value="" id="guardianName" class="form-ctrl" studentInput maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+"
+              <input type="text" value="" id="guardianName" class="form-ctrl" maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+" name="guardianName"
                 [(ngModel)]="studentAddFormData.guardian_name" #guardianName="ngModel" />
               <label for="guardianName">Guardian Name</label>
-              <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)" class="alert alert-danger">
+              <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)" class="alert invalid-alert">
                 <div *ngIf="guardianName.errors.pattern">
                   name cannot have special characters or numbers.
                 </div>
               </div>
+
               <div class="questionInfo pos-rel">
                 <span class="qInfoIcon">?</span>
                 <div class="tooltip-box-field">
@@ -174,11 +199,12 @@
                 </div>
               </div>
             </div>
+
             <div class="field-wrapper">
-              <input type="text" value="" id="guardianContact" class="form-ctrl" studentInput maxlength="10" minlength="10" [(ngModel)]="studentAddFormData.guardian_phone"
-                pattern="[789][0-9]{9}" #guardianContact="ngModel">
+              <input type="text" value="" id="guardianContact" class="form-ctrl" maxlength="10" minlength="10" [(ngModel)]="studentAddFormData.guardian_phone"
+                name="guardianContact" pattern="[789][0-9]{9}" #guardianContact="ngModel">
               <label for="guardianContact">Guardian Contact Number</label>
-              <div *ngIf="guardianContact.invalid && (guardianContact.dirty || guardianContact.touched)" class="alert alert-danger">
+              <div *ngIf="guardianContact.invalid && (guardianContact.dirty || guardianContact.touched)" class="alert invalid-alert">
                 <div *ngIf="guardianContact.errors.pattern">
                   numbers cannot have special characters or alphabets.
                 </div>
@@ -190,26 +216,29 @@
                 </div>
               </div>
             </div>
+
             <div class="field-wrapper">
-              <input type="text" value="" id="guardianEmail" class="form-ctrl" studentInput pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+              <input type="text" value="" id="guardianEmail" class="form-ctrl" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" name="guardianEmail"
                 [(ngModel)]="studentAddFormData.guardian_email" #guardianEmail="ngModel" />
               <label for="guardianEmail">Guardian Email Id</label>
-              <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)" class="alert alert-danger">
+              <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)" class="alert invalid-alert">
                 <div *ngIf="guardianEmail.errors.pattern">
                   please enter a valid email ID.
                 </div>
               </div>
             </div>
+
             <div class="field-wrapper">
-              <input type="text" value="" [ngModel]="studentAddFormData.comments" id="addCommentNote" class="form-ctrl" studentInput>
+              <input type="text" value="" name="addCommentNote" [ngModel]="studentAddFormData.comments" id="addCommentNote" class="form-ctrl">
               <label for="addCommentNote">Add Comment Note</label>
             </div>
+
           </div>
         </aside>
-        
+
         <aside class="pull-right middle-right" id="studentRightSideBar">
-          
-          
+
+
           <div class="common-right-section">
             <h4>
               <strong>Enquiry Details</strong>
@@ -253,16 +282,18 @@
             <h4>
               <strong>Administration Details</strong> (Official Use)</h4>
             <div class="box-shadow-lite">
+
               <div class="field-wrapper">
-                <input type="text" value="" id="doj" class="form-ctrl unstyled-calendar" studentInput onfocus="(this.type='date')" onfocusout="(this.type='text')"
-                  [(ngModel)]="studentAddFormData.doj" />
+                <input type="text" value="" id="doj" class="form-ctrl unstyled-calendar" onfocus="(this.type='date')" onfocusout="(this.type='text')"
+                  name="doj" [(ngModel)]="studentAddFormData.doj" />
                 <label for="doj">Date of Joining</label>
                 <span class="follow-up-date-icon">
-                  <img src="../../../../assets/images/calendar.svg" alt="" />
+                  <img src="./assets/images/calendar.svg" alt="" />
                 </span>
               </div>
+
               <div class="field-wrapper">
-                <select id="schoolStitution" [(ngModel)]="studentAddFormData.school_name" class="form-ctrl" studentInput>
+                <select id="schoolStitution" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name" class="form-ctrl">
                   <option></option>
                   <option [value]="institute.school_id" *ngFor="let institute of instituteList">
                     {{institute.school_name}}
@@ -271,8 +302,9 @@
                 <label for="schoolStitution">School/Institution</label>
                 <span class="open-accor">+</span>
               </div>
+
               <div class="field-wrapper">
-                <select id="standard" [(ngModel)]="studentAddFormData.student_class" class="form-ctrl" studentInput>
+                <select id="standard" [(ngModel)]="studentAddFormData.student_class" name="standard" class="form-ctrl">
                   <option></option>
                   <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                     {{standard.standard_name}}
@@ -280,20 +312,25 @@
                 </select>
                 <label for="standard">Standards</label>
               </div>
+
               <div class="field-wrapper">
-                <input type="text" [ngModel]="assignedBatch" class="form-ctrl" studentInput />
+                <input type="text" [ngModel]="assignedBatch" name="assignCourses" class="form-ctrl" />
                 <label for="assignCourses">Assign Courses</label>
               </div>
+
               <div class="map-courses">
                 <a style="cursor:pointer" (click)="openAssignBatch()">
                   <strong>Map Courses</strong>
                 </a>
               </div>
+
             </div>
 
           </section>
         </aside>
       </section>
+
+      <!-- Page 1 Footer -->
       <section class="middle-bottom clearFix">
         <div class="pull-left">
           <div class="field-checkbox-wrapper">
@@ -311,11 +348,24 @@
         <aside class="pull-right">
           <input type="button" value="Cancel" class="btn cancle">
           <input type="button" id="form-continue" value="Save and Continue" class="btn redBtn" (click)="navigateTo('kyc')">
-          <input type="button" id="form-submit" value="Submit" class="btn hide redBtn">
+          <input type="button" id="form-submit" (click)="studentQuickAdder()" value="Submit" class="btn hide redBtn">
         </aside>
       </section>
-    </section>
 
+    </section>
+    <!-- ======================================================== -->
+    <!-- ======================================================== -->
+
+
+
+
+
+
+
+
+
+    <!-- ======================================================== -->
+    <!-- ======================================================== -->
     <!-- ======================KYC Form========================== -->
     <section class="student-flow-wrapper hide" id="kyc">
       <section class="kyc-section ">
@@ -337,31 +387,31 @@
         <aside class="pull-left middle-left">
           <div class="form-type1">
             <div class="field-wrapper">
-              <input type="text" value="" id="adhar" class="form-ctrl" studentInput>
+              <input type="text" value="" id="adhar" class="form-ctrl">
               <label for="adhar">Adhar Number*</label>
             </div>
             <div class="field-wrapper">
-              <input type="text" value="" id="enroll" class="form-ctrl" studentInput>
+              <input type="text" value="" id="enroll" class="form-ctrl">
               <label for="enroll">Enrollment No*</label>
             </div>
             <div class="field-wrapper">
-              <input type="text" value="" id="otherInfo1" class="form-ctrl" studentInput>
+              <input type="text" value="" id="otherInfo1" class="form-ctrl">
               <label for="otherInfo1">Other Info</label>
             </div>
             <div class="field-wrapper">
-              <input type="text" value="" id="otherInfo2" class="form-ctrl" studentInput>
+              <input type="text" value="" id="otherInfo2" class="form-ctrl">
               <label for="otherInfo2">Other Info</label>
             </div>
             <div class="field-wrapper">
-              <input type="text" value="" id="otherInfo3" class="form-ctrl" studentInput>
+              <input type="text" value="" id="otherInfo3" class="form-ctrl">
               <label for="otherInfo3">Other Info</label>
             </div>
             <div class="field-wrapper">
-              <input type="text" value="" id="otherInfo4" class="form-ctrl" studentInput>
+              <input type="text" value="" id="otherInfo4" class="form-ctrl">
               <label for="otherInfo4">Other Info</label>
             </div>
             <div class="field-wrapper">
-              <input type="text" value="" id="otherInfo5" class="form-ctrl" studentInput>
+              <input type="text" value="" id="otherInfo5" class="form-ctrl">
               <label for="otherInfo5">Other Info</label>
             </div>
           </div>
@@ -379,8 +429,20 @@
         </aside>
       </section>
     </section>
+    <!-- ======================================================== -->
+    <!-- ======================================================== -->
 
 
+
+
+
+
+
+
+
+
+    <!-- ======================================================== -->
+    <!-- ======================================================== -->
     <!-- =============== Fee Details =============================== -->
     <section class="student-flow-wrapper hide" id="feeDetails">
       <section class="fee-detail">
@@ -403,8 +465,8 @@
         <aside class="pull-left middle-left">
           <div class="form-type1 fee-box">
             <h2>Define Fee Schedule</h2>
-            <div class="field-wrapper customSelectWrapper">
-              <select id="feeStructure" class="form-ctrl" studentInput>
+            <div class="field-wrapper ">
+              <select id="feeStructure" class="form-ctrl">
                 <option></option>
                 <option>Fee Structure*</option>
                 <option>feeStructure1</option>
@@ -412,7 +474,7 @@
               <label for="feeStructure">Fee Structure*</label>
             </div>
             <div class="field-wrapper datePickerBox">
-              <input type="text" value="" id="effectiveDate" class="form-ctrl" studentInput>
+              <input type="text" value="" id="effectiveDate" class="form-ctrl" bsDatepicker>
               <label for="effectiveDate">Effective Date*</label>
             </div>
             <input type="button" value="Apply" class="btn fullBlue">
@@ -423,22 +485,22 @@
           <div class="form-type2 fee-box">
             <h2>Manage Installments</h2>
             <div class="field-wrapper">
-              <input type="text" value="" id="mtotal" class="form-ctrl" studentInput>
+              <input type="text" value="" id="mtotal" class="form-ctrl">
               <label for="mtotal">Total Amount (Rs)*</label>
             </div>
             <div class="field-wrapper">
-              <input type="text" value="" id="tDiscount" class="form-ctrl" studentInput>
+              <input type="text" value="" id="tDiscount" class="form-ctrl">
               <label for="tDiscount">Total Discount (Rs)*</label>
             </div>
             <div class="field-wrapper">
-              <input type="text" value="" id="discountReason" class="form-ctrl" studentInput>
+              <input type="text" value="" id="discountReason" class="form-ctrl">
               <label for="discountReason">Discount Reason</label>
               <div class="questionInfo">
                 <span class="qInfoIcon">?</span>
               </div>
             </div>
             <div class="field-wrapper">
-              <input type="text" value="" id="noInstallment" class="form-ctrl" studentInput>
+              <input type="text" value="" id="noInstallment" class="form-ctrl">
               <label for="noInstallment">No of Installments*</label>
             </div>
             <div class="apply-tax">
@@ -454,7 +516,21 @@
         </aside>
       </section>
     </section>
+    <!-- ======================================================== -->
+    <!-- ======================================================== -->
 
+
+
+
+
+
+
+
+
+
+
+    <!-- ======================================================== -->
+    <!-- ======================================================== -->
     <!-- =============== Inventory =============================== -->
     <section class="student-flow-wrapper hide" id="inventory">
       <!--===========================================allocation inventory item===========================-->
@@ -476,8 +552,8 @@
           </section>
           <div class="form-type1 fee-box">
             <h2>allocation Inventory Item</h2>
-            <div class="field-wrapper customSelectWrapper">
-              <select id="allItem" class="form-ctrl" studentInput>
+            <div class="field-wrapper ">
+              <select id="allItem" class="form-ctrl">
                 <option></option>
                 <option>Fee Structure*</option>
                 <option>feeStructure1</option>
@@ -487,7 +563,7 @@
             </div>
             <p>Available Items: 2</p>
             <div class="field-wrapper">
-              <input type="text" value="" id="units" class="form-ctrl" studentInput>
+              <input type="text" value="" id="units" class="form-ctrl">
               <label for="units">Unites*</label>
             </div>
             <!--<div class="fee-detail">      
@@ -534,11 +610,19 @@
       </section>
 
     </section>
+    <!-- ======================================================== -->
+    <!-- ======================================================== -->
+
+
+
+
+
 
   </section>
 
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
   <!-- =============== Inventory =============================== -->
-
   <student-pop-up [hidden]="!isAssignBatch">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeBatchAssign()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -582,14 +666,14 @@
               <td>{{batch.end_date}}</td>
               <td>
                 <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="assigndate" class="form-ctrl" onfocus="(this.type='date')" onfocusout="(this.type='text')" studentInput>
+                  <input type="text" value="" id="assigndate" class="form-ctrl" bsDatepicker>
                   <label for="assigndate">Assign Date</label>
                 </div>
             </tr>
           </tbody>
         </table>
       </div>
-    </div>
+    </div> 
 
     <div class="" popup-footer>
       <div class="clearfix">

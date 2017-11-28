@@ -13,6 +13,8 @@
         </section>
         <!--====================================middle <Main> section==========================-->
         <section class="middle-main clearFix" id="studentList">
+
+
             <section class="common-search-filter" id="searchFilter">
                 <div class="filter-search">
                     <!-- Advanced Filter -->
@@ -27,7 +29,7 @@
                         <div class="c-lg-6 c-md-6 c-sm-6">
                             <div class="filter-right">
                                 <input type="button" class="btn showFilterBtn" value="Filter" (click)="openAdvancedFilter()">
-                                <a class="closeFilter" *ngIf="advancedFilter" (click)="closeAdvancedFilter()"> 
+                                <a class="closeFilter" *ngIf="advancedFilter" (click)="closeAdvancedFilter()">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
                                         <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
                                             <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
@@ -47,7 +49,7 @@
                         <div class="row">
                             <div class="c-lg-3 c-md-3 c-sm-3">
                                 <div class="field-wrapper customSelectWrapper">
-                                    <select id="sStandard" class="form-ctrl" studentInput >
+                                    <select id="sStandard" class="form-ctrl" studentInput>
                                         <option></option>
                                         <option>Male</option>
                                     </select>
@@ -56,7 +58,7 @@
                             </div>
                             <div class="c-lg-3 c-md-3 c-sm-3">
                                 <div class="field-wrapper customSelectWrapper">
-                                    <select id="masterCource" class="form-ctrl" studentInput >
+                                    <select id="masterCource" class="form-ctrl" studentInput>
                                         <option></option>
                                         <option>Male</option>
                                         <option>Male</option>
@@ -68,7 +70,7 @@
                             </div>
                             <div class="c-lg-3 c-md-3 c-sm-3">
                                 <div class="field-wrapper customSelectWrapper">
-                                    <select id="sCourse" class="form-ctrl" studentInput >
+                                    <select id="sCourse" class="form-ctrl" studentInput>
                                         <option></option>
                                         <option>Course</option>
                                     </select>
@@ -95,7 +97,7 @@
                         <div class="row">
                             <div class="c-lg-3 c-md-3 c-sm-3">
                                 <div class="field-wrapper customSelectWrapper">
-                                    <select id="icustom" class="form-ctrl" studentInput >
+                                    <select id="icustom" class="form-ctrl" studentInput>
                                         <option></option>
                                         <option>Male</option>
                                     </select>
@@ -104,7 +106,7 @@
                             </div>
                             <div class="c-lg-3 c-md-3 c-sm-3">
                                 <div class="field-wrapper customSelectWrapper">
-                                    <select id="eno" class="form-ctrl" studentInput >
+                                    <select id="eno" class="form-ctrl" studentInput>
                                         <option></option>
                                         <option>Enrollment No</option>
                                     </select>
@@ -119,7 +121,12 @@
 
                 </div>
             </section>
+
+
+
             <section class="search-data">
+
+
                 <!-- Data Download and Export Options Here -->
                 <div class="row class filter-res">
                     <div class="c-lg-6 c-md-6 c-sm-6">
@@ -131,7 +138,7 @@
                                 Student Report
                             </li>
                             <li class="">
-                               
+
                             </li>
                             <li class="export-icon">
                                 Export
@@ -139,43 +146,187 @@
                         </ul>
                     </div>
                 </div>
+
+
                 <!-- Student  Table  Here-->
                 <div class="row">
                     <div class="c-lg-12 c-md-12 c-sm-12">
                         <div class="table table-responsive student-table">
-                            <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="rowSelected($event)">
-                            </ng2-smart-table>
+                            <table class="align-center">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="field-checkbox-wrapper">
+                                                <input type="checkbox" value="" name="check" class="form-checkbox">
+                                                <label>asdf</label>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <label>
+                                                Student ID
+                                            </label>
+                                        </th>
+                                        <th>
+                                            <label>
+                                                Student Name
+                                            </label>
+                                        </th>
+                                        <th>
+                                            <label>
+                                                Contact No.
+                                            </label>
+                                        </th>
+                                        <th>
+                                            <label>
+                                                Joining Date
+                                            </label>
+                                        </th>
+                                        <th>
+                                            <label>
+                                                Standard/Class
+                                            </label>
+                                        </th>
+                                        <th>
+                                            <label>
+                                                Parent Contact No.
+                                            </label>
+                                        </th>
+                                        <th>
+                                            <label>
+                                                Cources Assigned
+                                            </label>
+                                        </th>
+                                        <th>
+                                            <label>
+                                                Status
+                                            </label>
+                                        </th>
+                                        <th>
+                                            <label>
+                                                Action
+                                            </label>
+                                        </th>
+                                        <th>
+                                            <label>
+                                                Note
+                                            </label>
+                                        </th>
+                                        <th class="table-head-menu">
+                                            <span>
+                                                <img src="./assets/images/hamburger_menu.svg" alt="">
+                                                <img src="./assets/images/hamburger_menu_close.svg" alt="">
+                                            </span>
+                                            <div class="table-heading-menu">
+                                                <div class="heading-menu-inner">
+                                                    <ul class="">
+                                                        <li>
+                                                            <div class="field-checkbox-wrapper">
+                                                                <input type="checkbox" value="" name="check" class="form-checkbox">
+                                                                <label>Heading 1</label>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="field-checkbox-wrapper">
+                                                                <input type="checkbox" value="" name="check" class="form-checkbox">
+                                                                <label>Heading 2</label>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="field-checkbox-wrapper">
+                                                                <input type="checkbox" value="" name="check" class="form-checkbox">
+                                                                <label>Heading 3</label>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="field-checkbox-wrapper">
+                                                                <input type="checkbox" value="" name="check" class="form-checkbox">
+                                                                <label>Heading 4</label>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="selected">
+                                        <td>
+                                            <div class="field-checkbox-wrapper">
+                                                <input type="checkbox" value="" name="check" class="form-checkbox">
+                                                <label>sdf</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <label>
+                                                
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label>
+                                                <a href="javascript:void(0)"> </a>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label>
+
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label>
+
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label>
+
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label>
+
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label>
+                                                <a href="javascript:void(0)"> </a>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label>
+
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label>
+                                                <a >Edit Delete</a>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <div class="tooltip-table pos-rel">
+                                                <a href="javascript:void(0)">
+                                                    <i class="fa fa-sticky-note-o" aria-hidden="true"></i>
+                                                </a>
+                                                <div class="tooltip-box">
+                                                    Any comments/notes to be mentioned over here
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <label>
+
+                                            </label>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <!-- Pagination -->
-                <div class="row filter-res pagination" style="width: 100%;">
-                        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                          <ul class="pagination">
-              
-                            <li id="previous">
-                              <a (click)="fetchPrevious()"> Previous</a>
-                            </li>
-              
-                            <li *ngFor="let page of pageArray" (click)="fetchDataByPage(page)">{{page}}</li>
-              
-                            <li id="next">
-                              <a (click)="fetchNext()"> Next</a>
-                            </li>
-              
-                            <li class="batch-size">
-                              <select class="" [ngModel]="displayBatchSize" (ngModelChange)="updateTableBatchSize($event)">
-                                <option>5</option>
-                                <option>10</option>
-                                <option>25</option>
-                                <option>50</option>
-                                <option>100</option>
-                              </select>
-                            </li>
-              
-                          </ul>
-                        </div>
-                      </div>
+
+
             </section>
         </section>
 

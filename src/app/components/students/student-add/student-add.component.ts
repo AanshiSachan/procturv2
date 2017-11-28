@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import {StudentForm} from '../../../model/student-add-form';
+import { StudentForm } from '../../../model/student-add-form';
 
 @Component({
   selector: 'app-student-add',
@@ -11,38 +11,38 @@ import {StudentForm} from '../../../model/student-add-form';
 export class StudentAddComponent implements OnInit {
 
   private studentAddFormData: StudentForm = {
-    student_name: "", 
+    student_name: "",
     student_sex: "",
-    student_email: "", 
+    student_email: "",
     student_phone: "",
     student_curr_addr: "",
     dob: "",
     doj: "", // "2017-10-25",
     school_name: "", // "943",
     student_class: "", // "1269",
-    parent_name: "", 
-    parent_email: "", 
-    parent_phone: "", 
-    guardian_name: "", 
+    parent_name: "",
+    parent_email: "",
+    parent_phone: "",
+    guardian_name: "",
     guardian_email: "",
     guardian_phone: "",
     is_active: "", // "Y",
     institution_id: "", // "100123",
-    assignedBatches: [], // ["5660", "2447", "4163", "3067"],
-    fee_type: 0, 
+    assignedBatches: "", // ["5660", "2447", "4163", "3067"],
+    fee_type: 0,
     fee_due_day: 0,
     batchJoiningDates: [], // ["2017-10-25", "2017-10-25", "2017-10-25", "2017-10-25"],
-    comments: "", 
+    comments: "",
     photo: null,
-    enquiry_id: "", 
+    enquiry_id: "",
     student_disp_id: "",
     student_manual_username: null,
     social_medium: -1,
     attendance_device_id: "",
     religion: "",
     standard_id: null,
-    subject_id: null, 
-    slot_id: null, 
+    subject_id: null,
+    slot_id: null,
     language_inst_status: null,
     stuCustomLi: []
   }
@@ -53,22 +53,19 @@ export class StudentAddComponent implements OnInit {
   private standardList: any = [];
   private batchList: any = [];
   private isAssignBatch: boolean = false;
-  private assignedBatch:string = "";
-  
+  private assignedBatch: string = "";
 
-  constructor(private studentPrefillService: AddStudentPrefillService, private prefill: FetchprefilldataService) { 
-    
+
+  constructor(private studentPrefillService: AddStudentPrefillService, private prefill: FetchprefilldataService) {
   }
 
   ngOnInit() {
-
     this.fetchPrefillFormData();
-
   }
 
   /* Function to navigate through the Student Add Form on button Click Save/Submit*/
   navigateTo(text) {
-    
+
     if (text === "studentForm") {
 
       document.getElementById('li-one').classList.add('active');
@@ -142,7 +139,7 @@ export class StudentAddComponent implements OnInit {
       }
       case "inventory-icon": {
         //console.log(id);
-        this.navigateTo("inventory");        
+        this.navigateTo("inventory");
         break;
       }
       default: {
@@ -156,7 +153,6 @@ export class StudentAddComponent implements OnInit {
 
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
-
 
     this.studentPrefillService.fetchInventoryList().subscribe(data => {
       console.log(data);
@@ -195,16 +191,16 @@ export class StudentAddComponent implements OnInit {
 
 
   /* Function to add Student Quickly without fees, kyc and inventory details */
-  addStudentNow(ev){
+  addStudentNow(ev) {
     console.log(ev);
     this.quickAddStudent = ev;
 
     /* If Checked then hide save continue button and show submit button */
-    if(this.quickAddStudent){
+    if (this.quickAddStudent) {
       document.getElementById('form-continue').classList.add('hide');
       document.getElementById('form-submit').classList.remove('hide');
     }
-    else{
+    else {
       document.getElementById('form-continue').classList.remove('hide');
       document.getElementById('form-submit').classList.add('hide');
     }
@@ -213,18 +209,49 @@ export class StudentAddComponent implements OnInit {
 
 
   /* Open batch assign popup */
-  openAssignBatch(){
+  openAssignBatch() {
     this.isAssignBatch = true;
   }
 
 
   /* close batch assign popup */
-  closeBatchAssign(){
+  closeBatchAssign() {
     this.isAssignBatch = false;
   }
 
 
   /* align the user selected batch into input and update the data into array to be updated to server */
-  assignBatch(){}
+  assignBatch() {
+  }
+
+
+  studentQuickAdder(){
+    console.log(this.studentAddFormData);
+  }
+
+
+  /* Customiized click detection strategy */
+  inputClicked() {
+    var nodelist = document.querySelectorAll('.form-ctrl');
+    [].forEach.call(nodelist, (elm) => {
+      elm.addEventListener('blur', function (event) {
+        if (event.target.value != '') {
+          event.target.parentNode.classList.add('has-value');
+        } else {
+          event.target.parentNode.classList.remove('has-value');
+        }
+      });
+    });
+
+    /* var dropdowns = document.getElementsByClassName("bulk-dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    } */
+
+  }
 
 }

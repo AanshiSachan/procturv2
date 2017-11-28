@@ -18,7 +18,7 @@ import { Ng2SmartTableModule } from '../../../assets/imported_modules/ng2-smart-
 import { BusyModule, BusyConfig} from 'angular2-busy';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import {CalendarModule} from 'primeng/primeng';
-import {BsDatepickerModule} from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
+import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 
 @NgModule({
     imports: [

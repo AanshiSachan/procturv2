@@ -28,15 +28,15 @@ import { ComingSoonComponent } from './components/coming-soon/coming-soon.compon
                     canLoad: [AuthGuard]
                 },
 
-                { path: 'student', component: ComingSoonComponent, pathMatch: 'full', },
+                /* { path: 'student', component: ComingSoonComponent, pathMatch: 'full', }, */
                 { path: 'course', component: ComingSoonComponent    , pathMatch: 'full', },
 
-                /* {
+                 {
                     path: 'student',
                     loadChildren: 'app/components/students/student.module#StudentModule',
                     canLoad: [AuthGuard]
                 },
-
+                /*
                 {
                     path: 'course',
                     loadChildren: 'app/components/course/course.module#CourseModule',
