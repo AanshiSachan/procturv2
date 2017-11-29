@@ -25,7 +25,8 @@ export class CreateCustomCompComponent implements OnInit {
     page: 2,
     prefilled_data: "",
     sequence_number: "",
-    type: ""
+    type: "",
+    on_both: "Y"
   }
 
 

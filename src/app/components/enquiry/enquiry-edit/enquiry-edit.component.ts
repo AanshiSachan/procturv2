@@ -421,6 +421,10 @@ export class EnquiryEditComponent implements OnInit {
     /* Upload Data if the formData is valid */
     if (this.isFormValid && this.isCustomComponentValid) {
       let id = localStorage.getItem('institute_enquiry_id');
+
+      this.editEnqData.enquiry_date = moment(this.editEnqData.enquiry_date).format('YYYY-MM-DD');
+      this.editEnqData.followUpDate = moment(this.editEnqData.followUpDate).format('YYYY-MM-DD');
+
       this.poster.editFormUpdater(id, this.editEnqData).subscribe(
         data => {
           if (data.statusCode == 200) {

@@ -2,6 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { StudentForm } from '../../../model/student-add-form';
+import { SelectItem } from 'primeng/primeng';
+import * as moment from 'moment';
+import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
+
+
+
+
 
 @Component({
   selector: 'app-student-add',
@@ -27,8 +34,8 @@ export class StudentAddComponent implements OnInit {
     guardian_email: "",
     guardian_phone: "",
     is_active: "", // "Y",
-    institution_id: "", // "100123",
-    assignedBatches: "", // ["5660", "2447", "4163", "3067"],
+    institution_id: sessionStorage.getItem('institute_id'), // "100123",
+    assignedBatches: [], // ["5660", "2447", "4163", "3067"],
     fee_type: 0,
     fee_due_day: 0,
     batchJoiningDates: [], // ["2017-10-25", "2017-10-25", "2017-10-25", "2017-10-25"],
@@ -49,18 +56,44 @@ export class StudentAddComponent implements OnInit {
 
   private quickAddStudent: boolean = false;
   private additionalBasicDetails: boolean = false;
-  private instituteList: any = [];
-  private standardList: any = [];
-  private batchList: any = [];
+  private instituteList: any[] = [];
+  private standardList: any[] = [];
+  private courseList: any[] = [];
+  private batchList: any[] = [];
   private isAssignBatch: boolean = false;
   private assignedBatch: string = "";
+  private isAcad: boolean = false;
+  private isProfessional: boolean = false;
+  slots: any[] = [];
+  langStatus: any[] = [];
+  selectedSlots: any[] = [];
+  multiOpt: boolean = false;
+  selectedSlotsString: string = '';
+  assignedBatchString: string = '';
+
+
+
 
 
   constructor(private studentPrefillService: AddStudentPrefillService, private prefill: FetchprefilldataService) {
+    let institute_type = sessionStorage.getItem('institute_type');
+    if (institute_type == 'LANG') {
+      this.isProfessional = true;
+    }
+    else {
+      this.isAcad = true;
+    }
   }
 
   ngOnInit() {
+
     this.fetchPrefillFormData();
+
+    if (this.isProfessional) {
+      this.getSlots();
+      this.getlangStudentStatus();
+    }
+
   }
 
   /* Function to navigate through the Student Add Form on button Click Save/Submit*/
@@ -155,30 +188,36 @@ export class StudentAddComponent implements OnInit {
   fetchPrefillFormData() {
 
     this.studentPrefillService.fetchInventoryList().subscribe(data => {
-      console.log(data);
+      //console.log(data);
     });
 
 
     this.studentPrefillService.fetchCustomComponent().subscribe(data => {
-      console.log(data);
+      //console.log(data);
     });
 
 
     this.prefill.getSchoolDetails().subscribe(data => {
-      console.log(data);
+      //console.log(data);
       this.instituteList = data;
     });
 
 
     this.prefill.getEnqStardards().subscribe(data => {
-      console.log(data);
+      //console.log(data);
       this.standardList = data;
     });
 
 
     this.studentPrefillService.fetchBatchDetails().subscribe(data => {
-      console.log(data);
-      this.batchList = data;
+      data.forEach(el => {
+        let obj ={
+          isSelected: false,
+          data: el,
+          assignDate: moment().format('YYYY-MM-DD')
+        }
+        this.batchList.push(obj);
+      })
     });
 
   }
@@ -192,7 +231,7 @@ export class StudentAddComponent implements OnInit {
 
   /* Function to add Student Quickly without fees, kyc and inventory details */
   addStudentNow(ev) {
-    console.log(ev);
+    //console.log(ev);
     this.quickAddStudent = ev;
 
     /* If Checked then hide save continue button and show submit button */
@@ -222,11 +261,32 @@ export class StudentAddComponent implements OnInit {
 
   /* align the user selected batch into input and update the data into array to be updated to server */
   assignBatch() {
+    let batchString:any[] = [];
+    //console.log(this.batchList); 
+    this.batchList.forEach(el=> {
+      if(el.isSelected){
+        this.studentAddFormData.assignedBatches.push(el.data.batch_id.toString());
+        this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
+        batchString.push(el.data.batch_name);
+      }
+    });
+    if(batchString.length != 0){
+      document.getElementById('assignCoursesParent').classList.add('has-value');
+      this.assignedBatchString = batchString.join(',');
+      this.closeBatchAssign();
+    }
+    else{
+      this.closeBatchAssign();
+    }
   }
 
 
-  studentQuickAdder(){
-    console.log(this.studentAddFormData);
+  studentQuickAdder() {
+
+    this.studentAddFormData.dob = moment(this.studentAddFormData.dob).format('YYYY-MM-DD');
+    this.studentAddFormData.doj = moment(this.studentAddFormData.doj).format('YYYY-MM-DD');    
+
+
   }
 
 
@@ -242,16 +302,98 @@ export class StudentAddComponent implements OnInit {
         }
       });
     });
+  }
 
-    /* var dropdowns = document.getElementsByClassName("bulk-dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
+
+
+
+  getSlots() {
+    this.studentPrefillService.fetchSlots().subscribe(
+      res => {
+        res.forEach(el => {
+          let obj = {
+            label: el.slot_name,
+            value: el,
+            status: false
+          }
+          this.slots.push(obj);
+        });
+       // console.log(this.slots);
+      },
+      err => { }
+    )
+  }
+
+
+
+
+
+  getlangStudentStatus() {
+    this.studentPrefillService.fetchLangStudentStatus().subscribe(
+      res => {
+        this.langStatus = res;
+      },
+      err => { }
+    )
+  }
+
+
+
+
+  multiselectVisible(elid) {
+    let targetid = elid + "multi";
+    if (document.getElementById(targetid).classList.contains('hide')) {
+      document.getElementById(targetid).classList.remove('hide');
+    }
+    else {
+      document.getElementById(targetid).classList.add('hide');
+    }
+  }
+
+
+
+
+
+  updateSlotSelected(data) {
+
+    /* slot checked */
+    if (data.status) {
+      this.selectedSlots.push(data.value.slot_name);
+      if (this.selectedSlots.length != 0) {
+        document.getElementById('slotwrapper').classList.add('has-value');
       }
-    } */
+      else {
+        document.getElementById('slotwrapper').classList.remove('has-value');
+      }
+      this.selectedSlotsString = this.selectedSlots.join(',');
+    }
+    /* slot unchecked */
+    else {
+      if (this.selectedSlots.length != 0) {
+        document.getElementById('slotwrapper').classList.add('has-value');
+      }
+      else if(this.selectedSlots.length == 0) {
+        document.getElementById('slotwrapper').classList.remove('has-value');
+      }
+      var index = this.selectedSlots.indexOf(data.value.slot_name);
+      if (index > -1) {
+        this.selectedSlots.splice(index, 1);
+      }
+      this.selectedSlotsString = this.selectedSlots.join(',');
+    }
 
   }
 
+
+
+
+
+  fetchCourseFromMaster(id){
+    this.studentPrefillService.fetchCourseList(id).subscribe(
+      res => {
+        this.courseList = res;
+      }
+    )
+
+  }
 }

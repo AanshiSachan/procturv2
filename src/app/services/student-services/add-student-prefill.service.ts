@@ -21,7 +21,7 @@ export class AddStudentPrefillService {
   private urlFeeSchedule: string;
   private urlFeeInstallment: string;
   private urlAdditionalFeeDetails: string;
-  baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI/api";
+  baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
 
   constructor(private http: Http, private auth: AuthenticatorService) {
     this.Authorization = this.auth.getAuthToken();
@@ -34,8 +34,8 @@ export class AddStudentPrefillService {
 
 
   /* return the list of inventory arcticles required by the student */
-  fetchInventoryList(): any{
-    this.urlinventory = this.baseUrl +"/v1/inventory/item/fetchForStudentAllocationWhileCreation";
+  fetchInventoryList(): any {
+    this.urlinventory = this.baseUrl + "/api/v1/inventory/item/fetchForStudentAllocationWhileCreation";
     let data = { standard_id: null, subject_id: null };
 
     return this.http.post(this.urlinventory, data, { headers: this.headers })
@@ -49,40 +49,40 @@ export class AddStudentPrefillService {
 
 
   /* return the list of custom component for the selected institute ID */
-  fetchCustomComponent(): any{
-    this.urlCustomComponent = this.baseUrl + "/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=undefined&student_enq_id=&page=2";
-    return this.http.get(this.urlCustomComponent, {headers: this.headers})
-    .map(
-      data => {return data.json();},
-      err => { 
+  fetchCustomComponent(): any {
+    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" + this.institute_id + "?id=0&isSearhable=undefined&student_enq_id=&page=2";
+    return this.http.get(this.urlCustomComponent, { headers: this.headers })
+      .map(
+      data => { return data.json(); },
+      err => {
         //console.log("an error occurred while fetching custom component for student add view");
-    }
-    );
+      }
+      );
   }
 
 
 
   /* return the list of batch for students  */
-  fetchBatchDetails(): any{
-    this.urlBatchData = this.baseUrl + "/v1/batches/all/" +this.institute_id +"?active=Y"
+  fetchBatchDetails(): any {
+    this.urlBatchData = this.baseUrl + "/api/v1/batches/all/" + this.institute_id + "?active=Y"
 
-    return this.http.get(this.urlBatchData, {headers: this.headers})
-    .map(
-      data => {return data.json();},
+    return this.http.get(this.urlBatchData, { headers: this.headers })
+      .map(
+      data => { return data.json(); },
       err => {
-       // console.log("there was an error fetching batch data for student add view");
+        // console.log("there was an error fetching batch data for student add view");
       }
       );
   }
 
 
   /* return the list of Fee Structure */
-  fetchFeeStructure(): any{
-    this.urlFeeStructure = this.baseUrl + "/v1/student_wise/feeStructure/fetchAll/" +this.institute_id;
+  fetchFeeStructure(): any {
+    this.urlFeeStructure = this.baseUrl + "/api/v1/student_wise/feeStructure/fetchAll/" + this.institute_id;
 
-    return this.http.get(this.urlFeeStructure, {headers: this.headers})
-    .map(
-      data => { return data.json();}, 
+    return this.http.get(this.urlFeeStructure, { headers: this.headers })
+      .map(
+      data => { return data.json(); },
       err => {
         //console.log("there is an error fetching fee structures, please check your internet connection");
       })
@@ -91,46 +91,84 @@ export class AddStudentPrefillService {
 
 
   /* return list of fee schedule for students */
-  fetchFeeSchedule(): any{
-    
-    this.urlFeeSchedule = this.baseUrl + "/v1/studentWise/fee/schedule/fetch/" +this.institute_id +"/-1";
+  fetchFeeSchedule(): any {
 
-    return this.http.get(this.urlFeeSchedule, {headers: this.headers})
-    .map(
-      data => { return data.json();}, 
+    this.urlFeeSchedule = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/-1";
+
+    return this.http.get(this.urlFeeSchedule, { headers: this.headers })
+      .map(
+      data => { return data.json(); },
       err => {
         //console.log("there is an error fetching fee schedule, please check your internet connection");
-    }
-    )
+      }
+      )
   }
 
 
 
   /* return installment data for selected fee structure */
-  fetchFeeInstallmentDetails(id, data){
-    this.urlFeeInstallment = this.baseUrl + "/v1/student_wise/feeStructure/fetch/" +this.institute_id +"/" +id;
+  fetchFeeInstallmentDetails(id, data) {
+    this.urlFeeInstallment = this.baseUrl + "/api/v1/student_wise/feeStructure/fetch/" + this.institute_id + "/" + id;
 
-    return this.http.post(this.urlFeeInstallment, data, {headers: this.headers})
-    .map(
-      data => {return data.json();}, 
-      err =>  {
-       // console.log("error fetching installment data, please check your internet connection");
+    return this.http.post(this.urlFeeInstallment, data, { headers: this.headers })
+      .map(
+      data => { return data.json(); },
+      err => {
+        // console.log("error fetching installment data, please check your internet connection");
       }
-    )
+      )
   }
 
 
   /* return the details for additional fee selected for student  */
-  fetchAdditionalFeesInfo(id){
-    this.urlAdditionalFeeDetails = this.baseUrl + "/v1/batchFeeSched/feeType/" +id +"/details";
-    return this.http.get(this.urlAdditionalFeeDetails, {headers: this.headers})
-    .map(
-      data =>{return data.json();}, 
-      err=> {
+  fetchAdditionalFeesInfo(id) {
+    this.urlAdditionalFeeDetails = this.baseUrl + "/api/v1/batchFeeSched/feeType/" + id + "/details";
+    return this.http.get(this.urlAdditionalFeeDetails, { headers: this.headers })
+      .map(
+      data => { return data.json(); },
+      err => {
         //console.log("error fetching additional fee details, please check your internet connection");
-    }
+      }
+      )
+  }
+
+
+  fetchSlots() {
+    let urlFetchSlot = this.baseUrl + "/api/v1/inst_slot/all/" + this.institute_id;
+
+    return this.http.get(urlFetchSlot, { headers: this.headers }).map(
+      res => { return res.json(); }
     )
   }
 
+
+  fetchLangStudentStatus() {
+    let urlLangStatus = this.baseUrl + "/api/v1/masterData/type/LANG_STUDENT_STATUS";
+
+    return this.http.get(urlLangStatus, { headers: this.headers }).map(
+      res => { return res.json(); }
+    )
+  }
+
+
+  fetchLangbatch() {
+    let urlLangBatch = this.baseUrl + "/api/v1/batches/all/" +this.institute_id +"?active=Y";
+
+    return this.http.get(urlLangBatch, { headers: this.headers }).map(
+      res => { return res.json(); }
+    )
+  }
+
+
+
+  fetchCourseList(id){
+
+    let urlCourses =this.baseUrl +"/api/v1/subjects/standards/" +id;
+
+    return this.http.get(urlCourses, {headers: this.headers}).map(
+      res => { return res.json();}
+    )
+
+  }
 
 }

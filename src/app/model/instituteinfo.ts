@@ -5,9 +5,11 @@ export interface instituteInfo {
     password?: any;
     onLoad?: any;
     school?: any;
+    school_id?: any;
     standard_id?: any;
     batch_id?: any;
     is_active?: any;
+    is_active_status?: any;
     subject_id?: any;
     course_id?: any;
     name?: any;

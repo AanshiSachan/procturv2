@@ -157,7 +157,7 @@
                                     <tr>
                                         <th>
                                             <div class="field-checkbox-wrapper">
-                                                <input type="checkbox" value="" name="check" class="form-checkbox">
+                                                <input type="checkbox" value="" [(ngModel)]="isAllSelected" (ngModelChange)="toggleSelectAll($event)" name="check" class="form-checkbox">
                                                 <label>asdf</label>
                                             </div>
                                         </th>
@@ -198,12 +198,12 @@
                                         </th>
                                         <th>
                                             <label>
-                                                Status
+
                                             </label>
                                         </th>
                                         <th>
                                             <label>
-                                                Action
+
                                             </label>
                                         </th>
                                         <th>
@@ -211,95 +211,63 @@
                                                 Note
                                             </label>
                                         </th>
-                                        <th class="table-head-menu">
-                                            <span>
-                                                <img src="./assets/images/hamburger_menu.svg" alt="">
-                                                <img src="./assets/images/hamburger_menu_close.svg" alt="">
-                                            </span>
-                                            <div class="table-heading-menu">
-                                                <div class="heading-menu-inner">
-                                                    <ul class="">
-                                                        <li>
-                                                            <div class="field-checkbox-wrapper">
-                                                                <input type="checkbox" value="" name="check" class="form-checkbox">
-                                                                <label>Heading 1</label>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="field-checkbox-wrapper">
-                                                                <input type="checkbox" value="" name="check" class="form-checkbox">
-                                                                <label>Heading 2</label>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="field-checkbox-wrapper">
-                                                                <input type="checkbox" value="" name="check" class="form-checkbox">
-                                                                <label>Heading 3</label>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="field-checkbox-wrapper">
-                                                                <input type="checkbox" value="" name="check" class="form-checkbox">
-                                                                <label>Heading 4</label>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="selected">
+                                    <tr [id]="row +i" class="" *ngFor="let row of studentDataSource; let i of index" (click)="rowclicked(row, i)">
                                         <td>
                                             <div class="field-checkbox-wrapper">
-                                                <input type="checkbox" value="" name="check" class="form-checkbox">
+                                                <input type="checkbox" [(ngModel)]="row.isSelected" name="check" class="tbodycheck form-checkbox">
                                                 <label>sdf</label>
                                             </div>
                                         </td>
                                         <td>
                                             <label>
-                                                
+                                                {{row.data.student_id}}
                                             </label>
                                         </td>
                                         <td>
                                             <label>
-                                                <a href="javascript:void(0)"> </a>
+                                                <a href="javascript:void(0)">
+                                                    {{row.data.student_name}}
+                                                </a>
                                             </label>
                                         </td>
                                         <td>
                                             <label>
-
+                                                {{row.data.student_phone}}
                                             </label>
                                         </td>
                                         <td>
                                             <label>
-
+                                                {{row.data.doj}}
                                             </label>
                                         </td>
                                         <td>
                                             <label>
-
+                                                {{row.data.student_class}}
                                             </label>
                                         </td>
                                         <td>
                                             <label>
-
+                                                {{row.data.parent_phone}}
                                             </label>
                                         </td>
                                         <td>
                                             <label>
-                                                <a href="javascript:void(0)"> </a>
+                                                <a href="javascript:void(0)">
+                                                    {{row.data.noOfBatchesAssigned}}
+                                                </a>
                                             </label>
                                         </td>
                                         <td>
                                             <label>
-
+                                                <a>Edit</a>
                                             </label>
                                         </td>
                                         <td>
                                             <label>
-                                                <a >Edit Delete</a>
+                                                <a>Delete</a>
                                             </label>
                                         </td>
                                         <td>

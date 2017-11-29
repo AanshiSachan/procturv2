@@ -54,7 +54,7 @@ import { DateConverter } from './enquiry-manage/enquiry-manage.component';
         EnquiryDateInput,
         UserEnquiryComponent,
         DateConverter
-    ],
+    ], 
     entryComponents: [
         ActionButtonComponent,
         SmsOptionComponent,

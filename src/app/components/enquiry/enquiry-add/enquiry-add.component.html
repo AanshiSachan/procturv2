@@ -41,7 +41,7 @@
               <!-- Accordian Toggler -->
               <div class="accordian-heading">
                 <h4>
-                  <span class="circle-accor">1</span> Details
+                  <span class="circle-accor">1</span> Basic Details
                   <span class="open-accor" id="openBasic" (click)="toggleForm($event)">+</span>
                   <span class="close-accor" id="closeBasic" (click)="toggleForm($event)">-</span>
                 </h4>
@@ -338,19 +338,19 @@
             </select>
             <label for="eStatus">Enquiry Status</label>
           </div>
-          <div class="field-wrapper">
+          <div class="field-wrapper has-value">
             <select id="priority" class="form-ctrl" [(ngModel)]="newEnqData.priority" name="priority" enquiryInput>
               <option value=""></option>
-              <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
+              <option *ngFor="let priority of enqPriority" [value]="priority.data_key" [attr.selected]="priority.data_value == 'cold_call'? '' : null">
                 {{priority.data_value}}
               </option>
             </select>
             <label for="priority">Enquiry Priority</label>
           </div>
-          <div class="field-wrapper ">
+          <div class="field-wrapper has-value">
             <select id="followUpType" class="form-ctrl" [(ngModel)]="newEnqData.follow_type" name="followtype" enquiryInput>
               <option value=""></option>
-              <option *ngFor="let followUp of enqFollowType" [value]="followUp.data_key">
+              <option *ngFor="let followUp of enqFollowType" [value]="followUp.data_key" [attr.selected]="followUp.data_value == 'call' ? '' : null">
                 {{followUp.data_value}}
               </option>
             </select>
@@ -431,7 +431,7 @@
           </div>
           <div class="">
             <p>You have submitted
-              <strong>{{lastDetail.totalcount}} New Enquiry </strong> as on
+              <strong>{{enquiryConfirm.otherDetails.total_new_enquiries}} New Enquiry </strong> as on
               <strong>{{todayDate | date }}</strong>
             </p>
             <p>If you like to view complete Enquiry List now, click

@@ -57,7 +57,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   today: any = Date.now();
   searchBarData: any = null;
   searchBarDate: any = moment().format('YYYY-MM-DD');
-  displayBatchSize: number = 10;
+  displayBatchSize: number = 50;
   incrementFlag: boolean = true;
   updateFormComments: any = [];
   updateFormCommentsBy: any = [];
@@ -70,7 +70,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
   isMessageAddOpen: boolean = false;
   isMultiSms: boolean = false;
   smsSelectedRowsLength: number = 0;
-  sizeArr: any[] = [5, 10, 25, 50, 100];
+  sizeArr: any[] = [50, 100, 250, 500, 1000];
   newSmsString = {
     data: "",
     length: 0,
@@ -336,15 +336,15 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
       enquiry_date: { title: 'Enquiry Date', filter: false, show: true },
       name: { title: 'Student Name', filter: false, show: true },
       phone: { title: 'Contact No.', filter: false, show: true },
-      priority: { title: 'Priority', filter: false, show: true },
-      followUpDate: { title: 'Follow up Date', filter: false, show: true },
-      assigned_name: { title: 'Assigned To', filter: false, show: true },
-      action: { title: 'Action', filter: false, type: 'custom', renderComponent: ActionButtonComponent },
-      statusValue: { title: 'Status', filter: false, show: true },
-      follow_type: { title: 'Follow type', filter: false, show: false },
       standard: { title: 'Standard', filter: false, show: false },
       subjects: { title: 'Subjects', filter: false, show: false },
+      statusValue: { title: 'Status', filter: false, show: true },
+      priority: { title: 'Priority', filter: false, show: true },
+      follow_type: { title: 'Follow type', filter: false, show: false },
+      followUpDate: { title: 'Follow up Date', filter: false, show: true },
+      action: { title: 'Action', filter: false, type: 'custom', renderComponent: ActionButtonComponent },
       updateDate: { title: 'Update Date', filter: false, show: false },
+      assigned_name: { title: 'Assigned To', filter: false, show: true },
       email: { title: 'Email', filter: false, show: false },
       Gender: { title: 'Gender', filter: false, show: false },
     },
@@ -537,7 +537,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     /* Dropdown items for Bulk Actions */
     this.bulkAddItems = [
       {
-        label: 'Delete', icon: 'fa-close', command: () => {
+        label: 'Delete Multiple Enquiries', icon: 'fa-trash-o', command: () => {
           this.bulkDeleteEnquiries();
         }
       }
@@ -858,7 +858,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
     /* Registration Fee Payment JSON */
     this.prefill.fetchRegistrationFeeDetails().subscribe(
       res => {
-        console.log(res);
+       // console.log(res);
       }
     )
   }
@@ -1896,7 +1896,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
 
     //console.log(this.selectedRowGroup);
 
-    if (this.selectedRowGroup != null || this.selectedRowGroup != undefined) {
+    if ((this.selectedRowGroup != null || this.selectedRowGroup != undefined)&&(this.selectedRowGroup.length != 0)) {
       this.isMultiSms = true;
       this.smsServicesInvoked();
       this.smsSelectedRowsLength = this.selectedRowGroup.length;
@@ -1940,7 +1940,7 @@ export class EnquiryManageComponent implements OnInit, OnDestroy {
 
 
   bulkDeleteEnquiries() {
-    if (this.selectedRowGroup != null || this.selectedRowGroup != undefined) {
+    if ((this.selectedRowGroup != null || this.selectedRowGroup != undefined)&&(this.selectedRowGroup.length != 0)) {
       if (confirm('You are about to delete multiple enquiries')) {
         let deleteString: string = '';
         this.selectedRowGroup.forEach(el => {

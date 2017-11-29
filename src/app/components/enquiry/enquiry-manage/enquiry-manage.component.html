@@ -9,8 +9,8 @@
         Enquiry List
       </h1>
       <aside class="pull-right">
-        <input type="button" value="Add New Enquiry" class="btn" routerLink='/enquiry/addEnquiry' />
-        <input type="button" value="Add Bulk Enquiry" routerLink='/enquiry/addBulkEnquiry' class="btn">
+        <input type="button" value="Add Enquiry" class="btn" routerLink='/enquiry/addEnquiry' />
+        <input type="button" value="Upload Enquiry" routerLink='/enquiry/addBulkEnquiry' class="btn">
       </aside>
     </section>
     <!-- Enquiry Page Start here -->
@@ -278,7 +278,7 @@
           <div class="c-lg-6 c-md-6 c-sm-6 align-right">
             <ul class="export-print">
               <li>
-                <p-splitButton label="Send Bulk SMS" icon="fa-check" (onClick)="sendBulkSms()" [model]="bulkAddItems"></p-splitButton>
+                <p-splitButton label="Send Bulk SMS" icon="fa-envelope-o" (onClick)="sendBulkSms()" [model]="bulkAddItems"></p-splitButton>
               </li>
               <li class="export-icon" (click)="downloadAllEnquiries()">
                 <a id="enq_download"></a>

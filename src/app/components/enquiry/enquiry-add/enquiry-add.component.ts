@@ -36,6 +36,7 @@ export class EnquiryAddComponent implements OnInit {
   refferedBy: any = [];
   occupation: any = [];
   lastDetail: any = [];
+  enquiryConfirm: any = [];
   confimationPop: boolean = false;
   updatePop: boolean = false;
   newEnqData: addEnquiryForm = {
@@ -162,9 +163,9 @@ export class EnquiryAddComponent implements OnInit {
       source_id: "-1",
       fee_committed: "",
       discount_offered: "",
-      priority: "",
+      priority: "cold_call",
       enquiry: "",
-      follow_type: "",
+      follow_type: "call",
       followUpDate: "",
       religion: null,
       link: "",
@@ -498,9 +499,9 @@ export class EnquiryAddComponent implements OnInit {
       source_id: "-1",
       fee_committed: "",
       discount_offered: "",
-      priority: "",
+      priority: "cold_call",
       enquiry: "",
-      follow_type: "",
+      follow_type: "call",
       followUpDate: "",
       religion: null,
       link: "",
@@ -531,26 +532,37 @@ export class EnquiryAddComponent implements OnInit {
 
     /* Upload Data if the formData is valid */
     if (this.isFormValid && this.isCustomComponentValid) {
+
+      this.newEnqData.enquiry_date = moment(this.newEnqData.enquiry_date).format('YYYY-MM-DD');
+      this.newEnqData.followUpDate = moment(this.newEnqData.followUpDate).format('YYYY-MM-DD');
+
       this.poster.postNewEnquiry(this.newEnqData).subscribe(
         data => {
-          //console.log(data); 
+          this.enquiryConfirm = data;
           if (this.addNextCheck) {
-            //  console.log(this.addNextCheck);
             let msg = {
               type: "success",
               title: "New Enquiry Added",
               body: "Your enquiry has been submitted"
             }
             form.reset();
+            this.prefill.fetchLastDetail().subscribe(el =>
+              data => {
+                this.lastDetail = data;
+                localStorage.setItem('institute_enquiry_id', data.institute_enquiry_id);
+                let createTime = new Date(data.enquiry_creation_datetime);
+                this.lastUpdated = moment(createTime).fromNow();
+              }
+            );
             this.appC.popToast(msg);
             this.clearFormData();
           }
           else {
-            // console.log(this.addNextCheck);
             this.prefill.fetchLastDetail().subscribe(el =>
               data => {
                 this.lastDetail = data;
                 let createTime = new Date(data.enquiry_creation_datetime);
+                localStorage.setItem('institute_enquiry_id', data.institute_enquiry_id);
                 this.lastUpdated = moment(createTime).fromNow();
               }
             );
@@ -563,7 +575,7 @@ export class EnquiryAddComponent implements OnInit {
           let data = {
             type: "error",
             title: "Error Posting New Enquiry",
-            body: err.message
+            body: err.message +" mobile number is already in use, please provide another primary contact"
           }
           this.appC.popToast(data);
         }

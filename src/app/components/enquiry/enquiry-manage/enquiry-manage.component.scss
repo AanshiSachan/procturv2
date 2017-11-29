@@ -234,11 +234,12 @@
         background: #f6f7f9 0 0 repeat-x;
         background: none;
         top: 40px !important;
-        left: -10px !important;
+        left: 0px !important;
         outline: none;
         box-shadow: none;
         font-family: 'Open Sans', Arial, sans-serif;
         font-size: 14px;
+        text-align: left;
         .ui-menu-list {
             font-family: 'Open Sans', Arial, sans-serif;
             font-size: 14px;
@@ -256,6 +257,9 @@
                 border: 0.5px solid rgba(128, 128, 128, 0.43) !important;
                 box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.48);
                 background: white;
+                .ui-menuitem-link{
+                    padding: 0  !important;
+                }
                 a {
                     color: #0084f6 !important;
                     font-family: 'Open Sans', Arial, sans-serif !important;

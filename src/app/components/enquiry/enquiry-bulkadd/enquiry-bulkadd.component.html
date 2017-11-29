@@ -21,14 +21,14 @@
 
     <div class="row">
       <h1 class="pull-left">
-        Bulk Enquiry Upload
+        Upload Enquiry
       </h1>
       <aside class="pull-right">
-        <input type="button" value="Bulk Update Report" (click)="bulkStatusReporter()" class="btn" />
+        <input type="button" value="Enquiry Upload Report" (click)="bulkStatusReporter()" class="btn" />
         <a id="template_link">
           <input type="button" value="Download Template" class="btn" (click)="downloadTemplate()" />
         </a>
-        <input type="button" value="Add New Enquiry" routerLink='/enquiry/addEnquiry' class="btn" />
+        <input type="button" value="Add Enquiry" routerLink='/enquiry/addEnquiry' class="btn" />
       </aside>
     </div>
 
@@ -44,7 +44,8 @@
         <div class="file-wrapper">
           <ul>
             <li>
-              <p-fileUpload url="http://test999.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/bulkUploadEnquiries" accept="application/vnd.ms-excel"
+              <!-- accept="application/vnd.ms-excel" -->
+              <p-fileUpload url="http://test999.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/bulkUploadEnquiries"
                 customUpload="true" (uploadHandler)="uploadHandler($event)" [showCancelButton]="false">
               </p-fileUpload>
 
