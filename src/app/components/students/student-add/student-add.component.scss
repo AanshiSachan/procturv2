@@ -4,7 +4,6 @@
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
 @import "./src/app/components/enquiry/enquiry-add/enquiry-add.component.scss";
-
 .student-flow-wrapper {
     padding: 0 15px;
 }
@@ -17,8 +16,24 @@
     }
 }
 
-.navigator{
+.navigator {}
 
+.image-upload-wrapper {
+    max-height: 300px;
+    overflow: hidden;
+    .input-holder {}
+}
+
+.other-detail-wrapper {
+    .row {
+        margin: 0px 15px;
+    }
+}
+
+.duplicate-contact-form {
+    .row {
+        margin: 15px;
+    }
 }
 
 .common-right-section {
@@ -275,6 +290,7 @@
     }
 }
 
+
 /*=====================================middle top section css===================*/
 
 .middle-top {
@@ -338,7 +354,6 @@
     }
 }
 
-
 .fee-install-table {
     margin: 10px 0px 0px 0px;
     .table-responsive {
@@ -397,8 +412,8 @@
     }
 }
 
-/* import accordian css*/
 
+/* import accordian css*/
 
 
 /*==========================Middle Enquiry CSS=================================*/
@@ -417,12 +432,12 @@
     stroke-miterlimit: 10;
 }
 
+
 /* ======================= Right Side bar CSS =================================== */
 
 .shadow-box {
     box-shadow: 0px 2px 2px #7d7d7d;
-    padding: 7px;
-    // background: $header-bg;
+    padding: 7px; // background: $header-bg;
     border-radius: 2px;
     background: $lightBlue;
 }
@@ -459,8 +474,6 @@
         margin-top: 4px;
     }
 }
-
-
 
 
 /*=======================Right bottom lite shadow box======================*/
@@ -517,9 +530,8 @@
 
 .unstyled-calendar::-webkit-inner-spin-button,
 .unstyled-calendar::-webkit-calendar-picker-indicator {
-    -webkit-appearance: none;    
+    -webkit-appearance: none;
 }
-
 
 
 /* ======================== Responsive Data ================================== */

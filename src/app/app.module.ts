@@ -36,7 +36,7 @@ import { BsDatepickerModule } from '../assets/imported_modules/ngx-bootstrap/dat
 import { ErrorComponent } from './components/error/error.component';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
 import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.component';
-
+import { PostStudentDataService } from './services/student-services/post-student-data.service';
 
 @NgModule({
   imports: [
@@ -72,7 +72,8 @@ import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.com
     LoginService,
     StandardServices,
     AuthGuard,
-    LoaderHandlingService
+    LoaderHandlingService,
+    PostStudentDataService
   ],
   bootstrap: [AppComponent]
 })

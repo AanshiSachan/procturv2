@@ -38,7 +38,8 @@ export class StudentHomeComponent implements OnInit {
   isAllSelected: boolean = false;
   selectedRow: any;
   selectedRowGroup: any[] = [];
-
+  busy: Subscription;
+  busyPrefill: Subscription;
 
   /* Model for institute Data for fetching student enquiry */
   instituteData: instituteInfo = {
@@ -73,7 +74,10 @@ export class StudentHomeComponent implements OnInit {
 
     sessionStorage.setItem('studentdisplaysize', this.studentdisplaysize.toString());
 
-    this.loadTableDataSource(this.instituteData);
+    this.busy = this.loadTableDataSource(this.instituteData);
+
+    //this.busyPrefill
+
   }
 
 
@@ -90,7 +94,7 @@ export class StudentHomeComponent implements OnInit {
   /* Fetch data from server and convert to custom array */
   loadTableDataSource(instituteData) {
 
-    this.studentFetch.fetchAllStudentDetails(instituteData).subscribe(
+   return this.studentFetch.fetchAllStudentDetails(instituteData).subscribe(
       res => {
         res.forEach(el => {
           let obj = {

@@ -15,11 +15,11 @@ import 'moment';
 import 'hammerjs';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { Ng2SmartTableModule } from '../../../assets/imported_modules/ng2-smart-table';
-import { BusyModule, BusyConfig } from 'angular2-busy';
+import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { CalendarModule } from 'primeng/primeng';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
-import { MultiSelectModule } from 'primeng/primeng';
+import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 
 @NgModule({
     imports: [
@@ -32,7 +32,7 @@ import { MultiSelectModule } from 'primeng/primeng';
         BsDatepickerModule,
         BusyModule,
         NgLoggerModule.forRoot(Level.LOG),
-        MultiSelectModule
+        FileUploadModule, SplitButtonModule, MenuModule
     ],
     declarations: [
         StudentsComponent,
