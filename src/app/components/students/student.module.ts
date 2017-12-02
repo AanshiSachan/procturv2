@@ -13,7 +13,7 @@ import { UserStudentComponent } from './student-custom/user-student.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import 'moment';
 import 'hammerjs';
-import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+import { MultiselectDropdownModule } from '../../../assets/imported_modules/multiselect-dropdown';
 import { Ng2SmartTableModule } from '../../../assets/imported_modules/ng2-smart-table';
 import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';

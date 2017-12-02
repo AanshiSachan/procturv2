@@ -29,13 +29,7 @@ export class FetchStudentService {
   }
 
   fetchAllStudentDetails(instituteData: instituteInfo): any {
-    /* this.url = "http://test999.proctur.com/ResponseList";
-    let instituteFormData = `institute_id=${instituteData.institute_id}&function_type=${instituteData.function_type}&username=${instituteData.username}&password=${instituteData.password}&school=${instituteData.school}&standard_id=${instituteData.standard_id}&batch_id=${instituteData.batch_id}&is_load=${instituteData.is_load}&name=${instituteData.name}&is_active=${instituteData.is_active}&mobile=${instituteData.mobile}&language_inst_status=${instituteData.language_inst_status}&subject_id=${instituteData.subject_id}&slot_id=${instituteData.slot_id}&master_course_name=${instituteData.master_course_name}&course_id=${instituteData.course_id}&start_index=${instituteData.start_index}&batch_size=${instituteData.batch_size}`;
-    return this.http.post(this.url, instituteFormData, { headers: this.headers })
-    .map(res => {
-      return res.json().aaData
-    }) */
-
+  
     let instituteFormData = JSON.parse(JSON.stringify(instituteData));
     let urlStudentList = this.baseUrl + "/api/v1/students/manage/" + this.institute_id;
 
@@ -43,6 +37,22 @@ export class FetchStudentService {
       .map(res => {
         return res.json();
       });
+  }
+
+
+
+  downloadStudentTableasXls(form){
+    let urlDownloadXlsStudent = this.baseUrl +"/api/v1/students/all/download/" +this.institute_id;
+
+    return this.http.post(urlDownloadXlsStudent, form, {headers: this.headers}).map(
+      res => {
+        return res.json();
+      },
+      err => {
+        return err.json();
+      }
+    )
+
   }
 
 }

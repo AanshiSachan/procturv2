@@ -4,8 +4,251 @@
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
 @import "./src/app/components/enquiry/enquiry-add/enquiry-add.component.scss";
-//@import "./src/app/components/enquiry/enquiry-manage/enquiry-manage.component.scss";
+@import "./src/app/components/enquiry/enquiry-manage/enquiry-manage.component.scss";
 @import "./src/app/components/students/student-add/student-add.component.scss";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.search-filter-wrapper {
+    .normal-field {
+        padding: 7px 10px;
+        border: 1px solid #ccc;
+        width: 50%;
+        box-sizing: border-box;
+        margin: 0;
+        float: left;
+        height: 35px;
+        font-size: 14px;
+    }
+    .normal-btn {
+        padding: 8px 10px;
+        width: 20%;
+        box-sizing: border-box;
+        float: left;
+        cursor: pointer;
+    }
+    .field-wrapper {
+        position: relative;
+        padding-top: 0px !important;
+        width: 30%;
+        float: left !important;
+        .form-ctrl {
+            border-top: none !important;
+            border-right: none !important;
+            border-left: none !important;
+        }
+    }
+    .field-wrapper label {
+        position: absolute !important;
+        left: 10% !important;
+        top: 1% !important;
+        &:after {
+            left: 85% !important;
+            top: 10px !important;
+        }
+    }
+    .field-wrapper {
+        position: relative;
+        padding-top: 1px;
+        &.datePickerBox {
+            .form-ctrl {
+                position: relative;
+                z-index: 1;
+                background: transparent;
+                padding: 7px 10px;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+                margin: 0;
+                float: left;
+                border-right: 0;
+                height: 35px;
+                font-size: 14px;
+                width: 85% !important;
+            }
+            label {
+                position: absolute !important;
+                left: 3% !important;
+                top: -25% !important;
+            }
+            &:after {
+                content: '';
+                background: url('/../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                left: 75% !important;
+                top: 5px !important;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
+
+.AdFilter-field {
+    box-sizing: border-box;
+    z-index: 1;
+    box-shadow: rgb(226, 224, 224) 0px 2px 1px;
+    padding: 0px 15px 20px;
+    background: rgb(255, 255, 255);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(204, 204, 204);
+    border-image: initial;
+    .field-wrapper {
+        margin: 15px 0;
+    }
+}
+
+.openAdFilter {
+    float: right;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: $common-blue;
+}
+
+.closeAdFilter {
+    float: right;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: $redBtn;
+    svg {
+        width: 15px;
+        height: 16px;
+        display: inline-block;
+        vertical-align: bottom;
+        margin-right: 4px;
+        .cls-1 {
+            stroke: $redBtn;
+            stroke-miterlimit: 10;
+            stroke-width: 2;
+        }
+        .cls-2 {
+            stroke: none;
+        }
+    }
+}
+
+.filter-res {
+    margin-top: 20px;
+}
+
+
+/* Data table Settings */
+
+.student-table {
+    overflow: scroll;
+}
+
+:host /deep/ ng2-smart-table table>thead>tr:first-child {
+    background: #f7f7f7;
+    transition: all 0.5s;
+}
+
+:host /deep/ ng2-smart-table table>thead>tr:first-child>th {
+    padding: 10px 10px;
+    background: #004a7e;
+    color: #fff;
+    font-size: 11px;
+    font-weight: normal;
+    vertical-align: middle;
+    line-height: 20px;
+    .ng2-smart-title {
+        min-width: 70px;
+    }
+}
+
+:host /deep/ ng2-smart-table table>thead>tr:nth-child(even) {
+    display: none
+}
+
+:host /deep/ .ng2-smart-title a {
+    font-size: 11px !important;
+    font-weight: normal !important;
+    color: #fff !important;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    margin: 0;
+    padding: 0;
+}
+
+::ng-deep .ng2-smart-title a::after {
+    border-bottom: 4px solid rgba(0, 0, 0, 0.87) !important;
+}
+
+:host /deep/ ng2-smart-table table>tbody>tr>td {
+    transition: all 0.5s;
+    font-size: 14px !important;
+    line-height: normal;
+    border-bottom: 1px solid #fff;
+    padding: 6px 2px;
+}
+
+:host /deep/ ng2-smart-table table>tbody>tr:nth-child(even) {
+    background: rgba(204, 204, 204, 0.36);
+    font-size: 11px !important;
+    font-weight: normal !important;
+}
+
+:host /deep/ ng2-smart-table table>tbody>tr:nth-child(odd) {
+    background: #FFF;
+    font-size: 11px !important;
+    font-weight: normal !important;
+}
+
+:host /deep/ ng2-smart-table table>thead>tr:first-child>th:first-child>div {
+    background: #004a7e;
+}
+
+::ng-deep .dropdown-menu {
+    left: -150px;
+}
+
+:host /deep/ ng2-smart-table table>tbody>tr:nth-child(even)>td:first-child>div {
+    background: none;
+}
+
+:host /deep/ ng2-smart-table table>tbody>tr:nth-child(odd)>td:first-child>div {
+    background: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .middle-main {
     position: relative;
@@ -169,8 +412,7 @@
     .other-dropdown {
         position: absolute;
         right: 0;
-        top: 50%;
-        // display: none;
+        top: 50%; // display: none;
         background: #fff;
         z-index: 0;
         width: 120px;
@@ -212,19 +454,18 @@
     margin: 0;
     line-height: 10px;
     font-weight: 600;
-    cursor: pointer; 
-    a{
+    cursor: pointer;
+    a {
         line-height: 1;
         border: none;
         padding: 0px 12px;
     }
-    span{
+    span {
         line-height: 1;
         border: none;
         padding: 0px 12px;
     }
 }
-
 
 .pagination li:last-child {
     border-right: 0;
@@ -551,77 +792,13 @@ ul.customDropdown li:hover {
 }
 
 
-/* Data table Settings */
 
-.student-table{
-    overflow: scroll;
-}
 
-:host /deep/ ng2-smart-table table > thead > tr:first-child{
-    background: #f7f7f7;
-    transition: all 0.5s;
-}
-:host /deep/ ng2-smart-table table > thead > tr:first-child > th{
-    padding: 10px 10px;
-    background: #004a7e;
-    color: #fff;
-    font-size: 11px;
-    font-weight: normal;
-    vertical-align: middle;
-    line-height: 20px;
-    .ng2-smart-title{
-        min-width: 70px;
-    }
-}
-:host /deep/ ng2-smart-table table > thead > tr:nth-child(even){
-    display: none
-}
-:host /deep/ .ng2-smart-title a{
-    font-size: 11px !important;
-    font-weight: normal !important;
-    color: #fff !important;
-    border: 0;
-    font: inherit;
-    vertical-align: baseline;
-    margin: 0;
-    padding: 0;
-}
-::ng-deep .ng2-smart-title a::after{
-    border-bottom: 4px solid rgba(0, 0, 0, 0.87) !important;
-}
-:host /deep/ ng2-smart-table table > tbody > tr > td{
-    transition: all 0.5s;
-    font-size: 14px !important;
-    line-height: normal;
-    border-bottom: 1px solid #fff;
-    padding: 6px 2px;
-}
-:host /deep/ ng2-smart-table table > tbody > tr:nth-child(even) {
-    background: rgba(204, 204, 204, 0.36);
-    font-size: 11px !important;
-    font-weight: normal !important;
- }
-:host /deep/ ng2-smart-table table > tbody > tr:nth-child(odd) {
-    background: #FFF;
-    font-size: 11px !important;
-    font-weight: normal !important;
-}
-:host /deep/ ng2-smart-table table > thead > tr:first-child > th:first-child > div {
-    background: #004a7e;
-}
-::ng-deep .dropdown-menu{
-    left: -150px;
-}
-:host /deep/ ng2-smart-table table > tbody > tr:nth-child(even) > td:first-child > div{
-    background: none;
- }
-:host /deep/ ng2-smart-table table > tbody > tr:nth-child(odd) > td:first-child > div {
-    background: none;
-}
 /* :host /deep/ ::-webkit-scrollbar{
     display: none;
 } */
+
 .unstyled-calendar::-webkit-inner-spin-button,
 .unstyled-calendar::-webkit-calendar-picker-indicator {
-    -webkit-appearance: none;    
+    -webkit-appearance: none;
 }

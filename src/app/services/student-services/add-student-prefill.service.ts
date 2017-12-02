@@ -171,4 +171,14 @@ export class AddStudentPrefillService {
 
   }
 
+
+  fetchMasterCourse(){
+    let urlMaster = this.baseUrl +"/api/v1/courseMaster/fetch/" +this.institute_id +"/all";
+
+    return this.http.get(urlMaster, {headers: this.headers}).map(
+      res => { return res.json();}
+    )
+    
+  }
+
 }
