@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-
+import { updateEnquiryForm } from '../../../model/update-enquiry-form';
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { addEnquiryForm } from '../../../model/add-enquiry-form';
@@ -78,6 +78,7 @@ export class EnquiryEditComponent implements OnInit {
     lead_id: -1,
     enqCustomLi: []
   };
+  isUpdateComment: boolean = false;
   additionDetails: boolean = false;
   institute_id: any = "100123";
   todayDate: number = Date.now();
@@ -96,6 +97,36 @@ export class EnquiryEditComponent implements OnInit {
   errorMessage: any;
   submitError: boolean = false;
   addNextCheck: boolean = false;
+  updateFormComments: any[] = [];
+  updateFormCommentsBy: any[] = [];
+  updateFormCommentsOn: any[] = [];
+  commentUpdater: any[] = [];
+
+
+  /* Model for Enquiry Update Popup Form */
+  updateFormData: updateEnquiryForm = {
+    comment: "",
+    status: "",
+    institution_id: sessionStorage.getItem('institute_id'),
+    isEnquiryUpdate: "Y",
+    closedReason: null,
+    slot_id: null,
+    priority: "",
+    follow_type: "",
+    followUpDate: "",
+    commentDate: moment().format('YYYY-MM-DD'),
+    followUpTime: "",
+    isEnquiryV2Update: "N",
+    isRegisterFeeUpdate: "N",
+    amount: null,
+    paymentMode: null,
+    paymentDate: null,
+    reference: null,
+
+  }
+
+
+
 
 
 
@@ -123,6 +154,7 @@ export class EnquiryEditComponent implements OnInit {
       }
       else {
         this.updateEnquiryData();
+        this.fetchCommentData();
       }
     }
   }
@@ -141,7 +173,7 @@ export class EnquiryEditComponent implements OnInit {
     this.prefill.fetchEnquiryByInstituteID(id)
       .subscribe(data => {
         this.editEnqData = data;
-        if(this.editEnqData.enqCustomLi == null){
+        if (this.editEnqData.enqCustomLi == null) {
           this.editEnqData.enqCustomLi = [];
         }
         this.fetchSubject(this.editEnqData.standard_id);
@@ -192,17 +224,17 @@ export class EnquiryEditComponent implements OnInit {
 
     this.prefill.getEnqStatus().subscribe(
       data => { this.enqstatus = data; },
-      err => { 
-      //  console.log(err);
-       }
+      err => {
+        //  console.log(err);
+      }
     );
 
 
 
     this.prefill.getEnqPriority().subscribe(
       data => { this.enqPriority = data; },
-      err => { 
-      //  console.log(err); 
+      err => {
+        //  console.log(err); 
       }
     );
 
@@ -210,8 +242,8 @@ export class EnquiryEditComponent implements OnInit {
 
     this.prefill.getFollowupType().subscribe(
       data => { this.enqFollowType = data },
-      err => { 
-      //  console.log(err); 
+      err => {
+        //  console.log(err); 
       }
     );
 
@@ -220,8 +252,8 @@ export class EnquiryEditComponent implements OnInit {
     this.prefill.getAssignTo().subscribe(
       data => { this.enqAssignTo = data; },
       err => {
-       // console.log(err);
-       }
+        // console.log(err);
+      }
     );
 
 
@@ -239,9 +271,9 @@ export class EnquiryEditComponent implements OnInit {
           }
         })
       },
-      err => { 
-      //  console.log(err);
-       }
+      err => {
+        //  console.log(err);
+      }
     );
 
 
@@ -249,45 +281,45 @@ export class EnquiryEditComponent implements OnInit {
 
     this.prefill.getEnqStardards().subscribe(
       data => { this.enqStd = data; },
-      err => { 
-      //  console.log(err);
-       }
+      err => {
+        //  console.log(err);
+      }
     );
 
 
 
     this.prefill.getSchoolDetails().subscribe(
       data => { this.school = data; },
-      err => { 
-      //  console.log(err);
-       }
+      err => {
+        //  console.log(err);
+      }
     );
 
 
 
     this.prefill.getLeadSource().subscribe(
       data => { this.sourceLead = data; },
-      err => { 
-      //  console.log(err);
-       }
+      err => {
+        //  console.log(err);
+      }
     );
 
 
 
     this.prefill.getLeadReffered().subscribe(
       data => { this.refferedBy = data; },
-      err => { 
-      //  console.log(err);
-       }
+      err => {
+        //  console.log(err);
+      }
     );
 
 
 
     this.prefill.getOccupation().subscribe(
       data => { this.occupation = data; },
-      err => { 
-      //  console.log(err);
-       }
+      err => {
+        //  console.log(err);
+      }
     );
 
 
@@ -300,7 +332,7 @@ export class EnquiryEditComponent implements OnInit {
       },
       err => {
         // console.log(err);
-         }
+      }
     );
 
 
@@ -325,7 +357,7 @@ export class EnquiryEditComponent implements OnInit {
         this.emptyCustomComponent = this.componentListObject;
       },
       err => {
-       // console.log("error");
+        // console.log("error");
       });
   }
 
@@ -347,8 +379,8 @@ export class EnquiryEditComponent implements OnInit {
     this.editEnqData.standard_id = value;
     this.prefill.getEnqSubjects(this.editEnqData.standard_id).subscribe(
       data => { this.enqSub = data; },
-      err => { 
-       // console.log(err); 
+      err => {
+        // console.log(err); 
       }
     )
   }
@@ -387,9 +419,9 @@ export class EnquiryEditComponent implements OnInit {
           }
         }
         else {
-         // console.log(this.componentListObject);
+          // console.log(this.componentListObject);
           //console.log(el.component_id);
-         // console.log(this.editEnqData.enqCustomLi);
+          // console.log(this.editEnqData.enqCustomLi);
           this.editEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
           this.isCustomComponentValid = true;
         }
@@ -436,7 +468,7 @@ export class EnquiryEditComponent implements OnInit {
             this.appC.popToast(msg);
             this.clearLocalAndRoute()
           }
-          else if(data.statusCode != 200){
+          else if (data.statusCode != 200) {
             let msg = {
               type: "error",
               title: "Error",
@@ -487,48 +519,48 @@ export class EnquiryEditComponent implements OnInit {
   /* Function to clear the form data */
   clearFormData() {
     this.editEnqData = {
-        name: "",
-        phone: "",
-        email: "",
-        gender: "",
-        phone2: "",
-        email2: "",
-        curr_address: "",
-        parent_name: "",
-        parent_phone: "",
-        parent_email: "",
-        city: "",
-        occupation_id: "-1",
-        school_id: "-1",
-        qualification: "",
-        grade: "",
-        enquiry_date: moment().format('YYYY-MM-DD'),
-        standard_id: "-1",
-        subject_id: "-1",
-        referred_by: "-1",
-        source_id: "-1",
-        fee_committed: "",
-        discount_offered: "",
-        priority: "",
-        enquiry: "",
-        follow_type: "",
-        followUpDate: "",
-        religion: null,
-        link: "",
-        slot_id: null,
-        closedReason: "",
-        demo_by_id: "",
-        status: "",
-        assigned_to: "-1",
-        followUpTime: "",
-        lead_id: -1,
-        enqCustomLi: []
+      name: "",
+      phone: "",
+      email: "",
+      gender: "",
+      phone2: "",
+      email2: "",
+      curr_address: "",
+      parent_name: "",
+      parent_phone: "",
+      parent_email: "",
+      city: "",
+      occupation_id: "-1",
+      school_id: "-1",
+      qualification: "",
+      grade: "",
+      enquiry_date: moment().format('YYYY-MM-DD'),
+      standard_id: "-1",
+      subject_id: "-1",
+      referred_by: "-1",
+      source_id: "-1",
+      fee_committed: "",
+      discount_offered: "",
+      priority: "",
+      enquiry: "",
+      follow_type: "",
+      followUpDate: "",
+      religion: null,
+      link: "",
+      slot_id: null,
+      closedReason: "",
+      demo_by_id: "",
+      status: "",
+      assigned_to: "-1",
+      followUpTime: "",
+      lead_id: -1,
+      enqCustomLi: []
     }
   }
 
 
 
-  clearLocalAndRoute(){
+  clearLocalAndRoute() {
     this.clearFormData();
     localStorage.removeItem('institute_enquiry_id');
     this.router.navigateByUrl('/enquiry');
@@ -556,6 +588,74 @@ export class EnquiryEditComponent implements OnInit {
         openDropdown.classList.remove('show');
       }
     } */
+
+  }
+
+
+  commentHandlerOpen() {
+    this.isUpdateComment = true;
+  }
+
+  commentHandlerClose(){
+    this.isUpdateComment = false;
+    this.updateFormData = {
+      comment: "",
+      status: "",
+      institution_id: sessionStorage.getItem('institute_id'),
+      isEnquiryUpdate: "Y",
+      closedReason: null,
+      slot_id: null,
+      priority: "",
+      follow_type: "",
+      followUpDate: "",
+      commentDate: moment().format('YYYY-MM-DD'),
+      followUpTime: "",
+      isEnquiryV2Update: "N",
+      isRegisterFeeUpdate: "N",
+      amount: null,
+      paymentMode: null,
+      paymentDate: null,
+      reference: null,
+    }
+  }
+
+  fetchCommentData(){
+    let id = localStorage.getItem('institute_enquiry_id');
+
+    this.prefill.fetchCommentsForEnquiry(id).subscribe(res => {
+      this.commentUpdater = res;
+      this.updateFormComments = res.comments;
+      this.updateFormCommentsOn = res.commentedOn;
+      this.updateFormCommentsBy = res.commentedBy;
+    });
+
+  }
+
+  pushUpdatedEnquiry(){
+
+    let id = localStorage.getItem('institute_enquiry_id');
+
+    this.updateFormData.commentDate = moment(this.updateFormData.commentDate).format('LLL');
+    this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
+    this.poster.updateEnquiryForm(id, this.updateFormData)
+    .subscribe(res => {
+      let alert = {
+        type: 'success',
+        title: 'Enquiry Updated',
+        body: 'Your enquiry has been successfully submitted'
+      }
+      this.appC.popToast(alert);
+      this.fetchCommentData();
+      this.commentHandlerClose();
+    },
+    err => {
+      let alert = {
+        type: 'error',
+        title: 'Failed To Update Enquiry',
+        body: 'There was an error processing your request'
+      }
+      this.appC.popToast(alert);
+    })
 
   }
 

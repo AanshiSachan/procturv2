@@ -4,6 +4,107 @@
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
 
+
+
+
+.update-enquiry-form {
+    max-height: 400px;
+    .form-wrapper {
+        width: 40%;
+        min-height: 370px;
+        max-height: 400px;
+        .row {
+            margin: 10px 5px 20px;
+        }
+    }
+    .table-wrapper {
+        min-height: 370px;
+        max-height: 400px;
+        width: 60%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        h4 {
+            margin: 0px 0 15px;
+            font-weight: 600;
+        }
+        .enquiry-update-history {
+            min-height: 300px;
+            overflow: auto;
+        }
+        table {
+            th {
+                text-align: left;
+                padding: 10px;
+                font-size: 14px;
+            }
+            td {
+                text-align: left;
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+
+.enquiry-detail {
+    .field-wrapper {
+        position: relative;
+        padding-top: 10px;
+        &.datePickerBox {
+            .form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url("/../../../../assets/images/calendar.svg") no-repeat;
+                position: absolute;
+                right: 50px;
+                top: 18px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+    .field-wrapper {
+        position: relative;
+        padding-top: 10px;
+        &.datePickerBox {
+            .form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url('/../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 50px;
+                top: 18px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 .middle-section {
     padding: 15px;
 }

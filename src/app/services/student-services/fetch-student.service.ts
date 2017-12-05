@@ -55,4 +55,17 @@ export class FetchStudentService {
 
   }
 
+
+  getStudentById(id){
+
+    let urlStudentId = this.baseUrl +"/api/v1/students/" +id;
+
+    return this.http.get(urlStudentId, {headers: this.headers}).map(
+      res => {
+        return res.json();
+      }
+    )
+    
+  }
+
 }

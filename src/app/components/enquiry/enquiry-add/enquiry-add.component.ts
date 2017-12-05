@@ -65,7 +65,7 @@ export class EnquiryAddComponent implements OnInit {
     priority: "",
     enquiry: "",
     follow_type: "",
-    followUpDate: "",
+    followUpDate: moment().format('YYYY-MM-DD'),
     religion: null,
     link: "",
     slot_id: null,
@@ -78,7 +78,6 @@ export class EnquiryAddComponent implements OnInit {
     enqCustomLi: []
   };
   additionDetails: boolean = false;
-
   todayDate: number = Date.now();
   isSourcePop: boolean = false;
   isInstitutePop: boolean = false;
@@ -166,7 +165,7 @@ export class EnquiryAddComponent implements OnInit {
       priority: "cold_call",
       enquiry: "",
       follow_type: "call",
-      followUpDate: "",
+      followUpDate: moment().format('YYYY-MM-DD'),
       religion: null,
       link: "",
       slot_id: null,
@@ -502,7 +501,7 @@ export class EnquiryAddComponent implements OnInit {
       priority: "cold_call",
       enquiry: "",
       follow_type: "call",
-      followUpDate: "",
+      followUpDate: moment().format('YYYY-MM-DD'),
       religion: null,
       link: "",
       slot_id: null,
@@ -1298,5 +1297,6 @@ export class EnquiryAddComponent implements OnInit {
     } */
 
   }
+
 
 }

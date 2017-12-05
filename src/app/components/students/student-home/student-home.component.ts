@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
@@ -13,7 +13,7 @@ import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from '../
 import * as moment from 'moment';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
-import {AddStudentPrefillService} from '../../../services/student-services/add-student-prefill.service';
+import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 
 
 @Component({
@@ -58,25 +58,6 @@ export class StudentHomeComponent implements OnInit {
 
 
   private headerArr: any[] = [
-    { id: 'student_disp_id', title: 'Student ID.', filter: false, show: true },
-    { id: 'student_name', title: 'Student Name', filter: false, show: true },
-    { id: 'student_phone', title: 'Contact No.', filter: false, show: true },
-    { id: 'doj', title: 'Joining Date', filter: false, show: true },
-    { id: 'student_class', title: 'Standard/Class', filter: false, show: true },
-    { id: 'parent_phone', title: 'Parent Contact No.', filter: false, show: true },
-    { id: 'noOfBatchesAssigned', title: 'Course Assigned', filter: false, show: true },
-    { id: 'student_email', title: 'Student Email', filter: false, show: false },
-    { id: 'student_sex', title: 'Gender', filter: false, show: false },
-    { id: 'dob', title: 'Date Of Birth', filter: false, show: false },
-    { id: 'alternateEmailID', title: 'Alternate Email', filter: false, show: false },
-    { id: 'guardian_email', title: 'Guardian Email', filter: false, show: false },
-    { id: 'guardian_name', title: 'Guardian Name', filter: false, show: false },
-    { id: 'guardian_phone', title: 'Guardian Phone', filter: false, show: false },
-    { id: 'parent_name', title: 'Parent Name', filter: false, show: false },
-    { id: 'parent_email', title: 'Parent Email', filter: false, show: false },
-  ];
-
-  private headerClone: any[] = [
     { id: 'student_disp_id', title: 'Student ID.', filter: false, show: true },
     { id: 'student_name', title: 'Student Name', filter: false, show: true },
     { id: 'student_phone', title: 'Contact No.', filter: false, show: true },
@@ -158,7 +139,7 @@ export class StudentHomeComponent implements OnInit {
 
   constructor(private prefill: FetchprefilldataService, private router: Router,
     private studentFetch: FetchStudentService, private login: LoginService,
-    private appC: AppComponent, private studentPrefill:AddStudentPrefillService) {
+    private appC: AppComponent, private studentPrefill: AddStudentPrefillService) {
 
 
   }
@@ -169,7 +150,7 @@ export class StudentHomeComponent implements OnInit {
   ngOnInit() {
 
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    console.log(this.isProfessional);
+    //console.log(this.isProfessional);
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
 
     this.login.changeNameStatus(sessionStorage.getItem('name'));
@@ -180,19 +161,19 @@ export class StudentHomeComponent implements OnInit {
 
     this.myOptions = [
       { id: 'alternateEmailID', name: 'Alternate Email' },
-      /* { id: 'student_phone', name: 'Contact No.' }, */
-      /* { id: 'noOfBatchesAssigned', name: 'Course Assigned' }, */
       { id: 'dob', name: 'Date Of Birth' },
       { id: 'guardian_email', name: 'Guardian Email' },
       { id: 'guardian_name', name: 'Guardian Name' },
       { id: 'guardian_phone', name: 'Guardian Phone' },
       { id: 'student_sex', name: 'Gender' },
-      /* { id: 'doj', name: 'Joining Date' },
-      { id: 'parent_phone', name: 'Parent Contact No.' }, */
       { id: 'parent_name', name: 'Parent Name' },
       { id: 'parent_email', name: 'Parent Email' },
+      { id: 'student_email', name: 'Student Email' },      
+      /* { id: 'student_phone', name: 'Contact No.' }, */
+      /* { id: 'noOfBatchesAssigned', name: 'Course Assigned' }, */
+      /* { id: 'doj', name: 'Joining Date' },
+      { id: 'parent_phone', name: 'Parent Contact No.' }, */
       /* { id: 'student_class', name: 'Standard/Class' }, */
-      { id: 'student_email', name: 'Student Email' },
       /* { id: 'student_disp_id', name: 'Student ID.' },
       { id: 'student_name', name: 'Student Name' }, */
     ];
@@ -297,8 +278,6 @@ export class StudentHomeComponent implements OnInit {
   /* When user click on a row add class 
     selected and check that row */
   rowclicked(row) {
-    //someArray = someArray.filter(person => person.name != 'John'); */
-    //console.log("row clicked");
     this.selectedRow = row;
   }
 
@@ -318,7 +297,8 @@ export class StudentHomeComponent implements OnInit {
 
 
   editStudent(row) {
-    console.log(row);
+    localStorage.setItem('studentId', row.data.student_id);
+    this.router.navigate(['/student/edit']);
   }
 
 
@@ -389,12 +369,10 @@ export class StudentHomeComponent implements OnInit {
       { id: 'parent_name', title: 'Parent Name', filter: false, show: false },
       { id: 'parent_email', title: 'Parent Email', filter: false, show: false },
     ];
-    //this.headerClone = this.headerArr;
     this.headerArr.forEach(head => {
       opt.forEach(o => {
         if (head.id == o) {
           if (head.show) {
-            console.log("remove from header list");
           }
           else {
             this.selectedOption.push(o);
@@ -433,27 +411,16 @@ export class StudentHomeComponent implements OnInit {
   toggleSelectAll(status) {
 
     if (status) {
-      /* let checkNode = document.getElementsByClassName('tbodycheck');
-
-      [].forEach.call(checkNode, function (el) {
-        el.checked = true;
-      });
-      this.selectedRowGroup = this.studentDataSource; */
       this.studentDataSource.forEach(el => {
         el.isSelected = true;
+        this.selectedRowGroup.push(el);
       });
     }
     else {
-      /* let checkNode = document.getElementsByClassName('tbodycheck');
-
-      [].forEach.call(checkNode, function (el) {
-        el.checked = false;
-      });
-
-      this.selectedRowGroup = []; */
       this.studentDataSource.forEach(el => {
         el.isSelected = false;
       });
+      this.selectedRowGroup = [];
     }
   }
 
@@ -559,7 +526,7 @@ export class StudentHomeComponent implements OnInit {
 
 
 
-  fetchStudentPrefill(){
+  fetchStudentPrefill() {
 
 
     let standard = this.prefill.getEnqStardards().subscribe(data => {
@@ -587,50 +554,50 @@ export class StudentHomeComponent implements OnInit {
       //console.log(data);
     });
 
-  } 
+  }
 
 
-  updateSubCourse(course){
-    this.masterCourseList.forEach(el=> {
-      if(el.master_course == course){
+  updateSubCourse(course) {
+    this.masterCourseList.forEach(el => {
+      if (el.master_course == course) {
         this.subCourseList = el.coursesList;
       }
     })
   }
 
 
-  fetchCourseForMaster(id){
+  fetchCourseForMaster(id) {
     this.studentPrefill.fetchCourseList(id).subscribe(
-      res=>{
+      res => {
         this.subjectList = res;
       }
     )
   }
 
 
-    /* Customiized click detection strategy */
-    inputClicked() {
-      var nodelist = document.querySelectorAll('.form-ctrl');
-      [].forEach.call(nodelist, (elm) => {
-        elm.addEventListener('blur', function (event) {
-          if (event.target.value != '') {
-            event.target.parentNode.classList.add('has-value');
-          } else {
-            event.target.parentNode.classList.remove('has-value');
-          }
-        });
+  /* Customiized click detection strategy */
+  inputClicked() {
+    var nodelist = document.querySelectorAll('.form-ctrl');
+    [].forEach.call(nodelist, (elm) => {
+      elm.addEventListener('blur', function (event) {
+        if (event.target.value != '') {
+          event.target.parentNode.classList.add('has-value');
+        } else {
+          event.target.parentNode.classList.remove('has-value');
+        }
       });
- 
-    }
+    });
+
+  }
 
 
-    advancedSearch(){
-      this.instituteData = this.advancedFilterForm;
-      this.busy = this.loadTableDataSource(this.instituteData);
-    }  
+  advancedSearch() {
+    this.instituteData = this.advancedFilterForm;
+    this.busy = this.loadTableDataSource(this.instituteData);
+  }
 
-    updateIsActive(ev){
-      console.log(ev);
-    }
+  updateIsActive(ev) {
+    console.log(ev);
+  }
 
 }

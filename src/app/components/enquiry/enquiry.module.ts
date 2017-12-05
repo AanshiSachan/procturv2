@@ -5,9 +5,9 @@ import { EnquiryAddComponent } from './enquiry-add/enquiry-add.component';
 import { EnquiryBulkaddComponent } from './enquiry-bulkadd/enquiry-bulkadd.component';
 import { EnquiryManageComponent } from './enquiry-manage/enquiry-manage.component';
 import { EnquiryRoutingModule } from "./enquiry-routing.module";
-import { ActionButtonComponent } from './enquiry-manage/action-button.component';
+import { ActionButtonComponent } from './enquiry-home/action-button.component';
 
-import { SmsOptionComponent } from './enquiry-manage/sms-option.component';
+import { SmsOptionComponent } from './enquiry-home/sms-option.component';
 import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
 import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component';
 import { EnquiryInput, EnquiryDateInput } from './enquiry-directives/enquiry-input.directive';
@@ -24,10 +24,11 @@ import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
-import { DateConverter } from './enquiry-manage/enquiry-manage.component';
+import { DateConverter } from './enquiry-home/enquiry-home.component';
+import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 
 @NgModule({
-    imports: [
+     imports: [
         FormsModule,
         ReactiveFormsModule,
         MultiselectDropdownModule,
@@ -53,7 +54,8 @@ import { DateConverter } from './enquiry-manage/enquiry-manage.component';
         EnquiryInput,
         EnquiryDateInput,
         UserEnquiryComponent,
-        DateConverter
+        DateConverter,
+        EnquiryHomeComponent
     ], 
     entryComponents: [
         ActionButtonComponent,

@@ -8,7 +8,7 @@
                 Student List
             </h1>
             <aside class="pull-right">
-                <input type="button" value="Add New Enquiry" class="btn" routerLink="/enquiry/addEnquiry">
+                <input type="button" value="Manage Enquiry" class="btn" routerLink="/enquiry">
                 <input type="button" value="Add Student" class="btn" routerLink="/student/add">
             </aside>
         </section>
@@ -89,18 +89,18 @@
                                 <div class="c-lg-3 c-md-3 c-sm-3">
                                     <div class="radio-options">
                                         <div class="field-radio-wrapper">
-                                            <input type="radio" value="1" [(ngModel)]="advancedFilterForm.is_active" (ngModelChange)="updateIsActive($event)" name="sFilter"
-                                                class="form-radio" id="active">
+                                            <input type="radio" value="1" [(ngModel)]="advancedFilterForm.is_active_status" (ngModelChange)="updateIsActive($event)"
+                                                name="sFilter" class="form-radio" id="active">
                                             <label for="active">Active</label>
                                         </div>
                                         <div class="field-radio-wrapper">
-                                            <input type="radio" value="2" [(ngModel)]="advancedFilterForm.is_active" (ngModelChange)="updateIsActive($event)" name="sFilter"
-                                                class="form-radio" id="Inactive">
+                                            <input type="radio" value="2" [(ngModel)]="advancedFilterForm.is_active_status" (ngModelChange)="updateIsActive($event)"
+                                                name="sFilter" class="form-radio" id="Inactive">
                                             <label for="Inactive">Inactive</label>
                                         </div>
                                         <div class="field-radio-wrapper">
-                                            <input type="radio" value="3" [(ngModel)]="advancedFilterForm.is_active" (ngModelChange)="updateIsActive($event)" name="sFilter"
-                                                class="form-radio" id="both">
+                                            <input type="radio" value="3" [(ngModel)]="advancedFilterForm.is_active_status" (ngModelChange)="updateIsActive($event)"
+                                                name="sFilter" class="form-radio" id="both">
                                             <label for="both">both</label>
                                         </div>
                                     </div>
@@ -148,7 +148,7 @@
                                         <label for="standard">Standard</label>
                                     </div>
                                 </div>
-                                
+
                                 <div class="c-lg-3 c-md-3 c-sm-3">
                                     <div class="field-wrapper">
                                         <select id="masterCourse" name="masterCourse" [(ngModel)]="advancedFilterForm.master_course_name" (ngModelChange)="updateSubCourse($event)"
@@ -173,22 +173,22 @@
                                         <label for="course">Course</label>
                                     </div>
                                 </div>
-                                
+
                                 <div class="c-lg-3 c-md-3 c-sm-3">
                                     <div class="radio-options">
                                         <div class="field-radio-wrapper">
-                                            <input type="radio" value="1" [(ngModel)]="advancedFilterForm.is_active" (ngModelChange)="updateIsActive($event)" name="sFilter"
-                                                class="form-radio" id="active">
+                                            <input type="radio" value="1" [(ngModel)]="advancedFilterForm.is_active_status" (ngModelChange)="updateIsActive($event)"
+                                                name="sFilter" class="form-radio" id="active">
                                             <label for="active">Active</label>
                                         </div>
                                         <div class="field-radio-wrapper">
-                                            <input type="radio" value="2" [(ngModel)]="advancedFilterForm.is_active" (ngModelChange)="updateIsActive($event)" name="sFilter"
-                                                class="form-radio" id="Inactive">
+                                            <input type="radio" value="2" [(ngModel)]="advancedFilterForm.is_active_status" (ngModelChange)="updateIsActive($event)"
+                                                name="sFilter" class="form-radio" id="Inactive">
                                             <label for="Inactive">Inactive</label>
                                         </div>
                                         <div class="field-radio-wrapper">
-                                            <input type="radio" value="3" [(ngModel)]="advancedFilterForm.is_active" (ngModelChange)="updateIsActive($event)" name="sFilter"
-                                                class="form-radio" id="both">
+                                            <input type="radio" value="3" [(ngModel)]="advancedFilterForm.is_active_status" (ngModelChange)="updateIsActive($event)"
+                                                name="sFilter" class="form-radio" id="both">
                                             <label for="both">both</label>
                                         </div>
                                     </div>
@@ -304,13 +304,6 @@
                                                 <label>asdf</label>
                                             </div>
                                         </th>
-                                        <th *ngFor="let header of headerArr" [hidden]="!header.show">
-                                            <div>
-                                                <label>
-                                                    {{header.title}}
-                                                </label>
-                                            </div>
-                                        </th>
                                         <th>
                                             <div>
                                                 <label>
@@ -332,26 +325,26 @@
                                                 </label>
                                             </div>
                                         </th>
+                                        <th *ngFor="let header of headerArr" [hidden]="!header.show">
+                                            <div>
+                                                <label>
+                                                    {{header.title}}
+                                                </label>
+                                            </div>
+                                        </th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr id="" class="" *ngFor="let row of studentDataSource; let i of index;" (click)="rowclicked(row)">
+
                                         <td>
                                             <div class="field-checkbox-wrapper">
                                                 <input type="checkbox" [(ngModel)]="row.isSelected" (ngModelChange)="rowCheckBoxClick(row)" name="check" class="tbodycheck form-checkbox">
                                                 <label>sdf</label>
                                             </div>
                                         </td>
-                                        <td *ngFor="let header of headerArr" [hidden]="!header.show">
-                                            <label *ngIf="(header.id == 'student_disp_id' || header.id == 'noOfBatchesAssigned'); else normalTemplate">
-                                                <a href="javascript:void(0)">
-                                                    {{row.data[header.id]}}
-                                                </a>
-                                            </label>
-                                            <ng-template #normalTemplate>
-                                                {{row.data[header.id]}}
-                                            </ng-template>
-                                        </td>
+
                                         <td>
                                             <label>
                                                 <a href="javascript:void(0)" (click)="editStudent(row)">Edit</a>
@@ -372,6 +365,19 @@
                                                 </div>
                                             </div>
                                         </td>
+
+                                        <td *ngFor="let header of headerArr" [hidden]="!header.show">
+                                            <label *ngIf="(header.id == 'student_disp_id' || header.id == 'noOfBatchesAssigned'); else normalTemplate">
+                                                <a href="javascript:void(0)">
+                                                    {{row.data[header.id]}}
+                                                </a>
+                                            </label>
+                                            <ng-template #normalTemplate>
+                                                {{row.data[header.id]}}
+                                            </ng-template>
+                                        </td>
+
+
                                     </tr>
                                 </tbody>
                             </table>

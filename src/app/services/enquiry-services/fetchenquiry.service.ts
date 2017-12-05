@@ -45,11 +45,19 @@ export class FetchenquiryService {
 
 
   /* Function to fetch json data for all enquiry as per the input institute data  */
-  getAllEnquiry(instituteData: instituteInfo): Observable<EnquiryCampaign[]> {
-    this.instituteFormData = JSON.parse(JSON.stringify(instituteData));
+  getAllEnquiry(obj) {
+
+    obj.followUpDate = obj.followUpDate == '' ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
+    obj.enquiry_date = obj.enquiry_date == '' ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
+    obj.enquireDateFrom = obj.enquireDateFrom == '' ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
+    obj.enquireDateTo = obj.enquireDateTo == '' ? '' : moment(obj.enquireDateTo).format('YYYY-MM-DD');
+    obj.updateDate = obj.updateDate == '' ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
+    obj.updateDateFrom = obj.updateDateFrom == '' ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
+    obj.updateDateTo = obj.updateDateTo == '' ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
+
     this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
 
-    return this.http.post(this.urlCampaign, this.instituteFormData, { headers: this.headers })
+    return this.http.post(this.urlCampaign, obj, { headers: this.headers })
       .map(res => {
         this.row = res.json();
         return this.row;

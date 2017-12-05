@@ -18,7 +18,11 @@
 
 .navigator {}
 
-
+.image-upload-wrapper {
+    max-height: 300px;
+    overflow: hidden;
+    .input-holder {}
+}
 
 .other-detail-wrapper {
     .row {

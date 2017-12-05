@@ -20,6 +20,8 @@ import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { CalendarModule } from 'primeng/primeng';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
+import { StudentEditComponent } from './student-edit/student-edit.component';
+import { StudentBulkComponent } from './student-bulk/student-bulk.component';
 
 @NgModule({
     imports: [
@@ -40,7 +42,9 @@ import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'prime
         StudentHomeComponent,
         studentInput,
         StudentPopUpComponent,
-        UserStudentComponent
+        UserStudentComponent,
+        StudentEditComponent,
+        StudentBulkComponent
     ],
     providers: [
         AddStudentPrefillService

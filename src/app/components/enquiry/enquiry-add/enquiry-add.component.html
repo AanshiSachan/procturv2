@@ -1,7 +1,7 @@
 <section class="middle-section clearFix" (click)="inputClicked()">
 
 
-  <form novalidate #myForm="ngForm" (ngSubmit)="submitForm(myForm)" >
+  <form novalidate #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
 
     <!-- Left Side Form -->
     <aside class="pull-left middle-left " id="addNewEnquiry">
@@ -356,7 +356,7 @@
             </select>
             <label for="followUpType">Follow Up Type</label>
           </div>
-          <div class="field-wrapper datePickerBox" enquiryDate>
+          <div class="field-wrapper datePickerBox has-value" enquiryDate>
             <input type="text" value="" id="followUpDate" class="form-ctrl" name="followUpDate" [(ngModel)]="newEnqData.followUpDate"
               bsDatepicker>
             <label for="followUpDate">Follow Up Date</label>

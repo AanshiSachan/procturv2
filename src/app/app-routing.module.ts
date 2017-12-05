@@ -15,25 +15,24 @@ import { ComingSoonComponent } from './components/coming-soon/coming-soon.compon
                     loadChildren: 'app/components/auth-page/auth-page.module#AuthPageModule'
 
                 },
-                
                 {
                     path: 'enquiry',
                     loadChildren: 'app/components/enquiry/enquiry.module#EnquiryModule',
                     canLoad: [AuthGuard]
                 },
-
                 {
                     path: 'custom',
                     loadChildren: 'app/components/custom-common/custom-common.module#CustomCommonModule',
                     canLoad: [AuthGuard]
                 },
-
-                /* { path: 'student', component: ComingSoonComponent, pathMatch: 'full', }, */
-                { path: 'course', component: ComingSoonComponent    , pathMatch: 'full', },
-
-                 {
+                {
                     path: 'student',
                     loadChildren: 'app/components/students/student.module#StudentModule',
+                    canLoad: [AuthGuard]
+                },
+                {
+                    path: 'campaign',
+                    loadChildren: 'app/components/campaign/campaign.module#CampaignModule',
                     canLoad: [AuthGuard]
                 },
                 /*
@@ -42,6 +41,7 @@ import { ComingSoonComponent } from './components/coming-soon/coming-soon.compon
                     loadChildren: 'app/components/course/course.module#CourseModule',
                     canLoad: [AuthGuard]
                 }, */
+                { path: 'course', component: ComingSoonComponent , pathMatch: 'full'},
                 { path: 'comingsoon', component: ComingSoonComponent },
                 { path: '**', component: ErrorComponent }
             ],

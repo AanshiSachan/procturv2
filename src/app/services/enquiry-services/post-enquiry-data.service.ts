@@ -32,10 +32,14 @@ export class PostEnquiryDataService {
   }
 
   updateEnquiryForm(id, data) {
+
+    data.followUpDate = moment(data.followUpDate).format('YYYY-MM-DD');
+    data.commentDate = moment(data.commentDate).format('LLL');
+
     this.urlUpdateEnquiryForm = this.baseUrl + "/api/v1/enquiry/status/" + this.institute_id + "/" + id;
 
     return this.http.put(this.urlUpdateEnquiryForm, data, { headers: this.headers }).map(res => {
-      return res.json();
+      return res.json();  
     });
   }
 

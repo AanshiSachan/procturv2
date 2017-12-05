@@ -25,6 +25,11 @@
           <h1 class="pull-left">
             Edit Enquiry
           </h1>
+          <aside class="pull-right">
+            <label (click)="commentHandlerOpen()">
+              <a>Update Comment</a>
+            </label>
+          </aside>
         </div>
 
       </section>
@@ -361,5 +366,83 @@
     </aside>
 
   </form>
+
+
+  <!-- Update PopUp -->
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="isUpdateComment">
+    <div class="popup pos-abs" style="max-width: 80%;">
+      <div class="popup-wrapper pos-rel">
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="commentHandlerClose()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
+            </g>
+          </svg>
+        </span>
+        <div class="popup-content" style="min-height: 400px; max-height: 500px;">
+          <h2>Update Enquiry No: {{commentUpdater.enquiry_no}}</h2>
+          <div class="update-enquiry-form overflowHidden">
+            <aside class="pull-left form-wrapper">              
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value datePickerBox">
+                    <input type="text" value="" placeholder="" id="commentDateEdit" class="form-ctrl" [(ngModel)]="updateFormData.commentDate" bsDatepicker/>
+                    <label for="commentDateEdit">Comment Date</label>
+                  </div>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper">
+                    <textarea placeholder="Update Comment Here" rows="2" cols="10" style="height: 120px;" id="addcommentEdit" class="form-ctrl"
+                      [(ngModel)]="updateFormData.comment">
+                            </textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="pull-left">
+                <div class="clearfix">
+                  <aside class="pull-right popup-btn">
+                    <input type="button" value="Cancel" class="btn" (click)="commentHandlerClose()">
+                    <input type="button" value="Update" class="redBtn btn" (click)="pushUpdatedEnquiry()">
+                  </aside>
+                </div>
+              </div>
+            </aside>
+
+
+            <aside class="pull-right table-wrapper">
+              <h4>Comment History</h4>
+              <div class="enquiry-update-history table-responsive">
+                <table>
+
+                  <thead>
+                    <tr>
+                      <th>Comment</th>
+                      <th>Commented On</th>
+                      <th>Commented By</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr *ngFor="let item of updateFormComments; let i=index;">
+                      <td>{{updateFormComments[i]}}</td>
+                      <td>{{updateFormCommentsOn[i]| date:'dd-MM-yyyy hh:mm a'}}</td>
+                      <td>{{updateFormCommentsBy[i]}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </aside>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
 </section>

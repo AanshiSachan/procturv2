@@ -30,6 +30,57 @@
     background: rgba(0, 47, 255, 0.4);
 }
 
+.image-wrapper {
+    height: 200px;
+    width: 200px;
+    padding: 0px;
+    float: right;
+    border: 3px solid $header-bg;
+    border-radius: 50%;
+    overflow: hidden;
+    &:hover {
+        .input-holder {
+            display: block;
+        }
+    }
+    img {
+        height: 100%;
+        width: 100%;
+    }
+    .input-holder {
+        position: absolute;
+        top: 35%;
+        left: 40%;
+        display: none;
+        input[type="file"] {
+            display: none;
+        }
+        .uploadImg {
+            font-size: 16px;
+            font-weight: 700;
+            padding: 0px 0px 10px 0px;
+            color: #8a8a8a;
+            cursor: pointer;
+            &::before {
+                content: '\f030';
+                font-size: 16px;
+                font-family: 'FontAwesome'
+            }
+        }
+        .removeImg {
+            font-size: 16px;
+            font-weight: 700;
+            color: $error-color;
+            cursor: pointer;
+            &::before {
+                content: '\f00d';
+                font-size: 16px;
+                font-family: 'FontAwesome'
+            }
+        }
+    }
+}
+
 .cursor-icon {
     cursor: pointer;
 }
@@ -44,6 +95,7 @@
     padding-top: 10px;
     &.datePickerBox {
         .form-ctrl {
+            cursor: pointer;
             position: relative;
             z-index: 1;
             background: transparent;
@@ -61,6 +113,10 @@
     }
 }
 
+textarea {
+    resize: none;
+}
+
 .filter-fields {
     .field-wrapper {
         &.has-value .form-ctrl+label,
@@ -69,8 +125,6 @@
         }
     }
 }
-
-
 
 .breadc {
     text-align: center;
@@ -120,7 +174,7 @@
                 outline: none !important;
             }
         } */
-/*         .active {
+        /*         .active {
             background: $common-blue;
             color: white;
             line-height: 18px;
@@ -171,7 +225,7 @@
     padding: 5px;
 }
 
- .multiselect-wrapper{
+.multiselect-wrapper {
     padding: 5px;
     border: 1px solid $border-color;
     position: absolute;
@@ -179,17 +233,17 @@
     background: white;
     min-width: 400px;
     min-height: 50px;
-     .multiselect-wrapper-inner{
+    .multiselect-wrapper-inner {
         padding: 10px;
-        
-        ul{
-            li{
+        ul {
+            li {
                 height: 40px;
                 padding: 10px 0px 0px 5px;
             }
         }
-     }
- }
+    }
+}
+
 
 /* ================================================================================================= */
 
@@ -355,6 +409,7 @@ h3 {
     padding-top: 10px;
     &.datePickerBox {
         .form-ctrl {
+            cursor: pointer;
             position: relative;
             z-index: 1;
             background: transparent;
@@ -393,6 +448,7 @@ h3 {
     border: 0;
     border-bottom: solid 1px #e2ebee;
     height: 36px;
+    font: 400 13.3333px Arial;
     box-shadow: none;
     border-radius: 0;
     line-height: 24px;
@@ -1028,7 +1084,7 @@ select.form-new-field {
     &:hover .tooltip-box {
         visibility: visible;
         opacity: 1;
-        left: -160px;
+        left: -140px;
     }
 }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
+import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { StudentForm } from '../../../model/student-add-form';
 import { SelectItem } from 'primeng/primeng';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
@@ -13,15 +14,14 @@ import { Subscription } from 'rxjs';
 import { LoginService } from '../../../services/login-services/login.service';
 import 'rxjs/Rx';
 
-
 @Component({
-  selector: 'app-student-add',
-  templateUrl: './student-add.component.html',
-  styleUrls: ['./student-add.component.scss']
+  selector: 'app-student-edit',
+  templateUrl: './student-edit.component.html',
+  styleUrls: ['./student-edit.component.scss']
 })
-export class StudentAddComponent implements OnInit {
+export class StudentEditComponent implements OnInit {
 
-  private studentAddFormData: StudentForm = {
+  private studentEditFormData: StudentForm = {
     student_name: "",
     student_sex: "",
     student_email: "",
@@ -56,7 +56,7 @@ export class StudentAddComponent implements OnInit {
     slot_id: null,
     language_inst_status: null,
     stuCustomLi: []
-  }
+  };
 
   private quickAddStudent: boolean = false;
   private additionalBasicDetails: boolean = false;
@@ -84,15 +84,29 @@ export class StudentAddComponent implements OnInit {
   private userImageEncoded: string = '';
   busyPrefill: Subscription;
 
+  constructor(private studentPrefillService: AddStudentPrefillService, private fetchService: FetchStudentService, private prefill: FetchprefilldataService, private postService: PostStudentDataService, private router: Router, private login: LoginService, private appC: AppComponent) {
 
+    if (localStorage.getItem('studentId') == null) {
+      this.router.navigate(['/student']);
+    }
+    else {
+      this.setInstituteType();
+      this.busyPrefill = this.fetchPrefillFormData();
+    }
+  }
 
+  ngOnInit() {
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
 
-  constructor(
-    private studentPrefillService: AddStudentPrefillService,
-    private prefill: FetchprefilldataService,
-    private postService: PostStudentDataService,
-    private router: Router, private login: LoginService,
-    private appC: AppComponent) {
+    this.busyPrefill = this.fetchService.getStudentById(localStorage.getItem("studentId")).subscribe(
+      res => {
+        this.updateStudentEditForm(res);
+      }
+    )
+  }
+
+  setInstituteType() {
     let institute_type = sessionStorage.getItem('institute_type');
     if (institute_type == 'LANG') {
       this.isProfessional = true;
@@ -102,18 +116,18 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
 
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
-
-    this.busyPrefill = this.fetchPrefillFormData();
+  updateStudentEditForm(formData) {
+    console.log(formData);
+    this.studentEditFormData = formData;
     if (this.isProfessional) {
-      this.busyPrefill = this.getSlots();
-      this.busyPrefill = this.getlangStudentStatus();
+      console.log(this.standardList);
     }
+    else if (this.isAcad) {
 
+    }
   }
+
 
   /* Function to navigate through the Student Add Form on button Click Save/Submit*/
   navigateTo(text) {
@@ -148,7 +162,7 @@ export class StudentAddComponent implements OnInit {
       document.getElementById('li-two').classList.remove('active');
       document.getElementById('li-three').classList.add('active');
       document.getElementById('li-four').classList.remove('active');
-
+ 
       document.getElementById('studentForm').classList.add('hide');
       document.getElementById('kyc').classList.add('hide');
       document.getElementById('feeDetails').classList.remove('hide');
@@ -161,7 +175,7 @@ export class StudentAddComponent implements OnInit {
       document.getElementById('li-two').classList.remove('active');
       document.getElementById('li-three').classList.remove('active');
       document.getElementById('li-four').classList.add('active');
-
+ 
       document.getElementById('studentForm').classList.add('hide');
       document.getElementById('kyc').classList.add('hide');
       document.getElementById('feeDetails').classList.add('hide');
@@ -248,6 +262,10 @@ export class StudentAddComponent implements OnInit {
           this.customComponents.push(obj);
         });
       });
+      if (this.isProfessional) {
+        this.busyPrefill = this.getSlots();
+        this.busyPrefill = this.getlangStudentStatus();
+      }
       //console.log(this.customComponents);
       return customComp;
     }
@@ -315,8 +333,8 @@ export class StudentAddComponent implements OnInit {
     //console.log(this.batchList); 
     this.batchList.forEach(el => {
       if (el.isSelected) {
-        this.studentAddFormData.assignedBatches.push(el.data.batch_id.toString());
-        this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
+        this.studentEditFormData.assignedBatches.push(el.data.batch_id.toString());
+        this.studentEditFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
         batchString.push(el.data.batch_name);
       }
     });
@@ -375,11 +393,11 @@ export class StudentAddComponent implements OnInit {
       });
 
       /* Get slot data and store on form */
-      this.studentAddFormData.slot_id = this.selectedSlotsID;
-      this.studentAddFormData.stuCustomLi = customArr;
-      this.studentAddFormData.photo = localStorage.getItem('tempImg');
+      this.studentEditFormData.slot_id = this.selectedSlotsID;
+      this.studentEditFormData.stuCustomLi = customArr;
+      this.studentEditFormData.photo = localStorage.getItem('tempImg');
       this.additionalBasicDetails = false;
-      this.postService.quickAddStudent(this.studentAddFormData).subscribe(
+      this.postService.quickAddStudent(this.studentEditFormData).subscribe(
         res => {
 
           let statusCode = res.statusCode;
@@ -623,12 +641,16 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  removeImage(){
+
+
+
+  removeImage() {
     document.querySelector('input[type=file]').value = '';
     let preview = document.getElementById('preview-img');
     preview.src = "";
     localStorage.removeItem('tempImg');
   }
+
 
 
 
@@ -645,7 +667,7 @@ export class StudentAddComponent implements OnInit {
 
 
   registerDuplicateStudent(form: NgForm) {
-    this.postService.quickAddStudent(this.studentAddFormData).subscribe(
+    this.postService.quickAddStudent(this.studentEditFormData).subscribe(
       res => {
         let statusCode = res.statusCode;
         if (statusCode == 200) {
@@ -679,7 +701,7 @@ export class StudentAddComponent implements OnInit {
 
   clearFormAndMove() {
     this.navigateTo('studentForm');
-    this.studentAddFormData = {
+    this.studentEditFormData = {
       student_name: "",
       student_sex: "",
       student_email: "",
