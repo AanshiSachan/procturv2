@@ -34,7 +34,7 @@ export class PostEnquiryDataService {
   updateEnquiryForm(id, data) {
 
     data.followUpDate = moment(data.followUpDate).format('YYYY-MM-DD');
-    data.commentDate = moment(data.commentDate).format('LLL');
+    data.commentDate = moment(data.commentDate).format('YYYY-MM-DD');
 
     this.urlUpdateEnquiryForm = this.baseUrl + "/api/v1/enquiry/status/" + this.institute_id + "/" + id;
 

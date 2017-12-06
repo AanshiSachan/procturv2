@@ -107,6 +107,7 @@ export class EnquiryEditComponent implements OnInit {
   updateFormData: updateEnquiryForm = {
     comment: "",
     status: "",
+    statusValue: "",
     institution_id: sessionStorage.getItem('institute_id'),
     isEnquiryUpdate: "Y",
     closedReason: null,
@@ -596,7 +597,7 @@ export class EnquiryEditComponent implements OnInit {
     this.isUpdateComment = true;
   }
 
-  commentHandlerClose(){
+  commentHandlerClose() {
     this.isUpdateComment = false;
     this.updateFormData = {
       comment: "",
@@ -619,11 +620,17 @@ export class EnquiryEditComponent implements OnInit {
     }
   }
 
-  fetchCommentData(){
+  fetchCommentData() {
     let id = localStorage.getItem('institute_enquiry_id');
 
     this.prefill.fetchCommentsForEnquiry(id).subscribe(res => {
-      this.commentUpdater = res;
+
+      this.updateFormData.priority = res.priority;
+      this.updateFormData.follow_type = res.follow_type;
+      this.updateFormData.statusValue = res.statusValue;
+      this.updateFormData.status = res.status;
+      this.updateFormData.followUpDate = res.followUpDate;
+      this.updateFormData.commentDate = moment().format('YYYY-MM-DD');
       this.updateFormComments = res.comments;
       this.updateFormCommentsOn = res.commentedOn;
       this.updateFormCommentsBy = res.commentedBy;
@@ -631,31 +638,28 @@ export class EnquiryEditComponent implements OnInit {
 
   }
 
-  pushUpdatedEnquiry(){
-
+  pushUpdatedEnquiry() {
     let id = localStorage.getItem('institute_enquiry_id');
-
-    this.updateFormData.commentDate = moment(this.updateFormData.commentDate).format('LLL');
     this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
     this.poster.updateEnquiryForm(id, this.updateFormData)
-    .subscribe(res => {
-      let alert = {
-        type: 'success',
-        title: 'Enquiry Updated',
-        body: 'Your enquiry has been successfully submitted'
-      }
-      this.appC.popToast(alert);
-      this.fetchCommentData();
-      this.commentHandlerClose();
-    },
-    err => {
-      let alert = {
-        type: 'error',
-        title: 'Failed To Update Enquiry',
-        body: 'There was an error processing your request'
-      }
-      this.appC.popToast(alert);
-    })
+      .subscribe(res => {
+        let alert = {
+          type: 'success',
+          title: 'Enquiry Updated',
+          body: 'Your enquiry has been successfully submitted'
+        }
+        this.appC.popToast(alert);
+        this.fetchCommentData();
+        this.commentHandlerClose();
+      },
+      err => {
+        let alert = {
+          type: 'error',
+          title: 'Failed To Update Enquiry',
+          body: 'There was an error processing your request'
+        }
+        this.appC.popToast(alert);
+      })
 
   }
 

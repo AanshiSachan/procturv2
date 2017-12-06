@@ -27,7 +27,7 @@
           </h1>
           <aside class="pull-right">
             <label (click)="commentHandlerOpen()">
-              <a>Update Comment</a>
+              <a class="cursor-icon">Update Comment</a>
             </label>
           </aside>
         </div>
@@ -308,7 +308,9 @@
           <div class="field-wrapper has-value ">
             <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status" enquiryInput>
               <option value=""></option>
-              <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
+              <option *ngFor="let status of enqstatus" 
+              [value]="status.data_key"
+              [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
             </select>
             <label for="eStatus">Enquiry Status</label>
           </div>
@@ -384,26 +386,21 @@
             </g>
           </svg>
         </span>
-        <div class="popup-content" style="min-height: 400px; max-height: 500px;">
+        <div class="popup-content" style="min-height: 400px; max-height: 500px; padding: 15px 15px 20px 15px;">
           <h2>Update Enquiry No: {{commentUpdater.enquiry_no}}</h2>
           <div class="update-enquiry-form overflowHidden">
-            <aside class="pull-left form-wrapper">              
+    
+            <aside class="pull-right form-wrapper">              
               <div class="row">
-                <div class="c-lg-6 c-md-6 c-sm-6">
-                  <div class="field-wrapper has-value datePickerBox">
-                    <input type="text" value="" placeholder="" id="commentDateEdit" class="form-ctrl" [(ngModel)]="updateFormData.commentDate" bsDatepicker/>
-                    <label for="commentDateEdit">Comment Date</label>
-                  </div>
-                </div>
-                <div class="c-lg-6 c-md-6 c-sm-6">
+                <div class="c-lg-12 c-md-12 c-sm-12">
                   <div class="field-wrapper">
-                    <textarea placeholder="Update Comment Here" rows="2" cols="10" style="height: 120px;" id="addcommentEdit" class="form-ctrl"
+                    <textarea placeholder="Update Comment Here (max 1000 characters)" rows="2" cols="10" style="height: 200px;" id="addcommentEdit" class="form-ctrl"
                       [(ngModel)]="updateFormData.comment">
-                            </textarea>
+                    </textarea>
                   </div>
                 </div>
               </div>
-              <div class="pull-left">
+              <div class="pull-right submitter">
                 <div class="clearfix">
                   <aside class="pull-right popup-btn">
                     <input type="button" value="Cancel" class="btn" (click)="commentHandlerClose()">
@@ -414,7 +411,7 @@
             </aside>
 
 
-            <aside class="pull-right table-wrapper">
+            <aside class="pull-left table-wrapper">
               <h4>Comment History</h4>
               <div class="enquiry-update-history table-responsive">
                 <table>

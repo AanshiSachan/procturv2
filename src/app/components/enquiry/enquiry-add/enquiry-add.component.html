@@ -334,7 +334,10 @@
           <div class="field-wrapper has-value">
             <select id="eStatus" class="form-ctrl" [(ngModel)]="newEnqData.status" name="status" disabled>
               <option value=""></option>
-              <option *ngFor="let status of enqstatus" [value]="status.data_key" [attr.selected]="status.data_value == 'Open' ? '' : null">{{status.data_value}}</option>
+              <option *ngFor="let status of enqstatus" 
+              [value]="status.data_key" 
+              [attr.selected]="status.data_value == 'Open' ? '' : null"
+              [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
             </select>
             <label for="eStatus">Enquiry Status</label>
           </div>

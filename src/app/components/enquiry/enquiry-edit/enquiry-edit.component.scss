@@ -16,20 +16,23 @@
         .row {
             margin: 10px 5px 20px;
         }
+        .submitter{
+            position: absolute;
+            right: 41px;
+            bottom: 41px;
+        }
     }
     .table-wrapper {
-        min-height: 370px;
-        max-height: 400px;
         width: 60%;
-        overflow-y: scroll;
-        overflow-x: hidden;
         h4 {
             margin: 0px 0 15px;
             font-weight: 600;
         }
         .enquiry-update-history {
-            min-height: 300px;
-            overflow: auto;
+            min-height: 370px;
+            max-height: 400px;
+            overflow-y: scroll;
+            overflow-x: hidden;
         }
         table {
             th {
@@ -45,6 +48,8 @@
         }
     }
 }
+
+
 
 
 .enquiry-detail {

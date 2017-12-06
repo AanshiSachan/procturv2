@@ -2,6 +2,7 @@ export interface updateEnquiryForm {
 
     comment?: any,
     status?: any,
+    statusValue?: any,
     institution_id?: any,
     isEnquiryUpdate?: any,
     closedReason?: any,

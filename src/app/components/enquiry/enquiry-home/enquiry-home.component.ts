@@ -57,6 +57,9 @@ export class EnquiryHomeComponent implements OnInit {
   private enqScholarship: any = [];
   private enqSub2: any = [];
   private paymentMode: any = [];
+  private commentFormData: any = {
+
+  };
   today: any = Date.now();
   searchBarData: any = null;
   searchBarDate: any = moment().format('YYYY-MM-DD');
@@ -75,13 +78,14 @@ export class EnquiryHomeComponent implements OnInit {
   smsSelectedRowsLength: number = 0;
   sizeArr: any[] = [50, 100, 250, 500, 1000];
   private isAllSelected: boolean = false;
+
   newSmsString = {
     data: "",
     length: 0,
     type: "",
   };
 
-  statusString: any[] = ["0","3"];
+  statusString: any[] = ["0", "3"];
   smsSelectedRows: any;
   smsGroupSelected: any[] = [];
   selectedOption: any[] = [];
@@ -93,112 +97,10 @@ export class EnquiryHomeComponent implements OnInit {
   indexJSON = [];
 
   selectedRow: any = {
-    address: null,
-    amount: 0,
-    assigned_name: "",
-    assigned_to: null,
-    batch_size: null,
-    city: null,
-    closedReason: null,
-    closedReasonText: "",
-    comment: null,
-    commentDate: null,
-    commentedBy: null,
-    commentedOn: null,
-    comments: null,
-    course_types: null,
-    curr_address: null,
-    demo_by_id: null,
-    discount_offered: null,
-    email: "",
-    email2: null,
-    enqCustomLi: null,
-    enqLi: null,
-    enqStudentstatusMap: null,
-    enquireDateFrom: null,
-    enquireDateTo: null,
-    enquiry: null,
-    enquiryIdList: null,
-    enquiry_creation_datetime: "",
-    enquiry_date: "",
-    enquiry_no: null,
-    enquiry_no_date: "",
-    failure_reason: "",
-    fee_committed: null,
-    filtered_slots: "",
-    filtered_statuses: "",
-    followUpDate: "",
-    followUpDateTime: "",
-    followUpTime: "",
-    follow_type: "",
-    from_date: null,
-    gender: null,
-    grade: null,
-    inst_enquiry_handler_no: null,
-    institute_enquiry_id: 0,
-    institution_id: 0,
-    invoice_no: 0,
-    isDashbord: "",
-    isEnquiryUpdate: "",
-    isEnquiryV2Update: "",
-    isRegisterFeeUpdate: "",
-    isRport: "",
-    is_converted: "",
-    is_recent: "",
-    lead_id: null,
-    link: null,
-    name: "",
-    name_person: "",
-    newEnqcount: null,
-    occupation_id: null,
-    occupation_name: "",
-    otherReference: null,
-    parent_email: null,
-    parent_name: null,
-    parent_phone: null,
-    pastResult: null,
-    pastResultEvaluationType: null,
-    paymentDate: null,
-    paymentMode: null,
-    phone: "",
-    phone2: null,
-    priority: "",
-    promotional_sms: null,
-    qualification: null,
-    reference: null,
-    reference_no: null,
-    referred_by: null,
-    referred_by_name: "",
-    religion: null,
-    reportType: null,
-    school: null,
-    school_id: null,
-    slot: "",
-    slot_id: null,
-    source_id: null,
-    source_name: "",
-    standard: "",
-    standard_id: null,
-    standard_subject: "",
-    start_index: null,
-    status: null,
-    statusMap: null,
-    statusMasterMap: null,
-    statusValue: "",
-    statuses: null,
-    subject_id: null,
-    subjects: "",
-    teacherArray: null,
-    to_date: null,
-    totalFeesCollected: null,
-    totalcount: null,
-    transactional_sms: "",
-    uniqueCatName: null,
-    updateDate: "",
-    updateDateFrom: null,
-    updateDateTo: null,
+
   };
 
+  currentDirection = 'desc';
   selectedRowGroup: any;
   componentPrefill: any = [];
   componentListObject: any = {};
@@ -277,6 +179,7 @@ export class EnquiryHomeComponent implements OnInit {
   updateFormData: updateEnquiryForm = {
     comment: "",
     status: "",
+    statusValue: "",
     institution_id: sessionStorage.getItem('institute_id'),
     isEnquiryUpdate: "Y",
     closedReason: null,
@@ -503,6 +406,18 @@ export class EnquiryHomeComponent implements OnInit {
         this.message = message;
         this.smsSelectedRows = this.selectedRow.data;
       }
+      else if(message == 'update'){
+        this.prefill.fetchCommentsForEnquiry(this.selectedRow.data.institute_enquiry_id).subscribe(res => {
+          this.updateFormData.priority = res.priority;
+          this.updateFormData.follow_type = res.follow_type;
+          this.updateFormData.statusValue = this.selectedRow.data.statusValue;
+          this.updateFormData.followUpDate = moment(this.selectedRow.data.followUpDate).format('YYYY-MM-DD');
+          this.updateFormComments = res.comments;
+          this.updateFormCommentsOn = res.commentedOn;
+          this.updateFormCommentsBy = res.commentedBy;
+        });
+        this.message = message;
+      }
       else {
         this.message = message
       }
@@ -531,12 +446,11 @@ export class EnquiryHomeComponent implements OnInit {
     this.sourceEnquiry = [];
     this.selectedRow = null;
     this.selectedRowGroup = [];
-
+    
     /* start index of object passed is zero then create pagination */
     if (obj.start_index == 0) {
       return this.enquire.getAllEnquiry(obj).subscribe(data => {
         if (this.indexJSON.length != 0) {
-          console.log(data);
           this.totalEnquiry = data[0].totalcount;
           this.indexJSON = [];
           this.setPageSize(this.totalEnquiry);
@@ -548,9 +462,9 @@ export class EnquiryHomeComponent implements OnInit {
             }
             this.sourceEnquiry.push(obj);
           });
+          return this.sourceEnquiry;
         }
         else {
-          console.log(data);
           this.totalEnquiry = data[0].totalcount;
           this.indexJSON = [];
           this.setPageSize(this.totalEnquiry);
@@ -562,10 +476,11 @@ export class EnquiryHomeComponent implements OnInit {
             }
             this.sourceEnquiry.push(obj);
           });
+          return this.sourceEnquiry;
         }
       });
-    }  
-     else {
+    }
+    else {
       return this.enquire.getAllEnquiry(obj).subscribe(data => {
         if (this.indexJSON.length != 0) {
           data.forEach(el => {
@@ -576,6 +491,7 @@ export class EnquiryHomeComponent implements OnInit {
             }
             this.sourceEnquiry.push(obj);
           });
+          return this.sourceEnquiry;
         }
         else {
           data.forEach(el => {
@@ -586,6 +502,7 @@ export class EnquiryHomeComponent implements OnInit {
             }
             this.sourceEnquiry.push(obj);
           });
+          return this.sourceEnquiry;
         }
       });
     }
@@ -729,11 +646,13 @@ export class EnquiryHomeComponent implements OnInit {
 
 
 
+
   /* Function to toggle table data on checkbox click */
   statusFilter(checkerObj) {
 
     //console.log(this.statusString);
-    this.searchBarDate ='';
+    this.searchBarDate = '';
+
 
     if (checkerObj.value == "All") {
       this.statusString = [];
@@ -769,9 +688,10 @@ export class EnquiryHomeComponent implements OnInit {
           closedReason: "",
           enqCustomLi: null
         };
-        this.loadTableDatatoSource(this.instituteData);
+        this.busy = this.loadTableDatatoSource(this.instituteData);
       }
     }
+
 
     else if (checkerObj.value == "Admitted") {
       this.stats.All.checked = false;
@@ -808,7 +728,7 @@ export class EnquiryHomeComponent implements OnInit {
           closedReason: "",
           enqCustomLi: null
         };
-        this.loadTableDatatoSource(this.instituteData);
+        this.busy = this.loadTableDatatoSource(this.instituteData);
 
       }
 
@@ -851,7 +771,7 @@ export class EnquiryHomeComponent implements OnInit {
             closedReason: "",
             enqCustomLi: null
           };
-          this.loadTableDatatoSource(this.instituteData);
+          this.busy = this.loadTableDatatoSource(this.instituteData);
         }
 
         else if (this.statusString.length != 0) {
@@ -884,13 +804,11 @@ export class EnquiryHomeComponent implements OnInit {
             closedReason: "",
             enqCustomLi: null
           };
-          this.loadTableDatatoSource(this.instituteData);
+          this.busy = this.loadTableDatatoSource(this.instituteData);
         }
       }
 
     }
-
-
 
 
     else if (checkerObj.value == "Inactive") {
@@ -930,7 +848,7 @@ export class EnquiryHomeComponent implements OnInit {
           enqCustomLi: null
         };
 
-        this.loadTableDatatoSource(this.instituteData);
+        this.busy = this.loadTableDatatoSource(this.instituteData);
       }
 
       else {
@@ -972,7 +890,7 @@ export class EnquiryHomeComponent implements OnInit {
             closedReason: "",
             enqCustomLi: null
           };
-          this.loadTableDatatoSource(this.instituteData);
+          this.busy = this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
@@ -1004,14 +922,11 @@ export class EnquiryHomeComponent implements OnInit {
             closedReason: "",
             enqCustomLi: null
           };
-          this.loadTableDatatoSource(this.instituteData);
+          this.busy = this.loadTableDatatoSource(this.instituteData);
         }
       }
 
     }
-
-
-
 
 
     else if (checkerObj.value == "Open") {
@@ -1020,7 +935,6 @@ export class EnquiryHomeComponent implements OnInit {
       if (this.stats.Open.checked) {
         this.statusString.push('0');
         this.statusString.push('3');
-
 
         let stat = this.statusString.join(',');
         this.instituteData = {
@@ -1051,7 +965,7 @@ export class EnquiryHomeComponent implements OnInit {
           closedReason: "",
           enqCustomLi: null
         };
-        this.loadTableDatatoSource(this.instituteData);
+        this.busy = this.loadTableDatatoSource(this.instituteData);
       }
 
       else {
@@ -1099,7 +1013,7 @@ export class EnquiryHomeComponent implements OnInit {
             closedReason: "",
             enqCustomLi: null
           };
-          this.loadTableDatatoSource(this.instituteData);
+          this.busy = this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
@@ -1131,7 +1045,7 @@ export class EnquiryHomeComponent implements OnInit {
             closedReason: "",
             enqCustomLi: null
           };
-          this.loadTableDatatoSource(this.instituteData);
+          this.busy = this.loadTableDatatoSource(this.instituteData);
         }
 
       }
@@ -1176,7 +1090,7 @@ export class EnquiryHomeComponent implements OnInit {
           closedReason: "",
           enqCustomLi: null
         };
-        this.loadTableDatatoSource(this.instituteData);
+        this.busy = this.loadTableDatatoSource(this.instituteData);
       }
 
       else {
@@ -1218,7 +1132,7 @@ export class EnquiryHomeComponent implements OnInit {
             closedReason: "",
             enqCustomLi: null
           };
-          this.loadTableDatatoSource(this.instituteData);
+          this.busy = this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
@@ -1250,7 +1164,7 @@ export class EnquiryHomeComponent implements OnInit {
             closedReason: "",
             enqCustomLi: null
           };
-          this.loadTableDatatoSource(this.instituteData);
+          this.busy = this.loadTableDatatoSource(this.instituteData);
         }
 
       }
@@ -1266,11 +1180,12 @@ export class EnquiryHomeComponent implements OnInit {
   /* Function to search data on smart table */
   searchDatabase() {
     this.stats.All.checked = true;
-    this.stats.Admitted.checked = false;
-    this.stats.Inactive.checked = false;
     this.stats.Open.checked = false;
     this.stats.Registered.checked = false;
-
+    this.stats.Admitted.checked = false;
+    this.stats.Registered.checked = false;
+    this.statusString = [];
+    this.instituteData.filtered_statuses = this.statusString.join(',');
     /* Both are empty */
     if ((this.searchBarData === "" || this.searchBarData === " " || this.searchBarData === null) &&
       (this.searchBarDate === "" || this.searchBarDate === " " || this.searchBarDate === null)) {
@@ -1576,7 +1491,6 @@ export class EnquiryHomeComponent implements OnInit {
         }
       }
     }
-
   }
 
 
@@ -1629,11 +1543,6 @@ export class EnquiryHomeComponent implements OnInit {
     if ((this.selectedRow.data.status == 11) && (this.selectedRow.data.invoice_no != 0)) {
       this.hasReceipt = true;
       localStorage.setItem("institute_enquiry_id", this.selectedRow.data.institute_enquiry_id);
-      this.prefill.fetchCommentsForEnquiry(this.selectedRow.data.institute_enquiry_id).subscribe(res => {
-        this.updateFormComments = res.comments;
-        this.updateFormCommentsOn = res.commentedOn;
-        this.updateFormCommentsBy = res.commentedBy;
-      });
     }
     else {
       /* open, inprogress or converted */
@@ -1659,13 +1568,10 @@ export class EnquiryHomeComponent implements OnInit {
         this.hasReceipt = false;
       }
       localStorage.setItem("institute_enquiry_id", this.selectedRow.data.institute_enquiry_id);
-      this.prefill.fetchCommentsForEnquiry(this.selectedRow.data.institute_enquiry_id).subscribe(res => {
-        this.updateFormComments = res.comments;
-        this.updateFormCommentsOn = res.commentedOn;
-        this.updateFormCommentsBy = res.commentedBy;
-      });
     }
   }
+
+
 
 
   rowCheckBoxClick(row) {
@@ -1676,6 +1582,9 @@ export class EnquiryHomeComponent implements OnInit {
       this.selectedRowGroup = this.selectedRowGroup.filter(el => el.data.student_id != row.data.student_id);
     }
   }
+
+
+
 
 
   toggleSelectAll(status) {
@@ -1699,13 +1608,7 @@ export class EnquiryHomeComponent implements OnInit {
 
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
-    this.updateFormData.priority = this.selectedRow.data.priority;
-    this.updateFormData.follow_type = this.selectedRow.data.follow_type;
-    this.updateFormData.status = this.selectedRow.data.status.toString();
-    this.updateFormData.followUpDate = moment(this.selectedRow.data.followUpDate).format('YYYY-MM-DD');
-    this.updateFormData.commentDate = moment(this.updateFormData.commentDate).format('LLL');
     this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
-
     this.postdata.updateEnquiryForm(this.selectedRow.data.institute_enquiry_id, this.updateFormData)
       .subscribe(res => {
         let alert = {
@@ -1713,6 +1616,11 @@ export class EnquiryHomeComponent implements OnInit {
           title: 'Enquiry Updated',
           body: 'Your enquiry has been successfully submitted'
         }
+        this.selectedRow.data.priority = this.updateFormData.priority;
+        this.selectedRow.data.follow_type = this.updateFormData.follow_type;
+        this.selectedRow.data.statusValue = this.updateFormData.statusValue;
+        this.selectedRow.data.followUpDate = this.updateFormData.followUpDate;
+        this.selectedRow.data.status = this.enqstatus.forEach(el => { if(el.data_value == this.updateFormData.statusValue){ return el.data_key;}});
         this.appC.popToast(alert);
         this.closePopup();
       },
@@ -1728,10 +1636,16 @@ export class EnquiryHomeComponent implements OnInit {
 
 
 
+
   /* update the enquiry id for enquiry update pop up */
   updateStatusForEnquiryUpdate(val) {
-    this.selectedRow.data.status = val;
+    this.enqstatus.forEach(el => {
+      if(el.data_value == val){
+        this.updateFormData.status = el.data_key;
+      }
+    });
   }
+
 
 
 
@@ -1767,6 +1681,7 @@ export class EnquiryHomeComponent implements OnInit {
   /* Make Registration Payment Data update */
   registerPayment() {
     this.registrationForm.institute_enquiry_id = this.selectedRow.data.institute_enquiry_id.toString();
+    this.registrationForm.paymentDate = moment(this.registrationForm.paymentDate).format('YYYY-MM-DD');
     this.postdata.updateRegisterationPayment(this.registrationForm).subscribe(
       res => {
         let alert = {
@@ -1807,7 +1722,6 @@ export class EnquiryHomeComponent implements OnInit {
         this.smsPopSource = new LocalDataSource(data);
         this.smsDataLength = data.length;
         this.availableSMS = data[0].institute_sms_quota_available
-
       },
       err => {
         let msg = {
@@ -1819,6 +1733,7 @@ export class EnquiryHomeComponent implements OnInit {
       }
     );
   }
+
 
 
 
@@ -1841,6 +1756,8 @@ export class EnquiryHomeComponent implements OnInit {
       this.appC.popToast(msg)
     }
   }
+
+
 
 
 
@@ -1867,6 +1784,7 @@ export class EnquiryHomeComponent implements OnInit {
       messageArray: []
     };
   }
+
 
 
 
@@ -1921,15 +1839,17 @@ export class EnquiryHomeComponent implements OnInit {
 
 
 
+
   /* Function to perform advanced filter and update table data */
   filterAdvanced() {
 
     this.stats.All.checked = true;
-    this.stats.Admitted.checked = false;
-    this.stats.Inactive.checked = false;
     this.stats.Open.checked = false;
     this.stats.Registered.checked = false;
-
+    this.stats.Admitted.checked = false;
+    this.stats.Registered.checked = false;
+    this.statusString = [];
+    this.instituteData.filtered_statuses = this.statusString.join(',');
     /* a temporary array to store the user selected  */
     let tempArr = [];
     /* Update user selected custom component */
@@ -1987,6 +1907,7 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
+  
 
 
   /* common function to close popups */
@@ -2038,7 +1959,11 @@ export class EnquiryHomeComponent implements OnInit {
       paymentDate: null,
       reference: null,
     }
-    //this.loadTableDatatoSource(this.instituteData);
+    this.enqstatus.forEach(el=> {
+      if(this.selectedRow.data.statusValue == el.data_key){
+        this.selectedRow.data.statusValue = el.data_value;
+      }
+    });
   }
 
 
@@ -2064,7 +1989,8 @@ export class EnquiryHomeComponent implements OnInit {
       this.instituteData.start_index = this.instituteData.start_index + this.instituteData.batch_size;
       this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
       this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
-      this.loadTableDatatoSource(this.instituteData);
+      this.instituteData.filtered_statuses = this.statusString.join(',');
+      this.busy = this.loadTableDatatoSource(this.instituteData);
     }
   }
 
@@ -2076,7 +2002,8 @@ export class EnquiryHomeComponent implements OnInit {
       this.instituteData.start_index = this.instituteData.start_index - this.instituteData.batch_size;
       this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
       this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
-      this.loadTableDatatoSource(this.instituteData);
+      this.instituteData.filtered_statuses = this.statusString.join(',');
+      this.busy = this.loadTableDatatoSource(this.instituteData);
     }
   }
 
@@ -2089,19 +2016,14 @@ export class EnquiryHomeComponent implements OnInit {
     sessionStorage.setItem('displayBatchSize', num);
     this.instituteData.batch_size = this.displayBatchSize;
     this.instituteData.start_index = 0;
-    this.busy = this.enquire.getAllEnquiry(this.instituteData).subscribe(data => {
-      data.forEach(el => {
-        let obj = {
-          isSelected: false,
-          show: true,
-          data: el
-        }
-        this.sourceEnquiry.push(obj);
-      });
-      this.totalEnquiry = data[0].totalcount;
-      this.indexJSON = [];
-      this.setPageSize(this.totalEnquiry);
-    });
+    this.stats.All.checked = true;
+    this.stats.Open.checked = false;
+    this.stats.Registered.checked = false;
+    this.stats.Admitted.checked = false;
+    this.stats.Registered.checked = false;
+    this.statusString = [];
+    this.instituteData.filtered_statuses = this.statusString.join(',');
+    this.busy = this.loadTableDatatoSource(this.instituteData);
   }
 
 
@@ -2452,6 +2374,7 @@ export class EnquiryHomeComponent implements OnInit {
     this.instituteData.start_index = index.start_index;
     this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
     this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
+    this.instituteData.filtered_statuses = this.statusString.join(',');
     this.busy = this.loadTableDatatoSource(this.instituteData);
   }
 
@@ -2537,6 +2460,39 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
+  sortTableById(id) {
+    /* Custom server sided sorting */
+    this.instituteData = {
+      name: "",
+      phone: "",
+      email: "",
+      enquiry_no: "",
+      priority: "",
+      status: -1,
+      follow_type: "",
+      followUpDate: "",
+      enquiry_date: "",
+      assigned_to: -1,
+      standard_id: -1,
+      subject_id: -1,
+      is_recent: "Y",
+      slot_id: -1,
+      filtered_slots: "",
+      isDashbord: "N",
+      enquireDateFrom: "",
+      enquireDateTo: "",
+      updateDate: "",
+      updateDateFrom: "",
+      updateDateTo: "",
+      start_index: 0,
+      batch_size: this.displayBatchSize,
+      closedReason: "",
+      sorted_by: id,
+      order_by: this.currentDirection == 'asc' ? 'desc' : 'asc'
+    };
+    this.instituteData.filtered_statuses = this.statusString.join(',');
+    this.busy = this.loadTableDatatoSource(this.instituteData);
+  }
 
 
   /* Function to convert all select-option tag to ul-li */

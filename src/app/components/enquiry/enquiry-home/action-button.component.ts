@@ -198,7 +198,7 @@ export class ActionButtonComponent implements OnInit {
     this.professionalStatus();
     this.pops.currentMessage.subscribe(message => this.message = message);
     this.pops.currentActionValue.subscribe(data => this.isActionDisabled = data);
-    console.log(this.rowData);
+    //console.log(this.rowData);
   }
 
   /* open action menu on click */

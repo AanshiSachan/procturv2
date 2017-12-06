@@ -259,6 +259,7 @@
 
       <!-- Data Table and Pagination -->
       <section class="search-data">
+       
         <!-- Export and Toggler Here -->
         <div class="row class filter-res">
           <div class="c-lg-6 c-md-6 c-sm-6 align-left">
@@ -297,6 +298,7 @@
             </ul>
           </div>
         </div>
+       
         <!-- Enquiry DataTable -->
         <div class="row">
           <div class="c-lg-12 c-md-12 c-sm-12">
@@ -316,10 +318,9 @@
 
                     <th *ngFor="let header of headerArr" [hidden]="!header.show">
                       <label>
-                        {{header.title}}
+                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.id)">{{header.title}}</a>
                       </label>
                     </th>
-
 
                   </tr>
                 </thead>
@@ -368,6 +369,7 @@
             </div>
           </div>
         </div>
+       
         <!-- Paginator Here -->
         <div class="row filter-res pagination" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
@@ -411,17 +413,17 @@
             </g>
           </svg>
         </span>
-        <div class="popup-content" style="min-height: 400px; max-height: 500px;">
+        <div class="popup-content" style="min-height: 400px; max-height: 500px; padding: 15px 15px 20px 15px;">
           <h2>Update Enquiry No: {{selectedRow.data.enquiry_no}} | Enquirer: {{selectedRow.data.name}} </h2>
           <div class="update-enquiry-form overflowHidden">
 
-            <aside class="pull-left form-wrapper">
+            <aside class="pull-right form-wrapper">
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
-                    <select id="priorityEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.data.priority" name="priority">
+                    <select id="priorityEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.priority" name="priority">
                       <option></option>
-                      <option *ngFor="let priority of enqPriority" [value]="priority.data_value" [attr.selected]="priority.data_value == selectedRow.data.priority ? '' : null">
+                      <option *ngFor="let priority of enqPriority" [value]="priority.data_value" [attr.selected]="priority.data_value == updateFormData.priority ? '' : null">
                         {{priority.data_value}}
                       </option>
                     </select>
@@ -430,10 +432,10 @@
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
-                    <select id="selectFollowupEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.data.follow_type"
+                    <select id="selectFollowupEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.follow_type"
                       name="follow_type">
                       <option></option>
-                      <option *ngFor="let followT of enqFollowType" [value]="followT.data_value" [attr.selected]="followT.data_value == selectedRow.data.follow_type ? '' : null">
+                      <option *ngFor="let followT of enqFollowType" [value]="followT.data_value" [attr.selected]="followT.data_value == updateFormData.follow_type ? '' : null">
                         {{followT.data_value}}
                       </option>
                     </select>
@@ -444,19 +446,18 @@
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value datePickerBox">
-                    <input type="text" class="form-ctrl" value="" placeholder="" [(ngModel)]="selectedRow.data.followUpDate" id="followUPdateEdit"
+                    <input type="text" class="form-ctrl" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit"
                       bsDatepicker />
                     <label for="followUPdateEdit">Follow Up Date</label>
                   </div>
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
-                    <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selectedRow.data.statusValue"
+                    <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.statusValue"
                       (ngModelChange)="updateStatusForEnquiryUpdate($event)" name="statusValue">
                       <option></option>
-                      <option *ngFor="let status of enqstatus" [value]="status.data_key" [attr.selected]="status.data_value == selectedRow.data.statusValue ? '' : null"
+                      <option *ngFor="let status of enqstatus" [value]="status.data_value" [attr.selected]="status.data_value == updateFormData.statusValue ? '' : null"
                         [hidden]="status.data_key == 12 ? true : false">
-
                         {{status.data_value}}
                       </option>
                     </select>
@@ -465,25 +466,18 @@
                 </div>
               </div>
               <div class="row">
-                <div class="c-lg-6 c-md-6 c-sm-6">
-                  <div class="field-wrapper has-value datePickerBox">
-                    <input type="text" value="" placeholder="" id="commentDateEdit" class="form-ctrl" [(ngModel)]="updateFormData.commentDate"
-                      bsDatepicker/>
-                    <label for="commentDateEdit">Comment Date</label>
-                  </div>
-                </div>
-                <div class="c-lg-6 c-md-6 c-sm-6">
+                <div class="c-lg-12 c-md-12 c-sm-12">
                   <div class="field-wrapper">
-                    <textarea placeholder="Update Comment Here" rows="2" cols="10" style="height: 120px;" id="addcommentEdit" class="form-ctrl"
+                    <textarea placeholder="Update Comment Here (max 1000 characters)" rows="2" cols="10" style="height: 120px;" id="addcommentEdit" class="form-ctrl"
                       [(ngModel)]="updateFormData.comment">
                     </textarea>
                   </div>
                 </div>
               </div>
 
-              <div class="pull-left">
+              <div class="pull-right submitter">
                 <div class="clearfix">
-                  <aside class="pull-right popup-btn">
+                  <aside class="pull-left popup-btn">
                     <input type="button" value="Cancel" class="btn" (click)="closePopup()">
                     <input type="button" value="Update" class="redBtn btn" (click)="pushUpdatedEnquiry()">
                   </aside>
@@ -493,7 +487,7 @@
             </aside>
 
 
-            <aside class="pull-right table-wrapper">
+            <aside class="pull-left table-wrapper">
               <h4>Comment History</h4>
               <div class="enquiry-update-history table-responsive">
                 <table>
