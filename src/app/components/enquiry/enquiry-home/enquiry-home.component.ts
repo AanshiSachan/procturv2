@@ -17,7 +17,7 @@ import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
 import { ActionButtonComponent } from './action-button.component';
 import { SmsOptionComponent } from './sms-option.component';
-
+import { CommentTooltipComponent } from './comment-tooltip.component';
 
 /* Third party imports */
 import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from '../../../../assets/imported_modules/multiselect-dropdown';
@@ -29,13 +29,13 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 
 
+
 @Component({
   selector: 'app-enquiry-home',
   templateUrl: './enquiry-home.component.html',
   styleUrls: ['./enquiry-home.component.scss']
 })
-export class EnquiryHomeComponent implements OnInit {
-
+export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
 
   /* Variable Declaration */
@@ -338,7 +338,7 @@ export class EnquiryHomeComponent implements OnInit {
   private headerArr: any[] = [
     { id: 'enquiry_no', title: 'Enquiry No.', filter: false, show: true },
     { id: 'enquiry_date', title: 'Enquiry Date', filter: false, show: true },
-    { id: 'name', title: 'Student Name', filter: false, show: true },
+    { id: 'name', title: 'Name', filter: false, show: true },
     { id: 'phone', title: 'Contact No.', filter: false, show: true },
     { id: 'standard', title: 'Standard', filter: false, show: true },
     { id: 'subjects', title: 'Subjects', filter: false, show: true },
@@ -394,6 +394,11 @@ export class EnquiryHomeComponent implements OnInit {
         label: 'Delete Multiple Enquiries', icon: 'fa-trash-o', command: () => {
           this.bulkDeleteEnquiries();
         }
+      },
+      {
+        label: 'Assign Multiple Enquiries', icon: 'fa-buysellads', command: () => {
+          this.bulkAssignEnquiries();
+        }
       }
     ];
 
@@ -406,7 +411,7 @@ export class EnquiryHomeComponent implements OnInit {
         this.message = message;
         this.smsSelectedRows = this.selectedRow.data;
       }
-      else if(message == 'update'){
+      else if (message == 'update') {
         this.prefill.fetchCommentsForEnquiry(this.selectedRow.data.institute_enquiry_id).subscribe(res => {
           this.updateFormData.priority = res.priority;
           this.updateFormData.follow_type = res.follow_type;
@@ -439,6 +444,12 @@ export class EnquiryHomeComponent implements OnInit {
 
 
 
+  ngOnDestroy() {
+    /* localStorage.removeItem('institute_enquiry_id');
+    localStorage.removeItem('displayBatchSize'); */
+  }
+
+
 
   /* Load Table data with respect to the institute data provided */
   loadTableDatatoSource(obj) {
@@ -446,7 +457,7 @@ export class EnquiryHomeComponent implements OnInit {
     this.sourceEnquiry = [];
     this.selectedRow = null;
     this.selectedRowGroup = [];
-    
+
     /* start index of object passed is zero then create pagination */
     if (obj.start_index == 0) {
       return this.enquire.getAllEnquiry(obj).subscribe(data => {
@@ -614,7 +625,7 @@ export class EnquiryHomeComponent implements OnInit {
     this.headerArr = [
       { id: 'enquiry_no', title: 'Enquiry No.', filter: false, show: true },
       { id: 'enquiry_date', title: 'Enquiry Date', filter: false, show: true },
-      { id: 'name', title: 'Student Name', filter: false, show: true },
+      { id: 'name', title: 'Name', filter: false, show: true },
       { id: 'phone', title: 'Contact No.', filter: false, show: true },
       { id: 'standard', title: 'Standard', filter: false, show: true },
       { id: 'subjects', title: 'Subjects', filter: false, show: true },
@@ -1620,7 +1631,7 @@ export class EnquiryHomeComponent implements OnInit {
         this.selectedRow.data.follow_type = this.updateFormData.follow_type;
         this.selectedRow.data.statusValue = this.updateFormData.statusValue;
         this.selectedRow.data.followUpDate = this.updateFormData.followUpDate;
-        this.selectedRow.data.status = this.enqstatus.forEach(el => { if(el.data_value == this.updateFormData.statusValue){ return el.data_key;}});
+        this.selectedRow.data.status = this.enqstatus.forEach(el => { if (el.data_value == this.updateFormData.statusValue) { return el.data_key; } });
         this.appC.popToast(alert);
         this.closePopup();
       },
@@ -1640,7 +1651,7 @@ export class EnquiryHomeComponent implements OnInit {
   /* update the enquiry id for enquiry update pop up */
   updateStatusForEnquiryUpdate(val) {
     this.enqstatus.forEach(el => {
-      if(el.data_value == val){
+      if (el.data_value == val) {
         this.updateFormData.status = el.data_key;
       }
     });
@@ -1792,38 +1803,41 @@ export class EnquiryHomeComponent implements OnInit {
   bulkDeleteEnquiries() {
     if ((this.selectedRowGroup != null || this.selectedRowGroup != undefined) && (this.selectedRowGroup.length != 0)) {
       if (confirm('You are about to delete multiple enquiries')) {
-        let deleteString: string = '';
-        this.selectedRowGroup.forEach(el => {
-          deleteString = deleteString + ',' + el.data.institute_enquiry_id;
-        });
 
-        let data = {
-          enquiryIdList: deleteString.slice(1),
-          institution_id: sessionStorage.getItem('institute_id')
-        };
+        if (this.validateDeletable()) {
+          let deleteString: string = '';
+          this.selectedRowGroup.forEach(el => {
+            deleteString = deleteString + ',' + el.data.institute_enquiry_id;
+          });
 
-        this.postdata.deleteEnquiryBulk(data).subscribe(
-          res => {
-            let alert = {
-              type: 'success',
-              title: 'Enquiry Deleted from Record',
-              body: 'Your delete request has been processed'
-            }
-            this.appC.popToast(alert);
-            this.selectedRowGroup = [];
-            this.statusFilter({ value: 'Open', prop: 'Open', checked: true, disabled: false });
-          },
-          err => {
-            let alert = {
-              type: 'error',
-              title: 'Failed To Delete Enquiry',
-              body: err.message
-            }
-            this.appC.popToast(alert);
+          let data = {
+            enquiryIdList: deleteString.slice(1),
+            institution_id: sessionStorage.getItem('institute_id')
+          };
 
-          }
-        )
+          this.postdata.deleteEnquiryBulk(data).subscribe(
+            res => {
+              let alert = {
+                type: 'success',
+                title: 'Enquiry Deleted from Record',
+                body: 'Your delete request has been processed'
+              }
+              this.appC.popToast(alert);
+              this.selectedRowGroup = [];
+              this.statusFilter({ value: 'Open', prop: 'Open', checked: true, disabled: false });
+            },
+            err => {
+              let alert = {
+                type: 'error',
+                title: 'Failed To Delete Enquiry',
+                body: err.message
+              }
+              this.appC.popToast(alert);
+            });
+        }
+        else {
 
+        }
       }
 
     }
@@ -1837,6 +1851,17 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
+
+  validateDeletable() {
+    return true;
+  }
+
+
+
+
+  bulkAssignEnquiries() {
+
+  }
 
 
 
@@ -1862,17 +1887,9 @@ export class EnquiryHomeComponent implements OnInit {
 
 
     this.advancedFilterForm.enqCustomLi = tempArr;
-    this.advancedFilterForm.followUpDate = this.advancedFilterForm.followUpDate == '' ? '' : moment(this.advancedFilterForm.followUpDate).format('YYYY-MM-DD');
-    this.advancedFilterForm.enquiry_date = this.advancedFilterForm.enquiry_date == '' ? '' : moment(this.advancedFilterForm.enquiry_date).format('YYYY-MM-DD');
-    this.advancedFilterForm.enquireDateFrom = this.advancedFilterForm.enquireDateFrom == '' ? '' : moment(this.advancedFilterForm.enquireDateFrom).format('YYYY-MM-DD');
-    this.advancedFilterForm.enquireDateTo = this.advancedFilterForm.enquireDateTo == '' ? '' : moment(this.advancedFilterForm.enquireDateTo).format('YYYY-MM-DD');
-    this.advancedFilterForm.updateDate = this.advancedFilterForm.updateDate == '' ? '' : moment(this.advancedFilterForm.updateDate).format('YYYY-MM-DD');
-    this.advancedFilterForm.updateDateFrom = this.advancedFilterForm.updateDateFrom == '' ? '' : moment(this.advancedFilterForm.updateDateFrom).format('YYYY-MM-DD');
-    this.advancedFilterForm.updateDateTo = this.advancedFilterForm.updateDateTo == '' ? '' : moment(this.advancedFilterForm.updateDateTo).format('YYYY-MM-DD');
-
-    this.instituteData = this.advancedFilterForm;
     this.sourceEnquiry = [];
-    this.busy = this.enquire.getAllEnquiry(this.instituteData).subscribe(
+
+    this.busy = this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
       data => {
         data.forEach(el => {
           let obj = {
@@ -1897,7 +1914,9 @@ export class EnquiryHomeComponent implements OnInit {
             body: 'We did not find any enquiry for the specified query'
           }
           this.appC.popToast(alert);
-          this.searchBarData = '';
+          this.totalEnquiry = 0;
+          this.indexJSON = [];
+          this.setPageSize(this.totalEnquiry);
           this.closeAdFilter();
         }
       },
@@ -1907,7 +1926,7 @@ export class EnquiryHomeComponent implements OnInit {
   }
 
 
-  
+
 
 
   /* common function to close popups */
@@ -1959,8 +1978,8 @@ export class EnquiryHomeComponent implements OnInit {
       paymentDate: null,
       reference: null,
     }
-    this.enqstatus.forEach(el=> {
-      if(this.selectedRow.data.statusValue == el.data_key){
+    this.enqstatus.forEach(el => {
+      if (this.selectedRow.data.statusValue == el.data_key) {
         this.selectedRow.data.statusValue = el.data_value;
       }
     });
@@ -2494,6 +2513,33 @@ export class EnquiryHomeComponent implements OnInit {
     this.busy = this.loadTableDatatoSource(this.instituteData);
   }
 
+
+
+  openUpdatePopUpCustom(row) {
+    this.rowClicked(row);
+    this.pops.changeMessage('update');
+    this.prefill.fetchCommentsForEnquiry(this.selectedRow.data.institute_enquiry_id).subscribe(res => {
+      this.updateFormData.priority = res.priority;
+      this.updateFormData.follow_type = res.follow_type;
+      this.updateFormData.statusValue = this.selectedRow.data.statusValue;
+      this.updateFormData.followUpDate = moment(this.selectedRow.data.followUpDate).format('YYYY-MM-DD');
+      this.updateFormComments = res.comments;
+      this.updateFormCommentsOn = res.commentedOn;
+      this.updateFormCommentsBy = res.commentedBy;
+    });
+    console.log(this.pops.currentMessage);
+    this.message = 'update';
+  }
+
+
+  /* getAlignment(id){
+    if(id == 'phone'){
+      return 'right';
+    }
+    else{
+      return 'left';
+    }
+  } */
 
   /* Function to convert all select-option tag to ul-li */
   /*convertSelectToUl() {

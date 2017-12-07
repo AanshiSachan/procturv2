@@ -93,6 +93,32 @@ export class StudentAddComponent implements OnInit {
     private postService: PostStudentDataService,
     private router: Router, private login: LoginService,
     private appC: AppComponent) {
+    this.getInstType();
+  }
+
+
+
+
+  ngOnInit() {
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
+    this.busyPrefill = this.fetchPrefillFormData();
+    if(localStorage.getItem('studentPrefill') != null){
+      this.busyPrefill = this.getSlots();
+      this.busyPrefill = this.getlangStudentStatus();
+      this.convertToStudentDetected();
+    }
+    else if (this.isProfessional){
+      this.busyPrefill = this.getSlots();
+      this.busyPrefill = this.getlangStudentStatus();
+    }
+  }
+
+
+
+
+
+  getInstType() {
     let institute_type = sessionStorage.getItem('institute_type');
     if (institute_type == 'LANG') {
       this.isProfessional = true;
@@ -102,18 +128,8 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
 
-    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-    this.login.changeNameStatus(sessionStorage.getItem('name'));
 
-    this.busyPrefill = this.fetchPrefillFormData();
-    if (this.isProfessional) {
-      this.busyPrefill = this.getSlots();
-      this.busyPrefill = this.getlangStudentStatus();
-    }
-
-  }
 
   /* Function to navigate through the Student Add Form on button Click Save/Submit*/
   navigateTo(text) {
@@ -171,6 +187,9 @@ export class StudentAddComponent implements OnInit {
   }
 
 
+
+
+
   /* Function to navigate on icon click */
   switchToView(id) {
     switch (id) {
@@ -201,6 +220,9 @@ export class StudentAddComponent implements OnInit {
       }
     }
   }
+
+
+
 
 
   /* Fetch and store the prefill data to be displayed on dropdown menu */
@@ -251,7 +273,10 @@ export class StudentAddComponent implements OnInit {
       //console.log(this.customComponents);
       return customComp;
     }
+    
   }
+
+
 
 
 
@@ -269,10 +294,16 @@ export class StudentAddComponent implements OnInit {
   }
 
 
+
+
+
   /* Function to show/hide Addition Details Form section */
   toggleAdditionalBasicDetails() {
     this.additionalBasicDetails = !this.additionalBasicDetails;
   }
+
+
+
 
 
   /* Function to add Student Quickly without fees, kyc and inventory details */
@@ -297,16 +328,24 @@ export class StudentAddComponent implements OnInit {
   }
 
 
+
+
+
   /* Open batch assign popup */
   openAssignBatch() {
     this.isAssignBatch = true;
   }
 
 
+
+
   /* close batch assign popup */
   closeBatchAssign() {
     this.isAssignBatch = false;
   }
+
+
+
 
 
   /* align the user selected batch into input and update the data into array to be updated to server */
@@ -329,6 +368,9 @@ export class StudentAddComponent implements OnInit {
       this.closeBatchAssign();
     }
   }
+
+
+
 
 
   studentQuickAdder(form: NgForm) {
@@ -424,6 +466,9 @@ export class StudentAddComponent implements OnInit {
   }
 
 
+
+
+
   customComponentValid(): boolean {
 
     function isValid(el) {
@@ -442,6 +487,9 @@ export class StudentAddComponent implements OnInit {
 
 
   }
+
+
+
 
 
   /* Customiized click detection strategy */
@@ -490,6 +538,7 @@ export class StudentAddComponent implements OnInit {
       err => { }
     )
   }
+
 
 
 
@@ -547,6 +596,8 @@ export class StudentAddComponent implements OnInit {
 
 
 
+
+
   updateMultiSelect(data, id) {
     this.customComponents.forEach(el => {
       if (el.id == id) {
@@ -596,6 +647,8 @@ export class StudentAddComponent implements OnInit {
   }
 
 
+
+
   fetchCourseFromMaster(id) {
     this.studentPrefillService.fetchCourseList(id).subscribe(
       res => {
@@ -604,6 +657,7 @@ export class StudentAddComponent implements OnInit {
     )
 
   }
+
 
 
 
@@ -623,6 +677,9 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
+
+
+
   removeImage(){
     document.querySelector('input[type=file]').value = '';
     let preview = document.getElementById('preview-img');
@@ -638,9 +695,11 @@ export class StudentAddComponent implements OnInit {
 
 
 
+
   isDuplicateContactClose() {
     this.isDuplicateStudent = false;
   }
+
 
 
 
@@ -675,6 +734,8 @@ export class StudentAddComponent implements OnInit {
     );
 
   }
+
+
 
 
   clearFormAndMove() {
@@ -718,5 +779,32 @@ export class StudentAddComponent implements OnInit {
     document.getElementById('preview-img').src = '';
     this.fetchPrefillFormData();
   }
+
+
+
+
+  convertToStudentDetected(){
+    let tempData = JSON.parse(localStorage.getItem('studentPrefill'));    
+    this.studentAddFormData.student_name = tempData.name;
+    this.studentAddFormData.student_phone = tempData.phone;
+    this.studentAddFormData.student_email = tempData.email;
+    this.studentAddFormData.student_sex = tempData.gender;
+    this.studentAddFormData.parent_name = tempData.parent_email;
+    this.studentAddFormData.parent_phone = tempData.parent_name;
+    this.studentAddFormData.parent_email = tempData.parent_phone;
+    this.studentAddFormData.enquiry_id = tempData.enquiry_id;
+    console.log(tempData);
+    document.getElementById('sName').parentNode.classList.add('has-value');
+    document.getElementById('cNumber').parentNode.classList.add('has-value');
+    document.getElementById('sEmail').parentNode.classList.add('has-value');
+    document.getElementById('userGender').parentNode.classList.add('has-value');
+    document.getElementById('parentName').parentNode.classList.add('has-value');
+    document.getElementById('parentContactNo').parentNode.classList.add('has-value');
+    document.getElementById('parentEmail').parentNode.classList.add('has-value');
+    localStorage.removeItem('studentPrefill');
+  }
+
+
+
 
 }

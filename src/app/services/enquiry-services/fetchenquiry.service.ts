@@ -46,14 +46,13 @@ export class FetchenquiryService {
 
   /* Function to fetch json data for all enquiry as per the input institute data  */
   getAllEnquiry(obj) {
-
-    obj.followUpDate = obj.followUpDate == '' ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
-    obj.enquiry_date = obj.enquiry_date == '' ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
-    obj.enquireDateFrom = obj.enquireDateFrom == '' ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
-    obj.enquireDateTo = obj.enquireDateTo == '' ? '' : moment(obj.enquireDateTo).format('YYYY-MM-DD');
-    obj.updateDate = obj.updateDate == '' ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
-    obj.updateDateFrom = obj.updateDateFrom == '' ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
-    obj.updateDateTo = obj.updateDateTo == '' ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
+    obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
+    obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
+    obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
+    obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('YYYY-MM-DD');
+    obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
+    obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
+    obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
 
     this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
 

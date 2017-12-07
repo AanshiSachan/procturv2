@@ -337,7 +337,6 @@
                                 </thead>
                                 <tbody>
                                     <tr id="" class="" *ngFor="let row of studentDataSource; let i of index;" (click)="rowclicked(row)">
-
                                         <td>
                                             <div class="field-checkbox-wrapper">
                                                 <input type="checkbox" [(ngModel)]="row.isSelected" (ngModelChange)="rowCheckBoxClick(row)" name="check" class="tbodycheck form-checkbox">

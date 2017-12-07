@@ -31,7 +31,7 @@ import { LoadInterceptor } from './interceptors/load-interceptor';
 import { AuthGuard } from './guards/auth.guard';
 /* Modules */
 import { AppRoutingModule } from './app-routing.module';
-import { ToasterModule } from 'angular2-toaster';
+import { ToasterModule } from '../assets/imported_modules/angular2-toaster/angular2-toaster';
 import { BsDatepickerModule } from '../assets/imported_modules/ngx-bootstrap/datepicker';
 import { ErrorComponent } from './components/error/error.component';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';

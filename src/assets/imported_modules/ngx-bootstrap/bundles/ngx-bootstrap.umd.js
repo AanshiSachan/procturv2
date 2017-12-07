@@ -11876,7 +11876,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return baseConfig; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__locale_class__ = __webpack_require__(63);
 
-var defaultInvalidDate = 'Invalid date';
+var defaultInvalidDate = '';
 var defaultLocaleWeek = {
     dow: 0,
     doy: 6 // The week that contains Jan 1st is the first week of the year.

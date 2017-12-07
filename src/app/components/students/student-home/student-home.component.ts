@@ -38,7 +38,7 @@ export class StudentHomeComponent implements OnInit {
   private studentDataSource: any[] = [];
   private selectedRowGroup: any[] = [];
   private optionsModel: any = null;
-
+  private customComponents: any[] = [];
   private advancedFilter: boolean = false;
   private studentdisplaysize: number = 50;
   private isAllSelected: boolean = false;
@@ -168,7 +168,7 @@ export class StudentHomeComponent implements OnInit {
       { id: 'student_sex', name: 'Gender' },
       { id: 'parent_name', name: 'Parent Name' },
       { id: 'parent_email', name: 'Parent Email' },
-      { id: 'student_email', name: 'Student Email' },      
+      { id: 'student_email', name: 'Student Email' },
       /* { id: 'student_phone', name: 'Contact No.' }, */
       /* { id: 'noOfBatchesAssigned', name: 'Course Assigned' }, */
       /* { id: 'doj', name: 'Joining Date' },
@@ -186,7 +186,7 @@ export class StudentHomeComponent implements OnInit {
       }
     ];
 
-    this.fetchStudentPrefill();
+    this.busy = this.fetchStudentPrefill();
 
   }
 
@@ -541,17 +541,114 @@ export class StudentHomeComponent implements OnInit {
 
     let batch = this.studentPrefill.fetchBatchDetails().subscribe(data => {
       this.batchList = data;
-      //console.log(data);
     });
 
     this.studentPrefill.fetchLangStudentStatus().subscribe(data => {
       this.studentStatusList = data;
-      //console.log(data);
     });
 
     this.studentPrefill.fetchMasterCourse().subscribe(data => {
       this.masterCourseList = data;
-      //console.log(data);
+    });
+
+    if (standard != null) {
+      let customComp = this.studentPrefill.fetchCustomComponent().subscribe(data => {
+        data.forEach(el => {
+          let obj = {
+            data: el,
+            id: el.component_id,
+            is_required: el.is_required,
+            is_searchable: el.is_searchable,
+            label: el.label,
+            prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+            selected: [],
+            selectedString: '',
+            type: el.type,
+            value: el.enq_custom_value
+          }
+          this.customComponents.push(obj);
+        });
+      });
+      //console.log(this.customComponents);
+      return customComp;
+    }
+
+  }
+
+
+
+
+  createPrefilledData(dataArr: any[]): any[] {
+    let customPrefilled: any[] = [];
+    dataArr.forEach(el => {
+      let obj = {
+        data: el,
+        checked: false
+      }
+      customPrefilled.push(obj);
+    });
+
+    return customPrefilled;
+  }
+
+
+
+  multiselectVisible(elid) {
+    let targetid = elid + "multi";
+    if (document.getElementById(targetid).classList.contains('hide')) {
+      document.getElementById(targetid).classList.remove('hide');
+    }
+    else {
+      document.getElementById(targetid).classList.add('hide');
+    }
+  }
+
+
+
+  updateMultiSelect(data, id) {
+    this.customComponents.forEach(el => {
+      if (el.id == id) {
+        el.prefilled_data.forEach(com => {
+          //console.log(com);
+          if (com.data == data.data) {
+            /* Component checked */
+            if (com.checked) {
+              el.selected.push(com.data);
+              if (el.selected.length != 0) {
+                document.getElementById(id + 'wrapper').classList.add('has-value');
+              }
+              else {
+                document.getElementById(id + 'wrapper').classList.remove('has-value');
+              }
+              //console.log(com.selected);
+              el.selectedString = el.selected.join(',');
+              el.value = el.selectedString;
+            }
+            /* Component unchecked */
+            else {
+              if (el.selected.length != 0) {
+                document.getElementById(id + 'wrapper').classList.add('has-value');
+              }
+              else if (el.selected.length == 0) {
+                document.getElementById(id + 'wrapper').classList.remove('has-value');
+              }
+              //console.log(com.selected);
+              var index = el.selected.indexOf(data.data);
+              if (index > -1) {
+                el.selected.splice(index, 1);
+              }
+              el.selectedString = el.selected.join(',');
+              el.value = el.selectedString;
+              /* var index2 = el.selected.indexOf(data.data);
+                if (index2 > -1) {
+                el.selected.splice(index, 1);
+                }
+                el.selectedString = el.selected.join(','); 
+              */
+            }
+          }
+        });
+      }
     });
 
   }

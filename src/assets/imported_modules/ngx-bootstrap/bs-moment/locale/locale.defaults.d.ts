@@ -1,5 +1,5 @@
 import { LocaleData } from './locale.class';
-export declare const defaultInvalidDate = "Invalid date";
+export declare const defaultInvalidDate = "";
 export declare const defaultLocaleWeek: {
     dow: number;
     doy: number;

@@ -6,7 +6,7 @@ import { EnquiryBulkaddComponent } from './enquiry-bulkadd/enquiry-bulkadd.compo
 import { EnquiryManageComponent } from './enquiry-manage/enquiry-manage.component';
 import { EnquiryRoutingModule } from "./enquiry-routing.module";
 import { ActionButtonComponent } from './enquiry-home/action-button.component';
-
+import { CommentTooltipComponent } from './enquiry-home/comment-tooltip.component';
 import { SmsOptionComponent } from './enquiry-home/sms-option.component';
 import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
 import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component';
@@ -28,7 +28,7 @@ import { DateConverter } from './enquiry-home/enquiry-home.component';
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 
 @NgModule({
-     imports: [
+    imports: [
         FormsModule,
         ReactiveFormsModule,
         MultiselectDropdownModule,
@@ -55,13 +55,14 @@ import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
         EnquiryDateInput,
         UserEnquiryComponent,
         DateConverter,
-        EnquiryHomeComponent
-    ], 
+        EnquiryHomeComponent,
+        CommentTooltipComponent
+    ],
     entryComponents: [
         ActionButtonComponent,
         SmsOptionComponent,
         UserEnquiryComponent,
-        
+        CommentTooltipComponent
     ],
     providers: [
     ]
