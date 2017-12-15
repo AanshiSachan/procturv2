@@ -1,8 +1,8 @@
-<div class="middle-section clearFix" id="enquiryList" (click)="inputClicked()" #enquiryManager>
+<div class="middle-section clearFix" id="enquiryList" #enquiryManager [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
 
 
   <!-- Main View -->
-  <aside class="middle-full" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
+  <aside class="middle-full" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
     <!-- Navigation to other tabs -->
     <section class="middle-top mb0 clearFix">
       <h1 class="pull-left">
@@ -15,25 +15,24 @@
       </aside>
 
     </section>
+
     <!-- Enquiry Page Start here -->
     <section class="middle-main clearFix" id="middleMainForEnquiryList">
 
-
-
       <!-- Search bar and Advanced Filter -->
-      <section class="common-search-filter" id="searchFilter">
+      <section class="common-search-filter" id="searchFilter" (click)="inputClicked($event)">
         <div class="filter-search">
           <div class="filter-box clearFix">
             <!-- Search Bar -->
             <div class="c-lg-8 c-md-8 c-sm-8">
-              <div class="search-filter-wrapper">
+              <div class="search-filter-wrapper" id="adFilterExitVisible">
                 <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No./Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;"
                   [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
                 <!-- followup date handler -->
                 <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="searchBarDate" style="cursor: pointer;" (keyup.enter)="searchDatabase()"
-                    name="followupdate" bsDatepicker/>
-                  <label for="followupdate">Followup Date</label>
+                  <input type="text" value="" id="followupdate" class="form-ctrl bsDatepicker" [(ngModel)]="searchBarDate" style="cursor: pointer;"
+                    (keyup.enter)="searchDatabase()" name="followupdate" bsDatepicker/>
+                  <label for="followupdate">Follow up Date</label>
                 </div>
                 <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
               </div>
@@ -53,7 +52,7 @@
                       <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)" />
                     </g>
                   </svg>
-                  Close Advance Filter
+                  Close Advanced Filter
                 </a>
               </div>
             </div>
@@ -61,135 +60,147 @@
 
           <!-- Advanced Filter Div Element -->
           <div class="AdFilter-field hide" id="advanced-filter-section">
-            <div class="row">
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="advancedFilterForm.filtered_statuses" name="status">
-                    <option value=""></option>
-                    <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
-                  </select>
-                  <label for="enquiryStatus">Enquiry Status</label>
-                </div>
-              </div>
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <select id="enquiryPriority" class="form-ctrl" [(ngModel)]="advancedFilterForm.priority" name="priority">
-                    <option></option>
-                    <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
-                      {{priority.data_value}}
-                    </option>
-                  </select>
-                  <label for="enquiryPriority">Enquiry Priority</label>
-                </div>
-              </div>
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <select id="followupType" class="form-ctrl" [(ngModel)]="advancedFilterForm.follow_type" name="followType">
-                    <option></option>
-                    <option *ngFor="let follow of enqFollowType" [value]="follow.data_key">
-                      {{ follow.data_value }}
-                    </option>
-                  </select>
-                  <label for="followupType">Enquiry Followup Type</label>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <select id="standard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" name="standard" (ngModelChange)="fetchEnquirySubject()">
-                    <option></option>
-                    <option *ngFor="let std of enqStd" [value]="std.standard_id">
-                      {{ std.standard_name }}
-                    </option>
-                  </select>
-                  <label for="standard">Standard</label>
-                </div>
-              </div>
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <select id="selectSub" class="form-ctrl" [(ngModel)]="advancedFilterForm.subject_id" name="subject">
-                    <option></option>
-                    <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">
-                      {{ subject.subject_name }}
-                    </option>
-                  </select>
-                  <label for="selectSub">Subject</label>
-                </div>
-              </div>
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper">
-                  <select id="assignTo" class="form-ctrl" [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo">
-                    <option></option>
-                    <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
-                      {{ assigned.name }}
-                    </option>
-                  </select>
-                  <label for="assignTo">Assign To</label>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="updateDate" class="form-ctrl" [(ngModel)]="advancedFilterForm.updateDate" name="UD" bsDatepicker/>
-                  <label for="updateDate">Update Date</label>
-                </div>
-              </div>
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="enquiryFromDate" class="form-ctrl" [(ngModel)]="advancedFilterForm.enquireDateFrom" name="EFD"
-                    bsDatepicker/>
-                  <label for="enquiryFromDate">Enquiry From Date</label>
-                </div>
-              </div>
-              <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="enquiryToDate" class="form-ctrl" [(ngModel)]="advancedFilterForm.enquireDateTo" name="ETD"
-                    bsDatepicker/>
-                  <label for="enquiryToDate">Enquiry To Date</label>
-                </div>
+
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper">
+                <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="advancedFilterForm.filtered_statuses" name="status">
+                  <option value=""></option>
+                  <option *ngFor="let status of enqstatus" [value]="status.data_key">{{status.data_value}}</option>
+                </select>
+                <label for="enquiryStatus">Enquiry Status</label>
               </div>
             </div>
 
-            <custom-enquiry *ngFor="let component of componentPrefill">
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper">
+                <select id="enquiryPriority" class="form-ctrl" [(ngModel)]="advancedFilterForm.priority" name="priority">
+                  <option></option>
+                  <option *ngFor="let priority of enqPriority" [value]="priority.data_key">
+                    {{priority.data_value}}
+                  </option>
+                </select>
+                <label for="enquiryPriority">Enquiry Priority</label>
+              </div>
+            </div>
 
-              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y' " input-def>
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper">
+                <select id="followupType" class="form-ctrl" [(ngModel)]="advancedFilterForm.follow_type" name="followType">
+                  <option></option>
+                  <option *ngFor="let follow of enqFollowType" [value]="follow.data_key">
+                    {{ follow.data_value }}
+                  </option>
+                </select>
+                <label for="followupType">Enquiry Follow up Type</label>
+              </div>
+            </div>
+
+
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper">
+                <select id="standard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" name="standard" (ngModelChange)="fetchEnquirySubject()">
+                  <option></option>
+                  <option *ngFor="let std of enqStd" [value]="std.standard_id">
+                    {{ std.standard_name }}
+                  </option>
+                </select>
+                <label for="standard">Standard</label>
+              </div>
+            </div>
+
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper">
+                <select id="selectSub" class="form-ctrl" [(ngModel)]="advancedFilterForm.subject_id" name="subject">
+                  <option></option>
+                  <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">
+                    {{ subject.subject_name }}
+                  </option>
+                </select>
+                <label for="selectSub">Subject</label>
+              </div>
+            </div>
+
+            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isEnquiryAdmin">
+              <div class="field-wrapper">
+                <select id="assignTo" class="form-ctrl" [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo">
+                  <option></option>
+                  <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
+                    {{ assigned.name }}
+                  </option>
+                </select>
+                <label for="assignTo">Assign To</label>
+              </div>
+            </div>
+
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper datePickerBox">
+                <input type="text" value="" id="updateDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.updateDate" name="UD"
+                  bsDatepicker/>
+                <label for="updateDate">Update Date</label>
+              </div>
+            </div>
+
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper datePickerBox">
+                <input type="text" value="" id="enquiryFromDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.enquireDateFrom"
+                  name="EFD" bsDatepicker/>
+                <label for="enquiryFromDate">Enquiry From Date</label>
+              </div>
+            </div>
+
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper datePickerBox">
+                <input type="text" value="" id="enquiryToDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.enquireDateTo"
+                  name="ETD" bsDatepicker/>
+                <label for="enquiryToDate">Enquiry To Date</label>
+              </div>
+            </div>
+
+            <custom-enquiry *ngFor="let component of customComponents">
+
+              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
                 <div class="field-wrapper">
-                  <input type="text" value="" id="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
-                    (ngModelChange)="customComponentUpdated($event, component)" class="form-ctrl" name="component.label" />
-                  <label for="component.label">{{component.label}}</label>
+                  <input type="text" value="" id="component.id" [(ngModel)]="component.value" class="form-ctrl" name="component.label" />
+                  <label for="component.label">{{component.label}} </label>
                 </div>
               </div>
 
-
-              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y' " input-def>
+              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
+                <br>
                 <div class="field-checkbox-wrapper">
-                  <input class="form-checkbox" id="component.label" name="component.label" type="checkbox" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
-                    (ngModelChange)="customComponentUpdated($event, component)" value="">
-                  <label for="component.label">{{component.label}}</label>
+                  <input class="form-checkbox" id="component.id" type="checkbox" [(ngModel)]="component.value" name="component.label" value="">
+                  <label for="component.label">{{component.label}} </label>
                 </div>
               </div>
 
-              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3 && component.is_searchable == 'Y' " input-def>
+              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
                 <div class="field-wrapper">
-                  <select id="component.label" class="form-ctrl" name="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
-                    (ngModelChange)="customComponentUpdated($event, component)">
+                  <select id="component.id" class="form-ctrl" [(ngModel)]="component.value" name="component.label">
                     <option value=""></option>
-                    <option *ngFor="let opt of component.prefilled_data" value="{{opt}}">{{opt}}</option>
+                    <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                   </select>
-                  <label for="component.label">{{component.label}}</label>
+                  <label for="component.label">{{component.label}} </label>
                 </div>
               </div>
 
-              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 && component.is_searchable == 'Y' " input-def>
-                <div class="field-wrapper">
-                  <select id="component.label" class="form-ctrl" name="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
-                    (ngModelChange)="customComponentUpdated($event, component)" multiple>
-                    <option value=""></option>
-                    <option *ngFor="let opt of component.prefilled_data" value="component">{{opt}}</option>
-                  </select>
-                  <label for="component.label">{{component.label}}</label>
+              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
+                <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
+                  <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
+                  />
+                  <label for="{{component.label}}">{{component.label}} </label>
+                </div>
+                <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
+                  <div class="multiselect-wrapper-inner">
+                    <ul class="">
+                      <li *ngFor="let opt of component.prefilled_data">
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
+                            class="form-checkbox">
+                          <label for="opt.data">{{opt.data}}</label>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
 
@@ -197,8 +208,11 @@
 
             <div class="row">
               <div class="c-lg-12 c-md-12 c-sm-12">
-                <div class="field-wrapper">
+                <div class="field-wrapper pull-left">
                   <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" (click)="filterAdvanced()" />
+                </div>
+                <div class="field-wrapper pull-left">
+                  <input type="button" class="btn filterSearchBtn" value="Clear Advanced Filter" (click)="clearFilterAdvanced()" />
                 </div>
               </div>
             </div>
@@ -266,18 +280,18 @@
             <ul class="export-print">
               <li>
                 <label>Showing {{instituteData.start_index == null? 1 : (instituteData.start_index+1) }} to {{(displayBatchSize
-                  > totalEnquiry)? displayBatchSize: (instituteData.start_index+displayBatchSize)}} of {{totalEnquiry}} Enquiries</label>
+                  > totalEnquiry)? totalEnquiry: (instituteData.start_index+displayBatchSize)}} of {{totalEnquiry}} Enquiries</label>
               </li>
               <li>
                 <div class="bulk-dropdown">
                   <label class="bulk-dropbtn">
                     Enquiry per page :
-                    <button class="bulk-dropbtn-border" id="bulk-action" #bulkaction (click)="bulkActionFunction()" type="button" data-toggle="dropdown">
+                    <button class="bulk-dropbtn-border" id="bulk-action" #bulkaction (click)="bulkActionFunctionOpen()" type="button" data-toggle="dropdown">
                       {{displayBatchSize}}
                       <span class="caret"></span>
                     </button>
                   </label>
-                  <div id="bulk-drop" class="bulk-dropdown-content">
+                  <div id="bulk-drop" class="bulk-dropdown-content hide" (click)="bulkActionFunctionClose()" (mouseleave)="bulkActionFunctionClose()">
                     <a *ngFor="let size of sizeArr" (click)="updateTableBatchSize(size)">
                       {{size}}
                     </a>
@@ -289,7 +303,7 @@
           <div class="c-lg-6 c-md-6 c-sm-6 align-right">
             <ul class="export-print">
               <li>
-                <p-splitButton label="Send Bulk SMS" icon="fa-envelope-o" (onClick)="sendBulkSms()" [model]="bulkAddItems"></p-splitButton>
+                <p-splitButton label="{{selectedRowGroup.length}} Enquiry Selected" [model]="bulkAddItems"></p-splitButton>
               </li>
               <li class="export-icon" (click)="downloadAllEnquiries()">
                 <a id="enq_download"></a>
@@ -306,92 +320,118 @@
         <!-- Enquiry DataTable -->
         <div class="row">
           <div class="c-lg-12 c-md-12 c-sm-12">
-            <div class="table table-responsive enquiry-table">
-              <table class="align-center">
-                <thead>
-                  <tr>
+            <div class="table-scroll-wrapper">
+              <div class="table table-responsive enquiry-table">
 
-                    <th>
-                      <div class="field-checkbox-wrapper">
+                <!-- <enquiry-table header]="headerArr" [isAllSelected]="isAllSelected" [rows]="sourceEnquiry" (selectAllRows)="toggleSelectAll($event)"
+                 (sort)="sortTableById($event)" (userSelectRow)="rowClicked($event)" (multipleSelectRow)="rowCheckBoxClick($event)">
+                </enquiry-table> -->
 
-                        <input type="checkbox" value="" [(ngModel)]="isAllSelected" (ngModelChange)="toggleSelectAll($event)" name="check" class="form-checkbox">
+                <table class="align-center">
 
-                        <label>asdf</label>
-                      </div>
-                    </th>
+                  <thead>
+                    <tr>
 
-                    <th *ngFor="let header of headerArr" [hidden]="!header.show">
-                      <label>
-                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.id)">{{header.title}}</a>
-                      </label>
-                    </th>
+                      <th>
+                        <div class="field-checkbox-wrapper">
 
-                  </tr>
-                </thead>
+                          <input id="headerCheckbox" type="checkbox" value="" [(ngModel)]="isAllSelected" (ngModelChange)="toggleSelectAll($event)"
+                            name="check" class="form-checkbox">
 
-                <tbody>
-
-                  <tr id="" class="" *ngFor="let row of sourceEnquiry; let i of index;" (click)="rowClicked(row)">
-
-                    <td>
-                      <div class="field-checkbox-wrapper">
-                        <input type="checkbox" [(ngModel)]="row.isSelected" (ngModelChange)="rowCheckBoxClick(row)" value="" name="check" class="form-checkbox">
-                        <label>sdf</label>
-                      </div>
-                    </td>
-
-                    <td *ngFor="let header of headerArr" [hidden]="!header.show">
-
-                      <ng-template [ngIf]="header.id != 'followUpDate' && header.id != 'enquiry_no' && header.id != 'actions' && header.id != 'enquiry_date' && header.id != 'updateDate'">
-                        {{row.data[header.id]}}
-                      </ng-template>
-
-
-                      <ng-template [ngIf]="header.id=='enquiry_no'">
-                        <div class="tooltip-table pos-rel">
-                          <a href="javascript:void(0)" class="cursor-icon" (click)="openUpdatePopUpCustom(row)">
-                            {{row.data[header.id]}}
-                          </a>
-                          <div class="tooltip-box-right">
-                            <comment-tooltip [rowData]="row.data">
-                            </comment-tooltip>
-                          </div>
+                          <label>asdf</label>
                         </div>
-                      </ng-template>
+                      </th>
+
+                      <th *ngFor="let header of headerArr" [hidden]="!header.show">
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.id)">{{header.title}}</a>
+                        </label>
+                      </th>
+
+                    </tr>
+                  </thead>
 
 
-                      <ng-template [ngIf]="header.id=='followUpDate'">
-                        <a href="javascript:void(0)" [ngStyle]="{'color':getFollowUpColor(row.data[header.id])}">
-                          {{row.data[header.id]| date:'dd-MM-yyyy'}}
-                        </a>
-                      </ng-template>
+                  <tbody class="" *ngIf="sourceEnquiry.length != 0">
 
-                      <ng-template [ngIf]="header.id=='enquiry_date'">
-                        {{row.data[header.id]| date:'dd-MM-yyyy'}}
-                      </ng-template>
+                    <tr id="row{{i}}" *ngFor="let row of sourceEnquiry; let i = index; trackBy: i" (click)="rowClicked(row)">
 
-                      <ng-template [ngIf]="header.id=='updateDate'">
-                        {{row.data[header.id]| date:'dd-MM-yyyy hh:mm a'}}
-                      </ng-template>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" [(ngModel)]="row.isSelected" (ngModelChange)="rowCheckBoxClick($event, i, row.data.enquiry_no)" id="check{{i}}"
+                            value="" name="enquirycheck" class="form-checkbox">
+                          <label>sdf</label>
+                        </div>
+                      </td>
 
-                      <ng-template [ngIf]="header.id=='actions'">
-                        <enquiry-actions [rowData]="row.data">
-                        </enquiry-actions>
-                      </ng-template>
+                      <td *ngFor="let header of headerArr" [hidden]="!header.show">
 
-                    </td>
+                        <ng-template [ngIf]="header.id != 'followUpDate' && header.id != 'enquiry_no' && header.id != 'actions' && header.id != 'enquiry_date' && header.id != 'updateDate'">
+                          {{row.data[header.id]}}
+                        </ng-template>
 
-                  </tr>
 
-                </tbody>
-              </table>
+                        <ng-template [ngIf]="header.id=='enquiry_no'">
+                          <div class="tooltip-table pos-rel">
+                            <a href="javascript:void(0)" class="cursor-icon" (click)="openUpdatePopUpCustom(row)">
+                              {{row.data[header.id]}}
+                            </a>
+                            <div class="tooltip-box-right">
+                              <comment-tooltip [rowData]="row.data">
+                              </comment-tooltip>
+                            </div>
+                          </div>
+                        </ng-template>
+
+
+                        <ng-template [ngIf]="header.id=='followUpDate'">
+                          <a href="javascript:void(0)" [ngStyle]="{'color':getFollowUpColor(row.data[header.id])}">
+                            {{row.data[header.id]| date:'dd-MMM-yy'}}
+                          </a>
+                        </ng-template>
+
+                        <ng-template [ngIf]="header.id=='enquiry_date'">
+                          {{row.data[header.id]| date:'dd-MMM-yy'}}
+                        </ng-template>
+
+                        <ng-template [ngIf]="header.id=='updateDate'">
+                          {{row.data[header.id]| date:'dd-MMM-yyyy hh:mm a'}}
+                        </ng-template>
+
+                        <ng-template [ngIf]="header.id=='actions'">
+                          <enquiry-actions [rowData]="row.data">
+                          </enquiry-actions>
+                        </ng-template>
+
+                      </td>
+
+                    </tr>
+
+                  </tbody>
+
+                  <tbody *ngIf="sourceEnquiry.length == 0">
+                    <tr class="empty-table-wrapper">
+                      <td colspan="12">
+                        <ul>
+                          <li>
+                            <img *ngIf="fetchingDataMessage == 'Loading'" style="height:50px" src="./assets/images/table_data.svg">
+                          </li>
+                          <li style="font-weight: 700">{{fetchingDataMessage}}</li>
+                        </ul>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                </table>
+
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Paginator Here -->
         <div class="row filter-res pagination" style="width: 100%;">
-          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <!-- <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <ul class="pagination">
               <li>
                 <a (click)="fetchPrevious()"> Previous</a>
@@ -403,7 +443,13 @@
                 <a (click)="fetchNext()"> Next</a>
               </li>
             </ul>
+          </div> -->
+          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+            <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+              [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalEnquiry">
+            </pagination>
           </div>
+
         </div>
 
       </section>
@@ -411,13 +457,14 @@
 
 
     </section>
+
   </aside>
 
 
 
 
   <!-- Update PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'update'">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'update'" (click)="inputClicked($event)">
     <div class="popup pos-abs" style="max-width: 80%;">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -464,7 +511,7 @@
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value datePickerBox">
-                    <input type="text" class="form-ctrl" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit"
+                    <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit"
                       bsDatepicker />
                     <label for="followUPdateEdit">Follow Up Date</label>
                   </div>
@@ -541,7 +588,7 @@
 
 
   <!-- Delete PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'delete'">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'delete'" (click)="inputClicked($event)">
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -581,7 +628,7 @@
 
 
   <!-- Convert PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'convert'">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'convert'" (click)="inputClicked($event)">
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -641,8 +688,8 @@
 
 
 
-  <!-- Payment PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'payment'">
+  <!--Registration Payment PopUp -->
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'payment'" (click)="inputClicked($event)">
     <div class="popup pos-abs">
       <div class="popup-wrapper pos-rel">
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -665,7 +712,7 @@
               <!-- student has invoice and registered with status 11 -->
               <div class="enquiry-update-history" *ngIf="hasReceipt">
                 <h4>
-                  A payment towards the enquiry has been updated with reference number ##, you may download the receipt for your reference
+                  A payment towards the selected enquiry has been updated, you may download the receipt for your reference
                 </h4>
               </div>
 
@@ -677,7 +724,8 @@
                   <div class="row extraMargin">
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper has-value">
-                        <input type="text" value="" id="pDate" class="form-ctrl" [ngModel]="registrationForm.paymentDate" name="pDate" bsDatepicker/>
+                        <input type="text" value="" id="pDate" class="form-ctrl bsDatepicker" [ngModel]="registrationForm.paymentDate" name="pDate"
+                          bsDatepicker/>
                         <label for="pDate">Payment Date</label>
                       </div>
                     </div>
@@ -752,7 +800,7 @@
                             </g>
                           </svg>
                           <span>Print Fee Receipt</span>
-                        </li> -->
+                    </li> -->
 
                     <li class="svg-icon" (click)="downloadReceiptPdf()">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="14362 435 26 22">
@@ -820,7 +868,7 @@
 
 
   <!-- SMS PopUp Single-->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'sms'">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'sms'" (click)="inputClicked($event)">
     <!-- -->
     <div class="popup pos-abs popup-body-container">
       <div class="popup-wrapper pos-rel">
@@ -966,7 +1014,7 @@
 
 
   <!-- SMS PopUp MultiRow Selected-->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="isMultiSms">
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="isMultiSms" (click)="inputClicked($event)">
 
     <!--  -->
     <div class="popup pos-abs popup-body-container">
@@ -1109,5 +1157,53 @@
     </div>
 
   </section>
+
+
+
+
+  <!-- Bulk Assign PopUp -->
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="isAssignEnquiry" (click)="inputClicked($event)">
+    <div class="popup pos-abs">
+      <div class="popup-wrapper pos-rel">
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="bulkAssignEnquiriesClose()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
+            </g>
+          </svg>
+        </span>
+        <div class="popup-content">
+          <h2>Assign {{selectedRowGroup.length}} Enquiries </h2>
+          <div class="update-enquiry-form overflowHidden">
+            <div class="enquiry-update-history">
+              <div class="field-wrapper" style="max-width: 70%">
+                <select id="assignTo" class="form-ctrl" [(ngModel)]="assignMultipleForm.assigned_to" name="assignTo">
+                  <option></option>
+                  <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
+                    {{ assigned.name }}
+                  </option>
+                </select>
+                <label for="assignTo">Assign To</label>
+              </div>
+            </div>
+            <div class="">
+              <div class="clearfix">
+                <aside class="pull-right popup-btn">
+                  <input type="button" value="Cancel" class="btn" (click)="bulkAssignEnquiriesClose()">
+                  <input type="button" value="Assign Enquiries" class="redBtn btn" (click)="bulkAssignEnquiries()">
+                </aside>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
 </div>

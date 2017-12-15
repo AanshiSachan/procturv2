@@ -373,7 +373,7 @@ export class FetchprefilldataService {
 
   /* return the list of custom component for the selected institute ID */
   fetchCustomComponent(): any{
-    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=undefined&page=1";
+    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=undefined&page=2";
     return this.http.get(this.urlCustomComponent, {headers: this.headers})
     .map(
       data => {

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 
@@ -26,6 +26,7 @@ import { PopupHandlerService } from '../../../services/enquiry-services/popup-ha
   </div>
 
     `,
+    /* changeDetection: ChangeDetectionStrategy.OnPush */  
 })
 
 

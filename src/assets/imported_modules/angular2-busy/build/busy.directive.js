@@ -11,14 +11,17 @@ var promise_tracker_service_1 = require("./promise-tracker.service");
 var busy_service_1 = require("./busy.service");
 var busy_component_1 = require("./busy.component");
 var busy_backdrop_component_1 = require("./busy-backdrop.component");
-/**
- * ### Syntax
- *
- * - `<div [ngBusy]="busy">...</div>`
- * - `<div [ngBusy]="[busyA, busyB, busyC]">...</div>`
- * - `<div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 600}">...</div>`
+
+/*
+    *
+    * ### Syntax
+    *
+    * - `<div [ngBusy]="busy">...</div>`
+    * - `<div [ngBusy]="[busyA, busyB, busyC]">...</div>`
+     * - `<div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 600}">...</div>`
  */
-var BusyDirective = (function () {
+
+ var BusyDirective = (function () {
     function BusyDirective(service, tracker, cfResolver, vcRef, injector) {
         this.service = service;
         this.tracker = tracker;

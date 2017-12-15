@@ -43,7 +43,7 @@
 .progress-materializecss {
   margin:0px;
   position: relative;
-  height: 4px;
+  height: 2px;
   display: block;
   width: 100%;
   background-color: #e2ecfe;
@@ -51,7 +51,7 @@
   overflow: hidden;
 }
 .progress-materializecss .indeterminate {
-  background-color: #387ef5;
+  background-color: #547bb9;
 }
 .progress-materializecss .indeterminate:before {
   content: '';

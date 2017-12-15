@@ -97,11 +97,13 @@ export class EnquiryEditComponent implements OnInit {
   errorMessage: any;
   submitError: boolean = false;
   addNextCheck: boolean = false;
+  isEnquiryAdmin:boolean = false;
   updateFormComments: any[] = [];
   updateFormCommentsBy: any[] = [];
   updateFormCommentsOn: any[] = [];
   commentUpdater: any[] = [];
-
+  busy: Subscription;
+  private customComponents: any[] = [];
 
   /* Model for Enquiry Update Popup Form */
   updateFormData: updateEnquiryForm = {
@@ -163,7 +165,8 @@ export class EnquiryEditComponent implements OnInit {
 
   /* OnInit Initialized */
   ngOnInit() {
-    this.FetchEnquiryPrefilledData();
+    this.isEnquiryAdministrator;
+    this.busy = this.FetchEnquiryPrefilledData();
   }
 
 
@@ -338,29 +341,118 @@ export class EnquiryEditComponent implements OnInit {
 
 
 
-    this.prefill.fetchCustomComponent()
+    return this.prefill.fetchCustomComponent()
       .subscribe(
       data => {
-        //console.log(data);
         data.forEach(el => {
-          let temp = {
-            component_id: el.component_id,
-            enq_custom_id: "0",
-            enq_custom_value: ""
+
+          let obj = {
+            data: el,
+            id: el.component_id,
+            is_required: el.is_required,
+            is_searchable: el.is_searchable,
+            label: el.label,
+            prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+            selected: [],
+            selectedString: '',
+            type: el.type,
+            value: el.enq_custom_value
           }
-          let index = el.component_id.toString();
-          //console.log(index)
-          this.componentListObject[index] = temp;
-          let dataArr = el.prefilled_data.split(',');
-          el.prefilled_data = dataArr
-          this.componentPrefill.push(el);
+          this.customComponents.push(obj);
+
         });
         this.emptyCustomComponent = this.componentListObject;
       },
       err => {
-        // console.log("error");
       });
   }
+
+
+
+
+  /* Custom Compoenent array creater */
+  createPrefilledData(dataArr: any[]): any[] {
+    let customPrefilled: any[] = [];
+    dataArr.forEach(el => {
+      let obj = {
+        data: el,
+        checked: false
+      }
+      customPrefilled.push(obj);
+    });
+
+    return customPrefilled;
+  }
+
+
+
+
+  /* if custom component is of type multielect then toggle the visibility of the dropdowm */
+  multiselectVisible(elid) {
+    let targetid = elid + "multi";
+    if (document.getElementById(targetid).classList.contains('hide')) {
+      document.getElementById(targetid).classList.remove('hide');
+    }
+    else {
+      document.getElementById(targetid).classList.add('hide');
+    }
+  }
+
+
+
+
+
+
+  /* if custom component is of type multielect then update the selected or unselected data*/
+  updateMultiSelect(data, id) {
+    this.customComponents.forEach(el => {
+      if (el.id == id) {
+        el.prefilled_data.forEach(com => {
+          //console.log(com);
+          if (com.data == data.data) {
+            /* Component checked */
+            if (com.checked) {
+              el.selected.push(com.data);
+              if (el.selected.length != 0) {
+                document.getElementById(id + 'wrapper').classList.add('has-value');
+              }
+              else {
+                document.getElementById(id + 'wrapper').classList.remove('has-value');
+              }
+              //console.log(com.selected);
+              el.selectedString = el.selected.join(',');
+              el.value = el.selectedString;
+            }
+            /* Component unchecked */
+            else {
+              if (el.selected.length != 0) {
+                document.getElementById(id + 'wrapper').classList.add('has-value');
+              }
+              else if (el.selected.length == 0) {
+                document.getElementById(id + 'wrapper').classList.remove('has-value');
+              }
+              //console.log(com.selected);
+              var index = el.selected.indexOf(data.data);
+              if (index > -1) {
+                el.selected.splice(index, 1);
+              }
+              el.selectedString = el.selected.join(',');
+              el.value = el.selectedString;
+              /* var index2 = el.selected.indexOf(data.data);
+                if (index2 > -1) {
+                el.selected.splice(index, 1);
+                }
+                el.selectedString = el.selected.join(','); 
+              */
+            }
+          }
+        });
+      }
+    });
+
+  }
+
+
 
 
 
@@ -376,14 +468,16 @@ export class EnquiryEditComponent implements OnInit {
 
   /* Function to fetch subject when user selects a standard from dropdown */
   fetchSubject(value) {
-    //console.log(value);
-    this.editEnqData.standard_id = value;
-    this.prefill.getEnqSubjects(this.editEnqData.standard_id).subscribe(
-      data => { this.enqSub = data; },
-      err => {
-        // console.log(err); 
-      }
-    )
+
+    if (value != null || value != '') {
+      this.editEnqData.standard_id = value;
+      this.prefill.getEnqSubjects(this.editEnqData.standard_id).subscribe(
+        data => { this.enqSub = data; }
+      )
+    }
+    else {
+      this.enqSub = [];
+    }
   }
 
 
@@ -393,71 +487,16 @@ export class EnquiryEditComponent implements OnInit {
   submitForm() {
 
     //Validates if the custom component required fields are selected or not
-    this.componentPrefill.forEach(el => {
-      /* Required Field not set */
-      if (el.is_required == "Y" && this.componentListObject[el.component_id].enq_custom_value == "") {
-        this.isCustomComponentValid = false;
-        let data = {
-          type: "error",
-          title: "Form data incomplete/incorrect",
-          body: "Please select the required fields in academic details sections"
-        }
-        this.appC.popToast(data);
-      }
-      /* Required field set push data */
-      else if (el.is_required == "Y" && this.componentListObject[el.component_id].enq_custom_value != "") {
-
-        if (typeof this.componentListObject[el.component_id].enq_custom_value == "boolean") {
-          if (this.componentListObject[el.component_id].enq_custom_value) {
-            this.componentListObject[el.component_id].enq_custom_value = "Y";
-            this.editEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-            this.isCustomComponentValid = true;
-          }
-          else {
-            this.componentListObject[el.component_id].enq_custom_value = "N";
-            this.editEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-            this.isCustomComponentValid = true;
-          }
-        }
-        else {
-          // console.log(this.componentListObject);
-          //console.log(el.component_id);
-          // console.log(this.editEnqData.enqCustomLi);
-          this.editEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-          this.isCustomComponentValid = true;
-        }
-      }
-      /* Not required field */
-      else if (el.is_required == "N") {
-        if (typeof this.componentListObject[el.component_id].enq_custom_value == "boolean") {
-          if (this.componentListObject[el.component_id].enq_custom_value) {
-            this.componentListObject[el.component_id].enq_custom_value = "Y";
-            this.editEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-            this.isCustomComponentValid = true;
-          }
-          else {
-            this.componentListObject[el.component_id].enq_custom_value = "N";
-            this.editEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-            this.isCustomComponentValid = true;
-          }
-        }
-        else {
-          this.editEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-          this.isCustomComponentValid = true;
-        }
-      }
-    });
+    let customComponentValidator = this.validateCustomComponent();
 
     /* Validate the predefine required fields of the form */
     this.isFormValid = this.ValidateFormDataBeforeSubmit();
-
     /* Upload Data if the formData is valid */
-    if (this.isFormValid && this.isCustomComponentValid) {
-      let id = localStorage.getItem('institute_enquiry_id');
+    if (this.isFormValid && customComponentValidator) {
 
+      let id = localStorage.getItem('institute_enquiry_id');
       this.editEnqData.enquiry_date = moment(this.editEnqData.enquiry_date).format('YYYY-MM-DD');
       this.editEnqData.followUpDate = moment(this.editEnqData.followUpDate).format('YYYY-MM-DD');
-
       this.poster.editFormUpdater(id, this.editEnqData).subscribe(
         data => {
           if (data.statusCode == 200) {
@@ -490,10 +529,32 @@ export class EnquiryEditComponent implements OnInit {
     }
     /* Do Nothing if the formData is Still Invalid  */
     else {
-      this.editEnqData.enqCustomLi = [];
+      let msg = {
+        type: 'error',
+        title: 'Academic Details Imcomplete',
+        body: 'Please fill all the required fields'
+      }
+      this.appC.popToast(msg);
     }
   }
 
+
+
+
+  validateCustomComponent(): boolean {
+
+    let temp: boolean = true;
+
+    this.customComponents.forEach(el => {
+      //console.log(el);
+      if (el.is_required == 'Y' && el.value == '') {
+        if (temp) {
+          temp = false;
+        }
+      }
+    });
+    return temp;
+  }
 
 
   /* Validate the Entire FormData Once Before Uploading= */
@@ -557,6 +618,9 @@ export class EnquiryEditComponent implements OnInit {
       lead_id: -1,
       enqCustomLi: []
     }
+    this.customComponents.forEach(el => {
+      el.value = '';
+    });
   }
 
 
@@ -569,27 +633,28 @@ export class EnquiryEditComponent implements OnInit {
 
 
   /* Customiized click detection strategy */
-  inputClicked() {
-    var nodelist = document.querySelectorAll('.form-ctrl');
-    [].forEach.call(nodelist, (elm) => {
-      elm.addEventListener('blur', function (event) {
-        if (event.target.value != '') {
-          event.target.parentNode.classList.add('has-value');
-        } else {
-          event.target.parentNode.classList.remove('has-value');
-        }
-      });
-    });
+  inputClicked(ev) {
+    if (ev.target.classList.contains('form-ctrl')) {
+      if (ev.target.classList.contains('bsDatepicker')) {
+        var nodelist = document.querySelectorAll('.bsDatepicker');
+        [].forEach.call(nodelist, (elm) => {
+          elm.addEventListener('focusout', function (event) {
+            event.target.parentNode.classList.add('has-value');
+          });
 
-    /* var dropdowns = document.getElementsByClassName("bulk-dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
+        });
       }
-    } */
-
+      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
+        //document.getElementById(ev.target.id).click();
+        ev.target.addEventListener('blur', function (event) {
+          if (event.target.value != '') {
+            event.target.parentNode.classList.add('has-value');
+          } else {
+            event.target.parentNode.classList.remove('has-value');
+          }
+        });
+      }
+    }
   }
 
 
@@ -661,6 +726,25 @@ export class EnquiryEditComponent implements OnInit {
         this.appC.popToast(alert);
       })
 
+  }
+
+
+  isEnquiryAdministrator(){
+    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+      this.isEnquiryAdmin = true;
+    }
+    else {
+      let permissions: any[] = [];
+      permissions = JSON.parse(sessionStorage.getItem('permissions'));
+      /* User has permission to view all enquiries */
+      if (permissions.includes('115')) {
+        this.isEnquiryAdmin = true;
+      }
+      /* User is not authorized as enquiry admin and see only enquiry assigned to him */
+      else {
+        this.isEnquiryAdmin = false;
+      }
+    }
   }
 
 }

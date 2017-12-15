@@ -24,13 +24,19 @@ export class LoginService {
   private instituteNameSource = new BehaviorSubject<string>('');
   private userNameSource = new BehaviorSubject<string>('');
   private overlayMenu = new BehaviorSubject<boolean>(false);
+  private sideNavSource = new BehaviorSubject<string>('');
 
   currentInstitute = this.instituteNameSource.asObservable();
+  currentSidenav = this.sideNavSource.asObservable();
   currentUsername = this.userNameSource.asObservable();
   currentMenuState = this.overlayMenu.asObservable();
 
   changeInstituteStatus(institute: string){
     this.instituteNameSource.next(institute);
+  }
+
+  changeSidenavStatus(sidenav: string){
+    this.sideNavSource.next(sidenav);
   }
   
   changeNameStatus(name: string){
@@ -42,7 +48,6 @@ export class LoginService {
   }
 
   constructor(private http: Http) {
-
     this.urlLogin = this.baseUrl +"/api/v1/alternateLogin";
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
@@ -50,7 +55,6 @@ export class LoginService {
 
 
   postLoginDetails(data): any {
-    console.log(data);
     return this.http.post(this.urlLogin, data, { headers: this.headers }).map(res => {
       return res.json();
     });
@@ -82,7 +86,6 @@ export class LoginService {
     // remove user from local storage to log user out
     sessionStorage.clear();
     localStorage.clear();
-
     return true;
   }
 

@@ -97,7 +97,7 @@ export class LoginPageComponent {
         alternate_email_id: "",
         password: ""
       }
-      this.route.navigateByUrl('enquiry');
+      this.createRoleBasedSidenav();
     }
     /* If Null then continue login else move to enq */
     else {
@@ -145,17 +145,18 @@ export class LoginPageComponent {
         body: "Please enter valid Email ID/Mobile number and Password"
       }
       this.toastCtrl.popToast(data);
-    } else if (this.loginDataForm.password == "") {
+    } 
+    else if (this.loginDataForm.password == "") {
       let data = {
         type: "warning",
         title: "Invalid Password",
         body: "Please enter Password"
       }
       this.toastCtrl.popToast(data);
-    } else {
-
+    } 
+    else {
       this.login.postLoginDetails(this.loginDataForm).subscribe(el => {
-        console.log(el);
+        //console.log(el);
         this.checkForAuthOptions(el);
       });
     }
@@ -220,6 +221,7 @@ export class LoginPageComponent {
     sessionStorage.setItem('Authorization', Authorization);
     sessionStorage.setItem('institute_id', institute_data.institution_id);
     sessionStorage.setItem('username', institute_data.username);
+    sessionStorage.setItem('userid', institute_data.userid);
     sessionStorage.setItem('institute_name', institute_data.institute_name);
     sessionStorage.setItem('message', institute_data.message);
     sessionStorage.setItem('name', institute_data.name);
@@ -230,8 +232,14 @@ export class LoginPageComponent {
     sessionStorage.setItem('inst_announcement', institute_data.inst_announcement);
     sessionStorage.setItem('alternate_email_id', institute_data.alternate_email_id);
     sessionStorage.setItem('logo_url', institute_data.logo_url);
-    this.route.navigate(['/enquiry']);
-    //
+    sessionStorage.setItem('permitted_roles', JSON.stringify(res.data.featureDivMapping));
+    if(res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null ){
+      sessionStorage.setItem('permissions', '');
+    }
+    else{
+      sessionStorage.setItem('permissions', JSON.stringify(res.data.permissions.split(',')));
+    }
+    this.createRoleBasedSidenav();
   }
   //End - 3
 
@@ -514,6 +522,14 @@ export class LoginPageComponent {
     [].forEach.call(sidebar, function (el) {
       el.classList.remove('hide');
     });
+  }
+
+
+
+
+  createRoleBasedSidenav(){
+    this.login.changeSidenavStatus('authorized');
+    this.route.navigateByUrl('enquiry');
   }
 
 }

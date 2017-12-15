@@ -31,6 +31,9 @@ export class PostEnquiryDataService {
     this.headers.append("Authorization", this.Authorization);
   }
 
+
+
+
   updateEnquiryForm(id, data) {
 
     data.followUpDate = moment(data.followUpDate).format('YYYY-MM-DD');
@@ -44,6 +47,8 @@ export class PostEnquiryDataService {
   }
 
 
+
+
   deleteEnquiryById(id) {
     this.urlDeleteById = this.baseUrl + "/api/v1/enquiry/delete/" + this.institute_id + "/" + id;
     this.headers.append("X-Requested-With", "XMLHttpRequest");
@@ -52,12 +57,18 @@ export class PostEnquiryDataService {
     });
   }
 
+
+
+
   updateRegisterationPayment(data) {
     this.urlRegisterPayment = this.baseUrl + "/api/v2/enquiry_manager/payRegistrationFees";
     return this.http.post(this.urlRegisterPayment, data, { headers: this.headers }).map(data => {
       return data.json();
     });
   }
+
+
+
 
 
   editFormUpdater(id, data) {
@@ -70,12 +81,16 @@ export class PostEnquiryDataService {
   }
 
 
+
+
   postNewEnquiry(data) {
     this.urlPostEnquiry = this.baseUrl + "/api/v1/enquiry/" + this.institute_id;
     return this.http.post(this.urlPostEnquiry, data, { headers: this.headers }).map(
       data => { return data.json(); }
     )
   }
+
+
 
 
 
@@ -110,6 +125,8 @@ export class PostEnquiryDataService {
   }
 
 
+
+
   addNewSmsTemplate(msg) {
     this.urlUploadSmsTemplate = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id;
 
@@ -120,6 +137,9 @@ export class PostEnquiryDataService {
       err => { }
     );
   }
+
+
+
 
 
   saveEditedSms(id, data) {
@@ -134,6 +154,7 @@ export class PostEnquiryDataService {
 
 
 
+
   sendSmsToEnquirer(data) {
 
     let urlSendSmsToEnquirer = this.baseUrl + "/api/v1/enquiry_manager/sendSMS/" + this.institute_id;
@@ -142,6 +163,8 @@ export class PostEnquiryDataService {
       res => { return res.json() }
     )
   }
+
+
 
 
   deleteEnquiryBulk(data) {
@@ -162,6 +185,8 @@ export class PostEnquiryDataService {
   }
 
 
+
+
   updateInstituteDetails(id, req) {
 
     let urlInstituteUpdater = this.baseUrl + "/api/v1/schools/" + id;
@@ -179,6 +204,8 @@ export class PostEnquiryDataService {
   }
 
 
+
+
   deleteInstitute(id) {
 
     let urlInstituteDeleter = this.baseUrl + "/api/v1/schools/" + id;
@@ -187,6 +214,8 @@ export class PostEnquiryDataService {
       res => { return res.json(); }
     )
   }
+
+
 
 
   updateSourceDetails(data) {
@@ -200,6 +229,8 @@ export class PostEnquiryDataService {
     )
 
   }
+
+
 
 
   deleteSource(data) {
@@ -222,6 +253,7 @@ export class PostEnquiryDataService {
 
 
 
+
   updateReferDetails(data) {
 
     let urlUpdateRefer = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_referred_by";
@@ -234,6 +266,9 @@ export class PostEnquiryDataService {
 
   }
 
+
+
+  
 
   deleteRefer(data) {
     let urlDelete = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_referred_by";
@@ -253,6 +288,9 @@ export class PostEnquiryDataService {
   }
 
 
+
+
+
   addNewCustomComponent(req) {
 
     let urlCreateCustomComponent = this.baseUrl + "/api/v1/instCustomComp/create";
@@ -264,6 +302,9 @@ export class PostEnquiryDataService {
   }
 
 
+
+
+
   deleteCustomComponent(id) {
 
     let urlDeleteCustomComponent = this.baseUrl + "/api/v1/instCustomComp/delete/" + this.institute_id + "/" + id;
@@ -272,6 +313,8 @@ export class PostEnquiryDataService {
       res => { return res.json() }
     );
   }
+
+
 
 
   updateCustomComponent(req) {
@@ -301,6 +344,22 @@ export class PostEnquiryDataService {
   }
 
 
+
+
+  setEnquiryAssignee(form){
+
+    let urlSetAssignee = this.baseUrl +"/api/v1/enquiry_manager/assign/" +this.institute_id;
+
+    return this.http.post(urlSetAssignee, form, {headers: this.headers}).map(
+      res => {
+        return res.json();
+      },
+      err => {
+        return err.json();
+      }
+
+    )
+  }
 
 
 }

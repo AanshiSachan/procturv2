@@ -463,17 +463,28 @@ export class StudentEditComponent implements OnInit {
 
 
   /* Customiized click detection strategy */
-  inputClicked() {
-    var nodelist = document.querySelectorAll('.form-ctrl');
-    [].forEach.call(nodelist, (elm) => {
-      elm.addEventListener('blur', function (event) {
-        if (event.target.value != '') {
-          event.target.parentNode.classList.add('has-value');
-        } else {
-          event.target.parentNode.classList.remove('has-value');
-        }
-      });
-    });
+  inputClicked(ev) {
+    if (ev.target.classList.contains('form-ctrl')) {
+      if (ev.target.classList.contains('bsDatepicker')) {
+        var nodelist = document.querySelectorAll('.bsDatepicker');
+        [].forEach.call(nodelist, (elm) => {
+          elm.addEventListener('focusout', function (event) {
+            event.target.parentNode.classList.add('has-value');
+          });
+  
+        });
+      }
+      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
+        //document.getElementById(ev.target.id).click();
+        ev.target.addEventListener('blur', function (event) {
+          if (event.target.value != '') {
+            event.target.parentNode.classList.add('has-value');
+          } else {
+            event.target.parentNode.classList.remove('has-value');
+          }
+        });
+      }
+    }
   }
 
 
@@ -615,11 +626,17 @@ export class StudentEditComponent implements OnInit {
 
 
   fetchCourseFromMaster(id) {
-    this.studentPrefillService.fetchCourseList(id).subscribe(
-      res => {
-        this.courseList = res;
-      }
-    )
+       
+    if(id == null || id == ''){
+      this.courseList = [];
+    }
+    else{
+      this.studentPrefillService.fetchCourseList(id).subscribe(
+        res => {
+          this.courseList = res;
+        }
+      )
+    }
 
   }
 
@@ -739,6 +756,51 @@ export class StudentEditComponent implements OnInit {
     }
     document.getElementById('preview-img').src = '';
     this.fetchPrefillFormData();
+  }
+
+
+
+  clearFormAndRoute(form: NgForm) {
+
+    let previousUrl: string = '';
+    this.studentEditFormData = {
+      student_name: "",
+      student_sex: "",
+      student_email: "",
+      student_phone: "",
+      student_curr_addr: "",
+      dob: "",
+      doj: moment().format('YYYY-MM-DD'),
+      school_name: "-1",
+      student_class: "",
+      parent_name: "",
+      parent_email: "",
+      parent_phone: "",
+      guardian_name: "",
+      guardian_email: "",
+      guardian_phone: "",
+      is_active: "Y",
+      institution_id: sessionStorage.getItem('institute_id'),
+      assignedBatches: [],
+      fee_type: 0,
+      fee_due_day: 0,
+      batchJoiningDates: [],
+      comments: "",
+      photo: null,
+      enquiry_id: "",
+      student_disp_id: "",
+      student_manual_username: null,
+      social_medium: -1,
+      attendance_device_id: "",
+      religion: "",
+      standard_id: "-1",
+      subject_id: "-1",
+      slot_id: null,
+      language_inst_status: null,
+      stuCustomLi: []
+    };
+    form.reset();
+    this.router.navigate(['/student']);
   }
 
 }

@@ -3,8 +3,6 @@ import { RouterModule } from '@angular/router';
 import { EnquiryComponent } from './enquiry.component'
 import { EnquiryAddComponent } from './enquiry-add/enquiry-add.component';
 import { EnquiryBulkaddComponent } from './enquiry-bulkadd/enquiry-bulkadd.component';
-import { EnquiryManageComponent } from './enquiry-manage/enquiry-manage.component';
-import { ActionButtonComponent } from './enquiry-manage/action-button.component';
 import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 
@@ -19,11 +17,6 @@ import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
                     {
                         path: '',
                         component: EnquiryHomeComponent
-                    },
-                    {
-                        path: 'manage',
-                        component: EnquiryManageComponent,
-                        pathMatch: 'prefix',
                     },
                     {
                         path: 'addEnquiry',

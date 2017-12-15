@@ -1,0 +1,21 @@
+<thead>
+    <tr>
+
+        <th>
+            <div class="field-checkbox-wrapper">
+
+                <input id="headerCheckbox" type="checkbox" value="" [(ngModel)]="isAllSelected" (ngModelChange)="toggleSelectAll($event)"
+                    name="check" class="form-checkbox">
+
+                <label>asdf</label>
+            </div>
+        </th>
+
+        <th *ngFor="let head of header" [hidden]="!header.show">
+            <label>
+                <a class="cursor-icon" style="color:white;" (click)="sort(head.id)">{{head.title}}</a>
+            </label>
+        </th>
+
+    </tr>
+</thead>

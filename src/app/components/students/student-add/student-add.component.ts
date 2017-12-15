@@ -6,13 +6,13 @@ import { StudentForm } from '../../../model/student-add-form';
 import { SelectItem } from 'primeng/primeng';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import * as moment from 'moment';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../../../services/login-services/login.service';
 import 'rxjs/Rx';
-
+import 'rxjs/add/operator/filter';  
 
 @Component({
   selector: 'app-student-add',
@@ -56,7 +56,7 @@ export class StudentAddComponent implements OnInit {
     slot_id: null,
     language_inst_status: null,
     stuCustomLi: []
-  }
+  };
 
   private quickAddStudent: boolean = false;
   private additionalBasicDetails: boolean = false;
@@ -83,6 +83,7 @@ export class StudentAddComponent implements OnInit {
   private assignedBatchString: string = '';
   private userImageEncoded: string = '';
   busyPrefill: Subscription;
+  private isConvertEnquiry:boolean = false;
 
 
 
@@ -103,12 +104,12 @@ export class StudentAddComponent implements OnInit {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.busyPrefill = this.fetchPrefillFormData();
-    if(localStorage.getItem('studentPrefill') != null){
+    if (localStorage.getItem('studentPrefill') != null) {
       this.busyPrefill = this.getSlots();
       this.busyPrefill = this.getlangStudentStatus();
       this.convertToStudentDetected();
     }
-    else if (this.isProfessional){
+    else if (this.isProfessional) {
       this.busyPrefill = this.getSlots();
       this.busyPrefill = this.getlangStudentStatus();
     }
@@ -273,7 +274,7 @@ export class StudentAddComponent implements OnInit {
       //console.log(this.customComponents);
       return customComp;
     }
-    
+
   }
 
 
@@ -493,17 +494,28 @@ export class StudentAddComponent implements OnInit {
 
 
   /* Customiized click detection strategy */
-  inputClicked() {
-    var nodelist = document.querySelectorAll('.form-ctrl');
-    [].forEach.call(nodelist, (elm) => {
-      elm.addEventListener('blur', function (event) {
-        if (event.target.value != '') {
-          event.target.parentNode.classList.add('has-value');
-        } else {
-          event.target.parentNode.classList.remove('has-value');
-        }
-      });
-    });
+  inputClicked(ev) {
+    if (ev.target.classList.contains('form-ctrl')) {
+      if (ev.target.classList.contains('bsDatepicker')) {
+        var nodelist = document.querySelectorAll('.bsDatepicker');
+        [].forEach.call(nodelist, (elm) => {
+          elm.addEventListener('focusout', function (event) {
+            event.target.parentNode.classList.add('has-value');
+          });
+  
+        });
+      }
+      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
+        //document.getElementById(ev.target.id).click();
+        ev.target.addEventListener('blur', function (event) {
+          if (event.target.value != '') {
+            event.target.parentNode.classList.add('has-value');
+          } else {
+            event.target.parentNode.classList.remove('has-value');
+          }
+        });
+      }
+    }
   }
 
 
@@ -650,11 +662,17 @@ export class StudentAddComponent implements OnInit {
 
 
   fetchCourseFromMaster(id) {
-    this.studentPrefillService.fetchCourseList(id).subscribe(
-      res => {
-        this.courseList = res;
-      }
-    )
+   
+    if(id == null || id == ''){
+      this.courseList = [];
+    }
+    else{
+      this.studentPrefillService.fetchCourseList(id).subscribe(
+        res => {
+          this.courseList = res;
+        }
+      )
+    }
 
   }
 
@@ -680,7 +698,7 @@ export class StudentAddComponent implements OnInit {
 
 
 
-  removeImage(){
+  removeImage() {
     document.querySelector('input[type=file]').value = '';
     let preview = document.getElementById('preview-img');
     preview.src = "";
@@ -783,8 +801,9 @@ export class StudentAddComponent implements OnInit {
 
 
 
-  convertToStudentDetected(){
-    let tempData = JSON.parse(localStorage.getItem('studentPrefill'));    
+  convertToStudentDetected() {
+    this.isConvertEnquiry = true;
+    let tempData = JSON.parse(localStorage.getItem('studentPrefill'));
     this.studentAddFormData.student_name = tempData.name;
     this.studentAddFormData.student_phone = tempData.phone;
     this.studentAddFormData.student_email = tempData.email;
@@ -793,7 +812,8 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.parent_phone = tempData.parent_name;
     this.studentAddFormData.parent_email = tempData.parent_phone;
     this.studentAddFormData.enquiry_id = tempData.enquiry_id;
-    console.log(tempData);
+
+    //console.log(tempData);
     document.getElementById('sName').parentNode.classList.add('has-value');
     document.getElementById('cNumber').parentNode.classList.add('has-value');
     document.getElementById('sEmail').parentNode.classList.add('has-value');
@@ -804,6 +824,57 @@ export class StudentAddComponent implements OnInit {
     localStorage.removeItem('studentPrefill');
   }
 
+
+
+
+  clearFormAndRoute(form: NgForm) {
+
+    let previousUrl: string = '';
+    this.studentAddFormData = {
+      student_name: "",
+      student_sex: "",
+      student_email: "",
+      student_phone: "",
+      student_curr_addr: "",
+      dob: "",
+      doj: moment().format('YYYY-MM-DD'),
+      school_name: "-1",
+      student_class: "",
+      parent_name: "",
+      parent_email: "",
+      parent_phone: "",
+      guardian_name: "",
+      guardian_email: "",
+      guardian_phone: "",
+      is_active: "Y",
+      institution_id: sessionStorage.getItem('institute_id'),
+      assignedBatches: [],
+      fee_type: 0,
+      fee_due_day: 0,
+      batchJoiningDates: [],
+      comments: "",
+      photo: null,
+      enquiry_id: "",
+      student_disp_id: "",
+      student_manual_username: null,
+      social_medium: -1,
+      attendance_device_id: "",
+      religion: "",
+      standard_id: "-1",
+      subject_id: "-1",
+      slot_id: null,
+      language_inst_status: null,
+      stuCustomLi: []
+    };
+    form.reset();
+
+    if(this.isConvertEnquiry){
+      this.router.navigate(['/enquiry']);
+    }
+    else{
+      this.router.navigate(['/student']);
+    }
+  }
 
 
 

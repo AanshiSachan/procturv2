@@ -49,19 +49,24 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.isRippleLoad = true;
-        console.log("NavigationStart");
+        if (sessionStorage.getItem('Authorization') != null) {
+          this.log.changeSidenavStatus('authorized');        
+        }
       }
       else if (event instanceof NavigationEnd) {
         this.isRippleLoad = false;
-        console.log("NavigationEnd");
       }
       else if (event instanceof NavigationCancel) {
         this.isRippleLoad = false;
-        console.log("NavigationCancel");
+        if (sessionStorage.getItem('Authorization') != null) {
+          this.log.changeSidenavStatus('authorized');
+        }
       }
       else if (event instanceof NavigationError) {
         this.isRippleLoad = false;
-        console.log("NavigationError");
+        if (sessionStorage.getItem('Authorization') != null) {
+          this.log.changeSidenavStatus('authorized');
+        }
       }
     });
 

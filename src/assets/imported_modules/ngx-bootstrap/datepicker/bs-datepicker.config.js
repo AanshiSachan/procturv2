@@ -11,10 +11,10 @@ var BsDatepickerConfig = (function () {
          * Allows to hide week numbers in datepicker
          */
         this.showWeekNumbers = false;
-        this.dateInputFormat = 'YYYY-MM-DD';
+        this.dateInputFormat = 'DD-MMM-YYYY';
         // range picker
         this.rangeSeparator = ' - ';
-        this.rangeInputFormat = 'YYYY-MM-DD';
+        this.rangeInputFormat = 'DD-MMM-YYYY';
         // DatepickerFormatOptions
         /**
          * Allows to globally set default locale of datepicker,

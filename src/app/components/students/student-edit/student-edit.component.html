@@ -1,4 +1,4 @@
-<section class="middle-section clearFix" (click)="inputClicked()" [ngBusy]="{busy: busyPrefill, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
+<section class="middle-section clearFix" (click)="inputClicked($event)" [ngBusy]="{busy: busyPrefill, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
 
 
   <section class="" id="studentFlow">
@@ -64,7 +64,7 @@
               <div class="questionInfo">
                 <span class="qInfoIcon">?</span>
                 <div class="tooltip-box-field">
-                  Show-Why and when to quick Add Student
+                  Show-Why and when to Quick Edit Student
                 </div>
               </div>
               <a style="cursor:pointer">Need help?</a>
@@ -186,14 +186,9 @@
                   <h2>Additional Details</h2>
 
                   <div class="field-wrapper has-value datePickerBox">
-                    <input type="text" value="" id="sdob" class="form-ctrl" name="sdob" [(ngModel)]="studentEditFormData.dob" #sdob="ngModel"
-                      bsDatepicker required>
-                    <label for="sdob">Date of Birth*</label>
-                    <div *ngIf="sdob.invalid && (sdob.dirty || sdob.touched)" class="alert invalid-alert">
-                      <div *ngIf="sdob.errors.required">
-                        Date of Birth is required.
-                      </div>
-                    </div>
+                    <input type="text" value="" id="sdob" class="form-ctrl bsDatepicker" name="sdob" [(ngModel)]="studentEditFormData.dob" #sdob="ngModel"
+                      bsDatepicker>
+                    <label for="sdob">Date of Birth</label>
                   </div>
 
                   <div class="field-wrapper has-value">
@@ -307,7 +302,7 @@
               <div class="box-shadow-lite">
 
                 <div class="field-wrapper has-value">
-                  <input type="text" value="" id="doj" class="form-ctrl" bsDatepicker name="doj" [(ngModel)]="studentEditFormData.doj" />
+                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" [(ngModel)]="studentEditFormData.doj" />
                   <label for="doj">Date of Joining</label>
                   <span class="follow-up-date-icon">
                     <img src="./assets/images/calendar.svg" alt="" />
@@ -428,17 +423,17 @@
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="quickadd" [ngModel]="quickAddStudent" (ngModelChange)="addStudentNow($event)" class="form-checkbox"
                 id="quickAddStudent">
-              <label for="quickAddStudent">Quick Add Student</label>
+              <label for="quickAddStudent">Quick Edit Student</label>
               <div class="questionInfo pos-rel">
                 <span class="qInfoIcon">?</span>
                 <div class="tooltip-box-field">
-                  Show-Why and when to quick Add Student
+                  Show-Why and when to Quick Edit Student
                 </div>
               </div>
             </div>
           </div>
           <aside class="pull-right">
-            <input type="button" value="Cancel" class="btn cancle">
+            <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
             <input type="button" id="form-continue" [disabled]="!values.form.valid" value="Save and Continue" class="btn redBtn" (click)="navigateTo('kyc')">
             <input type="button" id="form-submit" [disabled]="!values.form.valid" (click)="studentQuickAdder(values)" value="Submit"
               class="btn hide redBtn">
@@ -536,17 +531,17 @@
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="quickadd" [ngModel]="quickAddStudent" (ngModelChange)="addStudentNow($event)" class="form-checkbox"
                 id="quickAddStudent">
-              <label for="quickAddStudent">Quick Add Student</label>
+              <label for="quickAddStudent">Quick Edit Student</label>
               <div class="questionInfo pos-rel">
                 <span class="qInfoIcon">?</span>
                 <div class="tooltip-box-field">
-                  Show-Why and when to quick Add Student
+                  Show-Why and when to Quick Edit Student
                 </div>
               </div>
             </div>
           </div>
           <aside class="pull-right">
-            <input type="button" value="Cancel" class="btn cancle">
+            <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
             <input type="button" id="form-kyc-continue" [disabled]="!values.form.valid" value="Save and Continue" class="btn redBtn"
               (click)="navigateTo('feeDetails')">
             <input type="button" id="form-kyc-submit" [disabled]="!values.form.valid" (click)="studentQuickAdder(values)" value="Submit"
@@ -601,7 +596,7 @@
               <label for="feeStructure">Fee Structure*</label>
             </div>
             <div class="field-wrapper has-value datePickerBox">
-              <input type="text" value="" id="effectiveDate" class="form-ctrl" bsDatepicker>
+              <input type="text" value="" id="effectiveDate" class="form-ctrl bsDatepicker" bsDatepicker>
               <label for="effectiveDate">Effective Date*</label>
             </div>
             <input type="button" value="Apply" class="btn fullBlue">
@@ -752,8 +747,6 @@
 
 
 
-
-
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
@@ -800,7 +793,7 @@
               <td>{{batch.data.end_date}}</td>
               <td>
                 <div class="field-wrapper has-value datePickerBox has-value">
-                  <input type="text" value="" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl" bsDatepicker>
+                  <input type="text" value="" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker" bsDatepicker>
                   <label for="assigndate">Assign Date</label>
                 </div>
             </tr>
@@ -818,6 +811,11 @@
       </div>
     </div>
   </student-pop-up>
+
+
+
+
+
 
 
 

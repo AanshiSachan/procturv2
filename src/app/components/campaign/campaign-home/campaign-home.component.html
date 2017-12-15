@@ -1,6 +1,110 @@
-<section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}"
-(click)="inputClicked()">
-<p>
-  campaign-home works!
-</p>
+<section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}"
+  (click)="inputClicked()">
+  <aside class="middle-full row">
+
+    <!-- Header and Navigation -->
+    <section class="middle-top mb0 clearFix">
+      <h1 class="pull-left">
+        Campaign List
+      </h1>
+      <aside class="pull-right">
+        <input type="button" value="Add Lead" class="btn" routerLink="/campaign/add">
+        <input type="button" value="Upload Lead" class="btn" routerLink="/campaign/bulk">
+      </aside>
+    </section>
+
+
+    <section class="middle-main clearFix" id="studentList">
+
+      <section class="common-search-filter" id="searchFilter">
+
+        <div class="filter-search">
+          <div class="filter-box clearFix">
+
+            <div class="c-lg-8 c-md-8 c-sm-8">
+              <div class="search-filter-wrapper">
+                <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No." style="font-size:12px; margin: 0px 5px 0px -5px;"
+                  [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
+                <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
+              </div>
+            </div>
+
+            <!-- Advanced Filter Trigger -->
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="filter-right" style="float: right;">
+                <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Advanced Filter</a>
+                <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide" (click)="closeAdFilter()">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
+                    <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
+                      <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                        <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                        <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                      </g>
+                      <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)" />
+                    </g>
+                  </svg>
+                  Close Advance Filter
+                </a>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="filter-fields hide" style="visibility: visible; opacity: 1" id="advanced-filter-section">
+
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- <section class="search-data">
+        <div class="row class filter-res">
+          <div class="c-lg-6 c-md-6 c-sm-6 align-left">
+            <ul class="export-print">
+              <li>
+                <label>Showing {{instituteData.start_index == null? 1 : (instituteData.start_index+1) }} to {{(studentdisplaysize
+                  > totalRow)? totalRow: (instituteData.start_index+studentdisplaysize)}} of {{totalRow}} Students
+                </label>
+              </li>
+              <li>
+                <div class="bulk-dropdown">
+                  <label class="bulk-dropbtn">
+                    Student per page :
+                    <button class="bulk-dropbtn-border" id="bulk-action" #bulkaction (click)="bulkActionFunction()" type="button" data-toggle="dropdown">
+                      {{studentdisplaysize}}
+                      <span class="caret"></span>
+                    </button>
+                  </label>
+                  <div id="bulk-drop" class="bulk-dropdown-content">
+                    <a *ngFor="let size of sizeArr" (click)="updateTableBatchSize(size)">
+                      {{size}}
+                    </a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="c-lg-6 c-md-6 c-sm-6 align-right">
+            <ul class="export-print">
+              <li>
+                <p-splitButton label="bulk action 1" icon="fa-envelope-o" (onClick)="bulkActionPerformer(1)" [model]="bulkActionItems"></p-splitButton>
+              </li>
+              <li class="export-icon" (click)="downloadAllStudent()">
+                <a id="student_download"></a>
+                Export
+              </li>
+              <li>
+                <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggleOptionChange($event)">
+                </ss-multiselect-dropdown>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section> -->
+
+    </section>
+
+  </aside>
 </section>

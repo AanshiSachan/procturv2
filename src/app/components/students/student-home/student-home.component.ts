@@ -40,7 +40,7 @@ export class StudentHomeComponent implements OnInit {
   private optionsModel: any = null;
   private customComponents: any[] = [];
   private advancedFilter: boolean = false;
-  private studentdisplaysize: number = 50;
+  private studentdisplaysize: number = 100;
   private isAllSelected: boolean = false;
   private selectedRow: any;
   today: any = Date.now();
@@ -55,6 +55,7 @@ export class StudentHomeComponent implements OnInit {
   indexJSON: any[] = [];
   isProfessional: boolean = false;
   selectedOption: any[] = [];
+  currentDirection = 'desc';
 
 
   private headerArr: any[] = [
@@ -118,6 +119,8 @@ export class StudentHomeComponent implements OnInit {
     course_id: -1,
     start_index: 0,
     batch_size: this.studentdisplaysize,
+    sorted_by: '',
+    order_by: ''
   };
 
   advancedFilterForm: instituteInfo = {
@@ -140,8 +143,6 @@ export class StudentHomeComponent implements OnInit {
   constructor(private prefill: FetchprefilldataService, private router: Router,
     private studentFetch: FetchStudentService, private login: LoginService,
     private appC: AppComponent, private studentPrefill: AddStudentPrefillService) {
-
-
   }
 
 
@@ -156,7 +157,7 @@ export class StudentHomeComponent implements OnInit {
     this.login.changeNameStatus(sessionStorage.getItem('name'));
 
     sessionStorage.setItem('studentdisplaysize', this.studentdisplaysize.toString());
-
+    this.busy = this.fetchStudentPrefill();
     this.busy = this.loadTableDataSource(this.instituteData);
 
     this.myOptions = [
@@ -186,8 +187,6 @@ export class StudentHomeComponent implements OnInit {
       }
     ];
 
-    this.busy = this.fetchStudentPrefill();
-
   }
 
 
@@ -196,49 +195,141 @@ export class StudentHomeComponent implements OnInit {
 
 
   /* Fetch data from server and convert to custom array */
-  loadTableDataSource(instituteData) {
+  loadTableDataSource(obj) {
+
     this.studentDataSource = [];
     this.selectedRow = null;
     this.selectedRowGroup = [];
-    return this.studentFetch.fetchAllStudentDetails(instituteData).subscribe(
-      res => {
-        if (instituteData.start_index == 0) {
-          this.totalRow = res[0].student_count;
-          this.setPageSize(this.totalRow);
-          res.forEach(el => {
-            let obj = {
-              isSelected: false,
-              show: true,
-              data: el
+
+
+    if (obj.start_index == 0) {
+      return this.studentFetch.fetchAllStudentDetails(obj).subscribe(
+        res => {
+          if (res.length != 0) {
+            /* Used to set class activate on click or traverse in future implementation */
+            if (this.indexJSON.length != 0) {
+              this.totalRow = res[0].student_count;
+              this.indexJSON = [];
+              this.setPageSize(this.totalRow);
+              res.forEach(el => {
+                let obj = {
+                  isSelected: false,
+                  show: true,
+                  data: el
+                }
+                this.studentDataSource.push(obj);
+              });
+              return this.studentDataSource;
             }
-            this.studentDataSource.push(obj);
-          });
-        }
-        else {
-          res.forEach(el => {
-            let obj = {
-              isSelected: false,
-              show: true,
-              data: el
+            else {
+              this.totalRow = res[0].student_count;
+              this.indexJSON = [];
+              this.setPageSize(this.totalRow);
+              res.forEach(el => {
+                let obj = {
+                  isSelected: false,
+                  show: true,
+                  data: el
+                }
+                this.studentDataSource.push(obj);
+              });
+              return this.studentDataSource;
             }
-            this.studentDataSource.push(obj);
-          });
+          }
+          else {
+            let alert = {
+              type: 'info',
+              title: 'No Records Found',
+              body: 'We did not find any enquiry for the specified query'
+            }
+            this.appC.popToast(alert);
+            this.totalRow = res.length;
+            this.indexJSON = [];
+            this.setPageSize(this.totalRow);
+          }
+        },
+        err => {
+          let alert = {
+            type: 'error',
+            title: 'Failed To Fetch Student List',
+            body: 'please check your internet connnection or try again'
+          }
+          this.appC.popToast(alert);
         }
-      },
-      err => {
-        let alert = {
-          type: 'error',
-          title: 'Failed To Fetch Student List',
-          body: 'please check your internet connnection or try again'
+      );
+    }
+    else {
+      return this.studentFetch.fetchAllStudentDetails(obj).subscribe(
+        res => {
+          if (res.length != 0) {
+            /* Used to set class activate on click or traverse in future implementation */
+            if (this.indexJSON.length != 0) {
+              res.forEach(el => {
+                let obj = {
+                  isSelected: false,
+                  show: true,
+                  data: el
+                }
+                this.studentDataSource.push(obj);
+              });
+              return this.studentDataSource;
+            }
+            else {
+              res.forEach(el => {
+                let obj = {
+                  isSelected: false,
+                  show: true,
+                  data: el
+                }
+                this.studentDataSource.push(obj);
+              });
+              return this.studentDataSource;
+            }
+          }
+          else {
+            let alert = {
+              type: 'info',
+              title: 'No Records Found',
+              body: 'We did not find any enquiry for the specified query'
+            }
+            this.appC.popToast(alert);
+            this.totalRow = res.length;
+            this.indexJSON = [];
+            this.setPageSize(this.totalRow);
+          }
         }
-        this.appC.popToast(alert);
-      }
-    );
+      );
+    }
   }
 
 
 
+  sortTableById(id) {
+    /* Custom server sided sorting */
 
+    this.instituteData = {
+      school_id: -1,
+      standard_id: -1,
+      batch_id: -1,
+      name: "",
+      is_active_status: 1,
+      mobile: "",
+      language_inst_status: -1,
+      subject_id: -1,
+      slot_id: "",
+      master_course_name: "",
+      course_id: -1,
+      start_index: 0,
+      batch_size: this.studentdisplaysize,
+      sorted_by: id,
+      order_by: this.currentDirection == 'asc' ? 'desc' : 'asc'
+    };
+    this.busy = this.loadTableDataSource(this.instituteData);
+  }
+
+
+
+  /* If start index is detected as zero then create the pagination json for module */
   setPageSize(totalCount) {
     let pageSize = Math.ceil(totalCount / this.instituteData.batch_size);
     this.maxPageSize = pageSize;
@@ -263,7 +354,7 @@ export class StudentHomeComponent implements OnInit {
 
 
 
-
+  /* fetch the data from server based on specific page number by converting the index into start_index */
   fectchTableDataByPage(index) {
     this.instituteData.start_index = index.start_index;
     //this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
@@ -283,7 +374,7 @@ export class StudentHomeComponent implements OnInit {
 
 
 
-
+  /* update the checked status of the user selected rows checkbox on click */
   rowCheckBoxClick(row) {
     if (row.isSelected) {
       this.selectedRowGroup.push(row);
@@ -295,7 +386,7 @@ export class StudentHomeComponent implements OnInit {
 
 
 
-
+  /* navigate the user to edit page for the specific student */
   editStudent(row) {
     localStorage.setItem('studentId', row.data.student_id);
     this.router.navigate(['/student/edit']);
@@ -303,20 +394,20 @@ export class StudentHomeComponent implements OnInit {
 
 
 
-
+  /* update the latest comment for the selected student */
   editComment(row) {
     console.log(row);
   }
 
 
-
+  /* Delete the student selected or archieve the student selected */
   deleteStudent(row) {
     console.log('row deleted');
   }
 
 
 
-
+  /* Perform the bulk action for checcked row on basis of the id of selected LI */
   bulkActionPerformer(id) {
 
     if (id == 1) {
@@ -349,7 +440,7 @@ export class StudentHomeComponent implements OnInit {
   }
 
 
-
+  /* Toggle the status of the selected column the static column will not move and the user can toggle the rest */
   toggleOptionChange(opt) {
     this.headerArr = [
       { id: 'student_disp_id', title: 'Student ID.', filter: false, show: true },
@@ -408,6 +499,36 @@ export class StudentHomeComponent implements OnInit {
 
 
 
+
+  /* update the advanced filter forn */
+  advancedSearch() {
+
+    let tempCustomArr: any[] = [];
+
+    this.customComponents.forEach(el => {
+      if (el.is_searchable == 'Y' && el.value != "") {
+        //console.log(el);
+        let obj = {
+          component_id: el.id,
+          enq_custom_value: el.value
+        }
+        tempCustomArr.push(obj);
+      }
+    });
+
+    if (tempCustomArr.length != 0) {
+      this.advancedFilterForm.stuCustomLi = tempCustomArr;
+    }
+
+    this.advancedFilterForm.is_active_status = parseInt(this.advancedFilterForm.is_active_status);
+    this.instituteData = this.advancedFilterForm;
+    this.busy = this.loadTableDataSource(this.instituteData);
+    this.closeAdFilter();
+  }
+
+
+
+  /* If the user select the top checkbox and update its status, all the rows are selectedd or unselected on this basis*/
   toggleSelectAll(status) {
 
     if (status) {
@@ -469,7 +590,7 @@ export class StudentHomeComponent implements OnInit {
 
 
 
-
+  /* Download the records for student as per the set institute data */
   downloadAllStudent() {
     let data = {
       school_id: -1,
@@ -526,6 +647,8 @@ export class StudentHomeComponent implements OnInit {
 
 
 
+
+  /* Store the prefill data for student add form component */
   fetchStudentPrefill() {
 
 
@@ -577,7 +700,7 @@ export class StudentHomeComponent implements OnInit {
 
 
 
-
+  /* Custom Compoenent array creater */
   createPrefilledData(dataArr: any[]): any[] {
     let customPrefilled: any[] = [];
     dataArr.forEach(el => {
@@ -592,7 +715,7 @@ export class StudentHomeComponent implements OnInit {
   }
 
 
-
+  /* if custom component is of type multielect then toggle the visibility of the dropdowm */
   multiselectVisible(elid) {
     let targetid = elid + "multi";
     if (document.getElementById(targetid).classList.contains('hide')) {
@@ -605,6 +728,7 @@ export class StudentHomeComponent implements OnInit {
 
 
 
+  /* if custom component is of type multielect then update the selected or unselected data*/
   updateMultiSelect(data, id) {
     this.customComponents.forEach(el => {
       if (el.id == id) {
@@ -654,6 +778,8 @@ export class StudentHomeComponent implements OnInit {
   }
 
 
+
+  /* When user select the master course or standard then fetch the sub or sub course for them */
   updateSubCourse(course) {
     this.masterCourseList.forEach(el => {
       if (el.master_course == course) {
@@ -663,6 +789,7 @@ export class StudentHomeComponent implements OnInit {
   }
 
 
+  /* when the user select the master course then fetch course for the related */
   fetchCourseForMaster(id) {
     this.studentPrefill.fetchCourseList(id).subscribe(
       res => {
@@ -672,29 +799,36 @@ export class StudentHomeComponent implements OnInit {
   }
 
 
+
   /* Customiized click detection strategy */
-  inputClicked() {
-    var nodelist = document.querySelectorAll('.form-ctrl');
-    [].forEach.call(nodelist, (elm) => {
-      elm.addEventListener('blur', function (event) {
-        if (event.target.value != '') {
-          event.target.parentNode.classList.add('has-value');
-        } else {
-          event.target.parentNode.classList.remove('has-value');
-        }
-      });
-    });
-
+  inputClicked(ev) {
+    if (ev.target.classList.contains('form-ctrl')) {
+      if (ev.target.classList.contains('bsDatepicker')) {
+        var nodelist = document.querySelectorAll('.bsDatepicker');
+        [].forEach.call(nodelist, (elm) => {
+          elm.addEventListener('focusout', function (event) {
+            event.target.parentNode.classList.add('has-value');
+          });
+  
+        });
+      }
+      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
+        //document.getElementById(ev.target.id).click();
+        ev.target.addEventListener('blur', function (event) {
+          if (event.target.value != '') {
+            event.target.parentNode.classList.add('has-value');
+          } else {
+            event.target.parentNode.classList.remove('has-value');
+          }
+        });
+      }
+    }
   }
 
 
-  advancedSearch() {
-    this.instituteData = this.advancedFilterForm;
-    this.busy = this.loadTableDataSource(this.instituteData);
-  }
 
-  updateIsActive(ev) {
-    console.log(ev);
-  }
+
+
+
 
 }

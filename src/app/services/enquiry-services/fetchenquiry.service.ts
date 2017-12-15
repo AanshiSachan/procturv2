@@ -46,21 +46,63 @@ export class FetchenquiryService {
 
   /* Function to fetch json data for all enquiry as per the input institute data  */
   getAllEnquiry(obj) {
-    obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
-    obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
-    obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
-    obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('YYYY-MM-DD');
-    obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
-    obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
-    obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
 
-    this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
+    /* Admin has requested for enquiry */
+    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+      obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
+      obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
+      obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
+      obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('YYYY-MM-DD');
+      obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
+      obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
+      obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
+      this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
 
-    return this.http.post(this.urlCampaign, obj, { headers: this.headers })
-      .map(res => {
-        this.row = res.json();
-        return this.row;
-      });
+      return this.http.post(this.urlCampaign, obj, { headers: this.headers })
+        .map(res => {
+          this.row = res.json();
+          return this.row;
+        });
+    }
+    else {
+      let permissions: any[] = [];
+      permissions = JSON.parse(sessionStorage.getItem('permissions'));
+      /* User has permission to view all enquiries */
+      if (permissions.includes('115')) {
+        obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
+        obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
+        obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
+        obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('YYYY-MM-DD');
+        obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
+        obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
+        obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
+        this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
+  
+        return this.http.post(this.urlCampaign, obj, { headers: this.headers })
+          .map(res => {
+            this.row = res.json();
+            return this.row;
+          });
+      }
+      /* User is not authorized as enquiry admin and see only enquiry assigned to him */
+      else {
+        obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
+        obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
+        obj.enquireDateFrom = (obj.enquireDateFrom == '' || obj.enquireDateFrom == null) ? '' : moment(obj.enquireDateFrom).format('YYYY-MM-DD');
+        obj.enquireDateTo = (obj.enquireDateTo == '' || obj.enquireDateTo == null) ? '' : moment(obj.enquireDateTo).format('YYYY-MM-DD');
+        obj.updateDate = (obj.updateDate == '' || obj.updateDate == null) ? '' : moment(obj.updateDate).format('YYYY-MM-DD');
+        obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
+        obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
+        obj.assigned_to = sessionStorage.getItem('userid');
+        this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
+
+        return this.http.post(this.urlCampaign, obj, { headers: this.headers })
+          .map(res => {
+            this.row = res.json();
+            return this.row;
+          });        
+      }
+    }
   }
 
 
@@ -119,13 +161,13 @@ export class FetchenquiryService {
     )
   }
 
-  
 
-  fetchReceiptPdf(num){
 
-    let urlPdf = this.baseUrl +"/api/v2/enquiry_manager/downloadRegistrationFeesReceipt/" + num;
+  fetchReceiptPdf(num) {
 
-   return this.http.get(urlPdf, {headers: this.headers}).map(
+    let urlPdf = this.baseUrl + "/api/v2/enquiry_manager/downloadRegistrationFeesReceipt/" + num;
+
+    return this.http.get(urlPdf, { headers: this.headers }).map(
       res => {
         return res.json();
       }
