@@ -10,6 +10,7 @@ import { instituteInfo } from '../../../model/instituteinfo';
 import { addEnquiryForm } from '../../../model/add-enquiry-form';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import { LoginService } from '../../../services/login-services/login.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 import { AppComponent } from '../../../app.component';
@@ -135,7 +136,8 @@ export class EnquiryEditComponent implements OnInit {
 
 
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
-  constructor(private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private pops: PopupHandlerService, private poster: PostEnquiryDataService, private appC: AppComponent) {
+  constructor(private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private pops: PopupHandlerService, 
+    private poster: PostEnquiryDataService, private appC: AppComponent, private login: LoginService) {
     if (sessionStorage.getItem('Authorization') == null) {
       let data = {
         type: "error",
@@ -166,6 +168,8 @@ export class EnquiryEditComponent implements OnInit {
   /* OnInit Initialized */
   ngOnInit() {
     this.isEnquiryAdministrator;
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.busy = this.FetchEnquiryPrefilledData();
   }
 

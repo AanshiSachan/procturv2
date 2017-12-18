@@ -30,9 +30,10 @@
                   [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
                 <!-- followup date handler -->
                 <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="followupdate" class="form-ctrl bsDatepicker" [(ngModel)]="searchBarDate" style="cursor: pointer;"
+                  <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="searchBarDate" style="cursor: pointer;"
                     (keyup.enter)="searchDatabase()" name="followupdate" bsDatepicker/>
                   <label for="followupdate">Follow up Date</label>
+                  <span class="date-clear" name="followupdate" (click)="clearDate($event)">clear</span>
                 </div>
                 <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
               </div>
@@ -137,6 +138,7 @@
                 <input type="text" value="" id="updateDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.updateDate" name="UD"
                   bsDatepicker/>
                 <label for="updateDate">Update Date</label>
+                <span class="date-clear" (click)="clearDate($event)">clear</span>
               </div>
             </div>
 
@@ -145,6 +147,7 @@
                 <input type="text" value="" id="enquiryFromDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.enquireDateFrom"
                   name="EFD" bsDatepicker/>
                 <label for="enquiryFromDate">Enquiry From Date</label>
+                <span class="date-clear" (click)="clearDate($event)">clear</span>
               </div>
             </div>
 
@@ -153,6 +156,7 @@
                 <input type="text" value="" id="enquiryToDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.enquireDateTo"
                   name="ETD" bsDatepicker/>
                 <label for="enquiryToDate">Enquiry To Date</label>
+                <span class="date-clear" (click)="clearDate($event)">clear</span>
               </div>
             </div>
 
@@ -261,7 +265,7 @@
                 <div class="field-checkbox-wrapper">
                   <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Inactive.value" [(ngModel)]="stats.Inactive.checked"
                     [disabled]="stats.Inactive.disabled" (change)="statusFilter(stats.Inactive)" />
-                  <label>Inactive</label>
+                  <label>Closed</label>
                 </div>
               </li>
             </ul>
@@ -309,10 +313,10 @@
                 <a id="enq_download"></a>
                 Export
               </li>
-              <li>
+              <!-- <li>
                 <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggleOptionChange($event)">
                 </ss-multiselect-dropdown>
-              </li>
+              </li> -->
             </ul>
           </div>
         </div>
@@ -333,7 +337,7 @@
                     <tr>
 
                       <th>
-                        <div class="field-checkbox-wrapper">
+                        <div class="field-checkbox-wrapper" style="background: transparent;">
 
                           <input id="headerCheckbox" type="checkbox" value="" [(ngModel)]="isAllSelected" (ngModelChange)="toggleSelectAll($event)"
                             name="check" class="form-checkbox">
@@ -342,10 +346,120 @@
                         </div>
                       </th>
 
-                      <th *ngFor="let header of headerArr" [hidden]="!header.show">
+                      <th>
                         <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.id)">{{header.title}}</a>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.enquiry_no.id)">{{header.enquiry_no.title}}</a>
                         </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.enquiry_date.id)">{{header.enquiry_date.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.name.id)">{{header.name.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.phone.id)">{{header.phone.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.statusValue.id)">{{header.statusValue.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.priority.id)">{{header.priority.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.follow_type.id)">{{header.follow_type.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.followUpDateTime.id)">{{header.followUpDateTime.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;">{{header.actions.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.updateDate.id)">{{header.updateDate.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.assigned_name.id)">{{header.assigned_name.title}}</a>
+                        </label>
+                      </th>
+
+                      <th [hidden]="!selectedOption.email.show">
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.email.id)">{{header.email.title}}</a>
+                        </label>
+                      </th>
+
+                      <th [hidden]="!selectedOption.Gender.show">
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.Gender.id)">{{header.Gender.title}}</a>
+                        </label>
+                      </th>
+
+                      <th [hidden]="!selectedOption.standard.show">
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.standard.id)">{{header.standard.title}}</a>
+                        </label>
+                      </th>
+
+                      <th [hidden]="!selectedOption.subjects.show">
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.subjects.id)">{{header.subjects.title}}</a>
+                        </label>
+                      </th>
+
+
+                      <th class="table-head-menu">
+                        <span>
+                          <img src="./assets/images/hamburger_menu.svg" alt="" />
+                          <img src="./assets/images/hamburger_menu_close.svg" alt="" />
+                        </span>
+                        <div class="table-heading-menu">
+                          <div class="heading-menu-inner">
+                            <ul class="">
+                              <li *ngFor="let head of myOptions">
+                                <div style="width: 20%; display: inline-block;">
+                                  <div class="field-checkbox-wrapper">
+                                    <input type="checkbox" value="" (click)="toggleOptionChange($event.target.checked, head.id)" name="check" class="form-checkbox"
+                                    />
+                                    <label></label>
+                                  </div>
+                                </div>
+                                <div style="width: 70%; display: inline-block; color:rgba(0, 0, 0, 0.774); padding: 0px;">
+                                  <p>{{head.name}}</p>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
                       </th>
 
                     </tr>
@@ -354,54 +468,89 @@
 
                   <tbody class="" *ngIf="sourceEnquiry.length != 0">
 
-                    <tr id="row{{i}}" *ngFor="let row of sourceEnquiry; let i = index; trackBy: i" (click)="rowClicked(row)">
+                    <tr id="row{{i}}" *ngFor="let row of sourceEnquiry; let i = index; trackBy: i">
 
                       <td>
+                        <!-- [(ngModel)]="row.isSelected" (ngModelChange)="rowCheckBoxClick($event, i, row.data.enquiry_no)" -->
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" [(ngModel)]="row.isSelected" (ngModelChange)="rowCheckBoxClick($event, i, row.data.enquiry_no)" id="check{{i}}"
-                            value="" name="enquirycheck" class="form-checkbox">
+                          <input type="checkbox" (click)="rowCheckBoxClick($event.target.checked, i, row.data.enquiry_no)" id="check{{i}}" value=""
+                            name="enquirycheck" class="form-checkbox">
                           <label>sdf</label>
                         </div>
                       </td>
 
-                      <td *ngFor="let header of headerArr" [hidden]="!header.show">
-
-                        <ng-template [ngIf]="header.id != 'followUpDate' && header.id != 'enquiry_no' && header.id != 'actions' && header.id != 'enquiry_date' && header.id != 'updateDate'">
-                          {{row.data[header.id]}}
-                        </ng-template>
-
-
-                        <ng-template [ngIf]="header.id=='enquiry_no'">
-                          <div class="tooltip-table pos-rel">
-                            <a href="javascript:void(0)" class="cursor-icon" (click)="openUpdatePopUpCustom(row)">
-                              {{row.data[header.id]}}
-                            </a>
-                            <div class="tooltip-box-right">
-                              <comment-tooltip [rowData]="row.data">
-                              </comment-tooltip>
-                            </div>
-                          </div>
-                        </ng-template>
-
-
-                        <ng-template [ngIf]="header.id=='followUpDate'">
-                          <a href="javascript:void(0)" [ngStyle]="{'color':getFollowUpColor(row.data[header.id])}">
-                            {{row.data[header.id]| date:'dd-MMM-yy'}}
+                      <td (click)="rowClicked(row)">
+                        <div class="tooltip-table pos-rel">
+                          <a href="javascript:void(0)" class="cursor-icon" (click)="openUpdatePopUpCustom(row)">
+                            {{row.data.enquiry_no}}
                           </a>
-                        </ng-template>
+                          <div class="tooltip-box-right">
+                            <comment-tooltip [rowData]="row.data">
+                            </comment-tooltip>
+                          </div>
+                        </div>
+                      </td>
 
-                        <ng-template [ngIf]="header.id=='enquiry_date'">
-                          {{row.data[header.id]| date:'dd-MMM-yy'}}
-                        </ng-template>
+                      <td>
+                        {{row.data.enquiry_date| date:'dd-MMM-yy'}}
+                      </td>
 
-                        <ng-template [ngIf]="header.id=='updateDate'">
-                          {{row.data[header.id]| date:'dd-MMM-yyyy hh:mm a'}}
-                        </ng-template>
+                      <td>
+                        {{row.data.name}}
+                      </td>
 
-                        <ng-template [ngIf]="header.id=='actions'">
-                          <enquiry-actions [rowData]="row.data">
-                          </enquiry-actions>
-                        </ng-template>
+                      <td>
+                        {{row.data.phone}}
+                      </td>
+
+                      <td>
+                        {{row.data.statusValue}}
+                      </td>
+
+                      <td>
+                        {{row.data.priority}}
+                      </td>
+
+                      <td>
+                        {{row.data.follow_type}}
+                      </td>
+
+                      <td>
+                        <a href="javascript:void(0)" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
+                          {{row.data.followUpDateTime| date:'dd-MMM-yyyy hh:mm a'}}
+                        </a>
+                      </td>
+
+                      <td (click)="rowClicked(row)">
+                        <enquiry-actions [rowData]="row.data">
+                        </enquiry-actions>
+                      </td>
+
+                      <td>
+                        {{row.data.updateDate| date:'dd-MMM-yy'}}
+                      </td>
+
+                      <td>
+                        {{row.data.assigned_name}}
+                      </td>
+
+                      <td [hidden]="!selectedOption.email.show">
+                        {{row.data.email}}
+                      </td>
+
+                      <td [hidden]="!selectedOption.Gender.show">
+                        {{row.data.Gender}}
+                      </td>
+
+                      <td [hidden]="!selectedOption.standard.show">
+                        {{row.data.standard}}
+                      </td>
+
+                      <td [hidden]="!selectedOption.subjects.show">
+                        {{row.data.subjects}}
+                      </td>
+
+                      <td>
 
                       </td>
 
@@ -410,7 +559,7 @@
                   </tbody>
 
                   <tbody *ngIf="sourceEnquiry.length == 0">
-                    <tr class="empty-table-wrapper">
+                    <tr class="empty-table-wrapper" style="background: none;">
                       <td colspan="12">
                         <ul>
                           <li>
@@ -514,6 +663,7 @@
                     <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit"
                       bsDatepicker />
                     <label for="followUPdateEdit">Follow Up Date</label>
+                    <span class="date-clear" (click)="clearDate($event)">clear</span>
                   </div>
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
@@ -529,6 +679,15 @@
                     <label for="enquiryStatusEdit">Status</label>
                   </div>
                 </div>
+              </div>
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="">
+                    <label style="position: absolute;top: -16px;font-size: 13.25px;left: 15px;color: #0084f7;" for="followupTime">Follow up Time</label>
+                  </div>
+                  <timepicker [(ngModel)]="followUpTime"></timepicker>
+                </div>
+                <div class="c-lg-6 c-md-6 c-sm-6"></div>
               </div>
               <div class="row">
                 <div class="c-lg-12 c-md-12 c-sm-12">
@@ -727,6 +886,7 @@
                         <input type="text" value="" id="pDate" class="form-ctrl bsDatepicker" [ngModel]="registrationForm.paymentDate" name="pDate"
                           bsDatepicker/>
                         <label for="pDate">Payment Date</label>
+                        <span class="date-clear" (click)="clearDate($event)">clear</span>
                       </div>
                     </div>
                     <div class="c-lg-6 c-md-6 c-sm-6">
@@ -955,7 +1115,10 @@
                   <div class="row">
                     <div class="c-lg-12 c-md-12 c-sm-12">
                       <div class="table table-responsive table-container table-data-overflow">
-                        <ng2-smart-table [settings]="settingsSmsPopup" [source]="smsPopSource" (userRowSelect)="smsRowSelected($event)">
+                        <ng2-smart-table [settings]="settingsSmsPopup" 
+                        [source]="smsPopSource" 
+                        (userRowSelect)="smsRowSelected($event)" 
+                        (sortById)="sortById($event)">
                         </ng2-smart-table>
                       </div>
                     </div>
@@ -1009,6 +1172,7 @@
 
       </div>
     </div>
+
   </section>
 
 

@@ -11,6 +11,7 @@ import { addEnquiryForm } from '../../../model/add-enquiry-form';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
+import { LoginService } from '../../../services/login-services/login.service';
 import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
 
@@ -96,16 +97,16 @@ export class EnquiryAddComponent implements OnInit {
   addNextCheck: boolean = false;
   isEnquiryAdmin:boolean = false;
   busy: Subscription;
-  isNewInstitute: boolean = false;
+  isNewInstitute: boolean = true;
   private customComponents: any[] = [];
   /* Institute List for edit and delete purpose */
   instituteList: any;
 
-  isNewSource: boolean = false;
+  isNewSource: boolean = true;
   /* Institute List for edit and delete purpose */
   sourceList: any;
 
-  isNewRefer: boolean = false;
+  isNewRefer: boolean = true;
   /* Institute List for edit and delete purpose */
   referList: any;
 
@@ -128,7 +129,7 @@ export class EnquiryAddComponent implements OnInit {
   }
 
   constructor(private prefill: FetchprefilldataService, private router: Router,
-    private logger: Logger, private appC: AppComponent, private poster: PostEnquiryDataService) {
+    private logger: Logger, private appC: AppComponent, private poster: PostEnquiryDataService, private login: LoginService) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -141,6 +142,8 @@ export class EnquiryAddComponent implements OnInit {
     this.isEnquiryAdministrator;
     this.busy = this.FetchEnquiryPrefilledData();
 
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
 
     /* Model for Enquiry Data */
     this.newEnqData = {

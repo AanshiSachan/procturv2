@@ -3,7 +3,6 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-
 .tooltip-table {
     &:hover .tooltip-box-right {
         visibility: visible;
@@ -34,7 +33,8 @@
         overflow-x: hidden;
     }
 }
-.table-scroll-wrapper{
+
+.table-scroll-wrapper {
     /* padding: 5px;
     max-height: 800px;
     overflow-y: scroll;
@@ -43,25 +43,24 @@
         overflow-y: visible;
         overflow-x: visible;
         table {
-            /*checkbox  */
-            .field-checkbox-wrapper{
-                width: 25px !important;
+            .field-checkbox-wrapper {
+                width: 22px !important;
                 overflow: hidden;
                 box-sizing: border-box;
-                height: 25px !important;
+                height: 22px !important;
                 padding-left: 25px !important;
                 margin-bottom: 0;
                 margin-left: 5px;
-                background: #fff;
-                border-radius: 2px;                
+                background: none;
+                border-radius: 2px;
             }
             .field-checkbox-wrapper .form-checkbox {
                 opacity: 0;
                 position: absolute;
                 left: 0;
                 top: 0;
-                width: 25px;
-                height: 25px;
+                width: 22px;
+                height: 22px;
                 z-index: 1;
             }
             .field-checkbox-wrapper .form-checkbox+label {
@@ -72,8 +71,8 @@
             }
             .field-checkbox-wrapper .form-checkbox+label:after {
                 content: '';
-                width: 25px;
-                height: 25px;
+                width: 22px;
+                height: 22px;
                 border: 2px solid #ccc;
                 border-radius: 2px;
                 position: absolute;
@@ -103,21 +102,20 @@
                 border-bottom: 2px solid $common-blue;
                 width: 12px;
                 height: 7px;
-                left: 7px;
-                top: 7px;
+                left: 5px;
+                top: 6px;
             }
             .field-checkbox-wrapper .form-checkbox:checked+label {
                 color: $common-blue;
             }
-            .empty-table-wrapper {
-                height: 100px;
-                width: 100%;
-                text-align: center;
-            }
+        }
+        .empty-table-wrapper {
+            height: 100px;
+            width: 100%;
+            text-align: center;
         }
     }
 }
-
 
 :host /deep/ .table-data-overflow {
     ng2-smart-table table {
@@ -152,6 +150,16 @@
     line-height: 20px;
     .ng2-smart-title {
         min-width: 70px;
+    }
+}
+
+:host /deep/ ng2-smart-table table>thead>tr:first-child>th {
+    input[type='checkbox'] {
+        border: 1px solid white;
+        width: 20px;
+        height: 20px;
+        margin: 0;
+        padding: 0;
     }
 }
 
@@ -283,6 +291,12 @@
                 z-index: 0;
             }
         }
+        .date-clear {
+            position: absolute;
+            right: 40px;
+            top: 36px;
+            cursor: pointer;
+        }
     }
 }
 
@@ -373,7 +387,7 @@
                 min-height: 39px;
                 clear: both;
                 margin: .125em 0;
-                padding: 10px 5px 5px 5px;
+                padding: 0px 5px 0px 5px;
                 color: #0084f6;
                 margin: 0px 0px -1px 0px;
                 border: none !important;
@@ -413,6 +427,7 @@
                     color: #0084f6 !important;
                     font-family: 'Open Sans', Arial, sans-serif !important;
                     font-size: 14px !important;
+                    height: 35px;
                     &:hover {
                         background: #0084f6 !important;
                     }
@@ -661,6 +676,12 @@
     border-image: initial;
     .field-wrapper {
         margin: 15px 0;
+        .date-clear {
+            position: absolute;
+            right: 15px;
+            top: 50px;
+            cursor: pointer;
+        }
     }
 }
 
@@ -912,7 +933,7 @@
     top: 50%;
     right: 0;
     background: #fff;
-    width: 140px;
+    width: 200px;
     text-align: left;
     padding: 0px;
     box-shadow: 0px 1px 2px 1px #dcdcdc;
@@ -929,7 +950,7 @@
 
 .table-heading-menu ul li {
     border-bottom: 1px solid #ccc;
-    padding: 10px 10px;
+    padding: 5px 5px;
     cursor: pointer;
 }
 

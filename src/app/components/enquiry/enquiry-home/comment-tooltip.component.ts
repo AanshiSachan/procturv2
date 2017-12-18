@@ -90,13 +90,14 @@ export class CommentTooltipComponent implements OnInit {
     updateFormCommentsBy: any = [];
     updateFormCommentsOn: any = [];
 
-    constructor() { }
+    constructor(private cd: ChangeDetectorRef) { }
 
     /* OnInit function to listen the changes in message value from service */
     ngOnInit() {
         this.updateFormComments = this.rowData.comments;
         this.updateFormCommentsOn = this.rowData.commentedOn;
         this.updateFormCommentsBy = this.rowData.commentedBy;
+        this.cd.markForCheck();
     }
 
 

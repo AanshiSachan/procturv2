@@ -22,6 +22,7 @@ import { Ng2SmartTableModule } from '../../../assets/imported_modules/ng2-smart-
 import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
+import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/timepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import { DateConverter } from './enquiry-home/enquiry-home.component';
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
@@ -42,6 +43,7 @@ import { TableCellComponent } from './table-component/table-cell.component';
         CommonModule,
         EnquiryRoutingModule,
         BsDatepickerModule,
+        TimepickerModule,
         FileUploadModule,
         SplitButtonModule,
         MenuModule

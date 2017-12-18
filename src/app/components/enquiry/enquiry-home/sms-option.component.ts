@@ -34,14 +34,18 @@ export class SmsOptionComponent implements OnInit {
 
     sms: string = "";
 
-    constructor(private router: Router, private pops: PopupHandlerService) {
+    constructor(private router: Router, private pops: PopupHandlerService, private cd: ChangeDetectorRef) {
       this.pops.currentMessage.subscribe(data => this.sms = data);
+      
      }
 
     /* OnInit function to listen the changes in message value from service */
-    ngOnInit() {}
+    ngOnInit() {
+        this.cd.markForCheck();
+    }
 
     emitEdit(){
       this.pops.changeSmsMessage('edit');
+      this.cd.markForCheck();
     }
 }

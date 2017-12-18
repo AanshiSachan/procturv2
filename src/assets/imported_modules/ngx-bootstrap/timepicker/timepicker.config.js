@@ -19,7 +19,7 @@ var TimepickerConfig = (function () {
         /** if true up/down arrowkeys inside hours and minutes inputs will change time */
         this.arrowkeys = true;
         /** if true spinner arrows above and below the inputs will be shown */
-        this.showSpinners = true;
+        this.showSpinners = false;
         /** show seconds in timepicker */
         this.showSeconds = false;
     }

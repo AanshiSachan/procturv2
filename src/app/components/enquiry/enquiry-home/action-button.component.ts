@@ -193,18 +193,16 @@ export class ActionButtonComponent implements OnInit {
   /* message to describe which popup to be opened  */
   message: string = "";
 
-  constructor(private pops: PopupHandlerService, private router: Router) { }
+  constructor(private pops: PopupHandlerService, private router: Router, private cd: ChangeDetectorRef) { }
 
   /* OnInit function to listen the changes in message value from service */
   ngOnInit() {
     this.professionalStatus();
     this.pops.currentMessage.subscribe(message => this.message = message);
     this.pops.currentActionValue.subscribe(data => this.isActionDisabled = data);
-
-    let permissions: any[] = [];
-    
+    let permissions: any[] = [];    
     this.setRoleAccess();
-
+    this.cd.markForCheck();
   }
 
   /* open action menu on click */

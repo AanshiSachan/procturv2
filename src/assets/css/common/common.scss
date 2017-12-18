@@ -125,6 +125,12 @@
         }
         
     }
+    .date-clear {
+        position: absolute;
+        right: 15px;
+        top: 50px;
+        cursor: pointer;
+    }
 }
 
 
@@ -149,6 +155,12 @@
             height: 21px;
             z-index: 0;
         }
+    }
+    .date-clear {
+        position: absolute;
+        right: 15px;
+        top: 50px;
+        cursor: pointer;
     }
 }
 
@@ -467,6 +479,12 @@ h3 {
             height: 21px;
             z-index: 0;
         }
+    }
+    .date-clear {
+        position: absolute;
+        right: 15px;
+        top: 50px;
+        cursor: pointer;
     }
 }
 

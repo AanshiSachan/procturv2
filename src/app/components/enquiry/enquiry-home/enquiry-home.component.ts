@@ -52,7 +52,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
 
   /* Variable Declaration */
-  optionsModel = []; checkedOpt: any[]; myOptions: IMultiSelectOption[];
   sourceEnquiry: any[] = []; smsPopSource: LocalDataSource; busy: Subscription;
   checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = [];
   enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = [];
@@ -62,7 +61,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   updateFormCommentsBy: any = []; updateFormCommentsOn: any = []; PageIndex: number = 1;
   maxPageSize: number = 0; totalEnquiry: number = 0; isProfessional: boolean = false;
   isActionDisabled: boolean = false; isMessageAddOpen: boolean = false; isMultiSms: boolean = false;
-  smsSelectedRowsLength: number = 0; sizeArr: any[] = [25, 50, 100, 150, 200];
+  smsSelectedRowsLength: number = 0; sizeArr: any[] = [25, 50, 100, 150, 200, 500];
   isAllSelected: boolean = false;
   private customComponents: any[] = [];
 
@@ -72,7 +71,24 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
     type: "",
   };
 
-  statusString: any[] = ["0", "3"]; smsSelectedRows: any; smsGroupSelected: any[] = []; selectedOption: any[] = [];
+  statusString: any[] = ["0", "3"]; smsSelectedRows: any; smsGroupSelected: any[] = []; 
+
+
+
+  selectedOption: any = {
+    email: { show: false, id: 'email' },
+    Gender: { show: false, id: 'Gender' },
+    standard: { show: false, id: 'standard' },
+    subjects: { show: false, id: 'subjects' }
+  };
+
+
+  myOptions:any[] = [
+    { id: 'email', name: 'Email'},
+    { id: 'Gender', name: 'Gender' },
+    { id: 'standard', name: 'Standard' },
+    { id: 'subjects', name: 'Subject' }
+  ]
 
   /* items added on ngOnInit */
   bulkAddItems: MenuItem[];
@@ -101,7 +117,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   };
 
   smsSearchData: string = "";
-
+  followUpTime: Date = null;
   isConverted: boolean = false; hasReceipt: boolean = false; isadmitted: boolean = false; notClosednAdmitted: boolean = false;
   isClosed: boolean = false; isAssignEnquiry: boolean = false;
   availableSMS: number = 0; smsDataLength: number = 0; isEnquiryAdmin: boolean = false;
@@ -153,6 +169,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
     followUpDate: "",
     commentDate: moment().format('YYYY-MM-DD'),
     followUpTime: "",
+    followUpDateTime: '',
     isEnquiryV2Update: "N",
     isRegisterFeeUpdate: "N",
     amount: null,
@@ -195,19 +212,19 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
   /* Settings for SMS Table Display */
   settingsSmsPopup = {
-    selectMode: 'single', mode: 'external', hideSubHeader: false,
+    selectMode: 'single', mode: 'external', hideSubHeader: false, toggle: 'N',
     actions: { add: false, edit: false, delete: false, columnTitle: '', },
     columns: {
       message: { title: 'Message', filter: false, show: true },
       statusValue: { title: 'Status.', filter: false, show: true },
-      date: { title: 'Date.', filter: false, show: true },
-      status: { title: 'Status Key', filter: false, show: false },
-      campaign_list_id: { title: 'Campaign List.', filter: false, show: false },
-      campaign_list_message_id: { title: 'Campaign List Id.', filter: false, show: false },
-      feature_type: { title: 'Feature Type.', filter: false, show: false },
-      institute_name: { title: 'Institute Name.', filter: false, show: false },
-      message_id: { title: 'Message Id.', filter: false, show: false },
-      sms_type: { title: 'Sms Type.', filter: false, show: false },
+      //date: { title: 'Date.', filter: false, show: true },
+      //status: { title: 'Status Key', filter: false, show: false },
+      //campaign_list_id: { title: 'Campaign List.', filter: false, show: false },
+      //campaign_list_message_id: { title: 'Campaign List Id.', filter: false, show: false },
+      //feature_type: { title: 'Feature Type.', filter: false, show: false },
+      //institute_name: { title: 'Institute Name.', filter: false, show: false },
+      //message_id: { title: 'Message Id.', filter: false, show: false },
+      //sms_type: { title: 'Sms Type.', filter: false, show: false },
       action: {
         title: ' ', filter: false, type: 'custom',
         renderComponent: SmsOptionComponent
@@ -275,23 +292,23 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   };
 
 
-  headerArr: any[] = [
-    { id: 'enquiry_no', title: 'Enquiry No.', filter: false, show: true },
-    { id: 'enquiry_date', title: 'Enquiry Date', filter: false, show: true },
-    { id: 'name', title: 'Name', filter: false, show: true },
-    { id: 'phone', title: 'Contact No.', filter: false, show: true },
-    { id: 'statusValue', title: 'Status', filter: false, show: true },
-    { id: 'priority', title: 'Priority', filter: false, show: true },
-    { id: 'follow_type', title: 'Follow type', filter: false, show: true },
-    { id: 'followUpDate', title: 'Follow up Date', filter: false, show: true },
-    { id: 'actions', title: 'Action', filter: false, show: true },
-    { id: 'updateDate', title: 'Update Date', filter: false, show: true },
-    { id: 'assigned_name', title: 'Assigned To', filter: false, show: true },
-    { id: 'email', title: 'Email', filter: false, show: false },
-    { id: 'Gender', title: 'Gender', filter: false, show: false },
-    { id: 'standard', title: 'Standard', filter: false, show: false },
-    { id: 'subjects', title: 'Subjects', filter: false, show: false }
-  ];
+  header: any = {
+    enquiry_no:{ id: 'enquiry_no', title: 'Enquiry No.', filter: false, show: true },
+    enquiry_date: { id: 'enquiry_date', title: 'Enquiry Date', filter: false, show: true },
+    name: { id: 'name', title: 'Name', filter: false, show: true },
+    phone: { id: 'phone', title: 'Contact No.', filter: false, show: true },
+    statusValue: { id: 'statusValue', title: 'Status', filter: false, show: true },
+    priority: { id: 'priority', title: 'Priority', filter: false, show: true },
+    follow_type: { id: 'follow_type', title: 'Follow type', filter: false, show: true },
+    followUpDateTime: { id: 'followUpDateTime', title: 'Follow up Date', filter: false, show: true },
+    actions: { id: 'actions', title: 'Action', filter: false, show: true },
+    updateDate: { id: 'updateDate', title: 'Update Date', filter: false, show: true },
+    assigned_name: { id: 'assigned_name', title: 'Assigned To', filter: false, show: true },
+    email: { id: 'email', title: 'Email', filter: false, show: false },
+    Gender: { id: 'Gender', title: 'Gender', filter: false, show: false },
+    standard: { id: 'standard', title: 'Standard', filter: false, show: false },
+    subjects: { id: 'subjects', title: 'Subjects', filter: false, show: false }
+  };
 
 
   assignMultipleForm: any =
@@ -334,25 +351,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-
     this.isEnquiryAdministrator();
-
-    /* Model for toggle Menu Dropdown */
-    this.myOptions = [
-      { name: 'Email', id: 'email' },
-      { name: 'Gender', id: 'Gender' },
-      { name: 'Standard', id: 'standard' },
-      { name: 'Subjects', id: 'subjects' }
-    ];
-
-
-    /* Load paginated enquiry data from server */
-    this.busy = this.loadTableDatatoSource(this.instituteData);
-
-    /* Fetch prefill data after table data load completes */
     this.FetchEnquiryPrefilledData();
-
-
+    /* Fetch prefill data after table data load completes */
     /* Dropdown items for Bulk Actions */
     this.bulkAddItems = [
       {
@@ -371,18 +372,22 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
         }
       }
     ];
-
-
-
+    /* Load paginated enquiry data from server */
+    this.busy = this.loadTableDatatoSource(this.instituteData);
+    this.cd.markForCheck();
     /* Fetch the status of message from  popup handler service */
     this.pops.currentMessage.subscribe(message => {
+      this.cd.markForCheck();
       if (message == 'sms') {
         this.smsServicesInvoked();
         this.message = message;
+        this.cd.markForCheck();
         this.smsSelectedRows = this.selectedRow.data;
+        this.cd.markForCheck();
       }
       else if (message == 'update') {
         this.prefill.fetchCommentsForEnquiry(this.selectedRow.data.institute_enquiry_id).subscribe(res => {
+          this.cd.markForCheck();
           this.updateFormData.priority = res.priority;
           this.updateFormData.follow_type = res.follow_type;
           this.updateFormData.statusValue = this.selectedRow.data.statusValue;
@@ -390,17 +395,20 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
           this.updateFormComments = res.comments;
           this.updateFormCommentsOn = res.commentedOn;
           this.updateFormCommentsBy = res.commentedBy;
+          this.cd.markForCheck();
         });
         this.message = message;
       }
       else {
         this.message = message
+        this.cd.markForCheck();
       }
     });
 
     /* SMS message service handler to communicate between components */
     this.pops.currentSms.subscribe(res => {
       if (res == 'edit') {
+        this.cd.markForCheck();
         this.editSms();
       }
     });
@@ -581,9 +589,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
 
 
-
-
-
   /* Function to fetch prefill data for advanced filter */
   FetchEnquiryPrefilledData() {
     /* Status */
@@ -737,44 +742,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
   }
 
-
-
-
-
-
-  /* Function to toggle smart table column on click event */
-  toggleOptionChange(opt) {
-    this.headerArr = [
-      { id: 'enquiry_no', title: 'Enquiry No.', filter: false, show: true },
-      { id: 'enquiry_date', title: 'Enquiry Date', filter: false, show: true },
-      { id: 'name', title: 'Name', filter: false, show: true },
-      { id: 'phone', title: 'Contact No.', filter: false, show: true },
-      { id: 'statusValue', title: 'Status', filter: false, show: true },
-      { id: 'priority', title: 'Priority', filter: false, show: true },
-      { id: 'follow_type', title: 'Follow type', filter: false, show: true },
-      { id: 'followUpDate', title: 'Follow up Date', filter: false, show: true },
-      { id: 'actions', title: 'Action', filter: false, show: true },
-      { id: 'updateDate', title: 'Update Date', filter: false, show: true },
-      { id: 'assigned_name', title: 'Assigned To', filter: false, show: true },
-      { id: 'email', title: 'Email', filter: false, show: false },
-      { id: 'Gender', title: 'Gender', filter: false, show: false },
-      { id: 'standard', title: 'Standard', filter: false, show: false },
-      { id: 'subjects', title: 'Subjects', filter: false, show: false }
-    ];
-
-    this.headerArr.forEach(head => {
-      opt.forEach(o => {
-        if (head.id == o) {
-          if (head.show) {
-          }
-          else {
-            this.selectedOption.push(o);
-            head.show = !head.show;
-          }
-        }
-      });
-    });
-  }
 
 
 
@@ -1708,17 +1675,30 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
   /* checkbox clicked event  */
   rowCheckBoxClick(state, id, no) {
-    console.log("rowCheckBoxClick");
-    if (state) {
+    this.sourceEnquiry[id].isSelected = state;
+    let index = this.selectedRowGroup.findIndex(i => i.data.enquiry_no == no);
+    if (index !== -1) {
+      if (!state) {
+        this.selectedRowGroup.splice(index, 1);
+        this.isAllSelected = false;
+      }
+    }
+    else {
+      if (state) {
+        this.selectedRowGroup.push(this.sourceEnquiry[id]);
+      }
+    }
+
+    //console.log(state);
+    /* if (state) {
       this.selectedRowGroup.push(this.sourceEnquiry[id]);
     }
     else {
       let index = this.selectedRowGroup.findIndex(i => i.data.enquiry_no == no);
       if (index !== -1) {
         this.selectedRowGroup.splice(index, 1);
-      }
-
-    }
+      }     
+    } */
     //console.log(this.selectedRowGroup);
   }
 
@@ -1727,8 +1707,25 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
 
   toggleSelectAll(status) {
+
+    let len = this.sourceEnquiry.length;
+
+    if (status) {
+      this.selectedRowGroup = [];
+      for (var i = 0; i < len; i++) {
+        document.getElementById('check' + i).checked = true;
+        this.selectedRowGroup.push(this.sourceEnquiry[i]);
+      }
+    }
+    else {
+      this.selectedRowGroup = [];
+      for (var i = 0; i < len; i++) {
+        document.getElementById('check' + i).checked = false;
+      }
+    }
+
     /* If User has already selected some rows */
-    if (this.selectedRowGroup.length != 0) {
+    /* if (this.selectedRowGroup.length != 0) {
       this.selectedRowGroup = [];
       if (status) {
         this.sourceEnquiry.forEach(el => {
@@ -1742,9 +1739,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
         });
         this.selectedRowGroup = [];
       }
-    }
+    } */
     /* If no rows have been selected */
-    else {
+    /* else {
       if (status) {
         this.sourceEnquiry.forEach(el => {
           el.isSelected = true;
@@ -1757,8 +1754,27 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
         });
         this.selectedRowGroup = [];
       }
-    }
+    } */
   }
+
+
+
+
+
+  /* Function to toggle smart table column on click event */
+  toggleOptionChange(bool, id) {
+
+    if (bool) {
+      this.selectedOption[id].show = true;
+      this.cd.markForCheck();
+    }
+    else {
+      this.selectedOption[id].show = false;
+      this.cd.markForCheck();
+    }
+
+  }
+
 
 
 
@@ -1766,6 +1782,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
     this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
+    this.updateFormData.followUpTime = this.followUpTime == null? '': moment(this.followUpTime).format('LT');
     this.postdata.updateEnquiryForm(this.selectedRow.data.institute_enquiry_id, this.updateFormData)
       .subscribe(res => {
         let msg = {
@@ -1776,11 +1793,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
         this.selectedRow.data.priority = this.updateFormData.priority;
         this.selectedRow.data.follow_type = this.updateFormData.follow_type;
         this.selectedRow.data.statusValue = this.updateFormData.statusValue;
-        this.selectedRow.data.followUpDate = this.updateFormData.followUpDate;
+        this.selectedRow.data.followUpDateTime = this.followUpTime == null? moment(this.updateFormData.followUpDate).format('DD-MMM-YYYY hh:mm a'): moment(this.followUpTime).format('dd-MMM-YYYY hh:mm a');
         this.selectedRow.data.status = this.enqstatus.forEach(el => { if (el.data_value == this.updateFormData.statusValue) { return el.data_key; } });
         this.selectedRow.data.updateDate = moment().format();
         this.appC.popToast(msg);
         this.closePopup();
+        this.cd.markForCheck();
       },
       err => {
         let alert = {
@@ -1789,7 +1807,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
           body: 'There was an error processing your request'
         }
         this.appC.popToast(alert);
-      })
+    })
   }
 
 
@@ -1797,6 +1815,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
   openUpdatePopUpCustom(row) {
     this.rowClicked(row);
+    this.cd.markForCheck();
     this.pops.changeMessage('update');
     this.prefill.fetchCommentsForEnquiry(this.selectedRow.data.institute_enquiry_id).subscribe(res => {
       this.updateFormData.priority = res.priority;
@@ -1836,6 +1855,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
         }
         this.appC.popToast(alert);
         this.closePopup();
+        this.cd.markForCheck();
         this.busy = this.loadTableDatatoSource(this.instituteData);
       },
       err => {
@@ -1865,6 +1885,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
           title: 'Registration Fee Updated',
         }
         this.appC.popToast(alert);
+        this.cd.markForCheck();
         this.selectedRow.data.invoice_no = res.otherDetails.invoice_no;
         this.hasReceipt = true;
         this.registrationForm = {
@@ -1875,6 +1896,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
           //remark: "",
           reference: "",
         }
+        this.cd.markForCheck();
       },
       err => {
         let alert = {
@@ -1896,9 +1918,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
     /* store the data from server and update table */
     this.enquire.fetchAllSms().subscribe(
       data => {
+        this.cd.markForCheck();
         this.smsPopSource = new LocalDataSource(data);
+        this.cd.markForCheck();
         this.smsDataLength = data.length;
+        this.cd.markForCheck();
         this.availableSMS = data[0].institute_sms_quota_available
+        this.cd.markForCheck();
       },
       err => {
         let msg = {
@@ -1924,6 +1950,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
       this.isMultiSms = true;
       this.smsServicesInvoked();
       this.smsSelectedRowsLength = this.selectedRowGroup.length;
+      this.cd.markForCheck();
     }
     else {
       let msg = {
@@ -1960,6 +1987,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
       baseIds: [],
       messageArray: []
     };
+    this.cd.markForCheck();
   }
 
 
@@ -1967,7 +1995,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
   /* Peform Delete Operation if access is OK */
   bulkDeleteEnquiries() {
-
+    this.cd.markForCheck();
     /* If Admin */
     if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == '') {
 
@@ -2116,6 +2144,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
   /* Bulk Assign popup open */
   bulkAssignEnquiriesOpen() {
+    this.cd.markForCheck();
     /* If Admin */
     if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == '') {
 
@@ -2170,6 +2199,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
       enqLi: [],/* array of institute enquiry ID */
       assigned_to: "" /* Id of assignee */
     }
+    this.cd.markForCheck();
   }
 
 
@@ -2194,6 +2224,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
         }
         this.appC.popToast(msg);
         this.bulkAssignEnquiriesClose();
+        this.cd.markForCheck();
       },
       err => {
         let msg = {
@@ -2229,6 +2260,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
     this.stats.Registered.checked = false;
     this.stats.Admitted.checked = false;
     this.stats.Registered.checked = false;
+    this.stats.Inactive.checked = false;
     this.statusString = [];
     document.getElementById('headerCheckbox').checked = false;
 
@@ -2255,7 +2287,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
     }
 
     this.sourceEnquiry = [];
-
+    this.selectedRowGroup = [];
+    this.selectedRow = null;
     this.busy = this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
       data => {
         data.forEach(el => {
@@ -2333,6 +2366,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
     this.customComponents.forEach(el => {
       el.value = '';
     });
+    this.cd.markForCheck();
   }
 
 
@@ -2387,6 +2421,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
       paymentDate: null,
       reference: null,
     }
+    this.cd.markForCheck();
   }
 
 
@@ -2399,6 +2434,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
       this.prefill.getEnqSubjects(this.advancedFilterForm.standard_id).subscribe(
         data => {
           this.enqSubject = data;
+          this.cd.markForCheck();
         }
       );
     }
@@ -2509,7 +2545,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
   /* Fetch all the enquiries as xls file */
   downloadAllEnquiries() {
-
+    this.cd.markForCheck();
     this.busy = this.enquire.fetchAllEnquiryAsXls(this.instituteData).subscribe(
       res => {
         let byteArr = this.convertBase64ToArray(res.document);
@@ -2518,10 +2554,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
         let dwldLink = document.getElementById('enq_download');
+            this.cd.markForCheck();
         dwldLink.setAttribute("href", url);
         dwldLink.setAttribute("download", fileName);
         document.body.appendChild(dwldLink);
+        this.cd.markForCheck();
         dwldLink.click();
+        this.cd.markForCheck();        
       },
       err => {
       }
@@ -2554,6 +2593,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
     if (ev.isSelected) {
       this.selectedSMS = ev.data;
       this.smsBtnToggle = false;
+      this.cd.markForCheck();
     }
   }
 
@@ -2607,18 +2647,21 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
               body: ""
             }
             this.appC.popToast(msg);
+            this.cd.markForCheck();
             this.newSmsString.data = '';
             this.newSmsString.length = 0;
             this.enquire.fetchAllSms().subscribe(
               data => {
+                this.cd.markForCheck();
                 this.smsPopSource = new LocalDataSource(data);
+                this.cd.markForCheck();
               },
               err => {
                 let msg = {
-
                 }
               }
             );
+            this.cd.markForCheck();
           }
         },
         err => { }
@@ -2641,11 +2684,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
         /* Unicode text detected */
         //console.log(ch.charCodeAt(0));
         this.newSmsString.length = this.newSmsString.length + 1;
+        this.cd.markForCheck();
       }
       else {
         /* Non unicode detected */
         //console.log(ch.charCodeAt(0));
         this.newSmsString.length = this.newSmsString.length + 1;
+        this.cd.markForCheck();
       }
     });
   }
@@ -2720,6 +2765,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
           body: 'Your sms template is pending approval, kindly contact support'
         }
         this.appC.popToast(msg);
+        this.cd.markForCheck();
       }
 
       /* Rejected  */
@@ -2731,6 +2777,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
           body: 'Your sms template has been rejected, kindly contact support'
         }
         this.appC.popToast(msg);
+        this.cd.markForCheck();
 
       }
 
@@ -2746,6 +2793,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
           this.selectedRowGroup.forEach(el => {
             //console.log(el);
             userId.push(el.data.institute_enquiry_id);
+            this.cd.markForCheck();
           });
 
 
@@ -2755,16 +2803,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
           this.sendSmsFormData.baseIds = userId;
           this.sendSmsFormData.messageArray = messageId;
-
+          this.cd.markForCheck();
           this.postdata.sendSmsToEnquirer(this.sendSmsFormData).subscribe(
             res => {
-              console.log(res);
+              //console.log(res);
               let msg = {
                 type: 'success',
                 title: 'SMS sent',
                 body: "Your sms has been sent and will be delivered shortly"
               }
               this.appC.popToast(msg);
+              this.cd.markForCheck();
             },
             err => {
               let msg = {
@@ -2773,6 +2822,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
                 body: "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify."
               }
               this.appC.popToast(msg);
+              this.cd.markForCheck();
             }
           )
 
@@ -2833,6 +2883,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
     localStorage.setItem('studentPrefill', JSON.stringify(ev));
     this.router.navigate(['student/add'])
     this.closePopup();
+    this.cd.markForCheck();
   }
 
 
@@ -2844,6 +2895,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
     this.enquire.fetchReceiptPdf(this.selectedRow.data.invoice_no).subscribe(
       res => {
+        this.cd.markForCheck();
         let byteArr = this.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
@@ -2853,6 +2905,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
         dwldLink.setAttribute("href", url);
         dwldLink.setAttribute("download", fileName);
         dwldLink.click();
+        this.cd.markForCheck();
       },
       err => { }
     )
@@ -2930,10 +2983,28 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   sortTableById(id) {
     /* Custom server sided sorting */
     this.instituteData.sorted_by = id;
-    this.instituteData.order_by = this.currentDirection == 'asc' ? 'desc' : 'asc';
+    this.currentDirection = this.currentDirection == 'desc' ? 'asc' : 'desc'
+    this.instituteData.order_by = this.currentDirection;
     this.instituteData.filtered_statuses = this.statusString.join(',');
+    this.cd.markForCheck();
     this.busy = this.loadTableDatatoSource(this.instituteData);
   }
+
+
+
+
+  clearDate(event){
+    let node = event.target.parentNode.childNodes;
+
+    [].forEach.call(node, function(el){
+      if(el.type == "text" && el.tagName == "INPUT"){
+        console.log(el.value);
+        el.value = '';
+      }
+    });
+    
+  }
+
 
 
   /* Function to convert all select-option tag to ul-li */

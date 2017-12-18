@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
+import { LoginService } from '../../../services/login-services/login.service';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
@@ -25,7 +26,7 @@ export class EnquiryBulkaddComponent implements OnInit {
   busy: Subscription;
 
   constructor(private fetchData: FetchenquiryService, private postData: PostEnquiryDataService,
-    private appC: AppComponent, private router: Router, private prefill: FetchprefilldataService) {
+    private appC: AppComponent, private router: Router, private prefill: FetchprefilldataService, private login: LoginService) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -33,6 +34,8 @@ export class EnquiryBulkaddComponent implements OnInit {
 
   ngOnInit() {
     this.busy = this.fetchBulkUploadStatusData();
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
 
