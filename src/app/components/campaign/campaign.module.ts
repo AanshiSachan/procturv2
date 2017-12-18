@@ -13,6 +13,7 @@ import 'hammerjs';
 import { CampaignHomeComponent } from './campaign-home/campaign-home.component';
 import { CampaignAddComponent } from './campaign-add/campaign-add.component';
 import { CampaignBulkComponent } from './campaign-bulk/campaign-bulk.component';
+import { CampaignPopUpComponent } from './campaign-pop-up/campaign-pop-up.component';
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import { CampaignBulkComponent } from './campaign-bulk/campaign-bulk.component';
         CampaignComponent,
         CampaignHomeComponent,
         CampaignAddComponent,
-        CampaignBulkComponent
+        CampaignBulkComponent,
+        CampaignPopUpComponent
     ], 
     entryComponents: [        
     ],

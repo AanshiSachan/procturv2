@@ -1,6 +1,13 @@
 <section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}"
 (click)="inputClicked()">
-<p>
-  campaign-home works!
-</p>
+  <!-- Navigation to other tabs -->
+  <section class="middle-top mb0 clearFix">
+    <h1 class="pull-left">
+      Campaign List
+    </h1>
+
+    <aside class="pull-right">
+      <!-- <input type="button" value="Add Campaign" class="btn" routerLink='/campaign/add' /> -->
+      <input type="button" value="Upload Campaign" routerLink='/campaign/bulk' class="btn">
+    </aside>
 </section>
