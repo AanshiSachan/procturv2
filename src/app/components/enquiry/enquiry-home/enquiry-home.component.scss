@@ -3,90 +3,116 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-
 .tooltip-table {
     &:hover .tooltip-box-right {
         visibility: visible;
         opacity: 1;
-        left: 65px;
+        left: 100px;
     }
-    .tooltip-box-right{
+    .tooltip-box-right {
         position: absolute;
-        width: 400px;
-        min-height: 200px;
-        max-height: 300px;
-        background: white;
+        min-width: 700px;
+        max-width: 750px;
+        min-height: 150px;
+        max-height: 200px;
+        background: rgb(245, 245, 237);
+        ;
         border: 1px solid #ccc;
-        left: 70px;
+        left: 100px;
         z-index: 1;
-        top: -44px;
+        top: -65px;
         visibility: hidden;
         opacity: 0;
         transition: all 0.1s linear 0.1s;
         font-size: 11px;
         border-radius: 4px;
-        padding: 3px 5px;
-        box-shadow: 0px 0px 4px #ccc;
+        padding: 10px;
+        box-shadow: 0px 0px 10px rgb(22, 21, 21);
+        ;
+        overflow-y: scroll;
+        overflow-x: hidden;
     }
 }
 
-
-.enquiry-table {
-    table {
-        /*checkbox  */
-        .field-checkbox-wrapper .form-checkbox {
-            opacity: 0;
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 20px;
-            height: 20px;
-            z-index: 1;
+.table-scroll-wrapper {
+    /* padding: 5px;
+    max-height: 800px;
+    overflow-y: scroll;
+    overflow-x: visible; */
+    .enquiry-table {
+        overflow-y: visible;
+        overflow-x: visible;
+        table {
+            .field-checkbox-wrapper {
+                width: 22px !important;
+                overflow: hidden;
+                box-sizing: border-box;
+                height: 22px !important;
+                padding-left: 25px !important;
+                margin-bottom: 0;
+                margin-left: 5px;
+                background: none;
+                border-radius: 2px;
+            }
+            .field-checkbox-wrapper .form-checkbox {
+                opacity: 0;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 22px;
+                height: 22px;
+                z-index: 1;
+            }
+            .field-checkbox-wrapper .form-checkbox+label {
+                vertical-align: middle;
+                transition: all 0s;
+                font-size: 14px;
+                display: inline-block;
+            }
+            .field-checkbox-wrapper .form-checkbox+label:after {
+                content: '';
+                width: 22px;
+                height: 22px;
+                border: 2px solid #ccc;
+                border-radius: 2px;
+                position: absolute;
+                left: 0;
+                top: 0;
+                transition: all 0s;
+            }
+            .field-checkbox-wrapper .form-checkbox:checked+label:after {
+                border: 2px solid $common-blue;
+            }
+            .field-checkbox-wrapper .form-checkbox+label:before {
+                transition: all 0s;
+                width: 1px;
+                height: 1px;
+                left: 8px;
+                top: 9px;
+                position: absolute;
+                content: '';
+                border-top: 0;
+                border-right: 0;
+                border-left: 2px solid transparent;
+                border-bottom: 2px solid transparent;
+                transform: rotate(-45deg);
+            }
+            .field-checkbox-wrapper .form-checkbox:checked+label:before {
+                border-left: 2px solid $common-blue;
+                border-bottom: 2px solid $common-blue;
+                width: 12px;
+                height: 7px;
+                left: 5px;
+                top: 6px;
+            }
+            .field-checkbox-wrapper .form-checkbox:checked+label {
+                color: $common-blue;
+            }
         }
-        .field-checkbox-wrapper .form-checkbox+label {
-            vertical-align: middle;
-            transition: all 0.1s;
-            font-size: 14px;
-            display: inline-block;
-        }
-        .field-checkbox-wrapper .form-checkbox+label:after {
-            content: '';
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ccc;
-            border-radius: 2px;
-            position: absolute;
-            left: 0;
-            top: 0;
-            transition: all 0.1s;
-        }
-        .field-checkbox-wrapper .form-checkbox:checked+label:after {
-            border: 2px solid $common-blue;
-        }
-        .field-checkbox-wrapper .form-checkbox+label:before {
-            transition: all 0.1s;
-            width: 1px;
-            height: 1px;
-            left: 8px;
-            top: 9px;
-            position: absolute;
-            content: '';
-            border-top: 0;
-            border-right: 0;
-            border-left: 2px solid transparent;
-            border-bottom: 2px solid transparent;
-            transform: rotate(-45deg);
-        }
-        .field-checkbox-wrapper .form-checkbox:checked+label:before {
-            border-left: 2px solid $common-blue;
-            border-bottom: 2px solid $common-blue;
-            width: 10px;
-            height: 4px;
-            left: 6px;
-            top: 7px;
-        }
-        .field-checkbox-wrapper .form-checkbox:checked+label {
-            color: $common-blue;
+        .empty-table-wrapper {
+            height: 100px;
+            width: 100%;
+            text-align: center;
         }
     }
 }
@@ -124,6 +150,16 @@
     line-height: 20px;
     .ng2-smart-title {
         min-width: 70px;
+    }
+}
+
+:host /deep/ ng2-smart-table table>thead>tr:first-child>th {
+    input[type='checkbox'] {
+        border: 1px solid white;
+        width: 20px;
+        height: 20px;
+        margin: 0;
+        padding: 0;
     }
 }
 
@@ -255,6 +291,12 @@
                 z-index: 0;
             }
         }
+        .date-clear {
+            position: absolute;
+            right: 40px;
+            top: 36px;
+            cursor: pointer;
+        }
     }
 }
 
@@ -293,11 +335,11 @@
     font-size: 14px !important;
     font-weight: 500;
     box-sizing: border-box;
-    height: 35px;
+    height: 32px;
     min-width: 205px;
     cursor: pointer;
     color: #0084f6;
-    padding: 3px 0px 0px 0px;
+    padding: 0px;
     font-family: 'Open Sans', Arial, sans-serif;
     font-size: 14px;
     .ui-button {
@@ -305,9 +347,10 @@
         color: #0084f6 !important;
         font-family: 'Open Sans', Arial, sans-serif;
         font-size: 14px;
-        height: 35px !important;
+        height: 30px !important;
         font-weight: 600;
         border: 1px solid $border-common !important;
+        transition: background-color 0s !important;
         &:hover {
             color: white !important;
         }
@@ -344,7 +387,7 @@
                 min-height: 39px;
                 clear: both;
                 margin: .125em 0;
-                padding: 10px 5px 5px 5px;
+                padding: 0px 5px 0px 5px;
                 color: #0084f6;
                 margin: 0px 0px -1px 0px;
                 border: none !important;
@@ -384,6 +427,7 @@
                     color: #0084f6 !important;
                     font-family: 'Open Sans', Arial, sans-serif !important;
                     font-size: 14px !important;
+                    height: 35px;
                     &:hover {
                         background: #0084f6 !important;
                     }
@@ -632,6 +676,12 @@
     border-image: initial;
     .field-wrapper {
         margin: 15px 0;
+        .date-clear {
+            position: absolute;
+            right: 15px;
+            top: 50px;
+            cursor: pointer;
+        }
     }
 }
 
@@ -883,7 +933,7 @@
     top: 50%;
     right: 0;
     background: #fff;
-    width: 140px;
+    width: 200px;
     text-align: left;
     padding: 0px;
     box-shadow: 0px 1px 2px 1px #dcdcdc;
@@ -900,7 +950,7 @@
 
 .table-heading-menu ul li {
     border-bottom: 1px solid #ccc;
-    padding: 10px 10px;
+    padding: 5px 5px;
     cursor: pointer;
 }
 
@@ -1480,7 +1530,7 @@ ul.customDropdown li:hover {
     }
     /* Dropdown Content (Hidden by Default) */
     .bulk-dropdown-content {
-        display: none;
+        display: block;
         position: absolute;
         background-color: #f9f9f9;
         min-width: 70px;

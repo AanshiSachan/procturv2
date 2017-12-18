@@ -1,11 +1,12 @@
-<div class="middle-section clearFix" id="enquiryList" (click)="inputClicked()">
+<div class="middle-section clearFix" id="enquiryList" (click)="inputClicked($event)"
+[ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
 
 
 
 
   <section class="middle-top clearFix bulk-header">
 
-    <div class="row">
+    <!-- <div class="row">
       <ul class="breadc">
 
         <li>
@@ -17,14 +18,14 @@
         </li>
 
       </ul>
-    </div>
+    </div> -->
 
     <div class="row">
       <h1 class="pull-left">
         Upload Enquiry
       </h1>
       <aside class="pull-right">
-        <input type="button" value="Enquiry Upload Report" (click)="bulkStatusReporter()" class="btn" />
+        <input type="button" value="Upload Status Report" (click)="bulkStatusReporter()" class="btn" />
         <a id="template_link">
           <input type="button" value="Download Template" class="btn" (click)="downloadTemplate()" />
         </a>
@@ -115,7 +116,7 @@
                 <td>{{record.failure_count}}</td>
                 <td>
                   <a [id]="record.list_id" class="download-icon" (click)="downloadBulkStatusReport(record)">
-                    Download Report
+                    Generate Report
                   </a>
                 </td>
               </tr>

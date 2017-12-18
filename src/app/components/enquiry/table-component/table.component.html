@@ -1,0 +1,13 @@
+<table>
+    <header 
+    [header]="header"
+    [isAllSelected]="isAllSelected"
+    (sort)="sort($event)">
+    </header>
+
+    <body
+    [rows]="rows"
+    (multipleSelectRow)="multipleSelectRow($event)"
+    (userSelectRow)="userSelectRow($event)"
+    ></body>
+</table>

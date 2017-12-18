@@ -12,7 +12,7 @@ export interface updateEnquiryForm {
     followUpDate?: any,
     commentDate?: any,
     followUpTime?: any,
-
+    followUpDateTime?:any,
     isEnquiryV2Update?: any,
     // this property used for ProcturV2 status update..for ProcturV2 it should be Y else it should be ’N’
 

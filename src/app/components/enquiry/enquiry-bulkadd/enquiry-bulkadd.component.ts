@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
+import { LoginService } from '../../../services/login-services/login.service';
+import { Observable } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { Base64 } from 'js-base64';
 import { AppComponent } from '../../../app.component';
@@ -20,16 +23,19 @@ export class EnquiryBulkaddComponent implements OnInit {
   fileLoading: string = "";
   isBulkUploadStatus: boolean = false;
   bulkUploadRecords: any;
+  busy: Subscription;
 
   constructor(private fetchData: FetchenquiryService, private postData: PostEnquiryDataService,
-    private appC: AppComponent, private router: Router, private prefill: FetchprefilldataService) {
+    private appC: AppComponent, private router: Router, private prefill: FetchprefilldataService, private login: LoginService) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
   }
 
   ngOnInit() {
-    this.fetchBulkUploadStatusData();
+    this.busy = this.fetchBulkUploadStatusData();
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
 
@@ -120,7 +126,6 @@ export class EnquiryBulkaddComponent implements OnInit {
             }
             this.appC.popToast(data);
             this.fetchBulkUploadStatusData();
-            //console.log(xhr.response);
           } else {
             this.isUploadingXls = false;
             let data = {
@@ -142,7 +147,7 @@ export class EnquiryBulkaddComponent implements OnInit {
 
   /* fetch the status of the data updated to server */
   fetchBulkUploadStatusData() {
-    this.prefill.fetchBulkUpdateStatusReport().subscribe(
+    return this.prefill.fetchBulkUpdateStatusReport().subscribe(
       res => {
         this.bulkUploadRecords = res;
       }
@@ -162,44 +167,47 @@ export class EnquiryBulkaddComponent implements OnInit {
 
   /* download the xls status report for a particular file uploaded */
   downloadBulkStatusReport(el) {
+
     this.fetchData.fetchBulkReport(el.list_id).subscribe(
       res => {
-          let byteArr = this.convertBase64ToArray(res.document);
-          let format = res.format;
-          let fileName = res.docTitle;
-          let fileId: string = el.list_id.toString();
-          let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
-          let url = URL.createObjectURL(file);
-          let dwldLink = document.getElementById(fileId);
-          dwldLink.setAttribute("href", url);
-          dwldLink.setAttribute("download", fileName);
+        let byteArr = this.convertBase64ToArray(res.document);
+        let format = res.format;
+        let fileName = res.docTitle;
+        let fileId: string = el.list_id.toString();
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById(fileId);
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        dwldLink.innerText = 'Download Report';
       },
-      err => {}
+      err => { }
     )
   }
 
 
   /* Customiized click detection strategy */
-  inputClicked() {
-    var nodelist = document.querySelectorAll('.form-ctrl');
-    [].forEach.call(nodelist, (elm) => {
-      elm.addEventListener('blur', function (event) {
-        if (event.target.value != '') {
-          event.target.parentNode.classList.add('has-value');
-        } else {
-          event.target.parentNode.classList.remove('has-value');
-        }
-      });
-    });
+  inputClicked(ev) {
+    if (ev.target.classList.contains('form-ctrl')) {
+      if (ev.target.classList.contains('bsDatepicker')) {
+        var nodelist = document.querySelectorAll('.bsDatepicker');
+        [].forEach.call(nodelist, (elm) => {
+          elm.addEventListener('focusout', function (event) {
+            event.target.parentNode.classList.add('has-value');
+          });
 
-    /* var dropdowns = document.getElementsByClassName("bulk-dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
+        });
       }
-    } */
-
+      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
+        //document.getElementById(ev.target.id).click();
+        ev.target.addEventListener('blur', function (event) {
+          if (event.target.value != '') {
+            event.target.parentNode.classList.add('has-value');
+          } else {
+            event.target.parentNode.classList.remove('has-value');
+          }
+        });
+      }
+    }
   }
 }

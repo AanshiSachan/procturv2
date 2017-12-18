@@ -1,4 +1,4 @@
-<section class="middle-section clearFix" (click)="inputClicked()">
+<section class="middle-section clearFix" (click)="inputClicked($event)" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
 
   <form (ngSubmit)="save()" #myForm="ngForm">
 
@@ -7,7 +7,7 @@
 
       <!-- Header -->
       <section class="middle-top clearFix">
-        <div class="row">
+        <!-- <div class="row">
           <ul class="breadc">
 
             <li>
@@ -19,7 +19,7 @@
             </li>
 
           </ul>
-        </div>
+        </div> -->
 
         <div class="row">
           <h1 class="pull-left">
@@ -231,41 +231,55 @@
                       <span class="qInfoIcon">?</span>
                     </div> -->
                   </div>
-                  <custom-enquiry *ngFor="let component of componentPrefill">
+                  <custom-enquiry *ngFor="let component of customComponents">
 
-                    <div class="field-wrapper has-value" *ngIf="component.type == 1" input-def>
-                      <input type="text" value="" id="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
-                        (ngModelChange)="customComponentUpdated($event, component)" class="form-ctrl" name="component.label"
-                        enquiryInput/>
-                      <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
-                      <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
+                    <div class="" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
+                      <div class="field-wrapper">
+                        <input type="text" value="" id="component.id" [(ngModel)]="component.value" class="form-ctrl" name="component.label" />
+                        <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
+                      </div>
                     </div>
 
-                    <div class="field-checkbox-wrapper" *ngIf="component.type == 2" input-def>
-                      <input class="form-checkbox" id="component.label" name="component.label" type="checkbox" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
-                        (ngModelChange)="customComponentUpdated($event, component)" value="">
-                      <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
-                      <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
+                    <div class="" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
+                      <br>
+                      <div class="field-checkbox-wrapper">
+                        <input class="form-checkbox" id="component.id" type="checkbox" [(ngModel)]="component.value" name="component.label" value="">
+                        <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
+                      </div>
                     </div>
 
-                    <div class="field-wrapper has-value" *ngIf="component.type == 3" input-def>
-                      <select id="component.label" class="form-ctrl" name="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
-                        (ngModelChange)="customComponentUpdated($event, component)" enquiryInput>
-                        <option value=""></option>
-                        <option *ngFor="let opt of component.prefilled_data" value="{{opt}}">{{opt}}</option>
-                      </select>
-                      <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
-                      <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
+                    <div class="" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
+                      <div class="field-wrapper">
+                        <select id="component.id" class="form-ctrl" [(ngModel)]="component.value" name="component.label">
+                          <option value=""></option>
+                          <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
+                        </select>
+                        <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
+                      </div>
                     </div>
 
-                    <div class="field-wrapper has-value" *ngIf="component.type == 4" input-def>
-                      <select id="component.label" class="form-ctrl" name="component.label" [(ngModel)]="componentListObject[component.component_id].enq_custom_value"
-                        (ngModelChange)="customComponentUpdated($event, component)" multiple enquiryInput>
-                        <option value=""></option>
-                        <option *ngFor="let opt of component.prefilled_data" value="component">{{opt}}</option>
-                      </select>
-                      <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
-                      <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
+                    <div class="" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
+                      <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
+                        <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" autocomplete="off" name="{{component.label}}" class="form-ctrl"/>
+                        <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
+                      </div>
+                      <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
+                        <div class="multiselect-wrapper-inner">
+                          <ul class="">
+                            <li *ngFor="let opt of component.prefilled_data">
+                              <div class="field-checkbox-wrapper">
+                                <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
+                                  class="form-checkbox">
+                                <label for="opt.data">{{opt.data}}</label>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
                     </div>
 
                   </custom-enquiry>
@@ -301,16 +315,14 @@
           <strong>Enquiry Details</strong> (Official Use)</h4>
         <div class="box-shadow-lite">
           <div class="field-wrapper has-value datePickerBox" enquiryDate>
-            <input type="text" value="" id="enquiryDate" class="form-ctrl" [(ngModel)]="editEnqData.enquiry_date" name="enquiryDate"
+            <input type="text" value="" id="enquiryDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.enquiry_date" name="enquiryDate"
               bsDatepicker>
             <label for="enquiryDate">Enquiry Date</label>
           </div>
           <div class="field-wrapper has-value ">
             <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status" enquiryInput>
               <option value=""></option>
-              <option *ngFor="let status of enqstatus" 
-              [value]="status.data_key"
-              [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
+              <option *ngFor="let status of enqstatus" [value]="status.data_key" [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
             </select>
             <label for="eStatus">Enquiry Status</label>
           </div>
@@ -333,7 +345,7 @@
             <label for="followUpType">Follow Up Type</label>
           </div>
           <div class="field-wrapper has-value datePickerBox" enquiryDate>
-            <input type="text" value="" id="followUpDate" class="form-ctrl" [(ngModel)]="editEnqData.followUpDate" name="followUpDate"
+            <input type="text" value="" id="followUpDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.followUpDate" name="followUpDate"
               bsDatepicker>
             <label for="followUpDate">Follow Up Date</label>
           </div>
@@ -351,7 +363,7 @@
             </select>
             <label for="refferedBy">Referred By</label>
           </div>
-          <div class="field-wrapper has-value">
+          <div class="field-wrapper has-value" *ngIf="isEnquiryAdmin">
             <select id="assignedTo" class="form-ctrl" [(ngModel)]="editEnqData.assigned_to" name="assigned_to" enquiryInput>
               <option value=""></option>
               <option *ngFor="let assign of enqAssignTo" [value]="assign.userid">{{assign.name}}</option>
@@ -389,13 +401,13 @@
         <div class="popup-content" style="min-height: 400px; max-height: 500px; padding: 15px 15px 20px 15px;">
           <h2>Update Enquiry No: {{commentUpdater.enquiry_no}}</h2>
           <div class="update-enquiry-form overflowHidden">
-    
-            <aside class="pull-right form-wrapper">              
+
+            <aside class="pull-right form-wrapper">
               <div class="row">
                 <div class="c-lg-12 c-md-12 c-sm-12">
                   <div class="field-wrapper">
-                    <textarea placeholder="Update Comment Here (max 1000 characters)" rows="2" cols="10" style="height: 200px;" id="addcommentEdit" class="form-ctrl"
-                      [(ngModel)]="updateFormData.comment">
+                    <textarea placeholder="Update Comment Here (max 1000 characters)" rows="2" cols="10" style="height: 200px;" id="addcommentEdit"
+                      class="form-ctrl" [(ngModel)]="updateFormData.comment">
                     </textarea>
                   </div>
                 </div>

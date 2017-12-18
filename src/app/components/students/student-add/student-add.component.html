@@ -1,4 +1,4 @@
-<section class="middle-section clearFix" (click)="inputClicked()" [ngBusy]="{busy: busyPrefill, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
+<section class="middle-section clearFix" (click)="inputClicked($event)" [ngBusy]="{busy: busyPrefill, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
 
 
   <section class="" id="studentFlow">
@@ -170,7 +170,7 @@
               <div class="c-lg-4 c-md-4 c-sm-4">
                 <div class="image-wrapper">
                   <img src="" alt="" id="preview-img">
-                  <div class="input-holder" >
+                  <div class="input-holder">
                     <input type="file" name="myFile" id="image-input" (change)="uploadHandler()">
                     <label class="uploadImg" for="image-input">Upload image</label>
                     <label class="removeImg" (click)="removeImage()">Remove image</label>
@@ -185,14 +185,9 @@
                   <h2>Additional Details</h2>
 
                   <div class="field-wrapper datePickerBox">
-                    <input type="text" value="" id="sdob" class="form-ctrl" name="sdob" [(ngModel)]="studentAddFormData.dob" #sdob="ngModel"
-                      bsDatepicker required>
-                    <label for="sdob">Date of Birth*</label>
-                    <div *ngIf="sdob.invalid && (sdob.dirty || sdob.touched)" class="alert invalid-alert">
-                      <div *ngIf="sdob.errors.required">
-                        Date of Birth is required.
-                      </div>
-                    </div>
+                    <input type="text" value="" id="sdob" class="form-ctrl bsDatepicker" name="sdob" [(ngModel)]="studentAddFormData.dob" #sdob="ngModel"
+                      bsDatepicker>
+                    <label for="sdob">Date of Birth</label>
                   </div>
 
                   <div class="field-wrapper">
@@ -305,7 +300,7 @@
               <div class="box-shadow-lite">
 
                 <div class="field-wrapper has-value">
-                  <input type="text" value="" id="doj" class="form-ctrl" bsDatepicker name="doj" [(ngModel)]="studentAddFormData.doj" />
+                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" [(ngModel)]="studentAddFormData.doj" />
                   <label for="doj">Date of Joining</label>
                   <span class="follow-up-date-icon">
                     <img src="./assets/images/calendar.svg" alt="" />
@@ -435,7 +430,7 @@
             </div>
           </div>
           <aside class="pull-right">
-            <input type="button" value="Cancel" class="btn cancle">
+            <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
             <input type="button" id="form-continue" [disabled]="!values.form.valid" value="Save and Continue" class="btn redBtn" (click)="navigateTo('kyc')">
             <input type="button" id="form-submit" [disabled]="!values.form.valid" (click)="studentQuickAdder(values)" value="Submit"
               class="btn hide redBtn">
@@ -528,7 +523,7 @@
           </aside>
         </section>
         <section class="middle-bottom clearFix ">
-          <div class="pull-left">
+          <aside class="pull-left">
             <input type="button" value="Back" class="btn" (click)="navigateTo('studentForm')">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="quickadd" [ngModel]="quickAddStudent" (ngModelChange)="addStudentNow($event)" class="form-checkbox"
@@ -541,9 +536,9 @@
                 </div>
               </div>
             </div>
-          </div>
+          </aside>
           <aside class="pull-right">
-            <input type="button" value="Cancel" class="btn cancle">
+            <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
             <input type="button" id="form-kyc-continue" [disabled]="!values.form.valid" value="Save and Continue" class="btn redBtn"
               (click)="navigateTo('feeDetails')">
             <input type="button" id="form-kyc-submit" [disabled]="!values.form.valid" (click)="studentQuickAdder(values)" value="Submit"
@@ -598,7 +593,7 @@
               <label for="feeStructure">Fee Structure*</label>
             </div>
             <div class="field-wrapper datePickerBox">
-              <input type="text" value="" id="effectiveDate" class="form-ctrl" bsDatepicker>
+              <input type="text" value="" id="effectiveDate" class="form-ctrl bsDatepicker" bsDatepicker>
               <label for="effectiveDate">Effective Date*</label>
             </div>
             <input type="button" value="Apply" class="btn fullBlue">
@@ -797,7 +792,7 @@
               <td>{{batch.data.end_date}}</td>
               <td>
                 <div class="field-wrapper datePickerBox has-value">
-                  <input type="text" value="" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl" bsDatepicker>
+                  <input type="text" value="" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker" bsDatepicker>
                   <label for="assigndate">Assign Date</label>
                 </div>
             </tr>

@@ -42,4 +42,5 @@ export interface instituteInfo {
     enqCustomLi?: any;
     sorted_by?: any;
     order_by?: any;
+    stuCustomLi?: any;
 }

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { EnquiryComponent } from './enquiry.component';
 import { EnquiryAddComponent } from './enquiry-add/enquiry-add.component';
 import { EnquiryBulkaddComponent } from './enquiry-bulkadd/enquiry-bulkadd.component';
-import { EnquiryManageComponent } from './enquiry-manage/enquiry-manage.component';
 import { EnquiryRoutingModule } from "./enquiry-routing.module";
 import { ActionButtonComponent } from './enquiry-home/action-button.component';
 import { CommentTooltipComponent } from './enquiry-home/comment-tooltip.component';
@@ -23,9 +22,15 @@ import { Ng2SmartTableModule } from '../../../assets/imported_modules/ng2-smart-
 import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
+import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/timepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import { DateConverter } from './enquiry-home/enquiry-home.component';
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { TableComponent } from './table-component/table.component';
+import { TableBodyComponent } from './table-component/table-body.component';
+import { TableHeaderComponent } from './table-component/table-header.component';
+import { TableCellComponent } from './table-component/table-cell.component';
 
 @NgModule({
     imports: [
@@ -38,6 +43,7 @@ import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
         CommonModule,
         EnquiryRoutingModule,
         BsDatepickerModule,
+        TimepickerModule,
         FileUploadModule,
         SplitButtonModule,
         MenuModule
@@ -46,8 +52,8 @@ import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
         EnquiryComponent,
         EnquiryAddComponent,
         EnquiryBulkaddComponent,
-        EnquiryManageComponent,
         ActionButtonComponent,
+        TableBodyComponent,
         SmsOptionComponent,
         EnquiryEditComponent,
         EnquiryPopUpComponent,
@@ -56,13 +62,21 @@ import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
         UserEnquiryComponent,
         DateConverter,
         EnquiryHomeComponent,
-        CommentTooltipComponent
+        CommentTooltipComponent,
+        PaginationComponent,
+        TableComponent,
+        TableHeaderComponent,
+        TableCellComponent
     ],
     entryComponents: [
         ActionButtonComponent,
         SmsOptionComponent,
         UserEnquiryComponent,
-        CommentTooltipComponent
+        CommentTooltipComponent,
+        TableComponent,
+        TableBodyComponent,
+        TableHeaderComponent,
+        TableCellComponent
     ],
     providers: [
     ]

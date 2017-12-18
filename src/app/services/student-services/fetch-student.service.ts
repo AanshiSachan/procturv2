@@ -64,7 +64,12 @@ export class FetchStudentService {
       res => {
         return res.json();
       }
-    )
+    )    
+  }
+
+
+
+  fetchBulkUpdateStatusReport(){
     
   }
 

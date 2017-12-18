@@ -20,7 +20,7 @@ exports.BUSY_CONFIG_DEFAULTS = {
     delay: 0,
     minDuration: 0,
     backdrop: false,
-    message: 'Please wait...',
+    message: 'Loading',
     wrapperClass: 'ng-busy'
 };
 //# sourceMappingURL=busy-config.js.map

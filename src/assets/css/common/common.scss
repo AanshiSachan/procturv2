@@ -4,7 +4,6 @@
 
 ::-webkit-scrollbar {
     width: 5px;
-    height: 5px;
 }
 
 
@@ -90,6 +89,52 @@
     overflow: auto;
 }
 
+
+.field-wrapper {
+    position: relative;
+    padding-top: 10px;
+    &.datePickerBox {
+        .bsDatepicker {
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            background: transparent;
+                /*&:after{
+                content: '';
+                background: url("/../../../../assets/images/close.svg") no-repeat;
+                position: absolute;
+                right: 40px;
+                top: 20px;
+                width: 100%;
+                height: 21px;
+                z-index: 0;
+                &:focus{
+    
+                }    
+            } */
+        }
+        &:after {
+            content: '';
+            background: url("/../../../../assets/images/calendar.svg") no-repeat;
+            position: absolute;
+            right: 0;
+            top: 18px;
+            width: 21px;
+            height: 21px;
+            z-index: 0;
+        }
+        
+    }
+    .date-clear {
+        position: absolute;
+        right: 15px;
+        top: 50px;
+        cursor: pointer;
+    }
+}
+
+
+
 .field-wrapper {
     position: relative;
     padding-top: 10px;
@@ -110,6 +155,12 @@
             height: 21px;
             z-index: 0;
         }
+    }
+    .date-clear {
+        position: absolute;
+        right: 15px;
+        top: 50px;
+        cursor: pointer;
     }
 }
 
@@ -379,6 +430,7 @@ h3 {
 .align-right {
     text-align: right;
 }
+
 .align-left {
     text-align: left;
 }
@@ -427,6 +479,12 @@ h3 {
             height: 21px;
             z-index: 0;
         }
+    }
+    .date-clear {
+        position: absolute;
+        right: 15px;
+        top: 50px;
+        cursor: pointer;
     }
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ViewCell } from '../../../../assets/imported_modules/ng2-smart-table';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 import { Router } from '@angular/router';
@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
   <style>
 
    .table-action-icon{
-     max-height: 50px;
-     max-width: 50px;
+     max-height: 40px;
+     max-width: 40px;
      background: none;
      text-decoration: none;
      outline: none;
@@ -120,10 +120,10 @@ import { Router } from '@angular/router';
   <div class="enquiry-action">
 
     <button class="btn table-action-icon action_button" style="outline:none;border:none;" (click)="openMenu($event)" >
-    <img src="./assets/images/action_hover.svg" height="20" width="20">
+    <img src="./assets/images/action_hover.svg" style="height:30px;width:30px;">
     </button>
   
-    <div class="action-menu" [hidden]="!showMenu" (mouseleave)="closeMenu()" (click)="closeMenu()">
+    <div class="action-menu" *ngIf="showMenu" (mouseleave)="closeMenu()" (click)="closeMenu()">
   
      <div class="action-menu-inner">
 
@@ -142,21 +142,21 @@ import { Router } from '@angular/router';
         </span>
       </li>
       
-      <li (click)="openPopup('delete')">
+      <li (click)="openPopup('delete')" *ngIf="rowData.status ==0">
         <img src="./assets/images/delete_entry.svg" height="20" width="30">
         <span>
           Delete<br>Entry
         </span>
       </li>
 
-      <li (click)="openPopup('convert')" *ngIf="rowData.status !=12"> 
+      <li (click)="openPopup('convert')" *ngIf="rowData.status !=12 && hasStudentAccess"> 
         <img src="./assets/images/convert_student.svg" height="20" width="30">
         <span>
           Convert <br> to Student
         </span>
       </li>
       
-      <li (click)="openPopup('payment')" *ngIf="isProfessional">
+      <li (click)="openPopup('payment')" *ngIf="isProfessional && (rowData.status == 12|| rowData.status ==11)">
          <img src="./assets/images/reciept_preview.svg" height="20" width="30">
          <span>
           Pay  <br> Restistration Fees
@@ -178,6 +178,7 @@ import { Router } from '@angular/router';
 
   </div>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 
@@ -187,18 +188,21 @@ export class ActionButtonComponent implements OnInit {
   private showMenu: boolean = false;
   private isProfessional: boolean = false;
   private isActionDisabled: boolean;
-  @Input() rowData:any;
+  hasStudentAccess: boolean = false;
+  @Input() rowData: any;
   /* message to describe which popup to be opened  */
   message: string = "";
 
-  constructor(private pops: PopupHandlerService, private router: Router) { }
+  constructor(private pops: PopupHandlerService, private router: Router, private cd: ChangeDetectorRef) { }
 
   /* OnInit function to listen the changes in message value from service */
   ngOnInit() {
     this.professionalStatus();
     this.pops.currentMessage.subscribe(message => this.message = message);
     this.pops.currentActionValue.subscribe(data => this.isActionDisabled = data);
-    //console.log(this.rowData);
+    let permissions: any[] = [];    
+    this.setRoleAccess();
+    this.cd.markForCheck();
   }
 
   /* open action menu on click */
@@ -227,6 +231,22 @@ export class ActionButtonComponent implements OnInit {
     }
     else {
       this.isProfessional = false;
+    }
+  }
+
+  setRoleAccess(){
+    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+     this.hasStudentAccess = true;
+    }
+    else {
+      let permissions: any[] = [];
+      permissions = JSON.parse(sessionStorage.getItem('permissions'));
+      if(permissions.includes('301')){
+        this.hasStudentAccess = true;
+      }
+      else{
+        this.hasStudentAccess = false;
+      }
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 
@@ -26,6 +26,7 @@ import { PopupHandlerService } from '../../../services/enquiry-services/popup-ha
   </div>
 
     `,
+    /* changeDetection: ChangeDetectionStrategy.OnPush */  
 })
 
 
@@ -33,14 +34,18 @@ export class SmsOptionComponent implements OnInit {
 
     sms: string = "";
 
-    constructor(private router: Router, private pops: PopupHandlerService) {
+    constructor(private router: Router, private pops: PopupHandlerService, private cd: ChangeDetectorRef) {
       this.pops.currentMessage.subscribe(data => this.sms = data);
+      
      }
 
     /* OnInit function to listen the changes in message value from service */
-    ngOnInit() {}
+    ngOnInit() {
+        this.cd.markForCheck();
+    }
 
     emitEdit(){
       this.pops.changeSmsMessage('edit');
+      this.cd.markForCheck();
     }
 }

@@ -34,6 +34,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AppRoutingModule } from './app-routing.module';
 import { ToasterModule } from '../assets/imported_modules/angular2-toaster/angular2-toaster';
 import { BsDatepickerModule } from '../assets/imported_modules/ngx-bootstrap/datepicker';
+import { TimepickerModule  } from '../assets/imported_modules/ngx-bootstrap/timepicker';
 import { ErrorComponent } from './components/error/error.component';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
 import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.component';
@@ -51,7 +52,8 @@ import { PostStudentDataService } from './services/student-services/post-student
     BrowserAnimationsModule,
     Ng2SmartTableModule,
     ToasterModule,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    TimepickerModule.forRoot()
   ],
   declarations: [
     AppComponent,

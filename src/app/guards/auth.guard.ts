@@ -28,9 +28,25 @@ export class AuthGuard implements CanActivate, CanLoad {
 
 
     checkLogin(string): boolean{
-
+        
         if((sessionStorage.getItem('Authorization') != null)&&sessionStorage.getItem('institute_id') != null){
-            return true;
+
+            if(string.indexOf('enquiry') >= 0){
+                //alert('enquiry routed');
+                return true;
+            }
+            else if(string.indexOf('student') >= 0){
+                //alert('student routed');
+                return true;
+            }
+            else if(string.indexOf('custom') >= 0){
+                //alert('custom routed');
+                return true;
+            }
+            else if(string.indexOf('campaign') >= 0){
+                //alert('campaign routed');
+                return true;
+            }
         }
         else{
             return false;

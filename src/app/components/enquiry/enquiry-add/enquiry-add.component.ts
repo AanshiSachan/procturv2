@@ -11,6 +11,7 @@ import { addEnquiryForm } from '../../../model/add-enquiry-form';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
+import { LoginService } from '../../../services/login-services/login.service';
 import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
 
@@ -94,16 +95,18 @@ export class EnquiryAddComponent implements OnInit {
   errorMessage: any;
   submitError: boolean = false;
   addNextCheck: boolean = false;
-
-  isNewInstitute: boolean = false;
+  isEnquiryAdmin:boolean = false;
+  busy: Subscription;
+  isNewInstitute: boolean = true;
+  private customComponents: any[] = [];
   /* Institute List for edit and delete purpose */
   instituteList: any;
 
-  isNewSource: boolean = false;
+  isNewSource: boolean = true;
   /* Institute List for edit and delete purpose */
   sourceList: any;
 
-  isNewRefer: boolean = false;
+  isNewRefer: boolean = true;
   /* Institute List for edit and delete purpose */
   referList: any;
 
@@ -126,7 +129,7 @@ export class EnquiryAddComponent implements OnInit {
   }
 
   constructor(private prefill: FetchprefilldataService, private router: Router,
-    private logger: Logger, private appC: AppComponent, private poster: PostEnquiryDataService) {
+    private logger: Logger, private appC: AppComponent, private poster: PostEnquiryDataService, private login: LoginService) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -136,8 +139,12 @@ export class EnquiryAddComponent implements OnInit {
 
   /* OnInit Initialized */
   ngOnInit() {
+    this.isEnquiryAdministrator;
+    this.busy = this.FetchEnquiryPrefilledData();
 
-    this.FetchEnquiryPrefilledData();
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
+
     /* Model for Enquiry Data */
     this.newEnqData = {
       name: "",
@@ -347,6 +354,8 @@ export class EnquiryAddComponent implements OnInit {
     this.prefill.fetchLastDetail().subscribe(
       data => {
         this.lastDetail = data;
+        this.lastDetail.name = data.name;
+        this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
         let createTime = new Date(data.enquiry_creation_datetime);
         this.lastUpdated = moment(createTime).fromNow();
       },
@@ -357,30 +366,122 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-    this.prefill.fetchCustomComponent()
+    return this.prefill.fetchCustomComponent()
       .subscribe(
       data => {
-        //console.log(data);
         data.forEach(el => {
-          let temp = {
-            component_id: el.component_id,
-            enq_custom_id: "0",
-            enq_custom_value: ""
+
+          let obj = {
+            data: el,
+            id: el.component_id,
+            is_required: el.is_required,
+            is_searchable: el.is_searchable,
+            label: el.label,
+            prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+            selected: [],
+            selectedString: '',
+            type: el.type,
+            value: el.enq_custom_value
           }
-          let index = el.component_id.toString();
-          //console.log(index)
-          this.componentListObject[index] = temp;
-          let dataArr = el.prefilled_data.split(',');
-          el.prefilled_data = dataArr
-          this.componentPrefill.push(el);
+          this.customComponents.push(obj);
+
         });
         this.emptyCustomComponent = this.componentListObject;
-      },
-      err => {
-        //console.log("error");
       }
       );
   }
+
+
+
+
+
+
+  /* Custom Compoenent array creater */
+  createPrefilledData(dataArr: any[]): any[] {
+    let customPrefilled: any[] = [];
+    dataArr.forEach(el => {
+      let obj = {
+        data: el,
+        checked: false
+      }
+      customPrefilled.push(obj);
+    });
+
+    return customPrefilled;
+  }
+
+
+
+
+  /* if custom component is of type multielect then toggle the visibility of the dropdowm */
+  multiselectVisible(elid) {
+    let targetid = elid + "multi";
+    if (document.getElementById(targetid).classList.contains('hide')) {
+      document.getElementById(targetid).classList.remove('hide');
+    }
+    else {
+      document.getElementById(targetid).classList.add('hide');
+    }
+  }
+
+
+
+
+
+
+  /* if custom component is of type multielect then update the selected or unselected data*/
+  updateMultiSelect(data, id) {
+    this.customComponents.forEach(el => {
+      if (el.id == id) {
+        el.prefilled_data.forEach(com => {
+          //console.log(com);
+          if (com.data == data.data) {
+            /* Component checked */
+            if (com.checked) {
+              el.selected.push(com.data);
+              if (el.selected.length != 0) {
+                document.getElementById(id + 'wrapper').classList.add('has-value');
+              }
+              else {
+                document.getElementById(id + 'wrapper').classList.remove('has-value');
+              }
+              //console.log(com.selected);
+              el.selectedString = el.selected.join(',');
+              el.value = el.selectedString;
+            }
+            /* Component unchecked */
+            else {
+              if (el.selected.length != 0) {
+                document.getElementById(id + 'wrapper').classList.add('has-value');
+              }
+              else if (el.selected.length == 0) {
+                document.getElementById(id + 'wrapper').classList.remove('has-value');
+              }
+              //console.log(com.selected);
+              var index = el.selected.indexOf(data.data);
+              if (index > -1) {
+                el.selected.splice(index, 1);
+              }
+              el.selectedString = el.selected.join(',');
+              el.value = el.selectedString;
+              /* var index2 = el.selected.indexOf(data.data);
+                if (index2 > -1) {
+                el.selected.splice(index, 1);
+                }
+                el.selectedString = el.selected.join(','); 
+              */
+            }
+          }
+        });
+      }
+    });
+
+  }
+
+
+
+
+
 
 
 
@@ -457,17 +558,19 @@ export class EnquiryAddComponent implements OnInit {
 
   /* Function to fetch subject when user selects a standard from dropdown */
   fetchSubject(value) {
-    //console.log(value);
-    this.newEnqData.standard_id = value;
-    this.prefill.getEnqSubjects(this.newEnqData.standard_id).subscribe(
-      data => {
-        this.enqSub = data;
-        // console.log(data); 
-      },
-      err => {
-        //  console.log(err); 
-      }
-    )
+
+    if (value != null || value != '') {
+      this.newEnqData.standard_id = value;
+      this.prefill.getEnqSubjects(this.newEnqData.standard_id).subscribe(
+        data => {
+          this.enqSub = data;
+        }
+      )
+    }
+    else {
+      this.enqSub = [];
+    }
+
   }
 
 
@@ -513,6 +616,11 @@ export class EnquiryAddComponent implements OnInit {
       lead_id: -1,
       enqCustomLi: []
     };
+
+    this.customComponents.forEach(el => {
+      el.value = '';
+    });
+
   }
 
 
@@ -520,17 +628,14 @@ export class EnquiryAddComponent implements OnInit {
 
   /* Function to submit validated form data */
   submitForm(form: NgForm) {
-
     //Validates if the custom component required fields are selected or not
     let customComponentValidator = this.validateCustomComponent();
 
     /* Validate the predefine required fields of the form */
     this.isFormValid = this.ValidateFormDataBeforeSubmit();
-
-    //console.log(this.isFormValid && customComponentValidator);
-
+    
     /* Upload Data if the formData is valid */
-    if (this.isFormValid && this.isCustomComponentValid) {
+    if (this.isFormValid && customComponentValidator) {
 
       this.newEnqData.enquiry_date = moment(this.newEnqData.enquiry_date).format('YYYY-MM-DD');
       this.newEnqData.followUpDate = moment(this.newEnqData.followUpDate).format('YYYY-MM-DD');
@@ -548,6 +653,8 @@ export class EnquiryAddComponent implements OnInit {
             this.prefill.fetchLastDetail().subscribe(el =>
               data => {
                 this.lastDetail = data;
+                this.lastDetail.name = data.name;
+                this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
                 localStorage.setItem('institute_enquiry_id', data.institute_enquiry_id);
                 let createTime = new Date(data.enquiry_creation_datetime);
                 this.lastUpdated = moment(createTime).fromNow();
@@ -560,6 +667,8 @@ export class EnquiryAddComponent implements OnInit {
             this.prefill.fetchLastDetail().subscribe(el =>
               data => {
                 this.lastDetail = data;
+                this.lastDetail.name = data.name;
+                this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
                 let createTime = new Date(data.enquiry_creation_datetime);
                 localStorage.setItem('institute_enquiry_id', data.institute_enquiry_id);
                 this.lastUpdated = moment(createTime).fromNow();
@@ -574,15 +683,19 @@ export class EnquiryAddComponent implements OnInit {
           let data = {
             type: "error",
             title: "Error Posting New Enquiry",
-            body: err.message +" mobile number is already in use, please provide another primary contact"
+            body: err.message + " mobile number is already in use, please provide another primary contact"
           }
           this.appC.popToast(data);
         }
       );
     }
-    /* Do Nothing if the formData is Still Invalid  */
     else {
-      this.newEnqData.enqCustomLi = [];
+      let msg = {
+        type: 'error',
+        title: 'Academic Data Incomplete',
+        body: 'Please fill the mandatory required field'
+      }
+      this.appC.popToast(msg);
       this.submitError = true;
     }
   }
@@ -592,63 +705,17 @@ export class EnquiryAddComponent implements OnInit {
 
   validateCustomComponent(): boolean {
 
-    let temp = false;
+    let temp: boolean = true;
 
-    this.componentPrefill.forEach(el => {
-
-      if (el.is_required == "Y") {
-        /* Required Field not set */
-        if (this.componentListObject[el.component_id].enq_custom_value == "") {
-          this.isCustomComponentValid = false;
-          this.newEnqData.enqCustomLi = [];
-          let data = {
-            type: "error",
-            title: "Form Data Incomplete or Incorrect",
-            body: "Please Select the required Fields in Academic Details"
-          }
-          this.appC.popToast(data);
-        }
-        /* Required field set push data */
-        else if (this.componentListObject[el.component_id].enq_custom_value != "") {
-          if (typeof this.componentListObject[el.component_id].enq_custom_value == "boolean") {
-            if (this.componentListObject[el.component_id].enq_custom_value) {
-              this.componentListObject[el.component_id].enq_custom_value = "Y";
-              this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-              this.isCustomComponentValid = true;
-            }
-            else {
-              this.componentListObject[el.component_id].enq_custom_value = "N";
-              this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-              this.isCustomComponentValid = true;
-            }
-          }
-          else {
-            this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-            this.isCustomComponentValid = true;
-          }
-        }
-      }
-      else if (el.is_required == "N") {
-        /* Not required field */
-        if (typeof this.componentListObject[el.component_id].enq_custom_value == "boolean") {
-          if (this.componentListObject[el.component_id].enq_custom_value) {
-            this.componentListObject[el.component_id].enq_custom_value = "Y";
-            this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-            this.isCustomComponentStillValid = true;
-          }
-          else {
-            this.componentListObject[el.component_id].enq_custom_value = "N";
-            this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-            this.isCustomComponentStillValid = true;
-          }
-        }
-        else {
-          this.newEnqData.enqCustomLi.push(this.componentListObject[el.component_id]);
-          this.isCustomComponentStillValid = true;
+    this.customComponents.forEach(el => {
+      //console.log(el);
+      if (el.is_required == 'Y' && el.value == '') {
+        if (temp) {
+          temp = false;
         }
       }
     });
-    return (this.isCustomComponentValid && this.isCustomComponentStillValid);
+    return temp;
   }
 
 
@@ -674,6 +741,8 @@ export class EnquiryAddComponent implements OnInit {
     this.prefill.fetchLastDetail().subscribe(el =>
       data => {
         this.lastDetail = data;
+        this.lastDetail.name = data.name;
+        this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
         let createTime = new Date(data.enquiry_creation_datetime);
         this.lastUpdated = moment(createTime).fromNow();
       },
@@ -837,7 +906,7 @@ export class EnquiryAddComponent implements OnInit {
               title: 'Failed To Add Institute',
               body: 'There was an error processing your request'
             }
-          this.appC.popToast(alert);
+            this.appC.popToast(alert);
           }
         );
         // console.log("institute Added");
@@ -953,7 +1022,7 @@ export class EnquiryAddComponent implements OnInit {
   /* ---------------------------------------------- Reference Editor Logic ------------------------------------------------- */
   /* --------------------------------------------------------------------------------------------------------- */
 
-  
+
   /* function to open popup to add Reference */
   openAddRefer() {
     this.isReferPop = true;
@@ -1275,28 +1344,51 @@ export class EnquiryAddComponent implements OnInit {
 
 
   /* Customiized click detection strategy */
-  inputClicked() {
-    var nodelist = document.querySelectorAll('.form-ctrl');
-    [].forEach.call(nodelist, (elm) => {
-      elm.addEventListener('blur', function (event) {
-        if (event.target.value != '') {
-          event.target.parentNode.classList.add('has-value');
-        } else {
-          event.target.parentNode.classList.remove('has-value');
-        }
-      });
-    });
+  inputClicked(ev) {
+    if (ev.target.classList.contains('form-ctrl')) {
+      if (ev.target.classList.contains('bsDatepicker')) {
+        var nodelist = document.querySelectorAll('.bsDatepicker');
+        [].forEach.call(nodelist, (elm) => {
+          elm.addEventListener('focusout', function (event) {
+            event.target.parentNode.classList.add('has-value');
+          });
 
-    /* var dropdowns = document.getElementsByClassName("bulk-dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
+        });
       }
-    } */
-
+      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
+        //document.getElementById(ev.target.id).click();
+        ev.target.addEventListener('blur', function (event) {
+          if (event.target.value != '') {
+            event.target.parentNode.classList.add('has-value');
+          } else {
+            event.target.parentNode.classList.remove('has-value');
+          }
+        });
+      }
+    }
   }
+
+
+
+  
+  isEnquiryAdministrator(){
+    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+      this.isEnquiryAdmin = true;
+    }
+    else {
+      let permissions: any[] = [];
+      permissions = JSON.parse(sessionStorage.getItem('permissions'));
+      /* User has permission to view all enquiries */
+      if (permissions.includes('115')) {
+        this.isEnquiryAdmin = true;
+      }
+      /* User is not authorized as enquiry admin and see only enquiry assigned to him */
+      else {
+        this.isEnquiryAdmin = false;
+      }
+    }
+  }
+
 
 
 }
