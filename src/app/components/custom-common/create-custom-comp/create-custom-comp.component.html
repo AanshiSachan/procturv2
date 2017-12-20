@@ -1,4 +1,4 @@
-<div class="middle-section clearFix" id="enquiryList">
+<div class="middle-section clearFix" id="enquiryList" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}" (click)="inputClicked($event)">
 
   <section class="middle-top clearFix custom-comp-header">
 
@@ -28,19 +28,18 @@
       </div>
     </div>
 
-
-    <div class="createcomponent-wrapper" (click)="inputClicked($event)" *ngIf="isNewComponent">
+    <div class="createcomponent-wrapper" *ngIf="isNewComponent">
 
       <div class="row extraMargin">
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
           <div class="field-wrapper">
-            <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.label" name="label">
+            <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.label" name="label" (focus)="inputClicked($event)">
             <label for="label">Label*</label>
           </div>
         </div>
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
           <div class="field-wrapper">
-            <select id="" class="form-ctrl" [(ngModel)]="createCustomComponentForm.type" name="opt.data_value">
+            <select id="" class="form-ctrl" [(ngModel)]="createCustomComponentForm.type" name="opt.data_value" (focus)="inputClicked($event)">
               <option *ngFor="let opt of componentShell" [value]="opt.data_key">
                 {{opt.data_value}}
               </option>
@@ -53,53 +52,55 @@
       <div class="row extraMargin">
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
           <div class="field-wrapper">
-            <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.prefilled_data" name="prefilledData">
+            <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.prefilled_data" name="prefilledData" (focus)="inputClicked($event)">
             <label for="prefilledData">Prefilled Data (Non-Empty And Separated By ,)</label>
           </div>
         </div>
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
           <div class="field-wrapper">
-            <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.description" name="description">
+            <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.description" name="description" (focus)="inputClicked($event)">
             <label for="description">Description</label>
           </div>
         </div>
       </div>
 
       <div class="row extraMargin">
-
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
-          <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="createCustomComponentForm.is_required" name="isrequired">
+          <div class="field-wrapper">
+            <select id="isrequired" class="form-ctrl" name="isrequired" [(ngModel)]="createCustomComponentForm.is_required" (focus)="inputClicked($event)">
+              <option value="Y">Y</option>
+              <option value="N">N</option>
+            </select>
             <label for="isrequired">Is Required</label>
           </div>
         </div>
-
-        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
-          <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" [(ngModel)]="createCustomComponentForm.is_searchable" name="issearchable">
-            <label for="issearchable">Is Searchable</label>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="row extraMargin">
-
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
           <div class="field-wrapper">
-            <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.sequence_number" name="sequencenumber">
+            <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="createCustomComponentForm.is_searchable" (focus)="inputClicked($event)">
+              <option value="Y">Y</option>
+              <option value="N">N</option>
+            </select>
+            <label for="issearchable">Is Required</label>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row extraMargin">
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+          <div class="field-wrapper">
+            <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.sequence_number" name="sequencenumber" (focus)="inputClicked($event)">
             <label for="sequencenumber">Sequence (Numerals Only)</label>
           </div>
         </div>
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
           <div class="field-wrapper">
-            <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.comp_length" name="complength">
+            <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.comp_length" name="complength" (focus)="inputClicked($event)">
             <label for="complength">Max- Length (Numerals Only)</label>
           </div>
         </div>
 
       </div>
-
 
       <div class="row extraMargin">
         <div class="c-lg-12 c-md-12 c-sm-12 c-xs-12">
@@ -109,6 +110,7 @@
           </aside>
         </div>
       </div>
+
     </div>
 
     <div class="custom-comp-tablewrapper">
@@ -165,20 +167,33 @@
                 </div>
               </td>
 
-              <td class="view-comp">{{comp.is_required| booleanConverter}}</td>
+              <td class="view-comp">{{comp.is_required}}</td>
               <td class="edit-comp ">
-                <div class="field-checkbox-wrapper">
-                  <input type="checkbox" value="" class="form-checkbox" name="isrequired" [(ngModel)]="comp.is_required">
+                <div class="field-wrapper">
+                  <select id="" class="form-ctrl" name="isrequired" [(ngModel)]="comp.is_required">
+                    <option value="Y" [attr.selected]="comp.is_required == 'Y'? '': null">Y</option>
+                    <option value="N" [attr.selected]="comp.is_required == 'Y'? '': null">N</option>
+                  </select>
+                </div>
+                <!-- <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" class="form-checkbox" name="isrequired" [(ngModel)]="comp.is_required" [checked]="comp.is_required == 'Y'? true: false">
                   <label for="isrequired"></label>
                 </div>
+               -->
               </td>
 
-              <td class="view-comp">{{comp.is_searchable| booleanConverter}}</td>
+              <td class="view-comp">{{comp.is_searchable}}</td>
               <td class="edit-comp ">
-                <div class="field-checkbox-wrapper">
-                  <input type="checkbox" value="" class="form-checkbox" name="issearchable" [(ngModel)]="comp.is_searchable">
-                  <label for="issearchable"></label>
+                <div class="field-wrapper">
+                  <select id="" class="form-ctrl" name="is_searchable" [(ngModel)]="comp.is_searchable">
+                    <option value="Y" [attr.selected]="comp.is_searchable == 'Y'? '': null">Y</option>
+                    <option value="N" [attr.selected]="comp.is_searchable == 'Y'? '': null">N</option>
+                  </select>
                 </div>
+                <!-- <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" class="form-checkbox" name="issearchable" [(ngModel)]="comp.is_searchable" [attr.checked]="comp.is_searchable">
+                  <label for="issearchable"></label>
+                </div> -->
               </td>
 
               <td class="view-comp">{{comp.sequence_number}}</td>

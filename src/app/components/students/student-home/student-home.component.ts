@@ -14,6 +14,9 @@ import * as moment from 'moment';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
+import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
+import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
+
 
 
 @Component({
@@ -34,7 +37,6 @@ export class StudentHomeComponent implements OnInit {
   private standardList: any = [];
   private subCourseList: any = [];
   private customComponent: any = [];
-  private myOptions: IMultiSelectOption[];
   private studentDataSource: any[] = [];
   private selectedRowGroup: any[] = [];
   private optionsModel: any = null;
@@ -54,30 +56,54 @@ export class StudentHomeComponent implements OnInit {
   bulkActionItems: MenuItem[];
   indexJSON: any[] = [];
   isProfessional: boolean = false;
-  selectedOption: any[] = [];
-  currentDirection = 'desc';
+  currentDirection: string = 'desc';
+  isDeleteStudentPrompt: boolean = false;
 
 
-  private headerArr: any[] = [
-    { id: 'student_disp_id', title: 'Student ID.', filter: false, show: true },
-    { id: 'student_name', title: 'Student Name', filter: false, show: true },
-    { id: 'student_phone', title: 'Contact No.', filter: false, show: true },
-    { id: 'doj', title: 'Joining Date', filter: false, show: true },
-    { id: 'student_class', title: 'Standard/Class', filter: false, show: true },
-    { id: 'parent_phone', title: 'Parent Contact No.', filter: false, show: true },
-    { id: 'noOfBatchesAssigned', title: 'Course Assigned', filter: false, show: true },
-    { id: 'student_email', title: 'Student Email', filter: false, show: false },
-    { id: 'student_sex', title: 'Gender', filter: false, show: false },
-    { id: 'dob', title: 'Date Of Birth', filter: false, show: false },
-    { id: 'alternateEmailID', title: 'Alternate Email', filter: false, show: false },
-    { id: 'guardian_email', title: 'Guardian Email', filter: false, show: false },
-    { id: 'guardian_name', title: 'Guardian Name', filter: false, show: false },
-    { id: 'guardian_phone', title: 'Guardian Phone', filter: false, show: false },
-    { id: 'parent_name', title: 'Parent Name', filter: false, show: false },
-    { id: 'parent_email', title: 'Parent Email', filter: false, show: false },
-  ];
+  private headerArr: any = {
+    student_disp_id: { id: 'student_disp_id', title: 'Student ID.', filter: false, show: true },
+    student_name: { id: 'student_name', title: 'Student Name', filter: false, show: true },
+    student_phone: { id: 'student_phone', title: 'Contact No.', filter: false, show: true },
+    doj: { id: 'doj', title: 'Joining Date', filter: false, show: true },
+    student_class: { id: 'student_class', title: 'Standard/Class', filter: false, show: true },
+    parent_phone: { id: 'parent_phone', title: 'Parent Contact No.', filter: false, show: true },
+    noOfBatchesAssigned: { id: 'noOfBatchesAssigned', title: 'Course Assigned', filter: false, show: true },
+    student_email: { id: 'student_email', title: 'Student Email', filter: false, show: false },
+    student_sex: { id: 'student_sex', title: 'Gender', filter: false, show: false },
+    dob: { id: 'dob', title: 'Date Of Birth', filter: false, show: false },
+    alternateEmailID: { id: 'alternateEmailID', title: 'Alternate Email', filter: false, show: false },
+    guardian_email: { id: 'guardian_email', title: 'Guardian Email', filter: false, show: false },
+    guardian_name: { id: 'guardian_name', title: 'Guardian Name', filter: false, show: false },
+    guardian_phone: { id: 'guardian_phone', title: 'Guardian Phone', filter: false, show: false },
+    parent_name: { id: 'parent_name', title: 'Parent Name', filter: false, show: false },
+    parent_email: { id: 'parent_email', title: 'Parent Email', filter: false, show: false },
+  };
 
 
+  selectedOption: any = {
+    student_email: { id: 'student_email', show: false },
+    student_sex: { id: 'student_sex', show: false },
+    dob: { id: 'dob', show: false },
+    alternateEmailID: { id: 'alternateEmailID', show: false },
+    guardian_email: { id: 'guardian_email', show: false },
+    guardian_name: { id: 'guardian_name', show: false },
+    guardian_phone: { id: 'guardian_phone', show: false },
+    parent_name: { id: 'parent_name', show: false },
+    parent_email: { id: 'parent_email', show: false },
+  };
+
+
+  myOptions: any[] = [
+    { id: 'alternateEmailID', name: 'Alternate Email' },
+    { id: 'dob', name: 'Date Of Birth' },
+    { id: 'guardian_email', name: 'Guardian Email' },
+    { id: 'guardian_name', name: 'Guardian Name' },
+    { id: 'guardian_phone', name: 'Guardian Phone' },
+    { id: 'student_sex', name: 'Gender' },
+    { id: 'parent_name', name: 'Parent Name' },
+    { id: 'parent_email', name: 'Parent Email' },
+    { id: 'student_email', name: 'Student Email' }
+  ]
 
   /* Setting for Multiselect dropdown menu */
   mySettings: IMultiSelectSettings = {
@@ -142,7 +168,7 @@ export class StudentHomeComponent implements OnInit {
 
   constructor(private prefill: FetchprefilldataService, private router: Router,
     private studentFetch: FetchStudentService, private login: LoginService,
-    private appC: AppComponent, private studentPrefill: AddStudentPrefillService) {
+    private appC: AppComponent, private studentPrefill: AddStudentPrefillService, private postService: PostStudentDataService) {
   }
 
 
@@ -304,6 +330,8 @@ export class StudentHomeComponent implements OnInit {
 
 
 
+
+
   sortTableById(id) {
     /* Custom server sided sorting */
 
@@ -326,6 +354,8 @@ export class StudentHomeComponent implements OnInit {
     };
     this.busy = this.loadTableDataSource(this.instituteData);
   }
+
+
 
 
 
@@ -354,6 +384,7 @@ export class StudentHomeComponent implements OnInit {
 
 
 
+  
   /* fetch the data from server based on specific page number by converting the index into start_index */
   fectchTableDataByPage(index) {
     this.instituteData.start_index = index.start_index;
@@ -375,14 +406,22 @@ export class StudentHomeComponent implements OnInit {
 
 
   /* update the checked status of the user selected rows checkbox on click */
-  rowCheckBoxClick(row) {
-    if (row.isSelected) {
-      this.selectedRowGroup.push(row);
+  rowCheckBoxClick(state, id, no) {
+    this.studentDataSource[id].isSelected = state;
+    let index = this.selectedRowGroup.findIndex(i => i.data.enquiry_no == no);
+    if (index !== -1) {
+      if (!state) {
+        this.selectedRowGroup.splice(index, 1);
+        this.isAllSelected = false;
+      }
     }
     else {
-      this.selectedRowGroup = this.selectedRowGroup.filter(el => el.data.student_id != row.data.student_id);
+      if (state) {
+        this.selectedRowGroup.push(this.studentDataSource[id]);
+      }
     }
   }
+
 
 
 
@@ -401,10 +440,39 @@ export class StudentHomeComponent implements OnInit {
 
 
   /* Delete the student selected or archieve the student selected */
-  deleteStudent(row) {
-    console.log('row deleted');
+  deleteStudent() {
+    let obj = {
+      studentIds: this.selectedRow.data.student_id,
+      studentAlumniArrayString: "N,N"
+    }
+    this.postService.archieveStudents(obj).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: 'Record Deleted',
+          body: 'Requested record has been removed from student list'
+        }
+        this.appC.popToast(msg);
+        this.closeDeletePopup();
+        this.busy = this.loadTableDataSource(this.instituteData);
+      }
+    )
   }
 
+
+
+
+  deleteStudentOpen(row) {
+    this.selectedRow = row;
+    this.isDeleteStudentPrompt = true;
+  }
+
+
+
+
+  closeDeletePopup() {
+    this.isDeleteStudentPrompt = false;
+  }
 
 
   /* Perform the bulk action for checcked row on basis of the id of selected LI */
@@ -440,38 +508,16 @@ export class StudentHomeComponent implements OnInit {
   }
 
 
+
   /* Toggle the status of the selected column the static column will not move and the user can toggle the rest */
-  toggleOptionChange(opt) {
-    this.headerArr = [
-      { id: 'student_disp_id', title: 'Student ID.', filter: false, show: true },
-      { id: 'student_name', title: 'Student Name', filter: false, show: true },
-      { id: 'student_phone', title: 'Contact No.', filter: false, show: true },
-      { id: 'doj', title: 'Joining Date', filter: false, show: true },
-      { id: 'student_class', title: 'Standard/Class', filter: false, show: true },
-      { id: 'parent_phone', title: 'Parent Contact No.', filter: false, show: true },
-      { id: 'noOfBatchesAssigned', title: 'Course Assigned', filter: false, show: true },
-      { id: 'student_email', title: 'Student Email', filter: false, show: false },
-      { id: 'student_sex', title: 'Gender', filter: false, show: false },
-      { id: 'dob', title: 'Date Of Birth', filter: false, show: false },
-      { id: 'alternateEmailID', title: 'Alternate Email', filter: false, show: false },
-      { id: 'guardian_email', title: 'Guardian Email', filter: false, show: false },
-      { id: 'guardian_name', title: 'Guardian Name', filter: false, show: false },
-      { id: 'guardian_phone', title: 'Guardian Phone', filter: false, show: false },
-      { id: 'parent_name', title: 'Parent Name', filter: false, show: false },
-      { id: 'parent_email', title: 'Parent Email', filter: false, show: false },
-    ];
-    this.headerArr.forEach(head => {
-      opt.forEach(o => {
-        if (head.id == o) {
-          if (head.show) {
-          }
-          else {
-            this.selectedOption.push(o);
-            head.show = !head.show;
-          }
-        }
-      });
-    });
+  toggleOptionChange(bool, id) {
+    if (bool) {
+      this.selectedOption[id].show = true;
+    }
+    else {
+      this.selectedOption[id].show = false;
+    }
+
   }
 
 
@@ -531,18 +577,22 @@ export class StudentHomeComponent implements OnInit {
   /* If the user select the top checkbox and update its status, all the rows are selectedd or unselected on this basis*/
   toggleSelectAll(status) {
 
+    let len = this.studentDataSource.length;
+
     if (status) {
-      this.studentDataSource.forEach(el => {
-        el.isSelected = true;
-        this.selectedRowGroup.push(el);
-      });
+      this.selectedRowGroup = [];
+      for (var i = 0; i < len; i++) {
+        document.getElementById('check' + i).checked = true;
+        this.selectedRowGroup.push(this.studentDataSource[i]);
+      }
     }
     else {
-      this.studentDataSource.forEach(el => {
-        el.isSelected = false;
-      });
       this.selectedRowGroup = [];
+      for (var i = 0; i < len; i++) {
+        document.getElementById('check' + i).checked = false;
+      }
     }
+
   }
 
 
@@ -809,7 +859,7 @@ export class StudentHomeComponent implements OnInit {
           elm.addEventListener('focusout', function (event) {
             event.target.parentNode.classList.add('has-value');
           });
-  
+
         });
       }
       else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {

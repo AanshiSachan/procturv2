@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 
 @Component({
+    selector: 'enquiry-sms-action',
     template:
     /* HTML content for the rendered component with CSS style as well */
-    `
-    
+    `  
   <style>
     .sms-option-list{
         list-style: none;
@@ -24,9 +24,8 @@ import { PopupHandlerService } from '../../../services/enquiry-services/popup-ha
     <li class="cursor"><a class="cursor" (click)="emitEdit()">Edit</a></li>
     </ul>
   </div>
-
     `,
-    /* changeDetection: ChangeDetectionStrategy.OnPush */  
+    changeDetection: ChangeDetectionStrategy.OnPush  
 })
 
 

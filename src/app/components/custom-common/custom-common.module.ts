@@ -10,6 +10,7 @@ import { BooleanConverter } from './create-custom-comp/create-custom-comp.compon
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CreateCustomCompComponent } from './create-custom-comp/create-custom-comp.component';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
+import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstr
         ReactiveFormsModule,
         CommonModule,
         CustomCommonRoutingModule,
-        BsDatepickerModule
+        BsDatepickerModule,
+        BusyModule
     ],
     declarations: [
         CustomCommonComponent,

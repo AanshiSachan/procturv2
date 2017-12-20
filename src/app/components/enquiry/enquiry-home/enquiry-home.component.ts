@@ -52,7 +52,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
 
   /* Variable Declaration */
-  sourceEnquiry: any[] = []; smsPopSource: LocalDataSource; busy: Subscription;
+  sourceEnquiry: any[] = []; smsSourceApproved: any[] = []; smsSourceOpen: any[] = []; busy: Subscription;
   checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = [];
   enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = [];
   enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; commentFormData: any = {};
@@ -62,16 +62,18 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   maxPageSize: number = 0; totalEnquiry: number = 0; isProfessional: boolean = false;
   isActionDisabled: boolean = false; isMessageAddOpen: boolean = false; isMultiSms: boolean = false;
   smsSelectedRowsLength: number = 0; sizeArr: any[] = [25, 50, 100, 150, 200, 500];
-  isAllSelected: boolean = false;
-  private customComponents: any[] = [];
-
+  isAllSelected: boolean = false; isApprovedTab: boolean = true; isOpenTab: boolean = false;
+  private customComponents: any[] = []; selectedSmsMessage:string = ''; slots: any[] = [];
+  hourArr:any[] = ['1','2','3','4','5','6','7','8','9','10','11','12'];
+  minArr:any[] = ['00','15','30','45']; meridianArr:any[] = ["AM", "PM"];
+  hour:string = '12'; minute:string = '00'; meridian:string = 'AM';
   newSmsString = {
     data: "",
     length: 0,
     type: "",
   };
 
-  statusString: any[] = ["0", "3"]; smsSelectedRows: any; smsGroupSelected: any[] = []; 
+  statusString: any[] = ["0", "3"]; smsSelectedRows: any; smsGroupSelected: any[] = [];
 
 
 
@@ -83,8 +85,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   };
 
 
-  myOptions:any[] = [
-    { id: 'email', name: 'Email'},
+  myOptions: any[] = [
+    { id: 'email', name: 'Email' },
     { id: 'Gender', name: 'Gender' },
     { id: 'standard', name: 'Standard' },
     { id: 'subjects', name: 'Subject' }
@@ -117,7 +119,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   };
 
   smsSearchData: string = "";
-  followUpTime: Date = null;
+  
   isConverted: boolean = false; hasReceipt: boolean = false; isadmitted: boolean = false; notClosednAdmitted: boolean = false;
   isClosed: boolean = false; isAssignEnquiry: boolean = false;
   availableSMS: number = 0; smsDataLength: number = 0; isEnquiryAdmin: boolean = false;
@@ -211,28 +213,15 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
 
   /* Settings for SMS Table Display */
-  settingsSmsPopup = {
-    selectMode: 'single', mode: 'external', hideSubHeader: false, toggle: 'N',
-    actions: { add: false, edit: false, delete: false, columnTitle: '', },
-    columns: {
-      message: { title: 'Message', filter: false, show: true },
-      statusValue: { title: 'Status.', filter: false, show: true },
-      //date: { title: 'Date.', filter: false, show: true },
-      //status: { title: 'Status Key', filter: false, show: false },
-      //campaign_list_id: { title: 'Campaign List.', filter: false, show: false },
-      //campaign_list_message_id: { title: 'Campaign List Id.', filter: false, show: false },
-      //feature_type: { title: 'Feature Type.', filter: false, show: false },
-      //institute_name: { title: 'Institute Name.', filter: false, show: false },
-      //message_id: { title: 'Message Id.', filter: false, show: false },
-      //sms_type: { title: 'Sms Type.', filter: false, show: false },
-      action: {
-        title: ' ', filter: false, type: 'custom',
-        renderComponent: SmsOptionComponent
-      },
-    },
-    pager: {
-      display: false
-    }
+  smsHeader = {
+    message: { title: 'Message', id: 'message', show: true },
+    statusValue: { title: 'Status.', id: 'statusValue', show: false },
+    date: { title: 'Date.', id: 'date', show: true },
+    action: { title: 'Action', id: 'action', show: true },
+    status: { title: 'Status Key', id: 'status', show: false },
+    feature_type: { title: 'Feature Type.', id: 'feature_type', show: false },
+    message_id: { title: 'Message Id.', id: 'message_id', show: false },
+    sms_type: { title: 'Sms Type.', id: 'sms_type', show: false },
   };
 
 
@@ -293,7 +282,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
 
   header: any = {
-    enquiry_no:{ id: 'enquiry_no', title: 'Enquiry No.', filter: false, show: true },
+    enquiry_no: { id: 'enquiry_no', title: 'Enquiry No.', filter: false, show: true },
     enquiry_date: { id: 'enquiry_date', title: 'Enquiry Date', filter: false, show: true },
     name: { id: 'name', title: 'Name', filter: false, show: true },
     phone: { id: 'phone', title: 'Contact No.', filter: false, show: true },
@@ -379,6 +368,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
     this.pops.currentMessage.subscribe(message => {
       this.cd.markForCheck();
       if (message == 'sms') {
+        this.cd.markForCheck();
         this.smsServicesInvoked();
         this.message = message;
         this.cd.markForCheck();
@@ -591,6 +581,15 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
   /* Function to fetch prefill data for advanced filter */
   FetchEnquiryPrefilledData() {
+
+    if(this.isProfessional){
+      this.prefill.getEnquirySlots().subscribe(
+        data => {
+          this.slots = data;
+        }
+      )
+    }
+
     /* Status */
     let status = this.prefill.getEnqStatus().subscribe(
       data => {
@@ -1724,37 +1723,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
       }
     }
 
-    /* If User has already selected some rows */
-    /* if (this.selectedRowGroup.length != 0) {
-      this.selectedRowGroup = [];
-      if (status) {
-        this.sourceEnquiry.forEach(el => {
-          el.isSelected = true;
-          this.selectedRowGroup.push(el);
-        });
-      }
-      else {
-        this.sourceEnquiry.forEach(el => {
-          el.isSelected = false;
-        });
-        this.selectedRowGroup = [];
-      }
-    } */
-    /* If no rows have been selected */
-    /* else {
-      if (status) {
-        this.sourceEnquiry.forEach(el => {
-          el.isSelected = true;
-          this.selectedRowGroup.push(el);
-        });
-      }
-      else {
-        this.sourceEnquiry.forEach(el => {
-          el.isSelected = false;
-        });
-        this.selectedRowGroup = [];
-      }
-    } */
   }
 
 
@@ -1782,7 +1750,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
     this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
-    this.updateFormData.followUpTime = this.followUpTime == null? '': moment(this.followUpTime).format('LT');
+    let followUpTime = this.hour +":" +this.minute +" " +this.meridian;
+    let followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YYYY') + " " +followUpTime;
+    //console.log(followupdateTime);
+    this.updateFormData.followUpTime = followUpTime;
     this.postdata.updateEnquiryForm(this.selectedRow.data.institute_enquiry_id, this.updateFormData)
       .subscribe(res => {
         let msg = {
@@ -1793,7 +1764,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
         this.selectedRow.data.priority = this.updateFormData.priority;
         this.selectedRow.data.follow_type = this.updateFormData.follow_type;
         this.selectedRow.data.statusValue = this.updateFormData.statusValue;
-        this.selectedRow.data.followUpDateTime = this.followUpTime == null? moment(this.updateFormData.followUpDate).format('DD-MMM-YYYY hh:mm a'): moment(this.followUpTime).format('dd-MMM-YYYY hh:mm a');
+        this.selectedRow.data.followUpDateTime = followUpTime == "12:00 AM" ? moment(this.updateFormData.followUpDate).format('DD-MMM-YYYY hh:mm a') : followupdateTime;
         this.selectedRow.data.status = this.enqstatus.forEach(el => { if (el.data_value == this.updateFormData.statusValue) { return el.data_key; } });
         this.selectedRow.data.updateDate = moment().format();
         this.appC.popToast(msg);
@@ -1807,8 +1778,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
           body: 'There was an error processing your request'
         }
         this.appC.popToast(alert);
-    })
+      })
   }
+
+
 
 
 
@@ -1832,6 +1805,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
 
 
+
+
   /* update the enquiry id for enquiry update pop up */
   updateStatusForEnquiryUpdate(val) {
     this.enqstatus.forEach(el => {
@@ -1840,6 +1815,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+
 
 
 
@@ -1870,6 +1847,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
       }
     )
   }
+
+
+
+
 
 
 
@@ -1913,18 +1894,31 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
 
 
+
+
+
   /* Service to fetch sms records from server and update table*/
   smsServicesInvoked() {
     /* store the data from server and update table */
+    this.cd.markForCheck();
     this.enquire.fetchAllSms().subscribe(
       data => {
         this.cd.markForCheck();
-        this.smsPopSource = new LocalDataSource(data);
-        this.cd.markForCheck();
+        this.smsSourceApproved = [];
+        this.smsSourceOpen = [];
         this.smsDataLength = data.length;
-        this.cd.markForCheck();
         this.availableSMS = data[0].institute_sms_quota_available
         this.cd.markForCheck();
+        data.forEach(el => {
+          if (el.status == 1) {
+            this.cd.markForCheck();
+            this.smsSourceApproved.push(el);
+          }
+          else {
+            this.cd.markForCheck();
+            this.smsSourceOpen.push(el);
+          }
+        })
       },
       err => {
         let msg = {
@@ -1941,11 +1935,426 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
 
 
+
+
+
+  switchSmsTab(id) {
+    if (id === 'approvedSms') {
+      this.isApprovedTab = true;
+      this.isOpenTab = false;
+      this.smsBtnToggle = false;
+      this.selectedSMS = {
+        message: "",
+        message_id: "",
+        sms_type: "",
+        status: "",
+        statusValue: "",
+        date: "",
+        feature_type: "",
+        institute_name: "",
+      };
+      if (!document.getElementById(id).classList.contains('active')) {
+        document.getElementById(id).classList.add('active');
+        document.getElementById('openSms').classList.remove('active');
+      }
+    }
+    else if (id === 'openSms') {
+      this.isApprovedTab = false;
+      this.isOpenTab = true;
+      this.smsBtnToggle = false;
+      this.selectedSMS = {
+        message: "",
+        message_id: "",
+        sms_type: "",
+        status: "",
+        statusValue: "",
+        date: "",
+        feature_type: "",
+        institute_name: "",
+      };
+      if (!document.getElementById(id).classList.contains('active')) {
+        document.getElementById(id).classList.add('active');
+        document.getElementById('approvedSms').classList.remove('active');
+      }
+    }
+  }
+
+
+
+
+
+
+
+  /* SMS search */
+  /*   onSearch(query: string = '') {
+  
+      this.smsSource.setFilter(
+        [{
+          field: 'message',
+          search: query
+        }], false
+      )
+  
+    }
+  */
+
+
+
+
+
+
+
+
+  /* push new sms template to server and update the table */
+  addNewSmsTemplate() {
+    if (this.newSmsString.data == '' || this.newSmsString.data == ' ') {
+      let msg = {
+        type: 'error',
+        title: 'Empty Input',
+        body: 'Please enter a valid text message'
+      }
+      this.appC.popToast(msg);
+    }
+    else {
+      let sms = {
+        feature_type: 2,
+        message: this.newSmsString.data,
+        sms_type: "Transactional"
+      }
+      this.postdata.addNewSmsTemplate(sms).subscribe(
+        res => {
+          if (res.statusCode == 200) {
+            let msg = {
+              type: "success",
+              title: "New SMS Added",
+              body: ""
+            }
+            this.appC.popToast(msg);
+            this.cd.markForCheck();
+            this.newSmsString.data = '';
+            this.newSmsString.length = 0;
+            this.cd.markForCheck();
+            this.enquire.fetchAllSms().subscribe(
+              data => {
+                this.cd.markForCheck();
+                this.smsSourceApproved = [];
+                this.smsSourceOpen = [];
+                this.smsDataLength = data.length;
+                this.availableSMS = data[0].institute_sms_quota_available
+                this.cd.markForCheck();
+                data.forEach(el => {
+                  if (el.status == 1) {
+                    this.cd.markForCheck();
+                    this.smsSourceApproved.push(el);
+                  }
+                  else {
+                    this.cd.markForCheck();
+                    this.smsSourceOpen.push(el);
+                  }
+                })
+
+              },
+              err => {
+                let msg = {
+                }
+              }
+            );
+            this.cd.markForCheck();
+          }
+        },
+        err => { }
+      )
+    }
+  }
+
+
+
+
+
+
+
+
+
+  /* Stores data for row user has clicked of selected */
+  appSmsSelected(row, id) {
+    this.cd.markForCheck();
+    document.getElementById('appradiosms' + id).click();
+    //this.smsBtnToggle = false;
+    this.selectedSMS = row;
+  }
+
+
+
+
+
+
+  /* Stores data for row user has clicked of selected */
+  opSmsSelected(row, id) {
+    this.cd.markForCheck();
+    document.getElementById('opradiosms' + id).click();
+    //this.smsBtnToggle = false;
+    this.selectedSMS = row;
+  }
+
+
+
+
+
+
+
+  /* toggle visibility for add new sms DIV */
+  addNewMessage() {
+    //console.log(document.getElementById('sms-toggler-icon').innerHTML);
+    let content = document.getElementById('sms-toggler-icon').innerHTML;
+
+    if (content == "-") {
+      document.getElementById('sms-toggler-icon').innerHTML = "+";
+      this.newSmsString.data = "";
+      this.newSmsString.length = 0;
+      this.isMessageAddOpen = false;
+    }
+    else if (content == "+") {
+      document.getElementById('sms-toggler-icon').innerHTML = "-";
+      this.isMessageAddOpen = true;
+    }
+  }
+
+
+
+
+
+
+
+
+  /* Char Count and sms string data update */
+  smsStringUpdate(ev) {
+
+    let stringArr = this.newSmsString.data.split('');
+    //console.log(stringArr);
+    this.newSmsString.length = 0;
+    stringArr.forEach(ch => {
+      if (ch.charCodeAt(0) <= 127) {
+        /* Unicode text detected */
+        //console.log(ch.charCodeAt(0));
+        this.newSmsString.length = this.newSmsString.length + 1;
+        this.cd.markForCheck();
+      }
+      else {
+        /* Non unicode detected */
+        //console.log(ch.charCodeAt(0));
+        this.newSmsString.length = this.newSmsString.length + 1;
+        this.cd.markForCheck();
+      }
+    });
+  }
+
+
+
+
+
+
+
+
+  /* SMS button visibility */
+  editSms() {
+    this.smsBtnToggle = true;
+   /*  if(this.selectedSMS.message == ''){
+      this.smsBtnToggle = true;
+    }
+    else if(this.selectedSMS.message != ''){
+      if(confirm('Any changes made to template will be discarded')){
+        this.smsBtnToggle = true;
+      }
+      else{
+        this.smsBtnToggle = false;
+      }
+    } */
+  }
+
+
+
+
+
+
+
+
+  /* Sms edit mode cancel */
+  cancelSmsEdit() {
+    this.smsBtnToggle = false;
+    this.smsServicesInvoked();
+  }
+
+
+
+
+
+
+
+  /* Update the sms template */
+  saveEditedSms() {
+
+    let data = {
+      message: this.selectedSMS.message
+    }
+
+    this.postdata.saveEditedSms(this.selectedSMS.message_id, data).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: "SMS Template saved",
+          body: 'Your sms has been sent for approval'
+        }
+        this.appC.popToast(msg);
+        this.cancelSmsEdit();
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: "Failed To Edit SMS Template",
+          body: 'Please check your internet connection or try again later'
+        }
+        this.appC.popToast(msg);
+      }
+    )
+  }
+
+
+
+
+
+
+
+  /* Approved SMS template send */
+  sendSmsTemplate() {
+
+    if (this.selectedSMS.message != null && this.selectedSMS.message != '') {
+
+      /* Denied */
+      if (this.selectedSMS.statusValue == 'Open') {
+        let msg = {
+          type: 'warning',
+          title: 'Unable To Send SMS',
+          body: 'Your sms template is pending approval, kindly contact support'
+        }
+        this.appC.popToast(msg);
+        this.cd.markForCheck();
+      }
+
+      /* Rejected  */
+      else if (this.selectedSMS.statusValue == 'Rejected') {
+
+        let msg = {
+          type: 'error',
+          title: 'Unable To Send SMS',
+          body: 'Your sms template has been rejected, kindly contact support'
+        }
+        this.appC.popToast(msg);
+        this.cd.markForCheck();
+
+      }
+
+      /* Ok Send SMS */
+      else if (this.selectedSMS.statusValue == 'Approved') {
+
+        /* Send Multi SMS */
+        if (this.isMultiSms) {
+          let userId = [];
+
+          //console.log(this.selectedRowGroup);
+
+          this.selectedRowGroup.forEach(el => {
+            //console.log(el);
+            userId.push(el.data.institute_enquiry_id);
+            this.cd.markForCheck();
+          });
+
+
+
+          let messageId = [];
+          messageId.push((this.selectedSMS.message_id).toString());
+
+          this.sendSmsFormData.baseIds = userId;
+          this.sendSmsFormData.messageArray = messageId;
+          this.cd.markForCheck();
+          this.postdata.sendSmsToEnquirer(this.sendSmsFormData).subscribe(
+            res => {
+              //console.log(res);
+              let msg = {
+                type: 'success',
+                title: 'SMS sent',
+                body: "Your sms has been sent and will be delivered shortly"
+              }
+              this.appC.popToast(msg);
+              this.cd.markForCheck();
+            },
+            err => {
+              let msg = {
+                type: 'error',
+                title: 'Unable To Send SMS',
+                body: "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify."
+              }
+              this.appC.popToast(msg);
+              this.cd.markForCheck();
+            }
+          )
+
+        }
+        /* Send Single SMS */
+        else {
+
+          let userId = [];
+          userId.push((this.selectedRow.data.institute_enquiry_id).toString());
+          let messageId = [];
+          messageId.push((this.selectedSMS.message_id).toString());
+
+          this.sendSmsFormData.baseIds = userId;
+          this.sendSmsFormData.messageArray = messageId;
+
+          this.postdata.sendSmsToEnquirer(this.sendSmsFormData).subscribe(
+            res => {
+              console.log(res);
+              let msg = {
+                type: 'success',
+                title: 'SMS sent',
+                body: "Your sms has been sent and will be delivered shortly"
+              }
+              this.appC.popToast(msg);
+            },
+            err => {
+              let msg = {
+                type: 'error',
+                title: 'Unable To Send SMS',
+                body: "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify."
+              }
+              this.appC.popToast(msg);
+            }
+          )
+        }
+      }
+    }
+    else {
+      let msg = {
+        type: 'error',
+        title: 'Cannot Send Blank SMS',
+        body: 'Please select an approved SMS Template to be sent'
+      }
+      this.appC.popToast(msg);
+    }
+
+
+
+  }
+
+
+
+
+
+
+
+
   /* Trigger Bulk Send SMS PopUp */
   sendBulkSms() {
-
     //console.log(this.selectedRowGroup);
-
     if ((this.selectedRowGroup != null || this.selectedRowGroup != undefined) && (this.selectedRowGroup.length != 0)) {
       this.isMultiSms = true;
       this.smsServicesInvoked();
@@ -1960,6 +2369,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
       this.appC.popToast(msg)
     }
   }
+
+
 
 
 
@@ -1989,6 +2400,21 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
     };
     this.cd.markForCheck();
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2375,6 +2801,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   /* common function to close popups */
   closePopup() {
     this.pops.changeMessage('');
+    this.isApprovedTab = true;
+    this.isOpenTab = false;
     this.isMessageAddOpen = false;
     this.smsBtnToggle = false;
     this.newSmsString.data = "";
@@ -2526,7 +2954,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
   /* Toggle DropDown Menu on Click */
   bulkActionFunctionOpen() {
-    document.getElementById("bulk-drop").classList.remove("hide");
+    if(document.getElementById("bulk-drop").classList.contains('hide')){
+      document.getElementById("bulk-drop").classList.remove("hide");
+    }
+    else{
+      document.getElementById("bulk-drop").classList.add("hide");
+    }
   }
 
 
@@ -2554,13 +2987,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
         let dwldLink = document.getElementById('enq_download');
-            this.cd.markForCheck();
+        this.cd.markForCheck();
         dwldLink.setAttribute("href", url);
         dwldLink.setAttribute("download", fileName);
         document.body.appendChild(dwldLink);
         this.cd.markForCheck();
         dwldLink.click();
-        this.cd.markForCheck();        
+        this.cd.markForCheck();
       },
       err => {
       }
@@ -2588,290 +3021,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
 
 
-  /* Stores data for row user has clicked of selected */
-  smsRowSelected(ev) {
-    if (ev.isSelected) {
-      this.selectedSMS = ev.data;
-      this.smsBtnToggle = false;
-      this.cd.markForCheck();
-    }
-  }
 
-
-
-
-
-  /* toggle visibility for add new sms DIV */
-  addNewMessage() {
-    //console.log(document.getElementById('sms-toggler-icon').innerHTML);
-    let content = document.getElementById('sms-toggler-icon').innerHTML;
-
-    if (content == "-") {
-      document.getElementById('sms-toggler-icon').innerHTML = "+";
-      this.newSmsString.data = "";
-      this.newSmsString.length = 0;
-      this.isMessageAddOpen = false;
-    }
-    else if (content == "+") {
-      document.getElementById('sms-toggler-icon').innerHTML = "-";
-      this.isMessageAddOpen = true;
-    }
-  }
-
-
-
-
-
-  /* push new sms template to server and update the table */
-  addNewSmsTemplate() {
-    if (this.newSmsString.data == '' || this.newSmsString.data == ' ') {
-      let msg = {
-        type: 'error',
-        title: 'Empty Input',
-        body: 'Please enter a valid text message'
-      }
-      this.appC.popToast(msg);
-    }
-    else {
-      let sms = {
-        feature_type: 2,
-        message: this.newSmsString.data,
-        sms_type: "Transactional"
-      }
-      this.postdata.addNewSmsTemplate(sms).subscribe(
-        res => {
-          if (res.statusCode == 200) {
-            let msg = {
-              type: "success",
-              title: "New SMS Added",
-              body: ""
-            }
-            this.appC.popToast(msg);
-            this.cd.markForCheck();
-            this.newSmsString.data = '';
-            this.newSmsString.length = 0;
-            this.enquire.fetchAllSms().subscribe(
-              data => {
-                this.cd.markForCheck();
-                this.smsPopSource = new LocalDataSource(data);
-                this.cd.markForCheck();
-              },
-              err => {
-                let msg = {
-                }
-              }
-            );
-            this.cd.markForCheck();
-          }
-        },
-        err => { }
-      )
-    }
-  }
-
-
-
-
-
-  /* Char Count and sms string data update */
-  smsStringUpdate(ev) {
-
-    let stringArr = this.newSmsString.data.split('');
-    //console.log(stringArr);
-    this.newSmsString.length = 0;
-    stringArr.forEach(ch => {
-      if (ch.charCodeAt(0) <= 127) {
-        /* Unicode text detected */
-        //console.log(ch.charCodeAt(0));
-        this.newSmsString.length = this.newSmsString.length + 1;
-        this.cd.markForCheck();
-      }
-      else {
-        /* Non unicode detected */
-        //console.log(ch.charCodeAt(0));
-        this.newSmsString.length = this.newSmsString.length + 1;
-        this.cd.markForCheck();
-      }
-    });
-  }
-
-
-
-
-
-
-  /* SMS button visibility */
-  editSms() {
-    this.smsBtnToggle = true;
-  }
-
-
-
-
-
-
-  /* Sms edit mode cancel */
-  cancelSmsEdit() {
-    this.smsBtnToggle = false;
-    this.smsServicesInvoked();
-  }
-
-
-
-
-
-  /* Update the sms template */
-  saveEditedSms() {
-
-    let data = {
-      message: this.selectedSMS.message
-    }
-
-    this.postdata.saveEditedSms(this.selectedSMS.message_id, data).subscribe(
-      res => {
-        let msg = {
-          type: 'success',
-          title: "SMS Template saved",
-          body: 'Your sms has been sent for approval'
-        }
-        this.appC.popToast(msg);
-        this.cancelSmsEdit();
-      },
-      err => {
-        let msg = {
-          type: 'error',
-          title: "Failed To Edit SMS Template",
-          body: 'Please check your internet connection or try again later'
-        }
-        this.appC.popToast(msg);
-      }
-    )
-  }
-
-
-
-
-
-  /* Approved SMS template send */
-  sendSmsTemplate() {
-
-    if (this.selectedSMS.message != null && this.selectedSMS.message != '') {
-
-      /* Denied */
-      if (this.selectedSMS.statusValue == 'Open') {
-        let msg = {
-          type: 'warning',
-          title: 'Unable To Send SMS',
-          body: 'Your sms template is pending approval, kindly contact support'
-        }
-        this.appC.popToast(msg);
-        this.cd.markForCheck();
-      }
-
-      /* Rejected  */
-      else if (this.selectedSMS.statusValue == 'Rejected') {
-
-        let msg = {
-          type: 'error',
-          title: 'Unable To Send SMS',
-          body: 'Your sms template has been rejected, kindly contact support'
-        }
-        this.appC.popToast(msg);
-        this.cd.markForCheck();
-
-      }
-
-      /* Ok Send SMS */
-      else if (this.selectedSMS.statusValue == 'Approved') {
-
-        /* Send Multi SMS */
-        if (this.isMultiSms) {
-          let userId = [];
-
-          //console.log(this.selectedRowGroup);
-
-          this.selectedRowGroup.forEach(el => {
-            //console.log(el);
-            userId.push(el.data.institute_enquiry_id);
-            this.cd.markForCheck();
-          });
-
-
-
-          let messageId = [];
-          messageId.push((this.selectedSMS.message_id).toString());
-
-          this.sendSmsFormData.baseIds = userId;
-          this.sendSmsFormData.messageArray = messageId;
-          this.cd.markForCheck();
-          this.postdata.sendSmsToEnquirer(this.sendSmsFormData).subscribe(
-            res => {
-              //console.log(res);
-              let msg = {
-                type: 'success',
-                title: 'SMS sent',
-                body: "Your sms has been sent and will be delivered shortly"
-              }
-              this.appC.popToast(msg);
-              this.cd.markForCheck();
-            },
-            err => {
-              let msg = {
-                type: 'error',
-                title: 'Unable To Send SMS',
-                body: "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify."
-              }
-              this.appC.popToast(msg);
-              this.cd.markForCheck();
-            }
-          )
-
-        }
-        /* Send Single SMS */
-        else {
-
-          let userId = [];
-          userId.push((this.selectedRow.data.institute_enquiry_id).toString());
-          let messageId = [];
-          messageId.push((this.selectedSMS.message_id).toString());
-
-          this.sendSmsFormData.baseIds = userId;
-          this.sendSmsFormData.messageArray = messageId;
-
-          this.postdata.sendSmsToEnquirer(this.sendSmsFormData).subscribe(
-            res => {
-              console.log(res);
-              let msg = {
-                type: 'success',
-                title: 'SMS sent',
-                body: "Your sms has been sent and will be delivered shortly"
-              }
-              this.appC.popToast(msg);
-            },
-            err => {
-              let msg = {
-                type: 'error',
-                title: 'Unable To Send SMS',
-                body: "SMS notification cannot be sent due to any of following reasons: SMS setting is not enabled for institute. SMS Quota is insufficient for institute. No Users(Contacts) found for notify."
-              }
-              this.appC.popToast(msg);
-            }
-          )
-        }
-      }
-    }
-    else {
-      let msg = {
-        type: 'error',
-        title: 'Cannot Send Blank SMS',
-        body: 'Please select an approved SMS Template to be sent'
-      }
-      this.appC.popToast(msg);
-    }
-
-
-
-  }
 
 
 
@@ -2911,23 +3061,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
     )
 
   }
-
-
-
-
-
-  /* SMS search */
-  onSearch(query: string = '') {
-
-    this.smsPopSource.setFilter(
-      [{
-        field: 'message',
-        search: query
-      }], false
-    )
-
-  }
-
 
 
 
@@ -2993,16 +3126,31 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
 
 
-  clearDate(event){
-    let node = event.target.parentNode.childNodes;
+  clearSearchDate() {
+    /*  */
+    this.searchBarDate = "";
+    this.instituteData.followUpDate = "";
+    this.instituteData.enquireDateFrom = "";
+    this.instituteData.enquireDateTo = "";
+  }
 
-    [].forEach.call(node, function(el){
-      if(el.type == "text" && el.tagName == "INPUT"){
-        console.log(el.value);
-        el.value = '';
-      }
-    });
-    
+
+  clearadfilterUpdateDate() {
+    this.advancedFilterForm.updateDate = "";
+  }
+
+
+  clearadfilterEnqFromDate() {
+    this.advancedFilterForm.enquireDateFrom = "";
+  }
+
+  clearadfilterEnqToDate() {
+    this.advancedFilterForm.enquireDateTo = "";
+  }
+
+
+  clearupdateDate() {
+    this.updateFormData.followUpDate = "";
   }
 
 

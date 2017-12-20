@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
      outline: none;
      border: none;
    }
+
    .enquiry-action {
     position: relative;
     cursor: pointer;
@@ -34,23 +35,56 @@ import { Router } from '@angular/router';
         stroke-miterlimit: 10;
     }
    }
+
    .action-menu{
     position: absolute;
     background: #fff;
-    width: 350px;
     border-radius: 0;
     border: 1px solid #ccc;
-    bottom: 0px;
+    bottom: -8px;
     box-shadow: 0px 2px 4px 1px #ccc;
     transform: translateX(-50%);
     left: 42%;
    }
-  
+
+   .action-menu-inner{
+     display: flex;
+   }
+
+   .action-menu-inner .action-menu-item{
+    display: inline-block;
+    width: 55px;    
+    padding: 5px;
+   }
+
+   .action-menu-inner:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: -15px;
+    margin: auto;
+    border-top: 8px solid #fff;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    width: 0;
+    height: 0;
+   }
+
+   .action-menu-inner .action-menu-item span {
+    display: block;
+    font-size: 9px;
+    text-align: center;
+    line-height: 10px;
+   }
+
    .action-menu-inner ul {
     font-size: 0;
     position: relative;
     padding: 5px 5px;
    }
+
    .action-menu-inner ul:after {
     content: '';
     position: absolute;
@@ -65,6 +99,7 @@ import { Router } from '@angular/router';
     width: 0;
     height: 0;
    }
+
    .action-menu-inner ul li {
     display: inline-block;
     text-align: center;
@@ -73,7 +108,7 @@ import { Router } from '@angular/router';
     padding: 0 8px;
     box-sizing: border-box;
     cursor: pointer;
-    width: 15%;
+    width: calc(100%);
     &:last-child {
         width: 28%;
         svg {
@@ -87,7 +122,6 @@ import { Router } from '@angular/router';
         }
         svg .cls-1 {
             stroke: none;
-    
         }
     }
     &:hover {
@@ -99,12 +133,14 @@ import { Router } from '@angular/router';
         color: $common-blue;
     }
    }
+
    .action-menu-inner ul li span {
     display: block;
     font-size: 9px;
     text-align: center;
     line-height: 10px;
    }
+
    .action-menu-inner i {
     display: block;
     height: 32px;
@@ -112,9 +148,11 @@ import { Router } from '@angular/router';
       width:28px;
     }
    }
+
    .action-icon{
      width: 28px;
    }
+   
   </style>
   
   <div class="enquiry-action">
@@ -127,51 +165,48 @@ import { Router } from '@angular/router';
   
      <div class="action-menu-inner">
 
-      <ul>
-      <li (click)="openPopup('update')">
+      <div class="action-menu-item" (click)="openPopup('update')">
        <img src="./assets/images/update_enquiry.svg" height="20" width="30">
        <span>
          Update <br>Enquiry
        </span>
-      </li>
+      </div>
 
-      <li class="edit-detail-icon" (click)="NavigateToEdit()">
+      <div class="edit-detail-icon action-menu-item" (click)="NavigateToEdit()">
         <img src="./assets/images/edit_details.svg" height="20" width="30">
         <span >
         Edit <br> Details
         </span>
-      </li>
+      </div>
       
-      <li (click)="openPopup('delete')" *ngIf="rowData.status ==0">
+      <div class="action-menu-item" (click)="openPopup('delete')" *ngIf="rowData.status ==0">
         <img src="./assets/images/delete_entry.svg" height="20" width="30">
         <span>
           Delete<br>Entry
         </span>
-      </li>
+      </div>
 
-      <li (click)="openPopup('convert')" *ngIf="rowData.status !=12 && hasStudentAccess"> 
+      <div class="action-menu-item" (click)="openPopup('convert')" *ngIf="rowData.status !=12 && hasStudentAccess"> 
         <img src="./assets/images/convert_student.svg" height="20" width="30">
         <span>
           Convert <br> to Student
         </span>
-      </li>
+      </div>
       
-      <li (click)="openPopup('payment')" *ngIf="isProfessional && (rowData.status == 12|| rowData.status ==11)">
+      <div class="action-menu-item" (click)="openPopup('payment')" *ngIf="isProfessional && (rowData.status == 12|| rowData.status ==11)">
          <img src="./assets/images/reciept_preview.svg" height="20" width="30">
          <span>
           Pay  <br> Restistration Fees
          </span>
-      </li>
+      </div>
 
-      <li (click)="openPopup('sms')" >
+      <div class="action-menu-item" (click)="openPopup('sms')" >
         <img src="./assets/images/send_email.svg" height="20" width="30">
         <span>
          Send <br> SMS
         </span>
-      </li>
+      </div>
 
-      </ul>
-      
      </div>
   
     </div>

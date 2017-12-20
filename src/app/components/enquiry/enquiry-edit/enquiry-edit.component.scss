@@ -74,6 +74,13 @@
                 z-index: 0;
             }
         }
+        .date-clear {
+            position: absolute;
+            right: 5px;
+            top: 25px;
+            cursor: pointer;
+            color: #0084f6;
+        }
     }
     .field-wrapper {
         position: relative;

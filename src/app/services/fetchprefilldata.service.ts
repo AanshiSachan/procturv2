@@ -373,7 +373,7 @@ export class FetchprefilldataService {
 
   /* return the list of custom component for the selected institute ID */
   fetchCustomComponent(): any{
-    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=undefined&page=2";
+    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=undefined&page=1";
     return this.http.get(this.urlCustomComponent, {headers: this.headers})
     .map(
       data => {
@@ -384,8 +384,6 @@ export class FetchprefilldataService {
     );
   }
 
-
-  
 
   /* return the data for user selected list to be edited */
   fetchEnquiryByInstituteID(id): any{
@@ -449,4 +447,20 @@ export class FetchprefilldataService {
     );
 
   }
+
+
+  getEnquirySlots(){
+    let urlSlots = this.baseUrl +"/api/v1/inst_slot/all/" +this.institute_id;
+
+    return this.http.get(urlSlots, {headers: this.headers}).map(
+      res => {
+        return res.json();
+      },
+      err => {
+        return err.json();
+      }
+    )
+  }
+
+
 }
