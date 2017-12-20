@@ -88,4 +88,36 @@ export class CampaignService {
     );
   }
 
+  campaignUploadList(values){
+    
+    values.institute_id = this.institute_id;
+
+    let data = {};
+    console.log(data);
+
+    this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/campaign/list/" + this.institute_id;
+    
+    return this.http.post(this.urlDownloadAllEnquiry, data, {headers: this.headers}).map(
+      data => { return data.json() },
+      err => {
+        //  console.log("error fetching template"); 
+      }
+    );
+  }
+
+
+  campaignMessageList(){    
+    let data = {status: 1, sms_type: "Promotional"};
+    console.log(data);
+
+    this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id + "/all";
+    
+    return this.http.post(this.urlDownloadAllEnquiry, data, {headers: this.headers}).map(
+      data => { return data.json() },
+      err => {
+        //  console.log("error fetching template"); 
+      }
+    );
+  }
+
 }

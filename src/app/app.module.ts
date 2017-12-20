@@ -39,6 +39,7 @@ import { ErrorComponent } from './components/error/error.component';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
 import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.component';
 import { PostStudentDataService } from './services/student-services/post-student-data.service';
+import { FilterPipe } from './filter.pipe';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { PostStudentDataService } from './services/student-services/post-student
     ErrorComponent,
     ComingSoonComponent,
     OverlayMenuComponent,
+    FilterPipe,
   ],
   entryComponents: [
   ],
