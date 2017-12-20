@@ -1726,7 +1726,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   }
 
 
-
+  
 
 
   /* Function to toggle smart table column on click event */
