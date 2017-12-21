@@ -30,10 +30,10 @@
                   [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
                 <!-- followup date handler -->
                 <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="searchBarDate" style="cursor: pointer;"
-                    (keyup.enter)="searchDatabase()" name="followupdate" bsDatepicker/>
+                  <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="searchBarDate" style="cursor: pointer;" (keyup.enter)="searchDatabase()"
+                    name="followupdate" bsDatepicker/>
                   <label for="followupdate">Follow up Date</label>
-                  <span class="date-clear" name="followupdate" (click)="clearDate($event)">clear</span>
+                  <span class="date-clear" name="followupdate" (click)="clearSearchDate()">clear</span>
                 </div>
                 <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
               </div>
@@ -121,6 +121,7 @@
               </div>
             </div>
 
+
             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isEnquiryAdmin">
               <div class="field-wrapper">
                 <select id="assignTo" class="form-ctrl" [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo">
@@ -138,7 +139,7 @@
                 <input type="text" value="" id="updateDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.updateDate" name="UD"
                   bsDatepicker/>
                 <label for="updateDate">Update Date</label>
-                <span class="date-clear" (click)="clearDate($event)">clear</span>
+                <span class="date-clear" name="followupdate" (click)="clearadfilterUpdateDate()">clear</span>
               </div>
             </div>
 
@@ -147,7 +148,7 @@
                 <input type="text" value="" id="enquiryFromDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.enquireDateFrom"
                   name="EFD" bsDatepicker/>
                 <label for="enquiryFromDate">Enquiry From Date</label>
-                <span class="date-clear" (click)="clearDate($event)">clear</span>
+                <span class="date-clear" name="followupdate" (click)="clearadfilterEnqFromDate()">clear</span>
               </div>
             </div>
 
@@ -156,7 +157,7 @@
                 <input type="text" value="" id="enquiryToDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.enquireDateTo"
                   name="ETD" bsDatepicker/>
                 <label for="enquiryToDate">Enquiry To Date</label>
-                <span class="date-clear" (click)="clearDate($event)">clear</span>
+                <span class="date-clear" name="followupdate" (click)="clearadfilterEnqToDate()">clear</span>
               </div>
             </div>
 
@@ -326,10 +327,6 @@
           <div class="c-lg-12 c-md-12 c-sm-12">
             <div class="table-scroll-wrapper">
               <div class="table table-responsive enquiry-table">
-
-                <!-- <enquiry-table header]="headerArr" [isAllSelected]="isAllSelected" [rows]="sourceEnquiry" (selectAllRows)="toggleSelectAll($event)"
-                 (sort)="sortTableById($event)" (userSelectRow)="rowClicked($event)" (multipleSelectRow)="rowCheckBoxClick($event)">
-                </enquiry-table> -->
 
                 <table class="align-center">
 
@@ -517,7 +514,7 @@
 
                       <td>
                         <a href="javascript:void(0)" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
-                          {{row.data.followUpDateTime| date:'dd-MMM-yyyy hh:mm a'}}
+                          {{row.data.followUpDateTime| date:'dd-MMM-yyyy ( hh:mm a )'}}
                         </a>
                       </td>
 
@@ -562,9 +559,9 @@
                     <tr class="empty-table-wrapper" style="background: none;">
                       <td colspan="12">
                         <ul>
-                          <li>
+                          <!-- <li>
                             <img *ngIf="fetchingDataMessage == 'Loading'" style="height:50px" src="./assets/images/table_data.svg">
-                          </li>
+                          </li> -->
                           <li style="font-weight: 700">{{fetchingDataMessage}}</li>
                         </ul>
                       </td>
@@ -663,13 +660,13 @@
                     <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit"
                       bsDatepicker />
                     <label for="followUPdateEdit">Follow Up Date</label>
-                    <span class="date-clear" (click)="clearDate($event)">clear</span>
+                    <span class="date-clear" name="followupdate" (click)="clearupdateDate()">clear</span>
                   </div>
                 </div>
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
                     <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.statusValue" (ngModelChange)="updateStatusForEnquiryUpdate($event)"
-                      name="statusValue">
+                      name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
                       <option></option>
                       <option *ngFor="let status of enqstatus" [value]="status.data_value" [attr.selected]="status.data_value == updateFormData.statusValue ? '' : null"
                         [hidden]="status.data_key == 12 ? true : false">
@@ -681,13 +678,32 @@
                 </div>
               </div>
               <div class="row">
-                <div class="c-lg-6 c-md-6 c-sm-6">
-                  <div class="">
-                    <label style="position: absolute;top: -16px;font-size: 13.25px;left: 15px;color: #0084f7;" for="followupTime">Follow up Time</label>
+                <div class="c-lg-12 c-md-12 c-sm-12 time-picker">
+                  <div class="field-wrapper has-value">
+                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="hour" name="hour">
+                      <option *ngFor="let hour of hourArr" [value]="hour">
+                        {{hour}}
+                      </option>
+                    </select>
+                    <label for="hour">Hour</label>
                   </div>
-                  <timepicker [(ngModel)]="followUpTime"></timepicker>
+                  <div class="field-wrapper has-value">
+                    <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute">
+                      <option *ngFor="let minute of minArr" [value]="minute">
+                        {{minute}}
+                      </option>
+                    </select>
+                    <label for="minute">Minute</label>
+                  </div>
+                  <div class="field-wrapper has-value">
+                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="meridian" name="meridian">
+                      <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                        {{meridian}}
+                      </option>
+                    </select>
+                    <label for="meridian">Meridian</label>
+                  </div>
                 </div>
-                <div class="c-lg-6 c-md-6 c-sm-6"></div>
               </div>
               <div class="row">
                 <div class="c-lg-12 c-md-12 c-sm-12">
@@ -886,7 +902,6 @@
                         <input type="text" value="" id="pDate" class="form-ctrl bsDatepicker" [ngModel]="registrationForm.paymentDate" name="pDate"
                           bsDatepicker/>
                         <label for="pDate">Payment Date</label>
-                        <span class="date-clear" (click)="clearDate($event)">clear</span>
                       </div>
                     </div>
                     <div class="c-lg-6 c-md-6 c-sm-6">
@@ -1024,6 +1039,54 @@
   </section>
 
 
+  
+
+  <!-- Bulk Assign PopUp -->
+  <section id="popup" class="popupWrapper fadeIn" *ngIf="isAssignEnquiry" (click)="inputClicked($event)">
+    <div class="popup pos-abs">
+      <div class="popup-wrapper pos-rel">
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="bulkAssignEnquiriesClose()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
+            </g>
+          </svg>
+        </span>
+        <div class="popup-content">
+          <h2>Assign {{selectedRowGroup.length}} Enquiries </h2>
+          <div class="update-enquiry-form overflowHidden">
+            <div class="enquiry-update-history">
+              <div class="field-wrapper" style="max-width: 70%">
+                <select id="assignTo" class="form-ctrl" [(ngModel)]="assignMultipleForm.assigned_to" name="assignTo">
+                  <option></option>
+                  <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
+                    {{ assigned.name }}
+                  </option>
+                </select>
+                <label for="assignTo">Assign To</label>
+              </div>
+            </div>
+            <div class="">
+              <div class="clearfix">
+                <aside class="pull-right popup-btn">
+                  <input type="button" value="Cancel" class="btn" (click)="bulkAssignEnquiriesClose()">
+                  <input type="button" value="Assign Enquiries" class="redBtn btn" (click)="bulkAssignEnquiries()">
+                </aside>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
 
 
 
@@ -1053,7 +1116,7 @@
 
               <aside class="pull-left sms-table">
                 <div class="sms-top-section">
-
+                  <!-- Create New SMS Toggler -->
                   <div class="row">
                     <div class="c-lg-12">
                       <div class="clearFix add-edit">
@@ -1065,6 +1128,7 @@
                     </div>
                   </div>
 
+                  <!-- Message TextArea Here -->
                   <div class="row" *ngIf="isMessageAddOpen">
                     <section class="clearFix new-sms-form">
                       <div class="row">
@@ -1089,6 +1153,7 @@
                     </section>
                   </div>
 
+                  <!-- Message Header -->
                   <div class="row">
                     <div class="c-lg-12">
                       <h4>
@@ -1097,29 +1162,94 @@
                     </div>
                   </div>
 
-                  <div class="row">
+                  <!-- Length of SMS Total and SearchBar -->
+                  <div class="row sms-table-head">
                     <div class="c-lg-7 c-md-7 c-sm-7" style="padding-top: 10px;">
-                      <label>Showing 1 to {{smsDataLength}} of {{smsDataLength}} SMS</label>
+                      <div id="approvedSms" class="sms-tab active" style="margin-left: 5px;" (click)="switchSmsTab('approvedSms')">
+                        <label style="cursor: pointer">Approved</label>
+                      </div>
+                      <div id="openSms" class="sms-tab" (click)="switchSmsTab('openSms')">
+                        <label style="cursor: pointer">Open</label>
+                      </div>
                     </div>
                     <div class="c-lg-5 c-md-5 c-sm-5 align-right">
-                      <div class="search-filter-wrapper">
+                      <!-- <div class="search-filter-wrapper">
                         <input type="text" class="sms-search-field" placeholder="Search SMS" #smssearch [(ngModel)]="smsSearchData" name="searchData"
                           (keyup.enter)="onSearch(smssearch.value)">
-                      </div>
+                      </div> -->
                     </div>
                   </div>
 
                 </div>
-
+                <!-- Table Here -->
                 <div class="sms-middle-section">
                   <div class="row">
                     <div class="c-lg-12 c-md-12 c-sm-12">
                       <div class="table table-responsive table-container table-data-overflow">
-                        <ng2-smart-table [settings]="settingsSmsPopup" 
-                        [source]="smsPopSource" 
-                        (userRowSelect)="smsRowSelected($event)" 
-                        (sortById)="sortById($event)">
-                        </ng2-smart-table>
+                        <!-- <ng2-smart-table [settings]="settingsSmsPopup" [source]="smsSource" (userRowSelect)="smsRowSelected($event)" (sortById)="sortById($event)">
+                        </ng2-smart-table> -->
+                        <table>
+                          <thead>
+                            <tr>
+                              <th></th>
+                              <th>
+                                <label>
+                                  <a class="cursor-icon" style="color:white;">{{smsHeader.message.title}}</a>
+                                </label>
+                              </th>
+                              <th>
+                                <label>
+                                  <a class="cursor-icon" style="color:white;">{{smsHeader.date.title}}</a>
+                                </label>
+                              </th>
+                              <th>
+                                <label>
+                                  <a class="cursor-icon" style="color:white;">{{smsHeader.action.title}}</a>
+                                </label>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody *ngIf="isApprovedTab">
+                            <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
+                              <td>
+                                <div class="field-radio-wrapper">
+                                  <input type="radio" name="smsTable" class="form-radio" id="appradiosms{{i}}">
+                                  <label for="appradiosms{{i}}"></label>
+                                </div>
+                              </td>
+                              <td style="text-align: left; text-overflow: ellipsis">
+                                {{row.message}}
+                              </td>
+                              <td>
+                                {{row.date}}
+                              </td>
+                              <td>
+                                <enquiry-sms-action>
+                                </enquiry-sms-action>
+                              </td>
+                            </tr>
+                          </tbody>
+                          <tbody *ngIf="isOpenTab">
+                            <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
+                              <td>
+                                <div class="field-radio-wrapper">
+                                  <input type="radio" name="smsTable" class="form-radio" id="opradiosms{{i}}">
+                                  <label for="oppradiosms{{i}}"></label>
+                                </div>
+                              </td>
+                              <td style="text-align: left; text-overflow: ellipsis">
+                                {{row.message}}
+                              </td>
+                              <td>
+                                {{row.date}}
+                              </td>
+                              <td>
+                                <enquiry-sms-action>
+                                </enquiry-sms-action>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
@@ -1146,8 +1276,9 @@
                 </div>
                 <div class="sms-preview-content">
                   <div class="field-sms-wrapper">
-                    <textarea placeholder="Edit Message Here" rows="20" cols="1" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true"
-                      id="sms-content" value="" [(ngModel)]="selectedSMS.message" [disabled]="!smsBtnToggle">
+                    <textarea placeholder="Select SMS to preview or edit to update template" rows="20" cols="1" autocomplete="off" role="textbox"
+                      aria-autocomplete="list" aria-haspopup="true" id="sms-content" value="" [(ngModel)]="selectedSMS.message"
+                      [disabled]="!smsBtnToggle">
                           </textarea>
                   </div>
                 </div>
@@ -1204,7 +1335,7 @@
 
               <aside class="pull-left sms-table">
                 <div class="sms-top-section">
-
+                  <!-- Create New SMS Toggler -->
                   <div class="row">
                     <div class="c-lg-12">
                       <div class="clearFix add-edit">
@@ -1216,6 +1347,7 @@
                     </div>
                   </div>
 
+                  <!-- Message TextArea Here -->
                   <div class="row" *ngIf="isMessageAddOpen">
                     <section class="clearFix new-sms-form">
                       <div class="row">
@@ -1240,6 +1372,7 @@
                     </section>
                   </div>
 
+                  <!-- Message Header -->
                   <div class="row">
                     <div class="c-lg-12">
                       <h4>
@@ -1248,15 +1381,21 @@
                     </div>
                   </div>
 
-                  <div class="row">
+                  <!-- Length of SMS Total and SearchBar -->
+                  <div class="row sms-table-head">
                     <div class="c-lg-7 c-md-7 c-sm-7" style="padding-top: 10px;">
-                      <label>Showing 1 to {{smsDataLength}} of {{smsDataLength}} SMS</label>
+                      <div id="approvedSms" class="sms-tab active" style="margin-left: 5px;" (click)="switchSmsTab('approvedSms')">
+                        <label style="cursor: pointer">Approved</label>
+                      </div>
+                      <div id="openSms" class="sms-tab" (click)="switchSmsTab('openSms')">
+                        <label style="cursor: pointer">Open</label>
+                      </div>
                     </div>
                     <div class="c-lg-5 c-md-5 c-sm-5 align-right">
-                      <div class="search-filter-wrapper">
-                        <input type="text" class="sms-search-field" placeholder="Search SMS" #smssearch [(ngModel)]="smsSearchData" name="searchData"
-                          (keyup.enter)="onSearch(smssearch.value)">
-                      </div>
+                      <!-- <div class="search-filter-wrapper">
+                            <input type="text" class="sms-search-field" placeholder="Search SMS" #smssearch [(ngModel)]="smsSearchData" name="searchData"
+                              (keyup.enter)="onSearch(smssearch.value)">
+                          </div> -->
                     </div>
                   </div>
 
@@ -1266,8 +1405,70 @@
                   <div class="row">
                     <div class="c-lg-12 c-md-12 c-sm-12">
                       <div class="table table-responsive table-container table-data-overflow">
-                        <ng2-smart-table [settings]="settingsSmsPopup" [source]="smsPopSource" (userRowSelect)="smsRowSelected($event)">
-                        </ng2-smart-table>
+                        <!-- <ng2-smart-table [settings]="settingsSmsPopup" [source]="smsSource" (userRowSelect)="smsRowSelected($event)" (sortById)="sortById($event)">
+                            </ng2-smart-table> -->
+                        <table>
+                          <thead>
+                            <tr>
+                              <th></th>
+                              <th>
+                                <label>
+                                  <a class="cursor-icon" style="color:white;">{{smsHeader.message.title}}</a>
+                                </label>
+                              </th>
+                              <th>
+                                <label>
+                                  <a class="cursor-icon" style="color:white;">{{smsHeader.date.title}}</a>
+                                </label>
+                              </th>
+                              <th>
+                                <label>
+                                  <a class="cursor-icon" style="color:white;">{{smsHeader.action.title}}</a>
+                                </label>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody *ngIf="isApprovedTab">
+                            <tr *ngFor="let row of smsSourceApproved; let i = index;" (click)="appSmsSelected(row, i)">
+                              <td>
+                                <div class="field-radio-wrapper">
+                                  <input type="radio" name="smsTable" class="form-radio" id="appradiosms{{i}}">
+                                  <label for="appradiosms{{i}}"></label>
+                                </div>
+                              </td>
+                              <td style="text-align: left; text-overflow: ellipsis">
+                                {{row.message}}
+                              </td>
+                              <td>
+                                {{row.date}}
+                              </td>
+                              <td>
+                                <enquiry-sms-action>
+                                </enquiry-sms-action>
+                              </td>
+                            </tr>
+                          </tbody>
+                          <tbody *ngIf="isOpenTab">
+                            <tr *ngFor="let row of smsSourceOpen; let i = index;" (click)="opSmsSelected(row, i)">
+                              <td>
+                                <div class="field-radio-wrapper">
+                                  <input type="radio" name="smsTable" class="form-radio" id="opradiosms{{i}}">
+                                  <label for="oppradiosms{{i}}"></label>
+                                </div>
+                              </td>
+                              <td style="text-align: left; text-overflow: ellipsis">
+                                {{row.message}}
+                              </td>
+                              <td>
+                                {{row.date}}
+                              </td>
+                              <td>
+                                <enquiry-sms-action>
+                                </enquiry-sms-action>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
@@ -1320,53 +1521,6 @@
       </div>
     </div>
 
-  </section>
-
-
-
-
-  <!-- Bulk Assign PopUp -->
-  <section id="popup" class="popupWrapper fadeIn" *ngIf="isAssignEnquiry" (click)="inputClicked($event)">
-    <div class="popup pos-abs">
-      <div class="popup-wrapper pos-rel">
-        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="bulkAssignEnquiriesClose()">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-              </g>
-              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-              />
-            </g>
-          </svg>
-        </span>
-        <div class="popup-content">
-          <h2>Assign {{selectedRowGroup.length}} Enquiries </h2>
-          <div class="update-enquiry-form overflowHidden">
-            <div class="enquiry-update-history">
-              <div class="field-wrapper" style="max-width: 70%">
-                <select id="assignTo" class="form-ctrl" [(ngModel)]="assignMultipleForm.assigned_to" name="assignTo">
-                  <option></option>
-                  <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
-                    {{ assigned.name }}
-                  </option>
-                </select>
-                <label for="assignTo">Assign To</label>
-              </div>
-            </div>
-            <div class="">
-              <div class="clearfix">
-                <aside class="pull-right popup-btn">
-                  <input type="button" value="Cancel" class="btn" (click)="bulkAssignEnquiriesClose()">
-                  <input type="button" value="Assign Enquiries" class="redBtn btn" (click)="bulkAssignEnquiries()">
-                </aside>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </section>
 
 

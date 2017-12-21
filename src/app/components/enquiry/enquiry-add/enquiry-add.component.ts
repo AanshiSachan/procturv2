@@ -388,7 +388,7 @@ export class EnquiryAddComponent implements OnInit {
         });
         this.emptyCustomComponent = this.componentListObject;
       }
-      );
+    );
   }
 
 
@@ -1389,6 +1389,28 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  clearAddEnquiryDate(){
+    this.newEnqData.enquiry_date= "";
+  }
+
+  clearAddFollowUpDate(){
+    this.newEnqData.followUpDate= "";
+  }
 
 
 }

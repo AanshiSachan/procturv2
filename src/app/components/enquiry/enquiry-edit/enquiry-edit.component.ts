@@ -751,4 +751,16 @@ export class EnquiryEditComponent implements OnInit {
     }
   }
 
+
+
+
+
+  clearEditEnquiryDate(){
+    this.editEnqData.enquiry_date = "";
+  }
+
+  clearEditFollowUpDate(){
+    this.editEnqData.followUpDate = "";
+  }
+
 }

@@ -318,6 +318,7 @@
             <input type="text" value="" id="enquiryDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.enquiry_date" name="enquiryDate"
               bsDatepicker>
             <label for="enquiryDate">Enquiry Date</label>
+            <span class="date-clear" name="followupdate" (click)="clearEditEnquiryDate()">clear</span>
           </div>
           <div class="field-wrapper has-value ">
             <select id="eStatus" class="form-ctrl" [(ngModel)]="editEnqData.status" name="status" enquiryInput>
@@ -348,6 +349,7 @@
             <input type="text" value="" id="followUpDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.followUpDate" name="followUpDate"
               bsDatepicker>
             <label for="followUpDate">Follow Up Date</label>
+            <span class="date-clear" name="followupdate" (click)="clearEditFollowUpDate()">clear</span>
           </div>
           <div class="field-wrapper has-value ">
             <select id="source" class="form-ctrl" [(ngModel)]="editEnqData.source_id" name="source" enquiryInput>

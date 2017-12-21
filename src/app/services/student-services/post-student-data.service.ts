@@ -42,6 +42,14 @@ export class PostStudentDataService {
         )
     }
 
-}
 
+    archieveStudents(obj){
+        let urlDeleteStudent = this.baseUrl +'/api/v1/archive/students';
+
+        return this.http.post(urlDeleteStudent, obj, {headers: this.headers}).map(
+            res => { return res.json()},
+            err => { return err.json()}
+        )
+    }
+}
 
