@@ -50,7 +50,7 @@ export class CampaignHomeComponent implements OnInit {
   checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = [];
   enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = [];
   enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; commentFormData: any = {};
-  today: any = Date.now(); searchBarData: any = null;hours:any; minutes:any; searchBarDate: any = moment().format('YYYY-MM-DD');
+  today: any = Date.now(); searchBarData: any = null;hours:any; minutes:any;meridian:any;  searchBarDate: any = moment().format('YYYY-MM-DD');
   displayBatchSize: number = 100; incrementFlag: boolean = true; updateFormComments: any = [];
   updateFormCommentsBy: any = []; updateFormCommentsOn: any = []; PageIndex: number = 1;
   maxPageSize: number = 0; totalEnquiry: number = 0; isProfessional: boolean = false;
@@ -590,39 +590,73 @@ export class CampaignHomeComponent implements OnInit {
   }
 
   saveEditedSms() {
-
-    console.log(this.selectedMessage);
-    console.log(this.searchBarDate);
-    
-
-    let hourminutes:any;
+    let hours:any;
     let minutes:any;
+    let meridian:any;
+    let queryParam = {campaign_list_id : this.smsSelectedRows.data.list_id, date : "",messageArray:this.selectedMessage};
 
     if (this.minutes == null){
-      minutes = 0;
+      minutes = "00";
     }else{
-      minutes = parseInt(this.minutes);
-      
+      minutes = this.minutes;      
     }
 
     if (this.hours == null){
-      hourminutes = 0;
+      hours = "1";
     }else{
-      let hours = parseInt(this.hours);
-      hourminutes = this.hours * 60;
+      hours = this.hours;
     }
 
-    let total_minutes = hourminutes + minutes;
+    if (this.meridian == null){
+      meridian = "AM";
+    }else{
+      meridian = this.meridian;
+    }
 
-    // var hours = Math.floor( $('.totalMin').html() / 60);          
-    // var minutes = $('.totalMin').html() % 60;
+    let date = this.formatDate(this.searchBarDate);
 
-    // var dateString = moment.unix(this.searchBarDate).format("MM/DD/YYYY");
-    console.log(dateString);
-    var dateString = moment(this.searchBarDate,'MM/DD/YYYY').toDate()
-    console.log(dateString);
+    let finaldate = date + " "+hours+":"+minutes+" "+meridian;
+    
+    console.log(finaldate);
 
-    console.log(total_minutes);
+    if(this.selectedMessage == null){
+      let msg = {
+        type: 'error',
+        title: "Please select a message"
+      }
+      this.appC.popToast(msg);
+
+    }else{
+      queryParam.date = finaldate
+      console.log(queryParam); 
+      
+      this.postData.saveSMSservice(queryParam).subscribe(
+        res => {
+                let msg = {
+                  type: 'success',
+                  title: "Campaign created successfully!"
+                }
+                this.appC.popToast(msg);
+          },
+        error => {
+                  console.log(error);          
+                  let err_msg = JSON.parse(error._body);
+                  console.log(error.statusText);
+                  console.log(err_msg);
+                  console.log(err_msg.message);
+                  let msg = {
+                    type: 'error',
+                    title: error.statusText,
+                    body: err_msg.message
+                  }
+                  this.appC.popToast(msg);
+          }
+      );
+    }
+
+
+    
+
 
 
 
@@ -639,6 +673,19 @@ export class CampaignHomeComponent implements OnInit {
       }
     });
     
+  }
+
+
+  formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
   }
 
   

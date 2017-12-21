@@ -414,41 +414,80 @@
                       </div>
                 </div>
                 
-                <div class="c-lg-4 c-md-4 c-sm-4" style="padding-top: 10px;">
-                    <select name="hour_range" id="hour_range2" [(ngModel)]="hours" >Date Time:
-                        <option value="9">9 AM</option>
-                        <option value="10">10 AM</option>
-                        <option value="11">11 AM</option>
-                        <option value="12">12 PM</option>
-                        <option value="14">1 PM</option>
-                        <option value="13">2 PM</option>
-                        <option value="15">3 PM</option>
-                        <option value="16">4 PM</option>
-                        <option value="17">5 PM</option>
-                        <option value="18">6 PM</option>
-                        <option value="19">7 PM</option>
-                        <option value="20">8 PM</option>
-                        <option value="21">9 PM</option>
-                      </select>
-                      &nbsp;
-                      <select name="min_range" id="min_range2" [(ngModel)]="minutes">
-                        <option value="00">00</option>
-                        <option value="05">05</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                        <option value="25">25</option>
-                        <option value="30">30</option>
-                        <option value="35">35</option>
-                        <option value="40">40</option>
-                        <option value="45">45</option>
-                        <option value="50">50</option>
-                        <option value="55">55</option>
-                      </select>
+                <div class="c-lg-8 c-md-8 c-sm-8  time-picker" style="padding-top: 10px;">
+                    <div class="field-wrapper has-value">
+                      <select name="hour_range" id="hour_range2"  class="form-ctrl ng-valid ng-touched ng-dirty"  [(ngModel)]="hours" >Date Time:
+                          <option value="1">1 </option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                        </select>
+                        <label for="hour">Hour</label>
+                     
+                      </div>
+                      <div class="field-wrapper has-value">
+                        <select name="min_range" id="min_range2"  class="form-ctrl ng-valid ng-touched ng-dirty"  [(ngModel)]="minutes">
+                          <option value="00">00</option>
+                          <option value="05">05</option>
+                          <option value="10">10</option>
+                          <option value="15">15</option>
+                          <option value="20">20</option>
+                          <option value="25">25</option>
+                          <option value="30">30</option>
+                          <option value="35">35</option>
+                          <option value="40">40</option>
+                          <option value="45">45</option>
+                          <option value="50">50</option>
+                          <option value="55">55</option>
+                        </select>
+                        <label for="minute">Minute</label>
+                        
+                      </div>
+                      <div class="field-wrapper has-value">
+                        <select name="meridian" id="meridian"  class="form-ctrl ng-valid ng-touched ng-dirty"  [(ngModel)]="meridian">
+                          <option value="AM">AM</option>
+                          <option value="PM">PM</option>
+                        </select>
+                        <label for="meridian">Meridian</label>
+                      </div>
                 </div>
         
 
               </div>
+
+              <!-- <div class="row">
+                  <div class="c-lg-6 c-md-6 c-sm-6 time-picker">
+                    <div class="field-wrapper has-value">
+                      <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="hour" name="hour">
+                        <option *ngFor="let hour of hourArr" [value]="hour">
+                          {{hour}}
+                        </option>
+                      </select>
+                      <label for="hour">Hour</label>
+                    </div>
+                    <div class="field-wrapper has-value">
+                      <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute">
+                        <option *ngFor="let minute of minArr" [value]="minute">
+                          {{minute}}
+                        </option>
+                      </select>
+                      <label for="minute">Minute</label>
+                    </div>
+                    <div class="field-wrapper has-value">
+                      <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="meridian" name="meridian">
+                        <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                          {{meridian}}
+                        </option>
+                      </select>
+                      <label for="meridian">Meridian</label>
+                    </div>
+                  </div>
+                </div> -->
 
               <!-- <div class="row">
                 <div class="c-lg-7 c-md-7 c-sm-7" style="padding-top: 10px;">

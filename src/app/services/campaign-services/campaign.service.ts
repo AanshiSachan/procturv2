@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { AuthenticatorService } from '../authenticator.service';
 
+
 @Injectable()
 export class CampaignService {
 
@@ -111,6 +112,20 @@ export class CampaignService {
     console.log(data);
 
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id + "/all";
+    
+    return this.http.post(this.urlDownloadAllEnquiry, data, {headers: this.headers}).map(
+      data => { return data.json() },
+      err => {
+        //  console.log("error fetching template"); 
+      }
+    );
+  }
+
+
+  saveSMSservice(data){    
+    console.log(data);
+
+    this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/campaign/create/" + this.institute_id;
     
     return this.http.post(this.urlDownloadAllEnquiry, data, {headers: this.headers}).map(
       data => { return data.json() },
