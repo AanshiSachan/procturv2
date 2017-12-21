@@ -1752,7 +1752,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
     this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
     let followUpTime = this.hour +":" +this.minute +" " +this.meridian;
     let followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YYYY') + " " +followUpTime;
-    //console.log(followupdateTime);
     this.updateFormData.followUpTime = followUpTime;
     this.postdata.updateEnquiryForm(this.selectedRow.data.institute_enquiry_id, this.updateFormData)
       .subscribe(res => {
@@ -1795,6 +1794,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
       this.updateFormData.follow_type = res.follow_type;
       this.updateFormData.statusValue = this.selectedRow.data.statusValue;
       this.updateFormData.followUpDate = moment(this.selectedRow.data.followUpDate).format('YYYY-MM-DD');
+      //this.hour =   
       this.updateFormComments = res.comments;
       this.updateFormCommentsOn = res.commentedOn;
       this.updateFormCommentsBy = res.commentedBy;

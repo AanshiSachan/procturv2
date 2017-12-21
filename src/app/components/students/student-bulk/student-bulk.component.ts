@@ -34,9 +34,8 @@ export class StudentBulkComponent implements OnInit {
 
   /* base64 data to be converted to xls file */
   downloadTemplate() {
-    /* this.fetchData.fetchDownloadTemplate().subscribe(
+    this.fetchData.fetchDownloadTemplate().subscribe(
       res => {
-
         let byteArr = this.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
@@ -45,13 +44,12 @@ export class StudentBulkComponent implements OnInit {
         let dwldLink = document.getElementById('template_link');
         dwldLink.setAttribute("href", url);
         dwldLink.setAttribute("download", fileName);
-
         dwldLink.click();
       },
       err => {
         console.log(err.responseJSON.message);
       }
-    ) */
+    )
   }
 
 

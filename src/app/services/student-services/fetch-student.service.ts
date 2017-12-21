@@ -73,4 +73,17 @@ export class FetchStudentService {
     
   }
 
+
+  fetchDownloadTemplate(){
+
+    let urlStudentUploadTemplate = this.baseUrl +"/api/v1/students/download/bulkUploadStudentsTemplate";
+
+    return this.http.get(urlStudentUploadTemplate, {headers: this.headers}).map(
+      res => {
+        return res.json();
+      }
+    )
+
+  }
+
 }
