@@ -39,6 +39,7 @@ import { ComingSoonComponent } from './components/coming-soon/coming-soon.compon
 import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.component';
 import { PostStudentDataService } from './services/student-services/post-student-data.service';
 
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -60,7 +61,8 @@ import { PostStudentDataService } from './services/student-services/post-student
     AppLoaderComponent,
     ErrorComponent,
     ComingSoonComponent,
-    OverlayMenuComponent
+    OverlayMenuComponent,
+
   ],
   entryComponents: [
   ],

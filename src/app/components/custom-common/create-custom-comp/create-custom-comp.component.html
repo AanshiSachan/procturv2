@@ -66,7 +66,7 @@
 
       <div class="row extraMargin">
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
-          <div class="field-wrapper">
+          <div class="field-wrapper has-value">
             <select id="isrequired" class="form-ctrl" name="isrequired" [(ngModel)]="createCustomComponentForm.is_required" (focus)="inputClicked($event)">
               <option value="Y">Y</option>
               <option value="N">N</option>
@@ -75,12 +75,12 @@
           </div>
         </div>
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
-          <div class="field-wrapper">
+          <div class="field-wrapper has-value">
             <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="createCustomComponentForm.is_searchable" (focus)="inputClicked($event)">
               <option value="Y">Y</option>
               <option value="N">N</option>
             </select>
-            <label for="issearchable">Is Required</label>
+            <label for="issearchable">Is Searchable</label>
           </div>
         </div>
 

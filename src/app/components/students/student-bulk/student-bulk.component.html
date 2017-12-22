@@ -97,18 +97,18 @@
             <table>
               <thead>
                 <tr>
-                  <th>File Name</th>
-                  <th>Upload Date</th>
+                  <th>Created Date</th>
+                  <th>Status</th>
+                  <!-- <th>Comments</th> -->
                   <th>Total Count</th>
                   <th>Success Count</th>
                   <th>Failure Count</th>
-                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor = "let record of bulkUploadRecords">
-                  <td>{{record.list_name}}</td>
                   <td>{{record.created_date}}</td>
+                  <td>{{record.statusValue}}</td>
                   <td>{{record.total_count}}</td>
                   <td>{{record.success_count}}</td>
                   <td>{{record.failure_count}}</td>

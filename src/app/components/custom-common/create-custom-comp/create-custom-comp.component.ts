@@ -25,10 +25,10 @@ export class CreateCustomCompComponent implements OnInit {
     comp_length: "",
     description: "",
     institution_id: sessionStorage.getItem('institute_id'),
-    is_required: "",
-    is_searchable: "",
+    is_required: "N",
+    is_searchable: "N",
     label: "",
-    page: 2,
+    page: 1,
     prefilled_data: "",
     sequence_number: "",
     type: "",
@@ -58,7 +58,7 @@ export class CreateCustomCompComponent implements OnInit {
   fetchPrefillData() {
 
 
-   this.prefill.fetchComponentGenerator().subscribe(
+    this.prefill.fetchComponentGenerator().subscribe(
       res => {
         this.componentShell = res;
         //console.log(res);
@@ -66,7 +66,7 @@ export class CreateCustomCompComponent implements OnInit {
     );
 
 
-   return this.prefill.fetchUserCreatedComponent().subscribe(
+    return this.prefill.fetchUserCreatedComponent().subscribe(
       res => {
         this.userCreatedComponent = res;
 
@@ -92,10 +92,10 @@ export class CreateCustomCompComponent implements OnInit {
         comp_length: "",
         description: "",
         institution_id: sessionStorage.getItem('institute_id'),
-        is_required: "",
-        is_searchable: "",
+        is_required: "N",
+        is_searchable: "N",
         label: "",
-        page: 2,
+        page: 1,
         prefilled_data: "",
         sequence_number: "",
         type: ""
@@ -118,7 +118,7 @@ export class CreateCustomCompComponent implements OnInit {
         if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
           if (this.createCustomComponentForm.is_required == "Y") {
             if (this.createCustomComponentForm.is_searchable == "Y") {
-             this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+              this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
                 res => {
                   let alert = {
                     type: 'success',
@@ -141,7 +141,7 @@ export class CreateCustomCompComponent implements OnInit {
               this.fetchPrefillData();
             }
             else {
-             this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+              this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
                 res => {
                   let alert = {
                     type: 'success',
@@ -165,7 +165,7 @@ export class CreateCustomCompComponent implements OnInit {
           }
           else {
             if (this.createCustomComponentForm.is_searchable == "Y") {
-             this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+              this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
                 res => {
                   let alert = {
                     type: 'success',
@@ -185,10 +185,10 @@ export class CreateCustomCompComponent implements OnInit {
                   this.appC.popToast(alert);
                 }
               );
-             this.busy = this.fetchPrefillData();
+              this.busy = this.fetchPrefillData();
             }
             else {
-             this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+              this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
                 res => {
                   let alert = {
                     type: 'success',
@@ -208,7 +208,7 @@ export class CreateCustomCompComponent implements OnInit {
                   this.appC.popToast(alert);
                 }
               );
-               this.busy = this.fetchPrefillData();
+              this.busy = this.fetchPrefillData();
             }
           }
         }
@@ -225,7 +225,7 @@ export class CreateCustomCompComponent implements OnInit {
         //console.log("input text or checkbox");
         if (this.createCustomComponentForm.is_required == "Y") {
           if (this.createCustomComponentForm.is_searchable == "Y") {
-           this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+            this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
               res => {
                 let alert = {
                   type: 'success',
@@ -248,7 +248,7 @@ export class CreateCustomCompComponent implements OnInit {
             this.busy = this.fetchPrefillData();
           }
           else {
-           this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+            this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
               res => {
                 let alert = {
                   type: 'success',
@@ -268,12 +268,12 @@ export class CreateCustomCompComponent implements OnInit {
                 this.appC.popToast(alert);
               }
             );
-           this.busy = this.fetchPrefillData();
+            this.busy = this.fetchPrefillData();
           }
         }
         else {
           if (this.createCustomComponentForm.is_searchable == "Y") {
-           this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+            this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
               res => {
                 let alert = {
                   type: 'success',
@@ -293,10 +293,10 @@ export class CreateCustomCompComponent implements OnInit {
                 this.appC.popToast(alert);
               }
             );
-           this.busy = this.fetchPrefillData();
+            this.busy = this.fetchPrefillData();
           }
           else {
-           this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+            this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
               res => {
                 let alert = {
                   type: 'success',
@@ -342,6 +342,17 @@ export class CreateCustomCompComponent implements OnInit {
     });
     /* convert array to set unique value */
     this.createCustomComponentForm.prefilled_data = Array.from(new Set(arr)).join(',');
+    return test1
+  }
+
+
+  validateDropDownUpdate(data) {
+    let arr: any[] = data.split(',');
+    /* boolean for non empty value */
+    let test1 = arr.every(function checkNonEmpty(el) {
+      return (el != "" && el != " ");
+    });
+    /* convert array to set unique value */
     return test1
   }
 
@@ -394,91 +405,195 @@ export class CreateCustomCompComponent implements OnInit {
 
 
   updateRow(data) {
-    if (data.is_required == "Y") {
-      if (data.is_searchable == "Y") {
-       /* this.busy = */ this.postdata.updateCustomComponent(data).subscribe(
-          res => {
-            let alert = {
-              type: 'success',
-              title: 'Component Updated',
-            }
-            this.appC.popToast(alert);
-            this.cancelEditRow(data);
-          },
-          err => {
-            let alert = {
-              type: 'error',
-              title: 'Failed To Update Component',
-              body: 'component cannot be update as already in use'
-            }
-            this.appC.popToast(alert);
+    
+    if(data.type == '3' || data.type == '4'){
+      if (this.validateDropDownUpdate(data.prefilled_data)) {
+        let arr: any[] = data.prefilled_data.split(',');
+        data.prefilled_data = Array.from(new Set(arr)).join(',');
+        if (data.is_required == "Y") {
+          if (data.is_searchable == "Y") {
+           /* this.busy = */ this.postdata.updateCustomComponent(data).subscribe(
+              res => {
+                let alert = {
+                  type: 'success',
+                  title: 'Component Updated',
+                }
+                this.appC.popToast(alert);
+                this.cancelEditRow(data);
+              },
+              err => {
+                let alert = {
+                  type: 'error',
+                  title: 'Failed To Update Component',
+                  body: 'component cannot be update as already in use'
+                }
+                this.appC.popToast(alert);
+              }
+            );
           }
-        );
+          else {
+            this.postdata.updateCustomComponent(data).subscribe(
+              res => {
+                let alert = {
+                  type: 'success',
+                  title: 'Component Updated',
+                }
+                this.appC.popToast(alert);
+                this.cancelEditRow(data);
+  
+              },
+              err => {
+                let alert = {
+                  type: 'error',
+                  title: 'Failed To Update Component',
+                  body: 'component cannot be update as already in use'
+                }
+                this.appC.popToast(alert);
+              }
+            );
+          }
+        }
+        else {
+          if (data.is_searchable == "Y") {
+            this.postdata.updateCustomComponent(data).subscribe(
+              res => {
+                let alert = {
+                  type: 'success',
+                  title: 'Component Updated',
+                }
+                this.appC.popToast(alert);
+                this.cancelEditRow(data);
+  
+              },
+              err => {
+                let alert = {
+                  type: 'error',
+                  title: 'Failed To Update Component',
+                  body: 'component cannot be update as already in use'
+                }
+                this.appC.popToast(alert);
+              }
+            );
+          }
+          else {
+            this.postdata.updateCustomComponent(data).subscribe(
+              res => {
+                let alert = {
+                  type: 'success',
+                  title: 'Component Updated',
+                }
+                this.appC.popToast(alert);
+                this.cancelEditRow(data);
+  
+              },
+              err => {
+                let alert = {
+                  type: 'error',
+                  title: 'Failed To Update Component',
+                  body: 'component cannot be update as already in use'
+                }
+                this.appC.popToast(alert);
+              }
+            );
+          }
+        } 
       }
       else {
-        this.postdata.updateCustomComponent(data).subscribe(
-          res => {
-            let alert = {
-              type: 'success',
-              title: 'Component Updated',
-            }
-            this.appC.popToast(alert);
-            this.cancelEditRow(data);
-
-          },
-          err => {
-            let alert = {
-              type: 'error',
-              title: 'Failed To Update Component',
-              body: 'component cannot be update as already in use'
-            }
-            this.appC.popToast(alert);
+        let msg = {
+          type: 'error',
+          title: 'Invalid Input',
+          body: 'Prefilled data should be non-empty and unique'
           }
-        );
+          this.appC.popToast(msg);        
       }
     }
-    else {
-      if (data.is_searchable == "Y") {
-        this.postdata.updateCustomComponent(data).subscribe(
-          res => {
-            let alert = {
-              type: 'success',
-              title: 'Component Updated',
+    else{
+      if (data.is_required == "Y") {
+        if (data.is_searchable == "Y") {
+         /* this.busy = */ this.postdata.updateCustomComponent(data).subscribe(
+            res => {
+              let alert = {
+                type: 'success',
+                title: 'Component Updated',
+              }
+              this.appC.popToast(alert);
+              this.cancelEditRow(data);
+            },
+            err => {
+              let alert = {
+                type: 'error',
+                title: 'Failed To Update Component',
+                body: 'component cannot be update as already in use'
+              }
+              this.appC.popToast(alert);
             }
-            this.appC.popToast(alert);
-            this.cancelEditRow(data);
+          );
+        }
+        else {
+          this.postdata.updateCustomComponent(data).subscribe(
+            res => {
+              let alert = {
+                type: 'success',
+                title: 'Component Updated',
+              }
+              this.appC.popToast(alert);
+              this.cancelEditRow(data);
 
-          },
-          err => {
-            let alert = {
-              type: 'error',
-              title: 'Failed To Update Component',
-              body: 'component cannot be update as already in use'
+            },
+            err => {
+              let alert = {
+                type: 'error',
+                title: 'Failed To Update Component',
+                body: 'component cannot be update as already in use'
+              }
+              this.appC.popToast(alert);
             }
-            this.appC.popToast(alert);
-          }
-        );
+          );
+        }
       }
       else {
-        this.postdata.updateCustomComponent(data).subscribe(
-          res => {
-            let alert = {
-              type: 'success',
-              title: 'Component Updated',
-            }
-            this.appC.popToast(alert);
-            this.cancelEditRow(data);
+        if (data.is_searchable == "Y") {
+          this.postdata.updateCustomComponent(data).subscribe(
+            res => {
+              let alert = {
+                type: 'success',
+                title: 'Component Updated',
+              }
+              this.appC.popToast(alert);
+              this.cancelEditRow(data);
 
-          },
-          err => {
-            let alert = {
-              type: 'error',
-              title: 'Failed To Update Component',
-              body: 'component cannot be update as already in use'
+            },
+            err => {
+              let alert = {
+                type: 'error',
+                title: 'Failed To Update Component',
+                body: 'component cannot be update as already in use'
+              }
+              this.appC.popToast(alert);
             }
-            this.appC.popToast(alert);
-          }
-        );
+          );
+        }
+        else {
+          this.postdata.updateCustomComponent(data).subscribe(
+            res => {
+              let alert = {
+                type: 'success',
+                title: 'Component Updated',
+              }
+              this.appC.popToast(alert);
+              this.cancelEditRow(data);
+
+            },
+            err => {
+              let alert = {
+                type: 'error',
+                title: 'Failed To Update Component',
+                body: 'component cannot be update as already in use'
+              }
+              this.appC.popToast(alert);
+            }
+          );
+        }
       }
     }
   }
@@ -518,10 +633,10 @@ export class CreateCustomCompComponent implements OnInit {
       comp_length: "",
       description: "",
       institution_id: sessionStorage.getItem('institute_id'),
-      is_required: "",
-      is_searchable: "",
+      is_required: "N",
+      is_searchable: "N",
       label: "",
-      page: 2,
+      page: 1,
       prefilled_data: "",
       sequence_number: "",
       type: "",

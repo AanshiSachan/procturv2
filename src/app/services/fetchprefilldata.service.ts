@@ -438,7 +438,7 @@ export class FetchprefilldataService {
 
   fetchUserCreatedComponent(){
 
-    let urlUserComponent = this.baseUrl +"/api/v1/instCustomComp/getAll/" +this.institute_id +"?page=2";
+    let urlUserComponent = this.baseUrl +"/api/v1/instCustomComp/getAll/" +this.institute_id +"?page=1";
 
     return this.http.get(urlUserComponent, {headers: this.headers}).map(
       res => {

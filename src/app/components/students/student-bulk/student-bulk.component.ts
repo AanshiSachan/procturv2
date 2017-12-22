@@ -18,7 +18,9 @@ export class StudentBulkComponent implements OnInit {
   progress: number = 0;
   fileLoading: string = "";
   isBulkUploadStatus: boolean = false;
-  bulkUploadRecords: any;
+  bulkUploadRecords: any[] = [];
+
+  studentUploadForm:any;
 
   constructor(private fetchData: FetchStudentService, private postData: PostStudentDataService,
     private appC: AppComponent, private router: Router) {
@@ -67,14 +69,6 @@ export class StudentBulkComponent implements OnInit {
   }
 
 
-  /* update xhr header for uploading formdata */
-  updateXlsHeaders(ev) {
-    ev.xhr.setRequestHeader("processData", "false");
-    ev.xhr.setRequestHeader("contentType", "false");
-    ev.xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-    ev.xhr.setRequestHeader("enctype", "multipart/form-data");
-    ev.xhr.setRequestHeader("Authorization", sessionStorage.getItem("Authorization"));
-  }
 
   /* function to upload the xls file as formdata */
   uploadHandler(event) {
@@ -140,11 +134,11 @@ export class StudentBulkComponent implements OnInit {
 
   /* fetch the status of the data updated to server */
   fetchBulkUploadStatusData() {
-    /* this.prefill.fetchBulkUpdateStatusReport().subscribe(
+    this.fetchData.fetchBulkUpdateStatusReport().subscribe(
       res => {
         this.bulkUploadRecords = res;
       }
-    ) */
+    )
   }
 
   /* toggle visibility of tabular displayy of bulk data upload */
