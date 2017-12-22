@@ -18,3 +18,15 @@
         }
     }
 }
+
+.smsPopUp ul {
+    list-style: none;
+}
+
+.smsPopUp ul li:before {
+content: '✓';
+}
+
+.showMessage {
+    padding: 10px!important;
+}

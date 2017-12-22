@@ -135,4 +135,26 @@ export class CampaignService {
     );
   }
 
+
+  campaignSMSTestService(data){
+
+    this.url = this.baseUrl + "/api/v1/campaign/sendTestSMS/" + this.institute_id;
+
+    return this.http.post(this.url,data,{headers: this.headers}).map(
+      data => { return data.json()},
+      err => { }
+    );
+  }
+
+
+  downloadFailureListFile(campaign_id){
+
+    this.url = this.baseUrl + "/api/v1/campaign/list/" + this.institute_id + "/download/" + campaign_id ;
+
+    return this.http.get(this.url,{headers: this.headers}).map(
+      data => { return data.json()},
+      err => { }
+    );
+  }
+
 }
