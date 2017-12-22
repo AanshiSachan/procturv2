@@ -40,6 +40,7 @@ import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.com
 import { PostStudentDataService } from './services/student-services/post-student-data.service';
 
 
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -62,6 +63,7 @@ import { PostStudentDataService } from './services/student-services/post-student
     ErrorComponent,
     ComingSoonComponent,
     OverlayMenuComponent,
+
 
   ],
   entryComponents: [

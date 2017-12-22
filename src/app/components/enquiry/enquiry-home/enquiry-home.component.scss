@@ -867,16 +867,22 @@
 
 .search-data {
     th {
-        padding: 15px 5px;
+        padding: 10px 20px;
+        font-weight: bolder;
     }
     td {
         font-size: 14px;
         line-height: normal;
+        padding: 6px 5px;
+        
     }
     tr {
         th:first-child,
         td:first-child {
             padding: 15px 2px;
+            .field-checkbox-wrapper{
+                background: transparent;
+            }
         }
         th:last-child {
             padding: 0;
@@ -964,11 +970,12 @@
 .table-heading-menu ul li {
     border-bottom: 1px solid #ccc;
     padding: 5px 5px;
-    cursor: pointer;
+    //cursor: pointer;
 }
 
 .table-heading-menu ul li .field-checkbox-wrapper {
     margin-bottom: 0;
+    cursor: pointer;
 }
 
 .table-heading-menu ul li .field-checkbox-wrapper label {

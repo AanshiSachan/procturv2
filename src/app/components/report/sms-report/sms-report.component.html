@@ -1,3 +1,79 @@
-<p>
-  sms-report works!
-</p>
+<div class="middle-section clearFix sms-view-wrapper">
+
+  <aside class="middle-full">
+
+    <section class="middle-main clearFix">
+
+      <section class="middle-top mb0 clearFix sms-header">
+
+        <h1 class="pull-left">
+          SMS Report
+        </h1>
+
+        <aside class="pull-right">
+          <input type="button" value="Add Enquiry" class="btn" routerLink='/enquiry/addEnquiry' />
+          <input type="button" value="Upload Enquiry" routerLink='/enquiry/addBulkEnquiry' class="btn">
+        </aside>
+
+      </section>
+
+      <section class="sms-filter-wrapper">
+        <div class="row">
+          <div class="c-lg-8 c-md-8 c-sm-8">
+            <div class="field-wrapper datePickerBox">
+              <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" name="fromDate"
+                bsDatepicker/>
+              <label for="fromDate">Sent From</label>
+            </div>
+            <div class="field-wrapper datePickerBox">
+              <input type="text" value="" id="updateDate" class="form-ctrl bsDatepicker" name="toDate"
+                bsDatepicker/>
+              <label for="toDate">Sent To</label>
+            </div>
+          </div>
+          <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
+            <div class="btn-sms-search">
+              <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
+            </div>            
+          </div>
+        </div>
+      </section>
+
+      <section class="sms-table-wrapper">
+
+        <div class="table table-responsive student-table">
+          <table class="align-center">
+            <thead>
+              <tr>
+                <th>Sent Date</th>
+                <th>Contact No.</th>
+                <th>Message</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Event</th>
+                <th>SMS Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="selected">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+
+    </section>
+
+  </aside>
+
+</div>

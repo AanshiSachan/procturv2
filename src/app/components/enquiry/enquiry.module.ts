@@ -27,10 +27,7 @@ import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'prime
 import { DateConverter } from './enquiry-home/enquiry-home.component';
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 import { PaginationComponent } from './pagination/pagination.component';
-import { TableComponent } from './table-component/table.component';
-import { TableBodyComponent } from './table-component/table-body.component';
-import { TableHeaderComponent } from './table-component/table-header.component';
-import { TableCellComponent } from './table-component/table-cell.component';
+
 
 @NgModule({
     imports: [
@@ -53,7 +50,6 @@ import { TableCellComponent } from './table-component/table-cell.component';
         EnquiryAddComponent,
         EnquiryBulkaddComponent,
         ActionButtonComponent,
-        TableBodyComponent,
         SmsOptionComponent,
         EnquiryEditComponent,
         EnquiryPopUpComponent,
@@ -64,19 +60,13 @@ import { TableCellComponent } from './table-component/table-cell.component';
         EnquiryHomeComponent,
         CommentTooltipComponent,
         PaginationComponent,
-        TableComponent,
-        TableHeaderComponent,
-        TableCellComponent
     ],
     entryComponents: [
         ActionButtonComponent,
         SmsOptionComponent,
         UserEnquiryComponent,
         CommentTooltipComponent,
-        TableComponent,
-        TableBodyComponent,
-        TableHeaderComponent,
-        TableCellComponent
+
     ],
     providers: [
     ]

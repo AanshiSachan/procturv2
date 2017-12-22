@@ -615,7 +615,7 @@ export class EnquiryAddComponent implements OnInit {
   /* Function to fetch subject when user selects a standard from dropdown */
   fetchSubject(value) {
 
-    if (value != null || value != '') {
+    if (value != null && value != '' && value != '-1') {
       this.newEnqData.standard_id = value;
       this.prefill.getEnqSubjects(this.newEnqData.standard_id).subscribe(
         data => {

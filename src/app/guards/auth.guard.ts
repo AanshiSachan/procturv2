@@ -55,6 +55,11 @@ export class AuthGuard implements CanActivate, CanLoad {
                 //alert('campaign routed');
                 return true;
             }
+            else if(string.indexOf('inventory') >= 0){
+                //alert('campaign routed');
+                return true;
+            }
+
         }
         else{
             return false;

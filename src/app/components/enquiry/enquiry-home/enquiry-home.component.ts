@@ -1,7 +1,8 @@
 import {
-  Component, OnInit, ViewChild, Input, Output,
-  EventEmitter, HostListener, AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef
-} from '@angular/core';
+  Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener, 
+  AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
+  SimpleChanges, OnChanges } 
+from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
@@ -36,7 +37,7 @@ import { document } from '../../../../assets/imported_modules/ngx-bootstrap/util
   styleUrls: ['./enquiry-home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EnquiryHomeComponent implements OnInit, OnDestroy {
+export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges{
 
 
   /* =========================================================================== */
@@ -435,6 +436,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
 
 
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('on change', changes)
+  }
 
 
   isEnquiryAdministrator() {

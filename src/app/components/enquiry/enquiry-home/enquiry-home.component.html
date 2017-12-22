@@ -2,7 +2,7 @@
 
 
   <!-- Main View -->
-  <aside class="middle-full" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
+  <aside class="middle-full">
     <!-- Navigation to other tabs -->
     <section class="middle-top mb0 clearFix">
       <h1 class="pull-left">
@@ -512,11 +512,11 @@
                         {{row.data.enquiry_date| date:'dd-MMM-yy'}}
                       </td>
 
-                      <td>
+                      <td style="text-align: left">
                         {{row.data.name}}
                       </td>
 
-                      <td>
+                      <td style="text-align: right">
                         {{row.data.phone}}
                       </td>
 

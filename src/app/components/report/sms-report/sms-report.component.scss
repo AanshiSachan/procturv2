@@ -1,0 +1,31 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+
+.sms-view-wrapper{
+    padding: 5px;
+    .row{
+        margin: 5px 15px;
+    }
+}
+
+.sms-header{
+    padding: 15px;
+}
+
+.sms-filter-wrapper{
+    .field-wrapper{
+        width: 40%;
+        padding: 15px 0px;
+        margin-left: 20px;
+        display: inline-block;
+    }
+    .btn-sms-search{
+        padding: 15px 0px;
+        .btn{
+            width: 50%;
+        }
+    }
+}

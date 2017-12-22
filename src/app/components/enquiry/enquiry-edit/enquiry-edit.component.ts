@@ -185,15 +185,14 @@ export class EnquiryEditComponent implements OnInit {
     this.prefill.fetchEnquiryByInstituteID(id)
       .subscribe(data => {
         this.editEnqData = data;
-        
+        //console.log(data);
         if(data.followUpTime != ''){
-          this.hour = moment(data.followUpDateTime).format('h');
+          let followUpDateTime = moment(data.followUpDate).format('YYYY-MM-DD') +" " +data.followUpTime;
+          this.hour = moment(followUpDateTime).format('h');
           document.getElementById('hourpar').classList.add('has-value');
-          //console.log(moment(this.selectedRow.data.followUpDateTime).format('mm'));
-          this.minute = moment(data.followUpDateTime).format('mm');
+          this.minute = moment(followUpDateTime).format('mm');
           document.getElementById('minutepar').classList.add('has-value');
-          //console.log(moment(this.selectedRow.data.followUpDateTime).format('a'));
-          this.meridian = moment(data.followUpDateTime).format('a').toString().toUpperCase();
+          this.meridian = moment(followUpDateTime).format('a').toString().toUpperCase();
           document.getElementById('meridianpar').classList.add('has-value');
         }
         
@@ -490,7 +489,7 @@ export class EnquiryEditComponent implements OnInit {
   /* Function to fetch subject when user selects a standard from dropdown */
   fetchSubject(value) {
 
-    if (value != null || value != '') {
+    if (value != null && value != '' && value != '-1') {
       this.editEnqData.standard_id = value;
       this.prefill.getEnqSubjects(this.editEnqData.standard_id).subscribe(
         data => { this.enqSub = data; }

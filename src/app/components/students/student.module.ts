@@ -22,6 +22,7 @@ import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstr
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import { StudentEditComponent } from './student-edit/student-edit.component';
 import { StudentBulkComponent } from './student-bulk/student-bulk.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
     imports: [
@@ -44,7 +45,8 @@ import { StudentBulkComponent } from './student-bulk/student-bulk.component';
         StudentPopUpComponent,
         UserStudentComponent,
         StudentEditComponent,
-        StudentBulkComponent
+        StudentBulkComponent,
+        PaginationComponent
     ],
     providers: [
         AddStudentPrefillService

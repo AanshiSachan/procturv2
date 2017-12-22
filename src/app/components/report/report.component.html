@@ -1,1 +1,39 @@
-<router-outlet></router-outlet>
+<div class="middle-section clearFix">
+    <section class="middle-main clearFix">
+        <div class="common-tab">
+            <ul>
+                <li class="active">
+                    <a routerLink="/reports/home">Home</a>
+                </li>
+                <li class="">
+                    <a routerLink="/reports/attendance">Attendance</a>
+                </li>
+                <li class="">
+                    <a routerLink="/reports/sms">SMS</a>
+                </li>
+                <li class="">
+                    <a routerLink="/reports/fee">Fee</a>
+                </li>
+                <li class="">
+                    <a routerLink="/reports/exam">Exam</a>
+                </li>
+                <li class="">
+                    <a routerLink="/reports/reportCard">Report Card</a>
+                </li>
+                <li class="">
+                    <a routerLink="/reports/timeTable">Time Table</a>
+                </li>
+                <li class="">
+                    <a routerLink="/reports/email">Email</a>
+                </li>
+                <li class="">
+                    <a routerLink="/reports/profitNloss">Profit and Loss</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="router-container">
+            <router-outlet></router-outlet>
+        </div>
+    </section>
+</div>
