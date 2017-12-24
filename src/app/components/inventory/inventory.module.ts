@@ -11,7 +11,7 @@ import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'prime
 import 'moment';
 import 'hammerjs';
 import { HomeComponent } from './home/home.component';
-
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     imports: [
@@ -25,7 +25,8 @@ import { HomeComponent } from './home/home.component';
         BsDatepickerModule,
         FileUploadModule,
         SplitButtonModule,
-        MenuModule
+        MenuModule,
+        SharedModule
     ],
     declarations: [
         InventoryComponent,

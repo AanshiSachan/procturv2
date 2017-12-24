@@ -26,8 +26,8 @@ import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import { DateConverter } from './enquiry-home/enquiry-home.component';
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
-import { PaginationComponent } from './pagination/pagination.component';
-
+/* import { PaginationComponent } from './pagination/pagination.component'; */
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     imports: [
@@ -43,7 +43,8 @@ import { PaginationComponent } from './pagination/pagination.component';
         TimepickerModule,
         FileUploadModule,
         SplitButtonModule,
-        MenuModule
+        MenuModule,
+        SharedModule
     ],
     declarations: [
         EnquiryComponent,
@@ -59,14 +60,13 @@ import { PaginationComponent } from './pagination/pagination.component';
         DateConverter,
         EnquiryHomeComponent,
         CommentTooltipComponent,
-        PaginationComponent,
+        /* PaginationComponent */
     ],
     entryComponents: [
         ActionButtonComponent,
         SmsOptionComponent,
         UserEnquiryComponent,
         CommentTooltipComponent,
-
     ],
     providers: [
     ]

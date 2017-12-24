@@ -16,7 +16,6 @@ import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import { ReportHomeComponent } from './report-home/report-home.component';
 import { SmsReportComponent } from './sms-report/sms-report.component';
-import { PaginationComponent } from './pagination/pagination.component';
 import { AttendanceReportComponent } from './attendance-report/attendance-report.component';
 import { FeeReportComponent } from './fee-report/fee-report.component';
 import { ExamReportComponent } from './exam-report/exam-report.component';
@@ -24,6 +23,9 @@ import { ReportCardComponent } from './report-card/report-card.component';
 import { TimeTableComponent } from './time-table/time-table.component';
 import { EmailReportComponent } from './email-report/email-report.component';
 import { ProfitLossComponent } from './profit-loss/profit-loss.component';
+import { getSMSService } from '../../services/report-services/get-sms.service';
+import { postSMSService } from '../../services/report-services/post-sms.service';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -39,13 +41,13 @@ import { ProfitLossComponent } from './profit-loss/profit-loss.component';
         TimepickerModule,
         FileUploadModule,
         SplitButtonModule,
-        MenuModule
+        MenuModule,
+        SharedModule
     ],
     declarations: [
         ReportComponent,
         ReportHomeComponent,
         SmsReportComponent,
-        PaginationComponent,
         AttendanceReportComponent,
         FeeReportComponent,
         ExamReportComponent,
@@ -55,9 +57,10 @@ import { ProfitLossComponent } from './profit-loss/profit-loss.component';
         ProfitLossComponent
     ],
     entryComponents: [
-
     ],
     providers: [
+        getSMSService,
+        postSMSService
     ]
 })
 export class ReportModule {

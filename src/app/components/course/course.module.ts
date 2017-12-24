@@ -7,7 +7,7 @@ import { CoursePageRoutingModule } from './course-routing.module';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CourseInput } from './course-directives/course-directives.directive';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
-import { PaginationComponent } from './pagination/pagination.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     imports: [
@@ -15,13 +15,13 @@ import { PaginationComponent } from './pagination/pagination.component';
         ReactiveFormsModule,
         CommonModule,
         CoursePageRoutingModule,
-        BsDatepickerModule
+        BsDatepickerModule,
+        SharedModule
     ],
     declarations: [
         CourseComponent,
         ScheduleHomeComponent,
-        CourseInput,
-        PaginationComponent
+        CourseInput
     ],
     entryComponents: [
     ],

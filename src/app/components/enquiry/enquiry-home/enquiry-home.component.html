@@ -355,7 +355,6 @@
 
                       <th>
                         <div class="field-checkbox-wrapper" style="background: transparent;">
-
                           <input id="headerCheckbox" type="checkbox" value="" [(ngModel)]="isAllSelected" (ngModelChange)="toggleSelectAll($event)"
                             name="check" class="form-checkbox">
 
@@ -597,19 +596,6 @@
 
         <!-- Paginator Here -->
         <div class="row filter-res pagination" style="width: 100%;">
-          <!-- <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <ul class="pagination">
-              <li>
-                <a (click)="fetchPrevious()"> Previous</a>
-              </li>
-              <li class="index-value" *ngFor="let index of indexJSON" (click)="fectchTableDataByPage(index)">
-                <a class="index-num" [id]="'page'+index.value">{{index.value}}</a>
-              </li>
-              <li>
-                <a (click)="fetchNext()"> Next</a>
-              </li>
-            </ul>
-          </div> -->
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
               [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalEnquiry">
