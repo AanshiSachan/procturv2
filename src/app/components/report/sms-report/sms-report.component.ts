@@ -40,15 +40,15 @@ export class SmsReportComponent implements OnInit {
   ];
 
   smsFetchForm: any = {
-    institution_id: sessionStorage.getItem('institute_id'),
+    institution_id: parseInt(sessionStorage.getItem('institute_id')),
     from_date: '',
     to_date: ''
   }
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private cd: ChangeDetectorRef,
-  private getSms: getSMSService, private postSms: postSMSService) {
+    private getSms: getSMSService, private postSms: postSMSService) {
 
-   }
+  }
 
   ngOnInit() {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
@@ -67,12 +67,39 @@ export class SmsReportComponent implements OnInit {
             isSelected: false,
             data: el
           }
-          this.smsSource.push(obj); 
+          this.smsSource.push(obj);
         });
       }
     )
 
   }
 
-  
+
+
+  /* Customiized click detection strategy */
+  inputClicked(ev) {
+    if (ev.target.classList.contains('form-ctrl')) {
+      if (ev.target.classList.contains('bsDatepicker')) {
+        var nodelist = document.querySelectorAll('.bsDatepicker');
+        [].forEach.call(nodelist, (elm) => {
+          elm.addEventListener('focusout', function (event) {
+            event.target.parentNode.classList.add('has-value');
+          });
+        });
+      }
+      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
+        //document.getElementById(ev.target.id).click();
+        ev.target.addEventListener('blur', function (event) {
+          if (event.target.value != '') {
+            event.target.parentNode.classList.add('has-value');
+          } else {
+            event.target.parentNode.classList.remove('has-value');
+          }
+        });
+      }
+    }
+  }
+
+
+
 }
