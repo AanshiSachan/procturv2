@@ -7,6 +7,7 @@ import { CoursePageRoutingModule } from './course-routing.module';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CourseInput } from './course-directives/course-directives.directive';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstr
     declarations: [
         CourseComponent,
         ScheduleHomeComponent,
-        CourseInput
+        CourseInput,
+        PaginationComponent
     ],
     entryComponents: [
     ],

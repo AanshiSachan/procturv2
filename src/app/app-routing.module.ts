@@ -10,6 +10,7 @@ import { ComingSoonComponent } from './components/coming-soon/coming-soon.compon
         RouterModule.forRoot(
             [
                 { path: '', redirectTo: '/authPage', pathMatch: 'full', },
+                /* { path: 'dashboard', component: }, */
                 {
                     path: 'authPage',
                     loadChildren: 'app/components/auth-page/auth-page.module#AuthPageModule'
@@ -35,15 +36,23 @@ import { ComingSoonComponent } from './components/coming-soon/coming-soon.compon
                     loadChildren: 'app/components/campaign/campaign.module#CampaignModule',
                     canLoad: [AuthGuard]
                 },
-                /*
+                {
+                    path: 'reports',
+                    loadChildren: 'app/components/report/report.module#ReportModule',
+                    canLoad: [AuthGuard]
+                },
                 {
                     path: 'course',
                     loadChildren: 'app/components/course/course.module#CourseModule',
                     canLoad: [AuthGuard]
-                }, */
-                { path: 'course', component: ComingSoonComponent , pathMatch: 'full'},
+                },
+                {
+                    path: 'inventory',
+                    loadChildren: 'app/components/inventory/inventory.module#InventoryModule',
+                    canLoad: [AuthGuard]
+                },
                 { path: 'comingsoon', component: ComingSoonComponent },
-                { path: '**', component: ErrorComponent }
+                { path: '**', component: ErrorComponent },
             ],
             { 
                 useHash: true,
@@ -59,5 +68,4 @@ import { ComingSoonComponent } from './components/coming-soon/coming-soon.compon
     ]
 })
 export class AppRoutingModule {
-
 }

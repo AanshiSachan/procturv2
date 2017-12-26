@@ -2,7 +2,7 @@
 
 
   <!-- Main View -->
-  <aside class="middle-full" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
+  <aside class="middle-full">
     <!-- Navigation to other tabs -->
     <section class="middle-top mb0 clearFix">
       <h1 class="pull-left">
@@ -105,7 +105,8 @@
                     {{ std.standard_name }}
                   </option>
                 </select>
-                <label for="standard">Standard</label>
+                <label *ngIf="!isProfessional" for="standard">Standard</label>
+                <label *ngIf="isProfessional" for="standard">Master Course</label>
               </div>
             </div>
 
@@ -117,10 +118,29 @@
                     {{ subject.subject_name }}
                   </option>
                 </select>
-                <label for="selectSub">Subject</label>
+                <label *ngIf="!isProfessional" for="selectSub">Subject</label>
+                <label *ngIf="isProfessional" for="selectSub">Course</label>
               </div>
             </div>
 
+            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
+              <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
+                <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" />
+                <label for="assignCourses">Slots</label>
+              </div>
+              <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
+                <div class="multiselect-wrapper-inner">
+                  <ul class="">
+                    <li *ngFor="let slot of slots">
+                      <div class="field-checkbox-wrapper">
+                        <input type="checkbox" value="" name="slot.label" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox">
+                        <label for="slot.label">{{slot.label}}</label>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
 
             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isEnquiryAdmin">
               <div class="field-wrapper">
@@ -481,10 +501,10 @@
                           <a href="javascript:void(0)" class="cursor-icon" (click)="openUpdatePopUpCustom(row)">
                             {{row.data.enquiry_no}}
                           </a>
-                          <div class="tooltip-box-right">
+                          <!-- <div class="tooltip-box-right" *ngIf="row.data.comment.length != 0">
                             <comment-tooltip [rowData]="row.data">
                             </comment-tooltip>
-                          </div>
+                          </div> -->
                         </div>
                       </td>
 
@@ -492,11 +512,11 @@
                         {{row.data.enquiry_date| date:'dd-MMM-yy'}}
                       </td>
 
-                      <td>
+                      <td style="text-align: left">
                         {{row.data.name}}
                       </td>
 
-                      <td>
+                      <td style="text-align: right">
                         {{row.data.phone}}
                       </td>
 
@@ -513,8 +533,8 @@
                       </td>
 
                       <td>
-                        <a href="javascript:void(0)" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
-                          {{row.data.followUpDateTime| date:'dd-MMM-yyyy ( hh:mm a )'}}
+                        <a href="javascript:void(0)" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDateTime)}">
+                          {{row.data.followUpDateTime}}
                         </a>
                       </td>
 
@@ -679,24 +699,27 @@
               </div>
               <div class="row">
                 <div class="c-lg-12 c-md-12 c-sm-12 time-picker">
-                  <div class="field-wrapper has-value">
-                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="hour" name="hour">
+                  <div class="field-wrapper" id="hourpar">
+                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" 
+                    [(ngModel)]="hour" name="hour" style="width: 60px;">
                       <option *ngFor="let hour of hourArr" [value]="hour">
                         {{hour}}
                       </option>
                     </select>
                     <label for="hour">Hour</label>
                   </div>
-                  <div class="field-wrapper has-value">
-                    <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute">
+                  <div class="field-wrapper" id="minutepar">
+                    <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty"
+                     [(ngModel)]="minute" name="minute" style="width: 70px;">
                       <option *ngFor="let minute of minArr" [value]="minute">
                         {{minute}}
                       </option>
                     </select>
                     <label for="minute">Minute</label>
                   </div>
-                  <div class="field-wrapper has-value">
-                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="meridian" name="meridian">
+                  <div class="field-wrapper" id="meridianpar">
+                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" 
+                    [(ngModel)]="meridian" name="meridian" style="width: 85px;">
                       <option *ngFor="let meridian of meridianArr" [value]="meridian">
                         {{meridian}}
                       </option>

@@ -238,7 +238,7 @@
                   </div>
                   <custom-enquiry *ngFor="let component of customComponents">
 
-                    <div class="" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
+                    <div class="" *ngIf="component.type == 1" input-def>
                       <div class="field-wrapper">
                         <input type="text" value="" id="component.id" [(ngModel)]="component.value" class="form-ctrl" name="component.label" />
                         <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
@@ -246,7 +246,7 @@
                       </div>
                     </div>
 
-                    <div class="" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
+                    <div class="" *ngIf="component.type == 2" input-def>
                       <br>
                       <div class="field-checkbox-wrapper">
                         <input class="form-checkbox" id="component.id" type="checkbox" [(ngModel)]="component.value" name="component.label" value="">
@@ -255,7 +255,7 @@
                       </div>
                     </div>
 
-                    <div class="" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
+                    <div class="" *ngIf="component.type == 3" input-def>
                       <div class="field-wrapper">
                         <select id="component.id" class="form-ctrl" [(ngModel)]="component.value" name="component.label">
                           <option value=""></option>
@@ -266,7 +266,7 @@
                       </div>
                     </div>
 
-                    <div class="" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
+                    <div class="" *ngIf="component.type == 4" input-def>
                       <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                         <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
                         />
@@ -379,7 +379,33 @@
             <label for="followUpDate">Follow Up Date</label>
             <span class="date-clear" name="followupdate" (click)="clearAddFollowUpDate()">clear</span>
           </div>
-          <div class="field-wrapper ">
+          <div class="time-picker">
+            <div class="field-wrapper" id="hourpar" style="padding-right: 10px;">
+              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="hour" name="hour" style="width: 60px;">
+                <option *ngFor="let hour of hourArr" [value]="hour">
+                  {{hour}}
+                </option>
+              </select>
+              <label for="hour">Hour</label>
+            </div>
+            <div class="field-wrapper" id="minutepar" style="padding-right: 10px;">
+              <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute" style="width: 70px;">
+                <option *ngFor="let minute of minArr" [value]="minute">
+                  {{minute}}
+                </option>
+              </select>
+              <label for="minute">Minute</label>
+            </div>
+            <div class="field-wrapper" id="meridianpar" style="padding-right: 10px;">
+              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="meridian" name="meridian" style="width: 90px;">
+                <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                  {{meridian}}
+                </option>
+              </select>
+              <label for="meridian">Meridian</label>
+            </div>
+          </div>
+          <div class="field-wrapper " >
             <select id="source" class="form-ctrl" [(ngModel)]="newEnqData.source_id" name="source" enquiryInput>
               <option value=""></option>
               <option *ngFor="let source of sourceLead" [value]="source.id">{{source.name}}</option>
@@ -404,7 +430,7 @@
           </div>
           <div class="field-wrapper">
             <input type="text" value="" id="Remarks" class="form-ctrl" [(ngModel)]="newEnqData.enquiry" name="remarks" enquiryInput>
-            <label for="Remarks">Remarks</label>
+            <label for="Remarks">Comment</label>
           </div>
           <div class="clear-detail">
             <a (click)="clearFormData()" style="cursor:pointer">Clear Details</a>

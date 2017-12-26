@@ -33,25 +33,21 @@
               </li>
             </ul>
           </div>
-          <div class="c-lg-6 c-md-6 c-sm-6 align-right">
-            <ul class="export-print">
-              <li>
-                <!-- <div class="c-lg-8 c-md-8 c-sm-8"> -->
-                <!-- <div class="search-filter-wrapper" id="adFilterExitVisible"> -->
-                <input #search type="text" class="normal-field" placeholder="Search lead name" style="font-size:12px; margin: 0px 5px 0px -5px;"
-                  [(ngModel)]="searchBarData" name="searchData"  (keyup.enter)="searchDatabase(search)">
-                <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
-                <!-- </div> -->
-                <!-- </div> -->
-              </li>
+          
+          <div class="c-lg-6 c-md-6 c-sm-6 align-left">
 
-
-              <!-- <li>
-                <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggleOptionChange($event)">
-                </ss-multiselect-dropdown>
-              </li> -->
-            </ul>
+              <div class="field-wrapper" >
+                  <img class="pull-right"  src="../../../../assets/images/search.svg" style="max-width: 5%;" (click)="searchDatabase(search)" />
+              </div>
+                   
+              <div class="search-filter-wrapper" style="width:100%;">
+                  
+                  <input #search type="text" class="normal-field pull-right" placeholder="Search lead name" style="font-size:12px; margin: 0px 5px 2px -5px;"
+                   [(ngModel)]="searchBarData" id="search" name="searchData"  (keyup.enter)="searchDatabase(search)">
+                                    
+              </div>              
           </div>
+        
         </div>
 
         <!-- Enquiry DataTable -->

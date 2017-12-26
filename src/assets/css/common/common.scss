@@ -240,13 +240,13 @@ textarea {
 :host /deep/ .bs-datepicker {
     .bs-datepicker-container {
         padding: 10px;
-        background: #004b7f;
+        //background: #004b7f;
     }
 }
 
 :host /deep/ bs-days-calendar-view {
     .bs-datepicker-head {
-        background-color: #004c80;
+        //background-color: #004c80;
         color: white;
         border-top: 1px solid white;
         border-left: 1px solid white;
@@ -261,11 +261,11 @@ textarea {
 
 ::ng-deep .bs-datepicker-container {
     padding: 10px;
-    background: #004b7f;
+   // background: #004b7f;
 }
 
  ::ng-deep .bs-datepicker-head {
-    background-color: #004c80;
+    //background-color: #004c80;
     color: white;
     border-top: 1px solid white;
     border-left: 1px solid white;
@@ -278,6 +278,17 @@ textarea {
     padding: 5px;
 }
 
+
+.time-picker{
+    .field-wrapper{
+        display: inline-block;
+        margin: 5px 10px 0px 0px;
+        .form-ctrl{
+            width: 70px;
+        }
+    }
+}
+
 .multiselect-wrapper {
     padding: 5px;
     border: 1px solid $border-color;
@@ -286,6 +297,7 @@ textarea {
     background: white;
     min-width: 400px;
     min-height: 50px;
+    top: 35px;
     .multiselect-wrapper-inner {
         padding: 10px;
         ul {

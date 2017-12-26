@@ -1,7 +1,8 @@
 import {
-  Component, OnInit, ViewChild, Input, Output,
-  EventEmitter, HostListener, AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef
-} from '@angular/core';
+  Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener, 
+  AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
+  SimpleChanges, OnChanges } 
+from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
@@ -30,14 +31,13 @@ import { LoginService } from '../../../services/login-services/login.service';
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
 
 
-
 @Component({
   selector: 'app-enquiry-home',
   templateUrl: './enquiry-home.component.html',
   styleUrls: ['./enquiry-home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EnquiryHomeComponent implements OnInit, OnDestroy {
+export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges{
 
 
   /* =========================================================================== */
@@ -63,10 +63,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   isActionDisabled: boolean = false; isMessageAddOpen: boolean = false; isMultiSms: boolean = false;
   smsSelectedRowsLength: number = 0; sizeArr: any[] = [25, 50, 100, 150, 200, 500];
   isAllSelected: boolean = false; isApprovedTab: boolean = true; isOpenTab: boolean = false;
-  private customComponents: any[] = []; selectedSmsMessage:string = ''; slots: any[] = [];
-  hourArr:any[] = ['1','2','3','4','5','6','7','8','9','10','11','12'];
-  minArr:any[] = ['00','15','30','45']; meridianArr:any[] = ["AM", "PM"];
-  hour:string = '12'; minute:string = '00'; meridian:string = 'AM';
+  private customComponents: any[] = []; selectedSmsMessage: string = ''; slots: any[] = [];
+  hourArr: any[] = ['','1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  minArr: any[] = [ '','00', '15', '30', '45']; meridianArr: any[] = ['',"AM", "PM"];
+  hour: string = ''; minute: string = ''; meridian: string = '';
   newSmsString = {
     data: "",
     length: 0,
@@ -75,7 +75,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
   statusString: any[] = ["0", "3"]; smsSelectedRows: any; smsGroupSelected: any[] = [];
 
-
+  private selectedSlots: any[] = [];
+  private slotIdArr: any[] = [];
+  private selectedSlotsString: string = '';
+  private selectedSlotsID: string = '';
 
   selectedOption: any = {
     email: { show: false, id: 'email' },
@@ -119,7 +122,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   };
 
   smsSearchData: string = "";
-  
+
   isConverted: boolean = false; hasReceipt: boolean = false; isadmitted: boolean = false; notClosednAdmitted: boolean = false;
   isClosed: boolean = false; isAssignEnquiry: boolean = false;
   availableSMS: number = 0; smsDataLength: number = 0; isEnquiryAdmin: boolean = false;
@@ -154,6 +157,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
     enqCustomLi: null,
     sorted_by: "",
     order_by: "",
+    commentShow: 'false'
   };
 
 
@@ -233,6 +237,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
     enquiry_no: "",
     priority: "",
     status: -1,
+    commentShow: 'false',
     filtered_statuses: "",
     follow_type: "",
     followUpDate: "",
@@ -382,6 +387,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
           this.updateFormData.follow_type = res.follow_type;
           this.updateFormData.statusValue = this.selectedRow.data.statusValue;
           this.updateFormData.followUpDate = moment(this.selectedRow.data.followUpDate).format('YYYY-MM-DD');
+          if(this.selectedRow.data.followUpTime != ''){
+            //console.log(moment(this.selectedRow.data.followUpDateTime).format('h'));
+            this.hour = moment(this.selectedRow.data.followUpDateTime).format('h');
+            document.getElementById('hourpar').classList.add('has-value');
+            //console.log(moment(this.selectedRow.data.followUpDateTime).format('mm'));
+            this.minute = moment(this.selectedRow.data.followUpDateTime).format('mm');
+            document.getElementById('minutepar').classList.add('has-value');
+            //console.log(moment(this.selectedRow.data.followUpDateTime).format('a'));
+            this.meridian = moment(this.selectedRow.data.followUpDateTime).format('a').toString().toUpperCase();
+            document.getElementById('meridianpar').classList.add('has-value');
+          }
           this.updateFormComments = res.comments;
           this.updateFormCommentsOn = res.commentedOn;
           this.updateFormCommentsBy = res.commentedBy;
@@ -420,6 +436,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
 
 
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('on change', changes)
+  }
 
 
   isEnquiryAdministrator() {
@@ -582,14 +602,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   /* Function to fetch prefill data for advanced filter */
   FetchEnquiryPrefilledData() {
 
-    if(this.isProfessional){
-      this.prefill.getEnquirySlots().subscribe(
-        data => {
-          this.slots = data;
-        }
-      )
-    }
-
     /* Status */
     let status = this.prefill.getEnqStatus().subscribe(
       data => {
@@ -622,6 +634,21 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
       data => { this.enqStd = data; }
     );
 
+    if (this.isProfessional) {
+      this.prefill.getEnquirySlots().subscribe(
+        res => {
+          res.forEach(el => {
+            let obj = {
+              label: el.slot_name,
+              value: el,
+              status: false
+            }
+            this.slots.push(obj);
+          });
+        },
+        err => { }
+      )
+    }
 
     /* Payment Modes */
     this.prefill.fetchPaymentModes().subscribe(
@@ -765,6 +792,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
           phone: "",
           email: "",
           enquiry_no: "",
+          commentShow: 'false',
           priority: "",
           status: -1,
           follow_type: "",
@@ -803,6 +831,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
           name: "",
           phone: "",
           email: "",
+          commentShow: 'false',
           enquiry_no: "",
           priority: "",
           status: -1,
@@ -848,6 +877,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
             phone: "",
             email: "",
             enquiry_no: "",
+            commentShow: 'false',
             priority: "",
             status: -1,
             follow_type: "",
@@ -880,6 +910,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
             phone: "",
             email: "",
             enquiry_no: "",
+            commentShow: 'false',
             priority: "",
             status: -1,
             filtered_statuses: stat,
@@ -925,6 +956,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
           phone: "",
           email: "",
           enquiry_no: "",
+          commentShow: 'false',
           priority: "",
           status: -1,
           filtered_statuses: stat,
@@ -969,6 +1001,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
             phone: "",
             email: "",
             enquiry_no: "",
+            commentShow: 'false',
             priority: "",
             status: -1,
             follow_type: "",
@@ -1000,6 +1033,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
             phone: "",
             email: "",
             enquiry_no: "",
+            commentShow: 'false',
             priority: "",
             status: -1,
             filtered_statuses: stat,
@@ -1045,6 +1079,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
           phone: "",
           email: "",
           enquiry_no: "",
+          commentShow: 'false',
           priority: "",
           status: -1,
           filtered_statuses: stat,
@@ -1094,6 +1129,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
             phone: "",
             email: "",
             enquiry_no: "",
+            commentShow: 'false',
             priority: "",
             status: -1,
             follow_type: "",
@@ -1125,6 +1161,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
             phone: "",
             email: "",
             enquiry_no: "",
+            commentShow: 'false',
             priority: "",
             status: -1,
             filtered_statuses: stat,
@@ -1170,6 +1207,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
           phone: "",
           email: "",
           enquiry_no: "",
+          commentShow: 'false',
           priority: "",
           status: -1,
           filtered_statuses: stat,
@@ -1213,6 +1251,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
             phone: "",
             email: "",
             enquiry_no: "",
+            commentShow: 'false',
             priority: "",
             status: -1,
             follow_type: "",
@@ -1244,6 +1283,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
             phone: "",
             email: "",
             enquiry_no: "",
+            commentShow: 'false',
             priority: "",
             status: -1,
             filtered_statuses: stat,
@@ -1298,6 +1338,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
         phone: "",
         email: "",
         enquiry_no: "",
+        commentShow: 'false',
         priority: "",
         status: -1,
         follow_type: "",
@@ -1330,6 +1371,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
         phone: "",
         email: "",
         enquiry_no: "",
+        commentShow: 'false',
         priority: "",
         status: -1,
         follow_type: "",
@@ -1367,6 +1409,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
             phone: "",
             email: "",
             enquiry_no: "",
+            commentShow: 'false',
             priority: "",
             status: -1,
             follow_type: "",
@@ -1413,6 +1456,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
             phone: this.searchBarData,
             email: "",
             enquiry_no: "",
+            commentShow: 'false',
             priority: "",
             status: -1,
             follow_type: "",
@@ -1447,6 +1491,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
             phone: "",
             email: "",
             enquiry_no: this.searchBarData,
+            commentShow: 'false',
             priority: "",
             status: -1,
             follow_type: "",
@@ -1487,6 +1532,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
             phone: "",
             email: "",
             enquiry_no: "",
+            commentShow: 'false',
             priority: "",
             status: -1,
             follow_type: "",
@@ -1533,6 +1579,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
             phone: this.searchBarData,
             email: "",
             enquiry_no: "",
+            commentShow: 'false',
             priority: "",
             status: -1,
             follow_type: "",
@@ -1567,6 +1614,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
             phone: "",
             email: "",
             enquiry_no: this.searchBarData,
+            commentShow: 'false',
             priority: "",
             status: -1,
             follow_type: "",
@@ -1726,7 +1774,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   }
 
 
-  
+
 
 
   /* Function to toggle smart table column on click event */
@@ -1749,36 +1797,73 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
-    this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
-    let followUpTime = this.hour +":" +this.minute +" " +this.meridian;
-    let followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YYYY') + " " +followUpTime;
-    this.updateFormData.followUpTime = followUpTime;
-    this.postdata.updateEnquiryForm(this.selectedRow.data.institute_enquiry_id, this.updateFormData)
-      .subscribe(res => {
-        let msg = {
-          type: 'success',
-          title: 'Enquiry Updated',
-          body: 'Your enquiry has been successfully submitted'
-        }
-        this.selectedRow.data.priority = this.updateFormData.priority;
-        this.selectedRow.data.follow_type = this.updateFormData.follow_type;
-        this.selectedRow.data.statusValue = this.updateFormData.statusValue;
-        this.selectedRow.data.followUpDateTime = followUpTime == "12:00 AM" ? moment(this.updateFormData.followUpDate).format('DD-MMM-YYYY hh:mm a') : followupdateTime;
-        this.selectedRow.data.status = this.enqstatus.forEach(el => { if (el.data_value == this.updateFormData.statusValue) { return el.data_key; } });
-        this.selectedRow.data.updateDate = moment().format();
-        this.appC.popToast(msg);
-        this.closePopup();
-        this.cd.markForCheck();
-      },
-      err => {
-        let alert = {
-          type: 'error',
-          title: 'Failed To Update Enquiry',
-          body: 'There was an error processing your request'
-        }
-        this.appC.popToast(alert);
+    if(this.validateTime()){
+      this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
+      let followupdateTime: string = "";
+      if(this.hour != ''){
+        let followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
+        followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + followUpTime;
+        this.updateFormData.followUpTime = followUpTime;
+      }
+      followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
+      this.postdata.updateEnquiryForm(this.selectedRow.data.institute_enquiry_id, this.updateFormData)
+        .subscribe(res => {
+          let msg = {
+            type: 'success',
+            title: 'Enquiry Updated',
+            body: 'Your enquiry has been successfully submitted'
+          }
+          this.selectedRow.data.priority = this.updateFormData.priority;
+          this.selectedRow.data.follow_type = this.updateFormData.follow_type;
+          this.selectedRow.data.statusValue = this.updateFormData.statusValue;
+          this.selectedRow.data.status = this.enqstatus.forEach(el => { if (el.data_value == this.updateFormData.statusValue) { return el.data_key; } });
+          this.selectedRow.data.updateDate = moment().format();
+          if(this.hour != ''){
+            let dateTime = 
+            this.selectedRow.data.followUpDateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + this.updateFormData.followUpTime;
+          }   
+          else if(this.hour == ''){
+            this.selectedRow.data.followUpDateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
+          }
+          this.appC.popToast(msg);
+          this.closePopup();
+          this.cd.markForCheck();
+        },
+        err => {
+          let alert = {
+            type: 'error',
+            title: 'Failed To Update Enquiry',
+            body: 'There was an error processing your request'
+          }
+          this.appC.popToast(alert);
       })
+    }
+    else{
+      let msg = {
+        type: 'error',
+        title: 'Invalid Time Input',
+        body: 'Please select a valid time for follow up'
+        }
+        this.appC.popToast(msg);
+    }
   }
+
+
+
+
+
+
+
+  validateTime(): boolean{
+    /* some time selected by user or nothing*/
+   if((this.hour != '' && this.minute != '' && this.meridian != '')||(this.hour == '' && this.minute == '' && this.meridian == '')){
+     return true;
+   } 
+   else{      
+    return false;
+   }
+  }
+
 
 
 
@@ -1794,7 +1879,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
       this.updateFormData.follow_type = res.follow_type;
       this.updateFormData.statusValue = this.selectedRow.data.statusValue;
       this.updateFormData.followUpDate = moment(this.selectedRow.data.followUpDate).format('YYYY-MM-DD');
-      //this.hour =   
+      if(this.selectedRow.data.followUpTime != ''){
+        //console.log(moment(this.selectedRow.data.followUpDateTime).format('h'));
+        this.hour = moment(this.selectedRow.data.followUpDateTime).format('h');
+        document.getElementById('hourpar').classList.add('has-value');
+        //console.log(moment(this.selectedRow.data.followUpDateTime).format('mm'));
+        this.minute = moment(this.selectedRow.data.followUpDateTime).format('mm');
+        document.getElementById('minutepar').classList.add('has-value');
+        //console.log(moment(this.selectedRow.data.followUpDateTime).format('a'));
+        this.meridian = moment(this.selectedRow.data.followUpDateTime).format('a').toString().toUpperCase();
+        document.getElementById('meridianpar').classList.add('has-value');
+      }
       this.updateFormComments = res.comments;
       this.updateFormCommentsOn = res.commentedOn;
       this.updateFormCommentsBy = res.commentedBy;
@@ -2158,17 +2253,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   /* SMS button visibility */
   editSms() {
     this.smsBtnToggle = true;
-   /*  if(this.selectedSMS.message == ''){
-      this.smsBtnToggle = true;
-    }
-    else if(this.selectedSMS.message != ''){
-      if(confirm('Any changes made to template will be discarded')){
-        this.smsBtnToggle = true;
-      }
-      else{
-        this.smsBtnToggle = false;
-      }
-    } */
+    /*  if(this.selectedSMS.message == ''){
+       this.smsBtnToggle = true;
+     }
+     else if(this.selectedSMS.message != ''){
+       if(confirm('Any changes made to template will be discarded')){
+         this.smsBtnToggle = true;
+       }
+       else{
+         this.smsBtnToggle = false;
+       }
+     } */
   }
 
 
@@ -2786,7 +2881,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
       start_index: 0,
       batch_size: this.displayBatchSize,
       closedReason: "",
-      enqCustomLi: null
+      enqCustomLi: null,
+      commentShow: 'false'
     };
 
     this.customComponents.forEach(el => {
@@ -2801,6 +2897,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   /* common function to close popups */
   closePopup() {
     this.pops.changeMessage('');
+    this.hour = "";
+    this.minute = "";
+    this.meridian = "";
     this.isApprovedTab = true;
     this.isOpenTab = false;
     this.isMessageAddOpen = false;
@@ -2879,17 +2978,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   fetchNext() {
     this.PageIndex++;
     this.fectchTableDataByPage(this.PageIndex);
-    /* console.log(this.PageIndex);
-    let startindex = this.displayBatchSize*(this.PageIndex-1);
-    console.log(startindex);
-    this.instituteData.start_index = startindex;
-    if ((this.instituteData.start_index + this.instituteData.batch_size) < this.totalEnquiry) {
-      this.instituteData.start_index = this.instituteData.start_index + this.instituteData.batch_size;
-      this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
-      this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
-      this.instituteData.filtered_statuses = this.statusString.join(',');
-      this.busy = this.loadTableDatatoSource(this.instituteData);
-    } */
   }
 
 
@@ -2900,17 +2988,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   fetchPrevious() {
     this.PageIndex--;
     this.fectchTableDataByPage(this.PageIndex);
-    /* console.log(this.PageIndex);
-    let startindex = this.displayBatchSize*(this.PageIndex-1);
-    console.log(startindex);
-    this.instituteData.start_index = startindex;
-    if (this.instituteData.start_index > 0) {
-      //this.instituteData.start_index = this.instituteData.start_index - this.instituteData.batch_size;
-      this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
-      this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
-      this.instituteData.filtered_statuses = this.statusString.join(',');
-      this.busy = this.loadTableDatatoSource(this.instituteData);
-    } */
   }
 
 
@@ -2954,10 +3031,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
   /* Toggle DropDown Menu on Click */
   bulkActionFunctionOpen() {
-    if(document.getElementById("bulk-drop").classList.contains('hide')){
+    if (document.getElementById("bulk-drop").classList.contains('hide')) {
       document.getElementById("bulk-drop").classList.remove("hide");
     }
-    else{
+    else {
       document.getElementById("bulk-drop").classList.add("hide");
     }
   }
@@ -3097,7 +3174,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
   /*  */
   getFollowUpColor(status): string {
     if (status != '') {
-      if (moment(status).format("YYYY-MM-DD") > moment().format("YYYY-MM-DD")) {
+      let cmp = moment(status).unix();
+      let tod = moment().unix();
+      if (cmp > tod) {
         return 'black';
       }
       else {
@@ -3151,6 +3230,50 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy {
 
   clearupdateDate() {
     this.updateFormData.followUpDate = "";
+    this.hour = '';
+    this.minute = '';
+    this.meridian = '';
+  }
+
+
+
+  updateSlotSelected(data) {
+    /* slot checked */
+    if (data.status) {
+      this.slotIdArr.push(data.value.slot_id);
+      this.selectedSlots.push(data.value.slot_name);
+      if (this.selectedSlots.length != 0) {
+        document.getElementById('slotwrapper').classList.add('has-value');
+      }
+      else {
+        document.getElementById('slotwrapper').classList.remove('has-value');
+      }
+      this.selectedSlotsID = this.slotIdArr.join(',')
+      this.selectedSlotsString = this.selectedSlots.join(',');
+      this.advancedFilterForm.filtered_slots = this.selectedSlotsID;
+    }
+    /* slot unchecked */
+    else {
+      if (this.selectedSlots.length != 0) {
+        document.getElementById('slotwrapper').classList.add('has-value');
+      }
+      else if (this.selectedSlots.length == 0) {
+        document.getElementById('slotwrapper').classList.remove('has-value');
+      }
+      var index = this.selectedSlots.indexOf(data.value.slot_name);
+      if (index > -1) {
+        this.selectedSlots.splice(index, 1);
+      }
+      this.selectedSlotsString = this.selectedSlots.join(',');
+
+      var index2 = this.slotIdArr.indexOf(data.value.slot_id);
+      if (index2 > -1) {
+        this.slotIdArr.splice(index, 1);
+      }
+      this.selectedSlotsID = this.slotIdArr.join(',');
+      this.advancedFilterForm.filtered_slots = this.selectedSlotsID;
+    }
+
   }
 
 

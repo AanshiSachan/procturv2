@@ -230,6 +230,7 @@ export class StudentAddComponent implements OnInit {
   fetchPrefillFormData() {
 
     let inventory = this.studentPrefillService.fetchInventoryList().subscribe(data => {
+      
     });
 
     let institute = this.prefill.getSchoolDetails().subscribe(data => {

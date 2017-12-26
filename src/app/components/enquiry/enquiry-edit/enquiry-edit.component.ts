@@ -130,6 +130,10 @@ export class EnquiryEditComponent implements OnInit {
   }
 
 
+  hourArr: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  minArr: any[] = ['00', '15', '30', '45']; meridianArr: any[] = ["AM", "PM"];
+  hour: string = ''; minute: string = ''; meridian: string = '';
+
 
 
 
@@ -167,7 +171,7 @@ export class EnquiryEditComponent implements OnInit {
 
   /* OnInit Initialized */
   ngOnInit() {
-    this.isEnquiryAdministrator;
+    this.isEnquiryAdministrator();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.busy = this.FetchEnquiryPrefilledData();
@@ -181,9 +185,21 @@ export class EnquiryEditComponent implements OnInit {
     this.prefill.fetchEnquiryByInstituteID(id)
       .subscribe(data => {
         this.editEnqData = data;
+        //console.log(data);
+        if(data.followUpTime != ''){
+          let followUpDateTime = moment(data.followUpDate).format('YYYY-MM-DD') +" " +data.followUpTime;
+          this.hour = moment(followUpDateTime).format('h');
+          document.getElementById('hourpar').classList.add('has-value');
+          this.minute = moment(followUpDateTime).format('mm');
+          document.getElementById('minutepar').classList.add('has-value');
+          this.meridian = moment(followUpDateTime).format('a').toString().toUpperCase();
+          document.getElementById('meridianpar').classList.add('has-value');
+        }
+        
         if (this.editEnqData.enqCustomLi == null) {
           this.editEnqData.enqCustomLi = [];
         }
+
         this.fetchSubject(this.editEnqData.standard_id);
       });
   }
@@ -473,7 +489,7 @@ export class EnquiryEditComponent implements OnInit {
   /* Function to fetch subject when user selects a standard from dropdown */
   fetchSubject(value) {
 
-    if (value != null || value != '') {
+    if (value != null && value != '' && value != '-1') {
       this.editEnqData.standard_id = value;
       this.prefill.getEnqSubjects(this.editEnqData.standard_id).subscribe(
         data => { this.enqSub = data; }
@@ -498,38 +514,48 @@ export class EnquiryEditComponent implements OnInit {
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
 
-      let id = localStorage.getItem('institute_enquiry_id');
-      this.editEnqData.enquiry_date = moment(this.editEnqData.enquiry_date).format('YYYY-MM-DD');
-      this.editEnqData.followUpDate = moment(this.editEnqData.followUpDate).format('YYYY-MM-DD');
-      this.poster.editFormUpdater(id, this.editEnqData).subscribe(
-        data => {
-          if (data.statusCode == 200) {
-            let msg = {
-              type: "success",
-              title: "Enquiry edit successful",
-              body: "Your enquiry has been successfully edited"
+      if(this.validateTime()){
+        let id = localStorage.getItem('institute_enquiry_id');
+        this.editEnqData.enquiry_date = moment(this.editEnqData.enquiry_date).format('YYYY-MM-DD');
+        this.editEnqData.followUpDate = moment(this.editEnqData.followUpDate).format('YYYY-MM-DD');
+        this.poster.editFormUpdater(id, this.editEnqData).subscribe(
+          data => {
+            if (data.statusCode == 200) {
+              let msg = {
+                type: "success",
+                title: "Enquiry edit successful",
+                body: "Your enquiry has been successfully edited"
+              }
+              this.appC.popToast(msg);
+              this.clearLocalAndRoute()
             }
-            this.appC.popToast(msg);
-            this.clearLocalAndRoute()
-          }
-          else if (data.statusCode != 200) {
-            let msg = {
+            else if (data.statusCode != 200) {
+              let msg = {
+                type: "error",
+                title: "Error",
+                body: data.message
+              }
+              this.appC.popToast(msg);
+            }
+          },
+          err => {
+            let data = {
               type: "error",
-              title: "Error",
-              body: data.message
+              title: "Error updating Enquiry",
+              body: "Enquiry(s) with specified contact no. already exist"
             }
-            this.appC.popToast(msg);
+            this.appC.popToast(data);
           }
-        },
-        err => {
-          let data = {
-            type: "error",
-            title: "Error updating Enquiry",
-            body: "Enquiry(s) with specified contact no. already exist"
+        );
+      }
+      else{
+        let msg = {
+          type: 'error',
+          title: 'Invalid Time Input',
+          body: 'Please select a valid time for follow up'
           }
-          this.appC.popToast(data);
-        }
-      );
+          this.appC.popToast(msg); 
+      }      
     }
     /* Do Nothing if the formData is Still Invalid  */
     else {
@@ -540,6 +566,19 @@ export class EnquiryEditComponent implements OnInit {
       }
       this.appC.popToast(msg);
     }
+  }
+
+
+
+
+  validateTime(): boolean{
+    /* some time selected by user or nothing*/
+   if((this.hour != '' && this.minute != '' && this.meridian != '')||(this.hour == '' && this.minute == '' && this.meridian == '')){
+     return true;
+   } 
+   else{      
+    return false;
+   }
   }
 
 
@@ -761,6 +800,9 @@ export class EnquiryEditComponent implements OnInit {
 
   clearEditFollowUpDate(){
     this.editEnqData.followUpDate = "";
+    this.hour = '';
+    this.minute = '';
+    this.meridian = '';
   }
 
 }

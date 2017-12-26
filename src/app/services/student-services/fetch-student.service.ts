@@ -70,7 +70,11 @@ export class FetchStudentService {
 
 
   fetchBulkUpdateStatusReport(){
-    
+    let urlstudentReport = "";
+
+    return this.http.get(urlstudentReport, {headers: this.headers}).map(
+      res=> { return res.json()}
+    )
   }
 
 

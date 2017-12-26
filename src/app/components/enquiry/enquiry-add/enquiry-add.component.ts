@@ -110,6 +110,24 @@ export class EnquiryAddComponent implements OnInit {
   /* Institute List for edit and delete purpose */
   referList: any;
 
+  hourArr: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  minArr: any[] = ['00', '15', '30', '45']; meridianArr: any[] = ["AM", "PM"];
+  hour: string = ''; minute: string = ''; meridian: string = '';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   /* Model for Creating Institute */
   createInstitute = {
     instituteName: "",
@@ -128,6 +146,27 @@ export class EnquiryAddComponent implements OnInit {
     inst_id: sessionStorage.getItem('institute_id')
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   constructor(private prefill: FetchprefilldataService, private router: Router,
     private logger: Logger, private appC: AppComponent, private poster: PostEnquiryDataService, private login: LoginService) {
     if (sessionStorage.getItem('Authorization') == null) {
@@ -137,6 +176,21 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   /* OnInit Initialized */
   ngOnInit() {
     this.isEnquiryAdministrator;
@@ -496,6 +550,7 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
+
   /* On Phone Number input by user update model and fetch lead records if any */
   updatePhoneFetchRecords() {
     this.prefill.fetchLeadDetails(this.newEnqData.phone).subscribe(
@@ -503,6 +558,7 @@ export class EnquiryAddComponent implements OnInit {
       err => { }
     );
   }
+
 
 
 
@@ -559,7 +615,7 @@ export class EnquiryAddComponent implements OnInit {
   /* Function to fetch subject when user selects a standard from dropdown */
   fetchSubject(value) {
 
-    if (value != null || value != '') {
+    if (value != null && value != '' && value != '-1') {
       this.newEnqData.standard_id = value;
       this.prefill.getEnqSubjects(this.newEnqData.standard_id).subscribe(
         data => {
@@ -610,13 +666,15 @@ export class EnquiryAddComponent implements OnInit {
       slot_id: null,
       closedReason: "",
       demo_by_id: "",
-      status: "",
+      status: "0",
       assigned_to: "-1",
       followUpTime: "",
       lead_id: -1,
       enqCustomLi: []
     };
-
+    this.hour = '';
+    this.minute = '';
+    this.meridian = '';
     this.customComponents.forEach(el => {
       el.value = '';
     });
@@ -637,57 +695,60 @@ export class EnquiryAddComponent implements OnInit {
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
 
-      this.newEnqData.enquiry_date = moment(this.newEnqData.enquiry_date).format('YYYY-MM-DD');
-      this.newEnqData.followUpDate = moment(this.newEnqData.followUpDate).format('YYYY-MM-DD');
-
-      this.poster.postNewEnquiry(this.newEnqData).subscribe(
-        data => {
-          this.enquiryConfirm = data;
-          if (this.addNextCheck) {
-            let msg = {
-              type: "success",
-              title: "New Enquiry Added",
-              body: "Your enquiry has been submitted"
-            }
-            form.reset();
-            this.prefill.fetchLastDetail().subscribe(el =>
-              data => {
-                this.lastDetail = data;
-                this.lastDetail.name = data.name;
-                this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
-                localStorage.setItem('institute_enquiry_id', data.institute_enquiry_id);
-                let createTime = new Date(data.enquiry_creation_datetime);
-                this.lastUpdated = moment(createTime).fromNow();
-              }
-            );
-            this.appC.popToast(msg);
-            this.clearFormData();
-          }
-          else {
-            this.prefill.fetchLastDetail().subscribe(el =>
-              data => {
-                this.lastDetail = data;
-                this.lastDetail.name = data.name;
-                this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
-                let createTime = new Date(data.enquiry_creation_datetime);
-                localStorage.setItem('institute_enquiry_id', data.institute_enquiry_id);
-                this.lastUpdated = moment(createTime).fromNow();
-              }
-            );
-            this.openConfirmationPopup();
-            form.reset();
-            this.clearFormData();
-          }
-        },
-        err => {
-          let data = {
-            type: "error",
-            title: "Error Posting New Enquiry",
-            body: err.message + " mobile number is already in use, please provide another primary contact"
-          }
-          this.appC.popToast(data);
+      if(this.validateTime()){
+        this.newEnqData.enquiry_date = moment(this.newEnqData.enquiry_date).format('YYYY-MM-DD');
+        this.newEnqData.followUpDate = moment(this.newEnqData.followUpDate).format('YYYY-MM-DD');
+        if(this.hour != ''){
+          this.newEnqData.followUpTime = this.hour +":" +this.minute +" " +this.meridian;
         }
-      );
+        this.poster.postNewEnquiry(this.newEnqData).subscribe(
+          data => {
+            this.enquiryConfirm = data;
+            if (this.addNextCheck) {
+              let msg = {
+                type: "success",
+                title: "New Enquiry Added",
+                body: "Your enquiry has been submitted"
+              }
+              this.lastDetail.name = this.newEnqData.name;
+              form.reset();
+              this.appC.popToast(msg);
+              this.clearFormData();
+            }
+            else {
+              this.openConfirmationPopup();
+              form.reset();
+              this.clearFormData();
+            }
+          },
+          err => {
+            let data = {
+              type: "error",
+              title: "Error Posting New Enquiry",
+              body: err.message + " mobile number is already in use, please provide another primary contact"
+            }
+            this.appC.popToast(data);
+          }
+        );
+        this.prefill.fetchLastDetail().subscribe(el =>
+          data => {
+            //console.log(data);
+            this.lastDetail = data;
+            this.lastDetail.name = data.name;
+            this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
+            localStorage.setItem('institute_enquiry_id', data.institute_enquiry_id);
+            let createTime = new Date(data.enquiry_creation_datetime);
+            this.lastUpdated = moment(createTime).fromNow();
+        });
+      }
+      else{
+        let msg = {
+          type: 'error',
+          title: 'Invalid Time Input',
+          body: 'Please select a valid time for follow up'
+          }
+          this.appC.popToast(msg);
+      }
     }
     else {
       let msg = {
@@ -700,6 +761,19 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
+
+
+
+
+  validateTime(): boolean{
+    /* some time selected by user or nothing*/
+   if((this.hour != '' && this.minute != '' && this.meridian != '')||(this.hour == '' && this.minute == '' && this.meridian == '')){
+     return true;
+   } 
+   else{      
+    return false;
+   }
+  }
 
 
 
@@ -1410,6 +1484,9 @@ export class EnquiryAddComponent implements OnInit {
 
   clearAddFollowUpDate(){
     this.newEnqData.followUpDate= "";
+    this.hour = '';
+    this.minute = '';
+    this.meridian = '';
   }
 
 
