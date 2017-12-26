@@ -1,6 +1,133 @@
 <section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}"
 (click)="inputClicked()">
-<p>
-  campaign-add works!
-</p>
+
+  <form #values="ngForm" (ngSubmit)="addCampaign(values)">
+
+
+    <!-- ======================================================== -->
+    <!-- ======================================================== -->
+    <section class="middle-top mb0 clearFix">
+        <h1 class="pull-left">
+          Create Lead
+        </h1>   
+    </section>
+
+    <!-- Add Campaign Page Start here -->
+    <section class="middle-main clearFix" id="middleMainForEnquiryList">
+      <div class="row">
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-wrapper">
+            <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="campaignAddFormData.phone" name="cNumber"
+              maxlength="10" minlength="10" #cNumber="ngModel" pattern="[789][0-9]{9}" required/>
+            <label for="cNumber">Contact Number*</label>
+            <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
+              <div *ngIf="cNumber.errors.required">
+                phone number is required.
+              </div>
+              <div *ngIf="cNumber.errors.pattern">
+                Please enter a valid 10 digits mobile number.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-wrapper">
+              <input type="text" value="" class="form-ctrl" id="Name" [(ngModel)]="campaignAddFormData.name" name="Name" maxlength="50"
+              pattern="[a-zA-Z .]+[a-zA-Z .]+" #name="ngModel" >
+            <label for="Name">Name</label>
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert invalid-alert">
+              <!-- <div *ngIf="name.errors.required">
+                name is required.
+              </div> -->
+              <div *ngIf="name.errors.pattern">
+                name cannot have special characters or numbers.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+      <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="field-wrapper">
+          <select id="userGender" class="form-ctrl" [(ngModel)]="campaignAddFormData.gender" name="userGender">
+            <option value=""></option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+            <option value="Na">NA</option>
+          </select>
+          <label for="userGender">Gender</label>
+        </div>
+      </div>
+      <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="field-wrapper">
+            <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="campaignAddFormData.email" name="sEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+              #sEmail="ngModel" />
+            <label for="sEmail">Email ID</label>
+            <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">
+              <div *ngIf="sEmail.errors.pattern">
+                Please enter a valid email-ID.
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-wrapper">
+              <input type="text" value="" id="address" name="address" [(ngModel)]="campaignAddFormData.address" class="form-ctrl">
+              <label for="address">Address</label>
+            </div>
+      </div>
+      <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="field-wrapper">
+            <input type="text" value="" class="form-ctrl" id="City" [(ngModel)]="campaignAddFormData.city" name="City" maxlength="50"
+            pattern="[a-zA-Z .]+[a-zA-Z .]+" #city="ngModel">
+          <label for="City">City</label>
+          <div *ngIf="city.invalid && (city.dirty || city.touched)" class="alert invalid-alert">
+            <!-- <div *ngIf="name.errors.required">
+              name is required.
+            </div> -->
+            <div *ngIf="city.errors.pattern">
+              city cannot have special characters or numbers.
+            </div>
+          </div>
+        </div>        
+      </div>
+    </div>
+    <div class="row">
+      <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="field-wrapper">
+          <select id="referred" class="form-ctrl" [(ngModel)]="campaignAddFormData.referred" name="referred">
+            <option value=""></option>
+            <option [value]="refer.id" *ngFor="let refer of referralList">
+              {{refer.name}}
+            </option>
+          </select>
+          <label for="referred">Referred by</label>
+        </div>
+      </div>
+      <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="field-wrapper">
+          <select id="source" class="form-ctrl" [(ngModel)]="campaignAddFormData.source" name="source">
+            <option value=""></option>
+            <option [value]="source.id" *ngFor="let source of sourceList">
+                {{source.name}}
+            </option>
+          </select>
+          <label for="source">Source</label>
+        </div>
+      </div>
+    </div>    
+    </section>
+    <!-- Page 1 Footer -->
+    <section class="middle-bottom clearFix">
+      <div class="pull-left">
+        <div class="field-checkbox-wrapper">            
+        </div>
+      </div>
+      <aside class="pull-right">
+        <input type="button" id="form-continue" [disabled]="!values.form.valid" value="Save" class="btn redBtn" (click)="addCampaign(values)">            
+      </aside>
+    </section>
+  </form>
 </section>

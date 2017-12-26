@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 /* Services */
 import { FetchenquiryService } from './services/enquiry-services/fetchenquiry.service';
+import { CampaignService } from './services/campaign-services/campaign.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
 import { PopupHandlerService } from './services/enquiry-services/popup-handler.service';
 import { FetchStudentService } from './services/student-services/fetch-student.service';
@@ -63,7 +64,6 @@ import { PostStudentDataService } from './services/student-services/post-student
     ComingSoonComponent,
     OverlayMenuComponent,
 
-
   ],
   entryComponents: [
   ],
@@ -78,8 +78,8 @@ import { PostStudentDataService } from './services/student-services/post-student
     StandardServices,
     AuthGuard,
     LoaderHandlingService,
-    PostStudentDataService
-
+    PostStudentDataService,
+    CampaignService
   ],
   bootstrap: [AppComponent]
 })

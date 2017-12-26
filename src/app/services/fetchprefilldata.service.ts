@@ -36,6 +36,7 @@ export class FetchprefilldataService {
   urlFetchComments: string; // fetch data for update enquiry
   urlCustomComponent: string; //url for custom component
   urlEnquiryByID: string; //url for enquiry edit data
+  addCampaignURL: string; //url for adding a lead
   baseUrl: string = 'http://test999.proctur.com/StdMgmtWebAPI';
   Authorization: string; 
   headers: Headers; 
@@ -202,6 +203,29 @@ export class FetchprefilldataService {
       .map(res => {
         return res.json();
       })
+  }
+
+  /* Send a post request to add a lead*/  
+  addCampaignPostRequest(data): any {
+    
+    this.addCampaignURL = this.baseUrl + "/api/v1/campaign/list/" +this.institute_id +"/createLead";
+
+    let addCampaignForm: any = {
+      address:data.address,
+	    city:data.city,
+	    email:data.email,
+	    gender:data.gender,
+	    mobile:data.phone,
+	    name:data.name,
+	    referred_by:data.referred,
+	    source_id:data.source
+    };
+    let responseData: any;
+    return this.http.post(this.addCampaignURL, addCampaignForm , { headers: this.headers }).map(res => {
+      responseData = res.json();
+   
+      return responseData;
+    });
   }
 
 

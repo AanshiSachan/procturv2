@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { InventoryComponent } from './inventory.component'
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './inventory-home/inventory-home.component';
 
 @NgModule({
     imports: [

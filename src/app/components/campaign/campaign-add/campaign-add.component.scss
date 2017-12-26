@@ -7,3 +7,66 @@
 @import "./src/app/components/enquiry/enquiry-home/enquiry-home.component.scss";
 @import "./src/app/components/students/student-add/student-add.component.scss";
 
+
+.campaign-flow-wrapper{
+    .heading{
+        padding:2px;
+    }
+}
+
+/*=======================Right bottom lite shadow box======================*/
+
+.box-shadow-lite {
+    box-shadow: 0px 1px 2px 0px #ccc;
+    padding: 10px 0 10px 10px;
+    border-top: 1px solid #e8e8e8;
+    .field-wrapper {
+        padding-right: 40px;
+        .open-accor {
+            width: 17px;
+            font-size: 17px;
+            height: 17px;
+            line-height: 18px;
+            position: absolute;
+            right: 4px;
+            top: 19px;
+            z-index: 2;
+        }
+        &:first-child {
+            margin-top: -10px;
+        }
+    }
+}
+
+.common-right-section {
+    margin-top: 30px;
+    h4 {
+        margin-bottom: 7px;
+        color: #28383A;
+        font-size: 16px;
+        strong {
+            font-weight: 600;
+        }
+    }
+    .clear-detail {
+        margin-top: 10px;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+}
+
+.follow-up-date-icon {
+    position: absolute;
+    position: absolute;
+    right: 7px;
+    top: 20px;
+    cursor: pointer;
+    img {
+        width: 21px;
+    }
+}
+
+.unstyled-calendar::-webkit-inner-spin-button,
+.unstyled-calendar::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none;
+}

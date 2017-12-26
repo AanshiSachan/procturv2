@@ -1,5 +1,4 @@
-<section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}"
-  (click)="inputClicked()">
+<section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}" (click)="inputClicked()">
   <aside class="middle-full row">
 
     <!-- Header and Navigation -->
@@ -8,7 +7,7 @@
         Campaign List
       </h1>
       <aside class="pull-right">
-        <input type="button" value="Add Lead" class="btn" routerLink="/campaign/add">
+        <!-- <input type="button" value="Add Lead" class="btn" routerLink="/campaign/add"> -->
         <input type="button" value="Upload Lead" class="btn" routerLink="/campaign/bulk">
       </aside>
     </section>
@@ -16,95 +15,453 @@
 
     <section class="middle-main clearFix" id="studentList">
 
-      <section class="common-search-filter" id="searchFilter">
+      <!-- Data Table and Pagination -->
+      <section class="search-data">
 
-        <div class="filter-search">
-          <div class="filter-box clearFix">
+        <!-- Export and Toggler Here -->
+        <div class="row class filter-res">
+          <div class="c-lg-6 c-md-6 c-sm-6 align-left">
+            <ul class="export-print">
+              <li>
+                <label>Showing 1 to {{(displayBatchSize
+                  > totalCampaign)? totalVisibleEnquiry: (instituteData.start_index+displayBatchSize)}} of {{totalCampaign}} Enquiries</label>
+              </li>
+              <li>
 
-            <div class="c-lg-8 c-md-8 c-sm-8">
-              <div class="search-filter-wrapper">
-                <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No." style="font-size:12px; margin: 0px 5px 0px -5px;"
-                  [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
-                <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
+
+
+              </li>
+            </ul>
+          </div>
+          
+          <div class="c-lg-6 c-md-6 c-sm-6 align-left">
+
+              <div class="field-wrapper" >
+                  <img class="pull-right"  src="../../../../assets/images/search.svg" style="max-width: 5%;" (click)="searchDatabase(search)" />
+              </div>
+                   
+              <div class="search-filter-wrapper" style="width:100%;">
+                  
+                  <input #search type="text" class="normal-field pull-right" placeholder="Search lead name" style="font-size:12px; margin: 0px 5px 2px -5px;"
+                   [(ngModel)]="searchBarData" id="search" name="searchData"  (keyup.enter)="searchDatabase(search)">
+                                    
+              </div>              
+          </div>
+        
+        </div>
+
+        <!-- Enquiry DataTable -->
+        <div class="row">
+          <div class="c-lg-12 c-md-12 c-sm-12">
+            <div class="table-scroll-wrapper">
+              <div class="table table-responsive enquiry-table">
+
+                <!-- <enquiry-table header]="headerArr" [isAllSelected]="isAllSelected" [rows]="sourceCampaign" (selectAllRows)="toggleSelectAll($event)"
+                  (sort)="sortTableById($event)" (userSelectRow)="rowClicked($event)" (multipleSelectRow)="rowCheckBoxClick($event)">
+                </enquiry-table> -->
+
+                <table class="align-center">
+
+                  <thead>
+                    <tr>
+
+                      <!-- <th>
+                        <div class="field-checkbox-wrapper" style="background: transparent;">
+
+                          <input id="headerCheckbox" type="checkbox" value="" [(ngModel)]="isAllSelected" (ngModelChange)="toggleSelectAll($event)"
+                            name="check" class="form-checkbox">
+
+                          <label>asdf</label>
+                        </div>
+                      </th> -->
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.list_name.title)">{{header.list_name.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.referred_by.title)">{{header.referred_by.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.source.title)">{{header.source.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.created_date.title)">{{header.created_date.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.status.title)">{{header.status.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.total_count.title)">{{header.total_count.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.success_count.title)">{{header.success_count.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;"  (click)="sortTableById(header.failure_count.title)">{{header.failure_count.title}}</a>
+                        </label>
+                      </th>
+
+                      <th>
+                        <label>
+                          <a class="cursor-icon" style="color:white;">{{header.allow_sms.title}}</a>
+                        </label>
+                      </th>
+
+                    </tr>
+                  </thead>
+
+
+                  <tbody class="" *ngIf="sourceCampaign.length != 0">
+
+                    <tr id="row{{i}}" *ngFor="let row of sourceCampaign; let i = index; trackBy: i;">
+                      <td (click)="rowClicked(row)">
+                            {{row.data.list_name}}
+                      </td>
+
+                      <td>
+                        {{row.data.referred_by}}
+                      </td>
+
+                      <td>
+                        {{row.data.source}}
+                      </td>
+
+                      <td>
+                        {{row.data.created_date| date:'dd-MMM-yy'}}
+                      </td>
+
+                      <td>
+                        {{row.data.statusValue}}
+                      </td>
+
+                      <td>
+                        {{row.data.total_count}}
+                      </td>
+
+                      <td>
+                        {{row.data.success_count}}
+                      </td>
+
+
+                      <td *ngIf="row.data.failure_count == 0">
+                        {{row.data.failure_count}}
+                      </td>
+
+                      <td *ngIf="row.data.failure_count > 0" style="cursor:pointer" (click)="downloadFailureListFile(row)" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
+                        <a id="template_link_{{row.data.list_id}}">{{row.data.failure_count}}</a>
+                      </td>
+
+                      <td>
+                        <a  style="cursor: pointer;" (click)="openSmsPopup(row)" *ngIf="row.data.success_count > 0" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
+                          Send
+                        </a>
+                      </td>
+                    </tr>
+
+                  </tbody>
+
+                  <tbody *ngIf="sourceCampaign.length == 0">
+                    <tr class="empty-table-wrapper" style="background: none;">
+                      <td colspan="12">
+                        <ul>                       
+                          <li style="font-weight: 700">{{fetchingDataMessage}}</li>
+                        </ul>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                </table>
+
               </div>
             </div>
-
-            <!-- Advanced Filter Trigger -->
-            <div class="c-lg-4 c-md-4 c-sm-4">
-              <div class="filter-right" style="float: right;">
-                <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Advanced Filter</a>
-                <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide" (click)="closeAdFilter()">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
-                    <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
-                      <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                        <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                        <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-                      </g>
-                      <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)" />
-                    </g>
-                  </svg>
-                  Close Advance Filter
-                </a>
-              </div>
-            </div>
-
-
           </div>
+        </div>
 
-          <div class="filter-fields hide" style="visibility: visible; opacity: 1" id="advanced-filter-section">
+        <!-- Paginator Here -->
+        <div class="row filter-res pagination" style="width: 100%;">
 
-          </div>
+
         </div>
 
       </section>
 
 
-      <!-- <section class="search-data">
-        <div class="row class filter-res">
-          <div class="c-lg-6 c-md-6 c-sm-6 align-left">
-            <ul class="export-print">
-              <li>
-                <label>Showing {{instituteData.start_index == null? 1 : (instituteData.start_index+1) }} to {{(studentdisplaysize
-                  > totalRow)? totalRow: (instituteData.start_index+studentdisplaysize)}} of {{totalRow}} Students
-                </label>
-              </li>
-              <li>
-                <div class="bulk-dropdown">
-                  <label class="bulk-dropbtn">
-                    Student per page :
-                    <button class="bulk-dropbtn-border" id="bulk-action" #bulkaction (click)="bulkActionFunction()" type="button" data-toggle="dropdown">
-                      {{studentdisplaysize}}
-                      <span class="caret"></span>
-                    </button>
-                  </label>
-                  <div id="bulk-drop" class="bulk-dropdown-content">
-                    <a *ngFor="let size of sizeArr" (click)="updateTableBatchSize(size)">
-                      {{size}}
-                    </a>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="c-lg-6 c-md-6 c-sm-6 align-right">
-            <ul class="export-print">
-              <li>
-                <p-splitButton label="bulk action 1" icon="fa-envelope-o" (onClick)="bulkActionPerformer(1)" [model]="bulkActionItems"></p-splitButton>
-              </li>
-              <li class="export-icon" (click)="downloadAllStudent()">
-                <a id="student_download"></a>
-                Export
-              </li>
-              <li>
-                <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggleOptionChange($event)">
-                </ss-multiselect-dropdown>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section> -->
+
 
     </section>
 
   </aside>
 </section>
+
+
+<!-- SMS PopUp Single-->
+<section id="popup" class="popupWrapper fadeIn" style="overflow:auto;"  *ngIf="message === 'sms'" (click)="inputClicked($event)">
+  <!-- tab 1 for sms-->
+  <div class="popup pos-abs popup-body-container" *ngIf="testMessagePopUp === false">
+    <div class="popup-wrapper pos-rel">
+
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+
+      <div class="popup-content">
+        <h2>Send Promotional SMS </h2>
+        <div class="sms-form sms-popup-content">
+          <div class="sms-update">
+
+
+            <div class="sms-top-section">
+
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <h4>
+                    Campaign List*
+                  </h4>
+                </div>
+
+                <div class="c-lg-3 c-md-3 c-sm-3">
+                    <div class="field-wrapper datePickerBox">
+                        <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="searchBarDate" style="cursor: pointer;" (keyup.enter)="searchDatabase()"
+                          name="followupdate" bsDatepicker/>
+                        <!-- <label for="followupdate">Follow up Date</label> -->
+                        <span class="date-clear" name="followupdate" (click)="clearDate($event)"></span>
+                      </div>
+                </div>
+                <div class="c-lg-3 c-md-3 c-sm-3">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="c-lg-6 c-md-6 c-sm-6" style="padding-top: 10px;">
+                  <select>
+                    <option value={{smsSelectedRows.data.list_name}}>{{smsSelectedRows.data.list_name}}</option>
+                  </select>
+                </div>
+
+                <div class="c-lg-6 c-md-6 c-sm-6 time-picker">
+                  <div class="field-wrapper has-value">
+                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="hour" name="hour">
+                      <option *ngFor="let hour of hourArr" [value]="hour">
+                        {{hour}}
+                      </option>
+                    </select>
+                    <label for="hour">Hour</label>
+                  </div>
+                  <div class="field-wrapper has-value">
+                    <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute">
+                      <option *ngFor="let minute of minArr" [value]="minute">
+                        {{minute}}
+                      </option>
+                    </select>
+                    <label for="minute">Minute</label>
+                  </div>
+                  <div class="field-wrapper has-value">
+                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="meridian" name="meridian">
+                      <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                        {{meridian}}
+                      </option>
+                    </select>
+                    <label for="meridian">Meridian</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="c-lg-12">
+                  <h4>
+                    Campaign Message
+                  </h4>
+
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="c-lg-12 c-md-12 c-sm-12" style="padding-top: 10px;">
+                  <div  class="table table-responsive enquiry-table" >
+                    <table style="width:100%" div class="field-checkbox-wrapper">
+                        <tr>
+                          <th></th>
+                          <th></th> 
+                        </tr>
+                        <tr id="message{{i}}"  *ngFor="let message of messageList; let i = index; trackBy: i;">
+                          <td class="c-lg-12 c-md-12 c-sm-12">
+                              <div class="field-checkbox-wrapper">
+                                <input type="checkbox" (click)="rowCheckBoxClick($event.target.checked, i, message.message_id ,message.message)" id="check{{i}}" value=""
+                                  name="enquirycheck" class="form-checkbox">
+                                <label>{{message.message}}</label>
+                              </div>
+                          </td>
+                          <td>
+                              {{message.message}}
+                          </td>
+                    </table>
+
+                    <!-- <select name="cars" multiple  [(ngModel)]="selectedMessage" >
+                      <option style="padding: 10px;border-bottom:  1px solid;" *ngFor="let message of messageList" value={{message.message_id}}>{{message.message}}</option>
+                    </select> -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">            
+                <div class="c-lg-12 c-md-12 c-sm-12" style="padding-top: 10px;">
+                  <div class="">
+                    <div class="clearfix">
+                      <aside class="pull-right popup-btn">
+                        <input type="button" value="Cancel" class="btn" *ngIf="smsBtnToggle" (click)="closePopup()">
+                        <input type="button" value="Save" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="saveEditedSms()">
+                        <!-- <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closePopup()"> -->
+                        <input type="button" value="Send Test SMS" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
+                      </aside>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+
+
+
+
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+
+  <!--Tab 2 for sms  -->
+  <!-- -->
+  <div class="popup pos-abs popup-body-container" *ngIf="testMessagePopUp === true">
+    <div class="popup-wrapper pos-rel">
+
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()" >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <form #values="ngForm"> 
+        <div class="popup-content">
+          <h2>Campaign Test SMS </h2>
+          <div class="sms-form sms-popup-content">
+            <div class="sms-update">  
+              <div class="sms-top-section">
+                <div class="row">
+                  <div class="c-lg-4 c-md-4 c-sm-4" style="padding-top: 10px;">  
+                    <div class="field-wrapper">
+                      <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="phone" name="cNumber"
+                        maxlength="10" minlength="10" #cNumber="ngModel" pattern="[789][0-9]{9}" required/>
+                      <label for="cNumber">Contact Number*</label>
+                      <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
+                        <div *ngIf="cNumber.errors.required">
+                          phone number is required.
+                        </div>
+                        <div *ngIf="cNumber.errors.pattern">
+                          Please enter a valid 10 digits mobile number.
+                        </div>
+                      </div>
+                    </div>       
+                  </div>
+                </div>
+
+                <div class = "row">
+                  <div class="c-lg-6 c-md-6 c-sm-6" style="padding-top: 10px;">
+                    <div class="field-wrapper">
+                          Message:
+                      </div> 
+                  </div> 
+
+                  <div class="c-lg-6 c-md-6 c-sm-6" style="padding-top: 10px;">
+                    <div class="field-wrapper">
+                          
+                      </div> 
+                  </div> 
+                </div>
+
+                <div class="row">
+                  <div class="c-lg-6 c-md-6 c-sm-6" style="padding-top: 10px;">
+                    <div class="field-wrapper">
+                        <div class="clearfix" *ngFor="let message of selectedMessage">
+                            
+                            <pre class="showMessage"> {{ this.smsMessageTest}}
+                            </pre>
+                        </div>                            
+                      </div> 
+                  </div>
+
+                  <div class="c-lg-6 c-md-6 c-sm-6" style="padding-top: 10px;">
+                    <div class="field-wrapper">
+                          
+                      </div> 
+                  </div>                    
+                </div>
+  
+                <div class="row">            
+                  <div class="c-lg-12 c-md-12 c-sm-12" style="padding-top: 10px;">
+                    <div class="">
+                      <div class="clearfix">
+                        <aside class="pull-right popup-btn">
+                            <input type="button" value="Close" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="closePopupTest()">
+                          <input type="button" value="Send" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="sendTestSMS(values)">
+                        </aside>
+                      </div>
+                    </div>
+                  </div>
+                </div>  
+              </div>  
+            </div>
+          </div>
+        </div>
+      </form>   
+
+    </div>
+  </div>
+
+</section>
+
+
+
+

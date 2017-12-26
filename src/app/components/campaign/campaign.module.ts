@@ -13,6 +13,7 @@ import 'hammerjs';
 import { CampaignHomeComponent } from './campaign-home/campaign-home.component';
 import { CampaignAddComponent } from './campaign-add/campaign-add.component';
 import { CampaignBulkComponent } from './campaign-bulk/campaign-bulk.component';
+import { CampaignPopUpComponent } from './campaign-pop-up/campaign-pop-up.component';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
@@ -34,6 +35,7 @@ import { SharedModule } from '../shared/shared.module';
         CampaignComponent,
         CampaignHomeComponent,
         CampaignAddComponent,
+        CampaignPopUpComponent,
         CampaignBulkComponent
     ], 
     entryComponents: [        

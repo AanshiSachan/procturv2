@@ -1,6 +1,177 @@
 <section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}"
 (click)="inputClicked()">
-<p>
-  campaign-bulk works!
-</p>
+
+  <form #values="ngForm" (ngSubmit)="uploadHandler($event,values)">
+
+    <section class="middle-top clearFix bulk-header">
+    
+      <div class="row">
+        <ul class="breadc">
+
+          <li>
+            <a class="bread-list" [routerLink]="['../']">Campaign List</a>
+          </li>
+
+          <li>
+            <a class="current">Bulk Campaign</a>
+          </li>
+
+        </ul>
+      </div>
+
+      <div class="row">
+        <h1 class="pull-left">
+          Upload Campaign
+        </h1>
+        <aside class="pull-right">
+          <!-- <input type="button" value="Campaign Upload Status" (click)="bulkStatusReporter()" class="btn" /> -->
+          <a id="template_link">
+            <input type="button" value="Download Template" class="btn" (click)="downloadTemplate()" />
+          </a>
+          <!-- <input type="button" value="Add Campaign" routerLink='/campaign/add' class="btn" /> -->
+        </aside>
+      </div>
+
+    </section>
+
+    <!-- ++++++++++++++++++user -->
+
+    <section class="middle-main clearFix" id="middleMainForEnquiryList">
+    <div class="row">
+      <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="field-wrapper">
+            <input type="text" value="" class="form-ctrl" id="Name" [(ngModel)]="campaignAddFormData.name" name="Name" maxlength="50"
+            pattern="[a-zA-Z .]+[a-zA-Z .]+" #name="ngModel" required>
+          <label for="Name">Name*</label>
+          <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert invalid-alert">
+            <div *ngIf="name.errors.required">
+              Lead name is required.
+            </div>
+            <div *ngIf="name.errors.pattern">
+              Please enter a lead name.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="field-wrapper">
+          <select id="referred" class="form-ctrl" [(ngModel)]="campaignAddFormData.referred" name="referred">
+            <option value=""></option>
+            <option [value]="refer.id" *ngFor="let refer of referralList">
+              {{refer.name}}
+            </option>
+          </select>
+          <label for="referred">Referred by</label>
+        </div>
+      </div>
+      <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="field-wrapper">
+          <select id="source" class="form-ctrl" [(ngModel)]="campaignAddFormData.source" name="source">
+            <option value=""></option>
+            <option [value]="source.id" *ngFor="let source of sourceList">
+                {{source.name}}
+            </option>
+          </select>
+          <label for="source">Source</label>
+        </div>
+      </div>
+    </div>   
+    </section>
+
+
+
+    <!--====================================middle <Main> section==========================-->
+    <section class="middle-main clearFix" id="bulkCampaignMain">
+      <div class="file-upload-box">
+        <div class="select-file-upload">
+          <h5>Select a file to upload</h5>
+          <div class="file-wrapper">
+            <ul>
+              <li>
+                <!-- accept="application/vnd.ms-excel" -->
+                <p-fileUpload url="http://test999.proctur.com/CampaignListUpload"
+                  customUpload="true" type="submit" (uploadHandler)="uploadHandler($event,values)" [showCancelButton]="false">
+                </p-fileUpload>
+
+                <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
+                  <div class="file-uploaded">
+                    {{fileLoading}}
+                  </div>
+                  <div class="progress-bar-wrapper">
+                    <div class="upload-bar">
+                      <div id="progress-width"></div>
+                    </div>
+                    <span>{{progress}} %</span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+
+  </form>
+
+  <!-- ================================================================================= -->
+  <!-- ========================= Bulk Update Status =================================== -->
+  <campaign-pop-up [hidden]="!isBulkUploadStatus">
+
+    <span class="closePopup pos-abs fbold " id="popupCloseBtn" (click)="closeBulkStatus()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+
+    <h2 id="bulk-head" popup-header>Bulk Campaign Update Status</h2>
+
+    <div class="bulk-campaign-form" popup-content>
+
+      <div class="row">
+        <div class="table-responsive bulk-update-report">
+          <table>
+            <thead>
+              <tr>
+                <th>File Name</th>
+                <th>Upload Date</th>
+                <th>Total Count</th>
+                <th>Success Count</th>
+                <th>Failure Count</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor = "let record of bulkUploadRecords">
+                <td>{{record.list_name}}</td>
+                <td>{{record.created_date}}</td>
+                <td>{{record.total_count}}</td>
+                <td>{{record.success_count}}</td>
+                <td>{{record.failure_count}}</td>
+                <td>
+                  <a [id]="record.list_id" class="download-icon" (click)="downloadBulkStatusReport(record)">
+                    Download Report
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </campaign-pop-up>
+  
 </section>
