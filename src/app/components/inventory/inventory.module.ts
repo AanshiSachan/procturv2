@@ -10,7 +10,11 @@ import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstr
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import 'moment';
 import 'hammerjs';
+
 import { HomeComponent } from './inventory-home/inventory-home.component';
+
+//import { HomeComponent } from './home/home.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -25,7 +29,8 @@ import { HomeComponent } from './inventory-home/inventory-home.component';
         BsDatepickerModule,
         FileUploadModule,
         SplitButtonModule,
-        MenuModule
+        MenuModule,
+        SharedModule
     ],
     declarations: [
         InventoryComponent,

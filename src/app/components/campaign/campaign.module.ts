@@ -14,7 +14,7 @@ import { CampaignHomeComponent } from './campaign-home/campaign-home.component';
 import { CampaignAddComponent } from './campaign-add/campaign-add.component';
 import { CampaignBulkComponent } from './campaign-bulk/campaign-bulk.component';
 import { CampaignPopUpComponent } from './campaign-pop-up/campaign-pop-up.component';
-import { PaginationComponent } from './pagination/pagination.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     imports: [
@@ -28,15 +28,15 @@ import { PaginationComponent } from './pagination/pagination.component';
         BsDatepickerModule,
         FileUploadModule,
         SplitButtonModule,
-        MenuModule
+        MenuModule,
+        SharedModule
     ],
     declarations: [
         CampaignComponent,
         CampaignHomeComponent,
         CampaignAddComponent,
-        CampaignBulkComponent,
         CampaignPopUpComponent,
-        PaginationComponent
+        CampaignBulkComponent
     ], 
     entryComponents: [        
     ],
