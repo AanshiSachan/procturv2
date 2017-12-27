@@ -3,10 +3,6 @@
 
   <section class="" id="studentFlow">
 
-
-
-
-
     <!-- ======================================================== -->
     <!-- =====================  Form Navigations================= -->
     <section class="student-tab">
@@ -39,11 +35,6 @@
     </section>
     <!-- ======================================================== -->
     <!-- ======================================================== -->
-
-
-
-
-
 
     <!-- ======================================================== -->
     <!-- ======================================================== -->
@@ -168,14 +159,17 @@
                 </div>
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="image-wrapper">
+                <!-- <div class="image-wrapper">
                   <img src="" alt="" id="preview-img">
                   <div class="input-holder">
                     <input type="file" name="myFile" id="image-input" (change)="uploadHandler()">
                     <label class="uploadImg" for="image-input">Upload image</label>
                     <label class="removeImg" (click)="removeImage()">Remove image</label>
                   </div>
-                </div>
+                </div> -->
+                <image-upload [removeImg]="removeImage">
+                  
+                </image-upload>
               </div>
             </div>
             <!-- Form 2 -->
@@ -299,12 +293,10 @@
                 <strong>Administration Details</strong> (Official Use)</h4>
               <div class="box-shadow-lite">
 
-                <div class="field-wrapper has-value">
-                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" [(ngModel)]="studentAddFormData.doj" />
+                <div class="field-wrapper datePickerBox has-value">
+                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" [(ngModel)]="studentAddFormData.doj"/>
                   <label for="doj">Date of Joining</label>
-                  <span class="follow-up-date-icon">
-                    <img src="./assets/images/calendar.svg" alt="" />
-                  </span>
+                  <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span>
                 </div>
 
                 <div class="field-wrapper">
@@ -315,7 +307,7 @@
                     </option>
                   </select>
                   <label for="schoolStitution">School/Institution</label>
-                  <span class="open-accor">+</span>
+                  <span class="open-accor" (click)="openInstituteAdder()">+</span>
                 </div>
 
                 <!-- ================================================================= -->
@@ -333,7 +325,7 @@
 
 
                 <div id="assignCoursesParent" class="field-wrapper" *ngIf="isAcad">
-                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" (click)="openAssignBatch()" />
+                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" (click)="openAssignBatch()" disabled/>
                   <label for="assignCourses">Assign Courses</label>
                 </div>
 
@@ -370,7 +362,7 @@
                 </div>
 
                 <div id="slotwrapper" class="field-wrapper" *ngIf="isProfessional" (click)="multiselectVisible($event.target.id)">
-                  <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" />
+                  <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" disabled/>
                   <label for="assignCourses">Slots</label>
                 </div>
                 <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
@@ -397,7 +389,7 @@
                 </div>
 
                 <div id="assignCoursesParent" class="field-wrapper" *ngIf="isProfessional">
-                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" (click)="openAssignBatch()" />
+                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" (click)="openAssignBatch()" disabled/>
                   <label for="assignCourses">Assign Courses</label>
                 </div>
 
@@ -498,7 +490,7 @@
                 <div class="row" *ngIf="component.type == 4" input-def>
                   <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                     <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
-                    />
+                      disabled/>
                     <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
                   </div>
@@ -550,15 +542,6 @@
     </form>
     <!-- ======================================================== -->
     <!-- ======================================================== -->
-
-
-
-
-
-
-
-
-
 
     <!-- ======================================================== -->
     <!-- ======================================================== -->
@@ -637,16 +620,6 @@
     </section>
     <!-- ======================================================== -->
     <!-- ======================================================== -->
-
-
-
-
-
-
-
-
-
-
 
     <!-- ======================================================== -->
     <!-- ======================================================== -->
@@ -737,10 +710,123 @@
 
 
 
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- =============== Popup Declarations ===================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
 
 
 
 
+  <student-pop-up *ngIf="isNewInstituteEditor">
+
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeInstituteAdder()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+  
+    <h2 popup-header>Institute Editor</h2>
+  
+    <div class="institute-editor" popup-content>
+  
+      <div class="row clearFix add-edit">
+        <a class="expend-box" (click)="toggleInstituteAdd()">
+          <i id="add-institute-icon">-</i>
+          <span>Create New Institute</span>
+        </a>
+      </div>
+  
+      <section class="row clearFix create-standard-form" *ngIf="isNewInstitute">
+        <div class="row">
+          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
+            <div class="field-wrapper">
+              <input type="text" value="" id="instituteName" class="form-ctrl" [(ngModel)]="createInstitute.instituteName" name="instituteName"
+                enquiryInput/>
+              <label for="instituteName">Institute Name</label>
+            </div>
+          </div>
+  
+          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right">
+            <aside class="pull-right">
+              <input type="button" value="Cancel" class="btn" (click)="closeAddInstitute()">
+              <input type="button" value="Create" class="redBtn btn" (click)="addInstituteData()">
+            </aside>
+          </div>
+  
+        </div>
+      </section>
+  
+      <div class="row">
+        <div class="table-responsive institute-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Institute Name</th>
+                <th> Action </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sch of instituteList">
+                <td *ngIf="!sch.edit">
+                  <div class="inst-name">
+                    {{sch.school_name}}
+                  </div>
+                </td>
+  
+                <td *ngIf="sch.edit">
+                  <div class="field-wrapper has-value">
+                    <input type="text" [(ngModel)]="sch.school_name" class="form-ctrl" name="instituteName" enquiryInput/>
+                  </div>
+                </td>
+  
+                <td class="edit-view-btn" *ngIf="!sch.edit">
+                  <div class="">
+                    <a (click)="editInstitute(sch.school_id)" style="cursor:pointer">
+                      <i class="edit-icon cursor-icon" aria-hidden="true"></i>Edit
+                    </a>
+                  </div>
+                  <div class="">
+                    <a (click)="deleteInstitute(sch.school_id)" style="cursor:pointer">
+                      <i class="view-icon cursor-icon" aria-hidden="true"></i>Delete
+                    </a>
+                  </div>
+                </td>
+  
+                <td class="edit-view-btn" *ngIf="sch.edit">
+                  <div class="">
+                    <a (click)="cancelEditInstitute(sch.school_id)" style="cursor:pointer">
+                      <i class="edit-icon" aria-hidden="true"></i>Cancel
+                    </a>
+                  </div>
+                  <div class="">
+                    <a (click)="updateInstitute(sch.school_id)" style="cursor:pointer">
+                      <i class="view-icon update-icon" aria-hidden="true"></i>Update
+                    </a>
+                  </div>
+                </td>
+  
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  
+    </div>
+
+  </student-pop-up>
 
 
 
@@ -750,6 +836,7 @@
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
   <student-pop-up [hidden]="!isAssignBatch">
+
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeBatchAssign()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -792,7 +879,8 @@
               <td>{{batch.data.end_date}}</td>
               <td>
                 <div class="field-wrapper datePickerBox has-value">
-                  <input type="text" value="" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker" bsDatepicker>
+                  <input type="text" value="" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker"
+                    bsDatepicker>
                   <label for="assigndate">Assign Date</label>
                 </div>
             </tr>
@@ -809,6 +897,7 @@
         </aside>
       </div>
     </div>
+
   </student-pop-up>
 
 

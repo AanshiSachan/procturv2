@@ -20,19 +20,20 @@
       <section class="sms-filter-wrapper">
         <div class="row">
           <div class="c-lg-8 c-md-8 c-sm-8">
-            <div class="field-wrapper datePickerBox">
-              <input type="text" value="" id="fromDate" 
-              class="form-ctrl bsDatepicker" name="fromDate" (focus)="inputClicked($event)" bsDatepicker/>
+            <div class="field-wrapper datePickerBox has-value">
+              <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" name="fromDate" (focus)="inputClicked($event)" [(ngModel)]="smsFetchForm.from_date"
+                bsDatepicker/>
               <label for="fromDate">Sent From</label>
             </div>
-            <div class="field-wrapper datePickerBox">
-              <input type="text" value="" id="updateDate" (focus)="inputClicked($event)" class="form-ctrl bsDatepicker" name="toDate" bsDatepicker/>
+            <div class="field-wrapper datePickerBox has-value">
+              <input type="text" value="" id="updateDate" (focus)="inputClicked($event)" [(ngModel)]="smsFetchForm.to_date" class="form-ctrl bsDatepicker"
+                name="toDate" bsDatepicker/>
               <label for="toDate">Sent To</label>
             </div>
           </div>
           <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
             <div class="btn-sms-search">
-              <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
+              <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="fetchSmsByDate()" />
             </div>
           </div>
         </div>
@@ -68,11 +69,19 @@
             </tbody>
           </table> -->
 
-          <proctur-table 
-          [records]="smsSource"
-          [tableName]="'sms'"
-          [settings]="projectSettings">
+          <proctur-table [records]="smsSource" [tableName]="'sms'" [settings]="projectSettings">
           </proctur-table>
+
+        </div>
+
+
+        <!-- Paginator Here -->
+        <div class="row filter-res pagination" style="width: 100%;">
+          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+            <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+              [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
+            </pagination>
+          </div>
 
         </div>
 

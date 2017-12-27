@@ -2,8 +2,9 @@
     (click)="inputClicked($event)">
 
     <aside class="middle-full row">
-
+        <!-- =============================================================================== -->
         <!--====================================middle Top section==========================-->
+        <!-- =============================================================================== -->        
         <section class="middle-top mb0 clearFix">
             <h1 class="pull-left">
                 Student List
@@ -13,16 +14,18 @@
                 <input type="button" value="Upload Student" class="btn" routerLink="/student/bulk">
             </aside>
         </section>
+        <!-- =============================================================================== -->
         <!--====================================middle <Main> section==========================-->
+        <!-- =============================================================================== -->            
         <section class="middle-main clearFix" id="studentList">
-
+        <!-- =============================================================================== -->
             <!-- Filter and seachbar section -->
             <section class="common-search-filter" id="searchFilter">
                 <div class="filter-search">
                     <!-- Advanced Filter -->
                     <div class="filter-box clearFix">
                         <div class="c-lg-8 c-md-8 c-sm-8">
-                            <div class="search-filter-wrapper">
+                            <div id="basic-search" class="search-filter-wrapper">
                                 <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No." style="font-size:12px; margin: 0px 5px 0px -5px;"
                                     [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
                                 <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
@@ -52,83 +55,85 @@
                     <div class="filter-fields hide" style="visibility: visible; opacity: 1" id="advanced-filter-section">
 
                         <div class="filter-wrapper" *ngIf="isProfessional">
-                            <div class="row">
-                                <!-- Standard -->
-                                <div class="c-lg-4 c-md-4 c-sm-4">
-                                    <div class="field-wrapper">
-                                        <select id="masterCourse" name="masterCourse" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchCourseForMaster($event)"
-                                            class="form-ctrl">
-                                            <option value=""></option>
-                                            <option [value]="std.standard_id" *ngFor="let std of standardList">
-                                                {{std.standard_name}}
-                                            </option>
-                                        </select>
-                                        <label for="masterCourse">Master Course</label>
-                                    </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <select id="masterCourse" name="masterCourse" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchCourseForMaster($event)"
+                                        class="form-ctrl">
+                                        <option value=""></option>
+                                        <option [value]="std.standard_id" *ngFor="let std of standardList">
+                                            {{std.standard_name}}
+                                        </option>
+                                    </select>
+                                    <label for="masterCourse">Master Course</label>
                                 </div>
-                                <div class="c-lg-4 c-md-4 c-sm-4">
-                                    <div class="field-wrapper">
-                                        <select id="course" name="course" [(ngModel)]="advancedFilterForm.subject_id" class="form-ctrl">
-                                            <option value=""></option>
-                                            <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
-                                                {{subject.subject_name}}
-                                            </option>
-                                        </select>
-                                        <label for="course">Course</label>
-                                    </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <select id="course" name="course" [(ngModel)]="advancedFilterForm.subject_id" class="form-ctrl">
+                                        <option value=""></option>
+                                        <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
+                                            {{subject.subject_name}}
+                                        </option>
+                                    </select>
+                                    <label for="course">Course</label>
                                 </div>
-                                <div class="c-lg-4 c-md-4 c-sm-4">
-                                    <div class="field-wrapper">
-                                        <select id="batch" name="batch" [(ngModel)]="advancedFilterForm.batch_id" class="form-ctrl">
-                                            <option value=""></option>
-                                            <option [value]="b.batch_id" *ngFor="let b of batchList">
-                                                {{b.batch_name}}
-                                            </option>
-                                        </select>
-                                        <label for="batch">Batch</label>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <select id="batch" name="batch" [(ngModel)]="advancedFilterForm.batch_id" class="form-ctrl">
+                                        <option value=""></option>
+                                        <option [value]="b.batch_id" *ngFor="let b of batchList">
+                                            {{b.batch_name}}
+                                        </option>
+                                    </select>
+                                    <label for="batch">Batch</label>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <select id="school" name="school" [(ngModel)]="advancedFilterForm.school" class="form-ctrl">
+                                        <option value=""></option>
+                                        <option [value]="sch.school_id" *ngFor="let sch of schoolList">
+                                            {{sch.school_name}}
+                                        </option>
+                                    </select>
+                                    <label for="school">Institutional/Custom2</label>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <select id="status" [(ngModel)]="advancedFilterForm.language_inst_status" class="form-ctrl">
+                                        <option value=""></option>
+                                        <option [value]="stdst.data_key" *ngFor="let stdst of studentStatusList">
+                                            {{stdst.data_value}}
+                                        </option>
+                                    </select>
+                                    <label for="status">Status</label>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="radio-options">
+                                    <div class="field-radio-wrapper">
+                                        <input type="radio" value="1" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="active">
+                                        <label for="active">Active</label>
+                                    </div>
+                                    <div class="field-radio-wrapper">
+                                        <input type="radio" value="2" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="Inactive">
+                                        <label for="Inactive">Inactive</label>
+                                    </div>
+                                    <div class="field-radio-wrapper">
+                                        <input type="radio" value="3" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="both">
+                                        <label for="both">both</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="c-lg-4 c-md-4 c-sm-4">
-                                    <div class="field-wrapper">
-                                        <select id="school" name="school" [(ngModel)]="advancedFilterForm.school" class="form-ctrl">
-                                            <option value=""></option>
-                                            <option [value]="sch.school_id" *ngFor="let sch of schoolList">
-                                                {{sch.school_name}}
-                                            </option>
-                                        </select>
-                                        <label for="school">Institutional/Custom2</label>
-                                    </div>
-                                </div>
-                                <div class="c-lg-4 c-md-4 c-sm-4">
-                                    <div class="field-wrapper">
-                                        <select id="status" [(ngModel)]="advancedFilterForm.language_inst_status" class="form-ctrl">
-                                            <option value=""></option>
-                                            <option [value]="stdst.data_key" *ngFor="let stdst of studentStatusList">
-                                                {{stdst.data_value}}
-                                            </option>
-                                        </select>
-                                        <label for="status">Status</label>
-                                    </div>
-                                </div>
-                                <div class="c-lg-4 c-md-4 c-sm-4">
-                                    <div class="radio-options">
-                                        <div class="field-radio-wrapper">
-                                            <input type="radio" value="1" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="active">
-                                            <label for="active">Active</label>
-                                        </div>
-                                        <div class="field-radio-wrapper">
-                                            <input type="radio" value="2" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="Inactive">
-                                            <label for="Inactive">Inactive</label>
-                                        </div>
-                                        <div class="field-radio-wrapper">
-                                            <input type="radio" value="3" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="both">
-                                            <label for="both">both</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
 
                             <custom-student *ngFor="let component of customComponents">
 
@@ -160,9 +165,10 @@
                                 <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
                                     <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                                         <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
-                                        />
+                                            disabled/>
                                         <label for="{{component.label}}">{{component.label}} </label>
                                     </div>
+
                                     <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
                                         <div class="multiselect-wrapper-inner">
                                             <ul class="">
@@ -180,97 +186,97 @@
 
                             </custom-student>
 
-                            <div class="row">
-                                <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
-                                    <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" (click)='advancedSearch()'>
-                                </div>
-                                <div class="c-lg-4 c-md-4 c-sm-4"></div>
-                                <div class="c-lg-4 c-md-4 c-sm-4 pull-right"></div>
+                            <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
+                                <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" (click)='advancedSearch()'>
                             </div>
+                            <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
+                                <input type="button" class="btn filterSearchBtn" value="Clear Advanced Filter" (click)='clearAdvancedFilterForm()'>
+                            </div>
+
+
                         </div>
 
                         <div class="filter-wrapper" *ngIf="!isProfessional">
-                            <div class="row">
-                                <div class="c-lg-4 c-md-4 c-sm-4">
-                                    <div class="field-wrapper">
-                                        <select id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchCourseForMaster($event)"
-                                            class="form-ctrl">
-                                            <option value=""></option>
-                                            <option [value]="std.standard_id" *ngFor="let std of standardList">
-                                                {{std.standard_name}}
-                                            </option>
-                                        </select>
-                                        <label for="standard">Standard</label>
-                                    </div>
-                                </div>
 
-                                <div class="c-lg-4 c-md-4 c-sm-4">
-                                    <div class="field-wrapper">
-                                        <select id="masterCourse" name="masterCourse" [(ngModel)]="advancedFilterForm.master_course_name" (ngModelChange)="updateSubCourse($event)"
-                                            class="form-ctrl">
-                                            <option value=""></option>
-                                            <option [value]="mc.master_course" *ngFor="let mc of masterCourseList">
-                                                {{mc.master_course}}
-                                            </option>
-                                        </select>
-                                        <label for="masterCourse">Master Course</label>
-                                    </div>
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <select id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchCourseForMaster($event)"
+                                        class="form-ctrl">
+                                        <option value=""></option>
+                                        <option [value]="std.standard_id" *ngFor="let std of standardList">
+                                            {{std.standard_name}}
+                                        </option>
+                                    </select>
+                                    <label for="standard">Standard</label>
                                 </div>
+                            </div>
 
-                                <div class="c-lg-4 c-md-4 c-sm-4">
-                                    <div class="field-wrapper">
-                                        <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id" class="form-ctrl">
-                                            <option value=""></option>
-                                            <option [value]="course.course_id" *ngFor="let course of subCourseList">
-                                                {{course.course_name}}
-                                            </option>
-                                        </select>
-                                        <label for="course">Course</label>
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <select id="masterCourse" name="masterCourse" [(ngModel)]="advancedFilterForm.master_course_name" (ngModelChange)="updateSubCourse($event)"
+                                        class="form-ctrl">
+                                        <option value=""></option>
+                                        <option [value]="mc.master_course" *ngFor="let mc of masterCourseList">
+                                            {{mc.master_course}}
+                                        </option>
+                                    </select>
+                                    <label for="masterCourse">Master Course</label>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id" class="form-ctrl">
+                                        <option value=""></option>
+                                        <option [value]="course.course_id" *ngFor="let course of subCourseList">
+                                            {{course.course_name}}
+                                        </option>
+                                    </select>
+                                    <label for="course">Course</label>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <select id="school" name="school" [(ngModel)]="advancedFilterForm.school" class="form-ctrl">
+                                        <option value=""></option>
+                                        <option [value]="sch.school_id" *ngFor="let sch of schoolList">
+                                            {{sch.school_name}}
+                                        </option>
+                                    </select>
+                                    <label for="school">Institutional/Custom2</label>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="field-wrapper">
+                                    <select id="status" [(ngModel)]="advancedFilterForm.language_inst_status" class="form-ctrl">
+                                        <option value=""></option>
+                                        <option [value]="stdst.data_key" *ngFor="let stdst of studentStatusList">
+                                            {{stdst.data_value}}
+                                        </option>
+                                    </select>
+                                    <label for="status">Status</label>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div class="radio-options">
+                                    <div class="field-radio-wrapper">
+                                        <input type="radio" value="1" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="active">
+                                        <label for="active">Active</label>
+                                    </div>
+                                    <div class="field-radio-wrapper">
+                                        <input type="radio" value="2" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="Inactive">
+                                        <label for="Inactive">Inactive</label>
+                                    </div>
+                                    <div class="field-radio-wrapper">
+                                        <input type="radio" value="3" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="both">
+                                        <label for="both">both</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="c-lg-4 c-md-4 c-sm-4">
-                                    <div class="field-wrapper">
-                                        <select id="school" name="school" [(ngModel)]="advancedFilterForm.school" class="form-ctrl">
-                                            <option value=""></option>
-                                            <option [value]="sch.school_id" *ngFor="let sch of schoolList">
-                                                {{sch.school_name}}
-                                            </option>
-                                        </select>
-                                        <label for="school">Institutional/Custom2</label>
-                                    </div>
-                                </div>
 
-                                <div class="c-lg-4 c-md-4 c-sm-4">
-                                    <div class="field-wrapper">
-                                        <select id="status" [(ngModel)]="advancedFilterForm.language_inst_status" class="form-ctrl">
-                                            <option value=""></option>
-                                            <option [value]="stdst.data_key" *ngFor="let stdst of studentStatusList">
-                                                {{stdst.data_value}}
-                                            </option>
-                                        </select>
-                                        <label for="status">Status</label>
-                                    </div>
-                                </div>
-
-                                <div class="c-lg-4 c-md-4 c-sm-4">
-                                    <div class="radio-options">
-                                        <div class="field-radio-wrapper">
-                                            <input type="radio" value="1" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="active">
-                                            <label for="active">Active</label>
-                                        </div>
-                                        <div class="field-radio-wrapper">
-                                            <input type="radio" value="2" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="Inactive">
-                                            <label for="Inactive">Inactive</label>
-                                        </div>
-                                        <div class="field-radio-wrapper">
-                                            <input type="radio" value="3" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="both">
-                                            <label for="both">both</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <custom-student *ngFor="let component of customComponents">
 
                                 <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
@@ -320,20 +326,25 @@
                                 </div>
 
                             </custom-student>
+
                             <div class="row">
-                                <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
+                                <div class="c-lg-8 c-md-8 c-sm-8 pull-left">
                                     <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" (click)='advancedSearch()'>
                                 </div>
-                                <div class="c-lg-4 c-md-4 c-sm-4"></div>
-                                <div class="c-lg-4 c-md-4 c-sm-4 pull-right"></div>
+                                <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
+                                    <input type="button" class="btn filterSearchBtn" value="Clear Advanced Filter" (click)='clearAdvancedFilterForm()'>
+                                </div>
                             </div>
+
                         </div>
 
                     </div>
+
                 </div>
             </section>
-
-
+        <!-- =============================================================================== -->
+        <!-- =============================================================================== -->
+        <!-- =============================================================================== -->
             <!-- Data table here -->
             <section class="search-data">
 
@@ -542,17 +553,19 @@
                                                 <a href="javascript:void(0)" (click)="editStudent(row)">Edit</a>
                                             </label>
                                         </td>
+
                                         <td>
                                             <label>
                                                 <a href="javascript:void(0)" (click)="deleteStudentOpen(row)">Delete</a>
                                             </label>
                                         </td>
+
                                         <td>
                                             <div class="tooltip-table pos-rel">
-                                                <a href="javascript:void(0)" (click)="editComment(row)">
-                                                    <i class="fa fa-sticky-note-o" aria-hidden="true"></i>
+                                                <a href="javascript:void(0)" (click)="openEditComment(row)">
+                                                    <i style="font-family: FontAwesome;" class="fa fa-sticky-note-o" aria-hidden="true"></i>
                                                 </a>
-                                                <div class="tooltip-box">
+                                                <div class="tooltip-box" *ngIf="row.data.comments != ''">
                                                     {{row.data.comments}}
                                                 </div>
                                             </div>
@@ -590,9 +603,14 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <a>
-                                                {{row.data.noOfBatchesAssigned}}
-                                            </a>
+                                            <div class="tooltip-table pos-rel">
+                                                <a href="javascript:void(0)">
+                                                    {{row.data.noOfBatchesAssigned}}
+                                                </a>
+                                                <div class="tooltip-box-batch" *ngIf="row.data.batchesAssigned != ''">
+                                                    {{row.data.batchesAssigned}}
+                                                </div>
+                                            </div>                                            
                                         </td>
 
                                         <td [hidden]="!selectedOption.student_email.show">
@@ -660,20 +678,19 @@
                 </div>
 
 
- 
+
 
             </section>
-
-
-
-
+        <!-- =============================================================================== -->
+        <!-- =============================================================================== -->
+        <!-- =============================================================================== -->
         </section>
-
     </aside>
 
 
-
+    <!-- =============================================================================== -->
     <!-- Delete PopUp -->
+    <!-- =============================================================================== -->
     <section id="popup" class="popupWrapper fadeIn" *ngIf="isDeleteStudentPrompt">
         <div class="popup pos-abs">
             <div class="popup-wrapper pos-rel">
@@ -709,6 +726,49 @@
         </div>
     </section>
 
+
+
+    <!-- =============================================================================== -->
+    <!-- Add Comment Popup -->
+    <!-- =============================================================================== -->    
+    <section id="popup" class="popupWrapper fadeIn" *ngIf="isAddComment">
+        <div class="popup pos-abs">
+            <div class="popup-wrapper pos-rel">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeEditComment()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                            </g>
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                            />
+                        </g>
+                    </svg>
+                </span>
+                <div class="popup-content">
+                    <h2>Add Comment - Student Name: {{selectedRow.data.student_name}}</h2>
+                    <div class="update-enquiry-form overflowHidden">
+                        <div class="enquiry-update-history" style="max-height: max-content;">
+                            <div class="field-wrapper">
+                                <textarea placeholder="Update Comment Here (max 1000 characters)" rows="1" cols="10" style="height: 60px;" id="addcommentEdit"
+                                    class="form-ctrl" [(ngModel)]="selectedRow.data.comments">
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="clearfix">
+                                <aside class="pull-right popup-btn">
+                                    <input type="button" value="Cancel" class="btn" (click)="closeEditComment()">
+                                    <input type="button" value="Add" class="redBtn btn" (click)="updateComment()">
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
 </section>

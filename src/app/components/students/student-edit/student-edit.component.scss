@@ -16,6 +16,26 @@
     }
 }
 
+.multiselect-wrapper {
+    padding: 5px;
+    border: 1px solid $border-color;
+    position: relative;
+    z-index: 100;
+    background: white;
+    min-width: 300px;
+    min-height: 50px;
+    top: -26px;
+    .multiselect-wrapper-inner {
+        padding: 10px;
+        ul {
+            li {
+                height: 40px;
+                padding: 10px 0px 0px 5px;
+            }
+        }
+    }
+}
+
 .navigator {}
 
 .image-upload-wrapper {

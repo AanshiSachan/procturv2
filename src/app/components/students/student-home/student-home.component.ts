@@ -58,6 +58,12 @@ export class StudentHomeComponent implements OnInit {
   isProfessional: boolean = false;
   currentDirection: string = 'desc';
   isDeleteStudentPrompt: boolean = false;
+  isAddComment: boolean = false;
+
+  private editForm: any = {
+    comments: "",
+    institution_id: sessionStorage.getItem('institute_id')
+  }
 
 
   private headerArr: any = {
@@ -384,7 +390,7 @@ export class StudentHomeComponent implements OnInit {
 
 
 
-  
+
   /* fetch the data from server based on specific page number by converting the index into start_index */
   fectchTableDataByPage(index) {
     this.instituteData.start_index = index.start_index;
@@ -433,17 +439,12 @@ export class StudentHomeComponent implements OnInit {
 
 
 
-  /* update the latest comment for the selected student */
-  editComment(row) {
-    console.log(row);
-  }
-
 
   /* Delete the student selected or archieve the student selected */
   deleteStudent() {
     let obj = {
-      studentIds: this.selectedRow.data.student_id,
-      studentAlumniArrayString: "N,N"
+      studentIds: this.selectedRow.data.student_id.toString(),
+      studentAlumniArrayString: "Y"
     }
     this.postService.archieveStudents(obj).subscribe(
       res => {
@@ -527,6 +528,7 @@ export class StudentHomeComponent implements OnInit {
   openAdFilter() {
     //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
     document.getElementById('adFilterOpen').classList.add('hide');
+    document.getElementById('basic-search').classList.add('hide');
     document.getElementById('adFilterExit').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.remove('hide');
   }
@@ -538,6 +540,7 @@ export class StudentHomeComponent implements OnInit {
   closeAdFilter() {
     //document.getElementById('middleMainForEnquiryList').classList.remove('hasFilter');
     document.getElementById('adFilterExit').classList.add('hide');
+    document.getElementById('basic-search').classList.remove('hide');
     document.getElementById('adFilterOpen').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.add('hide');
   }
@@ -552,8 +555,8 @@ export class StudentHomeComponent implements OnInit {
     let tempCustomArr: any[] = [];
 
     this.customComponents.forEach(el => {
+      //console.log(el);
       if (el.is_searchable == 'Y' && el.value != "") {
-        //console.log(el);
         let obj = {
           component_id: el.id,
           enq_custom_value: el.value
@@ -780,12 +783,11 @@ export class StudentHomeComponent implements OnInit {
 
   /* if custom component is of type multielect then update the selected or unselected data*/
   updateMultiSelect(data, id) {
+
     this.customComponents.forEach(el => {
       if (el.id == id) {
         el.prefilled_data.forEach(com => {
-          //console.log(com);
           if (com.data == data.data) {
-            /* Component checked */
             if (com.checked) {
               el.selected.push(com.data);
               if (el.selected.length != 0) {
@@ -794,11 +796,10 @@ export class StudentHomeComponent implements OnInit {
               else {
                 document.getElementById(id + 'wrapper').classList.remove('has-value');
               }
-              //console.log(com.selected);
               el.selectedString = el.selected.join(',');
               el.value = el.selectedString;
+
             }
-            /* Component unchecked */
             else {
               if (el.selected.length != 0) {
                 document.getElementById(id + 'wrapper').classList.add('has-value');
@@ -806,19 +807,12 @@ export class StudentHomeComponent implements OnInit {
               else if (el.selected.length == 0) {
                 document.getElementById(id + 'wrapper').classList.remove('has-value');
               }
-              //console.log(com.selected);
               var index = el.selected.indexOf(data.data);
               if (index > -1) {
                 el.selected.splice(index, 1);
               }
               el.selectedString = el.selected.join(',');
               el.value = el.selectedString;
-              /* var index2 = el.selected.indexOf(data.data);
-                if (index2 > -1) {
-                el.selected.splice(index, 1);
-                }
-                el.selectedString = el.selected.join(','); 
-              */
             }
           }
         });
@@ -877,8 +871,145 @@ export class StudentHomeComponent implements OnInit {
 
 
 
+  clearAdvancedFilterForm() {
+
+    this.advancedFilterForm = {
+      school_id: -1,
+      standard_id: -1,
+      batch_id: -1,
+      name: "",
+      is_active_status: 1,
+      mobile: "",
+      language_inst_status: -1,
+      subject_id: -1,
+      slot_id: "",
+      master_course_name: "",
+      course_id: -1,
+      start_index: 0,
+      batch_size: this.studentdisplaysize
+    }
+
+    this.customComponents.forEach(el => {
+      //console.log(el);
+      el.selectedString = '';
+      el.selected = [];
+      el.value = '';
+    });
+  }
 
 
 
+
+  searchDatabase() {
+    /* If User has entered an empty value needs to be informed */
+    if (this.searchBarData == '' || this.searchBarData == ' ' || this.searchBarData == null || this.searchBarData == undefined) {
+      this.instituteData = {
+        school_id: -1,
+        standard_id: -1,
+        batch_id: -1,
+        name: '',
+        is_active_status: 1,
+        mobile: "",
+        language_inst_status: -1,
+        subject_id: -1,
+        slot_id: "",
+        master_course_name: "",
+        course_id: -1,
+        start_index: 0,
+        batch_size: this.studentdisplaysize,
+        sorted_by: '',
+        order_by: ''
+      };
+      this.busy = this.loadTableDataSource(this.instituteData);
+    }/* valid input detected, check for type of input */
+    else {
+      /* If input is of type string then validate string validity*/
+      if (isNaN(this.searchBarData)) {
+        this.instituteData = {
+          school_id: -1,
+          standard_id: -1,
+          batch_id: -1,
+          name: this.searchBarData,
+          is_active_status: 1,
+          mobile: "",
+          language_inst_status: -1,
+          subject_id: -1,
+          slot_id: "",
+          master_course_name: "",
+          course_id: -1,
+          start_index: 0,
+          batch_size: this.studentdisplaysize,
+          sorted_by: '',
+          order_by: ''
+        };
+        this.busy = this.loadTableDataSource(this.instituteData);
+      }/* If not string then use the data as a number*/
+      else {
+        this.instituteData = {
+          school_id: -1,
+          standard_id: -1,
+          batch_id: -1,
+          name: '',
+          is_active_status: 1,
+          mobile: this.searchBarData,
+          language_inst_status: -1,
+          subject_id: -1,
+          slot_id: "",
+          master_course_name: "",
+          course_id: -1,
+          start_index: 0,
+          batch_size: this.studentdisplaysize,
+          sorted_by: '',
+          order_by: ''
+        };
+        this.busy = this.loadTableDataSource(this.instituteData);
+      }
+
+    }
+  }
+
+
+
+
+
+  /* update the latest comment for the selected student */
+  openEditComment(row) {
+    this.selectedRow = row;
+    this.isAddComment = true;
+  }
+
+
+  /* update the latest comment for the selected student */
+  closeEditComment() {
+    this.isAddComment = false;
+  }
+
+
+  /* update the latest comment for the selected student */
+  updateComment() {
+
+    this.editForm.comments = this.selectedRow.data.comments;
+
+    this.postService.updateComment(this.editForm, this.selectedRow.data.student_id).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: 'Comment Added'
+        }
+        this.appC.popToast(msg);
+        this.editForm.comments = '';
+        this.closeEditComment();
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: 'Failed To Add Comment',
+          body: 'Please check your internet connection, if the issue persist contact proctur support'
+        }
+        this.appC.popToast(msg);
+
+      }
+    )
+  }
 
 }

@@ -31,7 +31,7 @@ export class getSMSService {
         obj.from_date = obj.from_date == '' ? moment().format('YYYY-MM-DD') : moment(obj.from_date).format('YYYY-MM-DD');
         obj.to_date = obj.to_date == '' ? '' : moment(obj.to_date).format('YYYY-MM-DD');
 
-        let urlSmsReport = this.baseUrl + "/alerts/config/smsReport";
+        let urlSmsReport = this.baseUrl + "/api/v1/alerts/config/smsReport";
 
         return this.http.post(urlSmsReport, obj, { headers: this.headers }).map(
             res => {
@@ -41,21 +41,6 @@ export class getSMSService {
                 return err.json();
             }
         )
-
-        /* let urlSmsReport = "http://test999.proctur.com/Reports";
-
-        let payload = "institution_id=100057&report_type=sms_report&username=18274%7C0&password=admin&from_date=2017-12-24&to_date="
-
-        let headerpost = new Headers();
-        headerpost.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        return this.http.post(urlSmsReport, payload, { headers: headerpost }).map(
-            res => {
-                return res.json().aaData;
-            },
-            err => {
-                return err.json();
-            }
-        ) */
 
     }
 

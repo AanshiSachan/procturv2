@@ -12,7 +12,7 @@ import { document } from '../../../../assets/imported_modules/ngx-bootstrap/util
 import { Subscription } from 'rxjs';
 import { LoginService } from '../../../services/login-services/login.service';
 import 'rxjs/Rx';
-import 'rxjs/add/operator/filter';  
+import 'rxjs/add/operator/filter';
 
 @Component({
   selector: 'app-student-add',
@@ -83,7 +83,16 @@ export class StudentAddComponent implements OnInit {
   private assignedBatchString: string = '';
   private userImageEncoded: string = '';
   busyPrefill: Subscription;
-  private isConvertEnquiry:boolean = false;
+  private isConvertEnquiry: boolean = false;
+  private isNewInstitute: boolean = true;
+  private isNewInstituteEditor: boolean = false;
+  school: any[] = [];
+  removeImage: boolean = false;
+
+  createInstitute = {
+    instituteName: "",
+    isActive: "Y"
+  }
 
 
 
@@ -230,7 +239,7 @@ export class StudentAddComponent implements OnInit {
   fetchPrefillFormData() {
 
     let inventory = this.studentPrefillService.fetchInventoryList().subscribe(data => {
-      
+
     });
 
     let institute = this.prefill.getSchoolDetails().subscribe(data => {
@@ -436,7 +445,7 @@ export class StudentAddComponent implements OnInit {
             this.appC.popToast(alert);
             localStorage.removeItem('tempImg');
             form.reset();
-            document.getElementById('preview-img').src = '';
+            this.removeImage = true;
             this.clearFormAndMove();
           }
           else if (statusCode == 2) {
@@ -446,7 +455,8 @@ export class StudentAddComponent implements OnInit {
               body: 'An enquiry with the same contact number seems to exist'
             }
             form.reset();
-            document.getElementById('preview-img').src = '';
+            this.removeImage = true;
+            //document.getElementById('preview-img').src = '';
             this.appC.popToast(alert);
             this.isDuplicateContactOpen();
           }
@@ -503,7 +513,7 @@ export class StudentAddComponent implements OnInit {
           elm.addEventListener('focusout', function (event) {
             event.target.parentNode.classList.add('has-value');
           });
-  
+
         });
       }
       else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
@@ -663,11 +673,11 @@ export class StudentAddComponent implements OnInit {
 
 
   fetchCourseFromMaster(id) {
-   
-    if(id == null || id == ''){
+
+    if (id == null || id == '') {
       this.courseList = [];
     }
-    else{
+    else {
       this.studentPrefillService.fetchCourseList(id).subscribe(
         res => {
           this.courseList = res;
@@ -680,7 +690,7 @@ export class StudentAddComponent implements OnInit {
 
 
 
-  uploadHandler() {
+  /* uploadHandler() {
     let file = document.querySelector('input[type=file]').files[0];
     let reader = new FileReader();
     let preview = document.getElementById('preview-img');
@@ -694,17 +704,8 @@ export class StudentAddComponent implements OnInit {
         localStorage.setItem('tempImg', reader.result.split(',')[1]);
       }
     }
-  }
+  } */
 
-
-
-
-  removeImage() {
-    document.querySelector('input[type=file]').value = '';
-    let preview = document.getElementById('preview-img');
-    preview.src = "";
-    localStorage.removeItem('tempImg');
-  }
 
 
 
@@ -795,7 +796,8 @@ export class StudentAddComponent implements OnInit {
       language_inst_status: null,
       stuCustomLi: []
     }
-    document.getElementById('preview-img').src = '';
+    this.removeImage = true;
+    //document.getElementById('preview-img').src = '';
     this.fetchPrefillFormData();
   }
 
@@ -869,14 +871,170 @@ export class StudentAddComponent implements OnInit {
     };
     form.reset();
 
-    if(this.isConvertEnquiry){
+    if (this.isConvertEnquiry) {
       this.router.navigate(['/enquiry']);
     }
-    else{
+    else {
       this.router.navigate(['/student']);
     }
   }
 
 
+  openInstituteAdder() {
+    this.isNewInstituteEditor = true;
+  }
+
+
+  closeInstituteAdder() {
+    this.isNewInstituteEditor = false;
+  }
+
+
+  /* close add new institute */
+  closeAddInstitute() {
+    this.isNewInstitute = false;
+    document.getElementById('add-institute-icon').innerHTML = '+';
+    this.createInstitute.instituteName = '';
+  }
+
+
+  /* function to add institute data to server */
+  addInstituteData() {
+    this.prefill.createNewInstitute(this.createInstitute).subscribe(el => {
+      if (el.message === "OK") {
+        this.prefill.getSchoolDetails().subscribe(
+          data => {
+            this.school = data;
+            this.instituteList = this.school;
+            this.instituteList.forEach(el => {
+              el.edit = false;
+            });
+
+            this.closeAddInstitute();
+          },
+          err => {
+            let alert = {
+              type: 'error',
+              title: 'Failed To Add Institute',
+              body: 'There was an error processing your request'
+            }
+            this.appC.popToast(alert);
+          }
+        );
+        // console.log("institute Added");
+      }
+      else {
+        // console.log("Institute Name already exist!");
+      }
+    });
+  }
+
+
+
+  fetchInstituteInfo() {
+    this.prefill.getSchoolDetails().subscribe(
+      data => {
+        this.school = data;
+        this.instituteList = this.school;
+        this.instituteList.forEach(el => {
+          el.edit = false;
+        });
+      },
+    )
+  }
+
+
+
+
+  editInstitute(id) {
+    this.instituteList.forEach(el => {
+      if (el.school_id == id) {
+        el.edit = true;
+      }
+    });
+  }
+
+
+
+  cancelEditInstitute(id) {
+    this.fetchInstituteInfo();
+  }
+
+
+
+
+  updateInstitute(id) {
+    this.instituteList.forEach(el => {
+      if (el.school_id == id) {
+        this.postService.updateInstituteDetails(id, el).subscribe(
+          res => {
+            let alert = {
+              type: 'success',
+              title: 'institute Name Update',
+            }
+            this.appC.popToast(alert);
+            this.fetchInstituteInfo();
+          },
+          err => {
+            let alert = {
+              type: 'error',
+              title: 'We coudn\'t process your request',
+              body: err.message
+            }
+            this.appC.popToast(alert);
+            this.fetchInstituteInfo();
+          }
+        )
+      }
+    });
+  }
+
+
+
+
+  deleteInstitute(id) {
+    this.postService.deleteInstitute(id).subscribe(
+      res => {
+        let alert = {
+          type: 'success',
+          title: 'Institute Record Deleted',
+          body: " The institute data has been removed from your account"
+        }
+        this.appC.popToast(alert);
+        this.fetchInstituteInfo();
+      },
+      err => {
+        let alert = {
+          type: 'error',
+          title: 'Your Delete Request Has Been Denied',
+          body: "The requested institute is currently in use and cannot be deleted"
+        }
+        this.appC.popToast(alert);
+        this.fetchInstituteInfo();
+      }
+    )
+  }
+
+
+
+  /* toggle visibility of new institute form */
+  toggleInstituteAdd() {
+
+    let icon = document.getElementById('add-institute-icon').innerHTML;
+    if (icon == '+') {
+      this.isNewInstitute = true;
+      document.getElementById('add-institute-icon').innerHTML = '-';
+    }
+    else if (icon == '-') {
+      this.isNewInstitute = false;
+      this.createInstitute.instituteName = '';
+      document.getElementById('add-institute-icon').innerHTML = '+';
+    }
+  }
+
+
+  clearDateoJoining() {
+    this.studentAddFormData.doj = ''
+  }
 
 }

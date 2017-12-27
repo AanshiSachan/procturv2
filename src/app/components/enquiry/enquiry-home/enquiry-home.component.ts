@@ -1,8 +1,9 @@
 import {
-  Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener, 
+  Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
   AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
-  SimpleChanges, OnChanges } 
-from '@angular/core';
+  SimpleChanges, OnChanges
+}
+  from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
@@ -37,7 +38,7 @@ import { document } from '../../../../assets/imported_modules/ngx-bootstrap/util
   styleUrls: ['./enquiry-home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges{
+export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
   /* =========================================================================== */
@@ -64,8 +65,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges{
   smsSelectedRowsLength: number = 0; sizeArr: any[] = [25, 50, 100, 150, 200, 500];
   isAllSelected: boolean = false; isApprovedTab: boolean = true; isOpenTab: boolean = false;
   private customComponents: any[] = []; selectedSmsMessage: string = ''; slots: any[] = [];
-  hourArr: any[] = ['','1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  minArr: any[] = [ '','00', '15', '30', '45']; meridianArr: any[] = ['',"AM", "PM"];
+  hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  minArr: any[] = ['', '00', '15', '30', '45']; meridianArr: any[] = ['', "AM", "PM"];
   hour: string = ''; minute: string = ''; meridian: string = '';
   newSmsString = {
     data: "",
@@ -383,11 +384,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges{
       else if (message == 'update') {
         this.prefill.fetchCommentsForEnquiry(this.selectedRow.data.institute_enquiry_id).subscribe(res => {
           this.cd.markForCheck();
-          this.updateFormData.priority = res.priority;
-          this.updateFormData.follow_type = res.follow_type;
+          this.updateFormData.priority = this.getPriority(res.priority);
+          this.updateFormData.follow_type = this.getFollowUp(res.follow_type);
           this.updateFormData.statusValue = this.selectedRow.data.statusValue;
           this.updateFormData.followUpDate = moment(this.selectedRow.data.followUpDate).format('YYYY-MM-DD');
-          if(this.selectedRow.data.followUpTime != ''){
+          if (this.selectedRow.data.followUpTime != '') {
             //console.log(moment(this.selectedRow.data.followUpDateTime).format('h'));
             this.hour = moment(this.selectedRow.data.followUpDateTime).format('h');
             document.getElementById('hourpar').classList.add('has-value');
@@ -1797,10 +1798,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges{
 
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
-    if(this.validateTime()){
+    if (this.validateTime()) {
       this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
+      this.updateFormData.follow_type = this.getFollowUpReverse(this.updateFormData.follow_type);
+      this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
       let followupdateTime: string = "";
-      if(this.hour != ''){
+      if (this.hour != '') {
         let followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + followUpTime;
         this.updateFormData.followUpTime = followUpTime;
@@ -1813,16 +1816,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges{
             title: 'Enquiry Updated',
             body: 'Your enquiry has been successfully submitted'
           }
-          this.selectedRow.data.priority = this.updateFormData.priority;
-          this.selectedRow.data.follow_type = this.updateFormData.follow_type;
+ 
+          this.selectedRow.data.priority = this.getPriority(this.updateFormData.priority);
+          this.selectedRow.data.follow_type = this.getFollowUp(this.updateFormData.follow_type);
           this.selectedRow.data.statusValue = this.updateFormData.statusValue;
           this.selectedRow.data.status = this.enqstatus.forEach(el => { if (el.data_value == this.updateFormData.statusValue) { return el.data_key; } });
           this.selectedRow.data.updateDate = moment().format();
-          if(this.hour != ''){
-            let dateTime = 
-            this.selectedRow.data.followUpDateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + this.updateFormData.followUpTime;
-          }   
-          else if(this.hour == ''){
+          if (this.hour != '') {
+            let dateTime =
+              this.selectedRow.data.followUpDateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + this.updateFormData.followUpTime;
+          }
+          else if (this.hour == '') {
             this.selectedRow.data.followUpDateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
           }
           this.appC.popToast(msg);
@@ -1836,15 +1840,15 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges{
             body: 'There was an error processing your request'
           }
           this.appC.popToast(alert);
-      })
+        })
     }
-    else{
+    else {
       let msg = {
         type: 'error',
         title: 'Invalid Time Input',
         body: 'Please select a valid time for follow up'
-        }
-        this.appC.popToast(msg);
+      }
+      this.appC.popToast(msg);
     }
   }
 
@@ -1854,14 +1858,14 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges{
 
 
 
-  validateTime(): boolean{
+  validateTime(): boolean {
     /* some time selected by user or nothing*/
-   if((this.hour != '' && this.minute != '' && this.meridian != '')||(this.hour == '' && this.minute == '' && this.meridian == '')){
-     return true;
-   } 
-   else{      
-    return false;
-   }
+    if ((this.hour != '' && this.minute != '' && this.meridian != '') || (this.hour == '' && this.minute == '' && this.meridian == '')) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
 
@@ -1875,11 +1879,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges{
     this.cd.markForCheck();
     this.pops.changeMessage('update');
     this.prefill.fetchCommentsForEnquiry(this.selectedRow.data.institute_enquiry_id).subscribe(res => {
-      this.updateFormData.priority = res.priority;
-      this.updateFormData.follow_type = res.follow_type;
+      this.updateFormData.priority = this.getPriority(res.priority);
+      this.updateFormData.follow_type = this.getFollowUp(res.follow_type);
       this.updateFormData.statusValue = this.selectedRow.data.statusValue;
       this.updateFormData.followUpDate = moment(this.selectedRow.data.followUpDate).format('YYYY-MM-DD');
-      if(this.selectedRow.data.followUpTime != ''){
+      if (this.selectedRow.data.followUpTime != '') {
         //console.log(moment(this.selectedRow.data.followUpDateTime).format('h'));
         this.hour = moment(this.selectedRow.data.followUpDateTime).format('h');
         document.getElementById('hourpar').classList.add('has-value');
@@ -2886,6 +2890,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges{
     };
 
     this.customComponents.forEach(el => {
+      el.selectedString = '';
+      el.selected = [];
       el.value = '';
     });
     this.cd.markForCheck();
@@ -3276,6 +3282,50 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges{
 
   }
 
+
+  getPriority(id): string {
+    let temp: string = ""
+    this.enqPriority.forEach(el => {
+      if (el.data_key === id) {
+        temp = el.data_value;
+      }
+    });
+    //console.log(temp);
+    return temp;
+  }
+
+
+  getFollowUp(id): string {
+    let temp: string = ""
+    this.enqFollowType.forEach(el => {
+      if (el.data_key === id) {
+        temp = el.data_value;
+      }
+    });
+    return temp;
+  }
+
+
+  getFollowUpReverse(id): string {
+    let temp: string = ""
+    this.enqFollowType.forEach(el => {
+      if (el.data_value === id) {
+        temp = el.data_key;
+      }
+    });
+    return temp;
+  }
+
+  getPriorityReverse(id): string {
+    let temp: string = ""
+    this.enqPriority.forEach(el => {
+      if (el.data_value === id) {
+        temp = el.data_key;
+      }
+    });
+    //console.log(temp);
+    return temp;
+  }
 
 
   /* Function to convert all select-option tag to ul-li */

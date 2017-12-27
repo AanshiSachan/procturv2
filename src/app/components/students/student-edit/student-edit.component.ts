@@ -803,4 +803,9 @@ export class StudentEditComponent implements OnInit {
     this.router.navigate(['/student']);
   }
 
+
+
+  clearDateoJoining(){
+    this.studentEditFormData.doj = ''    
+  }
 }

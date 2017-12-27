@@ -4,6 +4,69 @@
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
 @import "./src/app/components/enquiry/enquiry-add/enquiry-add.component.scss";
+
+
+
+
+
+
+
+
+
+.enquiry-detail {
+    .field-wrapper {
+        position: relative;
+        padding-top: 10px;
+        &.datePickerBox {
+            .form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url("/./assets/images/calendar.svg") no-repeat;
+                position: absolute;
+                right: 50px;
+                top: 18px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+        .date-clear {
+            position: absolute;
+            right: 5px;
+            top: 25px;
+            cursor: pointer;
+            color: #0084f6;
+        }
+    }
+    .field-wrapper {
+        position: relative;
+        padding-top: 10px;
+        &.datePickerBox {
+            .form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url('/./assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 50px;
+                top: 18px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
+
 .student-flow-wrapper {
     padding: 0 15px;
 }
@@ -18,7 +81,25 @@
 
 .navigator {}
 
-
+.multiselect-wrapper {
+    padding: 5px;
+    border: 1px solid $border-color;
+    position: relative;
+    z-index: 100;
+    background: white;
+    min-width: 300px;
+    min-height: 50px;
+    top: -26px;
+    .multiselect-wrapper-inner {
+        padding: 10px;
+        ul {
+            li {
+                height: 40px;
+                padding: 10px 0px 0px 5px;
+            }
+        }
+    }
+}
 
 .other-detail-wrapper {
     .row {

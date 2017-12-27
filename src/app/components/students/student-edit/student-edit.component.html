@@ -257,40 +257,7 @@
 
 
             <div class="common-right-section">
-              <!-- <h4>
-                  <strong>Enquiry Details</strong>
-                </h4>
-                <section class="shadow-box clearfix">
-                  <div class="last-added-info">
-                    <ul>
-                      <li>
-                        <span class="last-user-name">
-                          <strong>Last Added Name -</strong>
-                          <dfn>Shani Maurya</dfn>
-                        </span>
-                        <span class="view-details">
-                          <a href="#">View details</a>
-                        </span>
-                      </li>
-                      <li>
-                        <span class="last-Enquiry-no">
-                          <strong>Enquiry No. -</strong>
-                          <dfn>1020</dfn>
-                        </span>
-  
-                      </li>
-                      <li>
-                        <span class="status">
-                          <strong>Status -</strong>
-                          <strong>
-                            <dfn class="admitted-status">Open</dfn>
-                          </strong>
-                        </span>
-  
-                      </li>
-                    </ul>
-                  </div>
-                </section> -->
+           
             </div>
 
 
@@ -301,12 +268,10 @@
               </h4>
               <div class="box-shadow-lite">
 
-                <div class="field-wrapper has-value">
+                <div class="field-wrapper datePickerBox has-value">
                   <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" [(ngModel)]="studentEditFormData.doj" />
                   <label for="doj">Date of Joining</label>
-                  <span class="follow-up-date-icon">
-                    <img src="./assets/images/calendar.svg" alt="" />
-                  </span>
+                  <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span>
                 </div>
 
                 <div class="field-wrapper has-value">
@@ -317,7 +282,6 @@
                     </option>
                   </select>
                   <label for="schoolStitution">School/Institution</label>
-                  <span class="open-accor">+</span>
                 </div>
 
                 <!-- ================================================================= -->
@@ -334,8 +298,8 @@
                 </div>
 
 
-                <div id="assignCoursesParent" class="field-wrapper has-value" *ngIf="isAcad">
-                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" (click)="openAssignBatch()" />
+                <div id="assignCoursesParent" class="field-wrapper has-value" (click)="openAssignBatch()" *ngIf="isAcad">
+                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" disabled/>
                   <label for="assignCourses">Assign Courses</label>
                 </div>
 
@@ -372,7 +336,7 @@
                 </div>
 
                 <div id="slotwrapper" class="field-wrapper has-value" *ngIf="isProfessional" (click)="multiselectVisible($event.target.id)">
-                  <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" />
+                  <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" disabled/>
                   <label for="assignCourses">Slots</label>
                 </div>
                 <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
@@ -398,8 +362,8 @@
                   <label for="status">Status</label>
                 </div>
 
-                <div id="assignCoursesParent" class="field-wrapper has-value" *ngIf="isProfessional">
-                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" (click)="openAssignBatch()" />
+                <div id="assignCoursesParent" class="field-wrapper has-value" *ngIf="isProfessional" (click)="openAssignBatch()">
+                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" disabled/>
                   <label for="assignCourses">Assign Courses</label>
                 </div>
 
@@ -500,8 +464,7 @@
 
                 <div class="row" *ngIf="component.type == 4" input-def>
                   <div id="{{component.id}}wrapper" class="field-wrapper has-value" (click)="multiselectVisible($event.target.id)">
-                    <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
-                    />
+                    <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl" disabled/>
                     <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
                   </div>

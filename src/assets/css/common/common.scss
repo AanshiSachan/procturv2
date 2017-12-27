@@ -3,7 +3,7 @@
 /* Scrollbar thickness changed here for vertical display */
 
 ::-webkit-scrollbar {
-    width: 5px;
+    width: 2px;
 }
 
 
@@ -115,7 +115,7 @@
         }
         &:after {
             content: '';
-            background: url("/../../../../assets/images/calendar.svg") no-repeat;
+            background: url("/./assets/images/calendar.svg") no-repeat;
             position: absolute;
             right: 0;
             top: 18px;
@@ -148,7 +148,7 @@
         }
         &:after {
             content: '';
-            background: url("/../../../../assets/images/calendar.svg") no-repeat;
+            background: url("/./assets/images/calendar.svg") no-repeat;
             position: absolute;
             right: 0;
             top: 18px;
@@ -309,6 +309,10 @@ textarea {
     }
 }
 
+
+input[type="text"][disabled] {
+    background: transparent !important;
+ }
 
 /* ================================================================================================= */
 
@@ -485,7 +489,7 @@ h3 {
         }
         &:after {
             content: '';
-            background: url('/../../../../assets/images/calendar.svg') no-repeat;
+            background: url('/./assets/images/calendar.svg') no-repeat;
             position: absolute;
             right: 0;
             top: 18px;
@@ -1298,7 +1302,7 @@ select.form-new-field {
 /*======================================common menu icon=====================*/
 
 .edit-icon {
-    background: url('/../../../../assets/images/edit_details.svg') no-repeat;
+    background: url('/./assets/images/edit_details.svg') no-repeat;
     width: 19px;
     height: 19px;
     display: inline-block;
@@ -1306,7 +1310,7 @@ select.form-new-field {
 }
 
 .view-icon {
-    background: url('/../../../../assets/images/view_details.svg') no-repeat;
+    background: url('/./assets/images/view_details.svg') no-repeat;
     width: 13px;
     height: 15px;
     display: inline-block;

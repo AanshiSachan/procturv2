@@ -677,6 +677,8 @@ export class EnquiryAddComponent implements OnInit {
     this.meridian = '';
     this.customComponents.forEach(el => {
       el.value = '';
+      el.selectedString = '';
+      el.selected = [];
     });
 
   }

@@ -1,4 +1,4 @@
-import {  Component, EventEmitter, Input, Output } from '@angular/core';
+import {  Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'pagination',
@@ -6,17 +6,21 @@ import {  Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./pagination.component.scss']
 })
 export class PaginationComponent {
+  
   @Input() page: number;
   @Input() count: number;
   @Input() perPage: number;
   @Input() loading: boolean;
   @Input() pagesToShow: number;
 
+
   @Output() goPrev = new EventEmitter<boolean>();
   @Output() goNext = new EventEmitter<boolean>();
   @Output() goPage = new EventEmitter<number>();
 
   constructor() { }
+
+  
 
   getMin(): number {
     return ((this.perPage * this.page) - this.perPage) + 1;

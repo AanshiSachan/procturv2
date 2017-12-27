@@ -10,7 +10,33 @@
 
 
 
-
+.tooltip-table {
+    &:hover .tooltip-box-batch {
+        visibility: visible;
+        opacity: 1;
+        left: -150px;
+    }
+    .tooltip-box-batch {
+        position: absolute;
+        min-width: 100px;
+        max-width: 150px;
+        min-height: 30px;
+        max-height: 40px;
+        background: rgb(245, 245, 237);
+        border: 1px solid #ccc;
+        left: -100px;
+        z-index: 1;
+        top: -8px;
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.1s linear 0.1s;
+        font-size: 11px;
+        border-radius: 4px;
+        padding: 2px;
+        box-shadow: 0px 0px 10px rgb(22, 21, 21);
+        overflow:hidden;
+    }
+}
 
 
 
@@ -102,6 +128,26 @@
 
 
 
+.multiselect-wrapper {
+    padding: 5px;
+    border: 1px solid $border-color;
+    position: absolute;
+    z-index: 100;
+    background: white;
+    min-width: 400px;
+    min-height: 50px;
+    top: 35px;
+    .multiselect-wrapper-inner {
+        padding: 10px;
+        ul {
+            li {
+                height: 40px;
+                padding: 10px 0px 0px 5px;
+            }
+        }
+    }
+}
+
 
 
 
@@ -170,7 +216,7 @@
             }
             &:after {
                 content: '';
-                background: url('/../../../../assets/images/calendar.svg') no-repeat;
+                background: url('/./assets/images/calendar.svg') no-repeat;
                 position: absolute;
                 left: 75% !important;
                 top: 5px !important;
@@ -181,6 +227,10 @@
         }
     }
 }
+
+
+
+
 
 .AdFilter-field {
     box-sizing: border-box;
@@ -529,11 +579,11 @@
 .export-print {
     margin-bottom: 10px;
     .print-icon {
-        background: url('../../../../assets/images/print.svg') no-repeat;
+        background: url('/./assets/images/print.svg') no-repeat;
         color: #888;
     }
     .export-icon {
-        background: url('../../../../assets/images/expand.svg') no-repeat;
+        background: url('/./assets/images/expand.svg') no-repeat;
         margin-left: 25px;
         position: relative;
         &:hover {
@@ -546,7 +596,7 @@
         }
     }
     .report-icon {
-        background: url(../../../../assets/images/expensesg.svg) no-repeat;
+        background: url('/./assets/images/expensesg.svg') no-repeat;
         margin-left: 25px;
     }
     .report-icon,

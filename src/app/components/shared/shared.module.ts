@@ -6,6 +6,8 @@ import { TableLayoutComponent } from './custom-table/table-layout.component';
 import { FormatCellPipe } from './custom-table/format-cell.pipe';
 import { StyleCellDirective } from './custom-table/style-cell.directive';
 import { PaginationComponent } from './pagination/pagination.component';
+import { ImageUploadComponent } from './image-uploader/image-upload.component';
+
 
 @NgModule({
     imports: [
@@ -16,12 +18,14 @@ import { PaginationComponent } from './pagination/pagination.component';
         TableLayoutComponent,
         FormatCellPipe,
         StyleCellDirective,
-        PaginationComponent
+        PaginationComponent,
+        ImageUploadComponent
     ],
     exports: [
         CommonModule,
         TableLayoutComponent,
-        PaginationComponent
+        PaginationComponent,
+        ImageUploadComponent
     ],
     providers: [CurrencyPipe]
 })

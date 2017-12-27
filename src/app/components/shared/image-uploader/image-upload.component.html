@@ -1,0 +1,22 @@
+<div class="uploader-main">
+    <div class="uploader-inner">
+        <div class="preview-wrapper">
+            <div class="preview-inner">
+                <div class="preview">
+                    <div style="width: 200px; height: 200px; top: 0px; left: 0px; position: absolute;">
+                        <img #uploadedImage id="uploadedImage" src="" class="" style="height: 100%; width: 100%;">
+                    </div>
+                </div>
+            </div>
+            <div class="preview-drop">
+                <ul>
+                    <li (click)="openUploader()">
+                        Upload photo
+                        <input #uploadImage id="uploadImage" type="file" accept="image/gif,image/jpeg,image/jpg,image/png" style="visibility: hidden; opacity: 0;" (change)="uploadHandler($event)">
+                    </li>
+                    <li (click)="removeImage()">Remove photo</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -26,6 +26,13 @@ export class SmsReportComponent implements OnInit {
 
   isProfessional: boolean = false;
   smsSource: any[] = [];
+  sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
+  displayBatchSize: number = 1000;
+  PageIndex: number = 1;
+  maxPageSize: number = 0; totalRecords: number = 0;
+  currentDirection = 'desc';
+
+
 
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'name', header: 'Name' },
@@ -41,13 +48,17 @@ export class SmsReportComponent implements OnInit {
 
   smsFetchForm: any = {
     institution_id: parseInt(sessionStorage.getItem('institute_id')),
-    from_date: '',
-    to_date: ''
+    from_date: moment().format('YYYY-MM-DD'),
+    to_date: moment().format('YYYY-MM-DD'),
+    start_index: 0,
+    batch_size: this.displayBatchSize,
+    sorted_by: "",
+    order_by: "",
   }
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private cd: ChangeDetectorRef,
     private getSms: getSMSService, private postSms: postSMSService) {
-
+    this.switchActiveView('sms');
   }
 
   ngOnInit() {
@@ -98,6 +109,47 @@ export class SmsReportComponent implements OnInit {
         });
       }
     }
+  }
+
+
+  switchActiveView(id) {
+    document.getElementById('home').classList.remove('active');
+    document.getElementById('attendance').classList.remove('active');
+    document.getElementById('sms').classList.remove('active');
+    document.getElementById('fee').classList.remove('active');
+    document.getElementById('exam').classList.remove('active');
+    document.getElementById('report').classList.remove('active');
+    document.getElementById('time').classList.remove('active');
+    document.getElementById('email').classList.remove('active');
+    document.getElementById('profit').classList.remove('active');
+    switch (id) {
+      case 'home': { document.getElementById('home').classList.add('active'); break; }
+      case 'attendance': { document.getElementById('attendance').classList.add('active'); break; }
+      case 'sms': { document.getElementById('sms').classList.add('active'); break; }
+      case 'fee': { document.getElementById('fee').classList.add('active'); break; }
+      case 'exam': { document.getElementById('exam').classList.add('active'); break; }
+      case 'report': { document.getElementById('report').classList.add('active'); break; }
+      case 'time': { document.getElementById('time').classList.add('active'); break; }
+      case 'email': { document.getElementById('email').classList.add('active'); break; }
+      case 'profit': { document.getElementById('profit').classList.add('active'); break; }
+    }
+  }
+
+  fetchSmsByDate(){
+    this.getSmsReport(this.smsFetchForm);
+  }
+
+
+  fectchTableDataByPage(){
+
+  }
+
+  fetchNext(){
+
+  }
+
+  fetchPrevious(){
+
   }
 
 

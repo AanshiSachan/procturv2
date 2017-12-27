@@ -166,7 +166,7 @@
     .form-btn-head {
         width: 30px;
         height: 30px;
-        background: url('../../../../assets/images/search.svg') no-repeat center center;
+        background: url('/./assets/images/search.svg') no-repeat center center;
         background-size: 20px 20px;
         margin-top: 2px;
         cursor: pointer;
@@ -184,11 +184,11 @@
         margin-top: 6px;
         display: inline-flex;
         .print-icon {
-            background: url('../../../../assets/images/print.svg') no-repeat;
+            background: url('/./assets/images/print.svg') no-repeat;
             color: #888;
         }
         .export-icon {
-            background: url('../../../../assets/images/expand.svg') no-repeat;
+            background: url('/./assets/images/expand.svg') no-repeat;
             margin-left: 25px;
         }
         .print-icon,
@@ -527,7 +527,7 @@
         &.cal-left {
             left: 0;
             top: 0;
-            background: url('../../../../assets/images/left_arrow.svg') no-repeat center center;
+            background: url('/./assets/images/left_arrow.svg') no-repeat center center;
             background-size: 11px;
             &:hover {
                 border: 1px solid $common-blue;
@@ -536,7 +536,7 @@
         &.cal-right {
             right: 0;
             top: 0;
-            background: url('../../../../assets/images/right_arrow.svg') no-repeat center center;
+            background: url('/./assets/images/right_arrow.svg') no-repeat center center;
             background-size: 11px;
             &:hover {
                 border: 1px solid $common-blue;
@@ -709,7 +709,7 @@
 .mail-notification {
     width: 20px;
     height: 20px;
-    background: url('../../../../assets/images/mial_notification.svg') no-repeat;
+    background: url('/./assets/images/mial_notification.svg') no-repeat;
     cursor: pointer;
     display: inline-block;
 }
@@ -717,7 +717,7 @@
 .mail-notify {
     width: 20px;
     height: 20px;
-    background: url('../../../../assets/images/mail_notify.svg') no-repeat;
+    background: url('/./assets/images/mail_notify.svg') no-repeat;
     cursor: pointer;
     display: inline-block;
 }
@@ -725,7 +725,7 @@
 .reschedule-icon {
     width: 20px;
     height: 20px;
-    background: url('../../../../assets/images/reschedule_class.svg') no-repeat;
+    background: url('/./assets/images/reschedule_class.svg') no-repeat;
     cursor: pointer;
     display: inline-block;
 }
