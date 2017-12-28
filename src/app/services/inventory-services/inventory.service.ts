@@ -41,4 +41,15 @@ export class InventoryService {
     this.headersEncoded.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
   }
 
+  fetchAllItems(){
+    this.url = this.baseUrl + "/api/v1/inventory/item/all/" + this.institute_id;
+
+    return this.http.get(this.url, {headers: this.headers}).map(
+      data => {return data.json() },
+      err => {
+        //  console.log("error fetching template");
+      }
+    );
+  }
+
 }
