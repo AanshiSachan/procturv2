@@ -77,112 +77,97 @@
   
                         <th>
                           <label>
-                            <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.list_name.title)">{{header.list_name.title}}</a>
+                            <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.list_name.title)">{{header.inventory_item.title}}</a>
                           </label>
                         </th>
   
                         <th>
                           <label>
-                            <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.referred_by.title)">{{header.referred_by.title}}</a>
+                            <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.referred_by.title)">{{header.category.title}}</a>
                           </label>
                         </th>
   
                         <th>
                           <label>
-                            <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.source.title)">{{header.source.title}}</a>
+                            <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.source.title)">{{header.master_course.title}}</a>
                           </label>
                         </th>
   
                         <th>
                           <label>
-                            <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.created_date.title)">{{header.created_date.title}}</a>
+                            <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.created_date.title)">{{header.course.title}}</a>
                           </label>
                         </th>
   
                         <th>
                           <label>
-                            <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.status.title)">{{header.status.title}}</a>
+                            <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.status.title)">{{header.total_units.title}}</a>
                           </label>
                         </th>
   
                         <th>
                           <label>
-                            <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.total_count.title)">{{header.total_count.title}}</a>
+                            <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.total_count.title)">{{header.available.title}}</a>
                           </label>
                         </th>
   
                         <th>
                           <label>
-                            <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.success_count.title)">{{header.success_count.title}}</a>
+                            <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.success_count.title)">{{header.edit.title}}</a>
                           </label>
-                        </th>
-  
-                        <th>
-                          <label>
-                            <a class="cursor-icon" style="color:white;"  (click)="sortTableById(header.failure_count.title)">{{header.failure_count.title}}</a>
-                          </label>
-                        </th>
-  
-                        <th>
-                          <label>
-                            <a class="cursor-icon" style="color:white;">{{header.allow_sms.title}}</a>
-                          </label>
-                        </th>
-  
+                        </th>  
                       </tr>
                     </thead>
   
   
-                    <tbody class="" *ngIf="sourceCampaign.length != 0">
+                    <tbody class="" *ngIf="itemList.length != 0">
   
-                      <tr id="row{{i}}" *ngFor="let row of sourceCampaign; let i = index; trackBy: i;">
+                      <tr id="row{{i}}" *ngFor="let row of itemList; let i = index; trackBy: i;">
                         <td (click)="rowClicked(row)">
-                              {{row.data.list_name}}
+                              {{row.item_name}}
                         </td>
   
                         <td>
-                          {{row.data.referred_by}}
+                          {{row.category_name}}
                         </td>
   
                         <td>
-                          {{row.data.source}}
+                          {{row.standard_name}}
                         </td>
   
                         <td>
-                          {{row.data.created_date| date:'dd-MMM-yy'}}
+                         {{row.subject_name}}
                         </td>
   
                         <td>
-                          {{row.data.statusValue}}
+                          {{row.alloted_units}}
                         </td>
   
                         <td>
-                          {{row.data.total_count}}
+                          {{row.available_units}}
                         </td>
-  
-                        <td>
-                          {{row.data.success_count}}
-                        </td>
+
   
   
-                        <td *ngIf="row.data.failure_count == 0">
-                          {{row.data.failure_count}}
-                        </td>
-  
-                        <td *ngIf="row.data.failure_count > 0" style="cursor:pointer" (click)="downloadFailureListFile(row)" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
-                          <a id="template_link_{{row.data.list_id}}">{{row.data.failure_count}}</a>
-                        </td>
-  
-                        <td>
-                          <a  style="cursor: pointer;" (click)="openSmsPopup(row)" *ngIf="row.data.success_count > 0" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
-                            Send
-                          </a>
-                        </td>
+                        <td class="table-action view-comp">
+                          <ul>
+                            <li>
+                              <a (click)="editRow(comp)">Edit</a>
+                            </li>
+                            <li>
+                              <a (click)="addItemRow(comp)">Add</a>
+                            </li>
+                            <li>
+                              <a (click)="deleteRow(comp)">Delete</a>
+                            </li>
+                          </ul>
+                        </td> 
+
                       </tr>
   
                     </tbody>
   
-                    <tbody *ngIf="sourceCampaign.length == 0">
+                    <tbody *ngIf="itemList.length == 0">
                       <tr class="empty-table-wrapper" style="background: none;">
                         <td colspan="12">
                           <ul>                       

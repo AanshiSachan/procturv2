@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /* Services */
 import { FetchenquiryService } from './services/enquiry-services/fetchenquiry.service';
 import { CampaignService } from './services/campaign-services/campaign.service';
+import { InventoryService } from './services/inventory-services/inventory.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
 import { PopupHandlerService } from './services/enquiry-services/popup-handler.service';
 import { FetchStudentService } from './services/student-services/fetch-student.service';
@@ -26,6 +27,7 @@ import { AlertService } from './services/alert.service';
 import { StandardServices } from './services/course-services/standardPost.service'
 import { LoaderHandlingService } from './services/loading-services/loader-handling.service';
 import { Ng2SmartTableModule } from '../assets/imported_modules/ng2-smart-table';
+
 
 /* Interceptors */
 import { LoadInterceptor } from './interceptors/load-interceptor';
@@ -79,7 +81,8 @@ import { PostStudentDataService } from './services/student-services/post-student
     AuthGuard,
     LoaderHandlingService,
     PostStudentDataService,
-    CampaignService
+    CampaignService,
+    InventoryService
   ],
   bootstrap: [AppComponent]
 })
