@@ -49,9 +49,6 @@ export class StudentHomeComponent implements OnInit {
   busy: Subscription;
   busyPrefill: Subscription;
   searchBarData: any = null;
-  PageIndex: number = 0;
-  maxPageSize: number = 0;
-  totalRow: number = 0;
   sizeArr: any[] = [50, 100, 250, 500, 1000];
   bulkActionItems: MenuItem[];
   indexJSON: any[] = [];
@@ -59,6 +56,11 @@ export class StudentHomeComponent implements OnInit {
   currentDirection: string = 'desc';
   isDeleteStudentPrompt: boolean = false;
   isAddComment: boolean = false;
+  perPage: number = 10;
+  PageIndex: number = 1;
+  maxPageSize: number = 0;
+  totalRow: number = 0;
+
 
   private editForm: any = {
     comments: "",
@@ -183,15 +185,10 @@ export class StudentHomeComponent implements OnInit {
   ngOnInit() {
 
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    //console.log(this.isProfessional);
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-
-    sessionStorage.setItem('studentdisplaysize', this.studentdisplaysize.toString());
-    this.busy = this.fetchStudentPrefill();
     this.busy = this.loadTableDataSource(this.instituteData);
-
+    this.busy = this.fetchStudentPrefill();
     this.myOptions = [
       { id: 'alternateEmailID', name: 'Alternate Email' },
       { id: 'dob', name: 'Date Of Birth' },
@@ -210,7 +207,6 @@ export class StudentHomeComponent implements OnInit {
       /* { id: 'student_disp_id', name: 'Student ID.' },
       { id: 'student_name', name: 'Student Name' }, */
     ];
-
     this.bulkActionItems = [
       {
         label: 'Bulk Action 2', icon: 'fa-trash-o', command: () => {
@@ -218,7 +214,6 @@ export class StudentHomeComponent implements OnInit {
         }
       }
     ];
-
   }
 
 
@@ -229,44 +224,23 @@ export class StudentHomeComponent implements OnInit {
   /* Fetch data from server and convert to custom array */
   loadTableDataSource(obj) {
 
-    this.studentDataSource = [];
     this.selectedRow = null;
     this.selectedRowGroup = [];
-
 
     if (obj.start_index == 0) {
       return this.studentFetch.fetchAllStudentDetails(obj).subscribe(
         res => {
           if (res.length != 0) {
-            /* Used to set class activate on click or traverse in future implementation */
-            if (this.indexJSON.length != 0) {
-              this.totalRow = res[0].student_count;
-              this.indexJSON = [];
-              this.setPageSize(this.totalRow);
-              res.forEach(el => {
-                let obj = {
-                  isSelected: false,
-                  show: true,
-                  data: el
-                }
-                this.studentDataSource.push(obj);
-              });
-              return this.studentDataSource;
-            }
-            else {
-              this.totalRow = res[0].student_count;
-              this.indexJSON = [];
-              this.setPageSize(this.totalRow);
-              res.forEach(el => {
-                let obj = {
-                  isSelected: false,
-                  show: true,
-                  data: el
-                }
-                this.studentDataSource.push(obj);
-              });
-              return this.studentDataSource;
-            }
+            this.studentDataSource = [];
+            res.forEach(el => {
+              let obj = {
+                isSelected: false,
+                show: true,
+                data: el
+              }
+              this.studentDataSource.push(obj);
+              this.totalRow = this.studentDataSource.length;
+            });
           }
           else {
             let alert = {
@@ -275,9 +249,44 @@ export class StudentHomeComponent implements OnInit {
               body: 'We did not find any enquiry for the specified query'
             }
             this.appC.popToast(alert);
-            this.totalRow = res.length;
-            this.indexJSON = [];
-            this.setPageSize(this.totalRow);
+            this.studentDataSource = [];
+            this.totalRow = this.studentDataSource.length;
+          }
+        },
+        err => {
+          let alert = {
+            type: 'error',
+            title: 'Failed To Fetch Student List',
+            body: 'please check your internet connnection or try again'
+          }
+          this.totalRow = 0;
+          this.appC.popToast(alert);
+        }
+      )
+    }
+    else {
+      return this.studentFetch.fetchAllStudentDetails(obj).subscribe(
+        res => {
+          if (res.length != 0) {
+            this.studentDataSource = [];
+            res.forEach(el => {
+              let obj = {
+                isSelected: false,
+                show: true,
+                data: el
+              }
+              this.studentDataSource.push(obj);
+            });
+          }
+          else {
+            let alert = {
+              type: 'info',
+              title: 'No Records Found',
+              body: 'We did not find any enquiry for the specified query'
+            }
+            this.appC.popToast(alert);
+            this.totalRow = 0;
+            this.studentDataSource = res;
           }
         },
         err => {
@@ -288,49 +297,7 @@ export class StudentHomeComponent implements OnInit {
           }
           this.appC.popToast(alert);
         }
-      );
-    }
-    else {
-      return this.studentFetch.fetchAllStudentDetails(obj).subscribe(
-        res => {
-          if (res.length != 0) {
-            /* Used to set class activate on click or traverse in future implementation */
-            if (this.indexJSON.length != 0) {
-              res.forEach(el => {
-                let obj = {
-                  isSelected: false,
-                  show: true,
-                  data: el
-                }
-                this.studentDataSource.push(obj);
-              });
-              return this.studentDataSource;
-            }
-            else {
-              res.forEach(el => {
-                let obj = {
-                  isSelected: false,
-                  show: true,
-                  data: el
-                }
-                this.studentDataSource.push(obj);
-              });
-              return this.studentDataSource;
-            }
-          }
-          else {
-            let alert = {
-              type: 'info',
-              title: 'No Records Found',
-              body: 'We did not find any enquiry for the specified query'
-            }
-            this.appC.popToast(alert);
-            this.totalRow = res.length;
-            this.indexJSON = [];
-            this.setPageSize(this.totalRow);
-          }
-        }
-      );
+      )
     }
   }
 
@@ -364,43 +331,38 @@ export class StudentHomeComponent implements OnInit {
 
 
 
-
-  /* If start index is detected as zero then create the pagination json for module */
-  setPageSize(totalCount) {
-    let pageSize = Math.ceil(totalCount / this.instituteData.batch_size);
-    this.maxPageSize = pageSize;
-    let index = {
-      value: null,
-      start_index: null,
-      end_index: null
-    }
-    let start: number = 0;
-
-    for (var i = 1; i <= pageSize; i++) {
-      index = {
-        value: i,
-        start_index: start,
-        end_index: start + (this.studentdisplaysize - 1)
-      }
-      this.indexJSON.push(index);
-      start = start + this.studentdisplaysize;
-    }
-    //document.getElementById('page1').classList.add('active');
-  }
-
-
-
-
   /* fetch the data from server based on specific page number by converting the index into start_index */
   fectchTableDataByPage(index) {
-    this.instituteData.start_index = index.start_index;
+    this.PageIndex = index;
+    let startindex = this.studentdisplaysize * (index - 1);
+    this.instituteData.start_index = startindex;
     //this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
     //this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
-    //sessionStorage.setItem('pageI', index.value);
+    //this.instituteData.filtered_statuses = this.statusString.join(',');
     this.busy = this.loadTableDataSource(this.instituteData);
   }
 
 
+
+
+
+    /* Fetch next set of data from server and update table */
+    fetchNext() {
+      this.PageIndex++;
+      this.fectchTableDataByPage(this.PageIndex);
+    }
+  
+  
+  
+  
+  
+    /* Fetch previous set of data from server and update table */
+    fetchPrevious() {
+      this.PageIndex--;
+      this.fectchTableDataByPage(this.PageIndex);
+    }
+    
+    
 
 
   /* When user click on a row add class 
@@ -605,7 +567,6 @@ export class StudentHomeComponent implements OnInit {
   updateTableBatchSize(num) {
     this.studentdisplaysize = parseInt(num);
     this.bulkActionFunction();
-    sessionStorage.setItem('displayBatchSize', num);
     this.instituteData.batch_size = this.studentdisplaysize;
     this.instituteData.start_index = 0;
     this.studentDataSource = [];
@@ -753,6 +714,7 @@ export class StudentHomeComponent implements OnInit {
 
 
 
+
   /* Custom Compoenent array creater */
   createPrefilledData(dataArr: any[]): any[] {
     let customPrefilled: any[] = [];
@@ -768,6 +730,8 @@ export class StudentHomeComponent implements OnInit {
   }
 
 
+
+
   /* if custom component is of type multielect then toggle the visibility of the dropdowm */
   multiselectVisible(elid) {
     let targetid = elid + "multi";
@@ -778,6 +742,8 @@ export class StudentHomeComponent implements OnInit {
       document.getElementById(targetid).classList.add('hide');
     }
   }
+
+
 
 
 
@@ -823,6 +789,8 @@ export class StudentHomeComponent implements OnInit {
 
 
 
+
+
   /* When user select the master course or standard then fetch the sub or sub course for them */
   updateSubCourse(course) {
     this.masterCourseList.forEach(el => {
@@ -833,6 +801,9 @@ export class StudentHomeComponent implements OnInit {
   }
 
 
+
+
+
   /* when the user select the master course then fetch course for the related */
   fetchCourseForMaster(id) {
     this.studentPrefill.fetchCourseList(id).subscribe(
@@ -841,6 +812,7 @@ export class StudentHomeComponent implements OnInit {
       }
     )
   }
+
 
 
 
@@ -895,6 +867,7 @@ export class StudentHomeComponent implements OnInit {
       el.selected = [];
       el.value = '';
     });
+    
   }
 
 
@@ -979,10 +952,14 @@ export class StudentHomeComponent implements OnInit {
   }
 
 
+
+
   /* update the latest comment for the selected student */
   closeEditComment() {
     this.isAddComment = false;
   }
+
+
 
 
   /* update the latest comment for the selected student */
@@ -1011,5 +988,29 @@ export class StudentHomeComponent implements OnInit {
       }
     )
   }
+
+
+
+
+  getMin(): number {
+    return ((this.perPage * this.PageIndex) - this.perPage) + 1;
+  }
+
+
+
+
+  getMax(): number {
+    if(this.studentDataSource.length != 0){
+      let max = this.studentdisplaysize * this.PageIndex;
+      if (max > this.totalRow) {
+        max = this.totalRow;
+      }
+      return max;
+    }
+  } 
+
+
+
+  
 
 }

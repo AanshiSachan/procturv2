@@ -821,6 +821,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
 
 
+
+
     else if (checkerObj.value == "Admitted") {
       this.stats.All.checked = false;
 
@@ -1065,6 +1067,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
 
 
+    
 
 
     else if (checkerObj.value == "Open") {
@@ -1328,6 +1331,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.stats.Registered.checked = false;
     this.stats.Admitted.checked = false;
     this.stats.Registered.checked = false;
+    this.stats.Inactive.checked = false;
     this.statusString = [];
     this.indexJSON = [];
     this.instituteData.filtered_statuses = this.statusString.join(',');
@@ -1951,9 +1955,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
-
-
-
   /* Make Registration Payment Data update */
   registerPayment() {
     this.registrationForm.institute_enquiry_id = this.selectedRow.data.institute_enquiry_id.toString();
@@ -1993,9 +1994,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
-
-
-
   /* Service to fetch sms records from server and update table*/
   smsServicesInvoked() {
     /* store the data from server and update table */
@@ -2029,8 +2027,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       }
     );
   }
-
-
 
 
 
@@ -2082,8 +2078,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
-
-
   /* SMS search */
   /*   onSearch(query: string = '') {
   
@@ -2096,9 +2090,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   
     }
   */
-
-
-
 
 
 
@@ -2170,10 +2161,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
-
-
-
-
   /* Stores data for row user has clicked of selected */
   appSmsSelected(row, id) {
     this.cd.markForCheck();
@@ -2186,7 +2173,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
-
   /* Stores data for row user has clicked of selected */
   opSmsSelected(row, id) {
     this.cd.markForCheck();
@@ -2194,9 +2180,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     //this.smsBtnToggle = false;
     this.selectedSMS = row;
   }
-
-
-
 
 
 
@@ -2217,9 +2200,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       this.isMessageAddOpen = true;
     }
   }
-
-
-
 
 
 
@@ -2251,9 +2231,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
-
-
-
   /* SMS button visibility */
   editSms() {
     this.smsBtnToggle = true;
@@ -2274,16 +2251,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
-
-
-
   /* Sms edit mode cancel */
   cancelSmsEdit() {
     this.smsBtnToggle = false;
     this.smsServicesInvoked();
   }
-
-
 
 
 
@@ -2316,8 +2288,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       }
     )
   }
-
-
 
 
 
@@ -2448,9 +2418,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
-
-
-
   /* Trigger Bulk Send SMS PopUp */
   sendBulkSms() {
     //console.log(this.selectedRowGroup);
@@ -2468,8 +2435,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       this.appC.popToast(msg)
     }
   }
-
-
 
 
 
@@ -2499,21 +2464,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     };
     this.cd.markForCheck();
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2764,6 +2714,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
+
+
   /* Convert assignee Id to name */
   getAssigneeName(id): string {
     let name: string = '';
@@ -2774,6 +2726,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     });
     return name;
   }
+
+
 
 
 
@@ -2857,6 +2811,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
+
   /* Function to clear the advance filter Manually */
   clearFilterAdvanced() {
     this.advancedFilterForm = {
@@ -2896,6 +2851,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     });
     this.cd.markForCheck();
   }
+
 
 
 
@@ -2980,6 +2936,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
+
   /* Fetch next set of data from server and update table */
   fetchNext() {
     this.PageIndex++;
@@ -2999,17 +2956,18 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
+
   /* Fetch table data by page index */
   fectchTableDataByPage(index) {
     this.PageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
-    //console.log(startindex);
     this.instituteData.start_index = startindex;
     this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
     this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
     this.instituteData.filtered_statuses = this.statusString.join(',');
     this.busy = this.loadTableDatatoSource(this.instituteData);
   }
+
 
 
 
@@ -3034,7 +2992,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
-
   /* Toggle DropDown Menu on Click */
   bulkActionFunctionOpen() {
     if (document.getElementById("bulk-drop").classList.contains('hide')) {
@@ -3046,9 +3003,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+
+
   bulkActionFunctionClose() {
     document.getElementById("bulk-drop").classList.add("hide");
   }
+
 
 
 
@@ -3056,6 +3016,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   customComponentUpdated(val, data) {
     this.componentListObject[data.component_id].enq_custom_value = val;
   }
+
 
 
 
@@ -3099,13 +3060,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     return bytes.buffer;
 
   }
-
-
-
-
-
-
-
 
 
 
@@ -3197,6 +3151,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
+
   /*  */
   sortTableById(id) {
     /* Custom server sided sorting */
@@ -3211,6 +3166,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
+
   clearSearchDate() {
     /*  */
     this.searchBarDate = "";
@@ -3220,18 +3176,31 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+
+
+
   clearadfilterUpdateDate() {
     this.advancedFilterForm.updateDate = "";
   }
+
+
+
 
 
   clearadfilterEnqFromDate() {
     this.advancedFilterForm.enquireDateFrom = "";
   }
 
+
+  
+
+
   clearadfilterEnqToDate() {
     this.advancedFilterForm.enquireDateTo = "";
   }
+
+
+
 
 
   clearupdateDate() {
@@ -3240,6 +3209,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.minute = '';
     this.meridian = '';
   }
+
+
 
 
 
@@ -3283,6 +3254,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+
+
+
   getPriority(id): string {
     let temp: string = ""
     this.enqPriority.forEach(el => {
@@ -3293,6 +3267,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     //console.log(temp);
     return temp;
   }
+
+
+
 
 
   getFollowUp(id): string {
@@ -3306,6 +3283,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+
+
   getFollowUpReverse(id): string {
     let temp: string = ""
     this.enqFollowType.forEach(el => {
@@ -3315,6 +3294,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     });
     return temp;
   }
+
+
+
 
   getPriorityReverse(id): string {
     let temp: string = ""
@@ -3326,6 +3308,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     //console.log(temp);
     return temp;
   }
+
+
 
 
   /* Function to convert all select-option tag to ul-li */
