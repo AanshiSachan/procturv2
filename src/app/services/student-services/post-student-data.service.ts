@@ -43,6 +43,24 @@ export class PostStudentDataService {
     }
 
 
+    quickEditStudent(form, id) {
+
+        let urlQuickEdit = this.baseUrl + "/api/v1/students/" +id;
+        form.dob = moment(form.dob).format('YYYY-MM-DD');
+        form.doj = moment(form.doj).format('YYYY-MM-DD');
+        /* form.assignedBatches = form.assignedBatches.length == 0 ? null : form.assignedBatches;
+        form.batchJoiningDates = form.batchJoiningDates.length == 0 ? null : form.batchJoiningDates; */
+        return this.http.put(urlQuickEdit, form, { headers: this.headers }).map(
+            res => {
+                return res.json();
+            },
+            err => {
+                return err.json();
+            }
+        )
+    }
+
+
     archieveStudents(obj) {
         let urlDeleteStudent = this.baseUrl + '/api/v1/archive/students';
 

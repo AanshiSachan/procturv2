@@ -14,7 +14,7 @@
     &:hover .tooltip-box-batch {
         visibility: visible;
         opacity: 1;
-        left: -150px;
+        left: -50px;
     }
     .tooltip-box-batch {
         position: absolute;
@@ -24,7 +24,7 @@
         max-height: 40px;
         background: rgb(245, 245, 237);
         border: 1px solid #ccc;
-        left: -100px;
+        left: 0px;
         z-index: 1;
         top: -8px;
         visibility: hidden;
@@ -311,7 +311,6 @@
         }
         .field-checkbox-wrapper .form-checkbox+label {
             vertical-align: middle;
-            transition: all 0s;
             font-size: 14px;
             display: inline-block;
         }
@@ -324,13 +323,11 @@
             position: absolute;
             left: 0;
             top: 0;
-            transition: all 0s;
         }
         .field-checkbox-wrapper .form-checkbox:checked+label:after {
             border: 2px solid $common-blue;
         }
         .field-checkbox-wrapper .form-checkbox+label:before {
-            transition: all 0s;
             width: 1px;
             height: 1px;
             left: 8px;

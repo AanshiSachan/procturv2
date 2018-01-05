@@ -2,8 +2,7 @@ import {
   Component, OnInit, ViewChild, Input, Output, EventEmitter, HostListener,
   AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
   SimpleChanges, OnChanges
-}
-  from '@angular/core';
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
@@ -22,15 +21,12 @@ import { SmsOptionComponent } from './sms-option.component';
 import { CommentTooltipComponent } from './comment-tooltip.component';
 
 /* Third party imports */
-import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from '../../../../assets/imported_modules/multiselect-dropdown';
-import { Ng2SmartTableModule, LocalDataSource } from '../../../../assets/imported_modules/ng2-smart-table';
-import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
 import { MenuItem } from 'primeng/primeng';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
-
+import { ColumnSetting } from '../../shared/custom-table/layout.model';
 
 @Component({
   selector: 'app-enquiry-home',
@@ -65,8 +61,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   smsSelectedRowsLength: number = 0; sizeArr: any[] = [25, 50, 100, 150, 200, 500];
   isAllSelected: boolean = false; isApprovedTab: boolean = true; isOpenTab: boolean = false;
   private customComponents: any[] = []; selectedSmsMessage: string = ''; slots: any[] = [];
+  isSideBar: boolean = false;
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  minArr: any[] = ['', '00', '15', '30', '45']; meridianArr: any[] = ['', "AM", "PM"];
+  minArr: any[] = ['', '00', '15', '30', '45'];
+  meridianArr: any[] = ['', "AM", "PM"];
+
   hour: string = ''; minute: string = ''; meridian: string = '';
   newSmsString = {
     data: "",
@@ -104,7 +103,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   currentDirection = 'desc'; selectedRowGroup: any[] = []; componentPrefill: any = [];
   componentListObject: any = {}; emptyCustomComponent: any; componentRenderer: any = []; customComponentResponse: any = [];
-  fetchingDataMessage: string = "Loading"; smsBtnToggle: boolean = false;
+  fetchingDataMessage: number = 1; smsBtnToggle: boolean = false;
 
   selectedSMS: any = {
     message: "",
@@ -121,46 +120,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     baseIds: [],
     messageArray: []
   };
-
-  smsSearchData: string = "";
-
-  isConverted: boolean = false; hasReceipt: boolean = false; isadmitted: boolean = false; notClosednAdmitted: boolean = false;
-  isClosed: boolean = false; isAssignEnquiry: boolean = false;
-  availableSMS: number = 0; smsDataLength: number = 0; isEnquiryAdmin: boolean = false;
-
-  /* Model for institute Data */
-  instituteData: instituteInfo = {
-    name: "",
-    phone: "",
-    email: "",
-    enquiry_no: "",
-    priority: "",
-    status: -1,
-    filtered_statuses: "0,3",
-    follow_type: "",
-    followUpDate: moment().format('YYYY-MM-DD'),
-    enquiry_date: "",
-    assigned_to: -1,
-    standard_id: -1,
-    subject_id: -1,
-    is_recent: "Y",
-    slot_id: -1,
-    filtered_slots: "",
-    isDashbord: "N",
-    enquireDateFrom: "",
-    enquireDateTo: "",
-    updateDate: "",
-    updateDateFrom: "",
-    updateDateTo: "",
-    start_index: 0,
-    batch_size: this.displayBatchSize,
-    closedReason: "",
-    enqCustomLi: null,
-    sorted_by: "",
-    order_by: "",
-    commentShow: 'false'
-  };
-
+  smsSearchData: string = ""; isConverted: boolean = false; hasReceipt: boolean = false; isadmitted: boolean = false; notClosednAdmitted: boolean = false; isClosed: boolean = false; isAssignEnquiry: boolean = false; availableSMS: number = 0; smsDataLength: number = 0; isEnquiryAdmin: boolean = false; selectedRowCount: number = 0;
 
   /* Model for Enquiry Update Popup Form */
   updateFormData: updateEnquiryForm = {
@@ -230,6 +190,39 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   };
 
 
+  /* Model for institute Data */
+  instituteData: instituteInfo = {
+    name: "",
+    phone: "",
+    email: "",
+    enquiry_no: "",
+    priority: "",
+    status: -1,
+    filtered_statuses: "0,3",
+    follow_type: "",
+    followUpDate: moment().format('YYYY-MM-DD'),
+    enquiry_date: "",
+    assigned_to: -1,
+    standard_id: -1,
+    subject_id: -1,
+    is_recent: "Y",
+    slot_id: -1,
+    filtered_slots: "",
+    isDashbord: "N",
+    enquireDateFrom: "",
+    enquireDateTo: "",
+    updateDate: "",
+    updateDateFrom: "",
+    updateDateTo: "",
+    start_index: 0,
+    batch_size: this.displayBatchSize,
+    closedReason: "",
+    enqCustomLi: null,
+    sorted_by: "",
+    order_by: "",
+    commentShow: 'false'
+  };
+
   /* Form for advanced filter  */
   advancedFilterForm: instituteInfo = {
     name: "",
@@ -261,31 +254,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     enqCustomLi: null
   };
 
-
-  /* Setting for Multiselect dropdown menu */
-  mySettings: IMultiSelectSettings = {
-    enableSearch: true,
-    checkedStyle: 'checkboxes',
-    buttonClasses: 'btn dropdown-button',
-    fixedTitle: true,
-    dynamicTitleMaxItems: 0,
-    displayAllSelectedText: false
-  };
-
-
-  /* Default Text for Multiselect dropdown menu */
-  myTexts: IMultiSelectTexts = {
-    checkAll: 'Select all',
-    uncheckAll: 'Unselect all',
-    checked: '',
-    checkedPlural: '',
-    searchPlaceholder: 'Find',
-    searchEmptyResult: 'Nothing found...',
-    searchNoRenderText: 'Type in search box to see results...',
-    defaultTitle: '',
-    allSelected: 'All selected',
-  };
-
+  enquiryFullDetail: any;
 
   header: any = {
     enquiry_no: { id: 'enquiry_no', title: 'Enquiry No.', filter: false, show: true },
@@ -306,36 +275,42 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   };
 
 
-  assignMultipleForm: any =
-    {
-      enqLi: [],/* array of institute enquiry ID */
-      assigned_to: "" /* Id of assignee */
-    };
+  EnquirySettings: ColumnSetting[] = [
+    { primaryKey: 'enquiry_no', header: 'Enquiry No.' },
+    { primaryKey: 'enquiry_date', header: 'Enquiry Date.' },
+    { primaryKey: 'name', header: 'Name' },
+    { primaryKey: 'phone', header: 'Contact No.' },
+    { primaryKey: 'statusValue', header: 'Status' },
+    { primaryKey: 'priority', header: 'Priority' },
+    { primaryKey: 'follow_type', header: 'Follow up Type' },
+    { primaryKey: 'followUpDateTime', header: 'Follow up Date' },
+    { primaryKey: 'updateDate', header: 'Update Date' },
+    { primaryKey: 'assigned_name', header: 'Assigned To' }
+  ];
 
 
 
-  /* =========================================================================== */
-  /* =========================================================================== */
-  /* =========================================================================== */
-  /* =========================================================================== */
+  assignMultipleForm: any = {
+    enqLi: [],/* array of institute enquiry ID */
+    assigned_to: "" /* Id of assignee */
+  };
+
+  @ViewChild('skelton') skel: ElementRef;
+
+
   /* =========================================================================== */
   /* ===================== Declaration Fin ===================================== */
   /* =========================================================================== */
-  /* =========================================================================== */
-  /* =========================================================================== */
+
 
   constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService,
-    private router: Router, private logger: Logger, private fb: FormBuilder,
-    private pops: PopupHandlerService, private postdata: PostEnquiryDataService,
-    private appC: AppComponent, private login: LoginService, private cd: ChangeDetectorRef) {
+    private router: Router, private fb: FormBuilder, private pops: PopupHandlerService, private postdata: PostEnquiryDataService,
+    private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
   }
 
-  /* =========================================================================== */
-  /* =========================================================================== */
-  /* =========================================================================== */
   /* =========================================================================== */
   /* =========================================================================== */
 
@@ -349,6 +324,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.isEnquiryAdministrator();
     this.FetchEnquiryPrefilledData();
     /* Fetch prefill data after table data load completes */
+
     /* Dropdown items for Bulk Actions */
     this.bulkAddItems = [
       {
@@ -378,25 +354,22 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.smsServicesInvoked();
         this.message = message;
         this.cd.markForCheck();
-        this.smsSelectedRows = this.selectedRow.data;
+        this.smsSelectedRows = this.selectedRow;
         this.cd.markForCheck();
       }
       else if (message == 'update') {
-        this.prefill.fetchCommentsForEnquiry(this.selectedRow.data.institute_enquiry_id).subscribe(res => {
+        this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
           this.cd.markForCheck();
           this.updateFormData.priority = this.getPriority(res.priority);
           this.updateFormData.follow_type = this.getFollowUp(res.follow_type);
-          this.updateFormData.statusValue = this.selectedRow.data.statusValue;
-          this.updateFormData.followUpDate = moment(this.selectedRow.data.followUpDate).format('YYYY-MM-DD');
-          if (this.selectedRow.data.followUpTime != '') {
-            //console.log(moment(this.selectedRow.data.followUpDateTime).format('h'));
-            this.hour = moment(this.selectedRow.data.followUpDateTime).format('h');
+          this.updateFormData.statusValue = this.selectedRow.statusValue;
+          this.updateFormData.followUpDate = moment(this.selectedRow.followUpDate).format('YYYY-MM-DD');
+          if (this.selectedRow.followUpTime != '' && this.selectedRow.followUpTime != null) {
+            this.hour = moment(this.selectedRow.followUpDateTime).format('h');
             document.getElementById('hourpar').classList.add('has-value');
-            //console.log(moment(this.selectedRow.data.followUpDateTime).format('mm'));
-            this.minute = moment(this.selectedRow.data.followUpDateTime).format('mm');
+            this.minute = moment(this.selectedRow.followUpDateTime).format('mm');
             document.getElementById('minutepar').classList.add('has-value');
-            //console.log(moment(this.selectedRow.data.followUpDateTime).format('a'));
-            this.meridian = moment(this.selectedRow.data.followUpDateTime).format('a').toString().toUpperCase();
+            this.meridian = moment(this.selectedRow.followUpDateTime).format('a').toString().toUpperCase();
             document.getElementById('meridianpar').classList.add('has-value');
           }
           this.updateFormComments = res.comments;
@@ -428,6 +401,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -435,12 +410,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.sourceEnquiry = [];
   }
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log('on change', changes)
+  ngOnChanges() {
   }
+
+  /* =========================================================================== */
+  /* =========================================================================== */
+
 
 
   isEnquiryAdministrator() {
@@ -462,55 +442,51 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* Load Table data with respect to the institute data provided */
   loadTableDatatoSource(obj) {
 
-    this.fetchingDataMessage = "Loading";
+    this.fetchingDataMessage = 1;
     document.getElementById("bulk-drop").classList.add("hide");
-    document.getElementById('headerCheckbox').checked = false;
     this.isAllSelected = false;
-
     this.sourceEnquiry = [];
-    this.selectedRow = null;
-    this.selectedRowGroup = [];
-
+    this.closeEnquiryFullDetails();
+    this.isSideBar = false;
     /* start index of object passed is zero then create pagination */
     if (obj.start_index == 0) {
       return this.enquire.getAllEnquiry(obj).subscribe(
         data => {
           if (data.length != 0) {
-            if (this.indexJSON.length != 0) {
-              this.totalEnquiry = data[0].totalcount;
-              this.indexJSON = [];
-              this.setPageSize(this.totalEnquiry);
-              data.forEach(el => {
-                let obj = {
-                  isSelected: false,
-                  show: true,
-                  data: el
-                }
-                this.sourceEnquiry.push(obj);
-              });
-              this.cd.markForCheck();
-              return this.sourceEnquiry;
-            }
-            else {
-              this.totalEnquiry = data[0].totalcount;
-              this.indexJSON = [];
-              this.setPageSize(this.totalEnquiry);
-              data.forEach(el => {
-                let obj = {
-                  isSelected: false,
-                  show: true,
-                  data: el
-                }
-                this.sourceEnquiry.push(obj);
-              });
-              this.cd.markForCheck();
-              return this.sourceEnquiry;
-            }
+            this.totalEnquiry = data[0].totalcount;
+            this.sourceEnquiry = data;
+            /* let sourceArr: any[] = [];
+            data.forEach(el => {
+              let obj = {
+                assigned_name: el.assigned_name,
+                enquiry_date: el.enquiry_date,
+                enquiry_no: el.enquiry_no,
+                followUpDate:el.followUpDate,
+                followUpDateTime:el.followUpDateTime,
+                followUpTime: el.followUpTime,
+                follow_type: el.follow_type,
+                institute_enquiry_id: el.institute_enquiry_id,
+                name: el.name,
+                phone: el.phone,
+                priority: el.priority,
+                order_by: el.order_by,
+                sorted_by: el.sorted_by,
+                statusValue: el.statusValue,
+                uiSelected: el.uiSelected,
+                updateDate: el.updateDate,
+              }
+              sourceArr.push(obj);
+            });
+            this.sourceEnquiry = sourceArr; */
+            this.cd.markForCheck();
+            return this.sourceEnquiry;
           }
           else {
             let alert = {
@@ -518,86 +494,68 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
               title: 'No Records Found',
               body: 'We did not find any enquiry for the specified query'
             }
-            this.fetchingDataMessage = "No Record Found";
+            this.fetchingDataMessage = 2;
             this.appC.popToast(alert);
             this.totalEnquiry = data.length;
-            this.indexJSON = [];
-            this.setPageSize(this.totalEnquiry);
             this.cd.markForCheck();
           }
+        },
+        err => {
+          let alert = {
+            type: 'error',
+            title: 'Unable To Connect To Server',
+            body: 'Please check your internet connection or contact proctur support if the issue persist'
+          }
+          this.fetchingDataMessage = 2;
+          this.appC.popToast(alert);
+          this.totalEnquiry = 0;
+          this.cd.markForCheck();
         });
     }
     else {
-      return this.enquire.getAllEnquiry(obj).subscribe(data => {
-        if (data.length != 0) {
-          if (this.indexJSON.length != 0) {
-            data.forEach(el => {
+      return this.enquire.getAllEnquiry(obj).subscribe(
+        data => {
+          if (data.length != 0) {
+            /* data.forEach(el => {
               let obj = {
                 isSelected: false,
                 show: true,
                 data: el
               }
               this.sourceEnquiry.push(obj);
-            });
+            }); */
+            this.sourceEnquiry = data;
             this.cd.markForCheck();
-            return this.sourceEnquiry;
           }
           else {
-            data.forEach(el => {
-              let obj = {
-                isSelected: false,
-                show: true,
-                data: el
-              }
-              this.sourceEnquiry.push(obj);
-            });
+            let alert = {
+              type: 'info',
+              title: 'No Records Found',
+              body: 'We did not find any enquiry for the specified query'
+            }
+            this.fetchingDataMessage = 2;
+            this.appC.popToast(alert);
+            this.totalEnquiry = 0;
             this.cd.markForCheck();
-            return this.sourceEnquiry;
           }
-        }
-        else {
+        },
+        err => {
           let alert = {
-            type: 'info',
-            title: 'No Records Found',
-            body: 'We did not find any enquiry for the specified query'
+            type: 'error',
+            title: 'Unable To Connect To Server',
+            body: 'Please check your internet connection or contact proctur support if the issue persist'
           }
-          this.fetchingDataMessage = "No Record Found";
+          this.fetchingDataMessage = 2;
           this.appC.popToast(alert);
-          this.totalEnquiry = data.length;
-          this.indexJSON = [];
-          this.setPageSize(this.totalEnquiry);
+          this.totalEnquiry = 0;
           this.cd.markForCheck();
-        }
-      });
+        });
     }
+
   }
 
-
-
-
-
-  setPageSize(totalCount) {
-    let pageSize = Math.ceil(totalCount / this.instituteData.batch_size);
-    this.maxPageSize = pageSize;
-    let index = {
-      value: null,
-      start_index: null,
-      end_index: null
-    }
-    let start: number = 0;
-
-    for (var i = 1; i <= pageSize; i++) {
-      index = {
-        value: i,
-        start_index: start,
-        end_index: start + (this.displayBatchSize - 1)
-      }
-      this.indexJSON.push(index);
-      start = start + this.displayBatchSize;
-    }
-  }
-
-
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* Function to fetch prefill data for advanced filter */
@@ -685,6 +643,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* Custom Compoenent array creater */
@@ -701,22 +661,26 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     return customPrefilled;
   }
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
   /* if custom component is of type multielect then toggle the visibility of the dropdowm */
   multiselectVisible(elid) {
     let targetid = elid + "multi";
-    if (document.getElementById(targetid).classList.contains('hide')) {
-      document.getElementById(targetid).classList.remove('hide');
-    }
-    else {
-      document.getElementById(targetid).classList.add('hide');
+    if (elid != null && elid != '') {
+      if (document.getElementById(targetid).classList.contains('hide')) {
+        document.getElementById(targetid).classList.remove('hide');
+      }
+      else {
+        document.getElementById(targetid).classList.add('hide');
+      }
     }
   }
 
-
-
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -742,10 +706,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             }
             /* Component unchecked */
             else {
-              if (el.selected.length != 0) {
+              if (el.selected.length > 1) {
                 document.getElementById(id + 'wrapper').classList.add('has-value');
               }
               else if (el.selected.length == 0) {
+                document.getElementById(id + 'wrapper').classList.remove('has-value');
+              }
+              else if (el.selected.length == 1) {
                 document.getElementById(id + 'wrapper').classList.remove('has-value');
               }
               //console.log(com.selected);
@@ -770,7 +737,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
-
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -779,6 +747,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
     //console.log(this.statusString);
     this.searchBarData = '';
+    //this.searchBarDate
 
     if (checkerObj.value == "All") {
       this.statusString = [];
@@ -1067,7 +1036,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
 
 
-    
+
 
 
     else if (checkerObj.value == "Open") {
@@ -1321,6 +1290,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -1335,6 +1306,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.statusString = [];
     this.indexJSON = [];
     this.instituteData.filtered_statuses = this.statusString.join(',');
+
     /* Both are empty */
     if ((this.searchBarData === "" || this.searchBarData === " " || this.searchBarData === null) &&
       (this.searchBarDate === "" || this.searchBarDate === " " || this.searchBarDate === null)) {
@@ -1380,17 +1352,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         priority: "",
         status: -1,
         follow_type: "",
-        followUpDate: "",
+        followUpDate: moment(this.searchBarDate).format('YYYY-MM-DD'),
         enquiry_date: "",
         assigned_to: -1,
         standard_id: -1,
         subject_id: -1,
-        is_recent: "Y",
+        is_recent: "N",
         slot_id: -1,
         filtered_slots: "",
         isDashbord: "N",
-        enquireDateFrom: moment(this.searchBarDate).format('YYYY-MM-DD'),
-        enquireDateTo: moment(this.searchBarDate).format('YYYY-MM-DD'),
+        enquireDateFrom: "",
+        enquireDateTo: "",
         updateDate: "",
         updateDateFrom: "",
         updateDateTo: "",
@@ -1541,17 +1513,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             priority: "",
             status: -1,
             follow_type: "",
-            followUpDate: "",
+            followUpDate: moment(this.searchBarDate).format('YYYY-MM-DD'),
             enquiry_date: "",
             assigned_to: -1,
             standard_id: -1,
             subject_id: -1,
-            is_recent: "Y",
+            is_recent: "N",
             slot_id: -1,
             filtered_slots: "",
             isDashbord: "N",
-            enquireDateFrom: moment(this.searchBarDate).format('YYYY-MM-DD'),
-            enquireDateTo: moment(this.searchBarDate).format('YYYY-MM-DD'),
+            enquireDateFrom: "",
+            enquireDateTo: "",
             updateDate: "",
             updateDateFrom: "",
             updateDateTo: "",
@@ -1588,17 +1560,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             priority: "",
             status: -1,
             follow_type: "",
-            followUpDate: "",
+            followUpDate: moment(this.searchBarDate).format('YYYY-MM-DD'),
             enquiry_date: "",
             assigned_to: -1,
             standard_id: -1,
             subject_id: -1,
-            is_recent: "Y",
+            is_recent: "N",
             slot_id: -1,
             filtered_slots: "",
             isDashbord: "N",
-            enquireDateFrom: moment(this.searchBarDate).format('YYYY-MM-DD'),
-            enquireDateTo: moment(this.searchBarDate).format('YYYY-MM-DD'),
+            enquireDateFrom: "",
+            enquireDateTo: "",
             updateDate: "",
             updateDateFrom: "",
             updateDateTo: "",
@@ -1623,17 +1595,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             priority: "",
             status: -1,
             follow_type: "",
-            followUpDate: "",
+            followUpDate: moment(this.searchBarDate).format('YYYY-MM-DD'),
             enquiry_date: "",
             assigned_to: -1,
             standard_id: -1,
             subject_id: -1,
-            is_recent: "Y",
+            is_recent: "N",
             slot_id: -1,
             filtered_slots: "",
             isDashbord: "N",
-            enquireDateFrom: moment(this.searchBarDate).format('YYYY-MM-DD'),
-            enquireDateTo: moment(this.searchBarDate).format('YYYY-MM-DD'),
+            enquireDateFrom: "",
+            enquireDateTo: "",
             updateDate: "",
             updateDateFrom: "",
             updateDateTo: "",
@@ -1651,6 +1623,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* regex validation for name atleast one word required */
@@ -1659,6 +1633,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* Custom validation suited only for indian mobile numbers*/
@@ -1666,19 +1642,23 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     return /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/.test(data);;
   }
 
-
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* Function to open advanced filter */
   openAdFilter() {
     //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
+    this.closeEnquiryFullDetails();
+    this.isSideBar = false;
     document.getElementById('adFilterOpen').classList.add('hide');
     document.getElementById('adFilterExitVisible').classList.add('hide')
     document.getElementById('adFilterExit').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.remove('hide');
   }
 
-
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* Function to close advanced filter */
@@ -1690,114 +1670,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
-
-
-  /* Function to handle event on table row click*/
-  rowClicked(row) {
-    this.selectedRow = row;
-    this.isConverted = this.selectedRow.data.status == 12 ? true : false;
-    if ((this.selectedRow.data.status == 11) && (this.selectedRow.data.invoice_no != 0)) {
-      this.hasReceipt = true;
-      localStorage.setItem("institute_enquiry_id", this.selectedRow.data.institute_enquiry_id);
-    }
-    else {
-      if (this.selectedRow.data.status == 0 || this.selectedRow.data.status == 3 || this.selectedRow.data.status == 2) {
-        this.notClosednAdmitted = true;
-        this.isadmitted = false;
-        this.isClosed = false;
-        this.hasReceipt = false;
-      }
-      else if (this.selectedRow.data.status == 11) {
-        this.notClosednAdmitted = false;
-        this.isadmitted = true;
-        this.isClosed = false;
-        this.hasReceipt = false;
-      }
-      else if (this.selectedRow.data.status == 1 || this.selectedRow.data.status == 12) {
-        this.notClosednAdmitted = false;
-        this.isadmitted = false;
-        this.isClosed = true;
-        this.hasReceipt = false;
-      }
-      localStorage.setItem("institute_enquiry_id", this.selectedRow.data.institute_enquiry_id);
-    }
-  }
-
-
-
-  /* checkbox clicked event  */
-  rowCheckBoxClick(state, id, no) {
-    this.sourceEnquiry[id].isSelected = state;
-    let index = this.selectedRowGroup.findIndex(i => i.data.enquiry_no == no);
-    if (index !== -1) {
-      if (!state) {
-        this.selectedRowGroup.splice(index, 1);
-        this.isAllSelected = false;
-      }
-    }
-    else {
-      if (state) {
-        this.selectedRowGroup.push(this.sourceEnquiry[id]);
-      }
-    }
-
-    //console.log(state);
-    /* if (state) {
-      this.selectedRowGroup.push(this.sourceEnquiry[id]);
-    }
-    else {
-      let index = this.selectedRowGroup.findIndex(i => i.data.enquiry_no == no);
-      if (index !== -1) {
-        this.selectedRowGroup.splice(index, 1);
-      }     
-    } */
-    //console.log(this.selectedRowGroup);
-  }
-
-
-
-
-
-  toggleSelectAll(status) {
-
-    let len = this.sourceEnquiry.length;
-
-    if (status) {
-      this.selectedRowGroup = [];
-      for (var i = 0; i < len; i++) {
-        document.getElementById('check' + i).checked = true;
-        this.selectedRowGroup.push(this.sourceEnquiry[i]);
-      }
-    }
-    else {
-      this.selectedRowGroup = [];
-      for (var i = 0; i < len; i++) {
-        document.getElementById('check' + i).checked = false;
-      }
-    }
-
-  }
-
-
-
-
-
-  /* Function to toggle smart table column on click event */
-  toggleOptionChange(bool, id) {
-
-    if (bool) {
-      this.selectedOption[id].show = true;
-      this.cd.markForCheck();
-    }
-    else {
-      this.selectedOption[id].show = false;
-      this.cd.markForCheck();
-    }
-
-  }
-
-
-
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* Push the updated enquiry to server */
@@ -1806,6 +1680,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
       this.updateFormData.follow_type = this.getFollowUpReverse(this.updateFormData.follow_type);
       this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
+
       let followupdateTime: string = "";
       if (this.hour != '') {
         let followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
@@ -1813,29 +1688,31 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.updateFormData.followUpTime = followUpTime;
       }
       followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
-      this.postdata.updateEnquiryForm(this.selectedRow.data.institute_enquiry_id, this.updateFormData)
-        .subscribe(res => {
+      this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData)
+        .subscribe(
+        res => {
           let msg = {
             type: 'success',
             title: 'Enquiry Updated',
             body: 'Your enquiry has been successfully submitted'
           }
- 
-          this.selectedRow.data.priority = this.getPriority(this.updateFormData.priority);
-          this.selectedRow.data.follow_type = this.getFollowUp(this.updateFormData.follow_type);
-          this.selectedRow.data.statusValue = this.updateFormData.statusValue;
-          this.selectedRow.data.status = this.enqstatus.forEach(el => { if (el.data_value == this.updateFormData.statusValue) { return el.data_key; } });
-          this.selectedRow.data.updateDate = moment().format();
+
+        /* this.selectedRow.priority = this.getPriority(this.updateFormData.priority);
+          this.selectedRow.follow_type = this.getFollowUp(this.updateFormData.follow_type);
+          this.selectedRow.statusValue = this.updateFormData.statusValue;
+          this.selectedRow.status = this.enqstatus.forEach(el => { if (el.data_value == this.updateFormData.statusValue) { return el.data_key; } });
+          this.selectedRow.updateDate = moment().format();
           if (this.hour != '') {
             let dateTime =
-              this.selectedRow.data.followUpDateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + this.updateFormData.followUpTime;
+              this.selectedRow.followUpDateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + this.updateFormData.followUpTime;
           }
           else if (this.hour == '') {
-            this.selectedRow.data.followUpDateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
-          }
+            this.selectedRow.followUpDateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
+          } 
+        */
           this.appC.popToast(msg);
           this.closePopup();
-          this.cd.markForCheck();
+          this.busy = this.loadTableDatatoSource(this.instituteData);
         },
         err => {
           let alert = {
@@ -1857,9 +1734,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
-
-
-
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   validateTime(): boolean {
@@ -1872,42 +1748,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-
-
-
-
-
-
-  openUpdatePopUpCustom(row) {
-    this.rowClicked(row);
-    this.cd.markForCheck();
-    this.pops.changeMessage('update');
-    this.prefill.fetchCommentsForEnquiry(this.selectedRow.data.institute_enquiry_id).subscribe(res => {
-      this.updateFormData.priority = this.getPriority(res.priority);
-      this.updateFormData.follow_type = this.getFollowUp(res.follow_type);
-      this.updateFormData.statusValue = this.selectedRow.data.statusValue;
-      this.updateFormData.followUpDate = moment(this.selectedRow.data.followUpDate).format('YYYY-MM-DD');
-      if (this.selectedRow.data.followUpTime != '') {
-        //console.log(moment(this.selectedRow.data.followUpDateTime).format('h'));
-        this.hour = moment(this.selectedRow.data.followUpDateTime).format('h');
-        document.getElementById('hourpar').classList.add('has-value');
-        //console.log(moment(this.selectedRow.data.followUpDateTime).format('mm'));
-        this.minute = moment(this.selectedRow.data.followUpDateTime).format('mm');
-        document.getElementById('minutepar').classList.add('has-value');
-        //console.log(moment(this.selectedRow.data.followUpDateTime).format('a'));
-        this.meridian = moment(this.selectedRow.data.followUpDateTime).format('a').toString().toUpperCase();
-        document.getElementById('meridianpar').classList.add('has-value');
-      }
-      this.updateFormComments = res.comments;
-      this.updateFormCommentsOn = res.commentedOn;
-      this.updateFormCommentsBy = res.commentedBy;
-    });
-    this.message = 'update';
-  }
-
-
-
-
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* update the enquiry id for enquiry update pop up */
@@ -1920,13 +1762,15 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
-
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
   /* Delete Enquiry  */
   deleteEnquiry() {
-    this.busy = this.postdata.deleteEnquiryById(this.selectedRow.data.institute_enquiry_id).subscribe(
+    //console.log(this.selectedRow.institute_enquiry_id);
+    this.busy = this.postdata.deleteEnquiryById(this.selectedRow.institute_enquiry_id).subscribe(
       res => {
         let alert = {
           type: 'success',
@@ -1952,12 +1796,14 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
   /* Make Registration Payment Data update */
   registerPayment() {
-    this.registrationForm.institute_enquiry_id = this.selectedRow.data.institute_enquiry_id.toString();
+    this.registrationForm.institute_enquiry_id = this.selectedRow.institute_enquiry_id.toString();
     this.registrationForm.paymentDate = moment(this.registrationForm.paymentDate).format('YYYY-MM-DD');
     this.postdata.updateRegisterationPayment(this.registrationForm).subscribe(
       res => {
@@ -1967,7 +1813,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         }
         this.appC.popToast(alert);
         this.cd.markForCheck();
-        this.selectedRow.data.invoice_no = res.otherDetails.invoice_no;
+        this.selectedRow.invoice_no = res.otherDetails.invoice_no;
         this.hasReceipt = true;
         this.registrationForm = {
           institute_enquiry_id: "",
@@ -1991,7 +1837,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
-
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* Service to fetch sms records from server and update table*/
@@ -2029,7 +1876,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
-
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2076,22 +1924,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
-
-
-  /* SMS search */
-  /*   onSearch(query: string = '') {
-  
-      this.smsSource.setFilter(
-        [{
-          field: 'message',
-          search: query
-        }], false
-      )
-  
-    }
-  */
-
-
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2158,6 +1992,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2170,6 +2006,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2181,6 +2019,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.selectedSMS = row;
   }
 
+
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2202,6 +2043,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2228,6 +2071,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2248,6 +2093,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2258,6 +2105,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2290,6 +2139,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2327,22 +2178,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
         /* Send Multi SMS */
         if (this.isMultiSms) {
-          let userId = [];
-
-          //console.log(this.selectedRowGroup);
-
-          this.selectedRowGroup.forEach(el => {
-            //console.log(el);
-            userId.push(el.data.institute_enquiry_id);
-            this.cd.markForCheck();
-          });
-
-
 
           let messageId = [];
           messageId.push((this.selectedSMS.message_id).toString());
-
-          this.sendSmsFormData.baseIds = userId;
+          this.sendSmsFormData.baseIds = this.selectedRowGroup;
           this.sendSmsFormData.messageArray = messageId;
           this.cd.markForCheck();
           this.postdata.sendSmsToEnquirer(this.sendSmsFormData).subscribe(
@@ -2372,7 +2211,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         else {
 
           let userId = [];
-          userId.push((this.selectedRow.data.institute_enquiry_id).toString());
+          userId.push((this.selectedRow.institute_enquiry_id).toString());
           let messageId = [];
           messageId.push((this.selectedSMS.message_id).toString());
 
@@ -2381,7 +2220,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
           this.postdata.sendSmsToEnquirer(this.sendSmsFormData).subscribe(
             res => {
-              console.log(res);
+              // console.log(res);
               let msg = {
                 type: 'success',
                 title: 'SMS sent',
@@ -2415,6 +2254,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2437,6 +2278,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2466,6 +2309,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* Peform Delete Operation if access is OK */
@@ -2480,15 +2325,15 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           /* Check if user has selected any enquiry with status 11 or 12 */
           if (this.validateDeletable()) {
             let deleteString: string = '';
+
             this.selectedRowGroup.forEach(el => {
-              deleteString = deleteString + ',' + el.data.institute_enquiry_id;
+              deleteString = deleteString + ',' + el;
             });
 
             let data = {
               enquiryIdList: deleteString.slice(1),
               institution_id: sessionStorage.getItem('institute_id')
             };
-
             this.postdata.deleteEnquiryBulk(data).subscribe(
               res => {
                 let alert = {
@@ -2541,7 +2386,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             if (this.validateDeletable()) {
               let deleteString: string = '';
               this.selectedRowGroup.forEach(el => {
-                deleteString = deleteString + ',' + el.data.institute_enquiry_id;
+                deleteString = deleteString + ',' + el;
               });
 
               let data = {
@@ -2596,24 +2441,39 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           title: 'You Are Not Authorized To Delete Enquiries, Contact Administrator For Access',
         }
         this.appC.popToast(msg);
+
       }
     }
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* Check if enquiry is deletable  */
   validateDeletable() {
-    let passed = this.selectedRowGroup.every(isOpenEnquiry);
+
+    let temp: any[] = [];
+    this.selectedRowGroup.forEach(s => {
+      this.sourceEnquiry.forEach(el => {
+        if (el.institute_enquiry_id == s) {
+          temp.push(el);
+        }
+      });
+    });
+
+    let passed = temp.every(isOpenEnquiry);
     function isOpenEnquiry(element, index, array) {
-      return (element.data.status == 0);
+      return (element.status == 0);
     }
 
     return passed;
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2664,6 +2524,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2679,18 +2541,16 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* Bulk Assign popup operation */
   bulkAssignEnquiries() {
-
+    this.cd.markForCheck();
     let assigneeArr: any[] = [];
-    this.selectedRowGroup.forEach(el => {
-      assigneeArr.push(el.data.institute_enquiry_id);
-      el.data.assigned_to = this.assignMultipleForm.assigned_to;
-      el.data.assigned_name = this.getAssigneeName(this.assignMultipleForm.assigned_to);
-    });
-    this.assignMultipleForm.enqLi = assigneeArr;
+
+    this.assignMultipleForm.enqLi = this.selectedRowGroup;
     this.postdata.setEnquiryAssignee(this.assignMultipleForm).subscribe(
       res => {
         let msg = {
@@ -2698,6 +2558,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           title: 'Enquiries Assigned',
         }
         this.appC.popToast(msg);
+        this.busy = this.loadTableDatatoSource(this.instituteData);
         this.bulkAssignEnquiriesClose();
         this.cd.markForCheck();
       },
@@ -2713,6 +2574,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2728,12 +2591,14 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
   /* Function to perform advanced filter and update table data */
   filterAdvanced() {
-
+    this.fetchingDataMessage = 1;
     this.stats.All.checked = true;
     this.stats.Open.checked = false;
     this.stats.Registered.checked = false;
@@ -2741,7 +2606,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.stats.Registered.checked = false;
     this.stats.Inactive.checked = false;
     this.statusString = [];
-    document.getElementById('headerCheckbox').checked = false;
 
     this.isAllSelected = false;
 
@@ -2768,23 +2632,14 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.sourceEnquiry = [];
     this.selectedRowGroup = [];
     this.selectedRow = null;
+    this.closeEnquiryFullDetails();
+    this.isSideBar = false;
     this.busy = this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
       data => {
-        data.forEach(el => {
-          let obj = {
-            isSelected: false,
-            show: true,
-            data: el
-          }
-          this.sourceEnquiry.push(obj);
-          this.cd.markForCheck();
-          return this.sourceEnquiry;
-        });
+        this.sourceEnquiry = data
         /* pagination defination here */
         if (this.sourceEnquiry.length != 0) {
           this.totalEnquiry = data[0].totalcount;
-          this.indexJSON = [];
-          this.setPageSize(this.totalEnquiry);
           this.cd.markForCheck();
           this.closeAdFilter();
         }
@@ -2794,21 +2649,22 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             title: 'No Records Found',
             body: 'We did not find any enquiry for the specified query'
           }
-          this.fetchingDataMessage = "No Record Found";
+          this.fetchingDataMessage = 2;
           this.appC.popToast(alert);
           this.totalEnquiry = 0;
-          this.indexJSON = [];
-          this.setPageSize(this.totalEnquiry);
           this.cd.markForCheck();
           this.closeAdFilter();
         }
       },
       err => {
+
       }
     );
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2853,6 +2709,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2914,6 +2772,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2934,6 +2794,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2944,7 +2806,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
-
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* Fetch previous set of data from server and update table */
@@ -2954,6 +2817,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2969,6 +2834,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -2990,6 +2857,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
+
 
 
   /* Toggle DropDown Menu on Click */
@@ -3003,6 +2873,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   bulkActionFunctionClose() {
@@ -3010,6 +2882,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* Function to store the data of Custom Component in to Base64 encoded array string */
@@ -3018,6 +2892,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* Fetch all the enquiries as xls file */
@@ -3045,6 +2921,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -3062,25 +2940,29 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
   /* Convert enquiry to student */
   convertRow(ev) {
-    localStorage.setItem('studentPrefill', JSON.stringify(ev));
+    localStorage.setItem('studentPrefill', JSON.stringify(this.selectedRow));
     this.router.navigate(['student/add'])
     this.closePopup();
     this.cd.markForCheck();
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
   /* Download Receipt API */
   downloadReceiptPdf() {
 
-    this.enquire.fetchReceiptPdf(this.selectedRow.data.invoice_no).subscribe(
+    this.enquire.fetchReceiptPdf(this.selectedRow.invoice_no).subscribe(
       res => {
         this.cd.markForCheck();
         let byteArr = this.convertBase64ToArray(res.document);
@@ -3100,6 +2982,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /* Customiized click detection strategy */
@@ -3129,32 +3013,14 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
-
-
-  /*  */
-  getFollowUpColor(status): string {
-    if (status != '') {
-      let cmp = moment(status).unix();
-      let tod = moment().unix();
-      if (cmp > tod) {
-        return 'black';
-      }
-      else {
-        return 'red';
-      }
-    }
-    else {
-      return 'black';
-    }
-
-  }
-
-
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   /*  */
   sortTableById(id) {
     /* Custom server sided sorting */
+    if (id == 'followUpDateTime') { id = 'followUpDate' }
     this.instituteData.sorted_by = id;
     this.currentDirection = this.currentDirection == 'desc' ? 'asc' : 'desc'
     this.instituteData.order_by = this.currentDirection;
@@ -3164,6 +3030,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -3176,6 +3044,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -3185,6 +3055,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
   clearadfilterEnqFromDate() {
@@ -3192,7 +3064,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
-  
+  /* =========================================================================== */
+  /* =========================================================================== */
+
 
 
   clearadfilterEnqToDate() {
@@ -3200,6 +3074,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -3211,6 +3087,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -3231,10 +3109,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
     /* slot unchecked */
     else {
-      if (this.selectedSlots.length != 0) {
+      if (this.selectedSlots.length < 0) {
         document.getElementById('slotwrapper').classList.add('has-value');
       }
       else if (this.selectedSlots.length == 0) {
+        document.getElementById('slotwrapper').classList.remove('has-value');
+      }
+      else if (this.selectedSlots.length == 1) {
         document.getElementById('slotwrapper').classList.remove('has-value');
       }
       var index = this.selectedSlots.indexOf(data.value.slot_name);
@@ -3254,6 +3135,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -3270,6 +3153,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
+
 
 
   getFollowUp(id): string {
@@ -3284,6 +3170,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
+  /* =========================================================================== */
+  /* =========================================================================== */
+
+
 
   getFollowUpReverse(id): string {
     let temp: string = ""
@@ -3294,6 +3184,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     });
     return temp;
   }
+
+
+  /* =========================================================================== */
+  /* =========================================================================== */
 
 
 
@@ -3308,6 +3202,147 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     //console.log(temp);
     return temp;
   }
+
+
+  /* =========================================================================== */
+  /* =========================================================================== */
+
+
+
+  openEnquiryFullDetails() {
+    document.getElementById("mySidenav").style.width = "30%";
+    document.getElementById("table-main").style.width = "70%";
+    document.getElementById("table-main").style.marginRight = "30%";
+  }
+
+
+  /* =========================================================================== */
+  /* =========================================================================== */
+
+
+
+  closeEnquiryFullDetails() {
+    this.isSideBar = true;
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("table-main").style.width = "100%";
+    document.getElementById("table-main").style.marginRight = "0";
+  }
+
+  /* =========================================================================== */
+  /* =========================================================================== */
+
+
+
+  userRowSelect(ev) {
+    if (ev != null) {
+      this.openEnquiryFullDetails();
+      this.cd.markForCheck();
+      this.enquiryFullDetail = ev.institute_enquiry_id;
+      this.selectedRow = ev;
+      this.isSideBar = true;
+      this.isConverted = this.selectedRow.status == 12 ? true : false;
+      if ((this.selectedRow.status == 11) && (this.selectedRow.invoice_no != 0)) {
+        this.hasReceipt = true;
+        localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
+      }
+      else {
+        if (this.selectedRow.status == 0 || this.selectedRow.status == 3 || this.selectedRow.status == 2) {
+          this.notClosednAdmitted = true;
+          this.isadmitted = false;
+          this.isClosed = false;
+          this.hasReceipt = false;
+        }
+        else if (this.selectedRow.status == 11) {
+          this.notClosednAdmitted = false;
+          this.isadmitted = true;
+          this.isClosed = false;
+          this.hasReceipt = false;
+        }
+        else if (this.selectedRow.status == 1 || this.selectedRow.status == 12) {
+          this.notClosednAdmitted = false;
+          this.isadmitted = false;
+          this.isClosed = true;
+          this.hasReceipt = false;
+        }
+        localStorage.setItem("institute_enquiry_id", this.selectedRow.institute_enquiry_id);
+      }
+    }
+    else {
+      this.closeEnquiryFullDetails();
+      this.isSideBar = false;
+    }
+  }
+
+  /* =========================================================================== */
+  /* =========================================================================== */
+
+
+
+  virtualUpdateEnquiry(obj) {
+    this.updateFormData = obj;
+    this.cd.markForCheck();
+    this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData)
+      .subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: 'Enquiry Updated',
+          body: 'Your enquiry has been successfully submitted'
+        }
+        this.cd.markForCheck();
+      /* this.selectedRow.priority = obj.priority;
+        this.cd.markForCheck();
+        this.selectedRow.follow_type = obj.follow_type;
+        this.cd.markForCheck();
+        this.selectedRow.statusValue = this.updateFormData.statusValue;
+        this.cd.markForCheck();
+        this.selectedRow.status = this.enqstatus.forEach(el => { if (el.data_value == this.updateFormData.statusValue) { return el.data_key; } });
+        this.selectedRow.updateDate = moment().format('DD-MMM-YY h:mm:ss a');
+        if (this.hour != '') {
+          let dateTime =
+            this.selectedRow.followUpDateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + this.updateFormData.followUpTime;
+        }
+        else if (this.hour == '') {
+          this.selectedRow.followUpDateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
+        } 
+      */
+        this.appC.popToast(msg);
+        this.closePopup();
+        this.busy = this.loadTableDatatoSource(this.instituteData);
+      },
+      err => {
+        let alert = {
+          type: 'error',
+          title: 'Failed To Update Enquiry',
+          body: 'There was an error processing your request'
+        }
+        this.appC.popToast(alert);
+      })
+  }
+
+
+  /* =========================================================================== */
+  /* =========================================================================== */
+
+
+  getRowCount(ev) {
+    this.selectedRowCount = ev;
+  }
+
+  /* =========================================================================== */
+  /* =========================================================================== */
+
+
+
+  getSelectedEnquiries(ev) {
+    this.cd.markForCheck();
+    this.selectedRowGroup = ev;
+  }
+
+
+  /* =========================================================================== */
+  /* =========================================================================== */
+
 
 
 
@@ -3375,16 +3410,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }*/
 
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

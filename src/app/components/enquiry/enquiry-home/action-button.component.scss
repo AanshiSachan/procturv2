@@ -1,0 +1,259 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+
+.table-action-icon {
+    max-height: 40px;
+    max-width: 40px;
+    background: none;
+    text-decoration: none;
+    outline: none;
+    border: none;
+}
+
+.enquiry-action {
+    position: relative;
+    cursor: pointer;
+    .cls-1,
+    .cls-2 {
+        fill: none;
+        stroke: transparent;
+    }
+    svg {
+        width: 18px;
+    }
+    .cls-2 {
+        stroke: #7d7f80;
+        stroke-miterlimit: 10;
+    }
+}
+
+.action-menu {
+    position: relative;
+    background: #fff;
+    border-radius: 0;
+    transform: translateX(-50%);
+    left: 120px;
+    margin: 20px 0px 0px 0px;
+}
+
+.action-menu-inner {
+    display: flex;
+}
+
+.action-menu-inner .action-menu-item {
+    display: inline-block;
+    width: 55px;
+    margin: 0px 5px;
+    padding: 5px;
+    box-shadow: 0px 2px 4px 1px #ccc;
+}
+
+.action-menu-inner .action-menu-item img {
+    margin-left: 10px;
+}
+
+.action-menu-inner .action-menu-item span {
+    display: none;
+    font-size: 8px;
+    text-align: center;
+    line-height: 10px;
+}
+
+.action-menu-inner ul {
+    font-size: 0;
+    position: relative;
+    padding: 5px 5px;
+}
+
+.action-menu-inner ul:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: -15px;
+    margin: auto;
+    border-top: 8px solid #fff;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    width: 0;
+    height: 0;
+}
+
+.action-menu-inner ul li {
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    font-size: 12px;
+    padding: 0 8px;
+    box-sizing: border-box;
+    cursor: pointer;
+    width: calc(100%);
+    &:last-child {
+        width: 28%;
+        svg {
+            width: 33px;
+        }
+    }
+    &.edit-detail-icon {
+        svg * {
+            fill: none;
+            stroke: #8b8b8b;
+        }
+        svg .cls-1 {
+            stroke: none;
+        }
+    }
+    &:hover {
+        .cls-2,
+        .cls-3 {
+            fill: none;
+            stroke: $common-blue;
+        }
+        color: $common-blue;
+    }
+}
+
+.action-menu-inner ul li span {
+    display: block;
+    font-size: 9px;
+    text-align: center;
+    line-height: 10px;
+}
+
+.action-menu-inner i {
+    display: block;
+    height: 32px;
+    svg {
+        width: 28px;
+    }
+}
+
+.action-icon {
+    width: 28px;
+}
+
+
+
+
+
+
+
+
+
+/* Color Variables */
+$color-one: #dbe3f7;
+$color-two: #dbe3f7;
+$color-three: #dbe3f7;
+$color-four: #dbe3f7;
+$color-five: #dbe3f7;
+$color-six: #dbe3f7;
+$color-seven: #dbe3f7;
+
+/* Social Icon Mixin */
+@mixin enq-act($color) {
+  background: $color;
+  border-bottom: 1px solid shade($color, 20%);
+
+  &:hover {
+    background: #a7afc2;
+  }
+
+  .tooltip {
+    //background: $color;
+    //background: linear-gradient(tint($color, 15%), $color);
+    color: rgb(24, 23, 23);
+
+    &:after {
+      border-top-color: $color;
+    }
+  }
+}
+
+/* Social Icons */
+.enq-act-main {
+  display: flex;
+}
+
+.enq-act {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  margin: 0 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 2.5rem;
+  text-decoration: none;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: #fff;
+
+    .tooltip {
+      visibility: visible;
+      opacity: 1;
+      transform: translate(-50%, -150%);
+    }
+  }
+    
+  &:active {
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5) inset;
+  }
+  
+  &--six { @include enq-act($color-six); }
+  &--three { @include enq-act($color-three); }
+  &--one { @include enq-act($color-one); }
+  &--seven { @include enq-act($color-seven); }
+  &--five { @include enq-act($color-five); }
+  &--four { @include enq-act($color-four); }
+  &--two { @include enq-act($color-two); }
+  
+  img {
+    position: relative;
+    top: 1px;
+  }
+}
+
+/* Tooltips */
+.tooltip {
+  display: block;
+  position: absolute;
+  top: 5px;
+  left: 70px;
+  min-width: 150px;
+  padding: 0.5px 1px 2px 1px;
+  border-radius: 3px;
+  font-size: 8px;
+  font-weight: 800;
+  opacity: 0;
+  pointer-events: none;
+  text-transform: uppercase;
+  transform: translate(-50%, -100%);
+  transition: all 0.3s ease;
+  z-index: 1000 !important;
+  
+  /* &:after {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    content: "";
+    border: solid;
+    border-width: 10px 10px 0 10px;
+    border-color: transparent;
+    transform: translate(-50%, 100%);
+  } */
+}
+
+
+
+

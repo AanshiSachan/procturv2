@@ -44,8 +44,6 @@ export class SmsReportComponent implements OnInit {
     { primaryKey: 'sentDateTime', header: 'Sent Date' },
     { primaryKey: 'sms_type', header: 'Type' },
     { primaryKey: 'func_type', header: 'Event' },
-    /* { primaryKey: 'totalCount', header: 'Total' },
-    { primaryKey: 'successCount', header: 'Success' }, */
     { primaryKey: 'sentStatus', header: 'Name' }
   ];
 
@@ -180,6 +178,8 @@ export class SmsReportComponent implements OnInit {
   getMin(): number {
     return ((this.perPage * this.PageIndex) - this.perPage) + 1;
   }
+
+
 
 
 

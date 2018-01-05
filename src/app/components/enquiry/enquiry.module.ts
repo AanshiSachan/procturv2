@@ -11,6 +11,7 @@ import { EnquiryEditComponent } from './enquiry-edit/enquiry-edit.component';
 import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component';
 import { EnquiryInput, EnquiryDateInput } from './enquiry-directives/enquiry-input.directive';
 import { UserEnquiryComponent } from './enquiry-custom/user-enquiry.component';
+import { EnquirySidebarComponent } from './enquiry-home/enquiry-sidebar/enquiry-sidebar.component';
 
 /* Modules */
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -60,13 +61,14 @@ import { SharedModule } from '../shared/shared.module';
         DateConverter,
         EnquiryHomeComponent,
         CommentTooltipComponent,
-        /* PaginationComponent */
+        EnquirySidebarComponent
     ],
     entryComponents: [
         ActionButtonComponent,
         SmsOptionComponent,
         UserEnquiryComponent,
         CommentTooltipComponent,
+        EnquirySidebarComponent
     ],
     providers: [
     ]

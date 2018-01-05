@@ -98,7 +98,7 @@ export class EnquiryEditComponent implements OnInit {
   errorMessage: any;
   submitError: boolean = false;
   addNextCheck: boolean = false;
-  isEnquiryAdmin:boolean = false;
+  isEnquiryAdmin: boolean = false;
   updateFormComments: any[] = [];
   updateFormCommentsBy: any[] = [];
   updateFormCommentsOn: any[] = [];
@@ -130,8 +130,9 @@ export class EnquiryEditComponent implements OnInit {
   }
 
 
-  hourArr: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  minArr: any[] = ['00', '15', '30', '45']; meridianArr: any[] = ["AM", "PM"];
+  hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  minArr: any[] = ['', '00', '15', '30', '45']; 
+  meridianArr: any[] = ['', "AM", "PM"];
   hour: string = ''; minute: string = ''; meridian: string = '';
 
 
@@ -140,7 +141,7 @@ export class EnquiryEditComponent implements OnInit {
 
 
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
-  constructor(private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private pops: PopupHandlerService, 
+  constructor(private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private pops: PopupHandlerService,
     private poster: PostEnquiryDataService, private appC: AppComponent, private login: LoginService) {
     if (sessionStorage.getItem('Authorization') == null) {
       let data = {
@@ -186,8 +187,8 @@ export class EnquiryEditComponent implements OnInit {
       .subscribe(data => {
         this.editEnqData = data;
         //console.log(data);
-        if(data.followUpTime != ''){
-          let followUpDateTime = moment(data.followUpDate).format('YYYY-MM-DD') +" " +data.followUpTime;
+        if (data.followUpTime != '') {
+          let followUpDateTime = moment(data.followUpDate).format('YYYY-MM-DD') + " " + data.followUpTime;
           this.hour = moment(followUpDateTime).format('h');
           document.getElementById('hourpar').classList.add('has-value');
           this.minute = moment(followUpDateTime).format('mm');
@@ -195,7 +196,7 @@ export class EnquiryEditComponent implements OnInit {
           this.meridian = moment(followUpDateTime).format('a').toString().toUpperCase();
           document.getElementById('meridianpar').classList.add('has-value');
         }
-        
+
         if (this.editEnqData.enqCustomLi == null) {
           this.editEnqData.enqCustomLi = [];
         }
@@ -410,11 +411,13 @@ export class EnquiryEditComponent implements OnInit {
   /* if custom component is of type multielect then toggle the visibility of the dropdowm */
   multiselectVisible(elid) {
     let targetid = elid + "multi";
-    if (document.getElementById(targetid).classList.contains('hide')) {
-      document.getElementById(targetid).classList.remove('hide');
-    }
-    else {
-      document.getElementById(targetid).classList.add('hide');
+    if (elid != null && elid != '') {
+      if (document.getElementById(targetid).classList.contains('hide')) {
+        document.getElementById(targetid).classList.remove('hide');
+      }
+      else {
+        document.getElementById(targetid).classList.add('hide');
+      }
     }
   }
 
@@ -514,7 +517,7 @@ export class EnquiryEditComponent implements OnInit {
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
 
-      if(this.validateTime()){
+      if (this.validateTime()) {
         let id = localStorage.getItem('institute_enquiry_id');
         this.editEnqData.enquiry_date = moment(this.editEnqData.enquiry_date).format('YYYY-MM-DD');
         this.editEnqData.followUpDate = moment(this.editEnqData.followUpDate).format('YYYY-MM-DD');
@@ -548,14 +551,14 @@ export class EnquiryEditComponent implements OnInit {
           }
         );
       }
-      else{
+      else {
         let msg = {
           type: 'error',
           title: 'Invalid Time Input',
           body: 'Please select a valid time for follow up'
-          }
-          this.appC.popToast(msg); 
-      }      
+        }
+        this.appC.popToast(msg);
+      }
     }
     /* Do Nothing if the formData is Still Invalid  */
     else {
@@ -571,14 +574,14 @@ export class EnquiryEditComponent implements OnInit {
 
 
 
-  validateTime(): boolean{
+  validateTime(): boolean {
     /* some time selected by user or nothing*/
-   if((this.hour != '' && this.minute != '' && this.meridian != '')||(this.hour == '' && this.minute == '' && this.meridian == '')){
-     return true;
-   } 
-   else{      
-    return false;
-   }
+    if ((this.hour != '' && this.minute != '' && this.meridian != '') || (this.hour == '' && this.minute == '' && this.meridian == '')) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
 
@@ -772,7 +775,7 @@ export class EnquiryEditComponent implements OnInit {
   }
 
 
-  isEnquiryAdministrator(){
+  isEnquiryAdministrator() {
     if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
       this.isEnquiryAdmin = true;
     }
@@ -794,11 +797,11 @@ export class EnquiryEditComponent implements OnInit {
 
 
 
-  clearEditEnquiryDate(){
+  clearEditEnquiryDate() {
     this.editEnqData.enquiry_date = "";
   }
 
-  clearEditFollowUpDate(){
+  clearEditFollowUpDate() {
     this.editEnqData.followUpDate = "";
     this.hour = '';
     this.minute = '';

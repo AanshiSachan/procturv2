@@ -169,14 +169,8 @@
                 </div>
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <div class="image-wrapper">
-                  <img src="" alt="" id="preview-img">
-                  <div class="input-holder">
-                    <input type="file" name="myFile" id="image-input" (change)="uploadHandler()">
-                    <label class="uploadImg" for="image-input">Upload image</label>
-                    <label class="removeImg" (click)="removeImage()">Remove image</label>
-                  </div>
-                </div>
+                <image-upload [removeImg]="removeImage">        
+                </image-upload>
               </div>
             </div>
             <!-- Form 2 -->
@@ -263,6 +257,7 @@
 
             <!-- Enquiry Details official use-->
             <section class="enquiry-detail common-right-section">
+         
               <h4>
                 <strong>Administration Details</strong> (Official Use)
               </h4>
@@ -304,11 +299,11 @@
                 </div>
 
 
-                <div class="map-courses" *ngIf="isAcad">
+                <!-- div class="map-courses" *ngIf="isAcad">
                   <a style="cursor:pointer" (click)="openAssignBatch()">
                     <strong>Map Courses</strong>
                   </a>
-                </div>
+                </div> -->
 
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
@@ -367,10 +362,17 @@
                   <label for="assignCourses">Assign Courses</label>
                 </div>
 
-                <div class="map-courses" *ngIf="isProfessional">
+                <!-- <div class="map-courses" *ngIf="isProfessional">
                   <a style="cursor:pointer" (click)="openAssignBatch()">
                     <strong>Map Courses</strong>
                   </a>
+                </div> -->
+
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="isStudentActive" 
+                  [(ngModel)]="formIsActive" (ngModelChange)="updateFormIsActive($event)" class="form-checkbox"
+                    id="isStudentActive">
+                  <label for="quickAddStudent">Is Active Student</label>
                 </div>
 
                 <!-- ================================================================= -->

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
@@ -16,7 +16,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
-
+import { ColumnSetting } from '../../shared/custom-table/layout.model';
 
 
 @Component({
@@ -24,7 +24,7 @@ import { document } from '../../../../assets/imported_modules/ngx-bootstrap/util
   templateUrl: './student-home.component.html',
   styleUrls: ['./student-home.component.scss']
 })
-export class StudentHomeComponent implements OnInit {
+export class StudentHomeComponent implements OnInit, OnChanges {
 
   /* Variable declaration */
   private rows: any = [];
@@ -42,7 +42,7 @@ export class StudentHomeComponent implements OnInit {
   private optionsModel: any = null;
   private customComponents: any[] = [];
   private advancedFilter: boolean = false;
-  private studentdisplaysize: number = 100;
+  private studentdisplaysize: number = 50;
   private isAllSelected: boolean = false;
   private selectedRow: any;
   today: any = Date.now();
@@ -53,14 +53,20 @@ export class StudentHomeComponent implements OnInit {
   bulkActionItems: MenuItem[];
   indexJSON: any[] = [];
   isProfessional: boolean = false;
-  currentDirection: string = 'desc';
+  currentDirection: string = 'asc';
   isDeleteStudentPrompt: boolean = false;
   isAddComment: boolean = false;
   perPage: number = 10;
   PageIndex: number = 1;
   maxPageSize: number = 0;
   totalRow: number = 0;
-
+  private slots: any[] = [];
+  private selectedSlots: any[] = [];
+  private slotIdArr: any[] = [];
+  private selectedSlotsString: string = '';
+  loading_message: number = 1;
+  private selectedSlotsID: string = '';
+  selectedRowCount: number = 0;
 
   private editForm: any = {
     comments: "",
@@ -87,6 +93,15 @@ export class StudentHomeComponent implements OnInit {
     parent_email: { id: 'parent_email', title: 'Parent Email', filter: false, show: false },
   };
 
+  StudentSettings: ColumnSetting[] = [
+    { primaryKey: 'student_disp_id', header: 'Enquiry No.' },
+    { primaryKey: 'student_name', header: 'Enquiry Date.' },
+    { primaryKey: 'student_phone', header: 'Name' },
+    { primaryKey: 'doj', header: 'Contact No.' },
+    { primaryKey: 'student_class', header: 'Status' },
+    { primaryKey: 'parent_phone', header: 'Priority' },
+    { primaryKey: 'noOfBatchesAssigned', header: 'Follow up Type' }
+  ];
 
   selectedOption: any = {
     student_email: { id: 'student_email', show: false },
@@ -138,6 +153,8 @@ export class StudentHomeComponent implements OnInit {
   };
 
 
+
+
   /* Model for institute Data for fetching student enquiry */
   instituteData: instituteInfo = {
     school_id: -1,
@@ -157,6 +174,9 @@ export class StudentHomeComponent implements OnInit {
     order_by: ''
   };
 
+
+
+
   advancedFilterForm: instituteInfo = {
     school_id: -1,
     standard_id: -1,
@@ -170,8 +190,13 @@ export class StudentHomeComponent implements OnInit {
     master_course_name: "",
     course_id: -1,
     start_index: 0,
-    batch_size: this.studentdisplaysize
+    batch_size: this.studentdisplaysize,
+    sorted_by: '',
+    order_by: ''
   }
+
+
+
 
 
   constructor(private prefill: FetchprefilldataService, private router: Router,
@@ -218,6 +243,9 @@ export class StudentHomeComponent implements OnInit {
 
 
 
+  ngOnChanges() {
+
+  }
 
 
 
@@ -226,21 +254,21 @@ export class StudentHomeComponent implements OnInit {
 
     this.selectedRow = null;
     this.selectedRowGroup = [];
+    this.loading_message = 1;
+    this.isAllSelected = false;
 
+
+    //console.log("start index at launch" +obj.start_index);
     if (obj.start_index == 0) {
+      //console.log("start index 0");
       return this.studentFetch.fetchAllStudentDetails(obj).subscribe(
         res => {
+          /* records */
           if (res.length != 0) {
-            this.studentDataSource = [];
-            res.forEach(el => {
-              let obj = {
-                isSelected: false,
-                show: true,
-                data: el
-              }
-              this.studentDataSource.push(obj);
-              this.totalRow = this.studentDataSource.length;
-            });
+            //console.log("data found");
+            this.totalRow = res[0].student_count;
+            //console.log(this.totalRow);
+            this.studentDataSource = res;
           }
           else {
             let alert = {
@@ -248,6 +276,7 @@ export class StudentHomeComponent implements OnInit {
               title: 'No Records Found',
               body: 'We did not find any enquiry for the specified query'
             }
+            this.loading_message = 2;
             this.appC.popToast(alert);
             this.studentDataSource = [];
             this.totalRow = this.studentDataSource.length;
@@ -259,24 +288,19 @@ export class StudentHomeComponent implements OnInit {
             title: 'Failed To Fetch Student List',
             body: 'please check your internet connnection or try again'
           }
+          this.loading_message = 2;
+          this.studentDataSource = [];
           this.totalRow = 0;
           this.appC.popToast(alert);
         }
       )
     }
     else {
+      //console.log("start index not zero" +obj.start_index);
       return this.studentFetch.fetchAllStudentDetails(obj).subscribe(
         res => {
           if (res.length != 0) {
-            this.studentDataSource = [];
-            res.forEach(el => {
-              let obj = {
-                isSelected: false,
-                show: true,
-                data: el
-              }
-              this.studentDataSource.push(obj);
-            });
+            this.studentDataSource = res;
           }
           else {
             let alert = {
@@ -284,8 +308,10 @@ export class StudentHomeComponent implements OnInit {
               title: 'No Records Found',
               body: 'We did not find any enquiry for the specified query'
             }
+            this.loading_message = 2;
+            this.studentDataSource = [];
             this.appC.popToast(alert);
-            this.totalRow = 0;
+            //this.totalRow = 0;            
             this.studentDataSource = res;
           }
         },
@@ -296,36 +322,30 @@ export class StudentHomeComponent implements OnInit {
             body: 'please check your internet connnection or try again'
           }
           this.appC.popToast(alert);
+          this.studentDataSource = [];
+          this.loading_message = 2;
         }
       )
     }
+
+
+
   }
 
 
 
 
 
-  sortTableById(id) {
-    /* Custom server sided sorting */
-
-    this.instituteData = {
-      school_id: -1,
-      standard_id: -1,
-      batch_id: -1,
-      name: "",
-      is_active_status: 1,
-      mobile: "",
-      language_inst_status: -1,
-      subject_id: -1,
-      slot_id: "",
-      master_course_name: "",
-      course_id: -1,
-      start_index: 0,
-      batch_size: this.studentdisplaysize,
-      sorted_by: id,
-      order_by: this.currentDirection == 'asc' ? 'desc' : 'asc'
-    };
-    this.busy = this.loadTableDataSource(this.instituteData);
+  getDirection(): string {
+    //console.log(this.currentDirection);
+    if (this.currentDirection == "desc") {
+      this.currentDirection = 'asc';
+      return 'asc';
+    }
+    else if (this.currentDirection == 'asc') {
+      this.currentDirection = 'desc';
+      return 'desc';
+    }
   }
 
 
@@ -346,23 +366,24 @@ export class StudentHomeComponent implements OnInit {
 
 
 
-    /* Fetch next set of data from server and update table */
-    fetchNext() {
-      this.PageIndex++;
-      this.fectchTableDataByPage(this.PageIndex);
-    }
-  
-  
-  
-  
-  
-    /* Fetch previous set of data from server and update table */
-    fetchPrevious() {
-      this.PageIndex--;
-      this.fectchTableDataByPage(this.PageIndex);
-    }
-    
-    
+  /* Fetch next set of data from server and update table */
+  fetchNext() {
+    this.PageIndex++;
+    this.fectchTableDataByPage(this.PageIndex);
+  }
+
+
+
+
+
+  /* Fetch previous set of data from server and update table */
+  fetchPrevious() {
+    this.PageIndex--;
+    this.fectchTableDataByPage(this.PageIndex);
+  }
+
+
+
 
 
   /* When user click on a row add class 
@@ -370,6 +391,8 @@ export class StudentHomeComponent implements OnInit {
   rowclicked(row) {
     this.selectedRow = row;
   }
+
+
 
 
 
@@ -438,6 +461,8 @@ export class StudentHomeComponent implements OnInit {
   }
 
 
+
+
   /* Perform the bulk action for checcked row on basis of the id of selected LI */
   bulkActionPerformer(id) {
 
@@ -469,6 +494,7 @@ export class StudentHomeComponent implements OnInit {
       }
     }
   }
+
 
 
 
@@ -688,6 +714,10 @@ export class StudentHomeComponent implements OnInit {
       this.masterCourseList = data;
     });
 
+    if (this.isProfessional) {
+      this.getSlots();
+    }
+
     if (standard != null) {
       let customComp = this.studentPrefill.fetchCustomComponent().subscribe(data => {
         data.forEach(el => {
@@ -735,14 +765,15 @@ export class StudentHomeComponent implements OnInit {
   /* if custom component is of type multielect then toggle the visibility of the dropdowm */
   multiselectVisible(elid) {
     let targetid = elid + "multi";
-    if (document.getElementById(targetid).classList.contains('hide')) {
-      document.getElementById(targetid).classList.remove('hide');
-    }
-    else {
-      document.getElementById(targetid).classList.add('hide');
+    if (elid != null && elid != '') {
+      if (document.getElementById(targetid).classList.contains('hide')) {
+        document.getElementById(targetid).classList.remove('hide');
+      }
+      else {
+        document.getElementById(targetid).classList.add('hide');
+      }
     }
   }
-
 
 
 
@@ -767,10 +798,13 @@ export class StudentHomeComponent implements OnInit {
 
             }
             else {
-              if (el.selected.length != 0) {
+              if (el.selected.length > 1) {
                 document.getElementById(id + 'wrapper').classList.add('has-value');
               }
               else if (el.selected.length == 0) {
+                document.getElementById(id + 'wrapper').classList.remove('has-value');
+              }
+              else if (el.selected.length == 1) {
                 document.getElementById(id + 'wrapper').classList.remove('has-value');
               }
               var index = el.selected.indexOf(data.data);
@@ -867,7 +901,7 @@ export class StudentHomeComponent implements OnInit {
       el.selected = [];
       el.value = '';
     });
-    
+
   }
 
 
@@ -993,24 +1027,113 @@ export class StudentHomeComponent implements OnInit {
 
 
   getMin(): number {
-    return ((this.perPage * this.PageIndex) - this.perPage) + 1;
+    return ((this.studentdisplaysize * this.PageIndex) - this.studentdisplaysize) + 1;
   }
 
 
 
 
   getMax(): number {
-    if(this.studentDataSource.length != 0){
+    if (this.studentDataSource.length != 0) {
       let max = this.studentdisplaysize * this.PageIndex;
       if (max > this.totalRow) {
         max = this.totalRow;
       }
       return max;
     }
-  } 
+  }
 
 
 
-  
+  getSlots() {
+    return this.studentPrefill.fetchSlots().subscribe(
+      res => {
+        res.forEach(el => {
+          let obj = {
+            label: el.slot_name,
+            value: el,
+            status: false
+          }
+          this.slots.push(obj);
+        });
+        // console.log(this.slots);
+      },
+      err => { }
+    )
+  }
+
+
+
+  updateSlotSelected(data) {
+    /* slot checked */
+    if (data.status) {
+      this.slotIdArr.push(data.value.slot_id);
+      this.selectedSlots.push(data.value.slot_name);
+      if (this.selectedSlots.length != 0) {
+        document.getElementById('slotwrapper').classList.add('has-value');
+      }
+      else {
+        document.getElementById('slotwrapper').classList.remove('has-value');
+      }
+      this.selectedSlotsID = this.slotIdArr.join(',')
+      this.selectedSlotsString = this.selectedSlots.join(',');
+      this.advancedFilterForm.filtered_slots = this.selectedSlotsID;
+    }
+    /* slot unchecked */
+    else {
+      if (this.selectedSlots.length < 0) {
+        document.getElementById('slotwrapper').classList.add('has-value');
+      }
+      else if (this.selectedSlots.length == 0) {
+        document.getElementById('slotwrapper').classList.remove('has-value');
+      }
+      else if (this.selectedSlots.length == 1) {
+        document.getElementById('slotwrapper').classList.remove('has-value');
+      }
+      var index = this.selectedSlots.indexOf(data.value.slot_name);
+      if (index > -1) {
+        this.selectedSlots.splice(index, 1);
+      }
+      this.selectedSlotsString = this.selectedSlots.join(',');
+
+      var index2 = this.slotIdArr.indexOf(data.value.slot_id);
+      if (index2 > -1) {
+        this.slotIdArr.splice(index, 1);
+      }
+      this.selectedSlotsID = this.slotIdArr.join(',');
+      this.advancedFilterForm.filtered_slots = this.selectedSlotsID;
+    }
+
+  }
+
+
+
+  getSelected(ev) {
+    this.selectedRowGroup = ev;
+  }
+
+
+  getRowCount(ev) {
+    this.selectedRowCount = ev;
+  }
+
+  userRowSelect(ev) {
+    if (ev != null) {
+      //this.openEnquiryFullDetails();
+      //this.enquiryFullDetail = ev.institute_enquiry_id;
+      this.selectedRow = ev;
+      //this.isSideBar = true;
+    }
+  }
+
+  sortTableById(id) {
+
+    this.instituteData.sorted_by = id;
+    this.instituteData.order_by = this.getDirection();
+    this.busy = this.loadTableDataSource(this.instituteData);
+  }
+
+
+
 
 }
