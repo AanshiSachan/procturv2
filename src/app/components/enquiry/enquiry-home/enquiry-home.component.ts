@@ -616,7 +616,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
     if (status != null && priority != null) {
       /* Custom Components */
-      return this.prefill.fetchCustomComponent().subscribe(
+      return this.prefill.fetchCustomComponentEmpty().subscribe(
         data => {
           data.forEach(el => {
 
@@ -3210,9 +3210,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
   openEnquiryFullDetails() {
+    this.closeAdFilter()
     document.getElementById("mySidenav").style.width = "30%";
     document.getElementById("table-main").style.width = "70%";
     document.getElementById("table-main").style.marginRight = "30%";
+    document.getElementById("pager").style.width = "70%";
+    document.getElementById("pager").style.marginRight = "30%";
   }
 
 
@@ -3226,6 +3229,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("table-main").style.width = "100%";
     document.getElementById("table-main").style.marginRight = "0";
+    document.getElementById("pager").style.width = "100%";
+    document.getElementById("pager").style.marginRight = "0%";
   }
 
   /* =========================================================================== */

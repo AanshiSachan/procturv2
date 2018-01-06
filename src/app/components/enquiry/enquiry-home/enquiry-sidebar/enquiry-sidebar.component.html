@@ -1,5 +1,5 @@
-<div class="sidebar-wrapper">
-
+<div class="sidebar-wrapper" (click)="inputClicked($event)">
+ 
     <div class="row pull-left fixed-header" style="margin:0px">
         <enquiry-actions [rowData]="rowData"></enquiry-actions>
     </div>
@@ -22,7 +22,7 @@
     <div class="acc-wrapper">
         <ul>
             <li>
-                <input type="checkbox">
+                <input type="checkbox" checked>
                 <i></i>
                 <h2>Update Enquiry</h2>
                 <section>
@@ -69,10 +69,9 @@
 
                         <div class="c-lg-12 c-md-12 c-sm-12 sixty">
                             <div class="field-wrapper has-value datePickerBox">
-                                <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit"
-                                    bsDatepicker />
+                                <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit" bsDatepicker style="width: 60%;" />
                                 <label for="followUPdateEdit">Follow Up Date</label>
-                                <span style="top:20px;right:20%;" class="date-clear" name="followupdate" (click)="clearupdateDate()">clear</span>
+                                <span style="top:15px;right:20%;" class="date-clear" name="followupdate" (click)="clearupdateDate()">clear</span>
                             </div>
                         </div>
 

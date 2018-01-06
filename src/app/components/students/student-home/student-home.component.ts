@@ -67,6 +67,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   loading_message: number = 1;
   private selectedSlotsID: string = '';
   selectedRowCount: number = 0;
+  isSideBar:boolean = false;
 
   private editForm: any = {
     comments: "",
@@ -1109,17 +1110,20 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
 
   getSelected(ev) {
+    console.log(ev);
     this.selectedRowGroup = ev;
   }
 
 
   getRowCount(ev) {
+    console.log(ev);
     this.selectedRowCount = ev;
   }
 
   userRowSelect(ev) {
+    //console.log(ev);
     if (ev != null) {
-      //this.openEnquiryFullDetails();
+      this.openSideBar();
       //this.enquiryFullDetail = ev.institute_enquiry_id;
       this.selectedRow = ev;
       //this.isSideBar = true;
@@ -1127,7 +1131,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   sortTableById(id) {
-
+    console.log(id);
     this.instituteData.sorted_by = id;
     this.instituteData.order_by = this.getDirection();
     this.busy = this.loadTableDataSource(this.instituteData);
@@ -1135,5 +1139,17 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
 
 
+  openSideBar(){
+    document.getElementById("student-side").style.width = "30%";
+    document.getElementById("student-table").style.width = "70%";
+    document.getElementById("student-table").style.marginRight = "30%";
+  }
 
+
+  closeSideBar() {
+    //this.isSideBar = true;
+    document.getElementById("student-side").style.width = "0";
+    document.getElementById("student-table").style.width = "100%";
+    document.getElementById("student-table").style.marginRight = "0";
+  }
 }

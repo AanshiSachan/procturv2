@@ -38,7 +38,7 @@
             }
             .field-wrapper .form-ctrl {
                 display: block;
-                width: 60%;
+                width: 75%;
                 box-sizing: border-box;
                 padding: 10px 0 5px;
                 outline: none;
@@ -176,7 +176,7 @@
     left: 50%;
     margin: 10px 0;
     transform: translate(-50%, 0);
-    padding: 0px 15px;
+    padding: 0px 5px;
     width: 100%;
     height: 100%;
     perspective: 900;
@@ -250,11 +250,14 @@
     }
     h2 {
         font-size: 14px;
-        line-height: 24px;
+        line-height: 33px;
         font-weight: 600;
         letter-spacing: 1px;
         display: block;
-        background-color: #fefffa;
+        background-color: #004a7e;
+        color: white;
+        padding-left: 10px;
+        border-radius: 5px;
         margin: 0;
         cursor: pointer;
     }
@@ -280,31 +283,30 @@
             position: relative;
             padding: 0;
             margin: 0;
-            padding-bottom: 10px;
-            padding-top: 10px;
+            padding-bottom: 3px 5px;
             border-top: 1px dotted #dce7eb;
             &:nth-of-type(1) {
-                animation-delay: 0.2s;
+                animation-delay: 0.4s;
             }
             &:nth-of-type(2) {
-                animation-delay: 0.2s;
+                animation-delay: 0.4s;
             }
             &:nth-of-type(3) {
-                animation-delay: 0.2s;
+                animation-delay: 0.4s;
             }
             &:last-of-type {
-                padding-bottom: 0.2s;
+                padding-bottom: 0.4s;
             }
             i {
                 position: absolute;
                 transform: translate(-6px, 0);
-                margin-top: 8px;
+                margin-top: 12px;
                 right: 10px;
                 &:before,
                 &:after {
                     content: "";
                     position: absolute;
-                    background-color: #06099e;
+                    background-color: #ffffff;
                     width: 3px;
                     height: 9px;
                 }
@@ -320,6 +322,7 @@
                 cursor: pointer;
                 width: 100%;
                 height: 100%;
+                margin: 0px !important;
                 z-index: 1;
                 opacity: 0;
                 &:checked~ {

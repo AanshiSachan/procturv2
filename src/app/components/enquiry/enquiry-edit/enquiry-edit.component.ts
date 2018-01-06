@@ -163,7 +163,6 @@ export class EnquiryEditComponent implements OnInit {
         this.router.navigateByUrl('/enquiry');
       }
       else {
-        this.updateEnquiryData();
         this.fetchCommentData();
       }
     }
@@ -176,6 +175,7 @@ export class EnquiryEditComponent implements OnInit {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.busy = this.FetchEnquiryPrefilledData();
+    this.updateEnquiryData();
   }
 
 
@@ -196,11 +196,6 @@ export class EnquiryEditComponent implements OnInit {
           this.meridian = moment(followUpDateTime).format('a').toString().toUpperCase();
           document.getElementById('meridianpar').classList.add('has-value');
         }
-
-        if (this.editEnqData.enqCustomLi == null) {
-          this.editEnqData.enqCustomLi = [];
-        }
-
         this.fetchSubject(this.editEnqData.standard_id);
       });
   }
@@ -283,27 +278,6 @@ export class EnquiryEditComponent implements OnInit {
 
 
 
-    this.prefill.getScholarPrefillData().subscribe(
-      data => {
-        //console.log(data);
-        data.forEach(el => {
-          if (el.label == "Scholarship") {
-            //console.log(el);
-            this.enqScholarship = el.prefilled_data.split(',');
-          }
-          else if (el.label == "Subject2") {
-            this.enqSub2 = el.prefilled_data.split(',');
-          }
-        })
-      },
-      err => {
-        //  console.log(err);
-      }
-    );
-
-
-
-
     this.prefill.getEnqStardards().subscribe(
       data => { this.enqStd = data; },
       err => {
@@ -359,14 +333,13 @@ export class EnquiryEditComponent implements OnInit {
         // console.log(err);
       }
     );
+ 
 
 
-
-    return this.prefill.fetchCustomComponent()
+    return this.prefill.fetchCustomComponentById(localStorage.getItem('institute_enquiry_id'))
       .subscribe(
       data => {
         data.forEach(el => {
-
           let obj = {
             data: el,
             id: el.component_id,
@@ -380,7 +353,7 @@ export class EnquiryEditComponent implements OnInit {
             value: el.enq_custom_value
           }
           this.customComponents.push(obj);
-
+          //console.log(obj);
         });
         this.emptyCustomComponent = this.componentListObject;
       },

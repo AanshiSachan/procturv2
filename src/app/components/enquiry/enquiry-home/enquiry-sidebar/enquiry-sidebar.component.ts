@@ -107,7 +107,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     this.updateFormData.priority = this.rowData.priority;
     this.updateFormData.follow_type = this.rowData.follow_type;
     this.updateFormData.statusValue = this.rowData.statusValue;
-    this.prefill.fetchCommentsForEnquiry(id).subscribe(res => {
+    this.prefill.fetchAllDataEnquiry(id).subscribe(res => {
       this.updateFormData.followUpDate = res.followUpDate;
       this.cd.markForCheck();
       let followUpDateTime = res.followUpDate + " " + res.followUpTime

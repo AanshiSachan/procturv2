@@ -344,258 +344,14 @@
 
         <!-- Enquiry DataTable -->
         <div class="row " id="table-main">
+
           <div class="table-scroll-wrapper">
             <div class="table table-responsive enquiry-table">
-
-              <!-- <table class="align-center" style="min-height: 200px;">
-
-                <thead>
-                  <tr>
-
-                    <th>
-                      <div class="field-checkbox-wrapper" style="background: transparent;">
-                        <input id="headerCheckbox" type="checkbox" value="" [(ngModel)]="isAllSelected" (ngModelChange)="toggleSelectAll($event)"
-                          name="check" class="form-checkbox">
-
-                        <label>asdf</label>
-                      </div>
-                    </th>
-
-                    <th>
-                      <label>
-                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.enquiry_no.id)">{{header.enquiry_no.title}}</a>
-                      </label>
-                    </th>
-
-                    <th>
-                      <label>
-                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.enquiry_date.id)">{{header.enquiry_date.title}}</a>
-                      </label>
-                    </th>
-
-                    <th>
-                      <label>
-                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.name.id)">{{header.name.title}}</a>
-                      </label>
-                    </th>
-
-                    <th>
-                      <label>
-                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.phone.id)">{{header.phone.title}}</a>
-                      </label>
-                    </th>
-
-                    <th>
-                      <label>
-                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.statusValue.id)">{{header.statusValue.title}}</a>
-                      </label>
-                    </th>
-
-                    <th>
-                      <label>
-                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.priority.id)">{{header.priority.title}}</a>
-                      </label>
-                    </th>
-
-                    <th>
-                      <label>
-                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.follow_type.id)">{{header.follow_type.title}}</a>
-                      </label>
-                    </th>
-
-                    <th>
-                      <label>
-                        <a class="cursor-icon" style="color:white;" (click)="sortTableById('followUpDate')">{{header.followUpDateTime.title}}</a>
-                      </label>
-                    </th>
-
-                    <th>
-                      <label>
-                        <a class="cursor-icon" style="color:white;">{{header.actions.title}}</a>
-                      </label>
-                    </th>
-
-                    <th>
-                      <label>
-                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.updateDate.id)">{{header.updateDate.title}}</a>
-                      </label>
-                    </th>
-
-                    <th>
-                      <label>
-                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.assigned_name.id)">{{header.assigned_name.title}}</a>
-                      </label>
-                    </th>
-                    
-                      <th [hidden]="!selectedOption.email.show">
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.email.id)">{{header.email.title}}</a>
-                        </label>
-                      </th>
-
-                      <th [hidden]="!selectedOption.Gender.show">
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.Gender.id)">{{header.Gender.title}}</a>
-                        </label>
-                      </th>
-
-                      <th [hidden]="!selectedOption.standard.show">
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.standard.id)">{{header.standard.title}}</a>
-                        </label>
-                      </th>
-
-                      <th [hidden]="!selectedOption.subjects.show">
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.subjects.id)">{{header.subjects.title}}</a>
-                        </label>
-                      </th>
-
-
-                      <th class="table-head-menu">
-                        <span>
-                          <img src="./assets/images/hamburger_menu.svg" alt="" />
-                          <img src="./assets/images/hamburger_menu_close.svg" alt="" />
-                        </span>
-                        <div class="table-heading-menu">
-                          <div class="heading-menu-inner">
-                            <ul class="">
-                              <li *ngFor="let head of myOptions">
-                                <div style="width: 20%; display: inline-block;">
-                                  <div class="field-checkbox-wrapper">
-                                    <input type="checkbox" value="" (click)="toggleOptionChange($event.target.checked, head.id)" name="check" class="form-checkbox"
-                                    />
-                                    <label></label>
-                                  </div>
-                                </div>
-                                <div style="width: 70%; display: inline-block; color:rgba(0, 0, 0, 0.774); padding: 0px;">
-                                  <p>{{head.name}}</p>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </th>
-                    
-                  </tr>
-                </thead>
-
-
-                <tbody class="" *ngIf="sourceEnquiry.length != 0">
-
-                  <tr id="row{{i}}" *ngFor="let row of sourceEnquiry; let i = index; trackBy: i" (click)="openEnquiryFullDetails()">
-
-                    <td>
-                      <div class="field-checkbox-wrapper">
-                        <input type="checkbox" (click)="rowCheckBoxClick($event.target.checked, i, row.data.enquiry_no)" id="check{{i}}" value=""
-                          name="enquirycheck" class="form-checkbox">
-                        <label>sdf</label>
-                      </div>
-                    </td>
-
-                    <td (click)="rowClicked(row)">
-                      <div class="tooltip-table pos-rel">
-                        <a href="javascript:void(0)" class="cursor-icon" (click)="openUpdatePopUpCustom(row)">
-                          {{row.data.enquiry_no}}
-                        </a>
-                      </div>
-                    </td>
-
-                    <td>
-                      {{row.data.enquiry_date| date:'dd-MMM-yy'}}
-                    </td>
-
-                    <td style="text-align: left">
-                      {{row.data.name}}
-                    </td>
-
-                    <td style="text-align: right">
-                      {{row.data.phone}}
-                    </td>
-
-                    <td>
-                      {{row.data.statusValue}}
-                    </td>
-
-                    <td>
-                      {{row.data.priority}}
-                    </td>
-
-                    <td>
-                      {{row.data.follow_type}}
-                    </td>
-
-                    <td>
-                      <label [ngStyle]="{'color':getFollowUpColor(row.data.followUpDateTime)}">
-                        {{row.data.followUpDateTime}}
-                      </label>
-                    </td>
-
-                    <td (click)="rowClicked(row)">
-                      <enquiry-actions [rowData]="row.data">
-                      </enquiry-actions>
-                    </td>
-
-                    <td>
-                      {{row.data.updateDate| date:'dd-MMM-yy'}}
-                    </td>
-
-                    <td>
-                      {{row.data.assigned_name}}
-                    </td>
-
-                    
-                      <td [hidden]="!selectedOption.email.show">
-                        {{row.data.email}}
-                      </td>
-
-                      <td [hidden]="!selectedOption.Gender.show">
-                        {{row.data.Gender}}
-                      </td>
-
-                      <td [hidden]="!selectedOption.standard.show">
-                        {{row.data.standard}}
-                      </td>
-
-                      <td [hidden]="!selectedOption.subjects.show">
-                        {{row.data.subjects}}
-                      </td>
-
-                      <td>
-
-                      </td>
-                  
-                  </tr>
-
-                </tbody>
-
-                <tbody *ngIf="sourceEnquiry.length == 0">
-                  <tr class="empty-table-wrapper" style="background: none;">
-                    <td colspan="12">
-                      <ul>
-                        <li style="font-weight: 700">{{fetchingDataMessage}}</li>
-                      </ul>
-                    </td>
-                  </tr>
-                </tbody>
-
-                </table>
-              -->
-
-            <proctur-checkbox-table 
-              [records]="sourceEnquiry" 
-              [tableName]="'enquiry'" 
-              [settings]="EnquirySettings" 
-              (userRowSelect)="userRowSelect($event)"
-              (rowsSelected)="getRowCount($event)"
-              [dataStatus]="fetchingDataMessage"
-              [key1] = "'followUpDateTime'"
-              [primaryKey]="'institute_enquiry_id'"
-              (rowIdArr)="getSelectedEnquiries($event)"
-              (sortById)="sortTableById($event)">
-            </proctur-checkbox-table>
-           
-          </div>
+              <proctur-checkbox-table [records]="sourceEnquiry" [tableName]="'enquiry'" [settings]="EnquirySettings" (userRowSelect)="userRowSelect($event)"
+                (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage" [key1]="'followUpDateTime'" [primaryKey]="'institute_enquiry_id'"
+                (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)">
+              </proctur-checkbox-table>
+            </div>
           </div>
 
           <div id="mySidenav" class="sidenav">
@@ -603,23 +359,15 @@
               X
             </a>
             <div class="skeleton" #skelton *ngIf="!isSideBar"></div>
-            <enquiry-sidebar *ngIf="isSideBar"
-              [enquiryRow]="enquiryFullDetail"
-              [row] = "selectedRow" 
-              [priorityArr]="enqPriority"
-              [statusArr]="enqstatus"
-              [followupArr]="enqFollowType"
-              (updateEnq)= "virtualUpdateEnquiry($event)"
-              (cancelUpdate) = "closeEnquiryFullDetails($event)"
-             
-            >
-          </enquiry-sidebar>
+            <enquiry-sidebar *ngIf="isSideBar" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority" [statusArr]="enqstatus"
+              [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)" (cancelUpdate)="closeEnquiryFullDetails($event)">
+            </enquiry-sidebar>
           </div>
 
         </div>
 
         <!-- Paginator Here -->
-        <div class="row filter-res pagination" style="width: 100%;">
+        <div class="row filter-res pagination" id="pager" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
               [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalEnquiry">
@@ -627,6 +375,7 @@
           </div>
 
         </div>
+
 
       </section>
 

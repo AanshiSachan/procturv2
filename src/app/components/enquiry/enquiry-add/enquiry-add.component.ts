@@ -320,25 +320,6 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-    /* this.prefill.getScholarPrefillData().subscribe(
-      data => {
-        //console.log(data);
-        data.forEach(el => {
-          if (el.label == "Scholarship") {
-            //console.log(el);
-            this.enqScholarship = el.prefilled_data.split(',');
-          }
-          else if (el.label == "Subject2") {
-            this.enqSub2 = el.prefilled_data.split(',');
-          }
-        })
-      },
-      err => {
-        //  console.log(err);
-      }
-    ); */
-
-
 
 
     this.prefill.getEnqStardards().subscribe(
@@ -421,7 +402,7 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-    return this.prefill.fetchCustomComponent()
+    return this.prefill.fetchCustomComponentEmpty()
       .subscribe(
       data => {
         data.forEach(el => {
@@ -735,8 +716,7 @@ export class EnquiryAddComponent implements OnInit {
             this.appC.popToast(data);
           }
         );
-        this.prefill.fetchLastDetail().subscribe(el =>
-          data => {
+        this.prefill.fetchLastDetail().subscribe( data => {
             //console.log(data);
             this.lastDetail = data;
             this.lastDetail.name = data.name;
@@ -817,8 +797,7 @@ export class EnquiryAddComponent implements OnInit {
 
   /* fetch the data of last updated enquiry */
   updateLastUpdatedDetails() {
-    this.prefill.fetchLastDetail().subscribe(el =>
-      data => {
+    this.prefill.fetchLastDetail().subscribe(data => {
         this.lastDetail = data;
         this.lastDetail.name = data.name;
         this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
@@ -928,9 +907,13 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-  navigateToEdit(val) {
-    localStorage.setItem('institute_enquiry_id', val);
-    this.router.navigate(['/enquiry/edit']);
+  navigateToEdit() {
+    let val: any;
+    this.prefill.fetchLastDetail().subscribe(el =>{
+        localStorage.setItem('institute_enquiry_id', el.institute_enquiry_id);
+        this.router.navigate(['/enquiry/edit']);
+      }
+    )
   }
 
 

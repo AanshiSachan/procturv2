@@ -156,7 +156,6 @@
 #table-main {
     margin-right: 30%;
     max-height: 500px;
-    min-height: 500px;
     overflow: hidden;
     width: 100%;
 }
@@ -1712,14 +1711,14 @@ ul.customDropdown li:hover {
 }
 
 .sidenav {
-    min-height: 480px;
-    max-height: 480px;
+    //min-height: 480px;
+    max-height: 565px;
     width: 0;
     position: absolute;
     z-index: 1;
     top: 200px;
     right: 0;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     //transition: 0.1s;
 
