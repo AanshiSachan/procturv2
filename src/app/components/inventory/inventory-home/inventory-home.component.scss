@@ -5,6 +5,39 @@
 @import "./src/assets/css/common/variables.scss";
 
 
+.common-tab {
+    padding-top: 5px;
+    ul {
+        font-size: 0;
+        border-bottom: 1px solid #f1f1f1;
+        li {
+            margin-right: 1px;
+            display: inline-block;
+            width: 10%;
+            max-width: 158px;
+            cursor: pointer;
+            a {
+                display: block;
+                padding: 10px 5px;
+                background: #eff7ff;
+                border: 1px solid #cccdcd;
+                color: $common-blue;
+                text-align: center;
+                font-size: 14px;
+                font-weight: 600;
+            }
+            &:hover,
+            &.active {
+                a {
+                    background: $common-blue;
+                    color: $bg-white;
+                    border-color: $common-blue;
+                    font-weight: normal;
+                }
+            }
+        }
+    }
+}
 
 
 .middle-section {
@@ -636,12 +669,24 @@
 }
 
 
-.custom-comp-tablewrapper {
+.table-scroll-wrapper {
     margin: 15px;
     table {
         thead {
             tr {
                 line-height: 20px;
+            }
+            .displayComp {
+                .view-comp {}
+                .edit-comp {
+                    display: none
+                }
+            }
+            .editComp {
+                .view-comp {
+                    display: none
+                }
+                .edit-comp {}
             }
         }
         tbody {
@@ -725,7 +770,22 @@
                 }
             }
             .displayComp {
-                .view-comp {}
+                .view-comp {
+                    .displayAddItem {
+                        .view-addItem {
+                            
+                        }
+                        .edit-addItem {
+                            display: none
+                        }
+                    }
+                    .editAddItem {
+                        .view-addItem {
+                            display: none
+                        }
+                        .edit-addItem {}
+                    }
+                }
                 .edit-comp {
                     display: none
                 }

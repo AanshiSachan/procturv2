@@ -52,4 +52,29 @@ export class InventoryService {
     );
   }
 
+
+  fetchAllCategories(){
+    this.url = this.baseUrl + "/api/v1/inventory/category/all/" + this.institute_id;
+
+    return this.http.get(this.url, {headers: this.headers}).map(
+      data => {return data.json() },
+      err => {
+        //  console.log("error fetching template");
+      }
+    );
+  }
+
+
+  updateInventoryItem(data){
+    this.url = this.baseUrl + "/api/v1/inventory/category/all/" + this.institute_id;
+
+    data.institute_id = this.institute_id;
+
+    return this.http.post(this.url, data,{headers: this.headers}).map(
+      data => {return data.json() },
+      err => {
+      }
+    );
+  }
+
 }
