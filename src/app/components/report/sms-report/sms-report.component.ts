@@ -29,8 +29,11 @@ export class SmsReportComponent implements OnInit {
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   displayBatchSize: number = 1000;
   PageIndex: number = 1;
-  maxPageSize: number = 0; totalRecords: number = 0;
+  maxPageSize: number = 0; 
+  totalRecords: number = 0;
   currentDirection = 'desc';
+  busy: Subscription;
+  perPage:number = 10;
 
 
 
@@ -41,8 +44,6 @@ export class SmsReportComponent implements OnInit {
     { primaryKey: 'sentDateTime', header: 'Sent Date' },
     { primaryKey: 'sms_type', header: 'Type' },
     { primaryKey: 'func_type', header: 'Event' },
-    /* { primaryKey: 'totalCount', header: 'Total' },
-    { primaryKey: 'successCount', header: 'Success' }, */
     { primaryKey: 'sentStatus', header: 'Name' }
   ];
 
@@ -61,30 +62,37 @@ export class SmsReportComponent implements OnInit {
     this.switchActiveView('sms');
   }
 
+
+  
   ngOnInit() {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-    this.getSmsReport(this.smsFetchForm);
+    this.busy = this.getSmsReport(this.smsFetchForm);
   }
+
+
 
 
   getSmsReport(obj) {
 
-    this.getSms.fetchSmsReport(obj).subscribe(
-      res => {
-        res.forEach(el => {
-          let obj = {
-            isSelected: false,
-            data: el
-          }
-          this.smsSource.push(obj);
-        });
-      }
-    )
-
+    if(obj.start_index == 0){
+      return this.getSms.fetchSmsReport(obj).subscribe(
+        res => {
+          this.smsSource = res;
+          this.totalRecords = res[0].totalCount;
+        }
+      )
+    }
+    else{
+      return this.getSms.fetchSmsReport(obj).subscribe(
+        res => {
+          this.smsSource = res;
+        }
+      )
+    }
   }
-
+ 
 
 
   /* Customiized click detection strategy */
@@ -112,6 +120,8 @@ export class SmsReportComponent implements OnInit {
   }
 
 
+
+
   switchActiveView(id) {
     document.getElementById('home').classList.remove('active');
     document.getElementById('attendance').classList.remove('active');
@@ -133,24 +143,54 @@ export class SmsReportComponent implements OnInit {
       case 'email': { document.getElementById('email').classList.add('active'); break; }
       case 'profit': { document.getElementById('profit').classList.add('active'); break; }
     }
+
   }
 
-  fetchSmsByDate(){
+
+
+  fetchSmsByDate() {
     this.getSmsReport(this.smsFetchForm);
   }
 
 
-  fectchTableDataByPage(){
+
+
+  fectchTableDataByPage() {
 
   }
 
-  fetchNext(){
+
+
+
+  fetchNext() {
 
   }
 
-  fetchPrevious(){
+
+
+  fetchPrevious() {
 
   }
+
+
+
+
+  getMin(): number {
+    return ((this.perPage * this.PageIndex) - this.perPage) + 1;
+  }
+
+
+
+
+
+  getMax(): number {
+    let max = this.perPage * this.PageIndex;
+    if (max > this.totalRecords) {
+      max = this.totalRecords;
+    }
+    return max;
+  }
+
 
 
 

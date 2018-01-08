@@ -20,8 +20,8 @@
                     <label>asdf</label>
                 </div>
             </td>
-            <td *ngFor="let map of columnMaps" [ctStyleCell]="record.data[map.access(record.data)]">
-                {{ record.data[map.access(record.data)] | formatCell:map.format }}
+            <td *ngFor="let map of columnMaps" [ctStyleCell]="record[map.access(record)]">
+                {{ record[map.access(record)] | formatCell:map.format }}
             </td>
         </tr>
     </tbody>

@@ -3,7 +3,8 @@
 /* Scrollbar thickness changed here for vertical display */
 
 ::-webkit-scrollbar {
-    width: 2px;
+    width: 7px;
+    height: 7px;
 }
 
 
@@ -21,12 +22,12 @@
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    background: rgba(0, 47, 255, 0.4);
+    background: rgba(3, 14, 65, 0.4);
     -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
-    background: rgba(0, 47, 255, 0.4);
+    background: rgba(7, 27, 119, 0.4);
 }
 
 .image-wrapper {
@@ -99,19 +100,6 @@
             position: relative;
             z-index: 1;
             background: transparent;
-                /*&:after{
-                content: '';
-                background: url("/../../../../assets/images/close.svg") no-repeat;
-                position: absolute;
-                right: 40px;
-                top: 20px;
-                width: 100%;
-                height: 21px;
-                z-index: 0;
-                &:focus{
-    
-                }    
-            } */
         }
         &:after {
             content: '';
@@ -297,7 +285,7 @@ textarea {
     background: white;
     min-width: 400px;
     min-height: 50px;
-    top: 35px;
+    top: 65px;
     .multiselect-wrapper-inner {
         padding: 10px;
         ul {
@@ -312,24 +300,22 @@ textarea {
 
 input[type="text"][disabled] {
     background: transparent !important;
- }
+}
 
-/* ================================================================================================= */
-
-
-/* ================================================================================================= */
 
 
 /* ================================================================================================= */
 
+/* ================================================================================================= */
 
 /* ================================================================================================= */
 
+/* ================================================================================================= */
 
 /* ================================================================================================= */
 
-
 /* ================================================================================================= */
+
 
 .fbold {
     font-weight: 700;
@@ -643,7 +629,6 @@ h3 {
 
 .field-checkbox-wrapper .form-checkbox+label {
     vertical-align: middle;
-    transition: all 0.1s;
     font-size: 14px;
     display: inline-block;
 }
@@ -657,7 +642,7 @@ h3 {
     position: absolute;
     left: 0;
     top: 0;
-    transition: all 0.1s;
+
 }
 
 .field-checkbox-wrapper .form-checkbox:checked+label:after {
@@ -665,7 +650,7 @@ h3 {
 }
 
 .field-checkbox-wrapper .form-checkbox+label:before {
-    transition: all 0.1s;
+    
     width: 1px;
     height: 1px;
     left: 8px;

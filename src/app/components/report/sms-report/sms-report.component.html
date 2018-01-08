@@ -1,4 +1,4 @@
-<div class="middle-section clearFix sms-view-wrapper">
+<div class="middle-section clearFix sms-view-wrapper" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
 
   <aside class="middle-full">
 
@@ -39,36 +39,43 @@
         </div>
       </section>
 
+      <div class="sms-table-controller">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-left">
+          
+          <ul class="record-list">
+          
+            <li>
+              <label>
+                Showing {{ getMin() }} to {{ getMax() }} of {{ count }} Records
+              </label>
+            </li>
+          
+            <li>
+              <div class="bulk-dropdown">
+                <label class="bulk-dropbtn">
+                  Records per page :
+                  <button class="bulk-dropbtn-border" id="bulk-action" #bulkaction (click)="bulkActionFunctionOpen()" type="button" data-toggle="dropdown">
+                    {{displayBatchSize}}
+                    <span class="caret"></span>
+                  </button>
+                </label>
+                <div id="bulk-drop" class="bulk-dropdown-content hide" (click)="bulkActionFunctionClose()" (mouseleave)="bulkActionFunctionClose()">
+                  <a *ngFor="let size of sizeArr" (click)="updateTableBatchSize(size)">
+                    {{size}}
+                  </a>
+                </div>
+              </div>
+            </li>
+         
+          </ul>
+       
+        </div>
+      </div>
+
       <section class="sms-table-wrapper">
 
         <div class="table table-responsive student-table">
-          <!-- <table class="align-center">
-            <thead>
-              <tr>
-                <th>Sent Date</th>
-                <th>Contact No.</th>
-                <th>Message</th>
-                <th>Name</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th>Event</th>
-                <th>SMS Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="selected">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table> -->
-
+          
           <proctur-table [records]="smsSource" [tableName]="'sms'" [settings]="projectSettings">
           </proctur-table>
 

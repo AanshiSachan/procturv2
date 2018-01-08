@@ -10,18 +10,14 @@ ngOnInit() {
    if (this.ctStyleCell === undefined) {
        this.renderer.setElementStyle(
             this.el.nativeElement, 
-            'color', 
-            '#dcdcdc');
-       this.renderer.setElementStyle(
-            this.el.nativeElement, 
             'text-align', 
             'center');
    }
-   if (typeof this.ctStyleCell === 'number') {
+   if (this.ctStyleCell === 'red') {
        this.renderer.setElementStyle(
             this.el.nativeElement, 
-            'text-align', 
-            'center');
+            'color', 
+            'red');
    }
 }
 }

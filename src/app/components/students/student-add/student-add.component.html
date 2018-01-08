@@ -159,16 +159,7 @@
                 </div>
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <!-- <div class="image-wrapper">
-                  <img src="" alt="" id="preview-img">
-                  <div class="input-holder">
-                    <input type="file" name="myFile" id="image-input" (change)="uploadHandler()">
-                    <label class="uploadImg" for="image-input">Upload image</label>
-                    <label class="removeImg" (click)="removeImage()">Remove image</label>
-                  </div>
-                </div> -->
-                <image-upload [removeImg]="removeImage">
-                  
+                <image-upload [removeImg]="removeImage">        
                 </image-upload>
               </div>
             </div>
@@ -324,17 +315,17 @@
                 </div>
 
 
-                <div id="assignCoursesParent" class="field-wrapper" *ngIf="isAcad">
-                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" (click)="openAssignBatch()" disabled/>
-                  <label for="assignCourses">Assign Courses</label>
+                <div id="assignCoursesParent" class="field-wrapper" *ngIf="isAcad" (click)="openAssignBatch()">
+                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" disabled/>
+                  <label (click)="openAssignBatch()" for="assignCourses">Assign Courses</label>
                 </div>
 
 
-                <div class="map-courses" *ngIf="isAcad">
+                <!-- <div class="map-courses" *ngIf="isAcad">
                   <a style="cursor:pointer" (click)="openAssignBatch()">
                     <strong>Map Courses</strong>
                   </a>
-                </div>
+                </div> -->
 
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
@@ -378,32 +369,41 @@
                   </div>
                 </div>
 
-                <div class="field-wrapper" *ngIf="isProfessional">
-                  <select id="status" [(ngModel)]="studentAddFormData.language_inst_status" name="status" class="form-ctrl">
+                <div class="field-wrapper has-value" *ngIf="isProfessional">
+                  <select id="status"  [(ngModel)]="studentAddFormData.language_inst_status" name="status" class="form-ctrl">
                     <option></option>
-                    <option *ngFor="let status of langStatus" [value]="status.data_key">
+                    <option *ngFor="let status of langStatus" [value]="status.data_key" [attr.selected]="status.data_key == 'admitted' ? '' : null">
                       {{status.data_value}}
                     </option>
                   </select>
                   <label for="status">Status</label>
                 </div>
 
-                <div id="assignCoursesParent" class="field-wrapper" *ngIf="isProfessional">
-                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" (click)="openAssignBatch()" disabled/>
-                  <label for="assignCourses">Assign Courses</label>
+                <div id="assignCoursesParent" class="field-wrapper" *ngIf="isProfessional" (click)="openAssignBatch()">
+                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" disabled/>
+                  <label (click)="openAssignBatch()" for="assignCourses">Assign Batch</label>
                 </div>
 
-                <div class="map-courses" *ngIf="isProfessional">
+                <!-- <div class="map-courses" *ngIf="isProfessional">
                   <a style="cursor:pointer" (click)="openAssignBatch()">
                     <strong>Map Courses</strong>
                   </a>
+                </div> -->
+
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive" (ngModelChange)="updateFormIsActive($event)" class="form-checkbox"
+                    id="isStudentActive">
+                  <label for="quickAddStudent">Is Active Student</label>
                 </div>
+
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
               </div>
 
             </section>
+
           </aside>
+          
         </section>
 
         <!-- Page 1 Footer -->
@@ -850,7 +850,8 @@
       </svg>
     </span>
 
-    <h2 popup-header>Batch Assignment</h2>
+    <h2 popup-header *ngIf="isAcad">Course Assignment</h2>
+    <h2 popup-header *ngIf="isProfessional">Batch Assignment</h2>
 
     <div class="fee-install-table" popup-content>
       <div class="table-responsive">

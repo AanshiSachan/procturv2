@@ -95,7 +95,7 @@ export class EnquiryAddComponent implements OnInit {
   errorMessage: any;
   submitError: boolean = false;
   addNextCheck: boolean = false;
-  isEnquiryAdmin:boolean = false;
+  isEnquiryAdmin: boolean = false;
   busy: Subscription;
   isNewInstitute: boolean = true;
   private customComponents: any[] = [];
@@ -110,8 +110,9 @@ export class EnquiryAddComponent implements OnInit {
   /* Institute List for edit and delete purpose */
   referList: any;
 
-  hourArr: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  minArr: any[] = ['00', '15', '30', '45']; meridianArr: any[] = ["AM", "PM"];
+  hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  minArr: any[] = ['', '00', '15', '30', '45']; 
+  meridianArr: any[] = ['', "AM", "PM"];
   hour: string = ''; minute: string = ''; meridian: string = '';
 
 
@@ -190,7 +191,7 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-  
+
   /* OnInit Initialized */
   ngOnInit() {
     this.isEnquiryAdministrator;
@@ -319,25 +320,6 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-    /* this.prefill.getScholarPrefillData().subscribe(
-      data => {
-        //console.log(data);
-        data.forEach(el => {
-          if (el.label == "Scholarship") {
-            //console.log(el);
-            this.enqScholarship = el.prefilled_data.split(',');
-          }
-          else if (el.label == "Subject2") {
-            this.enqSub2 = el.prefilled_data.split(',');
-          }
-        })
-      },
-      err => {
-        //  console.log(err);
-      }
-    ); */
-
-
 
 
     this.prefill.getEnqStardards().subscribe(
@@ -420,7 +402,7 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-    return this.prefill.fetchCustomComponent()
+    return this.prefill.fetchCustomComponentEmpty()
       .subscribe(
       data => {
         data.forEach(el => {
@@ -442,7 +424,7 @@ export class EnquiryAddComponent implements OnInit {
         });
         this.emptyCustomComponent = this.componentListObject;
       }
-    );
+      );
   }
 
 
@@ -470,11 +452,13 @@ export class EnquiryAddComponent implements OnInit {
   /* if custom component is of type multielect then toggle the visibility of the dropdowm */
   multiselectVisible(elid) {
     let targetid = elid + "multi";
-    if (document.getElementById(targetid).classList.contains('hide')) {
-      document.getElementById(targetid).classList.remove('hide');
-    }
-    else {
-      document.getElementById(targetid).classList.add('hide');
+    if (elid != null && elid != '') {
+      if (document.getElementById(targetid).classList.contains('hide')) {
+        document.getElementById(targetid).classList.remove('hide');
+      }
+      else {
+        document.getElementById(targetid).classList.add('hide');
+      }
     }
   }
 
@@ -693,15 +677,15 @@ export class EnquiryAddComponent implements OnInit {
 
     /* Validate the predefine required fields of the form */
     this.isFormValid = this.ValidateFormDataBeforeSubmit();
-    
+
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
 
-      if(this.validateTime()){
+      if (this.validateTime()) {
         this.newEnqData.enquiry_date = moment(this.newEnqData.enquiry_date).format('YYYY-MM-DD');
         this.newEnqData.followUpDate = moment(this.newEnqData.followUpDate).format('YYYY-MM-DD');
-        if(this.hour != ''){
-          this.newEnqData.followUpTime = this.hour +":" +this.minute +" " +this.meridian;
+        if (this.hour != '') {
+          this.newEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         }
         this.poster.postNewEnquiry(this.newEnqData).subscribe(
           data => {
@@ -732,8 +716,7 @@ export class EnquiryAddComponent implements OnInit {
             this.appC.popToast(data);
           }
         );
-        this.prefill.fetchLastDetail().subscribe(el =>
-          data => {
+        this.prefill.fetchLastDetail().subscribe( data => {
             //console.log(data);
             this.lastDetail = data;
             this.lastDetail.name = data.name;
@@ -741,15 +724,15 @@ export class EnquiryAddComponent implements OnInit {
             localStorage.setItem('institute_enquiry_id', data.institute_enquiry_id);
             let createTime = new Date(data.enquiry_creation_datetime);
             this.lastUpdated = moment(createTime).fromNow();
-        });
+          });
       }
-      else{
+      else {
         let msg = {
           type: 'error',
           title: 'Invalid Time Input',
           body: 'Please select a valid time for follow up'
-          }
-          this.appC.popToast(msg);
+        }
+        this.appC.popToast(msg);
       }
     }
     else {
@@ -767,14 +750,14 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-  validateTime(): boolean{
+  validateTime(): boolean {
     /* some time selected by user or nothing*/
-   if((this.hour != '' && this.minute != '' && this.meridian != '')||(this.hour == '' && this.minute == '' && this.meridian == '')){
-     return true;
-   } 
-   else{      
-    return false;
-   }
+    if ((this.hour != '' && this.minute != '' && this.meridian != '') || (this.hour == '' && this.minute == '' && this.meridian == '')) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
 
@@ -814,8 +797,7 @@ export class EnquiryAddComponent implements OnInit {
 
   /* fetch the data of last updated enquiry */
   updateLastUpdatedDetails() {
-    this.prefill.fetchLastDetail().subscribe(el =>
-      data => {
+    this.prefill.fetchLastDetail().subscribe(data => {
         this.lastDetail = data;
         this.lastDetail.name = data.name;
         this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
@@ -925,9 +907,13 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-  navigateToEdit(val) {
-    localStorage.setItem('institute_enquiry_id', val);
-    this.router.navigate(['/enquiry/edit']);
+  navigateToEdit() {
+    let val: any;
+    this.prefill.fetchLastDetail().subscribe(el =>{
+        localStorage.setItem('institute_enquiry_id', el.institute_enquiry_id);
+        this.router.navigate(['/enquiry/edit']);
+      }
+    )
   }
 
 
@@ -1247,7 +1233,7 @@ export class EnquiryAddComponent implements OnInit {
             let alert = {
               type: 'error',
               title: 'Failed To Delete Reference',
-              body: 'There was an error processing your request'
+              body: 'The requested referer is currently in use and cannot be deleted'
             }
             this.appC.popToast(alert);
           }
@@ -1408,7 +1394,7 @@ export class EnquiryAddComponent implements OnInit {
             let alert = {
               type: 'error',
               title: 'Failed To Delete Source',
-              body: 'There was an error processing your request'
+              body: 'The requested source is currently in use and cannot be deleted'
             }
             this.appC.popToast(alert);
           }
@@ -1446,8 +1432,8 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-  
-  isEnquiryAdministrator(){
+
+  isEnquiryAdministrator() {
     if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
       this.isEnquiryAdmin = true;
     }
@@ -1480,12 +1466,12 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
-  clearAddEnquiryDate(){
-    this.newEnqData.enquiry_date= "";
+  clearAddEnquiryDate() {
+    this.newEnqData.enquiry_date = "";
   }
 
-  clearAddFollowUpDate(){
-    this.newEnqData.followUpDate= "";
+  clearAddFollowUpDate() {
+    this.newEnqData.followUpDate = "";
     this.hour = '';
     this.minute = '';
     this.meridian = '';

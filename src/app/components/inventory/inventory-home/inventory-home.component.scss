@@ -173,13 +173,13 @@
                 position: absolute;
                 left: 0;
                 top: 0;
-                transition: all 0s;
+                
             }
             .field-checkbox-wrapper .form-checkbox:checked+label:after {
                 border: 2px solid $common-blue;
             }
             .field-checkbox-wrapper .form-checkbox+label:before {
-                transition: all 0s;
+                
                 width: 1px;
                 height: 1px;
                 left: 8px;
@@ -707,7 +707,7 @@
                 }
                 .field-checkbox-wrapper .form-checkbox+label {
                     vertical-align: middle;
-                    transition: all 0s;
+                    
                     font-size: 10px;
                     display: inline-block;
                 }
@@ -720,13 +720,13 @@
                     position: absolute;
                     left: 0;
                     top: 6px;
-                    transition: all 0s;
+                   
                 }
                 .field-checkbox-wrapper .form-checkbox:checked+label:after {
                     border: 2px solid $common-blue;
                 }
                 .field-checkbox-wrapper .form-checkbox+label:before {
-                    transition: all 0s;
+                    
                     width: 1px;
                     height: 1px;
                     left: 8px;

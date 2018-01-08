@@ -1,0 +1,200 @@
+<div class="sidebar-wrapper" (click)="inputClicked($event)">
+ 
+    <div class="row pull-left fixed-header" style="margin:0px">
+        <enquiry-actions [rowData]="rowData"></enquiry-actions>
+    </div>
+
+    <div class="row header-row">
+        <div class="c-lg-9 c-md-9 c-sm-9" style="padding-top: 7px;">
+            <ul>
+                <li style="border-top: none;">
+                    <h3>Enquiry No. {{rowData.enquiry_no}}</h3>
+                </li>
+                <li style="border-top: none;">
+                    {{rowData.name}}
+                </li>
+            </ul>
+        </div>
+        <div class="c-lg-3 c-md-3 c-sm-3" style="padding-top: 7px;">
+        </div>
+    </div>
+
+    <div class="acc-wrapper">
+        <ul>
+            <li>
+                <input type="checkbox" checked>
+                <i></i>
+                <h2>Update Enquiry</h2>
+                <section>
+
+                    <div class="update-form-wrapper">
+
+                        <div class="c-lg-12 c-md-12 c-sm-12 sixty">
+                            <div class="field-wrapper has-value">
+                                <select id="priorityEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.priority" name="priority">
+                                    <option></option>
+                                    <option *ngFor="let priority of priorityArr" [value]="priority.data_value" [attr.selected]="priority.data_value == updateFormData.priority ? '' : null">
+                                        {{priority.data_value}}
+                                    </option>
+                                </select>
+                                <label for="priorityEdit">Priority</label>
+                            </div>
+                        </div>
+
+                        <div class="c-lg-12 c-md-12 c-sm-12 sixty">
+                            <div class="field-wrapper has-value">
+                                <select id="selectFollowupEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.follow_type" name="follow_type">
+                                    <option></option>
+                                    <option *ngFor="let followT of followupArr" [value]="followT.data_value" [attr.selected]="followT.data_value == updateFormData.follow_type ? '' : null">
+                                        {{followT.data_value}}
+                                    </option>
+                                </select>
+                                <label for="selectFollowupEdit">Follow Up Type</label>
+                            </div>
+                        </div>
+
+                        <div class="c-lg-12 c-md-12 c-sm-12 sixty">
+                            <div class="field-wrapper has-value">
+                                <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.statusValue" (ngModelChange)="updateStatusForEnquiryUpdate($event)"
+                                    name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
+                                    <option></option>
+                                    <option *ngFor="let status of statusArr" [value]="status.data_value" [attr.selected]="status.data_value == updateFormData.statusValue ? '' : null"
+                                        [hidden]="status.data_key == 12 ? true : false">
+                                        {{status.data_value}}
+                                    </option>
+                                </select>
+                                <label for="enquiryStatusEdit">Status</label>
+                            </div>
+                        </div>
+
+                        <div class="c-lg-12 c-md-12 c-sm-12 sixty">
+                            <div class="field-wrapper has-value datePickerBox">
+                                <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit" bsDatepicker style="width: 60%;" />
+                                <label for="followUPdateEdit">Follow Up Date</label>
+                                <span style="top:15px;right:20%;" class="date-clear" name="followupdate" (click)="clearupdateDate()">clear</span>
+                            </div>
+                        </div>
+
+                        <div class="c-lg-12 c-md-12 c-sm-12 time-picker">
+                            <div class="field-wrapper" #hourpar id="hourpar">
+                                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="hour" name="hour" style="width: 60px;">
+                                    <option *ngFor="let hour of hourArr" [value]="hour">
+                                        {{hour}}
+                                    </option>
+                                </select>
+                                <label for="hour">Hour</label>
+                            </div>
+                            <div class="field-wrapper" #minutepar id="minutepar">
+                                <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute" style="width: 70px;">
+                                    <option *ngFor="let minute of minArr" [value]="minute">
+                                        {{minute}}
+                                    </option>
+                                </select>
+                                <label for="minute">Minute</label>
+                            </div>
+                            <div class="field-wrapper" #meridianpar id="meridianpar">
+                                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="meridian" name="meridian" style="width: 85px;">
+                                    <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                                        {{meridian}}
+                                    </option>
+                                </select>
+                                <label for="meridian">Meridian</label>
+                            </div>
+                        </div>
+
+                        <div class="c-lg-12 c-md-12 c-sm-12">
+                            <div class="field-wrapper">
+                                <textarea placeholder="Update Comment Here (max 1000 characters)" rows="2" cols="10" style="height: 60px;" id="addcommentEdit"
+                                    class="form-ctrl" [(ngModel)]="updateFormData.comment">
+                                </textarea>
+                            </div>
+                        </div>
+
+                        <div class="c-lg-12 c-md-12 c-sm-12">
+                            <div class="pull-left submitter">
+                                <div class="clearfix">
+                                    <aside class="pull-left popup-btn">
+                                        <input type="button" value="Cancel" class="btn" (click)="closeSideNav()">
+                                        <input type="button" value="Update" class="redBtn btn" (click)="createUpdateForm()">
+                                    </aside>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+            </li>
+            <li>
+                <input type="checkbox" checked>
+                <i></i>
+                <h2>Previous Comments</h2>
+                <section>
+                    <div class="comment-card" *ngFor="let comments of updateFormComments; let i = index;">
+                        <div class="row">
+                            <div class="c-lg-4 c-md-4 c-sm-4 comby">
+                                {{updateFormCommentsBy[i]}}
+                            </div>
+                            <div class="c-lg-8 c-md-8 c-sm-8 comdate">
+                                {{updateFormCommentsOn[i]}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="c-lg-12 c-md-12 c-sm-12 commess">
+                                {{comments}}
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+            </li>
+            <li>
+                <input type="checkbox" checked>
+                <i></i>
+                <h2>Basic Details</h2>
+                <section>
+                    <div class="basic-wrapper">
+                        <div class="row">
+                            <div class="c-lg-6 c-md-6 c-sm-6 label">
+                                Gender
+                            </div>
+                            <div class="c-lg-6 c-md-6 c-sm-6 data">
+                                {{rowData.gender}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="c-lg-6 c-md-6 c-sm-6 label">
+                                Email
+                            </div>
+                            <div class="c-lg-6 c-md-6 c-sm-6 data">
+                                {{rowData.email}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="c-lg-6 c-md-6 c-sm-6 label">
+                                Gender
+                            </div>
+                            <div class="c-lg-6 c-md-6 c-sm-6 data">
+                                {{rowData.gender}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="c-lg-6 c-md-6 c-sm-6 label">
+                                Parent Name
+                            </div>
+                            <div class="c-lg-6 c-md-6 c-sm-6 data">
+                                {{rowData.parent_name}}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </li>
+            <li>
+                <input type="checkbox" checked>
+                <i></i>
+                <h2>Other Details</h2>
+                <section></section>
+            </li>
+        </ul>
+    </div>
+
+</div>

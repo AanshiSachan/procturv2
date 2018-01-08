@@ -30,7 +30,7 @@ export class StudentEditComponent implements OnInit {
     dob: "",
     doj: moment().format('YYYY-MM-DD'), // "2017-10-25",
     school_name: "-1", // "943",
-    student_class: "", // "1269",
+    student_class: "-1", // "1269",
     parent_name: "",
     parent_email: "",
     parent_phone: "",
@@ -45,7 +45,7 @@ export class StudentEditComponent implements OnInit {
     batchJoiningDates: [], // ["2017-10-25", "2017-10-25", "2017-10-25", "2017-10-25"],
     comments: "",
     photo: null,
-    enquiry_id: "",
+
     student_disp_id: "",
     student_manual_username: null,
     social_medium: -1,
@@ -82,7 +82,15 @@ export class StudentEditComponent implements OnInit {
   private selectedSlotsID: string = '';
   private assignedBatchString: string = '';
   private userImageEncoded: string = '';
+  removeImage: boolean = false;
   busyPrefill: Subscription;
+  formIsActive: boolean = true;
+
+
+
+
+
+
 
   constructor(private studentPrefillService: AddStudentPrefillService, private fetchService: FetchStudentService, private prefill: FetchprefilldataService, private postService: PostStudentDataService, private router: Router, private login: LoginService, private appC: AppComponent) {
 
@@ -95,6 +103,11 @@ export class StudentEditComponent implements OnInit {
     }
   }
 
+
+
+
+
+  
   ngOnInit() {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
@@ -105,6 +118,11 @@ export class StudentEditComponent implements OnInit {
       }
     )
   }
+
+
+
+
+
 
   setInstituteType() {
     let institute_type = sessionStorage.getItem('institute_type');
@@ -117,16 +135,68 @@ export class StudentEditComponent implements OnInit {
   }
 
 
-  updateStudentEditForm(formData) {
-    console.log(formData);
-    this.studentEditFormData = formData;
-    if (this.isProfessional) {
-      console.log(this.standardList);
-    }
-    else if (this.isAcad) {
 
+
+
+  updateStudentEditForm(ev) {
+    this.studentEditFormData.student_name = ev.student_name;
+    this.studentEditFormData.student_sex = ev.student_sex;
+    this.studentEditFormData.student_email = ev.student_email;
+    this.studentEditFormData.student_phone = ev.student_phone;
+    this.studentEditFormData.student_curr_addr = ev.student_curr_addr;
+    this.studentEditFormData.dob = ev.dob;
+    this.studentEditFormData.doj = ev.doj;
+    this.studentEditFormData.school_name = ev.school_name;
+    this.studentEditFormData.student_class = ev.student_class;
+    this.studentEditFormData.parent_name = ev.parent_name;
+    this.studentEditFormData.parent_email = ev.parent_email;
+    this.studentEditFormData.parent_phone = ev.parent_phone;
+    this.studentEditFormData.guardian_name = ev.guardian_name;
+    this.studentEditFormData.guardian_email = ev.guardian_email;
+    this.studentEditFormData.guardian_phone = ev.guardian_phone;
+    this.formIsActive = (ev.is_active == 'Y' ? true : false);
+    this.studentEditFormData.is_active = ev.is_active;
+    this.studentEditFormData.institution_id = sessionStorage.getItem('institute_id')
+    this.studentEditFormData.assignedBatches = ev.batchesAssigned;
+    this.studentEditFormData.fee_type = ev.fileType;
+    this.studentEditFormData.fee_due_day = ev.fee_due_day;
+    this.studentEditFormData.batchJoiningDates = ev.batches_joining_date;
+    this.studentEditFormData.comments = ev.comments;
+    this.studentEditFormData.photo = ev.photo;
+
+    this.studentEditFormData.student_disp_id = ev.student_disp_id;
+    this.studentEditFormData.student_manual_username = ev.student_manual_username;
+    this.studentEditFormData.social_medium = ev.social_medium;
+    this.studentEditFormData.attendance_device_id = ev.attendance_device_id;
+    this.studentEditFormData.religion = ev.religion;
+    this.studentEditFormData.standard_id = ev.standard_id;
+    this.studentEditFormData.subject_id = ev.subject_id;
+    this.studentEditFormData.slot_id = ev.slot_id;
+    this.studentEditFormData.language_inst_status = ev.language_inst_status;
+    if(ev.stuCustomLi !=null){
+      ev.stuCustomLi.forEach(el => {
+        this.customComponents.forEach(cc => {
+          if(el.id == cc.id){
+
+          }
+        });
+      });
     }
   }
+
+
+
+
+  updateFormIsActive(ev){
+    if(ev){
+      this.studentEditFormData.is_active = "Y";
+    }
+    else{
+      this.studentEditFormData.is_active = "N";
+    }
+  }
+
+
 
 
   /* Function to navigate through the Student Add Form on button Click Save/Submit*/
@@ -185,6 +255,8 @@ export class StudentEditComponent implements OnInit {
   }
 
 
+
+
   /* Function to navigate on icon click */
   switchToView(id) {
     switch (id) {
@@ -217,6 +289,9 @@ export class StudentEditComponent implements OnInit {
   }
 
 
+
+
+  
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
 
@@ -273,6 +348,8 @@ export class StudentEditComponent implements OnInit {
 
 
 
+  
+  
   createPrefilledData(dataArr: any[]): any[] {
     let customPrefilled: any[] = [];
     dataArr.forEach(el => {
@@ -287,10 +364,15 @@ export class StudentEditComponent implements OnInit {
   }
 
 
+
+
+
   /* Function to show/hide Addition Details Form section */
   toggleAdditionalBasicDetails() {
     this.additionalBasicDetails = !this.additionalBasicDetails;
   }
+
+
 
 
   /* Function to add Student Quickly without fees, kyc and inventory details */
@@ -397,7 +479,7 @@ export class StudentEditComponent implements OnInit {
       this.studentEditFormData.stuCustomLi = customArr;
       this.studentEditFormData.photo = localStorage.getItem('tempImg');
       this.additionalBasicDetails = false;
-      this.postService.quickAddStudent(this.studentEditFormData).subscribe(
+      this.postService.quickEditStudent(this.studentEditFormData, localStorage.getItem("studentId")).subscribe(
         res => {
 
           let statusCode = res.statusCode;
@@ -410,6 +492,7 @@ export class StudentEditComponent implements OnInit {
             this.appC.popToast(alert);
             localStorage.removeItem('tempImg');
             form.reset();
+            this.removeImage = true;
             document.getElementById('preview-img').src = '';
             this.clearFormAndMove();
           }
@@ -420,7 +503,7 @@ export class StudentEditComponent implements OnInit {
               body: 'An enquiry with the same contact number seems to exist'
             }
             form.reset();
-            document.getElementById('preview-img').src = '';
+            this.removeImage = true;
             this.appC.popToast(alert);
             this.isDuplicateContactOpen();
           }
@@ -471,7 +554,7 @@ export class StudentEditComponent implements OnInit {
           elm.addEventListener('focusout', function (event) {
             event.target.parentNode.classList.add('has-value');
           });
-  
+
         });
       }
       else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
@@ -525,11 +608,13 @@ export class StudentEditComponent implements OnInit {
 
   multiselectVisible(elid) {
     let targetid = elid + "multi";
-    if (document.getElementById(targetid).classList.contains('hide')) {
-      document.getElementById(targetid).classList.remove('hide');
-    }
-    else {
-      document.getElementById(targetid).classList.add('hide');
+    if (elid != null && elid != '') {
+      if (document.getElementById(targetid).classList.contains('hide')) {
+        document.getElementById(targetid).classList.remove('hide');
+      }
+      else {
+        document.getElementById(targetid).classList.add('hide');
+      }
     }
   }
 
@@ -626,11 +711,11 @@ export class StudentEditComponent implements OnInit {
 
 
   fetchCourseFromMaster(id) {
-       
-    if(id == null || id == ''){
+
+    if (id == null || id == '') {
       this.courseList = [];
     }
-    else{
+    else {
       this.studentPrefillService.fetchCourseList(id).subscribe(
         res => {
           this.courseList = res;
@@ -660,13 +745,6 @@ export class StudentEditComponent implements OnInit {
 
 
 
-
-  removeImage() {
-    document.querySelector('input[type=file]').value = '';
-    let preview = document.getElementById('preview-img');
-    preview.src = "";
-    localStorage.removeItem('tempImg');
-  }
 
 
 
@@ -727,7 +805,7 @@ export class StudentEditComponent implements OnInit {
       dob: "",
       doj: moment().format('YYYY-MM-DD'), // "2017-10-25",
       school_name: "-1", // "943",
-      student_class: "", // "1269",
+      student_class: "-1", // "1269",
       parent_name: "",
       parent_email: "",
       parent_phone: "",
@@ -742,7 +820,6 @@ export class StudentEditComponent implements OnInit {
       batchJoiningDates: [], // ["2017-10-25", "2017-10-25", "2017-10-25", "2017-10-25"],
       comments: "",
       photo: null,
-      enquiry_id: "",
       student_disp_id: "",
       student_manual_username: null,
       social_medium: -1,
@@ -754,14 +831,13 @@ export class StudentEditComponent implements OnInit {
       language_inst_status: null,
       stuCustomLi: []
     }
-    document.getElementById('preview-img').src = '';
+    this.removeImage = true;
     this.fetchPrefillFormData();
   }
 
 
 
   clearFormAndRoute(form: NgForm) {
-
     let previousUrl: string = '';
     this.studentEditFormData = {
       student_name: "",
@@ -772,7 +848,7 @@ export class StudentEditComponent implements OnInit {
       dob: "",
       doj: moment().format('YYYY-MM-DD'),
       school_name: "-1",
-      student_class: "",
+      student_class: "-1",
       parent_name: "",
       parent_email: "",
       parent_phone: "",
@@ -787,7 +863,6 @@ export class StudentEditComponent implements OnInit {
       batchJoiningDates: [],
       comments: "",
       photo: null,
-      enquiry_id: "",
       student_disp_id: "",
       student_manual_username: null,
       social_medium: -1,
@@ -800,12 +875,15 @@ export class StudentEditComponent implements OnInit {
       stuCustomLi: []
     };
     form.reset();
+    this.removeImage = true;
     this.router.navigate(['/student']);
   }
 
 
 
-  clearDateoJoining(){
-    this.studentEditFormData.doj = ''    
+  clearDateoJoining() {
+    this.studentEditFormData.doj = ''
   }
+
+
 }

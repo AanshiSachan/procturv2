@@ -81,7 +81,7 @@ export class FetchprefilldataService {
 
 
   /* fetch prefill data scholarship */  
-  getScholarPrefillData(): any {
+ /*  getScholarPrefillData(): any {
 
     this.urlScholarSub = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=Y&page=1";
 
@@ -89,7 +89,7 @@ export class FetchprefilldataService {
       .map(res => {
         return res.json();
       })
-  }
+  } */
 
 
 
@@ -394,9 +394,22 @@ export class FetchprefilldataService {
 
 
 
+  
+  /* Fetch comments for the selected enquiryID */
+  fetchAllDataEnquiry(id){
+    this.urlFetchComments = this.baseUrl + "/api/v1/enquiry/v2/" +this.institute_id +"/" +id;
+    return this.http.get(this.urlFetchComments, {headers: this.headers})
+    .map(data => {
+      return data.json();
+    })
+  }
+
+
+
+
 
   /* return the list of custom component for the selected institute ID */
-  fetchCustomComponent(): any{
+  fetchCustomComponentEmpty(): any{
     this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=0&isSearhable=undefined&page=1";
     return this.http.get(this.urlCustomComponent, {headers: this.headers})
     .map(
@@ -409,9 +422,25 @@ export class FetchprefilldataService {
   }
 
 
+  
+
+  /* return the list of custom component for the selected institute ID */
+  fetchCustomComponentById(id): any{
+    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=" +id +"&isSearhable=undefined&page=1";
+    return this.http.get(this.urlCustomComponent, {headers: this.headers})
+    .map(
+      data => {
+        return data.json();
+      },
+      err => { 
+       }
+    );
+  }
+
+
+
   /* return the data for user selected list to be edited */
   fetchEnquiryByInstituteID(id): any{
-
     this.urlEnquiryByID = this.baseUrl + "/api/v1/enquiry/" +this.institute_id +"/" +id;
 
     return this.http.get(this.urlEnquiryByID, {headers: this.headers}).map(res => {

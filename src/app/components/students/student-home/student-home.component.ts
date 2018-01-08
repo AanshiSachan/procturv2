@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
@@ -16,7 +16,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
-
+import { ColumnSetting } from '../../shared/custom-table/layout.model';
 
 
 @Component({
@@ -24,7 +24,7 @@ import { document } from '../../../../assets/imported_modules/ngx-bootstrap/util
   templateUrl: './student-home.component.html',
   styleUrls: ['./student-home.component.scss']
 })
-export class StudentHomeComponent implements OnInit {
+export class StudentHomeComponent implements OnInit, OnChanges {
 
   /* Variable declaration */
   private rows: any = [];
@@ -42,23 +42,32 @@ export class StudentHomeComponent implements OnInit {
   private optionsModel: any = null;
   private customComponents: any[] = [];
   private advancedFilter: boolean = false;
-  private studentdisplaysize: number = 100;
+  private studentdisplaysize: number = 50;
   private isAllSelected: boolean = false;
   private selectedRow: any;
   today: any = Date.now();
   busy: Subscription;
   busyPrefill: Subscription;
   searchBarData: any = null;
-  PageIndex: number = 0;
-  maxPageSize: number = 0;
-  totalRow: number = 0;
   sizeArr: any[] = [50, 100, 250, 500, 1000];
   bulkActionItems: MenuItem[];
   indexJSON: any[] = [];
   isProfessional: boolean = false;
-  currentDirection: string = 'desc';
+  currentDirection: string = 'asc';
   isDeleteStudentPrompt: boolean = false;
   isAddComment: boolean = false;
+  perPage: number = 10;
+  PageIndex: number = 1;
+  maxPageSize: number = 0;
+  totalRow: number = 0;
+  private slots: any[] = [];
+  private selectedSlots: any[] = [];
+  private slotIdArr: any[] = [];
+  private selectedSlotsString: string = '';
+  loading_message: number = 1;
+  private selectedSlotsID: string = '';
+  selectedRowCount: number = 0;
+  isSideBar:boolean = false;
 
   private editForm: any = {
     comments: "",
@@ -85,6 +94,15 @@ export class StudentHomeComponent implements OnInit {
     parent_email: { id: 'parent_email', title: 'Parent Email', filter: false, show: false },
   };
 
+  StudentSettings: ColumnSetting[] = [
+    { primaryKey: 'student_disp_id', header: 'Enquiry No.' },
+    { primaryKey: 'student_name', header: 'Enquiry Date.' },
+    { primaryKey: 'student_phone', header: 'Name' },
+    { primaryKey: 'doj', header: 'Contact No.' },
+    { primaryKey: 'student_class', header: 'Status' },
+    { primaryKey: 'parent_phone', header: 'Priority' },
+    { primaryKey: 'noOfBatchesAssigned', header: 'Follow up Type' }
+  ];
 
   selectedOption: any = {
     student_email: { id: 'student_email', show: false },
@@ -136,6 +154,8 @@ export class StudentHomeComponent implements OnInit {
   };
 
 
+
+
   /* Model for institute Data for fetching student enquiry */
   instituteData: instituteInfo = {
     school_id: -1,
@@ -155,6 +175,9 @@ export class StudentHomeComponent implements OnInit {
     order_by: ''
   };
 
+
+
+
   advancedFilterForm: instituteInfo = {
     school_id: -1,
     standard_id: -1,
@@ -168,8 +191,13 @@ export class StudentHomeComponent implements OnInit {
     master_course_name: "",
     course_id: -1,
     start_index: 0,
-    batch_size: this.studentdisplaysize
+    batch_size: this.studentdisplaysize,
+    sorted_by: '',
+    order_by: ''
   }
+
+
+
 
 
   constructor(private prefill: FetchprefilldataService, private router: Router,
@@ -183,15 +211,10 @@ export class StudentHomeComponent implements OnInit {
   ngOnInit() {
 
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    //console.log(this.isProfessional);
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
-
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-
-    sessionStorage.setItem('studentdisplaysize', this.studentdisplaysize.toString());
-    this.busy = this.fetchStudentPrefill();
     this.busy = this.loadTableDataSource(this.instituteData);
-
+    this.busy = this.fetchStudentPrefill();
     this.myOptions = [
       { id: 'alternateEmailID', name: 'Alternate Email' },
       { id: 'dob', name: 'Date Of Birth' },
@@ -210,7 +233,6 @@ export class StudentHomeComponent implements OnInit {
       /* { id: 'student_disp_id', name: 'Student ID.' },
       { id: 'student_name', name: 'Student Name' }, */
     ];
-
     this.bulkActionItems = [
       {
         label: 'Bulk Action 2', icon: 'fa-trash-o', command: () => {
@@ -218,55 +240,36 @@ export class StudentHomeComponent implements OnInit {
         }
       }
     ];
-
   }
 
 
 
+  ngOnChanges() {
+
+  }
 
 
 
   /* Fetch data from server and convert to custom array */
   loadTableDataSource(obj) {
 
-    this.studentDataSource = [];
     this.selectedRow = null;
     this.selectedRowGroup = [];
+    this.loading_message = 1;
+    this.isAllSelected = false;
 
 
+    //console.log("start index at launch" +obj.start_index);
     if (obj.start_index == 0) {
+      //console.log("start index 0");
       return this.studentFetch.fetchAllStudentDetails(obj).subscribe(
         res => {
+          /* records */
           if (res.length != 0) {
-            /* Used to set class activate on click or traverse in future implementation */
-            if (this.indexJSON.length != 0) {
-              this.totalRow = res[0].student_count;
-              this.indexJSON = [];
-              this.setPageSize(this.totalRow);
-              res.forEach(el => {
-                let obj = {
-                  isSelected: false,
-                  show: true,
-                  data: el
-                }
-                this.studentDataSource.push(obj);
-              });
-              return this.studentDataSource;
-            }
-            else {
-              this.totalRow = res[0].student_count;
-              this.indexJSON = [];
-              this.setPageSize(this.totalRow);
-              res.forEach(el => {
-                let obj = {
-                  isSelected: false,
-                  show: true,
-                  data: el
-                }
-                this.studentDataSource.push(obj);
-              });
-              return this.studentDataSource;
-            }
+            //console.log("data found");
+            this.totalRow = res[0].student_count;
+            //console.log(this.totalRow);
+            this.studentDataSource = res;
           }
           else {
             let alert = {
@@ -274,10 +277,43 @@ export class StudentHomeComponent implements OnInit {
               title: 'No Records Found',
               body: 'We did not find any enquiry for the specified query'
             }
+            this.loading_message = 2;
             this.appC.popToast(alert);
-            this.totalRow = res.length;
-            this.indexJSON = [];
-            this.setPageSize(this.totalRow);
+            this.studentDataSource = [];
+            this.totalRow = this.studentDataSource.length;
+          }
+        },
+        err => {
+          let alert = {
+            type: 'error',
+            title: 'Failed To Fetch Student List',
+            body: 'please check your internet connnection or try again'
+          }
+          this.loading_message = 2;
+          this.studentDataSource = [];
+          this.totalRow = 0;
+          this.appC.popToast(alert);
+        }
+      )
+    }
+    else {
+      //console.log("start index not zero" +obj.start_index);
+      return this.studentFetch.fetchAllStudentDetails(obj).subscribe(
+        res => {
+          if (res.length != 0) {
+            this.studentDataSource = res;
+          }
+          else {
+            let alert = {
+              type: 'info',
+              title: 'No Records Found',
+              body: 'We did not find any enquiry for the specified query'
+            }
+            this.loading_message = 2;
+            this.studentDataSource = [];
+            this.appC.popToast(alert);
+            //this.totalRow = 0;            
+            this.studentDataSource = res;
           }
         },
         err => {
@@ -287,105 +323,30 @@ export class StudentHomeComponent implements OnInit {
             body: 'please check your internet connnection or try again'
           }
           this.appC.popToast(alert);
+          this.studentDataSource = [];
+          this.loading_message = 2;
         }
-      );
+      )
     }
-    else {
-      return this.studentFetch.fetchAllStudentDetails(obj).subscribe(
-        res => {
-          if (res.length != 0) {
-            /* Used to set class activate on click or traverse in future implementation */
-            if (this.indexJSON.length != 0) {
-              res.forEach(el => {
-                let obj = {
-                  isSelected: false,
-                  show: true,
-                  data: el
-                }
-                this.studentDataSource.push(obj);
-              });
-              return this.studentDataSource;
-            }
-            else {
-              res.forEach(el => {
-                let obj = {
-                  isSelected: false,
-                  show: true,
-                  data: el
-                }
-                this.studentDataSource.push(obj);
-              });
-              return this.studentDataSource;
-            }
-          }
-          else {
-            let alert = {
-              type: 'info',
-              title: 'No Records Found',
-              body: 'We did not find any enquiry for the specified query'
-            }
-            this.appC.popToast(alert);
-            this.totalRow = res.length;
-            this.indexJSON = [];
-            this.setPageSize(this.totalRow);
-          }
-        }
-      );
-    }
+
+
+
   }
 
 
 
 
 
-  sortTableById(id) {
-    /* Custom server sided sorting */
-
-    this.instituteData = {
-      school_id: -1,
-      standard_id: -1,
-      batch_id: -1,
-      name: "",
-      is_active_status: 1,
-      mobile: "",
-      language_inst_status: -1,
-      subject_id: -1,
-      slot_id: "",
-      master_course_name: "",
-      course_id: -1,
-      start_index: 0,
-      batch_size: this.studentdisplaysize,
-      sorted_by: id,
-      order_by: this.currentDirection == 'asc' ? 'desc' : 'asc'
-    };
-    this.busy = this.loadTableDataSource(this.instituteData);
-  }
-
-
-
-
-
-  /* If start index is detected as zero then create the pagination json for module */
-  setPageSize(totalCount) {
-    let pageSize = Math.ceil(totalCount / this.instituteData.batch_size);
-    this.maxPageSize = pageSize;
-    let index = {
-      value: null,
-      start_index: null,
-      end_index: null
+  getDirection(): string {
+    //console.log(this.currentDirection);
+    if (this.currentDirection == "desc") {
+      this.currentDirection = 'asc';
+      return 'asc';
     }
-    let start: number = 0;
-
-    for (var i = 1; i <= pageSize; i++) {
-      index = {
-        value: i,
-        start_index: start,
-        end_index: start + (this.studentdisplaysize - 1)
-      }
-      this.indexJSON.push(index);
-      start = start + this.studentdisplaysize;
+    else if (this.currentDirection == 'asc') {
+      this.currentDirection = 'desc';
+      return 'desc';
     }
-    //document.getElementById('page1').classList.add('active');
   }
 
 
@@ -393,12 +354,35 @@ export class StudentHomeComponent implements OnInit {
 
   /* fetch the data from server based on specific page number by converting the index into start_index */
   fectchTableDataByPage(index) {
-    this.instituteData.start_index = index.start_index;
+    this.PageIndex = index;
+    let startindex = this.studentdisplaysize * (index - 1);
+    this.instituteData.start_index = startindex;
     //this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
     //this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
-    //sessionStorage.setItem('pageI', index.value);
+    //this.instituteData.filtered_statuses = this.statusString.join(',');
     this.busy = this.loadTableDataSource(this.instituteData);
   }
+
+
+
+
+
+  /* Fetch next set of data from server and update table */
+  fetchNext() {
+    this.PageIndex++;
+    this.fectchTableDataByPage(this.PageIndex);
+  }
+
+
+
+
+
+  /* Fetch previous set of data from server and update table */
+  fetchPrevious() {
+    this.PageIndex--;
+    this.fectchTableDataByPage(this.PageIndex);
+  }
+
 
 
 
@@ -408,6 +392,8 @@ export class StudentHomeComponent implements OnInit {
   rowclicked(row) {
     this.selectedRow = row;
   }
+
+
 
 
 
@@ -476,6 +462,8 @@ export class StudentHomeComponent implements OnInit {
   }
 
 
+
+
   /* Perform the bulk action for checcked row on basis of the id of selected LI */
   bulkActionPerformer(id) {
 
@@ -507,6 +495,7 @@ export class StudentHomeComponent implements OnInit {
       }
     }
   }
+
 
 
 
@@ -605,7 +594,6 @@ export class StudentHomeComponent implements OnInit {
   updateTableBatchSize(num) {
     this.studentdisplaysize = parseInt(num);
     this.bulkActionFunction();
-    sessionStorage.setItem('displayBatchSize', num);
     this.instituteData.batch_size = this.studentdisplaysize;
     this.instituteData.start_index = 0;
     this.studentDataSource = [];
@@ -727,6 +715,10 @@ export class StudentHomeComponent implements OnInit {
       this.masterCourseList = data;
     });
 
+    if (this.isProfessional) {
+      this.getSlots();
+    }
+
     if (standard != null) {
       let customComp = this.studentPrefill.fetchCustomComponent().subscribe(data => {
         data.forEach(el => {
@@ -753,6 +745,7 @@ export class StudentHomeComponent implements OnInit {
 
 
 
+
   /* Custom Compoenent array creater */
   createPrefilledData(dataArr: any[]): any[] {
     let customPrefilled: any[] = [];
@@ -768,16 +761,21 @@ export class StudentHomeComponent implements OnInit {
   }
 
 
+
+
   /* if custom component is of type multielect then toggle the visibility of the dropdowm */
   multiselectVisible(elid) {
     let targetid = elid + "multi";
-    if (document.getElementById(targetid).classList.contains('hide')) {
-      document.getElementById(targetid).classList.remove('hide');
-    }
-    else {
-      document.getElementById(targetid).classList.add('hide');
+    if (elid != null && elid != '') {
+      if (document.getElementById(targetid).classList.contains('hide')) {
+        document.getElementById(targetid).classList.remove('hide');
+      }
+      else {
+        document.getElementById(targetid).classList.add('hide');
+      }
     }
   }
+
 
 
 
@@ -801,10 +799,13 @@ export class StudentHomeComponent implements OnInit {
 
             }
             else {
-              if (el.selected.length != 0) {
+              if (el.selected.length > 1) {
                 document.getElementById(id + 'wrapper').classList.add('has-value');
               }
               else if (el.selected.length == 0) {
+                document.getElementById(id + 'wrapper').classList.remove('has-value');
+              }
+              else if (el.selected.length == 1) {
                 document.getElementById(id + 'wrapper').classList.remove('has-value');
               }
               var index = el.selected.indexOf(data.data);
@@ -823,6 +824,8 @@ export class StudentHomeComponent implements OnInit {
 
 
 
+
+
   /* When user select the master course or standard then fetch the sub or sub course for them */
   updateSubCourse(course) {
     this.masterCourseList.forEach(el => {
@@ -833,6 +836,9 @@ export class StudentHomeComponent implements OnInit {
   }
 
 
+
+
+
   /* when the user select the master course then fetch course for the related */
   fetchCourseForMaster(id) {
     this.studentPrefill.fetchCourseList(id).subscribe(
@@ -841,6 +847,7 @@ export class StudentHomeComponent implements OnInit {
       }
     )
   }
+
 
 
 
@@ -895,6 +902,7 @@ export class StudentHomeComponent implements OnInit {
       el.selected = [];
       el.value = '';
     });
+
   }
 
 
@@ -979,10 +987,14 @@ export class StudentHomeComponent implements OnInit {
   }
 
 
+
+
   /* update the latest comment for the selected student */
   closeEditComment() {
     this.isAddComment = false;
   }
+
+
 
 
   /* update the latest comment for the selected student */
@@ -1012,4 +1024,132 @@ export class StudentHomeComponent implements OnInit {
     )
   }
 
+
+
+
+  getMin(): number {
+    return ((this.studentdisplaysize * this.PageIndex) - this.studentdisplaysize) + 1;
+  }
+
+
+
+
+  getMax(): number {
+    if (this.studentDataSource.length != 0) {
+      let max = this.studentdisplaysize * this.PageIndex;
+      if (max > this.totalRow) {
+        max = this.totalRow;
+      }
+      return max;
+    }
+  }
+
+
+
+  getSlots() {
+    return this.studentPrefill.fetchSlots().subscribe(
+      res => {
+        res.forEach(el => {
+          let obj = {
+            label: el.slot_name,
+            value: el,
+            status: false
+          }
+          this.slots.push(obj);
+        });
+        // console.log(this.slots);
+      },
+      err => { }
+    )
+  }
+
+
+
+  updateSlotSelected(data) {
+    /* slot checked */
+    if (data.status) {
+      this.slotIdArr.push(data.value.slot_id);
+      this.selectedSlots.push(data.value.slot_name);
+      if (this.selectedSlots.length != 0) {
+        document.getElementById('slotwrapper').classList.add('has-value');
+      }
+      else {
+        document.getElementById('slotwrapper').classList.remove('has-value');
+      }
+      this.selectedSlotsID = this.slotIdArr.join(',')
+      this.selectedSlotsString = this.selectedSlots.join(',');
+      this.advancedFilterForm.filtered_slots = this.selectedSlotsID;
+    }
+    /* slot unchecked */
+    else {
+      if (this.selectedSlots.length < 0) {
+        document.getElementById('slotwrapper').classList.add('has-value');
+      }
+      else if (this.selectedSlots.length == 0) {
+        document.getElementById('slotwrapper').classList.remove('has-value');
+      }
+      else if (this.selectedSlots.length == 1) {
+        document.getElementById('slotwrapper').classList.remove('has-value');
+      }
+      var index = this.selectedSlots.indexOf(data.value.slot_name);
+      if (index > -1) {
+        this.selectedSlots.splice(index, 1);
+      }
+      this.selectedSlotsString = this.selectedSlots.join(',');
+
+      var index2 = this.slotIdArr.indexOf(data.value.slot_id);
+      if (index2 > -1) {
+        this.slotIdArr.splice(index, 1);
+      }
+      this.selectedSlotsID = this.slotIdArr.join(',');
+      this.advancedFilterForm.filtered_slots = this.selectedSlotsID;
+    }
+
+  }
+
+
+
+  getSelected(ev) {
+    console.log(ev);
+    this.selectedRowGroup = ev;
+  }
+
+
+  getRowCount(ev) {
+    console.log(ev);
+    this.selectedRowCount = ev;
+  }
+
+  userRowSelect(ev) {
+    //console.log(ev);
+    if (ev != null) {
+      this.openSideBar();
+      //this.enquiryFullDetail = ev.institute_enquiry_id;
+      this.selectedRow = ev;
+      //this.isSideBar = true;
+    }
+  }
+
+  sortTableById(id) {
+    console.log(id);
+    this.instituteData.sorted_by = id;
+    this.instituteData.order_by = this.getDirection();
+    this.busy = this.loadTableDataSource(this.instituteData);
+  }
+
+
+
+  openSideBar(){
+    document.getElementById("student-side").style.width = "30%";
+    document.getElementById("student-table").style.width = "70%";
+    document.getElementById("student-table").style.marginRight = "30%";
+  }
+
+
+  closeSideBar() {
+    //this.isSideBar = true;
+    document.getElementById("student-side").style.width = "0";
+    document.getElementById("student-table").style.width = "100%";
+    document.getElementById("student-table").style.marginRight = "0";
+  }
 }

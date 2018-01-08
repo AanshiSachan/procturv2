@@ -28,21 +28,21 @@ export class StudentAddComponent implements OnInit {
     student_phone: "",
     student_curr_addr: "",
     dob: "",
-    doj: moment().format('YYYY-MM-DD'), // "2017-10-25",
-    school_name: "-1", // "943",
-    student_class: "", // "1269",
+    doj: moment().format('YYYY-MM-DD'),
+    school_name: "-1", 
+    student_class: "", 
     parent_name: "",
     parent_email: "",
     parent_phone: "",
     guardian_name: "",
     guardian_email: "",
     guardian_phone: "",
-    is_active: "Y", // "Y",
-    institution_id: sessionStorage.getItem('institute_id'), // "100123",
-    assignedBatches: [], // ["5660", "2447", "4163", "3067"],
+    is_active: "Y",
+    institution_id: sessionStorage.getItem('institute_id'),
+    assignedBatches: [],
     fee_type: 0,
     fee_due_day: 0,
-    batchJoiningDates: [], // ["2017-10-25", "2017-10-25", "2017-10-25", "2017-10-25"],
+    batchJoiningDates: [],
     comments: "",
     photo: null,
     enquiry_id: "",
@@ -54,9 +54,11 @@ export class StudentAddComponent implements OnInit {
     standard_id: "-1",
     subject_id: "-1",
     slot_id: null,
-    language_inst_status: null,
+    language_inst_status: "admitted",
     stuCustomLi: []
   };
+
+  formIsActive: boolean = true;
 
   private quickAddStudent: boolean = false;
   private additionalBasicDetails: boolean = false;
@@ -113,7 +115,7 @@ export class StudentAddComponent implements OnInit {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.busyPrefill = this.fetchPrefillFormData();
-    if (localStorage.getItem('studentPrefill') != null) {
+    if (localStorage.getItem('studentPrefill') != null && localStorage.getItem('studentPrefill') != undefined) {
       this.busyPrefill = this.getSlots();
       this.busyPrefill = this.getlangStudentStatus();
       this.convertToStudentDetected();
@@ -568,11 +570,13 @@ export class StudentAddComponent implements OnInit {
 
   multiselectVisible(elid) {
     let targetid = elid + "multi";
-    if (document.getElementById(targetid).classList.contains('hide')) {
-      document.getElementById(targetid).classList.remove('hide');
-    }
-    else {
-      document.getElementById(targetid).classList.add('hide');
+    if (elid != null && elid != '') {
+      if (document.getElementById(targetid).classList.contains('hide')) {
+        document.getElementById(targetid).classList.remove('hide');
+      }
+      else {
+        document.getElementById(targetid).classList.add('hide');
+      }
     }
   }
 
@@ -1036,5 +1040,16 @@ export class StudentAddComponent implements OnInit {
   clearDateoJoining() {
     this.studentAddFormData.doj = ''
   }
+
+
+  updateFormIsActive(ev){
+    if(ev){
+      this.studentAddFormData.is_active = "Y";
+    }
+    else{
+      this.studentAddFormData.is_active = "N";
+    }
+  }
+
 
 }

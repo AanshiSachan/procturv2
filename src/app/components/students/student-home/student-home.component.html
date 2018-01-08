@@ -1,10 +1,11 @@
 <section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}"
     (click)="inputClicked($event)">
-
+    <!-- =============================================================================== -->
+    <!-- =============================================================================== -->
     <aside class="middle-full row">
         <!-- =============================================================================== -->
         <!--====================================middle Top section==========================-->
-        <!-- =============================================================================== -->        
+        <!-- =============================================================================== -->
         <section class="middle-top mb0 clearFix">
             <h1 class="pull-left">
                 Student List
@@ -16,9 +17,9 @@
         </section>
         <!-- =============================================================================== -->
         <!--====================================middle <Main> section==========================-->
-        <!-- =============================================================================== -->            
-        <section class="middle-main clearFix" id="studentList">
         <!-- =============================================================================== -->
+        <section class="middle-main clearFix" id="studentList">
+            <!-- =============================================================================== -->
             <!-- Filter and seachbar section -->
             <section class="common-search-filter" id="searchFilter">
                 <div class="filter-search">
@@ -95,7 +96,7 @@
 
                             <div class="c-lg-4 c-md-4 c-sm-4">
                                 <div class="field-wrapper">
-                                    <select id="school" name="school" [(ngModel)]="advancedFilterForm.school" class="form-ctrl">
+                                    <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id" class="form-ctrl">
                                         <option value=""></option>
                                         <option [value]="sch.school_id" *ngFor="let sch of schoolList">
                                             {{sch.school_name}}
@@ -114,6 +115,25 @@
                                         </option>
                                     </select>
                                     <label for="status">Status</label>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-4 c-md-4 c-sm-4">
+                                <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
+                                    <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" disabled/>
+                                    <label for="assignCourses">Slots</label>
+                                </div>
+                                <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
+                                    <div class="multiselect-wrapper-inner">
+                                        <ul class="">
+                                            <li *ngFor="let slot of slots">
+                                                <div class="field-checkbox-wrapper">
+                                                    <input type="checkbox" value="" name="slot.label" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox">
+                                                    <label for="slot.label">{{slot.label}}</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
 
@@ -186,11 +206,16 @@
 
                             </custom-student>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
-                                <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" (click)='advancedSearch()'>
-                            </div>
-                            <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
-                                <input type="button" class="btn filterSearchBtn" value="Clear Advanced Filter" (click)='clearAdvancedFilterForm()'>
+
+                            <div class="row">
+                                <div class="c-lg-12 c-md-12 c-sm-12">
+                                    <div class="field-wrapper pull-left">
+                                        <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" (click)='advancedSearch()'>
+                                    </div>
+                                    <div class="field-wrapper pull-left">
+                                        <input type="button" class="btn filterSearchBtn" value="Clear Advanced Filter" (click)='clearAdvancedFilterForm()'>
+                                    </div>
+                                </div>
                             </div>
 
 
@@ -238,7 +263,7 @@
 
                             <div class="c-lg-4 c-md-4 c-sm-4">
                                 <div class="field-wrapper">
-                                    <select id="school" name="school" [(ngModel)]="advancedFilterForm.school" class="form-ctrl">
+                                    <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id" class="form-ctrl">
                                         <option value=""></option>
                                         <option [value]="sch.school_id" *ngFor="let sch of schoolList">
                                             {{sch.school_name}}
@@ -328,11 +353,13 @@
                             </custom-student>
 
                             <div class="row">
-                                <div class="c-lg-8 c-md-8 c-sm-8 pull-left">
-                                    <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" (click)='advancedSearch()'>
-                                </div>
-                                <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
-                                    <input type="button" class="btn filterSearchBtn" value="Clear Advanced Filter" (click)='clearAdvancedFilterForm()'>
+                                <div class="c-lg-12 c-md-12 c-sm-12">
+                                    <div class="field-wrapper pull-left">
+                                        <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" (click)='advancedSearch()'>
+                                    </div>
+                                    <div class="field-wrapper pull-left">
+                                        <input type="button" class="btn filterSearchBtn" value="Clear Advanced Filter" (click)='clearAdvancedFilterForm()'>
+                                    </div>
                                 </div>
                             </div>
 
@@ -342,9 +369,9 @@
 
                 </div>
             </section>
-        <!-- =============================================================================== -->
-        <!-- =============================================================================== -->
-        <!-- =============================================================================== -->
+            <!-- =============================================================================== -->
+            <!-- =============================================================================== -->
+            <!-- =============================================================================== -->
             <!-- Data table here -->
             <section class="search-data">
 
@@ -352,9 +379,8 @@
                     <div class="c-lg-6 c-md-6 c-sm-6 align-left">
                         <ul class="export-print">
                             <li>
-                                <label>Showing {{instituteData.start_index == null? 1 : (instituteData.start_index+1) }} to {{(studentdisplaysize
-                                    > totalRow)? totalRow: (instituteData.start_index+studentdisplaysize)}} of {{totalRow}}
-                                    Students
+                                <label>
+                                    Showing {{ getMin() }} to {{ getMax() }} of {{ totalRow }} Students
                                 </label>
                             </li>
                             <li>
@@ -394,300 +420,52 @@
 
 
                 <!-- Student  Table  Here-->
-                <div class="row">
-                    <div class="c-lg-12 c-md-12 c-sm-12">
+                <div class="row" id="student-table">
+
+                    <div class="table-scroll-wrapper">
                         <div class="table table-responsive student-table">
-                            <table class="align-center">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <div class="field-checkbox-wrapper" style="background: transparent;">
-                                                <input id="headerCheckbox" type="checkbox" value="" [(ngModel)]="isAllSelected" (ngModelChange)="toggleSelectAll($event)"
-                                                    name="check" class="form-checkbox">
-                                                <label>asdf</label>
-                                            </div>
-                                        </th>
-
-                                        <th>
-                                            <div>
-                                                <label>
-                                                </label>
-                                            </div>
-                                        </th>
-                                        <th>
-                                            <div>
-                                                <label>
-
-                                                </label>
-                                            </div>
-                                        </th>
-                                        <th>
-                                            <div>
-                                                <label class="cursor-icon" style="color:white;">
-                                                    Note
-                                                </label>
-                                            </div>
-                                        </th>
-
-
-                                        <th>
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.student_disp_id.id)">{{headerArr.student_disp_id.title}}</a>
-                                            </label>
-                                        </th>
-                                        <th>
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.student_name.id)">{{headerArr.student_name.title}}</a>
-                                            </label>
-                                        </th>
-                                        <th>
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.student_phone.id)">{{headerArr.student_phone.title}}</a>
-                                            </label>
-                                        </th>
-                                        <th>
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.doj.id)">{{headerArr.doj.title}}</a>
-                                            </label>
-                                        </th>
-                                        <th>
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.student_class.id)">{{headerArr.student_class.title}}</a>
-                                            </label>
-                                        </th>
-                                        <th>
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.parent_phone.id)">{{headerArr.parent_phone.title}}</a>
-                                            </label>
-                                        </th>
-                                        <th>
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.noOfBatchesAssigned.id)">{{headerArr.noOfBatchesAssigned.title}}</a>
-                                            </label>
-                                        </th>
-                                        <th [hidden]="!selectedOption.student_email.show">
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.student_email.id)">{{headerArr.student_email.title}}</a>
-                                            </label>
-                                        </th>
-                                        <th [hidden]="!selectedOption.student_sex.show">
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.student_sex.id)">{{headerArr.student_sex.title}}</a>
-                                            </label>
-                                        </th>
-                                        <th [hidden]="!selectedOption.dob.show">
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.dob.id)">{{headerArr.dob.title}}</a>
-                                            </label>
-                                        </th>
-                                        <th [hidden]="!selectedOption.alternateEmailID.show">
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.alternateEmailID.id)">{{headerArr.alternateEmailID.title}}</a>
-                                            </label>
-                                        </th>
-                                        <th [hidden]="!selectedOption.guardian_email.show">
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.guardian_email.id)">{{headerArr.guardian_email.title}}</a>
-                                            </label>
-                                        </th>
-                                        <th [hidden]="!selectedOption.guardian_name.show">
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.guardian_name.id)">{{headerArr.guardian_name.title}}</a>
-                                            </label>
-                                        </th>
-                                        <th [hidden]="!selectedOption.guardian_phone.show">
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.guardian_phone.id)">{{headerArr.guardian_phone.title}}</a>
-                                            </label>
-                                        </th>
-                                        <th [hidden]="!selectedOption.parent_name.show">
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.parent_name.id)">{{headerArr.parent_name.title}}</a>
-                                            </label>
-                                        </th>
-                                        <th [hidden]="!selectedOption.parent_email.show">
-                                            <label>
-                                                <a class="cursor-icon" style="color:white;" (click)="sortTableById(headerArr.parent_email.id)">{{headerArr.parent_email.title}}</a>
-                                            </label>
-                                        </th>
-
-
-                                        <th class="table-head-menu">
-                                            <span>
-                                                <img src="./assets/images/hamburger_menu.svg" alt="" />
-                                                <img src="./assets/images/hamburger_menu_close.svg" alt="" />
-                                            </span>
-                                            <div class="table-heading-menu">
-                                                <div class="heading-menu-inner">
-                                                    <ul class="">
-                                                        <li *ngFor="let head of myOptions">
-                                                            <div style="width: 20%; display: inline-block;">
-                                                                <div class="field-checkbox-wrapper">
-                                                                    <input type="checkbox" value="" (click)="toggleOptionChange($event.target.checked, head.id)" name="check" class="form-checkbox"
-                                                                    />
-                                                                    <label></label>
-                                                                </div>
-                                                            </div>
-                                                            <div style="width: 70%; display: inline-block; color:rgba(0, 0, 0, 0.774); padding: 0px;">
-                                                                <p>{{head.name}}</p>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody *ngIf="studentDataSource.length != 0">
-                                    <tr id="" class="" *ngFor="let row of studentDataSource; let i = index;" (click)="rowclicked(row)">
-                                        <td>
-                                            <div class="field-checkbox-wrapper">
-                                                <input type="checkbox" (click)="rowCheckBoxClick($event.target.checked, i, row.data.enquiry_no)" id="check{{i}}" value=""
-                                                    name="enquirycheck" class="form-checkbox">
-                                                <label>sdf</label>
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <label>
-                                                <a href="javascript:void(0)" (click)="editStudent(row)">Edit</a>
-                                            </label>
-                                        </td>
-
-                                        <td>
-                                            <label>
-                                                <a href="javascript:void(0)" (click)="deleteStudentOpen(row)">Delete</a>
-                                            </label>
-                                        </td>
-
-                                        <td>
-                                            <div class="tooltip-table pos-rel">
-                                                <a href="javascript:void(0)" (click)="openEditComment(row)">
-                                                    <i style="font-family: FontAwesome;" class="fa fa-sticky-note-o" aria-hidden="true"></i>
-                                                </a>
-                                                <div class="tooltip-box" *ngIf="row.data.comments != ''">
-                                                    {{row.data.comments}}
-                                                </div>
-                                            </div>
-                                        </td>
-
-
-                                        <td>
-                                            <label>
-                                                {{row.data.student_disp_id}}
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                {{row.data.student_name}}
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                {{row.data.student_phone}}
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                {{row.data. doj}}
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                {{row.data.student_class}}
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                {{row.data.parent_phone}}
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <div class="tooltip-table pos-rel">
-                                                <a href="javascript:void(0)">
-                                                    {{row.data.noOfBatchesAssigned}}
-                                                </a>
-                                                <div class="tooltip-box-batch" *ngIf="row.data.batchesAssigned != ''">
-                                                    {{row.data.batchesAssigned}}
-                                                </div>
-                                            </div>                                            
-                                        </td>
-
-                                        <td [hidden]="!selectedOption.student_email.show">
-                                            <label>
-                                                {{row.data.student_email}}
-                                            </label>
-                                        </td>
-                                        <td [hidden]="!selectedOption.student_sex.show">
-                                            <label>
-                                                {{row.data.student_sex}}
-                                            </label>
-                                        </td>
-                                        <td [hidden]="!selectedOption.dob.show">
-                                            <label>
-                                                {{row.data.dob}}
-                                            </label>
-                                        </td>
-                                        <td [hidden]="!selectedOption.alternateEmailID.show">
-                                            <label>
-                                                {{row.data.alternateEmailID}}
-                                            </label>
-                                        </td>
-                                        <td [hidden]="!selectedOption.guardian_email.show">
-                                            <label>
-                                                {{row.data.guardian_email}}
-                                            </label>
-                                        </td>
-                                        <td [hidden]="!selectedOption.guardian_name.show">
-                                            <label>
-                                                {{row.data.guardian_name}}
-                                            </label>
-                                        </td>
-                                        <td [hidden]="!selectedOption.guardian_phone.show">
-                                            <label>
-                                                {{row.data.guardian_phone}}
-                                            </label>
-                                        </td>
-                                        <td [hidden]="!selectedOption.parent_name.show">
-                                            <label>
-                                                {{row.data.parent_name}}
-                                            </label>
-                                        </td>
-                                        <td [hidden]="!selectedOption.parent_email.show">
-                                            <label>
-                                                {{row.data.parent_email}}
-                                            </label>
-                                        </td>
-
-
-                                        <td>
-                                        </td>
-
-                                    </tr>
-                                </tbody>
-                                <tbody *ngIf="studentDataSource.length == 0">
-                                    <tr>
-                                        <td colspan="12">
-                                            Fetching records from server
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <proctur-checkbox-table [records]="studentDataSource" [tableName]="'student'" [settings]="StudentSettings" [dataStatus]="loading_message"
+                                [key1]="'isActive'" [primaryKey]="'student_id'" (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)"
+                                (rowIdArr)="getSelected($event)" (sortById)="sortTableById($event)">
+                            </proctur-checkbox-table>
                         </div>
+                    </div>
+
+
+
+                    <div id="student-side" class="sidenav">
+                        <a href="javascript:void(0)" class="closebtn" (click)="closeSideBar($event)">
+                            X
+                        </a>
+                        <!-- <div class="skeleton" #skelton *ngIf="!isSideBar"></div> -->
+                        <student-sidebar [studentData]="selectedRow" (closeSide)="closeSideBar($event)">
+                        </student-sidebar>
+                    </div>
+
+                </div>
+
+
+                <!-- Paginator Here -->
+                <div class="row filter-res pagination" style="width: 100%;">
+                    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                            [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+                        </pagination>
                     </div>
                 </div>
 
 
-
-
             </section>
-        <!-- =============================================================================== -->
-        <!-- =============================================================================== -->
-        <!-- =============================================================================== -->
+            <!-- =============================================================================== -->
+            <!-- =============================================================================== -->
+            <!-- =============================================================================== -->
         </section>
+        <!-- =============================================================================== -->
+        <!-- =============================================================================== -->
+        <!-- =============================================================================== -->
     </aside>
-
-
+    <!-- =============================================================================== -->
+    <!-- =============================================================================== -->
     <!-- =============================================================================== -->
     <!-- Delete PopUp -->
     <!-- =============================================================================== -->
@@ -730,7 +508,7 @@
 
     <!-- =============================================================================== -->
     <!-- Add Comment Popup -->
-    <!-- =============================================================================== -->    
+    <!-- =============================================================================== -->
     <section id="popup" class="popupWrapper fadeIn" *ngIf="isAddComment">
         <div class="popup pos-abs">
             <div class="popup-wrapper pos-rel">
@@ -772,3 +550,22 @@
 
 
 </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

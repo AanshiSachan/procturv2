@@ -3,6 +3,116 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
+
+/* =================================================================================== */
+
+
+/* =================================================================================== */
+
+
+/* =================================================================================== */
+
+.table-head-menu {
+    position: relative;
+}
+
+.table-head-menu span {
+    cursor: pointer;
+    padding: 9px 0px;
+    display: block;
+    height: 100%;
+    background: $common-blue;
+    width: 40px;
+    height: 50px;
+    box-sizing: border-box;
+    float: right;
+    position: relative;
+    img {
+        width: 28px;
+        height: 30px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin: auto;
+        transition: all 0.5s ease;
+        opacity: 1;
+        visibility: visible;
+        transform: rotate(0deg);
+    }
+    img+img {
+        opacity: 0;
+        visibility: hidden;
+        transform: rotate(90deg);
+        width: 24px;
+    }
+}
+
+.table-head-menu {
+    &:hover {
+        span {
+            img {
+                transform: rotate(90deg);
+                opacity: 0;
+                visibility: hidden;
+            }
+            img+img {
+                opacity: 1;
+                visibility: visible;
+                transform: rotate(0deg);
+            }
+        }
+    }
+}
+
+.table-heading-menu {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    background: #fff;
+    width: 200px;
+    text-align: left;
+    padding: 0px;
+    box-shadow: 0px 1px 2px 1px #dcdcdc;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.1s;
+}
+
+.table-head-menu:hover .table-heading-menu {
+    visibility: visible;
+    opacity: 1;
+    top: 100%;
+}
+
+.table-heading-menu ul li {
+    border-bottom: 1px solid #ccc;
+    padding: 5px 5px; //cursor: pointer;
+}
+
+.table-heading-menu ul li .field-checkbox-wrapper {
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+.table-heading-menu ul li .field-checkbox-wrapper label {
+    font-weight: normal;
+    cursor: pointer;
+}
+
+
+/* =================================================================================== */
+
+
+/* =================================================================================== */
+
+
+/* =================================================================================== */
+
+
+/* =================================================================================== */
+
 .tooltip-table {
     &:hover .tooltip-box-right {
         visibility: visible;
@@ -34,11 +144,26 @@
     }
 }
 
+
+/* =================================================================================== */
+
+
+/* =================================================================================== */
+
+
+/* =================================================================================== */
+
+#table-main {
+    margin-right: 30%;
+    max-height: 500px;
+    overflow: hidden;
+    width: 100%;
+}
+
 .table-scroll-wrapper {
-    /* padding: 5px;
-    max-height: 800px;
+    max-height: 480px;
     overflow-y: scroll;
-    overflow-x: visible; */
+    overflow-x: auto;
     .enquiry-table {
         overflow-y: visible;
         overflow-x: visible;
@@ -118,15 +243,32 @@
 }
 
 
-.time-picker{
-    .field-wrapper{
+/* =================================================================================== */
+
+
+/* =================================================================================== */
+
+
+/* =================================================================================== */
+
+.time-picker {
+    .field-wrapper {
         display: inline-block;
         margin: 5px 10px 0px 0px;
-        .form-ctrl{
+        .form-ctrl {
             width: 70px;
         }
     }
 }
+
+
+/* =================================================================================== */
+
+
+/* =================================================================================== */
+
+
+/* =================================================================================== */
 
 :host /deep/ .table-data-overflow {
     ng2-smart-table table {
@@ -142,6 +284,15 @@
         }
     }
 }
+
+
+/* =================================================================================== */
+
+
+/* =================================================================================== */
+
+
+/* =================================================================================== */
 
 
 /* Data table Settings */
@@ -874,13 +1025,12 @@
         font-size: 14px;
         line-height: normal;
         padding: 6px 5px;
-        
     }
     tr {
         th:first-child,
         td:first-child {
             padding: 15px 2px;
-            .field-checkbox-wrapper{
+            .field-checkbox-wrapper {
                 background: transparent;
             }
         }
@@ -892,96 +1042,6 @@
 
 
 /*=====================================mobile head menu css===========================*/
-
-.table-head-menu {
-    position: relative;
-}
-
-.table-head-menu span {
-    cursor: pointer;
-    padding: 9px 0px;
-    display: block;
-    height: 100%;
-    background: $common-blue;
-    width: 40px;
-    height: 50px;
-    box-sizing: border-box;
-    float: right;
-    position: relative;
-    img {
-        width: 28px;
-        height: 30px;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        margin: auto;
-        transition: all 0.5s ease;
-        opacity: 1;
-        visibility: visible;
-        transform: rotate(0deg);
-    }
-    img+img {
-        opacity: 0;
-        visibility: hidden;
-        transform: rotate(90deg);
-        width: 24px;
-    }
-}
-
-.table-head-menu {
-    &:hover {
-        span {
-            img {
-                transform: rotate(90deg);
-                opacity: 0;
-                visibility: hidden;
-            }
-            img+img {
-                opacity: 1;
-                visibility: visible;
-                transform: rotate(0deg);
-            }
-        }
-    }
-}
-
-.table-heading-menu {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    background: #fff;
-    width: 200px;
-    text-align: left;
-    padding: 0px;
-    box-shadow: 0px 1px 2px 1px #dcdcdc;
-    visibility: hidden;
-    opacity: 0;
-    transition: all 0.6s;
-}
-
-.table-head-menu:hover .table-heading-menu {
-    visibility: visible;
-    opacity: 1;
-    top: 100%;
-}
-
-.table-heading-menu ul li {
-    border-bottom: 1px solid #ccc;
-    padding: 5px 5px;
-    //cursor: pointer;
-}
-
-.table-heading-menu ul li .field-checkbox-wrapper {
-    margin-bottom: 0;
-    cursor: pointer;
-}
-
-.table-heading-menu ul li .field-checkbox-wrapper label {
-    font-weight: normal;
-    cursor: pointer;
-}
 
 ul.customDropdown {
     position: absolute;
@@ -1360,14 +1420,14 @@ ul.customDropdown li:hover {
     }
 }
 
-.sms-table-head{
+.sms-table-head {
     display: flex;
-    .sms-tab{
+    .sms-tab {
         display: inline-block;
         padding: 10px;
         background: #ffffff;
         cursor: pointer;
-        label{
+        label {
             font-weight: 700;
             color: #0084f6;
         }
@@ -1379,9 +1439,8 @@ ul.customDropdown li:hover {
             label {
                 color: #ffffff;
             }
-        }    
+        }
     }
-    
 }
 
 .popup-body-container {
@@ -1430,14 +1489,12 @@ ul.customDropdown li:hover {
             font-size: 14px;
             outline: none;
         }
-
         .field-checkbox-wrapper,
         .field-radio-wrapper {
             position: relative;
             padding-left: 25px;
             margin-bottom: 10px;
         }
-        
         .field-radio-wrapper .form-radio {
             opacity: 0;
             position: absolute;
@@ -1447,12 +1504,10 @@ ul.customDropdown li:hover {
             height: 20px;
             z-index: 1;
         }
-        
         .field-radio-wrapper .form-radio+label {
             vertical-align: middle;
             transition: all 0.1s;
         }
-        
         .field-radio-wrapper .form-radio+label:after {
             content: '';
             width: 16px;
@@ -1464,11 +1519,9 @@ ul.customDropdown li:hover {
             top: 0;
             transition: all 0.1s;
         }
-        
         .field-radio-wrapper .form-radio:checked+label:after {
             border: 2px solid $common-blue;
         }
-        
         .field-radio-wrapper .form-radio+label:before {
             transition: all 0.1s;
             width: 1px;
@@ -1478,7 +1531,6 @@ ul.customDropdown li:hover {
             position: absolute;
             content: '';
         }
-        
         .field-radio-wrapper .form-radio:checked+label:before {
             content: '';
             width: 10px;
@@ -1488,7 +1540,6 @@ ul.customDropdown li:hover {
             left: 3px !important;
             top: 3px !important;
         }
-        
         .field-radio-wrapper .form-radio:checked+label {
             color: $common-blue;
         }
@@ -1656,5 +1707,77 @@ ul.customDropdown li:hover {
     /* Change color of dropdown links on hover */
     .bulk-dropdown-content a:hover {
         background-color: #f1f1f1
+    }
+}
+
+.sidenav {
+    //min-height: 480px;
+    max-height: 565px;
+    width: 0;
+    position: absolute;
+    z-index: 1;
+    top: 200px;
+    right: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    //transition: 0.1s;
+
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #d60909;
+    display: block;
+    //transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #d60909;
+}
+
+.sidenav .closebtn {
+    position:absolute;left:80%;top:10px;font-size: 16px;
+    font-weight: 900;
+    position: absolute;
+    top: 20px;
+    margin-right: 50px;
+}
+
+#main {
+    transition: margin-right .5s;
+    padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+.skeleton:empty {
+    margin: 0px 0px 0px -100px;
+    width: 500px;
+    height: 400px;
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0.5) 20%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 20%, rgba(255, 255, 255, 0) 80%), linear-gradient(lightgray 10px, transparent 0), linear-gradient(lightgray 10px, transparent 0), linear-gradient(lightgray 10px, transparent 0), linear-gradient(lightgray 10px, transparent 0), linear-gradient(lightgray 10px, transparent 0), linear-gradient(lightgray 10px, transparent 0);
+    background-repeat: repeat-y;
+    background-size: 350px 200px, 350px 200px, 350px 200px, 350px 200px, 350px 200px, 350px 200px, 150px 200px, 150px 200px;
+    background-position: 80px 0px, 80px 0px, 80px 0px, 80px 40px, 80px 80px, 80px 120px;
+    -webkit-animation: shine 1s infinite;
+    animation: shine 1s infinite;
+}
+
+@keyframes shine {
+    to {
+        background-position: 0 0, 
+        100% 0, /* move highlight to right */
+        100px 0, 
+        100px 40px, 
+        100px 80px, 
+        100px 120px;
     }
 }
