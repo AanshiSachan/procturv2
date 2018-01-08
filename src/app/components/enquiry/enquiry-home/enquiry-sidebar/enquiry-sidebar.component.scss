@@ -205,12 +205,24 @@
         }
         .basic-wrapper {
             .label {
-                font-size: 10px;
+                font-size: 12px;
                 color: black;
                 text-align: left;
             }
             .data {
-                font-size: 10px;
+                font-size: 12px;
+                color: black;
+                text-align: left;
+            }
+        }
+        .other-wrapper {
+            .label {
+                font-size: 12px;
+                color: black;
+                text-align: left;
+            }
+            .data {
+                font-size: 12px;
                 color: black;
                 text-align: left;
             }

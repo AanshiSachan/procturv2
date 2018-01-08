@@ -146,6 +146,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   }
 
+  customCompid:any;
 
   /* Model For Registration, valid only for professional institute 
   where status is registred else will thow an error with status code 400 */
@@ -3209,13 +3210,21 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
-  openEnquiryFullDetails() {
-    this.closeAdFilter()
+  openEnquiryFullDetails(id) {
+    this.closeAdFilter();
     document.getElementById("mySidenav").style.width = "30%";
     document.getElementById("table-main").style.width = "70%";
     document.getElementById("table-main").style.marginRight = "30%";
     document.getElementById("pager").style.width = "70%";
     document.getElementById("pager").style.marginRight = "30%";
+    this.cd.markForCheck();
+    this.prefill.fetchCustomComponentById(id).subscribe(
+      res => {
+        this.cd.markForCheck();
+        this.customCompid = res;
+        this.isSideBar = true;
+      }
+    )
   }
 
 
@@ -3225,7 +3234,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
   closeEnquiryFullDetails() {
-    this.isSideBar = true;
+    this.isSideBar = false;
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("table-main").style.width = "100%";
     document.getElementById("table-main").style.marginRight = "0";
@@ -3240,11 +3249,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   userRowSelect(ev) {
     if (ev != null) {
-      this.openEnquiryFullDetails();
+      this.openEnquiryFullDetails(ev.institute_enquiry_id);
       this.cd.markForCheck();
       this.enquiryFullDetail = ev.institute_enquiry_id;
       this.selectedRow = ev;
-      this.isSideBar = true;
       this.isConverted = this.selectedRow.status == 12 ? true : false;
       if ((this.selectedRow.status == 11) && (this.selectedRow.invoice_no != 0)) {
         this.hasReceipt = true;

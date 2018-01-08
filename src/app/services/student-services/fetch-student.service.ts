@@ -40,7 +40,6 @@ export class FetchStudentService {
   }
 
 
-
   downloadStudentTableasXls(form){
     let urlDownloadXlsStudent = this.baseUrl +"/api/v1/students/all/download/" +this.institute_id;
 

@@ -32,7 +32,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   @Input() statusArr: any;
   @Input() followupArr: any;
   @Input() row: any;
-
+  @Input() customComp: any[];
 
   @Output() updateEnq = new EventEmitter<any>();
   @Output() cancelUpdate = new EventEmitter<any>();
@@ -85,6 +85,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     this.statusArr;
     this.priorityArr;
     this.row;
+    this.customComp;
     this.instituteEnqId = this.enquiryRow;
     this.rowData = this.row;
     this.updateFormData.priority = "";

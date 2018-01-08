@@ -62,6 +62,20 @@ export class AddStudentPrefillService {
 
 
 
+  /* return the list of custom component for the selected institute ID */
+  fetchCustomComponentById(id): any {
+    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" + this.institute_id + "?id=" +id +"&isSearhable=undefined&student_enq_id=&page=2";
+    return this.http.get(this.urlCustomComponent, { headers: this.headers })
+      .map(
+      data => { return data.json(); },
+      err => {
+        //console.log("an error occurred while fetching custom component for student add view");
+      }
+      );
+  }
+
+
+
   /* return the list of batch for students  */
   fetchBatchDetails(): any {
     this.urlBatchData = this.baseUrl + "/api/v1/batches/all/" + this.institute_id + "?active=Y"
@@ -152,7 +166,7 @@ export class AddStudentPrefillService {
 
 
   fetchLangbatch() {
-    let urlLangBatch = this.baseUrl + "/api/v1/batches/all/" +this.institute_id +"?active=Y";
+    let urlLangBatch = this.baseUrl + "/api/v1/batches/all/" + this.institute_id + "?active=Y";
 
     return this.http.get(urlLangBatch, { headers: this.headers }).map(
       res => { return res.json(); }
@@ -161,24 +175,24 @@ export class AddStudentPrefillService {
 
 
 
-  fetchCourseList(id){
+  fetchCourseList(id) {
 
-    let urlCourses =this.baseUrl +"/api/v1/subjects/standards/" +id;
+    let urlCourses = this.baseUrl + "/api/v1/subjects/standards/" + id;
 
-    return this.http.get(urlCourses, {headers: this.headers}).map(
-      res => { return res.json();}
+    return this.http.get(urlCourses, { headers: this.headers }).map(
+      res => { return res.json(); }
     )
 
   }
 
 
-  fetchMasterCourse(){
-    let urlMaster = this.baseUrl +"/api/v1/courseMaster/fetch/" +this.institute_id +"/all";
+  fetchMasterCourse() {
+    let urlMaster = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all";
 
-    return this.http.get(urlMaster, {headers: this.headers}).map(
-      res => { return res.json();}
+    return this.http.get(urlMaster, { headers: this.headers }).map(
+      res => { return res.json(); }
     )
-    
+
   }
 
 }
