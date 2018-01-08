@@ -1,5 +1,5 @@
 <div class="sidebar-wrapper" (click)="inputClicked($event)">
- 
+
     <div class="row pull-left fixed-header" style="margin:0px">
         <enquiry-actions [rowData]="rowData"></enquiry-actions>
     </div>
@@ -69,7 +69,8 @@
 
                         <div class="c-lg-12 c-md-12 c-sm-12 sixty">
                             <div class="field-wrapper has-value datePickerBox">
-                                <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit" bsDatepicker style="width: 60%;" />
+                                <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit"
+                                    bsDatepicker style="width: 60%;" />
                                 <label for="followUPdateEdit">Follow Up Date</label>
                                 <span style="top:15px;right:20%;" class="date-clear" name="followupdate" (click)="clearupdateDate()">clear</span>
                             </div>
@@ -154,35 +155,43 @@
                 <section>
                     <div class="basic-wrapper">
                         <div class="row">
-                            <div class="c-lg-6 c-md-6 c-sm-6 label">
-                                Gender
-                            </div>
-                            <div class="c-lg-6 c-md-6 c-sm-6 data">
-                                {{rowData.gender}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="c-lg-6 c-md-6 c-sm-6 label">
+                            <div class="c-lg-4 c-md-4 c-sm-4 label">
                                 Email
                             </div>
-                            <div class="c-lg-6 c-md-6 c-sm-6 data">
+                            <div class="c-lg-8 c-md-8 c-sm-8 data">
                                 {{rowData.email}}
                             </div>
                         </div>
                         <div class="row">
-                            <div class="c-lg-6 c-md-6 c-sm-6 label">
-                                Gender
+                            <div class="c-lg-4 c-md-4 c-sm-4 label">
+                                Parent Name
                             </div>
-                            <div class="c-lg-6 c-md-6 c-sm-6 data">
-                                {{rowData.gender}}
+                            <div class="c-lg-8 c-md-8 c-sm-8 data">
+                                {{rowData.parent_name}}
                             </div>
                         </div>
                         <div class="row">
-                            <div class="c-lg-6 c-md-6 c-sm-6 label">
-                                Parent Name
+                            <div class="c-lg-4 c-md-4 c-sm-4 label">
+                                Contact Name
                             </div>
-                            <div class="c-lg-6 c-md-6 c-sm-6 data">
-                                {{rowData.parent_name}}
+                            <div class="c-lg-8 c-md-8 c-sm-8 data">
+                                {{rowData.name}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="c-lg-4 c-md-4 c-sm-4 label">
+                                Standard
+                            </div>
+                            <div class="c-lg-8 c-md-8 c-sm-8 data">
+                                {{rowData.standard}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="c-lg-4 c-md-4 c-sm-4 label">
+                                Subject
+                            </div>
+                            <div class="c-lg-8 c-md-8 c-sm-8 data">
+                                {{rowData.subjects}}
                             </div>
                         </div>
                     </div>
@@ -192,7 +201,20 @@
                 <input type="checkbox" checked>
                 <i></i>
                 <h2>Other Details</h2>
-                <section></section>
+                <section>
+                    <div class="other-wrapper">
+                        <div *ngFor="let cus of customComp">
+                            <div class="row">
+                                <div class="c-lg-4 c-md-4 c-sm-4 label">
+                                    {{cus.label}}
+                                </div>
+                                <div class="c-lg-8 c-md-8 c-sm-8 data">
+                                    {{cus.enq_custom_value}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </li>
         </ul>
     </div>

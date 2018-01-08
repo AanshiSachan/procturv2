@@ -359,7 +359,7 @@
               X
             </a>
             <div class="skeleton" #skelton *ngIf="!isSideBar"></div>
-            <enquiry-sidebar *ngIf="isSideBar" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority" [statusArr]="enqstatus"
+            <enquiry-sidebar *ngIf="isSideBar" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority" [statusArr]="enqstatus" [customComp]="customCompid"
               [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)" (cancelUpdate)="closeEnquiryFullDetails($event)">
             </enquiry-sidebar>
           </div>

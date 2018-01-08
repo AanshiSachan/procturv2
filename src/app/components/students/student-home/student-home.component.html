@@ -437,8 +437,15 @@
                         <a href="javascript:void(0)" class="closebtn" (click)="closeSideBar($event)">
                             X
                         </a>
-                        <!-- <div class="skeleton" #skelton *ngIf="!isSideBar"></div> -->
-                        <student-sidebar [studentData]="selectedRow" (closeSide)="closeSideBar($event)">
+                        <div *ngIf="!isSideBar" class="skeleton">
+                            <div class="skel1"></div>
+                            <div class="skel2"></div>
+                        </div>
+
+
+                        <student-sidebar *ngIf="isSideBar" [rowData]="selectedRow" [customComponent]="studentCustomComponent" [studentDetails]="studentDetailsById"
+                            (closeSide)="closeSideBar($event)" (editStudent)="editStudent($event)" (deleteStudent)="deleteStudentOpen($event)" 
+                            (editNotes)="openEditComment($event)" >
                         </student-sidebar>
                     </div>
 
@@ -485,7 +492,7 @@
                     </svg>
                 </span>
                 <div class="popup-content">
-                    <h2>Delete Student - Student Name: {{selectedRow.data.student_name}}</h2>
+                    <h2>Delete Student - Student Name: {{selectedRow.student_name}}</h2>
                     <div class="update-enquiry-form overflowHidden">
                         <div class="enquiry-update-history">
                             <h4>Are you Sure you wish to delete this data, it cannot be recovered later.</h4>
@@ -525,12 +532,12 @@
                     </svg>
                 </span>
                 <div class="popup-content">
-                    <h2>Add Comment - Student Name: {{selectedRow.data.student_name}}</h2>
+                    <h2>Add Comment - Student Name: {{selectedRow.student_name}}</h2>
                     <div class="update-enquiry-form overflowHidden">
                         <div class="enquiry-update-history" style="max-height: max-content;">
                             <div class="field-wrapper">
                                 <textarea placeholder="Update Comment Here (max 1000 characters)" rows="1" cols="10" style="height: 60px;" id="addcommentEdit"
-                                    class="form-ctrl" [(ngModel)]="selectedRow.data.comments">
+                                    class="form-ctrl" [(ngModel)]="selectedRow.comments">
                                 </textarea>
                             </div>
                         </div>
@@ -550,22 +557,3 @@
 
 
 </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

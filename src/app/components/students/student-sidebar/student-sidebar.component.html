@@ -1,7 +1,7 @@
 <div class="sidebar-wrapper">
 
     <div class="row header-row">
-        <div class="c-lg-3 c-md-3 c-sm-3 pull-left">
+        <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
             <div class="profile-wrapper">
                 <div class="no-img">
                     <div class="image-disp" #imgDisp>
@@ -9,17 +9,58 @@
                 </div>
             </div>
         </div>
-        <div class="c-lg-9 c-md-9 c-sm-9 pull-right student-details">
+        <div class="c-lg-8 c-md-8 c-sm-8 pull-right student-details">
             <ul>
                 <li style="border-top: none;">
-                    <h3></h3>
+                    <h3>{{rowData.student_name}}</h3>
                 </li>
                 <li style="border-top: none;">
-
+                    Student ID: {{rowData.student_disp_id}}
+                </li>
+                <li style="border-top: none;text-overflow: ellipsis;">
+                    Batches: {{rowData.batchesAssigned}}
+                </li>
+                <li style="border-top: none;text-overflow: ellipsis;cursor:pointer;" (click)="emitNotes($evnent)">
+                    <a><i style="font-family: FontAwesome;" class="fa fa-sticky-note" aria-hidden="true"></i> {{rowData.comments}}</a>
                 </li>
             </ul>
         </div>
 
+    </div>
+
+    <div class="row button-bar" style="padding-left: 25px;">
+        <div class="enq-act-main">
+            <a class="enq-act enq-act--one" (click)="emitEdit($event)">
+                <img src="./assets/images/edit_details.svg" height="10" width="20">
+                <div class="tooltip">Edit Student</div>
+            </a>
+
+            <a class="enq-act enq-act--three">
+                <img src="./assets/images/delete_entry.svg" height="10" width="20" (click)="emitDelete($event)">
+                <div class="tooltip">Delete Student</div>
+            </a>
+
+            <a class="enq-act enq-act--four">
+                <img src="./assets/images/convert_student.svg" height="10" width="20">
+                <div class="tooltip">Mark Leave</div>
+            </a>
+
+            <a class="enq-act enq-act--five">
+                <img src="./assets/images/reciept_preview.svg" height="10" width="20">
+                <div class="tooltip">Manage PDC</div>
+            </a>
+
+            <!-- <a class="enq-act enq-act--six">
+                <img src="./assets/images/send_email.svg" height="10" width="20">
+                <div class="tooltip">Send SMS</div>
+            </a> -->
+            <!-- <a class="enq-act enq-act--seven">
+                        
+                        <div class="tooltip">text to be displayed</div>
+                    </a> 
+                    If something comes up in future use this just add img and text
+            -->
+        </div>
     </div>
 
     <div class="acc-wrapper">
@@ -27,25 +68,9 @@
             <li>
                 <input type="checkbox" checked>
                 <i></i>
-                <h2>Update Enquiry</h2>
-                <section>
-
-
-                </section>
-            </li>
-            <li>
-                <input type="checkbox" checked>
-                <i></i>
-                <h2>Previous Comments</h2>
-                <section>
-
-                </section>
-            </li>
-            <li>
-                <input type="checkbox" checked>
-                <i></i>
                 <h2>Basic Details</h2>
                 <section>
+
 
                 </section>
             </li>
@@ -53,6 +78,22 @@
                 <input type="checkbox" checked>
                 <i></i>
                 <h2>Other Details</h2>
+                <section>
+
+                </section>
+            </li>
+            <li>
+                <input type="checkbox" checked>
+                <i></i>
+                <h2>Fee Status</h2>
+                <section>
+
+                </section>
+            </li>
+            <li>
+                <input type="checkbox" checked>
+                <i></i>
+                <h2>Inventory Status</h2>
                 <section>
 
                 </section>

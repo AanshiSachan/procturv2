@@ -45,6 +45,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   private studentdisplaysize: number = 50;
   private isAllSelected: boolean = false;
   private selectedRow: any;
+  studentDetailsById: any;
+  studentCustomComponent: any;
   today: any = Date.now();
   busy: Subscription;
   busyPrefill: Subscription;
@@ -67,13 +69,13 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   loading_message: number = 1;
   private selectedSlotsID: string = '';
   selectedRowCount: number = 0;
-  isSideBar:boolean = false;
+  /* set true to see the sidebar */
+  isSideBar: boolean = false;
 
   private editForm: any = {
     comments: "",
     institution_id: sessionStorage.getItem('institute_id')
   }
-
 
   private headerArr: any = {
     student_disp_id: { id: 'student_disp_id', title: 'Student ID.', filter: false, show: true },
@@ -95,13 +97,13 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   };
 
   StudentSettings: ColumnSetting[] = [
-    { primaryKey: 'student_disp_id', header: 'Enquiry No.' },
-    { primaryKey: 'student_name', header: 'Enquiry Date.' },
-    { primaryKey: 'student_phone', header: 'Name' },
-    { primaryKey: 'doj', header: 'Contact No.' },
-    { primaryKey: 'student_class', header: 'Status' },
-    { primaryKey: 'parent_phone', header: 'Priority' },
-    { primaryKey: 'noOfBatchesAssigned', header: 'Follow up Type' }
+    { primaryKey: 'student_disp_id', header: 'Student Id.' },
+    { primaryKey: 'student_name', header: 'Name.' },
+    { primaryKey: 'student_phone', header: 'Contact No.' },
+    { primaryKey: 'doj', header: 'Date of Joining' },
+    { primaryKey: 'student_class', header: 'Class' },
+    { primaryKey: 'student_email', header: 'Email ID' },
+    { primaryKey: 'noOfBatchesAssigned', header: 'Batch Assigned' }
   ];
 
   selectedOption: any = {
@@ -418,8 +420,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
 
   /* navigate the user to edit page for the specific student */
-  editStudent(row) {
-    localStorage.setItem('studentId', row.data.student_id);
+  editStudent(id) {
+    localStorage.setItem('studentId', id);
     this.router.navigate(['/student/edit']);
   }
 
@@ -427,9 +429,9 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
 
   /* Delete the student selected or archieve the student selected */
-  deleteStudent() {
+  deleteStudent(id) {
     let obj = {
-      studentIds: this.selectedRow.data.student_id.toString(),
+      studentIds: id.toString(),
       studentAlumniArrayString: "Y"
     }
     this.postService.archieveStudents(obj).subscribe(
@@ -1000,9 +1002,9 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   /* update the latest comment for the selected student */
   updateComment() {
 
-    this.editForm.comments = this.selectedRow.data.comments;
+    this.editForm.comments = this.selectedRow.comments;
 
-    this.postService.updateComment(this.editForm, this.selectedRow.data.student_id).subscribe(
+    this.postService.updateComment(this.editForm, this.selectedRow.student_id).subscribe(
       res => {
         let msg = {
           type: 'success',
@@ -1110,28 +1112,25 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
 
   getSelected(ev) {
-    console.log(ev);
+    //console.log(ev);
     this.selectedRowGroup = ev;
   }
 
 
   getRowCount(ev) {
-    console.log(ev);
+    //console.log(ev);
     this.selectedRowCount = ev;
   }
 
   userRowSelect(ev) {
-    //console.log(ev);
     if (ev != null) {
-      this.openSideBar();
-      //this.enquiryFullDetail = ev.institute_enquiry_id;
+      this.openSideBar(ev);
       this.selectedRow = ev;
-      //this.isSideBar = true;
     }
   }
 
   sortTableById(id) {
-    console.log(id);
+    //console.log(id);
     this.instituteData.sorted_by = id;
     this.instituteData.order_by = this.getDirection();
     this.busy = this.loadTableDataSource(this.instituteData);
@@ -1139,15 +1138,27 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
 
 
-  openSideBar(){
+  openSideBar(ev) {
     document.getElementById("student-side").style.width = "30%";
     document.getElementById("student-table").style.width = "70%";
     document.getElementById("student-table").style.marginRight = "30%";
+    let id = ev.student_id;
+    this.studentFetch.getStudentById(id).subscribe(
+      res => {
+        this.studentDetailsById = res;
+        this.studentPrefill.fetchCustomComponentById(id).subscribe(
+          cus => {
+            this.studentCustomComponent = cus;
+            this.isSideBar = true;
+          }
+        )
+      }
+    )
   }
 
 
   closeSideBar() {
-    //this.isSideBar = true;
+    this.isSideBar = false;
     document.getElementById("student-side").style.width = "0";
     document.getElementById("student-table").style.width = "100%";
     document.getElementById("student-table").style.marginRight = "0";
