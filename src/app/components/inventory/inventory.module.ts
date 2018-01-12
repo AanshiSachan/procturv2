@@ -15,6 +15,8 @@ import { HomeComponent } from './inventory-home/inventory-home.component';
 
 //import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
+import { InventoryCategoryComponent } from './inventory-category/inventory-category.component';
+import { InventoryCategoryService } from '../../services/inventory-services/inventory-category.service';
 
 
 @NgModule({
@@ -34,11 +36,13 @@ import { SharedModule } from '../shared/shared.module';
     ],
     declarations: [
         InventoryComponent,
-        HomeComponent
+        HomeComponent,
+        InventoryCategoryComponent
     ], 
     entryComponents: [        
     ],
     providers: [
+        InventoryCategoryService
     ]
 })
 export class InventoryModule {

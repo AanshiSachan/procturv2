@@ -1,1 +1,25 @@
-<router-outlet></router-outlet>
+<div class="middle-section clearFix"> 
+
+    <section class="middle-top mb0 clearFix">
+        <h1 class="pull-left">
+            Manage Inventory
+        </h1>
+    </section>
+
+    <section class="middle-main clearFix">
+        <div class="common-tab">
+            <ul>
+                <li id="item" (click)="switchActiveView('home')" class="">
+                    <a routerLink="/inventory/item">Item</a>
+                </li>
+                <li id="category" (click)="switchActiveView('attendance')" class="">
+                    <a routerLink="/inventory/category">Category</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="router-container">
+            <router-outlet></router-outlet>
+        </div>
+    </section>
+</div>
