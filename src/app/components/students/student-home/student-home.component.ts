@@ -430,8 +430,9 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   /* Delete the student selected or archieve the student selected */
   deleteStudent(id) {
+    
     let obj = {
-      studentIds: id.toString(),
+      studentIds: this.selectedRow.student_id.toString(),
       studentAlumniArrayString: "Y"
     }
     this.postService.archieveStudents(obj).subscribe(
@@ -441,11 +442,12 @@ export class StudentHomeComponent implements OnInit, OnChanges {
           title: 'Record Deleted',
           body: 'Requested record has been removed from student list'
         }
+        this.closeSideBar();
         this.appC.popToast(msg);
         this.closeDeletePopup();
         this.busy = this.loadTableDataSource(this.instituteData);
       }
-    )
+    );
   }
 
 

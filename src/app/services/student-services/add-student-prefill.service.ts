@@ -64,7 +64,7 @@ export class AddStudentPrefillService {
 
   /* return the list of custom component for the selected institute ID */
   fetchCustomComponentById(id): any {
-    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" + this.institute_id + "?id=" +id +"&isSearhable=undefined&student_enq_id=&page=2";
+    this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" + this.institute_id + "?id=" + id + "&isSearhable=undefined&student_enq_id=&page=2";
     return this.http.get(this.urlCustomComponent, { headers: this.headers })
       .map(
       data => { return data.json(); },
@@ -195,4 +195,30 @@ export class AddStudentPrefillService {
 
   }
 
+
+  fetchAllFeeStructure() {
+    let urlFeeStruc = this.baseUrl + "/api/v1/student_wise/feeStructure/fetchAll/" + this.institute_id;
+
+    return this.http.get(urlFeeStruc, { headers: this.headers }).map(
+      res => {
+        return res.json();
+      },
+      err => {
+        return err.json();
+      });
+  }
+
+
+  getFeeStructureById(id, obj) {
+
+    let urlFeebyId = this.baseUrl + "/api/v1/student_wise/feeStructure/fetch/" + this.institute_id + "/" + id;
+
+    return this.http.post(urlFeebyId, obj, { headers: this.headers }).map(
+      res => {
+        return res.json();
+      },
+      err => {
+        return err.json();
+      });
+  }
 }

@@ -272,7 +272,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
 
   /* Customiized click detection strategy */
   inputClicked(ev) {
-    document.getElementById("bulk-drop").classList.add("hide");
+    //document.getElementById("bulk-drop").classList.add("hide");
     if (ev.target.classList.contains('form-ctrl')) {
       if (ev.target.classList.contains('bsDatepicker')) {
         var nodelist = document.querySelectorAll('.bsDatepicker');

@@ -101,6 +101,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   selectedRow: any = {
   };
 
+  isEnquiryOptions:boolean = false;
+
   currentDirection = 'desc'; selectedRowGroup: any[] = []; componentPrefill: any = [];
   componentListObject: any = {}; emptyCustomComponent: any; componentRenderer: any = []; customComponentResponse: any = [];
   fetchingDataMessage: number = 1; smsBtnToggle: boolean = false;
@@ -164,10 +166,18 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   stats = {
     All: { value: 'All', prop: 'All', checked: false, disabled: false },
     Open: { value: 'Open', prop: 'Open', checked: true, disabled: false },
-    Registered: { value: 'Registered', prop: 'In Progress', checked: false, disabled: false },
+    Registered: { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
     Admitted: { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
     Inactive: { value: 'Inactive', prop: 'Converted', checked: false, disabled: false },
   };
+
+  statFilter = [
+    { value: 'All', prop: 'All', checked: false, disabled: false },
+    { value: 'Open', prop: 'Open', checked: true, disabled: false },
+    { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
+    { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
+    { value: 'Inactive', prop: 'Converted', checked: false, disabled: false },
+  ];
 
 
   /* Variable to handle popups */
@@ -451,7 +461,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   loadTableDatatoSource(obj) {
 
     this.fetchingDataMessage = 1;
-    document.getElementById("bulk-drop").classList.add("hide");
+    //document.getElementById("bulk-drop").classList.add("hide");
     this.isAllSelected = false;
     this.sourceEnquiry = [];
     this.closeEnquiryFullDetails();
@@ -742,11 +752,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /* =========================================================================== */
 
 
+  statusFilterUpdater(e){
+  this.stats[e.value].checked = e.checked;
+    this.statusFilter(e);
+  }
+
+
+
 
   /* Function to toggle table data on checkbox click */
   statusFilter(checkerObj) {
-
-    //console.log(this.statusString);
+    //console.log(checkerObj);
     this.searchBarData = '';
     //this.searchBarDate
 
@@ -1305,6 +1321,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.stats.Registered.checked = false;
     this.stats.Inactive.checked = false;
     this.statusString = [];
+    this.statFilter = [
+      { value: 'All', prop: 'All', checked: false, disabled: false },
+      { value: 'Open', prop: 'Open', checked: false, disabled: false },
+      { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
+      { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
+      { value: 'Inactive', prop: 'Converted', checked: false, disabled: false },
+    ];
     this.indexJSON = [];
     this.instituteData.filtered_statuses = this.statusString.join(',');
 
@@ -1653,7 +1676,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.closeEnquiryFullDetails();
     this.isSideBar = false;
     document.getElementById('adFilterOpen').classList.add('hide');
-    document.getElementById('adFilterExitVisible').classList.add('hide')
+    document.getElementById('adFilterExitVisible').classList.add('hide');
+    document.getElementById('qfilt').classList.add('hide');
     document.getElementById('adFilterExit').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.remove('hide');
   }
@@ -1666,6 +1690,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   closeAdFilter() {
     document.getElementById('adFilterExitVisible').classList.remove('hide');
     document.getElementById('adFilterExit').classList.add('hide');
+    document.getElementById('qfilt').classList.remove('hide');
     document.getElementById('adFilterOpen').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.add('hide');
   }
@@ -2843,7 +2868,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /* Fetches Data as per the user selected batch size */
   updateTableBatchSize(num) {
     this.displayBatchSize = parseInt(num);
-    document.getElementById("bulk-drop").classList.add("hide");
+    //document.getElementById("bulk-drop").classList.add("hide");
     sessionStorage.setItem('displayBatchSize', num);
     this.instituteData.batch_size = this.displayBatchSize;
     this.instituteData.start_index = 0;
@@ -2864,23 +2889,23 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
   /* Toggle DropDown Menu on Click */
-  bulkActionFunctionOpen() {
+  /* bulkActionFunctionOpen() {
     if (document.getElementById("bulk-drop").classList.contains('hide')) {
       document.getElementById("bulk-drop").classList.remove("hide");
     }
     else {
       document.getElementById("bulk-drop").classList.add("hide");
     }
-  }
+  } */
 
 
   /* =========================================================================== */
   /* =========================================================================== */
 
 
-  bulkActionFunctionClose() {
+  /* bulkActionFunctionClose() {
     document.getElementById("bulk-drop").classList.add("hide");
-  }
+  } */
 
 
   /* =========================================================================== */
@@ -2989,7 +3014,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Customiized click detection strategy */
   inputClicked(ev) {
-    document.getElementById("bulk-drop").classList.add("hide");
+    //document.getElementById("bulk-drop").classList.add("hide");
     if (ev.target.classList.contains('form-ctrl')) {
       if (ev.target.classList.contains('bsDatepicker')) {
         var nodelist = document.querySelectorAll('.bsDatepicker');
@@ -3025,6 +3050,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.instituteData.sorted_by = id;
     this.currentDirection = this.currentDirection == 'desc' ? 'asc' : 'desc'
     this.instituteData.order_by = this.currentDirection;
+    console.log(this.statusString);
     this.instituteData.filtered_statuses = this.statusString.join(',');
     this.cd.markForCheck();
     this.busy = this.loadTableDatatoSource(this.instituteData);
@@ -3355,8 +3381,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* =========================================================================== */
   /* =========================================================================== */
-
-
 
 
 

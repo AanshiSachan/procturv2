@@ -339,15 +339,45 @@
 
 #student-table {
     margin-right: 30%;
-    max-height: 500px;
+    max-height: 480px;
     overflow: hidden;
     width: 100%;
+    ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+}
+
+@media screen and (max-width: 995px),
+screen and (max-height: 768px) {
+    #student-table {
+        margin-left: 0px !important;
+        margin-top: 15px;
+        margin-right: 15px !important;
+        max-height: 480px;
+        overflow: hidden;
+        width: 100%;
+        .table-scroll-wrapper {
+            max-height: 430px;
+        }
+         ::-webkit-scrollbar {
+            display: block;
+            width: 7px;
+            height: 7px;
+        }
+    }
 }
 
 .table-scroll-wrapper {
-    max-height: 480px;
+    max-height: 430px;
     overflow-y: scroll;
     overflow-x: auto;
+    ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
     .student-table {
         overflow-y: visible;
         overflow-x: visible;

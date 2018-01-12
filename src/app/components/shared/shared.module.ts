@@ -7,6 +7,7 @@ import { FormatCellPipe } from './custom-checkbox-table/checkbox-format-cell.pip
 import { StyleCellDirective } from './custom-checkbox-table/checkbox-style-cell.directive';
 import { PaginationComponent } from './pagination/pagination.component';
 import { ImageUploadComponent } from './image-uploader/image-upload.component';
+import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 import { CheckboxTableComponent } from './custom-checkbox-table/checkbox-table-layout.component';
 
 @NgModule({
@@ -20,14 +21,16 @@ import { CheckboxTableComponent } from './custom-checkbox-table/checkbox-table-l
         FormatCellPipe,
         StyleCellDirective,
         PaginationComponent,
-        ImageUploadComponent
+        ImageUploadComponent,
+        QuickFilterComponent
     ],
     exports: [
         CommonModule,
         TableLayoutComponent,
         CheckboxTableComponent,
         PaginationComponent,
-        ImageUploadComponent
+        ImageUploadComponent,
+        QuickFilterComponent
     ],
     providers: [CurrencyPipe]
 })

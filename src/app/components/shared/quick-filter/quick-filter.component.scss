@@ -1,0 +1,99 @@
+:host {
+    .quick-filter-wrapper {
+        border: 1px solid rgba(119, 119, 119, 0.46);
+        width: 150px;
+        overflow: hidden;
+        border-radius: 5px;
+        .quick-filter-label {
+            font-weight: 500;
+            position: absolute;
+            //z-index: 1;
+            top: 12px;
+            font-size: 14px;
+            color: #777;
+            max-width: 115px;
+            overflow: hidden;
+            padding: 0px 0px 5px 10px;
+            label{
+                font-weight: 800;
+            }
+        }
+        .quick-filter-text {
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: none;
+            //border-bottom: 1px solid #d6d6d6;
+            min-width: 135px;
+            max-width: 140px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0);
+            position: relative;
+            text-align: left;
+            //z-index: 10;
+        }
+        .quick-filter-list {
+            box-shadow: 0.5px 0.5px 3px 0.5px #777;
+            height: 200px;
+            width: 60%;
+            overflow: hidden;
+            padding-left: 0;
+            margin-left: 0;
+            background: white;
+            z-index: 10;
+            position: absolute;
+            border-radius: 4px;
+            ul {
+                list-style: none;
+                margin: 0;
+                border-radius: 4px;
+                li {
+                    display: list-item;
+                    text-align: -webkit-match-parent;
+                    border: none;
+                    font-size: 14px;
+                    font-weight: 400;
+                    font-style: normal;
+                    line-height: 20px;
+                    //cursor: pointer;
+                }
+            }
+            .quick-filter-inner {
+                height: 200px;
+                border-radius: 4px;
+                overflow-x: hidden;
+                overflow-y: auto;
+                .quick-filter-item {
+                    padding: 5px;
+                    .field-checkbox-wrapper {
+                        position: relative;
+                        padding-left: 25px;
+                        margin: 2px 0px;
+                        label {
+                            font-weight: 600;
+                            padding-bottom: 5px;
+                        }
+                    }
+                    &:hover {
+                        background: #004a7e;
+                        color:white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.fa-chevron-down {
+    position: absolute;
+    right: 0px;
+    top: 12px;
+    color: #a8a8a8;
+    transition: transform .2s ease-out, color .2s ease-out;
+    font-size: 0.85em;
+}
+
+.fa-chevron-open {
+    transform: rotate(-180deg) translate(0, 2px);
+    color: #404040;
+}

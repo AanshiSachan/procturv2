@@ -1,4 +1,4 @@
-import {  Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output, HostListener, ElementRef, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'pagination',
@@ -6,21 +6,39 @@ import {  Component, EventEmitter, Input, Output} from '@angular/core';
   styleUrls: ['./pagination.component.scss']
 })
 export class PaginationComponent {
-  
+
   @Input() page: number;
   @Input() count: number;
   @Input() perPage: number;
   @Input() loading: boolean;
   @Input() pagesToShow: number;
-
+  @Input() sizeArr: any[] = [];
 
   @Output() goPrev = new EventEmitter<boolean>();
   @Output() goNext = new EventEmitter<boolean>();
   @Output() goPage = new EventEmitter<number>();
+  @Output() sizeChange = new EventEmitter<any>();
 
-  constructor() { }
+  isShowList: boolean = false;
 
-  
+  constructor(private elementRef: ElementRef, private renderer: Renderer2) { }
+
+  @HostListener('document:click', ['$event', '$event.target'])
+  onClick(event: MouseEvent, targetElement: HTMLElement): void {
+    if (targetElement.id != "bulk-action") {
+      this.isShowList = false;
+    }
+  }
+
+  updateTableBatchSize(n) {
+    this.sizeChange.emit(n);
+    this.isShowList = false;
+  }
+
+  bulkActionFunctionOpen($event) {
+    $event.preventDefault();
+    this.isShowList = true;
+  }
 
   getMin(): number {
     return ((this.perPage * this.page) - this.perPage) + 1;

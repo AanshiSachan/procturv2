@@ -1,15 +1,28 @@
-<div class="pagination" *ngIf="count > 0">
+<div class="pagination" style="margin:5px 0px 0px 0px;" *ngIf="count > 0">
 	<div class="description">
 		<span class="page-counts">Showing {{ getMin() }} to {{ getMax() }} of {{ count }} </span>
 		<span class="page-totals">Total {{ totalPages() }} pages</span>
 	</div>
+	<div class="batch-size" *ngIf="sizeArr.length != 0">
+		<div class="bulk-dropdown">
+			<label class="bulk-dropbtn">
+				Records per page :
+				<button class="bulk-dropbtn-border" id="bulk-action" #bulkaction (click)="bulkActionFunctionOpen($event)" type="button" data-toggle="dropdown">
+					{{perPage}}
+					<span class="caret"></span>
+				</button>
+			</label>
+			<div id="bulk-drop" class="bulk-dropdown-content" *ngIf="isShowList" (click)="isShowList=!isShowList" >
+				<a *ngFor="let size of sizeArr" (click)="updateTableBatchSize(size)">
+				{{size}}
+				</a>
+			</div>
+		</div>
+	</div>
 	<div class="numbers">
 		<button class="link" (click)="onPrev()" [disabled]="page === 1 || loading" [ngClass]="{ 'disabled': page === 1 || loading }">&lt; Previous</button>
-		
-		<button
-			*ngFor="let pageNum of getPages()"
-			(click)="onPage(pageNum)"
-			[ngClass]="{'active': pageNum === page, 'disabled': loading}">{{ pageNum }}</button>
+
+		<button *ngFor="let pageNum of getPages()" (click)="onPage(pageNum)" [ngClass]="{'active': pageNum === page, 'disabled': loading}">{{ pageNum }}</button>
 
 		<button class="link" (click)="onNext(true)" [disabled]="lastPage() || loading" [ngClass]="{ 'disabled': lastPage() || loading }">Next &gt;</button>
 	</div>

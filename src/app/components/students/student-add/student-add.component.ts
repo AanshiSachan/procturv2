@@ -3,6 +3,7 @@ import { AddStudentPrefillService } from '../../../services/student-services/add
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { StudentForm } from '../../../model/student-add-form';
+import { StudentFeeStructure } from '../../../model/student-fee-structure';
 import { SelectItem } from 'primeng/primeng';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import * as moment from 'moment';
@@ -29,8 +30,8 @@ export class StudentAddComponent implements OnInit {
     student_curr_addr: "",
     dob: "",
     doj: moment().format('YYYY-MM-DD'),
-    school_name: "-1", 
-    student_class: "", 
+    school_name: "-1",
+    student_class: "",
     parent_name: "",
     parent_email: "",
     parent_phone: "",
@@ -91,12 +92,58 @@ export class StudentAddComponent implements OnInit {
   school: any[] = [];
   removeImage: boolean = false;
 
+
+  isBasicActive: boolean = true;
+  isOtherActive: boolean = false;
+  isFeeActive: boolean = false;
+  isInventoryActive: boolean = false;
+  isConfigureFees: boolean = false;
+
+  feeTempSelected: any = "";
+
+  //feeTemplateById: any[] = [];
+
+  feeStructureForm: any = {
+    studentArray: ["-1"],
+    template_effective_date: ""
+  }
+
+  feeTemplateStore: any[] = [];
+
   createInstitute = {
     instituteName: "",
     isActive: "Y"
   }
 
-
+  feeTemplateById: StudentFeeStructure = {
+    feeTypeMap: "",
+    customFeeSchedules: "",
+    registeredServiceTax: "",
+    toCreate: "",
+    studentArray: "",
+    studentwise_total_fees_amount: "",
+    studentwise_total_fees_balance_amount: "",
+    studentwise_total_fees_amount_paid: "",
+    studentwise_total_fees_discount: "",
+    studentwise_fees_tax_applicable: "",
+    no_of_installments: "",
+    discount_fee_reason: "",
+    template_name: "",
+    template_id: "",
+    template_effective_date: "",
+    is_fee_schedule_created: "",
+    is_fee_tx_done: "",
+    is_undo: "",
+    is_fee_other_inst_created: "",
+    is_delete_other_fee_types: "",
+    chequeDetailsJson: "",
+    payment_mode: "",
+    remarks: "",
+    paid_date: "",
+    is_cheque_details_required: "",
+    reference_no: "",
+    invoice_no: ""
+  }
 
 
   constructor(
@@ -153,10 +200,14 @@ export class StudentAddComponent implements OnInit {
       document.getElementById('li-three').classList.remove('active');
       document.getElementById('li-four').classList.remove('active');
 
-      document.getElementById('studentForm').classList.remove('hide');
+      /* document.getElementById('studentForm').classList.remove('hide');
       document.getElementById('kyc').classList.add('hide');
       document.getElementById('feeDetails').classList.add('hide');
-      document.getElementById('inventory').classList.add('hide');
+      document.getElementById('inventory').classList.add('hide'); */
+      this.isBasicActive = true;
+      this.isOtherActive = false;
+      this.isFeeActive = false;
+      this.isInventoryActive = false;
     }
     else if (text === "kyc") {
 
@@ -165,36 +216,44 @@ export class StudentAddComponent implements OnInit {
       document.getElementById('li-three').classList.remove('active');
       document.getElementById('li-four').classList.remove('active');
 
-      document.getElementById('studentForm').classList.add('hide');
+      /* document.getElementById('studentForm').classList.add('hide');
       document.getElementById('kyc').classList.remove('hide');
       document.getElementById('feeDetails').classList.add('hide');
-      document.getElementById('inventory').classList.add('hide');
+      document.getElementById('inventory').classList.add('hide'); */
+      this.isBasicActive = false;
+      this.isOtherActive = true;
+      this.isFeeActive = false;
+      this.isInventoryActive = false;
     }
     else if (text === "feeDetails") {
-      this.router.navigate(['/comingsoon']);
-      /* document.getElementById('li-one').classList.remove('active');
+      document.getElementById('li-one').classList.remove('active');
       document.getElementById('li-two').classList.remove('active');
       document.getElementById('li-three').classList.add('active');
       document.getElementById('li-four').classList.remove('active');
 
-      document.getElementById('studentForm').classList.add('hide');
+      /* document.getElementById('studentForm').classList.add('hide');
       document.getElementById('kyc').classList.add('hide');
       document.getElementById('feeDetails').classList.remove('hide');
       document.getElementById('inventory').classList.add('hide'); */
-
+      this.isBasicActive = false;
+      this.isOtherActive = false;
+      this.isFeeActive = true;
+      this.isInventoryActive = false;
     }
     else if (text === "inventory") {
-      this.router.navigate(['/comingsoon']);
-      /* document.getElementById('li-one').classList.remove('active');
+      document.getElementById('li-one').classList.remove('active');
       document.getElementById('li-two').classList.remove('active');
       document.getElementById('li-three').classList.remove('active');
       document.getElementById('li-four').classList.add('active');
 
-      document.getElementById('studentForm').classList.add('hide');
+      /* document.getElementById('studentForm').classList.add('hide');
       document.getElementById('kyc').classList.add('hide');
       document.getElementById('feeDetails').classList.add('hide');
       document.getElementById('inventory').classList.remove('hide'); */
-
+      this.isBasicActive = false;
+      this.isOtherActive = false;
+      this.isFeeActive = false;
+      this.isInventoryActive = true;
     }
   }
 
@@ -241,13 +300,13 @@ export class StudentAddComponent implements OnInit {
   fetchPrefillFormData() {
 
     let inventory = this.studentPrefillService.fetchInventoryList().subscribe(data => {
-
     });
 
     let institute = this.prefill.getSchoolDetails().subscribe(data => {
       this.instituteList = data;
     });
 
+    this.getFeeStructue();
 
     let standard = this.prefill.getEnqStardards().subscribe(data => {
       this.standardList = data;
@@ -265,7 +324,7 @@ export class StudentAddComponent implements OnInit {
       })
     });
 
-    if (inventory != null && institute != null && standard != null && batch != null) {
+    if (institute != null && standard != null && batch != null) {
       let customComp = this.studentPrefillService.fetchCustomComponent().subscribe(data => {
         data.forEach(el => {
           let obj = {
@@ -1042,14 +1101,94 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  updateFormIsActive(ev){
-    if(ev){
+  updateFormIsActive(ev) {
+    if (ev) {
       this.studentAddFormData.is_active = "Y";
     }
-    else{
+    else {
       this.studentAddFormData.is_active = "N";
     }
   }
 
+
+
+  configureFees($event) {
+    $event.preventDefault();
+    this.isConfigureFees = true;
+  }
+
+
+  applyConfiguredFees($event) {
+    $event.preventDefault();
+    let dd = moment(this.feeStructureForm.template_effective_date).format('YYYY-MM-DD');
+
+    /* success */
+    if ((this.feeTempSelected != "" && this.feeTempSelected != null) && (dd != "" && dd != null && dd != "Invalid date")) {
+
+      this.feeStructureForm.template_effective_date = dd;
+
+      this.studentPrefillService.getFeeStructureById(this.feeTempSelected, this.feeStructureForm).subscribe(
+        res => {
+          this.feeTemplateById = res;
+          this.closeConfigureFees();
+        },
+        err => {
+          let msg = {
+            type: 'error',
+            title: 'Error',
+            body: 'Please contact proctur support'
+          }
+          this.appC.popToast(msg);
+        }
+      )
+
+    }
+    /* fee id not found */
+    else if ((this.feeTempSelected == "" || this.feeTempSelected == null)) {
+
+      let msg = {
+        type: 'error',
+        title: 'No Template Selected',
+        body: 'Please select a template from dropdown list'
+      }
+      this.appC.popToast(msg);
+
+    }
+    /* date invalid not selected */
+    else if (dd == "" || dd == null || dd == "Invalid date") {
+      let msg = {
+        type: 'error',
+        title: 'Invalid Date',
+        body: 'Please provide a valid date'
+      }
+      this.appC.popToast(msg);
+    }
+
+    //this.studentPrefillService.getFeeStructureById(this.feeTempSelected, this.feeStructureForm);
+  }
+
+
+  clearEffectiveDate($event) {
+    $event.preventDefault();
+    this.feeStructureForm.template_effective_date = '';
+  }
+
+  closeConfigureFees() {
+    //$event.preventDefault();
+    this.isConfigureFees = false;
+    this.feeStructureForm = {
+      studentArray: ["-1"],
+      template_effective_date: ""
+    }
+    this.feeTempSelected = "";
+  }
+
+  getFeeStructue() {
+    this.studentPrefillService.fetchAllFeeStructure().subscribe(
+      res => {
+        this.feeTemplateStore = res;
+      }
+    )
+  }
 
 }

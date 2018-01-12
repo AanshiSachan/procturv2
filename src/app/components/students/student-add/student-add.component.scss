@@ -155,7 +155,7 @@
     }
 }
 
-.fee-detail {
+.feeold-detail {
     .btn {
         margin-left: 0;
         min-width: 150px;
@@ -164,7 +164,7 @@
     }
 }
 
-.fee-box {
+.feeold-box {
     min-height: 300px;
     position: relative;
     margin-bottom: 10px;
@@ -178,7 +178,7 @@
     padding: 15px 0 0;
 }
 
-.fee-install-table {
+.feeold-install-table {
     .table-responsive {
         table {
             th,
@@ -238,17 +238,17 @@
     margin-bottom: 20px;
 }
 
-.fee-detail-right {
+.feeold-detail-right {
     .box-shadow-lite {
         padding: 10px;
     }
 }
 
-.fee-detail-total-calc {
+.feeold-detail-total-calc {
     &>div {
         padding: 15px 0;
         border-bottom: 1px solid $border-color;
-        &.total-fee {
+        &.total-feeold {
             border-top: 1px solid $border-color;
             border-bottom: 0;
             span {
@@ -434,7 +434,7 @@
     }
 }
 
-.fee-install-table {
+.feeold-install-table {
     margin: 10px 0px 0px 0px;
     .table-responsive {
         max-height: 400px;
@@ -617,7 +617,7 @@
 /* ======================== Responsive Data ================================== */
 
 @media only screen and (max-width: 767px) {
-    .fee-detail.row,
+    .feeold-detail.row,
     .installment-detail,
     .student-flow-wrapper .middle-full.row,
     .helpDetail.row,
@@ -638,6 +638,258 @@
         overflow: auto;
         .table-heading-menu {
             display: none;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.btn-diff{
+    .btn{
+        padding: 0  10px 0 5px;
+        svg{
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+    }
+}
+
+.fee-section-page{
+    padding: 10px 20px;
+}
+.fee-summary{
+    margin-top: 25px;
+    ul{
+        display: flex;
+        justify-content: space-between;
+
+        li{
+            width: auto;
+            label{
+                font-size: 14px;
+                color: #666666;
+                display: block;
+                margin-bottom: 5px;
+                text-transform: uppercase;
+            }
+            &>div{
+                border-radius: 4px;
+                height: 64px;
+                width: 175px;
+                flex-wrap: nowrap;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 15px;
+                span{
+                    font-size: 22px;
+                    font-weight: 600;
+                }
+                a{
+                    text-decoration: underline;
+                }
+                *{
+                    color: #fff;
+                }
+                &.blue{
+                    background: #24c4d0;
+                    box-shadow: 0 2px 2px rgba(83, 196, 208, 0.55);
+                }
+                &.purple{
+                    background: #b159f2;
+                    box-shadow: 0 2px 4px 0px rgba(177, 89, 242, 0.55);
+                }
+                &.yellow{
+                    background: #fcc03d;
+                    box-shadow: 0 2px 4px 0px rgba(252, 192, 61, 0.58);
+                }
+                &.green{
+                    background: #78dd95;
+                    box-shadow: 0 2px 4px 0px rgba(120, 221, 149, 0.55);
+                }
+                &.red{
+                    background: #f44167;
+                    box-shadow: 0 2px 4px 0px rgba(244, 65, 103, 0.55);
+                }
+                &.gray{
+                    background: #abaaaa;
+                    box-shadow: 0 2px 4px 0px rgba(171, 170, 170, 0.55);
+                }
+            }
+           
+
+        }
+    }
+}
+.fd-heading{
+    padding-bottom: 10px;
+}
+.fee-detail-summary{
+    padding-top: 40px;
+}
+.fee-inst-list{
+    &>ul{
+        &>li{
+            border: 1px solid #ccc;
+            padding: 16px;
+            border-top: 0;
+            &.active,&:hover{
+                box-shadow: inset 0 0px 4px 2px rgba(0, 0, 0, 0.08);
+            }
+            &:first-child{
+                border-top: 1px solid #ccc;
+            }
+            .inst-detail{
+                overflow: hidden;
+                padding-left: 12px;
+            }
+        }
+    }
+    .add-edit{
+        padding-left: 37px;
+        font-size: 14px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+}
+.instl-info
+{
+    &>ul{
+        &>li{
+            display: inline-block;
+            margin-right: 70px;
+            margin-bottom: 10px;
+            label{
+                font-size: 10px;
+                color: rgba(0,0,0,0.3);
+                display: block;
+            }
+            span{
+                font-size: 14px;
+                display: block;
+                color: #000;
+                margin-top: 6px;
+            }
+            &:first-child{
+                span{
+                    font-size: 18px;
+                    color: rgba(0,0,0,0.7);
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+}
+.inst-detail{
+    .inst-label{
+        font-size: 14px;
+        color: #000;
+        padding-bottom: 12px;
+    }
+}
+.fee-status{
+    display: inline-block;
+    border-radius: 4px;
+    padding: 4px 8px;
+    color: #fff;
+    font-size: 11px;
+    margin-left: 10px;
+    vertical-align: middle;
+    text-transform: uppercase;
+    &.paid{
+        background: #78dd95;
+    }
+    &.due{
+        background: #f44167;
+    }
+    &.upcoming{
+        background: #fcc03d;
+    }
+    &.partial{
+        background: #24c4d0;
+    }
+}
+.fd-btm{
+    margin-top: 20px;
+    .btn{
+        width: 172px;
+        border-radius: 3px;
+    }
+    .fd-btm-label{
+        font-size: 14px;
+        color: rgba(0,0,0,0.80);
+        margin: 5px 0 15px;
+    }
+}
+.btn-diff{
+    .btn{
+        transition: all 0.3s ease-in-out;
+        &:hover{
+            background: #0084f6;
+            border: 1px solid #0084f6;
+            color: #fff;
+            path{
+                fill: #fff;
+            }
+            color: #fff;
+        }
+    }
+}
+@media only screen and (max-width: 1200px){
+    .fee-summary ul {
+        display: block;
+        li {
+            display: inline-block;
+            margin-right: 15px;
+            margin-bottom: 20px;
+            div{
+
+            }
+        }
+    }
+}
+@media only screen and (max-width: 767px){
+    .fee-section-page{
+        padding: 10px 0;
+    }
+    .instl-info > ul > li{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-right: 0;
+        float: left;
+        width: 50%;
+        min-height: 50px;
+    }
+    .fee-summary ul li > div{
+        padding: 0 10px;
+        height: 58px;
+        width: 134px;
+        span{
+            font-size: 18px;
+        }
+    }
+}
+
+
+.configureFee{
+    border-top: 1px solid rgba(97, 96, 96, 0.47843137254901963);
+    padding: 20px 10px;
+    .row{
+        margin: 0px 10px;
+        .field-wrapper{
+            width: 40%;
         }
     }
 }

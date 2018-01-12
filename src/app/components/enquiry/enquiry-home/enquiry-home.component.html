@@ -9,9 +9,37 @@
         Enquiry List
       </h1>
 
-      <aside class="pull-right">
-        <input type="button" value="Add Enquiry" class="btn" routerLink='/enquiry/addEnquiry' />
-        <input type="button" value="Upload Enquiry" routerLink='/enquiry/addBulkEnquiry' class="btn">
+      <aside class="headEnq pull-right">
+        <p-splitButton label="{{selectedRowCount}} Enquiry Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton>
+        <button style="margin:0px 20px 7px 30px;" class="btn" routerLink='/enquiry/addEnquiry'>
+          <div class="option-wrap">
+            <img src="/assets/images/plus.png" alt="addEnquiry">
+            <span class="tooltip">
+              Add Enquiry
+            </span>
+          </div>
+        </button>
+        <button style="margin:0px 20px 7px 15px;" class="btn optEnq" (click)="isEnquiryOptions = !isEnquiryOptions">
+          <div class="option-wrap">
+            <img src="/assets/images/menu-h.png" alt="multiopt">
+            <span class="tooltip">
+              Other Options
+            </span>
+          </div>
+        </button>
+        <div class="enq-dropdown-content" *ngIf="isEnquiryOptions" (mouseleave)="isEnquiryOptions = false">
+          <ul>
+            <li class="export-icon" (click)="downloadAllEnquiries()">
+              <a id="enq_download"></a>
+              <label>Export</label>
+            </li>
+            <li class="upload-icon">
+              <label id="upload" routerLink='/enquiry/addBulkEnquiry'>
+                Upload Enquiry
+              </label>
+            </li>
+          </ul>
+        </div>
       </aside>
 
     </section>
@@ -24,9 +52,9 @@
         <div class="filter-search">
           <div class="filter-box clearFix">
             <!-- Search Bar -->
-            <div class="c-lg-8 c-md-8 c-sm-8">
+            <div class="c-lg-6 c-md-6 c-sm-6 pull-left">
               <div class="search-filter-wrapper" id="adFilterExitVisible">
-                <input #search type="text" class="normal-field" placeholder="Search Student Name/Contact No./Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;"
+                <input #search type="text" class="normal-field" placeholder="Search Name/Contact/Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;"
                   [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
                 <!-- followup date handler -->
                 <div class="field-wrapper datePickerBox">
@@ -39,8 +67,15 @@
               </div>
             </div>
 
+            <!-- Quick Filter -->
+            <div class="c-lg-3 c-md-3 c-sm-3 pull-left">
+              <div id="qfilt">
+                <quick-filter [inputList]="statFilter" (selectedValue)="statusFilterUpdater($event)" [modelName]="'enqList'"></quick-filter>
+              </div>
+            </div>
+
             <!-- Advanced Filter Trigger -->
-            <div class="c-lg-4 c-md-4 c-sm-4">
+            <div class="c-lg-3 c-md-3 c-sm-3 pull-left">
               <div class="filter-right pull-right">
                 <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Advanced Filter</a>
                 <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide" (click)="closeAdFilter()">
@@ -249,7 +284,7 @@
 
 
       <!-- Checkboxes Filter -->
-      <section class="search-enquiry-type-filter">
+      <!-- <section class="search-enquiry-type-filter">
         <div class="row">
           <div class="c-lg-12 c-sm-12 c-md-12">
             <span class="filter-label pull-left">Enquiry Type</span>
@@ -292,7 +327,7 @@
             </ul>
           </div>
         </div>
-      </section>
+      </section> -->
 
 
 
@@ -300,7 +335,7 @@
       <section class="search-data">
 
         <!-- Export and Toggler Here -->
-        <div class="row class filter-res">
+        <!-- <div class="row class filter-res">
           <div class="c-lg-6 c-md-6 c-sm-6 align-left">
             <ul class="export-print">
               <li>
@@ -334,16 +369,12 @@
                 <a id="enq_download"></a>
                 Export
               </li>
-              <!-- <li>
-                <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggleOptionChange($event)">
-                </ss-multiselect-dropdown>
-              </li> -->
             </ul>
           </div>
-        </div>
+        </div> -->
 
         <!-- Enquiry DataTable -->
-        <div class="row " id="table-main">
+        <div class="" id="table-main">
 
           <div class="table-scroll-wrapper">
             <div class="table table-responsive enquiry-table">
@@ -359,8 +390,8 @@
               X
             </a>
             <div class="skeleton" #skelton *ngIf="!isSideBar"></div>
-            <enquiry-sidebar *ngIf="isSideBar" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority" [statusArr]="enqstatus" [customComp]="customCompid"
-              [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)" (cancelUpdate)="closeEnquiryFullDetails($event)">
+            <enquiry-sidebar *ngIf="isSideBar" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority" [statusArr]="enqstatus"
+              [customComp]="customCompid" [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)" (cancelUpdate)="closeEnquiryFullDetails($event)">
             </enquiry-sidebar>
           </div>
 
@@ -370,7 +401,8 @@
         <div class="row filter-res pagination" id="pager" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-              [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalEnquiry">
+              [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)"
+              [count]="totalEnquiry">
             </pagination>
           </div>
 

@@ -1,8 +1,10 @@
 @import "variables";
 
+
 /* Scrollbar thickness changed here for vertical display */
 
 ::-webkit-scrollbar {
+    display: none;
     width: 7px;
     height: 7px;
 }
