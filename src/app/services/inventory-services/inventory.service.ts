@@ -66,13 +66,38 @@ export class InventoryService {
 
 
   updateInventoryItem(data){
-    this.url = this.baseUrl + "/api/v1/inventory/category/all/" + this.institute_id;
-
-    data.institute_id = this.institute_id;
-
-    return this.http.post(this.url, data,{headers: this.headers}).map(
-      data => {return data.json() },
+    data.institution_id = this.institute_id;
+    this.url = this.baseUrl + "/api/v1/inventory/item";
+    return this.http.put(this.url, data,{headers: this.headers}).map(
+      data => {
+        return data.json() 
+            },
       err => {
+        console.log(err , 'Error');
+      }
+    );
+  }
+
+  fetchAllMasterCategoryItem(){
+    this.url = this.baseUrl + "/api/v1/standards/all/" + this.institute_id;
+    return this.http.get(this.url, {headers: this.headers}).map(
+      data => {
+        return data.json() ;
+      },
+      err => {
+       console.log("error fetching template" , err);
+      }
+    );
+  }
+
+  deleteRowFromItem(rowID) {
+    this.url = this.baseUrl + "/api/v1/inventory/item/" + rowID;
+    return this.http.delete(this.url, {headers: this.headers}).map(
+      data => {
+        return data.json() ;
+      },
+      err => {
+       console.log("error fetching template" , err);
       }
     );
   }

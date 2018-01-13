@@ -24,14 +24,18 @@ import { sourceUrl } from '@angular/compiler';
 })
 export class HomeComponent implements OnInit {
 
+  itemTableDatasource: any;
   itemList: any[] = [];
-  categoryList: any[] =[];
-  selectedRow="";
-  operationFlag="";
-  isAddUnit:boolean = false;
+  categoryList: any = [];
+  selectedRow = "";
+  operationFlag = "";
+  isAddUnit: boolean = false;
+  masterCategoryList: any;
+  deleteItemPopUp: boolean = false;
+  deleteRowDetails: any;
 
   header: any = {
-    inventory_item:{ id: 'inventory_item', title: 'Inventory Item', filter: false, show: true },
+    inventory_item: { id: 'inventory_item', title: 'Inventory Item', filter: false, show: true },
     category: { id: 'category', title: 'Category', filter: false, show: true },
     description: { id: 'description', title: 'Description', filter: false, show: true },
     master_course: { id: 'master_course', title: 'Master Course', filter: false, show: true },
@@ -46,93 +50,139 @@ export class HomeComponent implements OnInit {
 
   busy: Subscription;
 
-  constructor(private inventoryApi: InventoryService ,) { 
-
-    
+  constructor(private inventoryApi: InventoryService, ) {
   }
 
   ngOnInit() {
     this.loadTableDatatoSource();
     this.loadItemCategories();
-
+    this.loadItemCategoryMaster();
   }
 
 
-  loadTableDatatoSource(){
-
+  loadTableDatatoSource() {
+    this.itemList = [];
     this.inventoryApi.fetchAllItems().subscribe(
-      data => {console.log(data);
-              this.itemList = data;console.log(this.itemList);this.selectedRow="";},
-      error => {console.log(error)}
+      data => {
+        console.log(data);
+        this.itemTableDatasource = data;
+        this.itemList = data;
+        this.selectedRow = "";
+      },
+      error => {
+        console.log(error);
+      }
     )
 
   }
 
-  loadItemCategories(){
+  loadItemCategories() {
     this.inventoryApi.fetchAllCategories().subscribe(
-      data => {console.log(data);
-              this.categoryList = data;console.log(this.categoryList)},
-      error => {console.log(error)}
+      data => {
+        this.categoryList = data;
+      },
+      error => {
+        console.log(error)
+      }
     )
   }
 
-  editRow(row_no,item_id) {  
+  loadItemCategoryMaster() {
+    this.inventoryApi.fetchAllMasterCategoryItem().subscribe(
+      data => {
+        this.masterCategoryList = data;
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  editRow(row_no, item_id) {
     this.isAddUnit = false;
-    if(this.selectedRow !== ""){
+    if (this.selectedRow !== "") {
       console.log(this.selectedRow);
-      document.getElementById(("row"+this.selectedRow).toString()).classList.add('displayComp');
-      document.getElementById(("row"+this.selectedRow).toString()).classList.remove('editComp');
+      document.getElementById(("row" + this.selectedRow).toString()).classList.add('displayComp');
+      document.getElementById(("row" + this.selectedRow).toString()).classList.remove('editComp');
     }
     this.selectedRow = row_no;
-    console.log(this.selectedRow);
-    console.log(item_id);
     document.getElementById(("table-header").toString()).classList.remove('displayComp');
     document.getElementById(("table-header").toString()).classList.add('editComp');
-    document.getElementById(("row"+row_no).toString()).classList.remove('displayComp');
-    document.getElementById(("row"+row_no).toString()).classList.add('editComp');
+    document.getElementById(("row" + row_no).toString()).classList.remove('displayComp');
+    document.getElementById(("row" + row_no).toString()).classList.add('editComp');
   }
 
-  cancelRow(row_no) {   
+  cancelRow(row_no) {
     this.isAddUnit = false;
     this.loadTableDatatoSource();
-    console.log(row_no);
     document.getElementById(("table-header").toString()).classList.add('displayComp');
     document.getElementById(("table-header").toString()).classList.remove('editComp');
-    document.getElementById(("row"+row_no).toString()).classList.add('displayComp');
-    document.getElementById(("row"+row_no).toString()).classList.remove('editComp');
-
+    document.getElementById(("row" + row_no).toString()).classList.add('displayComp');
+    document.getElementById(("row" + row_no).toString()).classList.remove('editComp');
   }
 
 
-  addItemsEnable(i){
-    document.getElementById(("add-item"+i).toString()).classList.add('editAddItem');
-    document.getElementById(("add-item"+i).toString()).classList.remove('displayAddItem');
+  addItemsEnable(i) {
+    document.getElementById(("add-item" + i).toString()).classList.add('editAddItem');
+    document.getElementById(("add-item" + i).toString()).classList.remove('displayAddItem');
   }
 
 
-  inputClicked(){
+  inputClicked() {
 
   }
 
-  updateRow(row,i){
-    console.log(row);
-    let postdata={category_id:row.category_id,desc:row.desc,
-                  institution_id:"",item_id:row.item_id,
-                  item_name:row.item_name,
-                  standard_id:row.standard_id,
-                  subject_id:row.subject_id,
-                  unit_cost:row.unit_cost};
-
+  updateRow(row, i) {
+    let postdata = {
+      category_id: row.category_id,
+      desc: row.desc,
+      institution_id: "",
+      item_id: row.item_id.toString(),
+      item_name: row.item_name,
+      standard_id: row.standard_id.toString(),
+      subject_id: row.subject_id.toString(),
+      unit_cost: row.unit_cost.toString()
+    };
     this.inventoryApi.updateInventoryItem(postdata).subscribe(
-      data => {console.log(data);
-              this.categoryList = data;console.log(this.categoryList)},
-      error => {console.log(error)}
+      data => {
+        this.loadTableDatatoSource();
+        this.categoryList = data;
+        document.getElementById(("row" + i).toString()).classList.add('displayComp');
+        document.getElementById(("row" + i).toString()).classList.remove('editComp');
+      },
+      error => {
+        console.log(error);
+      }
     )
-
-
   }
 
+  deleteRow(row, index) {
+    this.deleteItemPopUp = true;
+    this.deleteRowDetails = row;
+  }
 
+  closeDeletePopup() {
+    this.deleteItemPopUp = false;
+  }
 
+  deleteStudent() {
+    this.inventoryApi.deleteRowFromItem(this.deleteRowDetails.item_id).subscribe(
+      data => {
+        this.loadTableDatatoSource();
+        this.deleteItemPopUp = false;
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  searchDatabase(element) {
+    let searchData = this.itemTableDatasource.filter(item => 
+      Object.keys(item).some(
+        k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
+    );
+    this.itemList = searchData;
+  }
 
 }
