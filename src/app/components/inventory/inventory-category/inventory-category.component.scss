@@ -1,49 +1,66 @@
-tbody {
-    tr {
-        line-height: 25px;
-
-        .field-wrapper {
-            padding: 0px !important;
-            .form-ctrl {
-                display: block;
-                box-sizing: border-box;
-                padding: 0px 0px 0px 5px;
-                outline: none;
-                border: 0;
-                height: 26px;
-                box-shadow: none;
-                border-radius: 0;
-                line-height: 25px;
-                background: transparent;
-                width: 80px;
-                text-align: center;
-                border-bottom: 1px solid #ccc;
+table {
+    tbody {
+        tr {
+            td {
+                .editOptions li {
+                    display: inline-block;
+                }
+            }
+            .field-wrapper {
+                padding: 0px !important;
+                .form-ctrl {
+                    display: block;
+                    box-sizing: border-box;
+                    padding: 0px 0px 0px 5px;
+                    outline: none;
+                    border: 0;
+                    height: 26px;
+                    box-shadow: none;
+                    border-radius: 0;
+                    line-height: 25px;
+                    background: transparent;
+                    width: 80px;
+                    text-align: center;
+                    border-bottom: 1px solid #ccc;
+                }
             }
         }
+        .displayComp {
+            .view-comp {}
+            .edit-comp {
+                display: none
+            }
+        }
+        .editComp {
+            .view-comp {
+                display: none
+            }
+            .edit-comp {}
+        }
     }
 }
 
-table {
-   tbody {
-       tr{
-           td{
-               .editOptions li{
-                display: inline-block;
-               }
-           }
-       }
-       .displayComp {
-        .view-comp {}
-        .edit-comp {
-            display: none
+@media screen and (max-width: 995px),
+screen and (max-height: 768px) {
+    #category-table {
+        margin-left: 0px !important;
+        margin-top: 15px;
+        margin-right: 15px !important;
+        max-height: 480px;
+        overflow: hidden;
+        width: 100%;
+        .table-scroll-wrapper {
+            max-height: 430px;
+        }
+         ::-webkit-scrollbar {
+            display: block;
+            width: 7px;
+            height: 7px;
         }
     }
-    .editComp {
-        .view-comp {
-            display: none
-        }
-        .edit-comp {}
-    }
-   }
 }
 
+.addNewButton {
+    text-decoration: none;
+    color: #0084f6;
+}

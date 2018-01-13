@@ -36,6 +36,7 @@ export class InventoryCategoryService {
 
   // Add new category to the category list
   setNewCategory(data: AddCategory) {
+    data.institution_id = this.auth.getInstituteId();
     let url = this.baseUrl + '/api/v1/inventory/category';
     return this.http.post(url, data, { headers: this.headers }).map(
       success => {
