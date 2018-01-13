@@ -8,21 +8,16 @@ import {Router} from '@angular/router';
 })
 export class InventoryComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+   }
 
   ngOnInit() {
     this.removeFullscreen();
-    document.getElementById('lione').classList.remove('active');
-    document.getElementById('litwo').classList.remove('active');
-    document.getElementById('lithree').classList.remove('active');
-    document.getElementById('lifour').classList.remove('active');
-    document.getElementById('lifive').classList.remove('active');
-    document.getElementById('lisix').classList.remove('active');
-    document.getElementById('liseven').classList.add('active');
-    document.getElementById('lieight').classList.remove('active');
-    document.getElementById('linine').classList.remove('active');
-    document.getElementById('liten').classList.remove('active');
-    document.getElementById('lieleven').classList.remove('active');
+    if(this.router.url.includes('category')){
+      this.switchActiveView('category');
+    }else{
+      this.switchActiveView('item');
+    }
   }
 
 
@@ -36,6 +31,13 @@ export class InventoryComponent implements OnInit {
     [].forEach.call(sidebar, function (el) {
       el.classList.remove('hide');
     });
+  }
+
+
+  switchActiveView(tabName) {
+    document.getElementById('item').classList.remove('active');
+    document.getElementById('category').classList.remove('active');
+    document.getElementById(tabName).classList.add('active');
   }
 
 }
