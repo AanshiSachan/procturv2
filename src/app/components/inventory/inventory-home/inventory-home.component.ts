@@ -25,7 +25,7 @@ import { sourceUrl } from '@angular/compiler';
 export class HomeComponent implements OnInit {
 
   itemTableDatasource: any;
-  itemList: any[] = [];
+  itemList: any = [];
   categoryList: any = [];
   selectedRow = "";
   operationFlag = "";
@@ -33,6 +33,9 @@ export class HomeComponent implements OnInit {
   masterCategoryList: any;
   deleteItemPopUp: boolean = false;
   deleteRowDetails: any;
+  PageIndex = 1;
+  studentdisplaysize = 10;
+  totalRow ;
 
   header: any = {
     inventory_item: { id: 'inventory_item', title: 'Inventory Item', filter: false, show: true },
@@ -64,9 +67,9 @@ export class HomeComponent implements OnInit {
     this.itemList = [];
     this.inventoryApi.fetchAllItems().subscribe(
       data => {
-        console.log(data);
+        this.totalRow = data.length;
         this.itemTableDatasource = data;
-        this.itemList = data;
+        this.fetchTableDataByPage(this.PageIndex);
         this.selectedRow = "";
       },
       error => {
@@ -185,4 +188,28 @@ export class HomeComponent implements OnInit {
     this.itemList = searchData;
   }
 
+   // pagination functions 
+   fetchTableDataByPage(index){
+    let startindex = this.studentdisplaysize * (index - 1);
+    this.itemList = this.getDataFromDataSource(startindex);
+  }
+
+  fetchNext(){
+    this.PageIndex ++;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
+  fetchPrevious(){
+    if(this.PageIndex != 1){
+      this.PageIndex--;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
+  }
+
+  getDataFromDataSource(startindex) {
+    debugger
+    let t = this.itemTableDatasource.slice(startindex , startindex + this.studentdisplaysize);
+    return t;
+  }
+  
 }
