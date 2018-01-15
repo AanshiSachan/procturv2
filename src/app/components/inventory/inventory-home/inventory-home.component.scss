@@ -3,39 +3,6 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-.common-tab {
-    padding-top: 5px;
-    ul {
-        font-size: 0;
-        border-bottom: 1px solid #f1f1f1;
-        li {
-            margin-right: 1px;
-            display: inline-block;
-            width: 10%;
-            max-width: 158px;
-            cursor: pointer;
-            a {
-                display: block;
-                padding: 10px 5px;
-                background: #eff7ff;
-                border: 1px solid #cccdcd;
-                color: $common-blue;
-                text-align: center;
-                font-size: 14px;
-                font-weight: 600;
-            }
-            &:hover,
-            &.active {
-                a {
-                    background: $common-blue;
-                    color: $bg-white;
-                    border-color: $common-blue;
-                    font-weight: normal;
-                }
-            }
-        }
-    }
-}
 
 .middle-section {
     padding: 5px 15px;
@@ -53,13 +20,6 @@
         float: left;
         height: 35px;
         font-size: 14px;
-    }
-    .normal-btn {
-        padding: 8px 10px;
-        width: 20%;
-        box-sizing: border-box;
-        float: left;
-        cursor: pointer;
     }
     .field-wrapper {
         position: relative;
@@ -80,118 +40,6 @@
         &:after {
             left: 85% !important;
             top: 10px !important;
-        }
-    }
-}
-
-.table-scroll-wrapper {
-    /* padding: 5px;
-    max-height: 800px;
-    overflow-y: scroll;
-    overflow-x: visible; */
-    .enquiry-table {
-        overflow-y: visible;
-        overflow-x: visible;
-        table {
-            .field-checkbox-wrapper {
-                width: 22px !important;
-                overflow: hidden;
-                box-sizing: border-box;
-                height: 22px !important;
-                padding-left: 25px !important;
-                margin-bottom: 0;
-                margin-left: 5px;
-                background: transparent;
-                border-radius: 2px;
-            }
-            .field-checkbox-wrapper .form-checkbox {
-                opacity: 0;
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 22px;
-                height: 22px;
-                z-index: 1;
-            }
-            .field-checkbox-wrapper .form-checkbox+label {
-                vertical-align: middle;
-                transition: all 0s;
-                font-size: 14px;
-                display: inline-block;
-            }
-            .field-checkbox-wrapper .form-checkbox+label:after {
-                content: '';
-                width: 22px;
-                height: 22px;
-                border: 2px solid #ccc;
-                border-radius: 2px;
-                position: absolute;
-                left: 0;
-                top: 0;
-            }
-            .field-checkbox-wrapper .form-checkbox:checked+label:after {
-                border: 2px solid $common-blue;
-            }
-            .field-checkbox-wrapper .form-checkbox+label:before {
-                width: 1px;
-                height: 1px;
-                left: 8px;
-                top: 9px;
-                position: absolute;
-                content: '';
-                border-top: 0;
-                border-right: 0;
-                border-left: 2px solid transparent;
-                border-bottom: 2px solid transparent;
-                transform: rotate(-45deg);
-            }
-            .field-checkbox-wrapper .form-checkbox:checked+label:before {
-                border-left: 2px solid $common-blue;
-                border-bottom: 2px solid $common-blue;
-                width: 12px;
-                height: 7px;
-                left: 5px;
-                top: 6px;
-            }
-            .field-checkbox-wrapper .form-checkbox:checked+label {
-                color: $common-blue;
-            }
-        }
-        .empty-table-wrapper {
-            height: 100px;
-            width: 100%;
-            text-align: center;
-        }
-    }
-}
-
-.middle-main {
-    position: relative;
-    &:before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        left: 0;
-        top: 80px;
-        z-index: 1;
-        background: rgba(255, 255, 255, 0.74);
-        transition: all 0.1s;
-        opacity: 0;
-        visibility: hidden;
-    }
-    &.hasFilter {
-        &:before {
-            opacity: 1;
-            visibility: visible;
-        }
-        .filter-fields {
-            opacity: 1;
-            visibility: visible;
-            top: 100%;
-        }
-        .closeFilter {
-            display: block;
         }
     }
 }
@@ -485,13 +333,11 @@
     }
 }
 
-
 .table-scroll-wrapper {
-    margin: 15px;
     table {
         thead {
             tr {
-                line-height: 20px;
+                
             }
             .displayComp {
                 .view-comp {}
@@ -545,6 +391,39 @@
             a {
                 cursor: pointer;
             }
+        }
+    }
+}
+
+/////////// Add item 
+.row.extraMargin {
+    margin: 10px 0px 25px 0px;
+}
+
+.btn.fullBlue {
+    background: #0084f6;
+    border: 1px solid #0084f6;
+    color: #fff;
+}
+
+
+@media screen and (max-width: 995px),
+screen and (max-height: 768px) {
+    #item-Table {
+        min-height: 400px;
+        margin-left: 0px !important;
+        margin-top: 15px;
+        margin-right: 15px !important;
+        max-height: 480px;
+        overflow: hidden;
+        width: 100%;
+        .table-scroll-wrapper {
+            max-height: 430px;
+        }
+         ::-webkit-scrollbar {
+            display: block;
+            width: 7px;
+            height: 7px;
         }
     }
 }

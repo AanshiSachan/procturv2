@@ -9,6 +9,7 @@ import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { AuthenticatorService } from '../authenticator.service';
+import { AddCategoryInInventory } from '../../model/add-item-inventory';
 
 @Injectable()
 export class InventoryService {
@@ -101,5 +102,31 @@ export class InventoryService {
       }
     );
   }
+
+  getCourseOnBasisOfMasterCourse(data_id) {
+    this.url = this.baseUrl + "/api/v1/subjects/standards/" + data_id;
+    return this.http.get(this.url, {headers: this.headers}).map(
+      data => {
+        return data.json() ;
+      },
+      err => {
+       console.log("error fetching template" , err);
+      }
+    );
+  }
+
+  addItemDetailsInCategory(data: AddCategoryInInventory) {
+    data.institution_id = this.institute_id;  
+    this.url = this.baseUrl + "/api/v1/inventory/item";
+    return this.http.post(this.url, data, {headers: this.headers}).map(
+      data => {
+        return data.json() ;
+      },
+      err => {
+       console.log("error fetching template" , err);
+      }
+    );
+  }
+
 
 }

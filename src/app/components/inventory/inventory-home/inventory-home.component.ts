@@ -15,6 +15,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 import { InventoryService } from '../../../services/inventory-services/inventory.service';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { sourceUrl } from '@angular/compiler';
+import { AddCategoryInInventory } from '../../../model/add-item-inventory';
 
 
 @Component({
@@ -36,6 +37,9 @@ export class HomeComponent implements OnInit {
   PageIndex = 1;
   studentdisplaysize = 10;
   totalRow ;
+  createItemPopUp: boolean = false;
+  addItemForm: FormGroup;
+  courseList: any ;
 
   header: any = {
     inventory_item: { id: 'inventory_item', title: 'Inventory Item', filter: false, show: true },
@@ -53,7 +57,10 @@ export class HomeComponent implements OnInit {
 
   busy: Subscription;
 
-  constructor(private inventoryApi: InventoryService, ) {
+  constructor(
+    private inventoryApi: InventoryService,
+    private fb: FormBuilder
+  ) {
   }
 
   ngOnInit() {
@@ -207,9 +214,105 @@ export class HomeComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
-    debugger
     let t = this.itemTableDatasource.slice(startindex , startindex + this.studentdisplaysize);
     return t;
   }
-  
+
+  //// Add Item Form
+
+  createAddItemForm() {
+    this.addItemForm = this.fb.group({
+      item_name:['',[Validators.required]],
+      desc: [''],
+      categoryDet: ['',[Validators.required]],
+      alloted_units: ['',Validators.required],
+      standardDet: [''],
+      subjectDet: [''],
+      unit_cost: [''],
+      created_date: [moment().format("YYYY-MM-DD")],
+    })
+  }
+
+  ///// To add a Item 
+
+  addItemDetails() {
+    console.log(this.categoryList);
+    console.log(this.masterCategoryList);
+    this.createAddItemForm();
+    this.createItemPopUp = true;
+  }
+
+  //// Add Item Pop Up Function
+
+  closeCreatePopup() {
+    this.createItemPopUp = false;
+  }
+
+  masterCourseSelected() {
+    let courseId = this.addItemForm.value.standardDet;
+    this.inventoryApi.getCourseOnBasisOfMasterCourse(courseId).subscribe(
+      data => {
+        console.log('Change Event Triggered' , data);
+        this.courseList = data;
+      },
+      error => {
+        console.log("Error" , error);
+      }
+    )
+  }
+
+  saveItemDetails() {
+    console.log(this.addItemForm.value);
+    let data: AddCategoryInInventory = {} ;
+    data.alloted_units = this.addItemForm.value.alloted_units.toString();
+    data.category_id = this.addItemForm.value.categoryDet;
+    data.created_date = this.addItemForm.value.created_date;
+    data.desc = this.addItemForm.value.desc;
+    data.item_name = this.addItemForm.value.item_name;
+    data.standard_id = this.addItemForm.value.standardDet;
+    if( data.standard_id == null || data.standard_id == "") {
+      data.standard_id = -1;
+    }
+    data.subject_id = this.addItemForm.value.subjectDet;
+    if( data.subject_id == null || data.subject_id == "" ) {
+      data.subject_id = -1;
+    }
+    data.unit_cost = this.addItemForm.value.unit_cost.toString();
+    this.inventoryApi.addItemDetailsInCategory(data).subscribe(
+      data => {
+        console.log(data);
+        this.loadTableDatatoSource();
+        this.createItemPopUp = false;
+      },
+      error => {
+        console.log("Error" , error);
+      }
+    )
+
+  }
+
+  /* Customiized click detection strategy */
+  inputClickedCheck(ev) {
+    if (ev.target.classList.contains('form-ctrl')) {
+      if (ev.target.classList.contains('bsDatepicker')) {
+        var nodelist = document.querySelectorAll('.bsDatepicker');
+        [].forEach.call(nodelist, (elm) => {
+          elm.addEventListener('focusout', function (event) {
+            event.target.parentNode.classList.add('has-value');
+          });
+        });
+      }
+      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
+        //document.getElementById(ev.target.id).click();
+        ev.target.addEventListener('blur', function (event) {
+          if (event.target.value != '') {
+            event.target.parentNode.classList.add('has-value');
+          } else {
+            event.target.parentNode.classList.remove('has-value');
+          }
+        });
+      }
+    }
+  }
+
 }
