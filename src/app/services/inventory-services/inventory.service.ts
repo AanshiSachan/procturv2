@@ -129,4 +129,17 @@ export class InventoryService {
   }
 
 
+  addQuantityInStock(data) {
+    data.institution_id = this.institute_id;
+    this.url = this.baseUrl + "/api/v1/inventory/item/stockUpdate/";
+    return this.http.put(this.url, data, {headers: this.headers}).map(
+      data => {
+        return data.json() ;
+      },
+      err => {
+       console.log("error fetching template" , err);
+      }
+    );
+  }
+
 }

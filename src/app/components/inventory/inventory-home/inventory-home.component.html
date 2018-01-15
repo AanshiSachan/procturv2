@@ -164,6 +164,14 @@
                         <a class="view-addItem" (click)="addItemsEnable(i)">Add Quantity</a>
                         <div class="field-wrapper edit-addItem">
                           <input type="number" class="form-ctrl" [(ngModel)]="row.units_added" name="label">
+                          <ul class="editOptions">
+                            <li>
+                              <a (click)="addItemsQuantity(row)">Add</a>
+                            </li>
+                            <li>
+                              <a (click)="cancelItem(i)">Cancel</a>
+                            </li>
+                          </ul>
                         </div>
                       </div>
                     </td>
@@ -239,7 +247,7 @@
       </div>
 
     </section>
-</aside>
+  </aside>
 </section>
 <!-- Delete PopUp -->
 <!-- =============================================================================== -->
