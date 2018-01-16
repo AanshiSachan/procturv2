@@ -6,6 +6,120 @@
 @import "./src/app/components/enquiry/enquiry-add/enquiry-add.component.scss";
 @import "./src/app/components/enquiry/enquiry-home/enquiry-home.component.scss";
 @import "./src/app/components/students/student-add/student-add.component.scss";
+/* ======================================================================================================== */
+.headEnq {
+    .option-wrap {
+        width: 20px;
+        height: 20px;
+    }
+    .btn {
+        padding: 2px 0px 0px 7px;
+        border: none;
+        height: 35px;
+        width: 35px;
+        border-radius: 50%;
+        .tooltip {
+            position: relative;
+            top: -30px;
+            right: -30px;
+            min-width: 100px;
+            font-size: 12px;
+            padding: 6px;
+            height: 35px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.541);
+            color: white;
+            visibility: hidden;
+            opacity: 0;
+        }
+        &:hover {
+            background: rgb(216, 214, 214);
+            .tooltip {
+                position: relative;
+                top: -30px;
+                right: 120px;
+                min-width: 100px;
+                padding: 6px;
+                border-radius: 5px;
+                font-size: 12px;
+                height: 35px;
+                background: rgba(0, 0, 0, 0.541);
+                color: white;
+                visibility: visible;
+                opacity: 1;
+                transition: all 0.2s;
+            }
+        }
+        &:focus {
+            outline: none;
+        }
+        &:active {
+            box-shadow: none;
+        }
+    }
+    .enq-dropdown-content {
+        position: absolute;
+        background: white;
+        z-index: 10;
+        width: 150px;
+        padding: 0px 5px;
+        height: 80px;
+        box-shadow: 1px 1px 3px 1px black;
+        ul {
+            list-style: none;
+            .export-icon {
+                background: url('/assets/images/expand.svg') no-repeat;
+                margin: 10px 0px 0px 2px;
+                background-size: 20px auto;
+                padding: 0px 0px 0px 25px;
+                cursor: pointer;
+                font-size: 14px;
+                color: #888;
+                &:hover {
+                    color: $common-blue;
+                }
+            }
+            .upload-icon {
+                background: url('/assets/images/pdf_download.svg') no-repeat;
+                margin: 10px 0px 0px 2px;
+                background-size: 20px auto;
+                padding: 0px 0px 0px 25px;
+                cursor: pointer;
+                font-size: 14px;
+                color: #888;
+                &:hover {
+                    color: $common-blue;
+                }
+            }
+            li {
+                height: 25px;
+                padding: 7px;
+                border-bottom: 1px solid rgba(119, 119, 119, 0.705);
+            }
+        }
+    }
+}
+/* =========================================================================================================== */
+
+
+.adfilter-submitter{
+    .submit{
+        width: 70%;
+    }
+    .cancel{
+        width: 100%;
+    }
+}
+
+/* ============================================================================================================== */
+
+
+
+
+
+
+
+
 .sidenav {
     min-height: 480px;
     max-height: 480px;
@@ -64,6 +178,8 @@
         background-repeat: repeat-y;
         background-size: 200px 200px, 120px 20px, 100px 200px, 350px 200px, 350px 200px, 350px 200px, 350px 200px, 350px 200px, 350px 200px;
         background-position: 0 0, 0 0, 120px 0, 120px 40px, 120px 80px, 120px 120px;
+        -webkit-animation: shine 1s infinite;
+        animation: shine 1s infinite;
     }
     .skel2:empty {
         margin: auto;
@@ -73,6 +189,15 @@
         background-repeat: repeat-y;
         background-size: 10px 20px, 350px 200px, 350px 200px, 350px 200px, 350px 200px, 350px 200px, 350px 200px, 350px 200px;
         background-position: 0 0, 0 0, 120px 0, 10px 40px, 10px 80px, 10px 120px;
+        -webkit-animation: shine 1s infinite;
+        animation: shine 1s infinite;
+    }
+}
+
+@keyframes shine {
+    to {
+        background-position: 10px 0, 10px 0,
+        100px 0, 100px 40px, 100px 80px, 100px 120px;
     }
 }
 
@@ -338,7 +463,9 @@
 /* Data table Settings */
 
 #student-table {
-    margin-right: 30%;
+    margin-left: 0px !important;
+    margin-top: 15px;
+    margin-right: 15px !important;
     max-height: 480px;
     overflow: hidden;
     width: 100%;

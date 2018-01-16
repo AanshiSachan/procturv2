@@ -10,10 +10,39 @@
             <h1 class="pull-left">
                 Student List
             </h1>
-            <aside class="pull-right">
-                <input type="button" value="Add Student" class="btn" routerLink="/student/add">
-                <input type="button" value="Upload Student" class="btn" routerLink="/student/bulk">
+            <aside class="headEnq pull-right">
+                <p-splitButton label="{{selectedRowCount}} Student Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton>
+                <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 8px;" class="btn" routerLink='/student/add'>
+                    <div class="option-wrap">
+                        <img src="./assets/images/plus.png" alt="addEnquiry">
+                        <span class="tooltip">
+                            Add Student
+                        </span>
+                    </div>
+                </button>
+                <button style="margin:0px 20px 7px 0px;padding: 3px 0px 0px 7px;" class="btn optEnq" (click)="isOptions = !isOptions">
+                    <div class="option-wrap">
+                        <img src="./assets/images/menu-h.png" alt="multiopt">
+                        <span class="tooltip">
+                            Other Options
+                        </span>
+                    </div>
+                </button>
+                <div class="enq-dropdown-content" *ngIf="isOptions" (mouseleave)="isOptions = false">
+                    <ul>
+                        <li class="export-icon" (click)="downloadAllStudent()">
+                            <a id="student_download"></a>
+                            Export
+                        </li>
+                        <li class="upload-icon">
+                            <label id="upload" routerLink='/student/bulk'>
+                                Upload Student
+                            </label>
+                        </li>
+                    </ul>
+                </div>
             </aside>
+
         </section>
         <!-- =============================================================================== -->
         <!--====================================middle <Main> section==========================-->
@@ -55,9 +84,9 @@
 
                     <div class="filter-fields hide" style="visibility: visible; opacity: 1" id="advanced-filter-section">
 
-                        <div class="filter-wrapper" *ngIf="isProfessional">
+                        <div class="filter-wrapper">
 
-                            <div class="c-lg-4 c-md-4 c-sm-4">
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div class="field-wrapper">
                                     <select id="masterCourse" name="masterCourse" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchCourseForMaster($event)"
                                         class="form-ctrl">
@@ -70,7 +99,7 @@
                                 </div>
                             </div>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4">
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div class="field-wrapper">
                                     <select id="course" name="course" [(ngModel)]="advancedFilterForm.subject_id" class="form-ctrl">
                                         <option value=""></option>
@@ -82,7 +111,7 @@
                                 </div>
                             </div>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4">
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div class="field-wrapper">
                                     <select id="batch" name="batch" [(ngModel)]="advancedFilterForm.batch_id" class="form-ctrl">
                                         <option value=""></option>
@@ -94,7 +123,7 @@
                                 </div>
                             </div>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4">
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div class="field-wrapper">
                                     <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id" class="form-ctrl">
                                         <option value=""></option>
@@ -106,7 +135,7 @@
                                 </div>
                             </div>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4">
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div class="field-wrapper">
                                     <select id="status" [(ngModel)]="advancedFilterForm.language_inst_status" class="form-ctrl">
                                         <option value=""></option>
@@ -118,7 +147,7 @@
                                 </div>
                             </div>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4">
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                                     <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" disabled/>
                                     <label for="assignCourses">Slots</label>
@@ -137,93 +166,8 @@
                                 </div>
                             </div>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4">
-                                <div class="radio-options">
-                                    <div class="field-radio-wrapper">
-                                        <input type="radio" value="1" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="active">
-                                        <label for="active">Active</label>
-                                    </div>
-                                    <div class="field-radio-wrapper">
-                                        <input type="radio" value="2" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="Inactive">
-                                        <label for="Inactive">Inactive</label>
-                                    </div>
-                                    <div class="field-radio-wrapper">
-                                        <input type="radio" value="3" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="both">
-                                        <label for="both">both</label>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <custom-student *ngFor="let component of customComponents">
-
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
-                                    <div class="field-wrapper">
-                                        <input type="text" value="" id="component.id" [(ngModel)]="component.value" class="form-ctrl" name="component.label" />
-                                        <label for="component.label">{{component.label}} </label>
-                                    </div>
-                                </div>
-
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
-                                    <br>
-                                    <div class="field-checkbox-wrapper">
-                                        <input class="form-checkbox" id="component.id" type="checkbox" [(ngModel)]="component.value" name="component.label" value="">
-                                        <label for="component.label">{{component.label}} </label>
-                                    </div>
-                                </div>
-
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
-                                    <div class="field-wrapper">
-                                        <select id="component.id" class="form-ctrl" [(ngModel)]="component.value" name="component.label">
-                                            <option value=""></option>
-                                            <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
-                                        </select>
-                                        <label for="component.label">{{component.label}} </label>
-                                    </div>
-                                </div>
-
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
-                                    <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
-                                        <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
-                                            disabled/>
-                                        <label for="{{component.label}}">{{component.label}} </label>
-                                    </div>
-
-                                    <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
-                                        <div class="multiselect-wrapper-inner">
-                                            <ul class="">
-                                                <li *ngFor="let opt of component.prefilled_data">
-                                                    <div class="field-checkbox-wrapper">
-                                                        <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
-                                                            class="form-checkbox">
-                                                        <label for="opt.data">{{opt.data}}</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </custom-student>
-
-
-                            <div class="row">
-                                <div class="c-lg-12 c-md-12 c-sm-12">
-                                    <div class="field-wrapper pull-left">
-                                        <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" (click)='advancedSearch()'>
-                                    </div>
-                                    <div class="field-wrapper pull-left">
-                                        <input type="button" class="btn filterSearchBtn" value="Clear Advanced Filter" (click)='clearAdvancedFilterForm()'>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                        <div class="filter-wrapper" *ngIf="!isProfessional">
-
-                            <div class="c-lg-4 c-md-4 c-sm-4">
+                            <!-- non professional/ academic -->
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                 <div class="field-wrapper">
                                     <select id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchCourseForMaster($event)"
                                         class="form-ctrl">
@@ -236,7 +180,7 @@
                                 </div>
                             </div>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4">
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                 <div class="field-wrapper">
                                     <select id="masterCourse" name="masterCourse" [(ngModel)]="advancedFilterForm.master_course_name" (ngModelChange)="updateSubCourse($event)"
                                         class="form-ctrl">
@@ -249,7 +193,7 @@
                                 </div>
                             </div>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4">
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                 <div class="field-wrapper">
                                     <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id" class="form-ctrl">
                                         <option value=""></option>
@@ -261,7 +205,7 @@
                                 </div>
                             </div>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4">
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                 <div class="field-wrapper">
                                     <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id" class="form-ctrl">
                                         <option value=""></option>
@@ -273,7 +217,7 @@
                                 </div>
                             </div>
 
-                            <div class="c-lg-4 c-md-4 c-sm-4">
+                            <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
                                 <div class="field-wrapper">
                                     <select id="status" [(ngModel)]="advancedFilterForm.language_inst_status" class="form-ctrl">
                                         <option value=""></option>
@@ -286,19 +230,14 @@
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4">
-                                <div class="radio-options">
-                                    <div class="field-radio-wrapper">
-                                        <input type="radio" value="1" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="active">
-                                        <label for="active">Active</label>
-                                    </div>
-                                    <div class="field-radio-wrapper">
-                                        <input type="radio" value="2" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="Inactive">
-                                        <label for="Inactive">Inactive</label>
-                                    </div>
-                                    <div class="field-radio-wrapper">
-                                        <input type="radio" value="3" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-radio" id="both">
-                                        <label for="both">both</label>
-                                    </div>
+                                <div class="field-wrapper" [class.has-value]="advancedFilterForm.is_active_status != ''">
+                                    <select id="active" [(ngModel)]="advancedFilterForm.is_active_status" name="sFilter" class="form-ctrl">
+                                        <option value=""></option>
+                                        <option value="1">Active</option>
+                                        <option value="2">Inactive</option>
+                                        <option value="3">Both</option>                                                                                
+                                    </select>
+                                    <label for="status">Is Active</label>
                                 </div>
                             </div>
 
@@ -352,12 +291,12 @@
 
                             </custom-student>
 
-                            <div class="row">
+                            <div class="row adfilter-submitter">
                                 <div class="c-lg-12 c-md-12 c-sm-12">
-                                    <div class="field-wrapper pull-left">
-                                        <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" (click)='advancedSearch()'>
+                                    <div class="field-wrapper pull-left submit">
+                                        <input type="button" class="btn filterSearchBtn redBtn" value="Search" (click)='advancedSearch()'>
                                     </div>
-                                    <div class="field-wrapper pull-left">
+                                    <div class="field-wrapper pull-left cancel">
                                         <input type="button" class="btn filterSearchBtn" value="Clear Advanced Filter" (click)='clearAdvancedFilterForm()'>
                                     </div>
                                 </div>
@@ -375,50 +314,6 @@
             <!-- Data table here -->
             <section class="search-data">
 
-                <div class="row class filter-res">
-                    <div class="c-lg-6 c-md-6 c-sm-6 align-left">
-                        <ul class="export-print">
-                            <li>
-                                <label>
-                                    Showing {{ getMin() }} to {{ getMax() }} of {{ totalRow }} Students
-                                </label>
-                            </li>
-                            <li>
-                                <div class="bulk-dropdown">
-                                    <label class="bulk-dropbtn">
-                                        Student per page :
-                                        <button class="bulk-dropbtn-border" id="bulk-action" #bulkaction (click)="bulkActionFunction()" type="button" data-toggle="dropdown">
-                                            {{studentdisplaysize}}
-                                            <span class="caret"></span>
-                                        </button>
-                                    </label>
-                                    <div id="bulk-drop" class="bulk-dropdown-content">
-                                        <a *ngFor="let size of sizeArr" (click)="updateTableBatchSize(size)">
-                                            {{size}}
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="c-lg-6 c-md-6 c-sm-6 align-right">
-                        <ul class="export-print">
-                            <li>
-                                <!-- <p-splitButton label="bulk action 1" icon="fa-envelope-o" (onClick)="bulkActionPerformer(1)" [model]="bulkActionItems"></p-splitButton> -->
-                            </li>
-                            <li class="export-icon" (click)="downloadAllStudent()">
-                                <a id="student_download"></a>
-                                Export
-                            </li>
-                            <!-- <li>
-                                <ss-multiselect-dropdown [options]="myOptions" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="optionsModel" (ngModelChange)="toggleOptionChange($event)">
-                                </ss-multiselect-dropdown>
-                            </li> -->
-                        </ul>
-                    </div>
-                </div>
-
-
                 <!-- Student  Table  Here-->
                 <div class="row" id="student-table">
 
@@ -431,8 +326,6 @@
                         </div>
                     </div>
 
-
-
                     <div id="student-side" class="sidenav">
                         <a href="javascript:void(0)" class="closebtn" (click)="closeSideBar($event)">
                             X
@@ -444,23 +337,21 @@
 
 
                         <student-sidebar *ngIf="isSideBar" [rowData]="selectedRow" [customComponent]="studentCustomComponent" [studentDetails]="studentDetailsById"
-                            (closeSide)="closeSideBar($event)" (editStudent)="editStudent($event)" (deleteStudent)="deleteStudentOpen($event)" 
-                            (editNotes)="openEditComment($event)" >
+                            (closeSide)="closeSideBar($event)" (editStudent)="editStudent($event)" (deleteStudent)="deleteStudentOpen($event)"
+                            (editNotes)="openEditComment($event)">
                         </student-sidebar>
                     </div>
 
                 </div>
 
-
                 <!-- Paginator Here -->
-                <div class="row filter-res pagination" style="width: 100%;">
+                <div id="paginator" class="row filter-res pagination" style="width: 100%;">
                     <div class="c-lg-12 c-md-12 c-sm-12 align-right">
                         <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                            [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+                            [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)">
                         </pagination>
                     </div>
                 </div>
-
 
             </section>
             <!-- =============================================================================== -->

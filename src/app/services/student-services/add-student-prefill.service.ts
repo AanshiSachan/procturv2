@@ -221,4 +221,18 @@ export class AddStudentPrefillService {
         return err.json();
       });
   }
+
+
+  getFeeDetailsById(i){
+
+   let urlFeebyId = this.baseUrl +"/api/v1/batchFeeSched/feeType/" +i +"/details" 
+
+   return this.http.get(urlFeebyId, {headers: this.headers}).map(
+    res => {
+      return res.json();
+    },
+    err => {
+      return err.json();
+    });
+  }
 }

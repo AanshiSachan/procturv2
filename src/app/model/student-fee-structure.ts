@@ -1,4 +1,5 @@
 export interface StudentFeeStructure {
+    uiSelected?: any,
     feeTypeMap?: any,
     customFeeSchedules?: any,
     registeredServiceTax?: any,

@@ -71,7 +71,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   selectedRowCount: number = 0;
   /* set true to see the sidebar */
   isSideBar: boolean = false;
-
+  isOptions:boolean = false;
   private editForm: any = {
     comments: "",
     institution_id: sessionStorage.getItem('institute_id')
@@ -257,6 +257,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
     this.selectedRow = null;
     this.selectedRowGroup = [];
+    this.closeSideBar();
     this.loading_message = 1;
     this.isAllSelected = false;
 
@@ -519,6 +520,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   /* Function to open advanced filter */
   openAdFilter() {
+    this.closeSideBar();
     //document.getElementById('middleMainForEnquiryList').classList.add('hasFilter');
     document.getElementById('adFilterOpen').classList.add('hide');
     document.getElementById('basic-search').classList.add('hide');
@@ -1143,7 +1145,9 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   openSideBar(ev) {
     document.getElementById("student-side").style.width = "30%";
     document.getElementById("student-table").style.width = "70%";
+    document.getElementById("paginator").style.width = "70%";
     document.getElementById("student-table").style.marginRight = "30%";
+    document.getElementById("paginator").style.marginRight = "30%";    
     let id = ev.student_id;
     this.studentFetch.getStudentById(id).subscribe(
       res => {
@@ -1164,5 +1168,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     document.getElementById("student-side").style.width = "0";
     document.getElementById("student-table").style.width = "100%";
     document.getElementById("student-table").style.marginRight = "0";
+    document.getElementById("paginator").style.width = "100%";
+    document.getElementById("paginator").style.marginRight = "0";
   }
 }

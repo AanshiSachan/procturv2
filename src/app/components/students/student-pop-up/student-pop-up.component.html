@@ -1,4 +1,4 @@
-<section id="popup" class="popupWrapper fadeIn">
+<section id="popup" [class.bigPop]="isBig != ''" [class.popupWrapper]="isBig == ''" class="fadeIn">
   <div class="popup pos-abs">
     <div class="popup-wrapper pos-rel">
       <!-- Project content for close button here -->
