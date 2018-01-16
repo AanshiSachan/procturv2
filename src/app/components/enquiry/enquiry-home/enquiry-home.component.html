@@ -11,17 +11,17 @@
 
       <aside class="headEnq pull-right">
         <p-splitButton label="{{selectedRowCount}} Enquiry Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton>
-        <button style="margin:0px 20px 7px 30px;" class="btn" routerLink='/enquiry/addEnquiry'>
+        <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 8px;" class="btn" routerLink='/enquiry/addEnquiry'>
           <div class="option-wrap">
-            <img src="/assets/images/plus.png" alt="addEnquiry">
+            <img src="./assets/images/plus.png" alt="addEnquiry">
             <span class="tooltip">
               Add Enquiry
             </span>
           </div>
         </button>
-        <button style="margin:0px 20px 7px 15px;" class="btn optEnq" (click)="isEnquiryOptions = !isEnquiryOptions">
+        <button style="margin:0px 20px 7px 0px;padding:3px 0px 0px 7px;" class="btn optEnq" (click)="isEnquiryOptions = !isEnquiryOptions">
           <div class="option-wrap">
-            <img src="/assets/images/menu-h.png" alt="multiopt">
+            <img src="./assets/images/menu-h.png" alt="multiopt">
             <span class="tooltip">
               Other Options
             </span>
@@ -334,45 +334,6 @@
       <!-- Data Table and Pagination -->
       <section class="search-data">
 
-        <!-- Export and Toggler Here -->
-        <!-- <div class="row class filter-res">
-          <div class="c-lg-6 c-md-6 c-sm-6 align-left">
-            <ul class="export-print">
-              <li>
-                <label>Showing {{instituteData.start_index == null? 1 : (instituteData.start_index+1) }} to {{(displayBatchSize
-                  > totalEnquiry)? totalEnquiry: (instituteData.start_index+displayBatchSize)}} of {{totalEnquiry}} Enquiries</label>
-              </li>
-              <li>
-                <div class="bulk-dropdown">
-                  <label class="bulk-dropbtn">
-                    Enquiry per page :
-                    <button class="bulk-dropbtn-border" id="bulk-action" #bulkaction (click)="bulkActionFunctionOpen()" type="button" data-toggle="dropdown">
-                      {{displayBatchSize}}
-                      <span class="caret"></span>
-                    </button>
-                  </label>
-                  <div id="bulk-drop" class="bulk-dropdown-content hide" (click)="bulkActionFunctionClose()" (mouseleave)="bulkActionFunctionClose()">
-                    <a *ngFor="let size of sizeArr" (click)="updateTableBatchSize(size)">
-                      {{size}}
-                    </a>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="c-lg-6 c-md-6 c-sm-6 align-right">
-            <ul class="export-print">
-              <li>
-                <p-splitButton label="{{selectedRowCount}} Enquiry Selected" [model]="bulkAddItems"></p-splitButton>
-              </li>
-              <li class="export-icon" (click)="downloadAllEnquiries()">
-                <a id="enq_download"></a>
-                Export
-              </li>
-            </ul>
-          </div>
-        </div> -->
-
         <!-- Enquiry DataTable -->
         <div class="" id="table-main">
 
@@ -400,9 +361,14 @@
         <!-- Paginator Here -->
         <div class="row filter-res pagination" id="pager" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-              [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)"
-              [count]="totalEnquiry">
+            <pagination 
+            (goPage)="fectchTableDataByPage($event)" 
+            (goNext)="fetchNext()" (goPrev)="fetchPrevious()" 
+            [pagesToShow]="10" [page]="PageIndex" 
+            [perPage]="displayBatchSize" 
+            [sizeArr]="sizeArr" 
+            (sizeChange)="updateTableBatchSize($event)"
+            [count]="totalEnquiry">
             </pagination>
           </div>
 

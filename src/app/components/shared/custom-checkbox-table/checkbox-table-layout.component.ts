@@ -123,6 +123,7 @@ export class CheckboxTableComponent implements OnChanges {
     refreshTable() {
         this.cd.markForCheck();
         this.isAllSelected = false;
+        this.selectedRow = null;
         this.rowSelectedCount = 0;
         this.rowSelectedId = [];
         this.hc.nativeElement.checked = false;

@@ -617,7 +617,7 @@ export class EnquiryAddComponent implements OnInit {
 
 
   /* Function to clear the form data */
-  clearFormData() {
+  clearFormData() { 
     this.newEnqData = {
       name: "",
       phone: "",

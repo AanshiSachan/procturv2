@@ -2869,7 +2869,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   updateTableBatchSize(num) {
     this.displayBatchSize = parseInt(num);
     //document.getElementById("bulk-drop").classList.add("hide");
-    sessionStorage.setItem('displayBatchSize', num);
+    //sessionStorage.setItem('displayBatchSize', num);
     this.instituteData.batch_size = this.displayBatchSize;
     this.instituteData.start_index = 0;
     this.stats.All.checked = true;
