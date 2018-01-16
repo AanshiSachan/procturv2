@@ -1,300 +1,571 @@
-<section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}" (click)="inputClicked()">
+<section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
   <aside class="middle-full row">
     <!-- Header and Navigation -->
-    <section class="middle-top mb0 clearFix">
-      <h1 class="pull-left">
-        Manage Inventory
-      </h1>
-      <aside class="pull-right">
-        <!-- <input type="button" value="Add Lead" class="btn" routerLink="/campaign/add"> -->
-        <input type="button" value="Add Item" class="btn" routerLink="/inventory/addItem">
-        <input type="button" value="Add Category" class="btn" routerLink="/inventory/addItem">
-        <input type="button" value="Manage Inventory Category" class="btn" routerLink="/inventory/addItem">
-      </aside>
-    </section>
-
-    <section class="middle-main clearFix" id="studentList">
-
-      <!-- Buttons -->
-      <div class="common-tab">
-        <ul>
-          <li id="home" (click)="switchActiveView('home')" class="">
-            <a routerLink="/reports/home">Item</a>
-          </li>
-          <li id="home" (click)="switchActiveView('home')" class="">
-            <a routerLink="/reports/home">category</a>
-          </li>
-        </ul>
-      </div>
+    <section class="clearFix">
 
       <!-- Data Table and Pagination -->
-      <section class="search-data">
+      <section class="search-data"></section>
 
-        <!-- Export and Toggler Here -->
-        <div class="row class filter-res">
-          <div class="c-lg-6 c-md-6 c-sm-6 align-left">
-            <ul class="export-print">
-              <!-- <li>
-                  <label>Showing 1 to {{(displayBatchSize
-                    > totalCampaign)? totalVisibleEnquiry: (instituteData.start_index+displayBatchSize)}} of {{totalCampaign}} Enquiries</label>
-                </li> -->
-              <li>
-
-
-
-              </li>
-            </ul>
-          </div>
-
-          <div class="c-lg-6 c-md-6 c-sm-6 align-left">
-
-            <div class="field-wrapper">
-              <img class="pull-right" src="../../../../assets/images/search.svg" style="max-width: 5%;" (click)="searchDatabase(search)"
-              />
-            </div>
-
-            <div class="search-filter-wrapper" style="width:100%;">
-
-              <input #search type="text" class="normal-field pull-right" placeholder="Search lead name" style="font-size:12px; margin: 0px 5px 2px -5px;"
-                [(ngModel)]="searchBarData" id="search" name="searchData" (keyup.enter)="searchDatabase(search)">
-
-            </div>
-          </div>
-
+      <!-- Export and Toggler Here -->
+      <div class="row" style="margin-top: -10px;">
+        <div class="c-lg-6 c-md-6 c-sm-6 align-left">
         </div>
+        <div class="c-lg-6 c-md-6 c-sm-6 align-left">
+          <div class="field-wrapper">
+            <button style="margin:0px 20px 7px 30px;" class="btn pull-right" (click)="addItemDetails()">
+              <div class="option-wrap">
+                <img src="/assets/images/plus.png" alt="addEnquiry">
+                <span class="tooltip">
+                  Add Item
+                </span>
+              </div>
+            </button>
+            <img class="pull-right" src="../../../../assets/images/search.svg" style="height: 30px;width: 30px;" (click)="searchDatabase(search)"
+            />
+          </div>
+          <div class="search-filter-wrapper" style="width:100%;">
+            <input #search type="text" class="normal-field pull-right" placeholder="Search name" style="font-size:12px; margin: 0px 5px 2px -5px;"
+              id="search" name="searchData" (keyup.enter)="searchDatabase(search)">
+          </div>
+        </div>
+      </div>
 
-        <!-- Enquiry DataTable -->
+      <!-- Enquiry DataTable -->
+      <div class="row">
+        <div class="c-lg-12 c-md-12 c-sm-12">
+          <div class="table-scroll-wrapper" style="min-height:380px">
+            <div class="table table-responsive enquiry-table">
+              <table id="item-Table" class="align-center">
+                <thead>
+                  <tr id="table-header" class="displayComp">
+                    <th>
+                      <label>
+                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.list_name.title)">{{header.inventory_item.title}}</a>
+                      </label>
+                    </th>
+
+                    <th>
+                      <label>
+                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.referred_by.title)">{{header.category.title}}</a>
+                      </label>
+                    </th>
+
+                    <th>
+                      <label>
+                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.referred_by.title)">{{header.description.title}}</a>
+                      </label>
+                    </th>
+
+                    <th>
+                      <label>
+                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.source.title)">{{header.master_course.title}}</a>
+                      </label>
+                    </th>
+
+                    <th>
+                      <label>
+                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.created_date.title)">{{header.course.title}}</a>
+                      </label>
+                    </th>
+
+                    <th>
+                      <label>
+                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.status.title)">{{header.total_units.title}}</a>
+                      </label>
+                    </th>
+
+                    <th>
+                      <label>
+                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.total_count.title)">{{header.available.title}}</a>
+                      </label>
+                    </th>
+
+                    <th></th>
+
+                    <th>
+                      <label>
+                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.total_count.title)">{{header.cost.title}}</a>
+                      </label>
+                    </th>
+
+                    <th>
+                      <label>
+                        <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.success_count.title)">{{header.edit.title}}</a>
+                      </label>
+                    </th>
+
+                    <th *ngIf="showAllocateOption">
+                      <label>
+                        <a class="cursor-icon" style="color:white;">Allocate To Sub Branches</a>
+                      </label>
+                    </th>
+                  </tr>
+                </thead>
+
+
+                <tbody class="" *ngIf="itemList.length != 0">
+
+                  <tr id="row{{i}}" class="displayComp" *ngFor="let row of itemList; let i = index; trackBy: i;">
+
+                    <td class="view-comp">
+                      {{row.item_name}}
+                    </td>
+                    <td class="edit-comp ">
+                      <div class="field-wrapper">
+                        <input type="text" class="form-ctrl" [(ngModel)]="row.item_name" name="label">
+                      </div>
+                    </td>
+
+                    <td class="view-comp">
+                      {{row.category_name}}
+                    </td>
+                    <td class="edit-comp ">
+                      <div class="field-wrapper">
+                        <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="row.category_id">
+                          <option *ngFor="let opt of categoryList" [value]="opt.category_id">
+                            {{opt.category_name}}
+                          </option>
+                        </select>
+                      </div>
+                    </td>
+
+                    <td class="view-comp ">
+                      <div class="field-wrapper">
+                        {{row.desc}}
+                      </div>
+                    </td>
+                    <td class="edit-comp ">
+                      <div class="field-wrapper">
+                        <input type="text" class="form-ctrl" [(ngModel)]="row.desc" name="label">
+                      </div>
+                    </td>
+
+                    <td class="view-comp">
+                      {{row.standard_name}}
+                    </td>
+                    <td class="edit-comp">
+                      <div class="field-wrapper">
+                        <select id="" class="form-ctrl" name="row.standard_id" [(ngModel)]="row.standard_id">
+                          <option *ngFor="let opt of masterCategoryList" [value]="opt.standard_id">
+                            {{opt.standard_name}}
+                          </option>
+                        </select>
+                      </div>
+                    </td>
+
+                    <td>
+                      {{row.subject_name}}
+                    </td>
+
+                    <td>
+                      {{row.alloted_units}}
+                    </td>
+
+                    <td>
+                      {{row.available_units}}
+                    </td>
+
+                    <td class="view-comp">
+                      <div class="displayAddItem" id="add-item{{i}}">
+                        <a class="view-addItem" (click)="addItemsEnable(i)">Add Quantity</a>
+                        <div class="field-wrapper edit-addItem">
+                          <input type="number" class="form-ctrl" [(ngModel)]="row.units_added" name="label">
+                          <ul class="editOptions">
+                            <li>
+                              <a (click)="addItemsQuantity(row)">Add</a>
+                            </li>
+                            <li>
+                              <a (click)="cancelItem(i)">Cancel</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td class="edit-comp" *ngIf="!isAddUnit">
+
+                    </td>
+
+                    <td class="edit-comp" *ngIf="isAddUnit">
+                      <div class="field-wrapper">
+                        <input type="number" class="form-ctrl" [(ngModel)]="row.unit_cost" name="label">
+                      </div>
+                    </td>
+
+
+                    <td class="view-comp">
+                      <div class="field-wrapper">
+                        {{row.unit_cost}}
+                      </div>
+                    </td>
+                    <td class="edit-comp ">
+                      <div class="field-wrapper">
+                        <input type="number" class="form-ctrl" [(ngModel)]="row.unit_cost" name="label">
+                      </div>
+                    </td>
+
+                    <td class="table-action view-comp">
+                      <ul>
+                        <li>
+                          <a (click)="editRow(i,row.item_id)">Edit</a>
+                          <a *ngIf="row.is_delete" (click)="deleteRow(row, i)">Delete</a>
+                        </li>
+                      </ul>
+                    </td>
+
+                    <td class="table-action edit-comp">
+                      <ul>
+                        <li>
+                          <a (click)="updateRow(row , i)">Update</a>
+                        </li>
+                        <li>
+                          <a (click)="cancelRow(i)">Cancel
+                          </a>
+                        </li>
+                      </ul>
+                    </td>
+
+                    <td *ngIf="showAllocateOption">
+                      <a (click)="allocateQuantityToSubBranches(row)">Allocate</a>
+                    </td>
+
+                  </tr>
+                </tbody>
+
+                <tbody *ngIf="itemList.length == 0">
+                  <tr class="empty-table-wrapper" style="background: none;">
+                    <td colspan="12">
+                      <ul>
+                        <li style="font-weight: 700">{{fetchingDataMessage}}</li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paginator Here -->
+      <div class="row filter-res pagination" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+            [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+          </pagination>
+        </div>
+      </div>
+
+    </section>
+  </aside>
+</section>
+<!-- Delete PopUp -->
+<!-- =============================================================================== -->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="deleteItemPopUp">
+  <div class="popup pos-abs">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeDeletePopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <h2>Delete Inventory Item - Item Name: {{deleteRowDetails.item_name}}</h2>
+        <div class="update-enquiry-form overflowHidden">
+          <div class="enquiry-update-history">
+            <h4>Are you Sure you wish to delete this data, it cannot be recovered later.</h4>
+          </div>
+          <div class="">
+            <div class="clearfix">
+              <aside class="pull-right popup-btn">
+                <input type="button" value="Cancel" class="btn" (click)="closeDeletePopup()">
+                <input type="button" value="Delete" class="redBtn btn" (click)="deleteStudent()">
+              </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Create Item Pop Up -->
+<!-- =============================================================================== -->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="createItemPopUp">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCreatePopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <h2>Add Inventory Item</h2>
         <div class="row">
-          <div class="c-lg-12 c-md-12 c-sm-12">
-            <div class="table-scroll-wrapper">
-              <div class="table table-responsive enquiry-table">
-
-                <!-- <enquiry-table header]="headerArr" [isAllSelected]="isAllSelected" [rows]="sourceCampaign" (selectAllRows)="toggleSelectAll($event)"
-                    (sort)="sortTableById($event)" (userSelectRow)="rowClicked($event)" (multipleSelectRow)="rowCheckBoxClick($event)">
-                  </enquiry-table> -->
-
-                <table class="align-center">
-
-                  <thead>
-                    <tr id="table-header" class="displayComp">
-
-                      <!-- <th>
-                          <div class="field-checkbox-wrapper" style="background: transparent;">
-  
-                            <input id="headerCheckbox" type="checkbox" value="" [(ngModel)]="isAllSelected" (ngModelChange)="toggleSelectAll($event)"
-                              name="check" class="form-checkbox">
-  
-                            <label>asdf</label>
-                          </div>
-                        </th> -->
-
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.list_name.title)">{{header.inventory_item.title}}</a>
-                        </label>
-                      </th>
-
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.referred_by.title)">{{header.category.title}}</a>
-                        </label>
-                      </th>
-
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.referred_by.title)">{{header.description.title}}</a>
-                        </label>
-                      </th>
+          <form [formGroup]="addItemForm" novalidate (ngSubmit)="saveItemDetails()">
 
 
+            <div class="row extraMargin">
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper">
+                  <input type="text" class="form-ctrl" formControlName="item_name" name="item" (focus)="inputClickedCheck($event)">
+                  <label for="item">Item Name
+                    <span style="color:red">*</span>
+                  </label>
+                  <div *ngIf="addItemForm.controls['item_name'].invalid && (addItemForm.controls['item_name'].dirty || addItemForm.controls['item_name'].touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="addItemForm.controls['item_name'].hasError('required')">
+                      Item Name is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper">
+                  <input type="text" class="form-ctrl" formControlName="desc" name="label" (focus)="inputClickedCheck($event)">
+                  <label for="label">Item Description
+                  </label>
+                </div>
+              </div>
+            </div>
 
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.source.title)">{{header.master_course.title}}</a>
-                        </label>
-                      </th>
+            <div class="row extraMargin">
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper">
+                  <select id="" class="form-ctrl" formControlName="categoryDet" (focus)="inputClickedCheck($event)">
+                    <option *ngFor="let opt of categoryList" [value]="opt.category_id">
+                      {{opt.category_name}}
+                    </option>
+                  </select>
+                  <label for="">Category
+                    <span style="color:red">*</span>
+                  </label>
+                  <div *ngIf="addItemForm.controls['categoryDet'].invalid && (addItemForm.controls['categoryDet'].dirty || addItemForm.controls['categoryDet'].touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="addItemForm.controls['categoryDet'].hasError('required')">
+                      Category Name is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper">
+                  <input type="number" class="form-ctrl" formControlName="alloted_units" name="Unit" (focus)="inputClickedCheck($event)">
+                  <label for="Unit">Unit
+                    <span style="color:red">*</span>
+                  </label>
+                  <div *ngIf="addItemForm.controls['alloted_units'].invalid && (addItemForm.controls['alloted_units'].dirty || addItemForm.controls['alloted_units'].touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="addItemForm.controls['alloted_units'].hasError('required')">
+                      Units is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.created_date.title)">{{header.course.title}}</a>
-                        </label>
-                      </th>
+            <div class="row extraMargin">
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper">
+                  <select id="" class="form-ctrl" formControlName="standardDet" (focus)="inputClickedCheck($event)" (change)="masterCourseSelected()">
+                    <option *ngFor="let opt of masterCategoryList" [value]="opt.standard_id">
+                      {{opt.standard_name}}
+                    </option>
+                  </select>
+                  <label for="masterCourse">Mater Course
+                  </label>
+                </div>
+              </div>
 
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.status.title)">{{header.total_units.title}}</a>
-                        </label>
-                      </th>
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper">
+                  <select id="" class="form-ctrl" formControlName="subjectDet" (focus)="inputClickedCheck($event)">
+                    <option *ngFor="let opt of courseList" [value]="opt.subject_id">
+                      {{opt.subject_name}}
+                    </option>
+                  </select>
+                  <label for="Course">Course
+                  </label>
+                </div>
+              </div>
+            </div>
 
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.total_count.title)">{{header.available.title}}</a>
-                        </label>
-                      </th>
-
-                      <th></th>
-
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.total_count.title)">{{header.cost.title}}</a>
-                        </label>
-                      </th>
-
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.success_count.title)">{{header.edit.title}}</a>
-                        </label>
-                      </th>
-                    </tr>
-                  </thead>
-
-
-                  <tbody class="" *ngIf="itemList.length != 0">
-
-                    <tr id="row{{i}}" class="displayComp" *ngFor="let row of itemList; let i = index; trackBy: i;">
-
-                      <td class="view-comp">
-                        {{row.item_name}}
-                      </td>
-                      <td class="edit-comp ">
-                        <div class="field-wrapper">
-                          <input type="text" class="form-ctrl" [(ngModel)]="row.item_name" name="label">
-                        </div>
-                      </td>
-
-                      <td class="view-comp">
-                        {{row.category_name}}
-                      </td>
-                      <td class="edit-comp ">
-                        <div class="field-wrapper">
-                          <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="row.category_id">
-                            <option *ngFor="let opt of categoryList" [value]="opt.category_id">
-                              {{opt.category_name}}
-                            </option>
-                          </select>
-                        </div>
-                      </td>
-
-
-                      <td class="view-comp ">
-                        <div class="field-wrapper">
-                          {{row.desc}}
-                        </div>
-                      </td>
-                      <td class="edit-comp ">
-                        <div class="field-wrapper">
-                          <input type="text" class="form-ctrl" [(ngModel)]="row.desc" name="label">
-                        </div>
-                      </td>
-
-
-                      <td>{{row.standard_name}}</td>
-
-
-                      <td>
-                        {{row.subject_name}}
-                      </td>
-
-                      <td>
-                        {{row.alloted_units}}
-                      </td>
-
-                      <td>
-                        {{row.available_units}}
-                      </td>
-
-                      <td class="view-comp" >
-                        <div class="displayAddItem" id="add-item{{i}}">
-                          <a class="view-addItem" (click)="addItemsEnable(i)">Add Quantity</a>
-                          <div class="field-wrapper edit-addItem">
-                              <input type="number" class="form-ctrl" [(ngModel)]="row.units_added" name="label">
-                          </div>
-                        </div>
-                      </td>
-
-                      <td class="edit-comp" *ngIf="!isAddUnit">
-                          
-                      </td>
-                      <td class="edit-comp" *ngIf="isAddUnit">
-                        <div class="field-wrapper">
-                          <input type="number" class="form-ctrl" [(ngModel)]="row.unit_cost" name="label">
-                        </div>
-                      </td>
-
-
-                      <td class="view-comp">
-                        <div class="field-wrapper">
-                          {{row.unit_cost}}
-                        </div>
-                      </td>
-                      <td class="edit-comp ">
-                        <div class="field-wrapper">
-                          <input type="number" class="form-ctrl" [(ngModel)]="row.unit_cost" name="label">
-                        </div>
-                      </td>
-
-
-
-                      <td class="table-action view-comp">
-                        <ul>
-                          <li>
-                            <a (click)="editRow(i,row.item_id)">Edit
-                            </a>
-                          </li>
-                        </ul>
-                      </td>
-
-                      <td class="table-action edit-comp">
-                        <ul>
-                          <li>
-                            <a (click)="updateRow(row)">Update</a>
-                          </li>
-                          <li>
-                            <a (click)="cancelRow(i)">Cancel
-                            </a>
-                          </li>
-                        </ul>
-                      </td>
-
-                    </tr>
-
-                  </tbody>
-
-                  <tbody *ngIf="itemList.length == 0">
-                    <tr class="empty-table-wrapper" style="background: none;">
-                      <td colspan="12">
-                        <ul>
-                          <li style="font-weight: 700">{{fetchingDataMessage}}</li>
-                        </ul>
-                      </td>
-                    </tr>
-                  </tbody>
-
-                </table>
+            <div class="row extraMargin">
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper">
+                  <input type="number" class="form-ctrl" formControlName="unit_cost" name="UnitCost" (focus)="inputClickedCheck($event)">
+                  <label for="UnitCost">Unit Cost
+                  </label>
+                </div>
+              </div>
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper datePickerBox">
+                  <input type="text" value="" id="followupdate" class="form-ctrl" formControlName="created_date" style="cursor: pointer;" name="createdDate"
+                    (focus)="inputClickedCheck($event)" bsDatepicker/>
+                  <span class="date-clear" name="createdDate" (click)="clearDate($event)"></span>
+                </div>
 
               </div>
             </div>
+
+            <div class="row pull-right" style="margin-right:40px">
+              <button [disabled]='!addItemForm.valid' id="btnSave" class="btn fullBlue" type="submit"> Save </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Allocate Item Sub Branch -->
+<!-- =============================================================================== -->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="showAllocationBranchPopUp">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAllocateSubBranchPopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <div class="row">
+          <div class="c-lg-6 c-md-6 c-sm-6">
+            <h2>Item Name : {{allocateItemRowClicked.item_name}} </h2>
+          </div>
+          <div>
+            <h2>Available Unit : {{allocateItemRowClicked.available_units}}</h2>
           </div>
         </div>
 
-        <!-- Paginator Here -->
-        <div class="row filter-res pagination" style="width: 100%;">
-
-
+        <div class="row">
+          <h3>Allocate Inventory Item To Sub Branch</h3>
         </div>
 
-      </section>
+        <form [formGroup]="allocateItemForm" novalidate (ngSubmit)="allocateItemToBranches()">
+          <div class="row extraMargin">
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <select id="" class="form-ctrl" formControlName="sub_branch_id" (change)="onSubBranchSelection()" (focus)="inputClickedCheck($event)">
+                  <option *ngFor="let opt of subBranchList" [value]="opt.institute_id">
+                    {{opt.institute_name}}
+                  </option>
+                </select>
+                <label for="item">Sub Branch
+                  <span style="color:red">*</span>
+                </label>
+                <div *ngIf="allocateItemForm.controls['sub_branch_id'].invalid && (allocateItemForm.controls['sub_branch_id'].dirty || allocateItemForm.controls['sub_branch_id'].touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="allocateItemForm.controls['sub_branch_id'].hasError('required')">
+                    Sub Branch Name is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <select id="" class="form-ctrl" formControlName="sub_branch_item_id" (click)="onSelectSubBranchItem()" (focus)="inputClickedCheck($event)">
+                  <option *ngFor="let opt of subBranchItemList" [value]="opt.item_id">
+                    {{opt.item_name}}({{opt.category_name}})
+                  </option>
+                </select>
+                <label for="label">Sub Branch Item
+                  <span style="color:red">*</span>
+                </label>
+                <span *ngIf="showAvailableUnits">Available Units : {{availabelItemCount}}</span>
+                <div *ngIf="allocateItemForm.controls['sub_branch_item_id'].invalid && (allocateItemForm.controls['sub_branch_item_id'].dirty || allocateItemForm.controls['sub_branch_item_id'].touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="allocateItemForm.controls['sub_branch_item_id'].hasError('required')">
+                    Sub Branch Item is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
 
+          <div class="row extraMargin">
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <input type="number" class="form-ctrl" formControlName="alloted_units" name="item" (focus)="inputClickedCheck($event)">
+                <label for="item">Allocate Unit
+                  <span style="color:red">*</span>
+                </label>
+                <div *ngIf="allocateItemForm.controls['alloted_units'].invalid && (allocateItemForm.controls['alloted_units'].dirty || allocateItemForm.controls['alloted_units'].touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="allocateItemForm.controls['alloted_units'].hasError('required')">
+                    Alloted Unit is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <input type="text" class="form-ctrl" formControlName="transport" name="label" (focus)="inputClickedCheck($event)">
+                <label for="label">Transport
+                </label>
+              </div>
+            </div>
+          </div>
 
 
-    </section>
+          <div class="row extraMargin">
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <input type="number" class="form-ctrl" formControlName="challan_no" name="item" (focus)="inputClickedCheck($event)">
+                <label for="item">Challan No.
+                </label>
+              </div>
+            </div>
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper datePickerBox">
+                <input type="text" value="" id="followupdate" class="form-ctrl" formControlName="challan_date" style="cursor: pointer;" name="createdDate"
+                  (focus)="inputClickedCheck($event)" bsDatepicker/>
+                <span class="date-clear" name="createdDate" (click)="clearDate($event)"></span>
+              </div>
+            </div>
+          </div>
 
+          <div class="row extraMargin">
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <input type="number" class="form-ctrl" formControlName="challan_amount" name="item" (focus)="inputClickedCheck($event)">
+                <label for="item">Challan Amount (Rs)
+                </label>
+              </div>
+            </div>
+          </div>
 
-  </aside>
+          <div class="row pull-right" style="margin-right:40px">
+            <button [disabled]='!allocateItemForm.valid' id="btnSave" class="btn fullBlue" type="submit"> Allocate </button>
+          </div>
 
+        </form>
 
-
-
-
+      </div>
+    </div>
+  </div>
 </section>
