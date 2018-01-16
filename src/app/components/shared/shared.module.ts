@@ -10,6 +10,7 @@ import { ImageUploadComponent } from './image-uploader/image-upload.component';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 import { CheckboxTableComponent } from './custom-checkbox-table/checkbox-table-layout.component';
 
+
 @NgModule({
     imports: [
         CommonModule,

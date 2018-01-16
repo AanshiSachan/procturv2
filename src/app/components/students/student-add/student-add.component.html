@@ -607,7 +607,7 @@
             </ul>
           </div>
           <div class="fee-detail-summary">
-            <div class="clearfix fd-heading" *ngIf="feeTemplateById.customFeeSchedules.length != 0">
+            <div class="clearfix fd-heading" *ngIf="userCustommizedFee.length != 0">
               <div class="row">
                 <div class="pull-left c-xs-8 c-sm-8">
                   <h2>Fee Details</h2>
@@ -623,7 +623,7 @@
             </div>
             <div class="fee-inst-list">
               <ul>
-                <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
+                <li *ngFor="let installment of userCustommizedFee; let i = index">
                   <div class="pull-left">
                     <div class="field-checkbox-wrapper">
                       <input type="checkbox" value="" [disabled]="isPaymentDetailsValid" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
@@ -681,7 +681,7 @@
         </section>
 
         <!--====================================middle Bottom section==========================-->
-        <section class="middle-bottom fd-btm clearFix" *ngIf="feeTemplateById.customFeeSchedules != ''">
+        <section class="middle-bottom fd-btm clearFix" *ngIf="userCustommizedFee != ''">
           <div class="fd-btm-label">
             Rs {{totalFeePaid}} to be updated
           </div>
@@ -1180,7 +1180,7 @@
                   <thead>
                     <tr>
                       <th>Installment # </th>
-                      <th>Due Date</th>
+                      <th (change)="setOrder('due_date')">Due Date</th>
                       <th>Amount</th>
                       <th>Tax</th>
                       <th>Fee Amount Incl Tax</th>
@@ -1188,7 +1188,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let fee of instalmentTableData; let i = index">
+                    <tr *ngFor="let fee of instalmentTableData; let i = index | orderBy: order:reverse:'case-insensitive'">
                       <td>
                         # {{i+1}}
                       </td>

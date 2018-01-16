@@ -15,6 +15,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 import 'rxjs/Rx';
 import 'rxjs/add/operator/filter';
 
+
 @Component({
   selector: 'app-student-add',
   templateUrl: './student-add.component.html',
@@ -91,7 +92,7 @@ export class StudentAddComponent implements OnInit {
   private isNewInstituteEditor: boolean = false;
   school: any[] = [];
   removeImage: boolean = false;
-
+  userCustommizedFee:any[] = [];
 
   isBasicActive: boolean = true;
   isOtherActive: boolean = false;
@@ -275,6 +276,8 @@ export class StudentAddComponent implements OnInit {
   isFeePaymentUpdate: boolean = false;
   isDefineFees: boolean = false;
   isNewInstallment: boolean = false;
+  order: string = 'due_date';
+  reverse: boolean = false;
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(
@@ -1328,8 +1331,7 @@ export class StudentAddComponent implements OnInit {
     else if (this.addFeeInstallment.due_date != "" && !isNaN(this.addFeeInstallment.initial_fee_amount)) {
       this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
       this.addFeeInstallment.service_tax = this.service_tax;
-      this.addFeeInstallment.fees_amount = parseInt(this.addFeeInstallment.initial_fee_amount) + (Math.floor((this.service_tax / 100) * parseInt(this.addFeeInstallment.initial_fee_amount)));
-      //console.log(this.addFeeInstallment);
+      this.addFeeInstallment.fees_amount = parseInt(this.addFeeInstallment.initial_fee_amount) + (this.precisionRound( ((this.service_tax / 100) * parseInt(this.addFeeInstallment.initial_fee_amount)), -1));
       this.instalmentTableData.push(this.addFeeInstallment);
       this.addFeeInstallment = {
         amount_paid: '',
@@ -1395,7 +1397,7 @@ export class StudentAddComponent implements OnInit {
     if (this.instalmentTableData.length > 0) {
       if (this.instalmentTableData[i].service_tax_applicable === "Y" || this.instalmentTableData[i].service_tax_applicable === "") {
         let tax: number = 0;
-        tax = Math.floor((this.service_tax / 100) * amt);
+        tax = this.precisionRound( ((this.service_tax / 100) * amt), -1 );
         //console.log(tax);
         this.instalmentTableData[i].fees_amount = parseInt(this.instalmentTableData[i].initial_fee_amount) + tax;
         return tax;
@@ -1412,7 +1414,7 @@ export class StudentAddComponent implements OnInit {
   updateInitialAmount(amt, i) {
     if (this.instalmentTableData[i].service_tax_applicable === "Y" || this.instalmentTableData[i].service_tax_applicable === "") {
       let tax: number = 0;
-      tax = Math.floor((this.service_tax / 100) * amt);
+      tax = this.precisionRound(((this.service_tax / 100) * amt), -1);
       this.instalmentTableData[i].initial_fee_amount = parseInt(this.instalmentTableData[i].fees_amount) - tax;
       return tax;
     }
@@ -1428,7 +1430,7 @@ export class StudentAddComponent implements OnInit {
     if (this.otherFeeTableData.length > 0) {
       if (this.otherFeeTableData[index].service_tax_applicable === "Y" || this.otherFeeTableData[index].service_tax_applicable === "") {
         let tax: number = 0;
-        tax = Math.floor((taxes / 100) * amount);
+        tax = this.precisionRound(((taxes / 100) * amount), -1);
         this.otherFeeTableData[index].fees_amount = parseInt(this.otherFeeTableData[index].initial_fee_amount) + tax;
         return tax;
       }
@@ -1444,7 +1446,7 @@ export class StudentAddComponent implements OnInit {
   updateAdditionalInitialAmount(amount, taxes, index) {
     if (this.otherFeeTableData[index].service_tax_applicable === "Y" || this.otherFeeTableData[index].service_tax_applicable === "") {
       let tax: number = 0;
-      tax = Math.floor((taxes / 100) * amount);
+      tax = this.precisionRound(((taxes / 100) * amount), -1);
       this.otherFeeTableData[index].initial_fee_amount = parseInt(this.otherFeeTableData[index].fees_amount) - tax;
       return tax;
     }
@@ -1481,10 +1483,10 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   addNewOtherFee() {
-    console.log(this.addFeeOther);
+    this.addFeeOther.due_date = moment(this.addFeeOther.due_date).format('YYYY-MM-DD');
     if (this.addFeeOther.fee_type == '' || this.addFeeOther.fee_type == null || this.addFeeOther.fee_type == undefined ||
       this.addFeeOther.due_date == '' || this.addFeeOther.due_date == null || this.addFeeOther.due_date == undefined || this.addFeeOther.due_date == 'invalid date' ||
-      this.addFeeOther.initial_fee_amount == '' || this.addFeeOther.initial_fee_amount == null || this.addFeeOther.initial_fee_amount > 0) {
+      this.addFeeOther.initial_fee_amount == '' || this.addFeeOther.initial_fee_amount == null || this.addFeeOther.initial_fee_amount == 0) {
       if (this.addFeeOther.fee_type == '' || this.addFeeOther.fee_type == null || this.addFeeOther.fee_type == undefined) {
         let msg = {
           type: 'error',
@@ -1509,10 +1511,15 @@ export class StudentAddComponent implements OnInit {
         }
         this.appC.popToast(msg);
       }
+      else{
+        console.log(this.addFeeOther.fee_type);
+        console.log(this.addFeeOther.due_date);
+        console.log(this.addFeeOther.initial_fee_amount);
+      }
     }
     else {
       this.addFeeOther.due_date = moment(this.addFeeOther.due_date).format("YYYY-MM-DD");
-      this.addFeeOther.fees_amount = parseInt(this.addFeeOther.initial_fee_amount) + (Math.floor((this.addFeeOther.service_tax / 100) * parseInt(this.addFeeOther.initial_fee_amount)));
+      this.addFeeOther.fees_amount = parseInt(this.addFeeOther.initial_fee_amount) + (this.precisionRound( ((this.addFeeOther.service_tax / 100) * parseInt(this.addFeeOther.initial_fee_amount)), -1));
       this.otherFeeTableData.push(this.addFeeOther);
       this.addFeeOther = {
         amount_paid: '',
@@ -1578,6 +1585,7 @@ export class StudentAddComponent implements OnInit {
     this.studentPrefillService.getFeeDetailsById(e).subscribe(
       el => {
         this.addFeeOther.initial_fee_amount = el.fee_amount;
+        this.addFeeOther.fee_type_name = el.fee_type;
         this.addFeeOther.service_tax = el.fee_type_tax;
       },
       err => {
@@ -1587,10 +1595,19 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-
+  precisionRound(number, precision){
+    var factor = Math.pow(10, precision);
+    return Math.round(number * factor) / factor;
+  }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+  setOrder(value: string) {
+    if (this.order === value) {
+      this.reverse = !this.reverse;
+    }
 
+    this.order = value;
+  }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
 
