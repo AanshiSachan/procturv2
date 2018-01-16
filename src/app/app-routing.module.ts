@@ -51,6 +51,11 @@ import { ComingSoonComponent } from './components/coming-soon/coming-soon.compon
                     loadChildren: 'app/components/inventory/inventory.module#InventoryModule',
                     canLoad: [AuthGuard]
                 },
+                {
+                    path:'teacher',
+                    loadChildren: 'app/components/teacher/teacher.module#TeacherModule',
+                    canLoad: [AuthGuard]
+                },
                 { path: 'comingsoon', component: ComingSoonComponent },
                 { path: '**', component: ErrorComponent },
             ],
