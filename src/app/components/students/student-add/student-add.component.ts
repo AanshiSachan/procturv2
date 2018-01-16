@@ -398,7 +398,8 @@ export class StudentAddComponent implements OnInit {
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
 
-    let inventory = this.studentPrefillService.fetchInventoryList().subscribe(data => {
+    let inventory = this.studentPrefillService.fetchInventoryList().subscribe(
+      data => {
       this.inventoryItemsArr = data;
     });
 
