@@ -64,3 +64,10 @@ screen and (max-height: 768px) {
     text-decoration: none;
     color: #0084f6;
 }
+
+ ////// Turn off spinner
+ input[type=number]::-webkit-inner-spin-button,
+ input[type=number]::-webkit-outer-spin-button {
+     -webkit-appearance: none;
+     margin: 0;
+ }

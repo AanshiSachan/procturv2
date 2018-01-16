@@ -36,10 +36,19 @@ export class HomeComponent implements OnInit {
   deleteRowDetails: any;
   PageIndex = 1;
   studentdisplaysize = 10;
-  totalRow ;
+  totalRow;
   createItemPopUp: boolean = false;
   addItemForm: FormGroup;
-  courseList: any ;
+  courseList: any;
+  showAllocateOption: boolean = false;
+  showAllocationBranchPopUp: boolean = false;
+  allocateItemForm: FormGroup;
+  allocateItemRowClicked: any;
+  allocateItemDetails: any;
+  subBranchList: any;
+  subBranchItemList: any;
+  showAvailableUnits: boolean = false;
+  availabelItemCount: any;
 
   header: any = {
     inventory_item: { id: 'inventory_item', title: 'Inventory Item', filter: false, show: true },
@@ -64,11 +73,21 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkMainBranchOrSubBranch()
     this.loadTableDatatoSource();
     this.loadItemCategories();
     this.loadItemCategoryMaster();
   }
 
+
+  checkMainBranchOrSubBranch() {
+    let sessionData = JSON.parse(sessionStorage.getItem('institute_info')).is_main_branch;
+    if (sessionData == "Y") {
+      this.showAllocateOption = true;
+    } else {
+      this.showAllocateOption = false;
+    }
+  }
 
   loadTableDatatoSource() {
     this.itemList = [];
@@ -139,8 +158,8 @@ export class HomeComponent implements OnInit {
 
   addItemsQuantity(row) {
     debugger
-    if(row.units_added > 0) {
-      let data:any = {};
+    if (row.units_added > 0) {
+      let data: any = {};
       data.item_id = row.item_id;
       data.units_added = row.units_added;
       this.inventoryApi.addQuantityInStock(data).subscribe(
@@ -148,7 +167,7 @@ export class HomeComponent implements OnInit {
           this.loadTableDatatoSource();
         },
         error => {
-          console.log('Add Stock Error' , error);
+          console.log('Add Stock Error', error);
         }
       )
     }
@@ -205,33 +224,33 @@ export class HomeComponent implements OnInit {
   }
 
   searchDatabase(element) {
-    let searchData = this.itemTableDatasource.filter(item => 
+    let searchData = this.itemTableDatasource.filter(item =>
       Object.keys(item).some(
         k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
     );
     this.itemList = searchData;
   }
 
-   // pagination functions 
-   fetchTableDataByPage(index){
+  // pagination functions 
+  fetchTableDataByPage(index) {
     let startindex = this.studentdisplaysize * (index - 1);
     this.itemList = this.getDataFromDataSource(startindex);
   }
 
-  fetchNext(){
-    this.PageIndex ++;
+  fetchNext() {
+    this.PageIndex++;
     this.fetchTableDataByPage(this.PageIndex);
   }
 
-  fetchPrevious(){
-    if(this.PageIndex != 1){
+  fetchPrevious() {
+    if (this.PageIndex != 1) {
       this.PageIndex--;
       this.fetchTableDataByPage(this.PageIndex);
     }
   }
 
   getDataFromDataSource(startindex) {
-    let t = this.itemTableDatasource.slice(startindex , startindex + this.studentdisplaysize);
+    let t = this.itemTableDatasource.slice(startindex, startindex + this.studentdisplaysize);
     return t;
   }
 
@@ -239,10 +258,10 @@ export class HomeComponent implements OnInit {
 
   createAddItemForm() {
     this.addItemForm = this.fb.group({
-      item_name:['',[Validators.required]],
+      item_name: ['', [Validators.required]],
       desc: [''],
-      categoryDet: ['',[Validators.required]],
-      alloted_units: ['',Validators.required],
+      categoryDet: ['', [Validators.required]],
+      alloted_units: ['', Validators.required],
       standardDet: [''],
       subjectDet: [''],
       unit_cost: [''],
@@ -269,29 +288,29 @@ export class HomeComponent implements OnInit {
     let courseId = this.addItemForm.value.standardDet;
     this.inventoryApi.getCourseOnBasisOfMasterCourse(courseId).subscribe(
       data => {
-        console.log('Change Event Triggered' , data);
+        console.log('Change Event Triggered', data);
         this.courseList = data;
       },
       error => {
-        console.log("Error" , error);
+        console.log("Error", error);
       }
     )
   }
 
   saveItemDetails() {
     console.log(this.addItemForm.value);
-    let data: AddCategoryInInventory = {} ;
+    let data: AddCategoryInInventory = {};
     data.alloted_units = this.addItemForm.value.alloted_units.toString();
     data.category_id = this.addItemForm.value.categoryDet;
     data.created_date = this.addItemForm.value.created_date;
     data.desc = this.addItemForm.value.desc;
     data.item_name = this.addItemForm.value.item_name;
     data.standard_id = this.addItemForm.value.standardDet;
-    if( data.standard_id == null || data.standard_id == "") {
+    if (data.standard_id == null || data.standard_id == "") {
       data.standard_id = -1;
     }
     data.subject_id = this.addItemForm.value.subjectDet;
-    if( data.subject_id == null || data.subject_id == "" ) {
+    if (data.subject_id == null || data.subject_id == "") {
       data.subject_id = -1;
     }
     data.unit_cost = this.addItemForm.value.unit_cost.toString();
@@ -302,10 +321,108 @@ export class HomeComponent implements OnInit {
         this.createItemPopUp = false;
       },
       error => {
-        console.log("Error" , error);
+        console.log("Error", error);
       }
     )
 
+  }
+
+
+  /////// Multi Branch Data And Function Check Point
+  allocateQuantityToSubBranches(row) {
+    console.log(row);
+    this.allocateItemRowClicked = row;
+    this.showAllocationBranchPopUp = true;
+    this.createAllocationForm();
+    this.getItemInformation(row.item_id);
+    this.getAllSubBranchesInformation();
+  }
+
+  createAllocationForm() {
+    this.allocateItemForm = this.fb.group({
+      transport: [''],
+      challan_no: [''],
+      challan_amount: [''],
+      alloted_units: ['', [Validators.required]],
+      challan_date: [''],
+      sub_branch_id: ['', [Validators.required]],
+      sub_branch_item_id: ['', [Validators.required]],
+      item_id: ['']
+    })
+  }
+
+  getItemInformation(rowId) {
+    this.inventoryApi.getItemDetailsForSubBranches(rowId).subscribe(
+      data => {
+        console.log("getItemInfo", data);
+        this.allocateItemDetails = data;
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  getAllSubBranchesInformation() {
+    this.inventoryApi.getAllSubBranchesInfo().subscribe(
+      data => {
+        this.subBranchList = data;
+        console.log('All Branches', data);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  onSubBranchSelection() {
+    let data_id = this.allocateItemForm.value.sub_branch_id;
+    this.inventoryApi.getSubBranchItemInfo(data_id).subscribe(
+      data => {
+        this.subBranchItemList = data;
+        console.log('Sub Branch Selection', data);
+      },
+      error => {
+        console.log('Error', error);
+      }
+    )
+  }
+
+  onSelectSubBranchItem() {
+    let subBranchItemId = this.allocateItemForm.value.sub_branch_item_id;
+    this.subBranchItemList.forEach(element => {
+      if (element.item_id == subBranchItemId) {
+        this.showAvailableUnits = true;
+        this.availabelItemCount = element.available_units;
+      }
+    });
+  }
+
+
+  allocateItemToBranches() {
+    let data: any = {};
+    data.alloted_units = this.allocateItemForm.value.alloted_units;
+    data.challan_amount = this.allocateItemForm.value.challan_amount;
+    data.challan_date = this.allocateItemForm.value.challan_date;
+    data.challan_no = this.allocateItemForm.value.challan_no;
+    data.transport = this.allocateItemForm.value.transport;
+    data.sub_branch_item_id = this.allocateItemForm.value.sub_branch_item_id;
+    data.sub_branch_id = this.allocateItemForm.value.sub_branch_id;
+    data.item_id = this.allocateItemRowClicked.item_id.toString();
+    this.inventoryApi.allocateItemToSubBranch(data).subscribe(
+      data => {
+        console.log("Allocate Item", data);
+        this.showAllocationBranchPopUp = false;
+        this.loadTableDatatoSource();
+      },
+      error => {
+        console.log("Allocate Item", error);
+      }
+    )
+  }
+
+  closeAllocateSubBranchPopup() {
+    this.showAllocationBranchPopUp = false;
   }
 
   /* Customiized click detection strategy */

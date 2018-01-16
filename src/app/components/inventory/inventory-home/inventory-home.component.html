@@ -93,6 +93,12 @@
                         <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.success_count.title)">{{header.edit.title}}</a>
                       </label>
                     </th>
+
+                    <th *ngIf="showAllocateOption">
+                      <label>
+                        <a class="cursor-icon" style="color:white;">Allocate To Sub Branches</a>
+                      </label>
+                    </th>
                   </tr>
                 </thead>
 
@@ -218,6 +224,11 @@
                         </li>
                       </ul>
                     </td>
+
+                    <td *ngIf="showAllocateOption">
+                      <a (click)="allocateQuantityToSubBranches(row)">Allocate</a>
+                    </td>
+
                   </tr>
                 </tbody>
 
@@ -417,6 +428,143 @@
             </div>
           </form>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Allocate Item Sub Branch -->
+<!-- =============================================================================== -->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="showAllocationBranchPopUp">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAllocateSubBranchPopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <div class="row">
+          <div class="c-lg-6 c-md-6 c-sm-6">
+            <h2>Item Name : {{allocateItemRowClicked.item_name}} </h2>
+          </div>
+          <div>
+            <h2>Available Unit : {{allocateItemRowClicked.available_units}}</h2>
+          </div>
+        </div>
+
+        <div class="row">
+          <h3>Allocate Inventory Item To Sub Branch</h3>
+        </div>
+
+        <form [formGroup]="allocateItemForm" novalidate (ngSubmit)="allocateItemToBranches()">
+          <div class="row extraMargin">
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <select id="" class="form-ctrl" formControlName="sub_branch_id" (change)="onSubBranchSelection()" (focus)="inputClickedCheck($event)">
+                  <option *ngFor="let opt of subBranchList" [value]="opt.institute_id">
+                    {{opt.institute_name}}
+                  </option>
+                </select>
+                <label for="item">Sub Branch
+                  <span style="color:red">*</span>
+                </label>
+                <div *ngIf="allocateItemForm.controls['sub_branch_id'].invalid && (allocateItemForm.controls['sub_branch_id'].dirty || allocateItemForm.controls['sub_branch_id'].touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="allocateItemForm.controls['sub_branch_id'].hasError('required')">
+                    Sub Branch Name is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <select id="" class="form-ctrl" formControlName="sub_branch_item_id" (click)="onSelectSubBranchItem()" (focus)="inputClickedCheck($event)">
+                  <option *ngFor="let opt of subBranchItemList" [value]="opt.item_id">
+                    {{opt.item_name}}({{opt.category_name}})
+                  </option>
+                </select>
+                <label for="label">Sub Branch Item
+                  <span style="color:red">*</span>
+                </label>
+                <span *ngIf="showAvailableUnits">Available Units : {{availabelItemCount}}</span>
+                <div *ngIf="allocateItemForm.controls['sub_branch_item_id'].invalid && (allocateItemForm.controls['sub_branch_item_id'].dirty || allocateItemForm.controls['sub_branch_item_id'].touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="allocateItemForm.controls['sub_branch_item_id'].hasError('required')">
+                    Sub Branch Item is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row extraMargin">
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <input type="number" class="form-ctrl" formControlName="alloted_units" name="item" (focus)="inputClickedCheck($event)">
+                <label for="item">Allocate Unit
+                  <span style="color:red">*</span>
+                </label>
+                <div *ngIf="allocateItemForm.controls['alloted_units'].invalid && (allocateItemForm.controls['alloted_units'].dirty || allocateItemForm.controls['alloted_units'].touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="allocateItemForm.controls['alloted_units'].hasError('required')">
+                    Alloted Unit is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <input type="text" class="form-ctrl" formControlName="transport" name="label" (focus)="inputClickedCheck($event)">
+                <label for="label">Transport
+                </label>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row extraMargin">
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <input type="number" class="form-ctrl" formControlName="challan_no" name="item" (focus)="inputClickedCheck($event)">
+                <label for="item">Challan No.
+                </label>
+              </div>
+            </div>
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper datePickerBox">
+                <input type="text" value="" id="followupdate" class="form-ctrl" formControlName="challan_date" style="cursor: pointer;" name="createdDate"
+                  (focus)="inputClickedCheck($event)" bsDatepicker/>
+                <span class="date-clear" name="createdDate" (click)="clearDate($event)"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row extraMargin">
+            <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="field-wrapper">
+                <input type="number" class="form-ctrl" formControlName="challan_amount" name="item" (focus)="inputClickedCheck($event)">
+                <label for="item">Challan Amount (Rs)
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row pull-right" style="margin-right:40px">
+            <button [disabled]='!allocateItemForm.valid' id="btnSave" class="btn fullBlue" type="submit"> Allocate </button>
+          </div>
+
+        </form>
+
       </div>
     </div>
   </div>

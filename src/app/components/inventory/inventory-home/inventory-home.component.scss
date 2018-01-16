@@ -249,9 +249,7 @@
     .fadeIn {
         opacity: 1;
         visibility: visible;
-    }
-
-    // =======================================css for mob popup
+    } // =======================================css for mob popup
     .popupWrapperMob {
         position: fixed;
         width: 100%;
@@ -430,4 +428,11 @@
                 height: 7px;
             }
         }
+    }
+    
+    ////// Turn off spinner
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
