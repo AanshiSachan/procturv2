@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TeacherAPIService } from '../../../services/teacherService/teacherApi.service';
-import { error } from 'selenium-webdriver';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-teacher-list',
@@ -10,19 +10,26 @@ import { error } from 'selenium-webdriver';
 export class TeacherListComponent implements OnInit {
 
   teacherListDataSource: any;
+  teacherList: any;
+  PageIndex: number = 1;
+  studentdisplaysize: number = 10;
+  totalRow: number;
 
   constructor(
-    private ApiService : TeacherAPIService
+    private ApiService: TeacherAPIService,
+    private route: Router
   ) { }
 
   ngOnInit() {
     this.getDataFromServer();
   }
 
-  getDataFromServer(){
+  getDataFromServer() {
     this.ApiService.getAllTeacherList().subscribe(
-      data => {
-        this.teacherListDataSource = data; 
+      (data: any) => {
+        this.totalRow = data.length;
+        this.teacherListDataSource = data;
+        this.fetchTableDataByPage(this.PageIndex);
         console.log(data);
       },
       error => {
@@ -31,6 +38,34 @@ export class TeacherListComponent implements OnInit {
     )
   }
 
+  editTeacherDeatils(row) {
+    debugger
+    localStorage.setItem('teacherID' ,row.teacher_id);
+    this.route.navigateByUrl('teacher/edit');
+  }
+  // pagination functions 
+
+  fetchTableDataByPage(index) {
+    let startindex = this.studentdisplaysize * (index - 1);
+    this.teacherList = this.getDataFromDataSource(startindex);
+  }
+
+  fetchNext() {
+    this.PageIndex++;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
+  fetchPrevious() {
+    if (this.PageIndex != 1) {
+      this.PageIndex--;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
+  }
+
+  getDataFromDataSource(startindex) {
+    let t = this.teacherListDataSource.slice(startindex, startindex + this.studentdisplaysize);
+    return t;
+  }
 
 
 }

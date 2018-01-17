@@ -14,7 +14,7 @@
             <input type="text" class="form-ctrl" id="searchTeacher" placeholder="Search Teacher" (keyup.enter)="searchTeacher()" />
           </div>
           <div class="col-sm-6">
-            <button class="btn" routerLink='/teacher/addTeacher'>
+            <button class="btn" routerLink='/teacher/add'>
               <div class="option-wrap">
                 <img src="./assets/images/plus.png" alt="Add Teacher">
                 <span class="tooltip">
@@ -68,7 +68,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr id="row{{i}}" *ngFor="let row of teacherListDataSource; let i = index; trackBy: i;">
+                <tr id="row{{i}}" *ngFor="let row of teacherList; let i = index; trackBy: i;">
                   <td>
                     {{row.teacher_name}}
                   </td>
@@ -91,6 +91,15 @@
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+
+      <!-- Paginator Here -->
+      <div class="row filter-res pagination" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+            [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+          </pagination>
         </div>
       </div>
 
