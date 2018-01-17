@@ -542,7 +542,7 @@
               </svg>
               <span>Configure Fees</span>
             </button>
-            <button class="btn" (click)="reconfigureFees($event)" *ngIf="feeTemplateById.template_name != ''">
+            <button class="btn" (click)="reConfigureFees($event)" *ngIf="feeTemplateById.template_name != ''">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                 <g fill="#0084F6" fill-rule="nonzero">
                   <path d="M6.014 15.478a.458.458 0 1 0 .917 0c0-4.987 3.99-9.056 8.921-9.135l-.625.63a.461.461 0 0 0 .324.788.462.462 0 0 0 .325-.135l1.407-1.418a.461.461 0 0 0 0-.653l-1.407-1.419a.453.453 0 0 0-.649 0 .461.461 0 0 0 0 .654l.63.634c-5.44.07-9.843 4.553-9.843 10.054zM25.528 15.016a.458.458 0 0 0-.458.462c0 4.987-3.99 9.055-8.921 9.135l.625-.63a.461.461 0 0 0 0-.653.453.453 0 0 0-.648 0l-1.408 1.418a.46.46 0 0 0 0 .653l1.408 1.418a.462.462 0 0 0 .324.136.462.462 0 0 0 .324-.789l-.63-.634c5.44-.07 9.843-4.554 9.843-10.054a.458.458 0 0 0-.459-.462zM14.87 12.73a2.948 2.948 0 0 0-1.596 1.61c-.301.732-.301 1.544 0 2.276A2.944 2.944 0 0 0 16 18.454a2.86 2.86 0 0 0 1.13-.228 2.948 2.948 0 0 0 1.596-1.61c.301-.732.301-1.544 0-2.276a2.944 2.944 0 0 0-2.726-1.839c-.39 0-.769.08-1.13.229zm3.01 1.964a2.056 2.056 0 0 1 0 1.572c-.208.509-.597.9-1.102 1.11-.25.103-.509.16-.777.16-.83 0-1.565-.5-1.88-1.27a2.056 2.056 0 0 1 0-1.572c.208-.508.597-.9 1.102-1.11.25-.103.509-.159.778-.159.824 0 1.564.5 1.88 1.27z"
@@ -558,56 +558,59 @@
 
         <!--====================================middle <Main> section==========================-->
         <section class="middle-main clearFix">
+          <!-- Colored Tabs here -->
           <div class="fee-summary">
             <ul>
               <li>
                 <label>Fees</label>
                 <div class="blue">
                   <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != ''">Rs {{feeTemplateById.studentwise_total_fees_amount}}</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_amount}}</span>
                 </div>
               </li>
               <li>
                 <label>Discount</label>
                 <div class="purple">
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_discount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_discount != ''">Rs {{feeTemplateById.studentwise_total_fees_discount}}</span>
-                  <a *ngIf="feeTemplateById.studentwise_total_fees_discount != ''">Add more</a>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_discount}}</span>
+                  <a *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0">Add more</a>
                 </div>
               </li>
               <li>
                 <label>Taxes</label>
                 <div class="yellow">
-                  <span *ngIf="feeTemplateById.registeredServiceTax == ''">NA</span>
-                  <span *ngIf="feeTemplateById.registeredServiceTax != ''">{{feeTemplateById.registeredServiceTax}} %</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">{{feeTemplateById.registeredServiceTax}} %</span>
                 </div>
               </li>
               <li>
                 <label>Amount Paid</label>
                 <div class="green">
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount_paid == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount_paid != ''">Rs {{feeTemplateById.studentwise_total_fees_amount_paid}}</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_amount_paid}}</span>
                 </div>
               </li>
               <li>
                 <label>Amount Due</label>
                 <div class="red">
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_balance_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_balance_amount != ''">Rs {{feeTemplateById.studentwise_total_fees_balance_amount}}</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_balance_amount}}</span>
                 </div>
               </li>
               <li>
                 <label>Fee Structure</label>
                 <div class="gray">
                   <span *ngIf="feeTemplateById.template_name == ''">NA</span>
-                  <span class="feename" *ngIf="feeTemplateById.template_name != ''">{{feeTemplateById.template_name}}</span>
-                  <a>Change</a>
+                  <span class="feename" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">{{feeTemplateById.template_name}}</span>
+                  <a (click)="reCreateFeeAgain()" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">Change</a>
                 </div>
               </li>
             </ul>
           </div>
-          <div class="fee-detail-summary">
-            <div class="clearfix fd-heading" *ngIf="userCustommizedFee.length != 0">
+          <!-- Card layout here -->
+          <div class="fee-detail-summary" *ngIf="userCustommizedFee.length != 0">
+            <!-- Heading -->
+            <div class="clearfix fd-heading">
               <div class="row">
                 <div class="pull-left c-xs-8 c-sm-8">
                   <h2>Fee Details</h2>
@@ -621,9 +624,10 @@
                 </div>
               </div>
             </div>
+            <!-- Cards -->
             <div class="fee-inst-list">
               <ul>
-                <li *ngFor="let installment of userCustommizedFee; let i = index">
+                <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
                   <div class="pull-left">
                     <div class="field-checkbox-wrapper">
                       <input type="checkbox" value="" [disabled]="isPaymentDetailsValid" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
@@ -1023,7 +1027,7 @@
 
         <div class="field-wrapper">
           <select id="feeS" name="feeS" [(ngModel)]="feeTempSelected" class="form-ctrl">
-            <option value=""></option>
+            <option value="-1"></option>
             <option *ngFor="let fee of feeTemplateStore" [value]="fee.template_id">
               {{fee.template_name}}
             </option>
@@ -1122,7 +1126,7 @@
   <!-- ======================================================== -->
   <!-- =============== assign fees =============================== -->
   <student-pop-up [isBig]="'y'" *ngIf="isDefineFees">
-    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAssignFees($event)" close-button>
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAllFeePops()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
           <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
@@ -1194,17 +1198,17 @@
                       </td>
                       <td>
                         <div class="field-wrapper datePickerBox">
-                          <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="fee.due_date" bsDatepicker>
+                          <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="updateTableInstallment()" [(ngModel)]="fee.due_date" bsDatepicker>
                         </div>
                       </td>
                       <td>
                         <div class="field-wrapper">
-                          <input type="number" class="form-ctrl" name="amt" [(ngModel)]="fee.initial_fee_amount">
+                          <input type="number" class="form-ctrl" readonly="true" name="amt" [(ngModel)]="fee.initial_fee_amount">
                         </div>
                       </td>
                       <td>
                         <div class="field-wrapper">
-                          <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getTaxedAmount(fee.initial_fee_amount, i)">
+                          <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getTaxedAmount(fee.initial_fee_amount, fee.service_tax_applicable, i)">
                         </div>
                       </td>
                       <td>
@@ -1213,7 +1217,7 @@
                         </div>
                       </td>
                       <td>
-                        <i *ngIf="fee.is_paid == 0" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i>
+                        <i (click)="deleteInstallment(i)" *ngIf="fee.is_paid == 0" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i>
                       </td>
                     </tr>
                   </tbody>
@@ -1305,16 +1309,16 @@
                       </td>
                       <td>
                         <div class="field-wrapper">
-                          <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getOtherTaxes(fee.service_tax, fee.initial_fee_amount, i)">
+                          <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getOtherTaxes(fee.initial_fee_amount, fee.service_tax_applicable, i)">
                         </div>
                       </td>
                       <td>
                         <div class="field-wrapper">
-                          <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, fee.service_tax , i)">
+                          <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, i)">
                         </div>
                       </td>
                       <td>
-                        <i *ngIf="fee.is_paid == 0" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i>
+                        <i (click)="deleteOtherFee(i)" *ngIf="fee.is_paid == 0" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i>
                       </td>
                     </tr>
                   </tbody>
@@ -1329,8 +1333,8 @@
     <div class="" popup-footer>
       <div class="clearfix">
         <aside class="pull-right popup-btn">
-          <input type="button" value="Cancel" class="btn" (click)="closeConfigureFees($event)">
-          <input type="button" value="Apply" (click)="applyConfiguredFees($event)" class="redBtn btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeAllFeePops()">
+          <input type="button" value="Apply" (click)="createCustomFeeSchedule()" class="redBtn btn">
         </aside>
       </div>
     </div>

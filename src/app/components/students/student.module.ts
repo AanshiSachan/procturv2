@@ -23,6 +23,7 @@ import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'prime
 import { StudentEditComponent } from './student-edit/student-edit.component';
 import { StudentBulkComponent } from './student-bulk/student-bulk.component';
 import { SharedModule } from '../shared/shared.module';
+import { SortPipe } from "./student-add/student-add.component";
 import { StudentSidebarComponent } from './student-sidebar/student-sidebar.component';
 
 @NgModule({
@@ -48,7 +49,8 @@ import { StudentSidebarComponent } from './student-sidebar/student-sidebar.compo
         UserStudentComponent,
         StudentEditComponent,
         StudentBulkComponent,
-        StudentSidebarComponent
+        StudentSidebarComponent,
+        SortPipe
     ],
     providers: [
         AddStudentPrefillService

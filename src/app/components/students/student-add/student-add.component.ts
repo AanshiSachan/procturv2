@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
@@ -92,18 +92,13 @@ export class StudentAddComponent implements OnInit {
   private isNewInstituteEditor: boolean = false;
   school: any[] = [];
   removeImage: boolean = false;
-  userCustommizedFee:any[] = [];
-
+  userCustommizedFee: any[] = [];
   isBasicActive: boolean = true;
   isOtherActive: boolean = false;
   isFeeActive: boolean = false;
   isInventoryActive: boolean = false;
   isConfigureFees: boolean = false;
-
   feeTempSelected: any = "";
-
-  //feeTemplateById: any[] = [];
-
   addFeeInstallment: any = {
     amount_paid: '',
     amount_paid_inRs: null,
@@ -123,7 +118,7 @@ export class StudentAddComponent implements OnInit {
     fee_type: null,
     fee_type_name: "INSTALLMENT",
     fee_type_tax_configured: 0,
-    fees_amount: 0,
+    fees_amount: null,
     fineAmount: 0,
     fine_type: null,
     initial_fee_amount: 0,
@@ -160,7 +155,6 @@ export class StudentAddComponent implements OnInit {
     update_date: null,
     updated_by: null
   }
-
   addFeeOther: any = {
     amount_paid: '',
     amount_paid_inRs: null,
@@ -180,7 +174,7 @@ export class StudentAddComponent implements OnInit {
     fee_type: null,
     fee_type_name: "",
     fee_type_tax_configured: 0,
-    fees_amount: 0,
+    fees_amount: null,
     fineAmount: 0,
     fine_type: null,
     initial_fee_amount: 0,
@@ -218,10 +212,9 @@ export class StudentAddComponent implements OnInit {
     updated_by: null
   }
   otherFeeType: any[] = [];
-
   feeStructureForm: any = {
     studentArray: ["-1"],
-    template_effective_date: ""
+    template_effective_date: moment().format('YYYY-MM-DD')
   }
   instalmentTableData: any[] = [];
   otherFeeTableData: any[] = [];
@@ -270,14 +263,15 @@ export class StudentAddComponent implements OnInit {
     invoice_no: "",
     uiSelected: false
   }
+
   service_tax: number = 0;
   totalFeePaid: number = 0;
   paymentStatusArr: any[] = [];
   isFeePaymentUpdate: boolean = false;
   isDefineFees: boolean = false;
   isNewInstallment: boolean = false;
-  order: string = 'due_date';
-  reverse: boolean = false;
+
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(
@@ -400,8 +394,8 @@ export class StudentAddComponent implements OnInit {
 
     let inventory = this.studentPrefillService.fetchInventoryList().subscribe(
       data => {
-      this.inventoryItemsArr = data;
-    });
+        this.inventoryItemsArr = data;
+      });
 
     let institute = this.prefill.getSchoolDetails().subscribe(data => {
       this.instituteList = data;
@@ -1157,18 +1151,21 @@ export class StudentAddComponent implements OnInit {
       invoice_no: "",
       uiSelected: false
     }
-    this.paymentStatusArr = [];
     let dd = moment(this.feeStructureForm.template_effective_date).format('YYYY-MM-DD');
     /* success */
     if ((this.feeTempSelected != "" && this.feeTempSelected != null) && (dd != "" && dd != null && dd != "Invalid date")) {
-
       this.feeStructureForm.template_effective_date = dd;
       this.studentPrefillService.getFeeStructureById(this.feeTempSelected, this.feeStructureForm).subscribe(
         res => {
           this.feeTemplateById = res;
           this.isDefineFees = true;
           this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
-          this.service_tax = res.registeredServiceTax;
+          if(res.studentwise_fees_tax_applicable === "Y"){
+            this.service_tax = res.registeredServiceTax;
+          }
+          else if(res.studentwise_fees_tax_applicable === "N"){
+            this.service_tax = 0;
+          }
           res.customFeeSchedules.forEach(el => {
             if (el.fee_type_name === "INSTALLMENT") {
               this.instalmentTableData.push(el);
@@ -1176,12 +1173,8 @@ export class StudentAddComponent implements OnInit {
             else {
               this.otherFeeTableData.push(el);
             }
-            let obj = {
-              uiSelected: false,
-              isPaid: false
-            }
-            this.paymentStatusArr.push(obj);
           });
+          this.updateTableInstallment();
           this.closeConfigureFees();
         },
         err => {
@@ -1193,7 +1186,6 @@ export class StudentAddComponent implements OnInit {
           this.appC.popToast(msg);
         }
       );
-
     }
     /* fee id not found */
     else if ((this.feeTempSelected == "" || this.feeTempSelected == null)) {
@@ -1330,9 +1322,14 @@ export class StudentAddComponent implements OnInit {
       }
     }
     else if (this.addFeeInstallment.due_date != "" && !isNaN(this.addFeeInstallment.initial_fee_amount)) {
-      this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
-      this.addFeeInstallment.service_tax = this.service_tax;
-      this.addFeeInstallment.fees_amount = parseInt(this.addFeeInstallment.initial_fee_amount) + (this.precisionRound( ((this.service_tax / 100) * parseInt(this.addFeeInstallment.initial_fee_amount)), -1));
+      if(this.feeTemplateById.studentwise_fees_tax_applicable === "Y"){
+        this.addFeeInstallment.service_tax = this.feeTemplateById.registeredServiceTax;
+      }
+      else if(this.feeTemplateById.studentwise_fees_tax_applicable === "N"){
+        this.addFeeInstallment.service_tax = 0;
+      }
+      this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD"); 
+      this.addFeeInstallment.fees_amount = parseInt(this.addFeeInstallment.initial_fee_amount) + (this.precisionRound(((this.addFeeInstallment.service_tax / 100) * parseInt(this.addFeeInstallment.initial_fee_amount)), -1));
       this.instalmentTableData.push(this.addFeeInstallment);
       this.addFeeInstallment = {
         amount_paid: '',
@@ -1394,19 +1391,19 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  getTaxedAmount(amt, i) {
+  getTaxedAmount(amt, stat, i): number {
+
     if (this.instalmentTableData.length > 0) {
-      if (this.instalmentTableData[i].service_tax_applicable === "Y" || this.instalmentTableData[i].service_tax_applicable === "") {
+      if (stat === "Y" || stat === "") {
         let tax: number = 0;
-        tax = this.precisionRound( ((this.service_tax / 100) * amt), -1 );
-        //console.log(tax);
-        this.instalmentTableData[i].fees_amount = parseInt(this.instalmentTableData[i].initial_fee_amount) + tax;
-        return tax;
+        tax = this.precisionRound(((this.service_tax / 100) * amt), -1);
+        this.instalmentTableData[i].tax = tax;
+        return Math.floor(tax);
       }
-      else if (this.instalmentTableData[i].service_tax_applicable === "N") {
+      else if (stat === "N") {
         let tax: number = 0;
-        this.instalmentTableData[i].fees_amount = parseInt(this.instalmentTableData[i].initial_fee_amount) + tax;
-        return tax;
+        this.instalmentTableData[i].tax = tax;
+        return Math.floor(tax);
       }
     }
   }
@@ -1414,47 +1411,37 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   updateInitialAmount(amt, i) {
     if (this.instalmentTableData[i].service_tax_applicable === "Y" || this.instalmentTableData[i].service_tax_applicable === "") {
-      let tax: number = 0;
-      tax = this.precisionRound(((this.service_tax / 100) * amt), -1);
-      this.instalmentTableData[i].initial_fee_amount = parseInt(this.instalmentTableData[i].fees_amount) - tax;
-      return tax;
+      this.instalmentTableData[i].initial_fee_amount = this.precisionRound(((100 * parseInt(amt)) / (100 + this.service_tax)), -1);
     }
     else if (this.instalmentTableData[i].service_tax_applicable === "N") {
-      let tax: number = 0;
-      this.instalmentTableData[i].initial_fee_amount = parseInt(this.instalmentTableData[i].fees_amount) - tax;
-      return tax;
+      this.instalmentTableData[i].initial_fee_amount = parseInt(amt);
     }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  getOtherTaxes(taxes, amount, index) {
+  getOtherTaxes(amt, stat, i): number {
     if (this.otherFeeTableData.length > 0) {
-      if (this.otherFeeTableData[index].service_tax_applicable === "Y" || this.otherFeeTableData[index].service_tax_applicable === "") {
+      if (stat === "Y" || stat === "") {
         let tax: number = 0;
-        tax = this.precisionRound(((taxes / 100) * amount), -1);
-        this.otherFeeTableData[index].fees_amount = parseInt(this.otherFeeTableData[index].initial_fee_amount) + tax;
-        return tax;
+        tax = this.precisionRound(((this.otherFeeTableData[i].service_tax / 100) * amt), -1);
+        this.otherFeeTableData[i].tax = tax;
+        return Math.floor(tax);
       }
-      else if (this.otherFeeTableData[index].service_tax_applicable === "N") {
+      else if (stat === "N") {
         let tax: number = 0;
-        this.otherFeeTableData[index].fees_amount = parseInt(this.otherFeeTableData[index].initial_fee_amount) + tax;
-        return tax;
+        this.otherFeeTableData[i].tax = tax;
+        return Math.floor(tax);
       }
     }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  updateAdditionalInitialAmount(amount, taxes, index) {
+  updateAdditionalInitialAmount(amount, index) {
     if (this.otherFeeTableData[index].service_tax_applicable === "Y" || this.otherFeeTableData[index].service_tax_applicable === "") {
-      let tax: number = 0;
-      tax = this.precisionRound(((taxes / 100) * amount), -1);
-      this.otherFeeTableData[index].initial_fee_amount = parseInt(this.otherFeeTableData[index].fees_amount) - tax;
-      return tax;
+      this.otherFeeTableData[index].initial_fee_amount = this.precisionRound(((100 * parseInt(amount)) / (100 + this.otherFeeTableData[index].service_tax)), -1);
     }
     else if (this.otherFeeTableData[index].service_tax_applicable === "N") {
-      let tax: number = 0;
-      this.otherFeeTableData[index].initial_fee_amount = parseInt(this.otherFeeTableData[index].fees_amount) - tax;
-      return tax;
+      this.otherFeeTableData[index].initial_fee_amount = parseInt(amount);
     }
   }
   /* ============================================================================================================================ */
@@ -1512,7 +1499,7 @@ export class StudentAddComponent implements OnInit {
         }
         this.appC.popToast(msg);
       }
-      else{
+      else {
         console.log(this.addFeeOther.fee_type);
         console.log(this.addFeeOther.due_date);
         console.log(this.addFeeOther.initial_fee_amount);
@@ -1520,7 +1507,7 @@ export class StudentAddComponent implements OnInit {
     }
     else {
       this.addFeeOther.due_date = moment(this.addFeeOther.due_date).format("YYYY-MM-DD");
-      this.addFeeOther.fees_amount = parseInt(this.addFeeOther.initial_fee_amount) + (this.precisionRound( ((this.addFeeOther.service_tax / 100) * parseInt(this.addFeeOther.initial_fee_amount)), -1));
+      this.addFeeOther.fees_amount = parseInt(this.addFeeOther.initial_fee_amount) + (this.precisionRound(((this.addFeeOther.service_tax / 100) * parseInt(this.addFeeOther.initial_fee_amount)), -1));
       this.otherFeeTableData.push(this.addFeeOther);
       this.addFeeOther = {
         amount_paid: '',
@@ -1596,36 +1583,131 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  precisionRound(number, precision){
+  precisionRound(number, precision) {
     var factor = Math.pow(10, precision);
     return Math.round(number * factor) / factor;
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  setOrder(value: string) {
-    if (this.order === value) {
-      this.reverse = !this.reverse;
-    }
+  createCustomFeeSchedule() {
+    this.updateTableInstallment();
+    this.userCustommizedFee = this.instalmentTableData.concat(this.otherFeeTableData);
+    this.instalmentTableData = [];
+    this.otherFeeTableData = [];
+    let totalFee:number = 0;
+    let feePaid:number = 0;
+    this.userCustommizedFee.forEach(el => {
+      el.due_date = moment(el.due_date).format("YYYY-MM-DD");
+      totalFee += parseInt(el.fees_amount);
+      if(el.is_paid == 1){
+        feePaid += parseInt(el.fees_amount);
+      }
+      let obj = {
+        uiSelected: false,
+        isPaid: false
+      }
+      this.paymentStatusArr.push(obj);
+    });
+    this.feeTemplateById.studentwise_total_fees_amount = totalFee;
+    this.feeTemplateById.studentwise_total_fees_amount_paid = feePaid
+    this.feeTemplateById.studentwise_total_fees_balance_amount = totalFee - feePaid;
+    this.feeTemplateById.customFeeSchedules = this.userCustommizedFee;
+    this.isDefineFees = false;
 
-    this.order = value;
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-
+  closeAllFeePops() {
+    this.isDefineFees = false;
+    this.userCustommizedFee = [];
+    this.paymentStatusArr = [];
+    this.feeTemplateById = {
+      feeTypeMap: "",
+      customFeeSchedules: [],
+      registeredServiceTax: "",
+      toCreate: "",
+      studentArray: "",
+      studentwise_total_fees_amount: "",
+      studentwise_total_fees_balance_amount: "",
+      studentwise_total_fees_amount_paid: "",
+      studentwise_total_fees_discount: "",
+      studentwise_fees_tax_applicable: "",
+      no_of_installments: "",
+      discount_fee_reason: "",
+      template_name: "",
+      template_id: "",
+      template_effective_date: "",
+      is_fee_schedule_created: "",
+      is_fee_tx_done: "",
+      is_undo: "",
+      is_fee_other_inst_created: "",
+      is_delete_other_fee_types: "",
+      chequeDetailsJson: "",
+      payment_mode: "",
+      remarks: "",
+      paid_date: "",
+      is_cheque_details_required: "",
+      reference_no: "",
+      invoice_no: "",
+      uiSelected: false
+    }
+    this.feeStructureForm = {
+      studentArray: ["-1"],
+      template_effective_date: moment().format('YYYY-MM-DD')
+    }
+  }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+  updateTableInstallment() {
+    this.instalmentTableData.sort(function (d1, d2) {
+      d1 = moment(d1.due_date).unix();
+      d2 = moment(d2.due_date).unix();
+      if (d1 < d2) {
+        return -1;
+      } else if (d1 > d2) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  }
 
+  deleteInstallment(i){
+    console.log(i);
+    this.instalmentTableData.splice(i, 1);
+    this.updateTableInstallment();
+  }
 
+  deleteOtherFee(i){
+    this.otherFeeTableData.splice(i, 1);    
+  }
 
+  reConfigureFees(){
+    this.isDefineFees = true;
+  }
 
-
-
-
-
-
-
-
+  reCreateFeeAgain(){
+    this.closeAllFeePops();
+    this.isConfigureFees = true;
+  }
 
 }
 
+
+
+@Pipe({ name: "sortBy" })
+export class SortPipe {
+  transform(array: Array<string>, args: string): Array<string> {
+    array.sort((a: any, b: any) => {
+      if (a[args] < b[args]) {
+        return -1;
+      } else if (a[args] > b[args]) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    return array;
+  }
+}
 
