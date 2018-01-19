@@ -8,20 +8,25 @@ import { TeacherAPIService } from '../../services/teacherService/teacherApi.serv
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { TeacherAddComponent } from './teacher-add/teacher-add.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
+import { TeacherViewComponent } from './teacher-view/teacher-view.component';
+import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 
 @NgModule({
   imports: [
+    BsDatepickerModule,
     SharedModule,
     TeacherRoutingModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    FormsModule
   ],
   declarations: [
     TeacherComponent,
     TeacherListComponent,
     TeacherAddComponent,
     TeacherEditComponent,
+    TeacherViewComponent,
   ],
   providers: [
     TeacherAPIService

@@ -4,6 +4,7 @@ import { TeacherComponent } from './teacher.component';
 import { TeacherListComponent } from './teacher-list/teacher-list.component';
 import { TeacherAddComponent } from './teacher-add/teacher-add.component';
 import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
+import { TeacherViewComponent } from './teacher-view/teacher-view.component';
 
 @NgModule({
     imports: [
@@ -27,6 +28,10 @@ import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
                     {
                         path: 'edit',
                         component: TeacherEditComponent
+                    },
+                    {
+                        path: 'view',
+                        component: TeacherViewComponent
                     },
                 ]
             }

@@ -11,7 +11,7 @@
         </div>
         <div class="col-sm-6">
           <div class="field-wrapper col-sm-6">
-            <input type="text" class="form-ctrl" id="searchTeacher" placeholder="Search Teacher" (keyup.enter)="searchTeacher()" />
+            <input type="text" #teacherSearch class="form-ctrl" id="searchTeacher" placeholder="Search Teacher" (keyup.enter)="searchTeacher(teacherSearch)" />
           </div>
           <div class="col-sm-6">
             <button class="btn" routerLink='/teacher/add'>

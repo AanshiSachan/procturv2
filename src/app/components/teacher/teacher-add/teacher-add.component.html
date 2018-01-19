@@ -65,17 +65,29 @@
           <label for="salary">Salary (Per Hour)
           </label>
         </div>
-        <div class="row">
-          <label>
-            <input type="checkbox" name="isActive" formControlName="is_active">Is Active</label>
-        </div>
-        <div class="row">
-          <label>
-            <input type="checkbox" name="allow" formControlName="is_allow_teacher_to_only_mark_attendance">Allow teacher to only mark attendance</label>
-        </div>
-        <div class="row">
-          <label>
-            <input type="checkbox" name="markAttendance" formControlName="is_employee_to_be_create"> Allow teacher to view Contact details of student</label>
+        <div class="extra-margin" style="margin-top: 15px;">
+
+          <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="isActive" formControlName="is_active" class="form-checkbox">
+              <label for="isActive">Is Active</label>
+            </div>
+          </div>
+
+          <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="allow" formControlName="is_allow_teacher_to_only_mark_attendance" class="form-checkbox">
+              <label for="allow">Allow teacher to only mark attendance</label>
+            </div>
+          </div>
+
+
+          <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="markAttendance" formControlName="is_student_mgmt_flag" class="form-checkbox">
+              <label for="markAttendance">Allow teacher to view Contact details of student</label>
+            </div>
+          </div>
         </div>
         <div class="row">
           <div class="pull-right">
