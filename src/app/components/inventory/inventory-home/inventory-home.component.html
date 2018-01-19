@@ -14,7 +14,7 @@
           <div class="field-wrapper">
             <button style="margin:0px 20px 7px 30px;" class="btn pull-right" (click)="addItemDetails()">
               <div class="option-wrap">
-                <img src="/assets/images/plus.png" alt="addEnquiry">
+                <img src="/assets/images/plus.png" alt="addItem">
                 <span class="tooltip">
                   Add Item
                 </span>
@@ -167,10 +167,10 @@
 
                     <td class="view-comp">
                       <div class="displayAddItem" id="add-item{{i}}">
-                        <a class="view-addItem" (click)="addItemsEnable(i)">Add Quantity</a>
+                        <a class="view-addItem" (click)="addItemsEnable(i)" style="cursor: pointer;">Add Quantity</a>
                         <div class="field-wrapper edit-addItem">
                           <input type="number" class="form-ctrl" [(ngModel)]="row.units_added" name="label">
-                          <ul class="editOptions">
+                          <ul class="editOptions" style="cursor: pointer;">
                             <li>
                               <a (click)="addItemsQuantity(row)">Add</a>
                             </li>
@@ -208,6 +208,8 @@
                       <ul>
                         <li>
                           <a (click)="editRow(i,row.item_id)">Edit</a>
+                        </li>
+                        <li>
                           <a *ngIf="row.is_delete" (click)="deleteRow(row, i)">Delete</a>
                         </li>
                       </ul>

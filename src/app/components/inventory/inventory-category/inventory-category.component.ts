@@ -28,35 +28,16 @@ export class InventoryCategoryComponent implements OnInit {
 
   ngOnInit() {
     this.getAllCategoryList();
-  }     
-
-  // To create a row in the table
-  createTableRow() {
-    const element = document.getElementById('tbodyCategory');
-    const row = element.insertRow(1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(1);
-    cell1.innerHTML = '<a id="updateCell">Update</a>' +" " + '<a id="cancelCell">Cancel</a>';
-    cell2.innerHTML = "<input class='edit-comp' type='text' id='tdDescription'  name='label'>";
-    cell3.innerHTML = "<input class='edit-comp' type='text' id='tdCategory' name='label'>";
-    this.eventLitenerTable();
   }
 
-  // attachiong event on update and cancel button on table row creation
-  eventLitenerTable() {
-    document.getElementById('updateCell').addEventListener('click',(event)=> {
-      this.newCategory.category_name = document.getElementById('tdCategory').value;
-      this.newCategory.desc = document.getElementById('tdDescription').value;
-      this.addTableRow(this.newCategory , event);
-    } )
-    document.getElementById('cancelCell').addEventListener('click',(event)=> {
-      event.target.closest('tr').remove();
-    } )
+  addNewCategoryRow(categoryElement , descriptionElement) {
+    this.newCategory.category_name = categoryElement.value;
+    this.newCategory.desc = descriptionElement.value;
+    this.addTableRow(this.newCategory);
   }
 
   //  Add Row Of Table
-  addTableRow(data , event) {
+  addTableRow(data) {
     debugger
     if(data.category_name == "" || data.category_name == null){
       let data = {
@@ -67,11 +48,11 @@ export class InventoryCategoryComponent implements OnInit {
       this.appC.popToast(data);
       return ;
     }
-    let row = event.target.closest('tr');
     this.categoryService.setNewCategory(data).subscribe(
       data => {
-        row.remove();
         this.getAllCategoryList();
+        document.getElementById('ctgryName').value = "";
+        document.getElementById('ctgrydesc').value = "";
       },
       error => {
         console.log(error);
@@ -153,5 +134,29 @@ export class InventoryCategoryComponent implements OnInit {
     let t = this.dataSourceCategory.slice(startindex , startindex + this.displayBatchSize);
     return t;
   }
+
+    /* Customiized click detection strategy */
+    inputClickedCheck(ev) {
+      if (ev.target.classList.contains('form-ctrl')) {
+        if (ev.target.classList.contains('bsDatepicker')) {
+          var nodelist = document.querySelectorAll('.bsDatepicker');
+          [].forEach.call(nodelist, (elm) => {
+            elm.addEventListener('focusout', function (event) {
+              event.target.parentNode.classList.add('has-value');
+            });
+          });
+        }
+        else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
+          //document.getElementById(ev.target.id).click();
+          ev.target.addEventListener('blur', function (event) {
+            if (event.target.value != '') {
+              event.target.parentNode.classList.add('has-value');
+            } else {
+              event.target.parentNode.classList.remove('has-value');
+            }
+          });
+        }
+      }
+    }
 
 }

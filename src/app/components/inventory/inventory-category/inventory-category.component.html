@@ -1,14 +1,33 @@
 <div id="divCategory" class="c-lg-12 c-md-12 c-sm-12">
+  <div class="row" style="margin-top: 10px;margin-bottom: 10px;">
+    <div class="c-sm-3">
+    </div>
+    <div class="c-sm-3">
+      <div class="field-wrapper">
+        <input id="ctgryName" type="text" #categoryName class="form-ctrl" name="label" (focus)="inputClickedCheck($event)">
+        <label for="label">Category Name
+        </label>
+      </div>
+    </div>
+    <div class="c-sm-3">
+      <div class="field-wrapper">
+        <input id="ctgrydesc" type="text" #categoryDesc class="form-ctrl" name="label" (focus)="inputClickedCheck($event)">
+        <label for="label">Category Description
+        </label>
+      </div>
+      <div>
+      </div>
+    </div>
+    <div class="c-sm-3">
+      <button class="btn" (click)="addNewCategoryRow(categoryName ,categoryDesc )">Add</button>
+    </div>
+  </div>
   <div id="category-table" style="min-height: 350px;">
     <div class="table-scroll-wrapper">
       <div class="table table-responsive">
         <table id="tbLCategory">
           <thead>
             <tr>
-              <th>
-                <label>Action
-                </label>
-              </th>
               <th>
                 <label>Category Name
                   <span style="color:red">*</span>
@@ -18,32 +37,14 @@
                 <label>Category Description
                 </label>
               </th>
+              <th>
+                <label>Action
+                </label>
+              </th>
             </tr>
           </thead>
           <tbody id="tbodyCategory">
-            <tr>
-              <td (click)="createTableRow()" class="addNewButton">Add New</td>
-              <td></td>
-              <td></td>
-            </tr>
             <tr id="row{{i}}" class="displayComp" *ngFor="let row of categoryList; let i = index; trackBy: i;">
-              <td class="view-comp">
-                <ul>
-                  <li>
-                    <a (click)="editRow(i)">Edit</a>
-                  </li>
-                </ul>
-              </td>
-              <td class="edit-comp">
-                <ul class="editOptions">
-                  <li>
-                    <a (click)="updateTableRow(row , i)">Update</a>
-                  </li>
-                  <li>
-                    <a (click)="cancelTableRow(row)">Cancel</a>
-                  </li>
-                </ul>
-              </td>
               <td class="view-comp">
                 {{row.category_name}}
               </td>
@@ -59,6 +60,23 @@
                 <div class="field-wrapper">
                   <input type="text" class="form-ctrl" [(ngModel)]="row.desc" name="label">
                 </div>
+              </td>
+              <td class="view-comp">
+                <ul>
+                  <li>
+                    <a style="cursor: pointer;" (click)="editRow(i)">Edit</a>
+                  </li>
+                </ul>
+              </td>
+              <td class="edit-comp">
+                <ul style="cursor: pointer;" class="editOptions">
+                  <li>
+                    <a (click)="updateTableRow(row , i)">Update</a>
+                  </li>
+                  <li>
+                    <a (click)="cancelTableRow(row)">Cancel</a>
+                  </li>
+                </ul>
               </td>
             </tr>
           </tbody>
