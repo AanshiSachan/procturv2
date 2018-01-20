@@ -108,5 +108,31 @@ export class PostStudentDataService {
         )
     }
 
+
+    allocateStudentInventory(id, obj){
+
+        let urlInventory = this.baseUrl +"/api/v1/inventory/item/allocate";
+
+        return this.http.post(urlInventory, obj, {headers: this.headers}).map(
+            res => {
+                return res.json();
+            },
+            err => {
+                return err.json();
+            });
+    }
+
+    allocateStudentFees(obj){
+        let urlFeeUpdate = this.baseUrl +"/api/v1/studentWise/fee/schedule/students/save/" +this.institute_id;
+
+        return this.http.post(urlFeeUpdate, obj, {headers: this.headers}).map(
+            res => {
+                return res.json();
+            },
+            err => {
+                return err.json();
+            });
+    }
+
 }
 
