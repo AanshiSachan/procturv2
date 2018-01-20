@@ -10,7 +10,7 @@
         <label>Name:</label>
         {{selectedTeacherInformation.teacher_name}}
       </div>
-      <div style="margin-top: 10px;margin-bottom: 10px;"> 
+      <div style="margin-top: 10px;margin-bottom: 10px;">
         <label>Email:</label>
         {{selectedTeacherInformation.teacher_email}}
       </div>
@@ -63,7 +63,13 @@
   </div>
   <div class="row extraMargin">
     <div>
-      <h2>Assigned Batches Details</h2>
+      <div class="c-sm-8">
+        <h2>Assigned Batches Details</h2>
+      </div>
+      <div class="c-sm-4">
+        <button class="btn" (click)="exportDetailsInExcel()">Excel</button>
+        <button class="btn" (click)="printBtnClick()">Print</button>
+      </div>
     </div>
     <div class="common-table">
       <div class="table table-responsive">
@@ -114,21 +120,23 @@
                 {{row.comp_sal}}
               </td>
               <td>
-                <a>View Details</a>
+                <a (click)="viewDetailOfBatch(row , i)">View Details</a>
               </td>
             </tr>
             <tr *ngIf="(assignedBatchList.length > 0)">
-              <td>
-                Total Classes Taken :
+              <td colspan="2" style="text-align:center;">
+                Total Classes Taken : {{totalClassesTaken}}
               </td>
-              <td>
-                Total Hours Spent :
+              <td colspan="2" style="text-align:center;">
+                Total Hours Spent : {{totalHourSpent}}
+              </td>
+              <td colspan="4">
               </td>
             </tr>
             <tr *ngIf="(assignedBatchList.length == 0)">
-                <td colspan="8" style="text-align:center;">
-                    <span>No Data Found</span>
-                  </td>
+              <td colspan="8" style="text-align:center;">
+                <span>No Data Found</span>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -165,7 +173,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr id="row{{i}}" class="displayComp" *ngFor="let row of visitingBatchList; let i = index; trackBy: i;">
+            <tr id="row{{i}}" *ngFor="let row of visitingBatchList; let i = index; trackBy: i;">
               <td>
                 {{row.batch_name}}
               </td>
@@ -186,11 +194,13 @@
               </td>
             </tr>
             <tr *ngIf="(visitingBatchList.length > 0)">
-              <td>
+              <td colspan="2" style="text-align:center;">
                 Total Classes Taken :
               </td>
-              <td>
+              <td colspan="2" style="text-align:center;">
                 Total Hours Spent :
+              </td>
+              <td colspan="2">
               </td>
             </tr>
             <tr *ngIf="(visitingBatchList.length == 0)">

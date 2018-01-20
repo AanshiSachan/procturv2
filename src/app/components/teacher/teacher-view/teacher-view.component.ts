@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule, Form, FormControl, FormGroup } from '@angular/forms';
 import { TeacherAPIService } from '../../../services/teacherService/teacherApi.service';
+import { isNumber } from 'util';
+import { window } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
 
 @Component({
   selector: 'app-teacher-view',
@@ -16,8 +18,10 @@ export class TeacherViewComponent implements OnInit {
   selectedBatch = "";
   selectedFromDate = "";
   selectedToDate = "";
-  assignedBatchList:any =[] ;
-  visitingBatchList:any =[] ;
+  assignedBatchList: any = [];
+  visitingBatchList: any = [];
+  totalClassesTaken: number =0;
+  totalHourSpent: number =0;
 
   constructor(
     private route: Router,
@@ -32,7 +36,9 @@ export class TeacherViewComponent implements OnInit {
 
   ngOnInit() {
     this.getTeacherViewInfo();
-    this.getAllBatchesInformation()
+    this.getAllBatchesInformation();
+    this.getInfoFromDashBoard({ "batch_id": -1, "from_date": "", "to_date": "" });
+    this.getInfoFromGuest({ "batch_id": -1, "from_date": "", "to_date": "" });
   }
 
   getTeacherViewInfo() {
@@ -74,6 +80,8 @@ export class TeacherViewComponent implements OnInit {
       data => {
         console.log(data);
         this.assignedBatchList = data;
+        this.totalClassesTaken = this.getPerticularKeyValue(data, "total_teacher_classes" , '');
+        this.totalHourSpent = this.getPerticularKeyValue(data , 'total_hours' , ' ');
       },
       error => {
         console.log(error)
@@ -97,6 +105,46 @@ export class TeacherViewComponent implements OnInit {
     this.route.navigateByUrl('teacher');
   }
 
+  getPerticularKeyValue(data, dataKey , splitOpearator) {
+    let totalCount: number = 0;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].hasOwnProperty(dataKey) && data[i][dataKey] != "" && data[i][dataKey] != null) {
+        if(splitOpearator != ""){
+          totalCount += Number(data[i][dataKey].split(' ')[0]);
+        }else{
+          totalCount += data[i][dataKey];
+        }
+      }
+    }
+    return totalCount;
+  }
+
+  exportDetailsInExcel() {
+    console.log("Excel");
+  }
+  
+  printBtnClick() {
+    window.print();
+  }
+
+  viewDetailOfBatch(row , i) {
+    this.getBatchDetailsInfo(row);
+  }
+
+  getBatchDetailsInfo(row) {
+    let data: any = {};
+    data.batch_id = row.batch_id;
+    data.from_date = "";
+    data.to_date = "";
+    this.ApiService.viewBatchDetails(data , this.selectedTeacherId).subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
 
   /* Customiized click detection strategy */
   inputClickedCheck(ev) {

@@ -105,8 +105,8 @@ export class TeacherAPIService {
         )
     }
 
-    customizedTeacherSearchOnDashBoardView(data , teacher_id) {
-        let url1 = this.http.post(this.baseUrl + '/api/v1/teachers/' + teacher_id +'/dashboard' , data, {headers:this.headers});
+    customizedTeacherSearchOnDashBoardView(data, teacher_id) {
+        let url1 = this.http.post(this.baseUrl + '/api/v1/teachers/' + teacher_id + '/dashboard', data, { headers: this.headers });
         return url1.map(
             data => {
                 return data;
@@ -117,8 +117,8 @@ export class TeacherAPIService {
         )
     }
 
-    customizedTeacherSearchOnGuestBatchView(data , teacher_id){
-        let url1 = this.http.post(this.baseUrl + '/api/v1/teachers/' + teacher_id +'/guestBatches/classes' , data, {headers:this.headers});
+    customizedTeacherSearchOnGuestBatchView(data, teacher_id) {
+        let url1 = this.http.post(this.baseUrl + '/api/v1/teachers/' + teacher_id + '/guestBatches/classes', data, { headers: this.headers });
         return url1.map(
             data => {
                 return data;
@@ -129,6 +129,17 @@ export class TeacherAPIService {
         )
     }
 
+    viewBatchDetails(data, teacher_id) {
+        let url1 = this.http.post(this.baseUrl + '/api/v1/teachers/' + teacher_id + '/batch/classes', data, { headers: this.headers });
+        return url1.map(
+            data => {
+                return data;
+            },
+            error => {
+                return error;
+            }
+        )
+    }
 
 
 }
