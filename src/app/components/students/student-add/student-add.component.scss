@@ -4,6 +4,48 @@
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
 @import "./src/app/components/enquiry/enquiry-add/enquiry-add.component.scss";
+/* ============================================================================================================= */
+/* ============================================================================================================= */
+/* ============================================================================================================= */
+.allocation-table {
+    width: 100%;
+    table { 
+        thead{
+            tr{
+                line-height: 30px;
+                th{
+                    font-weight: 600;
+                }
+            }
+        }
+        tbody{
+            tr{
+                line-height: 20px;
+                .field-wrapper{
+                    max-width: 100px;
+                    left: 30%;
+                    .form-ctrl{
+                        background: transparent;
+                        text-align: center;
+                        border-bottom: solid 1px #0084f6;
+                    } 
+                }
+            }
+        }
+
+    }
+    .table-footer{
+        width: 100%;
+        min-height: 40px;
+        padding: 5px 0px;
+        margin: 10px 0px;
+        #allocateInv{
+            width: 100%;
+        }  
+    }
+}
+/* ============================================================================================================= */
+/* ============================================================================================================= */
 .feeManager {
     min-height: 450px;
     max-height: 450px;
@@ -48,16 +90,18 @@
         }
     }
     .installment {
-        border: 1px solid rgb(19, 0, 128);
+        border: 2px solid #004a7e;
         padding: 5px;
+        box-shadow: 1px 5px 5px 1px #004a7e;
         legend {
             padding: 0.2em 0.5em;
-            border: 1px solid #0d0080;
-            color: #0d0080;
+            border: 1px solid #004a7e;
+            color: #ffffff;
             font-size: 14px;
-            font-weight: 800;
+            font-weight: 600;
             text-align: left;
             width: 200px;
+            background: #004a7e;
         }
         .data-adder {
             margin: 0px 0px 5px 0px;
@@ -116,16 +160,18 @@
     }
     .additional {
         margin-top: 40px;
-        border: 1px solid rgb(19, 0, 128);
+        border: 2px solid #004a7e;
         padding: 5px;
+        box-shadow: 1px 5px 5px 1px #004a7e;
         legend {
             padding: 0.2em 0.5em;
-            border: 1px solid #0d0080;
-            color: #0d0080;
+            border: 1px solid #004a7e;
+            color: #ffffff;
             font-size: 14px;
-            font-weight: 800;
+            font-weight: 600;
             text-align: left;
             width: 200px;
+            background: #004a7e;
         }
         .data-adder {
             margin: 0px 0px 5px 0px;
@@ -181,7 +227,7 @@
                 }
                 .innermost {
                     display: inline-flex;
-                    .field-wrapper{
+                    .field-wrapper {
                         width: 200px;
                     }
                     .btn {
