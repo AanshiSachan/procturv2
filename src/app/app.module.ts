@@ -3,6 +3,7 @@ import { AppComponent } from './app.component';
 import { CoreSidednavComponent } from './components/core/core-sidednav/core-sidednav.component';
 import { CoreHeaderComponent } from './components/core/core-header/core-header.component';
 import { AppLoaderComponent } from './components/app-loader/app-loader.component'
+import { SlotComponent } from './components/slot/slot.component';
 
 /* Modules */
 import { BrowserModule } from '@angular/platform-browser';
@@ -43,6 +44,9 @@ import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.com
 import { PostStudentDataService } from './services/student-services/post-student-data.service';
 
 import { OrderModule } from '../assets/imported_modules/orderBy/proctur-order.module';
+import { SharedModule } from './components/shared/shared.module';
+import { SlotApiService } from './services/slot-service/slot.service';
+
 
 @NgModule({
   imports: [
@@ -57,7 +61,8 @@ import { OrderModule } from '../assets/imported_modules/orderBy/proctur-order.mo
     Ng2SmartTableModule,
     ToasterModule,
     BsDatepickerModule.forRoot(),
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
+    SharedModule
   ],
   declarations: [
     AppComponent,
@@ -67,6 +72,7 @@ import { OrderModule } from '../assets/imported_modules/orderBy/proctur-order.mo
     ErrorComponent,
     ComingSoonComponent,
     OverlayMenuComponent,
+    SlotComponent,
 
   ],
   entryComponents: [
@@ -84,7 +90,8 @@ import { OrderModule } from '../assets/imported_modules/orderBy/proctur-order.mo
     LoaderHandlingService,
     PostStudentDataService,
     CampaignService,
-    InventoryService
+    InventoryService,
+    SlotApiService
   ],
   bootstrap: [AppComponent]
 })

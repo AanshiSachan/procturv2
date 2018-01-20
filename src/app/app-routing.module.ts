@@ -4,6 +4,7 @@ import { RouterModule, PreloadAllModules} from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { ErrorComponent } from './components/error/error.component';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
+import { SlotComponent } from './components/slot/slot.component';
 
 @NgModule({
     imports: [
@@ -54,6 +55,11 @@ import { ComingSoonComponent } from './components/coming-soon/coming-soon.compon
                 {
                     path:'teacher',
                     loadChildren: 'app/components/teacher/teacher.module#TeacherModule',
+                    canLoad: [AuthGuard]
+                },
+                {
+                    path:'slot',
+                    component: SlotComponent,
                     canLoad: [AuthGuard]
                 },
                 { path: 'comingsoon', component: ComingSoonComponent },
