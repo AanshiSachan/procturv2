@@ -12,6 +12,8 @@ import { CourseCourseListComponent } from './course-course-list/course-course-li
 import { CourseExamComponent } from './course-exam/course-exam.component';
 import { CourseClassComponent } from './course-class/course-class.component';
 import { ScheduleHomeComponent } from './course-home/schedule-home.component';
+import { StandardServices } from '../../services/course-services/standard.service';
+import { ManipulateCheckBoxValue } from './checkBox.pipe';
 
 @NgModule({
     imports: [
@@ -20,7 +22,7 @@ import { ScheduleHomeComponent } from './course-home/schedule-home.component';
         CommonModule,
         CoursePageRoutingModule,
         BsDatepickerModule,
-        SharedModule
+        SharedModule,
     ],
     declarations: [
         CourseComponent,
@@ -29,11 +31,13 @@ import { ScheduleHomeComponent } from './course-home/schedule-home.component';
         CourseSubjectComponent,
         CourseCourseListComponent,
         CourseExamComponent,
-        CourseClassComponent
+        CourseClassComponent,
+        ManipulateCheckBoxValue
     ],
     entryComponents: [
     ],
     providers: [
+        StandardServices
     ]
 })
 export class CourseModule {

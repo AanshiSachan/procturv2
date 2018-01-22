@@ -1,776 +1,139 @@
 <section class="middle-section clearFix">
-    <section class="" id="coursesFlow">
-        <div class="firstScreen">
-            <section class="course-first">
-                <aside class="boxPadding15">
-                    <section class="middle-top clearFix">
-                        <h1>Schedule</h1>
-                    </section>
-                    <section class="middle-main clearFix">
-                        <div class="common-tab">
-                            <ul>
-                                <li *ngFor="let tab of tabsArr" [class]="tab.id =='standard' ? 'active' : null" (click)="switchView(tab.id)">
-                                    <a id="{{tab.id}}" (click)="classActiveToggle($event)">{{tab.name}}</a>
-                                </li>
-                            </ul>
+    <div class="firstScreen">
+        <!-- Standard Layout START -->
+        <div class="marginExtra">
+            <div class="clearFix add-edit">
+                <a (click)="toggleCreateNewStandard()">
+                    <i>+</i>
+                    <span>Create Standard</span>
+                </a>
+            </div>
+            <section class="clearFix create-standard-form" *ngIf="createNewStandard">
+                <div class="c-lg-6 c-sm-6 c-md-6">
+                    <div class="row create-standard-field">
+                        <div class="c-lg-8 c-md-6 c-ms-6">
+                            <div class="field-wrapper">
+                                <input type="text" class="form-ctrl" [(ngModel)]="newStandardDetails.standard_name" name="standard_name" id="standard_name"
+                                    #standard_name="ngModel" required courseInput>
+                                <div *ngIf="standard_name.invalid && (standard_name.dirty || standard_name.touched || no_standard_name)" class="alert invalid-alert">
+                                    <div *ngIf="standard_name.errors.required">
+                                        Please enter valid Standard Name
+                                    </div>
+                                </div>
+                                <label>Standard Name</label>
+
+                            </div>
+                            <p>* Example X XII, B.Com</p>
                         </div>
-                        <!-- Standard Layout START -->
-                        <section class="search-data" *ngIf="currentView == 'standard'">
-                            <div class="clearFix add-edit">
-                                <a (click)="toggleCreateNewStandard()">
-                                    <i>+</i>
-                                    <span>Create Standard</span>
-                                </a>
+                        <div class="c-lg-4 c-md-4 c-ms-4">
+                            <div class="field-checkbox-wrapper">
+                                <input type="checkbox" value="" name="check" class="form-checkbox" [ngModel]="newStandardDetails.is_active" id="isAct" (ngModelChange)="toggleStandardActive($event)">
+                                <label for="isAct">Is Active</label>
                             </div>
-                            <section class="clearFix create-standard-form" *ngIf="createNewStandard">
-                                <div class="c-lg-6 c-sm-6 c-md-6">
-                                    <div class="row create-standard-field">
-                                        <div class="c-lg-8 c-md-6 c-ms-6">
-                                            <div class="field-wrapper">
-                                                <input type="text" class="form-ctrl" [(ngModel)]="newStandardDetails.standard_name" name="standard_name" id="standard_name"
-                                                    #standard_name="ngModel" required courseInput>
-                                                <div *ngIf="standard_name.invalid && (standard_name.dirty || standard_name.touched || no_standard_name)" class="alert invalid-alert">
-                                                    <div *ngIf="standard_name.errors.required">
-                                                        Please enter valid Standard Name
-                                                    </div>
-                                                </div>
-                                                <label>Standard Name</label>
-
-                                            </div>
-                                            <p>* Example X XII, B.Com</p>
-                                        </div>
-                                        <div class="c-lg-4 c-md-4 c-ms-4">
-                                            <div class="field-checkbox-wrapper">
-                                                <input type="checkbox" value="" name="check" class="form-checkbox" [ngModel]="newStandardDetails.is_active" id="isAct" (ngModelChange)="toggleStandardActive($event)">
-                                                <label for="isAct">Is Active</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="c-lg-3 c-sm-4 c-md-4 pull-right">
-                                    <aside class="pull-left create-cancel-small">
-                                        <input type="button" value="Cancel" class="btn cancle" (click)="toggleCreateNewStandard()">
-                                        <input type="button" value="Create" class="btn redBtn" (click)="addNewStandard()">
-                                    </aside>
-                                </div>
-                            </section>
-                            <div class="row class filter-res filter-for-courses">
-                                <div class="c-lg-6 c-md-6 c-sm-6">
-                                    <label>Standard list</label>
-                                </div>
-                                <div class="c-lg-6 c-md-6 c-sm-6 align-right filter-search">
-                                    <ul class="export-print pull-right">
-                                        <li class="print-icon">Print</li>
-                                        <li class="export-icon">Export </li>
-                                    </ul>
-                                    <div class="pull-right">
-                                        <button class="form-btn-head">
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="fee-install-table courses-list-table">
-                                <div class="table-responsive">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    <div class="inst-no">
-                                                        <div class="field-checkbox-wrapper">
-                                                            <input type="checkbox" value="" class="form-checkbox" id="applyTax">
-                                                            <label for="applyTax"></label>
-                                                        </div>
-                                                    </div>
-                                                </th>
-                                                <th>ID</th>
-                                                <th>Standard</th>
-                                                <th>Is Active</th>
-                                                <th>Added Date</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="edit-mod">
-                                                <td>
-                                                    <div class="inst-no">
-                                                        <div class="field-checkbox-wrapper">
-                                                            <input type="checkbox" value="" class="form-checkbox" id="applyTax">
-                                                            <label for="applyTax"></label>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">1051</div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="1051">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">10
-                                                        <sup>th</sup>
-                                                    </div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="10">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">Yes</div>
-                                                    <div class="edit-view">
-                                                        <div class="radio-options mt-0">
-                                                            <div class="field-radio-wrapper">
-                                                                <input type="radio" value="" name="sFilter2" class="form-radio" id="activeAction">
-                                                                <label for="activeAction">Active</label>
-                                                            </div>
-                                                            <div class="field-radio-wrapper" style="margin-left:10px;">
-                                                                <input type="radio" value="" name="sFilter2" class="form-radio" id="InactiveAction">
-                                                                <label for="InactiveAction">Inactive</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">09 Jul,2017</div>
-                                                    <div class="edit-view">
-                                                        <div class="field-wrapper datePickerBox">
-                                                            <input type="text" value="" class="form-ctrl">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-
-                                                    <a href="#">
-                                                        <i class="edit-icon" aria-hidden="true"></i>Edit
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr class="">
-                                                <td>
-                                                    <div class="inst-no">
-                                                        <div class="field-checkbox-wrapper">
-                                                            <input type="checkbox" value="" class="form-checkbox" id="applyTax2">
-                                                            <label for="applyTax2"></label>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">1051</div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="1051">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">10
-                                                        <sup>th</sup>
-                                                    </div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="10">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">Yes</div>
-                                                    <div class="edit-view">
-                                                        <div class="radio-options mt-0">
-                                                            <div class="field-radio-wrapper">
-                                                                <input type="radio" value="" name="sFilter1" class="form-radio" id="activeAction2">
-                                                                <label for="activeAction2">Active</label>
-                                                            </div>
-                                                            <div class="field-radio-wrapper">
-                                                                <input type="radio" value="" name="sFilter1" class="form-radio" id="InactiveAction2">
-                                                                <label for="InactiveAction2">Inactive</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">09 Jul,2017</div>
-                                                    <div class="edit-view">
-                                                        <div class="field-wrapper datePickerBox">
-                                                            <input type="text" value="" class="form-ctrl">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-
-                                                    <a href="#">
-                                                        <i class="edit-icon" aria-hidden="true"></i>Edit
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr class="selected">
-                                                <td>
-                                                    <div class="inst-no">
-                                                        <div class="field-checkbox-wrapper">
-                                                            <input type="checkbox" value="" class="form-checkbox" id="applyTax1">
-                                                            <label for="applyTax1"></label>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">1051</div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="1051">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">10
-                                                        <sup>th</sup>
-                                                    </div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="10">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">Yes</div>
-                                                    <div class="edit-view">
-                                                        <div class="radio-options mt-0">
-                                                            <div class="field-radio-wrapper">
-                                                                <input type="radio" value="" name="sFilter" class="form-radio" id="activeAction1">
-                                                                <label for="activeAction1">Active</label>
-                                                            </div>
-                                                            <div class="field-radio-wrapper" style="margin-left:10px;">
-                                                                <input type="radio" value="" name="sFilter" class="form-radio" id="InactiveAction1">
-                                                                <label for="InactiveAction1">Inactive</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">09 Jul,2017</div>
-                                                    <div class="edit-view">
-                                                        <div class="field-wrapper datePickerBox">
-                                                            <input type="text" value="" class="form-ctrl">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-
-                                                    <a href="#">
-                                                        <i class="edit-icon" aria-hidden="true"></i>Edit
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="row filter-res pagination">
-                                <div class="c-lg-6 c-md-6 c-sm-6">
-                                    <label>Showing 1 to 6 of 215 Students</label>
-                                </div>
-                                <div class="c-lg-6 c-md-6 c-sm-6 align-right">
-                                    <ul class="pagination">
-                                        <li class="pull-left">
-                                            <a href="#"> Previous</a>
-                                        </li>
-                                        <li>1</li>
-                                        <li>2</li>
-                                        <li>3</li>
-                                        <li class="pull-right">
-                                            <a href="#"> Next</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </section>
-                        <!-- Standard Layout END -->
-                        <!-- Subject Layout START -->
-                        <section class="search-data" *ngIf="currentView == 'subject'">
-                            <div class="clearFix add-edit">
-                                <a (click)="toggleCreateNewSubject()">
-                                    <i>+</i>
-                                    <span>Create Subject</span>
-                                </a>
-                            </div>
-                            <section class="clearFix create-standard-form" *ngIf="createNewSubject">
-                                <div class="c-lg-6 c-sm-6 c-md-6">
-                                    <div class="row create-standard-field">
-                                        <div class="c-lg-8 c-md-6 c-ms-6">
-                                            <div class="field-wrapper">
-                                                <input type="text" class="form-ctrl" [(ngModel)]="newStandardDetails.standard_name" name="subject_name" id="subject_name"
-                                                    #subject_name="ngModel" required courseInput>
-                                                <div *ngIf="subject_name.invalid && (subject_name.dirty || subject_name.touched || no_subject_name)" class="alert invalid-alert">
-                                                    <div *ngIf="subject_name.errors.required">
-                                                        Please enter valid Subject Name
-                                                    </div>
-                                                </div>
-                                                <label>Subject Name</label>
-
-                                            </div>
-                                            <p>* Example English, Science</p>
-                                        </div>
-                                        <div class="c-lg-4 c-md-4 c-ms-4">
-                                            <div class="field-checkbox-wrapper">
-                                                <input type="checkbox" value="" name="check" class="form-checkbox" [ngModel]="newStandardDetails.is_active" id="isAct" (ngModelChange)="toggleStandardActive($event)">
-                                                <label for="isAct">Is Active</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="c-lg-3 c-sm-4 c-md-4 pull-right">
-                                    <aside class="pull-left create-cancel-small">
-                                        <input type="button" value="Cancel" class="btn cancle" (click)="toggleCreateNewStandard()">
-                                        <input type="button" value="Create" class="btn redBtn" (click)="addNewStandard()">
-                                    </aside>
-                                </div>
-                            </section>
-                            <div class="row class filter-res filter-for-courses">
-                                <div class="c-lg-6 c-md-6 c-sm-6">
-                                    <label>Subject list</label>
-                                </div>
-                                <div class="c-lg-6 c-md-6 c-sm-6 align-right filter-search">
-                                    <ul class="export-print pull-right">
-                                        <li class="print-icon">Print</li>
-                                        <li class="export-icon">Export </li>
-                                    </ul>
-                                    <div class="pull-right">
-                                        <button class="form-btn-head">
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="fee-install-table courses-list-table">
-                                <div class="table-responsive">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    <div class="inst-no">
-                                                        <div class="field-checkbox-wrapper">
-                                                            <input type="checkbox" value="" class="form-checkbox" id="applyTax">
-                                                            <label for="applyTax"></label>
-                                                        </div>
-                                                    </div>
-                                                </th>
-                                                <th>ID</th>
-                                                <th>Standard</th>
-                                                <th>Is Active</th>
-                                                <th>Added Date</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="edit-mod">
-                                                <td>
-                                                    <div class="inst-no">
-                                                        <div class="field-checkbox-wrapper">
-                                                            <input type="checkbox" value="" class="form-checkbox" id="applyTax">
-                                                            <label for="applyTax"></label>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">1051</div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="1051">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">10
-                                                        <sup>th</sup>
-                                                    </div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="10">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">Yes</div>
-                                                    <div class="edit-view">
-                                                        <div class="radio-options mt-0">
-                                                            <div class="field-radio-wrapper">
-                                                                <input type="radio" value="" name="sFilter2" class="form-radio" id="activeAction">
-                                                                <label for="activeAction">Active</label>
-                                                            </div>
-                                                            <div class="field-radio-wrapper" style="margin-left:10px;">
-                                                                <input type="radio" value="" name="sFilter2" class="form-radio" id="InactiveAction">
-                                                                <label for="InactiveAction">Inactive</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">09 Jul,2017</div>
-                                                    <div class="edit-view">
-                                                        <div class="field-wrapper datePickerBox">
-                                                            <input type="text" value="" class="form-ctrl">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-
-                                                    <a href="#">
-                                                        <i class="edit-icon" aria-hidden="true"></i>Edit
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr class="">
-                                                <td>
-                                                    <div class="inst-no">
-                                                        <div class="field-checkbox-wrapper">
-                                                            <input type="checkbox" value="" class="form-checkbox" id="applyTax2">
-                                                            <label for="applyTax2"></label>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">1051</div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="1051">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">10
-                                                        <sup>th</sup>
-                                                    </div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="10">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">Yes</div>
-                                                    <div class="edit-view">
-                                                        <div class="radio-options mt-0">
-                                                            <div class="field-radio-wrapper">
-                                                                <input type="radio" value="" name="sFilter1" class="form-radio" id="activeAction2">
-                                                                <label for="activeAction2">Active</label>
-                                                            </div>
-                                                            <div class="field-radio-wrapper">
-                                                                <input type="radio" value="" name="sFilter1" class="form-radio" id="InactiveAction2">
-                                                                <label for="InactiveAction2">Inactive</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">09 Jul,2017</div>
-                                                    <div class="edit-view">
-                                                        <div class="field-wrapper datePickerBox">
-                                                            <input type="text" value="" class="form-ctrl">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-
-                                                    <a href="#">
-                                                        <i class="edit-icon" aria-hidden="true"></i>Edit
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr class="selected">
-                                                <td>
-                                                    <div class="inst-no">
-                                                        <div class="field-checkbox-wrapper">
-                                                            <input type="checkbox" value="" class="form-checkbox" id="applyTax1">
-                                                            <label for="applyTax1"></label>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">1051</div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="1051">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">10
-                                                        <sup>th</sup>
-                                                    </div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="10">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">Yes</div>
-                                                    <div class="edit-view">
-                                                        <div class="radio-options mt-0">
-                                                            <div class="field-radio-wrapper">
-                                                                <input type="radio" value="" name="sFilter" class="form-radio" id="activeAction1">
-                                                                <label for="activeAction1">Active</label>
-                                                            </div>
-                                                            <div class="field-radio-wrapper" style="margin-left:10px;">
-                                                                <input type="radio" value="" name="sFilter" class="form-radio" id="InactiveAction1">
-                                                                <label for="InactiveAction1">Inactive</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">09 Jul,2017</div>
-                                                    <div class="edit-view">
-                                                        <div class="field-wrapper datePickerBox">
-                                                            <input type="text" value="" class="form-ctrl">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-
-                                                    <a href="#">
-                                                        <i class="edit-icon" aria-hidden="true"></i>Edit
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="row filter-res pagination">
-                                <div class="c-lg-6 c-md-6 c-sm-6">
-                                    <label>Showing 1 to 6 of 215 Students</label>
-                                </div>
-                                <div class="c-lg-6 c-md-6 c-sm-6 align-right">
-                                    <ul class="pagination">
-                                        <li class="pull-left">
-                                            <a href="#"> Previous</a>
-                                        </li>
-                                        <li>1</li>
-                                        <li>2</li>
-                                        <li>3</li>
-                                        <li class="pull-right">
-                                            <a href="#"> Next</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </section>
-                        <!-- Subject Layout END -->
-                        <!-- Course Layout Start -->
-                        <section class="search-data" *ngIf="currentView == 'courses'" style="margin-top:10px;">
-                            <div class="row class filter-res filter-for-courses">
-                                <div class="c-lg-6 c-md-6 c-sm-6">
-                                    <label>Course list</label>
-                                </div>
-                                <div class="c-lg-6 c-md-6 c-sm-6 align-right filter-search">
-                                    <div class="pull-right">
-                                        <input type="button" value="Add New Course" class="btn">
-                                    </div>
-                                    <ul class="export-print pull-right">
-                                        <li class="print-icon">Print</li>
-                                        <li class="export-icon">Export </li>
-                                    </ul>
-                                    <div class="pull-right">
-                                        <button class="form-btn-head">
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="fee-install-table courses-list-table">
-                                <div class="table-responsive">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    <div class="inst-no">
-                                                        <div class="field-checkbox-wrapper">
-                                                            <input type="checkbox" value="" class="form-checkbox" id="applyTax">
-                                                            <label for="applyTax"></label>
-                                                        </div>
-                                                    </div>
-                                                </th>
-                                                <th>Master Course Name</th>
-                                                <th>Standard</th>
-                                                <th>Courses</th>
-                                                <th>Added Date</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="edit-mod">
-                                                <td>
-                                                    <div class="inst-no">
-                                                        <div class="field-checkbox-wrapper">
-                                                            <input type="checkbox" value="" class="form-checkbox" id="applyTax">
-                                                            <label for="applyTax"></label>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">1051</div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="1051">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">10
-                                                        <sup>th</sup>
-                                                    </div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="10">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">PHP</div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="PHP">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">09 Jul,2017</div>
-                                                    <div class="edit-view">
-                                                        <div class="field-wrapper datePickerBox">
-                                                            <input type="text" value="" class="form-ctrl">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="edit-view-btn">
-                                                    <div class="">
-                                                        <a href="#">
-                                                            <i class="edit-icon" aria-hidden="true"></i>Edit
-                                                        </a>
-                                                    </div>
-                                                    <div class="">
-                                                        <a href="#">
-                                                            <i class="view-icon" aria-hidden="true"></i>View
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="">
-                                                <td>
-                                                    <div class="inst-no">
-                                                        <div class="field-checkbox-wrapper">
-                                                            <input type="checkbox" value="" class="form-checkbox" id="applyTax2">
-                                                            <label for="applyTax2"></label>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">1051</div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="1051">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">10
-                                                        <sup>th</sup>
-                                                    </div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="10">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">MATH, ENGLISH</div>
-                                                    <div class="edit-view">
-                                                        <div class="radio-options mt-0">
-                                                            <div class="field-radio-wrapper">
-                                                                <input type="radio" value="" name="sFilter1" class="form-radio" id="activeAction2">
-                                                                <label for="activeAction2">Active</label>
-                                                            </div>
-                                                            <div class="field-radio-wrapper">
-                                                                <input type="radio" value="" name="sFilter1" class="form-radio" id="InactiveAction2">
-                                                                <label for="InactiveAction2">Inactive</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">09 Jul,2017</div>
-                                                    <div class="edit-view">
-                                                        <div class="field-wrapper datePickerBox">
-                                                            <input type="text" value="" class="form-ctrl">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="edit-view-btn">
-                                                    <div class="">
-                                                        <a href="#">
-                                                            <i class="edit-icon" aria-hidden="true"></i>Edit
-                                                        </a>
-                                                    </div>
-                                                    <div class="">
-                                                        <a href="#">
-                                                            <i class="view-icon" aria-hidden="true"></i>View
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="selected">
-                                                <td>
-                                                    <div class="inst-no">
-                                                        <div class="field-checkbox-wrapper">
-                                                            <input type="checkbox" value="" class="form-checkbox" id="applyTax1">
-                                                            <label for="applyTax1"></label>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">1051</div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="1051">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">10
-                                                        <sup>th</sup>
-                                                    </div>
-                                                    <div class="edit-view">
-                                                        <input type="text" class="form-new-field" value="10">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">MATH, ENGLISH</div>
-                                                    <div class="edit-view">
-                                                        <div class="radio-options mt-0">
-                                                            <div class="field-radio-wrapper">
-                                                                <input type="radio" value="" name="sFilter" class="form-radio" id="activeAction1">
-                                                                <label for="activeAction1">Active</label>
-                                                            </div>
-                                                            <div class="field-radio-wrapper">
-                                                                <input type="radio" value="" name="sFilter" class="form-radio" id="InactiveAction1">
-                                                                <label for="InactiveAction1">Inactive</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data-view">09 Jul,2017</div>
-                                                    <div class="edit-view">
-                                                        <div class="field-wrapper datePickerBox">
-                                                            <input type="text" value="" class="form-ctrl">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="edit-view-btn">
-                                                    <div class="">
-                                                        <a href="#">
-                                                            <i class="edit-icon" aria-hidden="true"></i>Edit
-                                                        </a>
-                                                    </div>
-                                                    <div class="">
-                                                        <a href="#">
-                                                            <i class="view-icon" aria-hidden="true"></i>View
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="row filter-res pagination">
-                                <div class="c-lg-6 c-md-6 c-sm-6">
-                                    <label>Showing 1 to 6 of 215 Students</label>
-                                </div>
-                                <div class="c-lg-6 c-md-6 c-sm-6 align-right">
-                                    <ul class="pagination">
-                                        <li class="pull-left">
-                                            <a href="#"> Previous</a>
-                                        </li>
-                                        <li>1</li>
-                                        <li>2</li>
-                                        <li>3</li>
-                                        <li class="pull-right">
-                                            <a href="#"> Next</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </section>
-                        <!-- Course Layout END -->
-                    </section>
-                </aside>
+                        </div>
+                    </div>
+                </div>
+                <div class="c-lg-3 c-sm-4 c-md-4 pull-right">
+                    <aside class="pull-left create-cancel-small">
+                        <input type="button" value="Create" class="btn redBtn" (click)="addNewStandard()">
+                        <input type="button" value="Cancel" class="btn cancel" (click)="toggleCreateNewStandard()">
+                    </aside>
+                </div>
             </section>
+            <div class="row class filter-res filter-for-courses">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                    <label>Standard list</label>
+                </div>
+                <div class="c-lg-3 c-md-3 c-sm-3">
+
+                </div>
+                <div class="c-lg-3 c-md-3 c-sm-3">
+                    <div class="field-wrapper">
+                        <input type="text" class="form-ctrl" #searchVal (keyup)="searchInList(searchVal)">
+                        <label style="margin-top:0px">Search Standard Here</label>
+                    </div>
+                </div>
+            </div>
+            <div class="fee-install-table courses-list-table">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    ID
+                                </th>
+                                <th>
+                                    Standard
+                                </th>
+                                <th>
+                                    Is Active
+                                </th>
+                                <th>
+                                    Added Date
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="displayComp" id="row{{i}}" class="displayComp" *ngFor="let row of standardList; let i = index; trackBy: i;">
+                                <td>
+                                    {{row.standard_id}}
+                                </td>
+
+                                <td class="view-comp">
+                                    {{row.standard_name}}
+                                </td>
+                                <td class="edit-comp">
+                                    <div class="field-wrapper">
+                                        <input type="text" class="form-ctrl" [(ngModel)]="row.standard_name" name="label">
+                                    </div>
+                                </td>
+
+                                <td class="view-comp">
+                                    {{row.is_active}}
+                                </td>
+                                <td class="edit-comp">
+                                    <div class="field-wrapper has-value">
+                                        <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="row.is_active" (focus)="inputClickedCheck($event)">
+                                            <option value="Y">Yes</option>
+                                            <option value="N">No</option>
+                                        </select>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    {{row.created_date}}
+                                </td>
+
+                                <td class="view-comp">
+                                    <a (click)="editRow(i)">
+                                        <i class="edit-icon" aria-hidden="true"></i>Edit
+                                    </a>
+                                </td>
+                                <td class="edit-comp">
+                                    <a (click)="updateRow(row,i)">
+                                        <i class="edit-icon" aria-hidden="true"></i>Update
+                                    </a>
+                                    <a (click)="cancelRow(i)">
+                                        <i class="edit-icon" aria-hidden="true"></i>Cancel
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Paginator Here -->
+            <div class="row filter-res pagination" style="width: 100%;">
+                <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                    <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                        [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+                    </pagination>
+                </div>
+            </div>
         </div>
-    </section>
+        <!-- Standard Layout END -->
+    </div>
 </section>
