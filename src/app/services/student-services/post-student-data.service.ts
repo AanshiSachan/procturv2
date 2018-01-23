@@ -11,7 +11,7 @@ import { AuthenticatorService } from '../authenticator.service';
 @Injectable()
 export class PostStudentDataService {
 
-
+   
     authorization: string;
     institute_id: number;
     headers: Headers;
@@ -28,7 +28,7 @@ export class PostStudentDataService {
     quickAddStudent(form) {
 
         let urlQuickAdd = this.baseUrl + "/api/v1/students"
-        form.dob = moment(form.dob).format('YYYY-MM-DD');
+        form.dob = form.dob = (form.dob == '' || form.dob == 'Invalid date' || form.dob == null)? '': moment(form.dob).format('YYYY-MM-DD');
         form.doj = moment(form.doj).format('YYYY-MM-DD');
         /* form.assignedBatches = form.assignedBatches.length == 0 ? null : form.assignedBatches;
         form.batchJoiningDates = form.batchJoiningDates.length == 0 ? null : form.batchJoiningDates; */
@@ -109,8 +109,9 @@ export class PostStudentDataService {
     }
 
 
-    allocateStudentInventory(id, obj){
 
+    allocateStudentInventory(obj){
+      
         let urlInventory = this.baseUrl +"/api/v1/inventory/item/allocate";
 
         return this.http.post(urlInventory, obj, {headers: this.headers}).map(
