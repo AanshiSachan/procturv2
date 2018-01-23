@@ -24,3 +24,12 @@ screen and (max-height: 768px) {
         }
     }
 }
+
+.view-icon {
+    background: url(../../../../assets/images/view_details1.svg) no-repeat;
+    width: 13px;
+    height: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}

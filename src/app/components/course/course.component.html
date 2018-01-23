@@ -1,2 +1,34 @@
-<router-outlet>
-</router-outlet>
+<div class="middle-section clearFix">
+
+    <section class="middle-top mb0 clearFix" style="margin-top: -11px;">
+        <h1 class="pull-left">
+            Schedule
+        </h1>
+    </section>
+
+    <section class="middle-main clearFix">
+        <div class="common-tab">
+            <ul>
+                <li id="liStandard" (click)="switchActiveView('liStandard')" class="active">
+                    <a routerLink="/course">Standard</a>
+                </li>
+                <li id="liSubject" (click)="switchActiveView('liSubject')" class="">
+                    <a routerLink="/course/subject">Subject</a>
+                </li>
+                <li id="liCourses" (click)="switchActiveView('liCourses')" class="">
+                    <a routerLink="/course/courselist">Courses</a>
+                </li>
+                <li id="liExam" (click)="switchActiveView('liExam')" class="">
+                    <a routerLink="/course/exam">Exam</a>
+                </li>
+                <li id="liClass" (click)="switchActiveView('liClass')" class="">
+                    <a routerLink="/course/class">Class</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="router-container">
+            <router-outlet></router-outlet>
+        </div>
+    </section>
+</div>

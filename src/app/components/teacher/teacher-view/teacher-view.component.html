@@ -120,7 +120,9 @@
                 {{row.comp_sal}}
               </td>
               <td>
-                <a (click)="viewDetailOfBatch(row , i)">View Details</a>
+                <a style="cursor: pointer;" (click)="viewDetailOfBatch(row , i)">
+                  <i class="view-icon"></i>View
+                </a>
               </td>
             </tr>
             <tr *ngIf="(assignedBatchList.length > 0)">
@@ -217,3 +219,73 @@
     <button class="btn" (click)="cancelViewDetails()">Cancel</button>
   </div>
 </div>
+
+
+
+<!-- Teacher Classes Taken PopUp -->
+<!-- =============================================================================== -->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="teacherTakenClassesPopUp">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="teacherTakenClassesPopupClose()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <div>
+          <h2>Teacher Classes Taken</h2>
+        </div>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  Date
+                </th>
+                <th>
+                  Timing
+                </th>
+                <th>
+                  Class
+                </th>
+                <th>
+                  Class Taken
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of teacherTakenClasses ; let i = index ; trackBy : i">
+                <td>
+                  {{row.attendance_date}}
+                </td>
+                <td>
+                  {{row.start_time}} - {{row.end_time}}
+                </td>
+                <td>
+                  {{row.class_type}}
+                </td>
+                <td>
+                  {{row.is_class_taken}}
+                </td>
+              </tr>
+              <tr *ngIf="(teacherTakenClasses.length == 0)">
+                <td colspan="4">
+                  No Data Found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

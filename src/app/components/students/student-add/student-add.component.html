@@ -765,7 +765,9 @@
                       </td>
                       <td>
                         <div class="field-wrapper">
+
                           <input type="number" class="form-ctrl" placeholder="Add unit" min="0" max="{{item.available_units}}" [(ngModel)]="item.units_added" (blur)="inventoryItemUpdated(item.units_added, i, item.available_units)" name="amt">
+
                         </div>
                       </td>
                     </tr>
@@ -794,6 +796,7 @@
     
   </section>
      
+
 
 
 
@@ -1224,12 +1227,11 @@
                   <tbody>
                     <tr *ngFor="let fee of instalmentTableData| orderBy: key : reverse; let i = index;">
                       <td>
-                        # {{i+1}}
+                         # {{fee.installment_no}}
                       </td>
                       <td>
                         <div class="field-wrapper datePickerBox">
-                          <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)" [(ngModel)]="fee.due_date"
-                            bsDatepicker>
+                          <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)" [(ngModel)]="fee.due_date" bsDatepicker>
                         </div>
                       </td>
                       <td>
@@ -1471,6 +1473,7 @@
 
       <div class="row">
 
+
         <div class="field-wrapper has-value">
           <select id="dtype" name="dtype" [(ngModel)]="discountApplyForm.type" class="form-ctrl">
             <option value="amount">Amount</option>
@@ -1485,7 +1488,9 @@
         </div>
 
         <div class="field-wrapper">
+
           <input type="text" value="" id="rema" class="form-ctrl" name="rema" [(ngModel)]="discountApplyForm.reason" />
+
           <label for="rema">Discount Reason*</label>
         </div>
 

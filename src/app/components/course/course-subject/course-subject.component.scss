@@ -1,0 +1,123 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+table {
+    tbody {
+        tr {
+            td {
+                .editOptions li {
+                    display: inline-block;
+                }
+            }
+            .field-wrapper {
+                padding: 0px !important;
+                .form-ctrl {
+                    display: block;
+                    box-sizing: border-box;
+                    padding: 0px 0px 0px 5px;
+                    outline: none;
+                    border: 0;
+                    height: 26px;
+                    box-shadow: none;
+                    border-radius: 0;
+                    line-height: 25px;
+                    background: transparent;
+                    width: 80px;
+                    text-align: center;
+                    border-bottom: 1px solid #ccc;
+                }
+            }
+        }
+        .displayComp {
+            .view-comp {}
+            .edit-comp {
+                display: none
+            }
+        }
+        .editComp {
+            .view-comp {
+                display: none
+            }
+            .edit-comp {}
+        }
+    }
+}
+
+.marginExtra {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.create-standard-form {
+    margin: 10px 0;
+    padding: 10px 20px 20px;
+    background: #efefef;
+    border-top: 1px solid #d8d8d8;
+    .field-checkbox-wrapper {
+        margin-top: 15px;
+        .form-checkbox {
+            &+label {
+                font-size: 12px;
+                font-weight: 600;
+                color: #777;
+            }
+            &:checked+label {
+                color: $common-blue;
+            }
+        }
+        .form-checkbox+label:after {
+            transform: scale(0.7);
+        }
+        .form-checkbox+label:before {
+            transform: rotate(-45deg) scale(0.7);
+        }
+    }
+    .field-wrapper {
+        margin-top: -10px;
+        label {
+            top: 25px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+    }
+    .form-ctrl {
+        background: transparent;
+        border-bottom: solid 1px #cccccc;
+    }
+    p {
+        margin-top: 5px;
+        font-size: 10px;
+        color: #979797;
+    }
+}
+
+.add-edit {
+    margin-bottom: 0;
+    margin-top: 20px;
+    i {
+        border: 1px solid $common-blue;
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        line-height: 16px;
+        text-align: center;
+        font-size: 17px;
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+    span {
+        display: inline-block;
+    }
+    .expend-box {
+        i {
+            line-height: 12px;
+            font-size: 22px;
+        }
+    }
+    a {
+        cursor: pointer;
+    }
+}

@@ -25,7 +25,6 @@ import { PostEnquiryDataService } from './services/enquiry-services/post-enquiry
 import { AuthenticatorService } from './services/authenticator.service';
 import { LoginService } from './services/login-services/login.service';
 import { AlertService } from './services/alert.service';
-import { StandardServices } from './services/course-services/standardPost.service'
 import { LoaderHandlingService } from './services/loading-services/loader-handling.service';
 import { Ng2SmartTableModule } from '../assets/imported_modules/ng2-smart-table';
 
@@ -59,7 +58,7 @@ import { SlotApiService } from './services/slot-service/slot.service';
     ToasterModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
-    SharedModule
+    SharedModule,
     Ng2OrderModule
   ],
   declarations: [
@@ -83,7 +82,6 @@ import { SlotApiService } from './services/slot-service/slot.service';
     PostEnquiryDataService,
     AuthenticatorService,
     LoginService,
-    StandardServices,
     AuthGuard,
     LoaderHandlingService,
     PostStudentDataService,

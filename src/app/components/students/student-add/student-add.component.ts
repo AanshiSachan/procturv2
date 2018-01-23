@@ -278,11 +278,13 @@ export class StudentAddComponent implements OnInit {
     reason: '',
     state: 'all'
   }
+
   isDiscountApplied: boolean = false;
   discountReason: string = '';
   key: string = 'name'; //set default
   reverse: boolean = false;
   allotInventoryArr: any[] = [];
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(
@@ -406,7 +408,7 @@ export class StudentAddComponent implements OnInit {
     let inventory = this.studentPrefillService.fetchInventoryList().subscribe(
       data => {
         this.inventoryItemsArr = data;
-        // console.log(this.inventoryItemsArr);
+
       });
 
     let institute = this.prefill.getSchoolDetails().subscribe(data => {
@@ -1175,13 +1177,16 @@ export class StudentAddComponent implements OnInit {
           this.feeTemplateById.template_effective_date = this.feeStructureForm.template_effective_date;
           this.feeTemplateById.template_id = this.feeTempSelected;
           this.isDefineFees = true;
+
           this.isFeeApplied = true;
           /* this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD"); */
           if (res.studentwise_fees_tax_applicable === "Y") {
             this.service_tax = res.registeredServiceTax;
           }
           else if (res.studentwise_fees_tax_applicable === "N") {
+
             this.service_tax = 0;
+
           }
           res.customFeeSchedules.forEach(el => {
             if (el.fee_type_name === "INSTALLMENT") {
@@ -1610,6 +1615,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   createCustomFeeSchedule() {
+
     this.instalmentTableData.sort(function (d1, d2) {
       return moment(d1.due_date).unix() - moment(d2.due_date).unix();
     });
@@ -1619,6 +1625,7 @@ export class StudentAddComponent implements OnInit {
     for (var i = 0; i < this.otherFeeTableData.length; i++) {
       this.otherFeeTableData[i].installment_no = this.instalmentTableData.length + i + 1;
     }
+
     this.userCustommizedFee = [];
     this.userCustommizedFee = this.instalmentTableData.concat(this.otherFeeTableData);
     let totalFee: number = 0;
@@ -1643,6 +1650,7 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+
   applyDiscountCustomFeeSchedule() {
     this.instalmentTableData.sort(function (d1, d2) {
       return moment(d1.due_date).unix() - moment(d2.due_date).unix();
@@ -1660,6 +1668,7 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+
   closeAllFeePops() {
     if (confirm("All Changes made to fee template will be discarded!")) {
       this.isDefineFees = false;
@@ -1703,8 +1712,10 @@ export class StudentAddComponent implements OnInit {
         studentArray: ["-1"],
         template_effective_date: moment().format('YYYY-MM-DD')
       }
+
       this.isDiscountApplied = false;
       this.discountReason = '';
+
     }
   }
   /* ============================================================================================================================ */
@@ -1748,7 +1759,9 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   cancelStudentUpload() {
+
     this.router.navigate(['/student']);
+
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -1840,6 +1853,7 @@ export class StudentAddComponent implements OnInit {
             localStorage.removeItem('tempImg');
             this.removeImage = true;
             this.student_id = res.generated_id;
+
             /* Inventory Allocated*/
             if (this.allotInventoryArr.length > 0) {
               this.allocateInventory(res.generated_id);
@@ -1852,6 +1866,7 @@ export class StudentAddComponent implements OnInit {
             else if (this.allotInventoryArr.length == 0 && !this.isFeeApplied) {
               this.studentAddedNotifier();
             }
+
           }
           else if (statusCode == 2) {
             let alert = {
@@ -1945,6 +1960,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   allocateInventory(id) {
+
     let count: number = 0;
 
     this.allotInventoryArr.forEach(e => {
@@ -1977,6 +1993,7 @@ export class StudentAddComponent implements OnInit {
       }
 
     }
+
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -2017,12 +2034,15 @@ export class StudentAddComponent implements OnInit {
       },
       err => { }
     );
+
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   openDiscountApply() {
     this.isDiscountApply = true;
+
   }   
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   closeDiscountApply() {
@@ -2067,12 +2087,14 @@ export class StudentAddComponent implements OnInit {
               installmentPaidArr.forEach(i => {
                 this.instalmentTableData[i].fees_amount = this.instalmentTableData[i].fees_amount - discount;
               });
+
               this.isDiscountApplied = true;
               this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason) : moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason);
               this.applyDiscountCustomFeeSchedule();
               this.feeTemplateById.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount + this.discountApplyForm.value;
               this.feeTemplateById.studentwise_total_fees_balance_amount = this.feeTemplateById.studentwise_total_fees_amount - this.feeTemplateById.studentwise_total_fees_amount_paid - this.feeTemplateById.studentwise_total_fees_discount;
               console.log(this.feeTemplateById);
+
               this.closeDiscountApply();
             }/* discount is not applicable to any one condition or multiple */
             else {
@@ -2110,6 +2132,7 @@ export class StudentAddComponent implements OnInit {
                 body: 'The discount amount exceed the last installment amount'
               }
               this.appC.popToast(msg);
+
             }
           }
         }
@@ -2192,6 +2215,7 @@ export class StudentAddComponent implements OnInit {
             }
           }
         }
+
       }
     }/* Incomplete form data detected */
     else {
@@ -2217,6 +2241,7 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+
   sort(key) {
     this.key = key;
     if (key == 'due_date') {
@@ -2307,6 +2332,7 @@ export class StudentAddComponent implements OnInit {
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
