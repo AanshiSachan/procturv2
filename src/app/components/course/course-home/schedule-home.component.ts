@@ -12,12 +12,8 @@ import { document } from '../../../../assets/imported_modules/ngx-bootstrap/util
   styleUrls: ['./schedule-home.component.scss']
 })
 export class ScheduleHomeComponent implements OnInit {
-  createNewSubject: boolean = false;
+
   no_standard_name: boolean = false;
-  no_subject_name: boolean = false;
-  currentView: string = 'standard';
-
-
   standardListDataSource;
   displayBatchSize = 10;
   standardList;
@@ -111,6 +107,9 @@ export class ScheduleHomeComponent implements OnInit {
       );
       this.standardList = searchData;
       this.totalRow = searchData.length;
+    }else{
+      this.fetchTableDataByPage(this.PageIndex);
+      this.totalRow = this.standardListDataSource.length;
     }
   }
 
@@ -128,7 +127,7 @@ export class ScheduleHomeComponent implements OnInit {
   updateRow(row, id) {
     debugger
     let data: any = {};
-    data.is_active = "Y";
+    data.is_active = row.is_active;
     data.standard_name = row.standard_name;
     data.institution_id = row.institution_id;
     console.log("data", data);
@@ -154,17 +153,6 @@ export class ScheduleHomeComponent implements OnInit {
       }
     )
   }
-
-
-  changeValueOfCheckBox(isActive) {
-    debugger
-    if (isActive == "Y") {
-      return "true";
-    } else {
-      return "false";
-    }
-  }
-
 
   // pagination functions 
 
@@ -214,16 +202,6 @@ export class ScheduleHomeComponent implements OnInit {
     }
   }
 
-  /* Function to set the createNewStandard View On/Off */
-  toggleCreateNewSubject() {
-    if (this.createNewSubject == false) {
-      this.createNewSubject = true;
-    } else {
-      this.no_subject_name = false;
-      this.createNewSubject = false;
-    }
-  }
-
   /* function to set-unset isActive status for add standard */
   toggleStandardActive(event) {
     if (event) {
@@ -234,7 +212,4 @@ export class ScheduleHomeComponent implements OnInit {
     }
   }
 
-  switchView(id) {
-    this.currentView = id;
-  }
 }

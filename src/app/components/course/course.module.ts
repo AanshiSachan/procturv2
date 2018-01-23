@@ -13,7 +13,7 @@ import { CourseExamComponent } from './course-exam/course-exam.component';
 import { CourseClassComponent } from './course-class/course-class.component';
 import { ScheduleHomeComponent } from './course-home/schedule-home.component';
 import { StandardServices } from '../../services/course-services/standard.service';
-import { ManipulateCheckBoxValue } from './checkBox.pipe';
+import { SubjectApiService } from '../../services/course-services/subject.service';
 
 @NgModule({
     imports: [
@@ -32,12 +32,12 @@ import { ManipulateCheckBoxValue } from './checkBox.pipe';
         CourseCourseListComponent,
         CourseExamComponent,
         CourseClassComponent,
-        ManipulateCheckBoxValue
     ],
     entryComponents: [
     ],
     providers: [
-        StandardServices
+        StandardServices,
+        SubjectApiService
     ]
 })
 export class CourseModule {
