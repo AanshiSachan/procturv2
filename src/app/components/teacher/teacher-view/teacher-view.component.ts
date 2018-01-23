@@ -20,8 +20,10 @@ export class TeacherViewComponent implements OnInit {
   selectedToDate = "";
   assignedBatchList: any = [];
   visitingBatchList: any = [];
-  totalClassesTaken: number =0;
-  totalHourSpent: number =0;
+  totalClassesTaken: number = 0;
+  totalHourSpent: number = 0;
+  teacherTakenClasses;
+  teacherTakenClassesPopUp: boolean = false;
 
   constructor(
     private route: Router,
@@ -80,8 +82,8 @@ export class TeacherViewComponent implements OnInit {
       data => {
         console.log(data);
         this.assignedBatchList = data;
-        this.totalClassesTaken = this.getPerticularKeyValue(data, "total_teacher_classes" , '');
-        this.totalHourSpent = this.getPerticularKeyValue(data , 'total_hours' , ' ');
+        this.totalClassesTaken = this.getPerticularKeyValue(data, "total_teacher_classes", '');
+        this.totalHourSpent = this.getPerticularKeyValue(data, 'total_hours', ' ');
       },
       error => {
         console.log(error)
@@ -105,13 +107,13 @@ export class TeacherViewComponent implements OnInit {
     this.route.navigateByUrl('teacher');
   }
 
-  getPerticularKeyValue(data, dataKey , splitOpearator) {
+  getPerticularKeyValue(data, dataKey, splitOpearator) {
     let totalCount: number = 0;
     for (let i = 0; i < data.length; i++) {
       if (data[i].hasOwnProperty(dataKey) && data[i][dataKey] != "" && data[i][dataKey] != null) {
-        if(splitOpearator != ""){
+        if (splitOpearator != "") {
           totalCount += Number(data[i][dataKey].split(' ')[0]);
-        }else{
+        } else {
           totalCount += data[i][dataKey];
         }
       }
@@ -122,13 +124,14 @@ export class TeacherViewComponent implements OnInit {
   exportDetailsInExcel() {
     console.log("Excel");
   }
-  
+
   printBtnClick() {
     window.print();
   }
 
-  viewDetailOfBatch(row , i) {
+  viewDetailOfBatch(row, i) {
     this.getBatchDetailsInfo(row);
+    this.teacherTakenClassesPopUp = true;
   }
 
   getBatchDetailsInfo(row) {
@@ -136,14 +139,19 @@ export class TeacherViewComponent implements OnInit {
     data.batch_id = row.batch_id;
     data.from_date = "";
     data.to_date = "";
-    this.ApiService.viewBatchDetails(data , this.selectedTeacherId).subscribe(
+    this.ApiService.viewBatchDetails(data, this.selectedTeacherId).subscribe(
       data => {
+        this.teacherTakenClasses = data;
         console.log(data);
       },
       error => {
         console.log(error);
       }
     )
+  }
+
+  teacherTakenClassesPopupClose() {
+    this.teacherTakenClassesPopUp = false;
   }
 
   /* Customiized click detection strategy */
