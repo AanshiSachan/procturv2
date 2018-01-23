@@ -1,0 +1,115 @@
+<div class="clearfix">
+    <div class="row">
+        <h2 class="pull-left" style="margin-left:15px">Add Teacher</h2>
+    </div>
+    <aside class="c-lg-6 c-md-6 c-sm-6">
+        <div class="pull-left">
+            <form [formGroup]="editTeacherForm" novalidate (ngSubmit)="saveTeacherInfo()">
+                <div class="row field-wrapper">
+                    <input type="text" class="form-ctrl" formControlName="teacher_name" name="name" (focus)="inputClickedCheck($event)">
+                    <label for="name">Teacher Name
+                        <span style="color:red">*</span>
+                    </label>
+                    <div *ngIf="editTeacherForm.controls['teacher_name'].invalid && (editTeacherForm.controls['teacher_name'].dirty || editTeacherForm.controls['teacher_name'].touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="editTeacherForm.controls['teacher_name'].hasError('required')">
+                            Teacher Name is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="row field-wrapper">
+                    <input type="text" class="form-ctrl" formControlName="teacher_curr_addr" name="CurrentAddress" (focus)="inputClickedCheck($event)">
+                    <label for="CurrentAddress">Current Address
+                    </label>
+                </div>
+                <div class="row field-wrapper">
+                    <input type="number" class="form-ctrl" formControlName="teacher_phone" name="contNumber" (focus)="inputClickedCheck($event)">
+                    <label for="contNumber">Contact Number
+                        <span style="color:red">*</span>
+                    </label>
+                    <div *ngIf="editTeacherForm.controls['teacher_phone'].invalid && (editTeacherForm.controls['teacher_phone'].dirty || editTeacherForm.controls['teacher_phone'].touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="editTeacherForm.controls['teacher_phone'].hasError('required')">
+                            Contact Number is required.
+                        </div>
+                        <div *ngIf="editTeacherForm.controls['teacher_phone'].hasError('minlength')">
+                            Contact Number is not valid.
+                        </div>
+                        <div *ngIf="editTeacherForm.controls['teacher_phone'].hasError('maxlength')">
+                            Contact Number is not valid.
+                        </div>
+                    </div>
+                </div>
+                <div class="row field-wrapper">
+                    <input type="text" class="form-ctrl" name="alternateNo" formControlName="teacher_alt_phone" (focus)="inputClickedCheck($event)">
+                    <label for="alternateNo">Alternate Contact Number
+                    </label>
+                </div>
+                <div class="row field-wrapper">
+                    <input type="text" class="form-ctrl" name="standard" formControlName="teacher_standards" (focus)="inputClickedCheck($event)">
+                    <label for="standard">Standard
+                    </label>
+                </div>
+                <div class="row field-wrapper">
+                    <input type="email" class="form-ctrl" name="emailID" formControlName="teacher_email" (focus)="inputClickedCheck($event)">
+                    <label for="emailID">Email Id
+                    </label>
+                </div>
+                <div class="row field-wrapper">
+                    <input type="text" class="form-ctrl" name="subject" formControlName="teacher_subjects" (focus)="inputClickedCheck($event)">
+                    <label for="subject">Subjects
+                    </label>
+                </div>
+                <div class="row field-wrapper">
+                    <input type="text" class="form-ctrl" name="salary" formControlName="hour_rate" (focus)="inputClickedCheck($event)">
+                    <label for="salary">Salary (Per Hour)
+                    </label>
+                </div>
+                <div class="extra-margin" style="margin-top: 15px;">
+
+                    <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+                        <div class="field-checkbox-wrapper">
+                            <input type="checkbox" value="" name="isActive" formControlName="is_active" class="form-checkbox">
+                            <label for="isActive">Is Active</label>
+                        </div>
+                    </div>
+
+                    <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+                        <div class="field-checkbox-wrapper">
+                            <input type="checkbox" value="" name="allow" formControlName="is_allow_teacher_to_only_mark_attendance" class="form-checkbox">
+                            <label for="allow">Allow teacher to only mark attendance</label>
+                        </div>
+                    </div>
+
+
+                    <div class="field-checkbox-wrapper" style="margin-left: -40px;">
+                        <div class="field-checkbox-wrapper">
+                            <input type="checkbox" value="" name="markAttendance" formControlName="is_student_mgmt_flag" class="form-checkbox">
+                            <label for="markAttendance">Allow teacher to view Contact details of student</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="pull-right">
+                        <button [disabled]='!editTeacherForm.valid' class="btn fullBlue" type="submit">Save</button>
+                        <button routerLink="/teacher" class="btn fullBlue">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </aside>
+    <aside class="c-lg-6 c-md-6 c-sm-6">
+        <div class="row">
+            <image-upload [removeImg]="true"></image-upload>
+        </div>
+        <div class="row">
+            <div class="row field-wrapper">
+                <input type="file" #idCardUpload accept="image/gif,image/jpeg,image/jpg,image/png" (change)="onChangeIdCardUpload()">
+            </div>
+            <div>
+                <img #uploadedImage class="imagePreview">
+            </div>
+        </div>
+    </aside>
+
+</div>

@@ -229,6 +229,7 @@ export class HomeComponent implements OnInit {
         k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
     );
     this.itemList = searchData;
+    this.totalRow = searchData.length;
   }
 
   // pagination functions 
