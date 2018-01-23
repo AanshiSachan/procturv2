@@ -192,15 +192,17 @@
                 {{row.comp_sal}}
               </td>
               <td>
-                <a>View Details</a>
+                <a style="cursor: pointer;" (click)="viewDetailOfVisitingBatch(row , i)">
+                  <i class="view-icon"></i>View
+                </a>
               </td>
             </tr>
             <tr *ngIf="(visitingBatchList.length > 0)">
               <td colspan="2" style="text-align:center;">
-                Total Classes Taken :
+                Total Classes Taken : {{visitingTotalClasses}}
               </td>
               <td colspan="2" style="text-align:center;">
-                Total Hours Spent :
+                Total Hours Spent : {{visitingTotalHour}}
               </td>
               <td colspan="2">
               </td>
@@ -222,7 +224,7 @@
 
 
 
-<!-- Teacher Classes Taken PopUp -->
+<!-- Common Popup for Visiting and Assigned Classes PopUp -->
 <!-- =============================================================================== -->
 <section id="popup" class="popupWrapper fadeIn" *ngIf="teacherTakenClassesPopUp">
   <div class="popup pos-abs popup-body-container">
@@ -239,52 +241,94 @@
           </g>
         </svg>
       </span>
-      <div class="popup-content">
-        <div>
-          <h2>Teacher Classes Taken</h2>
+      <div class="popup-content teacherPopUpWrapper">
+        <div *ngIf="(assignedOrGuestPopUp ==  'Assigned' )">
+          <div>
+            <h2>Teacher Classes Taken</h2>
+          </div>
+          <div class="popUpTableDiv">
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    Date
+                  </th>
+                  <th>
+                    Timing
+                  </th>
+                  <th>
+                    Class
+                  </th>
+                  <th>
+                    Class Taken
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="row{{i}}" *ngFor="let row of teacherTakenClasses; let i = index; trackBy: i;">
+                  <td>
+                    {{row.attendance_date}}
+                  </td>
+                  <td>
+                    {{row.start_time}} - {{row.end_time}}
+                  </td>
+                  <td>
+                    {{row.class_type}}
+                  </td>
+                  <td>
+                    {{row.is_class_taken}}
+                  </td>
+                </tr>
+                <tr *ngIf="(teacherTakenClasses == undefined || teacherTakenClasses == ''  )">
+                  <td colspan="4">
+                    No Data Found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div>
-          <table>
-            <thead>
-              <tr>
-                <th>
-                  Date
-                </th>
-                <th>
-                  Timing
-                </th>
-                <th>
-                  Class
-                </th>
-                <th>
-                  Class Taken
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let row of teacherTakenClasses ; let i = index ; trackBy : i">
-                <td>
-                  {{row.attendance_date}}
-                </td>
-                <td>
-                  {{row.start_time}} - {{row.end_time}}
-                </td>
-                <td>
-                  {{row.class_type}}
-                </td>
-                <td>
-                  {{row.is_class_taken}}
-                </td>
-              </tr>
-              <tr *ngIf="(teacherTakenClasses.length == 0)">
-                <td colspan="4">
-                  No Data Found
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div *ngIf="(assignedOrGuestPopUp ==  'Guest' )">
+          <div>
+            <h2>Classes(Visiting) Taken</h2>
+          </div>
+          <div class="popUpTableDiv">
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    Date
+                  </th>
+                  <th>
+                    Timing
+                  </th>
+                  <th>
+                    Class
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="row{{i}}" *ngFor="let row of guestBatchList; let i = index; trackBy: i;">
+                  <td>
+                    {{row.attendance_date}}
+                  </td>
+                  <td>
+                    {{row.start_time}} - {{row.end_time}}
+                  </td>
+                  <td>
+                    <span *ngIf="!(row.class_type == 'WEEK')">{{row.class_type}}</span>
+                    <span>Regular</span>
+                  </td>
+                </tr>
+                <tr *ngIf="(guestBatchList == undefined || guestBatchList == ''  )">
+                  <td colspan="3">
+                    No Data Found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-
       </div>
     </div>
   </div>

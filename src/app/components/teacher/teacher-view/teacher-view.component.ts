@@ -22,8 +22,12 @@ export class TeacherViewComponent implements OnInit {
   visitingBatchList: any = [];
   totalClassesTaken: number = 0;
   totalHourSpent: number = 0;
-  teacherTakenClasses;
+  visitingTotalClasses: number = 0;
+  visitingTotalHour: number = 0;
+  teacherTakenClasses: any;
   teacherTakenClassesPopUp: boolean = false;
+  guestBatchList: any;
+  assignedOrGuestPopUp = "";
 
   constructor(
     private route: Router,
@@ -96,6 +100,8 @@ export class TeacherViewComponent implements OnInit {
       data => {
         console.log(data);
         this.visitingBatchList = data;
+        this.visitingTotalClasses = this.getPerticularKeyValue(data, "total_teacher_classes", '');
+        this.visitingTotalHour = this.getPerticularKeyValue(data, 'total_hours', ' ');
       },
       error => {
         console.log(error)
@@ -130,8 +136,9 @@ export class TeacherViewComponent implements OnInit {
   }
 
   viewDetailOfBatch(row, i) {
-    this.getBatchDetailsInfo(row);
+    this.assignedOrGuestPopUp = "Assigned";
     this.teacherTakenClassesPopUp = true;
+    this.getBatchDetailsInfo(row);
   }
 
   getBatchDetailsInfo(row) {
@@ -140,7 +147,7 @@ export class TeacherViewComponent implements OnInit {
     data.from_date = "";
     data.to_date = "";
     this.ApiService.viewBatchDetails(data, this.selectedTeacherId).subscribe(
-      data => {
+      (data: any) => {
         this.teacherTakenClasses = data;
         console.log(data);
       },
@@ -151,7 +158,26 @@ export class TeacherViewComponent implements OnInit {
   }
 
   teacherTakenClassesPopupClose() {
+    this.assignedOrGuestPopUp = "";
     this.teacherTakenClassesPopUp = false;
+  }
+
+  viewDetailOfVisitingBatch(row, i) {
+    this.assignedOrGuestPopUp = "Guest";
+    this.teacherTakenClassesPopUp = true;
+    let data: any = {};
+    data.batch_id = row.batch_id;
+    data.from_date = "";
+    data.to_date = "";
+    this.ApiService.viewBatchDetails(data, this.selectedTeacherId).subscribe(
+      (data: any) => {
+        this.guestBatchList = data;
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    )
   }
 
   /* Customiized click detection strategy */
