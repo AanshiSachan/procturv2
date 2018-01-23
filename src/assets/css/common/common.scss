@@ -1303,3 +1303,15 @@ select.form-new-field {
     display: inline-block;
     vertical-align: middle;
 }
+
+
+.alert-danger{
+    color: red !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.alert{
+    padding: 0px !important;
+    margin-bottom: 0px !important;
+}
