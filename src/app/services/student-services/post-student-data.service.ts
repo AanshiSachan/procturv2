@@ -109,8 +109,9 @@ export class PostStudentDataService {
     }
 
 
-    allocateStudentInventory(obj){
 
+    allocateStudentInventory(obj){
+      
         let urlInventory = this.baseUrl +"/api/v1/inventory/item/allocate";
 
         return this.http.post(urlInventory, obj, {headers: this.headers}).map(
