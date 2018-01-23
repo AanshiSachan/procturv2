@@ -49,6 +49,9 @@ export class HomeComponent implements OnInit {
   subBranchItemList: any;
   showAvailableUnits: boolean = false;
   availabelItemCount: any;
+  showAllocationHistoryPopUp: boolean = false;
+  allocationHistoryList;
+  itemName;
 
   header: any = {
     inventory_item: { id: 'inventory_item', title: 'Inventory Item', filter: false, show: true },
@@ -221,6 +224,24 @@ export class HomeComponent implements OnInit {
         console.log(error);
       }
     )
+  }
+
+
+  allocationDetails(row, i) {
+    this.itemName = row.item_name;
+    this.inventoryApi.getInventoryItemHistory(row.item_id).subscribe(
+      data => {
+        this.showAllocationHistoryPopUp = true;
+        this.allocationHistoryList = data;
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  closeAllocationItemHistoryPopup() {
+    this.showAllocationHistoryPopUp = false;
   }
 
   searchDatabase(element) {

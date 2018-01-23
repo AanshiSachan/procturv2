@@ -192,5 +192,16 @@ export class InventoryService {
     );
   }
 
+  getInventoryItemHistory(item_id) {
+    let url = this.baseUrl + "/api/v1/inventory/item/txHistory/" + item_id;
+    return this.http.get(url , {headers : this.headers}).map(
+      res => {
+        return res.json();
+      },
+      error => {
+        return error;
+      }
+    )
+  }
 
 }

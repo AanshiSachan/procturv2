@@ -122,9 +122,9 @@ export class CourseSubjectComponent implements OnInit {
       this.toastCtrl.popToast(data);
       return false;
     } else {
-      if(this.newSubjectDetails.is_active == true){
+      if (this.newSubjectDetails.is_active == true) {
         this.newSubjectDetails.is_active = "Y";
-      }else{
+      } else {
         this.newSubjectDetails.is_active = "N";
       }
       this.apiService.createNewSubject(this.newSubjectDetails).subscribe(
@@ -173,9 +173,13 @@ export class CourseSubjectComponent implements OnInit {
   toggleCreateNewSubject() {
     if (this.createNewSubject == false) {
       this.createNewSubject = true;
+      document.getElementById('showCloseBtnSubject').style.display = '';
+      document.getElementById('showAddBtnSubject').style.display = 'none';
     } else {
       this.no_subject_name = false;
       this.createNewSubject = false;
+      document.getElementById('showCloseBtnSubject').style.display = 'none';
+      document.getElementById('showAddBtnSubject').style.display = '';
     }
   }
 
