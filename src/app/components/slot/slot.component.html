@@ -1,0 +1,74 @@
+<div class="clearfix">
+  <div class="pull-left">
+    <h2>Slots/Custom 1</h2>
+  </div>
+  <div class="c-sm-12" style="margin-bottom: 15px;">
+    <div class="c-sm-6">
+    </div>
+    <div class="c-sm-3">
+      <div class="row field-wrapper">
+        <input type="text" #idSlot class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+        <label for="slotNew">Slot
+        </label>
+      </div>
+    </div>
+    <div class="c-sm-3">
+      <button class="btn" (click)="addNewSlot(idSlot)">Add</button>
+    </div>
+  </div>
+  <div id="divSlotTable">
+    <div class="table-scroll-wrapper">
+      <div class="table table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                S No.
+              </th>
+              <th>
+                Name
+              </th>
+              <th>
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="row{{i}}" class="displayComp" *ngFor="let row of slotTableList; let i = index; trackBy: i;">
+              <td>
+                {{i}}
+              </td>
+
+              <td class="view-comp">
+                {{row.slot_name}}
+              </td>
+              <td class="edit-comp">
+                <div class="field-wrapper">
+                  <input type="text" class="form-ctrl" [(ngModel)]="row.slot_name" name="label">
+                </div>
+              </td>
+
+              <td class="view-comp">
+                <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
+              </td>
+              <td class="edit-comp">
+                <a class="anchorTagCursor" (click)="saveSlotInformation(row , i)"> Save  </a>
+                <a class="anchorTagCursor" (click)="cancelEditRow(i)"> Cancel </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paginator Here -->
+  <div class="row filter-res pagination" style="width: 100%;">
+    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+        [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+      </pagination>
+    </div>
+  </div>
+
+</div>

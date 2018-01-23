@@ -3,6 +3,7 @@ import { AppComponent } from './app.component';
 import { CoreSidednavComponent } from './components/core/core-sidednav/core-sidednav.component';
 import { CoreHeaderComponent } from './components/core/core-header/core-header.component';
 import { AppLoaderComponent } from './components/app-loader/app-loader.component'
+import { SlotComponent } from './components/slot/slot.component';
 
 /* Modules */
 import { BrowserModule } from '@angular/platform-browser';
@@ -42,7 +43,8 @@ import { ComingSoonComponent } from './components/coming-soon/coming-soon.compon
 import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.component';
 import { PostStudentDataService } from './services/student-services/post-student-data.service';
 import { Ng2OrderModule } from 'ng2-order-pipe'; 
-
+import { SharedModule } from './components/shared/shared.module';
+import { SlotApiService } from './services/slot-service/slot.service';
 
 @NgModule({
   imports: [
@@ -57,6 +59,7 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
     ToasterModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
+    SharedModule
     Ng2OrderModule
   ],
   declarations: [
@@ -67,6 +70,7 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
     ErrorComponent,
     ComingSoonComponent,
     OverlayMenuComponent,
+    SlotComponent,
 
   ],
   entryComponents: [
@@ -84,7 +88,8 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
     LoaderHandlingService,
     PostStudentDataService,
     CampaignService,
-    InventoryService
+    InventoryService,
+    SlotApiService
   ],
   bootstrap: [AppComponent]
 })
