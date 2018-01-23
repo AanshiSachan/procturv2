@@ -59,7 +59,7 @@ import { SlotApiService } from './services/slot-service/slot.service';
     ToasterModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
-    SharedModule
+    SharedModule,
     Ng2OrderModule
   ],
   declarations: [
