@@ -42,17 +42,14 @@ import { ErrorComponent } from './components/error/error.component';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
 import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.component';
 import { PostStudentDataService } from './services/student-services/post-student-data.service';
-
-import { OrderModule } from '../assets/imported_modules/orderBy/proctur-order.module';
+import { Ng2OrderModule } from 'ng2-order-pipe'; 
 import { SharedModule } from './components/shared/shared.module';
 import { SlotApiService } from './services/slot-service/slot.service';
-
 
 @NgModule({
   imports: [
     BrowserModule,
     AppRoutingModule,
-    OrderModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -63,6 +60,7 @@ import { SlotApiService } from './services/slot-service/slot.service';
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
     SharedModule
+    Ng2OrderModule
   ],
   declarations: [
     AppComponent,
