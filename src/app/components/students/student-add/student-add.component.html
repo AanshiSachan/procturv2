@@ -1,4 +1,4 @@
-<section class="middle-section clearFix" (click)="inputClicked($event)" [ngBusy]="{busy: busyPrefill, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
+<section class="middle-section clearFix" (click)="inputClicked($event)" (change)="inputClicked($event)" [ngBusy]="{busy: busyPrefill, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
 
 
   <section class="" id="studentFlow">
@@ -510,14 +510,13 @@
     <!-- =============== Fee Details =============================== -->
     <section class="student-flow-wrapper " *ngIf="isFeeActive" id="feeDetails">
       <section class="fee-section-page">
-
         <!--====================================middle Top section==========================-->
         <section class="middle-top clearFix">
           <h1 class="pull-left">
             Fees
           </h1>
           <aside class="pull-right btn-diff">
-            <button class="btn">
+            <!-- <button class="btn">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                 <g fill="none" fill-rule="evenodd">
                   <path fill="#0084F6" fill-rule="nonzero" d="M7.856 13.359h3.708v1H7.856zM7.856 15.647h4.451v1H7.856zM14.534 15.647h2.97v1h-2.97zM7.856 17.935H20.47v1H7.856z"
@@ -530,7 +529,7 @@
                 </g>
               </svg>
               <span>Add PDC</span>
-            </button>
+            </button> -->
             <button class="btn" *ngIf="feeTemplateById.template_name == ''" (click)="configureFees($event)">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                 <g fill="#0084F6" fill-rule="nonzero">
@@ -701,6 +700,7 @@
         </section>
 
       </section>
+
     </section>
     <!-- ======================================================== -->
     <!-- ======================================================== -->
@@ -765,8 +765,7 @@
                       </td>
                       <td>
                         <div class="field-wrapper">
-                          <input type="number" class="form-ctrl" placeholder="Add unit" min="0" max="{{item.available_units}}" [(ngModel)]="item.units_added"
-                            name="amt">
+                          <input type="number" class="form-ctrl" placeholder="Add unit" min="0" max="{{item.available_units}}" [(ngModel)]="item.units_added" (blur)="inventoryItemUpdated(item.units_added, i, item.available_units)" name="amt">
                         </div>
                       </td>
                     </tr>
@@ -786,13 +785,15 @@
             </aside>
           </section>
         </aside>
+
       </section>
 
     </section>
     <!-- ======================================================== -->
     <!-- ======================================================== -->
+    
   </section>
-
+     
 
 
 
@@ -1213,7 +1214,7 @@
                   <thead>
                     <tr>
                       <th>Installment # </th>
-                      <th>Due Date</th>
+                      <th (click)="sort('due_date')">Due Date</th>
                       <th>Amount</th>
                       <th>Tax</th>
                       <th>Fee Amount Incl Tax</th>
@@ -1221,13 +1222,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let fee of instalmentTableData; let i = index;">
+                    <tr *ngFor="let fee of instalmentTableData| orderBy: key : reverse; let i = index;">
                       <td>
-                         # {{fee.installment_no}}
+                        # {{i+1}}
                       </td>
                       <td>
                         <div class="field-wrapper datePickerBox">
-                          <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="updateTableInstallment()" [(ngModel)]="fee.due_date"
+                          <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)" [(ngModel)]="fee.due_date"
                             bsDatepicker>
                         </div>
                       </td>
@@ -1392,35 +1393,45 @@
     <div class="configureFee" popup-content>
 
       <div class="row">
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
 
-        <div class="field-wrapper has-value">
-          <select id="dtype" name="dtype" [(ngModel)]="discountApplyForm.type" class="form-ctrl">
-            <option value="amount">Amount</option>
-            <option value="percentage">Percentage</option>
-          </select>
-          <label for="dtype">Discount Type*</label>
-        </div>
-
-        <div class="field-wrapper">
-          <input type="number" value="" id="ref" class="form-ctrl" name="ref" [(ngModel)]="discountApplyForm.value"/>
-          <label for="ref">Discount Value*</label>
-        </div>
-
-        <div class="field-wrapper">
-          <input type="text" value="" id="rema" class="form-ctrl" name="rema" [(ngModel)]="discountApplyForm.reason"/>
-          <label for="rema">Discount Reason*</label>
-        </div>
-
-        <div class="" style="margin-top:10px;">
-          <div class="field-radio-wrapper">
-            <input class="form-radio" type="radio" name="discount" value="all" id='r1' [(ngModel)]="discountApplyForm.state" checked>
-            <label for="r1">Equal in all installment</label>
+          <div class="field-wrapper has-value">
+            <select id="dtype" name="dtype" [(ngModel)]="discountApplyForm.type" class="form-ctrl">
+              <option value="amount">Amount</option>
+              <option value="percentage">Percentage</option>
+            </select>
+            <label for="dtype">Discount Type*</label>
           </div>
 
-          <div class="field-radio-wrapper">
-            <input class="form-radio" type="radio" name="discount" value="last" id='r2' [(ngModel)]="discountApplyForm.state">
-            <label for="r2">In last installment</label>
+          <div class="field-wrapper">
+            <input type="number" value="" id="ref" class="form-ctrl" name="ref" [(ngModel)]="discountApplyForm.value" />
+            <label for="ref">Discount Value*</label>
           </div>
+
+          <div class="field-wrapper">
+            <input type="text" value="" id="rema" class="form-ctrl" name="rema" [(ngModel)]="discountApplyForm.reason" />
+            <label for="rema">Discount Reason*</label>
+          </div>
+
+          <div style="margin: 15px 0px">
+            <h4>Total Discount Amount : &#8377; {{getTotalDiscountAmount()}}</h4>
+          </div>
+
+          <div class="" style="margin-top:10px;">
+            <div class="field-radio-wrapper">
+              <input class="form-radio" type="radio" name="discount" value="all" id='r1' [(ngModel)]="discountApplyForm.state" checked>
+              <label for="r1">Equal in all installment</label>
+            </div>
+
+            <div class="field-radio-wrapper">
+              <input class="form-radio" type="radio" name="discount" value="last" id='r2' [(ngModel)]="discountApplyForm.state">
+              <label for="r2">In last installment</label>
+            </div>
+          </div>
+
+        </div>
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+
         </div>
       </div>
 
@@ -1441,69 +1452,69 @@
   <!-- ===============Manage PDC ============================ -->
   <student-pop-up *ngIf="isPdcApply">
 
-      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isPdcApply = false" close-button>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-            </g>
-            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-            />
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isPdcApply = false" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
           </g>
-        </svg>
-      </span>
-  
-      <h2 popup-header style="padding: 10px 5px;">Manage PDC</h2>
-  
-      <div class="configureFee" popup-content>
-  
-        <div class="row">
-  
-          <div class="field-wrapper has-value">
-            <select id="dtype" name="dtype" [(ngModel)]="discountApplyForm.type" class="form-ctrl">
-              <option value="amount">Amount</option>
-              <option value="percentage">Percentage</option>
-            </select>
-            <label for="dtype">Discount Type*</label>
-          </div>
-  
-          <div class="field-wrapper">
-            <input type="number" value="" id="ref" class="form-ctrl" name="ref" [(ngModel)]="discountApplyForm.value"/>
-            <label for="ref">Discount Value*</label>
-          </div>
-  
-          <div class="field-wrapper">
-            <input type="text" value="" id="rema" class="form-ctrl" name="rema" [(ngModel)]="discountApplyForm.reason"/>
-            <label for="rema">Discount Reason*</label>
-          </div>
-  
-          <div class="" style="margin-top:10px;">
-            <div class="field-radio-wrapper">
-              <input class="form-radio" type="radio" name="discount" value="all" id='r1' [(ngModel)]="discountApplyForm.state" checked>
-              <label for="r1">Equal in all installment</label>
-            </div>
-  
-            <div class="field-radio-wrapper">
-              <input class="form-radio" type="radio" name="discount" value="last" id='r2' [(ngModel)]="discountApplyForm.state">
-              <label for="r2">In last installment</label>
-            </div>
-          </div>
-          
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+
+    <h2 popup-header style="padding: 10px 5px;">Manage PDC</h2>
+
+    <div class="configureFee" popup-content>
+
+      <div class="row">
+
+        <div class="field-wrapper has-value">
+          <select id="dtype" name="dtype" [(ngModel)]="discountApplyForm.type" class="form-ctrl">
+            <option value="amount">Amount</option>
+            <option value="percentage">Percentage</option>
+          </select>
+          <label for="dtype">Discount Type*</label>
         </div>
-  
-      </div>
-  
-      <div class="" popup-footer>
-        <div class="clearfix">
-          <aside class="pull-right popup-btn">
-            <input type="button" value="Cancel" class="btn" (click)="closeDiscountApply()">
-            <input type="button" value="Apply" (click)="applyDiscount()" class="redBtn btn">
-          </aside>
+
+        <div class="field-wrapper">
+          <input type="number" value="" id="ref" class="form-ctrl" name="ref" [(ngModel)]="discountApplyForm.value" />
+          <label for="ref">Discount Value*</label>
         </div>
+
+        <div class="field-wrapper">
+          <input type="text" value="" id="rema" class="form-ctrl" name="rema" [(ngModel)]="discountApplyForm.reason" />
+          <label for="rema">Discount Reason*</label>
+        </div>
+
+        <div class="" style="margin-top:10px;">
+          <div class="field-radio-wrapper">
+            <input class="form-radio" type="radio" name="discount" value="all" id='r1' [(ngModel)]="discountApplyForm.state" checked>
+            <label for="r1">Equal in all installment</label>
+          </div>
+
+          <div class="field-radio-wrapper">
+            <input class="form-radio" type="radio" name="discount" value="last" id='r2' [(ngModel)]="discountApplyForm.state">
+            <label for="r2">In last installment</label>
+          </div>
+        </div>
+
       </div>
-  
-    </student-pop-up>
+
+    </div>
+
+    <div class="" popup-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeDiscountApply()">
+          <input type="button" value="Apply" (click)="applyDiscount()" class="redBtn btn">
+        </aside>
+      </div>
+    </div>
+
+  </student-pop-up>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- ======================================================== -->

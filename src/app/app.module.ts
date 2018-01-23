@@ -42,13 +42,12 @@ import { ComingSoonComponent } from './components/coming-soon/coming-soon.compon
 import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.component';
 import { PostStudentDataService } from './services/student-services/post-student-data.service';
 import { Ng2OrderModule } from 'ng2-order-pipe'; 
-import { OrderModule } from '../assets/imported_modules/orderBy/proctur-order.module';
+
 
 @NgModule({
   imports: [
     BrowserModule,
     AppRoutingModule,
-    OrderModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -57,7 +56,8 @@ import { OrderModule } from '../assets/imported_modules/orderBy/proctur-order.mo
     Ng2SmartTableModule,
     ToasterModule,
     BsDatepickerModule.forRoot(),
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
+    Ng2OrderModule
   ],
   declarations: [
     AppComponent,

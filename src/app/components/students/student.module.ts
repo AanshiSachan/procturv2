@@ -25,6 +25,7 @@ import { StudentBulkComponent } from './student-bulk/student-bulk.component';
 import { SharedModule } from '../shared/shared.module';
 import { SortPipe } from "./student-add/student-add.component";
 import { StudentSidebarComponent } from './student-sidebar/student-sidebar.component';
+import { Ng2OrderModule } from 'ng2-order-pipe';
 
 @NgModule({
     imports: [
@@ -36,6 +37,7 @@ import { StudentSidebarComponent } from './student-sidebar/student-sidebar.compo
         Ng2SmartTableModule,
         BsDatepickerModule,
         BusyModule,
+        Ng2OrderModule,
         NgLoggerModule.forRoot(Level.LOG),
         FileUploadModule, SplitButtonModule, MenuModule,
         SharedModule
