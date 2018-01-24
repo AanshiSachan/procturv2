@@ -14,6 +14,7 @@ import { CourseClassComponent } from './course-class/course-class.component';
 import { ScheduleHomeComponent } from './course-home/schedule-home.component';
 import { StandardServices } from '../../services/course-services/standard.service';
 import { SubjectApiService } from '../../services/course-services/subject.service';
+import { CourseListService } from '../../services/course-services/course-list.service';
 
 @NgModule({
     imports: [
@@ -37,7 +38,8 @@ import { SubjectApiService } from '../../services/course-services/subject.servic
     ],
     providers: [
         StandardServices,
-        SubjectApiService
+        SubjectApiService,
+        CourseListService
     ]
 })
 export class CourseModule {

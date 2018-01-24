@@ -27,9 +27,9 @@ export class CourseComponent implements OnInit {
       this.switchActiveView('liStandard');
     } else if (this.router.url.includes('subject')) {
       this.switchActiveView('liSubject');
-    } else if (this.router.url.includes('exam')) {
-      this.switchActiveView('liCourses');
     } else if (this.router.url.includes('courselist')) {
+      this.switchActiveView('liCourses');
+    } else if (this.router.url.includes('exam')) {
       this.switchActiveView('liExam');
     } else if (this.router.url.includes('class')) {
       this.switchActiveView('liClass');
