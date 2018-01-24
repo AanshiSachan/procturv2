@@ -1321,7 +1321,7 @@ export class StudentAddComponent implements OnInit {
       this.paymentStatusArr.forEach(el => { el.isPaid = el.uiSelected });
       this.feeTemplateById.paid_date = moment(this.feeTemplateById.paid_date).format("YYYY-MM-DD");
       this.feeTemplateById.studentwise_total_fees_amount_paid = this.totalFeePaid;
-      //alert(this.feeTemplateById.studentwise_total_fees_amount_paid);
+      this.feeTemplateById.studentwise_total_fees_balance_amount = this.feeTemplateById.studentwise_total_fees_amount - this.feeTemplateById.studentwise_total_fees_amount_paid - this.feeTemplateById.studentwise_total_fees_discount;
       this.closePaymentDetails();
     }
   }
@@ -2087,7 +2087,6 @@ export class StudentAddComponent implements OnInit {
               installmentPaidArr.forEach(i => {
                 this.instalmentTableData[i].fees_amount = this.instalmentTableData[i].fees_amount - discount;
               });
-
               this.isDiscountApplied = true;
               this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason) : moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason);
               this.applyDiscountCustomFeeSchedule();

@@ -423,7 +423,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   /* navigate the user to edit page for the specific student */
   editStudent(id) {
     localStorage.setItem('studentId', id);
-    this.router.navigate(['/student/edit']);
+    this.router.navigate(['/student/edit/'+id]);
   }
 
 

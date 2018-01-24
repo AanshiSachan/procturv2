@@ -2,7 +2,6 @@
 import { AppComponent } from './app.component';
 import { CoreSidednavComponent } from './components/core/core-sidednav/core-sidednav.component';
 import { CoreHeaderComponent } from './components/core/core-header/core-header.component';
-import { AppLoaderComponent } from './components/app-loader/app-loader.component'
 import { SlotComponent } from './components/slot/slot.component';
 
 /* Modules */
@@ -65,12 +64,10 @@ import { SlotApiService } from './services/slot-service/slot.service';
     AppComponent,
     CoreSidednavComponent,
     CoreHeaderComponent,
-    AppLoaderComponent,
     ErrorComponent,
     ComingSoonComponent,
     OverlayMenuComponent,
-    SlotComponent,
-
+    SlotComponent
   ],
   entryComponents: [
   ],

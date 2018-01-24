@@ -1,11 +1,8 @@
-<section class="middle-section clearFix" (click)="inputClicked($event)" [ngBusy]="{busy: busyPrefill, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
-
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<section class="middle-section clearFix" (click)="inputClicked($event)" (change)="inputClicked($event)" [ngBusy]="{busy: busyPrefill, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
 
   <section class="" id="studentFlow">
-
-
-
-
 
     <!-- ======================================================== -->
     <!-- =====================  Form Navigations================= -->
@@ -23,13 +20,13 @@
             <p id="kyc-icon">Other Details</p>
           </div>
         </li>
-        <li class="" id="li-three">
+        <li class="" id="li-three" [class.hide]="quickAddStudent">
           <div class="navigator" id="feeDetails-icon" (click)="switchToView($event.target.id)">
             <span id="feeDetails-icon">3</span>
             <p id="feeDetails-icon">Fee Details</p>
           </div>
         </li>
-        <li class="" id="li-four">
+        <li class="" id="li-four" [class.hide]="quickAddStudent">
           <div class="navigator" id="inventory-icon" (click)="switchToView($event.target.id)">
             <span id="inventory-icon">4</span>
             <p id="inventory-icon">Inventory</p>
@@ -40,20 +37,13 @@
     <!-- ======================================================== -->
     <!-- ======================================================== -->
 
-
-
-
-
-
     <!-- ======================================================== -->
     <!-- ======================================================== -->
     <!-- ========Student Main Enquiry Form ====================== -->
     <form #values="ngForm" (ngSubmit)="studentQuickAdder(values)">
-
-
       <!-- ======================================================== -->
       <!-- ======================================================== -->
-      <section class="student-flow-wrapper boxPadding15" id="studentForm">
+      <section class="student-flow-wrapper boxPadding15" *ngIf="isBasicActive" id="studentForm">
         <!-- Form Header -->
         <section class="middle-top clearFix">
           <h1 class="pull-left">
@@ -64,7 +54,7 @@
               <div class="questionInfo">
                 <span class="qInfoIcon">?</span>
                 <div class="tooltip-box-field">
-                  Show-Why and when to Quick Edit Student
+                  Show-Why and when to quick Add Student
                 </div>
               </div>
               <a style="cursor:pointer">Need help?</a>
@@ -80,9 +70,8 @@
             <div class="row">
               <div class="c-lg-8 c-md-8 c-sm-8">
                 <div class="form-type1">
-
-                  <div class="field-wrapper has-value">
-                    <input type="text" value="" class="form-ctrl" id="sName" [(ngModel)]="studentEditFormData.student_name" name="sName" maxlength="50"
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_name != ''}">
+                    <input type="text" value="" class="form-ctrl" id="sName" [(ngModel)]="studentAddFormData.student_name" name="sName" maxlength="50"
                       pattern="[a-zA-Z .]+[a-zA-Z .]+" #sname="ngModel" required>
                     <label for="sName">Student Name*</label>
                     <div *ngIf="sname.invalid && (sname.dirty || sname.touched)" class="alert invalid-alert">
@@ -95,8 +84,8 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper has-value">
-                    <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="studentEditFormData.student_phone" name="cNumber"
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_phone != ''}">
+                    <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
                       maxlength="10" minlength="10" #cNumber="ngModel" pattern="[789][0-9]{9}" required/>
                     <label for="cNumber">Contact Number*</label>
                     <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
@@ -109,8 +98,8 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper has-value">
-                    <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="studentEditFormData.student_email" name="sEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_email != ''}">
+                    <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.student_email" name="sEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                       #sEmail="ngModel" />
                     <label for="sEmail">Email ID</label>
                     <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">
@@ -120,8 +109,8 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper has-value">
-                    <select id="userGender" class="form-ctrl" [(ngModel)]="studentEditFormData.student_sex" name="userGender">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_sex != ''}">
+                    <select id="userGender" class="form-ctrl" [(ngModel)]="studentAddFormData.student_sex" name="userGender">
                       <option value=""></option>
                       <option value="M">Male</option>
                       <option value="F">Female</option>
@@ -130,8 +119,8 @@
                     <label for="userGender">Gender</label>
                   </div>
 
-                  <div class="field-wrapper has-value">
-                    <input type="text" value="" id="parentName" class="form-ctrl" [(ngModel)]="studentEditFormData.parent_name" name="parentName"
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_name != ''}">
+                    <input type="text" value="" id="parentName" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_name" name="parentName"
                       maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+" #parentName="ngModel">
                     <label for="parentName">Parent Name</label>
                     <div *ngIf="parentName.invalid && (parentName.dirty || parentName.touched)" class="alert invalid-alert">
@@ -141,8 +130,8 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper has-value">
-                    <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentEditFormData.parent_phone" name="parentContactNo"
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_phone != ''}">
+                    <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
                       maxlength="10" minlength="10" pattern="[789][0-9]{9}" #parentContactNo="ngModel" />
                     <label for="parentContactNo">Parent Contact Number</label>
                     <div *ngIf="parentContactNo.invalid && (parentContactNo.dirty || parentContactNo.touched)" class="alert invalid-alert">
@@ -152,8 +141,8 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper has-value">
-                    <input type="text" value="" id="parentEmail" class="form-ctrl" [(ngModel)]="studentEditFormData.parent_email" name="parentEmail"
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_email != ''}">
+                    <input type="text" value="" id="parentEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_email" name="parentEmail"
                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #parentEmail="ngModel">
                     <label for="parentEmail">Parent Email ID</label>
                     <div *ngIf="parentEmail.invalid && (parentEmail.dirty || parentEmail.touched)" class="alert invalid-alert">
@@ -166,10 +155,11 @@
                   <div class="more-detail">
                     <a style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+ &nbsp; Add Additional Details</a>
                   </div>
+
                 </div>
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <image-upload [removeImg]="removeImage">        
+                <image-upload [removeImg]="removeImage">
                 </image-upload>
               </div>
             </div>
@@ -179,20 +169,20 @@
                 <div class="form-type2" [hidden]="!additionalBasicDetails">
                   <h2>Additional Details</h2>
 
-                  <div class="field-wrapper has-value datePickerBox">
-                    <input type="text" value="" id="sdob" class="form-ctrl bsDatepicker" name="sdob" [(ngModel)]="studentEditFormData.dob" #sdob="ngModel"
+                  <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': studentAddFormData.dob != ''}">
+                    <input type="text" value="" id="sdob" class="form-ctrl bsDatepicker" name="sdob" [(ngModel)]="studentAddFormData.dob" #sdob="ngModel"
                       bsDatepicker>
                     <label for="sdob">Date of Birth</label>
                   </div>
 
-                  <div class="field-wrapper has-value">
-                    <input type="text" value="" id="currentAdd" name="currentAdd" [(ngModel)]="studentEditFormData.student_curr_addr" class="form-ctrl">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_curr_addr != ''}">
+                    <input type="text" value="" id="currentAdd" name="currentAdd" [(ngModel)]="studentAddFormData.student_curr_addr" class="form-ctrl">
                     <label for="currentAdd">Current Address Line1</label>
                   </div>
 
-                  <div class="field-wrapper has-value">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_name != ''}">
                     <input type="text" value="" id="guardianName" class="form-ctrl" maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+" name="guardianName"
-                      [(ngModel)]="studentEditFormData.guardian_name" #guardianName="ngModel" />
+                      [(ngModel)]="studentAddFormData.guardian_name" #guardianName="ngModel" />
                     <label for="guardianName">Guardian Name</label>
                     <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianName.errors.pattern">
@@ -208,8 +198,8 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper has-value">
-                    <input type="text" value="" id="guardianContact" class="form-ctrl" maxlength="10" minlength="10" [(ngModel)]="studentEditFormData.guardian_phone"
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_phone != ''}">
+                    <input type="text" value="" id="guardianContact" class="form-ctrl" maxlength="10" minlength="10" [(ngModel)]="studentAddFormData.guardian_phone"
                       name="guardianContact" pattern="[789][0-9]{9}" #guardianContact="ngModel">
                     <label for="guardianContact">Guardian Contact Number</label>
                     <div *ngIf="guardianContact.invalid && (guardianContact.dirty || guardianContact.touched)" class="alert invalid-alert">
@@ -225,9 +215,9 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper has-value">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_email != ''}">
                     <input type="text" value="" id="guardianEmail" class="form-ctrl" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" name="guardianEmail"
-                      [(ngModel)]="studentEditFormData.guardian_email" #guardianEmail="ngModel" />
+                      [(ngModel)]="studentAddFormData.guardian_email" #guardianEmail="ngModel" />
                     <label for="guardianEmail">Guardian Email Id</label>
                     <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianEmail.errors.pattern">
@@ -236,8 +226,8 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper has-value">
-                    <input type="text" value="" name="addCommentNote" [(ngModel)]="studentEditFormData.comments" id="addCommentNote" class="form-ctrl">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.comments != ''}">
+                    <input type="text" value="" name="addCommentNote" [(ngModel)]="studentAddFormData.comments" id="addCommentNote" class="form-ctrl">
                     <label for="addCommentNote">Add Comment Note</label>
                   </div>
 
@@ -251,39 +241,38 @@
 
 
             <div class="common-right-section">
-           
             </div>
 
 
             <!-- Enquiry Details official use-->
             <section class="enquiry-detail common-right-section">
-         
               <h4>
-                <strong>Administration Details</strong> (Official Use)
-              </h4>
+                <strong>Administration Details</strong> (Official Use)</h4>
               <div class="box-shadow-lite">
 
-                <div class="field-wrapper datePickerBox has-value">
-                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" [(ngModel)]="studentEditFormData.doj" />
+                <div class="field-wrapper datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}">
+                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" [(ngModel)]="studentAddFormData.doj"
+                  />
                   <label for="doj">Date of Joining</label>
                   <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span>
                 </div>
 
-                <div class="field-wrapper has-value">
-                  <select id="schoolStitution" name="schoolStitution" [(ngModel)]="studentEditFormData.school_name" class="form-ctrl">
+                <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.school_name != ''}">
+                  <select id="schoolStitution" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name" class="form-ctrl">
                     <option></option>
-                    <option [value]="institute.school_id" *ngFor="let institute of instituteList" [attr.selected]="institute.school_name == studentEditFormData.school_name ? '' : null">
+                    <option [value]="institute.school_id" *ngFor="let institute of instituteList">
                       {{institute.school_name}}
                     </option>
                   </select>
                   <label for="schoolStitution">School/Institution</label>
+                  <span class="open-accor" (click)="openInstituteAdder()">+</span>
                 </div>
 
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
-                <div class="field-wrapper has-value" *ngIf="isAcad">
-                  <select id="standard" [(ngModel)]="studentEditFormData.student_class" name="standard" class="form-ctrl">
+                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}">
+                  <select id="standard" [(ngModel)]="studentAddFormData.student_class" name="standard" class="form-ctrl">
                     <option></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                       {{standard.standard_name}}
@@ -293,35 +282,28 @@
                 </div>
 
 
-                <div id="assignCoursesParent" class="field-wrapper has-value" (click)="openAssignBatch()" *ngIf="isAcad">
+                <div id="assignCoursesParent" class="field-wrapper" *ngIf="isAcad" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}">
                   <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" disabled/>
-                  <label for="assignCourses">Assign Courses</label>
+                  <label (click)="openAssignBatch()" for="assignCourses">Assign Courses</label>
                 </div>
-
-
-                <!-- div class="map-courses" *ngIf="isAcad">
-                  <a style="cursor:pointer" (click)="openAssignBatch()">
-                    <strong>Map Courses</strong>
-                  </a>
-                </div> -->
 
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Professional Model For student Update -->
 
-                <div class="field-wrapper has-value" *ngIf="isProfessional">
-                  <select id="masterCourse" name="masterCourse" [(ngModel)]="studentEditFormData.standard_id" (ngModelChange)="fetchCourseFromMaster($event)"
+                <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.standard_id != ''}">
+                  <select id="masterCourse" name="masterCourse" [(ngModel)]="studentAddFormData.standard_id" (ngModelChange)="fetchCourseFromMaster($event)"
                     class="form-ctrl">
                     <option></option>
-                    <option *ngFor="let course of standardList" [value]="course.standard_id" [attr.selected]="studentEditFormData.standard_id == course.standard_id ? '' : null">
+                    <option *ngFor="let course of standardList" [value]="course.standard_id">
                       {{course.standard_name}}
                     </option>
                   </select>
                   <label for="masterCourse">Master Course</label>
                 </div>
 
-                <div class="field-wrapper has-value" *ngIf="isProfessional">
-                  <select id="course" [(ngModel)]="studentEditFormData.subject_id" name="course" class="form-ctrl">
+                <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.subject_id != ''}">
+                  <select id="course" [(ngModel)]="studentAddFormData.subject_id" name="course" class="form-ctrl">
                     <option></option>
                     <option *ngFor="let list of courseList" [value]="list.subject_id">
                       {{list.subject_name}}
@@ -330,7 +312,7 @@
                   <label for="course">Course</label>
                 </div>
 
-                <div id="slotwrapper" class="field-wrapper has-value" *ngIf="isProfessional" (click)="multiselectVisible($event.target.id)">
+                <div id="slotwrapper" class="field-wrapper" *ngIf="isProfessional" (click)="multiselectVisible($event.target.id)">
                   <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" disabled/>
                   <label for="assignCourses">Slots</label>
                 </div>
@@ -348,18 +330,18 @@
                 </div>
 
                 <div class="field-wrapper has-value" *ngIf="isProfessional">
-                  <select id="status" [(ngModel)]="studentEditFormData.language_inst_status" name="status" class="form-ctrl">
+                  <select id="status" [(ngModel)]="studentAddFormData.language_inst_status" name="status" class="form-ctrl">
                     <option></option>
-                    <option *ngFor="let status of langStatus" [value]="status.data_key">
+                    <option *ngFor="let status of langStatus" [value]="status.data_key" [attr.selected]="status.data_key == 'admitted' ? '' : null">
                       {{status.data_value}}
                     </option>
                   </select>
                   <label for="status">Status</label>
                 </div>
 
-                <div id="assignCoursesParent" class="field-wrapper has-value" *ngIf="isProfessional" (click)="openAssignBatch()">
+                <div id="assignCoursesParent" class="field-wrapper" *ngIf="isProfessional" (click)="openAssignBatch()">
                   <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" disabled/>
-                  <label for="assignCourses">Assign Courses</label>
+                  <label (click)="openAssignBatch()" for="assignCourses">Assign Batch</label>
                 </div>
 
                 <!-- <div class="map-courses" *ngIf="isProfessional">
@@ -369,9 +351,8 @@
                 </div> -->
 
                 <div class="field-checkbox-wrapper">
-                  <input type="checkbox" value="" name="isStudentActive" 
-                  [(ngModel)]="formIsActive" (ngModelChange)="updateFormIsActive($event)" class="form-checkbox"
-                    id="isStudentActive">
+                  <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive" (ngModelChange)="updateFormIsActive($event)"
+                    class="form-checkbox" id="isStudentActive">
                   <label for="quickAddStudent">Is Active Student</label>
                 </div>
 
@@ -380,42 +361,43 @@
               </div>
 
             </section>
+
           </aside>
+
         </section>
 
         <!-- Page 1 Footer -->
         <section class="middle-bottom clearFix">
           <div class="pull-left">
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="quickadd" [ngModel]="quickAddStudent" (ngModelChange)="addStudentNow($event)" class="form-checkbox"
-                id="quickAddStudent">
-              <label for="quickAddStudent">Quick Edit Student</label>
+              <input type="checkbox" value="" name="quickadd" [(ngModel)]="quickAddStudent" class="form-checkbox" id="quickAddStudent">
+              <label for="quickAddStudent">Quick Add Student</label>
               <div class="questionInfo pos-rel">
                 <span class="qInfoIcon">?</span>
                 <div class="tooltip-box-field">
-                  Show-Why and when to Quick Edit Student
+                  Student fees and inventory details can be added later.
                 </div>
               </div>
             </div>
           </div>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
-            <input type="button" id="form-continue" [disabled]="!values.form.valid" value="Save and Continue" class="btn redBtn" (click)="navigateTo('kyc')">
-            <input type="button" id="form-submit" [disabled]="!values.form.valid" (click)="studentQuickAdder(values)" value="Submit"
-              class="btn hide redBtn">
+            <input type="button" id="form-continue" [disabled]="!values.form.valid" [class.hide]="quickAddStudent" value="Save and Continue"
+              class="btn redBtn" (click)="navigateTo('kyc')">
+            <input type="button" id="form-submit" [disabled]="!values.form.valid" [class.hide]="!quickAddStudent" (click)="studentQuickAdder(values)"
+              value="Submit" class="btn hide redBtn">
           </aside>
         </section>
+
       </section>
       <!-- ======================================================== -->
       <!-- ======================================================== -->
 
 
-
-
       <!-- ======================================================== -->
       <!-- ======================================================== -->
       <!-- ======================Other Form========================== -->
-      <section class="student-flow-wrapper hide" id="kyc">
+      <section class="student-flow-wrapper " *ngIf="isOtherActive" id="kyc">
         <section class="kyc-section ">
           <section class="middle-top clearFix">
             <h1 class="pull-left">
@@ -426,7 +408,7 @@
                 <div class="questionInfo">
                   <span class="qInfoIcon">?</span>
                 </div>
-                <a href="#">Need help?</a>
+                <a>Need help?</a>
               </div>
             </aside>
           </section>
@@ -437,8 +419,9 @@
               <custom-student *ngFor="let component of customComponents">
 
                 <div class="row" *ngIf="component.type == 1" input-def>
-                  <div class="field-wrapper has-value">
-                    <input type="text" value="" id="component.id" [(ngModel)]="component.value" class="form-ctrl" name="component.label" />
+                  <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                    <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
+                    />
                     <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
                   </div>
@@ -447,15 +430,16 @@
                 <div class="row" *ngIf="component.type == 2" input-def>
                   <br>
                   <div class="field-checkbox-wrapper">
-                    <input class="form-checkbox" id="component.id" type="checkbox" [(ngModel)]="component.value" name="component.label" value="">
+                    <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}"
+                      value="{{component.value}}">
                     <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
                   </div>
                 </div>
 
                 <div class="row" *ngIf="component.type == 3" input-def>
-                  <div class="field-wrapper has-value">
-                    <select id="component.id" class="form-ctrl" [(ngModel)]="component.value" name="component.label">
+                  <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                    <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="{{component.label}}">
                       <option value=""></option>
                       <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                     </select>
@@ -465,8 +449,9 @@
                 </div>
 
                 <div class="row" *ngIf="component.type == 4" input-def>
-                  <div id="{{component.id}}wrapper" class="field-wrapper has-value" (click)="multiselectVisible($event.target.id)">
-                    <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl" disabled/>
+                  <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.value != ''}">
+                    <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
+                      disabled/>
                     <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
                   </div>
@@ -491,26 +476,25 @@
           </aside>
         </section>
         <section class="middle-bottom clearFix ">
-          <div class="pull-left">
+          <aside class="pull-left">
             <input type="button" value="Back" class="btn" (click)="navigateTo('studentForm')">
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="quickadd" [ngModel]="quickAddStudent" (ngModelChange)="addStudentNow($event)" class="form-checkbox"
-                id="quickAddStudent">
-              <label for="quickAddStudent">Quick Edit Student</label>
+              <input type="checkbox" value="" name="quickadd" [(ngModel)]="quickAddStudent" class="form-checkbox" id="quickAddStudent">
+              <label for="quickAddStudent">Quick Add Student</label>
               <div class="questionInfo pos-rel">
                 <span class="qInfoIcon">?</span>
                 <div class="tooltip-box-field">
-                  Show-Why and when to Quick Edit Student
+                  Student fees and inventory details can be added later.
                 </div>
               </div>
             </div>
-          </div>
+          </aside>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
             <input type="button" id="form-kyc-continue" [disabled]="!values.form.valid" value="Save and Continue" class="btn redBtn"
-              (click)="navigateTo('feeDetails')">
+              [class.hide]="quickAddStudent" (click)="navigateTo('feeDetails')">
             <input type="button" id="form-kyc-submit" [disabled]="!values.form.valid" (click)="studentQuickAdder(values)" value="Submit"
-              class="btn hide redBtn">
+              [class.hide]="!quickAddStudent" class="btn hide redBtn">
           </aside>
         </section>
       </section>
@@ -519,109 +503,211 @@
     <!-- ======================================================== -->
     <!-- ======================================================== -->
 
-
-
-
-
-
-
-
-
-
-    <!-- ======================================================== -->
     <!-- ======================================================== -->
     <!-- =============== Fee Details =============================== -->
-    <section class="student-flow-wrapper hide" id="feeDetails">
-      <section class="fee-detail">
+    <section class="student-flow-wrapper " *ngIf="isFeeActive" id="feeDetails" [class.hide]="quickAddStudent">
+      <section class="fee-section-page">
+        <!--====================================middle Top section==========================-->
         <section class="middle-top clearFix">
           <h1 class="pull-left">
-            Fee Details
+            Fees
           </h1>
-          <aside class="pull-right">
-            <div class="need-help">
-              <div class="questionInfo">
-                <span class="qInfoIcon">?</span>
-              </div>
-              <a href="#">Need help?</a>
-            </div>
+          <aside class="pull-right btn-diff">
+            <!-- <button class="btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                <g fill="none" fill-rule="evenodd">
+                  <path fill="#0084F6" fill-rule="nonzero" d="M7.856 13.359h3.708v1H7.856zM7.856 15.647h4.451v1H7.856zM14.534 15.647h2.97v1h-2.97zM7.856 17.935H20.47v1H7.856z"
+                  />
+                  <path fill="#0084F6" fill-rule="nonzero" d="M20.443 11.075H6v9.907h18.55v-9.907h-4.107zm3.364 9.144H6.743v-8.381h17.064v8.381z"
+                  />
+                  <circle cx="22" cy="12" r="3" fill="#FFF" stroke="#0084F6" stroke-width=".5" />
+                  <path fill="#0084F6" fill-rule="nonzero" d="M19.856 11.647h4.451v1h-4.451z" />
+                  <path fill="#0084F6" fill-rule="nonzero" d="M21.7 14.254V9.803h1v4.45z" />
+                </g>
+              </svg>
+              <span>Add PDC</span>
+            </button> -->
+            <button class="btn" *ngIf="feeTemplateById.template_name == ''" (click)="configureFees($event)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                <g fill="#0084F6" fill-rule="nonzero">
+                  <path d="M6.014 15.478a.458.458 0 1 0 .917 0c0-4.987 3.99-9.056 8.921-9.135l-.625.63a.461.461 0 0 0 .324.788.462.462 0 0 0 .325-.135l1.407-1.418a.461.461 0 0 0 0-.653l-1.407-1.419a.453.453 0 0 0-.649 0 .461.461 0 0 0 0 .654l.63.634c-5.44.07-9.843 4.553-9.843 10.054zM25.528 15.016a.458.458 0 0 0-.458.462c0 4.987-3.99 9.055-8.921 9.135l.625-.63a.461.461 0 0 0 0-.653.453.453 0 0 0-.648 0l-1.408 1.418a.46.46 0 0 0 0 .653l1.408 1.418a.462.462 0 0 0 .324.136.462.462 0 0 0 .324-.789l-.63-.634c5.44-.07 9.843-4.554 9.843-10.054a.458.458 0 0 0-.459-.462zM14.87 12.73a2.948 2.948 0 0 0-1.596 1.61c-.301.732-.301 1.544 0 2.276A2.944 2.944 0 0 0 16 18.454a2.86 2.86 0 0 0 1.13-.228 2.948 2.948 0 0 0 1.596-1.61c.301-.732.301-1.544 0-2.276a2.944 2.944 0 0 0-2.726-1.839c-.39 0-.769.08-1.13.229zm3.01 1.964a2.056 2.056 0 0 1 0 1.572c-.208.509-.597.9-1.102 1.11-.25.103-.509.16-.777.16-.83 0-1.565-.5-1.88-1.27a2.056 2.056 0 0 1 0-1.572c.208-.508.597-.9 1.102-1.11.25-.103.509-.159.778-.159.824 0 1.564.5 1.88 1.27z"
+                  />
+                  <path d="M16.926 9.324l-.19.462a5.52 5.52 0 0 0-1.467 0l-.19-.462a1.015 1.015 0 0 0-1.328-.55l-.866.359a1.024 1.024 0 0 0-.551 1.339l.19.462c-.39.303-.741.653-1.037 1.045l-.459-.191a1.015 1.015 0 0 0-1.329.55l-.356.872a1.024 1.024 0 0 0 .55 1.339l.46.192a5.648 5.648 0 0 0 0 1.479l-.459.19a1.024 1.024 0 0 0-.55 1.34l.356.872a1.015 1.015 0 0 0 1.328.55l.459-.19c.3.391.648.746 1.037 1.045l-.19.461c-.213.523.032 1.12.55 1.335l.867.359a1.015 1.015 0 0 0 1.329-.55l.19-.462a5.52 5.52 0 0 0 1.467 0l.19.461a1.015 1.015 0 0 0 1.328.55l.866-.358a1.024 1.024 0 0 0 .55-1.34l-.189-.461c.389-.303.74-.653 1.037-1.045l.458.191a1.015 1.015 0 0 0 1.329-.55l.357-.873a1.024 1.024 0 0 0-.55-1.339l-.46-.191a5.648 5.648 0 0 0 0-1.479l.459-.191a1.024 1.024 0 0 0 .55-1.34l-.356-.872a1.015 1.015 0 0 0-1.329-.55l-.458.191a5.662 5.662 0 0 0-1.037-1.045l.19-.462a1.024 1.024 0 0 0-.55-1.339l-.867-.359a1.012 1.012 0 0 0-1.329.555zm.519 1.153l.329-.803a.096.096 0 0 1 .092-.06c.014 0 .023.004.037.009l.866.36a.089.089 0 0 1 .051.05.084.084 0 0 1 0 .075l-.329.802a.463.463 0 0 0 .167.56c.523.355.968.798 1.315 1.325.12.182.356.257.555.173l.797-.331c.014-.005.023-.01.037-.01.032 0 .074.014.092.061l.357.872a.106.106 0 0 1-.051.131l-.796.331a.46.46 0 0 0-.274.518c.125.62.12 1.25 0 1.876a.469.469 0 0 0 .274.517l.796.332a.089.089 0 0 1 .05.051.084.084 0 0 1 0 .075l-.356.872a.096.096 0 0 1-.092.06c-.014 0-.023-.004-.037-.009l-.797-.33a.455.455 0 0 0-.555.167 4.758 4.758 0 0 1-1.315 1.325.466.466 0 0 0-.171.56l.328.802c.014.033.01.06 0 .075-.009.019-.023.042-.055.051l-.866.36c-.014.004-.023.009-.037.009a.096.096 0 0 1-.093-.06l-.328-.803a.456.456 0 0 0-.51-.276 4.805 4.805 0 0 1-1.86 0 .463.463 0 0 0-.515.276l-.328.802a.096.096 0 0 1-.093.06c-.014 0-.023-.004-.037-.009l-.866-.359c-.05-.018-.074-.08-.05-.13l.328-.803a.463.463 0 0 0-.166-.56 4.759 4.759 0 0 1-1.315-1.325.459.459 0 0 0-.556-.172l-.796.331c-.014.005-.023.01-.037.01a.096.096 0 0 1-.093-.061l-.356-.873c-.014-.032-.01-.06 0-.074.009-.019.023-.042.05-.052l.797-.33a.46.46 0 0 0 .273-.519 4.824 4.824 0 0 1 0-1.875.469.469 0 0 0-.273-.518l-.796-.331a.089.089 0 0 1-.051-.052.084.084 0 0 1 0-.074l.356-.873a.096.096 0 0 1 .093-.06c.014 0 .023.004.037.009l.796.331a.455.455 0 0 0 .556-.168 4.758 4.758 0 0 1 1.315-1.325.466.466 0 0 0 .17-.56l-.328-.802c-.014-.033-.01-.06 0-.075a.107.107 0 0 1 .056-.056l.865-.359c.014-.004.024-.01.037-.01.033 0 .075.015.093.062l.329.802c.083.205.3.317.514.275a4.805 4.805 0 0 1 1.86 0 .447.447 0 0 0 .51-.27z"
+                  />
+                </g>
+              </svg>
+              <span>Configure Fees</span>
+            </button>
+            <button class="btn" (click)="reConfigureFees($event)" *ngIf="feeTemplateById.template_name != ''">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                <g fill="#0084F6" fill-rule="nonzero">
+                  <path d="M6.014 15.478a.458.458 0 1 0 .917 0c0-4.987 3.99-9.056 8.921-9.135l-.625.63a.461.461 0 0 0 .324.788.462.462 0 0 0 .325-.135l1.407-1.418a.461.461 0 0 0 0-.653l-1.407-1.419a.453.453 0 0 0-.649 0 .461.461 0 0 0 0 .654l.63.634c-5.44.07-9.843 4.553-9.843 10.054zM25.528 15.016a.458.458 0 0 0-.458.462c0 4.987-3.99 9.055-8.921 9.135l.625-.63a.461.461 0 0 0 0-.653.453.453 0 0 0-.648 0l-1.408 1.418a.46.46 0 0 0 0 .653l1.408 1.418a.462.462 0 0 0 .324.136.462.462 0 0 0 .324-.789l-.63-.634c5.44-.07 9.843-4.554 9.843-10.054a.458.458 0 0 0-.459-.462zM14.87 12.73a2.948 2.948 0 0 0-1.596 1.61c-.301.732-.301 1.544 0 2.276A2.944 2.944 0 0 0 16 18.454a2.86 2.86 0 0 0 1.13-.228 2.948 2.948 0 0 0 1.596-1.61c.301-.732.301-1.544 0-2.276a2.944 2.944 0 0 0-2.726-1.839c-.39 0-.769.08-1.13.229zm3.01 1.964a2.056 2.056 0 0 1 0 1.572c-.208.509-.597.9-1.102 1.11-.25.103-.509.16-.777.16-.83 0-1.565-.5-1.88-1.27a2.056 2.056 0 0 1 0-1.572c.208-.508.597-.9 1.102-1.11.25-.103.509-.159.778-.159.824 0 1.564.5 1.88 1.27z"
+                  />
+                  <path d="M16.926 9.324l-.19.462a5.52 5.52 0 0 0-1.467 0l-.19-.462a1.015 1.015 0 0 0-1.328-.55l-.866.359a1.024 1.024 0 0 0-.551 1.339l.19.462c-.39.303-.741.653-1.037 1.045l-.459-.191a1.015 1.015 0 0 0-1.329.55l-.356.872a1.024 1.024 0 0 0 .55 1.339l.46.192a5.648 5.648 0 0 0 0 1.479l-.459.19a1.024 1.024 0 0 0-.55 1.34l.356.872a1.015 1.015 0 0 0 1.328.55l.459-.19c.3.391.648.746 1.037 1.045l-.19.461c-.213.523.032 1.12.55 1.335l.867.359a1.015 1.015 0 0 0 1.329-.55l.19-.462a5.52 5.52 0 0 0 1.467 0l.19.461a1.015 1.015 0 0 0 1.328.55l.866-.358a1.024 1.024 0 0 0 .55-1.34l-.189-.461c.389-.303.74-.653 1.037-1.045l.458.191a1.015 1.015 0 0 0 1.329-.55l.357-.873a1.024 1.024 0 0 0-.55-1.339l-.46-.191a5.648 5.648 0 0 0 0-1.479l.459-.191a1.024 1.024 0 0 0 .55-1.34l-.356-.872a1.015 1.015 0 0 0-1.329-.55l-.458.191a5.662 5.662 0 0 0-1.037-1.045l.19-.462a1.024 1.024 0 0 0-.55-1.339l-.867-.359a1.012 1.012 0 0 0-1.329.555zm.519 1.153l.329-.803a.096.096 0 0 1 .092-.06c.014 0 .023.004.037.009l.866.36a.089.089 0 0 1 .051.05.084.084 0 0 1 0 .075l-.329.802a.463.463 0 0 0 .167.56c.523.355.968.798 1.315 1.325.12.182.356.257.555.173l.797-.331c.014-.005.023-.01.037-.01.032 0 .074.014.092.061l.357.872a.106.106 0 0 1-.051.131l-.796.331a.46.46 0 0 0-.274.518c.125.62.12 1.25 0 1.876a.469.469 0 0 0 .274.517l.796.332a.089.089 0 0 1 .05.051.084.084 0 0 1 0 .075l-.356.872a.096.096 0 0 1-.092.06c-.014 0-.023-.004-.037-.009l-.797-.33a.455.455 0 0 0-.555.167 4.758 4.758 0 0 1-1.315 1.325.466.466 0 0 0-.171.56l.328.802c.014.033.01.06 0 .075-.009.019-.023.042-.055.051l-.866.36c-.014.004-.023.009-.037.009a.096.096 0 0 1-.093-.06l-.328-.803a.456.456 0 0 0-.51-.276 4.805 4.805 0 0 1-1.86 0 .463.463 0 0 0-.515.276l-.328.802a.096.096 0 0 1-.093.06c-.014 0-.023-.004-.037-.009l-.866-.359c-.05-.018-.074-.08-.05-.13l.328-.803a.463.463 0 0 0-.166-.56 4.759 4.759 0 0 1-1.315-1.325.459.459 0 0 0-.556-.172l-.796.331c-.014.005-.023.01-.037.01a.096.096 0 0 1-.093-.061l-.356-.873c-.014-.032-.01-.06 0-.074.009-.019.023-.042.05-.052l.797-.33a.46.46 0 0 0 .273-.519 4.824 4.824 0 0 1 0-1.875.469.469 0 0 0-.273-.518l-.796-.331a.089.089 0 0 1-.051-.052.084.084 0 0 1 0-.074l.356-.873a.096.096 0 0 1 .093-.06c.014 0 .023.004.037.009l.796.331a.455.455 0 0 0 .556-.168 4.758 4.758 0 0 1 1.315-1.325.466.466 0 0 0 .17-.56l-.328-.802c-.014-.033-.01-.06 0-.075a.107.107 0 0 1 .056-.056l.865-.359c.014-.004.024-.01.037-.01.033 0 .075.015.093.062l.329.802c.083.205.3.317.514.275a4.805 4.805 0 0 1 1.86 0 .447.447 0 0 0 .51-.27z"
+                  />
+                </g>
+              </svg>
+              <span *ngIf="feeTemplateById.template_name != ''">Reconfigure Fees</span>
+            </button>
           </aside>
         </section>
+
+        <!--====================================middle <Main> section==========================-->
+        <section class="middle-main clearFix">
+          <!-- Colored Tabs here -->
+          <div class="fee-summary">
+            <ul>
+              <li>
+                <label>Fees</label>
+                <div class="blue">
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_amount}}</span>
+                </div>
+              </li>
+              <li>
+                <label>Discount</label>
+                <div class="purple">
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_discount}}</span>
+                  <a *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0" (click)="openDiscountApply()">Add more</a>
+                </div>
+              </li>
+              <li>
+                <label>Taxes</label>
+                <div class="yellow">
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">{{feeTemplateById.registeredServiceTax}} %</span>
+                </div>
+              </li>
+              <li>
+                <label>Amount Paid</label>
+                <div class="green">
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_amount_paid}}</span>
+                </div>
+              </li>
+              <li>
+                <label>Amount Due</label>
+                <div class="red">
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_balance_amount}}</span>
+                </div>
+              </li>
+              <li>
+                <label>Fee Structure</label>
+                <div class="gray">
+                  <span *ngIf="feeTemplateById.template_name == ''">NA</span>
+                  <span class="feename" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">{{feeTemplateById.template_name}}</span>
+                  <a (click)="reCreateFeeAgain()" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">Change</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- Card layout here -->
+          <div class="fee-detail-summary" *ngIf="userCustommizedFee.length != 0">
+            <!-- Heading -->
+            <div class="clearfix fd-heading">
+              <div class="row">
+                <div class="pull-left c-xs-8 c-sm-8">
+                  <h2>Fee Details</h2>
+                </div>
+                <div class="pull-right c-xs-4 c-sm-4">
+                  <ul class="export-print align-right">
+                    <li class="print-icon">
+                      Print
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- Cards -->
+            <div class="fee-inst-list">
+              <ul>
+                <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
+                  <div class="pull-left">
+                    <div class="field-checkbox-wrapper">
+                      <input type="checkbox" value="" [disabled]="isPaymentDetailsValid" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
+                        (ngModelChange)="paymentValueUpdate($event, i)" />
+                      <label for="instl{{i}}"></label>
+                    </div>
+                  </div>
+                  <div class="inst-detail">
+                    <div class="inst-label">
+                      Installment # {{installment.installment_no}}
+                      <span class="fee-status due">Due</span>
+                    </div>
+                    <div class="instl-info">
+                      <ul>
+                        <li>
+                          <label>
+                            Fee Amount
+                          </label>
+                          <span>
+                            {{installment.fees_amount}}
+                          </span>
+                        </li>
+                        <li>
+                          <label>
+                            Fee Type
+                          </label>
+                          <span>
+                            {{installment.fee_type_name}}
+                          </span>
+                        </li>
+                        <li>
+                          <label>
+                            Tax amount
+                          </label>
+                          <span>
+                            Rs {{installment.tax}}
+                          </span>
+                        </li>
+                        <li>
+                          <label>
+                            Due Date
+                          </label>
+                          <span>
+                            {{installment.due_date}}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </section>
+
+        <!--====================================middle Bottom section==========================-->
+        <section class="middle-bottom fd-btm clearFix">
+          <div class="fd-btm-label" *ngIf="userCustommizedFee != ''">
+            Payment for Rs {{totalFeePaid}} to be updated
+          </div>
+
+          <div class="" *ngIf="!isPaymentDetailsValid">
+            <input type="button" *ngIf="totalFeePaid != 0" value="Update Fees" (click)="openPaymentDetails($event)" class="btn fullBlue">
+            <input type="button" value="Save and Continue" (click)="navigateTo('inventory')" class="btn redBtn">
+          </div>
+
+          <div class="" *ngIf="isPaymentDetailsValid">
+            <input type="button" value="Continue" (click)="navigateTo('inventory')" class="btn redBtn">
+          </div>
+        </section>
+
       </section>
 
-      <section class="clearFix fee-detail row" id="feedetail">
-        <aside class="pull-left middle-left">
-          <div class="form-type1 fee-box">
-            <h2>Define Fee Schedule</h2>
-            <div class="field-wrapper has-value ">
-              <select id="feeStructure" class="form-ctrl">
-                <option></option>
-                <option>Fee Structure*</option>
-                <option>feeStructure1</option>
-              </select>
-              <label for="feeStructure">Fee Structure*</label>
-            </div>
-            <div class="field-wrapper has-value datePickerBox">
-              <input type="text" value="" id="effectiveDate" class="form-ctrl bsDatepicker" bsDatepicker>
-              <label for="effectiveDate">Effective Date*</label>
-            </div>
-            <input type="button" value="Apply" class="btn fullBlue">
-          </div>
-          <a href="#" class="next">Next</a>
-        </aside>
-        <aside class="pull-left middle-left">
-          <div class="form-type2 fee-box">
-            <h2>Manage Installments</h2>
-            <div class="field-wrapper has-value">
-              <input type="text" value="" id="mtotal" class="form-ctrl">
-              <label for="mtotal">Total Amount (Rs)*</label>
-            </div>
-            <div class="field-wrapper has-value">
-              <input type="text" value="" id="tDiscount" class="form-ctrl">
-              <label for="tDiscount">Total Discount (Rs)*</label>
-            </div>
-            <div class="field-wrapper has-value">
-              <input type="text" value="" id="discountReason" class="form-ctrl">
-              <label for="discountReason">Discount Reason</label>
-              <div class="questionInfo">
-                <span class="qInfoIcon">?</span>
-              </div>
-            </div>
-            <div class="field-wrapper has-value">
-              <input type="text" value="" id="noInstallment" class="form-ctrl">
-              <label for="noInstallment">No of Installments*</label>
-            </div>
-            <div class="apply-tax">
-              <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" class="form-checkbox" id="applyTax">
-                <label for="applyTax">Apply Tax(18%)</label>
-              </div>
-            </div>
-            <input type="button" value="Create Installment" class="btn fullBlue">
-          </div>
-          <a href="#" class="prev">Previous</a>
-          <a href="#" class="next">Next</a>
-        </aside>
-      </section>
     </section>
     <!-- ======================================================== -->
     <!-- ======================================================== -->
 
-
-
-
-
-
-
-
-
-
-
-    <!-- ======================================================== -->
     <!-- ======================================================== -->
     <!-- =============== Inventory =============================== -->
     <!--===========================================allocation inventory item===========================-->
-    <section class="student-flow-wrapper hide" id="inventory">
-      <section class="clearFix allocation row hide" id="allocationInventoryItem">
+    <section class="student-flow-wrapper " *ngIf="isInventoryActive" id="inventory" [class.hide]="quickAddStudent">
+
+      <section class="clearFix allocation row" id="allocationInventoryItem">
 
         <aside class="middle-full">
           <section class="middle-top clearFix">
@@ -633,89 +719,195 @@
                 <div class="questionInfo">
                   <span class="qInfoIcon">?</span>
                 </div>
-                <a href="#">Need help?</a>
+                <a>Need help?</a>
               </div>
             </aside>
           </section>
-          <div class="form-type1 fee-box">
-            <h2>allocation Inventory Item</h2>
-            <div class="field-wrapper has-value ">
-              <select id="allItem" class="form-ctrl">
-                <option></option>
-                <option>Fee Structure*</option>
-                <option>feeStructure1</option>
-              </select>
-              <label for="allItem">Items*</label>
+          <div class="allocation-table">
+            <div class="table-scroll-wrapper">
+              <div class="table table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Item
+                      </th>
+                      <th>
+                        Catergory
+                      </th>
+                      <th>
+                        Available Units
+                      </th>
+                      <th>
+                        Allocated Units
+                      </th>
+                      <th>
+                        Add Units
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of inventoryItemsArr;let i = index">
+                      <td>
+                        {{item.item_name}}
+                      </td>
+                      <td>
+                        {{item.category_name}}
+                      </td>
+                      <td>
+                        {{item.available_units}}
+                      </td>
+                      <td>
+                        {{item.alloted_units}}
+                      </td>
+                      <td>
+                        <div class="field-wrapper">
 
+                          <input type="number" class="form-ctrl" placeholder="Add unit" min="0" max="{{item.available_units}}" [(ngModel)]="item.units_added"
+                            (blur)="inventoryItemUpdated(item.units_added, i, item.available_units)" name="amt">
+
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <p>Available Items: 2</p>
-            <div class="field-wrapper has-value">
-              <input type="text" value="" id="units" class="form-ctrl">
-              <label for="units">Unites*</label>
-            </div>
-            <!--<div class="fee-detail">      
-                               <input type="button" value="Apply" class="btn fullBlue">
-                           </div>-->
           </div>
           <section class="middle-bottom clearFix ">
             <div class="pull-left">
-              <input type="button" value="Back" class="btn">
+              <input type="button" (click)="navigateTo('feeDetails')" value="Back" class="btn">
             </div>
             <aside class="pull-right">
-              <input type="button" value="Cancel" class="btn cancle">
-              <input type="button" value="Skip" class="btn cancle">
-              <input type="button" value="Submit" class="btn redBtn">
+              <input type="button" (cancel)="cancelStudentUpload()" value="Cancel" class="btn cancle">
+              <!-- <input type="button" value="Skip" class="btn cancle"> -->
+              <input type="button" value="Submit" (click)="addNewStudentFullView()" class="btn redBtn">
             </aside>
           </section>
         </aside>
-      </section>
 
-      <!--===========================================allocation inventory item===========================-->
-      <section class="clearFix helpDetail row hide" id="helpDetail">
-        <aside class="middle-full">
-          <section class="middle-top clearFix">
-            <h1 class="pull-left">
-              Help Details
-            </h1>
-          </section>
-          <section class="done-section">
-            <span class="close-btns">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                  <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)"></line>
-                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)"></line>
-                  </g>
-                  <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)"></rect>
-                </g>
-              </svg>
-            </span>
-            <p>Here you will get details of how to go about using this form</p>
-            <input type="button" value="Done" class="btn fullBlue" />
-          </section>
-        </aside>
       </section>
 
     </section>
     <!-- ======================================================== -->
     <!-- ======================================================== -->
+
   </section>
 
+  <!-- =============== Popup Declarations ===================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <student-pop-up *ngIf="isNewInstituteEditor">
 
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeInstituteAdder()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
 
+    <h2 popup-header>Institute Editor</h2>
 
+    <div class="institute-editor" popup-content>
 
+      <div class="row clearFix add-edit">
+        <a class="expend-box" (click)="toggleInstituteAdd()">
+          <i id="add-institute-icon">-</i>
+          <span>Create New Institute</span>
+        </a>
+      </div>
 
+      <section class="row clearFix create-standard-form" *ngIf="isNewInstitute">
+        <div class="row">
+          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
+            <div class="field-wrapper">
+              <input type="text" value="" id="instituteName" class="form-ctrl" [(ngModel)]="createInstitute.instituteName" name="instituteName"
+              />
+              <label for="instituteName">Institute Name</label>
+            </div>
+          </div>
 
+          <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right">
+            <aside class="pull-right">
+              <input type="button" value="Cancel" class="btn" (click)="closeAddInstitute()">
+              <input type="button" value="Create" class="redBtn btn" (click)="addInstituteData()">
+            </aside>
+          </div>
 
+        </div>
+      </section>
 
+      <div class="row">
+        <div class="table-responsive institute-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Institute Name</th>
+                <th> Action </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sch of instituteList">
+                <td *ngIf="!sch.edit">
+                  <div class="inst-name">
+                    {{sch.school_name}}
+                  </div>
+                </td>
 
+                <td *ngIf="sch.edit">
+                  <div class="field-wrapper has-value">
+                    <input type="text" [(ngModel)]="sch.school_name" class="form-ctrl" name="instituteName" />
+                  </div>
+                </td>
 
+                <td class="edit-view-btn" *ngIf="!sch.edit">
+                  <div class="">
+                    <a (click)="editInstitute(sch.school_id)" style="cursor:pointer">
+                      <i class="edit-icon cursor-icon" aria-hidden="true"></i>Edit
+                    </a>
+                  </div>
+                  <div class="">
+                    <a (click)="deleteInstitute(sch.school_id)" style="cursor:pointer">
+                      <i class="view-icon cursor-icon" aria-hidden="true"></i>Delete
+                    </a>
+                  </div>
+                </td>
 
+                <td class="edit-view-btn" *ngIf="sch.edit">
+                  <div class="">
+                    <a (click)="cancelEditInstitute(sch.school_id)" style="cursor:pointer">
+                      <i class="edit-icon" aria-hidden="true"></i>Cancel
+                    </a>
+                  </div>
+                  <div class="">
+                    <a (click)="updateInstitute(sch.school_id)" style="cursor:pointer">
+                      <i class="view-icon update-icon" aria-hidden="true"></i>Update
+                    </a>
+                  </div>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </student-pop-up>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
   <student-pop-up [hidden]="!isAssignBatch">
+
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeBatchAssign()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -729,7 +921,8 @@
       </svg>
     </span>
 
-    <h2 popup-header>Batch Assignment</h2>
+    <h2 popup-header *ngIf="isAcad">Course Assignment</h2>
+    <h2 popup-header *ngIf="isProfessional">Batch Assignment</h2>
 
     <div class="fee-install-table" popup-content>
       <div class="table-responsive">
@@ -757,8 +950,9 @@
               <td>{{batch.data.start_date}}</td>
               <td>{{batch.data.end_date}}</td>
               <td>
-                <div class="field-wrapper has-value datePickerBox has-value">
-                  <input type="text" value="" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker" bsDatepicker>
+                <div class="field-wrapper datePickerBox has-value">
+                  <input type="text" value="" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker"
+                    bsDatepicker>
                   <label for="assigndate">Assign Date</label>
                 </div>
             </tr>
@@ -775,15 +969,8 @@
         </aside>
       </div>
     </div>
+
   </student-pop-up>
-
-
-
-
-
-
-
-
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
@@ -809,8 +996,8 @@
       </div>
       <div class="row">
         <form #semail="ngForm" (ngSubmit)="registerDuplicateStudent(semail)">
-          <div class="field-wrapper has-value">
-            <input type="text" value="" id="sEmail2" class="form-ctrl" [(ngModel)]="studentEditFormData.student_manual_username" name="sEmail2"
+          <div class="field-wrapper">
+            <input type="text" value="" id="sEmail2" class="form-ctrl" [(ngModel)]="studentAddFormData.student_manual_username" name="sEmail2"
               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #sEmail2="ngModel" />
             <label for="sEmail2">Student's Email*</label>
             <div *ngIf="sEmail2.invalid && (sEmail2.dirty || sEmail2.touched)" class="alert invalid-alert">
@@ -837,6 +1024,499 @@
       </div>
     </div>
   </student-pop-up>
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- =============== Configure Fees =============================== -->
+  <student-pop-up *ngIf="isConfigureFees">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeConfigureFees($event)" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
 
+    <h2 popup-header style="padding: 10px 5px;">Configure Fees</h2>
+
+    <div class="configureFee" popup-content>
+      <div class="row">
+        <h4>Select Fee Structure</h4>
+      </div>
+      <div class="row">
+
+        <div class="field-wrapper">
+          <select id="feeS" name="feeS" [(ngModel)]="feeTempSelected" class="form-ctrl">
+            <option value="-1"></option>
+            <option *ngFor="let fee of feeTemplateStore" [value]="fee.template_id">
+              {{fee.template_name}}
+            </option>
+          </select>
+          <label for="feeS">Fee Structure*</label>
+        </div>
+
+        <div class="field-wrapper datePickerBox has-value">
+          <input type="text" value="" id="effD" class="form-ctrl bsDatepicker" [(ngModel)]="feeStructureForm.template_effective_date"
+            name="effD" bsDatepicker>
+          <label for="effD">Effective Date*</label>
+          <span class="date-clear" name="followupdate" (click)="clearEffectiveDate($event)">clear</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="" popup-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeConfigureFees($event)">
+          <input type="button" value="Apply" (click)="applyConfiguredFees($event)" class="redBtn btn">
+        </aside>
+      </div>
+    </div>
+
+  </student-pop-up>
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- =============== Fees Payment Manager=============================== -->
+  <student-pop-up *ngIf="isFeePaymentUpdate">
+
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePaymentDetails()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+
+    <h2 popup-header style="padding: 10px 5px;">Student Fee Payment</h2>
+
+    <div class="configureFee" popup-content>
+
+      <div class="row">
+        <h4>Payment Details for Rs {{totalFeePaid}}</h4>
+      </div>
+
+      <div class="row">
+
+        <div class="field-wrapper has-value datePickerBox">
+          <input type="text" value="" id="pd" class="form-ctrl bsDatepicker" [(ngModel)]="feeTemplateById.paid_date" name="pd" bsDatepicker>
+          <label for="pd">Payment Date*</label>
+          <span id="paydayClear" class="date-clear" name="cpd" (click)="clearfeePaymentDate($event)">clear</span>
+        </div>
+
+        <div class="field-wrapper">
+          <select id="pMode" name="pMode" [(ngModel)]="feeTemplateById.payment_mode" class="form-ctrl">
+            <option value="Cash" selected>Cash</option>
+            <option value="Cheque/PDC/DD No.">Cheque/PDC/DD No.</option>
+            <option value="Credit/Debit Card">Credit/Debit Card</option>
+            <option value="Caution Deposit(Refundable)">Caution Deposit(Refundable)</option>
+            <option value="Other">Other</option>
+          </select>
+          <label for="pMode">Payment Mode*</label>
+        </div>
+
+        <div class="field-wrapper">
+          <input type="text" value="" id="ref" class="form-ctrl" [(ngModel)]="feeTemplateById.reference_no" name="ref" />
+          <label for="ref">Reference No.</label>
+        </div>
+
+        <div class="field-wrapper">
+          <input type="text" value="" id="rema" class="form-ctrl" [(ngModel)]="feeTemplateById.remarks" name="rema" />
+          <label for="rema">Remarks</label>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="" popup-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closePaymentDetails()">
+          <input type="button" value="Apply" (click)="validatePaymentDetails($event)" class="redBtn btn">
+        </aside>
+      </div>
+    </div>
+
+  </student-pop-up>
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- =============== assign fees =============================== -->
+  <student-pop-up [isBig]="'y'" *ngIf="isDefineFees">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAllFeePops()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+    <h2 popup-header style="padding: 10px 5px;">Define Fee Schedule</h2>
+    <div class="feeManager" popup-content>
+      <div class="fee-content">
+
+        <fieldset class="installment">
+          <legend>Edit Fee Installments</legend>
+          <div class="row data-adder">
+            <div class="outer">
+              <div class="c-lg-3 c-md-3 pull-left"></div>
+              <div class="c-lg-9 c-md-9 pull-right">
+                <div class="inner">
+                  <div class="field-wrapper datePickerBox has-value">
+                    <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="addFeeInstallment.due_date" bsDatepicker>
+                    <label for="dd">
+                      Due Date
+                    </label>
+                  </div>
+                </div>
+                <div class="inner">
+                  <div class="field-wrapper has-value">
+                    <input type="number" class="form-ctrl" [(ngModel)]="addFeeInstallment.initial_fee_amount" name="amt">
+                    <label for="dd">
+                      New Installment
+                    </label>
+                  </div>
+                </div>
+                <div class="inner">
+                  <button style="margin:0px;padding: 10px 0px 0px 2px;" class="btn" (click)="addNewInstallmentFee()">
+                    <div class="option-wrap">
+                      <img src="./assets/images/plus.png" alt="addInstallment">
+                      <span class="tooltip">
+                        Add Installment
+                      </span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="table-scroll-wrapper">
+              <div class="table table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Installment # </th>
+                      <th (click)="sort('due_date')">Due Date</th>
+                      <th>Amount</th>
+                      <th>Tax</th>
+                      <th>Fee Amount Incl Tax</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let fee of instalmentTableData| orderBy: key : reverse; let i = index;">
+                      <td>
+                        # {{fee.installment_no}}
+                      </td>
+                      <td>
+                        <div class="field-wrapper datePickerBox">
+                          <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)" [(ngModel)]="fee.due_date"
+                            bsDatepicker>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-wrapper">
+                          <input type="number" class="form-ctrl" readonly="true" name="amt" [(ngModel)]="fee.initial_fee_amount">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-wrapper">
+                          <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getTaxedAmount(fee.initial_fee_amount, fee.service_tax_applicable, i)">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-wrapper">
+                          <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
+                        </div>
+                      </td>
+                      <td>
+                        <i (click)="deleteInstallment(i)" *ngIf="fee.is_paid == 0" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="additional">
+          <legend>Edit Additional Fees</legend>
+          <div class="row data-adder">
+            <div class="outer">
+              <div class="c-lg-12 c-md-12">
+                <div class="innermost">
+                  <div class="field-wrapper">
+                    <select id="feetype" class="form-ctrl" [(ngModel)]="addFeeOther.fee_type" (ngModelChange)="updateOtherFeeData($event)" name="feetype">
+                      <option value=""></option>
+                      <option [value]="type.id" *ngFor="let type of getOtherFeesArray()">{{type.value}}</option>
+                    </select>
+                    <label for="feetype">Fee Type*</label>
+                  </div>
+                </div>
+                <div class="innermost">
+                  <div class="field-wrapper datePickerBox has-value">
+                    <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="addFeeOther.due_date" bsDatepicker>
+                    <label for="dd">
+                      Due Date*
+                    </label>
+                  </div>
+                </div>
+                <div class="innermost">
+                  <div class="field-wrapper" [class.has-value]="addFeeOther.service_tax != ''">
+                    <input type="number" class="form-ctrl" [(ngModel)]="addFeeOther.initial_fee_amount" name="amt">
+                    <label for="dd">
+                      Amount*
+                    </label>
+                  </div>
+                </div>
+                <div class="innermost">
+                  <div class="field-wrapper" [class.has-value]="addFeeOther.service_tax != ''">
+                    <input type="number" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax" name="amt">
+                    <label for="dd">
+                      Tax %
+                    </label>
+                  </div>
+                </div>
+                <div class="innermost">
+                  <button style="margin:0px;padding: 10px 0px 0px 2px;" class="btn" (click)="addNewOtherFee()">
+                    <div class="option-wrap">
+                      <img src="./assets/images/plus.png" alt="addInstallment">
+                      <span class="tooltip">
+                        Add Installment
+                      </span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="table-scroll-wrapper">
+              <div class="table table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Fee Type </th>
+                      <th>Due Date</th>
+                      <th>Amount</th>
+                      <th>Tax</th>
+                      <th>Fee Amount Incl Tax</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let fee of otherFeeTableData; let i = index">
+                      <td>
+                        {{fee.fee_type_name}}
+                      </td>
+                      <td>
+                        <div class="field-wrapper datePickerBox">
+                          <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="fee.due_date" bsDatepicker>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-wrapper">
+                          <input type="number" class="form-ctrl" name="amt" [(ngModel)]="fee.initial_fee_amount">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-wrapper">
+                          <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getOtherTaxes(fee.initial_fee_amount, fee.service_tax_applicable, i)">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-wrapper">
+                          <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, i)">
+                        </div>
+                      </td>
+                      <td>
+                        <i (click)="deleteOtherFee(i)" *ngIf="fee.is_paid == 0" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+      </div>
+    </div>
+    <div class="" popup-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeAllFeePops()">
+          <input type="button" value="Apply" (click)="createCustomFeeSchedule()" class="redBtn btn">
+        </aside>
+      </div>
+    </div>
+  </student-pop-up>
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- =============== Apply Discounts ============================ -->
+  <student-pop-up *ngIf="isDiscountApply">
+
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeDiscountApply()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+
+    <h2 popup-header style="padding: 10px 5px;">Add Discount</h2>
+
+    <div class="configureFee" popup-content>
+
+      <div class="row">
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+
+          <div class="field-wrapper has-value">
+            <select id="dtype" name="dtype" [(ngModel)]="discountApplyForm.type" class="form-ctrl">
+              <option value="amount">Amount</option>
+              <option value="percentage">Percentage</option>
+            </select>
+            <label for="dtype">Discount Type*</label>
+          </div>
+
+          <div class="field-wrapper">
+            <input type="number" value="" id="ref" class="form-ctrl" name="ref" [(ngModel)]="discountApplyForm.value" />
+            <label for="ref">Discount Value*</label>
+          </div>
+
+          <div class="field-wrapper">
+            <input type="text" value="" id="rema" class="form-ctrl" name="rema" [(ngModel)]="discountApplyForm.reason" />
+            <label for="rema">Discount Reason*</label>
+          </div>
+
+          <div style="margin: 15px 0px">
+            <h4>Total Discount Amount : &#8377; {{getTotalDiscountAmount()}}</h4>
+          </div>
+
+          <div class="" style="margin-top:10px;">
+            <div class="field-radio-wrapper">
+              <input class="form-radio" type="radio" name="discount" value="all" id='r1' [(ngModel)]="discountApplyForm.state" checked>
+              <label for="r1">Equal in all installment</label>
+            </div>
+
+            <div class="field-radio-wrapper">
+              <input class="form-radio" type="radio" name="discount" value="last" id='r2' [(ngModel)]="discountApplyForm.state">
+              <label for="r2">In last installment</label>
+            </div>
+          </div>
+
+        </div>
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="" popup-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeDiscountApply()">
+          <input type="button" value="Apply" (click)="applyDiscount()" class="redBtn btn">
+        </aside>
+      </div>
+    </div>
+
+  </student-pop-up>
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ===============Manage PDC ============================ -->
+  <student-pop-up *ngIf="isPdcApply">
+
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isPdcApply = false" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+
+    <h2 popup-header style="padding: 10px 5px;">Manage PDC</h2>
+
+    <div class="configureFee" popup-content>
+
+      <div class="row">
+
+
+        <div class="field-wrapper has-value">
+          <select id="dtype" name="dtype" [(ngModel)]="discountApplyForm.type" class="form-ctrl">
+            <option value="amount">Amount</option>
+            <option value="percentage">Percentage</option>
+          </select>
+          <label for="dtype">Discount Type*</label>
+        </div>
+
+        <div class="field-wrapper">
+          <input type="number" value="" id="ref" class="form-ctrl" name="ref" [(ngModel)]="discountApplyForm.value" />
+          <label for="ref">Discount Value*</label>
+        </div>
+
+        <div class="field-wrapper">
+
+          <input type="text" value="" id="rema" class="form-ctrl" name="rema" [(ngModel)]="discountApplyForm.reason" />
+
+          <label for="rema">Discount Reason*</label>
+        </div>
+
+        <div class="" style="margin-top:10px;">
+          <div class="field-radio-wrapper">
+            <input class="form-radio" type="radio" name="discount" value="all" id='r1' [(ngModel)]="discountApplyForm.state" checked>
+            <label for="r1">Equal in all installment</label>
+          </div>
+
+          <div class="field-radio-wrapper">
+            <input class="form-radio" type="radio" name="discount" value="last" id='r2' [(ngModel)]="discountApplyForm.state">
+            <label for="r2">In last installment</label>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="" popup-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeDiscountApply()">
+          <input type="button" value="Apply" (click)="applyDiscount()" class="redBtn btn">
+        </aside>
+      </div>
+    </div>
+
+  </student-pop-up>
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
 
 </section>
