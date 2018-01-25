@@ -1,5 +1,5 @@
 <div id="divCategory" class="c-lg-12 c-md-12 c-sm-12">
-  <div class="row" style="margin-top: 10px;margin-bottom: 10px;">
+  <div class="row" style="margin-top: 5px;margin-bottom: 10px;">
     <div class="c-sm-3">
     </div>
     <div class="c-sm-3">
@@ -19,27 +19,24 @@
       <div>
       </div>
     </div>
-    <div class="c-sm-3">
+    <div class="c-sm-3" style="padding-top: 10px;">
       <button class="btn" (click)="addNewCategoryRow(categoryName ,categoryDesc )">Add</button>
     </div>
   </div>
-  <div id="category-table" style="min-height: 350px;">
+  <div id="category-table" style="max-height: 400px;">
     <div class="table-scroll-wrapper">
       <div class="table table-responsive">
         <table id="tbLCategory">
           <thead>
             <tr>
               <th>
-                <label>Category Name
-                </label>
+                Category Name
               </th>
               <th>
-                <label>Category Description
-                </label>
+                Category Description
               </th>
               <th>
-                <label>Action
-                </label>
+                Action
               </th>
             </tr>
           </thead>
@@ -50,7 +47,7 @@
               </td>
               <td class="edit-comp">
                 <div class="field-wrapper">
-                  <input type="text" class="form-ctrl" [(ngModel)]="row.category_name" name="label">
+                  <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.category_name" name="label">
                 </div>
               </td>
               <td class="view-comp">
@@ -58,7 +55,7 @@
               </td>
               <td class="edit-comp">
                 <div class="field-wrapper">
-                  <input type="text" class="form-ctrl" [(ngModel)]="row.desc" name="label">
+                  <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.desc" name="label">
                 </div>
               </td>
               <td class="view-comp">

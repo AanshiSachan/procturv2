@@ -1,7 +1,17 @@
 table {
+    thead {
+        tr {
+            th {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+        }
+    }
     tbody {
         tr {
             td {
+                padding-top: 10px;
+                padding-bottom: 10px;
                 .editOptions li {
                     display: inline-block;
                 }
@@ -63,11 +73,14 @@ screen and (max-height: 768px) {
 .addNewButton {
     text-decoration: none;
     color: #0084f6;
+} ////// Turn off spinner
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
- ////// Turn off spinner
- input[type=number]::-webkit-inner-spin-button,
- input[type=number]::-webkit-outer-spin-button {
-     -webkit-appearance: none;
-     margin: 0;
- }
+.editCellInput {
+    margin: auto;
+    display: block;
+}
