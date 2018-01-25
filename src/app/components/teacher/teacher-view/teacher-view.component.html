@@ -1,225 +1,237 @@
-<div class="teacherView">
-  <div class="row">
-    <div class="extraMargin">
-      <h2>Teacher Profile</h2>
-    </div>
-  </div>
-  <div class="">
-    <div class="c-sm-6" *ngIf="selectedTeacherInformation">
-      <div style="margin-top: 10px;margin-bottom: 10px;">
-        <label>Name:</label>
-        {{selectedTeacherInformation.teacher_name}}
+<div class="middle-section clearFix">
+  <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+    <h1 class="pull-left">
+      Teacher Profile
+    </h1>
+  </section>
+
+  <section class="middle-main clearFix">
+    <div class="c-sm-12">
+      <div class="c-sm-3 imageUploadWrapper">
+        <image-upload [removeImg]="false"></image-upload>
       </div>
-      <div style="margin-top: 10px;margin-bottom: 10px;">
-        <label>Email:</label>
-        {{selectedTeacherInformation.teacher_email}}
-      </div>
-      <div style="margin-top: 10px;margin-bottom: 10px;">
-        <label>Contact Number:</label>
-        {{selectedTeacherInformation.teacher_phone}}
-      </div>
-      <div style="margin-top: 10px;margin-bottom: 10px;">
-        <label>Standard:</label>
-        {{selectedTeacherInformation.teacher_standards}}
-      </div>
-      <div style="margin-top: 10px;margin-bottom: 10px;">
-        <label>Subject:</label>
-        {{selectedTeacherInformation.teacher_subjects}}
-      </div>
-    </div>
-    <div class="c-sm-6">
-      <image-upload [removeImg]="false"></image-upload>
-    </div>
-  </div>
-  <div class="row extraMargin">
-    <div class="c-sm-4">
-      <div class="field-wrapper">
-        <select id="" class="form-ctrl" (focus)="inputClickedCheck($event)" [(ngModel)]="selectedBatch">
-          <option *ngFor="let opt of batchesList" [value]="opt.batch_id">
-            {{opt.batch_name}}
-          </option>
-        </select>
-        <label for="">Batch
-        </label>
+      <div class="c-sm-9" *ngIf="selectedTeacherInformation">
+        <div class="c-sm-4">
+          <div class="extraMargin">
+            <label>Name:</label>
+            {{selectedTeacherInformation.teacher_name}}
+          </div>
+          <div class="extraMargin">
+            <label>Email:</label>
+            {{selectedTeacherInformation.teacher_email}}
+          </div>
+          <div class="extraMargin">
+            <label>Contact Number:</label>
+            {{selectedTeacherInformation.teacher_phone}}
+          </div>
+        </div>
+        <div class="c-sm-3">
+          <div class="extraMargin">
+            <label>Standard:</label>
+            {{selectedTeacherInformation.teacher_standards}}
+          </div>
+          <div class="extraMargin">
+            <label>Subject:</label>
+            {{selectedTeacherInformation.teacher_subjects}}
+          </div>
+        </div>
+        <div class="c-sm-2">
+        </div>
       </div>
     </div>
-    <div class="c-sm-3">
-      <div class="field-wrapper datePickerBox">
-        <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="fromDate" (focus)="inputClickedCheck($event)"
-          [(ngModel)]="selectedFromDate" bsDatepicker/>
-        <span class="date-clear" name="fromDate" (click)="clearDate($event)">Clear</span>
+    <div class="extraMargin c-sm-12">
+      <div class="c-sm-2">
+        <div class="field-wrapper">
+          <select id="" class="form-ctrl" (focus)="inputClickedCheck($event)" [(ngModel)]="selectedBatch">
+            <option *ngFor="let opt of batchesList" [value]="opt.batch_id">
+              {{opt.batch_name}}
+            </option>
+          </select>
+          <label for="">Batch
+          </label>
+        </div>
+      </div>
+      <div class="c-sm-9">
+        <div class="field-wrapper datePickerBox c-sm-3">
+          <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="fromDate" (focus)="inputClickedCheck($event)"
+            [(ngModel)]="selectedFromDate" bsDatepicker/>
+          <!-- <span class="date-clear" name="fromDate" (click)="clearDate($event)">Clear</span> -->
+        </div>
+        <div class="field-wrapper datePickerBox c-sm-3">
+          <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="createdDate" (focus)="inputClickedCheck($event)"
+            [(ngModel)]="selectedToDate" bsDatepicker />
+          <!-- <span class="date-clear" name="createdDate" (click)="clearDate($event)">Clear</span> -->
+        </div>
+        <div class="c-sm-3">
+          <button class="btn" (click)="searchTeacherInfo()">Go</button>
+        </div>
+      </div>
+      <div class="c-sm-3">
       </div>
     </div>
-    <div class="c-sm-3">
-      <div class="field-wrapper datePickerBox">
-        <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="createdDate" (focus)="inputClickedCheck($event)"
-          [(ngModel)]="selectedToDate" bsDatepicker />
-        <span class="date-clear" name="createdDate" (click)="clearDate($event)">Clear</span>
-      </div>
-    </div>
-    <div class="c-sm-2">
-      <button class="btn" (click)="searchTeacherInfo()">Go</button>
-    </div>
-  </div>
-  <div class="row extraMargin">
     <div>
-      <div class="c-sm-8">
-        <h2>Assigned Batches Details</h2>
+      <div>
+        <h2 class="pull-left marginTenPixel">
+          Assigned Batches Details
+        </h2>
+        <!-- <div class="c-sm-4">
+          <button class="btn" (click)="exportDetailsInExcel()">Excel</button>
+          <button class="btn" (click)="printBtnClick()">Print</button>
+        </div> -->
       </div>
-      <div class="c-sm-4">
-        <button class="btn" (click)="exportDetailsInExcel()">Excel</button>
-        <button class="btn" (click)="printBtnClick()">Print</button>
+      <div class="common-table">
+        <div class="table table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  Batch
+                </th>
+                <th>
+                  Total Students
+                </th>
+                <th>
+                  Total Classes Marked
+                </th>
+                <th>
+                  Total Classes Taken
+                </th>
+                <th>
+                  Total Hours
+                </th>
+                <th>
+                  Computed Salary
+                </th>
+                <th>
+                  View Details
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="row{{i}}" class="displayComp" *ngFor="let row of assignedBatchList; let i = index; trackBy: i;">
+                <td>
+                  {{row.batch_name}}
+                </td>
+                <td>
+                  {{row.total_students}}
+                </td>
+                <td>
+                  {{row.total_classes}}
+                </td>
+                <td>
+                  {{row.total_teacher_classes}}
+                </td>
+                <td>
+                  {{row.total_hours}}
+                </td>
+                <td>
+                  {{row.comp_sal}}
+                </td>
+                <td>
+                  <a style="cursor: pointer;" (click)="viewDetailOfBatch(row , i)">
+                    <i class="view-icon"></i>View
+                  </a>
+                </td>
+              </tr>
+              <tr *ngIf="(assignedBatchList.length > 0)">
+                <td colspan="2" style="text-align:center;">
+                  Total Classes Taken : {{totalClassesTaken}}
+                </td>
+                <td colspan="2" style="text-align:center;">
+                  Total Hours Spent : {{totalHourSpent}}
+                </td>
+                <td colspan="4">
+                </td>
+              </tr>
+              <tr *ngIf="(assignedBatchList.length == 0)">
+                <td colspan="8" style="text-align:center;">
+                  <span>No Data Found</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-    <div class="common-table">
-      <div class="table table-responsive">
-        <table>
-          <thead>
-            <tr>
-              <th>
-                Batch
-              </th>
-              <th>
-                Total Students
-              </th>
-              <th>
-                Total Classes Marked
-              </th>
-              <th>
-                Total Classes Taken
-              </th>
-              <th>
-                Total Hours
-              </th>
-              <th>
-                Computed Salary
-              </th>
-              <th>
-                View Details
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr id="row{{i}}" class="displayComp" *ngFor="let row of assignedBatchList; let i = index; trackBy: i;">
-              <td>
-                {{row.batch_name}}
-              </td>
-              <td>
-                {{row.total_students}}
-              </td>
-              <td>
-                {{row.total_classes}}
-              </td>
-              <td>
-                {{row.total_teacher_classes}}
-              </td>
-              <td>
-                {{row.total_hours}}
-              </td>
-              <td>
-                {{row.comp_sal}}
-              </td>
-              <td>
-                <a style="cursor: pointer;" (click)="viewDetailOfBatch(row , i)">
-                  <i class="view-icon"></i>View
-                </a>
-              </td>
-            </tr>
-            <tr *ngIf="(assignedBatchList.length > 0)">
-              <td colspan="2" style="text-align:center;">
-                Total Classes Taken : {{totalClassesTaken}}
-              </td>
-              <td colspan="2" style="text-align:center;">
-                Total Hours Spent : {{totalHourSpent}}
-              </td>
-              <td colspan="4">
-              </td>
-            </tr>
-            <tr *ngIf="(assignedBatchList.length == 0)">
-              <td colspan="8" style="text-align:center;">
-                <span>No Data Found</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-  <div class="row extraMargin">
     <div>
-      <h2>Visiting Batches Details</h2>
-    </div>
-    <div class="common-table">
-      <div class="table table-responsive">
-        <table>
-          <thead>
-            <tr>
-              <th>
-                Batch
-              </th>
-              <th>
-                Total Students
-              </th>
-              <th>
-                Total Classes Taken
-              </th>
-              <th>
-                Total Hours
-              </th>
-              <th>
-                Computed Salary
-              </th>
-              <th>
-                View Details
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr id="row{{i}}" *ngFor="let row of visitingBatchList; let i = index; trackBy: i;">
-              <td>
-                {{row.batch_name}}
-              </td>
-              <td>
-                {{row.total_students}}
-              </td>
-              <td>
-                {{row.total_teacher_classes}}
-              </td>
-              <td>
-                {{row.total_hours}}
-              </td>
-              <td>
-                {{row.comp_sal}}
-              </td>
-              <td>
-                <a style="cursor: pointer;" (click)="viewDetailOfVisitingBatch(row , i)">
-                  <i class="view-icon"></i>View
-                </a>
-              </td>
-            </tr>
-            <tr *ngIf="(visitingBatchList.length > 0)">
-              <td colspan="2" style="text-align:center;">
-                Total Classes Taken : {{visitingTotalClasses}}
-              </td>
-              <td colspan="2" style="text-align:center;">
-                Total Hours Spent : {{visitingTotalHour}}
-              </td>
-              <td colspan="2">
-              </td>
-            </tr>
-            <tr *ngIf="(visitingBatchList.length == 0)">
-              <td colspan="6" style="text-align:center;">
-                <span>No Data Found</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div>
+        <h2 class="pull-left marginTenPixel">
+          Visiting Batches Details
+        </h2>
+      </div>
+      <div class="common-table">
+        <div class="table table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  Batch
+                </th>
+                <th>
+                  Total Students
+                </th>
+                <th>
+                  Total Classes Taken
+                </th>
+                <th>
+                  Total Hours
+                </th>
+                <th>
+                  Computed Salary
+                </th>
+                <th>
+                  View Details
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="row{{i}}" *ngFor="let row of visitingBatchList; let i = index; trackBy: i;">
+                <td>
+                  {{row.batch_name}}
+                </td>
+                <td>
+                  {{row.total_students}}
+                </td>
+                <td>
+                  {{row.total_teacher_classes}}
+                </td>
+                <td>
+                  {{row.total_hours}}
+                </td>
+                <td>
+                  {{row.comp_sal}}
+                </td>
+                <td>
+                  <a style="cursor: pointer;" (click)="viewDetailOfVisitingBatch(row , i)">
+                    <i class="view-icon"></i>View
+                  </a>
+                </td>
+              </tr>
+              <tr *ngIf="(visitingBatchList.length > 0)">
+                <td colspan="2" style="text-align:center;">
+                  Total Classes Taken : {{visitingTotalClasses}}
+                </td>
+                <td colspan="2" style="text-align:center;">
+                  Total Hours Spent : {{visitingTotalHour}}
+                </td>
+                <td colspan="2">
+                </td>
+              </tr>
+              <tr *ngIf="(visitingBatchList.length == 0)">
+                <td colspan="6" style="text-align:center;">
+                  <span>No Data Found</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
-  <div style="text-align: center;">
-    <button class="btn" (click)="cancelViewDetails()">Cancel</button>
-  </div>
+    <div class="marginTenPixel" style="text-align: center;">
+      <button class="btn" (click)="cancelViewDetails()">Cancel</button>
+    </div>
+  </section>
+
 </div>
 
 
