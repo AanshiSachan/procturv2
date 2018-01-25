@@ -1,74 +1,93 @@
-<div class="clearfix">
-  <div class="pull-left">
-    <h2>Slots/Custom 1</h2>
-  </div>
-  <div class="c-sm-12" style="margin-bottom: 15px;">
-    <div class="c-sm-6">
+<div class="middle-section clearFix">
+  <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+    <h1 class="pull-left">
+      Slots/Custom 1
+    </h1>
+  </section>
+
+  <section class="middle-main clearFix">
+
+    <div class="clearFix add-edit">
+      <a (click)="toggleCreateNewSlot()">
+        <i id="showAddBtn" class="addBtnClass">+</i>
+        <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
+        <span>Create Standard</span>
+      </a>
     </div>
-    <div class="c-sm-3">
-      <div class="row field-wrapper">
-        <input type="text" #idSlot class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
-        <label for="slotNew">Slot
-        </label>
+    <section class="clearFix create-standard-form" *ngIf="createNewSlot">
+      <div class="c-lg-6 c-sm-6 c-md-6">
+        <div class="row create-standard-field">
+          <div class="c-lg-8 c-md-6 c-ms-6">
+            <div class="field-wrapper">
+              <input type="text" #idSlot class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Slot
+              </label>
+            </div>
+          </div>
+          <div class="c-lg-4 c-md-4 c-ms-4">
+          </div>
+        </div>
+      </div>
+      <div class="c-lg-3 c-sm-4 c-md-4 pull-right">
+        <aside class="pull-left create-cancel-small">
+          <button class="btn" (click)="addNewSlot(idSlot)">Add</button>
+        </aside>
+      </div>
+    </section>
+    <div id="divSlotTable">
+      <div class="table-scroll-wrapper">
+        <div class="table table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  S No.
+                </th>
+                <th>
+                  Name
+                </th>
+                <th>
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="row{{i}}" class="displayComp" *ngFor="let row of slotTableList; let i = index; trackBy: i;">
+                <td>
+                  {{i}}
+                </td>
+
+                <td class="view-comp">
+                  {{row.slot_name}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.slot_name" name="label">
+                  </div>
+                </td>
+
+                <td class="view-comp">
+                  <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
+                </td>
+                <td class="edit-comp">
+                  <a class="anchorTagCursor" (click)="saveSlotInformation(row , i)"> Save </a>
+                  <a class="anchorTagCursor" (click)="cancelEditRow(i)"> Cancel </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-    <div class="c-sm-3">
-      <button class="btn" (click)="addNewSlot(idSlot)">Add</button>
-    </div>
-  </div>
-  <div id="divSlotTable">
-    <div class="table-scroll-wrapper">
-      <div class="table table-responsive">
-        <table>
-          <thead>
-            <tr>
-              <th>
-                S No.
-              </th>
-              <th>
-                Name
-              </th>
-              <th>
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr id="row{{i}}" class="displayComp" *ngFor="let row of slotTableList; let i = index; trackBy: i;">
-              <td>
-                {{i}}
-              </td>
 
-              <td class="view-comp">
-                {{row.slot_name}}
-              </td>
-              <td class="edit-comp">
-                <div class="field-wrapper">
-                  <input type="text" class="form-ctrl" [(ngModel)]="row.slot_name" name="label">
-                </div>
-              </td>
-
-              <td class="view-comp">
-                <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
-              </td>
-              <td class="edit-comp">
-                <a class="anchorTagCursor" (click)="saveSlotInformation(row , i)"> Save  </a>
-                <a class="anchorTagCursor" (click)="cancelEditRow(i)"> Cancel </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <!-- Paginator Here -->
+    <div class="row filter-res pagination" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+        </pagination>
       </div>
     </div>
-  </div>
-
-  <!-- Paginator Here -->
-  <div class="row filter-res pagination" style="width: 100%;">
-    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-        [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
-      </pagination>
-    </div>
-  </div>
+  </section>
 
 </div>
