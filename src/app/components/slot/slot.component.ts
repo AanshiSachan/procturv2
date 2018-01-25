@@ -22,6 +22,7 @@ export class SlotComponent implements OnInit {
     private appC: AppComponent
   ) {
     this.removeFullscreen();
+    this.removeSelectionFromSideNav();
   }
 
   ngOnInit() {
@@ -165,6 +166,20 @@ export class SlotComponent implements OnInit {
     [].forEach.call(sidebar, function (el) {
       el.classList.remove('hide');
     });
+  }
+
+  removeSelectionFromSideNav() {
+    document.getElementById('lione').classList.remove('active');
+    document.getElementById('litwo').classList.remove('active');
+    document.getElementById('lithree').classList.remove('active');
+    document.getElementById('lifour').classList.remove('active');
+    document.getElementById('lifive').classList.remove('active');
+    document.getElementById('lisix').classList.remove('active');
+    document.getElementById('liseven').classList.remove('active');
+    document.getElementById('lieight').classList.remove('active');
+    document.getElementById('linine').classList.remove('active');
+    document.getElementById('liten').classList.remove('active');
+    document.getElementById('lieleven').classList.remove('active');
   }
 
 }

@@ -13,6 +13,7 @@ export class TeacherComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.removeSelectionFromSideNav();
     this.removeFullscreen();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
@@ -30,7 +31,21 @@ export class TeacherComponent implements OnInit {
     });
   }
 
-  
+  removeSelectionFromSideNav() {
+    document.getElementById('lione').classList.remove('active');
+    document.getElementById('litwo').classList.remove('active');
+    document.getElementById('lithree').classList.remove('active');
+    document.getElementById('lifour').classList.remove('active');
+    document.getElementById('lifive').classList.remove('active');
+    document.getElementById('lisix').classList.remove('active');
+    document.getElementById('liseven').classList.remove('active');
+    document.getElementById('lieight').classList.remove('active');
+    document.getElementById('linine').classList.remove('active');
+    document.getElementById('liten').classList.remove('active');
+    document.getElementById('lieleven').classList.remove('active');
+  }
+
+
 
 
 }

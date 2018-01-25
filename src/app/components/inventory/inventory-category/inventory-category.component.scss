@@ -1,3 +1,4 @@
+@import "./src/assets/css/common/variables.scss";
 table {
     thead {
         tr {
@@ -83,4 +84,56 @@ input[type=number]::-webkit-outer-spin-button {
 .editCellInput {
     margin: auto;
     display: block;
+}
+
+.add-edit {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    i {
+        border: 1px solid $common-blue;
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        line-height: 16px;
+        text-align: center;
+        font-size: 17px;
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+    span {
+        display: inline-block;
+    }
+    .expend-box {
+        i {
+            line-height: 12px;
+            font-size: 22px;
+        }
+    }
+    a {
+        cursor: pointer;
+    }
+}
+
+.closeBtnClass {
+    line-height: 11px !important;
+}
+
+.create-standard-form {
+    margin: 10px 0;
+    padding: 10px 20px 20px;
+    background: #efefef;
+    border-top: 1px solid #d8d8d8;
+    .field-wrapper {
+        margin-top: -10px;
+        label {
+            top: 25px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+    }
+    .form-ctrl {
+        background: transparent;
+        border-bottom: solid 1px #cccccc;
+    }
 }

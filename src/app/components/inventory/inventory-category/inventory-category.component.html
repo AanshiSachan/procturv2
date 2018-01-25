@@ -1,92 +1,104 @@
 <div id="divCategory" class="c-lg-12 c-md-12 c-sm-12">
-  <div class="row" style="margin-top: 5px;margin-bottom: 10px;">
-    <div class="c-sm-3">
+  <section>
+    <div class="clearFix add-edit">
+      <a (click)="toggleCreateNewSlot()">
+        <i id="showAddBtn" class="addBtnClass">+</i>
+        <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
+        <span>Create Category</span>
+      </a>
     </div>
-    <div class="c-sm-3">
-      <div class="field-wrapper">
-        <input id="ctgryName" type="text" #categoryName class="form-ctrl" name="label" (focus)="inputClickedCheck($event)">
-        <label for="label">Category Name
-          <span style="color:red">*</span>
-        </label>
+    <div class="clearFix create-standard-form" *ngIf="createNewCategory" style="margin-top: 5px;margin-bottom: 10px;">
+      <div class="c-sm-3">
+      </div>
+      <div class="c-sm-3">
+        <div class="field-wrapper">
+          <input id="ctgryName" type="text" #categoryName class="form-ctrl" name="label" (focus)="inputClickedCheck($event)">
+          <label for="label">Category Name
+            <span style="color:red">*</span>
+          </label>
+        </div>
+      </div>
+      <div class="c-sm-3">
+        <div class="field-wrapper">
+          <input id="ctgrydesc" type="text" #categoryDesc class="form-ctrl" name="label" (focus)="inputClickedCheck($event)">
+          <label for="label">Category Description
+          </label>
+        </div>
+        <div>
+        </div>
+      </div>
+      <div class="c-sm-3" style="padding-top: 10px;">
+        <button class="btn" (click)="addNewCategoryRow(categoryName ,categoryDesc )">Add</button>
       </div>
     </div>
-    <div class="c-sm-3">
-      <div class="field-wrapper">
-        <input id="ctgrydesc" type="text" #categoryDesc class="form-ctrl" name="label" (focus)="inputClickedCheck($event)">
-        <label for="label">Category Description
-        </label>
-      </div>
-      <div>
-      </div>
-    </div>
-    <div class="c-sm-3" style="padding-top: 10px;">
-      <button class="btn" (click)="addNewCategoryRow(categoryName ,categoryDesc )">Add</button>
-    </div>
-  </div>
-  <div id="category-table" style="max-height: 400px;">
-    <div class="table-scroll-wrapper">
-      <div class="table table-responsive">
-        <table id="tbLCategory">
-          <thead>
-            <tr>
-              <th>
-                Category Name
-              </th>
-              <th>
-                Category Description
-              </th>
-              <th>
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody id="tbodyCategory">
-            <tr id="row{{i}}" class="displayComp" *ngFor="let row of categoryList; let i = index; trackBy: i;">
-              <td class="view-comp">
-                {{row.category_name}}
-              </td>
-              <td class="edit-comp">
-                <div class="field-wrapper">
-                  <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.category_name" name="label">
-                </div>
-              </td>
-              <td class="view-comp">
-                {{row.desc}}
-              </td>
-              <td class="edit-comp">
-                <div class="field-wrapper">
-                  <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.desc" name="label">
-                </div>
-              </td>
-              <td class="view-comp">
-                <ul>
-                  <li>
-                    <a style="cursor: pointer;" (click)="editRow(i)">Edit</a>
-                  </li>
-                </ul>
-              </td>
-              <td class="edit-comp">
-                <ul style="cursor: pointer;" class="editOptions">
-                  <li>
-                    <a (click)="updateTableRow(row , i)">Update</a>
-                  </li>
-                  <li>
-                    <a (click)="cancelTableRow(row)">Cancel</a>
-                  </li>
-                </ul>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+  </section>
+
+  <section>
+    <div id="category-table" style="max-height: 400px;">
+      <div class="table-scroll-wrapper">
+        <div class="table table-responsive">
+          <table id="tbLCategory">
+            <thead>
+              <tr>
+                <th>
+                  Category Name
+                </th>
+                <th>
+                  Category Description
+                </th>
+                <th>
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody id="tbodyCategory">
+              <tr id="row{{i}}" class="displayComp" *ngFor="let row of categoryList; let i = index; trackBy: i;">
+                <td class="view-comp">
+                  {{row.category_name}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.category_name" name="label">
+                  </div>
+                </td>
+                <td class="view-comp">
+                  {{row.desc}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.desc" name="label">
+                  </div>
+                </td>
+                <td class="view-comp">
+                  <ul>
+                    <li>
+                      <a style="cursor: pointer;" (click)="editRow(i)">Edit</a>
+                    </li>
+                  </ul>
+                </td>
+                <td class="edit-comp">
+                  <ul style="cursor: pointer;" class="editOptions">
+                    <li>
+                      <a (click)="updateTableRow(row , i)">Update</a>
+                    </li>
+                    <li>
+                      <a (click)="cancelTableRow(row)">Cancel</a>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- Paginator Here -->
-  <div class="row filter-res pagination" style="width: 100%;">
-    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-        [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
-      </pagination>
+    <!-- Paginator Here -->
+    <div class="row filter-res pagination" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+        </pagination>
+      </div>
     </div>
-  </div>
+  </section>
 </div>
