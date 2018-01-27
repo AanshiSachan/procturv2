@@ -1,0 +1,42 @@
+<div class="middle-section clearFix">
+  <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+    <h1 class="pull-left">
+      Add Course
+    </h1>
+  </section>
+
+  <section class="middle-main clearFix">
+    <div class="c-lg-9 c-sm-9 c-md-9">
+      <div class="row">
+        <div class="c-lg-6 c-md-6 c-ms-6">
+          <div class="field-wrapper">
+            <input type="text" name="masterCourse" [(ngModel)]="newCourseAdd.master_course_name" class="form-ctrl" (focus)="inputClickedCheck($event)"
+            />
+            <label for="masterCourse">Master Course
+              <span style="color:red">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="c-lg-6 c-md-6 c-ms-6">
+          <div class="field-wrapper">
+            <select class="form-ctrl" [(ngModel)]="newCourseAdd.standard_id" (focus)="inputClickedCheck($event)">
+              <option value="-1"></option>
+              <option *ngFor="let opt of standardNameList" [value]="opt.standard_id">
+                {{opt.standard_name}}
+              </option>
+            </select>
+            <label for="item">Standard Name
+              <span style="color:red">*</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="c-lg-3 c-sm-3 c-md-3 pull-right">
+      <aside class="pull-left create-cancel-small">
+        <input type="button" value="Go" class="btn redBtn" (click)="btnGoClickCreateCourse()">
+      </aside>
+    </div>
+  </section>
+
+</div>

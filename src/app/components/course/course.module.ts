@@ -7,14 +7,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CourseInput } from './course-directives/course-directives.directive';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { SharedModule } from '../shared/shared.module';
-import { CourseSubjectComponent } from './course-subject/course-subject.component';
-import { CourseCourseListComponent } from './course-course-list/course-course-list.component';
-import { CourseExamComponent } from './course-exam/course-exam.component';
-import { CourseClassComponent } from './course-class/course-class.component';
-import { ScheduleHomeComponent } from './course-home/schedule-home.component';
-import { StandardServices } from '../../services/course-services/standard.service';
-import { SubjectApiService } from '../../services/course-services/subject.service';
-import { CourseListService } from '../../services/course-services/course-list.service';
 
 @NgModule({
     imports: [
@@ -27,19 +19,11 @@ import { CourseListService } from '../../services/course-services/course-list.se
     ],
     declarations: [
         CourseComponent,
-        ScheduleHomeComponent,
         CourseInput,
-        CourseSubjectComponent,
-        CourseCourseListComponent,
-        CourseExamComponent,
-        CourseClassComponent,
     ],
     entryComponents: [
     ],
     providers: [
-        StandardServices,
-        SubjectApiService,
-        CourseListService
     ]
 })
 export class CourseModule {
