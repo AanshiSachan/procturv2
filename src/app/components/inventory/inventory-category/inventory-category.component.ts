@@ -54,6 +54,12 @@ export class InventoryCategoryComponent implements OnInit {
         this.getAllCategoryList();
         document.getElementById('ctgryName').value = "";
         document.getElementById('ctgrydesc').value = "";
+        let msg = {
+          type: 'success',
+          title: "",
+          body: "New Category Added."
+        }
+        this.appC.popToast(msg);
       },
       error => {
         console.log(error);
@@ -90,6 +96,12 @@ export class InventoryCategoryComponent implements OnInit {
     this.categoryService.updateExisting(data).subscribe(
       data => {
         console.log('Datatat', data);
+        let msg = {
+          type: 'success',
+          title: "",
+          body: "Category Updated."
+        }
+        this.appC.popToast(msg);
       },
       error => {
         console.log(error);
