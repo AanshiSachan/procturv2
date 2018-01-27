@@ -30,7 +30,7 @@ import { StudentBulkComponent } from './student-bulk/student-bulk.component';
                         pathMatch: 'prefix',
                     },
                     {
-                        path: 'edit',
+                        path: 'edit/:id',
                         component: StudentEditComponent,
                         pathMatch: 'prefix',
                     },

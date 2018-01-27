@@ -1,6 +1,5 @@
 <section class="middle-section clearFix" (click)="inputClicked($event)" (change)="inputClicked($event)" [ngBusy]="{busy: busyPrefill, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
 
-
   <section class="" id="studentFlow">
 
     <!-- ======================================================== -->
@@ -19,13 +18,13 @@
             <p id="kyc-icon">Other Details</p>
           </div>
         </li>
-        <li class="" id="li-three">
+        <li class="" id="li-three" [class.hide]="quickAddStudent">
           <div class="navigator" id="feeDetails-icon" (click)="switchToView($event.target.id)">
             <span id="feeDetails-icon">3</span>
             <p id="feeDetails-icon">Fee Details</p>
           </div>
         </li>
-        <li class="" id="li-four">
+        <li class="" id="li-four" [class.hide]="quickAddStudent">
           <div class="navigator" id="inventory-icon" (click)="switchToView($event.target.id)">
             <span id="inventory-icon">4</span>
             <p id="inventory-icon">Inventory</p>
@@ -69,7 +68,7 @@
             <div class="row">
               <div class="c-lg-8 c-md-8 c-sm-8">
                 <div class="form-type1">
-                  <div class="field-wrapper">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_name != ''}" >
                     <input type="text" value="" class="form-ctrl" id="sName" [(ngModel)]="studentAddFormData.student_name" name="sName" maxlength="50"
                       pattern="[a-zA-Z .]+[a-zA-Z .]+" #sname="ngModel" required>
                     <label for="sName">Student Name*</label>
@@ -83,7 +82,7 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_phone != ''}">
                     <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
                       maxlength="10" minlength="10" #cNumber="ngModel" pattern="[789][0-9]{9}" required/>
                     <label for="cNumber">Contact Number*</label>
@@ -97,7 +96,7 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_email != ''}">
                     <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.student_email" name="sEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                       #sEmail="ngModel" />
                     <label for="sEmail">Email ID</label>
@@ -108,7 +107,7 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_sex != ''}">
                     <select id="userGender" class="form-ctrl" [(ngModel)]="studentAddFormData.student_sex" name="userGender">
                       <option value=""></option>
                       <option value="M">Male</option>
@@ -118,7 +117,7 @@
                     <label for="userGender">Gender</label>
                   </div>
 
-                  <div class="field-wrapper">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_name != ''}">
                     <input type="text" value="" id="parentName" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_name" name="parentName"
                       maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+" #parentName="ngModel">
                     <label for="parentName">Parent Name</label>
@@ -129,7 +128,7 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_phone != ''}">
                     <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
                       maxlength="10" minlength="10" pattern="[789][0-9]{9}" #parentContactNo="ngModel" />
                     <label for="parentContactNo">Parent Contact Number</label>
@@ -140,7 +139,7 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_email != ''}">
                     <input type="text" value="" id="parentEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_email" name="parentEmail"
                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #parentEmail="ngModel">
                     <label for="parentEmail">Parent Email ID</label>
@@ -154,6 +153,7 @@
                   <div class="more-detail">
                     <a style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+ &nbsp; Add Additional Details</a>
                   </div>
+
                 </div>
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
@@ -167,18 +167,18 @@
                 <div class="form-type2" [hidden]="!additionalBasicDetails">
                   <h2>Additional Details</h2>
 
-                  <div class="field-wrapper datePickerBox">
+                  <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': studentAddFormData.dob != ''}">
                     <input type="text" value="" id="sdob" class="form-ctrl bsDatepicker" name="sdob" [(ngModel)]="studentAddFormData.dob" #sdob="ngModel"
                       bsDatepicker>
                     <label for="sdob">Date of Birth</label>
                   </div>
 
-                  <div class="field-wrapper">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_curr_addr != ''}">
                     <input type="text" value="" id="currentAdd" name="currentAdd" [(ngModel)]="studentAddFormData.student_curr_addr" class="form-ctrl">
                     <label for="currentAdd">Current Address Line1</label>
                   </div>
 
-                  <div class="field-wrapper">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_name != ''}">
                     <input type="text" value="" id="guardianName" class="form-ctrl" maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+" name="guardianName"
                       [(ngModel)]="studentAddFormData.guardian_name" #guardianName="ngModel" />
                     <label for="guardianName">Guardian Name</label>
@@ -196,7 +196,7 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_phone != ''}">
                     <input type="text" value="" id="guardianContact" class="form-ctrl" maxlength="10" minlength="10" [(ngModel)]="studentAddFormData.guardian_phone"
                       name="guardianContact" pattern="[789][0-9]{9}" #guardianContact="ngModel">
                     <label for="guardianContact">Guardian Contact Number</label>
@@ -213,7 +213,7 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_email != ''}">
                     <input type="text" value="" id="guardianEmail" class="form-ctrl" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" name="guardianEmail"
                       [(ngModel)]="studentAddFormData.guardian_email" #guardianEmail="ngModel" />
                     <label for="guardianEmail">Guardian Email Id</label>
@@ -224,7 +224,7 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.comments != ''}">
                     <input type="text" value="" name="addCommentNote" [(ngModel)]="studentAddFormData.comments" id="addCommentNote" class="form-ctrl">
                     <label for="addCommentNote">Add Comment Note</label>
                   </div>
@@ -248,14 +248,14 @@
                 <strong>Administration Details</strong> (Official Use)</h4>
               <div class="box-shadow-lite">
 
-                <div class="field-wrapper datePickerBox has-value">
+                <div class="field-wrapper datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}" >
                   <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" [(ngModel)]="studentAddFormData.doj"
                   />
                   <label for="doj">Date of Joining</label>
                   <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span>
                 </div>
 
-                <div class="field-wrapper">
+                <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.school_name != ''}" >
                   <select id="schoolStitution" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name" class="form-ctrl">
                     <option></option>
                     <option [value]="institute.school_id" *ngFor="let institute of instituteList">
@@ -269,34 +269,28 @@
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
-                <div class="field-wrapper" *ngIf="isAcad">
-                  <select id="standard" [(ngModel)]="studentAddFormData.student_class" name="standard" class="form-ctrl">
-                    <option></option>
+                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}" >
+                  <select id="standard" (ngModelChange)="updateMasterCourseList($event)" [(ngModel)]="studentAddFormData.student_class" name="standard" class="form-ctrl">
+                    <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                       {{standard.standard_name}}
                     </option>
                   </select>
-                  <label for="standard">Standards</label>
+                  <label for="standard">Standard</label>
                 </div>
 
 
-                <div id="assignCoursesParent" class="field-wrapper" *ngIf="isAcad" (click)="openAssignBatch()">
+                <div id="assignCoursesParent" class="field-wrapper" 
+                  *ngIf="isAcad" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}" >
                   <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" disabled/>
                   <label (click)="openAssignBatch()" for="assignCourses">Assign Courses</label>
                 </div>
-
-
-                <!-- <div class="map-courses" *ngIf="isAcad">
-                  <a style="cursor:pointer" (click)="openAssignBatch()">
-                    <strong>Map Courses</strong>
-                  </a>
-                </div> -->
 
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Professional Model For student Update -->
 
-                <div class="field-wrapper" *ngIf="isProfessional">
+                <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.standard_id != ''}" >
                   <select id="masterCourse" name="masterCourse" [(ngModel)]="studentAddFormData.standard_id" (ngModelChange)="fetchCourseFromMaster($event)"
                     class="form-ctrl">
                     <option></option>
@@ -307,7 +301,7 @@
                   <label for="masterCourse">Master Course</label>
                 </div>
 
-                <div class="field-wrapper" *ngIf="isProfessional">
+                <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.subject_id != ''}" >
                   <select id="course" [(ngModel)]="studentAddFormData.subject_id" name="course" class="form-ctrl">
                     <option></option>
                     <option *ngFor="let list of courseList" [value]="list.subject_id">
@@ -424,8 +418,8 @@
               <custom-student *ngFor="let component of customComponents">
 
                 <div class="row" *ngIf="component.type == 1" input-def>
-                  <div class="field-wrapper">
-                    <input type="text" value="" id="component.id" [(ngModel)]="component.value" class="form-ctrl" name="component.label" />
+                  <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}" >
+                    <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}" />
                     <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
                   </div>
@@ -434,15 +428,15 @@
                 <div class="row" *ngIf="component.type == 2" input-def>
                   <br>
                   <div class="field-checkbox-wrapper">
-                    <input class="form-checkbox" id="component.id" type="checkbox" [(ngModel)]="component.value" name="component.label" value="">
+                    <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}" value="{{component.value}}">
                     <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
                   </div>
                 </div>
 
                 <div class="row" *ngIf="component.type == 3" input-def>
-                  <div class="field-wrapper">
-                    <select id="component.id" class="form-ctrl" [(ngModel)]="component.value" name="component.label">
+                  <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}" >
+                    <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="{{component.label}}">
                       <option value=""></option>
                       <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                     </select>
@@ -452,7 +446,7 @@
                 </div>
 
                 <div class="row" *ngIf="component.type == 4" input-def>
-                  <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
+                  <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.value != ''}" >
                     <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
                       disabled/>
                     <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
@@ -508,7 +502,7 @@
 
     <!-- ======================================================== -->
     <!-- =============== Fee Details =============================== -->
-    <section class="student-flow-wrapper " *ngIf="isFeeActive" id="feeDetails">
+    <section class="student-flow-wrapper " *ngIf="isFeeActive" id="feeDetails" [class.hide]="quickAddStudent">
       <section class="fee-section-page">
         <!--====================================middle Top section==========================-->
         <section class="middle-top clearFix">
@@ -593,7 +587,7 @@
                 <label>Amount Due</label>
                 <div class="red">
                   <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_balance_amount - feeTemplateById.studentwise_total_fees_amount_paid}}</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_balance_amount}}</span>
                 </div>
               </li>
               <li>
@@ -708,7 +702,7 @@
     <!-- ======================================================== -->
     <!-- =============== Inventory =============================== -->
     <!--===========================================allocation inventory item===========================-->
-    <section class="student-flow-wrapper " *ngIf="isInventoryActive" id="inventory">
+    <section class="student-flow-wrapper " *ngIf="isInventoryActive" id="inventory" [class.hide]="quickAddStudent">
 
       <section class="clearFix allocation row" id="allocationInventoryItem">
 
@@ -795,11 +789,6 @@
     <!-- ======================================================== -->
     
   </section>
-     
-
-
-
-
 
   <!-- =============== Popup Declarations ===================== -->
   <!-- ======================================================== -->
@@ -928,8 +917,8 @@
       </svg>
     </span>
 
-    <h2 popup-header *ngIf="isAcad">Course Assignment</h2>
-    <h2 popup-header *ngIf="isProfessional">Batch Assignment</h2>
+    <h2 popup-header style="margin-bottom: 10px;" *ngIf="!isProfessional">Course Assignment</h2>
+    <h2 popup-header style="margin-bottom: 10px;" *ngIf="isProfessional">Batch Assignment</h2>
 
     <div class="fee-install-table" popup-content>
       <div class="table-responsive">
@@ -937,10 +926,12 @@
           <thead>
             <tr>
               <th></th>
-              <th>Batch Name</th>
+              <th *ngIf="!isProfessional">Course Name</th>
+              <th *ngIf="isProfessional">Batch Name</th>
               <th>Start Date</th>
               <th>End Date</th>
-              <th>Batch Assign Date</th>
+              <th *ngIf="!isProfessional">Course Assign Date</th>
+              <th *ngIf="isProfessional">Batch Assign Date</th>
             </tr>
           </thead>
           <tbody>
@@ -953,14 +944,15 @@
                   </div>
                 </div>
               </td>
-              <td>{{batch.data.batch_name}}</td>
-              <td>{{batch.data.start_date}}</td>
-              <td>{{batch.data.end_date}}</td>
+              <td *ngIf="!isProfessional">{{batch.data.master_course}} || {{batch.data.course_name}}</td>
+              <td *ngIf="!isProfessional">{{batch.data.start_date}}</td>
+              <td *ngIf="!isProfessional">{{batch.data.end_date}}</td>
+              <td *ngIf="isProfessional">{{batch.data.batch_name}}</td>
+              <td *ngIf="isProfessional">{{batch.data.start_date}}</td>
+              <td *ngIf="isProfessional">{{batch.data.end_date}}</td>
               <td>
                 <div class="field-wrapper datePickerBox has-value">
-                  <input type="text" value="" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker"
-                    bsDatepicker>
-                  <label for="assigndate">Assign Date</label>
+                  <input type="text" value="" readonly="true" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker" bsDatepicker>
                 </div>
             </tr>
           </tbody>

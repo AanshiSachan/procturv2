@@ -9,7 +9,7 @@ import { PaginationComponent } from './pagination/pagination.component';
 import { ImageUploadComponent } from './image-uploader/image-upload.component';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 import { CheckboxTableComponent } from './custom-checkbox-table/checkbox-table-layout.component';
-
+import { AppLoaderComponent } from './app-loader/app-loader.component';
 
 @NgModule({
     imports: [
@@ -23,7 +23,8 @@ import { CheckboxTableComponent } from './custom-checkbox-table/checkbox-table-l
         StyleCellDirective,
         PaginationComponent,
         ImageUploadComponent,
-        QuickFilterComponent
+        QuickFilterComponent,
+        AppLoaderComponent
     ],
     exports: [
         CommonModule,
@@ -31,7 +32,8 @@ import { CheckboxTableComponent } from './custom-checkbox-table/checkbox-table-l
         CheckboxTableComponent,
         PaginationComponent,
         ImageUploadComponent,
-        QuickFilterComponent
+        QuickFilterComponent,
+        AppLoaderComponent
     ],
     providers: [CurrencyPipe]
 })

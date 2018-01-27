@@ -498,7 +498,7 @@
         table {
             th,
             td {
-                text-align: center;
+                text-align: left;
                 padding: 10px 5px;
             }
             th {
@@ -508,6 +508,36 @@
             tbody {
                 tr {
                     td {
+                        text-align: left;
+                        .field-wrapper {
+                            position: relative;
+                            padding-top: 20px;
+                            &.datePickerBox {
+                                .bsDatepicker {
+                                    cursor: pointer;
+                                    position: relative;
+                                    z-index: 1;
+                                    background: transparent;
+                                }
+                                &:after {
+                                    content: '';
+                                    background: url("../../../../assets/images/calendar.svg") no-repeat;
+                                    position: absolute;
+                                    left: 110px;
+                                    top: 2px;
+                                    width: 21px;
+                                    height: 21px;
+                                    z-index: 0;
+                                }
+                            }
+                            .date-clear {
+                                position: absolute;
+                                right: 60%;
+                                top: 50px;
+                                cursor: pointer;
+                                color: #0084f6;
+                            }
+                        }
                         .field-checkbox-wrapper {
                             display: inline-block;
                             overflow: initial;
