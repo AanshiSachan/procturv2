@@ -270,13 +270,13 @@
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
                 <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}" >
-                  <select id="standard" [(ngModel)]="studentAddFormData.student_class" name="standard" class="form-ctrl">
-                    <option></option>
+                  <select id="standard" (ngModelChange)="updateMasterCourseList($event)" [(ngModel)]="studentAddFormData.student_class" name="standard" class="form-ctrl">
+                    <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                       {{standard.standard_name}}
                     </option>
                   </select>
-                  <label for="standard">Standards</label>
+                  <label for="standard">Standard</label>
                 </div>
 
 
@@ -917,8 +917,8 @@
       </svg>
     </span>
 
-    <h2 popup-header *ngIf="isAcad">Course Assignment</h2>
-    <h2 popup-header *ngIf="isProfessional">Batch Assignment</h2>
+    <h2 popup-header style="margin-bottom: 10px;" *ngIf="!isProfessional">Course Assignment</h2>
+    <h2 popup-header style="margin-bottom: 10px;" *ngIf="isProfessional">Batch Assignment</h2>
 
     <div class="fee-install-table" popup-content>
       <div class="table-responsive">
@@ -926,10 +926,12 @@
           <thead>
             <tr>
               <th></th>
-              <th>Batch Name</th>
+              <th *ngIf="!isProfessional">Course Name</th>
+              <th *ngIf="isProfessional">Batch Name</th>
               <th>Start Date</th>
               <th>End Date</th>
-              <th>Batch Assign Date</th>
+              <th *ngIf="!isProfessional">Course Assign Date</th>
+              <th *ngIf="isProfessional">Batch Assign Date</th>
             </tr>
           </thead>
           <tbody>
@@ -942,14 +944,15 @@
                   </div>
                 </div>
               </td>
-              <td>{{batch.data.batch_name}}</td>
-              <td>{{batch.data.start_date}}</td>
-              <td>{{batch.data.end_date}}</td>
+              <td *ngIf="!isProfessional">{{batch.data.master_course}} || {{batch.data.course_name}}</td>
+              <td *ngIf="!isProfessional">{{batch.data.start_date}}</td>
+              <td *ngIf="!isProfessional">{{batch.data.end_date}}</td>
+              <td *ngIf="isProfessional">{{batch.data.batch_name}}</td>
+              <td *ngIf="isProfessional">{{batch.data.start_date}}</td>
+              <td *ngIf="isProfessional">{{batch.data.end_date}}</td>
               <td>
                 <div class="field-wrapper datePickerBox has-value">
-                  <input type="text" value="" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker"
-                    bsDatepicker>
-                  <label for="assigndate">Assign Date</label>
+                  <input type="text" value="" readonly="true" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker" bsDatepicker>
                 </div>
             </tr>
           </tbody>

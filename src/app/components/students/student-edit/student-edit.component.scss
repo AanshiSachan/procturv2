@@ -4,7 +4,475 @@
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
 @import "./src/app/components/enquiry/enquiry-add/enquiry-add.component.scss";
-@import "./src/app/components/students/student-add/student-add.component.scss";
+
+/* ============================================================================================================= */
+
+
+/* ============================================================================================================= */
+
+
+/* ============================================================================================================= */
+
+.allocation-table {
+    width: 100%;
+    table {
+        thead {
+            tr {
+                line-height: 30px;
+                th {
+                    font-weight: 600;
+                }
+            }
+        }
+        tbody {
+            tr {
+                line-height: 20px;
+                .field-wrapper {
+                    max-width: 100px;
+                    left: 30%;
+                    .form-ctrl {
+                        background: transparent;
+                        text-align: center;
+                        border-bottom: solid 1px #0084f6;
+                    }
+                }
+            }
+        }
+    }
+    .table-footer {
+        width: 100%;
+        min-height: 40px;
+        padding: 5px 0px;
+        margin: 10px 0px;
+        #allocateInv {
+            width: 100%;
+        }
+    }
+}
+
+
+/* ============================================================================================================= */
+
+
+/* ============================================================================================================= */
+
+.feeManager {
+    min-height: 450px;
+    max-height: 450px;
+    overflow-x: hidden;
+    overflow-y: auto;
+     ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+    .fee-content {
+        max-height: 440px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    .row {
+        margin: 0px;
+    }
+    .header {
+        border-bottom: 1px solid rgba(119, 119, 119, 0.733);
+        margin: 5px 0px;
+    }
+    table {
+        .field-wrapper {
+            background: transparent;
+            width: 150px;
+            .form-ctrl {
+                background: transparent;
+                border-bottom: solid 1px #0084f6;
+                text-align: center;
+            }
+        }
+        .field-wrapper {
+            position: relative;
+            padding-top: 20px;
+            &.datePickerBox {
+                .bsDatepicker {
+                    cursor: pointer;
+                    position: relative;
+                    z-index: 1;
+                    background: transparent;
+                }
+                &:after {
+                    content: '';
+                    background: url("/./assets/images/calendar.svg") no-repeat;
+                    position: absolute;
+                    right: 30px;
+                    top: 20px;
+                    width: 21px;
+                    height: 21px;
+                    z-index: 0;
+                }
+            }
+            .date-clear {
+                position: absolute;
+                right: 60%;
+                top: 50px;
+                cursor: pointer;
+                color: #0084f6;
+            }
+        }
+        tr {
+            line-height: 20px;
+            i {
+                font-size: 18px;
+                cursor: pointer;
+            }
+            td {
+                padding: 3px 20px;
+            }
+        }
+    }
+    .installment {
+        border: 2px solid #004a7e;
+        padding: 5px;
+        box-shadow: 1px 5px 5px 1px #004a7e;
+        legend {
+            padding: 0.2em 0.5em;
+            border: 1px solid #004a7e;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: left;
+            width: 200px;
+            background: #004a7e;
+        }
+        .data-adder {
+            margin: 0px 0px 5px 0px;
+            .outer {
+                .inner {
+                    width: 30%;
+                    display: inline-flex;
+                    .btn {
+                        padding: 2px 0px 0px 7px;
+                        border: none;
+                        height: 35px;
+                        width: 35px;
+                        border-radius: 50%;
+                        .tooltip {
+                            position: relative;
+                            top: -30px;
+                            right: 50px;
+                            min-width: 100px;
+                            font-size: 12px;
+                            padding: 6px;
+                            height: 35px;
+                            border-radius: 5px;
+                            background: rgba(0, 0, 0, 0.774);
+                            color: white;
+                            visibility: hidden;
+                            opacity: 0;
+                        }
+                        &:hover {
+                            background: rgb(216, 214, 214);
+                            .tooltip {
+                                position: relative;
+                                top: -65px;
+                                right: 100px;
+                                min-width: 160px;
+                                padding: 6px;
+                                border-radius: 5px;
+                                font-size: 12px;
+                                height: 35px;
+                                background: rgba(0, 0, 0, 0.541);
+                                color: white;
+                                visibility: visible;
+                                opacity: 1;
+                                transition: all 0.2s;
+                            }
+                        }
+                        &:focus {
+                            outline: none;
+                        }
+                        &:active {
+                            box-shadow: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .additional {
+        margin-top: 40px;
+        border: 2px solid #004a7e;
+        padding: 5px;
+        box-shadow: 1px 5px 5px 1px #004a7e;
+        legend {
+            padding: 0.2em 0.5em;
+            border: 1px solid #004a7e;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: left;
+            width: 200px;
+            background: #004a7e;
+        }
+        .data-adder {
+            margin: 0px 0px 5px 0px;
+            .outer {
+                .inner {
+                    width: 30%;
+                    display: inline-flex;
+                    .btn {
+                        padding: 2px 0px 0px 7px;
+                        border: none;
+                        height: 35px;
+                        width: 35px;
+                        border-radius: 50%;
+                        .tooltip {
+                            position: relative;
+                            top: -30px;
+                            right: 50px;
+                            min-width: 100px;
+                            font-size: 12px;
+                            padding: 6px;
+                            height: 35px;
+                            border-radius: 5px;
+                            background: rgba(0, 0, 0, 0.774);
+                            color: white;
+                            visibility: hidden;
+                            opacity: 0;
+                        }
+                        &:hover {
+                            background: rgb(216, 214, 214);
+                            .tooltip {
+                                position: relative;
+                                top: -65px;
+                                right: 100px;
+                                min-width: 160px;
+                                padding: 6px;
+                                border-radius: 5px;
+                                font-size: 12px;
+                                height: 35px;
+                                background: rgba(0, 0, 0, 0.541);
+                                color: white;
+                                visibility: visible;
+                                opacity: 1;
+                                transition: all 0.2s;
+                            }
+                        }
+                        &:focus {
+                            outline: none;
+                        }
+                        &:active {
+                            box-shadow: none;
+                        }
+                    }
+                }
+                .innermost {
+                    display: inline-flex;
+                    .field-wrapper {
+                        width: 200px;
+                    }
+                    .btn {
+                        padding: 2px 0px 0px 7px;
+                        border: none;
+                        height: 35px;
+                        width: 35px;
+                        border-radius: 50%;
+                        .tooltip {
+                            position: relative;
+                            top: -30px;
+                            right: 50px;
+                            min-width: 100px;
+                            font-size: 12px;
+                            padding: 6px;
+                            height: 35px;
+                            border-radius: 5px;
+                            background: rgba(0, 0, 0, 0.774);
+                            color: white;
+                            visibility: hidden;
+                            opacity: 0;
+                        }
+                        &:hover {
+                            background: rgb(216, 214, 214);
+                            .tooltip {
+                                position: relative;
+                                top: -65px;
+                                right: 100px;
+                                min-width: 160px;
+                                padding: 6px;
+                                border-radius: 5px;
+                                font-size: 12px;
+                                height: 35px;
+                                background: rgba(0, 0, 0, 0.541);
+                                color: white;
+                                visibility: visible;
+                                opacity: 1;
+                                transition: all 0.2s;
+                            }
+                        }
+                        &:focus {
+                            outline: none;
+                        }
+                        &:active {
+                            box-shadow: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+
+
+/* Webkit browsers like Safari and Chrome */
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.bigPop {
+    .popupWrapper {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        bottom: 0;
+        top: 60px;
+        right: 0;
+        left: 0px;
+        background: rgba(230, 230, 230, 0.5);
+        z-index: 100; // display: none;  
+        visibility: hidden;
+        opacity: 0;
+        -webkit-transition: all 0.5s ease-in;
+        -moz-transition: all 0.5s ease-in;
+        -ms-transition: all 0.5s ease-in;
+        -o-transition: all 0.5s ease-in;
+        transition: all 0.5s ease-in;
+        .popup {
+            max-width: 80%;
+            width: 80%;
+            height: auto;
+            left: 0;
+            right: 0;
+            top: 5%;
+            bottom: 0;
+            margin: auto;
+        }
+    }
+}
+
+.enquiry-detail {
+    .field-wrapper {
+        position: relative;
+        padding-top: 10px;
+        &.datePickerBox {
+            .form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url("/./assets/images/calendar.svg") no-repeat;
+                position: absolute;
+                right: 50px;
+                top: 18px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+        .date-clear {
+            position: absolute;
+            right: 5px;
+            top: 25px;
+            cursor: pointer;
+            color: #0084f6;
+        }
+    }
+    .field-wrapper {
+        position: relative;
+        padding-top: 10px;
+        &.datePickerBox {
+            .form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url('/./assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 50px;
+                top: 18px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+    .field-checkbox-wrapper {
+        margin: 20px 0px;
+    }
+}
+
+.fee-install-table {
+    max-height: 350px;
+    overflow: hidden;
+    ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+    .table-responsive{
+        max-width: 100%;
+        max-height: 340px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }    
+    th {
+        text-align: left;
+    }
+    td {
+        padding: 10px 5px;
+        text-align: left;
+        .field-wrapper {
+            position: relative;
+            padding-top: 20px;
+            &.datePickerBox {
+                .bsDatepicker {
+                    cursor: pointer;
+                    position: relative;
+                    z-index: 1;
+                    background: transparent;
+                    width: 120px;
+                }
+                &:after {
+                    content: '';
+                    background: url("../../../../assets/images/calendar.svg") no-repeat;
+                    position: absolute;
+                    left: 110px;
+                    top: 2px;
+                    width: 21px;
+                    height: 21px;
+                    z-index: 0;
+                }
+            }
+            .date-clear {
+                position: absolute;
+                right: 60%;
+                top: 50px;
+                cursor: pointer;
+                color: #0084f6;
+            }
+        }
+    }
+}
 
 .student-flow-wrapper {
     padding: 0 15px;
@@ -17,6 +485,8 @@
         font-weight: 600;
     }
 }
+
+.navigator {}
 
 .multiselect-wrapper {
     padding: 5px;
@@ -36,14 +506,6 @@
             }
         }
     }
-}
-
-.navigator {}
-
-.image-upload-wrapper {
-    max-height: 300px;
-    overflow: hidden;
-    .input-holder {}
 }
 
 .other-detail-wrapper {
@@ -97,7 +559,7 @@
     }
 }
 
-.fee-detail {
+.feeold-detail {
     .btn {
         margin-left: 0;
         min-width: 150px;
@@ -106,7 +568,7 @@
     }
 }
 
-.fee-box {
+.feeold-box {
     min-height: 300px;
     position: relative;
     margin-bottom: 10px;
@@ -120,7 +582,7 @@
     padding: 15px 0 0;
 }
 
-.fee-install-table {
+.feeold-install-table {
     .table-responsive {
         table {
             th,
@@ -180,17 +642,17 @@
     margin-bottom: 20px;
 }
 
-.fee-detail-right {
+.feeold-detail-right {
     .box-shadow-lite {
         padding: 10px;
     }
 }
 
-.fee-detail-total-calc {
+.feeold-detail-total-calc {
     &>div {
         padding: 15px 0;
         border-bottom: 1px solid $border-color;
-        &.total-fee {
+        &.total-feeold {
             border-top: 1px solid $border-color;
             border-bottom: 0;
             span {
@@ -376,7 +838,7 @@
     }
 }
 
-.fee-install-table {
+.feeold-install-table {
     margin: 10px 0px 0px 0px;
     .table-responsive {
         max-height: 400px;
@@ -559,7 +1021,7 @@
 /* ======================== Responsive Data ================================== */
 
 @media only screen and (max-width: 767px) {
-    .fee-detail.row,
+    .feeold-detail.row,
     .installment-detail,
     .student-flow-wrapper .middle-full.row,
     .helpDetail.row,
@@ -582,4 +1044,260 @@
             display: none;
         }
     }
+}
+
+.btn-diff {
+    .btn {
+        padding: 0 10px 0 5px;
+        svg {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+}
+
+.fee-section-page {
+    padding: 10px 20px;
+}
+
+.fee-summary {
+    margin-top: 25px;
+    ul {
+        display: flex;
+        justify-content: space-between;
+        li {
+            width: auto;
+            label {
+                font-size: 14px;
+                color: #666666;
+                display: block;
+                margin-bottom: 5px;
+                text-transform: uppercase;
+            }
+            &>div {
+                border-radius: 4px;
+                height: 64px;
+                width: 175px;
+                flex-wrap: nowrap;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 15px;
+                span {
+                    font-size: 22px;
+                    font-weight: 600;
+                    &.feename {
+                        font-size: 22px;
+                        font-weight: 600;
+                        max-width: 100px;
+                        overflow: auto;
+                        text-overflow: ellipsis;
+                    }
+                }
+                a {
+                    text-decoration: underline;
+                    cursor: pointer;
+                }
+                * {
+                    color: #fff;
+                }
+                &.blue {
+                    background: #24c4d0;
+                    box-shadow: 0 2px 2px rgba(83, 196, 208, 0.55);
+                }
+                &.purple {
+                    background: #b159f2;
+                    box-shadow: 0 2px 4px 0px rgba(177, 89, 242, 0.55);
+                }
+                &.yellow {
+                    background: #fcc03d;
+                    box-shadow: 0 2px 4px 0px rgba(252, 192, 61, 0.58);
+                }
+                &.green {
+                    background: #78dd95;
+                    box-shadow: 0 2px 4px 0px rgba(120, 221, 149, 0.55);
+                }
+                &.red {
+                    background: #f44167;
+                    box-shadow: 0 2px 4px 0px rgba(244, 65, 103, 0.55);
+                }
+                &.gray {
+                    background: #abaaaa;
+                    box-shadow: 0 2px 4px 0px rgba(171, 170, 170, 0.55);
+                }
+            }
+        }
+    }
+}
+
+.fd-heading {
+    padding-bottom: 10px;
+}
+
+.fee-detail-summary {
+    padding-top: 40px;
+}
+
+.fee-inst-list {
+    &>ul {
+        &>li {
+            border: 1px solid #ccc;
+            padding: 16px;
+            border-top: 0;
+            &.active,
+            &:hover {
+                box-shadow: inset 0 0px 4px 2px rgba(0, 0, 0, 0.08);
+            }
+            &:first-child {
+                border-top: 1px solid #ccc;
+            }
+            .inst-detail {
+                overflow: hidden;
+                padding-left: 12px;
+            }
+        }
+    }
+    .add-edit {
+        padding-left: 37px;
+        font-size: 14px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+}
+
+.instl-info {
+    &>ul {
+        &>li {
+            display: inline-block;
+            margin-right: 70px;
+            margin-bottom: 10px;
+            label {
+                font-size: 10px;
+                color: rgba(0, 0, 0, 0.3);
+                display: block;
+            }
+            span {
+                font-size: 14px;
+                display: block;
+                color: #000;
+                margin-top: 6px;
+            }
+            &:first-child {
+                span {
+                    font-size: 18px;
+                    color: rgba(0, 0, 0, 0.7);
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+}
+
+.inst-detail {
+    .inst-label {
+        font-size: 14px;
+        color: #000;
+        padding-bottom: 12px;
+    }
+}
+
+.fee-status {
+    display: inline-block;
+    border-radius: 4px;
+    padding: 4px 8px;
+    color: #fff;
+    font-size: 11px;
+    margin-left: 10px;
+    vertical-align: middle;
+    text-transform: uppercase;
+    &.paid {
+        background: #78dd95;
+    }
+    &.due {
+        background: #f44167;
+    }
+    &.upcoming {
+        background: #fcc03d;
+    }
+    &.partial {
+        background: #24c4d0;
+    }
+}
+
+.fd-btm {
+    margin-top: 20px;
+    .btn {
+        width: 172px;
+        border-radius: 3px;
+    }
+    .fd-btm-label {
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.80);
+        margin: 5px 0 15px;
+    }
+}
+
+.btn-diff {
+    .btn {
+        transition: all 0.3s ease-in-out;
+        &:hover {
+            background: #0084f6;
+            border: 1px solid #0084f6;
+            color: #fff;
+            path {
+                fill: #fff;
+            }
+            color: #fff;
+        }
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .fee-summary ul {
+        display: block;
+        li {
+            display: inline-block;
+            margin-right: 15px;
+            margin-bottom: 20px;
+            div {}
+        }
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .fee-section-page {
+        padding: 10px 0;
+    }
+    .instl-info>ul>li {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-right: 0;
+        float: left;
+        width: 50%;
+        min-height: 50px;
+    }
+    .fee-summary ul li>div {
+        padding: 0 10px;
+        height: 58px;
+        width: 134px;
+        span {
+            font-size: 18px;
+        }
+    }
+}
+
+.configureFee {
+    border-top: 1px solid rgba(97, 96, 96, 0.47843137254901963);
+    padding: 20px 10px;
+    .row {
+        margin: 0px 10px;
+        .field-wrapper {
+            width: 40%;
+        }
+    }
+}
+
+#paydayClear {
+    left: 105% !important;
+    top: 20px !important;
 }

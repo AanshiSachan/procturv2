@@ -3,7 +3,6 @@
 <section class="middle-section clearFix" (click)="inputClicked($event)" (change)="inputClicked($event)" [ngBusy]="{busy: busyPrefill, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
 
   <section class="" id="studentFlow">
-
     <!-- ======================================================== -->
     <!-- =====================  Form Navigations================= -->
     <section class="student-tab">
@@ -238,18 +237,14 @@
           </aside>
 
           <aside class="pull-right middle-right" id="studentRightSideBar">
-
-
             <div class="common-right-section">
             </div>
-
-
             <!-- Enquiry Details official use-->
             <section class="enquiry-detail common-right-section">
               <h4>
-                <strong>Administration Details</strong> (Official Use)</h4>
+                <strong>Administration Details</strong> (Official Use)
+              </h4>
               <div class="box-shadow-lite">
-
                 <div class="field-wrapper datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}">
                   <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" [(ngModel)]="studentAddFormData.doj"
                   />
@@ -273,7 +268,7 @@
                 <!-- Academic Model For student Update -->
                 <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}">
                   <select id="standard" [(ngModel)]="studentAddFormData.student_class" name="standard" class="form-ctrl">
-                    <option></option>
+                    <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                       {{standard.standard_name}}
                     </option>
@@ -283,7 +278,7 @@
 
 
                 <div id="assignCoursesParent" class="field-wrapper" *ngIf="isAcad" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}">
-                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" disabled/>
+                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" readonly="true"/>
                   <label (click)="openAssignBatch()" for="assignCourses">Assign Courses</label>
                 </div>
 
@@ -294,7 +289,7 @@
                 <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.standard_id != ''}">
                   <select id="masterCourse" name="masterCourse" [(ngModel)]="studentAddFormData.standard_id" (ngModelChange)="fetchCourseFromMaster($event)"
                     class="form-ctrl">
-                    <option></option>
+                    <option value="-1"></option>
                     <option *ngFor="let course of standardList" [value]="course.standard_id">
                       {{course.standard_name}}
                     </option>
@@ -312,8 +307,9 @@
                   <label for="course">Course</label>
                 </div>
 
-                <div id="slotwrapper" class="field-wrapper" *ngIf="isProfessional" (click)="multiselectVisible($event.target.id)">
-                  <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" disabled/>
+                <div id="slotwrapper" class="field-wrapper" *ngIf="isProfessional" (click)="multiselectVisible($event.target.id)"
+                [ngClass]="{'has-value': selectedSlotsString != ''}">
+                  <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true"/>
                   <label for="assignCourses">Slots</label>
                 </div>
                 <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
@@ -339,16 +335,10 @@
                   <label for="status">Status</label>
                 </div>
 
-                <div id="assignCoursesParent" class="field-wrapper" *ngIf="isProfessional" (click)="openAssignBatch()">
-                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" disabled/>
+                <div id="assignCoursesParent" class="field-wrapper" *ngIf="isProfessional" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}">
+                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" readonly="true">
                   <label (click)="openAssignBatch()" for="assignCourses">Assign Batch</label>
                 </div>
-
-                <!-- <div class="map-courses" *ngIf="isProfessional">
-                  <a style="cursor:pointer" (click)="openAssignBatch()">
-                    <strong>Map Courses</strong>
-                  </a>
-                </div> -->
 
                 <div class="field-checkbox-wrapper">
                   <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive" (ngModelChange)="updateFormIsActive($event)"
@@ -451,7 +441,7 @@
                 <div class="row" *ngIf="component.type == 4" input-def>
                   <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.value != ''}">
                     <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
-                      disabled/>
+                    readonly="true"/>
                     <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
                   </div>
@@ -513,7 +503,7 @@
             Fees
           </h1>
           <aside class="pull-right btn-diff">
-            <!-- <button class="btn">
+            <button class="btn" (click)="isPdcApply = true" *ngIf="!feeTemplateById.toCreate">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                 <g fill="none" fill-rule="evenodd">
                   <path fill="#0084F6" fill-rule="nonzero" d="M7.856 13.359h3.708v1H7.856zM7.856 15.647h4.451v1H7.856zM14.534 15.647h2.97v1h-2.97zM7.856 17.935H20.47v1H7.856z"
@@ -526,7 +516,7 @@
                 </g>
               </svg>
               <span>Add PDC</span>
-            </button> -->
+            </button>
             <button class="btn" *ngIf="feeTemplateById.template_name == ''" (click)="configureFees($event)">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                 <g fill="#0084F6" fill-rule="nonzero">
@@ -560,45 +550,45 @@
               <li>
                 <label>Fees</label>
                 <div class="blue">
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_amount}}</span>
+                  <span *ngIf="feeTemplateById.toCreate">NA</span>
+                  <span *ngIf="!feeTemplateById.toCreate">Rs {{feeTemplateById.studentwise_total_fees_amount}}</span>
                 </div>
               </li>
               <li>
                 <label>Discount</label>
                 <div class="purple">
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_discount}}</span>
-                  <a *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0" (click)="openDiscountApply()">Add more</a>
+                  <span *ngIf="feeTemplateById.toCreate">NA</span>
+                  <span *ngIf="!feeTemplateById.toCreate">Rs {{feeTemplateById.studentwise_total_fees_discount}}</span>
+                  <a *ngIf="!feeTemplateById.toCreate" (click)="openDiscountApply()">Add more</a>
                 </div>
               </li>
               <li>
                 <label>Taxes</label>
                 <div class="yellow">
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">{{feeTemplateById.registeredServiceTax}} %</span>
+                  <span *ngIf="feeTemplateById.toCreate">NA</span>
+                  <span *ngIf="!feeTemplateById.toCreate">{{feeTemplateById.registeredServiceTax}} %</span>
                 </div>
               </li>
               <li>
                 <label>Amount Paid</label>
                 <div class="green">
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_amount_paid}}</span>
+                  <span *ngIf="feeTemplateById.toCreate">NA</span>
+                  <span *ngIf="!feeTemplateById.toCreate">Rs {{feeTemplateById.studentwise_total_fees_amount_paid}}</span>
                 </div>
               </li>
               <li>
                 <label>Amount Due</label>
                 <div class="red">
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_balance_amount}}</span>
+                  <span *ngIf="feeTemplateById.toCreate">NA</span>
+                  <span *ngIf="!feeTemplateById.toCreate">Rs {{feeTemplateById.studentwise_total_fees_balance_amount}}</span>
                 </div>
               </li>
               <li>
                 <label>Fee Structure</label>
                 <div class="gray">
-                  <span *ngIf="feeTemplateById.template_name == ''">NA</span>
-                  <span class="feename" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">{{feeTemplateById.template_name}}</span>
-                  <a (click)="reCreateFeeAgain()" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">Change</a>
+                  <span *ngIf="feeTemplateById.toCreate">NA</span>
+                  <span class="feename" *ngIf="!feeTemplateById.toCreate">{{getTemplateName(feeTemplateById.template_id)}}</span>
+                  <a (click)="reCreateFeeAgain()" *ngIf="!feeTemplateById.toCreate">Change</a>
                 </div>
               </li>
             </ul>
@@ -626,15 +616,17 @@
                 <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
                   <div class="pull-left">
                     <div class="field-checkbox-wrapper">
-                      <input type="checkbox" value="" [disabled]="isPaymentDetailsValid" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
-                        (ngModelChange)="paymentValueUpdate($event, i)" />
+                      <input type="checkbox" value="" [disabled]="installment.is_referenced == 'Y'" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected" (ngModelChange)="paymentValueUpdate($event, i)"/>
                       <label for="instl{{i}}"></label>
                     </div>
                   </div>
                   <div class="inst-detail">
                     <div class="inst-label">
                       Installment # {{installment.installment_no}}
-                      <span class="fee-status due">Due</span>
+                      <span class="fee-status paid" *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'Y'))">Paid</span>
+                      <span class="fee-status due" *ngIf="((installment.is_referenced == 'N')&&(installment.paid_full == 'N'))">Due</span>
+                      <!-- <span class="fee-status upcoming">Upcoming</span> -->
+                      <span class="fee-status partial" *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'N'))">Partial</span>
                     </div>
                     <div class="instl-info">
                       <ul>
@@ -659,7 +651,7 @@
                             Tax amount
                           </label>
                           <span>
-                            Rs {{installment.tax}}
+                            Rs {{getTaxAmount(i)}}
                           </span>
                         </li>
                         <li>
@@ -680,7 +672,7 @@
 
         </section>
 
-        <!--====================================middle Bottom section==========================-->
+         <!--====================================middle Bottom section==========================-->
         <section class="middle-bottom fd-btm clearFix">
           <div class="fd-btm-label" *ngIf="userCustommizedFee != ''">
             Payment for Rs {{totalFeePaid}} to be updated
@@ -706,7 +698,6 @@
     <!-- =============== Inventory =============================== -->
     <!--===========================================allocation inventory item===========================-->
     <section class="student-flow-wrapper " *ngIf="isInventoryActive" id="inventory" [class.hide]="quickAddStudent">
-
       <section class="clearFix allocation row" id="allocationInventoryItem">
 
         <aside class="middle-full">
@@ -758,14 +749,13 @@
                         {{item.available_units}}
                       </td>
                       <td>
-                        {{item.alloted_units}}
+                        {{getAllocatedUnits(item)}}
                       </td>
                       <td>
                         <div class="field-wrapper">
 
                           <input type="number" class="form-ctrl" placeholder="Add unit" min="0" max="{{item.available_units}}" [(ngModel)]="item.units_added"
                             (blur)="inventoryItemUpdated(item.units_added, i, item.available_units)" name="amt">
-
                         </div>
                       </td>
                     </tr>
@@ -921,8 +911,8 @@
       </svg>
     </span>
 
-    <h2 popup-header *ngIf="isAcad">Course Assignment</h2>
-    <h2 popup-header *ngIf="isProfessional">Batch Assignment</h2>
+    <h2 popup-header style="margin-bottom: 10px;" *ngIf="isAcad">Course Assignment</h2>
+    <h2 popup-header style="margin-bottom: 10px;" *ngIf="isProfessional">Batch Assignment</h2>
 
     <div class="fee-install-table" popup-content>
       <div class="table-responsive">
@@ -930,10 +920,12 @@
           <thead>
             <tr>
               <th></th>
-              <th>Batch Name</th>
+              <th *ngIf="!isProfessional">Course Name</th>
+              <th *ngIf="isProfessional">Batch Name</th>
               <th>Start Date</th>
               <th>End Date</th>
-              <th>Batch Assign Date</th>
+              <th *ngIf="!isProfessional">Course Assign Date</th>
+              <th *ngIf="isProfessional">Batch Assign Date</th>
             </tr>
           </thead>
           <tbody>
@@ -946,14 +938,16 @@
                   </div>
                 </div>
               </td>
-              <td>{{batch.data.batch_name}}</td>
-              <td>{{batch.data.start_date}}</td>
-              <td>{{batch.data.end_date}}</td>
+              <td *ngIf="!isProfessional">{{batch.data.master_course}} || {{batch.data.course_name}}</td>
+              <td *ngIf="!isProfessional">{{batch.data.start_date}}</td>
+              <td *ngIf="!isProfessional">{{batch.data.end_date}}</td>
+              <td *ngIf="isProfessional">{{batch.data.batch_name}}</td>
+              <td *ngIf="isProfessional">{{batch.data.start_date}}</td>
+              <td *ngIf="isProfessional">{{batch.data.end_date}}</td>
               <td>
                 <div class="field-wrapper datePickerBox has-value">
                   <input type="text" value="" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker"
                     bsDatepicker>
-                  <label for="assigndate">Assign Date</label>
                 </div>
             </tr>
           </tbody>
