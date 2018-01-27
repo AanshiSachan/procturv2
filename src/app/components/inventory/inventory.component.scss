@@ -3,15 +3,11 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-
-
-
-.router-container{
+.router-container {
     border: 1px solid #deeaee;
     width: 100%;
     height: 80vh;
 }
-
 
 .common-tab {
     padding-top: 5px;
@@ -47,8 +43,6 @@
     }
 }
 
-
-
 @media only screen and (max-width: 420px) {
     .common-tab ul li {
         width: auto;
@@ -70,4 +64,15 @@
             font-size: 12px;
         }
     }
+}
+
+.boxPadding15 {
+    box-sizing: $border-box;
+    padding: 0 15px;
+}
+
+.middle-section {
+    padding: 5px 15px;
+    width: 100%;
+    box-sizing: border-box;
 }

@@ -1,3 +1,9 @@
+.middle-section {
+    padding: 5px 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .headEnq {
     .field-wrapper {
         padding: 0px !important;
@@ -71,5 +77,117 @@
 .anchorTags {
     .anchorTagCursor {
         cursor: pointer;
+    }
+}
+
+.teacherTable {
+    thead {
+        tr {
+            th {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+        }
+    }
+}
+
+.btnWrapper {
+    .btn {
+        padding: 2px 0px 0px 7px;
+        border: none;
+        height: 35px;
+        width: 35px;
+        border-radius: 50%;
+        .tooltip {
+            position: relative;
+            top: -30px;
+            right: -30px;
+            min-width: 100px;
+            font-size: 12px;
+            padding: 6px;
+            height: 35px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.541);
+            color: white;
+            visibility: hidden;
+            opacity: 0;
+        }
+        &:hover {
+            background: rgb(216, 214, 214);
+            .tooltip {
+                position: relative;
+                top: -30px;
+                right: 120px;
+                min-width: 100px;
+                padding: 6px;
+                border-radius: 5px;
+                font-size: 12px;
+                height: 35px;
+                background: rgba(0, 0, 0, 0.541);
+                color: white;
+                visibility: visible;
+                opacity: 1;
+                transition: all 0.2s;
+            }
+        }
+        &:focus {
+            outline: none;
+        }
+        &:active {
+            box-shadow: none;
+        }
+    }
+}
+
+.tooltipWrapper {
+    right: 100px !important;
+    min-width: 83px !important;
+    top: -25px !important;
+}
+
+.addBtnOnHover {
+    padding-top: 10px !important;
+    padding-right: 6px !important;
+}
+
+.search-filter-wrapper {
+    .normal-field {
+        padding: 7px 10px;
+        border: 1px solid #ccc;
+        width: 50%;
+        box-sizing: border-box;
+        margin: 0;
+        float: left;
+        height: 35px;
+        font-size: 14px;
+    }
+    .field-wrapper {
+        position: relative;
+        padding-top: 0px !important;
+        width: 30%;
+        float: left !important;
+        .form-ctrl {
+            font: 400 13.3333px Arial;
+            border-top: none !important;
+            border-right: none !important;
+            border-left: none !important;
+        }
+    }
+    .field-wrapper label {
+        position: absolute !important;
+        left: 10% !important;
+        top: 1% !important;
+        &:after {
+            left: 85% !important;
+            top: 10px !important;
+        }
     }
 }

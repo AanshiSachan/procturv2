@@ -15,12 +15,14 @@ export class SlotComponent implements OnInit {
   studentdisplaysize: number = 10;
   totalRow: number;
   slotTableList;
+  createNewSlot: boolean = false;
 
   constructor(
     private apiService: SlotApiService,
     private appC: AppComponent
   ) {
     this.removeFullscreen();
+    this.removeSelectionFromSideNav();
   }
 
   ngOnInit() {
@@ -45,6 +47,12 @@ export class SlotComponent implements OnInit {
     if (element.value != "" && element.value != null) {
       this.apiService.addNewSlotToList({ "slot_name": element.value.trim() }).subscribe(
         data => {
+          let msg = {
+            type: 'sucess',
+            title: "",
+            body: "Slot added successfully."
+          }
+          this.appC.popToast(msg);
           console.log(data);
           element.value = "";
           this.getAllSlotsFromServer();
@@ -57,7 +65,7 @@ export class SlotComponent implements OnInit {
       let data = {
         type: 'error',
         title: "Error",
-        body: "Please fill Slot."
+        body: "Please fill Slot Name."
       }
       this.appC.popToast(data);
       return;
@@ -70,7 +78,7 @@ export class SlotComponent implements OnInit {
   }
 
   saveSlotInformation(row, index) {
-    let data = {"slot_id" : row.slot_id , "slot_name" : row.slot_name}
+    let data = { "slot_id": row.slot_id, "slot_name": row.slot_name }
     this.apiService.updateSlotName(data).subscribe(
       data => {
         console.log(data);
@@ -86,6 +94,18 @@ export class SlotComponent implements OnInit {
   cancelEditRow(index) {
     document.getElementById(("row" + index).toString()).classList.add('displayComp');
     document.getElementById(("row" + index).toString()).classList.remove('editComp');
+  }
+
+  toggleCreateNewSlot() {
+    if (this.createNewSlot == false) {
+      this.createNewSlot = true;
+      document.getElementById('showCloseBtn').style.display = '';
+      document.getElementById('showAddBtn').style.display = 'none';
+    } else {
+      this.createNewSlot = false;
+      document.getElementById('showCloseBtn').style.display = 'none';
+      document.getElementById('showAddBtn').style.display = '';
+    }
   }
 
   // pagination functions 
@@ -146,6 +166,20 @@ export class SlotComponent implements OnInit {
     [].forEach.call(sidebar, function (el) {
       el.classList.remove('hide');
     });
+  }
+
+  removeSelectionFromSideNav() {
+    document.getElementById('lione').classList.remove('active');
+    document.getElementById('litwo').classList.remove('active');
+    document.getElementById('lithree').classList.remove('active');
+    document.getElementById('lifour').classList.remove('active');
+    document.getElementById('lifive').classList.remove('active');
+    document.getElementById('lisix').classList.remove('active');
+    document.getElementById('liseven').classList.remove('active');
+    document.getElementById('lieight').classList.remove('active');
+    document.getElementById('linine').classList.remove('active');
+    document.getElementById('liten').classList.remove('active');
+    document.getElementById('lieleven').classList.remove('active');
   }
 
 }

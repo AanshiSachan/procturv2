@@ -1,3 +1,87 @@
-<p>
-  course-course-list works!
-</p>
+<section class="middle-section clearFix">
+  <section class="course-second course">
+    <div class="boxPadding15">
+      <section class="middle-top clearFix">
+        <h1>Course</h1>
+      </section>
+      <section class="middle-main clearFix">
+        <div class="clearFix add-edit">
+          <a (click)="toggleCreateNewStandard()">
+            <i id="showAddBtn" class="addBtnClass" style="line-height: 14px;">+</i>
+            <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
+            <span>Create Standard</span>
+          </a>
+        </div>
+
+        <section class="clearFix create-standard-form" *ngIf="showAddCourse">
+          <div class="c-lg-6 c-sm-6 c-md-6">
+            <div class="row create-standard-field">
+              <div class="c-lg-8 c-md-6 c-ms-6">
+                <div class="field-wrapper">
+                  <input type="text" name="masterCourse" [(ngModel)]="newCourseAdd.master_course_name" class="form-ctrl" (focus)="inputClickedCheck($event)"
+                  />
+                  <label for="masterCourse">Master Course
+                    <span style="color:red">*</span>
+                  </label>
+                </div>
+              </div>
+              <div class="c-lg-4 c-md-4 c-ms-4">
+                <div class="field-wrapper">
+                  <select class="form-ctrl" [(ngModel)]="newCourseAdd.standard_id" (focus)="inputClickedCheck($event)">
+                    <option *ngFor="let opt of masterCourseList" [value]="opt.standard_id">
+                      {{opt.standard_name}}
+                    </option>
+                  </select>
+                  <label for="item">Standard Name
+                    <span style="color:red">*</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="c-lg-3 c-sm-4 c-md-4 pull-right">
+            <aside class="pull-left create-cancel-small">
+              <input type="button" value="Go" class="btn redBtn" (click)="btnGoClickCreateCourse()">
+            </aside>
+          </div>
+        </section>
+      </section>
+      <section style="padding-top: 10px;" class="CourseListtableWrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                Master Course Name
+              </th>
+              <th>
+                Standard
+              </th>
+              <th>
+                Course(s)
+              </th>
+              <th>
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="row{{i}}" *ngFor="let row of courseList; let i= index ; trackBy : index">
+              <td>
+                {{row.master_course}}
+              </td>
+              <td>
+                {{row.standard_name}}
+              </td>
+              <td>
+                {{row.coursee_names}}
+              </td>
+              <td>
+                <a>Edit</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </section>
+</section>

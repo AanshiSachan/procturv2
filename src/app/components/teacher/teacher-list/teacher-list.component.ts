@@ -39,21 +39,27 @@ export class TeacherListComponent implements OnInit {
   }
 
   editTeacherDeatils(row) {
-    localStorage.setItem('teacherID' ,row.teacher_id);
+    localStorage.setItem('teacherID', row.teacher_id);
     this.route.navigateByUrl('teacher/edit');
   }
 
   viewTeacherActivity(row) {
-    localStorage.setItem('teacherID' ,row.teacher_id);
+    localStorage.setItem('teacherID', row.teacher_id);
     this.route.navigateByUrl('teacher/view');
   }
 
   searchTeacher(searchVal) {
-    let searchData = this.teacherListDataSource.filter(item =>
-      Object.keys(item).some(
-        k => item[k] != null && item[k].toString().toLowerCase().includes(searchVal.value.toLowerCase()))
-    );
-    this.teacherList = searchData;
+    if (searchVal.value != "" && searchVal.value != null) {
+      let searchData = this.teacherListDataSource.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(searchVal.value.toLowerCase()))
+      );
+      this.teacherList = searchData;
+      this.totalRow = searchData.length;
+    } else {
+      this.fetchTableDataByPage(this.PageIndex);
+      this.totalRow = this.teacherListDataSource.length;
+    }
   }
 
 

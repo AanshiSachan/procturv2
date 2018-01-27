@@ -17,6 +17,7 @@ export class InventoryComponent implements OnInit {
 
   ngOnInit() {
     this.removeFullscreen();
+    this.selectInventoryInSideNav();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     if (this.router.url.includes('category')) {
@@ -44,6 +45,20 @@ export class InventoryComponent implements OnInit {
     document.getElementById('item').classList.remove('active');
     document.getElementById('category').classList.remove('active');
     document.getElementById(tabName).classList.add('active');
+  }
+
+  selectInventoryInSideNav() {
+    document.getElementById('lione').classList.remove('active');
+    document.getElementById('litwo').classList.remove('active');
+    document.getElementById('lithree').classList.remove('active');
+    document.getElementById('lifour').classList.remove('active');
+    document.getElementById('lifive').classList.remove('active');
+    document.getElementById('lisix').classList.remove('active');
+    document.getElementById('liseven').classList.add('active');
+    document.getElementById('lieight').classList.remove('active');
+    document.getElementById('linine').classList.remove('active');
+    document.getElementById('liten').classList.remove('active');
+    document.getElementById('lieleven').classList.remove('active');
   }
 
 }

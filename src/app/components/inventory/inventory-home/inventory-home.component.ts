@@ -179,6 +179,8 @@ export class HomeComponent implements OnInit {
   cancelItem(i) {
     document.getElementById(("add-item" + i).toString()).classList.add('displayAddItem');
     document.getElementById(("add-item" + i).toString()).classList.remove('editAddItem');
+    this.fetchTableDataByPage(this.PageIndex);
+    this.totalRow = this.itemTableDatasource.length;
   }
 
   updateRow(row, i) {
@@ -245,12 +247,17 @@ export class HomeComponent implements OnInit {
   }
 
   searchDatabase(element) {
-    let searchData = this.itemTableDatasource.filter(item =>
-      Object.keys(item).some(
-        k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
-    );
-    this.itemList = searchData;
-    this.totalRow = searchData.length;
+    if (element.value != "" && element.value != undefined && element.value != null) {
+      let searchData = this.itemTableDatasource.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
+      );
+      this.itemList = searchData;
+      this.totalRow = searchData.length;
+    } else {
+      this.fetchTableDataByPage(this.PageIndex);
+      this.totalRow = this.itemTableDatasource.length;
+    }
   }
 
   // pagination functions 

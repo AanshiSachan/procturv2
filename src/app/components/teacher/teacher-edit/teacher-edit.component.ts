@@ -41,6 +41,7 @@ export class TeacherEditComponent implements OnInit {
         this.selectedTeacherInfo = data;
         let setFormData = this.getFormFieldsdata(data);
         this.editTeacherForm.setValue(setFormData);
+        console.log(this.editTeacherForm.value);
       },
       error => {
         console.log(error);

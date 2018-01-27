@@ -1,0 +1,85 @@
+@import "./src/assets/css/common/variables.scss";
+.boxPadding15 {
+    box-sizing: $border-box;
+    padding: 0 15px;
+}
+
+.course-second {
+    .filter-for-courses {
+        margin-top: 0;
+    }
+    .filter-search {
+        margin-bottom: 0;
+    }
+    .filter-for-courses label {
+        margin-top: 10px;
+    }
+}
+
+.add-edit {
+    margin-bottom: 0;
+    margin-top: 20px;
+    i {
+        border: 1px solid $common-blue;
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        line-height: 12px;
+        text-align: center;
+        font-size: 17px;
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+    span {
+        display: inline-block;
+    }
+    .expend-box {
+        i {
+            line-height: 12px;
+            font-size: 22px;
+        }
+    }
+}
+
+.create-standard-form {
+    margin: 10px 0;
+    padding: 10px 20px 20px;
+    background: #efefef;
+    border-top: 1px solid #d8d8d8;
+    .form-ctrl {
+        background: transparent;
+        border-bottom: solid 1px #cccccc;
+    }
+    p {
+        margin-top: 5px;
+        font-size: 10px;
+        color: #979797;
+    }
+}
+
+.create-standard-field {
+    margin-bottom: 10px;
+}
+
+.create-cancel-small {
+    margin-top: 10px;
+    .btn {
+        font-size: 14px;
+        font-weight: normal;
+        height: 36px;
+    }
+}
+
+.CourseListtableWrapper {
+     ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+    .popUpTableDiv {
+        max-height: 550px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+}

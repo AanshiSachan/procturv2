@@ -1,111 +1,95 @@
-<div class="middle-section clearFix" id="teacherList">
+<div class="middle-section clearFix">
+  <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+    <h1 class="pull-left">
+      Teacher List
+    </h1>
+  </section>
 
-  <aside class="middle-full">
+  <section class="middle-main clearFix">
 
-    <section class="middle-top mb0 clearFix">
-      <div class="row">
-        <div class="col-sm-6">
-          <h1 class="pull-left">
-            Enquiry List
-          </h1>
-        </div>
-        <div class="col-sm-6">
-          <div class="field-wrapper col-sm-6">
-            <input type="text" #teacherSearch class="form-ctrl" id="searchTeacher" placeholder="Search Teacher" (keyup.enter)="searchTeacher(teacherSearch)" />
-          </div>
-          <div class="col-sm-6">
-            <button class="btn" routerLink='/teacher/add'>
+    <div style="margin-bottom: 10px;">
+      <div class="c-lg-6 c-md-6 c-sm-6 align-left">
+      </div>
+      <div class="c-lg-6 c-md-6 c-sm-6 align-left">
+        <div class="field-wrapper">
+          <div class="btnWrapper">
+            <button class="btn pull-right" routerLink='/teacher/add'>
               <div class="option-wrap">
-                <img src="./assets/images/plus.png" alt="Add Teacher">
-                <span class="tooltip">
+                <img src="../../../../assets/images/plus.png" alt="Add Item" style="vertical-align: -webkit-baseline-middle;">
+                <span class="tooltip tooltipWrapper">
                   Add Teacher
                 </span>
               </div>
             </button>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section class="tableLayout">
-
-      <div id="teacher-List">
-        <div class="table-scroll-wrapper">
-          <div class="table table-responsive enquiry-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>
-                    <label>
-                      <a>Teacher Name</a>
-                    </label>
-                  </th>
-                  <th>
-                    <label>
-                      <a>Contact No</a>
-                    </label>
-                  </th>
-                  <th>
-                    <label>
-                      <a>Subject</a>
-                    </label>
-                  </th>
-                  <th>
-                    <label>
-                      <a>Is Active</a>
-                    </label>
-                  </th>
-                  <th>
-                    <label>
-                      <a>Edit</a>
-                    </label>
-                  </th>
-                  <th>
-                    <label>
-                      <a>View Activity</a>
-                    </label>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr id="row{{i}}" *ngFor="let row of teacherList; let i = index; trackBy: i;">
-                  <td>
-                    {{row.teacher_name}}
-                  </td>
-                  <td>
-                    {{row.teacher_phone}}
-                  </td>
-                  <td>
-                    {{row.teacher_subjects}}
-                  </td>
-                  <td>
-                    {{row.is_active}}
-                  </td>
-                  <td class="anchorTags">
-                    <a class="anchorTagCursor" (click)="editTeacherDeatils(row)">Edit</a>
-                  </td>
-                  <td class="anchorTags">
-                    <a class="anchorTagCursor" (click)="viewTeacherActivity(row)">View</a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="search-filter-wrapper">
+          <input type="text" #teacherSearch class="normal-field pull-right" id="searchTeacher" placeholder="Search Teacher" (keyup)="searchTeacher(teacherSearch)">
         </div>
       </div>
+    </div>
 
-      <!-- Paginator Here -->
-      <div class="row filter-res pagination" style="width: 100%;">
-        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-            [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
-          </pagination>
-        </div>
+  </section>
+  <section style="margin-top: 10px;">
+    <div class="table-scroll-wrapper">
+      <div class="table table-responsive enquiry-table">
+        <table class="teacherTable">
+          <thead>
+            <tr>
+              <th>
+                Teacher Name
+              </th>
+              <th>
+                Contact No
+              </th>
+              <th>
+                Subject
+              </th>
+              <th>
+                Is Active
+              </th>
+              <th>
+                Edit
+              </th>
+              <th>
+                View Activity
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="row{{i}}" *ngFor="let row of teacherList; let i = index; trackBy: i;">
+              <td>
+                {{row.teacher_name}}
+              </td>
+              <td>
+                {{row.teacher_phone}}
+              </td>
+              <td>
+                {{row.teacher_subjects}}
+              </td>
+              <td>
+                {{row.is_active}}
+              </td>
+              <td class="anchorTags">
+                <a class="anchorTagCursor" (click)="editTeacherDeatils(row)">Edit</a>
+              </td>
+              <td class="anchorTags">
+                <a class="anchorTagCursor" (click)="viewTeacherActivity(row)">View</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+    </div>
 
-    </section>
-
-  </aside>
-
+    <!-- Paginator Here -->
+    <div class="filter-res pagination" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+        </pagination>
+      </div>
+    </div>
+  </section>
 
 </div>
