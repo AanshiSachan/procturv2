@@ -1,5 +1,87 @@
+@import "./src/assets/css/common/variables.scss";
 .middle-section {
     padding: 5px 15px;
     width: 100%;
     box-sizing: border-box;
+}
+
+.marginTopTwenty {
+    margin-top: 20px;
+}
+
+.marginBottomTen {
+    margin-bottom: 10px;
+}
+
+.tableWrapper {
+    max-width: 75%;
+    margin-top: 20px;
+    margin-left: 70px;
+}
+
+.create-standard-form {
+    margin: 10px 0;
+    padding: 10px 20px 20px;
+    background: #efefef;
+    border-top: 1px solid #d8d8d8;
+    .form-ctrl {
+        background: transparent;
+        border-bottom: solid 1px #cccccc;
+    }
+}
+
+.closeBtnClass {
+    line-height: 11px !important;
+}
+
+.add-edit {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    i {
+        border: 1px solid $common-blue;
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        line-height: 16px;
+        text-align: center;
+        font-size: 17px;
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+    span {
+        display: inline-block;
+    }
+    .expend-box {
+        i {
+            line-height: 12px;
+            font-size: 22px;
+        }
+    }
+    a {
+        cursor: pointer;
+    }
+}
+
+table {
+    thead {
+        tr {
+            th {
+                padding-bottom: 10px;
+                padding-top: 10px;
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                padding-bottom: 10px;
+                padding-top: 10px;
+            }
+        }
+    }
+}
+
+.testingTable{
+
 }

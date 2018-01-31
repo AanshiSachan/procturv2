@@ -61,8 +61,8 @@ export class CourseListService {
     getTeacherListFromServer() {
         let url = this.baseURL + "/api/v1/teachers/all/" + this.institute_id + "?active=Y";
         return this.http.get(url, { headers: this.headers }).map(
-            data => {
-                return data;
+            res => {
+                return res;
             },
             error => {
                 return error;
@@ -73,8 +73,24 @@ export class CourseListService {
     /////// Edit Couse //////
 
     getSeletedMasterCourseEdit(course_name) {
-        let url = this.baseURL + "/api/v1/courseMaster/fetch/" + this.institute_id + '/'+ course_name;
+        let url = this.baseURL + "/api/v1/courseMaster/fetch/" + this.institute_id + '/' + course_name;
         return this.http.get(url, { headers: this.headers }).map(
+            data => {
+                return data;
+            },
+            error => {
+                return error;
+            }
+        )
+    }
+
+
+    ////// Edit Save Course /////
+
+    saveCourseDetails(data) {
+        data.inst_id = this.institute_id;
+        let url = this.baseURL +"/api/v1/courseMaster/create" ;
+        return this.http.post(url, data, { headers: this.headers }).map(
             data => {
                 return data;
             },
