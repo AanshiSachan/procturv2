@@ -21,7 +21,7 @@
 
 .create-standard-form {
     margin: 10px 0;
-    padding: 10px 20px 20px;
+    padding: 10px 0px 20px;
     background: #efefef;
     border-top: 1px solid #d8d8d8;
     .form-ctrl {
@@ -67,21 +67,41 @@ table {
     thead {
         tr {
             th {
-                padding-bottom: 10px;
-                padding-top: 10px;
+                padding-bottom: 5px;
+                padding-top: 5px;
             }
         }
     }
     tbody {
         tr {
             td {
-                padding-bottom: 10px;
-                padding-top: 10px;
+                padding-bottom: 5px;
+                padding-top: 5px;
             }
         }
     }
 }
 
-.testingTable{
+.asideWrapper {
+    width: 50%;
+    background: #efefef;
+}
 
+.asideTableWrapper {
+    max-height: 130px;
+    overflow: scroll;
+    margin-top: 10px;
+}
+
+.nestedTable {
+    max-height: 130px;
+    overflow: scroll;
+}
+
+.nestedTableHide {
+    display: none;
+}
+
+.nestedTableShow {
+    display: '';
 }

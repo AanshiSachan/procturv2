@@ -326,11 +326,12 @@ export class CourseAddComponent implements OnInit {
   removeRowFromTable(row, i) {
     this.mainArrayForTable.splice(i, 1);
   }
-
-  editRowFromTable(row, i) {
-    debugger
-    document.getElementById("show" + i).style.display = '';
-    this.fillNestedTableData(i);
+  
+  editRowFromTable(row, index) {
+    document.get
+    document.getElementById(("show" + index).toString()).classList.add('nestedTableShow');
+    document.getElementById(("show" + index).toString()).classList.remove('nestedTableHide');
+    this.fillNestedTableData(index);
   }
 
   fillNestedTableData(index) {
