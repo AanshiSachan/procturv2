@@ -87,24 +87,17 @@ export class EnquiryBulkaddComponent implements OnInit {
   /* function to upload the xls file as formdata */
   uploadHandler(event) {
     for (let file of event.files) {
-
       let formdata = new FormData();
-
       formdata.append("file", file);
-
       let urlPostXlsDocument = "http://test999.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/bulkUploadEnquiries";
-
       let xhr: XMLHttpRequest = new XMLHttpRequest();
-
       xhr.open("POST", urlPostXlsDocument, true);
       xhr.setRequestHeader("processData", "false");
       xhr.setRequestHeader("contentType", "false");
       xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
       xhr.setRequestHeader("enctype", "multipart/form-data");
       xhr.setRequestHeader("Authorization", sessionStorage.getItem('Authorization'));
-
       this.isUploadingXls = true;
-
       xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
         if (e.lengthComputable) {
           this.progress = Math.round((e.loaded * 100) / e.total);
@@ -112,7 +105,6 @@ export class EnquiryBulkaddComponent implements OnInit {
           this.fileLoading = file.name;
         }
       }, false);
-
       //Call function when onload.
       xhr.onreadystatechange = () => {
         if (xhr.readyState == 4) {
@@ -138,7 +130,6 @@ export class EnquiryBulkaddComponent implements OnInit {
           }
         }
       }
-
       xhr.send(formdata);
     }
     event.files = [];

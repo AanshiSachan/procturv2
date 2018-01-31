@@ -278,7 +278,7 @@
 
 
                 <div id="assignCoursesParent" class="field-wrapper" *ngIf="isAcad" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}">
-                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" readonly="true"/>
+                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" readonly="true" />
                   <label (click)="openAssignBatch()" for="assignCourses">Assign Courses</label>
                 </div>
 
@@ -307,9 +307,8 @@
                   <label for="course">Course</label>
                 </div>
 
-                <div id="slotwrapper" class="field-wrapper" *ngIf="isProfessional" (click)="multiselectVisible($event.target.id)"
-                [ngClass]="{'has-value': selectedSlotsString != ''}">
-                  <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true"/>
+                <div id="slotwrapper" class="field-wrapper" *ngIf="isProfessional" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': selectedSlotsString != ''}">
+                  <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
                   <label for="assignCourses">Slots</label>
                 </div>
                 <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
@@ -441,7 +440,7 @@
                 <div class="row" *ngIf="component.type == 4" input-def>
                   <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.value != ''}">
                     <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
-                    readonly="true"/>
+                      readonly="true" />
                     <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
                   </div>
@@ -616,7 +615,8 @@
                 <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
                   <div class="pull-left">
                     <div class="field-checkbox-wrapper">
-                      <input type="checkbox" value="" [disabled]="installment.is_referenced == 'Y'" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected" (ngModelChange)="paymentValueUpdate($event, i)"/>
+                      <input type="checkbox" value="" [disabled]="installment.is_referenced == 'Y'" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
+                        (ngModelChange)="paymentValueUpdate($event, i)" />
                       <label for="instl{{i}}"></label>
                     </div>
                   </div>
@@ -669,25 +669,26 @@
               </ul>
             </div>
           </div>
-
         </section>
-
-         <!--====================================middle Bottom section==========================-->
+        <!--====================================middle Bottom section==========================-->
         <section class="middle-bottom fd-btm clearFix">
-          <div class="fd-btm-label" *ngIf="userCustommizedFee != ''">
-            Payment for Rs {{totalFeePaid}} to be updated
-          </div>
+          <aside class="pull-left">
+            <div class="fd-btm-label" *ngIf="!isPaymentDetailsValid">
+              Payment for Rs {{totalFeePaid}} to be updated
+            </div>
+          </aside>
+          <aside class="pull-right">
+            <div class="" *ngIf="!isPaymentDetailsValid">
+              <input type="button" *ngIf="totalFeePaid != 0" value="Update and Continue" (click)="openPaymentDetails($event)" class="btn fullBlue">
+              <input type="button" *ngIf="totalFeePaid != 0" value="Update and Exit" (click)="openPaymentDetailsAndExit($event)" class="btn fullBlue">
+              <input type="button" value="Save and Continue" (click)="navigateTo('inventory')" class="btn redBtn">
+            </div>
 
-          <div class="" *ngIf="!isPaymentDetailsValid">
-            <input type="button" *ngIf="totalFeePaid != 0" value="Update Fees" (click)="openPaymentDetails($event)" class="btn fullBlue">
-            <input type="button" value="Save and Continue" (click)="navigateTo('inventory')" class="btn redBtn">
-          </div>
-
-          <div class="" *ngIf="isPaymentDetailsValid">
-            <input type="button" value="Continue" (click)="navigateTo('inventory')" class="btn redBtn">
-          </div>
+            <div class="" *ngIf="isPaymentDetailsValid">
+              <input type="button" value="Continue" (click)="navigateTo('inventory')" class="btn redBtn">
+            </div>
+          </aside>
         </section>
-
       </section>
 
     </section>
@@ -770,7 +771,7 @@
             </div>
             <aside class="pull-right">
               <input type="button" (cancel)="cancelStudentUpload()" value="Cancel" class="btn cancle">
-              <!-- <input type="button" value="Skip" class="btn cancle"> -->
+              <input type="button" value="Update Inventory and Exit" (click)="updateStudentAllocatedInventory()" class="btn redBtn">
               <input type="button" value="Submit" (click)="addNewStudentFullView()" class="btn redBtn">
             </aside>
           </section>
@@ -1238,7 +1239,7 @@
                         </div>
                       </td>
                       <td>
-                        <i (click)="deleteInstallment(i)" *ngIf="fee.is_paid == 0" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i>
+                        <i (click)="deleteInstallment(i)" *ngIf="fee.is_referenced == 'Y'" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i>
                       </td>
                     </tr>
                   </tbody>
