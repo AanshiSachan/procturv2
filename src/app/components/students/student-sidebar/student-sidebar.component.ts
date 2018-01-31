@@ -69,8 +69,6 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
   fetchStudentDetails(ev) {
     if(ev.photo != null && ev.photo != ''){
-      //let img = getImageFile(ev.photo);
-      //this.rend.setStyle(this.im.nativeElement, 'background', img);
     }
   }
 

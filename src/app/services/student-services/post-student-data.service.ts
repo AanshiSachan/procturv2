@@ -11,7 +11,7 @@ import { AuthenticatorService } from '../authenticator.service';
 @Injectable()
 export class PostStudentDataService {
 
-   
+
     authorization: string;
     institute_id: number;
     headers: Headers;
@@ -27,7 +27,7 @@ export class PostStudentDataService {
 
     quickAddStudent(form) {
         let urlQuickAdd = this.baseUrl + "/api/v1/students"
-        form.dob = form.dob = (form.dob == '' || form.dob == 'Invalid date' || form.dob == null)? '': moment(form.dob).format('YYYY-MM-DD');
+        form.dob = form.dob = (form.dob == '' || form.dob == 'Invalid date' || form.dob == null) ? '' : moment(form.dob).format('YYYY-MM-DD');
         form.doj = moment(form.doj).format('YYYY-MM-DD');
         /* form.assignedBatches = form.assignedBatches.length == 0 ? null : form.assignedBatches;
         form.batchJoiningDates = form.batchJoiningDates.length == 0 ? null : form.batchJoiningDates; */
@@ -43,8 +43,8 @@ export class PostStudentDataService {
 
 
     quickEditStudent(form, id) {
-        let urlQuickEdit = this.baseUrl + "/api/v1/students/" +id;
-        form.dob = form.dob = (form.dob == '' || form.dob == 'Invalid date' || form.dob == null)? '': moment(form.dob).format('YYYY-MM-DD');
+        let urlQuickEdit = this.baseUrl + "/api/v1/students/" + id;
+        form.dob = form.dob = (form.dob == '' || form.dob == 'Invalid date' || form.dob == null) ? '' : moment(form.dob).format('YYYY-MM-DD');
         form.doj = moment(form.doj).format('YYYY-MM-DD');
         /* form.assignedBatches = form.assignedBatches.length == 0 ? null : form.assignedBatches;
         form.batchJoiningDates = form.batchJoiningDates.length == 0 ? null : form.batchJoiningDates; */
@@ -108,11 +108,25 @@ export class PostStudentDataService {
 
 
 
-    allocateStudentInventory(obj){
-      
-        let urlInventory = this.baseUrl +"/api/v1/inventory/item/allocate";
+    allocateStudentInventory(obj) {
 
-        return this.http.post(urlInventory, obj, {headers: this.headers}).map(
+        let urlInventory = this.baseUrl + "/api/v1/inventory/item/allocate/multiple";
+
+        return this.http.post(urlInventory, obj, { headers: this.headers }).map(
+            res => {
+                return res.json();
+            },
+            err => {
+                return err.json();
+            }
+        );
+    }
+
+    allocateStudentFees(obj) {
+        obj.paid_date = moment(obj.paid_date).format("YYYY-MM-DD");
+        let urlFeeUpdate = this.baseUrl + "/api/v1/studentWise/fee/schedule/students/save/" + this.institute_id;
+
+        return this.http.post(urlFeeUpdate, obj, { headers: this.headers }).map(
             res => {
                 return res.json();
             },
@@ -121,16 +135,57 @@ export class PostStudentDataService {
             });
     }
 
-    allocateStudentFees(obj){
-        let urlFeeUpdate = this.baseUrl +"/api/v1/studentWise/fee/schedule/students/save/" +this.institute_id;
 
-        return this.http.post(urlFeeUpdate, obj, {headers: this.headers}).map(
-            res => {
-                return res.json();
-            },
-            err => {
-                return err.json();
-            });
+    addChequePdc(obj) {
+        let urlAddCheque: string = this.baseUrl + "/api/v1/student_cheque/createList";
+
+        return this.http.post(urlAddCheque, obj, { headers: this.headers }).map(
+            res => { return res.json(); },
+            err => { return err.json(); }
+        )
     }
+
+
+    updateFeeDetails(obj): Observable<any> {
+
+        let urlUpdateFee = this.baseUrl + "/api/v1/student_cheque/update";
+
+        return this.http.put(urlUpdateFee, obj, { headers: this.headers }).map(
+            res => { return res.json(); },
+            err => { return err.json(); }
+        )
+    }
+
+
+    deletePdcById(id): Observable<any> {
+        let urlDeletePdc = this.baseUrl + "/api/v1/student_cheque/delete/" + this.institute_id + "/" + id;
+        return this.http.delete(urlDeletePdc, { headers: this.headers }).map(
+            res => { return res.json(); },
+            err => { return err.json(); }
+        )
+    }
+
+
+    generateAcknowledge(arr: any[], id): Observable<any> {
+        let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" + id + "?ChequeIds=" + arr.join(',') + "&sendEmail=undefined";
+
+        return this.http.post(urlsend, null, { headers: this.headers }).map(
+            res => { return res.json(); },
+            err => { return err.json(); }
+        )
+    }
+
+    sendAcknowledge(arr: any[], id): Observable<any> {
+        let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" + id + "?ChequeIds=" + arr.join(',') + "&sendEmail=Y";
+
+        return this.http.post(urlsend, null, { headers: this.headers }).map(
+            res => { return res.json(); },
+            err => { return err.json(); }
+        )
+    }
+
 }
+
+
+
 

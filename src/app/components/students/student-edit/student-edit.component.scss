@@ -10,6 +10,231 @@
 
 /* ============================================================================================================= */
 
+.pdcChequePayment{
+    margin: 15px 10px 0px 10px !important;
+    fieldset {
+        border: 2px solid #004a7e;
+        padding: 5px;
+        box-shadow: 1px 5px 5px 1px #004a7e;
+        legend {
+            padding: 0.2em 0.5em;
+            border: 1px solid #004a7e;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: left;
+            width: 200px;
+            background: #004a7e;
+        }
+    }
+}
+
+.PDCMain {
+    max-height: 480px;
+    overflow: hidden;
+    border-top: 1px solid rgba(119, 119, 119, 0.49);
+    border-bottom: 1px solid rgba(119, 119, 119, 0.49);
+     ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+}
+
+.pdcMainWrapper {
+     ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+    max-height: 475px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    .row {
+        margin: 0px 5px;
+    }
+    fieldset {
+        border: 2px solid #004a7e;
+        padding: 5px;
+        box-shadow: 1px 5px 5px 1px #004a7e;
+        legend {
+            padding: 0.2em 0.5em;
+            border: 1px solid #004a7e;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: left;
+            width: 200px;
+            background: #004a7e;
+        }
+    }
+    .pdcAside {
+        margin: 10px 0px;
+        &.pdcadd {
+            .row {
+                margin: 0px;
+            }
+            table {
+                thead {
+                    tr {
+                        th {
+                            text-align: left
+                        }
+                    }
+                }
+                tbody {
+                    tr {
+                        td {
+                            text-align: left;
+                            .field-wrapper {
+                                background: transparent;
+                                width: 70%;
+                                .form-ctrl {
+                                    background: transparent;
+                                    border-bottom: solid 1px #0084f6;
+                                    text-align: left;
+                                    width: 100%;
+                                }
+                            }
+                            .field-wrapper {
+                                position: relative;
+                                padding-top: 20px;
+                                &.datePickerBox {
+                                    .bsDatepicker {
+                                        cursor: pointer;
+                                        position: relative;
+                                        z-index: 1;
+                                        background: transparent;
+                                    }
+                                    &:after {
+                                        content: '';
+                                        background: url("../../../../assets/images/calendar.svg") no-repeat;
+                                        position: absolute;
+                                        left: 80%;
+                                        top: 0px;
+                                        width: 21px;
+                                        height: 21px;
+                                        z-index: 0;
+                                    }
+                                }
+                                .date-clear {
+                                    position: absolute;
+                                    right: 60%;
+                                    top: 50px;
+                                    cursor: pointer;
+                                    color: #0084f6;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        &.pdclist {
+            .searchPdc {
+                margin: 0px 0px 25px 0px;
+                .field-wrapper {
+                    position: relative;
+                    padding-top: 10px;
+                    &.datePickerBox {
+                        .bsDatepicker {
+                            cursor: pointer;
+                            position: relative;
+                            z-index: 1;
+                            background: transparent;
+                        }
+                        &:after {
+                            content: '';
+                            background: url("../../../../assets/images/calendar.svg") no-repeat;
+                            position: absolute;
+                            right: 0;
+                            top: 18px;
+                            width: 21px;
+                            height: 21px;
+                            z-index: 0;
+                        }
+                    }
+                    .date-clear {
+                        position: absolute;
+                        right: 0;
+                        bottom: 0;
+                        cursor: pointer;
+                        color: #0084f6;
+                    }
+                }
+            }
+            table {
+                thead {
+                    tr {
+                        th {
+                            
+                        }
+                    }
+                }
+                tbody {
+                    tr {
+                        td {
+                            .field-wrapper {
+                                background: transparent;
+                                width: 120px;
+                                margin: auto;
+                                .form-ctrl {
+                                    background: transparent;
+                                    border-bottom: solid 1px #0084f6;
+                                    text-align: center;
+                                    width: 100%;
+                                }
+                            }
+                            .field-wrapper {
+                                position: relative;
+                                padding-top: 20px;
+                                &.datePickerBox {
+                                    .bsDatepicker {
+                                        cursor: pointer;
+                                        position: relative;
+                                        z-index: 1;
+                                        background: transparent;
+                                    }
+                                    &:after {
+                                        content: '';
+                                        background: url("../../../../assets/images/calendar.svg") no-repeat;
+                                        position: absolute;
+                                        left: 90%;
+                                        top: 0px;
+                                        width: 21px;
+                                        height: 21px;
+                                        z-index: 0;
+                                    }
+                                }
+                                .date-clear {
+                                    position: absolute;
+                                    right: 60%;
+                                    top: 50px;
+                                    cursor: pointer;
+                                    color: #0084f6;
+                                }
+                            }
+
+                        }
+                    }
+                    .displayComp {
+                        .view-comp {}
+                        .edit-comp {
+                            display: none
+                        }
+                    }
+                    .editComp {
+                        .view-comp {
+                            display: none
+                        }
+                        .edit-comp {}
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 /* ============================================================================================================= */
 
@@ -100,10 +325,10 @@
                 }
                 &:after {
                     content: '';
-                    background: url("/./assets/images/calendar.svg") no-repeat;
+                    background: url("../../../../assets/images/calendar.svg") no-repeat;
                     position: absolute;
                     right: 30px;
-                    top: 20px;
+                    top: 0px;
                     width: 21px;
                     height: 21px;
                     z-index: 0;
@@ -424,17 +649,17 @@ input[type=number]::-webkit-outer-spin-button {
 .fee-install-table {
     max-height: 350px;
     overflow: hidden;
-    ::-webkit-scrollbar {
+     ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
     }
-    .table-responsive{
+    .table-responsive {
         max-width: 100%;
         max-height: 340px;
         overflow-x: hidden;
         overflow-y: scroll;
-    }    
+    }
     th {
         text-align: left;
     }
