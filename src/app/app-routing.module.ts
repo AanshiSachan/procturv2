@@ -11,20 +11,28 @@ import { SlotComponent } from './components/slot/slot.component';
         RouterModule.forRoot(
             [
                 { path: '', redirectTo: '/authPage', pathMatch: 'full', },
-                /* { path: 'dashboard', component: }, */
+                {
+                    path: 'home',
+                    loadChildren: 'app/components/homepage-dashboard/homepage-dashboard.module#HomepageDashboardModule'
+                },
                 {
                     path: 'authPage',
                     loadChildren: 'app/components/auth-page/auth-page.module#AuthPageModule'
 
                 },
                 {
-                    path: 'enquiry',
-                    loadChildren: 'app/components/enquiry/enquiry.module#EnquiryModule',
+                    path: 'custom',
+                    loadChildren: 'app/components/custom-common/custom-common.module#CustomCommonModule',
                     canLoad: [AuthGuard]
                 },
                 {
-                    path: 'custom',
-                    loadChildren: 'app/components/custom-common/custom-common.module#CustomCommonModule',
+                    path:'teacher',
+                    loadChildren: 'app/components/teacher/teacher.module#TeacherModule',
+                    canLoad: [AuthGuard]
+                },
+                {
+                    path: 'enquiry',
+                    loadChildren: 'app/components/enquiry/enquiry.module#EnquiryModule',
                     canLoad: [AuthGuard]
                 },
                 {
@@ -33,8 +41,18 @@ import { SlotComponent } from './components/slot/slot.component';
                     canLoad: [AuthGuard]
                 },
                 {
-                    path: 'campaign',
-                    loadChildren: 'app/components/campaign/campaign.module#CampaignModule',
+                    path: 'course',
+                    loadChildren: 'app/components/course/course.module#CourseModule',
+                    canLoad: [AuthGuard]
+                },
+                {
+                    path: 'activity',
+                    loadChildren: 'app/components/activity-home/activity-home.module#ActivityHomeModule',
+                    canLoad: [AuthGuard]
+                },
+                {
+                    path: 'employee',
+                    loadChildren: 'app/components/employee-home/employee-home.module#EmployeeHomeModule',
                     canLoad: [AuthGuard]
                 },
                 {
@@ -43,18 +61,28 @@ import { SlotComponent } from './components/slot/slot.component';
                     canLoad: [AuthGuard]
                 },
                 {
-                    path: 'course',
-                    loadChildren: 'app/components/course/course.module#CourseModule',
-                    canLoad: [AuthGuard]
-                },
-                {
                     path: 'inventory',
                     loadChildren: 'app/components/inventory/inventory.module#InventoryModule',
                     canLoad: [AuthGuard]
                 },
                 {
-                    path:'teacher',
-                    loadChildren: 'app/components/teacher/teacher.module#TeacherModule',
+                    path: 'expense',
+                    loadChildren: 'app/components/expense-home/expense-home.module#ExpenseHomeModule',
+                    canLoad: [AuthGuard]
+                },
+                {
+                    path: 'campaign',
+                    loadChildren: 'app/components/campaign/campaign.module#CampaignModule',
+                    canLoad: [AuthGuard]
+                },
+                {
+                    path: 'exams',
+                    loadChildren: 'app/components/exam-home/exam-home.module#ExamHomeModule',
+                    canLoad: [AuthGuard]
+                },
+                {
+                    path: 'help',
+                    loadChildren: 'app/components/help-home/help-home.module#HelpHomeModule',
                     canLoad: [AuthGuard]
                 },
                 {

@@ -15,13 +15,11 @@
                     <h3>{{rowData.student_name}}</h3>
                 </li>
                 <li style="border-top: none;">
-                    Student ID: {{rowData.student_disp_id}}
-                </li>
-                <li style="border-top: none;text-overflow: ellipsis;">
-                    Batches: {{rowData.batchesAssigned}}
+                    {{rowData.student_disp_id}}
                 </li>
                 <li style="border-top: none;text-overflow: ellipsis;cursor:pointer;" (click)="emitNotes($evnent)">
-                    <a><i style="font-family: FontAwesome;" class="fa fa-sticky-note" aria-hidden="true"></i> {{rowData.comments}}</a>
+                    <a>
+                        <i style="font-family: FontAwesome;" class="fa fa-sticky-note" aria-hidden="true"></i> {{rowData.comments}}</a>
                 </li>
             </ul>
         </div>
@@ -70,8 +68,102 @@
                 <i></i>
                 <h2>Basic Details</h2>
                 <section>
-
-
+                    <div class="row">
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            Batches:
+                        </div>
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            {{rowData.batchesAssigned}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            Date Of Birth:
+                        </div>
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            {{rowData.dob}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            Date Of Joining:
+                        </div>
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            {{rowData.doj}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            Parent Name:
+                        </div>
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            {{rowData.parent_name}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            Parent Phone:
+                        </div>
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            {{rowData.parent_phone}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            Parent Email:
+                        </div>
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            {{rowData.parent_email}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            Guardian Name:
+                        </div>
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            {{rowData.guardian_name}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            Guardian Phone:
+                        </div>
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            {{rowData.guardian_phone}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            Guardian Email:
+                        </div>
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            {{rowData.guardian_email}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            School Name:
+                        </div>
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            {{rowData.school_name}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            student_class:
+                        </div>
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            {{rowData.student_class}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            Address:
+                        </div>
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            {{rowData.student_curr_addr}}
+                        </div>
+                    </div>
                 </section>
             </li>
             <li>
@@ -79,7 +171,14 @@
                 <i></i>
                 <h2>Other Details</h2>
                 <section>
-
+                    <div class="row" *ngFor="let custom of customComponent">
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            {{custom.label}}:
+                        </div>
+                        <div class="c-lg-6 c-md-6 c-sm-6">
+                            {{custom.enq_custom_value}}
+                        </div>
+                    </div>
                 </section>
             </li>
             <li>

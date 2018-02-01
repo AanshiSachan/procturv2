@@ -44,6 +44,7 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
 import { SharedModule } from './components/shared/shared.module';
 import { SlotApiService } from './services/slot-service/slot.service';
 
+
 @NgModule({
   imports: [
     BrowserModule,

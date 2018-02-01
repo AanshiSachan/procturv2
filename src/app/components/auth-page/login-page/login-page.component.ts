@@ -529,7 +529,7 @@ export class LoginPageComponent {
 
   createRoleBasedSidenav(){
     this.login.changeSidenavStatus('authorized');
-    this.route.navigateByUrl('enquiry');
+    this.route.navigateByUrl('home');
   }
 
 }
