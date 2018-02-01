@@ -2,11 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { CourseComponent } from './course.component';
-import { CourseSubjectComponent } from './course-subject/course-subject.component';
-import { CourseExamComponent } from './course-exam/course-exam.component';
-import { CourseCourseListComponent } from './course-course-list/course-course-list.component';
-import { CourseClassComponent } from './course-class/course-class.component';
-import { ScheduleHomeComponent } from './course-home/schedule-home.component';
+
 
 @NgModule({
     imports: [
@@ -22,27 +18,27 @@ import { ScheduleHomeComponent } from './course-home/schedule-home.component';
                     },
                     {
                         path: 'standardlist',
-                        component: ScheduleHomeComponent,
+                        loadChildren: 'app/components/course/course-home/course-home.module#CourseHomeModule',
                         pathMatch: 'prefix',
                     },
                     {
                         path: 'subject',
-                        component: CourseSubjectComponent,
+                        loadChildren: "app/components/course/course-subject/course-subject.module#CourseSubjectModule",
                         pathMatch: 'prefix',
                     },
                     {
                         path: 'exam',
-                        component: CourseExamComponent,
+                        loadChildren: "app/components/course/course-exam/course-exam.module#CourseExamModule",
                         pathMatch: 'prefix',
                     },
                     {
                         path: 'courselist',
-                        component: CourseCourseListComponent,
+                        loadChildren: "app/components/course/course-course-list/course-list.module#CourseListModule",
                         pathMatch: 'prefix',
                     },
                     {
                         path: 'class',
-                        component: CourseClassComponent,
+                        loadChildren: "app/components/course/course-class/course-class.module#CourseClassModule",
                         pathMatch: 'prefix',
                     }
                 ]

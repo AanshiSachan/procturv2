@@ -1,0 +1,163 @@
+<div class="middle-section clearFix">
+  <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+    <h1 class="pull-left">
+      Edit Course
+    </h1>
+  </section>
+
+  <section class="middle-main clearFix">
+    <div class="row">
+      <div class="c-lg-3 c-md-3 c-sm-3">
+        <div class="field-wrapper has-value">
+          <input type="text" id="idMasterCourse" [(ngModel)]="selectedCourseDetails.master_course
+          " name="masterCourse" class="form-ctrl" />
+          <label for="masterCourse">Master Course
+            <span style="color:red">*</span>
+          </label>
+        </div>
+      </div>
+      <div class="c-lg-3 c-md-3 c-sm-3">
+        <div class="field-wrapper has-value">
+          <select id="idStanadardName" class="form-ctrl" disabled="true" [(ngModel)]="selectedCourseDetails.standard_id">
+            <option *ngFor="let opt of standardNameList" [value]="opt.standard_id">
+              {{opt.standard_name}}
+            </option>
+          </select>
+          <label for="item">Standard Name
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="tableSection">
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>
+                Course Name
+              </th>
+              <th>
+                Start Date
+              </th>
+              <th>
+                End Date
+              </th>
+              <th>
+                Allow Exam Grades
+              </th>
+              <th>
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="row{{i}}" *ngFor="let row of mainTableDataSource; let i= index ; trackBy:index">
+              <td colspan="5">
+                <div class="tableRow">
+                  <td>
+                    {{row.course_name}}
+                  </td>
+                  <td>
+                    {{row.start_date}}
+                  </td>
+                  <td>
+                    {{row.end_date}}
+                  </td>
+                  <td>
+                    <span *ngIf="(row.is_exam_grad_feature == 0)">No</span>
+                    <span *ngIf="(row.is_exam_grad_feature == 1)">Yes</span>
+                  </td>
+                  <td>
+                    <a style="cursor:pointer" (click)="showNestedTableEdit(row , i)">Edit</a>
+                    <a style="cursor:pointer" (click)="removeRowFromTable(row , i)">Delete</a>
+                    <a style="cursor:pointer" (click)="updateDataOfNestedTable(row, i)">Update</a>
+                  </td>
+                </div>
+                <div id="show{{i}}" class="nestedTable nestedTableHide">
+                  <div class="row">
+                    <div class="c-lg-2 c-md-2 c-sm-2">
+                    </div>
+                    <div class="c-lg-2 c-md-2 c-sm-2">
+                      <div class="field-wrapper has-value">
+                        <input type="text" name="masterCourse" [(ngModel)]="mainTableDataSource[i].course_name" class="form-ctrl" (focus)="inputClickedCheck($event)" />
+                        <label for="masterCourse">Course Name
+                          <span style="color:red">*</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="c-lg-2 c-md-2 c-sm-2">
+                      <div class="field-wrapper has-value">
+                        <input type="text" value="" disabled="true" [(ngModel)]="mainTableDataSource[i].start_date" class="form-ctrl bsDatepicker" name="startDate" bsDatepicker (focus)="inputClickedCheck($event)">
+                        <label for="startDate">Start Date
+                          <span style="color:red">*</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="c-lg-2 c-md-2 c-sm-2">
+                      <div class="field-wrapper has-value">
+                        <input type="text" value="" class="form-ctrl bsDatepicker" [(ngModel)]="mainTableDataSource[i].end_date" name="endDate" bsDatepicker (focus)="inputClickedCheck($event)">
+                        <label for="endDate">End Date
+                          <span style="color:red">*</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="c-lg-2 c-md-2 c-sm-2">
+                      <div class="field-checkbox-wrapper" style="margin-top: 25px;">
+                        <input type="checkbox" value="" [(ngModel)]="mainTableDataSource[i].is_exam_grad_feature" name="allow" class="form-checkbox">
+                        <label for="allow">Allow Exam Grades</label>
+                      </div>
+                    </div>
+                    <div class="c-lg-2 c-md-2 c-sm-2">
+                    </div>
+                  </div>
+                  <div class="tableWrapper">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>
+                            Allocate Subject
+                          </th>
+                          <th>
+                            Subject Name
+                          </th>
+                          <th>
+                            Allocate Teacher
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="subjectListTableTbody">
+                        <tr *ngFor="let row of mainTableDataSource[i].batchesList ; let y= index; trackBy: index">
+                          <td>
+                            <div class="field-checkbox-wrapper">
+                              <input id="{{row.subject_id}}" [(ngModel)]="row.uiSelected" type="checkbox" value="" class="form-checkbox">
+                              <label for="{{row.subject_id}}"></label>
+                            </div>
+                          </td>
+                          <td>
+                            {{row.subject_name}}
+                          </td>
+                          <td>
+                            <select class="form-ctrl" [(ngModel)]="row.selected_teacher">
+                              <option value="-1"></option>
+                              <option *ngFor="let opt of activeTeachers" [value]="opt.teacher_id">
+                                {{opt.teacher_name}}
+                              </option>
+                            </select>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <button class="btn" (click)="updateEditedDetails()">Update Details</button>
+    </div>
+  </section>
+
+</div>

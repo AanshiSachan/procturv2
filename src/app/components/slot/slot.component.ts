@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SlotApiService } from '../../services/slot-service/slot.service';
 import { AppComponent } from '../../app.component';
 import { error } from 'selenium-webdriver';
+import { LoginService } from '../../services/login-services/login.service';
 
 @Component({
   selector: 'app-slot',
@@ -19,10 +20,13 @@ export class SlotComponent implements OnInit {
 
   constructor(
     private apiService: SlotApiService,
-    private appC: AppComponent
+    private appC: AppComponent,
+    private login: LoginService,
   ) {
     this.removeFullscreen();
     this.removeSelectionFromSideNav();
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
   ngOnInit() {
