@@ -23,6 +23,8 @@ export class AddStudentPrefillService {
   private urlAdditionalFeeDetails: string;
   baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
 
+  
+
   constructor(private http: Http, private auth: AuthenticatorService) {
     this.Authorization = this.auth.getAuthToken();
     this.institute_id = this.auth.getInstituteId();
@@ -300,6 +302,29 @@ export class AddStudentPrefillService {
       res => { 
         return res.json(); 
       })
+  }
+
+  getChequeStatus(): Observable<any>{
+    let urlChequeStatus = this.baseUrl +"/api/v1/masterData/type/CHEQUE_STATUS"
+
+    return this.http.get(urlChequeStatus, {headers: this.headers}).map(
+      res => { return res.json(); },
+      err => { return err.json(); }
+    )
+  }
+
+
+  getPdcList(id, obj): Observable<any>{
+    //console.log(obj);
+    obj.cheque_date_from = obj.cheque_date_from == "Invalid date" ? '' : obj.cheque_date_from;
+    obj.cheque_date_to = obj.cheque_date_to == "Invalid date" ? '' : obj.cheque_date_to;     
+    let urlPdcList = this.baseUrl +"/api/v1/student_cheque/getAll/" +this.institute_id +"/" +id;
+
+    return this.http.post(urlPdcList, obj, {headers: this.headers}).map(
+      res => { return res.json(); },
+      err => { return err.json(); }
+    )
+
   }
 
 }

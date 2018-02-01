@@ -14,6 +14,8 @@ import { Subscription } from 'rxjs';
 import { LoginService } from '../../../services/login-services/login.service';
 import 'rxjs/Rx';
 import { StudentFeeStructure } from '../../../model/student-fee-structure';
+import { MenuItem } from 'primeng/primeng';
+
 
 @Component({
   selector: 'app-student-edit',
@@ -58,7 +60,21 @@ export class StudentEditComponent implements OnInit {
     language_inst_status: "admitted",
     stuCustomLi: []
   };
+  pdcAddForm: any = {
+    bank_name: '',
+    cheque_amount: '',
+    cheque_date: '',
+    cheque_id: 0,
+    cheque_no: '',
+    cheque_status: '',
+    cheque_status_key: 0,
+    clearing_date: '',
+    institution_id: sessionStorage.getItem('institute_id'),
+    student_id: 0
+  }
 
+  newPdcArr: any[] = [];
+  pdcSelectedArr: any[] = [];
   formIsActive: boolean = true;
 
   private quickAddStudent: boolean = false;
@@ -223,7 +239,15 @@ export class StudentEditComponent implements OnInit {
     instituteName: "",
     isActive: "Y"
   }
-
+  is_undo: string = "N";
+  pdcStatus: any[] = [];
+  pdcSearchObj = {
+    cheque_status: '-1',
+    student_id: '',
+    cheque_date_from: '',
+    cheque_date_to: ''
+  }
+  chequePdcList: any[] = [];
   allocationForm: any = {
     alloted_units: "",
     item_id: "",
@@ -250,7 +274,7 @@ export class StudentEditComponent implements OnInit {
     template_effective_date: "",
     is_fee_schedule_created: "",
     is_fee_tx_done: "",
-    is_undo: "",
+    is_undo: this.is_undo,
     is_fee_other_inst_created: "",
     is_delete_other_fee_types: "",
     chequeDetailsJson: "",
@@ -287,6 +311,21 @@ export class StudentEditComponent implements OnInit {
   allotInventoryArr: any[] = [];
   isRippleLoad: boolean = false;
   studentAssisnedBatches: any[] = [];
+  genPdcAck: boolean = false;
+  sendPdcAck: boolean = false;
+  isPaymentPdc: boolean = false;
+  pdcSelectedForPayment: any;
+  pdcSelectedForm: any = {
+    bank_name: '',
+    cheque_amount: '',
+    cheque_date: '',
+    cheque_no: '',
+    pdc_cheque_id: ''
+  }
+  isPdcFeePaymentSelected: boolean = false;
+
+
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(private studentPrefillService: AddStudentPrefillService, private prefill: FetchprefilldataService, private postService: PostStudentDataService, private router: Router, private route: ActivatedRoute, private login: LoginService, private appC: AppComponent, private fetchService: FetchStudentService) {
@@ -567,7 +606,6 @@ export class StudentEditComponent implements OnInit {
   /* ============================================================================================================================ */
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
-
     let inventory = this.studentPrefillService.fetchInventoryListById(this.student_id).subscribe(
       data => {
         this.inventoryItemsArr = data;
@@ -586,10 +624,21 @@ export class StudentEditComponent implements OnInit {
         this.allocatedInventoryHistory = res;
       }
     )
+
     this.getFeeStructue();
+
+    this.studentPrefillService.getChequeStatus().subscribe(
+      data => {
+        this.pdcStatus = data;
+      }
+    )
+
+    this.getPdcChequeList();
+
     let standard = this.prefill.getEnqStardards().subscribe(data => {
       this.standardList = data;
     });
+
     if (inventory != null && institute != null && standard != null) {
       let customComp = this.studentPrefillService.fetchCustomComponentById(this.student_id).subscribe(data => {
         data.forEach(el => {
@@ -1358,7 +1407,7 @@ export class StudentEditComponent implements OnInit {
       template_effective_date: "",
       is_fee_schedule_created: "",
       is_fee_tx_done: "",
-      is_undo: "",
+      is_undo: this.is_undo,
       is_fee_other_inst_created: "",
       is_delete_other_fee_types: "",
       chequeDetailsJson: "",
@@ -1503,7 +1552,20 @@ export class StudentEditComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+  validatePdcObject(): boolean {
+    if (this.pdcSelectedForm.bank_name == '' || this.pdcSelectedForm.bank_name == ' ' || this.pdcSelectedForm.cheque_date == 'Invalid date'
+      || this.pdcSelectedForm.cheque_date == '' || this.pdcSelectedForm.bank_name == ' ' || this.pdcSelectedForm.cheque_no == '' || this.pdcSelectedForm.cheque_amount == ''
+    ) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   validatePaymentDetails($event) {
+
     $event.preventDefault();
     /* error */
     if (this.feeTemplateById.paid_date == "" && this.feeTemplateById.payment_mode == "") {
@@ -1534,56 +1596,134 @@ export class StudentEditComponent implements OnInit {
     }
     /* success */
     else {
-      if (this.isUpdateFeeAndExit) {
-        let obj = {
-          chequeDetailsJson: {},
-          customFeeSchedules: [],
-          discount_fee_reason: "",
-          is_delete_other_fee_types: 0,
-          is_undo: "",
-          paid_date: "",
-          payment_mode: "",
-          reference_no: "",
-          remarks: "",
-          studentArray: [],
-          studentwise_fees_tax_applicable: "",
-          studentwise_total_fees_amount: "",
-          studentwise_total_fees_discount: 0,
-          template_effective_date: "",
-          template_id: ""
-        }
-        obj.chequeDetailsJson = this.feeTemplateById.chequeDetailsJson;
-        obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
-        obj.discount_fee_reason = this.discountReason;
-        obj.is_undo = this.feeTemplateById.is_undo;
-        obj.paid_date = this.feeTemplateById.paid_date;
-        obj.payment_mode = this.feeTemplateById.payment_mode;
-        obj.reference_no = this.feeTemplateById.reference_no;
-        obj.remarks = this.feeTemplateById.remarks;
-        obj.studentArray.push(this.student_id);
-        obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
-        obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
-        obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
-        this.postService.allocateStudentFees(obj).subscribe(
-          res => {
-            let msg = {
-              type: 'success',
-              title: 'Fees Updated',
-              body: 'Fee details has been updated'
+      /* PDC data to be verified */
+      if (this.feeTemplateById.payment_mode == 'Cheque/PDC/DD No.') {
+        if (this.validatePdcObject()) {
+          if (this.isUpdateFeeAndExit) {
+            let obj = {
+              chequeDetailsJson: {},
+              customFeeSchedules: [],
+              discount_fee_reason: "",
+              is_delete_other_fee_types: 0,
+              is_undo: this.is_undo,
+              paid_date: "",
+              payment_mode: "",
+              reference_no: "",
+              remarks: "",
+              studentArray: [],
+              studentwise_fees_tax_applicable: "",
+              studentwise_total_fees_amount: "",
+              studentwise_total_fees_discount: 0,
+              template_effective_date: "",
+              template_id: ""
             }
-            this.appC.popToast(msg);
-            this.router.navigate(['/student']);
-          },
-          err => { }
-        );
+            this.isFeeApplied = true;
+            console.log(this.isFeeApplied);
+            this.pdcSelectedForm.cheque_date = moment(this.pdcSelectedForm.cheque_date).format("YYYY-MM-DD");
+            obj.chequeDetailsJson = this.pdcSelectedForm;
+            obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
+            obj.discount_fee_reason = this.discountReason;
+            obj.is_undo = this.is_undo;
+            obj.paid_date = this.feeTemplateById.paid_date;
+            obj.payment_mode = this.feeTemplateById.payment_mode;
+            obj.reference_no = this.feeTemplateById.reference_no;
+            obj.remarks = this.feeTemplateById.remarks;
+            obj.studentArray.push(this.student_id);
+            obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
+            obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
+            obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
+            this.postService.allocateStudentFees(obj).subscribe(
+              res => {
+                let msg = {
+                  type: 'success',
+                  title: 'Fees Updated',
+                  body: 'Fee details has been updated'
+                }
+                this.appC.popToast(msg);
+                this.router.navigate(['/student']);
+              },
+              err => { }
+            );
+          }
+          else {
+            this.isPaymentDetailsValid = true;
+            this.isFeeApplied = true;
+            console.log(this.isFeeApplied);
+            this.paymentStatusArr.forEach(el => { el.isPaid = el.uiSelected });
+            this.feeTemplateById.paid_date = moment(this.feeTemplateById.paid_date).format("YYYY-MM-DD");
+            this.pdcSelectedForm.cheque_date = moment(this.pdcSelectedForm.cheque_date).format("YYYY-MM-DD");
+            this.feeTemplateById.chequeDetailsJson = this.pdcSelectedForm;
+            this.feeTemplateById.studentwise_total_fees_amount_paid = this.totalFeePaid;
+            this.feeTemplateById.studentwise_total_fees_balance_amount = this.feeTemplateById.studentwise_total_fees_amount - this.feeTemplateById.studentwise_total_fees_amount_paid - this.feeTemplateById.studentwise_total_fees_discount;
+            this.closePaymentDetails();
+          }
+        }
+        else {
+          let msg = {
+            type: 'error',
+            title: 'Incorrect PDC/Cheque Details',
+            body: 'Please provide correct input for the cheque data'
+          }
+          this.appC.popToast(msg);
+        }
       }
       else {
-        this.isPaymentDetailsValid = true;
-        this.paymentStatusArr.forEach(el => { el.isPaid = el.uiSelected });
-        this.feeTemplateById.paid_date = moment(this.feeTemplateById.paid_date).format("YYYY-MM-DD");
-        this.feeTemplateById.studentwise_total_fees_amount_paid = this.totalFeePaid;
-        this.feeTemplateById.studentwise_total_fees_balance_amount = this.feeTemplateById.studentwise_total_fees_amount - this.feeTemplateById.studentwise_total_fees_amount_paid - this.feeTemplateById.studentwise_total_fees_discount;
-        this.closePaymentDetails();
+
+        if (this.isUpdateFeeAndExit) {
+          let obj = {
+            chequeDetailsJson: {},
+            customFeeSchedules: [],
+            discount_fee_reason: "",
+            is_delete_other_fee_types: 0,
+            is_undo: this.is_undo,
+            paid_date: "",
+            payment_mode: "",
+            reference_no: "",
+            remarks: "",
+            studentArray: [],
+            studentwise_fees_tax_applicable: "",
+            studentwise_total_fees_amount: "",
+            studentwise_total_fees_discount: 0,
+            template_effective_date: "",
+            template_id: ""
+          }
+          this.isFeeApplied = true;
+          console.log(this.isFeeApplied);
+          obj.chequeDetailsJson = this.feeTemplateById.chequeDetailsJson;
+          obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
+          obj.discount_fee_reason = this.discountReason;
+          obj.is_undo = this.is_undo;
+          obj.paid_date = this.feeTemplateById.paid_date;
+          obj.payment_mode = this.feeTemplateById.payment_mode;
+          obj.reference_no = this.feeTemplateById.reference_no;
+          obj.remarks = this.feeTemplateById.remarks;
+          obj.studentArray.push(this.student_id);
+          obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
+          obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
+          obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
+          this.postService.allocateStudentFees(obj).subscribe(
+            res => {
+              let msg = {
+                type: 'success',
+                title: 'Fees Updated',
+                body: 'Fee details has been updated'
+              }
+              this.appC.popToast(msg);
+              this.router.navigate(['/student']);
+            },
+            err => { }
+          );
+        }
+        else {
+          this.isPaymentDetailsValid = true;
+          this.isFeeApplied = true;
+          console.log(this.isFeeApplied);
+          this.paymentStatusArr.forEach(el => { el.isPaid = el.uiSelected });
+          this.feeTemplateById.paid_date = moment(this.feeTemplateById.paid_date).format("YYYY-MM-DD");
+          this.feeTemplateById.studentwise_total_fees_amount_paid = this.totalFeePaid;
+          this.feeTemplateById.studentwise_total_fees_balance_amount = this.feeTemplateById.studentwise_total_fees_amount - this.feeTemplateById.studentwise_total_fees_amount_paid - this.feeTemplateById.studentwise_total_fees_discount;
+          this.closePaymentDetails();
+        }
       }
     }
   }
@@ -1952,7 +2092,7 @@ export class StudentEditComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   deleteInstallment(i) {
-    console.log(i);
+    //console.log(i);
     this.instalmentTableData.splice(i, 1);
     this.updateTableInstallment();
   }
@@ -1969,7 +2109,50 @@ export class StudentEditComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   reCreateFeeAgain() {
-    this.closeAllFeePops();
+    if (confirm("By changing the fee template, all existing fee schedule and transactions shall be discarded and archived. Are you sure you want to continue?")) {
+      this.isConfigureFees = true;
+      this.totalFeePaid = 0;
+      this.is_undo = 'Y';
+      this.paymentStatusArr = [];
+      this.feeTemplateById = {
+        feeTypeMap: "",
+        customFeeSchedules: [],
+        registeredServiceTax: "",
+        studentArray: "",
+        studentwise_total_fees_amount: "",
+        studentwise_total_fees_balance_amount: "",
+        studentwise_total_fees_amount_paid: "",
+        studentwise_total_fees_discount: "",
+        studentwise_fees_tax_applicable: "",
+        no_of_installments: "",
+        discount_fee_reason: "",
+        template_name: "",
+        template_id: "",
+        template_effective_date: "",
+        is_fee_schedule_created: "",
+        is_fee_tx_done: "",
+        is_undo: this.is_undo,
+        is_fee_other_inst_created: "",
+        is_delete_other_fee_types: "",
+        chequeDetailsJson: "",
+        payment_mode: "",
+        remarks: "",
+        paid_date: "",
+        toCreate: false,
+        is_cheque_details_required: "",
+        reference_no: "",
+        invoice_no: "",
+        uiSelected: false
+      }
+      this.userCustommizedFee = [];
+      this.instalmentTableData = [];
+      this.otherFeeTableData = [];
+      this.isPaymentDetailsValid = false;
+      this.isDefineFees = false;
+      this.isFeeApplied = false;
+      this.isDiscountApplied = false;
+      this.discountReason = '';
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -1979,23 +2162,30 @@ export class StudentEditComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   addNewStudentFullView() {
+
     let fee = this.feeTemplateById.customFeeSchedules;
+
     /* Payment Details Have been updated proceed to upload student */
     if (this.isPaymentDetailsValid) {
+
       //console.log("payments valid proceeding to upload");
       this.addNewStudentFull();
     }/* Payment Details not found */
     else {
+
+      console.log(this.paymentStatusArr);
       let isPaid = this.paymentStatusArr.every(function (element, index, array) {
         return (element.uiSelected === element.isPaid);
       })
       //console.log(isPaid);
       /* No Payment has been selected for updation */
       if (isPaid) {
+
         //console.log("payments not needed");
         this.addNewStudentFull();
       } /* Payment Selected For updation */
       else {
+
         //console.log("payments not found");
         this.isFeePaymentUpdate = true;
       }
@@ -2010,11 +2200,13 @@ export class StudentEditComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   studentAdder() {
+
     /* Both Form are Valid Else there seems to be an error on custom component */
     let isCustomComponentValid: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
     let formValid: boolean = this.formfullValidator();
     //console.log(isCustomComponentValid);
     if (isCustomComponentValid && formValid) {
+      debugger;
       //console.log("valid student generating Id Now");
       let customArr = [];
       this.customComponents.forEach(el => {
@@ -2060,24 +2252,32 @@ export class StudentEditComponent implements OnInit {
       this.additionalBasicDetails = false;
       this.busyPrefill = this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         res => {
+          debugger;
           let statusCode = res.statusCode;
           if (statusCode == 200) {
             localStorage.removeItem('tempImg');
             this.removeImage = true;
-            //this.student_id = res.generated_id;
-            /* Inventory Allocated*/
-            if (this.allotInventoryArr.length > 0) {
+            //console.log(this.isFeeApplied);
+            /* Inventory defined and fee as well */
+            if (this.allotInventoryArr.length != 0 && this.isFeeApplied == true) {
+              debugger;
               this.allocateInventory(this.student_id);
             }
             /* Inventory is not defined but fee is defined*/
-            else if (this.allotInventoryArr.length == 0 && this.isFeeApplied) {
+            else if (this.allotInventoryArr.length == 0 && this.isFeeApplied == true) {
+              debugger;
               this.asssignCustomizedFee(this.student_id);
             }
+            /* Inventory defined but fee is not*/
+            else if (this.allotInventoryArr.length == 0 && this.isFeeApplied == false) {
+              debugger;
+              this.allocateInventory(this.student_id); 
+            }
             /* Inventory and fee both are not defined */
-            else if (this.allotInventoryArr.length == 0 && !this.isFeeApplied) {
+            else if (this.allotInventoryArr.length == 0 && this.isFeeApplied == false) {
+              debugger;
               this.studentAddedNotifier();
             }
-
           }
           else if (statusCode == 2) {
             let alert = {
@@ -2113,6 +2313,15 @@ export class StudentEditComponent implements OnInit {
         }
         this.appC.popToast(alert);
       }
+    }
+  }
+
+  paymentModeUpdate(e) {
+    if (e === 'Cheque/PDC/DD No.') {
+      this.isPaymentPdc = true;
+    }
+    else {
+      this.isPaymentPdc = false;
     }
   }
   /* ============================================================================================================================ */
@@ -2172,6 +2381,7 @@ export class StudentEditComponent implements OnInit {
   /* ============================================================================================================================ */
   allocateInventory(id) {
     let count: number = 0;
+    let temp: any[] = [];
     this.allotInventoryArr.forEach(e => {
       let obj = {
         alloted_units: e.units_added,
@@ -2179,40 +2389,32 @@ export class StudentEditComponent implements OnInit {
         item_id: e.item_id,
         student_id: id
       }
-      this.postService.allocateStudentInventory(obj).subscribe(
-        res => {
-          count++;
-          //console.log(count);
-          this.feeAllocater(count, id);
-        },
-        err => { }
-      );
+      temp.push(obj);
     });
+    this.postService.allocateStudentInventory(temp).subscribe(
+      res => {
+        if (this.isFeeApplied) {
+          this.asssignCustomizedFee(id);
+        }
+        else {
+          this.studentAddedNotifier();
+        }
+      },
+      err => { }
+    );
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  feeAllocater(count, id) {
-    /*  */
-    if (count == (this.allotInventoryArr.length - 1)) {
-      if (this.isFeeApplied) {
-        this.asssignCustomizedFee(id);
-      }
-      else {
-        this.studentAddedNotifier();
-      }
-
-    }
-
-  }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   asssignCustomizedFee(id) {
+
     let obj = {
       chequeDetailsJson: {},
       customFeeSchedules: [],
       discount_fee_reason: "",
       is_delete_other_fee_types: 0,
-      is_undo: "",
+      is_undo: this.is_undo,
       paid_date: "",
       payment_mode: "",
       reference_no: "",
@@ -2224,25 +2426,46 @@ export class StudentEditComponent implements OnInit {
       template_effective_date: "",
       template_id: ""
     }
-    obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
-    //console.log(obj.customFeeSchedules);
-    obj.discount_fee_reason = this.discountReason;
-    obj.is_undo = 'N';
-    obj.paid_date = this.feeTemplateById.paid_date;
-    obj.payment_mode = this.feeTemplateById.payment_mode;
-    obj.reference_no = this.feeTemplateById.reference_no;
-    obj.remarks = this.feeTemplateById.remarks;
-    obj.studentArray.push(id);
-    obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
-    obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
-    obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
-    this.postService.allocateStudentFees(obj).subscribe(
-      res => {
-        this.studentAddedNotifier();
-      },
-      err => { }
-    );
-
+    if (this.feeTemplateById.payment_mode == 'Cheque/PDC/DD No.') {
+      this.pdcSelectedForm.cheque_date = moment(this.pdcSelectedForm.cheque_date).format("YYYY-MM-DD");
+      obj.chequeDetailsJson = this.pdcSelectedForm;
+      obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
+      obj.discount_fee_reason = this.discountReason;
+      obj.is_undo = this.is_undo;
+      obj.paid_date = this.feeTemplateById.paid_date;
+      obj.payment_mode = this.feeTemplateById.payment_mode;
+      obj.reference_no = this.feeTemplateById.reference_no;
+      obj.remarks = this.feeTemplateById.remarks;
+      obj.studentArray.push(id);
+      obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
+      obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
+      obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
+      this.postService.allocateStudentFees(obj).subscribe(
+        res => {
+          this.studentAddedNotifier();
+        },
+        err => { }
+      );
+    }
+    else {
+      obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
+      obj.discount_fee_reason = this.discountReason;
+      obj.is_undo = this.is_undo;
+      obj.paid_date = this.feeTemplateById.paid_date;
+      obj.payment_mode = this.feeTemplateById.payment_mode;
+      obj.reference_no = this.feeTemplateById.reference_no;
+      obj.remarks = this.feeTemplateById.remarks;
+      obj.studentArray.push(id);
+      obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
+      obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
+      obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
+      this.postService.allocateStudentFees(obj).subscribe(
+        res => {
+          this.studentAddedNotifier();
+        },
+        err => { }
+      );
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -2514,6 +2737,7 @@ export class StudentEditComponent implements OnInit {
   /* ============================================================================================================================ */
   updateStudentAllocatedInventory() {
     let count: number = 0;
+    let temp: any[] = [];
     this.allotInventoryArr.forEach(e => {
       let obj = {
         alloted_units: e.units_added,
@@ -2521,26 +2745,38 @@ export class StudentEditComponent implements OnInit {
         item_id: e.item_id,
         student_id: this.student_id
       }
-      this.postService.allocateStudentInventory(obj).subscribe(
-        res => {
-          count++;
-          this.updateCompleteInventory(count);
-        },
-        err => { }
-      );
+      temp.push(obj);
     });
+    this.postService.allocateStudentInventory(temp).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: 'Inventory Updated',
+          body: 'Inventory allocation details have been updated'
+        }
+        this.appC.popToast(msg);
+        this.router.navigate(['/student']);
+      },
+      err => { }
+    );
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateCompleteInventory(i) {
     if (i == (this.allotInventoryArr.length - 1)) {
-      let msg = {
-        type: 'success',
-        title: 'Inventory Updated',
-        body: 'Inventory allocation details have been updated'
-      }
-      this.appC.popToast(msg);
-      this.router.navigate(['/student']);
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  getPaidStatus(el): any {
+    if (el.is_referenced == 'Y') {
+      return 0;
+    }
+    else if (el.is_referenced == 'N' && el.is_paid == 1) {
+      return 1;
+    }
+    else if (el.is_referenced == 'N' && el.is_paid == 0) {
+      return 0;
     }
   }
   /* ============================================================================================================================ */
@@ -2555,7 +2791,9 @@ export class StudentEditComponent implements OnInit {
         fee_type: el.fee_type_name === "INSTALLMENT" ? 0 : el.fee_type,
         fees_amount: el.fees_amount,
         initial_fee_amount: el.initial_fee_amount,
-        is_paid: (el.is_referenced == 'Y' || el.is_paid == 1) ? 1 : 0,
+        is_paid: this.getPaidStatus(el),
+        is_referenced: el.is_referenced,
+        schedule_id: el.schedule_id,
         service_tax: el.service_tax,
         service_tax_applicable: el.service_tax_applicable,
       }
@@ -2566,16 +2804,238 @@ export class StudentEditComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+  addNewPDCState() {
+    //console.log(this.pdcAddForm);
+    let obj = {
+      bank_name: this.pdcAddForm.bank_name,
+      cheque_amount: this.pdcAddForm.cheque_amount,
+      cheque_date: moment(this.pdcAddForm.cheque_date).format("YYYY-MM-DD"),
+      cheque_id: this.pdcAddForm.cheque_id,
+      cheque_no: this.pdcAddForm.cheque_no,
+      cheque_status: this.pdcAddForm.cheque_status,
+      cheque_status_key: this.pdcAddForm.cheque_status_key,
+      clearing_date: moment(this.pdcAddForm.clearing_date).format("YYYY-MM-DD"),
+      institution_id: sessionStorage.getItem('institute_id'),
+      student_id: this.student_id
+    }
+    if (this.validPdc(obj)) {
+      this.newPdcArr.push(obj);
+      this.pdcAddForm = {
+        bank_name: '',
+        cheque_amount: '',
+        cheque_date: '',
+        cheque_id: 0,
+        cheque_no: '',
+        cheque_status: '',
+        cheque_status_key: 0,
+        clearing_date: '',
+        institution_id: sessionStorage.getItem('institute_id'),
+        student_id: 0
+      }
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  validPdc(obj): boolean {
+    if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '' || obj.clearing_date == 'Invalid date' || obj.clearing_date == '' || obj.cheque_no.toString().length != 6 || obj.cheque_amount <= 0) {
+      let msg = {
+        type: 'error',
+        title: 'Invalid Cheque Details',
+        body: 'Please share valid cheque details'
+      }
+      this.appC.popToast(msg);
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  deleteUnsavedPdc(i) {
+    this.newPdcArr.splice(i, 1);
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  getPdcChequeList() {
+    //console.log(this.pdcSearchObj);
+    let obj = {
+      cheque_status: this.pdcSearchObj.cheque_status == '' ? -1 : this.pdcSearchObj.cheque_status,
+      student_id: this.student_id,
+      cheque_date_from: this.pdcSearchObj.cheque_date_from == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_from).format('YYYY-MM-DD'),
+      cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
+    }
+    //console.log(obj);
+    this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
+      res => {
+        let temp: any[] = [];
+        res.forEach(el => {
+          let obj = {
+            bank_name: el.bank_name,
+            cheque_amount: el.cheque_amount,
+            cheque_date: el.cheque_date,
+            cheque_date_from: el.cheque_date_from,
+            cheque_date_to: el.cheque_date_from,
+            cheque_id: el.cheque_id,
+            cheque_no: el.cheque_no,
+            cheque_status: el.cheque_status,
+            cheque_status_key: el.cheque_status_key,
+            clearing_date: el.clearing_date,
+            genAck: el.genAck,
+            institution_id: el.institution_id,
+            sendAck: el.sendAck,
+            student_id: el.student_id,
+            student_name: el.student_name,
+            student_phone: el.student_phone,
+            uiSelected: false
+          }
+          temp.push(obj);
+        });
+        this.chequePdcList = temp;
+      })
 
+  }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+  addPdcDataToServer() {
+    let temp: any[] = [];
+    this.newPdcArr.forEach(e => {
+      let obj = {
+        cheque_no: e.cheque_no,
+        bank_name: e.bank_name,
+        cheque_date: e.cheque_date,
+        student_id: this.student_id,
+        clearing_date: e.clearing_date,
+        institution_id: sessionStorage.getItem('institute_id'),
+        cheque_amount: e.cheque_amount,
+        genAck: this.genPdcAck === true ? "Y" : "N",
+        sendAck: this.sendPdcAck === true ? "Y" : "N"
+      }
+      temp.push(obj);
+    });
+    this.newPdcArr = [];
+    this.genPdcAck = false;
+    this.sendPdcAck = false;
+    this.postService.addChequePdc(temp).subscribe(
+      res => {
+        this.chequePdcList = [];
+        this.getPdcChequeList();
+      },
+      err => {
+        this.chequePdcList = [];
+        this.getPdcChequeList();
+      }
+    )
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+  }
 
 
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+  editPDC(data) {
+    document.getElementById((data.student_id + data.cheque_id).toString()).classList.remove('displayComp');
+    document.getElementById((data.student_id + data.cheque_id).toString()).classList.add('editComp');
+  }
 
+  updatePDC(el) {
+    if (this.validPdc(el)) {
+      let obj = {
+        bank_name: el.bank_name,
+        cheque_amount: el.cheque_amount,
+        cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"),
+        cheque_id: el.cheque_id,
+        cheque_no: el.cheque_no,
+        cheque_status_key: el.cheque_status_key,
+        clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"),
+        institution_id: sessionStorage.getItem('institute_id'),
+        student_id: el.student_id
+      }
+      this.postService.updateFeeDetails(obj).subscribe(
+        res => {
+          this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
+          console.log(el.cheque_status);
+          document.getElementById((el.student_id + el.cheque_id).toString()).classList.add('displayComp');
+          document.getElementById((el.student_id + el.cheque_id).toString()).classList.remove('editComp');
+        },
+        err => {
+
+        }
+      )
+    }
+  }
+
+  deletePDC(data, i) {
+
+    if (confirm("Are you sure,you want to delete the Cheque?")) {
+      this.postService.deletePdcById(data.cheque_id).subscribe(
+        res => {
+          this.chequePdcList.splice(i, 1);
+        },
+        err => {
+
+        }
+      )
+    }
+
+  }
+
+  cancelEditPDC(data) {
+    document.getElementById((data.student_id + data.cheque_id).toString()).classList.add('displayComp');
+    document.getElementById((data.student_id + data.cheque_id).toString()).classList.remove('editComp');
+    this.pdcSelectedArr = [];
+    this.getPdcChequeList();
+  }
+
+  pdcSelected(obj) {
+    if (obj.uiSelected) {
+      this.pdcSelectedArr.push(obj.cheque_id);
+    }
+    else {
+      var i = this.pdcSelectedArr.indexOf(obj.cheque_id);
+      this.pdcSelectedArr.splice(i, 1);
+    }
+  }
+
+  generateAck() {
+    this.postService.generateAcknowledge(this.pdcSelectedArr, this.student_id).subscribe(
+      res => {
+      }
+    )
+  }
+
+  sendAck() {
+    this.postService.sendAcknowledge(this.pdcSelectedArr, this.student_id).subscribe(
+      res => {
+      }
+    )
+  }
+
+
+
+  feePdcSelected(obj) {
+    //console.log(obj);
+    if (obj === '') {
+      this.isPdcFeePaymentSelected = false;
+      this.pdcSelectedForm = {
+        bank_name: '',
+        cheque_amount: '',
+        cheque_date: '',
+        cheque_no: '',
+        pdc_cheque_id: ''
+      }
+    }
+    else {
+      this.chequePdcList.forEach(el => {
+        if (obj == el.cheque_id) {
+          this.pdcSelectedForm = {
+            bank_name: el.bank_name,
+            cheque_amount: el.cheque_amount,
+            cheque_date: el.cheque_date,
+            cheque_no: el.cheque_no,
+            pdc_cheque_id: el.cheque_id
+          }
+          this.isPdcFeePaymentSelected = true;
+        }
+      });
+    }
+  }
 
 }

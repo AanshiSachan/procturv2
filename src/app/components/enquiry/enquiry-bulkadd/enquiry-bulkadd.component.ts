@@ -172,7 +172,7 @@ export class EnquiryBulkaddComponent implements OnInit {
         dwldLink.setAttribute("download", fileName);
         dwldLink.innerText = 'Download Report';
       },
-      err => { }
+       err => { }
     )
   }
 
