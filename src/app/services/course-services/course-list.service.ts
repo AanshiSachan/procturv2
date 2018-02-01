@@ -89,7 +89,7 @@ export class CourseListService {
 
     saveCourseDetails(data) {
         data.inst_id = this.institute_id;
-        let url = this.baseURL +"/api/v1/courseMaster/create" ;
+        let url = this.baseURL + "/api/v1/courseMaster/create";
         return this.http.post(url, data, { headers: this.headers }).map(
             data => {
                 return data;
@@ -100,5 +100,19 @@ export class CourseListService {
         )
     }
 
+    /// Edit Component Update Course //////////
+
+    updateDetailsInEdit(data) {
+        data.inst_id = this.institute_id;
+        let url = this.baseURL + "/api/v1/courseMaster/update";
+        return this.http.put(url, data, { headers: this.headers }).map(
+            data => {
+                return data;
+            },
+            error => {
+                return error;
+            }
+        )
+    }
 
 }

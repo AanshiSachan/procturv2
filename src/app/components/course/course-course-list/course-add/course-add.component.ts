@@ -328,14 +328,12 @@ export class CourseAddComponent implements OnInit {
   }
   
   editRowFromTable(row, index) {
-    document.get
     document.getElementById(("show" + index).toString()).classList.add('nestedTableShow');
     document.getElementById(("show" + index).toString()).classList.remove('nestedTableHide');
     this.fillNestedTableData(index);
   }
 
   fillNestedTableData(index) {
-    debugger
     this.nestedTableForm = {
       course_name: this.mainArrayForTable[index].course_name,
       start_Date: this.mainArrayForTable[index].start_Date,
@@ -346,7 +344,6 @@ export class CourseAddComponent implements OnInit {
   }
 
   updateDataOfNestedTable(row, index) {
-    debugger
     let seletedRows: any = this.checkIfAnySubjectSelected(this.nestedTableDataSource);
     if (this.nestedTableForm.course_name != "" && this.nestedTableForm.start_Date != "" && this.nestedTableForm.end_Date != '') {
       if (this.nestedTableForm.start_Date > this.nestedTableForm.end_Date) {
