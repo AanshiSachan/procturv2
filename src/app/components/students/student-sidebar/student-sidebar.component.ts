@@ -68,8 +68,9 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   }
 
   fetchStudentDetails(ev) {
-    if(ev.photo != null && ev.photo != ''){
-    }
+    console.log(ev);
+    console.log(this.rowData);
+    console.log(this.customComponent);
   }
 
 
