@@ -69,15 +69,17 @@ export class FetchStudentService {
 
 
   fetchBulkUpdateStatusReport(){
-    let urlstudentReport = "";
+    let urlstudentReport = this.baseUrl +"/api/v1/bulkUpload/" +this.institute_id;
 
-    return this.http.get(urlstudentReport, {headers: this.headers}).map(
+    let obj = {func_type: "studentBulkUpload"};
+
+    return this.http.post(urlstudentReport, obj, {headers: this.headers}).map(
       res=> { return res.json()}
     )
   }
 
 
-  fetchDownloadTemplate(){
+  fetchDownloadTemplate(): Observable<any>{
 
     let urlStudentUploadTemplate = this.baseUrl +"/api/v1/students/download/bulkUploadStudentsTemplate";
 
@@ -98,8 +100,16 @@ export class FetchStudentService {
         return res.json();
       },
       err => {
-
+        return err.json();
       })
 
   }
+
+  fetchBulkReport(id){
+
+    let url = this.baseUrl +""
+
+  }
+
+
 }
