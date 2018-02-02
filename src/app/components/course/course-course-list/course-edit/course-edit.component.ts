@@ -55,7 +55,7 @@ export class CourseEditComponent implements OnInit {
       },
       error => {
         console.log(error);
-        this.messageToast('error', 'Error', 'Please refresh the page.');
+        this.messageToast('error', 'Error', error.error.message);
       }
     )
   }
@@ -116,17 +116,47 @@ export class CourseEditComponent implements OnInit {
     )
   }
 
-  deleteSubjectRow(row) {
-    this.apiService.deleteSubjectFromServer(row).subscribe(
-      data => {
-        console.log(data);
-        this.getSelectedCourse(this.courseName);
-      },
-      error => {
-        console.log(error);
-        this.messageToast('error', 'Error', error.error.message);
+  deleteSubjectRow(row, mainTableIndex, nestedTableIndex) {
+    if (row.hasOwnProperty('otherDetails')) {
+      this.apiService.deleteSubjectFromServer(row.otherDetails.batch_id).subscribe(
+        data => {
+          console.log(data);
+          this.mainTableDataSource[mainTableIndex].batchesList.splice(nestedTableIndex, 1);
+          this.checkIfAnySelectedRowExist(this.mainTableDataSource[mainTableIndex], mainTableIndex);
+          this.messageToast('success', 'Deleted', 'Sucessfully deleted from the list.');
+        },
+        error => {
+          console.log(error);
+          this.messageToast('error', 'Error', error.error.message);
+        }
+      )
+    }
+  }
+
+  addEnableDisableClass(data) {
+    debugger
+    let test = this.checkIfAnySubjectSelected(data.batchesList);
+    if (test.length > 0) {
+      if (data.batch_id != '0') {
+        return true;
+      } else {
+        return false;
       }
-    )
+    } else {
+      return false
+    }
+  }
+
+  checkIfAnySelectedRowExist(data, mainTableIndex) {
+    let uiSelctedData = false;
+    for (let i = 0; i < data.batchesList.length; i++) {
+      if (data.batchesList[i].uiSelected == "Y" || data.batchesList[i].uiSelected == true) {
+        uiSelctedData = true;
+      }
+    }
+    if (uiSelctedData == false) {
+      this.mainTableDataSource.splice(mainTableIndex, 1);
+    }
   }
 
   addRowToMainTable() {
@@ -200,6 +230,7 @@ export class CourseEditComponent implements OnInit {
     data.forEach(element => {
       element.uiSelected = '';
       element.selected_teacher = '';
+      element.isAssigned = 'Y';
     });
     return data;
   }
@@ -228,6 +259,7 @@ export class CourseEditComponent implements OnInit {
         if (test[i].subject_id == this.nestedTableDataSource[y].subject_id) {
           this.nestedTableDataSource[y].uiSelected = true;
           this.nestedTableDataSource[y].selected_teacher = test[i].teacher_id;
+          this.nestedTableDataSource[y].isAssigned = test[i].isAssigned;
           this.nestedTableDataSource[y].otherDetails = test[i];
         }
       }

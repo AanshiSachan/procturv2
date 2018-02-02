@@ -118,8 +118,8 @@ export class CourseListService {
     /// Edit Component Delete Subject //////////
 
     deleteSubjectFromServer(subjectId) {
-        let url = this.baseURL + "/v1/courseMaster/deleteSubject/" + subjectId;
-        return this.http.put(url, { headers: this.headers }).map(
+        let url = this.baseURL + "/api/v1/courseMaster/deleteSubject/" + subjectId;
+        return this.http.put(url, '', { headers: this.headers }).map(
             data => {
                 return data;
             },
