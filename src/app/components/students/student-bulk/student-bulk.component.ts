@@ -12,15 +12,13 @@ import { FetchStudentService } from '../../../services/student-services/fetch-st
   styleUrls: ['./student-bulk.component.scss']
 })
 export class StudentBulkComponent implements OnInit {
-
   isCancelUpload: boolean = false;
   isUploadingXls: boolean = false;
   progress: number = 0;
   fileLoading: string = "";
   isBulkUploadStatus: boolean = false;
   bulkUploadRecords: any[] = [];
-
-  studentUploadForm:any;
+  studentUploadForm: any;
 
   constructor(private fetchData: FetchStudentService, private postData: PostStudentDataService,
     private appC: AppComponent, private router: Router) {
@@ -72,63 +70,50 @@ export class StudentBulkComponent implements OnInit {
 
   /* function to upload the xls file as formdata */
   uploadHandler(event) {
+    
     for (let file of event.files) {
-
-      let formdata = new FormData();
-
-      formdata.append("file", file);
-
-      let urlPostXlsDocument = "http://test999.proctur.com/StdMgmtWebAPI/api/v2/enquiry_manager/bulkUploadEnquiries";
-
-      let xhr: XMLHttpRequest = new XMLHttpRequest();
-
-      xhr.open("POST", urlPostXlsDocument, true);
-      xhr.setRequestHeader("processData", "false");
-      xhr.setRequestHeader("contentType", "false");
-      xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-      xhr.setRequestHeader("enctype", "multipart/form-data");
-      xhr.setRequestHeader("Authorization", sessionStorage.getItem('Authorization'));
-
-      this.isUploadingXls = true;
-
-      xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
-        if (e.lengthComputable) {
-          this.progress = Math.round((e.loaded * 100) / e.total);
-          document.getElementById('progress-width').style.width = this.progress + '%';
-          this.fileLoading = file.name;
-        }
-      }, false);
-
-      //Call function when onload.
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState == 4) {
-          this.progress = 0;
-          if (xhr.status >= 200 && xhr.status < 300) {
-            this.isUploadingXls = false;
-            let data = {
-              type: 'success',
-              title: "File uploaded",
-              body: xhr.response.fileName
-            }
-            this.appC.popToast(data);
-            this.fetchBulkUploadStatusData();
-            //console.log(xhr.response);
-          } else {
-            this.isUploadingXls = false;
-            let data = {
-              type: 'error',
-              title: "File uploaded Failed",
-              body: xhr.response.fileName
-            }
-            this.appC.popToast(data);
-            //console.log(xhr.response);
-          }
-        }
-      }
-
-      xhr.send(formdata);
+      let fileString: string = '';
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (e) => {
+        fileString = reader.result.split(',')[1];
+        this.uploadXLS(fileString);
+      };
+      reader.onerror = function (error) {
+        console.log('Error: ', error);
+      };
     }
     event.files = [];
+  }
+
+
+  uploadXLS(inp: string) {
+    let obj = {
+      file: inp,
+      file_extn: "xls",
+      comments: "",
+      institute_id: sessionStorage.getItem('institute_id')
+    }
+
+    this.postData.uploadStudentBulk(obj).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: 'Student Details Uploaded',
+          body: 'The selected file(s) have been uploaded, and will be updated shortly'
+        }
+        this.appC.popToast(msg);
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: 'Failed To Upload Student(s)',
+          body: err.message
+          }
+          this.appC.popToast(msg);          
+      }
+    )
+
   }
 
 
@@ -150,7 +135,6 @@ export class StudentBulkComponent implements OnInit {
   closeBulkStatus() {
     this.isBulkUploadStatus = false;
   }
-
 
   /* download the xls status report for a particular file uploaded */
   downloadBulkStatusReport(el) {
@@ -179,7 +163,7 @@ export class StudentBulkComponent implements OnInit {
           elm.addEventListener('focusout', function (event) {
             event.target.parentNode.classList.add('has-value');
           });
-  
+
         });
       }
       else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
@@ -194,4 +178,5 @@ export class StudentBulkComponent implements OnInit {
       }
     }
   }
+
 }
