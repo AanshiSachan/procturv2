@@ -1,0 +1,130 @@
+@import "./src/assets/css/common/variables.scss";
+.middle-section {
+    padding: 5px 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.add-edit {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    i {
+        border: 1px solid $common-blue;
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        line-height: 16px;
+        text-align: center;
+        font-size: 17px;
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+    span {
+        display: inline-block;
+    }
+    .expend-box {
+        i {
+            line-height: 12px;
+            font-size: 22px;
+        }
+    }
+    a {
+        cursor: pointer;
+    }
+}
+
+.closeBtnClass {
+    line-height: 11px !important;
+}
+
+.create-standard-form {
+    margin: 10px 0;
+    padding: 10px 20px 20px;
+    background: #efefef;
+    border-top: 1px solid #d8d8d8;
+    .form-ctrl {
+        background: transparent;
+        border-bottom: solid 1px #cccccc;
+    }
+}
+
+.search-filter-wrapper {
+    .normal-field {
+        padding: 7px 10px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        margin: 0;
+        float: left;
+        height: 35px;
+        font-size: 14px;
+    }
+    .field-wrapper {
+        position: relative;
+        padding-top: 0px !important;
+        width: 30%;
+        float: left !important;
+        .form-ctrl {
+            font: 400 13.3333px Arial;
+            border-top: none !important;
+            border-right: none !important;
+            border-left: none !important;
+        }
+    }
+    .field-wrapper label {
+        position: absolute !important;
+        left: 10% !important;
+        top: 1% !important;
+        &:after {
+            left: 85% !important;
+            top: 10px !important;
+        }
+    }
+}
+
+.normal-field {
+    padding: 7px 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin: 0;
+    float: left;
+    border-right: 0;
+    height: 35px;
+    font-size: 14px;
+}
+
+table {
+    thead {
+        tr {
+            th {
+                padding-bottom: 10px;
+                padding-top: 10px;
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                padding-bottom: 10px;
+                padding-top: 10px;
+            }
+        }
+    }
+}
+
+#divBatchTable {
+    .tableBatchClass {
+        max-height: 385px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+     ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+}
+
+.halfwidth {
+    width: 50%;
+}

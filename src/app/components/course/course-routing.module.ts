@@ -40,6 +40,11 @@ import { CourseComponent } from './course.component';
                         path: 'class',
                         loadChildren: "app/components/course/course-class/course-class.module#CourseClassModule",
                         pathMatch: 'prefix',
+                    },
+                    {
+                        path: 'managebatch',
+                        loadChildren: "app/components/course/manage-batch/manage-batch.module#ManageBatchModule",
+                        pathMatch: 'prefix',
                     }
                 ]
             }

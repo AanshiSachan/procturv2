@@ -33,6 +33,8 @@ export class CourseComponent implements OnInit {
       this.switchActiveView('liExam');
     } else if (this.router.url.includes('class')) {
       this.switchActiveView('liClass');
+    } else if (this.router.url.includes('managebatch')) {
+      this.switchActiveView('liManageBatch');
     }
   }
 
@@ -42,6 +44,7 @@ export class CourseComponent implements OnInit {
     document.getElementById('liCourses').classList.remove('active');
     document.getElementById('liExam').classList.remove('active');
     document.getElementById('liClass').classList.remove('active');
+    document.getElementById('liManageBatch').classList.remove('active');
     document.getElementById(showId).classList.add('active');
   }
 
