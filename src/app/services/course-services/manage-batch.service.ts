@@ -72,11 +72,43 @@ export class ManageBatchService {
 
     addNewBatch(data) {
         delete data['standard_id'];
-        let url = this.baseURL + "/api/v1/batches" ;
-        return this.http.post(url,data, { headers: this.headers }).map(
+        let url = this.baseURL + "/api/v1/batches";
+        return this.http.post(url, data, { headers: this.headers }).map(
             this.successCallback,
             this.errorCallBack
-        )   
+        )
     }
 
+    getBatchDetailsForEdit(id) {
+        let url = this.baseURL + "/api/v1/batches/" + id;
+        return this.http.get(url, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    updateDataToServer(data, batch_Id) {
+        let url = this.baseURL + '/api/v1/batches/' + batch_Id;
+        return this.http.put(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    getStudentListFromServer(batch_id) {
+        let url = this.baseURL + "/api/v1/allStdAsgnment/all/" + this.institute_id + "/" + batch_id + "?active=Y";
+        return this.http.get(url, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    saveUpdatedList(data, batch_id) {
+        data.institute_id = this.institute_id;
+        let url = this.baseURL + "/api/v1/allStdAsgnment/" +  batch_id;
+        return this.http.post(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
 }
