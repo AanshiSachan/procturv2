@@ -116,6 +116,7 @@ export class ManageBatchComponent implements OnInit {
   }
 
   getAllClassRoom() {
+    this.isRippleLoad = true;
     this.apiService.getBatchClassRoomListFromServer().subscribe(
       data => {
         console.log('ClassRoom List', data);
@@ -131,6 +132,7 @@ export class ManageBatchComponent implements OnInit {
   }
 
   getAllTeacherList() {
+    this.isRippleLoad = true;
     this.apiService.getTeachersListFromServer().subscribe(
       res => {
         console.log('TeacherList', res);
@@ -146,6 +148,7 @@ export class ManageBatchComponent implements OnInit {
   }
 
   getMasterCourseList() {
+    this.isRippleLoad = true;
     this.apiService.getMasterCourseListFromServer().subscribe(
       res => {
         console.log('masterCourse', res);
@@ -161,6 +164,7 @@ export class ManageBatchComponent implements OnInit {
   }
 
   onMasterCourseSelection(data) {
+    this.isRippleLoad = true;
     if (data != '-1') {
 
       this.apiService.getPerticularCourseList(data).subscribe(
@@ -312,7 +316,7 @@ export class ManageBatchComponent implements OnInit {
   }
 
   saveChanges() {
-    debugger
+    this.isRippleLoad = true;
     let dataToSend = {
       batch_id: this.batchDetails.batch_id,
       studentArray: this.getCheckedRows(),
@@ -323,8 +327,10 @@ export class ManageBatchComponent implements OnInit {
         this.messageToast('success', 'Saved', 'Changes saved successfully.');
         this.studentList = [];
         this.addStudentPopUp = false;
+        this.isRippleLoad = false;
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
@@ -411,6 +417,33 @@ export class ManageBatchComponent implements OnInit {
     this.toastCtrl.popToast(data);
   }
 
+  sortTable(str) {
+    if (str == "batch_name" || str == "standard_name" || str == "subject_name" || str == "teacher_name" || str == "is_active") {
+      this.tableData.sort(function (a, b) {
+        var nameA = a.str.toUpperCase(); // ignore upper and lowercase
+        var nameB = b.str.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        // names must be equal
+        return 0;
+
+      })
+    }
+    else if (str == "batch_code" || str == "class_room_name" || str == "total_students") {
+      this.tableData.sort(function (a, b) {
+        return a.str - b.str;
+      })
+    }
+    else if (str == "end_date" || str == "start_date") {
+      this.tableData.sort(function (a, b) {
+        return moment(a.str).unix() - moment(b.str).unix();
+      })
+    }
+  }
 
   /* Customiized click detection strategy */
   inputClickedCheck(ev) {

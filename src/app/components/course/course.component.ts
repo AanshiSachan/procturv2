@@ -9,16 +9,28 @@ import { Router } from '@angular/router';
 })
 export class CourseComponent implements OnInit {
 
+  isLangInstitue: boolean = false;
+
   constructor(
     private router: Router,
     private login: LoginService,
   ) { }
 
   ngOnInit() {
+    this.checkInstituteType();
     this.removeFullscreen();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.checkWhichTabIsOpen();
+  }
+
+  checkInstituteType() {
+    let type: any = sessionStorage.getItem('institute_type');
+    if (type == "LANG") {
+      this.isLangInstitue = true;
+    } else {
+      this.isLangInstitue = false;
+    }
   }
 
 
@@ -39,13 +51,18 @@ export class CourseComponent implements OnInit {
   }
 
   switchActiveView(showId) {
-    document.getElementById('liStandard').classList.remove('active');
-    document.getElementById('liSubject').classList.remove('active');
-    document.getElementById('liCourses').classList.remove('active');
-    document.getElementById('liExam').classList.remove('active');
-    document.getElementById('liClass').classList.remove('active');
-    document.getElementById('liManageBatch').classList.remove('active');
-    document.getElementById(showId).classList.add('active');
+    setTimeout(() => {
+      document.getElementById('liStandard').classList.remove('active');
+      document.getElementById('liSubject').classList.remove('active');
+      document.getElementById('liExam').classList.remove('active');
+      document.getElementById('liClass').classList.remove('active');
+      if (this.isLangInstitue) {
+        document.getElementById('liManageBatch').classList.remove('active');
+      } else {
+        document.getElementById('liCourses').classList.remove('active');
+      }
+      document.getElementById(showId).classList.add('active');
+    }, 200)
   }
 
   removeFullscreen() {

@@ -10,16 +10,18 @@
         <div class="common-tab">
             <ul>
                 <li id="liStandard" (click)="switchActiveView('liStandard')" class="active">
-                    <a routerLink="/course">Standard</a>
+                    <a *ngIf="(isLangInstitue)" routerLink="/course">Master Course</a>
+                    <a *ngIf="(!isLangInstitue)" routerLink="/course">Standard</a>
                 </li>
                 <li id="liSubject" (click)="switchActiveView('liSubject')" class="">
-                    <a routerLink="/course/subject">Subject</a>
+                    <a *ngIf="(isLangInstitue)" routerLink="/course/subject">Course</a>
+                    <a *ngIf="(!isLangInstitue)" routerLink="/course/subject">Subject</a>
                 </li>
-                <li id="liCourses" (click)="switchActiveView('liCourses')" class="">
+                <li *ngIf="(!isLangInstitue)" id="liCourses" (click)="switchActiveView('liCourses')" class="">
                     <a routerLink="/course/courselist">Courses</a>
                 </li>
-                <li id="liManageBatch" (click)="switchActiveView('liManageBatch')" class="">
-                    <a routerLink="/course/managebatch">Manage Batch</a>
+                <li *ngIf="(isLangInstitue)" id="liManageBatch" (click)="switchActiveView('liManageBatch')" class="">
+                    <a routerLink="/course/managebatch">Batch</a>
                 </li>
                 <li id="liExam" (click)="switchActiveView('liExam')" class="">
                     <a routerLink="/course/exam">Exam</a>
