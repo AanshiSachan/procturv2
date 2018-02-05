@@ -45,9 +45,6 @@
               <th>
                 Allow Exam Grades
               </th>
-              <th>
-                Action
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -58,28 +55,24 @@
                     {{row.course_name}}
                   </td>
                   <td>
-                    {{row.start_date}}
+                    {{row.start_date | date : "short"}}
                   </td>
                   <td>
-                    {{row.end_date}}
+                    {{row.end_date | date : "short"}}
                   </td>
                   <td>
                     <span *ngIf="(row.is_exam_grad_feature == 0)">No</span>
                     <span *ngIf="(row.is_exam_grad_feature == 1)">Yes</span>
                   </td>
-                  <td>
-                    <a style="cursor:pointer" (click)="showNestedTableEdit(row , i)">Edit</a>
-                    <a style="cursor:pointer" (click)="removeRowFromTable(row , i)">Delete</a>
-                    <a style="cursor:pointer" (click)="updateDataOfNestedTable(row, i)">Update</a>
-                  </td>
                 </div>
-                <div id="show{{i}}" class="nestedTable nestedTableHide">
+                <div id="show{{i}}" class="nestedTable">
                   <div class="row">
                     <div class="c-lg-2 c-md-2 c-sm-2">
                     </div>
                     <div class="c-lg-2 c-md-2 c-sm-2">
                       <div class="field-wrapper has-value">
-                        <input type="text" name="masterCourse" [(ngModel)]="mainTableDataSource[i].course_name" class="form-ctrl" (focus)="inputClickedCheck($event)" />
+                        <input type="text" name="masterCourse" [(ngModel)]="mainTableDataSource[i].course_name" class="form-ctrl" (focus)="inputClickedCheck($event)"
+                        />
                         <label for="masterCourse">Course Name
                           <span style="color:red">*</span>
                         </label>
@@ -87,7 +80,8 @@
                     </div>
                     <div class="c-lg-2 c-md-2 c-sm-2">
                       <div class="field-wrapper has-value">
-                        <input type="text" value="" disabled="true" [(ngModel)]="mainTableDataSource[i].start_date" class="form-ctrl bsDatepicker" name="startDate" bsDatepicker (focus)="inputClickedCheck($event)">
+                        <input type="text" value="" readonly="true" [ngClass]="{disableDatePicker : addEnableDisableClass(mainTableDataSource[i]) }" [(ngModel)]="mainTableDataSource[i].start_date" class="form-ctrl bsDatepicker" name="startDate"
+                          bsDatepicker (focus)="inputClickedCheck($event)">
                         <label for="startDate">Start Date
                           <span style="color:red">*</span>
                         </label>
@@ -95,7 +89,8 @@
                     </div>
                     <div class="c-lg-2 c-md-2 c-sm-2">
                       <div class="field-wrapper has-value">
-                        <input type="text" value="" class="form-ctrl bsDatepicker" [(ngModel)]="mainTableDataSource[i].end_date" name="endDate" bsDatepicker (focus)="inputClickedCheck($event)">
+                        <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="mainTableDataSource[i].end_date" name="endDate" bsDatepicker
+                          (focus)="inputClickedCheck($event)">
                         <label for="endDate">End Date
                           <span style="color:red">*</span>
                         </label>
@@ -123,6 +118,9 @@
                           <th>
                             Allocate Teacher
                           </th>
+                          <th>
+
+                          </th>
                         </tr>
                       </thead>
                       <tbody class="subjectListTableTbody">
@@ -144,6 +142,9 @@
                               </option>
                             </select>
                           </td>
+                          <td>
+                            <a *ngIf="(row.isAssigned == 'N')" (click)="deleteSubjectRow(row, i , y)">Delete</a>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -157,6 +158,7 @@
     </div>
     <div>
       <button class="btn" (click)="updateEditedDetails()">Update Details</button>
+      <button class="btn" (click)="addRowToMainTable()">Add More</button>
     </div>
   </section>
 

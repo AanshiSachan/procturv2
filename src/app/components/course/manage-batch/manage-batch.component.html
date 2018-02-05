@@ -1,0 +1,431 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<div class="middle-section clearFix">
+  <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+    <h1 class="pull-left">
+      Batch List
+    </h1>
+  </section>
+
+  <section class="middle-main clearFix" style="padding-left: 15px;">
+    <div class="row">
+      <div class="clearFix add-edit pull-left">
+        <a (click)="togglecreateNewBatch()">
+          <i id="showAddBtn" class="addBtnClass">+</i>
+          <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
+          <span>Create Batch</span>
+        </a>
+      </div>
+      <div class="pull-right">
+        <div class="search-filter-wrapper ">
+          <input #search type="text" class="normal-field pull-right" placeholder="Search here" style="font-size:12px;margin-right: 15px;"
+            id="search" name="searchData " (keyup)="searchDatabase(search) ">
+        </div>
+      </div>
+    </div>
+    <section class="clearFix create-standard-form " *ngIf="createNewBatch ">
+
+
+      <div class="row">
+        <div class="c-lg-6 c-sm-6 c-md-6">
+          <div class="field-wrapper">
+            <select id="" class="form-ctrl halfwidth" name="row.standard_id" [(ngModel)]="addNewBatch.standard_id" (change)="onMasterCourseSelection(addNewBatch.standard_id)"
+              (focus)="inputClickedCheck($event)">
+              <option value="-1">"---Select---"</option>
+              <option *ngFor="let opt of courseList" [value]="opt.standard_id">
+                {{opt.standard_name}}
+              </option>
+            </select>
+            <label>Master Course
+              <span style="color:red">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="c-lg-6 c-sm-6 c-md-6">
+          <div class="field-wrapper has-value">
+            <select id="" class="form-ctrl halfwidth" name="row.subject_id" [(ngModel)]="addNewBatch.subject_id" (focus)="inputClickedCheck($event)">
+              <option value="-1">"---Select---"</option>
+              <option *ngFor="let opt of subjectList" [value]="opt.subject_id">
+                {{opt.subject_name}}
+              </option>
+            </select>
+            <label>Course
+              <span style="color:red">*</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="c-lg-6 c-sm-6 c-md-6">
+          <div class="field-wrapper has-value">
+            <select id="" class="form-ctrl halfwidth" name="row.class_room_id" [(ngModel)]="addNewBatch.class_room_id" (focus)="inputClickedCheck($event)">
+              <option value="-1">"---Select---"</option>
+              <option *ngFor="let opt of classRoomList" [value]="opt.class_room_id">
+                {{opt.class_room_name}}
+              </option>
+            </select>
+            <label>Class Room
+            </label>
+          </div>
+        </div>
+        <div class="c-lg-6 c-sm-6 c-md-6">
+          <div class="field-wrapper has-value">
+            <select id="" class="form-ctrl halfwidth" name="row.teacher_id" [(ngModel)]="addNewBatch.teacher_id" (focus)="inputClickedCheck($event)">
+              <option value="-1">"---Select---"</option>
+              <option *ngFor="let opt of teacherList" [value]="opt.teacher_id">
+                {{opt.teacher_name}}
+              </option>
+            </select>
+            <label>Teacher Name
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="c-lg-6 c-sm-6 c-md-6">
+          <div class="field-wrapper ">
+            <input type="text " #idSlot class="form-ctrl halfwidth" name="slotNew" [(ngModel)]="addNewBatch.batch_name" (focus)="inputClickedCheck($event) ">
+            <label for="slotNew ">Batch Name
+              <span style="color:red">* </span>(Eg - IX-Math-TTS-5-6)
+            </label>
+          </div>
+        </div>
+        <div class="c-lg-6 c-sm-6 c-md-6">
+          <div class="field-wrapper ">
+            <input type="text " #idSlot class="form-ctrl halfwidth" name="slotNew" [(ngModel)]="addNewBatch.batch_code" (focus)="inputClickedCheck($event) ">
+            <label for="slotNew ">Batch Code (For Student Bulk uplaod)
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="c-lg-3 c-sm-3 c-md-3">
+          <div class="field-wrapper datePickerBox">
+            <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="addNewBatch.start_date" name="endDate"
+              bsDatepicker (focus)="inputClickedCheck($event)">
+            <label for="endDate">Start Date
+              <span style="color:red">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="c-lg-3 c-sm-3 c-md-3">
+
+        </div>
+        <div class="c-lg-3 c-sm-3 c-md-3">
+          <div class="field-wrapper datePickerBox">
+            <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="addNewBatch.end_date" name="endDate"
+              bsDatepicker (focus)="inputClickedCheck($event)">
+            <label for="endDate">End Date
+              <span style="color:red">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="c-lg-3 c-sm-3 c-md-3">
+
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 15px;">
+        <div class="c-lg-6 c-sm-6 c-md-6">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" class="form-checkbox" [(ngModel)]="addNewBatch.is_active">
+            <label>Is Active</label>
+          </div>
+        </div>
+        <div class="c-lg-6 c-sm-6 c-md-6">
+          <aside class="pull-left create-cancel-small ">
+            <button class="btn" (click)="addNewBatchToList() ">Add</button>
+          </aside>
+        </div>
+      </div>
+
+    </section>
+    <div id="divBatchTable">
+      <div class="table-scroll-wrapper tableBatchClass">
+        <div class="table table-responsive ">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  <label style="cursor:pointer;" (click)="sortTable('batch_name')">Batch</label>
+                </th>
+                <th>
+                  <label style="cursor:pointer;" (click)="sortTable('batch_code')">Batch Code</label>
+                </th>
+                <th>
+                  <label style="cursor:pointer;" (click)="sortTable('standard_name')">Master Course</label>
+                </th>
+                <th>
+                  <label style="cursor:pointer;" (click)="sortTable('subject_name')">Course</label>
+                </th>
+                <th>
+                  <label style="cursor:pointer;" (click)="sortTable('teacher_name')">Teacher</label>
+                </th>
+                <th>
+                  <label style="cursor:pointer;" (click)="sortTable('start_date')">Start Date</label>
+                </th>
+                <th>
+                  <label style="cursor:pointer;" (click)="sortTable('end_date')">End Date</label>
+                </th>
+                <th>
+                  <label style="cursor:pointer;" (click)="sortTable('class_room_name')">Class Room No.</label>
+                </th>
+                <th>
+                  <label style="cursor:pointer;" (click)="sortTable('is_active')">Is Active</label>
+                </th>
+                <th>
+                  <label style="cursor:pointer;" (click)="sortTable('total_students')">Total Students</label>
+                </th>
+                <th>
+                  Edit
+                </th>
+                <th>
+                  Add Students
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="row{{i}}" class="displayComp" *ngFor="let row of tableData; let i=index; trackBy: i; ">
+
+                <td class="view-comp">
+                  {{row.batch_name}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper editCellAllignment">
+                    <input type="text" class="form-ctrl" [(ngModel)]="row.batch_name">
+                  </div>
+                </td>
+
+                <td class="view-comp">
+                  {{row.batch_code}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl" [(ngModel)]="row.batch_code">
+                  </div>
+                </td>
+
+                <td class="view-comp">
+                  {{row.standard_name}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper editCellAllignment">
+                    <select id="" class="form-ctrl" name="row.category_id" (change)="onMasterCourseSelection(editRowDetails.standard_id)" [(ngModel)]="editRowDetails.standard_id">
+                      <option *ngFor="let opt of courseList" [value]="opt.standard_id">
+                        {{opt.standard_name}}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+
+                <td class="view-comp">
+                  {{row.subject_name}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper editCellAllignment">
+                    <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="editRowDetails.subject_id">
+                      <option *ngFor="let opt of subjectList" [value]="opt.subject_id">
+                        {{opt.subject_name}}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+
+
+                <td class="view-comp">
+                  {{row.teacher_name}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper editCellAllignment">
+                    <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="editRowDetails.teacher_id">
+                      <option *ngFor="let opt of teacherList" [value]="opt.teacher_id">
+                        {{opt.teacher_name}}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+
+                <td>
+                  {{row.start_date}}
+                </td>
+
+                <td class="view-comp">
+                  {{changeDateFormat(row.end_date)}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="row.end_date" name="endDate" bsDatepicker>
+                    <label for="endDate">
+                    </label>
+                  </div>
+                </td>
+
+
+                <td class="view-comp">
+                  {{row.class_room_name}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="editRowDetails.class_room_id">
+                      <option *ngFor="let opt of classRoomList" [value]="opt.class_room_id">
+                        {{opt.class_room_name}}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+
+                <td class="view-comp">
+                  {{row.is_active}}
+                </td>
+                <td class="edit-comp">
+                  <select [(ngModel)]="row.is_active">
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                  </select>
+                </td>
+
+                <td>
+                  {{row.total_students}}
+                </td>
+
+                <td class="view-comp">
+                  <a style="cursor:pointer" (click)="editTableRow(row , i)">Edit</a>
+                </td>
+                <td class="edit-comp">
+                  <a style="cursor:pointer" (click)="updateTableRow(row , i)">Update</a>
+                  <a style="cursor:pointer" (click)="cancelTableRow(row , i)">Cancel</a>
+                </td>
+
+                <td>
+                  <a style="cursor:pointer" (click)="addStudentToBatch(row)">
+                    <i class="far fa fa-plus-square" alt="Add Student"></i>
+                  </a>
+                </td>
+              </tr>
+              <tr *ngIf="(tableData.length == 0)">
+                <td colspan="12">
+                  No Batch List Found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</div>
+
+
+
+<!-- Allocation Item History -->
+<!-- =============================================================================== -->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="addStudentPopUp">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeStudentPopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <div>
+          <h3>{{batchDetails.batch_name}}</h3>
+        </div>
+        <div class="row">
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <h2>Student List</h2>
+          </div>
+          <div class="pull-right">
+            <div class="search-filter-wrapper">
+              <input #searchVal type="text" class="normal-field pull-right" placeholder="Search here" style="font-size:12px;margin-right: 15px;"
+                id="searchStudent" name="searchData" (keyup)="searchStudent(searchVal) ">
+            </div>
+          </div>
+        </div>
+
+
+        <div style="margin-top: 15px;max-height: 363px;overflow: scroll;">
+          <table>
+            <thead>
+              <th>
+                <div class="field-checkbox-wrapper">
+                  <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked" (click)="selectAllCheckBox(idSelectAll)">
+                  <label></label>
+                </div>
+                <span>Assign?UnAssign</span>
+              </th>
+              <th>
+                Student ID
+              </th>
+              <th>
+                Student Name
+              </th>
+              <th>
+                Contact No.
+              </th>
+              <th>
+                Joining Date
+              </th>
+              <th>
+                Institution Name
+              </th>
+              <th>
+                Standard Class
+              </th>
+            </thead>
+            <tbody>
+              <tr id="row{{i}}" *ngFor="let row of studentList; let i = index; trackBy: i;">
+                <td>
+                  <div class="field-checkbox-wrapper">
+                    <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                    <label></label>
+                  </div>
+                </td>
+                <td>
+                  {{row.student_disp_id}}
+                </td>
+                <td>
+                  {{row.student_name}}
+                </td>
+                <td>
+                  {{row.student_phone}}
+                </td>
+                <td>
+                  {{row.doj}}
+                </td>
+                <td>
+                  {{row.school}}
+                </td>
+                <td>
+                  {{row.student_class}}
+                </td>
+              </tr>
+              <tr *ngIf="(studentList.length == 0)">
+                <td colspan="8">
+                  No Data Found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pull-right">
+          <button class="btn" (click)="saveChanges()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
