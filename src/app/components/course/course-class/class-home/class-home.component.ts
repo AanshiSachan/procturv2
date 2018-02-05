@@ -24,16 +24,28 @@ import { ClassScheduleService } from '../../../../services/course-services/class
 })
 export class ClassHomeComponent implements OnInit {
 
-  isProfessional: boolean = false;
+
+
   busy: Subscription;
+  isProfessional: boolean = false;
   isRippleLoad: boolean = false;
+  isClassFormFilled: boolean = false;
+
+
+
+  courseModelBatch: any;
+  courseModelStdList: any[] = [];
+  courseModelSubList: any[] = [];
+  courseModelBatchList: any[] = [];
   subBranch: any[] = [];
   masterCourse: any[] = [];
   teachers: any[] = [];
   instituteSetting: any[] = [];
   courseList: any[] = [];
+  batchDetails: any;
+  classFrequency: any[] = [];
+  dayOfWeek: any[] = [];
 
-  isClassFormFilled: boolean = false;
 
   fetchMasterCourseModule: any = {
     master_course: "-1",
@@ -49,11 +61,6 @@ export class ClassHomeComponent implements OnInit {
     inst_id: sessionStorage.getItem('institute_id'),
     assigned: "N"
   }
-
-  courseModelBatch: any;
-  courseModelStdList: any[] = [];
-  courseModelSubList: any[] = [];
-  courseModelBatchList: any[] = [];
 
   /* ============================================================================================ */
   /* ============================================================================================ */
@@ -103,7 +110,26 @@ export class ClassHomeComponent implements OnInit {
             this.courseModelBatchList = res.batchLi;
           }
         }
-      )
+      );
+
+      this.classService.getClassFrequencyAll().subscribe(
+        res => {
+          this.classFrequency = res;
+        },
+        err => {
+
+        }
+      );
+
+      this.classService.getDayofWeekAll().subscribe(
+        res => {
+          this.dayOfWeek = res;
+        },
+        err => {
+
+        }
+      );
+
     }/* Course Model */
     else {
       this.classService.getAllSubBranches().subscribe(
@@ -111,21 +137,21 @@ export class ClassHomeComponent implements OnInit {
           this.subBranch = res;
         },
         err => { }
-      )
+      );
 
       this.classService.getAllMasterCourse().subscribe(
         res => {
           this.masterCourse = res;
         },
         err => { }
-      )
+      );
 
       this.classService.getAllTeachers().subscribe(
         res => {
           this.teachers = res;
         },
         err => { }
-      )
+      );
     }
 
 
@@ -217,26 +243,22 @@ export class ClassHomeComponent implements OnInit {
 
   submitMasterBatch() {
     console.log(this.fetchMasterBatchModule);
-    
     /* standard selected */
-    if (this.fetchMasterBatchModule.standard_id != '-1' && this.fetchMasterBatchModule.standard_id != undefined) {
-      
+    if (this.fetchMasterBatchModule.standard_id != '-1' && this.fetchMasterBatchModule.standard_id != -1 && this.fetchMasterBatchModule.standard_id != undefined) {
+
       /* subject selected  */
       if (this.fetchMasterBatchModule.subject_id != '-1' && this.fetchMasterBatchModule.subject_id != undefined) {
-        
+
         /* batch selected */
         /* Success */
         /*  */
         if (this.fetchMasterBatchModule.batch_id != '-1' && this.fetchMasterBatchModule.batch_id != undefined) {
-          
-          console.log(this.fetchMasterBatchModule.batch_id);
-          this.isClassFormFilled = true;
-          alert("std yes sub yes batch yes");
+          this.batchDetected(this.fetchMasterBatchModule.batch_id);
         }
         /* batch not selected */
         /* Error */
         /*  */
-        else {
+        else if (this.fetchMasterBatchModule.batch_id == '-1' || this.fetchMasterBatchModule.batch_id == undefined) {
           let msg = {
             type: 'error',
             title: 'Batch Not Selected',
@@ -246,7 +268,7 @@ export class ClassHomeComponent implements OnInit {
         }
       }
       /* subject not selected */
-      else {
+      else if (this.fetchMasterBatchModule.subject_id == '-1' || this.fetchMasterBatchModule.subject_id == undefined) {
         let msg = {
           type: 'error',
           title: 'Subject And Batch Invalid',
@@ -256,10 +278,11 @@ export class ClassHomeComponent implements OnInit {
       }
     }
     /* standard not selected */
-    else if (this.fetchMasterBatchModule.standard_id == '-1' && this.fetchMasterBatchModule.standard_id == undefined) {
-      
+    else if (this.fetchMasterBatchModule.standard_id == '-1' || this.fetchMasterBatchModule.standard_id == undefined) {
+
       /* subject selected  */
       if (this.fetchMasterBatchModule.subject_id != '-1' && this.fetchMasterBatchModule.subject_id != undefined) {
+
         let msg = {
           type: 'error',
           title: 'Standard Not Selected',
@@ -268,18 +291,19 @@ export class ClassHomeComponent implements OnInit {
         this.appC.popToast(msg);
       }
       /* subject not selected  */
-      else {
+      else if (this.fetchMasterBatchModule.subject_id == '-1' || this.fetchMasterBatchModule.subject_id == undefined) {
         /* batch selected */
         /* Success */
         /*  */
+
         if (this.fetchMasterBatchModule.batch_id != '-1' && this.fetchMasterBatchModule.batch_id != undefined) {
-          this.isClassFormFilled = true;
-          alert("std no sub no batch yes");
+          this.batchDetected(this.fetchMasterBatchModule.batch_id);
         }
         /* batch not selected */
         /* Error */
         /*  */
-        else {
+        else if (this.fetchMasterBatchModule.batch_id == '-1' || this.fetchMasterBatchModule.batch_id == undefined) {
+
           let msg = {
             type: 'error',
             title: 'Standard, Subject And Batch Not Selected',
@@ -321,6 +345,102 @@ export class ClassHomeComponent implements OnInit {
       }
     )
   }
+
+  batchUpdated(ev) {
+    this.isClassFormFilled = false;
+    /* standard not selected */
+    if (this.fetchMasterBatchModule.standard_id == '-1' || this.fetchMasterBatchModule.standard_id == undefined || this.fetchMasterBatchModule.standard_id == null) {
+      /* subject not selected */
+      if (this.fetchMasterBatchModule.subject_id == '-1' || this.fetchMasterBatchModule.subject_id == undefined ||
+        this.fetchMasterBatchModule.subject_id == null) {
+        /* batch not selected */
+        if (this.fetchMasterBatchModule.batch_id == '-1' || this.fetchMasterBatchModule.batch_id == undefined || this.fetchMasterBatchModule.batch_id == null) {
+                   
+        }/* batch selected */
+        else {
+          
+        }
+      }
+    }
+    /* standard selected */
+    else {
+      /* subject not selected */
+      if (this.fetchMasterBatchModule.subject_id == '-1' || this.fetchMasterBatchModule.subject_id == undefined || this.fetchMasterBatchModule.subject_id == null) {
+        /* batch not selected */
+        if (this.fetchMasterBatchModule.batch_id == '-1' || this.fetchMasterBatchModule.batch_id == undefined || this.fetchMasterBatchModule.batch_id == null) {
+        }/* batch selected */
+        else {
+        }
+      }
+      /* subject selected */
+      else {
+        /* batch not selected */
+        if (this.fetchMasterBatchModule.batch_id == '-1' || this.fetchMasterBatchModule.batch_id == undefined || this.fetchMasterBatchModule.batch_id == null) {
+        }/* batch selected */
+        else {
+        }
+      }
+    }
+  }
+
+  getMasterCourse(): string {
+    if (this.isProfessional) {
+      /* Only Batch selected */
+      if (this.fetchMasterBatchModule.standard_id == '-1' || this.fetchMasterBatchModule.standard_id == undefined) {
+        let temp: string;
+        this.courseModelBatchList.forEach(e => {
+          if (e.batch_id == this.fetchMasterBatchModule.batch_id) {
+            temp = e.batch_name;
+          }
+        })
+        return temp;
+      }/* Both std subject and batch selected */
+      else {
+        let temp: string;
+        this.courseModelStdList.forEach(e => {
+          if (e.standard_id == this.fetchMasterBatchModule.standard_id) {
+            temp = e.standard_name;
+          }
+        })
+        return temp;
+      }
+    }
+    else {
+      let temp: string;
+      this.masterCourse.forEach(e => {
+        if (e.master_course == this.fetchMasterCourseModule.master_course) {
+          temp = e.master_course;
+        }
+      });
+      return temp;
+    }
+  }
+
+  getCourseName() {
+    if (this.isProfessional) {
+      let temp: string = '';
+      this.courseModelSubList.forEach(e => { if (e.subject_id == this.fetchMasterBatchModule.subject_id) { temp = e.subject_name } });
+      return temp;
+    }
+    else {
+      let temp: string = '';
+      this.courseList.forEach(e => { if (e.course_id == this.fetchMasterCourseModule.course_id) { temp = e.course_name } });
+      return temp;
+    }
+  }
+
+  batchDetected(id) {
+    this.isRippleLoad = true;
+    this.classService.getBatchDetailsById(id).subscribe(
+      res => {
+        this.batchDetails = Object.assign({}, res);
+        this.isRippleLoad = false;
+        this.isClassFormFilled = true;
+      },
+      err => { }
+    );
+  }
+
 
 
 }
