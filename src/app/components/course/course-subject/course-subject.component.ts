@@ -189,6 +189,7 @@ export class CourseSubjectComponent implements OnInit {
   // pagination functions 
 
   fetchTableDataByPage(index) {
+    this.PageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
     this.subjectList = this.getDataFromDataSource(startindex);
   }

@@ -168,6 +168,7 @@ export class ScheduleHomeComponent implements OnInit {
   // pagination functions 
 
   fetchTableDataByPage(index) {
+    this.PageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
     this.standardList = this.getDataFromDataSource(startindex);
   }

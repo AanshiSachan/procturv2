@@ -262,6 +262,7 @@ export class HomeComponent implements OnInit {
 
   // pagination functions 
   fetchTableDataByPage(index) {
+    this.PageIndex = index;
     let startindex = this.studentdisplaysize * (index - 1);
     this.itemList = this.getDataFromDataSource(startindex);
   }

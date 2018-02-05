@@ -299,3 +299,22 @@
     overflow-x: hidden;
     overflow-y: scroll;
 }
+
+table {
+    thead {
+        tr {
+            th {
+                padding-bottom: 10px;
+                padding-top: 10px
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                padding-bottom: 10px;
+                padding-top: 10px
+            }
+        }
+    }
+}
