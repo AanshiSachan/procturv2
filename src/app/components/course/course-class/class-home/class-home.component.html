@@ -52,7 +52,7 @@
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.batch_id != '-1'}">
-                        <select id="bn" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.batch_id">
+                        <select id="bn" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.batch_id" (ngModelChange)="batchUpdated($event)">
                           <option value="-1"></option>
                           <option [value]="batch.batch_id" *ngFor="let batch of courseModelBatchList">
                             {{batch.batch_name}}
@@ -90,8 +90,8 @@
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': (fetchMasterCourseModule.requested_date != 'Invalid date' && fetchMasterCourseModule.requested_date != '' )}">
-                        <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="fetchMasterCourseModule.requested_date" readonly="true"
-                          name="csd" bsDatepicker>
+                        <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="fetchMasterCourseModule.requested_date"
+                          readonly="true" name="csd" bsDatepicker>
                         <label for="csd">Class Schedule Date *</label>
                         <span class="date-clear" name="csdc" (click)="fetchMasterCourseModule.requested_date = ''">clear</span>
                       </div>
@@ -113,7 +113,7 @@
             <div class="c-lg-7 c-sm-7 c-md-7 c-xs-12">
               <div class="schedule-class-left">
                 <label>Schedule Class</label>
-                <span>Master Course \ Course \ Date -19 june 2017 - 20 jun 2018</span>
+                <span>{{getMasterCourse()}} \ {{getCourseName()}} \ Date -{{batchDetails.batch_start_date}} - {{batchDetails.batch_end_date}}</span>
               </div>
             </div>
             <div class="c-lg-5 c-sm-5 c-md-5 c-xs-12 align-right">

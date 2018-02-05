@@ -83,10 +83,43 @@ export class ClassScheduleService {
     }
 
     getStandardSubjectList(stdId, subId, isAssigned): Observable<any> {
-        let url = this.baseURL +"/api/v1/batches/fetchCombinedBatchData/" +this.institute_id +"?standard_id=" +stdId +"&subject_id=" +subId +"&assigned=" +isAssigned;
-        return this.http.get(url, {headers: this.headers}).map(
+        let url = this.baseURL + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id + "?standard_id=" + stdId + "&subject_id=" + subId + "&assigned=" + isAssigned;
+        return this.http.get(url, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }
         )
     }
+
+    getBatchDetailsById(id): Observable<any> {
+        let url = this.baseURL + "/api/v1/batchClsSched/" + id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    getClassFrequencyAll(): Observable<any> {
+        let url = this.baseURL + "/api/v1/masterData/type/CLASS_FREQ";
+
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    getDayofWeekAll(): Observable<any> {
+        let url = this.baseURL + "/api/v1/masterData/type/DAY_OF_WEEK";
+
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    
+
 }
