@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 import { Base64 } from 'js-base64';
 import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
@@ -70,20 +72,30 @@ export class StudentBulkComponent implements OnInit {
 
   /* function to upload the xls file as formdata */
   uploadHandler(event) {
-    
+
     for (let file of event.files) {
-      let fileString: string = '';
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (e) => {
-        fileString = reader.result.split(',')[1];
-        this.uploadXLS(fileString);
-      };
-      reader.onerror = function (error) {
-        console.log('Error: ', error);
-      };
+      if (file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.type == 'application/vnd.ms-excel') {
+
+        let fileString: string = '';
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+          fileString = reader.result.split(',')[1];
+          this.uploader(fileString);
+        }
+        reader.onerror = function (error) {
+          console.log('Error: ', error);
+        }
+      }
+      else {
+        let msg = {
+          type: 'error',
+          title: 'Invalid File Selected',
+          body: 'Please provide a valid excel document'
+          }
+          this.appC.popToast(msg);
+      }
     }
-    event.files = [];
   }
 
 
@@ -109,11 +121,66 @@ export class StudentBulkComponent implements OnInit {
           type: 'error',
           title: 'Failed To Upload Student(s)',
           body: err.message
-          }
-          this.appC.popToast(msg);          
+        }
+        this.appC.popToast(msg);
       }
     )
 
+  }
+
+  /* function to upload the xls file as formdata */
+  uploader(inp: string) {
+
+    let obj = {
+      file: inp,
+      file_extn: "xls",
+      comments: "",
+      institute_id: sessionStorage.getItem('institute_id')
+    }
+
+    let urlPostXlsDocument = "http://test999.proctur.com/StdMgmtWebAPI/api/v1/students/bulkUpload";
+
+    let xhr: XMLHttpRequest = new XMLHttpRequest();
+    xhr.open("POST", urlPostXlsDocument, true);
+
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Authorization", sessionStorage.getItem('Authorization'));
+
+    this.isUploadingXls = true;
+
+    xhr.upload.addEventListener('progress', (e: ProgressEvent) => {
+      if (e.lengthComputable) {
+        this.progress = Math.round((e.loaded * 100) / e.total);
+        document.getElementById('progress-width').style.width = this.progress + '%';
+        this.fileLoading = "Student Data Upload";
+      }
+    }, false);
+    //Call function when onload.
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState == 4) {
+        this.progress = 0;
+        if (xhr.status >= 200 && xhr.status < 300) {
+          this.isUploadingXls = false;
+          let data = {
+            type: 'success',
+            title: "File uploaded",
+            body: xhr.response.fileName
+          }
+          this.appC.popToast(data);
+          this.fetchBulkUploadStatusData();
+        } else {
+          this.isUploadingXls = false;
+          let data = {
+            type: 'error',
+            title: "File uploaded Failed",
+            body: xhr.response.fileName
+          }
+          this.appC.popToast(data);
+          //console.log(xhr.response);
+        }
+      }
+    }
+    xhr.send(JSON.stringify(obj));
   }
 
 
@@ -137,8 +204,9 @@ export class StudentBulkComponent implements OnInit {
   }
 
   /* download the xls status report for a particular file uploaded */
-  downloadBulkStatusReport(el) {
-    /* this.fetchData.fetchBulkReport(el.list_id).subscribe(
+  downloadSuccess(el) {
+    //console.log(el);
+    this.fetchData.fetchSuccess(el.list_id).subscribe(
       res => {
         let byteArr = this.convertBase64ToArray(res.document);
         let format = res.format;
@@ -146,12 +214,39 @@ export class StudentBulkComponent implements OnInit {
         let fileId: string = el.list_id.toString();
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
-        let dwldLink = document.getElementById(fileId);
-        dwldLink.setAttribute("href", url);
-        dwldLink.setAttribute("download", fileName);
+        let dwldLink = document.getElementById('success' + fileId);
+        if(dwldLink.getAttribute('href') == null ||dwldLink.getAttribute('href') == undefined ||dwldLink.getAttribute('href') == ''){
+          dwldLink.setAttribute("href", url);
+          dwldLink.setAttribute("download", fileName);
+          dwldLink.click();
+          dwldLink.setAttribute("href", null);
+          dwldLink.setAttribute("download", '');
+        }
       },
       err => { }
-    ) */
+    )
+  }
+
+  downloadFailure(el) {
+    this.fetchData.fetchFailure(el.list_id).subscribe(
+      res => {
+        let byteArr = this.convertBase64ToArray(res.document);
+        let format = res.format;
+        let fileName = res.docTitle;
+        let fileId: string = el.list_id.toString();
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('failure' + fileId);
+        if(dwldLink.getAttribute('href') == null ||dwldLink.getAttribute('href') == undefined ||dwldLink.getAttribute('href') == ''){
+          dwldLink.setAttribute("href", url);
+          dwldLink.setAttribute("download", fileName);
+          dwldLink.click();
+          dwldLink.setAttribute("href", null);
+          dwldLink.setAttribute("download", '');
+        }
+      },
+      err => { }
+    )
   }
 
   /* Customiized click detection strategy */

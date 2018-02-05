@@ -186,12 +186,11 @@ export class PostStudentDataService {
 
     uploadStudentBulk(obj): Observable<any> {
         let urlPostXlsDocument = this.baseUrl + "/api/v1/students/bulkUpload";
-
+        
         return this.http.post(urlPostXlsDocument, obj, {headers: this.headers}).map(
             res => { return res.json(); },
             err => { return err.json(); }
         )
-
     }
 
 }

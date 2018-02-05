@@ -29,7 +29,7 @@ export class FetchStudentService {
   }
 
   fetchAllStudentDetails(instituteData: instituteInfo): any {
-  
+
     let instituteFormData = JSON.parse(JSON.stringify(instituteData));
     let urlStudentList = this.baseUrl + "/api/v1/students/manage/" + this.institute_id;
 
@@ -40,10 +40,10 @@ export class FetchStudentService {
   }
 
 
-  downloadStudentTableasXls(form){
-    let urlDownloadXlsStudent = this.baseUrl +"/api/v1/students/all/download/" +this.institute_id;
+  downloadStudentTableasXls(form) {
+    let urlDownloadXlsStudent = this.baseUrl + "/api/v1/students/all/download/" + this.institute_id;
 
-    return this.http.post(urlDownloadXlsStudent, form, {headers: this.headers}).map(
+    return this.http.post(urlDownloadXlsStudent, form, { headers: this.headers }).map(
       res => {
         return res.json();
       },
@@ -55,47 +55,47 @@ export class FetchStudentService {
   }
 
 
-  getStudentById(id){
+  getStudentById(id) {
 
-    let urlStudentId = this.baseUrl +"/api/v1/students/" +id;
+    let urlStudentId = this.baseUrl + "/api/v1/students/" + id;
 
-    return this.http.get(urlStudentId, {headers: this.headers}).map(
-      res => {
-        return res.json();
-      }
-    )    
-  }
-
-
-
-  fetchBulkUpdateStatusReport(){
-    let urlstudentReport = this.baseUrl +"/api/v1/bulkUpload/" +this.institute_id;
-
-    let obj = {func_type: "studentBulkUpload"};
-
-    return this.http.post(urlstudentReport, obj, {headers: this.headers}).map(
-      res=> { return res.json()}
-    )
-  }
-
-
-  fetchDownloadTemplate(): Observable<any>{
-
-    let urlStudentUploadTemplate = this.baseUrl +"/api/v1/students/download/bulkUploadStudentsTemplate";
-
-    return this.http.get(urlStudentUploadTemplate, {headers: this.headers}).map(
+    return this.http.get(urlStudentId, { headers: this.headers }).map(
       res => {
         return res.json();
       }
     )
+  }
+
+
+
+  fetchBulkUpdateStatusReport() {
+    let urlstudentReport = this.baseUrl + "/api/v1/bulkUpload/" + this.institute_id;
+
+    let obj = { func_type: "studentBulkUpload" };
+
+    return this.http.post(urlstudentReport, obj, { headers: this.headers }).map(
+      res => { return res.json() }
+    )
+  }
+
+
+  fetchDownloadTemplate(): Observable<any> {
+
+    let urlStudentUploadTemplate = this.baseUrl + "/api/v1/students/download/bulkUploadStudentsTemplate";
+
+    return this.http.get(urlStudentUploadTemplate, { headers: this.headers }).map(
+      res => {
+        return res.json();
+      }
+    )
 
   }
 
-  fetchStudentFeeDetailById(id): Observable<any>{
+  fetchStudentFeeDetailById(id): Observable<any> {
 
-    let urlFeeById = this.baseUrl +"/api/v1/studentWise/fee/schedule/fetch/" +this.institute_id +"/" +id;
+    let urlFeeById = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id;
 
-    return this.http.get(urlFeeById, {headers : this.headers}).map(
+    return this.http.get(urlFeeById, { headers: this.headers }).map(
       res => {
         return res.json();
       },
@@ -105,11 +105,26 @@ export class FetchStudentService {
 
   }
 
-  fetchBulkReport(id){
+  fetchSuccess(id): Observable<any> {
 
-    let url = this.baseUrl +""
+    let url = this.baseUrl + "/api/v1/bulkUpload/100058/success/download/" + id;
+
+    return this.http.get(url, { headers: this.headers }).map(
+      res => { return res.json(); },
+      err => { return err.json(); }
+    );
 
   }
 
+  fetchFailure(id): Observable<any> {
+
+    let url = this.baseUrl + "/api/v1/bulkUpload/100058/download/" + id;
+
+    return this.http.get(url, { headers: this.headers }).map(
+      res => { return res.json(); },
+      err => { return err.json(); }
+    );
+
+  }
 
 }

@@ -1,0 +1,1063 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+/* ========================================================================================= */
+/* ========================================================================================= */
+.cal-view{
+    margin:10px;
+    .common-search-filter{
+        margin-top: 5px;
+        padding: 15px 5px 10px 5px;
+        background: rgb(225, 219, 219);
+        .field-wrapper{
+            background: transparent;
+            .form-ctrl{
+                background: transparent;
+            }
+        }
+    }
+}
+/* ========================================================================================= */
+/* ========================================================================================= */
+
+/* ========================================================================================= */
+/* ========================================================================================= */
+
+/* ========================================================================================= */
+/* ========================================================================================= */
+
+/* ========================================================================================= */
+/* ========================================================================================= */
+
+/* ========================================================================================= */
+/* ========================================================================================= */
+
+/* ========================================================================================= */
+/* ========================================================================================= */
+
+#studentFlow,
+.student-flow-wrapper {
+    display: none;
+}
+
+.courses-list-table {
+    tr {
+        td:first-child {
+            text-align: left;
+            padding: 10px;
+            width: 20px;
+        }
+    }
+}
+
+.edit-view {
+    display: none;
+    .radio-options {
+        margin-top: 0;
+    }
+    .field-wrapper {
+        width: 130px;
+        padding-top: 0;
+        margin: 0 auto;
+        .form-ctrl {
+            padding: 0;
+            height: 28px;
+            border-bottom: solid 1px #0060a3;
+        }
+        &.datePickerBox:after {
+            top: 2px;
+        }
+    }
+    .radio-options>div {
+        margin-bottom: 0;
+    }
+}
+
+.data-view {
+    display: block;
+}
+
+.edit-mod {
+    .edit-view {
+        display: block;
+    }
+    .data-view {
+        display: none;
+    }
+}
+
+.common-tab {
+    padding-top: 5px;
+    ul {
+        font-size: 0;
+        border-bottom: 1px solid #f1f1f1;
+        li {
+            margin-right: 1px;
+            display: inline-block;
+            width: 19%;
+            max-width: 158px;
+            a {
+                display: block;
+                padding: 10px 5px;
+                background: #eff7ff;
+                border: 1px solid #cccdcd;
+                color: $common-blue;
+                text-align: center;
+                font-size: 14px;
+                font-weight: 600;
+            }
+            &:hover,
+            &.active {
+                a {
+                    background: $common-blue;
+                    color: $bg-white;
+                    border-color: $common-blue;
+                    font-weight: normal;
+                }
+            }
+        }
+    }
+}
+
+.view-icon,
+.edit-icon {
+    margin-right: 5px;
+}
+
+.create-standard-field {
+    margin-bottom: 10px;
+}
+
+.filter-for-courses {
+    label {
+        margin-top: 15px;
+        display: block;
+    }
+    .form-btn-head {
+        width: 30px;
+        height: 30px;
+        background: url(../../../../../assets/images/search.svg) no-repeat center center;
+        background-size: 20px 20px;
+        margin-top: 2px;
+        cursor: pointer;
+        margin-right: 20px;
+        filter: grayscale(100%);
+    }
+}
+
+.filter-search {
+    margin-bottom: 10px;
+    &>div {
+        margin-bottom: 0;
+    }
+    .export-print {
+        margin-top: 6px;
+    }
+}
+
+.course-second {
+    .filter-for-courses {
+        margin-top: 0;
+    }
+    .filter-search {
+        margin-bottom: 0;
+    }
+    .filter-for-courses label {
+        margin-top: 10px;
+    }
+}
+
+.edit-view-btn {
+    &>div {
+        display: inline-block;
+        margin: 0 5px;
+    }
+}
+
+.add-edit {
+    margin-bottom: 0;
+    margin-top: 20px;
+    i {
+        border: 1px solid $common-blue;
+        display: inline-block;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        line-height: 17px;
+        text-align: center;
+        font-size: 17px;
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+    span {
+        display: inline-block;
+    }
+    .expend-box {
+        i {
+            line-height: 12px;
+            font-size: 22px;
+        }
+    }
+}
+
+.create-standard-form {
+    margin: 10px 0;
+    padding: 10px 20px 20px;
+    background: #efefef;
+    border-top: 1px solid #d8d8d8;
+    .field-checkbox-wrapper {
+        margin-top: 15px;
+        .form-checkbox {
+            &+label {
+                font-size: 12px;
+                font-weight: 600;
+                color: #777;
+            }
+            &:checked+label {
+                color: $common-blue;
+            }
+        }
+        .form-checkbox+label:after {
+            transform: scale(0.7);
+        }
+        .form-checkbox+label:before {
+            transform: rotate(-45deg) scale(0.7);
+        }
+    }
+    .field-wrapper {
+        margin-top: -10px;
+        label {
+            top: 25px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+    }
+    .form-ctrl {
+        background: transparent;
+        border-bottom: solid 1px #cccccc;
+    }
+    p {
+        margin-top: 5px;
+        font-size: 10px;
+        color: #979797;
+    }
+}
+
+.create-cancel-small {
+    margin-top: 10px;
+    .btn {
+        font-size: 14px;
+        font-weight: normal;
+        height: 36px;
+    }
+}
+
+// css for edit .course 
+.edit-view-of-couse {
+    &>tr>td {
+        padding: 0px !important;
+    }
+}
+
+.course-list-edit {
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 1px 1px #c6c4c4 inset;
+    max-height: 200px;
+    overflow: auto;
+    .evoc-box {
+        padding: 10px;
+        .field-checkbox-wrapper {
+            label {
+                span {
+                    font-size: 13px;
+                    font-weight: 600;
+                    top: -3px;
+                    position: relative;
+                }
+            }
+        }
+    }
+}
+
+.ce-list-top {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    label {
+        font-weight: 400;
+    }
+    span {
+        font-weight: 600;
+        margin: 0 5px;
+    }
+}
+
+.ce-list-bottom {
+    .table-responsive {
+        tbody {
+            tr {
+                th {
+                    background: #d8d8d8;
+                    font-weight: 600;
+                    font-size: 14px;
+                    color: #333;
+                    padding: 5px 10px;
+                    text-align: left;
+                    &:last-child {
+                        width: 200px;
+                        text-align: center;
+                    }
+                    &:first-child {
+                        width: 100px;
+                    }
+                }
+                td {
+                    padding: 7px 10px;
+                    background: #fff;
+                    font-size: 12px;
+                    text-align: left;
+                    border-bottom: 1px solid #ededed;
+                    &:last-child {
+                        text-align: center;
+                    }
+                }
+                &:hover {
+                    td {
+                        background: #fff;
+                    }
+                }
+                &:last-child {
+                    td {
+                        border-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+    .field-checkbox-wrapper .form-checkbox+label:before {
+        transform: scale(0.7) rotate(-45deg);
+    }
+    .field-checkbox-wrapper .form-checkbox+label:after {
+        transform: scale(0.6);
+    }
+}
+
+.delete-btn {
+    a {
+        color: #f44336;
+        i {
+            font-size: 18px !important;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+    }
+}
+
+.close-accor {
+    float: right;
+    width: 24px;
+    font-size: 31px;
+    height: 24px;
+    text-align: center;
+    border: 1px solid $common-blue;
+    border-radius: 50%;
+    line-height: 16px;
+    margin-right: 4px;
+    margin-top: 3px;
+    cursor: pointer;
+    color: $common-blue;
+    font-weight: 400;
+}
+
+// schedule-class-box css
+.schedule-class-box {
+    .filter-box {
+        .field-wrapper .form-ctrl {
+            border-bottom: 1px solid #ccc;
+        }
+        .field-wrapper {
+            margin-top: -10px;
+        }
+        .fullBlue.btn {
+            width: 120px;
+        }
+    }
+}
+
+.schedule-class {
+    margin-top: 20px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    .btn {
+        font-weight: 600;
+        font-size: 13px;
+        height: 30px;
+    }
+    .schedule-class-left {
+        padding-top: 10px;
+        label {
+            font-weight: 600;
+            margin-right: 15px;
+        }
+    }
+    .fullBlue {}
+}
+
+.view-tab {
+    li {
+        display: inline-block;
+        margin-right: 0px;
+        .btn {
+            margin-left: 0;
+            height: 25px;
+            line-height: 12px;
+            font-weight: normal;
+            font-size: 12px;
+            padding: 5px 10px;
+        }
+    }
+}
+
+.view-c-detail {
+    margin-top: 5px;
+    .filter-search {
+        margin-bottom: 0;
+        .export-print {
+            margin-bottom: 0;
+        }
+    }
+    .vcd-l {
+        padding-top: 10px;
+        label {
+            font-weight: 600;
+            font-size: 15px;
+        }
+    }
+}
+
+.calender-course {
+    margin-bottom: 15px;
+    margin-top: 8px;
+    position: relative;
+    .c-control {
+        position: absolute;
+        width: 30px;
+        height: 100%;
+        background: #efefef;
+        border: 1px solid #cccccc;
+        cursor: pointer;
+        box-sizing: border-box;
+        &.cal-left {
+            left: 0;
+            top: 0;
+            background: url(../../../../../assets/images/left_arrow.svg) no-repeat center center;
+            background-size: 11px;
+            &:hover {
+                border: 1px solid $common-blue;
+            }
+        }
+        &.cal-right {
+            right: 0;
+            top: 0;
+            background: url(../../../../../assets/images/right_arrow.svg) no-repeat center center;
+            background-size: 11px;
+            &:hover {
+                border: 1px solid $common-blue;
+            }
+        }
+    }
+    ul {
+        text-align: center;
+        padding-left: 40px;
+        padding-right: 40px;
+        li {
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid #f0f0f0;
+            width: 8.8%;
+            background: #efefef;
+            vertical-align: top;
+            span.c-date {
+                font-size: 24px;
+                color: $common-blue;
+            }
+            &.active {
+                background: #ddedfd;
+                border: 1px solid #ccc;
+            }
+        }
+    }
+}
+
+.class-cancel {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    text-align: center;
+    line-height: 10px;
+    font-size: 11px;
+    color: #fff;
+    cursor: pointer;
+    vertical-align: middle;
+    &.blue {
+        background: $common-blue;
+    }
+    &.red {
+        background: red;
+    }
+    &.yellow {
+        background: #f8b238;
+    }
+}
+
+.exam-is {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #f8b238;
+    vertical-align: middle;
+}
+
+.class-is {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: $common-blue;
+    vertical-align: middle;
+}
+
+.calender-class-detail {
+    &>div:last-child {
+        padding-top: 5px;
+        span {
+            margin-left: 5px;
+        }
+    }
+}
+
+.calender-view1 {
+    th {
+        padding: 10px;
+        font-size: 13px;
+        text-align: center;
+    }
+    .table-responsive {
+        margin-top: 10px;
+    }
+    .table-accor-head {
+        .open-accor {
+            display: block;
+        }
+        .close-accor {
+            display: none;
+        }
+        &.active {
+            .accordian-heading {
+                .open-accor {
+                    display: none;
+                }
+                .close-accor {
+                    display: block;
+                }
+            }
+        }
+    }
+    .table-accor-head td {
+        padding: 0;
+        background: #fff;
+    }
+    .accordian-heading h4 {
+        padding: 3px !important;
+        color: #444;
+        border: 1px solid #eaecee;
+        border-radius: 20px;
+        margin: 4px 0 2px;
+        background: #e6f2fe;
+        text-align: left;
+        .open-accor,
+        .close-accor {
+            float: left;
+        }
+        .close-accor {
+            width: 18px;
+            height: 18px;
+            line-height: 11px;
+            margin-top: 0;
+        }
+        .open-accor {
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+            margin-top: 0;
+        }
+        .date-c {
+            font-size: 13px;
+            line-height: 20px;
+            margin-left: 10px;
+            font-weight: 600;
+        }
+        .delete-icon {
+            font-size: 18px;
+            color: #f44336;
+            margin-left: 10px;
+            margin-right: 9px;
+            cursor: pointer;
+            svg {
+                width: 15px;
+                vertical-align: top;
+                display: inline-block;
+                margin-top: 3px;
+                line {
+                    stroke-width: 2;
+                }
+            }
+        }
+    }
+}
+
+.delete-btn {
+    svg {
+        width: 15px;
+        vertical-align: top;
+        display: inline-block;
+        margin-top: 3px;
+        line {
+            stroke-width: 2;
+        }
+    }
+}
+
+.mail-notification {
+    width: 20px;
+    height: 20px;
+    background: url(../../../../../assets/images/mial_notification.svg) no-repeat;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.mail-notify {
+    width: 20px;
+    height: 20px;
+    background: url(../../../../../assets/images/mail_notify.svg) no-repeat;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.reschedule-icon {
+    width: 20px;
+    height: 20px;
+    background: url(../../../../../assets/images/reschedule_class.svg) no-repeat;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.action-box {
+    text-align: right;
+    width: 115px;
+    float: right;
+    .delete-btn {
+        font-size: 18px;
+        color: #f44336;
+    }
+    span {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 8px 0 0;
+        cursor: pointer;
+    }
+    .edit-icon {
+        width: 19px;
+        height: 16px;
+    }
+}
+
+.tick-mark1 {
+    width: 15px;
+    height: 6px;
+    border-left: 2px solid green;
+    border-bottom: 2px solid green;
+    transform: rotate(-45deg);
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 1px;
+}
+
+.ledgend-footer {
+    margin-top: 15px;
+    label {
+        font-weight: 600;
+        margin-right: 16px;
+    }
+    div {
+        margin-right: 20px;
+        font-size: 11px;
+        span {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 3px;
+        }
+    }
+}
+
+.date-arrow {
+    position: relative;
+    div {
+        position: relative;
+        span {
+            background: #fff;
+            display: inline-block;
+            padding: 4px 20px;
+            z-index: 1;
+            font-size: 12px;
+            font-weight: 600;
+            position: relative;
+        }
+        &:after {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            content: "\f104";
+            display: inline-block;
+            font: normal normal normal 14px/1 FontAwesome;
+            font-size: inherit;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            width: 5px;
+            height: 16px;
+        }
+        &:before {
+            position: absolute;
+            right: 20px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            content: "\f105";
+            display: inline-block;
+            font: normal normal normal 14px/1 FontAwesome;
+            font-size: inherit;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            width: 5px;
+            height: 16px;
+        }
+    }
+    &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 20px;
+        margin: auto;
+        width: 88%;
+        height: 0px;
+        border-bottom: 1px solid #ccc;
+    }
+}
+
+// second calender .course-second
+.calender-view1.cal-view-2 {
+    .accordian-heading h4 .open-accor,
+    .accordian-heading h4 .close-accor {
+        float: right;
+        margin-right: 0;
+    }
+    td {
+        font-weight: 600;
+        font-size: 14px;
+        padding: 0;
+        &:first-child {
+            text-align: left;
+        }
+        .accordian-heading h4 .date-c {
+            color: #004a7e;
+            font-size: 14px;
+        }
+    }
+}
+
+.new-action {
+    &>div {
+        width: 100%;
+        box-sizing: border-box;
+        span {
+            margin: 0;
+        }
+        &>div {
+            width: 50%;
+            box-sizing: border-box;
+            border-right: 1px solid #ccc;
+            text-align: center;
+            padding: 5px;
+            &:last-child {
+                border-right: 1px solid transparent;
+            }
+        }
+        &:first-child {
+            border-bottom: 1px solid #ccc;
+        }
+    }
+}
+
+.cal-view-2 {
+    .action-box,
+    .new-action {
+        width: 65px;
+    }
+    .action-box {
+        padding-right: 5px;
+        margin: 5px 0;
+    }
+}
+
+.read-more-view {
+    font-size: 12px;
+    margin-top: 10px;
+    color: #004a7e;
+}
+
+.new-tick-mark {
+    height: 72px;
+    width: 35px;
+    border-right: 2px solid #fff;
+    margin-right: 8px;
+    text-align: center;
+    position: relative;
+    .tick-mark1 {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        right: 0;
+        left: 0;
+    }
+}
+
+.tick-mark-new {
+    &>div {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+
+// create class .schedule-class
+.course-detail-section {
+    margin-top: 30px;
+    .cd-s {
+        font-size: 13px;
+        font-weight: 600;
+    }
+    label {
+        margin-right: 15px;
+    }
+    span {
+        font-weight: 600;
+        margin-right: 10px;
+    }
+}
+
+.schedule-class-inner {
+    padding: 20px 15px 25px;
+    background: #efefef;
+    .form-ctrl {
+        border-bottom: 1px solid #ccc;
+        background: transparent;
+    }
+    .s-c-1 {
+        font-weight: 600;
+        font-weight: 14px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+    .choose-class-type {
+        margin-top: 20px;
+        .field-radio-wrapper {
+            display: inline-block;
+            margin-right: 20px;
+        }
+    }
+    .select-days {
+        margin-top: 20px;
+        span {
+            float: left;
+        }
+        .field-checkbox-wrapper {
+            float: left;
+            margin-right: 2%;
+            margin-left: 2%;
+            .form-checkbox+label:after {
+                transform: scale(0.7);
+            }
+            .form-checkbox+label:before {
+                transform: rotate(-45deg) scale(0.7);
+            }
+        }
+    }
+}
+
+.create-class-schedule {
+    h4 {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        margin-top: 15px;
+    }
+}
+
+.s-form-control {
+    margin-top: 30px;
+    border-top: 1px solid #ccc;
+}
+
+@media only screen and (min-width: 1000px) and (max-width: 1200px) {
+    .calender-course ul li {
+        width: 8%;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 999px) {
+    .calender-course ul li {
+        width: 6%;
+    }
+}
+
+@media only screen and (max-width: 960px) {
+    .calender-class-detail {
+        &>div {
+            width: 100%;
+            text-align: center;
+        }
+        &>div:last-child span {
+            margin: 0;
+        }
+    }
+}
+
+@media only screen and (max-width:767px) {
+    .common-tab ul li {
+        margin-right: 0;
+        width: 20%;
+        a {
+            padding: 5px 5px;
+            font-size: 12px;
+        }
+    }
+    .filter-for-courses {
+        label {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        .filter-search {
+            .btn {
+                margin-right: 0;
+                margin-left: 10px;
+            }
+        }
+    }
+    .radio-options {
+        text-align: left;
+        .field-radio-wrapper {
+            margin-bottom: 10px !important;
+            &:last-child {
+                margin-bottom: 0 !important;
+            }
+        }
+    }
+    .create-standard-form {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .create-cancel-small .btn {
+        margin-right: 0;
+        margin-left: 10px;
+    }
+    .schedule-class-box .filter-box .fullBlue.btn {
+        margin-top: 15px;
+        margin-bottom: 0;
+    }
+    .schedule-class .schedule-class-left {
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        span {
+            display: block;
+            margin-bottom: 10px;
+        }
+    }
+    .schedule-class .btn {
+        margin-right: 0;
+        margin-left: 10px;
+        margin-bottom: 0;
+    }
+    .view-tab li .btn {
+        margin-right: 0;
+        margin-bottom: 0;
+    }
+    .calender-course ul li {
+        padding: 5px 5px;
+        width: 17%;
+        margin-bottom: 5px;
+    }
+    .ledgend-footer {
+        label {
+            display: block;
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 10px;
+        }
+        div {
+            margin-bottom: 5px;
+        }
+    }
+    .cal-view {
+        .middle-top {
+            .btn {
+                margin-bottom: 0;
+            }
+        }
+    }
+    .courses-list-table,
+    .calender-view1 {
+        table {
+            min-width: 600px;
+        }
+    }
+    .calender-course ul li span.c-date {
+        font-size: 19px;
+    }
+    .date-arrow:after {
+        width: 72%;
+    }
+    .course-detail-section {
+        margin-top: 20px;
+        &>div {
+            margin-bottom: 5px;
+        }
+    }
+    .filter-box {
+        padding: 10px 0px;
+    }
+    .popup-btn .btn {
+        font-size: 12px;
+        height: 32px;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .common-tab ul li {
+        width: auto;
+        a {
+            font-size: 10px;
+        }
+    }
+    .field-checkbox-wrapper .form-checkbox+label {
+        font-size: 12px;
+    }
+}

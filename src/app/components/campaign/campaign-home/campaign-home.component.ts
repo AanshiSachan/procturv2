@@ -750,7 +750,7 @@ export class CampaignHomeComponent implements OnInit {
     /* base64 data to be converted to xls file */
     downloadFailureListFile(data) {
 
-      console.log(data.data.list_name);
+      //console.log(data.data.list_name);
       this.postData.downloadFailureListFile(data.data.list_id).subscribe(
         res => {
           
@@ -762,7 +762,7 @@ export class CampaignHomeComponent implements OnInit {
           //console.log(file);
           let url = URL.createObjectURL(file);
           let dwldLink = document.getElementById('template_link_'+data.data.list_id);
-          console.log(dwldLink.getAttribute('href'));
+          //console.log(dwldLink.getAttribute('href'));
           if(dwldLink.getAttribute('href') == null ||dwldLink.getAttribute('href') == undefined ||dwldLink.getAttribute('href') == ''){
             dwldLink.setAttribute("href", url);
             dwldLink.setAttribute("download", fileName);

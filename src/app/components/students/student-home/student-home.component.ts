@@ -270,7 +270,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
           /* records */
           if (res.length != 0) {
             //console.log("data found");
-            this.totalRow = res[0].student_count;
+            this.totalRow = res[0].total_student_count;
             //console.log(this.totalRow);
             this.studentDataSource = res;
           }

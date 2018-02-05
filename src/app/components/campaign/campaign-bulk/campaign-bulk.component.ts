@@ -104,13 +104,12 @@ export class CampaignBulkComponent implements OnInit {
       this.fetchData.verifyUploadFileName(this.campaignAddFormData.name).subscribe(
         res => {
           response= res;
-          console.log("hi");
-          console.log(response);
+          //console.log("hi");
+          //console.log(response);
   
           if (response.statusCode >= 200 && response.statusCode < 300) {                
             for (let file of event.files) {
-              
-              console.log(file);
+              //console.log(file);
               if(file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
                 file.type == 'application/vnd.ms-excel' ){
                 // console.log(this.campaignAddFormData.name);
