@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SubjectApiService } from '../../../services/course-services/subject.service';
 import { AppComponent } from '../../../app.component';
 import { error } from 'util';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-course-subject',
@@ -10,13 +11,14 @@ import { error } from 'util';
 })
 export class CourseSubjectComponent implements OnInit {
 
+  isRippleLoad: boolean = false;
   createNewSubject: boolean = false;
   no_subject_name: boolean = false;
   subjectListDataSource;
   PageIndex: number = 1;
   displayBatchSize = 10;
   totalRow: number;
-  subjectList;
+  subjectList: any = [];
   standardList;
   newSubjectDetails: any = {
     is_active: "Y",
@@ -35,12 +37,14 @@ export class CourseSubjectComponent implements OnInit {
   }
 
   getAllSubjectList() {
+    this.isRippleLoad = true;
     this.apiService.getAllSubjectListFromServer().subscribe(
       (data: any) => {
         console.log(data);
         this.totalRow = data.length;
         this.subjectListDataSource = data;
         this.fetchTableDataByPage(this.PageIndex);
+        this.isRippleLoad = false;
       },
       error => {
         console.log(error);
@@ -112,12 +116,11 @@ export class CourseSubjectComponent implements OnInit {
   }
 
   addNewSubject() {
-    debugger
-    if (this.newSubjectDetails.standard_id == "" || this.newSubjectDetails.subject_name == "") {
+    if (this.newSubjectDetails.standard_id == "" || this.newSubjectDetails.subject_name == "" || this.newSubjectDetails.standard_id == '-1') {
       let data = {
         type: "error",
         title: "",
-        body: "Please mandatory fields"
+        body: "Please provide value of mandatory fields."
       }
       this.toastCtrl.popToast(data);
       return false;
@@ -205,6 +208,34 @@ export class CourseSubjectComponent implements OnInit {
   getDataFromDataSource(startindex) {
     let t = this.subjectListDataSource.slice(startindex, startindex + this.displayBatchSize);
     return t;
+  }
+
+  sortTable(str) {
+    if (str == "standard_name" || str == "subject_name" || str == "is_active") {
+      this.subjectList.sort(function (a, b) {
+        var nameA = a[str].toUpperCase(); // ignore upper and lowercase
+        var nameB = b[str].toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        // names must be equal
+        return 0;
+
+      })
+    }
+    else if (str == "subject_id") {
+      this.subjectList.sort(function (a, b) {
+        return a[str] - b[str];
+      })
+    }
+    else if (str == "created_date") {
+      this.subjectList.sort(function (a, b) {
+        return moment(a[str]).unix() - moment(b[str]).unix();
+      })
+    }
   }
 
   /* Customiized click detection strategy */

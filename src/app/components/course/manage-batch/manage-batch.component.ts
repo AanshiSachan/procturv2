@@ -420,8 +420,8 @@ export class ManageBatchComponent implements OnInit {
   sortTable(str) {
     if (str == "batch_name" || str == "standard_name" || str == "subject_name" || str == "teacher_name" || str == "is_active") {
       this.tableData.sort(function (a, b) {
-        var nameA = a.str.toUpperCase(); // ignore upper and lowercase
-        var nameB = b.str.toUpperCase(); // ignore upper and lowercase
+        var nameA = a[str].toUpperCase(); // ignore upper and lowercase
+        var nameB = b[str].toUpperCase(); // ignore upper and lowercase
         if (nameA < nameB) {
           return -1;
         }
@@ -435,12 +435,12 @@ export class ManageBatchComponent implements OnInit {
     }
     else if (str == "batch_code" || str == "class_room_name" || str == "total_students") {
       this.tableData.sort(function (a, b) {
-        return a.str - b.str;
+        return a[str] - b[str];
       })
     }
     else if (str == "end_date" || str == "start_date") {
       this.tableData.sort(function (a, b) {
-        return moment(a.str).unix() - moment(b.str).unix();
+        return moment(a[str]).unix() - moment(b[str]).unix();
       })
     }
   }

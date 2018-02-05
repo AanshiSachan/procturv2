@@ -293,16 +293,22 @@
                 </td>
 
                 <td class="view-comp">
-                  <a style="cursor:pointer" (click)="editTableRow(row , i)">Edit</a>
+                  <a style="cursor:pointer" (click)="editTableRow(row , i)">
+                    <i class="edit-icon" aria-hidden="true"></i>Edit
+                  </a>
                 </td>
                 <td class="edit-comp">
-                  <a style="cursor:pointer" (click)="updateTableRow(row , i)">Update</a>
-                  <a style="cursor:pointer" (click)="cancelTableRow(row , i)">Cancel</a>
+                  <a style="cursor:pointer ; margin-right:10px" (click)="updateTableRow(row , i)">
+                    <i class="far fa fa-save" style="font-family: FontAwesome ;font-size: 14px;" title="Update"></i>
+                  </a>
+                  <a style="cursor:pointer" (click)="cancelTableRow(row , i)">
+                    <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 14px;" title="Cancel"></i>
+                  </a>
                 </td>
 
                 <td>
                   <a style="cursor:pointer" (click)="addStudentToBatch(row)">
-                    <i class="far fa fa-plus-square" alt="Add Student"></i>
+                    <i class="far fa fa-plus-square" style="font-size: 14px" alt="Add Student" title="Add Student"></i>
                   </a>
                 </td>
               </tr>
@@ -364,8 +370,8 @@
                 <div class="field-checkbox-wrapper">
                   <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked" (click)="selectAllCheckBox(idSelectAll)">
                   <label></label>
+                  <span>Assign?UnAssign</span>
                 </div>
-                <span>Assign?UnAssign</span>
               </th>
               <th>
                 Student ID

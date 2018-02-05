@@ -230,7 +230,7 @@
 
 .add-edit {
     margin-bottom: 0;
-    margin-top: 20px;
+    margin-top: 10px;
     i {
         border: 1px solid $common-blue;
         display: inline-block;
@@ -267,7 +267,7 @@
 
 .create-standard-form {
     margin: 10px 0;
-    padding: 10px 20px 20px;
+    padding: 5px 20px 0px;
     background: #efefef;
     border-top: 1px solid #d8d8d8;
     .field-checkbox-wrapper {
@@ -1142,9 +1142,19 @@
 }
 
 table {
+    thead {
+        tr {
+            th {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+        }
+    }
     tbody {
         tr {
             td {
+                padding-top: 10px;
+                padding-bottom: 10px;
                 .editOptions li {
                     display: inline-block;
                 }
@@ -1190,4 +1200,37 @@ table {
 
 .closeBtnClass {
     line-height: 11px !important;
+}
+
+.search-filter-wrapper {
+    .normal-field {
+        padding: 7px 10px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        margin: 0;
+        float: left;
+        height: 35px;
+        font-size: 14px;
+    }
+    .field-wrapper {
+        position: relative;
+        padding-top: 0px !important;
+        width: 30%;
+        float: left !important;
+        .form-ctrl {
+            font: 400 13.3333px Arial;
+            border-top: none !important;
+            border-right: none !important;
+            border-left: none !important;
+        }
+    }
+    .field-wrapper label {
+        position: absolute !important;
+        left: 10% !important;
+        top: 1% !important;
+        &:after {
+            left: 85% !important;
+            top: 10px !important;
+        }
+    }
 }
