@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, PreloadAllModules} from '@angular/router';
+import { RouterModule, PreloadAllModules } from '@angular/router';
 /* import { CanDeactivateGuard }      from './guards/can-deactivate-guard.service'; */
 import { AuthGuard } from './guards/auth.guard';
 import { ErrorComponent } from './components/error/error.component';
@@ -26,7 +26,7 @@ import { SlotComponent } from './components/slot/slot.component';
                     canLoad: [AuthGuard]
                 },
                 {
-                    path:'teacher',
+                    path: 'teacher',
                     loadChildren: 'app/components/teacher/teacher.module#TeacherModule',
                     canLoad: [AuthGuard]
                 },
@@ -86,17 +86,21 @@ import { SlotComponent } from './components/slot/slot.component';
                     canLoad: [AuthGuard]
                 },
                 {
-                    path:'slot',
+                    path: 'slot',
                     component: SlotComponent,
                     canLoad: [AuthGuard]
+                },
+                {
+                    path: 'setting',
+                    loadChildren: 'app/components/institute-settings/institutes-setting.module#InstituteSettingModule',
                 },
                 { path: 'comingsoon', component: ComingSoonComponent },
                 { path: '**', component: ErrorComponent },
             ],
-            { 
+            {
                 useHash: true,
                 /* preloadingStrategy: PreloadAllModules */
-             }
+            }
         )
     ],
     exports: [
