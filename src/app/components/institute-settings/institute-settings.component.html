@@ -653,9 +653,104 @@
 
       </section>
       <section id="divExamReport">
-
+        <div class="row">
+          <h3>Exam Report Setting</h3>
+          <div>
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_min_marks" id="idEnableSMS">
+              <label for="enableSMS">Enable Minimum Marks</label>
+            </div>
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_average_marks"
+                id="idEnableSMS">
+              <label for="enableSMS">Enable Average Marks</label>
+            </div>
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_max_marks" id="idEnableSMS">
+              <label for="enableSMS">Enable Maximum Marks</label>
+            </div>
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_rank" id="idEnableSMS">
+              <label for="enableSMS">Enable Rank</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <h3>Exam Rank Notification Setting</h3>
+          <div class="row">
+            <div class="c-sm-4 c-md-4 c-lg-4">
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" id="enableRank" value="" name="enableSMS" class="form-checkbox" [ngModel]="instituteSettingDet.rank_to_send_for_marks_sms"
+                  (ngModelChange)="enableRankSpecifier()">
+                <label for="enableSMS">Specify Rank in Exam Mark Notification</label>
+              </div>
+            </div>
+            <div class="c-sm-4 c-md-4 c-lg-4">
+              <div class="field-wrapper  has-value">
+                <input type="number" min="0" max="99999" id="inputSpecifyRank" [(ngModel)]="instituteSettingDet.rank_no_for_marks_sms" class="form-ctrl"
+                  name="slotNew" (focus)="inputClickedCheck($event)">
+                <label for="slotNew">Total Rank(upto) to be Declared in SMS :
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <h3>Exam Grade System Setting</h3>
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.is_exam_grad_feature"
+              id="idEnableGrading">
+            <label for="enableSMS">Enable Exam Grading System</label>
+          </div>
+        </div>
+        <div class="row">
+          <h3>Online Test Setting</h3>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper has-value">
+              <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew"
+                (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Absent Attendance Threshold: (In 15 Days)
+              </label>
+            </div>
+          </div>
+        </div>
       </section>
       <section id="divFeeContent">
+        <div class="row">
+          <h3>Fee Setting</h3>
+        </div>
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper has-value">
+              <input type="number" min="0" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Fee Receipt No. (Starting Number)
+              </label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper has-value">
+              <input type="number" min="0" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Institute Contact No(s) For Fee Receipt
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper has-value">
+              <input type="number" min="0" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Service Tax No.
+              </label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper has-value">
+              <input type="number" min="0" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Pan Card No.
+              </label>
+            </div>
+          </div>
+        </div>
 
       </section>
       <section id="divReportContent">

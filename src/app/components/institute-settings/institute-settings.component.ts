@@ -135,7 +135,15 @@ export class InstituteSettingsComponent implements OnInit {
       student: '',
       parent: '',
       gaurdian: '',
-    }
+    },
+    exam_min_marks: '',
+    exam_average_marks: '',
+    exam_max_marks: '',
+    exam_rank: '',
+    rank_to_send_for_marks_sms: '',
+    rank_no_for_marks_sms: '',
+    is_exam_grad_feature: '',
+    test_buffer_duration: ''
   };
 
   constructor(
@@ -204,6 +212,24 @@ export class InstituteSettingsComponent implements OnInit {
     this.fillTableCheckboxValue(this.instituteSettingDet.cheque_bounce_sms_notifn, data.cheque_bounce_sms_notifn);
     this.fillTableCheckboxValue(this.instituteSettingDet.home_work_assignment_notification, data.home_work_assignment_notification);
     this.fillTableCheckboxValue(this.instituteSettingDet.topics_covered_notification, data.topics_covered_notification);
+    this.instituteSettingDet.exam_min_marks = data.exam_min_marks;
+    this.instituteSettingDet.exam_average_marks = data.exam_average_marks;
+    this.instituteSettingDet.exam_max_marks = data.exam_max_marks;
+    this.instituteSettingDet.exam_rank = data.exam_rank;
+    this.instituteSettingDet.rank_to_send_for_marks_sms = data.rank_to_send_for_marks_sms;
+    this.instituteSettingDet.rank_no_for_marks_sms = data.rank_no_for_marks_sms;
+    this.enableRankSpecifier();
+    this.instituteSettingDet.is_exam_grad_feature = data.is_exam_grad_feature;
+    this.instituteSettingDet.test_buffer_duration = data.test_buffer_duration;
+  }
+
+  enableRankSpecifier() {
+    this.instituteSettingDet.rank_to_send_for_marks_sms = document.getElementById('enableRank').checked;
+    if (this.instituteSettingDet.rank_to_send_for_marks_sms) {
+      document.getElementById('inputSpecifyRank').removeAttribute('readonly');
+    } else {
+      document.getElementById('inputSpecifyRank').setAttribute('readonly', true);
+    }
   }
 
   fillTableCheckboxValue(dataJSON, res) {
@@ -298,6 +324,30 @@ export class InstituteSettingsComponent implements OnInit {
     document.getElementById('linine').classList.remove('active');
     document.getElementById('liten').classList.remove('active');
     document.getElementById('lieleven').classList.remove('active');
+  }
+
+  /* Customiized click detection strategy */
+  inputClickedCheck(ev) {
+    if (ev.target.classList.contains('form-ctrl')) {
+      if (ev.target.classList.contains('bsDatepicker')) {
+        var nodelist = document.querySelectorAll('.bsDatepicker');
+        [].forEach.call(nodelist, (elm) => {
+          elm.addEventListener('focusout', function (event) {
+            event.target.parentNode.classList.add('has-value');
+          });
+        });
+      }
+      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
+        //document.getElementById(ev.target.id).click();
+        ev.target.addEventListener('blur', function (event) {
+          if (event.target.value != '') {
+            event.target.parentNode.classList.add('has-value');
+          } else {
+            event.target.parentNode.classList.remove('has-value');
+          }
+        });
+      }
+    }
   }
 
 }
