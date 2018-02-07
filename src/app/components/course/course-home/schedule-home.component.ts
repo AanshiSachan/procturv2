@@ -18,7 +18,7 @@ export class ScheduleHomeComponent implements OnInit {
   no_standard_name: boolean = false;
   standardListDataSource;
   displayBatchSize = 10;
-  standardList : any =[];
+  standardList: any = [];
   PageIndex: number = 1;
   createNewStandard: boolean = false;
   newStandardDetails: any = {
@@ -26,6 +26,8 @@ export class ScheduleHomeComponent implements OnInit {
     standard_name: ""
   }
   totalRow: number;
+  searchedData: any = [];
+  searchDataFlag: boolean = false;
 
   constructor(
     private apiService: StandardServices,
@@ -115,9 +117,12 @@ export class ScheduleHomeComponent implements OnInit {
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
       );
-      this.standardList = searchData;
+      this.searchedData = searchData;
       this.totalRow = searchData.length;
+      this.searchDataFlag = true;
+      this.fetchTableDataByPage(this.PageIndex);
     } else {
+      this.searchDataFlag = false;
       this.fetchTableDataByPage(this.PageIndex);
       this.totalRow = this.standardListDataSource.length;
     }
@@ -186,8 +191,13 @@ export class ScheduleHomeComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
-    let t = this.standardListDataSource.slice(startindex, startindex + this.displayBatchSize);
-    return t;
+    let data = [];
+    if (this.searchDataFlag == true) {
+      data = this.searchedData.slice(startindex, startindex + this.displayBatchSize);
+    } else {
+      data = this.standardListDataSource.slice(startindex, startindex + this.displayBatchSize);
+    }
+    return data;
   }
 
 
