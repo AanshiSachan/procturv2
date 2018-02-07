@@ -4,7 +4,6 @@ import { error } from 'util';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
 import { setTimeout } from 'timers';
-import { tr } from '../../../../assets/imported_modules/ngx-bootstrap/bs-moment/i18n/tr';
 
 @Component({
   selector: 'app-manage-batch',

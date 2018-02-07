@@ -52,6 +52,8 @@ export class HomeComponent implements OnInit {
   showAllocationHistoryPopUp: boolean = false;
   allocationHistoryList;
   itemName;
+  searchData: any = [];
+  searchDataFlag: boolean = false;
 
   header: any = {
     inventory_item: { id: 'inventory_item', title: 'Inventory Item', filter: false, show: true },
@@ -252,9 +254,12 @@ export class HomeComponent implements OnInit {
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
       );
-      this.itemList = searchData;
+      this.searchData = searchData;
       this.totalRow = searchData.length;
+      this.searchDataFlag = true;
+      this.fetchTableDataByPage(this.PageIndex);
     } else {
+      this.searchDataFlag = false;
       this.fetchTableDataByPage(this.PageIndex);
       this.totalRow = this.itemTableDatasource.length;
     }
@@ -280,8 +285,13 @@ export class HomeComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
-    let t = this.itemTableDatasource.slice(startindex, startindex + this.studentdisplaysize);
-    return t;
+    let data = [];
+    if (this.searchDataFlag) {
+      data = this.searchData.slice(startindex, startindex + this.studentdisplaysize);
+    } else {
+      data = this.itemTableDatasource.slice(startindex, startindex + this.studentdisplaysize);
+    }
+    return data;
   }
 
   //// Add Item Form
