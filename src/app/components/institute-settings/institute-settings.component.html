@@ -718,8 +718,8 @@
           <h3>Absent Attendance Setting</h3>
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper has-value">
-              <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.absent_attendance_in_a_month_threshold" class="form-ctrl" name="slotNew"
-                (focus)="inputClickedCheck($event)">
+              <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.absent_attendance_in_a_month_threshold" class="form-ctrl"
+                name="slotNew" (focus)="inputClickedCheck($event)">
               <label for="slotNew">Absent Attendance Threshold: (In 15 Days)
               </label>
             </div>
@@ -905,10 +905,141 @@
 
       </section>
       <section id="divReportContent">
+        <div class="row">
+          <h3>Home Work Setting</h3>
+        </div>
+        <div class="row">
+          <div class="c-sm-4 c-lg-4 c-md-4">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.home_work_feature_enable"
+                id="idEnableSMS">
+              <label for="enableSMS">Enable Student(s) Home work Feature</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <h3>Enquiry Setting</h3>
+        </div>
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="number" min="0" max="9999999999" id="inputSpecifyRank" [(ngModel)]="instituteSettingDet.inst_enquiry_handler_no"
+                class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Contact No. for handling Enquiries:
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <select id="" class="form-ctrl" name="instituteSettingDet.pre_enquiry_follow_up_reminder_time" (focus)="inputClickedCheck($event)"
+                [(ngModel)]="instituteSettingDet.pre_enquiry_follow_up_reminder_time">
+                <option value="">---select---</option>
+                <option value="00:15">After 15 minutes</option>
+                <option value="00:30">After 30 minutes</option>
+                <option value="01:00">After 1 hour</option>
+                <option value="02:00">After 2 hour</option>
+                <option value="24:00">After 1 day</option>
+              </select>
+              <label>Enquiry Follow up Reminder Notification ? </label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <select id="" class="form-ctrl" name="instituteSettingDet.post_enquiry_follow_up_reminder_time" (focus)="inputClickedCheck($event)"
+                [(ngModel)]="instituteSettingDet.post_enquiry_follow_up_reminder_time">
+                <option value="">---select---</option>
+                <option value="00:15">After 15 minutes</option>
+                <option value="00:30">After 30 minutes</option>
+                <option value="01:00">After 1 hour</option>
+                <option value="02:00">After 2 hour</option>
+                <option value="24:00">After 1 day</option>
+              </select>
+              <label>Enquiry Follow up Reminder Notification ? </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <h3>Report Setting</h3>
+        </div>
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.daily_account_summary"
+                id="">
+              <label for="enableSMS">Daily Account Summary </label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="text" [(ngModel)]="instituteSettingDet.emailids_for_report" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Point Of Contact(s)(Email IDs) for Reports
+              </label>
+            </div>
+          </div>
+        </div>
 
       </section>
       <section id="divMiscContent">
+        <div class="row">
+          <h3>Miscellaneous Setting</h3>
+        </div>
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.allow_simple_registration"
+                id="">
+              <label for="enableSMS">Allow Simple Registration</label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="text" [(ngModel)]="instituteSettingDet.virtual_host_url" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Virtual Host URL:
+              </label>
+            </div>
+          </div>
+        </div>
 
+        <div class="row">
+          <h3>Online Payment Setting</h3>
+        </div>
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_online_payment_email_notification"
+                id="">
+              <label for="enableSMS">Enable Online Payment Email Notification </label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_online_payment_sms_notification"
+                id="">
+              <label for="enableSMS">Enable Online Payment SMS Notification </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="text" [(ngModel)]="instituteSettingDet.online_payment_notify_emailIds" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Email ID(s) For Online Payment Notification
+              </label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="text" [(ngModel)]="instituteSettingDet.online_payment_notify_mobiles" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Contact No.(s) For Online Payment Notification
+              </label>
+            </div>
+          </div>
+        </div>
       </section>
     </aside>
   </section>

@@ -165,7 +165,19 @@ export class InstituteSettingsComponent implements OnInit {
     service_code: '',
     tax_payable_on_reverse_charge_basis: '',
     state_code: '',
-    accounting_code: ''
+    accounting_code: '',
+    home_work_feature_enable: '',
+    inst_enquiry_handler_no: '',
+    pre_enquiry_follow_up_reminder_time: '',
+    post_enquiry_follow_up_reminder_time: '',
+    allow_simple_registration: '',
+    virtual_host_url: '',
+    daily_account_summary: '',
+    emailids_for_report: '',
+    enable_online_payment_email_notification: '',
+    enable_online_payment_sms_notification: '',
+    online_payment_notify_emailIds: '',
+    online_payment_notify_mobiles: ''
   };
 
   constructor(
@@ -265,6 +277,18 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.tax_payable_on_reverse_charge_basis = data.tax_payable_on_reverse_charge_basis;
     this.instituteSettingDet.state_code = data.state_code;
     this.instituteSettingDet.accounting_code = data.accounting_code;
+    this.instituteSettingDet.home_work_feature_enable = data.home_work_feature_enable;
+    this.instituteSettingDet.inst_enquiry_handler_no = data.inst_enquiry_handler_no;
+    this.instituteSettingDet.pre_enquiry_follow_up_reminder_time = data.pre_enquiry_follow_up_reminder_time;
+    this.instituteSettingDet.post_enquiry_follow_up_reminder_time = data.post_enquiry_follow_up_reminder_time;
+    this.instituteSettingDet.allow_simple_registration = data.allow_simple_registration;
+    this.instituteSettingDet.virtual_host_url = data.virtual_host_url;
+    this.instituteSettingDet.daily_account_summary = data.daily_account_summary;
+    this.instituteSettingDet.emailids_for_report = data.emailids_for_report;
+    this.instituteSettingDet.enable_online_payment_email_notification = data.enable_online_payment_email_notification;
+    this.instituteSettingDet.enable_online_payment_sms_notification = data.enable_online_payment_sms_notification;
+    this.instituteSettingDet.online_payment_notify_emailIds = data.online_payment_notify_emailIds;
+    this.instituteSettingDet.online_payment_notify_mobiles = data.online_payment_notify_mobiles;
   }
 
   enableRankSpecifier() {
