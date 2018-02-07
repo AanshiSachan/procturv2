@@ -703,11 +703,22 @@
             <label for="enableSMS">Enable Exam Grading System</label>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="(isLangInst == false)">
           <h3>Online Test Setting</h3>
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper has-value">
               <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew"
+                (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Buffered Duration in mins (before exam test start time)
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <h3>Absent Attendance Setting</h3>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper has-value">
+              <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.absent_attendance_in_a_month_threshold" class="form-ctrl" name="slotNew"
                 (focus)="inputClickedCheck($event)">
               <label for="slotNew">Absent Attendance Threshold: (In 15 Days)
               </label>
@@ -722,14 +733,15 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper has-value">
-              <input type="number" min="0" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <input type="number" min="0" [(ngModel)]="instituteSettingDet.fee_receipt_invoice_pattern" class="form-ctrl" name="slotNew"
+                (focus)="inputClickedCheck($event)">
               <label for="slotNew">Fee Receipt No. (Starting Number)
               </label>
             </div>
           </div>
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper has-value">
-              <input type="number" min="0" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <input type="number" min="0" [(ngModel)]="instituteSettingDet.phone_no_fee_receipt" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
               <label for="slotNew">Institute Contact No(s) For Fee Receipt
               </label>
             </div>
@@ -738,15 +750,154 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper has-value">
-              <input type="number" min="0" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <input type="number" min="0" [(ngModel)]="instituteSettingDet.inst_service_tax_no" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
               <label for="slotNew">Service Tax No.
               </label>
             </div>
           </div>
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper has-value">
-              <input type="number" min="0" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <input type="number" min="0" [(ngModel)]="instituteSettingDet.inst_pan_no" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
               <label for="slotNew">Pan Card No.
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.gst_enabled" id="">
+              <label for="enableSMS">Enable GST</label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="text" [(ngModel)]="instituteSettingDet.gst_no" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">GST No:
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="text" [(ngModel)]="instituteSettingDet.cgst" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">CGST (%):
+              </label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="text" [(ngModel)]="instituteSettingDet.sgst" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">SGST (%):
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="text" [(ngModel)]="instituteSettingDet.inst_fee_activity_email_recipients" class="form-ctrl" name="slotNew"
+                (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Point Of Contact(s)(Email IDs) for Fee Activities
+              </label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.pdc_reminder_setting"
+                id="">
+              <label for="enableSMS">Enable PDC Reminder</label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4" *ngIf="(instituteSettingDet.pdc_reminder_setting == 1)">
+            <div class="field-wrapper">
+              <input type="text" [(ngModel)]="instituteSettingDet.pdc_reminder_sent_on" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">No of Days before for PDC Reminder
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_report_card_fee_module"
+                id="">
+              <label for="enableSMS">Enable Student's Login Fee Visibility Feature</label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="text" [(ngModel)]="instituteSettingDet.student_wise_fee_fine_amount" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Fine Amount
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="number" [(ngModel)]="instituteSettingDet.service_tax_percentage" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Total Service Tax (%):
+              </label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="number" [(ngModel)]="instituteSettingDet.sbc_tax" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">SBC Tax Component (%):
+              </label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="number" [(ngModel)]="instituteSettingDet.kkc_tax" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">KKC Tax Component (%):
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="text" [(ngModel)]="instituteSettingDet.cin" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">CIN(Customer Identification Number)
+              </label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="text" [(ngModel)]="instituteSettingDet.service_code" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Service Code:
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.tax_payable_on_reverse_charge_basis"
+                id="">
+              <label for="enableSMS">Tax payable on reverse charge basis</label>
+            </div>
+          </div>
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="text" [(ngModel)]="instituteSettingDet.state_code" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">State Code
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper">
+              <input type="text" [(ngModel)]="instituteSettingDet.accounting_code" class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+              <label for="slotNew">Accounting Code
               </label>
             </div>
           </div>

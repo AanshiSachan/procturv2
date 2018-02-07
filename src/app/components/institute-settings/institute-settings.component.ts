@@ -143,7 +143,29 @@ export class InstituteSettingsComponent implements OnInit {
     rank_to_send_for_marks_sms: '',
     rank_no_for_marks_sms: '',
     is_exam_grad_feature: '',
-    test_buffer_duration: ''
+    test_buffer_duration: '',
+    absent_attendance_in_a_month_threshold: '',
+    fee_receipt_invoice_pattern: '',
+    phone_no_fee_receipt: '',
+    inst_service_tax_no: '',
+    inst_pan_no: '',
+    gst_enabled: '',
+    gst_no: '',
+    cgst: '',
+    sgst: '',
+    inst_fee_activity_email_recipients: '',
+    pdc_reminder_setting: '',
+    pdc_reminder_sent_on: '',
+    student_report_card_fee_module: '',
+    student_wise_fee_fine_amount: '',
+    service_tax_percentage: '',
+    sbc_tax: '',
+    kkc_tax: '',
+    cin: '',
+    service_code: '',
+    tax_payable_on_reverse_charge_basis: '',
+    state_code: '',
+    accounting_code: ''
   };
 
   constructor(
@@ -221,6 +243,28 @@ export class InstituteSettingsComponent implements OnInit {
     this.enableRankSpecifier();
     this.instituteSettingDet.is_exam_grad_feature = data.is_exam_grad_feature;
     this.instituteSettingDet.test_buffer_duration = data.test_buffer_duration;
+    this.instituteSettingDet.absent_attendance_in_a_month_threshold = data.absent_attendance_in_a_month_threshold;
+    this.instituteSettingDet.fee_receipt_invoice_pattern = data.fee_receipt_invoice_pattern;
+    this.instituteSettingDet.phone_no_fee_receipt = data.phone_no_fee_receipt;
+    this.instituteSettingDet.inst_service_tax_no = data.inst_service_tax_no;
+    this.instituteSettingDet.inst_pan_no = data.inst_pan_no;
+    this.instituteSettingDet.gst_enabled = data.gst_enabled;
+    this.instituteSettingDet.gst_no = data.gst_no;
+    this.instituteSettingDet.cgst = data.cgst;
+    this.instituteSettingDet.sgst = data.sgst;
+    this.instituteSettingDet.inst_fee_activity_email_recipients = data.inst_fee_activity_email_recipients;
+    this.instituteSettingDet.pdc_reminder_setting = data.pdc_reminder_setting;
+    this.instituteSettingDet.pdc_reminder_sent_on = data.pdc_reminder_sent_on;
+    this.instituteSettingDet.student_report_card_fee_module = data.student_report_card_fee_module;
+    this.instituteSettingDet.student_wise_fee_fine_amount = data.student_wise_fee_fine_amount;
+    this.instituteSettingDet.service_tax_percentage = data.service_tax_percentage;
+    this.instituteSettingDet.sbc_tax = data.sbc_tax;
+    this.instituteSettingDet.kkc_tax = data.kkc_tax;
+    this.instituteSettingDet.cin = data.cin;
+    this.instituteSettingDet.service_code = data.service_code;
+    this.instituteSettingDet.tax_payable_on_reverse_charge_basis = data.tax_payable_on_reverse_charge_basis;
+    this.instituteSettingDet.state_code = data.state_code;
+    this.instituteSettingDet.accounting_code = data.accounting_code;
   }
 
   enableRankSpecifier() {
