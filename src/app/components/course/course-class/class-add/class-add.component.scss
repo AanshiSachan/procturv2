@@ -539,7 +539,7 @@
             display: inline-block;
             padding: 5px 10px;
             border: 1px solid #f0f0f0;
-            width: 14%;
+            width: 8.8%;
             background: #efefef;
             vertical-align: top;
             span.c-date {
@@ -979,13 +979,13 @@
 
 @media only screen and (min-width: 1000px) and (max-width: 1200px) {
     .calender-course ul li {
-        width: 12%;
+        width: 8%;
     }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 999px) {
     .calender-course ul li {
-        width: 12%;
+        width: 6%;
     }
 }
 
@@ -1064,7 +1064,7 @@
     }
     .calender-course ul li {
         padding: 5px 5px;
-        width: 14%;
+        width: 17%;
         margin-bottom: 5px;
     }
     .ledgend-footer {

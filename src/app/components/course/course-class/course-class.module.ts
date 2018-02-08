@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { CourseClassRouting } from './course-class.routing.module';
 import { CourseClassComponent } from './course-class.component';
 import { ClassHomeComponent } from './class-home/class-home.component';
+import { ClassAddComponent } from './class-add/class-add.component';
 import 'moment';
 import 'hammerjs';
 import { BusyModule, BusyConfig } from '../../../../assets/imported_modules/angular2-busy/build';
@@ -33,7 +34,8 @@ import { ClassScheduleService } from '../../../services/course-services/class-sc
     exports: [],
     declarations: [
         CourseClassComponent,
-        ClassHomeComponent
+        ClassHomeComponent,
+        ClassAddComponent
     ],
     providers: [
         ClassScheduleService

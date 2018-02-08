@@ -120,6 +120,14 @@ export class ClassScheduleService {
         )
     }
 
-    
+    getTimeTable(obj): Observable<any> {
+
+        let url = this.baseURL + "/api/v1/timeTable";
+
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
 
 }

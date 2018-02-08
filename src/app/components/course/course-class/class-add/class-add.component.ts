@@ -18,11 +18,11 @@ import 'rxjs/Rx';
 import { ClassScheduleService } from '../../../../services/course-services/class-schedule.service';
 
 @Component({
-  selector: 'app-class-home',
-  templateUrl: './class-home.component.html',
-  styleUrls: ['./class-home.component.scss']
+  selector: 'app-class-add',
+  templateUrl: './class-add.component.html',
+  styleUrls: ['./class-add.component.scss']
 })
-export class ClassHomeComponent implements OnInit {
+export class ClassAddComponent implements OnInit {
 
 
 
@@ -30,7 +30,7 @@ export class ClassHomeComponent implements OnInit {
   isProfessional: boolean = false;
   isRippleLoad: boolean = false;
   isClassFormFilled: boolean = false;
-  createCustomSchedule: boolean = false;
+  createCustomSchedule:boolean = false;
 
 
 
@@ -68,42 +68,9 @@ export class ClassHomeComponent implements OnInit {
   fetchMasterCourseModule: any = {
     master_course: "-1",
     requested_date: "Invalid date",
-    batch_id: "-1",
     inst_id: sessionStorage.getItem('institute_id'),
     course_id: "-1"
   }
-
-  currentWeek: any = {
-    d1: {
-      date: '',
-      data: ''
-    },
-    d2: {
-      date: '',
-      data: ''
-    },
-    d3: {
-      date: '',
-      data: ''
-    },
-    d4: {
-      date: '',
-      data: ''
-    },
-    d5: {
-      date: '',
-      data: ''
-    },
-    d6: {
-      date: '',
-      data: ''
-    },
-    d7: {
-      date: '',
-      data: ''
-    }
-  }
-
 
   fetchMasterBatchModule: any = {
     standard_id: "-1",
@@ -124,6 +91,7 @@ export class ClassHomeComponent implements OnInit {
       this.router.navigate(['/authPage']);
     }
   }
+
   /* ============================================================================================ */
   /* ============================================================================================ */
   /* ============================================================================================ */
@@ -132,33 +100,10 @@ export class ClassHomeComponent implements OnInit {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
+
     /* fetching prefilled data */
     this.busy = this.fetchPrefillData();
-    let today = new Date();
-    this.generateWeekTemplate(today);
-  }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-  generateWeekTemplate(date: Date) {
-    this.currentWeek.d1.date = moment(date).isoWeekday("Monday").format("YYYY-MM-DD");
-    this.currentWeek.d2.date = moment(date).isoWeekday("Tuesday").format("YYYY-MM-DD");
-    this.currentWeek.d3.date = moment(date).isoWeekday("Wednesday").format("YYYY-MM-DD");
-    this.currentWeek.d4.date = moment(date).isoWeekday("Thursday").format("YYYY-MM-DD");
-    this.currentWeek.d5.date = moment(date).isoWeekday("Friday").format("YYYY-MM-DD");
-    this.currentWeek.d6.date = moment(date).isoWeekday("Saturday").format("YYYY-MM-DD");
-    this.currentWeek.d7.date = moment(date).isoWeekday("Sunday").format("YYYY-MM-DD");
-    //console.log(this.currentWeek);
-  }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-  getWeekArray(): any[] {
-    let temp: any[] = [];
-    for (let key in this.currentWeek) {
-      temp.push(this.currentWeek[key]);
-    }
-    return temp;
+
   }
   /* ============================================================================================ */
   /* ============================================================================================ */
@@ -265,57 +210,15 @@ export class ClassHomeComponent implements OnInit {
   /* ============================================================================================ */
   /* ============================================================================================ */
   submitMasterCourse() {
-    //console.log(this.fetchMasterCourseModule);
-    if (this.fetchMasterCourseModule.master_course == '-1') {
-      let msg = {
-        type: 'error',
-        title: 'Master Course not selected',
-        body: 'Please select a valid input'
-      }
-      this.appC.popToast(msg);
+    console.log(this.fetchMasterCourseModule);
+    if (this.fetchMasterCourseModule.master_course == '-1' || this.fetchMasterCourseModule.course_id == '-1' ||
+      this.fetchMasterCourseModule.requested_date == '' || this.fetchMasterCourseModule.requested_date == 'Invalid date'
+      || this.fetchMasterCourseModule.requested_date == null) {
+      console.log(this.fetchMasterCourseModule);
     }
     else {
-      let obj = {
-        batch_id: this.fetchMasterCourseModule.batch_id, /* mention subject here */
-        course_id: this.fetchMasterCourseModule.course_id, /* mention course here */
-        enddate: this.currentWeek.d7.date,
-        institute_id: sessionStorage.getItem('institute_id'),
-        isExamIncludedInTimeTable: "Y",
-        master_course: this.fetchMasterCourseModule.master_course,
-        standard_id: "-1",
-        startdate: this.currentWeek.d1.date,
-        subject_id: "-1",
-        teacher_id: "-1",
-        type: 2
-      };
-      this.classService.getTimeTable(obj).subscribe(
-        res => {
-          this.generateTimeLine(res);
-        },
-        err => { }
-      )
-    }
-  }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-  generateTimeLine(obj) {
-    if(obj[0].batchTimeTableList){
-      for (let key in obj[0].batchTimeTableList) {
-        let d = key.split('(')[0];
-        let data = obj[0].batchTimeTableList[key][0];
-        //console.log(d);
-        this.updateCurrentWeek(d, data);
-      }
       this.isClassFormFilled = true;
-    }
-  }
-  /* ============================================================================================ */
-  /* ============================================================================================ */
-  updateCurrentWeek(d, val) {
-    for (let key in this.currentWeek) {
-      if (moment(this.currentWeek[key].date).unix() == moment(d).unix()) {
-        this.currentWeek[key].data = val;
-      }
+      console.log(this.fetchMasterCourseModule);
     }
   }
   /* ============================================================================================ */
@@ -569,33 +472,30 @@ export class ClassHomeComponent implements OnInit {
   /* ============================================================================================ */
   /* ============================================================================================ */
   updateClassFrequency(ev) {
-    if (ev == "OTHER") {
+    if(ev == "OTHER"){
       this.createCustomSchedule = true;
-    } else {
+    }else{
       this.createCustomSchedule = false;
     }
   }
   /* ============================================================================================ */
   /* ============================================================================================ */
-  getCurrentMonthYear(): string {
-    return moment(this.currentWeek.d1.date).format("MMM YYYY");
+  applySelectedFrequency() {
+
   }
+
   /* ============================================================================================ */
   /* ============================================================================================ */
-  gotoPreviousWeek() {
-    let start = new Date(moment(this.currentWeek.d1.date).subtract(7, 'd').format("YYYY-MM-DD"));
-    //console.log(start);
-    this.generateWeekTemplate(start);
-    this.submitMasterCourse();
-  }
+
+
   /* ============================================================================================ */
   /* ============================================================================================ */
-  gotoNextWeek() {
-    let start = new Date(moment(this.currentWeek.d1.date).add(7, 'd').format("YYYY-MM-DD"));
-    //console.log(start);
-    this.generateWeekTemplate(start);
-    this.submitMasterCourse();
-  }
+
+
+  /* ============================================================================================ */
+  /* ============================================================================================ */
+
+
   /* ============================================================================================ */
   /* ============================================================================================ */
 
