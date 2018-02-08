@@ -1,17 +1,23 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <section class="middle-section clearFix">
   <section class="course-second course">
     <div class="boxPadding15">
       <section class="middle-top clearFix">
-        <h1>Course</h1>
-        <div class="pull-right btnWrapper">
-          <button class="btn" routerLink="add">
-            <div class="option-wrap">
-              <img src="./assets/images/plus.png" alt="addEnquiry">
-              <span class="tooltip">
-                Add Course
-              </span>
-            </div>
-          </button>
+        <div class="row">
+          <div>
+            <h1 class="pull-left" style="margin-top: 10px;margin-left: 15px;">Course</h1>
+          </div>
+          <div class="pull-right btnWrapper">
+            <button class="btn" routerLink="add" style="margin-top: 10px;margin-right: 20px;">
+              <div class="option-wrap">
+                <img src="./assets/images/plus.png" alt="addEnquiry">
+                <span class="tooltip">
+                  Add Course
+                </span>
+              </div>
+            </button>
+          </div>
         </div>
       </section>
       <section style="padding-top: 10px;" class="CourseListtableWrapper">
@@ -19,13 +25,13 @@
           <thead>
             <tr>
               <th>
-                Master Course Name
+                <label style="cursor:pointer;" (click)="sortTable('master_course')">Master Course Name</label>
               </th>
               <th>
-                Standard
+                <label style="cursor:pointer;" (click)="sortTable('standard_name')">Standard</label>
               </th>
               <th>
-                Course(s)
+                <label style="cursor:pointer;" (click)="sortTable('coursee_names')">Course(s)</label>
               </th>
               <th>
                 Action
@@ -44,12 +50,27 @@
                 {{row.coursee_names}}
               </td>
               <td style="cursor: pointer">
-                <a routerLink = "{{row.master_course}}">Edit</a>
+                <a routerLink="{{row.master_course}}">
+                  <i class="edit-icon" aria-hidden="true"></i>Edit
+                </a>
+              </td>
+            </tr>
+            <tr *ngIf="(courseList.length ==0)">
+              <td style="text-align:center">
+                No Data Found
               </td>
             </tr>
           </tbody>
         </table>
       </section>
+
+      <div class="row filter-res pagination" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+            [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+          </pagination>
+        </div>
+      </div>
     </div>
   </section>
 </section>

@@ -13,7 +13,7 @@ import { setTimeout } from 'timers';
 export class ManageBatchComponent implements OnInit {
 
   createNewBatch: boolean = false;
-  batchesListDataSource: any;
+  batchesListDataSource: any = [];
   tableData: any = [];
   classRoomList: any;
   teacherList: any;
@@ -42,6 +42,10 @@ export class ManageBatchComponent implements OnInit {
     end_date: '',
     is_active: false,
   }
+  PageIndex: number = 1;
+  displayBatchSize: number = 10;
+  totalRow: number;
+
 
   constructor(
     private apiService: ManageBatchService,
@@ -61,7 +65,8 @@ export class ManageBatchComponent implements OnInit {
       (res: any) => {
         console.log('batch', res);
         this.batchesListDataSource = res;
-        this.tableData = res;
+        this.totalRow = res.length;
+        this.fetchTableDataByPage(this.PageIndex);
         this.isRippleLoad = false;
       },
       error => {
@@ -98,8 +103,10 @@ export class ManageBatchComponent implements OnInit {
           k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
       );
       this.tableData = searchData;
+      this.totalRow = searchData.length;
     } else {
-      this.tableData = this.batchesListDataSource;
+      this.fetchTableDataByPage(this.PageIndex);
+      this.totalRow = this.batchesListDataSource.length;
     }
   }
 
@@ -420,8 +427,8 @@ export class ManageBatchComponent implements OnInit {
   sortTable(str) {
     if (str == "batch_name" || str == "standard_name" || str == "subject_name" || str == "teacher_name" || str == "is_active") {
       this.tableData.sort(function (a, b) {
-        var nameA = a.str.toUpperCase(); // ignore upper and lowercase
-        var nameB = b.str.toUpperCase(); // ignore upper and lowercase
+        var nameA = a[str].toUpperCase(); // ignore upper and lowercase
+        var nameB = b[str].toUpperCase(); // ignore upper and lowercase
         if (nameA < nameB) {
           return -1;
         }
@@ -435,14 +442,39 @@ export class ManageBatchComponent implements OnInit {
     }
     else if (str == "batch_code" || str == "class_room_name" || str == "total_students") {
       this.tableData.sort(function (a, b) {
-        return a.str - b.str;
+        return a[str] - b[str];
       })
     }
     else if (str == "end_date" || str == "start_date") {
       this.tableData.sort(function (a, b) {
-        return moment(a.str).unix() - moment(b.str).unix();
+        return moment(a[str]).unix() - moment(b[str]).unix();
       })
     }
+  }
+
+  // pagination functions 
+
+  fetchTableDataByPage(index) {
+    this.PageIndex = index;
+    let startindex = this.displayBatchSize * (index - 1);
+    this.tableData = this.getDataFromDataSource(startindex);
+  }
+
+  fetchNext() {
+    this.PageIndex++;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
+  fetchPrevious() {
+    if (this.PageIndex != 1) {
+      this.PageIndex--;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
+  }
+
+  getDataFromDataSource(startindex) {
+    let t = this.batchesListDataSource.slice(startindex, startindex + this.displayBatchSize);
+    return t;
   }
 
   /* Customiized click detection strategy */

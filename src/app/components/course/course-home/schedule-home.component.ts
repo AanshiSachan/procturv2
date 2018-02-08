@@ -4,6 +4,7 @@ import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
 import { StandardServices } from '../../../services/course-services/standard.service';
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
+import * as moment from 'moment';
 
 
 @Component({
@@ -13,10 +14,11 @@ import { document } from '../../../../assets/imported_modules/ngx-bootstrap/util
 })
 export class ScheduleHomeComponent implements OnInit {
 
+  isRippleLoad: boolean = false;
   no_standard_name: boolean = false;
   standardListDataSource;
   displayBatchSize = 10;
-  standardList;
+  standardList : any =[];
   PageIndex: number = 1;
   createNewStandard: boolean = false;
   newStandardDetails: any = {
@@ -36,12 +38,14 @@ export class ScheduleHomeComponent implements OnInit {
 
 
   getAllStandardList() {
+    this.isRippleLoad = true;
     this.apiService.getAllStandardListFromServer().subscribe(
       (data: any) => {
         console.log(data); 3
         this.totalRow = data.length;
         this.standardListDataSource = data;
         this.fetchTableDataByPage(this.PageIndex);
+        this.isRippleLoad = false;
       },
       error => {
         console.log(error);
@@ -69,7 +73,7 @@ export class ScheduleHomeComponent implements OnInit {
       this.no_standard_name = false;
       this.createNewStandard = false;
       document.getElementById('showCloseBtn').style.display = 'none';
-      document.getElementById('showAddBtn').style.display = '';    
+      document.getElementById('showAddBtn').style.display = '';
     }
   }
 
@@ -79,6 +83,7 @@ export class ScheduleHomeComponent implements OnInit {
     if (this.newStandardDetails.standard_name == "") {
       this.no_standard_name = true;
     } else {
+      this.isRippleLoad = true;
       this.apiService.createNewStandard(this.newStandardDetails).subscribe(
         res => {
           let data = {
@@ -89,6 +94,7 @@ export class ScheduleHomeComponent implements OnInit {
           this.toastCtrl.popToast(data);
           document.getElementById('standard_name').value = "";
           this.getAllStandardList();
+          this.isRippleLoad = false;
         },
         err => {
           let data = {
@@ -129,12 +135,12 @@ export class ScheduleHomeComponent implements OnInit {
   }
 
   updateRow(row, id) {
-    debugger
     let data: any = {};
     data.is_active = row.is_active;
     data.standard_name = row.standard_name;
     data.institution_id = row.institution_id;
     console.log("data", data);
+    this.isRippleLoad = true;
     this.apiService.updateStanadardRowData(data, row.standard_id).subscribe(
       data => {
         let msg = {
@@ -145,6 +151,7 @@ export class ScheduleHomeComponent implements OnInit {
         this.toastCtrl.popToast(msg);
         console.log(data);
         this.cancelRow(id);
+        this.isRippleLoad = false;
       },
       error => {
         let data = {
@@ -161,6 +168,7 @@ export class ScheduleHomeComponent implements OnInit {
   // pagination functions 
 
   fetchTableDataByPage(index) {
+    this.PageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
     this.standardList = this.getDataFromDataSource(startindex);
   }
@@ -180,6 +188,35 @@ export class ScheduleHomeComponent implements OnInit {
   getDataFromDataSource(startindex) {
     let t = this.standardListDataSource.slice(startindex, startindex + this.displayBatchSize);
     return t;
+  }
+
+
+  sortTable(str) {
+    if (str == "standard_name" || str == "is_active") {
+      this.standardList.sort(function (a, b) {
+        var nameA = a[str].toUpperCase(); // ignore upper and lowercase
+        var nameB = b[str].toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        // names must be equal
+        return 0;
+
+      })
+    }
+    else if (str == "standard_id") {
+      this.standardList.sort(function (a, b) {
+        return a[str] - b[str];
+      })
+    }
+    else if (str == "created_date") {
+      this.standardList.sort(function (a, b) {
+        return moment(a[str]).unix() - moment(b[str]).unix();
+      })
+    }
   }
 
   /* Customiized click detection strategy */
