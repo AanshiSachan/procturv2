@@ -28,6 +28,11 @@ export class ScheduleHomeComponent implements OnInit {
   totalRow: number;
   searchedData: any = [];
   searchDataFlag: boolean = false;
+  dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
+  columnMaps: any[] = [0, 1, 2, 3, 4];
+  dataStatus: number = 1;
+  selectedRow: number;
+  isLangInstitue: boolean = false;
 
   constructor(
     private apiService: StandardServices,
@@ -35,6 +40,7 @@ export class ScheduleHomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.checkInstituteType();
     this.getAllStandardList();
   }
 
@@ -48,6 +54,7 @@ export class ScheduleHomeComponent implements OnInit {
         this.standardListDataSource = data;
         this.fetchTableDataByPage(this.PageIndex);
         this.isRippleLoad = false;
+        this.dataStatus = 2;
       },
       error => {
         console.log(error);
@@ -86,6 +93,12 @@ export class ScheduleHomeComponent implements OnInit {
       this.no_standard_name = true;
     } else {
       this.isRippleLoad = true;
+      if (this.newStandardDetails.is_active == true) {
+        this.newStandardDetails.is_active = "Y";
+      }
+      else {
+        this.newStandardDetails.is_active = "N";
+      }
       this.apiService.createNewStandard(this.newStandardDetails).subscribe(
         res => {
           let data = {
@@ -200,6 +213,9 @@ export class ScheduleHomeComponent implements OnInit {
     return data;
   }
 
+  rowClickEvent(row) {
+    this.selectedRow = row;
+  }
 
   sortTable(str) {
     if (str == "standard_name" || str == "is_active") {
@@ -250,6 +266,15 @@ export class ScheduleHomeComponent implements OnInit {
           }
         });
       }
+    }
+  }
+
+  checkInstituteType() {
+    let type: any = sessionStorage.getItem('institute_type');
+    if (type == "LANG") {
+      this.isLangInstitue = true;
+    } else {
+      this.isLangInstitue = false;
     }
   }
 

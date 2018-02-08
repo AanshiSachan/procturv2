@@ -22,11 +22,16 @@ export class CourseSubjectComponent implements OnInit {
   standardList;
   newSubjectDetails: any = {
     is_active: "Y",
-    standard_id: "",
+    standard_id: "-1",
     subject_name: ''
   }
   searchedData: any = [];
   searchDataFlag: boolean = false;
+  dataStatus: number = 1;
+  dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5];
+  selectedRow: number;
+  isLangInstitue: boolean = false;
 
   constructor(
     private apiService: SubjectApiService,
@@ -34,6 +39,7 @@ export class CourseSubjectComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.checkInstituteType();
     this.getAllSubjectList();
     this.getAllStandardSubjectList();
   }
@@ -47,6 +53,7 @@ export class CourseSubjectComponent implements OnInit {
         this.subjectListDataSource = data;
         this.fetchTableDataByPage(this.PageIndex);
         this.isRippleLoad = false;
+        this.dataStatus = 2;
       },
       error => {
         console.log(error);
@@ -246,6 +253,19 @@ export class CourseSubjectComponent implements OnInit {
       this.subjectList.sort(function (a, b) {
         return moment(a[str]).unix() - moment(b[str]).unix();
       })
+    }
+  }
+
+  rowSelectEvent(i) {
+    this.selectedRow = i;
+  }
+
+  checkInstituteType() {
+    let type: any = sessionStorage.getItem('institute_type');
+    if (type == "LANG") {
+      this.isLangInstitue = true;
+    } else {
+      this.isLangInstitue = false;
     }
   }
 

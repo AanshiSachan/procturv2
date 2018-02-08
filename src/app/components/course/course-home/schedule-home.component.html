@@ -8,29 +8,32 @@
                 <a (click)="toggleCreateNewStandard()">
                     <i id="showAddBtn" class="addBtnClass">+</i>
                     <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
-                    <span>Create Standard</span>
+                    <span *ngIf="(isLangInstitue != true)">Create Standard</span>
+                    <span *ngIf="(isLangInstitue == true)">Create Master Course</span>
                 </a>
             </div>
             <section class="clearFix create-standard-form" *ngIf="createNewStandard">
                 <div class="c-lg-6 c-sm-6 c-md-6">
                     <div class="row create-standard-field">
                         <div class="c-lg-8 c-md-6 c-ms-6">
-                            <div class="field-wrapper">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : newStandardDetails.standard_name != ''}">
                                 <input type="text" class="form-ctrl" [(ngModel)]="newStandardDetails.standard_name" name="standard_name" id="standard_name"
-                                    #standard_name="ngModel" required courseInput (focus)="inputClickedCheck($event)">
+                                    #standard_name="ngModel" required courseInput>
                                 <div *ngIf="standard_name.invalid && (standard_name.dirty || standard_name.touched || no_standard_name)" class="alert invalid-alert">
                                     <div *ngIf="standard_name.errors.required">
-                                        Please enter valid Standard Name
+                                        <span *ngIf="(isLangInstitue != true)">Please enter valid Standard Name</span>
+                                        <span *ngIf="(isLangInstitue == true)">Please enter valid Master Course</span>
                                     </div>
                                 </div>
-                                <label>Standard Name</label>
+                                <label *ngIf="(isLangInstitue != true)">Standard Name</label>
+                                <label *ngIf="(isLangInstitue == true)">Master Course Name</label>
 
                             </div>
                             <p>* Example X XII, B.Com</p>
                         </div>
                         <div class="c-lg-4 c-md-4 c-ms-4">
                             <div class="field-checkbox-wrapper">
-                                <input type="checkbox" value="" name="check" class="form-checkbox" [ngModel]="newStandardDetails.is_active" id="isAct" (ngModelChange)="toggleStandardActive($event)">
+                                <input type="checkbox" name="check" class="form-checkbox" [(ngModel)]="newStandardDetails.is_active" id="isAct">
                                 <label for="isAct">Is Active</label>
                             </div>
                         </div>
@@ -45,7 +48,8 @@
             </section>
             <div class="row class filter-res filter-for-courses" style="margin-bottom: 10px">
                 <div class="c-lg-6 c-md-6 c-sm-6" style="margin-top: 10px;">
-                    <h3>Standard list</h3>
+                    <h3 *ngIf="(isLangInstitue != true)">Standard list</h3>
+                    <h3 *ngIf="(isLangInstitue == true)">Master Course list</h3>
                 </div>
                 <div class="c-lg-3 c-md-3 c-sm-3">
 
@@ -67,7 +71,8 @@
                                     <label style="cursor:pointer;" (click)="sortTable('standard_id')">ID</label>
                                 </th>
                                 <th>
-                                    <label style="cursor:pointer;" (click)="sortTable('standard_name')">Standard</label>
+                                    <label *ngIf="(isLangInstitue != true)" style="cursor:pointer;" (click)="sortTable('standard_name')">Standard</label>
+                                    <label *ngIf="(isLangInstitue == true)" style="cursor:pointer;" (click)="sortTable('standard_name')">Master Course</label>
                                 </th>
                                 <th>
                                     <label style="cursor:pointer;" (click)="sortTable('is_active')">Is Active</label>
@@ -80,8 +85,9 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="displayComp" id="row{{i}}" class="displayComp" *ngFor="let row of standardList; let i = index; trackBy: i;">
+                        <tbody *ngIf="( standardList.length != 0)">
+                            <tr (click)="rowClickEvent(i)" class="displayComp" id="row{{i}}" *ngFor="let row of standardList; let i = index; trackBy: i;"
+                                [class.selected]="i == selectedRow">
                                 <td>
                                     {{row.standard_id}}
                                 </td>
@@ -118,14 +124,24 @@
                                 </td>
                                 <td class="edit-comp">
                                     <a style="cursor: pointer;margin-right: 10px;" (click)="updateRow(row,i)">
-                                        <i class="far fa fa-save" style="font-family: FontAwesome ;font-size: 14px;" title="Update"></i>
+                                        <i class="far fa fa-save" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i>
                                     </a>
                                     <a style="cursor: pointer;" (click)="cancelRow(i)">
-                                        <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 14px;" title="Cancel"></i>
+                                        <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
                                     </a>
                                 </td>
                             </tr>
-                            <tr *ngIf="( standardList.length == 0)">
+                        </tbody>
+                        <tbody *ngIf="standardList.length == 0 && dataStatus === 1">
+                            <tr *ngFor="let dummy of dummyArr">
+                                <td *ngFor="let c of columnMaps">
+                                    <div class="skeleton">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="standardList.length == 0 && dataStatus === 2">
+                            <tr>
                                 <td colspan="5" style="text-align:center">
                                     No Data Found
                                 </td>
