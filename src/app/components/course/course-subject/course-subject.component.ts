@@ -25,6 +25,8 @@ export class CourseSubjectComponent implements OnInit {
     standard_id: "",
     subject_name: ''
   }
+  searchedData: any = [];
+  searchDataFlag: boolean = false;
 
   constructor(
     private apiService: SubjectApiService,
@@ -163,9 +165,12 @@ export class CourseSubjectComponent implements OnInit {
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
       );
-      this.subjectList = searchData;
+      this.searchedData = searchData;
+      this.searchDataFlag = true;
       this.totalRow = searchData.length;
+      this.fetchTableDataByPage(this.PageIndex);
     } else {
+      this.searchDataFlag = false;
       this.fetchTableDataByPage(this.PageIndex);
       this.totalRow = this.subjectListDataSource.length;
     }
@@ -207,8 +212,41 @@ export class CourseSubjectComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
-    let t = this.subjectListDataSource.slice(startindex, startindex + this.displayBatchSize);
-    return t;
+    let data = [];
+    if (this.searchDataFlag) {
+      data = this.searchedData.slice(startindex, startindex + this.displayBatchSize);
+    } else {
+      data = this.subjectListDataSource.slice(startindex, startindex + this.displayBatchSize);
+    }
+    return data;
+  }
+
+  sortTable(str) {
+    if (str == "standard_name" || str == "subject_name" || str == "is_active") {
+      this.subjectList.sort(function (a, b) {
+        var nameA = a[str].toUpperCase(); // ignore upper and lowercase
+        var nameB = b[str].toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        // names must be equal
+        return 0;
+
+      })
+    }
+    else if (str == "subject_id") {
+      this.subjectList.sort(function (a, b) {
+        return a[str] - b[str];
+      })
+    }
+    else if (str == "created_date") {
+      this.subjectList.sort(function (a, b) {
+        return moment(a[str]).unix() - moment(b[str]).unix();
+      })
+    }
   }
 
   sortTable(str) {

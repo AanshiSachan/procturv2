@@ -45,7 +45,8 @@ export class ManageBatchComponent implements OnInit {
   PageIndex: number = 1;
   displayBatchSize: number = 10;
   totalRow: number;
-
+  searchedData: any = [];
+  searchDataFlag: boolean = false;
 
   constructor(
     private apiService: ManageBatchService,
@@ -102,9 +103,12 @@ export class ManageBatchComponent implements OnInit {
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(element.value.toLowerCase()))
       );
-      this.tableData = searchData;
+      this.searchedData = searchData;
+      this.searchDataFlag = true;
       this.totalRow = searchData.length;
+      this.fetchTableDataByPage(this.PageIndex);
     } else {
+      this.searchDataFlag = false;
       this.fetchTableDataByPage(this.PageIndex);
       this.totalRow = this.batchesListDataSource.length;
     }
@@ -473,8 +477,13 @@ export class ManageBatchComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
-    let t = this.batchesListDataSource.slice(startindex, startindex + this.displayBatchSize);
-    return t;
+    let data: any = [];
+    if (this.searchDataFlag == true) {
+      data = this.searchedData.slice(startindex, startindex + this.displayBatchSize);
+    } else {
+      data = this.batchesListDataSource.slice(startindex, startindex + this.displayBatchSize);
+    }
+    return data;
   }
 
   /* Customiized click detection strategy */

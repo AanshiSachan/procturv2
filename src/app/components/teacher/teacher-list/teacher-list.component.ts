@@ -14,6 +14,8 @@ export class TeacherListComponent implements OnInit {
   PageIndex: number = 1;
   studentdisplaysize: number = 10;
   totalRow: number;
+  searchData: any = [];
+  searchDataFlag: boolean = false;
 
   constructor(
     private ApiService: TeacherAPIService,
@@ -54,9 +56,12 @@ export class TeacherListComponent implements OnInit {
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(searchVal.value.toLowerCase()))
       );
-      this.teacherList = searchData;
+      this.searchData = searchData;
       this.totalRow = searchData.length;
+      this.searchDataFlag = true;
+      this.fetchTableDataByPage(this.PageIndex);
     } else {
+      this.searchDataFlag = false;
       this.fetchTableDataByPage(this.PageIndex);
       this.totalRow = this.teacherListDataSource.length;
     }
@@ -84,8 +89,13 @@ export class TeacherListComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
-    let t = this.teacherListDataSource.slice(startindex, startindex + this.studentdisplaysize);
-    return t;
+    let data = [];
+    if (this.searchDataFlag) {
+      data = this.searchData.slice(startindex, startindex + this.studentdisplaysize);
+    } else {
+      data = this.teacherListDataSource.slice(startindex, startindex + this.studentdisplaysize);
+    }
+    return data;
   }
 
 
