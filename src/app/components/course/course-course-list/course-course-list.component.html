@@ -38,8 +38,8 @@
               </th>
             </tr>
           </thead>
-          <tbody>
-            <tr id="row{{i}}" *ngFor="let row of courseList; let i= index ; trackBy : index">
+          <tbody *ngIf="courseList.length != 0">
+            <tr id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" *ngFor="let row of courseList; let i= index ; trackBy : index">
               <td>
                 {{row.master_course}}
               </td>
@@ -55,8 +55,18 @@
                 </a>
               </td>
             </tr>
-            <tr *ngIf="(courseList.length ==0)">
-              <td style="text-align:center">
+          </tbody>
+          <tbody *ngIf="courseList.length == 0 && dataStatus === 1">
+            <tr *ngFor="let dummy of dummyArr">
+              <td *ngFor="let c of columnMaps">
+                <div class="skeleton">
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="(courseList.length ==0 && dataStatus === 2)">
+            <tr>
+              <td colspan="4" style="text-align:center">
                 No Data Found
               </td>
             </tr>

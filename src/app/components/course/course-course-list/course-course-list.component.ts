@@ -17,6 +17,10 @@ export class CourseCourseListComponent implements OnInit {
   PageIndex: number = 1;
   displayBatchSize: number = 10;
   totalRow: number;
+  dataStatus: number = 1;
+  dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
+  columnMaps: any[] = [0, 1, 2, 3];
+  selectedRow: number;
 
   constructor(
     private apiService: CourseListService,
@@ -85,6 +89,10 @@ export class CourseCourseListComponent implements OnInit {
 
       })
     }
+  }
+
+  rowSelectEvent(i) {
+    this.selectedRow = i;
   }
 
 }
