@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
@@ -41,6 +41,7 @@ export class EnquiryEditComponent implements OnInit {
   lastDetail: any = [];
   confimationPop: boolean = false;
   updatePop: boolean = false;
+  institute_enquiry_id:any = '';
   editEnqData: addEnquiryForm = {
     name: "",
     phone: "",
@@ -131,7 +132,7 @@ export class EnquiryEditComponent implements OnInit {
 
 
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  minArr: any[] = ['', '00', '15', '30', '45']; 
+  minArr: any[] = ['', '00', '15', '30', '45'];
   meridianArr: any[] = ['', "AM", "PM"];
   hour: string = ''; minute: string = ''; meridian: string = '';
 
@@ -142,7 +143,7 @@ export class EnquiryEditComponent implements OnInit {
 
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private pops: PopupHandlerService,
-    private poster: PostEnquiryDataService, private appC: AppComponent, private login: LoginService) {
+    private poster: PostEnquiryDataService, private appC: AppComponent, private login: LoginService, private route: ActivatedRoute) {
     if (sessionStorage.getItem('Authorization') == null) {
       let data = {
         type: "error",
@@ -153,18 +154,8 @@ export class EnquiryEditComponent implements OnInit {
       this.router.navigateByUrl('/login');
     }
     else {
-      if (localStorage.getItem('institute_enquiry_id') == null) {
-        let data = {
-          type: "error",
-          title: "Record not found",
-          body: "Please select a row to edit"
-        }
-        this.appC.popToast(data);
-        this.router.navigateByUrl('/enquiry');
-      }
-      else {
-        this.fetchCommentData();
-      }
+      this.institute_enquiry_id = this.route.snapshot.paramMap.get('id');
+      this.fetchCommentData(this.route.snapshot.paramMap.get('id'));
     }
   }
 
@@ -333,7 +324,7 @@ export class EnquiryEditComponent implements OnInit {
         // console.log(err);
       }
     );
- 
+
 
 
     return this.prefill.fetchCustomComponentById(localStorage.getItem('institute_enquiry_id'))
@@ -704,11 +695,8 @@ export class EnquiryEditComponent implements OnInit {
     }
   }
 
-  fetchCommentData() {
-    let id = localStorage.getItem('institute_enquiry_id');
-
+  fetchCommentData(id) {
     this.prefill.fetchCommentsForEnquiry(id).subscribe(res => {
-
       this.updateFormData.priority = res.priority;
       this.updateFormData.follow_type = res.follow_type;
       this.updateFormData.statusValue = res.statusValue;
@@ -733,7 +721,7 @@ export class EnquiryEditComponent implements OnInit {
           body: 'Your enquiry has been successfully submitted'
         }
         this.appC.popToast(alert);
-        this.fetchCommentData();
+        this.fetchCommentData(this.route.snapshot.paramMap.get('id'));
         this.commentHandlerClose();
       },
       err => {
