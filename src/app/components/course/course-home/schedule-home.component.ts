@@ -229,6 +229,35 @@ export class ScheduleHomeComponent implements OnInit {
     }
   }
 
+
+  sortTable(str) {
+    if (str == "standard_name" || str == "is_active") {
+      this.standardList.sort(function (a, b) {
+        var nameA = a[str].toUpperCase(); // ignore upper and lowercase
+        var nameB = b[str].toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        // names must be equal
+        return 0;
+
+      })
+    }
+    else if (str == "standard_id") {
+      this.standardList.sort(function (a, b) {
+        return a[str] - b[str];
+      })
+    }
+    else if (str == "created_date") {
+      this.standardList.sort(function (a, b) {
+        return moment(a[str]).unix() - moment(b[str]).unix();
+      })
+    }
+  }
+
   /* Customiized click detection strategy */
   inputClickedCheck(ev) {
     if (ev.target.classList.contains('form-ctrl')) {
