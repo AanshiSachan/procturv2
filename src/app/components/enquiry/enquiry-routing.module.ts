@@ -19,17 +19,17 @@ import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
                         component: EnquiryHomeComponent
                     },
                     {
-                        path: 'addEnquiry',
+                        path: 'add',
                         component: EnquiryAddComponent,
                         pathMatch: 'prefix'
                     },
                     {
-                        path: 'edit',
+                        path: 'edit/:id',
                         component: EnquiryEditComponent,
                         pathMatch: 'prefix'
                     },
                     {
-                        path: 'addBulkEnquiry',
+                        path: 'upload',
                         component: EnquiryBulkaddComponent,
                         pathMatch: 'prefix'
                     }

@@ -51,13 +51,12 @@ export class ActionButtonComponent implements OnInit, OnChanges {
 
   /* function to determine which pop up has to be opened on parent component */
   openPopup(eventData) {
-
     this.pops.changeMessage(eventData);
   }
 
   /* if user select edit navigate him to edit page directly from here */
   NavigateToEdit() {
-    this.router.navigate(['/enquiry/edit']);
+    this.router.navigate(['/enquiry/edit/' +this.rowData.institute_enquiry_id ]);
   }
 
   professionalStatus() {
