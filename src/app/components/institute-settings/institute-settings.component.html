@@ -63,7 +63,7 @@
             </div>
           </div>
         </div>
-        <div class="row" style="width:80%">
+        <div class="row" style="width:100%">
           <div>
             <table>
               <thead>
@@ -464,7 +464,7 @@
                   <td>
                   </td>
                   <td>
-                    <div *ngIf="isLangInst==false" class="field-checkbox-wrapper">
+                    <div class="field-checkbox-wrapper">
                       <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enquiry_notification.admin">
                       <label></label>
                     </div>
@@ -739,10 +739,8 @@
           </div>
         </div>
 
-
-
-
       </section>
+
       <section id="divExamReport">
         <div class="row">
           <h3>Exam Report Setting</h3>
@@ -777,7 +775,7 @@
               </div>
             </div>
             <div class="c-sm-4 c-md-4 c-lg-4">
-              <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.rank_no_for_marks_sms != ''}">
+              <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.rank_no_for_marks_sms >= '0'}">
                 <input type="number" min="0" max="99999" id="inputSpecifyRank" [(ngModel)]="instituteSettingDet.rank_no_for_marks_sms" class="form-ctrl"
                   name="slotNew">
                 <label for="slotNew">Total Rank(upto) to be Declared in SMS :
@@ -797,7 +795,7 @@
         <div class="row" *ngIf="(isLangInst == false)">
           <h3>Online Test Setting</h3>
           <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.test_buffer_duration != ''}">
+            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.test_buffer_duration >= '0'}">
               <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew">
               <label for="slotNew">Buffered Duration in mins (before exam test start time)
               </label>
@@ -807,7 +805,7 @@
         <div class="row">
           <h3>Absent Attendance Setting</h3>
           <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.absent_attendance_in_a_month_threshold != ''}">
+            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.absent_attendance_in_a_month_threshold >= '0'}">
               <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.absent_attendance_in_a_month_threshold" class="form-ctrl"
                 name="slotNew">
               <label for="slotNew">Absent Attendance Threshold: (In 15 Days)
@@ -816,20 +814,21 @@
           </div>
         </div>
       </section>
+
       <section id="divFeeContent">
         <div class="row">
           <h3>Fee Setting</h3>
         </div>
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.fee_receipt_invoice_pattern != ''}">
+            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.fee_receipt_invoice_pattern >= '0'}">
               <input type="number" min="0" [(ngModel)]="instituteSettingDet.fee_receipt_invoice_pattern" class="form-ctrl" name="slotNew">
               <label for="slotNew">Fee Receipt No. (Starting Number)
               </label>
             </div>
           </div>
           <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.phone_no_fee_receipt != ''}">
+            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.phone_no_fee_receipt >= '0'}">
               <input type="number" min="0" [(ngModel)]="instituteSettingDet.phone_no_fee_receipt" class="form-ctrl" name="slotNew">
               <label for="slotNew">Institute Contact No(s) For Fee Receipt
               </label>
@@ -838,14 +837,14 @@
         </div>
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_service_tax_no != ''}">
+            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_service_tax_no >= '0'}">
               <input type="number" min="0" [(ngModel)]="instituteSettingDet.inst_service_tax_no" class="form-ctrl" name="slotNew">
               <label for="slotNew">Service Tax No.
               </label>
             </div>
           </div>
           <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_pan_no != ''}">
+            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_pan_no >= '0'}">
               <input type="number" min="0" [(ngModel)]="instituteSettingDet.inst_pan_no" class="form-ctrl" name="slotNew">
               <label for="slotNew">Pan Card No.
               </label>
@@ -869,15 +868,15 @@
         </div>
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.cgst != ''}">
-              <input type="text" [(ngModel)]="instituteSettingDet.cgst" class="form-ctrl" name="slotNew">
+            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.cgst >= '0'}">
+              <input type="number" [(ngModel)]="instituteSettingDet.cgst" class="form-ctrl" name="slotNew">
               <label for="slotNew">CGST (%):
               </label>
             </div>
           </div>
           <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.sgst != ''}">
-              <input type="text" [(ngModel)]="instituteSettingDet.sgst" class="form-ctrl" name="slotNew">
+            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.sgst >= '0'}">
+              <input type="number" [(ngModel)]="instituteSettingDet.sgst" class="form-ctrl" name="slotNew">
               <label for="slotNew">SGST (%):
               </label>
             </div>
@@ -899,8 +898,8 @@
             </div>
           </div>
           <div class="c-sm-4 c-md-4 c-lg-4" *ngIf="(instituteSettingDet.pdc_reminder_setting == 1)">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.pdc_reminder_sent_on != ''}">
-              <input type="text" [(ngModel)]="instituteSettingDet.pdc_reminder_sent_on" class="form-ctrl" name="slotNew">
+            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.pdc_reminder_sent_on >= '0'}">
+              <input type="number" [(ngModel)]="instituteSettingDet.pdc_reminder_sent_on" class="form-ctrl" name="slotNew">
               <label for="slotNew">No of Days before for PDC Reminder
               </label>
             </div>
@@ -925,21 +924,21 @@
 
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.service_tax_percentage != ''}">
+            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.service_tax_percentage >= '0'}">
               <input type="number" [(ngModel)]="instituteSettingDet.service_tax_percentage" class="form-ctrl" name="slotNew">
               <label for="slotNew">Total Service Tax (%):
               </label>
             </div>
           </div>
           <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.sbc_tax != ''}">
+            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.sbc_tax >= '0'}">
               <input type="number" [(ngModel)]="instituteSettingDet.sbc_tax" class="form-ctrl" name="slotNew">
               <label for="slotNew">SBC Tax Component (%):
               </label>
             </div>
           </div>
           <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.kkc_tax != ''}">
+            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.kkc_tax >= '0'}">
               <input type="number" [(ngModel)]="instituteSettingDet.kkc_tax" class="form-ctrl" name="slotNew">
               <label for="slotNew">KKC Tax Component (%):
               </label>
@@ -992,6 +991,7 @@
         </div>
 
       </section>
+
       <section id="divReportContent">
         <div class="row">
           <h3>Home Work Setting</h3>
@@ -1071,6 +1071,7 @@
         </div>
 
       </section>
+
       <section id="divMiscContent">
         <div class="row">
           <h3>Miscellaneous Setting</h3>
@@ -1128,6 +1129,11 @@
             </div>
           </div>
         </div>
+      </section>
+
+      <section>
+        <button class="btn" (click)="saveAllSettings()">Save</button>
+        <button class="btn" (click)="cancelAllSettings()">Cancel</button>
       </section>
     </aside>
   </section>

@@ -210,16 +210,52 @@ export class InstituteSettingsComponent implements OnInit {
 
 
   getSettingFromServer() {
+    this.isRippleLoad = true;
     this.apiService.getInstituteSettingFromServer().subscribe(
       res => {
+        this.isRippleLoad = false;
         console.log(res);
         this.fillJSONData(res);
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
       }
     )
   }
+
+  saveAllSettings() {
+    let dataToSend: any = {};
+    dataToSend = this.constructJsonToSend();
+    this.isRippleLoad = true;
+    this.apiService.saveSettingsToServer(dataToSend).subscribe(
+      res => {
+        this.isRippleLoad = false;
+        console.log(res);
+        this.messageToast('success', 'Saved', "All your setting saved successfully");
+      },
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  cancelAllSettings() {
+    this.getSettingFromServer();
+  }
+
+  constructJsonToSend() {
+    this.instituteSettingDet.sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.sms_notification);
+    this.instituteSettingDet.email_notification = this.convertBoolenToNumber(this.instituteSettingDet.email_notification);
+    this.instituteSettingDet.sms_status_report = this.convertBoolenToNumber(this.instituteSettingDet.sms_status_report);
+    this.instituteSettingDet.student_reg_notification = this.getSumOfTableField(this.instituteSettingDet.student_reg_notification);
+    this.instituteSettingDet.sms_teacher_registration = this.getSumOfTableField(this.instituteSettingDet.sms_teacher_registration);
+
+  }
+
 
   fillJSONData(data) {
     this.instituteSettingDet.sms_notification = data.sms_notification;
@@ -290,6 +326,29 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.enable_online_payment_sms_notification = data.enable_online_payment_sms_notification;
     this.instituteSettingDet.online_payment_notify_emailIds = data.online_payment_notify_emailIds;
     this.instituteSettingDet.online_payment_notify_mobiles = data.online_payment_notify_mobiles;
+  }
+
+  convertBoolenToNumber(data) {
+    if (data) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  getSumOfTableField(data) {
+    let total: number = 0;
+    if (data.hasOwnProperty('student')) {
+      total = total + 2;
+    } else if (data.hasOwnProperty('parent')) {
+      total = total + 4;
+    } else if (data.hasOwnProperty('gaurdian')) {
+      total = total + 32;
+    } else if (data.hasOwnProperty('teacher')) {
+      total = total + 8;
+    } else if (data.hasOwnProperty('admin')) {
+      total = total + 16;
+    }
   }
 
   enableRankSpecifier() {
@@ -393,6 +452,15 @@ export class InstituteSettingsComponent implements OnInit {
     document.getElementById('linine').classList.remove('active');
     document.getElementById('liten').classList.remove('active');
     document.getElementById('lieleven').classList.remove('active');
+  }
+
+  messageToast(errorType, errorTitle, errorMeassage) {
+    let data = {
+      type: errorType,
+      title: errorTitle,
+      body: errorMeassage
+    }
+    this.appC.popToast(data);
   }
 
   /* Customiized click detection strategy */
