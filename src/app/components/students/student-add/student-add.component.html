@@ -68,7 +68,7 @@
             <div class="row">
               <div class="c-lg-8 c-md-8 c-sm-8">
                 <div class="form-type1">
-                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_name != ''}" >
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_name != ''}">
                     <input type="text" value="" class="form-ctrl" id="sName" [(ngModel)]="studentAddFormData.student_name" name="sName" maxlength="50"
                       pattern="[a-zA-Z .]+[a-zA-Z .]+" #sname="ngModel" required>
                     <label for="sName">Student Name*</label>
@@ -157,8 +157,10 @@
                 </div>
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <image-upload [removeImg]="removeImage">
-                </image-upload>
+                <proctur-image 
+                [removeImg]="removeImage" 
+                (setImage)="setImage($event)">
+                </proctur-image>
               </div>
             </div>
             <!-- Form 2 -->
@@ -248,14 +250,14 @@
                 <strong>Administration Details</strong> (Official Use)</h4>
               <div class="box-shadow-lite">
 
-                <div class="field-wrapper datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}" >
+                <div class="field-wrapper datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}">
                   <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" [(ngModel)]="studentAddFormData.doj"
                   />
                   <label for="doj">Date of Joining</label>
                   <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span>
                 </div>
 
-                <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.school_name != ''}" >
+                <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.school_name != ''}">
                   <select id="schoolStitution" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name" class="form-ctrl">
                     <option></option>
                     <option [value]="institute.school_id" *ngFor="let institute of instituteList">
@@ -269,8 +271,9 @@
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
-                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}" >
-                  <select id="standard" (ngModelChange)="updateMasterCourseList($event)" [(ngModel)]="studentAddFormData.student_class" name="standard" class="form-ctrl">
+                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}">
+                  <select id="standard" (ngModelChange)="updateMasterCourseList($event)" [(ngModel)]="studentAddFormData.student_class" name="standard"
+                    class="form-ctrl">
                     <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                       {{standard.standard_name}}
@@ -280,8 +283,7 @@
                 </div>
 
 
-                <div id="assignCoursesParent" class="field-wrapper" 
-                  *ngIf="isAcad" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}" >
+                <div id="assignCoursesParent" class="field-wrapper" *ngIf="isAcad" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}">
                   <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" disabled/>
                   <label (click)="openAssignBatch()" for="assignCourses">Assign Courses</label>
                 </div>
@@ -290,7 +292,7 @@
                 <!-- ================================================================= -->
                 <!-- Professional Model For student Update -->
 
-                <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.standard_id != ''}" >
+                <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.standard_id != ''}">
                   <select id="masterCourse" name="masterCourse" [(ngModel)]="studentAddFormData.standard_id" (ngModelChange)="fetchCourseFromMaster($event)"
                     class="form-ctrl">
                     <option></option>
@@ -301,7 +303,7 @@
                   <label for="masterCourse">Master Course</label>
                 </div>
 
-                <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.subject_id != ''}" >
+                <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.subject_id != ''}">
                   <select id="course" [(ngModel)]="studentAddFormData.subject_id" name="course" class="form-ctrl">
                     <option></option>
                     <option *ngFor="let list of courseList" [value]="list.subject_id">
@@ -418,8 +420,9 @@
               <custom-student *ngFor="let component of customComponents">
 
                 <div class="row" *ngIf="component.type == 1" input-def>
-                  <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}" >
-                    <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}" />
+                  <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                    <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
+                    />
                     <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
                   </div>
@@ -428,14 +431,15 @@
                 <div class="row" *ngIf="component.type == 2" input-def>
                   <br>
                   <div class="field-checkbox-wrapper">
-                    <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}" value="{{component.value}}">
+                    <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}"
+                      value="{{component.value}}">
                     <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
                   </div>
                 </div>
 
                 <div class="row" *ngIf="component.type == 3" input-def>
-                  <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}" >
+                  <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
                     <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="{{component.label}}">
                       <option value=""></option>
                       <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
@@ -446,7 +450,7 @@
                 </div>
 
                 <div class="row" *ngIf="component.type == 4" input-def>
-                  <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.value != ''}" >
+                  <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.value != ''}">
                     <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
                       disabled/>
                     <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
@@ -760,7 +764,8 @@
                       <td>
                         <div class="field-wrapper">
 
-                          <input type="number" class="form-ctrl" placeholder="Add unit" min="0" max="{{item.available_units}}" [(ngModel)]="item.units_added" (blur)="inventoryItemUpdated(item.units_added, i, item.available_units)" name="amt">
+                          <input type="number" class="form-ctrl" placeholder="Add unit" min="0" max="{{item.available_units}}" [(ngModel)]="item.units_added"
+                            (blur)="inventoryItemUpdated(item.units_added, i, item.available_units)" name="amt">
 
                         </div>
                       </td>
@@ -787,7 +792,7 @@
     </section>
     <!-- ======================================================== -->
     <!-- ======================================================== -->
-    
+
   </section>
 
   <!-- =============== Popup Declarations ===================== -->
@@ -952,7 +957,8 @@
               <td *ngIf="isProfessional">{{batch.data.end_date}}</td>
               <td>
                 <div class="field-wrapper datePickerBox has-value">
-                  <input type="text" value="" readonly="true" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker" bsDatepicker>
+                  <input type="text" value="" readonly="true" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker"
+                    bsDatepicker>
                 </div>
             </tr>
           </tbody>
@@ -1219,11 +1225,12 @@
                   <tbody>
                     <tr *ngFor="let fee of instalmentTableData| orderBy: key : reverse; let i = index;">
                       <td>
-                         # {{fee.installment_no}}
+                        # {{fee.installment_no}}
                       </td>
                       <td>
                         <div class="field-wrapper datePickerBox">
-                          <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)" [(ngModel)]="fee.due_date" bsDatepicker>
+                          <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)" [(ngModel)]="fee.due_date"
+                            bsDatepicker>
                         </div>
                       </td>
                       <td>

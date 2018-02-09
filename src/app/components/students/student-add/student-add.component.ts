@@ -231,7 +231,7 @@ export class StudentAddComponent implements OnInit {
     student_id: 0,
     institution_id: sessionStorage.getItem('institute_id')
   }
-
+  studentImage:string = '';
   isPaymentDetailsValid: boolean = false;
   feeTemplateById: StudentFeeStructure = {
     feeTypeMap: "",
@@ -611,7 +611,7 @@ export class StudentAddComponent implements OnInit {
       /* Get slot data and store on form */
       this.studentAddFormData.slot_id = this.selectedSlotsID;
       this.studentAddFormData.stuCustomLi = customArr;
-      this.studentAddFormData.photo = localStorage.getItem('tempImg');
+      this.studentAddFormData.photo = this.studentImage;
       this.additionalBasicDetails = false;
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
@@ -624,7 +624,7 @@ export class StudentAddComponent implements OnInit {
               body: ''
             }
             this.appC.popToast(alert);
-            localStorage.removeItem('tempImg');
+            
             form.reset();
             this.removeImage = true;
             this.clearFormAndMove();
@@ -868,7 +868,7 @@ export class StudentAddComponent implements OnInit {
             body: ''
           }
           this.appC.popToast(alert);
-          localStorage.removeItem('tempImg');
+          
           form.reset();
           this.clearFormAndMove();
         }
@@ -1877,13 +1877,13 @@ export class StudentAddComponent implements OnInit {
       /* Get slot data and store on form */
       this.studentAddFormData.slot_id = this.selectedSlotsID;
       this.studentAddFormData.stuCustomLi = customArr;
-      this.studentAddFormData.photo = localStorage.getItem('tempImg');
+      this.studentAddFormData.photo = this.studentImage;
       this.additionalBasicDetails = false;
       this.busyPrefill = this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
           let statusCode = res.statusCode;
           if (statusCode == 200) {
-            localStorage.removeItem('tempImg');
+            
             this.removeImage = true;
             this.student_id = res.generated_id;
 
@@ -2358,7 +2358,10 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-
+  setImage(e){
+    console.log(e);
+    this.studentImage = e;
+  }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
 
