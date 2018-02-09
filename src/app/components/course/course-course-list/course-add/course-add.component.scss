@@ -85,12 +85,27 @@ table {
 .asideWrapper {
     width: 50%;
     background: #efefef;
+    max-height: 200px;
+    overflow: hidden;
+     ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
 }
 
 .asideTableWrapper {
-    max-height: 130px;
-    overflow: scroll;
-    margin-top: 10px;
+    border-bottom: 1px solid #d8d8d8;
+    border-left: 1px solid #d8d8d8;
+    max-height: 135px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    margin-top: 10px; // .tableDiv {}
+     ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
 }
 
 .nestedTable {
@@ -104,4 +119,28 @@ table {
 
 .nestedTableShow {
     display: '';
+}
+
+.asideWrapperNested {
+    max-height: 120px;
+    overflow-x: hidden;
+     ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+}
+
+.asideMainWrapper {
+     ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+}
+
+.nestedTableAsideWrapper {
+    border-bottom: 1px solid #d8d8d8;
+    border-left: 1px solid #d8d8d8;
+    margin-top: 10px;
 }

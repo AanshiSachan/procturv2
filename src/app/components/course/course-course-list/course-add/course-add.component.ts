@@ -14,7 +14,7 @@ export class CourseAddComponent implements OnInit {
 
   newCourseAdd: any = {
     master_course_name: '',
-    standard_id: '',
+    standard_id: '-1',
   }
   courseDetails: any = {
     course_name: '',
@@ -53,6 +53,7 @@ export class CourseAddComponent implements OnInit {
 
   ngOnInit() {
     this.getAllStandardNameList();
+    this.toggleCreateNewSlot();
   }
 
   btnGoClickCreateCourse() {
@@ -326,10 +327,13 @@ export class CourseAddComponent implements OnInit {
   removeRowFromTable(row, i) {
     this.mainArrayForTable.splice(i, 1);
   }
-  
+
   editRowFromTable(row, index) {
     document.getElementById(("show" + index).toString()).classList.add('nestedTableShow');
     document.getElementById(("show" + index).toString()).classList.remove('nestedTableHide');
+    document.getElementById(("viewComp" + index).toString()).style.display = 'none';
+    document.getElementById(("editComp" + index).toString()).style.display = '';
+
     this.fillNestedTableData(index);
   }
 
@@ -371,7 +375,9 @@ export class CourseAddComponent implements OnInit {
         obj.subjectListArray = this.nestedTableDataSource;
         this.mainArrayForTable[index] = obj;
         document.getElementById("show" + index).style.display = 'none';
-        console.log('updateArrayMainArrayTable', this.mainArrayForTable)
+        console.log('updateArrayMainArrayTable', this.mainArrayForTable);
+        document.getElementById(("viewComp" + index).toString()).style.display = '';
+        document.getElementById(("editComp" + index).toString()).style.display = 'none';
       }
     } else {
       let warning = {

@@ -32,10 +32,10 @@ export class ManageBatchComponent implements OnInit {
     class_room_id: ''
   };
   addNewBatch: any = {
-    standard_id: '',
+    standard_id: '-1',
     subject_id: '',
-    class_room_id: '',
-    teacher_id: '',
+    class_room_id: '-1',
+    teacher_id: '-1',
     batch_name: '',
     batch_code: '',
     start_date: '',
@@ -47,6 +47,10 @@ export class ManageBatchComponent implements OnInit {
   totalRow: number;
   searchedData: any = [];
   searchDataFlag: boolean = false;
+  dataStatus: number = 1;
+  dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5];
+  selectedRow: number;
 
   constructor(
     private apiService: ManageBatchService,
@@ -69,6 +73,7 @@ export class ManageBatchComponent implements OnInit {
         this.totalRow = res.length;
         this.fetchTableDataByPage(this.PageIndex);
         this.isRippleLoad = false;
+        this.dataStatus = 2;
       },
       error => {
         this.isRippleLoad = false;
@@ -484,6 +489,10 @@ export class ManageBatchComponent implements OnInit {
       data = this.batchesListDataSource.slice(startindex, startindex + this.displayBatchSize);
     }
     return data;
+  }
+
+  rowSelectEvent(i){
+    this.selectedRow = i;
   }
 
   /* Customiized click detection strategy */

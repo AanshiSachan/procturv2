@@ -5,30 +5,38 @@
     <a (click)="toggleCreateNewSubject()">
       <i id="showAddBtnSubject" class="addBtnClass">+</i>
       <i id="showCloseBtnSubject" style="display:none" class="closeBtnClass">-</i>
-      <span>Create Subject</span>
+      <span *ngIf="(isLangInstitue != true )">Create Subject</span>
+      <span *ngIf="(isLangInstitue == true )">Create Course</span>
     </a>
   </div>
   <section class="clearFix create-standard-form" *ngIf="createNewSubject">
     <div class="c-lg-10 c-sm-10 c-md-10">
       <div class="row create-standard-field">
 
-        <div class="field-wrapper c-lg-4 c-sm-4 c-md-4">
-          <select id="" class="form-ctrl" [(ngModel)]="newSubjectDetails.standard_id" (focus)="inputClickedCheck($event)">
+        <div class="field-wrapper c-lg-4 c-sm-4 c-md-4" [ngClass]="{'has-value' : newSubjectDetails.standard_id != '-1'}">
+          <select id="" class="form-ctrl" [(ngModel)]="newSubjectDetails.standard_id">
             <option value="-1"> </option>
             <option *ngFor="let opt of standardList" [value]="opt.standard_id">
               {{opt.standard_name}}
             </option>
           </select>
-          <label for="masterCourse">Subject Name
+          <label *ngIf="(isLangInstitue != true )" for="masterCourse">Subject Name
+            <span style="color:red">*</span>
+          </label>
+          <label *ngIf="(isLangInstitue == true )" for="masterCourse">Course Name
             <span style="color:red">*</span>
           </label>
           <p>* Example English, Science</p>
         </div>
 
-        <div class="field-wrapper c-lg-4 c-sm-4 c-md-4">
-          <input type="text" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_name" name="label" (focus)="inputClickedCheck($event)">
-          <label>
+        <div class="field-wrapper c-lg-4 c-sm-4 c-md-4" [ngClass]="{'has-value' : newSubjectDetails.subject_name != ''}">
+          <input type="text" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_name" name="label">
+          <label *ngIf="(isLangInstitue != true )">
             Subject Name
+            <span style="color:red">*</span> (Eg. Maths or Science or Accounts)
+          </label>
+          <label *ngIf="(isLangInstitue == true )">
+            Course Name
             <span style="color:red">*</span> (Eg. Maths or Science or Accounts)
           </label>
         </div>
@@ -50,7 +58,8 @@
 
   <div class="row" style="margin-bottom: 10px">
     <div class="c-lg-6 c-md-6 c-sm-6" style="margin-top:10px">
-      <h3>Subject list</h3>
+      <h3 *ngIf="(isLangInstitue != true )">Subject list</h3>
+      <h3 *ngIf="(isLangInstitue == true )">Course list</h3>
     </div>
     <div class="c-lg-3 c-md-3 c-sm-3">
 
@@ -76,7 +85,8 @@
               <label style="cursor:pointer;" (click)="sortTable('standard_name')">Standard</label>
             </th>
             <th>
-              <label style="cursor:pointer;" (click)="sortTable('subject_name')">Subject</label>
+              <label *ngIf="(isLangInstitue != true )" style="cursor:pointer;" (click)="sortTable('subject_name')">Subject</label>
+              <label *ngIf="(isLangInstitue == true )" style="cursor:pointer;" (click)="sortTable('subject_name')">Course</label>
             </th>
             <th>
               <label style="cursor:pointer;" (click)="sortTable('is_active')">Is Active</label>
@@ -89,8 +99,8 @@
             </th>
           </tr>
         </thead>
-        <tbody>
-          <tr class="displayComp" id="row{{i}}" class="displayComp" *ngFor="let row of subjectList; let i = index; trackBy: i;">
+        <tbody *ngIf="(subjectList.length != 0)">
+          <tr (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" class="displayComp" id="row{{i}}" *ngFor="let row of subjectList; let i = index; trackBy: i;">
             <td>
               {{row.subject_id}}
             </td>
@@ -131,14 +141,24 @@
             </td>
             <td class="edit-comp">
               <a style="cursor: pointer; margin-right: 10px;" (click)="updateRow(row,i)">
-                <i class="far fa fa-save" style="font-family: FontAwesome ;font-size: 14px;" title="Update"></i>
+                <i class="far fa fa-save" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i>
               </a>
               <a style="cursor: pointer;" (click)="cancelRow(i)">
-                <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 14px;" title="Cancel"></i>
+                <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
               </a>
             </td>
           </tr>
-          <tr *ngIf="(subjectList.length == 0)">
+        </tbody>
+        <tbody *ngIf="subjectList.length == 0 && dataStatus === 1">
+          <tr *ngFor="let dummy of dummyArr">
+            <td *ngFor="let c of columnMaps">
+              <div class="skeleton">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="(subjectList.length == 0 && dataStatus === 2)">
+          <tr>
             <td colspan="6">
               No Data Found
             </td>

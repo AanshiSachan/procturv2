@@ -86,6 +86,7 @@ export class InstituteSettingsComponent implements OnInit {
     },
     enquiry_notification: {
       student: '',
+      admin: '',
     },
     fee_payment_notification: {
       student: '',

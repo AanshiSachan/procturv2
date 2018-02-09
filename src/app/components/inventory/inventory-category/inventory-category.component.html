@@ -87,6 +87,11 @@
                   </ul>
                 </td>
               </tr>
+              <tr *ngIf="categoryList.length == 0">
+                <td colspan="3" style="text-align: center">
+                  No Data Found
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

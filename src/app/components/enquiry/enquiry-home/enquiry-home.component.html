@@ -11,7 +11,7 @@
 
       <aside class="headEnq pull-right">
         <p-splitButton label="{{selectedRowCount}} Enquiry Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton>
-        <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 8px;" class="btn" routerLink='/enquiry/add'>
+        <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 8px;" class="btn" routerLink='add'>
           <div class="option-wrap">
             <img src="./assets/images/plus.png" alt="addEnquiry">
             <span class="tooltip">
@@ -34,7 +34,7 @@
               <label>Export</label>
             </li>
             <li class="upload-icon">
-              <label id="upload" routerLink='/enquiry/addBulkEnquiry'>
+              <label id="upload" routerLink='upload'>
                 Upload Enquiry
               </label>
             </li>

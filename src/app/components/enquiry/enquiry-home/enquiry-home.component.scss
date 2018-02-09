@@ -569,7 +569,7 @@ screen and (max-height: 768px) {
             }
             &:after {
                 content: '';
-                background: url('/./assets/images/calendar.svg') no-repeat;
+                background: url('../../../../assets/images/calendar.svg') no-repeat;
                 position: absolute;
                 left: 75% !important;
                 top: 5px !important;
@@ -881,11 +881,11 @@ screen and (max-height: 768px) {
 .export-print {
     margin-bottom: 10px;
     .print-icon {
-        background: url('/./assets/images/print.svg') no-repeat;
+        background: url('../../../../assets/images/print.svg') no-repeat;
         color: #888;
     }
     .export-icon {
-        background: url('/./assets/images/expand.svg') no-repeat;
+        background: url('../../../../assets/images/expand.svg') no-repeat;
         margin-left: 25px;
     }
     .print-icon,

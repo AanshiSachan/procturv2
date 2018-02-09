@@ -25,7 +25,7 @@ import { AddCategoryInInventory } from '../../../model/add-item-inventory';
 })
 export class HomeComponent implements OnInit {
 
-  itemTableDatasource: any;
+  itemTableDatasource: any = [];
   itemList: any = [];
   categoryList: any = [];
   selectedRow = "";
