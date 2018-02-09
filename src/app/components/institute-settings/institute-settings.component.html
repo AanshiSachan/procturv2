@@ -696,10 +696,6 @@
                   <td>
                   </td>
                   <td>
-                    <div *ngIf="(isLangInst == true)" class="field-checkbox-wrapper">
-                      <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.home_work_assignment_notification.admin">
-                      <label for="checkbx"></label>
-                    </div>
                   </td>
                 </tr>
                 <tr>
@@ -866,7 +862,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="(instituteSettingDet.gst_enabled== '1' || instituteSettingDet.gst_enabled == true)">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.cgst >= '0'}">
               <input type="number" [(ngModel)]="instituteSettingDet.cgst" class="form-ctrl" name="slotNew">

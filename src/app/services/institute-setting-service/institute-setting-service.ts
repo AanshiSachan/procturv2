@@ -39,6 +39,7 @@ export class InstituteSettingService {
     }
 
     saveSettingsToServer(data) {
+        data.institute_id = this.institute_id;
         let url = this.baseURL + "/api/v1/institute/settings/";
         return this.http.put(url, data, { headers: this.headers }).map(
             this.successCallback,

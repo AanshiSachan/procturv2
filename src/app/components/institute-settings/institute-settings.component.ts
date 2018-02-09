@@ -228,6 +228,7 @@ export class InstituteSettingsComponent implements OnInit {
   saveAllSettings() {
     let dataToSend: any = {};
     dataToSend = this.constructJsonToSend();
+    console.log(dataToSend);
     this.isRippleLoad = true;
     this.apiService.saveSettingsToServer(dataToSend).subscribe(
       res => {
@@ -248,12 +249,59 @@ export class InstituteSettingsComponent implements OnInit {
   }
 
   constructJsonToSend() {
-    this.instituteSettingDet.sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.sms_notification);
-    this.instituteSettingDet.email_notification = this.convertBoolenToNumber(this.instituteSettingDet.email_notification);
-    this.instituteSettingDet.sms_status_report = this.convertBoolenToNumber(this.instituteSettingDet.sms_status_report);
-    this.instituteSettingDet.student_reg_notification = this.getSumOfTableField(this.instituteSettingDet.student_reg_notification);
-    this.instituteSettingDet.sms_teacher_registration = this.getSumOfTableField(this.instituteSettingDet.sms_teacher_registration);
-
+    let obj: any = Object.assign({}, this.instituteSettingDet);
+    obj.sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.sms_notification);
+    obj.email_notification = this.convertBoolenToNumber(this.instituteSettingDet.email_notification);
+    obj.sms_status_report = this.convertBoolenToNumber(this.instituteSettingDet.sms_status_report);
+    obj.student_reg_notification = this.getSumOfTableField(this.instituteSettingDet.student_reg_notification);
+    obj.sms_teacher_registration = this.getSumOfTableField(this.instituteSettingDet.sms_teacher_registration);
+    obj.exam_schedule_notification = this.getSumOfTableField(this.instituteSettingDet.exam_schedule_notification);
+    obj.extra_class_schedule_notification = this.getSumOfTableField(this.instituteSettingDet.extra_class_schedule_notification);
+    obj.student_exam_marks_notification = this.getSumOfTableField(this.instituteSettingDet.student_exam_marks_notification);
+    obj.exam_schedule_notification = this.getSumOfTableField(this.instituteSettingDet.exam_schedule_notification);
+    obj.extra_class_schedule_notification = this.getSumOfTableField(this.instituteSettingDet.extra_class_schedule_notification);
+    obj.student_exam_marks_notification = this.getSumOfTableField(this.instituteSettingDet.student_exam_marks_notification);
+    obj.cancel_class_schedule_notification = this.getSumOfTableField(this.instituteSettingDet.cancel_class_schedule_notification);
+    obj.sms_absent_notification = this.getSumOfTableField(this.instituteSettingDet.sms_absent_notification);
+    obj.birthday_sms = this.getSumOfTableField(this.instituteSettingDet.birthday_sms);
+    obj.fee_dues_daily_notification = this.getSumOfTableField(this.instituteSettingDet.fee_dues_daily_notification);
+    obj.fee_dues_interval_notification = this.getSumOfTableField(this.instituteSettingDet.fee_dues_interval_notification);
+    obj.pre_fee_dues_interval_notification = this.getSumOfTableField(this.instituteSettingDet.pre_fee_dues_interval_notification);
+    obj.student_fee_dues_notification = this.getSumOfTableField(this.instituteSettingDet.student_fee_dues_notification);
+    obj.enquiry_notification = this.getSumOfTableField(this.instituteSettingDet.enquiry_notification);
+    obj.fee_payment_notification = this.getSumOfTableField(this.instituteSettingDet.fee_payment_notification);
+    obj.alumni_birthday_sms = this.getSumOfTableField(this.instituteSettingDet.alumni_birthday_sms);
+    obj.regular_class_notification = this.getSumOfTableField(this.instituteSettingDet.regular_class_notification);
+    obj.ptm_notification = this.getSumOfTableField(this.instituteSettingDet.ptm_notification);
+    obj.home_work_status_notification = this.getSumOfTableField(this.instituteSettingDet.home_work_status_notification);
+    obj.student_file_share_notifn = this.getSumOfTableField(this.instituteSettingDet.student_file_share_notifn);
+    obj.cheque_bounce_sms_notifn = this.getSumOfTableField(this.instituteSettingDet.cheque_bounce_sms_notifn);
+    obj.home_work_assignment_notification = this.getSumOfTableField(this.instituteSettingDet.home_work_assignment_notification);
+    obj.topics_covered_notification = this.getSumOfTableField(this.instituteSettingDet.topics_covered_notification);
+    obj.exam_min_marks = this.convertBoolenToNumber(this.instituteSettingDet.exam_min_marks);
+    obj.exam_average_marks = this.convertBoolenToNumber(this.instituteSettingDet.exam_average_marks);
+    obj.exam_max_marks = this.convertBoolenToNumber(this.instituteSettingDet.exam_max_marks);
+    obj.exam_rank = this.convertBoolenToNumber(this.instituteSettingDet.exam_rank);
+    obj.rank_to_send_for_marks_sms = this.convertBoolenToNumber(this.instituteSettingDet.rank_to_send_for_marks_sms);
+    obj.is_exam_grad_feature = this.convertBoolenToNumber(this.instituteSettingDet.is_exam_grad_feature);
+    obj.absent_attendance_in_a_month_threshold = this.convertBoolenToNumber(this.instituteSettingDet.absent_attendance_in_a_month_threshold);
+    obj.gst_enabled = this.convertBoolenToNumber(this.instituteSettingDet.gst_enabled);
+    obj.pdc_reminder_setting = this.convertBoolenToNumber(this.instituteSettingDet.pdc_reminder_setting);
+    obj.pdc_reminder_setting = this.convertBoolenToNumber(this.instituteSettingDet.pdc_reminder_setting);
+    obj.student_report_card_fee_module = this.convertBoolenToNumber(this.instituteSettingDet.student_report_card_fee_module);
+    obj.tax_payable_on_reverse_charge_basis = this.convertBoolenToNumber(this.instituteSettingDet.tax_payable_on_reverse_charge_basis);
+    obj.home_work_feature_enable = this.convertBoolenToNumber(this.instituteSettingDet.home_work_feature_enable);
+    if (this.checkDropDownSelection(this.instituteSettingDet.pre_enquiry_follow_up_reminder_time) == false) {
+      return;
+    }
+    if (this.checkDropDownSelection(this.instituteSettingDet.post_enquiry_follow_up_reminder_time) == false) {
+      return;
+    }
+    obj.daily_account_summary = this.convertBoolenToNumber(this.instituteSettingDet.daily_account_summary);
+    obj.allow_simple_registration = this.convertBoolenToNumber(this.instituteSettingDet.allow_simple_registration);
+    obj.enable_online_payment_email_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_email_notification);
+    obj.enable_online_payment_sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_sms_notification);
+    return obj;
   }
 
 
@@ -328,6 +376,15 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.online_payment_notify_mobiles = data.online_payment_notify_mobiles;
   }
 
+  checkDropDownSelection(data) {
+    if (data == "-1") {
+      this.messageToast('error', 'Error', 'You have selected wrong option in DropDown')
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   convertBoolenToNumber(data) {
     if (data) {
       return 1;
@@ -337,18 +394,22 @@ export class InstituteSettingsComponent implements OnInit {
   }
 
   getSumOfTableField(data) {
+    debugger
     let total: number = 0;
-    if (data.hasOwnProperty('student')) {
-      total = total + 2;
-    } else if (data.hasOwnProperty('parent')) {
-      total = total + 4;
-    } else if (data.hasOwnProperty('gaurdian')) {
-      total = total + 32;
-    } else if (data.hasOwnProperty('teacher')) {
-      total = total + 8;
-    } else if (data.hasOwnProperty('admin')) {
-      total = total + 16;
+    for (let i = 0; i < Object.keys(data).length; i++) {
+      if (Object.keys(data)[i] == 'student' && data.student == true) {
+        total = total + 2;
+      } else if (Object.keys(data)[i] == 'parent' && data.parent == true) {
+        total = total + 4;
+      } else if (Object.keys(data)[i] == 'gaurdian' && data.gaurdian == true) {
+        total = total + 32;
+      } else if (Object.keys(data)[i] == 'teacher' && data.teacher == true) {
+        total = total + 8;
+      } else if (Object.keys(data)[i] == 'admin' && data.admin == true) {
+        total = total + 16;
+      }
     }
+    return total;
   }
 
   enableRankSpecifier() {
