@@ -10,11 +10,13 @@ import { ImageUploadComponent } from './image-uploader/image-upload.component';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 import { CheckboxTableComponent } from './custom-checkbox-table/checkbox-table-layout.component';
 import { AppLoaderComponent } from './app-loader/app-loader.component';
+import { PictureCropComponent } from './img-cropper/picture-crop.component';
+
 
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule
+        FormsModule,
     ],
     declarations: [
         TableLayoutComponent,
@@ -24,7 +26,8 @@ import { AppLoaderComponent } from './app-loader/app-loader.component';
         PaginationComponent,
         ImageUploadComponent,
         QuickFilterComponent,
-        AppLoaderComponent
+        AppLoaderComponent,
+        PictureCropComponent
     ],
     exports: [
         CommonModule,
@@ -33,7 +36,8 @@ import { AppLoaderComponent } from './app-loader/app-loader.component';
         PaginationComponent,
         ImageUploadComponent,
         QuickFilterComponent,
-        AppLoaderComponent
+        AppLoaderComponent,
+        PictureCropComponent
     ],
     providers: [CurrencyPipe]
 })

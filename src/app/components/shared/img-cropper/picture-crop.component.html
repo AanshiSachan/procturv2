@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="row">
+    <div>
+      <a style="cursor:pointer;">
+        <div #imgContainer class="circle" (click)="isMenuVisible = !isMenuVisible">
+          <img src="{{defaultImg}}" #uploadedImage id="uploadedImage" alt="">
+          <div class="overlay" #overlay>
+            <p *ngIf="!readonly">📷</p>
+            <p *ngIf="!readonly">Change Picture</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="list" #list id="list" *ngIf="isMenuVisible">
+      <table class="table">
+        <tr>
+          <input type="button" value="Take Photo" class="btn" (click)="camon()" />
+        </tr>
+        <tr>
+          <input type="button" value="Upload Photo" class="btn" (click)="openUploader()">
+          <input #uploadImage type="file" class="hide" id="uploadImage" accept="image/gif,image/jpeg,image/jpg,image/png" (change)="uploadHandler($event)">
+        </tr>
+        <tr>
+          <input type="button" (click)="removeImage()" class="btn" value="Delete Photo">
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <button type="button" #modalButton class="btn btn-info btn-lg hide" data-toggle="modal" data-target="#myModal">
+    Open Modal
+  </button>
+  <!-- Modal -->
+  <div class="modal" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Smile Please.</h4>
+          <input type="button" #cross (click)="flushModal()" value="&times;" class="close" data-dismiss="modal">
+        </div>
+        <div class="modal-body">
+          <img id="my-image" #cropper [hidden]="!isCropper">
+          <video *ngIf="isVideo" id="video" class="video" #video autoplay></video>
+          <canvas [hidden]="!isCanvas" id="canvas" class="video" width="640" height="480" #canvas></canvas>
+        </div>
+        <div class="modal-footer">
+          <input type="button" *ngIf="isSnap" value="Snap Photo" id="snap" #snap (click)="capture()" class="btn btn-block">
+          <input type="button" *ngIf="isCrop" value="Crop" #cropButton class="btn btn-block" (click)="crop()">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
