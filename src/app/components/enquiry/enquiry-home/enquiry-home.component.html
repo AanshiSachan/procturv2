@@ -59,7 +59,7 @@
                 <!-- followup date handler -->
                 <div class="field-wrapper datePickerBox">
                   <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="searchBarDate" style="cursor: pointer;" (keyup.enter)="searchDatabase()"
-                    name="followupdate" bsDatepicker/>
+                    name="followupdate" bsDatepicker readonly="true" />
                   <label for="followupdate">Follow up Date</label>
                   <span class="date-clear" name="followupdate" (click)="clearSearchDate()">clear</span>
                 </div>
@@ -192,7 +192,7 @@
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper datePickerBox">
                 <input type="text" value="" id="updateDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.updateDate" name="UD"
-                  bsDatepicker/>
+                  readonly="true" bsDatepicker/>
                 <label for="updateDate">Update Date</label>
                 <span class="date-clear" name="followupdate" (click)="clearadfilterUpdateDate()">clear</span>
               </div>
@@ -201,7 +201,7 @@
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper datePickerBox">
                 <input type="text" value="" id="enquiryFromDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.enquireDateFrom"
-                  name="EFD" bsDatepicker/>
+                  name="EFD" bsDatepicker readonly="true" />
                 <label for="enquiryFromDate">Enquiry From Date</label>
                 <span class="date-clear" name="followupdate" (click)="clearadfilterEnqFromDate()">clear</span>
               </div>
@@ -210,7 +210,7 @@
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper datePickerBox">
                 <input type="text" value="" id="enquiryToDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.enquireDateTo"
-                  name="ETD" bsDatepicker/>
+                  name="ETD" bsDatepicker readonly="true" />
                 <label for="enquiryToDate">Enquiry To Date</label>
                 <span class="date-clear" name="followupdate" (click)="clearadfilterEnqToDate()">clear</span>
               </div>
@@ -280,56 +280,6 @@
 
         </div>
       </section>
-
-
-
-      <!-- Checkboxes Filter -->
-      <!-- <section class="search-enquiry-type-filter">
-        <div class="row">
-          <div class="c-lg-12 c-sm-12 c-md-12">
-            <span class="filter-label pull-left">Enquiry Type</span>
-            <ul class="pull-left type-filter">
-              <li>
-                <div class="field-checkbox-wrapper">
-                  <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.All.value" [(ngModel)]="stats.All.checked"
-                    [disabled]="stats.All.disabled" (change)="statusFilter(stats.All)" />
-                  <label>All</label>
-                </div>
-              </li>
-              <li>
-                <div class="field-checkbox-wrapper">
-                  <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Open.value" [(ngModel)]="stats.Open.checked"
-                    [disabled]="stats.Open.disabled" (change)="statusFilter(stats.Open)" />
-                  <label>Open/In Progress</label>
-                </div>
-              </li>
-              <li *ngIf="isProfessional">
-                <div class="field-checkbox-wrapper">
-                  <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Registered.value" [(ngModel)]="stats.Registered.checked"
-                    [disabled]="stats.Registered.disabled" (change)="statusFilter(stats.Registered)" />
-                  <label>Registered</label>
-                </div>
-              </li>
-              <li>
-                <div class="field-checkbox-wrapper">
-                  <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Admitted.value" [(ngModel)]="stats.Admitted.checked"
-                    [disabled]="stats.Admitted.disabled" (change)="statusFilter(stats.Admitted)" />
-                  <label>Admitted</label>
-                </div>
-              </li>
-              <li>
-                <div class="field-checkbox-wrapper">
-                  <input type="checkbox" value="" name="check" class="form-checkbox" [id]="stats.Inactive.value" [(ngModel)]="stats.Inactive.checked"
-                    [disabled]="stats.Inactive.disabled" (change)="statusFilter(stats.Inactive)" />
-                  <label>Closed</label>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section> -->
-
-
 
       <!-- Data Table and Pagination -->
       <section class="search-data">
@@ -435,7 +385,7 @@
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value datePickerBox">
                     <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit"
-                      bsDatepicker />
+                      bsDatepicker readonly="true" />
                     <label for="followUPdateEdit">Follow Up Date</label>
                     <span class="date-clear" name="followupdate" (click)="clearupdateDate()">clear</span>
                   </div>
@@ -677,7 +627,7 @@
                     <div class="c-lg-6 c-md-6 c-sm-6">
                       <div class="field-wrapper has-value">
                         <input type="text" value="" id="pDate" class="form-ctrl bsDatepicker" [ngModel]="registrationForm.paymentDate" name="pDate"
-                          bsDatepicker/>
+                          bsDatepicker readonly="true" />
                         <label for="pDate">Payment Date</label>
                       </div>
                     </div>
