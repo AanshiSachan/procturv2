@@ -13,8 +13,8 @@ import { AppComponent } from '../../../app.component';
 export class InventoryCategoryComponent implements OnInit {
 
   newCategory: AddCategory = {};
-  categoryList;
-  dataSourceCategory;
+  categoryList: any = [];
+  dataSourceCategory: any = [];
   totalRow;
   studentdisplaysize: number = 10;
   PageIndex: number = 1;

@@ -14,7 +14,7 @@
               <div class="btnWrapper">
                 <button class="btn pull-right" (click)="addItemDetails()">
                   <div class="option-wrap">
-                    <img src="../../../../assets/images/plus.png" alt="Add Item" style="vertical-align: -webkit-baseline-middle;">
+                    <img src="assets/images/plus.png" alt="Add Item" style="vertical-align: -webkit-baseline-middle;">
                     <span class="tooltip tooltipSpan">
                       Add Item
                     </span>
@@ -316,17 +316,13 @@
                 </td>
 
               </tr>
+              <tr *ngIf="itemList.length == 0">
+                <td colspan="10" style="text-align: center">
+                  No Data Found
+                </td>
+              </tr>
             </tbody>
 
-            <!-- <tbody *ngIf="itemList.length == 0">
-                    <tr class="empty-table-wrapper" style="background: none;">
-                      <td colspan="12">
-                        <ul>
-                          <li style="font-weight: 700">{{fetchingDataMessage}}</li>
-                        </ul>
-                      </td>
-                    </tr>
-                  </tbody> -->
 
           </table>
         </div>

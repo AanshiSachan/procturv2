@@ -37,13 +37,13 @@
           <div class="c-lg-6 c-md-6 c-sm-6 align-left">
 
             <div class="field-wrapper">
-              <img class="pull-right" src="../../../../assets/images/search.svg" style="max-width: 5%;" (click)="searchDatabase(search)"
+              <img class="pull-right" src="assets/images/search.svg" style="max-width: 3.5%;position: absolute;right: 10px" (click)="searchDatabase(search)"
               />
             </div>
 
             <div class="search-filter-wrapper" style="width:100%;">
 
-              <input #search type="text" class="normal-field pull-right" placeholder="Search lead name" style="font-size:12px; margin: 0px 5px 2px -5px;"
+              <input #search type="text" class="normal-field pull-right" placeholder="Search lead name" style="width:30%;font-size:12px; margin: 0px 5px 2px -5px;"
                 [(ngModel)]="searchBarData" id="search" name="searchData" (keyup.enter)="searchDatabase(search)">
 
             </div>
