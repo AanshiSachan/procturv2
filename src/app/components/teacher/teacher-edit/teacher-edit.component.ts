@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TeacherAPIService } from '../../../services/teacherService/teacherApi.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ViewChild } from '@angular/core';
+import { AppComponent } from '../../../app.component';
 
 @Component({
   selector: 'app-teacher-edit',
@@ -21,6 +22,7 @@ export class TeacherEditComponent implements OnInit {
     private route: Router,
     private ApiService: TeacherAPIService,
     private fb: FormBuilder,
+    private toastCtrl: AppComponent
   ) {
     if (localStorage.getItem('teacherID')) {
       this.selectedTeacherId = localStorage.getItem('teacherID');
@@ -51,9 +53,9 @@ export class TeacherEditComponent implements OnInit {
 
   createEditTeacherForm() {
     this.editTeacherForm = this.fb.group({
-      teacher_name: [null, [Validators.required, Validators.maxLength(10)]],
+      teacher_name: [null, [Validators.required]],
       teacher_curr_addr: [null],
-      teacher_phone: [null, [Validators.required, Validators.minLength(10)]],
+      teacher_phone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       teacher_alt_phone: [''],
       teacher_standards: [null],
       teacher_email: [null],
@@ -102,6 +104,18 @@ export class TeacherEditComponent implements OnInit {
 
   saveTeacherInfo() {
     let formData = this.editTeacherForm.value;
+    if (!this.validateCaseSensitiveEmail(formData.teacher_email)) {
+      this.messageToast('error', 'Error', 'Please provide valid email address.');
+      return;
+    }
+    if (isNaN(formData.teacher_phone)) {
+      this.messageToast('error', 'Error', 'Please provide valid phone number.');
+      return;
+    }
+    if ((!isNaN(formData.teacher_alt_phone)) && formData.teacher_alt_phone.length == 10) {
+      this.messageToast('error', 'Error', 'Please provide valid phone number.');
+      return;
+    }
     if (formData.hour_rate == "" || formData.hour_rate == null) {
       formData.hour_rate = "0";
     }
@@ -140,10 +154,12 @@ export class TeacherEditComponent implements OnInit {
     console.log(formData);
     this.ApiService.saveEditTeacherInformation(this.selectedTeacherInfo.teacher_id, formData).subscribe(
       data => {
+        this.messageToast('success', 'Updated', 'Details Updated Successfully.');
         this.route.navigateByUrl('teacher');
       },
       err => {
         console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
       }
     )
   }
@@ -183,6 +199,25 @@ export class TeacherEditComponent implements OnInit {
           }
         });
       }
+    }
+  }
+
+  messageToast(errorType, errorTitle, errorMeassage) {
+    let data = {
+      type: errorType,
+      title: errorTitle,
+      body: errorMeassage
+    }
+    this.toastCtrl.popToast(data);
+  }
+
+  validateCaseSensitiveEmail(email) {
+    var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    if (reg.test(email)) {
+      return true;
+    }
+    else {
+      return false;
     }
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TeacherAPIService } from '../../../services/teacherService/teacherApi.service';
 import { Router } from '@angular/router';
+import { AppComponent } from '../../../app.component';
 
 @Component({
   selector: 'app-teacher-list',
@@ -9,17 +10,23 @@ import { Router } from '@angular/router';
 })
 export class TeacherListComponent implements OnInit {
 
-  teacherListDataSource: any;
-  teacherList: any;
+  teacherListDataSource: any = [];
+  teacherList: any = [];
   PageIndex: number = 1;
   studentdisplaysize: number = 10;
   totalRow: number;
   searchData: any = [];
   searchDataFlag: boolean = false;
+  isRippleLoad: boolean = false;
+  dataStatus: number = 1;
+  dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5];
+  selectedRow: number;
 
   constructor(
     private ApiService: TeacherAPIService,
-    private route: Router
+    private route: Router,
+    private toastCtrl: AppComponent
   ) { }
 
   ngOnInit() {
@@ -27,15 +34,26 @@ export class TeacherListComponent implements OnInit {
   }
 
   getDataFromServer() {
+    this.isRippleLoad = true;
     this.ApiService.getAllTeacherList().subscribe(
       (data: any) => {
+        this.dataStatus = 2;
+        this.isRippleLoad = false;
         this.totalRow = data.length;
         this.teacherListDataSource = data;
         this.fetchTableDataByPage(this.PageIndex);
         console.log(data);
       },
       error => {
+        this.dataStatus = 2;
         console.log(error);
+        this.isRippleLoad = false;
+        let data = {
+          type: "error",
+          title: "Error",
+          body: error.error.message
+        }
+        this.toastCtrl.popToast(data);
       }
     )
   }
@@ -67,6 +85,9 @@ export class TeacherListComponent implements OnInit {
     }
   }
 
+  rowSelectEvent(i) {
+    this.selectedRow = i;
+  }
 
   // pagination functions 
 

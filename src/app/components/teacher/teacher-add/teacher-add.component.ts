@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { TeacherAPIService } from '../../../services/teacherService/teacherApi.service';
 import { Router } from '@angular/router';
+import { AppComponent } from '../../../app.component';
 
 @Component({
   selector: 'app-teacher-add',
@@ -15,7 +16,8 @@ export class TeacherAddComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private teacherAPIService: TeacherAPIService,
-    private route: Router 
+    private route: Router,
+    private toastCtrl: AppComponent
   ) { }
 
   ngOnInit() {
@@ -25,9 +27,9 @@ export class TeacherAddComponent implements OnInit {
 
   createAddTeacherForm() {
     this.addTeacherForm = this.fb.group({
-      teacher_name: ['', [Validators.required, Validators.maxLength(10)]],
+      teacher_name: ['', [Validators.required]],
       teacher_curr_addr: [''],
-      teacher_phone: ['', [Validators.required, Validators.minLength(10)]],
+      teacher_phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       teacher_alt_phone: [''],
       teacher_standards: [''],
       teacher_email: [''],
@@ -40,8 +42,19 @@ export class TeacherAddComponent implements OnInit {
   }
 
   addNewTeacherInfo() {
-    debugger
     let formData = this.addTeacherForm.value;
+    if (!this.validateCaseSensitiveEmail(formData.teacher_email)) {
+      this.messageToast('error', 'Error', 'Please provide valid email address.');
+      return;
+    }
+    if (isNaN(formData.teacher_phone)) {
+      this.messageToast('error', 'Error', 'Please provide valid phone number.');
+      return;
+    }
+    if ((!isNaN(formData.teacher_alt_phone)) && formData.teacher_alt_phone.length == 10) {
+      this.messageToast('error', 'Error', 'Please provide valid phone number.');
+      return;
+    }
     if (formData.hour_rate == "" || formData.hour_rate == null) {
       formData.hour_rate = 0;
     }
@@ -70,12 +83,23 @@ export class TeacherAddComponent implements OnInit {
     formData.is_employee_to_be_create = "N";
     this.teacherAPIService.addNewTeacherDetails(formData).subscribe(
       data => {
+        this.messageToast('success', 'Updated', 'Details Updated Successfully.');
         this.route.navigateByUrl('teacher');
       },
       err => {
         console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
       }
     )
+  }
+
+  messageToast(errorType, errorTitle, errorMeassage) {
+    let data = {
+      type: errorType,
+      title: errorTitle,
+      body: errorMeassage
+    }
+    this.toastCtrl.popToast(data);
   }
 
   /* Customiized click detection strategy */
@@ -99,6 +123,16 @@ export class TeacherAddComponent implements OnInit {
           }
         });
       }
+    }
+  }
+
+  validateCaseSensitiveEmail(email) {
+    var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    if (reg.test(email)) {
+      return true;
+    }
+    else {
+      return false;
     }
   }
 
