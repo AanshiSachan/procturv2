@@ -36,12 +36,12 @@ export class PictureCropComponent implements OnInit, OnChanges {
   vanilla: any;
   stream: any;
   imgPrefill = 'data:image/png;base64';
-  isMenuVisible:boolean = false;
-  isCropper:boolean = false;
-  isVideo:boolean = false
-  isCanvas:boolean = false;
-  isSnap:boolean = false;
-  isCrop:boolean = false;
+  isMenuVisible: boolean = false;
+  isCropper: boolean = false;
+  isVideo: boolean = false
+  isCanvas: boolean = false;
+  isSnap: boolean = false;
+  isCrop: boolean = false;
 
   constructor(private renderer: Renderer2) { }
 
@@ -133,9 +133,18 @@ export class PictureCropComponent implements OnInit, OnChanges {
       const url = URL.createObjectURL(blob);
       preview.src = url;
       localStorage.setItem('croppedImg', url);
-      this.setImage.emit(url);
+      this.sendReadFile(blob);
     });
-    this.cross.nativeElement.click();
+    
+  }
+
+  sendReadFile(obj){
+    let reader = new FileReader();
+    reader.readAsDataURL(obj);
+    reader.onloadend = () => {
+      this.setImage.emit(reader.result.split(',')[1]);
+      this.cross.nativeElement.click();
+    }
   }
 
   destroy() {
@@ -160,6 +169,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
       'src',
       this.defaultImg
     );
+    this.setImage.emit('');
     localStorage.removeItem('tempImg');
     localStorage.removeItem('croppedImg');
   }
