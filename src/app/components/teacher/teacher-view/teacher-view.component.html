@@ -7,8 +7,11 @@
 
   <section class="middle-main clearFix">
     <div class="c-sm-12">
-      <div class="c-sm-3 imageUploadWrapper">
-        <image-upload [removeImg]="false"></image-upload>
+      <div class="c-sm-3">
+        <proctur-image [containerHeight]="containerHeight" [readonly]="readonly" [serverImg]="studentImage" [containerWidth]="containerWidth"
+          (setImage)="setImage($event)">
+
+        </proctur-image>
       </div>
       <div class="c-sm-9" *ngIf="selectedTeacherInformation">
         <div class="c-sm-4">

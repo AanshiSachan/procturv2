@@ -28,6 +28,10 @@ export class TeacherViewComponent implements OnInit {
   teacherTakenClassesPopUp: boolean = false;
   guestBatchList: any;
   assignedOrGuestPopUp = "";
+  studentImage: string = '';
+  containerWidth: any = "150px";
+  containerHeight: any = "150px";
+  readonly: any = true;
 
   constructor(
     private route: Router,
@@ -51,6 +55,7 @@ export class TeacherViewComponent implements OnInit {
     this.ApiService.getViewInfoOfTeacher(this.selectedTeacherId).subscribe(
       (data: any) => {
         console.log(data);
+        this.studentImage = data.photo;
         this.selectedTeacherInformation = data;
       },
       error => {
@@ -202,6 +207,10 @@ export class TeacherViewComponent implements OnInit {
         });
       }
     }
+  }
+
+  setImage(e) {
+    this.studentImage = e;
   }
 
 }

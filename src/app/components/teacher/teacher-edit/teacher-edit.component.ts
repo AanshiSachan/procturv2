@@ -108,12 +108,12 @@ export class TeacherEditComponent implements OnInit {
       this.messageToast('error', 'Error', 'Please provide valid email address.');
       return;
     }
-    if ((!isNaN(formData.teacher_phone)) || formData.teacher_phone.length != 10) {
+    if (isNaN(parseInt(formData.teacher_phone)) || formData.teacher_phone.length != 10) {
       this.messageToast('error', 'Error', 'Please provide valid phone number.');
       return;
     }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
-      if ((!isNaN(formData.teacher_alt_phone)) && formData.teacher_alt_phone.length != 10) {
+      if (isNaN(parseInt(formData.teacher_alt_phone)) || formData.teacher_alt_phone.length != 10) {
         this.messageToast('error', 'Error', 'Please provide valid phone number.');
         return;
       }
