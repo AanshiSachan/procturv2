@@ -70,8 +70,9 @@ export class PictureCropComponent implements OnInit, OnChanges {
 
   setServerImg() {
     if (this.serverImg === '' || this.serverImg === null) {
-
-    } else {
+      this.removeImage();
+    } 
+    else {
       console.log(this.serverImg);
       const temp: any[] = [];
       temp[0] = this.imgPrefill;

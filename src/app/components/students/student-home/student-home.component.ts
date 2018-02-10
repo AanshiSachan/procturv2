@@ -69,6 +69,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   loading_message: number = 1;
   private selectedSlotsID: string = '';
   selectedRowCount: number = 0;
+  isRippleLoad:boolean  = false;
   /* set true to see the sidebar */
   isSideBar: boolean = false;
   isOptions:boolean = false;
@@ -211,7 +212,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   /* OnInit function to set toggle default columns and load student data for table*/
   ngOnInit() {
-
+    this.isRippleLoad = true;
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
@@ -254,19 +255,18 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   /* Fetch data from server and convert to custom array */
   loadTableDataSource(obj) {
-
+    this.isRippleLoad = true;
     this.selectedRow = null;
     this.selectedRowGroup = [];
     this.closeSideBar();
     this.loading_message = 1;
     this.isAllSelected = false;
-
-
     //console.log("start index at launch" +obj.start_index);
     if (obj.start_index == 0) {
       //console.log("start index 0");
       return this.studentFetch.fetchAllStudentDetails(obj).subscribe(
         res => {
+          this.isRippleLoad = false;
           /* records */
           if (res.length != 0) {
             //console.log("data found");
@@ -287,6 +287,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
           }
         },
         err => {
+          this.isRippleLoad = false;
           let alert = {
             type: 'error',
             title: 'Failed To Fetch Student List',
@@ -303,6 +304,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       //console.log("start index not zero" +obj.start_index);
       return this.studentFetch.fetchAllStudentDetails(obj).subscribe(
         res => {
+          this.isRippleLoad = false;
           if (res.length != 0) {
             this.studentDataSource = res;
           }
@@ -320,6 +322,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
           }
         },
         err => {
+          this.isRippleLoad = false;
           let alert = {
             type: 'error',
             title: 'Failed To Fetch Student List',
@@ -603,8 +606,10 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.instituteData.batch_size = this.studentdisplaysize;
     this.instituteData.start_index = 0;
     this.studentDataSource = [];
+    this.isRippleLoad = true;
     this.busy = this.studentFetch.fetchAllStudentDetails(this.instituteData).subscribe(
       res => {
+        this.isRippleLoad = false;
         res.forEach(el => {
           let obj = {
             isSelected: false,
@@ -623,7 +628,9 @@ export class StudentHomeComponent implements OnInit, OnChanges {
         this.setPageSize(this.totalEnquiry);
         this.sourceEnquiry.refresh(); */
       },
-      err => { }
+      err => { 
+        this.isRippleLoad = false;
+      }
     );
   }
 
@@ -697,8 +704,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   /* Store the prefill data for student add form component */
   fetchStudentPrefill() {
-
-
+    this.isRippleLoad = false;
     let standard = this.prefill.getEnqStardards().subscribe(data => {
       this.standardList = data;
       //console.log(data);
@@ -746,7 +752,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       //console.log(this.customComponents);
       return customComp;
     }
-
   }
 
 
@@ -1149,11 +1154,13 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     document.getElementById("student-table").style.marginRight = "30%";
     document.getElementById("paginator").style.marginRight = "30%";    
     let id = ev.student_id;
+    this.isRippleLoad = true;
     this.studentFetch.getStudentById(id).subscribe(
       res => {
         this.studentDetailsById = res;
         this.studentPrefill.fetchCustomComponentById(id).subscribe(
           cus => {
+            this.isRippleLoad = false;
             this.studentCustomComponent = cus;
             this.isSideBar = true;
           }
@@ -1171,4 +1178,5 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     document.getElementById("paginator").style.width = "100%";
     document.getElementById("paginator").style.marginRight = "0";
   }
+  
 }
