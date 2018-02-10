@@ -12,6 +12,8 @@ import { AppComponent } from '../../../app.component';
 export class TeacherAddComponent implements OnInit {
 
   addTeacherForm: FormGroup;
+  studentImage: string = '';
+  containerWidth: any = "200px"
 
   constructor(
     private fb: FormBuilder,
@@ -47,12 +49,12 @@ export class TeacherAddComponent implements OnInit {
       this.messageToast('error', 'Error', 'Please provide valid email address.');
       return;
     }
-    if ((!isNaN(formData.teacher_phone)) || formData.teacher_phone.length != 10) {
+    if (isNaN(parseInt(formData.teacher_phone)) || formData.teacher_phone.length != 10) {
       this.messageToast('error', 'Error', 'Please provide valid phone number.');
       return;
     }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
-      if ((!isNaN(formData.teacher_alt_phone)) && formData.teacher_alt_phone.length != 10) {
+      if (isNaN(parseInt(formData.teacher_alt_phone)) || formData.teacher_alt_phone.length != 10) {
         this.messageToast('error', 'Error', 'Please provide valid phone number.');
         return;
       }
@@ -60,8 +62,8 @@ export class TeacherAddComponent implements OnInit {
     if (formData.hour_rate == "" || formData.hour_rate == null) {
       formData.hour_rate = 0;
     }
-    if (localStorage.getItem('tempImg') != null || localStorage.getItem('tempImg') != "") {
-      formData.photo = localStorage.getItem('tempImg');
+    if (this.studentImage != null && this.studentImage != "") {
+      formData.photo = this.studentImage;
     }
     else {
       formData.photo = null;
@@ -140,6 +142,11 @@ export class TeacherAddComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  setImage(e) {
+    console.log(e);
+    this.studentImage = e;
   }
 
 }

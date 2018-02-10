@@ -1,7 +1,7 @@
 <div class="middle-section clearFix">
   <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
     <h1 class="pull-left">
-      Slots/Custom 1
+      Slots
     </h1>
   </section>
 
@@ -11,28 +11,28 @@
       <a (click)="toggleCreateNewSlot()">
         <i id="showAddBtn" class="addBtnClass">+</i>
         <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
-        <span>Create Standard</span>
+        <span>Create Slot</span>
       </a>
     </div>
     <section class="clearFix create-standard-form" *ngIf="createNewSlot">
-      <div class="c-lg-6 c-sm-6 c-md-6">
-        <div class="row create-standard-field">
-          <div class="c-lg-8 c-md-6 c-ms-6">
-            <div class="field-wrapper">
-              <input type="text" #idSlot class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
-              <label for="slotNew">Slot
-              </label>
-            </div>
+      <div class="row create-standard-field">
+        <div class="c-lg-2 c-md-2 c-sm-2">
+        </div>
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-wrapper">
+            <input type="text" #idSlot class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+            <label for="slotNew">Slot
+            </label>
           </div>
-          <div class="c-lg-4 c-md-4 c-ms-4">
-          </div>
+          <!-- <p>* You can provide time Example 10-12 PM</p> -->
+        </div>
+        <div class="c-lg-4 c-md-4 c-sm-4" style="margin-top: 1%;">
+          <aside class="pull-left create-cancel-small">
+            <button class="btn" (click)="addNewSlot(idSlot)">Add</button>
+          </aside>
         </div>
       </div>
-      <div class="c-lg-3 c-sm-4 c-md-4 pull-right">
-        <aside class="pull-left create-cancel-small">
-          <button class="btn" (click)="addNewSlot(idSlot)">Add</button>
-        </aside>
-      </div>
+
     </section>
     <div id="divSlotTable">
       <div class="table-scroll-wrapper">
@@ -51,7 +51,7 @@
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="slotTableList.length !=0">
               <tr id="row{{i}}" class="displayComp" *ngFor="let row of slotTableList; let i = index; trackBy: i;">
                 <td>
                   {{i + 1}}
@@ -74,6 +74,11 @@
                   <a class="anchorTagCursor" (click)="cancelEditRow(i)"> Cancel </a>
                 </td>
               </tr>
+            </tbody>
+            <tbody *ngIf="slotTableList.length ==0">
+              <td colspan="3" style="text-align: center">
+                No Slots List Available
+              </td>
             </tbody>
           </table>
         </div>

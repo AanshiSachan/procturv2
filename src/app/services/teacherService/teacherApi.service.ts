@@ -79,6 +79,19 @@ export class TeacherAPIService {
         )
     }
 
+
+    downloadDocument(teacher_id) {
+        let url = this.baseUrl + '/api/v1/teachers/getIDCard/' + teacher_id;
+        return this.http.get(url, { headers: this.headers }).map(
+            data => {
+                return data;
+            },
+            error => {
+                return error;
+            }
+        )
+    }
+
     // View Section Api
 
     getViewInfoOfTeacher(teacher_id) {

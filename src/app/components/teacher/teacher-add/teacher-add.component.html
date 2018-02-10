@@ -99,7 +99,9 @@
     </div>
   </aside>
   <aside class="c-lg-6 c-md-6 c-sm-6">
-    <image-upload [removeImg]="true"></image-upload>
+    <proctur-image [serverImg]="studentImage" [containerWidth]="containerWidth" (setImage)="setImage($event)">
+
+    </proctur-image>
   </aside>
 
 </div>

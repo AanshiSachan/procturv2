@@ -14,9 +14,13 @@ export class TeacherEditComponent implements OnInit {
 
   selectedTeacherId;
   selectedTeacherInfo;
+  hasIdCard: string = 'N';
   editTeacherForm: FormGroup;
+  studentImage: string = '';
+  containerWidth: any = "200px";
   @ViewChild('idCardUpload') idCardTeacher;
-  @ViewChild('uploadedImage') uploadImg;
+  @ViewChild('uploadedImage') idCardImg;
+  @ViewChild('uploadImageAnchor') anchTag;
 
   constructor(
     private route: Router,
@@ -38,12 +42,13 @@ export class TeacherEditComponent implements OnInit {
 
   getTeacherInfo() {
     this.ApiService.getSelectedTeacherInfo(this.selectedTeacherId).subscribe(
-      data => {
+      (data: any) => {
         console.log(data);
         this.selectedTeacherInfo = data;
         let setFormData = this.getFormFieldsdata(data);
         this.editTeacherForm.setValue(setFormData);
-        console.log(this.editTeacherForm.value);
+        this.studentImage = data.photo;
+        this.hasIdCard = data.hasIDCard;
       },
       error => {
         console.log(error);
@@ -53,14 +58,14 @@ export class TeacherEditComponent implements OnInit {
 
   createEditTeacherForm() {
     this.editTeacherForm = this.fb.group({
-      teacher_name: [null, [Validators.required]],
-      teacher_curr_addr: [null],
-      teacher_phone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      teacher_name: ['', [Validators.required]],
+      teacher_curr_addr: [''],
+      teacher_phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       teacher_alt_phone: [''],
-      teacher_standards: [null],
-      teacher_email: [null],
-      teacher_subjects: [null],
-      hour_rate: [null],
+      teacher_standards: [''],
+      teacher_email: [''],
+      teacher_subjects: [''],
+      hour_rate: [''],
       is_active: [true],
       is_allow_teacher_to_only_mark_attendance: [false],
       is_student_mgmt_flag: [true]
@@ -81,6 +86,9 @@ export class TeacherEditComponent implements OnInit {
     dataToBind.teacher_email = data.teacher_email;
     dataToBind.teacher_subjects = data.teacher_subjects;
     dataToBind.hour_rate = data.hour_rate;
+    if (data.hour_rate == 0) {
+      dataToBind.hour_rate = '';
+    }
     if (data.is_active == "Y") {
       dataToBind.is_active = true;
     }
@@ -108,12 +116,12 @@ export class TeacherEditComponent implements OnInit {
       this.messageToast('error', 'Error', 'Please provide valid email address.');
       return;
     }
-    if ((!isNaN(formData.teacher_phone)) || formData.teacher_phone.length != 10) {
+    if (isNaN(parseInt(formData.teacher_phone)) || formData.teacher_phone.length != 10) {
       this.messageToast('error', 'Error', 'Please provide valid phone number.');
       return;
     }
     if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
-      if ((!isNaN(formData.teacher_alt_phone)) && formData.teacher_alt_phone.length != 10) {
+      if (isNaN(parseInt(formData.teacher_alt_phone)) || formData.teacher_alt_phone.length != 10) {
         this.messageToast('error', 'Error', 'Please provide valid phone number.');
         return;
       }
@@ -121,8 +129,8 @@ export class TeacherEditComponent implements OnInit {
     if (formData.hour_rate == "" || formData.hour_rate == null) {
       formData.hour_rate = "0";
     }
-    if (localStorage.getItem('tempImg') != null || localStorage.getItem('tempImg') != "") {
-      formData.photo = localStorage.getItem('tempImg');
+    if (this.studentImage != null || this.studentImage != "") {
+      formData.photo = this.studentImage;
     }
     else {
       formData.photo = null;
@@ -147,7 +155,7 @@ export class TeacherEditComponent implements OnInit {
 
     if (localStorage.getItem('Id-card') != null || localStorage.getItem('Id-card') != undefined) {
       formData.id_file = localStorage.getItem('Id-card');
-      formData.id_fileType = localStorage.getItem('Id-card');
+      formData.id_fileType = localStorage.getItem('imageType');
     } else {
       formData.id_file = null;
       formData.id_fileType = "";
@@ -167,17 +175,31 @@ export class TeacherEditComponent implements OnInit {
   }
 
   onChangeIdCardUpload() {
-    debugger
+    this.hasIdCard = 'Y';
     let fileBrowser = this.idCardTeacher.nativeElement;
     if (fileBrowser.files && fileBrowser.files[0]) {
       localStorage.setItem('imageType', fileBrowser.files[0].type.split('/')[1]);
       let reader = new FileReader();
       reader.readAsDataURL(fileBrowser.files[0]);
       reader.onload = () => {
-        localStorage.setItem('Id-card', reader.result.split(',')[1])
-        this.uploadImg.nativeElement.src = reader.result;
+        localStorage.setItem('Id-card', reader.result.split(',')[1]);
       }
     }
+  }
+
+  downloadIdCard() {
+    this.ApiService.downloadDocument(this.selectedTeacherId).subscribe(
+      (res: any) => {
+        // this.idCardImg.nativeElement.src = 'data:image/png;base64,' + res.document;
+        this.anchTag.nativeElement.href = 'data:image/png;base64,' + res.document;
+        this.anchTag.nativeElement.download = res.docTitle;
+        this.anchTag.nativeElement.click();
+      },
+      err => {
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
+    )
   }
 
   /* Customiized click detection strategy */
@@ -214,13 +236,27 @@ export class TeacherEditComponent implements OnInit {
   }
 
   validateCaseSensitiveEmail(email) {
-    var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    if (reg.test(email)) {
+    if (email != "" && email != null) {
+      var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+      if (reg.test(email)) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    } else {
       return true;
     }
-    else {
-      return false;
-    }
+  }
+
+  setImage(e) {
+    console.log(e);
+    this.studentImage = e;
+  }
+
+  updateIdCard($event) {
+    $event.preventDefault();
+    this.idCardTeacher.nativeElement.click();
   }
 
 }
