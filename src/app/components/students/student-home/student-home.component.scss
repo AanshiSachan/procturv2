@@ -6,7 +6,9 @@
 @import "./src/app/components/enquiry/enquiry-add/enquiry-add.component.scss";
 @import "./src/app/components/enquiry/enquiry-home/enquiry-home.component.scss";
 @import "./src/app/components/students/student-add/student-add.component.scss";
+
 /* ======================================================================================================== */
+
 .headEnq {
     .option-wrap {
         width: 20px;
@@ -99,26 +101,21 @@
         }
     }
 }
+
+
 /* =========================================================================================================== */
 
-
-.adfilter-submitter{
-    .submit{
+.adfilter-submitter {
+    .submit {
         width: 70%;
     }
-    .cancel{
+    .cancel {
         width: 100%;
     }
 }
 
+
 /* ============================================================================================================== */
-
-
-
-
-
-
-
 
 .sidenav {
     min-height: 480px;
@@ -171,6 +168,8 @@
 }
 
 .skeleton {
+    height: 480px;
+    background: white;
     .skel1:empty {
         margin: 10px 0px 0px 0px;
         width: 300px;
@@ -197,8 +196,7 @@
 
 @keyframes shine {
     to {
-        background-position: 10px 0, 10px 0,
-        100px 0, 100px 40px, 100px 80px, 100px 120px;
+        background-position: 10px 0, 10px 0, 100px 0, 100px 40px, 100px 80px, 100px 120px;
     }
 }
 
@@ -470,7 +468,7 @@
     max-height: 355px;
     overflow: hidden;
     width: 100%;
-    ::-webkit-scrollbar {
+     ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -501,7 +499,7 @@ screen and (max-height: 768px) {
     max-height: 400px;
     overflow-y: scroll;
     overflow-x: auto;
-    ::-webkit-scrollbar {
+     ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;

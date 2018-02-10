@@ -1,17 +1,15 @@
 <div class="sidebar-wrapper">
 
     <div class="row header-row">
-        <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
+        <div class="c-lg-1 c-md-1 c-sm-1 pull-left">
+        </div>
+        <div class="c-lg-2 c-md-2 c-sm-2 pull-left">
             <div class="profile-wrapper">
-                <proctur-image 
-                [containerWidth]="containerWidth" 
-                [serverImg]="studentServerImage" 
-                [readonly]="readonly"
-                [defaultImg]="'assets/images/studentblue.png'">
+                <proctur-image [containerWidth]="containerWidth" [serverImg]="studentServerImage" [readonly]="readonly" [defaultImg]="'assets/images/studentblue.png'">
                 </proctur-image>
             </div>
         </div>
-        <div class="c-lg-8 c-md-8 c-sm-8 pull-right student-details">
+        <div class="c-lg-9 c-md-9 c-sm-9 pull-right student-details">
             <ul>
                 <li style="border-top: none;">
                     <h3>{{rowData.student_name}}</h3>

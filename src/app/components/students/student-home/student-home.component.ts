@@ -1154,6 +1154,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     document.getElementById("student-table").style.marginRight = "30%";
     document.getElementById("paginator").style.marginRight = "30%";    
     let id = ev.student_id;
+    this.isSideBar = false;
     this.isRippleLoad = true;
     this.studentFetch.getStudentById(id).subscribe(
       res => {
