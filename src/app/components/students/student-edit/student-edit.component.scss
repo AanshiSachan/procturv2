@@ -306,11 +306,12 @@
     table {
         .field-wrapper {
             background: transparent;
-            width: 150px;
+            width: 100%;
             .form-ctrl {
-                background: transparent;
-                border-bottom: solid 1px #0084f6;
-                text-align: center;
+                background: transparent !important;
+                border-bottom: solid 1px #0084f6 !important;
+                text-align: center !important;
+                width: 180px !important;
             }
         }
         .field-wrapper {

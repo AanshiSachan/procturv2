@@ -173,7 +173,7 @@
 
                   <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': studentAddFormData.dob != ''}">
                     <input type="text" value="" id="sdob" class="form-ctrl bsDatepicker" name="sdob" [(ngModel)]="studentAddFormData.dob" #sdob="ngModel"
-                      bsDatepicker>
+                    readonly="true" bsDatepicker>
                     <label for="sdob">Date of Birth</label>
                   </div>
 
@@ -249,7 +249,7 @@
               </h4>
               <div class="box-shadow-lite">
                 <div class="field-wrapper datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}">
-                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" [(ngModel)]="studentAddFormData.doj"
+                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" readonly="true" bsDatepicker name="doj" [(ngModel)]="studentAddFormData.doj"
                   />
                   <label for="doj">Date of Joining</label>
                   <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span>
@@ -950,7 +950,7 @@
               <td *ngIf="isProfessional">{{batch.data.end_date}}</td>
               <td>
                 <div class="field-wrapper datePickerBox has-value">
-                  <input type="text" value="" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker"
+                  <input type="text" value="" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" readonly="true" class="form-ctrl bsDatepicker"
                     bsDatepicker>
                 </div>
             </tr>
@@ -1059,7 +1059,7 @@
 
         <div class="field-wrapper datePickerBox has-value">
           <input type="text" value="" id="effD" class="form-ctrl bsDatepicker" [(ngModel)]="feeStructureForm.template_effective_date"
-            name="effD" bsDatepicker>
+            name="effD"  readonly="true" bsDatepicker>
           <label for="effD">Effective Date*</label>
           <span class="date-clear" name="followupdate" (click)="clearEffectiveDate($event)">clear</span>
         </div>
@@ -1106,7 +1106,7 @@
       <div class="row">
 
         <div class="field-wrapper datePickerBox">
-          <input type="text" value="" id="pd" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="feeTemplateById.paid_date" name="pd" bsDatepicker>
+          <input type="text" value="" id="pd" readonly="true" class="form-ctrl bsDatepicker"  readonly="true" [(ngModel)]="feeTemplateById.paid_date" name="pd" bsDatepicker>
           <label for="pd">Payment Date*</label>
           <span id="paydayClear" class="date-clear" name="cpd" (click)="clearfeePaymentDate($event)">clear</span>
         </div>
@@ -1168,7 +1168,7 @@
 
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': pdcSelectedForm.cheque_date != ''}">
-                <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="pdcSelectedForm.cheque_date" name="" bsDatepicker>
+                <input type="text" value="" id="" class="form-ctrl bsDatepicker"  readonly="true" [(ngModel)]="pdcSelectedForm.cheque_date" name="" bsDatepicker>
                 <label for="">Cheque Date*</label>
                 <span id="paydayClear" class="date-clear" (click)="pdcSelectedForm.cheque_date = ''" name="">clear</span>
               </div>
@@ -1251,7 +1251,7 @@
               <div class="c-lg-9 c-md-9 pull-right">
                 <div class="inner">
                   <div class="field-wrapper datePickerBox has-value">
-                    <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="addFeeInstallment.due_date" bsDatepicker>
+                    <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" readonly="true" name="dd" [(ngModel)]="addFeeInstallment.due_date" bsDatepicker>
                     <label for="dd">
                       Due Date
                     </label>
@@ -1300,7 +1300,7 @@
                       <td>
                         <div class="field-wrapper datePickerBox">
                           <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)" [(ngModel)]="fee.due_date"
-                            bsDatepicker>
+                          readonly="true" bsDatepicker>
                         </div>
                       </td>
                       <td>
@@ -1346,7 +1346,7 @@
                 </div>
                 <div class="innermost">
                   <div class="field-wrapper datePickerBox has-value">
-                    <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="addFeeOther.due_date" bsDatepicker>
+                    <input type="text" value="" class="form-ctrl bsDatepicker"  readonly="true" name="dd" [(ngModel)]="addFeeOther.due_date" bsDatepicker>
                     <label for="dd">
                       Due Date*
                     </label>
@@ -1402,7 +1402,7 @@
                       </td>
                       <td>
                         <div class="field-wrapper datePickerBox">
-                          <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="fee.due_date" bsDatepicker>
+                          <input readonly="true"  type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="fee.due_date"  readonly="true" bsDatepicker>
                         </div>
                       </td>
                       <td>
@@ -1661,7 +1661,7 @@
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': pdcSearchObj.cheque_date_from != ''}">
                   <input type="text" value="" id="pdfrom" class="form-ctrl bsDatepicker" [(ngModel)]="pdcSearchObj.cheque_date_from" name="pdfrom"
-                    bsDatepicker>
+                  readonly="true" bsDatepicker>
                   <label for="pdfrom">Cheque Date From</label>
                   <span id="pdfrom" class="date-clear" name="cpd" (click)="pdcSearchObj.cheque_date_from = ''">clear</span>
                 </div>

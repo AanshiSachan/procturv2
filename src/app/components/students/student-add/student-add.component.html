@@ -172,7 +172,7 @@
 
                   <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': studentAddFormData.dob != ''}">
                     <input type="text" value="" id="sdob" class="form-ctrl bsDatepicker" name="sdob" [(ngModel)]="studentAddFormData.dob" #sdob="ngModel"
-                      bsDatepicker>
+                    readonly="true" bsDatepicker>
                     <label for="sdob">Date of Birth</label>
                   </div>
 
@@ -252,8 +252,8 @@
               <div class="box-shadow-lite">
 
                 <div class="field-wrapper datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}">
-                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" [(ngModel)]="studentAddFormData.doj"
-                  />
+                  <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj"
+                  readonly="true" [(ngModel)]="studentAddFormData.doj"/>
                   <label for="doj">Date of Joining</label>
                   <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span>
                 </div>
@@ -285,7 +285,7 @@
 
 
                 <div id="assignCoursesParent" class="field-wrapper" *ngIf="isAcad" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}">
-                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" disabled/>
+                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" readonly="true"/>
                   <label (click)="openAssignBatch()" for="assignCourses">Assign Courses</label>
                 </div>
 
@@ -315,7 +315,7 @@
                 </div>
 
                 <div id="slotwrapper" class="field-wrapper" *ngIf="isProfessional" (click)="multiselectVisible($event.target.id)">
-                  <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" disabled/>
+                  <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true"/>
                   <label for="assignCourses">Slots</label>
                 </div>
                 <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
@@ -342,7 +342,7 @@
                 </div>
 
                 <div id="assignCoursesParent" class="field-wrapper" *ngIf="isProfessional" (click)="openAssignBatch()">
-                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" disabled/>
+                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" readonly="true"/>
                   <label (click)="openAssignBatch()" for="assignCourses">Assign Batch</label>
                 </div>
 
@@ -453,7 +453,7 @@
                 <div class="row" *ngIf="component.type == 4" input-def>
                   <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.value != ''}">
                     <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
-                      disabled/>
+                    readonly="true"/>
                     <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
                   </div>
@@ -959,7 +959,7 @@
               <td>
                 <div class="field-wrapper datePickerBox has-value">
                   <input type="text" value="" readonly="true" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker"
-                    bsDatepicker>
+                  readonly="true" bsDatepicker>
                 </div>
             </tr>
           </tbody>
@@ -1067,7 +1067,7 @@
 
         <div class="field-wrapper datePickerBox has-value">
           <input type="text" value="" id="effD" class="form-ctrl bsDatepicker" [(ngModel)]="feeStructureForm.template_effective_date"
-            name="effD" bsDatepicker>
+            name="effD" bsDatepicker readonly="true">
           <label for="effD">Effective Date*</label>
           <span class="date-clear" name="followupdate" (click)="clearEffectiveDate($event)">clear</span>
         </div>
@@ -1114,7 +1114,7 @@
       <div class="row">
 
         <div class="field-wrapper has-value datePickerBox">
-          <input type="text" value="" id="pd" class="form-ctrl bsDatepicker" [(ngModel)]="feeTemplateById.paid_date" name="pd" bsDatepicker>
+          <input type="text" value="" id="pd" class="form-ctrl bsDatepicker"  readonly="true" [(ngModel)]="feeTemplateById.paid_date" name="pd" bsDatepicker>
           <label for="pd">Payment Date*</label>
           <span id="paydayClear" class="date-clear" name="cpd" (click)="clearfeePaymentDate($event)">clear</span>
         </div>
@@ -1182,7 +1182,7 @@
               <div class="c-lg-9 c-md-9 pull-right">
                 <div class="inner">
                   <div class="field-wrapper datePickerBox has-value">
-                    <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="addFeeInstallment.due_date" bsDatepicker>
+                    <input type="text" value="" class="form-ctrl readonly="true" bsDatepicker" name="dd" [(ngModel)]="addFeeInstallment.due_date" bsDatepicker>
                     <label for="dd">
                       Due Date
                     </label>
@@ -1230,7 +1230,7 @@
                       </td>
                       <td>
                         <div class="field-wrapper datePickerBox">
-                          <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)" [(ngModel)]="fee.due_date"
+                          <input type="text" value="" class="form-ctrl bsDatepicker" readonly="true" name="dd" (ngModelChange)="sortTableByDate(i)" [(ngModel)]="fee.due_date"
                             bsDatepicker>
                         </div>
                       </td>
@@ -1276,7 +1276,7 @@
                 </div>
                 <div class="innermost">
                   <div class="field-wrapper datePickerBox has-value">
-                    <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="addFeeOther.due_date" bsDatepicker>
+                    <input type="text" value="" class="form-ctrl bsDatepicker" readonly="true" name="dd" [(ngModel)]="addFeeOther.due_date" bsDatepicker>
                     <label for="dd">
                       Due Date*
                     </label>
@@ -1332,7 +1332,7 @@
                       </td>
                       <td>
                         <div class="field-wrapper datePickerBox">
-                          <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="fee.due_date" bsDatepicker>
+                          <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="fee.due_date" bsDatepicker readonly="true" >
                         </div>
                       </td>
                       <td>
