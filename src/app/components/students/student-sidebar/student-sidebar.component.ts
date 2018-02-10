@@ -21,6 +21,10 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
   @ViewChild('imgDisp') im: ElementRef;
 
+  containerWidth:string = "70px";
+  studentServerImage:any = '';
+  readonly:boolean = true;
+
   /* Model for institute Data for fetching student enquiry */
   currRow: instituteInfo = {
     school_id: -1,
@@ -68,9 +72,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   }
 
   fetchStudentDetails(ev) {
-    console.log(ev);
-    console.log(this.rowData);
-    console.log(this.customComponent);
+    this.studentServerImage = ev.photo;
   }
 
 

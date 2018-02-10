@@ -61,7 +61,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
   }
 
   setReadOnly() {
-
+    console.log(this.readonly);
   }
 
   setRemoveImg() {
@@ -131,7 +131,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
     this.vanilla.result('blob').then((blob) => {
       const url = URL.createObjectURL(blob);
       preview.src = url;
-      localStorage.setItem('croppedImg', url);
+      
       this.sendReadFile(blob);
     });
 
@@ -169,8 +169,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
       this.defaultImg
     );
     this.setImage.emit('');
-    localStorage.removeItem('tempImg');
-    localStorage.removeItem('croppedImg');
+
   }
 
   readFile(file: any): any {
@@ -188,13 +187,14 @@ export class PictureCropComponent implements OnInit, OnChanges {
     if (file) {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        localStorage.setItem('tempImg', reader.result.split(',')[1]);
+
         return reader.result.split(',')[1];
       };
     }
   }
 
   flushModal() {
+    debugger;
     this.isVideo = false;
     this.isSnap = false;
     this.isCrop = false;
@@ -209,4 +209,14 @@ export class PictureCropComponent implements OnInit, OnChanges {
       track.stop();
     }
   }
+
+  clickDetector($event){
+    $event.preventDefault();
+    if($event.target.id === "myModal"){
+      this.flushModal();
+    }
+  }
+
+  
+
 }

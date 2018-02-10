@@ -12,7 +12,7 @@
       </a>
     </div>
     <div class="list" #list id="list" *ngIf="isMenuVisible">
-      <table class="table">
+      <table class="table" *ngIf="!readonly">
         <tr>
           <input type="button" value="Take Photo" class="btn" (click)="camon()" />
         </tr>
@@ -31,8 +31,8 @@
     Open Modal
   </button>
   <!-- Modal -->
-  <div class="modal" id="myModal" role="dialog">
-    <div class="modal-dialog">
+  <div class="modal" id="myModal" role="dialog" (click)="clickDetector($event)">
+    <div class="modal-dialog" (click)="clickDetector($event)">
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">

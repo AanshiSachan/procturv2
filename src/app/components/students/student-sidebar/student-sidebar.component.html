@@ -3,10 +3,12 @@
     <div class="row header-row">
         <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
             <div class="profile-wrapper">
-                <div class="no-img">
-                    <div class="image-disp" #imgDisp>
-                    </div>
-                </div>
+                <proctur-image 
+                [containerWidth]="containerWidth" 
+                [serverImg]="studentServerImage" 
+                [readonly]="readonly"
+                [defaultImg]="'assets/images/studentblue.png'">
+                </proctur-image>
             </div>
         </div>
         <div class="c-lg-8 c-md-8 c-sm-8 pull-right student-details">
@@ -23,7 +25,6 @@
                 </li>
             </ul>
         </div>
-
     </div>
 
     <div class="row button-bar" style="padding-left: 25px;">
@@ -48,16 +49,6 @@
                 <div class="tooltip">Manage PDC</div>
             </a>
 
-            <!-- <a class="enq-act enq-act--six">
-                <img src="./assets/images/send_email.svg" height="10" width="20">
-                <div class="tooltip">Send SMS</div>
-            </a> -->
-            <!-- <a class="enq-act enq-act--seven">
-                        
-                        <div class="tooltip">text to be displayed</div>
-                    </a> 
-                    If something comes up in future use this just add img and text
-            -->
         </div>
     </div>
 
