@@ -158,8 +158,11 @@
                 </div>
               </div>
               <div class="c-lg-4 c-md-4 c-sm-4">
-                <image-upload [removeImg]="removeImage">
-                </image-upload>
+                  <proctur-image
+                  [containerWidth]="containerWidth"
+                  [serverImg]="studentServerImage"
+                  (setImage)="setImage($event)">
+                  </proctur-image>
               </div>
             </div>
             <!-- Form 2 -->
