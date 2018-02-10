@@ -47,13 +47,15 @@ export class TeacherAddComponent implements OnInit {
       this.messageToast('error', 'Error', 'Please provide valid email address.');
       return;
     }
-    if (isNaN(formData.teacher_phone)) {
+    if ((!isNaN(formData.teacher_phone)) || formData.teacher_phone.length != 10) {
       this.messageToast('error', 'Error', 'Please provide valid phone number.');
       return;
     }
-    if ((!isNaN(formData.teacher_alt_phone)) && formData.teacher_alt_phone.length == 10) {
-      this.messageToast('error', 'Error', 'Please provide valid phone number.');
-      return;
+    if (formData.teacher_alt_phone != '' && formData.teacher_alt_phone != null) {
+      if ((!isNaN(formData.teacher_alt_phone)) && formData.teacher_alt_phone.length != 10) {
+        this.messageToast('error', 'Error', 'Please provide valid phone number.');
+        return;
+      }
     }
     if (formData.hour_rate == "" || formData.hour_rate == null) {
       formData.hour_rate = 0;
@@ -127,12 +129,16 @@ export class TeacherAddComponent implements OnInit {
   }
 
   validateCaseSensitiveEmail(email) {
-    var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    if (reg.test(email)) {
+    if (email != '' && email != null) {
+      var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+      if (reg.test(email)) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    } else {
       return true;
-    }
-    else {
-      return false;
     }
   }
 

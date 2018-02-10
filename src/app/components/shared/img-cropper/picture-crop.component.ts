@@ -70,14 +70,17 @@ export class PictureCropComponent implements OnInit, OnChanges {
 
   setServerImg() {
     if (this.serverImg === '' || this.serverImg === null) {
-      
+
     } else {
       console.log(this.serverImg);
       const temp: any[] = [];
       temp[0] = this.imgPrefill;
       temp[1] = this.serverImg;
       const imgFile = temp.join(',');
-      this.uploadedImage.nativeElement.src = imgFile;
+      setTimeout(() => {
+        this.uploadedImage.nativeElement.src = imgFile;
+      }, 300)
+
     }
   }
 
@@ -131,10 +134,10 @@ export class PictureCropComponent implements OnInit, OnChanges {
       localStorage.setItem('croppedImg', url);
       this.sendReadFile(blob);
     });
-    
+
   }
 
-  sendReadFile(obj){
+  sendReadFile(obj) {
     let reader = new FileReader();
     reader.readAsDataURL(obj);
     reader.onloadend = () => {

@@ -206,6 +206,9 @@ export class InstituteSettingsComponent implements OnInit {
     document.getElementById('divReportContent').classList.add('hideDivClass');
     document.getElementById('divMiscContent').classList.add('hideDivClass');
     document.getElementById(showView).classList.remove('hideDivClass');
+    if (showView == "divExamReport") {
+      this.enableRankSpecifier()
+    }
   }
 
 
@@ -292,18 +295,32 @@ export class InstituteSettingsComponent implements OnInit {
     obj.tax_payable_on_reverse_charge_basis = this.convertBoolenToNumber(this.instituteSettingDet.tax_payable_on_reverse_charge_basis);
     obj.home_work_feature_enable = this.convertBoolenToNumber(this.instituteSettingDet.home_work_feature_enable);
     if (this.checkDropDownSelection(this.instituteSettingDet.pre_enquiry_follow_up_reminder_time) == false) {
+      this.isRippleLoad = false;
       return;
     }
     if (this.checkDropDownSelection(this.instituteSettingDet.post_enquiry_follow_up_reminder_time) == false) {
+      this.isRippleLoad = false;
       return;
     }
     obj.daily_account_summary = this.convertBoolenToNumber(this.instituteSettingDet.daily_account_summary);
     obj.allow_simple_registration = this.convertBoolenToNumber(this.instituteSettingDet.allow_simple_registration);
     obj.enable_online_payment_email_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_email_notification);
     obj.enable_online_payment_sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_sms_notification);
+
+    if (isNaN(obj.phone_no_fee_receipt) || obj.phone_no_fee_receipt.length != 10) {
+      this.isRippleLoad = false;
+      this.messageToast('error', 'Error', 'Please check the number you have provided');
+      return;
+    }
+
+    if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
+      this.isRippleLoad = false;
+      this.messageToast('error', 'Error', 'Please provide valid phone number.');
+      return;
+    }
+
     return obj;
   }
-
 
   fillJSONData(data) {
     this.instituteSettingDet.sms_notification = data.sms_notification;
@@ -337,7 +354,6 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.exam_rank = data.exam_rank;
     this.instituteSettingDet.rank_to_send_for_marks_sms = data.rank_to_send_for_marks_sms;
     this.instituteSettingDet.rank_no_for_marks_sms = data.rank_no_for_marks_sms;
-    this.enableRankSpecifier();
     this.instituteSettingDet.is_exam_grad_feature = data.is_exam_grad_feature;
     this.instituteSettingDet.test_buffer_duration = data.test_buffer_duration;
     this.instituteSettingDet.absent_attendance_in_a_month_threshold = data.absent_attendance_in_a_month_threshold;
@@ -394,7 +410,6 @@ export class InstituteSettingsComponent implements OnInit {
   }
 
   getSumOfTableField(data) {
-    debugger
     let total: number = 0;
     for (let i = 0; i < Object.keys(data).length; i++) {
       if (Object.keys(data)[i] == 'student' && data.student == true) {
@@ -413,8 +428,8 @@ export class InstituteSettingsComponent implements OnInit {
   }
 
   enableRankSpecifier() {
-    this.instituteSettingDet.rank_to_send_for_marks_sms = document.getElementById('enableRank').checked;
-    if (this.instituteSettingDet.rank_to_send_for_marks_sms) {
+    let data = document.getElementById('enableRank').checked;
+    if (data) {
       document.getElementById('inputSpecifyRank').removeAttribute('readonly');
     } else {
       document.getElementById('inputSpecifyRank').setAttribute('readonly', true);
@@ -480,6 +495,27 @@ export class InstituteSettingsComponent implements OnInit {
 
     }
   }
+
+  validatePhoneNumber(data) {
+    let check: boolean = false;
+    if (data != "" && data != null) {
+      let number: any = data.split(',');
+      for (let i = 0; i < data.length; i++) {
+        if (data[i] != "" && data[i] != null) {
+          if (!isNaN(data[i]) || data[i].length != 10) {
+            check = false;
+            break;
+          } else {
+            check = true;
+          }
+        }
+      }
+      return check;
+    } else {
+      return true;
+    }
+  }
+
 
   checkInstitutionType() {
     if (sessionStorage.getItem('institute_type') == "LANG") {
