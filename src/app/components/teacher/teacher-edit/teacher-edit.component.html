@@ -105,14 +105,20 @@
         </aside>
         <aside class="c-lg-6 c-md-6 c-sm-6">
             <div class="profileWrapper">
-                <image-upload [removeImg]="true"></image-upload>
+                <proctur-image [serverImg]="studentImage" [containerWidth]="containerWidth" (setImage)="setImage($event)">
+
+                </proctur-image>
             </div>
             <div>
                 <div class="field-wrapper" style="margin-bottom: 10px;">
-                    <input type="file" #idCardUpload accept="image/gif,image/jpeg,image/jpg,image/png" (change)="onChangeIdCardUpload()">
+                    <input class="hide" type="file" #idCardUpload accept="image/gif,image/jpeg,image/jpg,image/png" (change)="onChangeIdCardUpload()">
+                    <input *ngIf="(hasIdCard == 'Y')" type="button" class="btn" value="Update Id" (click)="updateIdCard($event)">
+                    <input *ngIf="(hasIdCard == 'N')" type="button" class="btn" value="Upload Id" (click)="updateIdCard($event)">
                 </div>
-                <div>
-                    <img #uploadedImage class="imagePreview">
+                <div *ngIf="(hasIdCard == 'Y')">
+                    <a #uploadImageAnchor>
+                        <img #uploadedImage src="../../../../assets/images/download_doc.jpg" style="width: 50px;" (click)="downloadIdCard()">
+                    </a>
                 </div>
             </div>
         </aside>
