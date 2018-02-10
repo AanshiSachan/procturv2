@@ -1995,7 +1995,7 @@ export class StudentAddComponent implements OnInit {
   allocateInventory(id) {
 
     let count: number = 0;
-
+    let temp: any[] = [];
     this.allotInventoryArr.forEach(e => {
       let obj = {
         alloted_units: e.units_added,
@@ -2003,31 +2003,22 @@ export class StudentAddComponent implements OnInit {
         item_id: e.item_id,
         student_id: id
       }
-      this.postService.allocateStudentInventory(obj).subscribe(
-        res => {
-          count++;
-          console.log(count);
-          this.feeAllocater(count, id);
-        },
-        err => { }
-      );
+      temp.push(obj);
     });
+    this.postService.allocateStudentInventory(temp).subscribe(
+      res => {
+        if (this.isFeeApplied) {
+           this.asssignCustomizedFee(id);
+        }
+        else {
+          this.studentAddedNotifier();
+        }
+      },
+      err => { }
+    );
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  feeAllocater(count, id) {
-     /*  */
-    if (count == (this.allotInventoryArr.length - 1)) {
-      if(this.isFeeApplied){
-        this.asssignCustomizedFee(id);
-      }
-      else{
-        this.studentAddedNotifier();
-      }
-
-    }
-
-  }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   asssignCustomizedFee(id) {
