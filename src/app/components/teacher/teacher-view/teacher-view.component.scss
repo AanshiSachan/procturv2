@@ -220,3 +220,29 @@ screen and (max-height: 768px) {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.questionInfo {
+    margin-right: 2px;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    .qInfoIcon {
+        color: $common-blue;
+        border-color: $common-blue;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        display: block;
+        text-align: center;
+        box-sizing: border-box;
+        line-height: 20px;
+        font-weight: 600;
+        font-size: 12px;
+        cursor: pointer;
+        box-shadow: 0px 0px 1px 0px #ccc inset;
+        color: #888;
+        transition: all 0.2s linear;
+    }
+}

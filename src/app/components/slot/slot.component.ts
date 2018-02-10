@@ -15,7 +15,7 @@ export class SlotComponent implements OnInit {
   PageIndex: number = 1;
   studentdisplaysize: number = 10;
   totalRow: number;
-  slotTableList;
+  slotTableList: any = [];
   createNewSlot: boolean = false;
 
   constructor(

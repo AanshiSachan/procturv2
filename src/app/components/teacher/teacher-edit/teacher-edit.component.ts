@@ -58,14 +58,14 @@ export class TeacherEditComponent implements OnInit {
 
   createEditTeacherForm() {
     this.editTeacherForm = this.fb.group({
-      teacher_name: [null, [Validators.required]],
-      teacher_curr_addr: [null],
-      teacher_phone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      teacher_name: ['', [Validators.required]],
+      teacher_curr_addr: [''],
+      teacher_phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       teacher_alt_phone: [''],
-      teacher_standards: [null],
-      teacher_email: [null],
-      teacher_subjects: [null],
-      hour_rate: [null],
+      teacher_standards: [''],
+      teacher_email: [''],
+      teacher_subjects: [''],
+      hour_rate: [''],
       is_active: [true],
       is_allow_teacher_to_only_mark_attendance: [false],
       is_student_mgmt_flag: [true]
@@ -86,6 +86,9 @@ export class TeacherEditComponent implements OnInit {
     dataToBind.teacher_email = data.teacher_email;
     dataToBind.teacher_subjects = data.teacher_subjects;
     dataToBind.hour_rate = data.hour_rate;
+    if (data.hour_rate == 0) {
+      dataToBind.hour_rate = '';
+    }
     if (data.is_active == "Y") {
       dataToBind.is_active = true;
     }

@@ -44,6 +44,9 @@
     </div>
     <div class="extraMargin c-sm-12">
       <div class="c-sm-2">
+
+      </div>
+      <div class="c-sm-2">
         <div class="field-wrapper">
           <select id="" class="form-ctrl" (focus)="inputClickedCheck($event)" [(ngModel)]="selectedBatch">
             <option *ngFor="let opt of batchesList" [value]="opt.batch_id">
@@ -54,28 +57,34 @@
           </label>
         </div>
       </div>
-      <div class="c-sm-9">
-        <div class="field-wrapper datePickerBox c-sm-3">
+      <div class="c-sm-8">
+        <div class="field-wrapper datePickerBox c-sm-3" style="margin-right: 10px">
           <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="fromDate" (focus)="inputClickedCheck($event)"
             [(ngModel)]="selectedFromDate" bsDatepicker/>
+          <label for="fromDate" style="margin-left: 15px;">From Date</label>
           <!-- <span class="date-clear" name="fromDate" (click)="clearDate($event)">Clear</span> -->
         </div>
-        <div class="field-wrapper datePickerBox c-sm-3">
+        <div class="field-wrapper datePickerBox c-sm-3" style="margin-right: 10px">
           <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="createdDate" (focus)="inputClickedCheck($event)"
             [(ngModel)]="selectedToDate" bsDatepicker />
+          <label for="createdDate" style="margin-left: 15px;">To Date</label>
           <!-- <span class="date-clear" name="createdDate" (click)="clearDate($event)">Clear</span> -->
         </div>
         <div class="c-sm-3">
           <button class="btn" (click)="searchTeacherInfo()">Go</button>
         </div>
       </div>
-      <div class="c-sm-3">
-      </div>
     </div>
     <div>
       <div>
         <h2 class="pull-left marginTenPixel">
           Assigned Batches Details
+          <div class="questionInfo pos-rel">
+            <span class="qInfoIcon">?</span>
+            <div class="tooltip-box-field">
+              Details of Assigned Batches to the teacher.
+            </div>
+          </div>
         </h2>
         <!-- <div class="c-sm-4">
           <button class="btn" (click)="exportDetailsInExcel()">Excel</button>
@@ -148,7 +157,7 @@
               </tr>
               <tr *ngIf="(assignedBatchList.length == 0)">
                 <td colspan="8" style="text-align:center;">
-                  <span>No Data Found</span>
+                  <span>No Assigned Batches</span>
                 </td>
               </tr>
             </tbody>
@@ -160,6 +169,12 @@
       <div>
         <h2 class="pull-left marginTenPixel">
           Visiting Batches Details
+          <div class="questionInfo pos-rel">
+            <span class="qInfoIcon">?</span>
+            <div class="tooltip-box-field">
+              Details of Visting Batches to the teacher.
+            </div>
+          </div>
         </h2>
       </div>
       <div class="common-table">
@@ -222,7 +237,7 @@
               </tr>
               <tr *ngIf="(visitingBatchList.length == 0)">
                 <td colspan="6" style="text-align:center;">
-                  <span>No Data Found</span>
+                  <span>No Visiting Batches</span>
                 </td>
               </tr>
             </tbody>
