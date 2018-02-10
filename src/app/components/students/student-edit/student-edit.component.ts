@@ -72,11 +72,11 @@ export class StudentEditComponent implements OnInit {
     institution_id: sessionStorage.getItem('institute_id'),
     student_id: 0
   }
-
+  studentServerImage:string = '';
   newPdcArr: any[] = [];
   pdcSelectedArr: any[] = [];
   formIsActive: boolean = true;
-
+  studentImage:string = '';
   private quickAddStudent: boolean = false;
   private additionalBasicDetails: boolean = false;
   private isAssignBatch: boolean = false;
@@ -322,9 +322,9 @@ export class StudentEditComponent implements OnInit {
     cheque_no: '',
     pdc_cheque_id: ''
   }
+  
   isPdcFeePaymentSelected: boolean = false;
-
-
+  containerWidth:any = "200px";
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -403,6 +403,7 @@ export class StudentEditComponent implements OnInit {
   updateStudentForm(id) {
     this.fetchService.getStudentById(id).subscribe(data => {
       this.studentAddFormData = data;
+      this.studentServerImage = data.photo;
       this.busyPrefill = this.fetchPrefillFormData();
       this.setStudentFeeDetail();
       this.isRippleLoad = false;
@@ -498,7 +499,7 @@ export class StudentEditComponent implements OnInit {
   /* ============================================================================================================================ */
   /* Function to navigate on icon click */
   switchToView(id) {
-
+    
     switch (id) {
       case "studentForm-icon": {
         //console.log(id);
@@ -833,7 +834,7 @@ export class StudentEditComponent implements OnInit {
       /* Get slot data and store on form */
       this.studentAddFormData.slot_id = this.selectedSlotsID;
       this.studentAddFormData.stuCustomLi = customArr;
-      this.studentAddFormData.photo = localStorage.getItem('tempImg');
+      this.studentAddFormData.photo = this.studentServerImage;
       this.additionalBasicDetails = false;
       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         res => {
@@ -845,7 +846,7 @@ export class StudentEditComponent implements OnInit {
               body: ''
             }
             this.appC.popToast(alert);
-            localStorage.removeItem('tempImg');
+            
             form.reset();
             this.removeImage = true;
             this.clearFormAndMove();
@@ -1106,7 +1107,7 @@ export class StudentEditComponent implements OnInit {
             body: ''
           }
           this.appC.popToast(alert);
-          localStorage.removeItem('tempImg');
+          
           form.reset();
           this.clearFormAndMove();
         }
@@ -1129,89 +1130,12 @@ export class StudentEditComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   clearFormAndMove() {
-    this.navigateTo('studentForm');
-    this.studentAddFormData = {
-      student_name: "",
-      student_sex: "",
-      student_email: "",
-      student_phone: "",
-      student_curr_addr: "",
-      dob: "",
-      doj: moment().format('YYYY-MM-DD'), // "2017-10-25",
-      school_name: "-1", // "943",
-      student_class: "", // "1269",
-      parent_name: "",
-      parent_email: "",
-      parent_phone: "",
-      guardian_name: "",
-      guardian_email: "",
-      guardian_phone: "",
-      is_active: "Y", // "Y",
-      institution_id: sessionStorage.getItem('institute_id'), // "100123",
-      assignedBatches: [], // ["5660", "2447", "4163", "3067"],
-      fee_type: 0,
-      fee_due_day: 0,
-      batchJoiningDates: [], // ["2017-10-25", "2017-10-25", "2017-10-25", "2017-10-25"],
-      comments: "",
-      photo: null,
-      enquiry_id: "",
-      student_disp_id: "",
-      student_manual_username: null,
-      social_medium: -1,
-      attendance_device_id: "",
-      religion: "",
-      standard_id: "-1",
-      subject_id: "-1",
-      slot_id: null,
-      language_inst_status: null,
-      stuCustomLi: []
-    }
-    this.removeImage = true;
-    //document.getElementById('preview-img').src = '';
-    this.fetchPrefillFormData();
+    this.router.navigate(['/student']);
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   clearFormAndRoute(form: NgForm) {
     let previousUrl: string = '';
-    this.studentAddFormData = {
-      student_name: "",
-      student_sex: "",
-      student_email: "",
-      student_phone: "",
-      student_curr_addr: "",
-      dob: "",
-      doj: moment().format('YYYY-MM-DD'),
-      school_name: "-1",
-      student_class: "",
-      parent_name: "",
-      parent_email: "",
-      parent_phone: "",
-      guardian_name: "",
-      guardian_email: "",
-      guardian_phone: "",
-      is_active: "Y",
-      institution_id: sessionStorage.getItem('institute_id'),
-      assignedBatches: [],
-      fee_type: 0,
-      fee_due_day: 0,
-      batchJoiningDates: [],
-      comments: "",
-      photo: null,
-      enquiry_id: "",
-      student_disp_id: "",
-      student_manual_username: null,
-      social_medium: -1,
-      attendance_device_id: "",
-      religion: "",
-      standard_id: "-1",
-      subject_id: "-1",
-      slot_id: null,
-      language_inst_status: null,
-      stuCustomLi: []
-    };
-    form.reset();
-
     if (this.isConvertEnquiry) {
       this.router.navigate(['/enquiry']);
     }
@@ -2248,14 +2172,14 @@ export class StudentEditComponent implements OnInit {
       /* Get slot data and store on form */
       this.studentAddFormData.slot_id = this.selectedSlotsID;
       this.studentAddFormData.stuCustomLi = customArr;
-      this.studentAddFormData.photo = localStorage.getItem('tempImg');
+      this.studentAddFormData.photo = this.studentServerImage;
       this.additionalBasicDetails = false;
       this.busyPrefill = this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         res => {
           debugger;
           let statusCode = res.statusCode;
           if (statusCode == 200) {
-            localStorage.removeItem('tempImg');
+            
             this.removeImage = true;
             //console.log(this.isFeeApplied);
             /* Inventory defined and fee as well */
@@ -3006,6 +2930,11 @@ export class StudentEditComponent implements OnInit {
       res => {
       }
     )
+  }
+
+  setImage(e){
+    //debugger
+    this.studentServerImage = e;
   }
 
 

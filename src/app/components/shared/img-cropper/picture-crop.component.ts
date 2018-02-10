@@ -46,7 +46,6 @@ export class PictureCropComponent implements OnInit, OnChanges {
   constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
-
   }
 
   ngOnChanges() {
@@ -54,9 +53,6 @@ export class PictureCropComponent implements OnInit, OnChanges {
     this.setReadOnly();
     this.setRemoveImg();
     this.setServerImg();
-    if (this.removeImg) {
-      this.removeImage();
-    }
   }
 
   setContainerSize() {
@@ -74,13 +70,13 @@ export class PictureCropComponent implements OnInit, OnChanges {
 
   setServerImg() {
     if (this.serverImg === '' || this.serverImg === null) {
-      //console.log('Default Image');
+      
     } else {
+      console.log(this.serverImg);
       const temp: any[] = [];
       temp[0] = this.imgPrefill;
       temp[1] = this.serverImg;
       const imgFile = temp.join(',');
-      //console.log(imgFile);
       this.uploadedImage.nativeElement.src = imgFile;
     }
   }

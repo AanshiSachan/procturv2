@@ -224,7 +224,7 @@ export class StudentAddComponent implements OnInit {
     instituteName: "",
     isActive: "Y"
   }
-
+  containerWidth:any = "200px"
   allocationForm: any = {
     alloted_units: "",
     item_id: "",
