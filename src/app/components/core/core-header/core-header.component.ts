@@ -51,4 +51,8 @@ export class CoreHeaderComponent implements OnInit {
     }
   }
 
+  goToHome(){
+    this.router.navigate(['/home']);
+  }
+
 }
