@@ -94,6 +94,10 @@ import { SlotComponent } from './components/slot/slot.component';
                     path: 'setting',
                     loadChildren: 'app/components/institute-settings/institutes-setting.module#InstituteSettingModule',
                 },
+                {
+                    path: 'account',
+                    loadChildren: 'app/components/institute-details/institute-details.module#InstituteDetailsModule',
+                },
                 { path: 'comingsoon', component: ComingSoonComponent },
                 { path: '**', component: ErrorComponent },
             ],

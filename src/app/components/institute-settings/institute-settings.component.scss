@@ -3,20 +3,21 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-.setting-footer{
+.setting-footer {
     margin-right: 1%;
     margin-top: 5px;
     float: right;
 }
+
 .setting-full {
     padding: 15px;
-    max-height: 580px;
+    max-height: 500px;
     overflow: hidden;
-    ::-webkit-scrollbar{
+     ::-webkit-scrollbar {
         display: block;
     }
     .row {
-        margin: 0px 15px;
+        margin: 0px 5px;
     }
     .setting-left {
         padding: 15px;
@@ -26,7 +27,7 @@
         ul {
             padding: 15px 10px;
             li {
-                line-height: 60px;
+                line-height: 50px;
                 border-radius: 5px;
                 font-size: 20px;
                 font-weight: 600;
@@ -38,7 +39,7 @@
                     }
                 }
                 &.active {
-                    background: #0060a3;
+                    background: #0084f6;
                     span {
                         margin-left: 20px;
                         a {
@@ -47,7 +48,7 @@
                     }
                 }
                 &:hover {
-                    background: #0060a3;
+                    background: #0084f6;
                     span {
                         margin-left: 20px;
                         a {
@@ -60,14 +61,79 @@
     }
     .setting-right {
         padding: 15px;
-        .sms-setting-wrapper{
-            max-height: 500px;
+        .sms-setting-wrapper {
+            max-height: 380px;
             overflow-x: hidden;
             overflow-y: scroll;
             border: 1px solid #777;
             padding: 2px 0px 1px 2px;
-            table{
-
+            table {
+                thead {
+                    tr {
+                        th {
+                            text-align: left;
+                        }
+                    }
+                }
+                tbody {
+                    tr {
+                        td {
+                            &:first-child {
+                                padding-left: 15px;
+                            }
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+        }
+        .examReportWrapper {
+            padding: 15px;
+            .row {
+                margin: 0px 5px;
+                .checkbox-bundle-wrapper {
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                }
+                .rank-wrapper {
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+        .fee-content-wrapper {
+            padding: 15px;
+            .row {
+                margin: 0px 5px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+            .content-scroll {
+                max-height: 380px;
+                overflow-x: hidden;
+                overflow-y: scroll;
+                border: 1px solid #777;
+                .row {
+                    margin: 0px 5px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+        .report-content-wrapper {
+            padding: 15px;
+            .row {
+                margin: 0px 5px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+        }
+        .misc-content-wrapper {
+            padding: 15px;
+            .row {
+                margin: 0px 5px;
+                margin-top: 10px;
+                margin-bottom: 10px;
             }
         }
     }
@@ -92,18 +158,130 @@
     margin-bottom: 10px;
 }
 
-table {
-    thead {
-        tr {
-            th {
-                text-align: left;
+@media only screen and (max-width:1200px) {
+    .setting-left {
+        padding: 15px;
+        max-height: 500px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        ul {
+            padding: 15px 10px;
+            li {
+                line-height: 50px !important;
+                border-radius: 5px;
+                font-size: 18px !important;
+                font-weight: 600;
+                background: white;
+                span {
+                    margin-left: 10px !important;
+                    a {
+                        color: #0084f6;
+                    }
+                }
+                &.active {
+                    background: #0084f6;
+                    span {
+                        margin-left: 20px;
+                        a {
+                            color: white;
+                        }
+                    }
+                }
+                &:hover {
+                    background: #0084f6;
+                    span {
+                        margin-left: 20px;
+                        a {
+                            color: white;
+                        }
+                    }
+                }
             }
         }
     }
-    tbody {
-        tr {
-            td {
-                text-align: left;
+}
+
+@media only screen and (max-width:1050px) {
+    .setting-left {
+        padding: 15px;
+        max-height: 500px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        ul {
+            padding: 15px 10px;
+            li {
+                line-height: 40px;
+                border-radius: 5px;
+                font-size: 14px !important;
+                font-weight: 600;
+                background: white;
+                span {
+                    margin-left: 5px;
+                    a {
+                        color: #0084f6;
+                    }
+                }
+                &.active {
+                    background: #0084f6;
+                    span {
+                        margin-left: 20px;
+                        a {
+                            color: white;
+                        }
+                    }
+                }
+                &:hover {
+                    background: #0084f6;
+                    span {
+                        margin-left: 20px;
+                        a {
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width:645px) {
+    .setting-left {
+        padding: 15px;
+        max-height: 500px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        ul {
+            padding: 15px 10px;
+            li {
+                line-height: 30px;
+                border-radius: 5px;
+                font-size: 12px !important;
+                font-weight: 400;
+                background: white;
+                span {
+                    margin-left: 2px;
+                    a {
+                        color: #0084f6;
+                    }
+                }
+                &.active {
+                    background: #0084f6;
+                    span {
+                        margin-left: 20px;
+                        a {
+                            color: white;
+                        }
+                    }
+                }
+                &:hover {
+                    background: #0084f6;
+                    span {
+                        margin-left: 20px;
+                        a {
+                            color: white;
+                        }
+                    }
+                }
             }
         }
     }
