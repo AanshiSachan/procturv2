@@ -26,7 +26,9 @@
         "../node_modules/croppie/croppie.css"
       ],
       "scripts": [
-        "../node_modules/croppie/croppie.js"
+        "../node_modules/croppie/croppie.js",
+        "../node_modules/hammerjs/hammer.min.js",
+        "../node_modules/muuri/muuri.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

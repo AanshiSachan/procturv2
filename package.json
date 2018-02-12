@@ -36,6 +36,7 @@
     "js-base64": "^2.3.2",
     "material-design-icons": "^3.0.1",
     "moment": "^2.18.1",
+    "muuri": "^0.5.3",
     "ng2-completer": "^1.6.3",
     "ng2-expansion-panels": "0.0.6",
     "ng2-material-dropdown": "^0.7.10",

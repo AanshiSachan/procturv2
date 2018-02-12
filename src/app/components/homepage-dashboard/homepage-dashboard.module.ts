@@ -14,7 +14,7 @@ import 'hammerjs';
 //import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
-
+import { AdminHomeComponent } from './admin-home/admin-home.component';
 
 @NgModule({
     imports: [
@@ -33,11 +33,12 @@ import { HomeComponent } from './home/home.component';
     ],
     declarations: [
         HomepageDashboardComponent,
-        HomeComponent
-    ], 
-    entryComponents: [        
+        HomeComponent,
+        AdminHomeComponent
     ],
-    providers: [  
+    entryComponents: [
+    ],
+    providers: [
     ]
 })
 export class HomepageDashboardModule {
