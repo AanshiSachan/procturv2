@@ -1,3 +1,78 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+.setting-footer{
+    margin-right: 1%;
+    margin-top: 5px;
+    float: right;
+}
+.setting-full {
+    padding: 15px;
+    max-height: 580px;
+    overflow: hidden;
+    ::-webkit-scrollbar{
+        display: block;
+    }
+    .row {
+        margin: 0px 15px;
+    }
+    .setting-left {
+        padding: 15px;
+        max-height: 500px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        ul {
+            padding: 15px 10px;
+            li {
+                line-height: 60px;
+                border-radius: 5px;
+                font-size: 20px;
+                font-weight: 600;
+                background: white;
+                span {
+                    margin-left: 20px;
+                    a {
+                        color: #0084f6;
+                    }
+                }
+                &.active {
+                    background: #0060a3;
+                    span {
+                        margin-left: 20px;
+                        a {
+                            color: white;
+                        }
+                    }
+                }
+                &:hover {
+                    background: #0060a3;
+                    span {
+                        margin-left: 20px;
+                        a {
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .setting-right {
+        padding: 15px;
+        .sms-setting-wrapper{
+            max-height: 500px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            border: 1px solid #777;
+            padding: 2px 0px 1px 2px;
+            table{
+
+            }
+        }
+    }
+}
+
 .middle-section {
     padding: 5px 15px;
     width: 100%;
