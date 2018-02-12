@@ -309,7 +309,42 @@
                 </tr>
                 <tr>
                   <td>
-                    Student Birthday
+                    <div class="">
+                      <aside style="width:50%">
+                        Student Birthday
+                      </aside>
+                      <aside style="width:50%">
+                        <div class="time-picker">
+                          <div class="field-wrapper has-value">
+                            <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.birthday_daily_schedule.hour"
+                              name="hour" style="background: transparent">
+                              <option *ngFor="let hour of hourArr" [value]="hour">
+                                {{hour}}
+                              </option>
+                            </select>
+                            <label for="hour">Hour</label>
+                          </div>
+                          <div class="field-wrapper has-value">
+                            <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.birthday_daily_schedule.minute"
+                              name="minute" style="background: transparent">
+                              <option *ngFor="let minute of minArr" [value]="minute">
+                                {{minute}}
+                              </option>
+                            </select>
+                            <label for="minute">Minute</label>
+                          </div>
+                          <div class="field-wrapper has-value">
+                            <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.birthday_daily_schedule.meridian"
+                              name="meridian" style="background: transparent">
+                              <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                                {{meridian}}
+                              </option>
+                            </select>
+                            <label for="meridian">Meridian</label>
+                          </div>
+                        </div>
+                      </aside>
+                    </div>
                   </td>
                   <td>
                     <div class="field-checkbox-wrapper">
@@ -337,7 +372,42 @@
 
                 <tr>
                   <td>
-                    Batch Fees Dues Daily Notification
+                    <aside style="width:50%">
+                      Batch Fees Dues Daily Notification
+                    </aside>
+                    <aside style="width:50%">
+                      <div class="time-picker">
+                        <div class="field-wrapper has-value">
+                          <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.fee_dues_daily_schedule.hour"
+                            name="hour" style="background: transparent">
+                            <option *ngFor="let hour of hourArr" [value]="hour">
+                              {{hour}}
+                            </option>
+                          </select>
+                          <label for="hour">Hour</label>
+                        </div>
+                        <div class="field-wrapper has-value">
+                          <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.fee_dues_daily_schedule.minute"
+                            name="minute" style="background: transparent">
+                            <option *ngFor="let minute of minArr" [value]="minute">
+                              {{minute}}
+                            </option>
+                          </select>
+                          <label for="minute">Minute</label>
+                        </div>
+                        <div class="field-wrapper has-value">
+                          <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.fee_dues_daily_schedule.meridian"
+                            name="meridian" style="background: transparent">
+                            <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                              {{meridian}}
+                            </option>
+                          </select>
+                          <label for="meridian">Meridian</label>
+                        </div>
+                      </div>
+                    </aside>
+
+
                   </td>
                   <td>
                     <div class="field-checkbox-wrapper">
@@ -366,6 +436,51 @@
                 <tr>
                   <td>
                     Batch Fees Dues Notification(Intervals)
+
+                    <div class="time-picker">
+                      <div class="field-wrapper has-value">
+                        <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.fee_dues_interval_schedule.hour"
+                          name="hour" style="background: transparent">
+                          <option *ngFor="let hour of hourArr" [value]="hour">
+                            {{hour}}
+                          </option>
+                        </select>
+                        <label for="hour">Hour</label>
+                      </div>
+                      <div class="field-wrapper has-value">
+                        <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.fee_dues_interval_schedule.minute"
+                          name="minute" style="background: transparent">
+                          <option *ngFor="let minute of minArr" [value]="minute">
+                            {{minute}}
+                          </option>
+                        </select>
+                        <label for="minute">Minute</label>
+                      </div>
+                      <div class="field-wrapper has-value">
+                        <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.fee_dues_interval_schedule.meridian"
+                          name="meridian" style="background: transparent">
+                          <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                            {{meridian}}
+                          </option>
+                        </select>
+                        <label for="meridian">Meridian</label>
+                      </div>
+                    </div>
+
+                    fee_dues_interval
+                    <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.fee_dues_interval>='0' }">
+                      <input type="number" class="form-ctrl" style="background: transparent" [(ngModel)]="instituteSettingDet.fee_dues_interval"
+                        name="slotNew">
+                      <label for="slotNew">Interval
+                      </label>
+                    </div>
+
+
+
+
+
+
+
                   </td>
                   <td>
                     <div class="field-checkbox-wrapper">
@@ -393,7 +508,49 @@
 
                 <tr>
                   <td>
-                    Batch Pre Fee Dues Notification(Intervals)
+                    <div class="row">
+                      <div>
+                        Batch Pre Fee Dues Notification(Intervals)
+                      </div>
+                      <div class="time-picker">
+                        <div class="field-wrapper has-value">
+                          <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.pre_fee_dues_interval_schedule.hour"
+                            name="hour" style="background: transparent">
+                            <option *ngFor="let hour of hourArr" [value]="hour">
+                              {{hour}}
+                            </option>
+                          </select>
+                          <label for="hour">Hour</label>
+                        </div>
+                        <div class="field-wrapper has-value">
+                          <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.pre_fee_dues_interval_schedule.minute"
+                            name="minute" style="background: transparent">
+                            <option *ngFor="let minute of minArr" [value]="minute">
+                              {{minute}}
+                            </option>
+                          </select>
+                          <label for="minute">Minute</label>
+                        </div>
+                        <div class="field-wrapper has-value">
+                          <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.pre_fee_dues_interval_schedule.meridian"
+                            name="meridian" style="background: transparent">
+                            <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                              {{meridian}}
+                            </option>
+                          </select>
+                          <label for="meridian">Meridian</label>
+                        </div>
+                      </div>
+
+                      <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.pre_fee_dues_interval>='0' }">
+                        <input type="number" class="form-ctrl" style="background: transparent" [(ngModel)]="instituteSettingDet.pre_fee_dues_interval"
+                          name="slotNew">
+                        <label for="slotNew">Interval
+                        </label>
+                      </div>
+
+                    </div>
+
                   </td>
                   <td>
                     <div class="field-checkbox-wrapper">
@@ -504,6 +661,37 @@
                 <tr>
                   <td>
                     Alumni Student Birthday
+
+                    <div class="time-picker">
+                      <div class="field-wrapper has-value">
+                        <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.hour"
+                          name="hour" style="background: transparent">
+                          <option *ngFor="let hour of hourArr" [value]="hour">
+                            {{hour}}
+                          </option>
+                        </select>
+                        <label for="hour">Hour</label>
+                      </div>
+                      <div class="field-wrapper has-value">
+                        <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.minute"
+                          name="minute" style="background: transparent">
+                          <option *ngFor="let minute of minArr" [value]="minute">
+                            {{minute}}
+                          </option>
+                        </select>
+                        <label for="minute">Minute</label>
+                      </div>
+                      <div class="field-wrapper has-value">
+                        <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.meridian"
+                          name="meridian" style="background: transparent">
+                          <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                            {{meridian}}
+                          </option>
+                        </select>
+                        <label for="meridian">Meridian</label>
+                      </div>
+                    </div>
+
                   </td>
                   <td>
                     <div class="field-checkbox-wrapper">
