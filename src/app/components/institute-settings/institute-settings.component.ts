@@ -14,6 +14,10 @@ export class InstituteSettingsComponent implements OnInit {
 
   isRippleLoad: boolean = false;
   isLangInst: boolean = false;
+  hourArr: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  minArr: any[] = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '55'];
+  meridianArr: any[] = ["AM", "PM"];
+
   instituteSettingDet: any = {
     sms_notification: '',
     email_notification: '',
@@ -64,20 +68,42 @@ export class InstituteSettingsComponent implements OnInit {
       parent: '',
       gaurdian: '',
     },
+    birthday_daily_schedule: {
+      hour: '',
+      minute: '',
+      meridian: '',
+    },
     fee_dues_daily_notification: {
       student: '',
       parent: '',
       gaurdian: '',
+    },
+    fee_dues_daily_schedule: {
+      hour: '',
+      minute: '',
+      meridian: '',
     },
     fee_dues_interval_notification: {
       student: '',
       parent: '',
       gaurdian: '',
     },
+    fee_dues_interval: '',
+    fee_dues_interval_schedule: {
+      hour: '',
+      minute: '',
+      meridian: '',
+    },
     pre_fee_dues_interval_notification: {
       student: '',
       parent: '',
       gaurdian: '',
+    },
+    pre_fee_dues_interval: '',
+    pre_fee_dues_interval_schedule: {
+      hour: '',
+      minute: '',
+      meridian: '',
     },
     student_fee_dues_notification: {
       student: '',
@@ -99,6 +125,11 @@ export class InstituteSettingsComponent implements OnInit {
       parent: '',
       gaurdian: '',
       admin: '',
+    },
+    alumni_birthday_daily_schedule: {
+      hour: '',
+      minute: '',
+      meridian: '',
     },
     regular_class_notification: {
       student: '',
@@ -318,8 +349,19 @@ export class InstituteSettingsComponent implements OnInit {
       this.messageToast('error', 'Error', 'Please provide valid phone number.');
       return;
     }
-
+    obj.fee_dues_interval = this.instituteSettingDet.fee_dues_interval;
+    obj.pre_fee_dues_interval = this.instituteSettingDet.pre_fee_dues_interval;
+    obj.birthday_daily_schedule = this.convertTimeToSend(this.instituteSettingDet.birthday_daily_schedule);
+    obj.fee_dues_daily_schedule = this.convertTimeToSend(this.instituteSettingDet.fee_dues_daily_schedule);
+    obj.fee_dues_interval_schedule = this.convertTimeToSend(this.instituteSettingDet.fee_dues_interval_schedule);
+    obj.pre_fee_dues_interval_schedule = this.convertTimeToSend(this.instituteSettingDet.pre_fee_dues_interval_schedule);
+    obj.alumni_birthday_daily_schedule = this.convertTimeToSend(this.instituteSettingDet.alumni_birthday_daily_schedule);
     return obj;
+  }
+
+  convertTimeToSend(data) {
+    let time = data.hour + ':' + data.minute + ' ' + data.meridian;
+    return time;
   }
 
   fillJSONData(data) {
@@ -390,6 +432,20 @@ export class InstituteSettingsComponent implements OnInit {
     this.instituteSettingDet.enable_online_payment_sms_notification = data.enable_online_payment_sms_notification;
     this.instituteSettingDet.online_payment_notify_emailIds = data.online_payment_notify_emailIds;
     this.instituteSettingDet.online_payment_notify_mobiles = data.online_payment_notify_mobiles;
+    this.instituteSettingDet.fee_dues_interval = data.fee_dues_interval;
+    this.instituteSettingDet.pre_fee_dues_interval = data.pre_fee_dues_interval;
+    this.fillTimeInHrAndMinute(this.instituteSettingDet.birthday_daily_schedule, data.birthday_daily_schedule);
+    this.fillTimeInHrAndMinute(this.instituteSettingDet.fee_dues_daily_schedule, data.fee_dues_daily_schedule);
+    this.fillTimeInHrAndMinute(this.instituteSettingDet.fee_dues_interval_schedule, data.fee_dues_interval_schedule);
+    this.fillTimeInHrAndMinute(this.instituteSettingDet.pre_fee_dues_interval_schedule, data.pre_fee_dues_interval_schedule);
+    this.fillTimeInHrAndMinute(this.instituteSettingDet.alumni_birthday_daily_schedule, data.alumni_birthday_daily_schedule);
+  }
+
+
+  fillTimeInHrAndMinute(dataJson, res) {
+    dataJson.hour = res.split(':')[0];
+    dataJson.minute = res.split(':')[1].substring(0, 2);
+    dataJson.meridian = res.split(' ')[1];
   }
 
   checkDropDownSelection(data) {
