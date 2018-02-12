@@ -986,23 +986,21 @@
         </div>
         <div class="row" *ngIf="(isLangInst == false)">
           <h3>Online Test Setting</h3>
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.test_buffer_duration >= '0'}">
-              <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew">
-              <label for="slotNew">Buffered Duration in mins (before exam test start time)
-              </label>
-            </div>
+
+          <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.test_buffer_duration >= '0'}">
+            <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew">
+            <label for="slotNew">Buffered Duration in mins (before exam test start time)
+            </label>
           </div>
+
         </div>
         <div class="row" style="margin-top:10px">
           <h3>Absent Attendance Setting</h3>
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.absent_attendance_in_a_month_threshold >= '0'}">
-              <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.absent_attendance_in_a_month_threshold" class="form-ctrl"
-                name="slotNew">
-              <label for="slotNew">Absent Attendance Threshold: (In 15 Days)
-              </label>
-            </div>
+          <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.absent_attendance_in_a_month_threshold >= '0'}">
+            <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.absent_attendance_in_a_month_threshold" class="form-ctrl"
+              name="slotNew">
+            <label for="slotNew">Absent Attendance Threshold: (In 15 Days)
+            </label>
           </div>
         </div>
       </section>
@@ -1272,7 +1270,7 @@
           <h3>Miscellaneous Setting</h3>
         </div>
         <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px">
+          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px;margin-top:15px">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.allow_simple_registration"
                 id="">
