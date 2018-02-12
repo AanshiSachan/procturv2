@@ -1105,7 +1105,7 @@
 
       <div class="row">
 
-        <div class="field-wrapper datePickerBox">
+        <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': feeTemplateById.paid_date != ''}">
           <input type="text" value="" id="pd" readonly="true" class="form-ctrl bsDatepicker"  readonly="true" [(ngModel)]="feeTemplateById.paid_date" name="pd" bsDatepicker>
           <label for="pd">Payment Date*</label>
           <span id="paydayClear" class="date-clear" name="cpd" (click)="clearfeePaymentDate($event)">clear</span>

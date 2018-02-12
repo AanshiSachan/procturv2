@@ -1358,7 +1358,7 @@ export class StudentEditComponent implements OnInit {
           this.isDefineFees = true;
 
           this.isFeeApplied = true;
-          /* this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD"); */
+          
           if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
             this.service_tax = res.registeredServiceTax;
           }
@@ -1454,12 +1454,16 @@ export class StudentEditComponent implements OnInit {
   /* ============================================================================================================================ */
   openPaymentDetails($event) {
     $event.preventDefault();
+    
+    this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
     this.isFeePaymentUpdate = true;
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   openPaymentDetailsAndExit($event) {
     $event.preventDefault();
+    
+    this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
     this.isFeePaymentUpdate = true;
     this.isUpdateFeeAndExit = true;
   }

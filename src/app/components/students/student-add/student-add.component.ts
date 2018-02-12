@@ -1212,7 +1212,7 @@ export class StudentAddComponent implements OnInit {
           this.isDefineFees = true;
 
           this.isFeeApplied = true;
-          /* this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD"); */
+          
           if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
             this.service_tax = res.registeredServiceTax;
           }
@@ -1307,6 +1307,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   openPaymentDetails($event) {
     $event.preventDefault();
+    this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
     this.isFeePaymentUpdate = true;
   }
   /* ============================================================================================================================ */
