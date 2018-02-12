@@ -231,8 +231,8 @@
 
                 <div class="c-lg-3 c-md-3 c-sm-3">
                   <div class="field-wrapper datePickerBox">
-                    <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="searchBarDate" style="cursor: pointer;" (keyup.enter)="searchDatabase()"
-                      name="followupdate" bsDatepicker/>
+                    <input type="text" value="" id="followupdate" class="form-ctrl bsDatepicker" [(ngModel)]="searchBarDate" style="cursor: pointer;" (keyup.enter)="searchDatabase()"
+                     readonly="true" name="followupdate" bsDatepicker/>
                     <!-- <label for="followupdate">Follow up Date</label> -->
                     <span class="date-clear" name="followupdate" (click)="clearDate($event)"></span>
                   </div>

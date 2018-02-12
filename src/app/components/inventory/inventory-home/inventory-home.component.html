@@ -496,7 +496,7 @@
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper datePickerBox">
                   <input type="text" value="" id="followupdate" class="form-ctrl" formControlName="created_date" style="cursor: pointer;" name="createdDate"
-                    (focus)="inputClickedCheck($event)" bsDatepicker/>
+                    (focus)="inputClickedCheck($event)" readonly="true" bsDatepicker/>
                   <span class="date-clear" name="createdDate" (click)="clearDate($event)"></span>
                 </div>
 
@@ -623,7 +623,7 @@
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
               <div class="field-wrapper datePickerBox">
                 <input type="text" value="" id="followupdate" class="form-ctrl" formControlName="challan_date" style="cursor: pointer;" name="createdDate"
-                  (focus)="inputClickedCheck($event)" bsDatepicker/>
+                  (focus)="inputClickedCheck($event)" readonly="true" bsDatepicker/>
                 <span class="date-clear" name="createdDate" (click)="clearDate($event)"></span>
               </div>
             </div>

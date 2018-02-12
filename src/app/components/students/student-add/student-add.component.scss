@@ -81,11 +81,12 @@
     table {
         .field-wrapper {
             background: transparent;
-            width: 150px;
+            width: 100%;
             .form-ctrl {
                 background: transparent;
                 border-bottom: solid 1px #0084f6;
                 text-align: center;
+                width: 180px;
             }
         }
         .field-wrapper {
@@ -1061,7 +1062,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .fee-summary {
-    margin-top: 25px;
+    margin-top: 5px;
     ul {
         display: flex;
         justify-content: space-between;
@@ -1135,14 +1136,14 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .fee-detail-summary {
-    padding-top: 40px;
+    padding-top: 10px;
 }
 
 .fee-inst-list {
     &>ul {
         &>li {
             border: 1px solid #ccc;
-            padding: 16px;
+            padding: 5px;
             border-top: 0;
             &.active,
             &:hover {
@@ -1258,7 +1259,7 @@ input[type=number]::-webkit-outer-spin-button {
         li {
             display: inline-block;
             margin-right: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             div {}
         }
     }

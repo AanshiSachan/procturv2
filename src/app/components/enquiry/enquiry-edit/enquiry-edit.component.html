@@ -259,7 +259,7 @@
                     <div class="" *ngIf="component.type == 4" input-def>
                       <div id="{{component.id}}wrapper" class="field-wrapper" [class.has-value]="component.value != ''" (click)="multiselectVisible($event.target.id)">
                         <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" autocomplete="off" name="{{component.label}}"
-                         disabled class="form-ctrl" />
+                         readonly="true" class="form-ctrl" />
                         <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
                         <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
                       </div>
