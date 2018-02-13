@@ -10,7 +10,7 @@ import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstr
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import 'moment';
 import 'hammerjs';
-
+import { ProcturWidgetComponent } from './proctur-widget/proctur-widget.component';
 //import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
@@ -34,9 +34,11 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
     declarations: [
         HomepageDashboardComponent,
         HomeComponent,
-        AdminHomeComponent
+        AdminHomeComponent,
+        ProcturWidgetComponent
     ],
     entryComponents: [
+        ProcturWidgetComponent
     ],
     providers: [
     ]

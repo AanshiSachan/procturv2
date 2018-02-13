@@ -24,11 +24,9 @@ import * as Muuri from 'muuri/muuri';
 })
 export class AdminHomeComponent implements OnInit {
 
-  isProfessional:boolean = false;
+  isProfessional: boolean = false;
   grid: any;
   order: string[] = ['1', '2', '3', '4'];
-
-
 
   constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef) {
     if (sessionStorage.getItem('Authorization') == null) {
@@ -40,35 +38,59 @@ export class AdminHomeComponent implements OnInit {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-
-
     this.grid = new Muuri('.grid', {
       dragEnabled: true,
-       layout: {
-         horizontal: true
-       }
+      layout: {
+        fillGaps: true,
+        rounding: true
+      },
+      layoutOnInit: false,
+      sortData: {
+        id: (item, element) => {
+          // return parseFloat(element.getAttribute('data-id'));
+          return this.order.indexOf(element.getAttribute('data-id'));
+        }
+      }
+    });
+    this.grid.sort('id');
+    this.grid.on('dragEnd', (item, event) => {
+      this.getOrder();
     });
 
-   this.grid = new Muuri('.grid', {
-     layoutOnInit: false,
-     sortData: {
-       id: (item, element) => {
-         // return parseFloat(element.getAttribute('data-id'));
-         return this.order.indexOf(element.getAttribute('data-id'));
-       }
-     }
-   });
-   this.grid.sort('id');
-
-   this.grid.on('dragEnd', (item, event) => {
-     this.getOrder();
-   });
-
   }
-
 
   getOrder() {
     this.order = this.grid.getItems().map(item => item.getElement().getAttribute('data-id'));
   }
+
+  getDataId(text: String): number{
+    let id: number;
+
+    switch(text){
+      case 'enquiry': {
+        id = 1;
+        break;
+      }
+
+      case 'fee': {
+        id = 2;
+        break;
+      }
+
+      case 'general': {
+        id = 3;
+        break;
+      }
+
+      case 'schedule': {
+        id = 4;
+        break;
+      }
+    }
+
+    return id;
+  }
+
+  
 
 }

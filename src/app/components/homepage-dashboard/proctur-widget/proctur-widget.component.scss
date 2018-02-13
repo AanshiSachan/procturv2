@@ -1,56 +1,6 @@
-/* @import "./src/assets/css/style.scss";
-@import "./src/assets/css/wrapper.scss";
-@import "./src/assets/css/common/common.scss";
-@import "./src/assets/css/common/grid.scss";
-@import "./src/assets/css/common/variables.scss"; */
-
-.grid-container{
-    width: 65vw;
-    height:100%;
-    overflow: hidden;
-    
-}
-
-.grid {
-    position: relative;
-    width: 65vw !important;
-}
-
-.item {
-    display: block;
-    position: absolute;
-    width: 100px;
-    //height: 100px;
-    margin: 5px;
-    z-index: 1;
-    background: #000;
-    color: #fff
-}
-
-.item.muuri-item-dragging {
-    z-index: 3;
-}
-
-.item.muuri-item-releasing {
-    z-index: 2;
-}
-
-.item.muuri-item-hidden {
-    z-index: 0;
-}
-
-.item-content {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
 // css for activity page
 .activity-page {
     background: #f2f2f2;
-    ::-webkit-scrollbar{
-        display: block;
-    }
 }
 
 .activity-left {
@@ -125,7 +75,6 @@
         &.enquiry-state,
         &.fees-state {
             width: 49%;
-            min-height: 225px;
         }
         .actb-top-header {
             padding: 10px 12px;

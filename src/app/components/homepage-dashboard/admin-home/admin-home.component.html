@@ -27,351 +27,360 @@
       </div>
 
       <div class="act-bottom clearfix">
+        <div class="grid-container">
+          <ul class="actb-wrapper grid">
 
-        <ul class="actb-wrapper grid">
+            <li class="enquiry-state item" data-id="{{getDataId('enquiry')}}">
+              <div class="item-content">
+                <div class="actb-top-header clearfix">
+                  <span class="heading">
+                    Enquiry Stats
+                  </span>
+                  <button class="pull-right drag-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
+                      />
+                    </svg>
+                  </button>
+                  <button class="pull-right">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <g fill="#0084F6" fill-rule="nonzero">
+                        <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
+                        />
+                        <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
+                        />
+                      </g>
+                    </svg>
+                  </button>
+                  <span class="enquiry-state-date pull-right">
+                    22 JAN 2018
+                  </span>
+                </div>
+                <div class="enq-state-bottom">
+                  <div class="enq-left">
 
-          <li class="enquiry-state item" data-id="1">
-            <div class="actb-top-header clearfix">
-              <span class="heading">
-                Enquiry Stats
-              </span>
-              <button class="pull-right drag-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
-                  />
-                </svg>
-              </button>
-              <button class="pull-right">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <g fill="#0084F6" fill-rule="nonzero">
-                    <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
-                    />
-                    <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
-                    />
-                  </g>
-                </svg>
-              </button>
-              <span class="enquiry-state-date pull-right">
-                22 JAN 2018
-              </span>
-            </div>
-            <div class="enq-state-bottom">
-              <div class="enq-left">
-
-              </div>
-              <div class="enq-right">
-                <div class="enq-state-details">
-                  <div class="enq">
-                    <div class="enqs-label">
-                      <span class=""></span>
-                      <label>Total Inquiries</label>
-                    </div>
-                    <div class="enqs-value">
-                      325
-                    </div>
                   </div>
-                  <div class="enq">
-                    <div class="enqs-label">
-                      <span class="open"></span>
-                      <label>Open</label>
-                    </div>
-                    <div class="enqs-value">
-                      325
-                    </div>
-                  </div>
-                  <div class="enq">
-                    <div class="enqs-label">
-                      <span class="inprogress"></span>
-                      <label>In Progress</label>
-                    </div>
-                    <div class="enqs-value">
-                      325
-                    </div>
-                  </div>
-                  <div class="enq">
-                    <div class="enqs-label">
-                      <span class="admmited"></span>
-                      <label>Admitted</label>
-                    </div>
-                    <div class="enqs-value">
-                      325
-                    </div>
-                  </div>
-                  <div class="enq">
-                    <div class="enqs-label">
-                      <span class="closed"></span>
-                      <label>Closed</label>
-                    </div>
-                    <div class="enqs-value">
-                      325
+                  <div class="enq-right">
+                    <div class="enq-state-details">
+                      <div class="enq">
+                        <div class="enqs-label">
+                          <span class=""></span>
+                          <label>Total Inquiries</label>
+                        </div>
+                        <div class="enqs-value">
+                          325
+                        </div>
+                      </div>
+                      <div class="enq">
+                        <div class="enqs-label">
+                          <span class="open"></span>
+                          <label>Open</label>
+                        </div>
+                        <div class="enqs-value">
+                          325
+                        </div>
+                      </div>
+                      <div class="enq">
+                        <div class="enqs-label">
+                          <span class="inprogress"></span>
+                          <label>In Progress</label>
+                        </div>
+                        <div class="enqs-value">
+                          325
+                        </div>
+                      </div>
+                      <div class="enq">
+                        <div class="enqs-label">
+                          <span class="admmited"></span>
+                          <label>Admitted</label>
+                        </div>
+                        <div class="enqs-value">
+                          325
+                        </div>
+                      </div>
+                      <div class="enq">
+                        <div class="enqs-label">
+                          <span class="closed"></span>
+                          <label>Closed</label>
+                        </div>
+                        <div class="enqs-value">
+                          325
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </li>
-       
-          <li class="fees-state item" data-id="2">
-            <div class="actb-top-header clearfix">
-              <span class="heading">
-                Fees stats
-              </span>
-              <button class="pull-right drag-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
-                  />
-                </svg>
-              </button>
-              <button class="pull-right">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <g fill="#0084F6" fill-rule="nonzero">
-                    <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
-                    />
-                    <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
-                    />
-                  </g>
-                </svg>
-              </button>
-              <span class="enquiry-state-date pull-right">
-                22 JAN 2018
-              </span>
-            </div>
-            <div class="fees-state-bottom">
-              <ul>
-                <li>
-                  <label>Total Collected</label>
-                  <div>Rs. 10 Lakhs</div>
-                </li>
-                <li>
-                  <label>Total Pending Cheques</label>
-                  <div>Rs. 10 Lakhs</div>
-                </li>
-                <li>
-                  <label>Past Dues</label>
-                  <div>Rs. 10 Lakhs</div>
-                </li>
-              </ul>
-            </div>
-          </li>
-      
-          <li class="schedule-state item" data-id="3">
-            <div>
-              <div class="actb-top-header clearfix">
-                <span class="heading">
-                  Schedule
-                </span>
-                <ul class="sche-top-det">
-                  <li class="schedule-det">
-                    <div>
-                      <label>Total Classes :</label>
-                      <span>23</span>
-                    </div>
-                    <div>
-                      <label>Total Classes :</label>
-                      <span>23</span>
-                    </div>
-                  </li>
-                  <li>
-                    <button class="pull-right drag-button">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
+            </li>
+
+            <li class="fees-state item" data-id="{{getDataId('fee')}}">
+              <div class="item-content">
+                <div class="actb-top-header clearfix">
+                  <span class="heading">
+                    Fees stats
+                  </span>
+                  <button class="pull-right drag-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
+                      />
+                    </svg>
+                  </button>
+                  <button class="pull-right">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <g fill="#0084F6" fill-rule="nonzero">
+                        <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
                         />
-                      </svg>
-                    </button>
-                    <button class="pull-right">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <g fill="#0084F6" fill-rule="nonzero">
-                          <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
-                          />
-                          <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
-                          />
-                        </g>
-                      </svg>
-                    </button>
-                    <span class="enquiry-state-date pull-right">
-                      22 JAN 2018
-                    </span>
-                  </li>
-                </ul>
-
-              </div>
-              <div class="schedule-bottom">
-                <ul class="sche-head">
-                  <li>Timings</li>
-                  <li class="cls-type">Class type</li>
-                  <li>batch/course</li>
-                  <li>faculty</li>
-                </ul>
-                <ul class="ct-ongoing">
-                  <li>
-                    <div>10 :00 Am - 1:00 Pm</div>
-                    <p>302</p>
-                  </li>
-                  <li class="cls-type">
-                    <div>
-                      Regular Class
-                      <span class="class-type-status">ongoing</span>
-                    </div>
-                  </li>
-                  <li>
-                    <div>Second Batch</div>
-                  </li>
-                  <li>
-                    <div>Prof. Ramesh Sharma</div>
-                  </li>
-                </ul>
-                <ul class="ct-completed active">
-                  <li>
-                    <div>10 :00 Am - 1:00 Pm</div>
-                    <p>302</p>
-                  </li>
-                  <li class="cls-type">
-                    <div>
-                      Regular Class
-                      <span class="class-type-status">Completed</span>
-                    </div>
-                    <p class="anm">
-                      Attendance Not Marked</p>
-                  </li>
-                  <li>
-                    <div>Second Batch</div>
-                  </li>
-                  <li>
-                    <div>Prof. Ramesh Sharma</div>
-                  </li>
-                </ul>
-                <ul class="ct-cancel">
-                  <li>
-                    <div>10 :00 Am - 1:00 Pm</div>
-                    <p>302</p>
-                  </li>
-                  <li class="cls-type">
-                    <div>
-                      Regular Class
-                      <span class="class-type-status">Cancelled</span>
-                    </div>
-                    <p class="anm">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                        <g fill="none" fill-rule="evenodd" stroke="#F00">
-                          <path stroke-width=".5" d="M2.008 13.1h11.984L8 2.774 2.008 13.1z" />
-                          <path d="M7.926 8.776h-.5l.5.5v-.5zm0-1.352v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 1.352v.5l.5-.5h-.5zM7.926 11.1h-.5l.5.5v-.5zm0-.176v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 .176v.5l.5-.5h-.5z"
-                          />
-                        </g>
-                      </svg>
-
-                      Attendance Not Marked</p>
-                  </li>
-                  <li>
-                    <div>Second Batch</div>
-                  </li>
-                  <li>
-                    <div>Prof. Ramesh Sharma</div>
-                  </li>
-                </ul>
-                <ul class="ct-cancel">
-                  <li>
-                    <div>10 :00 Am - 1:00 Pm</div>
-                    <p>302</p>
-                  </li>
-                  <li class="cls-type">
-                    <div>
-                      Regular Class
-                      <span class="class-type-status">Cancelled</span>
-                    </div>
-                    <p class="anm">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                        <g fill="none" fill-rule="evenodd" stroke="#F00">
-                          <path stroke-width=".5" d="M2.008 13.1h11.984L8 2.774 2.008 13.1z" />
-                          <path d="M7.926 8.776h-.5l.5.5v-.5zm0-1.352v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 1.352v.5l.5-.5h-.5zM7.926 11.1h-.5l.5.5v-.5zm0-.176v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 .176v.5l.5-.5h-.5z"
-                          />
-                        </g>
-                      </svg>
-
-                      Attendance Not Marked</p>
-                  </li>
-                  <li>
-                    <div>Second Batch</div>
-                  </li>
-                  <li>
-                    <div>Prof. Ramesh Sharma</div>
-                  </li>
-                </ul>
-                <div class="ct-disable-wrapper pos-rel">
-                  <ul class="ct-disabled ct-completed">
+                        <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
+                        />
+                      </g>
+                    </svg>
+                  </button>
+                  <span class="enquiry-state-date pull-right">
+                    22 JAN 2018
+                  </span>
+                </div>
+                <div class="fees-state-bottom">
+                  <ul>
                     <li>
-                      <div>10 :00 Am - 1:00 Pm</div>
-                      <p>302</p>
-                    </li>
-                    <li class="cls-type">
-                      <div>
-                        Regular Class
-                        <span class="class-type-status">Cancelled</span>
-                      </div>
-                      <p class="anm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                          <g fill="none" fill-rule="evenodd" stroke="#F00">
-                            <path stroke-width=".5" d="M2.008 13.1h11.984L8 2.774 2.008 13.1z" />
-                            <path d="M7.926 8.776h-.5l.5.5v-.5zm0-1.352v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 1.352v.5l.5-.5h-.5zM7.926 11.1h-.5l.5.5v-.5zm0-.176v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 .176v.5l.5-.5h-.5z"
-                            />
-                          </g>
-                        </svg>
-
-                        Attendance Not Marked</p>
+                      <label>Total Collected</label>
+                      <div>Rs. 10 Lakhs</div>
                     </li>
                     <li>
-                      <div>Second Batch</div>
+                      <label>Total Pending Cheques</label>
+                      <div>Rs. 10 Lakhs</div>
                     </li>
                     <li>
-                      <div>Prof. Ramesh Sharma</div>
+                      <label>Past Dues</label>
+                      <div>Rs. 10 Lakhs</div>
                     </li>
                   </ul>
-                  <div class="che-action">
-                    <a href="#">Mark Attendance</a>
-                    <a href="#">Cancel Exam</a>
-                    <a href="#">Reminder</a>
-                    <a href="#">Reschedule</a>
+                </div>
+              </div>
+            </li>
+
+            <li class="schedule-state item" data-id="{{getDataId('schedule')}}">
+              <div class="item-content">
+                <div>
+                  <div class="actb-top-header clearfix">
+                    <span class="heading">
+                      Schedule
+                    </span>
+                    <ul class="sche-top-det">
+                      <li class="schedule-det">
+                        <div>
+                          <label>Total Classes :</label>
+                          <span>23</span>
+                        </div>
+                        <div>
+                          <label>Total Classes :</label>
+                          <span>23</span>
+                        </div>
+                      </li>
+                      <li>
+                        <button class="pull-right drag-button">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
+                            />
+                          </svg>
+                        </button>
+                        <button class="pull-right">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <g fill="#0084F6" fill-rule="nonzero">
+                              <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
+                              />
+                              <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
+                              />
+                            </g>
+                          </svg>
+                        </button>
+                        <span class="enquiry-state-date pull-right">
+                          22 JAN 2018
+                        </span>
+                      </li>
+                    </ul>
+
+                  </div>
+                  <div class="schedule-bottom">
+                    <ul class="sche-head">
+                      <li>Timings</li>
+                      <li class="cls-type">Class type</li>
+                      <li>batch/course</li>
+                      <li>faculty</li>
+                    </ul>
+                    <ul class="ct-ongoing">
+                      <li>
+                        <div>10 :00 Am - 1:00 Pm</div>
+                        <p>302</p>
+                      </li>
+                      <li class="cls-type">
+                        <div>
+                          Regular Class
+                          <span class="class-type-status">ongoing</span>
+                        </div>
+                      </li>
+                      <li>
+                        <div>Second Batch</div>
+                      </li>
+                      <li>
+                        <div>Prof. Ramesh Sharma</div>
+                      </li>
+                    </ul>
+                    <ul class="ct-completed active">
+                      <li>
+                        <div>10 :00 Am - 1:00 Pm</div>
+                        <p>302</p>
+                      </li>
+                      <li class="cls-type">
+                        <div>
+                          Regular Class
+                          <span class="class-type-status">Completed</span>
+                        </div>
+                        <p class="anm">
+                          Attendance Not Marked</p>
+                      </li>
+                      <li>
+                        <div>Second Batch</div>
+                      </li>
+                      <li>
+                        <div>Prof. Ramesh Sharma</div>
+                      </li>
+                    </ul>
+                    <ul class="ct-cancel">
+                      <li>
+                        <div>10 :00 Am - 1:00 Pm</div>
+                        <p>302</p>
+                      </li>
+                      <li class="cls-type">
+                        <div>
+                          Regular Class
+                          <span class="class-type-status">Cancelled</span>
+                        </div>
+                        <p class="anm">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                            <g fill="none" fill-rule="evenodd" stroke="#F00">
+                              <path stroke-width=".5" d="M2.008 13.1h11.984L8 2.774 2.008 13.1z" />
+                              <path d="M7.926 8.776h-.5l.5.5v-.5zm0-1.352v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 1.352v.5l.5-.5h-.5zM7.926 11.1h-.5l.5.5v-.5zm0-.176v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 .176v.5l.5-.5h-.5z"
+                              />
+                            </g>
+                          </svg>
+
+                          Attendance Not Marked</p>
+                      </li>
+                      <li>
+                        <div>Second Batch</div>
+                      </li>
+                      <li>
+                        <div>Prof. Ramesh Sharma</div>
+                      </li>
+                    </ul>
+                    <ul class="ct-cancel">
+                      <li>
+                        <div>10 :00 Am - 1:00 Pm</div>
+                        <p>302</p>
+                      </li>
+                      <li class="cls-type">
+                        <div>
+                          Regular Class
+                          <span class="class-type-status">Cancelled</span>
+                        </div>
+                        <p class="anm">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                            <g fill="none" fill-rule="evenodd" stroke="#F00">
+                              <path stroke-width=".5" d="M2.008 13.1h11.984L8 2.774 2.008 13.1z" />
+                              <path d="M7.926 8.776h-.5l.5.5v-.5zm0-1.352v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 1.352v.5l.5-.5h-.5zM7.926 11.1h-.5l.5.5v-.5zm0-.176v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 .176v.5l.5-.5h-.5z"
+                              />
+                            </g>
+                          </svg>
+
+                          Attendance Not Marked</p>
+                      </li>
+                      <li>
+                        <div>Second Batch</div>
+                      </li>
+                      <li>
+                        <div>Prof. Ramesh Sharma</div>
+                      </li>
+                    </ul>
+                    <div class="ct-disable-wrapper pos-rel">
+                      <ul class="ct-disabled ct-completed">
+                        <li>
+                          <div>10 :00 Am - 1:00 Pm</div>
+                          <p>302</p>
+                        </li>
+                        <li class="cls-type">
+                          <div>
+                            Regular Class
+                            <span class="class-type-status">Cancelled</span>
+                          </div>
+                          <p class="anm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                              <g fill="none" fill-rule="evenodd" stroke="#F00">
+                                <path stroke-width=".5" d="M2.008 13.1h11.984L8 2.774 2.008 13.1z" />
+                                <path d="M7.926 8.776h-.5l.5.5v-.5zm0-1.352v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 1.352v.5l.5-.5h-.5zM7.926 11.1h-.5l.5.5v-.5zm0-.176v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 .176v.5l.5-.5h-.5z"
+                                />
+                              </g>
+                            </svg>
+
+                            Attendance Not Marked</p>
+                        </li>
+                        <li>
+                          <div>Second Batch</div>
+                        </li>
+                        <li>
+                          <div>Prof. Ramesh Sharma</div>
+                        </li>
+                      </ul>
+                      <div class="che-action">
+                        <a href="#">Mark Attendance</a>
+                        <a href="#">Cancel Exam</a>
+                        <a href="#">Reminder</a>
+                        <a href="#">Reschedule</a>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
-
               </div>
-            </div>
-          </li>
- 
-          <li class="general-state item" data-id="4">
-            <div class="actb-top-header clearfix">
-              <span class="heading">
-                General stats
-              </span>
-              <button class="pull-right drag-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div class="general-s-bottom">
-              <ul>
-                <li>
-                  <label>Total active students</label>
-                  <a href="#">346 Students</a>
-                </li>
-                <li>
-                  <label>Sms balance</label>
-                  <a href="#">50,000 SMS</a>
-                </li>
-                <li>
-                  <label>Download limit</label>
-                  <a href="#">245 GB</a>
-                </li>
-                <li>
-                  <label>Expiry date</label>
-                  <div>25 Jun 2018</div>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
+            </li>
 
+            <li class="general-state item" style="height: 200px;" data-id="{{getDataId('general')}}">
+              <div class="item-content">
+                <div class="actb-top-header clearfix">
+                  <span class="heading">
+                    General stats
+                  </span>
+                  <button class="pull-right drag-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div class="general-s-bottom">
+                  <ul>
+                    <li>
+                      <label>Total active students</label>
+                      <a href="#">346 Students</a>
+                    </li>
+                    <li>
+                      <label>Sms balance</label>
+                      <a href="#">50,000 SMS</a>
+                    </li>
+                    <li>
+                      <label>Download limit</label>
+                      <a href="#">245 GB</a>
+                    </li>
+                    <li>
+                      <label>Expiry date</label>
+                      <div>25 Jun 2018</div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+        </div>
       </div>
 
     </div>
