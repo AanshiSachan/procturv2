@@ -1,3 +1,50 @@
-<p>
-  institute-details works!
-</p>
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+<div class="middle-section clearFix" class="">
+
+  <section class="row setting-full">
+
+    <aside class="pull-left setting-left" style="width:20%;">
+      <ul>
+        <li id="liGeneral" class="menu-item" style="cursor: pointer" (click)="changeView('liGeneral', 'divSMSContent')">
+          <span>
+            <a class="active">General</a>
+          </span>
+        </li>
+        <li id="liPlan" class="menu-item" style="cursor: pointer" (click)="changeView('liPlan', 'divExamReport')">
+          <span>
+            <a class="">Plan/Options</a>
+          </span>
+        </li>
+        <li id="liFee" class="menu-item" style="cursor: pointer" (click)="changeView('liFee','divFeeContent')">
+          <span>
+            <a class="">Fee</a>
+          </span>
+        </li>
+        <li id="liReport" class="menu-item" style="cursor: pointer" (click)="changeView('liReport','divReportContent')">
+          <span>
+            <a class="">Report</a>
+          </span>
+        </li>
+        <li id="liMisc" class="menu-item" style="cursor: pointer" (click)="changeView('liMisc','divMiscContent')">
+          <span>
+            <a class="">Miscellaneous</a>
+          </span>
+        </li>
+      </ul>
+    </aside>
+
+    <aside class="pull-right setting-right" style="width:80%;">
+
+
+    </aside>
+
+  </section>
+
+  <section class="row setting-footer">
+    <button class="btn" (click)="saveAllSettings()">Save</button>
+    <button class="btn" (click)="cancelAllSettings()">Cancel</button>
+  </section>
+
+</div>
