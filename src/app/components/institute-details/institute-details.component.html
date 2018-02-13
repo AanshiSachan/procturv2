@@ -7,27 +7,27 @@
 
     <aside class="pull-left setting-left" style="width:20%;">
       <ul>
-        <li id="liGeneral" class="menu-item" style="cursor: pointer" (click)="changeView('liGeneral', 'divSMSContent')">
+        <li id="liGeneral" class="menu-item" style="cursor: pointer" (click)="changeView('liGeneral', 'divGeneral')">
           <span>
             <a class="active">General</a>
           </span>
         </li>
-        <li id="liPlan" class="menu-item" style="cursor: pointer" (click)="changeView('liPlan', 'divExamReport')">
+        <li id="liPlan" class="menu-item" style="cursor: pointer" (click)="changeView('liPlan', 'divPlanOption')">
           <span>
             <a class="">Plan/Options</a>
           </span>
         </li>
-        <li id="liFee" class="menu-item" style="cursor: pointer" (click)="changeView('liFee','divFeeContent')">
+        <li id="liAccount" class="menu-item" style="cursor: pointer" (click)="changeView('liAccount','divAccount')">
           <span>
             <a class="">Fee</a>
           </span>
         </li>
-        <li id="liReport" class="menu-item" style="cursor: pointer" (click)="changeView('liReport','divReportContent')">
+        <li id="liApp" class="menu-item" style="cursor: pointer" (click)="changeView('liApp','divAppDetail')">
           <span>
             <a class="">Report</a>
           </span>
         </li>
-        <li id="liMisc" class="menu-item" style="cursor: pointer" (click)="changeView('liMisc','divMiscContent')">
+        <li id="liImages" class="menu-item" style="cursor: pointer" (click)="changeView('liImages','divImages')">
           <span>
             <a class="">Miscellaneous</a>
           </span>
@@ -36,10 +36,24 @@
     </aside>
 
     <aside class="pull-right setting-right" style="width:80%;">
+      
+      <section id="divGeneral" class="general-wrapper">
+        
+      </section>
 
+      <section id="divPlanOption" class="plan-wrapper">
+      </section>
+
+      <section id="divAccount" class="account-wrapper">
+      </section>
+
+      <section id="divAppDetail" class="app-details-wrapper">
+      </section>
+
+      <section id="divImages" class="images-wrapper">
+      </section>
 
     </aside>
-
   </section>
 
   <section class="row setting-footer">

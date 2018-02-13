@@ -41,7 +41,7 @@ export class AdminHomeComponent implements OnInit {
     this.grid = new Muuri('.grid', {
       dragEnabled: true,
       layout: {
-        fillGaps: true,
+        fillGaps: false,
         rounding: true
       },
       layoutOnInit: false,

@@ -10,18 +10,33 @@ import { LoginService } from '../../services/login-services/login.service';
 })
 export class InstituteDetailsComponent implements OnInit {
 
-
   constructor(
     private apiService: InstituteDetailService,
     private appC: AppComponent,
-    private login: LoginService,
-  ) { }
+    private login: LoginService,) { }
+    instituteDetailsAll:any;
+    instituteLogoDetails:any = [];
+    kycType:any = [];
+    instituteOptions:any = [];
+    planDetail:any = [];
+
+
 
   ngOnInit() {
     this.removeFullscreen();
     this.removeSelectionFromSideNav();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
+    this.changeView('liGeneral', 'divGeneral');
+    this.updatePrefillData();
+  }
+
+  updatePrefillData(): any {
+    this.apiService.getInstituDetailsAll().subscribe(res => { this.instituteDetailsAll = res; } );
+    this.apiService.getInstituteLogoDetailsFromServer().subscribe(res => { this.instituteLogoDetails = res; });
+    this.apiService.getKycTypeDetails().subscribe(res => { this.kycType = res; });
+    this.apiService.getOptionDetails().subscribe(res => { this.instituteOptions = res; });
+    this.apiService.getPlanDetails().subscribe(res => { this.planDetail = res; });
   }
 
   messageToast(errorType, errorTitle, errorMeassage) {
@@ -57,6 +72,21 @@ export class InstituteDetailsComponent implements OnInit {
     document.getElementById('linine').classList.remove('active');
     document.getElementById('liten').classList.remove('active');
     document.getElementById('lieleven').classList.remove('active');
+  }
+
+  changeView(lidiv, showView) {
+    document.getElementById('divGeneral').classList.add('hideDivClass');
+    document.getElementById('divPlanOption').classList.add('hideDivClass');
+    document.getElementById('divAccount').classList.add('hideDivClass');
+    document.getElementById('divAppDetail').classList.add('hideDivClass');
+    document.getElementById('divImages').classList.add('hideDivClass');
+    document.getElementById('liGeneral').classList.remove('active');
+    document.getElementById('liPlan').classList.remove('active');
+    document.getElementById('liAccount').classList.remove('active');
+    document.getElementById('liApp').classList.remove('active');
+    document.getElementById('liImages').classList.remove('active');
+    document.getElementById(lidiv).classList.add('active');
+    document.getElementById(showView).classList.remove('hideDivClass');
   }
 
 }

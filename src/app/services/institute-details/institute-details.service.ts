@@ -11,10 +11,7 @@ export class InstituteDetailService {
     headers;
     institute_id;
 
-    constructor(
-        private http: HttpClient,
-        private auth: AuthenticatorService,
-    ) {
+    constructor(private http: HttpClient, private auth: AuthenticatorService) {
         this.institute_id = this.auth.getInstituteId();
         this.Authorization = this.auth.getAuthToken();
         this.headers = new HttpHeaders(
@@ -29,12 +26,53 @@ export class InstituteDetailService {
         return error
     }
 
-    getInstituteDetailsFromServer() {
+    getInstituDetailsAll() {
+        let url = this.baseURL + "/api/v1/institutes/" + this.institute_id;
+        return this.http.get(url, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    getInstituteLogoDetailsFromServer() {
         let url = this.baseURL + "/api/v1/institutes/getlogo/" + this.institute_id;
         return this.http.get(url, { headers: this.headers }).map(
             this.successCallback,
             this.errorCallBack
         )
     }
+
+    getSubBranchDetails() {
+        let url = this.baseURL + "/api/v1/institutes/all/subBranches/" + this.institute_id;
+        return this.http.get(url, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    getPlanDetails() {
+        let url = this.baseURL + "/api/v1/proctur/getAllPlans";
+        return this.http.get(url, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    getOptionDetails() {
+        let url = this.baseURL + "/api/v1/proctur/getAllOptions";
+        return this.http.get(url, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    getKycTypeDetails() {
+        let url = this.baseURL + "/api/v1/masterData/type/KYC_DOCUMENT_TYPE";
+        return this.http.get(url, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
 
 }
