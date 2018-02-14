@@ -16,6 +16,8 @@ import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import * as Muuri from 'muuri/muuri';
+import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service'
+import { Chart } from 'angular-highcharts';
 
 @Component({
   selector: 'admin-home',
@@ -28,14 +30,58 @@ export class AdminHomeComponent implements OnInit {
   grid: any;
   order: string[] = ['1', '2', '3', '4'];
 
-  constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef) {
+  enquiryDate:string = moment().format("YYYY-MM-DD");
+
+  chart = new Chart({
+    chart: {
+      type: 'pie',
+      renderTo: 'enqChart',
+      margin: [0, 0, 0, 0],
+      spacingTop: 0,
+      spacingBottom: 0,
+      spacingLeft: 0,
+      spacingRight: 0
+    },
+    title: {
+      text: null
+    },
+    plotOptions: {
+      pie: {
+        size: '100%',
+        dataLabels: {
+          enabled: false
+        }
+      }
+    },
+    credits: {
+      enabled: false
+    },
+    series: [{
+      type: 'pie',
+      name: 'Count',
+      data: [
+        ['Open', 45.0],
+        ['In Progress', 26.8],
+        ['Admitted', 8.5],
+        ['Closed', 6.2],
+        ['Registered', 21.0]
+      ]
+    }]
+  });
+
+  constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private enquiryService: FetchenquiryService) {
+
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
+
+
+
   }
 
   ngOnInit() {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.fetchWidgetPrefill();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.grid = new Muuri('.grid', {
@@ -59,14 +105,18 @@ export class AdminHomeComponent implements OnInit {
 
   }
 
+  fetchWidgetPrefill() {
+    this.enquiryService.fetchEnquiryWidgetView(this.enquiryDate)
+  }
+
   getOrder() {
     this.order = this.grid.getItems().map(item => item.getElement().getAttribute('data-id'));
   }
 
-  getDataId(text: String): number{
+  getDataId(text: String): number {
     let id: number;
 
-    switch(text){
+    switch (text) {
       case 'enquiry': {
         id = 1;
         break;
@@ -91,6 +141,6 @@ export class AdminHomeComponent implements OnInit {
     return id;
   }
 
-  
+
 
 }
