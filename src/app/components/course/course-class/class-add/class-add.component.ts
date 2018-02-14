@@ -30,8 +30,7 @@ export class ClassAddComponent implements OnInit {
   isProfessional: boolean = false;
   isRippleLoad: boolean = false;
   isClassFormFilled: boolean = false;
-  createCustomSchedule:boolean = false;
-
+  createCustomSchedule: boolean = false;
 
 
   courseModelBatch: any;
@@ -49,6 +48,29 @@ export class ClassAddComponent implements OnInit {
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   meridianArr: any[] = ['', "AM", "PM"];
+
+
+  courseStartDate: any = '';
+  courseEndDate: any = '';
+  subjectListDataSource: any = [];
+  fetchedCourseData: any = [];
+
+
+  addClassDetails = {
+    subject_id: '',
+    start_hour: '',
+    start_minute: '',
+    start_meridian: '',
+    end_hour: '',
+    end_minute: '',
+    end_meridian: '',
+    teacher_id: '',
+    desc: '',
+    roomNo: '',
+    customListDataSource: '',
+  }
+  teacherListDataSource: any = [];
+  customListDataSource: any = [];
 
 
 
@@ -100,7 +122,6 @@ export class ClassAddComponent implements OnInit {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-
     /* fetching prefilled data */
     this.busy = this.fetchPrefillData();
 
@@ -189,7 +210,6 @@ export class ClassAddComponent implements OnInit {
   updateCourseList(ev) {
     this.isRippleLoad = true;
     this.isClassFormFilled = false;
-    //console.log(ev);
     this.busy = this.classService.getCourseFromMasterById(ev).subscribe(
       res => {
         if (res.coursesList) {
@@ -219,6 +239,9 @@ export class ClassAddComponent implements OnInit {
     else {
       this.isClassFormFilled = true;
       console.log(this.fetchMasterCourseModule);
+      this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
+      this.getCustomList();
+      this.getTeacherList();
     }
   }
   /* ============================================================================================ */
@@ -472,9 +495,9 @@ export class ClassAddComponent implements OnInit {
   /* ============================================================================================ */
   /* ============================================================================================ */
   updateClassFrequency(ev) {
-    if(ev == "OTHER"){
+    if (ev == "OTHER") {
       this.createCustomSchedule = true;
-    }else{
+    } else {
       this.createCustomSchedule = false;
     }
   }
@@ -487,6 +510,83 @@ export class ClassAddComponent implements OnInit {
   /* ============================================================================================ */
   /* ============================================================================================ */
 
+  getAllSubjectListFromServer(data) {
+    this.classService.getAllSubjectlist(this.fetchMasterCourseModule).subscribe(
+      res => {
+        console.log('course list', res);
+        this.fetchedCourseData = res;
+        this.subjectListDataSource = this.getSubjectList(res);
+        console.log('student list', this.subjectListDataSource);
+      },
+      err => {
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  getCustomList() {
+    this.classService.getCustomClassListFromServer().subscribe(
+      res => {
+        console.log('custom list', res);
+        this.customListDataSource = res;
+      },
+      err => {
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  getTeacherList() {
+    this.classService.getAllActiveTeachersList().subscribe(
+      res => {
+        console.log('teacher list', res);
+        this.teacherListDataSource = res;
+      },
+      err => {
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+
+  onCourseListSelection(event) {
+    console.log(this.courseList);
+    if (event != '-1') {
+      for (let i = 0; i < this.courseList.length; i++) {
+        if (this.courseList[i].course_id == event) {
+          this.courseStartDate = this.courseList[i].start_date;
+          this.courseEndDate = this.courseList[i].end_date;
+        }
+      }
+    } else {
+      this.courseStartDate = '';
+      this.courseEndDate = '';
+    }
+  }
+
+  copyCourseSchedule() {
+    debugger
+  }
+
+  cancelCourseSchedule() {
+    debugger
+  }
+
+  sendReminder() {
+    debugger
+  }
+
+  getSubjectList(data) {
+    let obj = {};
+    for (let i = 0; i < data.coursesList.length; i++) {
+      if (data.coursesList[i].course_id == this.fetchMasterCourseModule.course_id) {
+        return data.coursesList[i].batchesList;
+      }
+    }
+  }
 
   /* ============================================================================================ */
   /* ============================================================================================ */
@@ -560,5 +660,15 @@ export class ClassAddComponent implements OnInit {
 
   /* ============================================================================================ */
   /* ============================================================================================ */
+
+
+  messageToast(Errortype, Errortitle, message) {
+    let msg = {
+      type: Errortype,
+      title: Errortitle,
+      body: message
+    }
+    this.appC.popToast(msg);
+  }
 
 }

@@ -19,46 +19,581 @@
         </li>
         <li id="liAccount" class="menu-item" style="cursor: pointer" (click)="changeView('liAccount','divAccount')">
           <span>
-            <a class="">Fee</a>
+            <a class="">Account</a>
           </span>
         </li>
         <li id="liApp" class="menu-item" style="cursor: pointer" (click)="changeView('liApp','divAppDetail')">
           <span>
-            <a class="">Report</a>
+            <a class="">App Details</a>
           </span>
         </li>
-        <li id="liImages" class="menu-item" style="cursor: pointer" (click)="changeView('liImages','divImages')">
+        <!-- <li id="liImages" class="menu-item" style="cursor: pointer" (click)="changeView('liImages','divImages')">
           <span>
-            <a class="">Miscellaneous</a>
+            <a class="">Images</a>
           </span>
-        </li>
+        </li> -->
       </ul>
     </aside>
 
     <aside class="pull-right setting-right" style="width:80%;">
-      
+
       <section id="divGeneral" class="general-wrapper">
-        
+        <div *ngIf="instDetails != ''">
+
+          <div class="basic-info borderClass">
+            <div class="row">
+              <h3>
+                Basic Information
+              </h3>
+            </div>
+
+            <div class="row">
+              <p>Testing Pursposenofsdiundsinfiusdnfiudsiufnbidsfinsdifnisdfnsdnfidsjnfijdsnfijdsnfjndsfindsifnisdjnfijdsnfijsdnfijndsfinsdifn</p>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_name != ''}">
+                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_name">
+                  <label for="slotNew">Name
+                    <span style="color:red">*</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_phone != ''}">
+                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_primary_phone">
+                  <label for="slotNew">Institution Contact No.
+                    <span style="color:red">*</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_addr != ''}">
+                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_primary_addr">
+                  <label for="slotNew">Address
+                    <span style="color:red">*</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_email != ''}">
+                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_primary_email">
+                  <label for="slotNew">Email ID
+                    <span style="color:red">*</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="owner-details borderClass">
+
+            <div class="row">
+              <h3>
+                Owner Details
+              </h3>
+            </div>
+
+            <div class="row">
+              <p>Testing Pursposenofsdiundsinfiusdnfiudsiufnbidsfinsdifnisdfnsdnfidsjnfijdsnfijdsnfjndsfindsifnisdjnfijdsnfijsdnfijndsfinsdifn</p>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_name != ''}">
+                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_name">
+                  <label for="slotNew">Owner Name(s)
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_primary_phone != ''}">
+                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_primary_phone">
+                  <label for="slotNew">
+                    Owner Contact No(s)
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_primary_email != ''}">
+                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_primary_email">
+                  <label for="slotNew">Owner Primary Email ID
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_secondary_email != ''}">
+                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_secondary_email">
+                  <label for="slotNew">Owner Secondary Email ID
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="admin-details borderClass">
+
+            <div class="row">
+              <h3>
+                Admin Details
+              </h3>
+            </div>
+
+            <div class="row">
+              <p>Testing Pursposenofsdiundsinfiusdnfiudsiufnbidsfinsdifnisdfnsdnfidsjnfijdsnfijdsnfjndsfindsifnisdjnfijdsnfijsdnfijndsfinsdifn</p>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_name != ''}">
+                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.admin_name">
+                  <label for="slotNew">Admin Name
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_primary_phone != ''}">
+                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.admin_primary_phone">
+                  <label for="slotNew">Admin Contact No.
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_primary_email != ''}">
+                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.admin_primary_email">
+                  <label for="slotNew">Admin Email ID
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="additional-details borderClass">
+
+            <div class="row">
+              <h3>
+                Additional Details
+              </h3>
+            </div>
+
+            <div class="row">
+              <p>Testing Pursposenofsdiundsinfiusdnfiudsiufnbidsfinsdifnisdfnsdnfidsjnfijdsnfijdsnfjndsfindsifnisdjnfijdsnfijsdnfijndsfinsdifn</p>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.tag_line != ''}">
+                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.tag_line">
+                  <label for="slotNew">Tag Line
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.kyc_document_type != ''}">
+                  <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" name="hour" [(ngModel)]="instDetails.kyc_document_type">
+                    <option value="-1">Select KYC Document Type</option>
+                    <option *ngFor="let opt of kycType" [value]="opt.data_key">
+                      {{opt.data_value}}
+                    </option>
+                  </select>
+                  <label for="hour">KYC Document Type</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper">
+                  <input class="hide" type="file" #idUploadDoc accept="image/gif,image/jpeg,image/jpg,image/png">
+                  <button class="btn" (click)="uploadDocument()">Upload Document</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.fb_page_url != ''}">
+                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.fb_page_url">
+                  <label for="slotNew">FB Page Url
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.website_url != ''}">
+                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.website_url">
+                  <label for="slotNew">Website Url
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </section>
 
       <section id="divPlanOption" class="plan-wrapper">
+
+        <div class="row">
+          <h3 style="margin-bottom: 10px;">Plan</h3>
+          <div class="table-scroll-wrapper">
+            <div class="table table-responsive">
+              <table>
+                <thead>
+                  <th>
+                    Plan Name
+                  </th>
+                  <th>
+                    Students Limit
+                  </th>
+                  <th>
+                    Expiry Date
+                  </th>
+                  <th>
+                    No. of SMS
+                  </th>
+                  <th>
+                    Download Limit(GB)
+                  </th>
+                  <th>
+                    Price
+                  </th>
+                  <th>
+                    Tax(%)
+                  </th>
+                  <th>
+                    Total Price (Rs.)
+                  </th>
+                </thead>
+                <tbody>
+                  <tr id="rowPlan{{i}}" *ngFor="let row of planDetail; let i = index; trackBy: i;">
+                    <td>
+                      {{row.plan_name}}
+                    </td>
+                    <td>
+                      {{row.student_limit}}
+                    </td>
+                    <td>
+                      {{row.expiry_months}}
+                    </td>
+                    <td>
+                      {{row.sms_allocation}}
+                    </td>
+                    <td>
+                      {{row.download_limit}}
+                    </td>
+                    <td>
+                      {{row.subscription_price}}
+                    </td>
+                    <td>
+                      {{row.tax}}
+                    </td>
+                    <td>
+                      {{row.total_price}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.active_student_allocation != ''}">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.active_student_allocation">
+              <label for="slotNew">
+                No. Of Students
+                <span style="color:red">*</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':instDetails.institute_expiry_date != ''}">
+              <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="instDetails.institute_expiry_date" style="cursor: pointer;"
+                name="createdDate" readonly="true" bsDatepicker/>
+              <label>Expiry Date</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <h3 style="margin-bottom: 10px">Options</h3>
+          <div class="table-scroll-wrapper">
+            <div class="table table-responsive">
+              <table>
+                <thead>
+                  <th>
+                    Option Name
+                  </th>
+                  <th>
+                    Price(1st Time in Rs)
+                  </th>
+                  <th>
+                    Price (2nd Time Onwards in Rs)
+                  </th>
+                  <th>
+                    Tax
+                  </th>
+                  <th>
+                    Total Price (Rs.)
+                  </th>
+                </thead>
+                <tbody>
+                  <tr id="rowPlan{{i}}" *ngFor="let row of instituteOptions; let i = index; trackBy: i;">
+                    <td>
+                      {{row.option_name}}
+                    </td>
+                    <td>
+                      {{row.subscription_price}}
+                    </td>
+                    <td>
+                      {{row.renewal_price}}
+                    </td>
+                    <td>
+                      {{row.tax}}
+                    </td>
+                    <td>
+                      {{row.total_price}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.total_price_based_on_chosen_plan_and_option >= '0'}">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.total_price_based_on_chosen_plan_and_option">
+              <label for="slotNew">Total Price (Rs.)
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_sms_quota >= '0'}">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_sms_quota">
+              <label for="slotNew">Transactional SMS Quota Allocated
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_sms_quota_used >= '0'}">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_sms_quota_used">
+              <label for="slotNew">Transactional SMS Quota Used
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_sms_quota_available >= '0'}">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_sms_quota_available">
+              <label for="slotNew">Transactional SMS Quota Available
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_campaign_sms_quota >= '0'}">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota">
+              <label for="slotNew">Promotional SMS Quota Allocated
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_campaign_sms_quota_used >= '0'}">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota_used">
+              <label for="slotNew">Promotional SMS Quota Used
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_campaign_sms_quota_available >= '0'}">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota_available">
+              <label for="slotNew">Promotional SMS Available
+              </label>
+            </div>
+          </div>
+        </div>
+
       </section>
 
       <section id="divAccount" class="account-wrapper">
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.sms_shortcode != ''}">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.sms_shortcode">
+              <label for="slotNew">SMS Sender ID
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.email_sender_id != ''}">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.email_sender_id">
+              <label for="slotNew">
+                Email Sender ID
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.gst_in != ''}">
+              <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.gst_in">
+              <label for="slotNew">
+                GSTIN
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_id_prefix != ''}">
+              <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.student_id_prefix">
+              <label for="slotNew">Student ID
+              </label>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_id_prefix != ''}">
+              <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.student_id_prefix">
+              <label for="slotNew">
+                Student ID Prefix
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_short_code != ''}">
+              <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_short_code">
+              <label for="slotNew">Institute Short Code
+                <span style="color:red">*
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
       </section>
 
       <section id="divAppDetail" class="app-details-wrapper">
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.announcement != ''}">
+              <input type="textbox" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.announcement">
+              <label for="slotNew">Announcement
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.about_us_text != ''}">
+              <input type="textbox" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.about_us_text">
+              <label for="slotNew">
+                About Us Text
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_app_url != ''}">
+              <input type="textbox" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.student_app_url">
+              <label for="slotNew">Student APP Url
+              </label>
+            </div>
+          </div>
+        </div>
+
       </section>
 
-      <section id="divImages" class="images-wrapper">
-      </section>
+      <!-- <section id="divImages" class="images-wrapper">
+
+        <div class="row">
+          <div class="c-sm-4 c-md-4 c-lg-4">
+
+          </div>
+        </div>
+
+      </section> -->
 
     </aside>
   </section>
 
   <section class="row setting-footer">
-    <button class="btn" (click)="saveAllSettings()">Save</button>
-    <button class="btn" (click)="cancelAllSettings()">Cancel</button>
+    <button class="btn" (click)="updateAllDetails()">Update</button>
+    <button class="btn" (click)="getPaymentDeatils()">Payment Details</button>
+    <button class="btn" (click)="smsAllocationHistoryDeatils()">SMS Allocation History</button>
+    <button class="btn" (click)="downLoadLimitAllocationHistory()">Download Limit Allocation History</button>
   </section>
 
 </div>
