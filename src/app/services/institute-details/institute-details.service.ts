@@ -74,5 +74,46 @@ export class InstituteDetailService {
         )
     }
 
+    updateDetailsToServer(data) {
+        data.institute_id = this.institute_id;
+        let url = this.baseURL + "/api/v1/institutes/" + this.institute_id;
+        return this.http.put(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    getPayementInfoFromServer() {
+        let data = {
+            inst_id: this.institute_id
+        }
+        let url = this.baseURL + "/api/v1/institute/payment/getReport/";
+        return this.http.post(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    getSmsInfoFromServer() {
+        let data = {
+            institution_id: this.institute_id
+        }
+        let url = this.baseURL + "/api/v1/institute/SMS/transaction/getReport";
+        return this.http.post(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    getDownloadLimitFromServer() {
+        let data = {
+            institution_id: this.institute_id
+        }
+        let url = this.baseURL + "/api/v1/institute/download_limit/transaction/getReport";
+        return this.http.post(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
 
 }

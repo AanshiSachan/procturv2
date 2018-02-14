@@ -130,4 +130,38 @@ export class ClassScheduleService {
         )
     }
 
+
+    successCallback(res) {
+        return res;
+    }
+
+    errorCallBack(err) {
+        return err;
+    }
+
+    getAllSubjectlist(data): Observable<any> {
+        data.inst_id = this.institute_id;
+        let url = this.baseURL + "/api/v1/courseClassSchedule/fetch";
+        return this.http.post(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    getCustomClassListFromServer(): Observable<any> {
+        let url = this.baseURL + "/api/v1/courseClassSchedule/getCustomClassesList";
+        return this.http.get(url, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    getAllActiveTeachersList(): Observable<any> {
+        let url = this.baseURL + "/api/v1/teachers/all/" + this.institute_id + '?active=Y';
+        return this.http.get(url, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        );
+    }
+
 }
