@@ -15,6 +15,7 @@ import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
+import {} from '../../../model/enquirycampaign'
 import * as Muuri from 'muuri/muuri';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service'
 import { Chart } from 'angular-highcharts';
@@ -28,6 +29,10 @@ export class AdminHomeComponent implements OnInit {
 
   isProfessional: boolean = false;
   grid: any;
+  enquiryStat:any = {
+    totalcount: null,
+    statusMap: null
+  };
   order: string[] = ['1', '2', '3', '4'];
 
   enquiryDate:string = moment().format("YYYY-MM-DD");
@@ -106,7 +111,11 @@ export class AdminHomeComponent implements OnInit {
   }
 
   fetchWidgetPrefill() {
-    this.enquiryService.fetchEnquiryWidgetView(this.enquiryDate)
+    this.enquiryService.fetchEnquiryWidgetView(this.enquiryDate).subscribe(
+      res => {
+        this.enquiryStat = res;
+      }
+    )
   }
 
   getOrder() {
@@ -141,6 +150,72 @@ export class AdminHomeComponent implements OnInit {
     return id;
   }
 
+  getDetails(id: string): number{
+    if(id === 'total'){
+      if(this.enquiryStat.totalcount != null && this.enquiryStat.totalcount != undefined){
+        return this.enquiryStat.totalcount;
+      }
+      else{
+        return 0;
+      }
+    }
+    else if(id === 'open'){
+      if(this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined){ 
+        return this.enquiryStat.statusMap['Open'];
+      }
+      else{
+        return 0;
+      }
+    } 
+    else if(id === 'ip'){
+      if(this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined){
+        return this.enquiryStat.statusMap['In Progress'];
+      }
+      else{
+        return 0;
+      }
+    }
+    else if(id === 'admitted'){
+      if(this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined){
+        return this.enquiryStat.statusMap['Student Admitted'];
+      }
+      else{
+        return 0;
+      }
+    }
+    else if(id === 'closed'){
+      if(this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined){
+        return this.enquiryStat.statusMap['Closed'];
+      }
+      else{
+        return 0;
+      }
+    }
+  }
 
+  updateChart(){
+    debugger;
+    let obj = [{
+      type: 'pie',
+      name: 'Count',
+      data: this.generateEnqChartData()
+    }];
+    this.chart.removeSerie(0);
+    console.log(obj);
+    this.chart.addSerie(obj);
+  }
+
+  generateEnqChartData(): any[]{
+    let tempArr: any[] = [];
+    
+    for(let key in this.enquiryStat.statusMap){
+      let temp:any = {
+        name: key,
+        count: ((this.enquiryStat.statusMap[key]/this.enquiryStat.totalcount)* 100)
+      }
+      tempArr.push(temp);
+    }
+    return tempArr;
+  }
 
 }

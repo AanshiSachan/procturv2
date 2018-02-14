@@ -69,7 +69,7 @@
                           <label>Total Enquiries</label>
                         </div>
                         <div class="enqs-value">
-                          
+                          {{getDetails('total')}}
                         </div>
                       </div>
                       <div class="enq">
@@ -78,7 +78,7 @@
                           <label>Open</label>
                         </div>
                         <div class="enqs-value">
-                          
+                          {{getDetails('open')}}
                         </div>
                       </div>
                       <div class="enq">
@@ -87,7 +87,7 @@
                           <label>In Progress</label>
                         </div>
                         <div class="enqs-value">
-                          
+                            {{getDetails('ip')}}
                         </div>
                       </div>
                       <div class="enq">
@@ -96,7 +96,7 @@
                           <label>Admitted</label>
                         </div>
                         <div class="enqs-value">
-                          
+                            {{getDetails('admitted')}}
                         </div>
                       </div>
                       <div class="enq">
@@ -105,7 +105,7 @@
                           <label>Closed</label>
                         </div>
                         <div class="enqs-value">
-                          
+                            {{getDetails('closed')}}
                         </div>
                       </div>
                     </div>
@@ -114,7 +114,7 @@
               </div>
             </li>
 
-            <li class="fees-state item" data-id="{{getDataId('fee')}}">
+            <li class="fees-state item" data-id="{{getDataId('fee')}}" (click)="updateChart()">
               <div class="item-content">
                 <div class="actb-top-header clearfix">
                   <span class="heading">
