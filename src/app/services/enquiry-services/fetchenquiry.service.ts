@@ -174,4 +174,21 @@ export class FetchenquiryService {
     )
   }
 
+
+  fetchEnquiryWidgetView(d){
+
+    let obj = {
+      updateDateFrom: moment(d).format("YYYY-MM-DD"),
+      updateDateTo: moment(d).format("YYYY-MM-DD")
+    }
+
+    let url = this.baseUrl +"/api/v1/enquiry/dashboard/" +this.institute_id;
+    return this.http.post(
+      url, obj, {headers: this.headers}
+    ).map(
+      res => { return res.json(); },
+      err => { return err.json(); }
+    )
+  }
+
 }
