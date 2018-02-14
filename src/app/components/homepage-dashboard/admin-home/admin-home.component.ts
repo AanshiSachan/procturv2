@@ -15,7 +15,7 @@ import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import {} from '../../../model/enquirycampaign'
+import { } from '../../../model/enquirycampaign'
 import * as Muuri from 'muuri/muuri';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service'
 import { Chart } from 'angular-highcharts';
@@ -29,17 +29,22 @@ export class AdminHomeComponent implements OnInit {
 
   isProfessional: boolean = false;
   grid: any;
-  enquiryStat:any = {
+  enquiryStat: any = {
     totalcount: null,
     statusMap: null
   };
   order: string[] = ['1', '2', '3', '4'];
 
-  enquiryDate:string = moment().format("YYYY-MM-DD");
+  enquiryDate:any = new Date();
 
   chart = new Chart({
     chart: {
       type: 'pie',
+      options3d: {
+        enabled: true,
+        alpha: 45,
+        beta: 0
+      },
       renderTo: 'enqChart',
       margin: [0, 0, 0, 0],
       spacingTop: 0,
@@ -52,7 +57,16 @@ export class AdminHomeComponent implements OnInit {
     },
     plotOptions: {
       pie: {
-        size: '100%',
+        allowPointSelect: true,
+        cursor: 'pointer',
+        colors: [
+          '#568bf4',
+          '#f456b0',
+          '#ffcc3c',
+          '#56cff4'
+        ],
+        size: '80%',
+        depth: 35,
         dataLabels: {
           enabled: false
         }
@@ -63,13 +77,14 @@ export class AdminHomeComponent implements OnInit {
     },
     series: [{
       type: 'pie',
-      name: 'Count',
+      name: '%',
       data: [
-        ['Open', 45.0],
-        ['In Progress', 26.8],
-        ['Admitted', 8.5],
-        ['Closed', 6.2],
-        ['Registered', 21.0]
+        ['Open', 0],
+        ['In Progress', 0],
+        ['Admitted', 0],
+        ['Closed', 0],
+        ['Converted', 0],
+        ['Registered', 0]
       ]
     }]
   });
@@ -111,9 +126,14 @@ export class AdminHomeComponent implements OnInit {
   }
 
   fetchWidgetPrefill() {
+    this.fetchEnqWidgetData();  
+  }
+
+  fetchEnqWidgetData(){
     this.enquiryService.fetchEnquiryWidgetView(this.enquiryDate).subscribe(
       res => {
         this.enquiryStat = res;
+        this.updateEnqChart();
       }
     )
   }
@@ -150,72 +170,75 @@ export class AdminHomeComponent implements OnInit {
     return id;
   }
 
-  getDetails(id: string): number{
-    if(id === 'total'){
-      if(this.enquiryStat.totalcount != null && this.enquiryStat.totalcount != undefined){
+  getDetails(id: string): number {
+    if (id === 'total') {
+      if (this.enquiryStat.totalcount != null && this.enquiryStat.totalcount != undefined) {
         return this.enquiryStat.totalcount;
       }
-      else{
+      else {
         return 0;
       }
     }
-    else if(id === 'open'){
-      if(this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined){ 
+    else if (id === 'open') {
+      if (this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined) {
         return this.enquiryStat.statusMap['Open'];
       }
-      else{
+      else {
         return 0;
       }
-    } 
-    else if(id === 'ip'){
-      if(this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined){
+    }
+    else if (id === 'ip') {
+      if (this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined) {
         return this.enquiryStat.statusMap['In Progress'];
       }
-      else{
+      else {
         return 0;
       }
     }
-    else if(id === 'admitted'){
-      if(this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined){
+    else if (id === 'admitted') {
+      if (this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined) {
         return this.enquiryStat.statusMap['Student Admitted'];
       }
-      else{
+      else {
         return 0;
       }
     }
-    else if(id === 'closed'){
-      if(this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined){
+    else if (id === 'closed') {
+      if (this.enquiryStat.statusMap != null && this.enquiryStat.statusMap != undefined) {
         return this.enquiryStat.statusMap['Closed'];
       }
-      else{
+      else {
         return 0;
       }
     }
   }
 
-  updateChart(){
-    debugger;
-    let obj = [{
-      type: 'pie',
-      name: 'Count',
-      data: this.generateEnqChartData()
-    }];
-    this.chart.removeSerie(0);
-    console.log(obj);
-    this.chart.addSerie(obj);
+  updateEnqChart() {
+    this.chart.ref.series[0].setData(this.generateEnqChartData())
+    this.chart.ref.redraw();
   }
 
-  generateEnqChartData(): any[]{
-    let tempArr: any[] = [];
-    
-    for(let key in this.enquiryStat.statusMap){
-      let temp:any = {
-        name: key,
-        count: ((this.enquiryStat.statusMap[key]/this.enquiryStat.totalcount)* 100)
+  updateEnqChartByDate(e){
+    this.enquiryService.fetchEnquiryWidgetView(e).subscribe(
+      res => {
+        this.enquiryStat = res;
+        this.updateEnqChart();
       }
+    )
+  }
+
+  generateEnqChartData(): any[] {
+    let tempArr: any[] = [];
+    for (let key in this.enquiryStat.statusMap) {
+      let temp: any[] = [];
+      temp[0] = key;
+      temp[1] = ((this.enquiryStat.statusMap[key] / this.enquiryStat.totalcount) * 100);
       tempArr.push(temp);
     }
     return tempArr;
   }
 
+  openCalendar(id){
+    document.getElementById(id).click();
+  }
 }

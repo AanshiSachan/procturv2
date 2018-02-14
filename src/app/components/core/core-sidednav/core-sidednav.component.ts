@@ -33,7 +33,8 @@ export class CoreSidednavComponent implements OnInit {
           document.getElementById('liseven').classList.remove('hide');
           document.getElementById('lieight').classList.remove('hide');
           document.getElementById('linine').classList.remove('hide');
-          document.getElementById('liten').classList.remove('hide');
+          document.getElementById('lizero').classList.remove('active');
+          //document.getElementById('liten').classList.remove('hide');
         }
         else {
           /* array to store the user permissions, if the permission length is less than equal to one
@@ -51,7 +52,7 @@ export class CoreSidednavComponent implements OnInit {
           this.hasInventory(permissions);
           this.hasExpense(permissions);
           this.hasCampaign(permissions);
-          this.hasExam(permissions);
+          //this.hasExam(permissions);
 
           /* single permission or admin */
           /* if (permissions.length <= 1) {
@@ -164,7 +165,7 @@ export class CoreSidednavComponent implements OnInit {
 
   hasExam(permissions) {
     if (permissions.includes('103') || permissions.includes('112') || permissions.includes('203') || permissions.includes('404')) {
-      document.getElementById('liten').classList.remove('hide');
+      //document.getElementById('liten').classList.remove('hide');
     }
   }
 
@@ -211,8 +212,9 @@ export class CoreSidednavComponent implements OnInit {
       document.getElementById('liseven').classList.remove('active');
       document.getElementById('lieight').classList.remove('active');
       document.getElementById('linine').classList.remove('active');
-      document.getElementById('liten').classList.remove('active');
-      document.getElementById('lieleven').classList.remove('active');
+      document.getElementById('lizero').classList.remove('active');
+      //document.getElementById('liten').classList.remove('active');
+      //document.getElementById('lieleven').classList.remove('active');
     }
     else if (id === 'litwo' || id === 'li2') {
       id = 'litwo';
@@ -225,8 +227,9 @@ export class CoreSidednavComponent implements OnInit {
       document.getElementById('liseven').classList.remove('active');
       document.getElementById('lieight').classList.remove('active');
       document.getElementById('linine').classList.remove('active');
-      document.getElementById('liten').classList.remove('active');
-      document.getElementById('lieleven').classList.remove('active');
+      document.getElementById('lizero').classList.remove('active');
+      /* document.getElementById('liten').classList.remove('active');
+      document.getElementById('lieleven').classList.remove('active'); */
     }
     else if (id === 'lithree' || id === 'li3') {
       id = 'lithree';
@@ -239,8 +242,9 @@ export class CoreSidednavComponent implements OnInit {
       document.getElementById('liseven').classList.remove('active');
       document.getElementById('lieight').classList.remove('active');
       document.getElementById('linine').classList.remove('active');
-      document.getElementById('liten').classList.remove('active');
-      document.getElementById('lieleven').classList.remove('active');
+      document.getElementById('lizero').classList.remove('active');
+      /* document.getElementById('liten').classList.remove('active');
+      document.getElementById('lieleven').classList.remove('active'); */
     }
     else if (id === 'lifour' || id === 'li4') {
       id = 'lifour';
@@ -253,8 +257,9 @@ export class CoreSidednavComponent implements OnInit {
       document.getElementById('liseven').classList.remove('active');
       document.getElementById('lieight').classList.remove('active');
       document.getElementById('linine').classList.remove('active');
-      document.getElementById('liten').classList.remove('active');
-      document.getElementById('lieleven').classList.remove('active');
+      document.getElementById('lizero').classList.remove('active');
+      /* document.getElementById('liten').classList.remove('active');
+      document.getElementById('lieleven').classList.remove('active'); */
     }
     else if (id === 'lifive' || id === 'li5') {
       id = 'lifive';
@@ -267,8 +272,9 @@ export class CoreSidednavComponent implements OnInit {
       document.getElementById('liseven').classList.remove('active');
       document.getElementById('lieight').classList.remove('active');
       document.getElementById('linine').classList.remove('active');
-      document.getElementById('liten').classList.remove('active');
-      document.getElementById('lieleven').classList.remove('active');
+      document.getElementById('lizero').classList.remove('active');
+      /* document.getElementById('liten').classList.remove('active');
+      document.getElementById('lieleven').classList.remove('active'); */
     }
     else if (id === 'lisix' || id === 'li6') {
       id = 'lisix';
@@ -281,8 +287,9 @@ export class CoreSidednavComponent implements OnInit {
       document.getElementById('liseven').classList.remove('active');
       document.getElementById('lieight').classList.remove('active');
       document.getElementById('linine').classList.remove('active');
-      document.getElementById('liten').classList.remove('active');
-      document.getElementById('lieleven').classList.remove('active');
+      document.getElementById('lizero').classList.remove('active');
+      /* document.getElementById('liten').classList.remove('active');
+      document.getElementById('lieleven').classList.remove('active'); */
     }
     else if (id === 'liseven' || id === 'li7') {
       id = 'liseven';
@@ -295,8 +302,9 @@ export class CoreSidednavComponent implements OnInit {
       document.getElementById('liseven').classList.add('active');
       document.getElementById('lieight').classList.remove('active');
       document.getElementById('linine').classList.remove('active');
-      document.getElementById('liten').classList.remove('active');
-      document.getElementById('lieleven').classList.remove('active');
+      document.getElementById('lizero').classList.remove('active');
+      /* document.getElementById('liten').classList.remove('active');
+      document.getElementById('lieleven').classList.remove('active'); */
     }
     else if (id === 'lieight' || id === 'li8') {
       id = 'lieight';
@@ -309,8 +317,9 @@ export class CoreSidednavComponent implements OnInit {
       document.getElementById('liseven').classList.remove('active');
       document.getElementById('lieight').classList.add('active');
       document.getElementById('linine').classList.remove('active');
-      document.getElementById('liten').classList.remove('active');
-      document.getElementById('lieleven').classList.remove('active');
+      document.getElementById('lizero').classList.remove('active');
+      /* document.getElementById('liten').classList.remove('active');
+      document.getElementById('lieleven').classList.remove('active'); */
     }
     else if (id === 'linine' || id === 'li9') {
       id = 'linine';
@@ -323,8 +332,9 @@ export class CoreSidednavComponent implements OnInit {
       document.getElementById('liseven').classList.remove('active');
       document.getElementById('lieight').classList.remove('active');
       document.getElementById('linine').classList.add('active');
-      document.getElementById('liten').classList.remove('active');
-      document.getElementById('lieleven').classList.remove('active');
+      document.getElementById('lizero').classList.remove('active');
+      /* document.getElementById('liten').classList.remove('active');
+      document.getElementById('lieleven').classList.remove('active'); */
     }
     else if (id === 'liten' || id === 'liX') {
       id = 'liten';
@@ -337,11 +347,12 @@ export class CoreSidednavComponent implements OnInit {
       document.getElementById('liseven').classList.remove('active');
       document.getElementById('lieight').classList.remove('active');
       document.getElementById('linine').classList.remove('active');
-      document.getElementById('liten').classList.add('active');
-      document.getElementById('lieleven').classList.remove('active');
+      document.getElementById('lizero').classList.remove('active');
+      /* document.getElementById('liten').classList.add('active');
+      document.getElementById('lieleven').classList.remove('active'); */
     }
-    else if (id === 'lieleven' || id === 'li11') {
-      id = 'lieleven';
+    else if (id === 'lizero' || id === 'li0') {
+      id = 'lizero';
       document.getElementById('lione').classList.remove('active');
       document.getElementById('litwo').classList.remove('active');
       document.getElementById('lithree').classList.remove('active');
@@ -351,8 +362,8 @@ export class CoreSidednavComponent implements OnInit {
       document.getElementById('liseven').classList.remove('active');
       document.getElementById('lieight').classList.remove('active');
       document.getElementById('linine').classList.remove('active');
-      document.getElementById('liten').classList.remove('active');
-      document.getElementById('lieleven').classList.add('active');
+      /* document.getElementById('liten').classList.remove('active'); */
+      document.getElementById('lizero').classList.add('active');
     }
   }
 

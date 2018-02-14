@@ -910,8 +910,7 @@ export class EnquiryAddComponent implements OnInit {
   navigateToEdit() {
     let val: any;
     this.prefill.fetchLastDetail().subscribe(el =>{
-        localStorage.setItem('institute_enquiry_id', el.institute_enquiry_id);
-        this.router.navigate(['/enquiry/edit']);
+        this.router.navigate(['/enquiry/edit/' +el.institute_enquiry_id]);
       }
     )
   }

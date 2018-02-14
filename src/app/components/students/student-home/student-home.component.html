@@ -89,10 +89,10 @@
                         <div class="filter-wrapper">
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
-                                <div class="field-wrapper">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
                                     <select id="masterCourse" name="masterCourse" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchCourseForMaster($event)"
                                         class="form-ctrl">
-                                        <option value=""></option>
+                                        <option value="-1"></option>
                                         <option [value]="std.standard_id" *ngFor="let std of standardList">
                                             {{std.standard_name}}
                                         </option>
@@ -102,9 +102,9 @@
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
-                                <div class="field-wrapper">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.subject_id != '-1'}">
                                     <select id="course" name="course" [(ngModel)]="advancedFilterForm.subject_id" class="form-ctrl">
-                                        <option value=""></option>
+                                        <option value="-1"></option>
                                         <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
                                             {{subject.subject_name}}
                                         </option>
@@ -114,9 +114,9 @@
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
-                                <div class="field-wrapper">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.batch_id != '-1'}">
                                     <select id="batch" name="batch" [(ngModel)]="advancedFilterForm.batch_id" class="form-ctrl">
-                                        <option value=""></option>
+                                        <option value="-1"></option>
                                         <option [value]="b.batch_id" *ngFor="let b of batchList">
                                             {{b.batch_name}}
                                         </option>
@@ -126,9 +126,9 @@
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
-                                <div class="field-wrapper">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.school_id != '-1'}">
                                     <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id" class="form-ctrl">
-                                        <option value=""></option>
+                                        <option value="-1"></option>
                                         <option [value]="sch.school_id" *ngFor="let sch of schoolList">
                                             {{sch.school_name}}
                                         </option>
@@ -138,9 +138,9 @@
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
-                                <div class="field-wrapper">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.language_inst_status != '-1'}">
                                     <select id="status" [(ngModel)]="advancedFilterForm.language_inst_status" class="form-ctrl">
-                                        <option value=""></option>
+                                        <option value="-1"></option>
                                         <option [value]="stdst.data_key" *ngFor="let stdst of studentStatusList">
                                             {{stdst.data_value}}
                                         </option>
@@ -170,10 +170,10 @@
 
                             <!-- non professional/ academic -->
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
-                                <div class="field-wrapper">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
                                     <select id="standard" name="standard" [(ngModel)]="advancedFilterForm.standard_id" (ngModelChange)="fetchCourseForMaster($event)"
                                         class="form-ctrl">
-                                        <option value=""></option>
+                                        <option value="-1"></option>
                                         <option [value]="std.standard_id" *ngFor="let std of standardList">
                                             {{std.standard_name}}
                                         </option>
@@ -183,34 +183,34 @@
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
-                                <div class="field-wrapper">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.master_course_name != '-1'}">
                                     <select id="masterCourse" name="masterCourse" [(ngModel)]="advancedFilterForm.master_course_name" (ngModelChange)="updateSubCourse($event)"
                                         class="form-ctrl">
-                                        <option value=""></option>
+                                        <option value="-1"></option>
                                         <option [value]="mc.master_course" *ngFor="let mc of masterCourseList">
                                             {{mc.master_course}}
                                         </option>
                                     </select>
-                                    <label for="masterCourse">Master Course</label>
+                                    <label for="masterCourse">Standard</label>
                                 </div>
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
-                                <div class="field-wrapper">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.course_id != '-1'}">
                                     <select id="course" name="course" [(ngModel)]="advancedFilterForm.course_id" class="form-ctrl">
-                                        <option value=""></option>
+                                        <option value="-1"></option>
                                         <option [value]="course.course_id" *ngFor="let course of subCourseList">
                                             {{course.course_name}}
                                         </option>
                                     </select>
-                                    <label for="course">Course</label>
+                                    <label for="course">Subject</label>
                                 </div>
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
-                                <div class="field-wrapper">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.school_id != '-1'}">
                                     <select id="school" name="school" [(ngModel)]="advancedFilterForm.school_id" class="form-ctrl">
-                                        <option value=""></option>
+                                        <option value="-1"></option>
                                         <option [value]="sch.school_id" *ngFor="let sch of schoolList">
                                             {{sch.school_name}}
                                         </option>
@@ -220,9 +220,9 @@
                             </div>
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="!isProfessional">
-                                <div class="field-wrapper">
+                                <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.language_inst_status != '-1'}">
                                     <select id="status" [(ngModel)]="advancedFilterForm.language_inst_status" class="form-ctrl">
-                                        <option value=""></option>
+                                        <option value="-1"></option>
                                         <option [value]="stdst.data_key" *ngFor="let stdst of studentStatusList">
                                             {{stdst.data_value}}
                                         </option>

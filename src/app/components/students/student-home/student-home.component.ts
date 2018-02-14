@@ -839,6 +839,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   /* When user select the master course or standard then fetch the sub or sub course for them */
   updateSubCourse(course) {
+    this.advancedFilterForm.course_id = '-1';
+    this.subCourseList = [];
     this.masterCourseList.forEach(el => {
       if (el.master_course == course) {
         this.subCourseList = el.coursesList;
@@ -852,6 +854,9 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   /* when the user select the master course then fetch course for the related */
   fetchCourseForMaster(id) {
+    debugger;
+    this.advancedFilterForm.subject_id = '-1';
+    this.subjectList = [];
     this.studentPrefill.fetchCourseList(id).subscribe(
       res => {
         this.subjectList = res;
