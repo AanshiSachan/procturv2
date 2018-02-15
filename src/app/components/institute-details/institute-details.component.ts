@@ -20,6 +20,12 @@ export class InstituteDetailsComponent implements OnInit {
   planDetailDataSource: any = [];
   @ViewChild('idUploadDoc') uploadDoc;
   instDetails: any = {};
+  showAllocationPopup: boolean = false;
+  openPopUpName: any = '';
+  smsAllocation: any = [];
+  paymentTable: any = [];
+  limitTable: any = [];
+  storageInfo: any = {};
 
   constructor(
     private apiService: InstituteDetailService,
@@ -41,6 +47,7 @@ export class InstituteDetailsComponent implements OnInit {
     this.getInstituteKYCDetails();
     this.getOptionDetailsFromServer();
     this.getPlanDetailsFromServer();
+    this.getStorageInformation();
   }
 
 
@@ -109,6 +116,9 @@ export class InstituteDetailsComponent implements OnInit {
     this.apiService.getPayementInfoFromServer().subscribe(
       res => {
         console.log('payment', res);
+        this.paymentTable = res;
+        this.showAllocationPopup = true;
+        this.openPopUpName = "PaymentHistory";
       },
       this.errorCallBack
     )
@@ -119,6 +129,9 @@ export class InstituteDetailsComponent implements OnInit {
     this.apiService.getSmsInfoFromServer().subscribe(
       res => {
         console.log('sms', res);
+        this.smsAllocation = res;
+        this.showAllocationPopup = true;
+        this.openPopUpName = "SMSHistory";
       },
       this.errorCallBack
     )
@@ -129,40 +142,91 @@ export class InstituteDetailsComponent implements OnInit {
     this.apiService.getDownloadLimitFromServer().subscribe(
       res => {
         console.log('limit', res);
+        this.limitTable = res;
+        this.showAllocationPopup = true;
+        this.openPopUpName = "DownloadLimit";
       },
       this.errorCallBack
     )
   }
 
+  getStorageInformation() {
+    this.apiService.getStorageLimitFromServer().subscribe(
+      res => {
+        console.log('limit', res);
+        this.storageInfo = res;
+        this.storageInfo.storage_allocated = this.storageInfo.storage_allocated / 1024;
+      },
+      this.errorCallBack
+    )
+  }
+
+  closeDeletePopup() {
+    this.showAllocationPopup = false;
+    this.openPopUpName = "";
+  }
+
+  changeKYCInformation(event) {
+    debugger
+    for (let i = 0; i < this.kycType.length; i++) {
+      if (this.kycType[i].data_key == event) {
+        this.instDetails.kyc_document_name = this.kycType[i].kyc_document_name;
+        this.instDetails.kyc_document = this.kycType[i].kyc_document;
+        this.instDetails.kyc_document_type = this.kycType[i].kyc_document_type;
+      } else {
+        this.instDetails.kyc_document_name = '';
+        this.instDetails.kyc_document = '';
+        this.instDetails.kyc_document_type = event;
+      }
+    }
+
+  }
+
   formatDataJsonToSend() {
     let obj: any = {};
-
-    obj.institute_logo = '';
-    obj.institute_header1 = '';
-    obj.institute_header2 = '';
-    obj.institute_header3 = '';
-    obj.institute_footer = '';
+    obj.institute_logo = this.instDetails.institute_logo;
+    obj.institute_header1 = this.instDetails.institute_header1;
+    obj.institute_header2 = this.instDetails.institute_header2;
+    obj.institute_header3 = this.instDetails.institute_header3;
+    obj.institute_footer = this.instDetails.institute_footer;
     obj.fb_page_url = this.instDetails.fb_page_url;
     obj.website_url = this.instDetails.website_url;
     obj.institute_short_code = this.instDetails.institute_short_code;
     obj.tag_line = this.instDetails.tag_line;
     obj.about_us_text = this.instDetails.about_us_text;
-    obj.institute_testprep_logo = '';
+    obj.institute_testprep_logo = this.instDetails.institute_testprep_logo;
     obj.announcement = this.instDetails.announcement;
     obj.owner_name = this.instDetails.owner_name;
     obj.owner_primary_email = this.instDetails.owner_primary_email;
     obj.owner_secondary_email = this.instDetails.owner_secondary_email;
     obj.owner_primary_phone = this.instDetails.owner_primary_phone;
     obj.admin_name = this.instDetails.admin_name;
-    // obj.admin_primary_phone = this.instDetails.admin_name; /// Missing
-    // obj.admin_primary_email = '';
+    if (!(this.validatePhoneNumber(this.instDetails.admin_primary_phone))) {
+      this.messageToast('error', 'Error', 'Please check contact number');
+      return
+    }
+    if (!(this.validateCaseSensitiveEmail(this.instDetails.admin_primary_email))) {
+      this.messageToast('error', 'Error', 'Please check email address');
+      return
+    }
+    obj.admin_primary_phone = this.instDetails.admin_primary_phone;
+    obj.admin_primary_email = this.instDetails.admin_primary_email;
     obj.student_id_prefix = this.instDetails.student_id_prefix;
-    // obj.student_id_type = this.instDetails.student_id_prefix;
-    obj.gst_in = this.instDetails.gst_in;
-    obj.kyc_document_name = '';
-    obj.kyc_document = '';
+    if (this.instDetails.student_id_type == null || this.instDetails.student_id_type == "") {
+      obj.student_id_type = "Automatic";
+    } else {                                                //Please check this case
+      obj.student_id_type = "Manual";
+    }
+    if (this.instDetails.gst_in == "" || this.instDetails.gst_in == null) {
+      obj.gst_in = '';
+    } else {
+      obj.gst_in = this.instDetails.gst_in;
+    }
+
+    obj.kyc_document_name = this.instDetails.kyc_document_name;
+    obj.kyc_document = this.instDetails.kyc_document;
     obj.student_app_url = this.instDetails.student_app_url;
-    obj.kyc_document_type = '';
+    obj.kyc_document_type = this.instDetails.kyc_document_type;
 
     return obj;
   }
@@ -170,15 +234,30 @@ export class InstituteDetailsComponent implements OnInit {
   getPlanOfInstitute(data) {
     let obj = [];
     for (let i = 0; i < data.length; i++) {
-      if (data[i].plan_id == this.instDetails.plan_id) {
+      if (data[i].id == this.instDetails.plan_id) {
         obj.push(data[i]);
       }
     }
     return obj;
   }
 
+  getOptionOfInstitute(data) {
+    let obj = [];
+    let arr = this.instDetails.option_selected_id.split(',')
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < arr.length; j++) {
+        if (data[i].id == arr[i]) {
+          obj.push(data[i]);
+        }
+      }
+    }
+    return obj;
+  }
+
+
   bindTableData() {
-    this.instituteOptions = this.getPlanOfInstitute(this.instituteOptionDataSource);
+    debugger
+    this.instituteOptions = this.getOptionOfInstitute(this.instituteOptionDataSource);
     this.planDetail = this.getPlanOfInstitute(this.planDetailDataSource);
   }
 
@@ -241,9 +320,38 @@ export class InstituteDetailsComponent implements OnInit {
     this.uploadDoc.nativeElement.click();
   }
 
-  errorCallBack(err) {
+  errorCallBack = (err) => {
     console.log(err);
-    this.messageToast('error', 'Error', err.error.messageToast);
+    this.messageToast('error', 'Error', err.error.message);
   }
+
+  validatePhoneNumber(data) {
+    let check: boolean = false;
+    if (data != "" && data != null) {
+      if (!isNaN(data) || data.length != 10) {
+        check = false;
+      } else {
+        check = true;
+      }
+      return check;
+    } else {
+      return true;
+    }
+  }
+
+  validateCaseSensitiveEmail(email) {
+    if (email != '' && email != null) {
+      var reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+      if (reg.test(email)) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
 
 }

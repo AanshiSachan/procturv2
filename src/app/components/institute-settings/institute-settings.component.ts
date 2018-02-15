@@ -289,6 +289,7 @@ export class InstituteSettingsComponent implements OnInit {
   }
 
   constructJsonToSend() {
+    debugger
     let obj: any = Object.assign({}, this.instituteSettingDet);
     obj.sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.sms_notification);
     obj.email_notification = this.convertBoolenToNumber(this.instituteSettingDet.email_notification);
@@ -344,17 +345,22 @@ export class InstituteSettingsComponent implements OnInit {
     obj.enable_online_payment_email_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_email_notification);
     obj.enable_online_payment_sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_sms_notification);
 
-    if (isNaN(obj.phone_no_fee_receipt) || obj.phone_no_fee_receipt.length != 10) {
-      this.isRippleLoad = false;
-      this.messageToast('error', 'Error', 'Please check the number you have provided');
-      return;
+    if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
+      if (isNaN(obj.phone_no_fee_receipt) || obj.phone_no_fee_receipt.length != 10) {
+        this.isRippleLoad = false;
+        this.messageToast('error', 'Error', 'Please check the number you have provided');
+        return;
+      }
     }
 
-    if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
-      this.isRippleLoad = false;
-      this.messageToast('error', 'Error', 'Please provide valid phone number.');
-      return;
+    if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
+      if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
+        this.isRippleLoad = false;
+        this.messageToast('error', 'Error', 'Please provide valid phone number.');
+        return;
+      }
     }
+
     obj.fee_dues_interval = this.instituteSettingDet.fee_dues_interval;
     obj.pre_fee_dues_interval = this.instituteSettingDet.pre_fee_dues_interval;
     obj.birthday_daily_schedule = this.convertTimeToSend(this.instituteSettingDet.birthday_daily_schedule);

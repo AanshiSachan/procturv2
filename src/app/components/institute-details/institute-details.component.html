@@ -76,7 +76,7 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_addr != ''}">
-                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_primary_addr">
+                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_primary_addr">
                   <label for="slotNew">Address
                     <span style="color:red">*</span>
                   </label>
@@ -86,7 +86,7 @@
 
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
-                <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_email != ''}">
+                <div class="field-wrapper" readonly="true" [ngClass]="{'has-value':instDetails.institute_primary_email != ''}">
                   <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_primary_email">
                   <label for="slotNew">Email ID
                     <span style="color:red">*</span>
@@ -112,7 +112,7 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_name != ''}">
-                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_name">
+                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_name">
                   <label for="slotNew">Owner Name(s)
                   </label>
                 </div>
@@ -122,7 +122,7 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_primary_phone != ''}">
-                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_primary_phone">
+                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_primary_phone">
                   <label for="slotNew">
                     Owner Contact No(s)
                   </label>
@@ -133,7 +133,7 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_primary_email != ''}">
-                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_primary_email">
+                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_primary_email">
                   <label for="slotNew">Owner Primary Email ID
                   </label>
                 </div>
@@ -143,7 +143,7 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_secondary_email != ''}">
-                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_secondary_email">
+                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_secondary_email">
                   <label for="slotNew">Owner Secondary Email ID
                   </label>
                 </div>
@@ -177,7 +177,7 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_primary_phone != ''}">
-                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.admin_primary_phone">
+                  <input type="number" maxlength="9999999999" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.admin_primary_phone">
                   <label for="slotNew">Admin Contact No.
                   </label>
                 </div>
@@ -211,7 +211,8 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.kyc_document_type != ''}">
-                  <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" name="hour" [(ngModel)]="instDetails.kyc_document_type">
+                  <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" name="hour" [(ngModel)]="instDetails.kyc_document_type"
+                    (ngModelChange)="changeKYCInformation($event)">
                     <option value="-1">Select KYC Document Type</option>
                     <option *ngFor="let opt of kycType" [value]="opt.data_key">
                       {{opt.data_value}}
@@ -220,10 +221,8 @@
                   <label for="hour">KYC Document Type</label>
                 </div>
               </div>
-            </div>
 
-            <div class="row">
-              <div class="c-sm-4 c-md-4 c-lg-4">
+              <div class="c-sm-4 c-md-4 c-lg-4" *ngIf="instDetails.kyc_document_type != '-1'">
                 <div class="field-wrapper">
                   <input class="hide" type="file" #idUploadDoc accept="image/gif,image/jpeg,image/jpg,image/png">
                   <button class="btn" (click)="uploadDocument()">Upload Document</button>
@@ -259,7 +258,7 @@
 
         <div class="row borderClass" style="margin-top:20px">
           <h3 class="c-sm-4 c-md-4 c-lg-4">Current Plan</h3>
-          <a style="cursor: pointer;" (click)="getPaymentDeatils()">View History</a>
+          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="getPaymentDeatils()">View History</a>
         </div>
 
         <div class="row">
@@ -473,7 +472,7 @@
 
         <div class="row borderClass" style="margin-top:20px">
           <h3 class='c-sm-4 c-md-4 c-lg-4'>SMS Setting</h3>
-          <a (click)="smsAllocationHistoryDeatils()">SMS Allocation History</a>
+          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="smsAllocationHistoryDeatils()">SMS Allocation History</a>
         </div>
 
         <div class="row">
@@ -589,29 +588,29 @@
         </div>
 
         <div class="row borderClass" style="margin-top:20px">
-          <h3>Storage Setting</h3>
-          <a (click)="downLoadLimitAllocationHistory()">Download Limit Allocation History</a>
+          <h3 class="c-sm-4 c-md-4 c-lg-4">Storage Setting</h3>
+          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="downLoadLimitAllocationHistory()">Download Limit Allocation History</a>
         </div>
 
         <div class="row">
           <p>Testing Pursposenofsdiundsinfiusdnfiudsiufnbidsfinsdifnisdfnsdnfidsjnfijdsnfijdsnfjndsfindsifnisdjnfijdsnfijsdnfijndsfinsdifn</p>
         </div>
 
-        <div class="row">
+        <div class="row" *ngIf="(storageInfo != '')">
           <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value': (instDetails.sms_shortcode != '') }">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.sms_shortcode">
-              <label for="slotNew">Storage
+            <div class="field-wrapper" [ngClass]="{'has-value': (storageInfo.limit_allocated != '') }">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="storageInfo.storage_allocated">
+              <label for="slotNew">Total Storage (GB)
               </label>
             </div>
           </div>
         </div>
 
-        <div class="row">
+        <div class="row" *ngIf="(storageInfo != '')">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.sms_shortcode != ''}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.sms_shortcode">
-              <label for="slotNew">Total Storage
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="storageInfo.limit_allocated">
+              <label for="slotNew">Used Upload/Download (GB)
               </label>
             </div>
           </div>
@@ -619,7 +618,7 @@
 
       </section>
 
-      <section id="divAppDetail" class="app-details-wrapper">
+      <section id="divAppDetail" style="margin-top:20px" class="app-details-wrapper borderClass">
 
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
@@ -668,8 +667,174 @@
   </section>
 
   <section class="row setting-footer">
-    <button class="btn" (click)="updateAllDetails()">Update</button>
-    <button class="btn" (click)="downLoadLimitAllocationHistory()">Download Limit Allocation History</button>
+    <button class="btn" routerLink="/home">Cancel</button>
+    <button class="btn redBtn" (click)="updateAllDetails()">Update</button>
   </section>
 
 </div>
+
+
+
+<!-- /////////////////////////////Pop UP HERERERERERRERER     /*///////// -->
+
+
+
+<section id="popup" class="popupWrapper fadeIn" *ngIf="showAllocationPopup">
+  <div class="popup pos-abs">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeDeletePopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content" style="padding: 0px 15px;margin-bottom: 20px;" *ngIf="openPopUpName == 'SMSHistory'">
+        <div class="">
+          <h2>SMS Allocation History Details</h2>
+        </div>
+        <div class="row" style="margin-top: 30px;">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  SMS Type
+                </th>
+                <th>
+                  Quota Allocated
+                </th>
+                <th>
+                  Reason
+                </th>
+                <th>
+                  Updated On
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="row{{i}}" *ngFor="let row of smsAllocation; let i = index; trackBy: i;">
+                <td>
+                  {{row.quoto_type}}
+                </td>
+                <td>
+                  {{row.sms_quota_allocated}}
+                </td>
+                <td>
+                  {{row.reason}}
+                </td>
+                <td>
+                  {{row.created_date}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="popup-content" style="padding: 0px 15px;margin-bottom: 20px;" *ngIf="openPopUpName == 'PaymentHistory'">
+
+        <div class="">
+          <h2>Payment Details</h2>
+        </div>
+        <div class="" style="margin-top: 30px;">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  Created Date
+                </th>
+                <th>
+                  Item
+                </th>
+                <th>
+                  Deatil
+                </th>
+                <th>
+                  Due Date
+                </th>
+                <th>
+                  Total Amount
+                </th>
+                <th>
+                  Amount Paid
+                </th>
+                <th>
+                  Payment Status
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="row{{i}}" *ngFor="let row of paymentTable; let i = index; trackBy: i;">
+                <td>
+                  {{row.added_date}}
+                </td>
+                <td>
+                  {{row.item}}
+                </td>
+                <td>
+                  {{row.detail}}
+                </td>
+                <td>
+                  {{row.due_date}}
+                </td>
+                <td>
+                  {{row.added_date}}
+                </td>
+                <td>
+                  {{row.amount_with_tax}}
+                </td>
+                <td>
+                  {{row.pmt_status}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <div class="popup-content" style="padding: 0px 15px;margin-bottom: 20px;" *ngIf="openPopUpName == 'DownloadLimit'">
+
+        <div class="">
+          <h2>Download Limit Allocation History Details</h2>
+        </div>
+        <div class="" style="margin-top: 30px;">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  Download Limit(GB)
+                </th>
+                <th>
+                  Reason
+                </th>
+                <th>
+                  Updated On
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="row{{i}}" *ngFor="let row of limitTable; let i = index; trackBy: i;">
+                <td>
+                  {{row.limit_allocated}}
+                </td>
+                <td>
+                  {{row.reason}}
+                </td>
+                <td>
+                  {{row.created_date}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

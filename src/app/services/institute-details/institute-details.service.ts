@@ -116,4 +116,12 @@ export class InstituteDetailService {
         )
     }
 
+    getStorageLimitFromServer() {
+        let url = this.baseURL + "/api/v1/instFileSystem/getUsedSpace/" + this.institute_id;
+        return this.http.get(url, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
 }
