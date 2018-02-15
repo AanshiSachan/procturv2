@@ -53,10 +53,10 @@
                       </g>
                     </svg>
                   </button>
-                  <input type="text" value="" id="enqWidDate" class="widgetDatepicker bsDatepicker" 
-                    name="enqWidDate" [(ngModel)]="enquiryDate" (ngModelChange)="updateEnqChartByDate($event)" readonly="true" bsDatepicker/>
+                  <input type="text" value="" id="enqWidDate" class="widgetDatepicker bsDatepicker" name="enqWidDate" [(ngModel)]="enquiryDate"
+                    (ngModelChange)="updateEnqChartByDate($event)" readonly="true" bsDaterangepicker/>
                   <span class="enquiry-state-date pull-right">
-                    {{enquiryDate | date: 'dd MMM yyyy'}}
+                    {{getEnqStartDate()| date: 'dd MMM yyyy'}} To {{getEnqEndDate()| date: 'dd MMM yyyy'}}
                   </span>
                 </div>
                 <div class="enq-state-bottom">
@@ -129,7 +129,7 @@
                       />
                     </svg>
                   </button>
-                  <button class="pull-right">
+                  <button class="pull-right" (click)="openCalendar('feeWidDate')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                       <g fill="#0084F6" fill-rule="nonzero">
                         <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
@@ -139,10 +139,10 @@
                       </g>
                     </svg>
                   </button>
-                  <input type="text" value="" id="enqWidDate" class="widgetDatepicker bsDatepicker" 
-                  name="enqWidDate" [(ngModel)]="enquiryDate" (ngModelChange)="updateEnqChartByDate($event)" readonly="true" bsDatepicker/>
+                  <input type="text" value="" id="feeWidDate" class="widgetDatepicker bsDatepicker" name="enqWidDate" [(ngModel)]="feeDate"
+                    (ngModelChange)="updateFeeByDate()" readonly="true" bsDaterangepicker/>
                   <span class="enquiry-state-date pull-right">
-                    {{enquiryDate | date: 'dd MMM yyyy'}}
+                    {{getFeeStartDate()| date: 'dd MMM yyyy'}} To {{getFeeEndDate()| date: 'dd MMM yyyy'}}
                   </span>
                 </div>
                 <div class="fees-state-bottom">
@@ -153,11 +153,11 @@
                     </li>
                     <li>
                       <label>Total Pending Cheques</label>
-                      <div>Rs. 10 Lakhs</div>
+                      <div>Rs. 50,000</div>
                     </li>
                     <li>
                       <label>Past Dues</label>
-                      <div>Rs. 10 Lakhs</div>
+                      <div>Rs. 1 Lakhs</div>
                     </li>
                   </ul>
                 </div>
@@ -175,11 +175,9 @@
                       <li class="schedule-det">
                         <div>
                           <label>Total Classes :</label>
-                          <span>23</span>
-                        </div>
-                        <div>
-                          <label>Total Classes :</label>
-                          <span>23</span>
+                          <span>{{getClassCount()}}</span>
+                          <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate" [(ngModel)]="schedDate"
+                          (ngModelChange)="updateschedByDate($event)" readonly="true" bsDaterangepicker/>
                         </div>
                       </li>
                       <li>
@@ -189,7 +187,7 @@
                             />
                           </svg>
                         </button>
-                        <button class="pull-right">
+                        <button class="pull-right" (click)="openCalendar('schedWidDate')">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <g fill="#0084F6" fill-rule="nonzero">
                               <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
@@ -200,7 +198,7 @@
                           </svg>
                         </button>
                         <span class="enquiry-state-date pull-right">
-                          22 JAN 2018
+                          {{getSchedStartDate()| date: 'dd MMM yyyy'}} To {{getSchedEndDate()| date: 'dd MMM yyyy'}}
                         </span>
                       </li>
                     </ul>
@@ -211,8 +209,27 @@
                       <li>Timings</li>
                       <li class="cls-type">Class type</li>
                       <li>batch/course</li>
-                      <li>faculty</li>
+                      <li>tutor</li>
                     </ul>
+                    <ul class="ct-ongoing" *ngFor="let class of getClassListDetails();let i = index;">
+                      <li>
+                        <div>10 :00 Am - 1:00 Pm</div>
+                        <p>302</p>
+                      </li>
+                      <li class="cls-type">
+                        <div>
+                          Regular Class
+                          <span class="class-type-status">ongoing</span>
+                        </div>
+                      </li>
+                      <li>
+                        <div>Second Batch</div>
+                      </li>
+                      <li>
+                        <div>Prof. Ramesh Sharma</div>
+                      </li>
+                    </ul>                    
+                <!--
                     <ul class="ct-ongoing">
                       <li>
                         <div>10 :00 Am - 1:00 Pm</div>
@@ -306,7 +323,8 @@
                       <li>
                         <div>Prof. Ramesh Sharma</div>
                       </li>
-                    </ul>
+                    </ul> 
+                  -->
                     <div class="ct-disable-wrapper pos-rel">
                       <ul class="ct-disabled ct-completed">
                         <li>
@@ -384,6 +402,7 @@
                 </div>
               </div>
             </li>
+
           </ul>
         </div>
       </div>

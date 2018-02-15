@@ -175,12 +175,7 @@ export class FetchenquiryService {
   }
 
 
-  fetchEnquiryWidgetView(d){
-
-    let obj = {
-      updateDateFrom: moment(d).format("YYYY-MM-DD"),
-      updateDateTo: moment(d).format("YYYY-MM-DD")
-    }
+  fetchEnquiryWidgetView(obj){
 
     let url = this.baseUrl +"/api/v1/enquiry/dashboard/" +this.institute_id;
     return this.http.post(

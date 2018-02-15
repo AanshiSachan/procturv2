@@ -1337,7 +1337,6 @@ export class EnquiryAddComponent implements OnInit {
     this.fetchSourceInfo();
   }
 
-
   /* Source update*/
   updateSource(id) {
     this.sourceList.forEach(el => {
