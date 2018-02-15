@@ -10,7 +10,7 @@ import { LoginService } from '../../services/login-services/login.service';
 })
 export class InstituteDetailsComponent implements OnInit {
 
-
+  isRippleLoad: boolean = false;
   instituteDetailsAll: any;
   instituteLogoDetails: any = [];
   kycType: any = [];
@@ -34,6 +34,7 @@ export class InstituteDetailsComponent implements OnInit {
     private login: LoginService, ) { }
 
   ngOnInit() {
+    this.isRippleLoad = true;
     this.removeFullscreen();
     this.removeSelectionFromSideNav();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
@@ -55,6 +56,7 @@ export class InstituteDetailsComponent implements OnInit {
   getInstituteDetails() {
     this.apiService.getInstituDetailsAll().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.instituteDetailsAll = res;
         this.instDetails = Object.assign({}, res);
         if (this.instDetails.is_student_displayId_manual == 0) {
@@ -65,18 +67,19 @@ export class InstituteDetailsComponent implements OnInit {
     );
   }
 
-  getInstituteLogoDetails() {
-    this.apiService.getInstituteLogoDetailsFromServer().subscribe(
-      res => {
-        this.instituteLogoDetails = res;
-      }, this.errorCallBack
-    )
+  // getInstituteLogoDetails() {
+  //   this.apiService.getInstituteLogoDetailsFromServer().subscribe(
+  //     res => {
+  //       this.instituteLogoDetails = res;
+  //     }, this.errorCallBack
+  //   )
 
-  }
+  // }
 
   getInstituteKYCDetails() {
     this.apiService.getKycTypeDetails().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.kycType = res;
       }, this.errorCallBack
     );
@@ -85,6 +88,7 @@ export class InstituteDetailsComponent implements OnInit {
   getOptionDetailsFromServer() {
     this.apiService.getOptionDetails().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.instituteOptionDataSource = res;
       }, this.errorCallBack
     );
@@ -93,6 +97,7 @@ export class InstituteDetailsComponent implements OnInit {
   getPlanDetailsFromServer() {
     this.apiService.getPlanDetails().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.planDetailDataSource = res;
       }, this.errorCallBack
     );
@@ -100,10 +105,11 @@ export class InstituteDetailsComponent implements OnInit {
 
 
   updateAllDetails() {
-    debugger
+    this.isRippleLoad = true;
     let dataToSend = this.formatDataJsonToSend();
     this.apiService.updateDetailsToServer(dataToSend).subscribe(
       res => {
+        this.isRippleLoad = false;
         console.log('updated successfully', res);
         this.messageToast('success', 'Updated Successfully', 'Details Updated Successfully');
       },
@@ -113,8 +119,11 @@ export class InstituteDetailsComponent implements OnInit {
 
 
   getPaymentDeatils() {
+    this.paymentTable = [];
+    this.isRippleLoad = true;
     this.apiService.getPayementInfoFromServer().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.paymentTable = res;
         this.showAllocationPopup = true;
         this.openPopUpName = "PaymentHistory";
@@ -125,8 +134,11 @@ export class InstituteDetailsComponent implements OnInit {
 
 
   smsAllocationHistoryDeatils() {
+    this.smsAllocation = [];
+    this.isRippleLoad = true;
     this.apiService.getSmsInfoFromServer().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.smsAllocation = res;
         this.showAllocationPopup = true;
         this.openPopUpName = "SMSHistory";
@@ -137,8 +149,11 @@ export class InstituteDetailsComponent implements OnInit {
 
 
   downLoadLimitAllocationHistory() {
+    this.limitTable = [];
+    this.isRippleLoad = true;
     this.apiService.getDownloadLimitFromServer().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.limitTable = res;
         this.showAllocationPopup = true;
         this.openPopUpName = "DownloadLimit";
@@ -263,7 +278,6 @@ export class InstituteDetailsComponent implements OnInit {
 
 
   bindTableData() {
-    debugger
     this.instituteOptions = this.getOptionOfInstitute(this.instituteOptionDataSource);
     this.planDetail = this.getPlanOfInstitute(this.planDetailDataSource);
   }
@@ -328,6 +342,7 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   errorCallBack = (err) => {
+    this.isRippleLoad = false;
     console.log(err);
     this.messageToast('error', 'Error', err.error.message);
   }
