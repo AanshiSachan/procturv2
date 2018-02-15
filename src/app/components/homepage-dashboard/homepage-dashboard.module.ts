@@ -16,6 +16,7 @@ import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { ChartModule } from 'angular-highcharts';
+import { WidgetService } from '../../services/widget.service';
 
 @NgModule({
     imports: [
@@ -31,7 +32,7 @@ import { ChartModule } from 'angular-highcharts';
         SplitButtonModule,
         MenuModule,
         SharedModule,
-        ChartModule 
+        ChartModule
     ],
     declarations: [
         HomepageDashboardComponent,
@@ -43,6 +44,7 @@ import { ChartModule } from 'angular-highcharts';
         ProcturWidgetComponent
     ],
     providers: [
+        WidgetService
     ]
 })
 export class HomepageDashboardModule {

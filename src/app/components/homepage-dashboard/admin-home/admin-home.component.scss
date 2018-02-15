@@ -279,12 +279,14 @@ div#enqChart {
         }
         &:last-child {
             border-right: 0;
-            width: 190px;
+            width: 290px;
         }
     }
 }
 
 .schedule-bottom {
+    min-height: 300px;
+    overflow: hidden;
     ul {
         border-bottom: 2px solid rgba(211, 212, 213, 0.5);
         background: #fff;

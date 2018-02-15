@@ -49,24 +49,15 @@
                     </div>
                   </div>
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.phone != ''}">
-                    <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.phone" (focusout)="updatePhoneFetchRecords()"
-                      name="phone" maxlength="10" minlength="10" required pattern="[789][0-9]{9}" />
+                    <input type="text" value="" id="phone" class="form-ctrl" [(ngModel)]="newEnqData.phone" (focusout)="updatePhoneFetchRecords()"
+                      name="phone" maxlength="10" minlength="10" OnlyNumber="true"/>
                     <label for="phone">Phone No*</label>
-                    <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="alert invalid-alert">
-                      <div *ngIf="phone.errors.required">
-                        phone number is required.
-                      </div>
-                      <div *ngIf="phone.errors.pattern">
-                        Please enter a valid number.
-                      </div>
-                    </div>
                   </div>
                   <div class="more-detail">
                     <a (click)="getLeadDetails()" style="cursor:pointer">Fetch Lead Details</a>
                   </div>
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.email != ''}">
-                    <input type="text" value="" id="email" #email="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
-                      />
+                    <input type="text" value="" id="email" #email="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
                     <label for="email">Email ID</label>
                     <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert invalid-alert">
                       <div *ngIf="email.errors.pattern">
@@ -99,7 +90,7 @@
                   <br>
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.phone2 != ''}">
                     <input type="text" value="" id="phone2" #phone2="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.phone2" name="phone2"
-                      maxlength="10" minlength="10" pattern="[789][0-9]{9}" />
+                      maxlength="10" minlength="10"  />
                     <label for="altContact">Alternate Contact</label>
                     <div *ngIf="phone2.invalid && (phone2.dirty || phone2.touched)" class="alert invalid-alert">
                       <div *ngIf="phone2.errors.pattern">
@@ -129,7 +120,7 @@
                   </div>
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.parent_phone != ''}">
                     <input type="text" value="" id="guardianContact" class="form-ctrl" [(ngModel)]="newEnqData.parent_phone" name="guardianContact"
-                      maxlength="10" minlength="10" pattern="[789][0-9]{9}" #guardianContact="ngModel" />
+                      maxlength="10" minlength="10"  #guardianContact="ngModel" />
                     <label for="guardianContact">Guardian Contact</label>
                     <div *ngIf="guardianContact.invalid && (guardianContact.dirty || guardianContact.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianContact.errors.pattern">

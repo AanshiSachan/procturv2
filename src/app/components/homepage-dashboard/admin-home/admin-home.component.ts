@@ -19,6 +19,8 @@ import { } from '../../../model/enquirycampaign'
 import * as Muuri from 'muuri/muuri';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service'
 import { Chart } from 'angular-highcharts';
+import { } from '../../../services/'
+import { WidgetService } from '../../../services/widget.service';
 
 @Component({
   selector: 'admin-home',
@@ -29,13 +31,20 @@ export class AdminHomeComponent implements OnInit {
 
   isProfessional: boolean = false;
   grid: any;
+
   enquiryStat: any = {
     totalcount: null,
     statusMap: null
   };
+  schedStat: any = {};
+  feeStat: any = {};
+
   order: string[] = ['1', '2', '3', '4'];
 
-  enquiryDate:any = new Date();
+  enquiryDate: any[] = [];
+  feeDate: any[] = [];
+  schedDate: any[] = [];
+
 
   chart = new Chart({
     chart: {
@@ -89,14 +98,16 @@ export class AdminHomeComponent implements OnInit {
     }]
   });
 
-  constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private enquiryService: FetchenquiryService) {
-
+  constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private enquiryService: FetchenquiryService, private widgetService: WidgetService) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
-
-
-
+    this.enquiryDate[0] = new Date();
+    this.enquiryDate[1] = new Date();
+    this.feeDate[0] = new Date();
+    this.feeDate[1] = new Date();
+    this.schedDate[0] = new Date();
+    this.schedDate[1] = new Date();
   }
 
   ngOnInit() {
@@ -126,16 +137,56 @@ export class AdminHomeComponent implements OnInit {
   }
 
   fetchWidgetPrefill() {
-    this.fetchEnqWidgetData();  
+    this.fetchEnqWidgetData();
+    this.fetchFeeWidgetData();
+    this.fetchScheduleWidgetData();
   }
 
-  fetchEnqWidgetData(){
-    this.enquiryService.fetchEnquiryWidgetView(this.enquiryDate).subscribe(
+  fetchEnqWidgetData() {
+    let obj = {
+      updateDateFrom: moment(this.enquiryDate[0]).format("YYYY-MM-DD"),
+      updateDateTo: moment(this.enquiryDate[1]).format("YYYY-MM-DD")
+    }
+    this.enquiryService.fetchEnquiryWidgetView(obj).subscribe(
       res => {
         this.enquiryStat = res;
         this.updateEnqChart();
       }
     )
+  }
+
+  fetchFeeWidgetData() {
+    let obj = {
+      from_date: moment(this.schedDate[0]).format('YYYY-MM-DD'),
+      to_date: moment(this.schedDate[1]).format('YYYY-MM-DD')
+    }
+    this.widgetService.fetchSchedWidgetData(obj).subscribe(
+      res => {
+        this.schedStat = res;
+      },
+      err => { }
+    );
+  }
+
+  fetchScheduleWidgetData() {
+    let obj = {
+      standard_id: -1,
+      batch_id: -1,
+      type: 0,
+      installment_id: -1,
+      subject_id: -1,
+      master_course_name: -1,
+      course_id: -1,
+      is_fee_report_view: 1,
+      from_date: moment(this.feeDate[0]).format('YYYY-MM-DD'),
+      to_date: moment(this.feeDate[1]).format('YYYY-MM-DD')
+    }
+    this.widgetService.fetchFeeWidgetData(obj).subscribe(
+      res => {
+        this.feeStat = res;
+      },
+      err => { }
+    );
   }
 
   getOrder() {
@@ -218,8 +269,14 @@ export class AdminHomeComponent implements OnInit {
     this.chart.ref.redraw();
   }
 
-  updateEnqChartByDate(e){
-    this.enquiryService.fetchEnquiryWidgetView(e).subscribe(
+  /* Date CHange events handled here */
+
+  updateEnqChartByDate(e) {
+    let obj = {
+      updateDateFrom: moment(e[0]).format("YYYY-MM-DD"),
+      updateDateTo: moment(e[1]).format("YYYY-MM-DD")
+    }
+    this.enquiryService.fetchEnquiryWidgetView(obj).subscribe(
       res => {
         this.enquiryStat = res;
         this.updateEnqChart();
@@ -227,18 +284,98 @@ export class AdminHomeComponent implements OnInit {
     )
   }
 
+  updateFeeByDate(e) {
+    let obj = {
+      standard_id: -1,
+      batch_id: -1,
+      type: 0,
+      installment_id: -1,
+      subject_id: -1,
+      master_course_name: -1,
+      course_id: -1,
+      is_fee_report_view: 1,
+      from_date: moment(this.feeDate[0]).format('YYYY-MM-DD'),
+      to_date: moment(this.feeDate[1]).format('YYYY-MM-DD')
+    }
+    this.widgetService.fetchFeeWidgetData(e).subscribe(
+      res => {
+        this.feeStat = res;
+      },
+      err => { }
+    )
+  }
+
+  updateschedByDate(e) {
+    let obj = {
+      from_date: moment(e[0]).format('YYYY-MM-DD'),
+      to_date: moment(e[1]).format('YYYY-MM-DD')
+    }
+    this.widgetService.fetchSchedWidgetData(obj).subscribe(
+      res => {
+        this.schedStat = res;
+      },
+      err => { }
+    )
+  }
+
+  /* ========================================= */
+
   generateEnqChartData(): any[] {
     let tempArr: any[] = [];
     for (let key in this.enquiryStat.statusMap) {
       let temp: any[] = [];
       temp[0] = key;
-      temp[1] = ((this.enquiryStat.statusMap[key] / this.enquiryStat.totalcount) * 100);
+      temp[1] = Math.round(((this.enquiryStat.statusMap[key] / this.enquiryStat.totalcount) * 100));
       tempArr.push(temp);
     }
     return tempArr;
   }
 
-  openCalendar(id){
+  openCalendar(id) {
     document.getElementById(id).click();
   }
+
+  getClassCount(): number {
+    if (this.schedStat.otherSchd != null && this.schedStat.otherSchd != undefined) {
+      return this.schedStat.otherSchd.length;
+    }
+    else {
+      return 0;
+    }
+
+  }
+
+  getEnqStartDate() {
+    return this.enquiryDate[0];
+  }
+
+  getEnqEndDate() {
+    return this.enquiryDate[1];
+  }
+
+  getFeeStartDate() {
+    return this.feeDate[0];
+  }
+
+  getFeeEndDate() {
+    return this.feeDate[1];
+  }
+
+  getSchedStartDate() {
+    return this.schedDate[0];
+  }
+
+  getSchedEndDate() {
+    return this.schedDate[1];
+  }
+
+  getClassListDetails(){
+    if (this.schedStat.otherSchd != null && this.schedStat.otherSchd != undefined) {
+      return this.schedStat.otherSchd;
+    }
+    else {
+      return [];
+    }
+  }
+
 }

@@ -12,30 +12,24 @@ import { EnquiryPopUpComponent } from './enquiry-pop-up/enquiry-pop-up.component
 import { EnquiryInput, EnquiryDateInput } from './enquiry-directives/enquiry-input.directive';
 import { UserEnquiryComponent } from './enquiry-custom/user-enquiry.component';
 import { EnquirySidebarComponent } from './enquiry-home/enquiry-sidebar/enquiry-sidebar.component';
-
 /* Modules */
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import 'moment';
 import 'hammerjs';
-
-import { MultiselectDropdownModule } from '../../../assets/imported_modules/multiselect-dropdown';
-import { Ng2SmartTableModule } from '../../../assets/imported_modules/ng2-smart-table';
-import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
+import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/timepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import { DateConverter } from './enquiry-home/enquiry-home.component';
 import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
-/* import { PaginationComponent } from './pagination/pagination.component'; */
 import { SharedModule } from '../shared/shared.module';
+import { OnlyNumber } from './enquiry-directives/onlynumber.directive';
 
 @NgModule({
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        MultiselectDropdownModule,
-        Ng2SmartTableModule,
         BusyModule,
         NgLoggerModule.forRoot(Level.LOG),
         CommonModule,
@@ -59,6 +53,7 @@ import { SharedModule } from '../shared/shared.module';
         EnquiryDateInput,
         UserEnquiryComponent,
         DateConverter,
+        OnlyNumber,
         EnquiryHomeComponent,
         CommentTooltipComponent,
         EnquirySidebarComponent
