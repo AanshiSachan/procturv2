@@ -204,6 +204,7 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   removeSelectionFromSideNav() {
+    document.getElementById('lizero').classList.remove('active');
     document.getElementById('lione').classList.remove('active');
     document.getElementById('litwo').classList.remove('active');
     document.getElementById('lithree').classList.remove('active');
@@ -213,8 +214,8 @@ export class InstituteDetailsComponent implements OnInit {
     document.getElementById('liseven').classList.remove('active');
     document.getElementById('lieight').classList.remove('active');
     document.getElementById('linine').classList.remove('active');
-    document.getElementById('liten').classList.remove('active');
-    document.getElementById('lieleven').classList.remove('active');
+    //document.getElementById('liten').classList.remove('active');
+    //document.getElementById('lieleven').classList.remove('active');
   }
 
   changeView(lidiv, showView) {
