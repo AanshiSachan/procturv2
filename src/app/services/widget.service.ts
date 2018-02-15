@@ -44,5 +44,20 @@ export class WidgetService {
     }
 
 
+    getInstituteSettings(): Observable<any> {
+        let url = this.baseUrl + "/api/v1/institutes/" + this.institute_id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        );
+    }
+
+    getAllplan(): Observable<any> {
+        let url = this.baseUrl + "/api/v1/proctur/getAllPlans";
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        );
+    }
 
 }

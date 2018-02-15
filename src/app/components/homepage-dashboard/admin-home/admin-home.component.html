@@ -30,7 +30,7 @@
         <div class="grid-container">
           <ul class="actb-wrapper grid">
 
-            <li class="enquiry-state item" data-id="{{getDataId('enquiry')}}">
+            <li class="enquiry-state item" data-id="2">
               <div class="item-content">
                 <div class="actb-top-header clearfix">
                   <span class="heading">
@@ -117,7 +117,7 @@
               </div>
             </li>
 
-            <li class="fees-state item" data-id="{{getDataId('fee')}}">
+            <li class="fees-state item" data-id="3">
               <div class="item-content">
                 <div class="actb-top-header clearfix">
                   <span class="heading">
@@ -149,22 +149,22 @@
                   <ul>
                     <li>
                       <label>Total Collected</label>
-                      <div>Rs. 10 Lakhs</div>
+                      <div>Rs. {{getFeeAmount('total')}}</div>
                     </li>
                     <li>
                       <label>Total Pending Cheques</label>
-                      <div>Rs. 50,000</div>
+                      <div>Rs. {{getFeeAmount('pending')}}</div>
                     </li>
                     <li>
                       <label>Past Dues</label>
-                      <div>Rs. 1 Lakhs</div>
+                      <div>Rs. {{getFeeAmount('past')}}</div>
                     </li>
                   </ul>
                 </div>
               </div>
             </li>
 
-            <li class="schedule-state item" data-id="{{getDataId('schedule')}}">
+            <li class="schedule-state item" data-id="1">
               <div class="item-content">
                 <div>
                   <div class="actb-top-header clearfix">
@@ -176,8 +176,8 @@
                         <div>
                           <label>Total Classes :</label>
                           <span>{{getClassCount()}}</span>
-                          <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate" [(ngModel)]="schedDate"
-                          (ngModelChange)="updateschedByDate($event)" readonly="true" bsDaterangepicker/>
+                          <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
+                            [(ngModel)]="schedDate" (ngModelChange)="updateschedByDate($event)" readonly="true" bsDaterangepicker/>
                         </div>
                       </li>
                       <li>
@@ -211,25 +211,47 @@
                       <li>batch/course</li>
                       <li>tutor</li>
                     </ul>
-                    <ul class="ct-ongoing" *ngFor="let class of getClassListDetails();let i = index;">
-                      <li>
-                        <div>10 :00 Am - 1:00 Pm</div>
-                        <p>302</p>
-                      </li>
-                      <li class="cls-type">
-                        <div>
-                          Regular Class
-                          <span class="class-type-status">ongoing</span>
-                        </div>
-                      </li>
-                      <li>
-                        <div>Second Batch</div>
-                      </li>
-                      <li>
-                        <div>Prof. Ramesh Sharma</div>
-                      </li>
-                    </ul>                    
-                <!--
+                    <div class="schedule-scroller" *ngIf="!isProfessional">
+                      <ul class="ct-ongoing" *ngFor="let class of getClassListDetails();let i = index;">
+                        <li>
+                          <div>{{class.start_time}} - {{class.end_time}}</div>
+                          <p>{{class.class_room_name}}</p>
+                        </li>
+                        <li class="cls-type">
+                          <div>
+                            {{class.freq}}
+                            <span class="class-type-status">ongoing</span>
+                          </div>
+                        </li>
+                        <li>
+                          <div>{{class.batch_name}}</div>
+                        </li>
+                        <li>
+                          <div>{{class.teacher_name}}</div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="schedule-scroller" *ngIf="isProfessional">
+                      <ul class="ct-ongoing" *ngFor="let class of getClassListDetails();let i = index;">
+                        <li>
+                          <div>{{class.start_time}} - {{class.end_time}}</div>
+                          <p>{{class.class_room_name}}</p>
+                        </li>
+                        <li class="cls-type">
+                          <div>
+                            {{class.freq}}
+                            <span class="class-type-status">ongoing</span>
+                          </div>
+                        </li>
+                        <li>
+                          <div>{{class.batch_name}}</div>
+                        </li>
+                        <li>
+                          <div>{{class.teacher_name}}</div>
+                        </li>
+                      </ul>
+                    </div>
+                    <!--
                     <ul class="ct-ongoing">
                       <li>
                         <div>10 :00 Am - 1:00 Pm</div>
@@ -324,17 +346,17 @@
                         <div>Prof. Ramesh Sharma</div>
                       </li>
                     </ul> 
-                  -->
+                    -->
                     <div class="ct-disable-wrapper pos-rel">
                       <ul class="ct-disabled ct-completed">
                         <li>
-                          <div>10 :00 Am - 1:00 Pm</div>
-                          <p>302</p>
+                          <div></div>
+                          <p></p>
                         </li>
                         <li class="cls-type">
                           <div>
-                            Regular Class
-                            <span class="class-type-status">Cancelled</span>
+
+                            <span class="class-type-status"></span>
                           </div>
                           <p class="anm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -345,29 +367,28 @@
                               </g>
                             </svg>
 
-                            Attendance Not Marked</p>
+                          </p>
                         </li>
                         <li>
-                          <div>Second Batch</div>
+                          <div></div>
                         </li>
                         <li>
-                          <div>Prof. Ramesh Sharma</div>
+                          <div></div>
                         </li>
                       </ul>
                       <div class="che-action">
-                        <a href="#">Mark Attendance</a>
-                        <a href="#">Cancel Exam</a>
-                        <a href="#">Reminder</a>
-                        <a href="#">Reschedule</a>
+                        <a >Mark Attendance</a>
+                        <a >Cancel Exam</a>
+                        <a >Reminder</a>
+                        <a >Reschedule</a>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
             </li>
 
-            <li class="general-state item" style="height: 200px;" data-id="{{getDataId('general')}}">
+            <li class="general-state item" style="height: 200px;" data-id="4">
               <div class="item-content">
                 <div class="actb-top-header clearfix">
                   <span class="heading">
@@ -384,19 +405,19 @@
                   <ul>
                     <li>
                       <label>Total active students</label>
-                      <a href="#">346 Students</a>
+                      <a>{{genralStats.total}} Students</a>
                     </li>
                     <li>
                       <label>Sms balance</label>
-                      <a href="#">50,000 SMS</a>
+                      <a>{{genralStats.sms}}</a>
                     </li>
                     <li>
                       <label>Download limit</label>
-                      <a href="#">245 GB</a>
+                      <a>{{genralStats.download}} GB</a>
                     </li>
                     <li>
                       <label>Expiry date</label>
-                      <div>25 Jun 2018</div>
+                      <div>{{genralStats.expiry}}</div>
                     </li>
                   </ul>
                 </div>

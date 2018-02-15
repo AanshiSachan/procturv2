@@ -31,20 +31,26 @@ export class AdminHomeComponent implements OnInit {
 
   isProfessional: boolean = false;
   grid: any;
-
+  instituteSetting: any;
+  planListArr: any[] = [];
   enquiryStat: any = {
     totalcount: null,
     statusMap: null
   };
   schedStat: any = {};
-  feeStat: any = {};
-
+  feeStat: any = null;
+  genralStats:any = {
+    sms: 0,
+    download: 0,
+    expiry: moment().format('DD-MMM-YYYY'),
+    total: 0
+  }
   order: string[] = ['1', '2', '3', '4'];
 
   enquiryDate: any[] = [];
   feeDate: any[] = [];
   schedDate: any[] = [];
-
+  currentPlan: any = null;
 
   chart = new Chart({
     chart: {
@@ -118,9 +124,10 @@ export class AdminHomeComponent implements OnInit {
     this.grid = new Muuri('.grid', {
       dragEnabled: true,
       layout: {
-        fillGaps: false,
+        fillGaps: true,
         rounding: true
       },
+      layoutOnResize: true,
       layoutOnInit: false,
       sortData: {
         id: (item, element) => {
@@ -137,9 +144,41 @@ export class AdminHomeComponent implements OnInit {
   }
 
   fetchWidgetPrefill() {
+   
+    this.widgetService.getAllplan().subscribe(
+      res => {
+        this.planListArr = res;
+        this.widgetService.getInstituteSettings().subscribe(
+          res => {
+            this.instituteSetting = res;
+            this.generatePlan();
+          },
+          err => { }
+        );
+      },
+      err => { }
+    );
+   
     this.fetchEnqWidgetData();
     this.fetchFeeWidgetData();
-    this.fetchScheduleWidgetData();
+    
+    if (this.isProfessional) {
+      this.fetchBatchWidgetData();
+    }
+    else {
+      this.fetchScheduleWidgetData();
+    }
+  }
+
+  generatePlan() {
+    this.planListArr.forEach(e => {
+      if (e.id === this.instituteSetting.plan_id) {
+        this.genralStats.download = e.download_limit;
+        this.genralStats.expiry = this.instituteSetting.institute_expiry_date;
+        this.genralStats.total = this.instituteSetting.total_students;
+        this.genralStats.sms = this.instituteSetting.institute_sms_quota_available;
+      }
+    })
   }
 
   fetchEnqWidgetData() {
@@ -149,6 +188,8 @@ export class AdminHomeComponent implements OnInit {
     }
     this.enquiryService.fetchEnquiryWidgetView(obj).subscribe(
       res => {
+
+        this.grid.refreshItems().layout();
         this.enquiryStat = res;
         this.updateEnqChart();
       }
@@ -162,6 +203,7 @@ export class AdminHomeComponent implements OnInit {
     }
     this.widgetService.fetchSchedWidgetData(obj).subscribe(
       res => {
+        this.grid.refreshItems().layout();
         this.schedStat = res;
       },
       err => { }
@@ -183,10 +225,15 @@ export class AdminHomeComponent implements OnInit {
     }
     this.widgetService.fetchFeeWidgetData(obj).subscribe(
       res => {
+        this.grid.refreshItems().layout();
         this.feeStat = res;
       },
       err => { }
     );
+  }
+
+  fetchBatchWidgetData() {
+
   }
 
   getOrder() {
@@ -369,12 +416,30 @@ export class AdminHomeComponent implements OnInit {
     return this.schedDate[1];
   }
 
-  getClassListDetails(){
+  getClassListDetails() {
     if (this.schedStat.otherSchd != null && this.schedStat.otherSchd != undefined) {
       return this.schedStat.otherSchd;
     }
     else {
       return [];
+    }
+  }
+
+  getFeeAmount(id: String): number {
+
+    if (this.feeStat) {
+      if (id === 'total') {
+        return this.feeStat
+      }
+      else if (id === 'pending') {
+        return this.feeStat
+      }
+      else if (id === 'past') {
+        return this.feeStat
+      }
+    }
+    else {
+      return 0
     }
   }
 

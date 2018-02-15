@@ -111,7 +111,7 @@ export class EnquiryAddComponent implements OnInit {
   referList: any;
 
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  minArr: any[] = ['', '00', '15', '30', '45']; 
+  minArr: any[] = ['', '00', '15', '30', '45'];
   meridianArr: any[] = ['', "AM", "PM"];
   hour: string = ''; minute: string = ''; meridian: string = '';
 
@@ -404,26 +404,26 @@ export class EnquiryAddComponent implements OnInit {
 
     return this.prefill.fetchCustomComponentEmpty()
       .subscribe(
-      data => {
-        data.forEach(el => {
+        data => {
+          data.forEach(el => {
 
-          let obj = {
-            data: el,
-            id: el.component_id,
-            is_required: el.is_required,
-            is_searchable: el.is_searchable,
-            label: el.label,
-            prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
-            selected: [],
-            selectedString: '',
-            type: el.type,
-            value: el.enq_custom_value
-          }
-          this.customComponents.push(obj);
+            let obj = {
+              data: el,
+              id: el.component_id,
+              is_required: el.is_required,
+              is_searchable: el.is_searchable,
+              label: el.label,
+              prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+              selected: [],
+              selectedString: '',
+              type: el.type,
+              value: el.enq_custom_value
+            }
+            this.customComponents.push(obj);
 
-        });
-        this.emptyCustomComponent = this.componentListObject;
-      }
+          });
+          this.emptyCustomComponent = this.componentListObject;
+        }
       );
   }
 
@@ -617,7 +617,7 @@ export class EnquiryAddComponent implements OnInit {
 
 
   /* Function to clear the form data */
-  clearFormData() { 
+  clearFormData() {
     this.newEnqData = {
       name: "",
       phone: "",
@@ -672,6 +672,7 @@ export class EnquiryAddComponent implements OnInit {
 
   /* Function to submit validated form data */
   submitForm(form: NgForm) {
+    debugger
     //Validates if the custom component required fields are selected or not
     let customComponentValidator = this.validateCustomComponent();
 
@@ -716,15 +717,15 @@ export class EnquiryAddComponent implements OnInit {
             this.appC.popToast(data);
           }
         );
-        this.prefill.fetchLastDetail().subscribe( data => {
-            //console.log(data);
-            this.lastDetail = data;
-            this.lastDetail.name = data.name;
-            this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
-            localStorage.setItem('institute_enquiry_id', data.institute_enquiry_id);
-            let createTime = new Date(data.enquiry_creation_datetime);
-            this.lastUpdated = moment(createTime).fromNow();
-          });
+        this.prefill.fetchLastDetail().subscribe(data => {
+          //console.log(data);
+          this.lastDetail = data;
+          this.lastDetail.name = data.name;
+          this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
+          localStorage.setItem('institute_enquiry_id', data.institute_enquiry_id);
+          let createTime = new Date(data.enquiry_creation_datetime);
+          this.lastUpdated = moment(createTime).fromNow();
+        });
       }
       else {
         let msg = {
@@ -736,6 +737,8 @@ export class EnquiryAddComponent implements OnInit {
       }
     }
     else {
+      console.log(this.isFormValid);
+      console.log(customComponentValidator);
       let msg = {
         type: 'error',
         title: 'Academic Data Incomplete',
@@ -783,7 +786,7 @@ export class EnquiryAddComponent implements OnInit {
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
 
-    if ((this.newEnqData.name == null || this.newEnqData.name == "") || (this.newEnqData.phone == null || this.newEnqData.phone == "") || (this.newEnqData.enquiry_date == null || this.newEnqData.enquiry_date == "")) {
+    if ((this.newEnqData.name == null || this.newEnqData.name == "") || (this.newEnqData.enquiry_date == null || this.newEnqData.enquiry_date == "" || this.newEnqData.source_id == "" || this.newEnqData.source_id == "-1")) {
       return false;
     }
     else {
@@ -798,12 +801,12 @@ export class EnquiryAddComponent implements OnInit {
   /* fetch the data of last updated enquiry */
   updateLastUpdatedDetails() {
     this.prefill.fetchLastDetail().subscribe(data => {
-        this.lastDetail = data;
-        this.lastDetail.name = data.name;
-        this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
-        let createTime = new Date(data.enquiry_creation_datetime);
-        this.lastUpdated = moment(createTime).fromNow();
-      },
+      this.lastDetail = data;
+      this.lastDetail.name = data.name;
+      this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
+      let createTime = new Date(data.enquiry_creation_datetime);
+      this.lastUpdated = moment(createTime).fromNow();
+    },
       err => {
         //  console.log(err);
       }
@@ -909,9 +912,9 @@ export class EnquiryAddComponent implements OnInit {
 
   navigateToEdit() {
     let val: any;
-    this.prefill.fetchLastDetail().subscribe(el =>{
-        this.router.navigate(['/enquiry/edit/' +el.institute_enquiry_id]);
-      }
+    this.prefill.fetchLastDetail().subscribe(el => {
+      this.router.navigate(['/enquiry/edit/' + el.institute_enquiry_id]);
+    }
     )
   }
 
