@@ -13,6 +13,7 @@ export class CampaignComponent implements OnInit {
 
   ngOnInit() {
     this.removeFullscreen();
+    document.getElementById('lizero').classList.remove('active');
     document.getElementById('lione').classList.remove('active');
     document.getElementById('litwo').classList.remove('active');
     document.getElementById('lithree').classList.remove('active');
@@ -22,8 +23,8 @@ export class CampaignComponent implements OnInit {
     document.getElementById('liseven').classList.remove('active');
     document.getElementById('lieight').classList.remove('active');
     document.getElementById('linine').classList.add('active');
-    document.getElementById('liten').classList.remove('active');
-    document.getElementById('lieleven').classList.remove('active');
+    /* document.getElementById('liten').classList.remove('active');
+    document.getElementById('lieleven').classList.remove('active'); */
   }
 
   removeFullscreen() {

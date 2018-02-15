@@ -57,8 +57,9 @@ export class InventoryComponent implements OnInit {
     document.getElementById('liseven').classList.add('active');
     document.getElementById('lieight').classList.remove('active');
     document.getElementById('linine').classList.remove('active');
-    document.getElementById('liten').classList.remove('active');
-    document.getElementById('lieleven').classList.remove('active');
+    document.getElementById('lizero').classList.remove('active');
+    /* document.getElementById('liten').classList.remove('active');
+    document.getElementById('lieleven').classList.remove('active'); */
   }
 
 }

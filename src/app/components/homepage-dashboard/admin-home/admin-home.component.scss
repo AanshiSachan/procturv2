@@ -18,6 +18,8 @@ div#enqChart {
 }
 
 .widgetDatepicker{
+    position: absolute;
+    margin-left: 25%;
     width: 1px;
 }
 
@@ -723,7 +725,6 @@ div#enqChart {
         box-sizing: border-box;
         .row {
             margin: 0;
-            .activity-left {}
         }
     }
     .activity-page {

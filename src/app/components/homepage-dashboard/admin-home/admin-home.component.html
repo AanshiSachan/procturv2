@@ -29,6 +29,7 @@
       <div class="act-bottom clearfix">
         <div class="grid-container">
           <ul class="actb-wrapper grid">
+
             <li class="enquiry-state item" data-id="{{getDataId('enquiry')}}">
               <div class="item-content">
                 <div class="actb-top-header clearfix">
@@ -52,7 +53,7 @@
                       </g>
                     </svg>
                   </button>
-                  <input type="text" value="" id="enqWidDate" class="pull-right widgetDatepicker bsDatepicker" 
+                  <input type="text" value="" id="enqWidDate" class="widgetDatepicker bsDatepicker" 
                     name="enqWidDate" [(ngModel)]="enquiryDate" (ngModelChange)="updateEnqChartByDate($event)" readonly="true" bsDatepicker/>
                   <span class="enquiry-state-date pull-right">
                     {{enquiryDate | date: 'dd MMM yyyy'}}
@@ -138,8 +139,10 @@
                       </g>
                     </svg>
                   </button>
+                  <input type="text" value="" id="enqWidDate" class="widgetDatepicker bsDatepicker" 
+                  name="enqWidDate" [(ngModel)]="enquiryDate" (ngModelChange)="updateEnqChartByDate($event)" readonly="true" bsDatepicker/>
                   <span class="enquiry-state-date pull-right">
-                    22 JAN 2018
+                    {{enquiryDate | date: 'dd MMM yyyy'}}
                   </span>
                 </div>
                 <div class="fees-state-bottom">
