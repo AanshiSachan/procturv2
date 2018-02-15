@@ -134,7 +134,7 @@ export class CourseEditComponent implements OnInit {
   }
 
   addEnableDisableClass(data) {
-    
+
     let test = this.checkIfAnySubjectSelected(data.batchesList);
     if (test.length > 0) {
       if (data.batch_id != '0') {
@@ -309,6 +309,10 @@ export class CourseEditComponent implements OnInit {
         });
       }
     }
+  }
+
+  parseDateFormat(date) {
+    return moment(date).format("YYYY-MM-DD")
   }
 
 }

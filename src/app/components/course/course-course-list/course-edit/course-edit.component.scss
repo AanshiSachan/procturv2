@@ -15,3 +15,18 @@
 .disableDatePicker {
     pointer-events: none;
 }
+
+.nested-Table-Show-Wrapper {
+    max-height: 200px;
+    overflow: hidden;
+    .subjectList-table-wrapper {
+        max-height: 180px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+     ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+}
