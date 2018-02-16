@@ -45,9 +45,9 @@ export class ClassAddComponent implements OnInit {
   batchDetails: any;
   classFrequency: any[] = [];
   dayOfWeek: any[] = [];
-  hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  minArr: any[] = ['', '00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
-  meridianArr: any[] = ['', "AM", "PM"];
+  hourArr: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  minArr: any[] = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
+  meridianArr: any[] = ["AM", "PM"];
 
 
   courseStartDate: any = '';
@@ -57,7 +57,9 @@ export class ClassAddComponent implements OnInit {
 
 
   addClassDetails = {
+    batch_id: '',
     subject_id: '',
+    subject_name: '',
     start_hour: '',
     start_minute: '',
     start_meridian: '',
@@ -65,12 +67,15 @@ export class ClassAddComponent implements OnInit {
     end_minute: '',
     end_meridian: '',
     teacher_id: '',
-    desc: '',
-    roomNo: '',
-    customListDataSource: '',
+    teacher_name: '',
+    class_desc: '',
+    room_no: '',
+    custom_class_type: 'Regular',
+    duration: ''
   }
   teacherListDataSource: any = [];
   customListDataSource: any = [];
+  classScheduleArray: any = [];
 
 
 
@@ -516,13 +521,54 @@ export class ClassAddComponent implements OnInit {
         console.log('course list', res);
         this.fetchedCourseData = res;
         this.subjectListDataSource = this.getSubjectList(res);
-        console.log('student list', this.subjectListDataSource);
+        this.classScheduleArray = this.constructJSONForTable(res);
+        console.log('this.classScheduleArray', this.classScheduleArray);
       },
       err => {
         console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
+  }
+
+  constructJSONForTable(data) {
+    let courseScheduleList = [];
+    let batchesList = [];
+    let arr: any = [];
+    batchesList = data.coursesList[0].batchesList;
+    if (data.coursesList[0].courseClassSchdList != null) {
+      courseScheduleList = data.coursesList[0].courseClassSchdList;
+      for (let i = 0; i < courseScheduleList.length; i++) {
+        for (let j = 0; j < batchesList.length; j++) {
+          if (courseScheduleList[i].batch_id == batchesList[j].batch_id) {
+            let obj: any = {};
+            obj.class_schedule_id = courseScheduleList[i].class_schedule_id;
+            obj.custom_class_type = courseScheduleList[i].custom_class_type;
+            obj.start_time = courseScheduleList[i].start_time;
+            obj.end_time = courseScheduleList[i].end_time;
+            obj.duration = courseScheduleList[i].duration;
+            obj.subject_name = courseScheduleList[i].subject_name;
+            obj.subject_id = courseScheduleList[i].subject_id;
+            obj.duration = courseScheduleList[i].duration;
+            obj.teacher_id = batchesList[j].teacher_id;
+            obj.batch_id = courseScheduleList[i].batch_id;
+            obj.class_desc = courseScheduleList[i].class_desc;
+            obj.room_no = courseScheduleList[i].room_no;
+            arr.push(obj);
+          }
+        }
+      }
+    }
+    return arr;
+  }
+
+
+  getClassSchedule(data) {
+    let obj: any = [];
+    if (data.courseClassSchdList != null) {
+      obj = data.courseClassSchdList;
+    }
+    return obj;
   }
 
   getCustomList() {
@@ -552,6 +598,108 @@ export class ClassAddComponent implements OnInit {
   }
 
 
+  clearClassScheduleForm() {
+    this.addClassDetails = {
+      batch_id: '',
+      subject_id: '',
+      subject_name: '',
+      start_hour: '',
+      start_minute: '',
+      start_meridian: '',
+      end_hour: '',
+      end_minute: '',
+      end_meridian: '',
+      teacher_id: '',
+      teacher_name: '',
+      class_desc: '',
+      room_no: '',
+      custom_class_type: 'Regular',
+      duration: ''
+    }
+  }
+
+
+  addClassSchedule() {
+    let obj: any = {};
+    if (this.addClassDetails.subject_id == '' || this.addClassDetails.subject_id == null || this.addClassDetails.subject_id == '-1') {
+      this.messageToast('error', 'Error', 'Please Select Subject.');
+      return;
+    } else {
+      obj.subject_id = this.addClassDetails.subject_id;
+    }
+    obj.class_schedule_id = 0;
+    if (this.addClassDetails.custom_class_type == "" || this.addClassDetails.custom_class_type == null) {
+      obj.custom_class_type = "Regular";
+    } else {
+      obj.custom_class_type = this.addClassDetails.custom_class_type;
+    }
+    let startTime = moment(this.addClassDetails.start_hour + ':' + this.addClassDetails.start_minute + this.addClassDetails.start_meridian, 'h:mma');
+    let endTime = moment(this.addClassDetails.end_hour + ':' + this.addClassDetails.end_minute + this.addClassDetails.end_meridian, 'h:mma');
+    if (!(startTime.isBefore(endTime))) {
+      this.messageToast('error', 'Error', 'Please provide correct start time and end time');
+      return
+    } else {
+      obj.start_time = this.addClassDetails.start_hour + ':' + this.addClassDetails.start_minute + ' ' + this.addClassDetails.start_meridian;
+      obj.end_time = this.addClassDetails.end_hour + ':' + this.addClassDetails.end_minute + ' ' + this.addClassDetails.end_meridian;
+    }
+    startTime = this.convertIntoFullClock(this.addClassDetails.start_hour, this.addClassDetails.start_minute, this.addClassDetails.start_meridian);
+    endTime = this.convertIntoFullClock(this.addClassDetails.end_hour, this.addClassDetails.end_minute, this.addClassDetails.end_meridian);
+    obj.duration = this.getDifference(startTime, endTime);
+    obj.subject_name = this.getValueFromArray(this.subjectListDataSource, 'subject_id', obj.subject_id, 'subject_name');
+    if (this.addClassDetails.teacher_id == "" || this.addClassDetails.teacher_id == '-1') {
+      this.messageToast('error', 'Error', 'Please provide correct teacher name');
+      return
+    } else {
+      obj.teacher_id = Number(this.addClassDetails.teacher_id);
+    }
+    obj.batch_id = this.getBatchID(obj.subject_id);
+    obj.class_desc = this.addClassDetails.class_desc;
+    obj.room_no = this.addClassDetails.room_no;
+    this.classScheduleArray.push(obj);
+    this.clearClassScheduleForm();
+  }
+
+  getBatchID(subject_id) {
+    for (let i = 0; i < this.subjectListDataSource.length; i++) {
+      if (this.subjectListDataSource[i].subject_id == subject_id) {
+        return this.subjectListDataSource[i].batch_id;
+      }
+    }
+  }
+
+
+  convertIntoFullClock(hr, min, meridian) {
+    let result: any = '';
+    if (meridian == "AM") {
+      result = hr + ':' + min;
+    } else {
+      hr = Number(hr) + 12;
+      result = hr + ':' + min;
+    }
+    console.log(result);
+    return result;
+  }
+
+
+  getDifference(startTime, endTime) {
+    let start = moment.utc(startTime, "HH:mm");
+    let end = moment.utc(endTime, "HH:mm");
+    if (end.isBefore(start)) end.add(1, 'day');
+    let d: any = moment.duration(end.diff(start));
+    return d._data.minutes;
+  }
+
+
+  getValueFromArray(data, key, compareVal, getKey) {
+    let result: any = '';
+    for (let i = 0; i < data.length; i++) {
+      if (data[i][key] == compareVal) {
+        result = data[i][getKey];
+      }
+    }
+    return result;
+  }
+
   onCourseListSelection(event) {
     console.log(this.courseList);
     if (event != '-1') {
@@ -577,6 +725,63 @@ export class ClassAddComponent implements OnInit {
 
   sendReminder() {
     debugger
+
+    if (confirm("Are you sure, You want to notify?")) {
+      let obj: any = {};
+      obj.course_id = this.fetchedCourseData.coursesList[0].course_id;
+      obj.requested_date = this.fetchedCourseData.requested_date;
+      this.classService.sendReminderToServer(obj).subscribe(
+        res => {
+          console.log(res);
+          this.messageToast('success', 'Successfully', 'Notification sent successfully');
+        },
+      err => {
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
+      )
+    };
+
+  }
+
+  saveCourseSchedule() {
+    let obj = this.makeJsonForCourseSave();
+    this.classService.saveDataOnServer(obj).subscribe(
+      res => {
+        console.log(res);
+        this.messageToast('success', 'Saved', 'Your class created successfully');
+      },
+      err => {
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
+    )
+
+  }
+
+
+  makeJsonForCourseSave() {
+    let obj: any = {};
+    obj.master_course = this.getValueFromArray(this.masterCourse, 'master_course', this.fetchMasterCourseModule.master_course, 'master_course');
+    obj.requested_date = moment(this.fetchMasterCourseModule.requested_date).format("YYYY-MM-DD");
+    obj.course_id = this.fetchMasterCourseModule.course_id;
+    obj.coursesList = [];
+    obj.coursesList.course_id = this.fetchMasterCourseModule.course_id;
+    obj.coursesList.courseClassSchdList = [];
+    for (let i = 0; i < this.classScheduleArray.length; i++) {
+      let test: any = {};
+      test.alloted_teacher_id = this.classScheduleArray[i].teacher_id;
+      test.batch_id = this.classScheduleArray[i].batch_id;
+      test.class_desc = this.classScheduleArray[i].class_desc;
+      test.class_schedule_id = this.classScheduleArray[i].class_schedule_id;
+      test.custom_class_type = this.classScheduleArray[i].custom_class_type;
+      test.duration = this.classScheduleArray[i].duration;
+      test.room_no = this.classScheduleArray[i].room_no;
+      test.start_time = this.classScheduleArray[i].start_time;
+      test.end_time = this.classScheduleArray[i].end_time;
+      obj.coursesList.courseClassSchdList.push(test);
+    }
+    return obj;
   }
 
   getSubjectList(data) {

@@ -22,6 +22,16 @@ export class CourseComponent implements OnInit {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.checkWhichTabIsOpen();
+    document.getElementById('lione').classList.remove('active');
+    document.getElementById('litwo').classList.remove('active');
+    document.getElementById('lithree').classList.add('active');
+    document.getElementById('lifour').classList.remove('active');
+    document.getElementById('lifive').classList.remove('active');
+    document.getElementById('lisix').classList.remove('active');
+    document.getElementById('liseven').classList.remove('active');
+    document.getElementById('lieight').classList.remove('active');
+    document.getElementById('linine').classList.remove('active');
+    document.getElementById('lizero').classList.remove('active');
   }
 
   checkInstituteType() {
