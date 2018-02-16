@@ -4,11 +4,11 @@
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss"; */
 
-.grid-container{
+.grid-container {
     width: 90vw;
-    height:100%;
-    overflow: hidden;
-    
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 div#enqChart {
@@ -17,7 +17,7 @@ div#enqChart {
     height: 152px;
 }
 
-.widgetDatepicker{
+.widgetDatepicker {
     position: absolute;
     margin-left: 25%;
     width: 1px;
@@ -31,8 +31,8 @@ div#enqChart {
 .item {
     display: block;
     position: absolute;
-    width: 100px;
-    //height: 100px;
+    width: 100px; 
+    //max-height: 350px;
     margin: 5px;
     z-index: 1;
     background: #000;
@@ -60,7 +60,7 @@ div#enqChart {
 // css for activity page
 .activity-page {
     background: #f2f2f2;
-    ::-webkit-scrollbar{
+     ::-webkit-scrollbar {
         display: block;
     }
 }
@@ -131,12 +131,12 @@ div#enqChart {
         box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
         background: #fff;
         margin-bottom: 16px;
-        width: 100%;
+        width: 97%;
         border-radius: 4px;
         overflow: hidden;
         &.enquiry-state,
         &.fees-state {
-            width: 49%;
+            width: 48%;
             min-height: 250px;
         }
         .actb-top-header {
@@ -284,9 +284,22 @@ div#enqChart {
     }
 }
 
-.schedule-bottom {
-    min-height: 300px;
+.schedule-wrapper {
+    min-height: 350px;
+    max-height: 350px;
     overflow: hidden;
+     ::-webkit-scrollbar {
+        display: block;
+    }
+}
+
+.schedule-bottom {
+    .schedule-scroller{
+        min-height: 300px;
+        max-height: 350px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
     ul {
         border-bottom: 2px solid rgba(211, 212, 213, 0.5);
         background: #fff;
@@ -378,6 +391,7 @@ div#enqChart {
             }
         }
     }
+
     div.ct-disable-wrapper {
         ul {
             opacity: 0.1;
@@ -396,6 +410,7 @@ div#enqChart {
         }
     }
 }
+
 
 .general-s-bottom {
     ul {

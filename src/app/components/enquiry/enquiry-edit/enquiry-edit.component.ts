@@ -41,7 +41,7 @@ export class EnquiryEditComponent implements OnInit {
   lastDetail: any = [];
   confimationPop: boolean = false;
   updatePop: boolean = false;
-  institute_enquiry_id:any = '';
+  institute_enquiry_id: any = '';
   editEnqData: addEnquiryForm = {
     name: "",
     phone: "",
@@ -329,27 +329,27 @@ export class EnquiryEditComponent implements OnInit {
 
     return this.prefill.fetchCustomComponentById(localStorage.getItem('institute_enquiry_id'))
       .subscribe(
-      data => {
-        data.forEach(el => {
-          let obj = {
-            data: el,
-            id: el.component_id,
-            is_required: el.is_required,
-            is_searchable: el.is_searchable,
-            label: el.label,
-            prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
-            selected: [],
-            selectedString: '',
-            type: el.type,
-            value: el.enq_custom_value
-          }
-          this.customComponents.push(obj);
-          //console.log(obj);
+        data => {
+          data.forEach(el => {
+            let obj = {
+              data: el,
+              id: el.component_id,
+              is_required: el.is_required,
+              is_searchable: el.is_searchable,
+              label: el.label,
+              prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+              selected: [],
+              selectedString: '',
+              type: el.type,
+              value: el.enq_custom_value
+            }
+            this.customComponents.push(obj);
+            //console.log(obj);
+          });
+          this.emptyCustomComponent = this.componentListObject;
+        },
+        err => {
         });
-        this.emptyCustomComponent = this.componentListObject;
-      },
-      err => {
-      });
   }
 
 
@@ -570,7 +570,7 @@ export class EnquiryEditComponent implements OnInit {
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
 
-    if ((this.editEnqData.name == null || this.editEnqData.name == "") || (this.editEnqData.phone == null || this.editEnqData.phone == "") || (this.editEnqData.enquiry_date == null || this.editEnqData.enquiry_date == "")) {
+    if ((this.editEnqData.name == null || this.editEnqData.name == "") || (this.editEnqData.enquiry_date == null || this.editEnqData.enquiry_date == "" || this.editEnqData.source_id == "" || this.editEnqData.source_id == "-1")) {
       return false;
     }
     else {
@@ -724,14 +724,14 @@ export class EnquiryEditComponent implements OnInit {
         this.fetchCommentData(this.route.snapshot.paramMap.get('id'));
         this.commentHandlerClose();
       },
-      err => {
-        let alert = {
-          type: 'error',
-          title: 'Failed To Update Enquiry',
-          body: 'There was an error processing your request'
-        }
-        this.appC.popToast(alert);
-      })
+        err => {
+          let alert = {
+            type: 'error',
+            title: 'Failed To Update Enquiry',
+            body: 'There was an error processing your request'
+          }
+          this.appC.popToast(alert);
+        })
 
   }
 
