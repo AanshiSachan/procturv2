@@ -76,6 +76,15 @@ export class ClassAddComponent implements OnInit {
   teacherListDataSource: any = [];
   customListDataSource: any = [];
   classScheduleArray: any = [];
+  showPopUp: boolean = true;
+  customRec = {
+    start_hour: '',
+    start_minute: '',
+    start_meridian: '',
+    end_hour: '',
+    end_minute: '',
+    end_meridian: '',
+  }
 
 
 
@@ -735,10 +744,10 @@ export class ClassAddComponent implements OnInit {
           console.log(res);
           this.messageToast('success', 'Successfully', 'Notification sent successfully');
         },
-      err => {
-        console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
-      }
+        err => {
+          console.log(err);
+          this.messageToast('error', 'Error', err.error.message);
+        }
       )
     };
 
@@ -793,8 +802,79 @@ export class ClassAddComponent implements OnInit {
     }
   }
 
+  weeklyScheduleChange($event) {
+    debugger
+    let selectedValue = $event.target.value;
+    if (selectedValue == 1) {
+
+    } else if (selectedValue == 2) {
+      this.selectedDatesOption();
+    } else {
+      this.customRecurrence();
+    }
+
+  }
+
+  selectedDatesOption() {
+    this.showPopUp = true;
+  }
+
+  customRecurrence() {
+
+  }
+
+
   /* ============================================================================================ */
   /* ============================================================================================ */
+
+
+
+  //////// POPUP /////////////////////////
+
+
+  closePopup() {
+    this.showPopUp = false;
+  }
+
+  onWeekDaysSelection(event) {
+    debugger
+    if ((document.getElementById(event.target.id).classList).contains('l-text')) {
+      document.getElementById(event.target.id).classList.remove('l-text');
+      document.getElementById(event.target.id).classList.add('p-text');
+    } else {
+      document.getElementById(event.target.id).classList.add('l-text');
+      document.getElementById(event.target.id).classList.remove('p-text');
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   /* ============================================================================================ */

@@ -408,7 +408,14 @@
                       </td>
 
                       <td>
-                        <i class="far fa-trash-alt" style="font-family: FontAwesome ;font-size: 19px;"></i>
+
+                        <select *ngIf="(row.class_schedule_id != 0)" id="" class="form-ctrl" name="row.category_id" (change)="weeklyScheduleChange($event)">
+                          <option value="1">Does Not Repeat</option>
+                          <option value="2">Select Dates</option>
+                          <option value="3">Custom Recurrence</option>
+                        </select>
+
+                        <i class="far fa-trash-alt"></i>
                       </td>
                     </tr>
                   </tbody>
@@ -760,8 +767,153 @@
 
 
 
-<select id="" class="form-ctrl" name="row.category_id" (change)="weeklyScheduleChange($event)">
-  <option value="1">Does Not Repeat</option>
-  <option value="2">Select Dates</option>
-  <option value="3">Custom Recurrence</option>
-</select>
+<!-- //////////////////////////////////POPUP///////////////////////////////// -->
+<!-- //////////////////////////////////POPUP///////////////////////////////// -->
+<!-- //////////////////////////////////POPUP///////////////////////////////// -->
+<!-- //////////////////////////////////POPUP///////////////////////////////// -->
+<!-- //////////////////////////////////POPUP///////////////////////////////// -->
+
+<section id="popup" class="popupWrapper fadeIn" *ngIf="showPopUp">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <h2>Custom Recurrence</h2>
+
+        <div class="row extraMargin">
+          <div class=" c-sm-6 c-md-6 c-lg-6">
+            <div class="time-picker">
+              <div class="field-wrapper has-value">
+                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="customRec.start_hour" name="hour" style="background: transparent">
+                  <option *ngFor="let hour of hourArr" [value]="hour">
+                    {{hour}}
+                  </option>
+                </select>
+                <label for="hour">Hour</label>
+              </div>
+              <div class="field-wrapper has-value">
+                <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="customRec.start_minute" name="minute" style="background: transparent">
+                  <option *ngFor="let minute of minArr" [value]="minute">
+                    {{minute}}
+                  </option>
+                </select>
+                <label for="minute">Minute</label>
+              </div>
+              <div class="field-wrapper has-value">
+                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="customRec.start_meridian" name="meridian" style="background: transparent">
+                  <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                    {{meridian}}
+                  </option>
+                </select>
+                <label for="meridian">Meridian</label>
+              </div>
+            </div>
+          </div>
+          <div class=" c-sm-6 c-md-6 c-lg-6">
+            <div class="time-picker">
+              <div class="field-wrapper has-value">
+                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="customRec.end_hour" name="hour" style="background: transparent">
+                  <option *ngFor="let hour of hourArr" [value]="hour">
+                    {{hour}}
+                  </option>
+                </select>
+                <label for="hour">Hour</label>
+              </div>
+              <div class="field-wrapper has-value">
+                <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="customRec.end_minute" name="minute" style="background: transparent">
+                  <option *ngFor="let minute of minArr" [value]="minute">
+                    {{minute}}
+                  </option>
+                </select>
+                <label for="minute">Minute</label>
+              </div>
+              <div class="field-wrapper has-value">
+                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="customRec.end_meridian" name="meridian" style="background: transparent">
+                  <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                    {{meridian}}
+                  </option>
+                </select>
+                <label for="meridian">Meridian</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row extraMargin">
+          <h3>Repeat On</h3>
+        </div>
+
+        <div id="divWeekDays" class="row extraMargin side-circles">
+          <span id="idSunday-7" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Sunday">S</span>
+          <span id="idMonday-1" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Monday">M</span>
+          <span id="idTuesday-2" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Tuesday">T</span>
+          <span id="idWednesday-3" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Wednesday">W</span>
+          <span id="idThursday-4" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Thursday">T</span>
+          <span id="idFriday-5" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Friday">F</span>
+          <span id="idSaturday-6" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Saturday">S</span>
+        </div>
+
+        <div class="row extraMargin">
+          <h3>Ends</h3>
+        </div>
+
+        <div class="row extraMargin">
+
+          <div class="radio-options">
+            <div class="row extraMargin">
+              <div class="field-radio-wrapper c-sm-6 c-md-6 c-lg-6">
+                <input type="radio" name="sFilter" class="form-radio" value="Automatic" id="idAutomatic">
+                <label for="active">Course End Date</label>
+              </div>
+            </div>
+            <div class="row extraMargin">
+              <div class="field-radio-wrapper c-sm-6 c-md-6 c-lg-6">
+                <input type="radio" name="sFilter" class="form-radio" value="Automatic" id="idAutomatic">
+                <label for="active">On</label>
+              </div>
+            </div>
+            <div class="row extraMargin">
+              <div class="field-radio-wrapper c-sm-6 c-md-6 c-lg-6">
+                <input type="radio" name="sFilter" class="form-radio" value="Automatic" id="idAutomatic">
+                <label for="active">After</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="row">
+          <div class="field-checkbox-warpper c-sm-6 c-md-6 c-lg-6">
+            <input type="checkbox" name="courseEndDate">
+            <label for="courseEndDate">Course End Date</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field-checkbox-warpper c-sm-6 c-md-6 c-lg-6">
+            <input type="checkbox" name="on">
+            <label for="on">On</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field-checkbox-warpper c-sm-6 c-md-6 c-lg-6">
+            <input type="checkbox" name="after">
+            <label for="after">Course End Date</label>
+          </div>
+        </div> -->
+
+      </div>
+    </div>
+  </div>
+</section>
