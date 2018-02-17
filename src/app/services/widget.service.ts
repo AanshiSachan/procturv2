@@ -11,6 +11,7 @@ import * as moment from 'moment';
 @Injectable()
 export class WidgetService {
 
+
     baseUrl = 'http://test999.proctur.com/StdMgmtWebAPI';
     Authorization: any;
     headers;
@@ -25,18 +26,17 @@ export class WidgetService {
 
 
     fetchSchedWidgetData(obj): Observable<any> {
-        
+
         let url = this.baseUrl + "/api/v1/dashboard/admin//todayClassSchedule/" + this.institute_id;
         return this.http.post(url, obj, { headers: this.headers }).map(
-            res => { console.log(res); return res; },
+            res => { return res; },
             err => { return err; }
         );
     }
 
 
     fetchFeeWidgetData(obj): Observable<any> {
-        
-        let url = this.baseUrl + "/studentWise/fee/students/" + this.institute_id;
+        let url = this.baseUrl + "/api/v1/studentWise/fee/students/" + this.institute_id;
         return this.http.post(url, obj, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }
@@ -58,6 +58,31 @@ export class WidgetService {
             res => { return res; },
             err => { return err; }
         );
+    }
+
+    getAttendance(obj): any {
+        let url = this.baseUrl + "/api/v1/attendance";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    getAllteachers(): Observable<any>{
+        let url = this.baseUrl +"/api/v1/teachers/all/" +this.institute_id +"?active=Y";
+
+        return this.http.get(url, {headers: this.headers}).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
     }
 
 }

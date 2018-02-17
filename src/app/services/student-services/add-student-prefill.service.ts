@@ -82,9 +82,11 @@ export class AddStudentPrefillService {
     return this.http.get(this.urlCustomComponent, { headers: this.headers })
       .map(
       data => {
-        //console.log(data);
-        if (data != null) {
+        if(data['_body'] !=''){
           return data.json();
+        }
+        else{
+          return [];
         }
       },
       err => {
@@ -99,7 +101,14 @@ export class AddStudentPrefillService {
     this.urlCustomComponent = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" + this.institute_id + "?id=" + id + "&isSearhable=undefined&student_enq_id=&page=2";
     return this.http.get(this.urlCustomComponent, { headers: this.headers })
       .map(
-      data => { return data.json(); },
+      data => { 
+        if(data['_body'] !=''){
+          return data.json();
+        }
+        else{
+          return [];
+        } 
+      },
       err => {
         //console.log("an error occurred while fetching custom component for student add view");
       }
