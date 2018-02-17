@@ -409,13 +409,13 @@
 
                       <td>
 
-                        <select *ngIf="(row.class_schedule_id != 0)" id="" class="form-ctrl" name="row.category_id" (change)="weeklyScheduleChange($event)">
+                        <select *ngIf="(row.class_schedule_id != 0)" id="" class="form-ctrl" name="row.category_id" (change)="weeklyScheduleChange($event , row)">
                           <option value="1">Does Not Repeat</option>
                           <option value="2">Select Dates</option>
                           <option value="3">Custom Recurrence</option>
                         </select>
 
-                        <i class="far fa-trash-alt"></i>
+                        <i class="fas fa fa-trash" style="font-size: 19px;font-family: FontAwesome;" (click)="removeRowFromSchedule(i , row)"></i>
                       </td>
                     </tr>
                   </tbody>
@@ -773,7 +773,7 @@
 <!-- //////////////////////////////////POPUP///////////////////////////////// -->
 <!-- //////////////////////////////////POPUP///////////////////////////////// -->
 
-<section id="popup" class="popupWrapper fadeIn" *ngIf="showPopUp">
+<section id="popup" class="popupWrapper fadeIn" *ngIf="showPopUpRecurence">
   <div class="popup pos-abs popup-body-container">
     <div class="popup-wrapper pos-rel">
       <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -793,125 +793,334 @@
 
         <div class="row extraMargin">
           <div class=" c-sm-6 c-md-6 c-lg-6">
-            <div class="time-picker">
-              <div class="field-wrapper has-value">
-                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="customRec.start_hour" name="hour" style="background: transparent">
-                  <option *ngFor="let hour of hourArr" [value]="hour">
-                    {{hour}}
-                  </option>
-                </select>
-                <label for="hour">Hour</label>
+            <fieldset>
+              <legend style="color: #0084f6;">Start Time</legend>
+              <div class="time-picker">
+                <div class="field-wrapper has-value">
+                  <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selctedScheduledClass.startTime.hour" name="hour"
+                    style="background: transparent">
+                    <option *ngFor="let hour of hourArr" [value]="hour">
+                      {{hour}}
+                    </option>
+                  </select>
+                  <label for="hour">Hour</label>
+                </div>
+                <div class="field-wrapper has-value">
+                  <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="selctedScheduledClass.startTime.minute
+                    " name="minute " style="background: transparent ">
+                    <option *ngFor="let minute of minArr " [value]="minute ">
+                      {{minute}}
+                    </option>
+                  </select>
+                  <label for="minute ">Minute</label>
+                </div>
+                <div class="field-wrapper has-value ">
+                  <select id="hour " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="selctedScheduledClass.startTime.meridian
+                    " name="meridian " style="background: transparent ">
+                    <option *ngFor="let meridian of meridianArr " [value]="meridian ">
+                      {{meridian}}
+                    </option>
+                  </select>
+                  <label for="meridian ">Meridian</label>
+                </div>
               </div>
-              <div class="field-wrapper has-value">
-                <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="customRec.start_minute" name="minute" style="background: transparent">
-                  <option *ngFor="let minute of minArr" [value]="minute">
-                    {{minute}}
-                  </option>
-                </select>
-                <label for="minute">Minute</label>
-              </div>
-              <div class="field-wrapper has-value">
-                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="customRec.start_meridian" name="meridian" style="background: transparent">
-                  <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                    {{meridian}}
-                  </option>
-                </select>
-                <label for="meridian">Meridian</label>
-              </div>
-            </div>
+            </fieldset>
           </div>
-          <div class=" c-sm-6 c-md-6 c-lg-6">
-            <div class="time-picker">
-              <div class="field-wrapper has-value">
-                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="customRec.end_hour" name="hour" style="background: transparent">
-                  <option *ngFor="let hour of hourArr" [value]="hour">
-                    {{hour}}
-                  </option>
-                </select>
-                <label for="hour">Hour</label>
+          <div class=" c-sm-6 c-md-6 c-lg-6 ">
+            <fieldset>
+              <legend style="color: #0084f6; ">End Time</legend>
+              <div class="time-picker ">
+                <div class="field-wrapper has-value ">
+                  <select id="hour " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="selctedScheduledClass.endTime.hour
+                    " name="hour " style="background: transparent ">
+                    <option *ngFor="let hour of hourArr " [value]="hour ">
+                      {{hour}}
+                    </option>
+                  </select>
+                  <label for="hour ">Hour</label>
+                </div>
+                <div class="field-wrapper has-value ">
+                  <select id="minute " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="selctedScheduledClass.endTime.minute
+                    " name="minute " style="background: transparent ">
+                    <option *ngFor="let minute of minArr " [value]="minute ">
+                      {{minute}}
+                    </option>
+                  </select>
+                  <label for="minute ">Minute</label>
+                </div>
+                <div class="field-wrapper has-value ">
+                  <select id="hour " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="selctedScheduledClass.endTime.meridian
+                    " name="meridian " style="background: transparent ">
+                    <option *ngFor="let meridian of meridianArr " [value]="meridian ">
+                      {{meridian}}
+                    </option>
+                  </select>
+                  <label for="meridian ">Meridian</label>
+                </div>
               </div>
-              <div class="field-wrapper has-value">
-                <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="customRec.end_minute" name="minute" style="background: transparent">
-                  <option *ngFor="let minute of minArr" [value]="minute">
-                    {{minute}}
-                  </option>
-                </select>
-                <label for="minute">Minute</label>
-              </div>
-              <div class="field-wrapper has-value">
-                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="customRec.end_meridian" name="meridian" style="background: transparent">
-                  <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                    {{meridian}}
-                  </option>
-                </select>
-                <label for="meridian">Meridian</label>
-              </div>
-            </div>
+            </fieldset>
           </div>
         </div>
 
-        <div class="row extraMargin">
+        <div class="row extraMargin ">
           <h3>Repeat On</h3>
         </div>
 
-        <div id="divWeekDays" class="row extraMargin side-circles">
-          <span id="idSunday-7" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Sunday">S</span>
-          <span id="idMonday-1" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Monday">M</span>
-          <span id="idTuesday-2" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Tuesday">T</span>
-          <span id="idWednesday-3" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Wednesday">W</span>
-          <span id="idThursday-4" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Thursday">T</span>
-          <span id="idFriday-5" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Friday">F</span>
-          <span id="idSaturday-6" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Saturday">S</span>
+        <div id="divWeekDays " class="row extraMargin side-circles ">
+          <span id="idSunday-7 " class="l-circle l-text " (click)="onWeekDaysSelection($event) " title="Sunday ">S</span>
+          <span id="idMonday-1 " class="l-circle l-text " (click)="onWeekDaysSelection($event) " title="Monday ">M</span>
+          <span id="idTuesday-2 " class="l-circle l-text " (click)="onWeekDaysSelection($event) " title="Tuesday ">T</span>
+          <span id="idWednesday-3 " class="l-circle l-text " (click)="onWeekDaysSelection($event) " title="Wednesday ">W</span>
+          <span id="idThursday-4 " class="l-circle l-text " (click)="onWeekDaysSelection($event) " title="Thursday ">T</span>
+          <span id="idFriday-5 " class="l-circle l-text " (click)="onWeekDaysSelection($event) " title="Friday ">F</span>
+          <span id="idSaturday-6 " class="l-circle l-text " (click)="onWeekDaysSelection($event) " title="Saturday ">S</span>
         </div>
 
-        <div class="row extraMargin">
+        <div class="row extraMargin ">
           <h3>Ends</h3>
         </div>
 
-        <div class="row extraMargin">
+        <div class="row extraMargin ">
 
-          <div class="radio-options">
-            <div class="row extraMargin">
-              <div class="field-radio-wrapper c-sm-6 c-md-6 c-lg-6">
-                <input type="radio" name="sFilter" class="form-radio" value="Automatic" id="idAutomatic">
-                <label for="active">Course End Date</label>
+          <div class="radio-options ">
+            <div class="row extraMargin ">
+              <div class="field-radio-wrapper c-sm-6 c-md-6 c-lg-6 ">
+                <input type="radio " name="sFilter " class="form-radio " (click)="radioButtonClick($event) " value="false
+                    " id="idCourseEndDate ">
+                <label for="active ">Course End Date</label>
+              </div>
+              <!-- <div class="c-sm-3 c-md-3 c-lg-3 "> -->
+              <div class="field-wrapper datePickerBox c-sm-3 c-md-3 c-lg-3 " [ngClass]="{ 'disabled': customRec.radioEndDate.radioEndDateSelection==false } ">
+                <input type="text " value=" " readonly="true " [(ngModel)]="customRec.radioEndDate.radioDate " class="form-ctrl
+                    bsDatepicker " name="endDate " bsDatepicker>
+              </div>
+              <!-- </div> -->
+            </div>
+            <div class="row extraMargin ">
+              <div class="field-radio-wrapper c-sm-6 c-md-6 c-lg-6 ">
+                <input type="radio " name="sFilter " class="form-radio " value="false " (click)="radioButtonClick($event)
+                    " id="idOn ">
+                <label for="active ">On</label>
+              </div>
+              <div class="c-sm-3 c-md-3 c-lg-3 " [ngClass]="{ 'disabled': customRec.radioOn.radioONSelection==false } ">
+                <div class="field-wrapper datePickerBox ">
+                  <input type="text " value=" " readonly="true " [(ngModel)]="customRec.radioOn.radioOnDate " class="form-ctrl
+                    bsDatepicker " name="endDate " bsDatepicker>
+                </div>
               </div>
             </div>
-            <div class="row extraMargin">
-              <div class="field-radio-wrapper c-sm-6 c-md-6 c-lg-6">
-                <input type="radio" name="sFilter" class="form-radio" value="Automatic" id="idAutomatic">
-                <label for="active">On</label>
+            <div class="row extraMargin ">
+              <div class="field-radio-wrapper c-sm-6 c-md-6 c-lg-6 ">
+                <input type="radio " name="sFilter " class="form-radio " (click)="radioButtonClick($event) " value="false
+                    " id="idAfter ">
+                <label for="active ">After</label>
               </div>
-            </div>
-            <div class="row extraMargin">
-              <div class="field-radio-wrapper c-sm-6 c-md-6 c-lg-6">
-                <input type="radio" name="sFilter" class="form-radio" value="Automatic" id="idAutomatic">
-                <label for="active">After</label>
+              <div class="field-wrapper c-sm-3 c-md-3 c-lg-3 ">
+                <input type="number " [readonly]="customRec.radioAfter.radioAfterSelection==false" #idSlot class="form-ctrl
+                    halfwidth " name="slotNew " [(ngModel)]="customRec.radioAfter.occurenceValue ">
               </div>
+              <span>occurrences</span>
             </div>
           </div>
         </div>
 
-        <!-- <div class="row">
-          <div class="field-checkbox-warpper c-sm-6 c-md-6 c-lg-6">
-            <input type="checkbox" name="courseEndDate">
-            <label for="courseEndDate">Course End Date</label>
+        <div>
+          <button class="btn pull-right " (click)="saveCustomRecurrences() ">Save</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- //////////////////////////////////////// Select Dates///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Select Dates///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Select Dates///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Select Dates///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Select Dates///////////////////////////////////////////// -->
+
+<section id="popup " class="popupWrapper fadeIn " *ngIf="showPopUp ">
+  <div class="popup pos-abs popup-body-container ">
+    <div class="popup-wrapper pos-rel ">
+      <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closePopup() ">
+        <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
+          <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
+            <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
+              <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
+                    rotate(45) " />
+              <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
+                    rotate(45) " />
+            </g>
+            <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
+                    " height="16 " transform="translate(1012 297) " />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content ">
+        <h2>Select Dates for Class</h2>
+
+        <div class="row extraMargin ">
+          <div class="table-scroll-wrapper ">
+            <div class="table table-responsive ">
+              <table style="width:50% ">
+                <thead>
+                  <tr>
+                    <th>
+                      Schedule Date
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                    <th>
+
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="field-wrapper datePickerBox " style="width:50% ">
+                        <input type="text " value=" " readonly="true " [(ngModel)]="addDates.selectedDate " class="form-ctrl
+                    bsDatepicker " name="endDate " bsDatepicker>
+                      </div>
+                    </td>
+                    <td>
+                      <i class="far fa fa-plus-square " (click)="addDateToArray() " style="font-size: 19px; font-family:
+                    FontAwesome " alt="Add " title="Add "></i>
+                    </td>
+                    <td>
+
+                    </td>
+                  </tr>
+                  <tr *ngFor="let row of selectedDateArray; let i=index ; trackBy : index ">
+                    <td>
+                      {{row.selectedDate}}
+                    </td>
+                    <td>
+                      <i class="fas fa fa-trash " (click)="removeDateToArray(i, row) " style="font-size: 19px; font-family:
+                    FontAwesome; " alt="Remove " title="Remove "></i>
+                    </td>
+                    <td>
+                      {{row.error}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
-        <div class="row">
-          <div class="field-checkbox-warpper c-sm-6 c-md-6 c-lg-6">
-            <input type="checkbox" name="on">
-            <label for="on">On</label>
+        <div class="row extraMargin ">
+          <h3>Edit Selected Schedule</h3>
+        </div>
+
+        <div class="row extraMargin ">
+          <div class="row extraMargin ">
+            <div class="field-wrapper c-sm-2 c-md-2 c-lg-2 ">
+              <select id="tsesesese " class="form-ctrl " name="row.subject_id " [(ngModel)]="selctedScheduledClass.subject_id ">
+                <option value="-1 "> </option>
+                <option *ngFor="let opt of subjectListDataSource " [value]="opt.subject_id ">
+                  {{opt.subject_name}}
+                </option>
+              </select>
+              <label for="row.subject_id ">Subject Name</label>
+            </div>
+            <div class="time-picker c-sm-2 c-md-2 c-lg-2 ">
+              <div class="field-wrapper has-value ">
+                <select id="hour " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="selctedScheduledClass.startTime.hour
+                    " name="hour " style="background: transparent ">
+                  <option *ngFor="let hour of hourArr " [value]="hour ">
+                    {{hour}}
+                  </option>
+                </select>
+                <label for="hour ">Hour</label>
+              </div>
+              <div class="field-wrapper has-value ">
+                <select id="minute " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="selctedScheduledClass.startTime.minute
+                    " name="minute " style="background: transparent ">
+                  <option *ngFor="let minute of minArr " [value]="minute ">
+                    {{minute}}
+                  </option>
+                </select>
+                <label for="minute ">Minute</label>
+              </div>
+              <div class="field-wrapper has-value ">
+                <select id="hour " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="selctedScheduledClass.startTime.meridian
+                    " name="meridian " style="background: transparent ">
+                  <option *ngFor="let meridian of meridianArr " [value]="meridian ">
+                    {{meridian}}
+                  </option>
+                </select>
+                <label for="meridian ">Meridian</label>
+              </div>
+            </div>
+
+            <div class="time-picker c-sm-2 c-md-2 c-lg-2 ">
+              <div class="field-wrapper has-value ">
+                <select id="hour " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="selctedScheduledClass.endTime.hour
+                    " name="hour " style="background: transparent ">
+                  <option *ngFor="let hour of hourArr " [value]="hour ">
+                    {{hour}}
+                  </option>
+                </select>
+                <label for="hour ">Hour</label>
+              </div>
+              <div class="field-wrapper has-value ">
+                <select id="minute " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="selctedScheduledClass.endTime.minute
+                    " name="minute " style="background: transparent ">
+                  <option *ngFor="let minute of minArr " [value]="minute ">
+                    {{minute}}
+                  </option>
+                </select>
+                <label for="minute ">Minute</label>
+              </div>
+              <div class="field-wrapper has-value ">
+                <select id="hour " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="selctedScheduledClass.endTime.meridian
+                    " name="meridian " style="background: transparent ">
+                  <option *ngFor="let meridian of meridianArr " [value]="meridian ">
+                    {{meridian}}
+                  </option>
+                </select>
+                <label for="meridian ">Meridian</label>
+              </div>
+            </div>
+
+            <div class="field-wrapper c-sm-2 c-md-2 c-lg-2 ">
+              <select id=" " class="form-ctrl " name="row.category_id " [(ngModel)]="selctedScheduledClass.teacher_id ">
+                <option value="-1 "></option>
+                <option *ngFor="let opt of teacherListDataSource " [value]="opt.teacher_id ">
+                  {{opt.teacher_name}}
+                </option>
+              </select>
+              <label for="row.category_id ">Teacher Name</label>
+            </div>
+
+            <div class="field-wrapper c-sm-2 c-md-2 c-lg-2 ">
+              <input type="textbox " class="form-ctrl " name="label " [(ngModel)]="selctedScheduledClass.class_desc ">
+              <label for="label ">Description</label>
+            </div>
+
+            <div class="field-wrapper c-sm-2 c-md-2 c-lg-2 ">
+              <input type="text " class="form-ctrl " name="label " [(ngModel)]="selctedScheduledClass.room_no ">
+              <label for="label ">Room No</label>
+            </div>
+
+            <div class="c-sm-2 c-md-2 c-lg-2 ">
+              <select id=" " class="form-ctrl " name="row.category_id " style="background: transparent; " [(ngModel)]="selctedScheduledClass.custom_class_type ">
+                <option *ngFor="let opt of customListDataSource ">
+                  {{opt}}
+                </option>
+              </select>
+              <label for="row.category_id ">Class Type</label>
+            </div>
+
           </div>
         </div>
 
-        <div class="row">
-          <div class="field-checkbox-warpper c-sm-6 c-md-6 c-lg-6">
-            <input type="checkbox" name="after">
-            <label for="after">Course End Date</label>
-          </div>
-        </div> -->
+        <div>
+          <button class="btn pull-right " (click)="saveSelectedDateSchedule() ">Save</button>
+        </div>
 
       </div>
     </div>

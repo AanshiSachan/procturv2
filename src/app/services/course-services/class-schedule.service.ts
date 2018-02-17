@@ -183,4 +183,21 @@ export class ClassScheduleService {
         )
     }
 
+    selectedDateScheduleToServer(data) {
+        let url = this.baseURL + "/api/v1/courseClassSchedule/copyCourseSchedule";
+        return this.http.put(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+
+    saveCustomRecurrenceToServer(data) {
+        let url = this.baseURL + "/api/v1/courseClassSchedule/updateWeeklySubjectSchedule";
+        return this.http.put(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
 }

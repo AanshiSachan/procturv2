@@ -76,7 +76,8 @@ export class ClassAddComponent implements OnInit {
   teacherListDataSource: any = [];
   customListDataSource: any = [];
   classScheduleArray: any = [];
-  showPopUp: boolean = true;
+  showPopUp: boolean = false;
+  showPopUpRecurence: boolean = false;
   customRec = {
     start_hour: '',
     start_minute: '',
@@ -84,9 +85,26 @@ export class ClassAddComponent implements OnInit {
     end_hour: '',
     end_minute: '',
     end_meridian: '',
+    radioEndDate: {
+      radioEndDateSelection: false,
+      radioDate: '',
+    },
+    radioOn: {
+      radioONSelection: false,
+      radioOnDate: '',
+    },
+    radioAfter: {
+      radioAfterSelection: false,
+      occurenceValue: ''
+    }
   }
-
-
+  addDates = {
+    selectedDate: '',
+    error: '',
+  }
+  selectedDateArray: any = [];
+  selctedScheduledClass: any = [];
+  weekDaysSelected: any = [];
 
   timepicker: any = {
     universalStartTime: {
@@ -558,7 +576,6 @@ export class ClassAddComponent implements OnInit {
             obj.duration = courseScheduleList[i].duration;
             obj.subject_name = courseScheduleList[i].subject_name;
             obj.subject_id = courseScheduleList[i].subject_id;
-            obj.duration = courseScheduleList[i].duration;
             obj.teacher_id = batchesList[j].teacher_id;
             obj.batch_id = courseScheduleList[i].batch_id;
             obj.class_desc = courseScheduleList[i].class_desc;
@@ -695,7 +712,7 @@ export class ClassAddComponent implements OnInit {
     let end = moment.utc(endTime, "HH:mm");
     if (end.isBefore(start)) end.add(1, 'day');
     let d: any = moment.duration(end.diff(start));
-    return d._data.minutes;
+    return d._milliseconds / 60000;
   }
 
 
@@ -724,17 +741,11 @@ export class ClassAddComponent implements OnInit {
     }
   }
 
-  copyCourseSchedule() {
-    debugger
-  }
-
   cancelCourseSchedule() {
     debugger
   }
 
   sendReminder() {
-    debugger
-
     if (confirm("Are you sure, You want to notify?")) {
       let obj: any = {};
       obj.course_id = this.fetchedCourseData.coursesList[0].course_id;
@@ -754,6 +765,10 @@ export class ClassAddComponent implements OnInit {
   }
 
   saveCourseSchedule() {
+    if (this.classScheduleArray.length == 0) {
+      this.messageToast('error', 'Error', 'Please provide information');
+      return;
+    }
     let obj = this.makeJsonForCourseSave();
     this.classService.saveDataOnServer(obj).subscribe(
       res => {
@@ -765,6 +780,16 @@ export class ClassAddComponent implements OnInit {
         this.messageToast('error', 'Error', err.error.message);
       }
     )
+
+  }
+
+  removeRowFromSchedule(i, row) {
+    debugger
+    for (let i = 0; i < this.classScheduleArray.length; i++) {
+      if (this.classScheduleArray[i].class_schedule_id == row.class_schedule_id) {
+        this.classScheduleArray.splice(i, 1);
+      }
+    }
 
   }
 
@@ -802,8 +827,10 @@ export class ClassAddComponent implements OnInit {
     }
   }
 
-  weeklyScheduleChange($event) {
-    debugger
+  weeklyScheduleChange($event, row) {
+    this.selctedScheduledClass = row;
+    this.selctedScheduledClass.startTime = this.convertTimeToHourMinMeridian(this.selctedScheduledClass.start_time);
+    this.selctedScheduledClass.endTime = this.convertTimeToHourMinMeridian(this.selctedScheduledClass.end_time);
     let selectedValue = $event.target.value;
     if (selectedValue == 1) {
 
@@ -815,12 +842,23 @@ export class ClassAddComponent implements OnInit {
 
   }
 
+  convertTimeToHourMinMeridian(data) {
+    let obj: any = {};
+    let time = data.split(':');
+    obj.hour = time[0];
+    obj.minute = time[1].split(' ')[0];
+    obj.meridian = time[1].split(' ')[1];
+    return obj;
+  }
+
+
   selectedDatesOption() {
     this.showPopUp = true;
+    this.selectedDateArray = [];
   }
 
   customRecurrence() {
-
+    this.showPopUpRecurence = true;
   }
 
 
@@ -833,6 +871,7 @@ export class ClassAddComponent implements OnInit {
 
 
   closePopup() {
+    this.showPopUpRecurence = false;
     this.showPopUp = false;
   }
 
@@ -847,14 +886,154 @@ export class ClassAddComponent implements OnInit {
     }
   }
 
+  radioButtonClick($event) {
+    debugger
+    this.clearSelection();
+    if ($event.target.id == "idCourseEndDate") {
+      this.customRec.radioEndDate.radioEndDateSelection = true;
+    } else if ($event.target.id == "idOn") {
+      this.customRec.radioOn.radioONSelection = true;
+    } else {
+      this.customRec.radioAfter.radioAfterSelection = true;
+    }
+  }
+
+  clearSelection() {
+    this.customRec.radioEndDate.radioEndDateSelection = false;
+    this.customRec.radioEndDate.radioDate = '';
+    this.customRec.radioOn.radioONSelection = false;
+    this.customRec.radioOn.radioOnDate = '';
+    this.customRec.radioAfter.radioAfterSelection = false;
+    this.customRec.radioAfter.occurenceValue = '';
+  }
 
 
+  addDateToArray() {
+    debugger
+    if (this.addDates.selectedDate != "" && this.addDates.selectedDate != undefined && this.addDates.selectedDate != null) {
+      let obj: any = new Object;
+      obj.selectedDate = moment(this.addDates.selectedDate).format("YYYY-MM-DD");
+      obj.error = '';
+      this.selectedDateArray.push(obj);
+      this.addDates.selectedDate = '';
+      this.addDates.error = '';
+    }
+  }
+
+  removeDateToArray(index, row) {
+    this.selectedDateArray.splice(index, 1);
+  }
 
 
+  saveCustomRecurrences() {
+    debugger
+    this.weekDaysSelected = this.getSelectedDaysOfWeek();
+    let JsonToSend = this.makeJsonForRecurrence();
+    console.log(JsonToSend);
+    // this.classService.saveCustomRecurrenceToServer(JsonToSend).subscribe(
+    //   res => {
+    //     console.log(res);
+    //     this.messageToast('success', 'Saved', 'Saved Successfull');
+    //   },
+    //   err => {
+    //     console.log(err);
+    //     this.messageToast('error', 'Error', err.error.message);
+    //   }
+    // )
+
+  }
+
+  getSelectedDaysOfWeek() {
+    debugger
+    let arr = [];
+    let elementArray = document.getElementsByClassName('p-text');
+    for (let t = 0; t < elementArray.length; t++) {
+      arr.push(elementArray[t].id.split('-')[1].trim());
+    }
+    return arr;
+  }
 
 
+  saveSelectedDateSchedule() {
+    debugger
+    let jsonToSend = this.makeJsonOFSelectedDate();
+    console.log(jsonToSend);
+    this.classService.selectedDateScheduleToServer(jsonToSend).subscribe(
+      res => {
+        console.log(res);
+        this.messageToast('success', 'Saved', 'Saved Successfull');
+        this.checkDatesOverLapping(res);
+      },
+      err => {
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  checkDatesOverLapping(response) {
+    for (let i = 0; i < Object.keys(response.copyClassScheduleDatesMapStatusMsg).length; i++) {
+      for (let t = 0; t < this.selectedDateArray.length; t++) {
+        let key = Object.keys(response.copyClassScheduleDatesMapStatusMsg)[i];
+        if (this.selectedDateArray[t].selectedDate == key) {
+          this.selectedDateArray[t].error = response.copyClassScheduleDatesMapStatusMsg[key];
+        }
+      }
+    }
+  }
 
 
+  makeJsonOFSelectedDate() {
+    let obj: any = {};
+    obj.course_id = this.fetchMasterCourseModule.course_id;
+    obj.courseClassSchdList = [];
+    let test: any = {};
+    test.batch_id = this.selctedScheduledClass.batch_id;
+    test.start_time = this.selctedScheduledClass.startTime.hour + ':' + this.selctedScheduledClass.startTime.minute + ' ' + this.selctedScheduledClass.startTime.meridian;
+    test.end_time = this.selctedScheduledClass.endTime.hour + ':' + this.selctedScheduledClass.endTime.minute + ' ' + this.selctedScheduledClass.endTime.meridian;
+    test.class_desc = this.selctedScheduledClass.batch_id;
+    test.duration = this.getDifference(test.start_time, test.end_time);
+    test.room_no = this.selctedScheduledClass.batch_id;
+    test.class_schedule_id = this.selctedScheduledClass.batch_id;
+    test.alloted_teacher_id = this.selctedScheduledClass.batch_id;
+    test.custom_class_type = this.selctedScheduledClass.batch_id;
+    obj.courseClassSchdList.push(test);
+    obj.reqDateList = this.getSelectedDatesFromArray();
+    return obj;
+  }
+
+  getSelectedDatesFromArray() {
+    let arr: any = [];
+    if (this.selectedDateArray.length != 0) {
+      for (let t = 0; t < this.selectedDateArray.length; t++) {
+        if (this.selectedDateArray[t].selectedDate != "" && this.selectedDateArray[t].selectedDate != null) {
+          arr.push(this.selectedDateArray[t].selectedDate);
+        }
+      }
+    } else {
+      this.messageToast('error', 'Error', 'Please provide date.')
+      return
+    }
+    return arr;
+  }
+
+  makeJsonForRecurrence() {
+    let startTime = this.selctedScheduledClass.startTime.hour + ':' + this.selctedScheduledClass.startTime.minute + " " + this.selctedScheduledClass.startTime.meridian;
+    let endTime = this.selctedScheduledClass.endTime.hour + ':' + this.selctedScheduledClass.endTime.minute + " " + this.selctedScheduledClass.endTime.meridian;
+    let duration = this.getDifference(startTime, endTime);
+    let obj: any = {};
+    obj.batch_id = this.selctedScheduledClass.batch_id;
+    obj.weekSchd = [];
+    for (let t = 0; t < this.weekDaysSelected.length; t++) {
+      let test: any = {};
+      test.day_of_week = this.weekDaysSelected[t];
+      test.start_time = startTime;
+      test.end_time = endTime;
+      test.duration = duration;
+      obj.weekSchd.push(test);
+    }
+    return obj;
+  }
 
 
 

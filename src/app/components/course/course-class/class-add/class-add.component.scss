@@ -1146,7 +1146,7 @@
     -o-transition: all 0.5s ease-in;
     transition: all 0.5s ease-in;
     .popup {
-        max-width: 850px; // max-height: 350px;
+        max-width: 50%; // max-height: 350px;
         width: 100%;
         height: auto;
         left: 0;
@@ -1310,8 +1310,19 @@
 }
 
 .p-text {
-    background: #82d57f;
+    background: #0084f6;
     color: #fff;
     font-weight: 700;
     padding: 6px 10px;
+}
+
+/////////////////////////
+.field-radio-wrapper[_ngcontent-c8] .form-radio[_ngcontent-c8]:checked+label[_ngcontent-c8]:before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #0084f6;
+    border-radius: 50%;
+    left: 3px;
+    top: 3px;
 }
