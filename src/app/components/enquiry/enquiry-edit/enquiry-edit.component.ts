@@ -173,7 +173,10 @@ export class EnquiryEditComponent implements OnInit {
 
   /* set the enquiry feilds for Form */
   updateEnquiryData() {
-    let id = localStorage.getItem('institute_enquiry_id');
+    debugger;
+    this.institute_enquiry_id = this.route.snapshot.paramMap.get('id');
+    this.fetchCommentData(this.route.snapshot.paramMap.get('id'));
+    let id = this.institute_enquiry_id;
     this.prefill.fetchEnquiryByInstituteID(id)
       .subscribe(data => {
         this.editEnqData = data;
@@ -327,7 +330,7 @@ export class EnquiryEditComponent implements OnInit {
 
 
 
-    return this.prefill.fetchCustomComponentById(localStorage.getItem('institute_enquiry_id'))
+    return this.prefill.fetchCustomComponentById(this.institute_enquiry_id)
       .subscribe(
         data => {
           data.forEach(el => {
@@ -482,7 +485,7 @@ export class EnquiryEditComponent implements OnInit {
     if (this.isFormValid && customComponentValidator) {
 
       if (this.validateTime()) {
-        let id = localStorage.getItem('institute_enquiry_id');
+        let id = this.institute_enquiry_id;
         this.editEnqData.enquiry_date = moment(this.editEnqData.enquiry_date).format('YYYY-MM-DD');
         this.editEnqData.followUpDate = moment(this.editEnqData.followUpDate).format('YYYY-MM-DD');
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
@@ -711,7 +714,7 @@ export class EnquiryEditComponent implements OnInit {
   }
 
   pushUpdatedEnquiry() {
-    let id = localStorage.getItem('institute_enquiry_id');
+    let id = this.institute_enquiry_id;
     this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
     this.poster.updateEnquiryForm(id, this.updateFormData)
       .subscribe(res => {

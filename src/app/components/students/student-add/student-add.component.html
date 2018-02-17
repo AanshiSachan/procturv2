@@ -950,12 +950,12 @@
                   </div>
                 </div>
               </td>
-              <td *ngIf="!isProfessional">{{batch.data.master_course}} || {{batch.data.course_name}}</td>
-              <td *ngIf="!isProfessional">{{batch.data.start_date}}</td>
-              <td *ngIf="!isProfessional">{{batch.data.end_date}}</td>
               <td *ngIf="isProfessional">{{batch.data.batch_name}}</td>
               <td *ngIf="isProfessional">{{batch.data.start_date}}</td>
               <td *ngIf="isProfessional">{{batch.data.end_date}}</td>
+              <td *ngIf="!isProfessional">{{batch.data.course_name}} || {{batch.data.master_course}}</td>
+              <td *ngIf="!isProfessional">{{batch.data.start_date}}</td>
+              <td *ngIf="!isProfessional">{{batch.data.end_date}}</td>
               <td>
                 <div class="field-wrapper datePickerBox has-value">
                   <input type="text" value="" readonly="true" id="assigndate" name="assigndate" [(ngModel)]="batch.assignDate" class="form-ctrl bsDatepicker"

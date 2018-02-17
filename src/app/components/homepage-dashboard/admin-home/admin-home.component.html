@@ -1,257 +1,282 @@
-<section class="activity-page">
-  <section class="clearFix row">
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 
-    <div class="activity-left pull-left">
+<section class="mainHomePage">
 
-      <div class="act-top clearfix">
-        <h1 class="pull-left">Activity Page</h1>
-        <div class="pull-right act-right-sec">
-          <button class="btn">
-            <svg height="32" viewBox="0 0 32 32" width="32" xmlns="http://www.w3.org/2000/svg">
-              <g fill="none" fill-rule="evenodd">
-                <path d="M-1-1h191v34H-1z" stroke="#1984F6"></path>
-                <g>
-                  <path d="M7.856 13.359h3.708v1H7.856zM7.856 15.647h4.451v1H7.856zM14.534 15.647h2.97v1h-2.97zM7.856 17.935H20.47v1H7.856z"
-                    fill="#0084F6" fill-rule="nonzero"></path>
-                  <path d="M20.443 11.075H6v9.907h18.55v-9.907h-4.107zm3.364 9.144H6.743v-8.381h17.064v8.381z" fill="#0084F6" fill-rule="nonzero"></path>
-                  <circle cx="22" cy="12" fill="#FFF" r="3" stroke="#0084F6" stroke-width=".5"></circle>
-                  <path d="M19.856 11.647h4.451v1h-4.451z" fill="#0084F6" fill-rule="nonzero"></path>
-                  <path d="M21.7 14.253v-4.45h1v4.45z" fill="#0084F6" fill-rule="nonzero"></path>
+  <section class="activity-page">
+    <section class="clearFix row">
+
+      <div class="activity-left pull-left">
+
+        <div class="act-top clearfix">
+          <h1 class="pull-left">Activity Page</h1>
+          <div class="pull-right act-right-sec">
+            <button class="btn">
+              <svg height="32" viewBox="0 0 32 32" width="32" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" fill-rule="evenodd">
+                  <path d="M-1-1h191v34H-1z" stroke="#1984F6"></path>
+                  <g>
+                    <path d="M7.856 13.359h3.708v1H7.856zM7.856 15.647h4.451v1H7.856zM14.534 15.647h2.97v1h-2.97zM7.856 17.935H20.47v1H7.856z"
+                      fill="#0084F6" fill-rule="nonzero"></path>
+                    <path d="M20.443 11.075H6v9.907h18.55v-9.907h-4.107zm3.364 9.144H6.743v-8.381h17.064v8.381z" fill="#0084F6" fill-rule="nonzero"></path>
+                    <circle cx="22" cy="12" fill="#FFF" r="3" stroke="#0084F6" stroke-width=".5"></circle>
+                    <path d="M19.856 11.647h4.451v1h-4.451z" fill="#0084F6" fill-rule="nonzero"></path>
+                    <path d="M21.7 14.253v-4.45h1v4.45z" fill="#0084F6" fill-rule="nonzero"></path>
+                  </g>
                 </g>
-              </g>
-            </svg>
+              </svg>
 
-            Add/Send Notification
-          </button>
+              Add/Send Notification
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div class="act-bottom clearfix">
-        <div class="grid-container">
-          <ul class="actb-wrapper grid">
+        <div class="act-bottom clearfix">
+          <div class="grid-container">
+            <ul class="actb-wrapper grid">
 
-            <li class="enquiry-state item" data-id="2">
-              <div class="item-content">
-                <div class="actb-top-header clearfix">
-                  <span class="heading">
-                    Enquiry Stats
-                  </span>
-                  <button class="pull-right drag-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                      <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
-                      />
-                    </svg>
-                  </button>
-                  <button class="pull-right" (click)="openCalendar('enqWidDate')">
-
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                      <g fill="#0084F6" fill-rule="nonzero">
-                        <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
-                        />
-                        <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
-                        />
-                      </g>
-                    </svg>
-                  </button>
-                  <input type="text" value="" id="enqWidDate" class="widgetDatepicker bsDatepicker" name="enqWidDate" [(ngModel)]="enquiryDate"
-                    (ngModelChange)="updateEnqChartByDate($event)" readonly="true" bsDaterangepicker/>
-                  <span class="enquiry-state-date pull-right">
-                    {{getEnqStartDate()| date: 'dd MMM yyyy'}} To {{getEnqEndDate()| date: 'dd MMM yyyy'}}
-                  </span>
-                </div>
-                <div class="enq-state-bottom">
-                  <div class="enq-left">
-                    <div id="enqChart" [chart]="chart">
-                    </div>
-                  </div>
-                  <div class="enq-right">
-                    <div class="enq-state-details">
-                      <div class="enq">
-                        <div class="enqs-label">
-                          <span class=""></span>
-                          <label>Total Enquiries</label>
-                        </div>
-                        <div class="enqs-value">
-                          {{getDetails('total')}}
-                        </div>
-                      </div>
-                      <div class="enq">
-                        <div class="enqs-label">
-                          <span class="open"></span>
-                          <label>Open</label>
-                        </div>
-                        <div class="enqs-value">
-                          {{getDetails('open')}}
-                        </div>
-                      </div>
-                      <div class="enq">
-                        <div class="enqs-label">
-                          <span class="inprogress"></span>
-                          <label>In Progress</label>
-                        </div>
-                        <div class="enqs-value">
-                          {{getDetails('ip')}}
-                        </div>
-                      </div>
-                      <div class="enq">
-                        <div class="enqs-label">
-                          <span class="admmited"></span>
-                          <label>Admitted</label>
-                        </div>
-                        <div class="enqs-value">
-                          {{getDetails('admitted')}}
-                        </div>
-                      </div>
-                      <div class="enq">
-                        <div class="enqs-label">
-                          <span class="closed"></span>
-                          <label>Closed</label>
-                        </div>
-                        <div class="enqs-value">
-                          {{getDetails('closed')}}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-
-            <li class="fees-state item" data-id="3">
-              <div class="item-content">
-                <div class="actb-top-header clearfix">
-                  <span class="heading">
-                    Fees stats
-                  </span>
-                  <button class="pull-right drag-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                      <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
-                      />
-                    </svg>
-                  </button>
-                  <button class="pull-right" (click)="openCalendar('feeWidDate')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                      <g fill="#0084F6" fill-rule="nonzero">
-                        <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
-                        />
-                        <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
-                        />
-                      </g>
-                    </svg>
-                  </button>
-                  <input type="text" value="" id="feeWidDate" class="widgetDatepicker bsDatepicker" name="enqWidDate" [(ngModel)]="feeDate"
-                    (ngModelChange)="updateFeeByDate()" readonly="true" bsDaterangepicker/>
-                  <span class="enquiry-state-date pull-right">
-                    {{getFeeStartDate()| date: 'dd MMM yyyy'}} To {{getFeeEndDate()| date: 'dd MMM yyyy'}}
-                  </span>
-                </div>
-                <div class="fees-state-bottom">
-                  <ul>
-                    <li>
-                      <label>Total Collected</label>
-                      <div>Rs. {{getFeeAmount('total')}}</div>
-                    </li>
-                    <li>
-                      <label>Total Pending Cheques</label>
-                      <div>Rs. {{getFeeAmount('pending')}}</div>
-                    </li>
-                    <li>
-                      <label>Past Dues</label>
-                      <div>Rs. {{getFeeAmount('past')}}</div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-
-            <li class="schedule-state item" data-id="1">
-              <div class="item-content">
-                <div>
+              <li class="enquiry-state item" data-id="2">
+                <div class="item-content">
                   <div class="actb-top-header clearfix">
                     <span class="heading">
-                      Schedule
+                      Enquiry Stats
                     </span>
-                    <ul class="sche-top-det">
-                      <li class="schedule-det">
-                        <div>
-                          <label>Total Classes :</label>
-                          <span>{{getClassCount()}}</span>
-                          <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
-                            [(ngModel)]="schedDate" (ngModelChange)="updateschedByDate($event)" readonly="true" bsDaterangepicker/>
+                    <button class="pull-right drag-button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
+                        />
+                      </svg>
+                    </button>
+                    <button class="pull-right" (click)="openCalendar('enqWidDate')">
+
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <g fill="#0084F6" fill-rule="nonzero">
+                          <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
+                          />
+                          <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
+                          />
+                        </g>
+                      </svg>
+                    </button>
+                    <input type="text" value="" id="enqWidDate" class="widgetDatepicker bsDatepicker" name="enqWidDate" [(ngModel)]="enquiryDate"
+                      (ngModelChange)="updateEnqChartByDate($event)" readonly="true" bsDaterangepicker/>
+                    <span class="enquiry-state-date pull-right">
+                      {{getEnqStartDate()| date: 'dd MMM yyyy'}} To {{getEnqEndDate()| date: 'dd MMM yyyy'}}
+                    </span>
+                  </div>
+                  <div class="enq-state-bottom">
+                    <div class="enq-left">
+                      <div id="enqChart" [chart]="chart">
+                      </div>
+                    </div>
+                    <div class="enq-right">
+                      <div class="enq-state-details">
+                        <div class="enq">
+                          <div class="enqs-label">
+                            <span class=""></span>
+                            <label>Total Enquiries</label>
+                          </div>
+                          <div class="enqs-value">
+                            {{getDetails('total')}}
+                          </div>
                         </div>
+                        <div class="enq">
+                          <div class="enqs-label">
+                            <span class="open"></span>
+                            <label>Open</label>
+                          </div>
+                          <div class="enqs-value">
+                            {{getDetails('open')}}
+                          </div>
+                        </div>
+                        <div class="enq">
+                          <div class="enqs-label">
+                            <span class="inprogress"></span>
+                            <label>In Progress</label>
+                          </div>
+                          <div class="enqs-value">
+                            {{getDetails('ip')}}
+                          </div>
+                        </div>
+                        <div class="enq">
+                          <div class="enqs-label">
+                            <span class="admmited"></span>
+                            <label>Admitted</label>
+                          </div>
+                          <div class="enqs-value">
+                            {{getDetails('admitted')}}
+                          </div>
+                        </div>
+                        <div class="enq">
+                          <div class="enqs-label">
+                            <span class="closed"></span>
+                            <label>Closed</label>
+                          </div>
+                          <div class="enqs-value">
+                            {{getDetails('closed')}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li class="fees-state item" data-id="3">
+                <div class="item-content">
+                  <div class="actb-top-header clearfix">
+                    <span class="heading">
+                      Fees stats
+                    </span>
+                    <button class="pull-right drag-button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
+                        />
+                      </svg>
+                    </button>
+                    <button class="pull-right" (click)="openCalendar('feeWidDate')">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <g fill="#0084F6" fill-rule="nonzero">
+                          <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
+                          />
+                          <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
+                          />
+                        </g>
+                      </svg>
+                    </button>
+                    <input type="text" value="" id="feeWidDate" class="widgetDatepicker bsDatepicker" name="enqWidDate" [(ngModel)]="feeDate"
+                      (ngModelChange)="updateFeeByDate()" readonly="true" bsDaterangepicker/>
+                    <span class="enquiry-state-date pull-right">
+                      {{getFeeStartDate()| date: 'dd MMM yyyy'}} To {{getFeeEndDate()| date: 'dd MMM yyyy'}}
+                    </span>
+                  </div>
+                  <div class="fees-state-bottom">
+                    <ul>
+                      <li>
+                        <label>Total Collected</label>
+                        <div>Rs. {{getFeeAmount('total')}}</div>
                       </li>
                       <li>
-                        <button class="pull-right drag-button">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
-                            />
-                          </svg>
-                        </button>
-                        <button class="pull-right" (click)="openCalendar('schedWidDate')">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <g fill="#0084F6" fill-rule="nonzero">
-                              <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
-                              />
-                              <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
-                              />
-                            </g>
-                          </svg>
-                        </button>
-                        <span class="enquiry-state-date pull-right">
-                          {{getSchedStartDate()| date: 'dd MMM yyyy'}} To {{getSchedEndDate()| date: 'dd MMM yyyy'}}
-                        </span>
+                        <label>Total Pending Cheques</label>
+                        <div>Rs. {{getFeeAmount('pending')}}</div>
+                      </li>
+                      <li>
+                        <label>Past Dues</label>
+                        <div>Rs. {{getFeeAmount('past')}}</div>
                       </li>
                     </ul>
-
                   </div>
-                  <div class="schedule-bottom">
-                    <ul class="sche-head">
-                      <li>Timings</li>
-                      <li class="cls-type">Class type</li>
-                      <li>batch/course</li>
-                      <li>tutor</li>
-                    </ul>
-                    <div class="schedule-scroller" *ngIf="!isProfessional">
-                      <ul class="ct-ongoing" *ngFor="let class of getClassListDetails();let i = index;">
-                        <li>
-                          <div>{{class.start_time}} - {{class.end_time}}</div>
-                          <p>{{class.class_room_name}}</p>
-                        </li>
-                        <li class="cls-type">
+                </div>
+              </li>
+
+              <li class="schedule-state item" data-id="1">
+                <div class="item-content">
+                  <div>
+                    <div class="actb-top-header clearfix">
+                      <span class="heading">
+                        Schedule
+                      </span>
+                      <ul class="sche-top-det">
+                        <li class="schedule-det">
                           <div>
-                            {{class.freq}}
-                            <span class="class-type-status">ongoing</span>
+                            <label>Total Classes :</label>
+                            <span>{{getClassCount()}}</span>
+                            <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
+                              [(ngModel)]="schedDate" (ngModelChange)="updateschedByDate($event)" readonly="true" bsDaterangepicker/>
                           </div>
                         </li>
                         <li>
-                          <div>{{class.batch_name}}</div>
-                        </li>
-                        <li>
-                          <div>{{class.teacher_name}}</div>
+                          <button class="pull-right drag-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                              <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
+                              />
+                            </svg>
+                          </button>
+                          <button class="pull-right" (click)="openCalendar('schedWidDate')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                              <g fill="#0084F6" fill-rule="nonzero">
+                                <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
+                                />
+                                <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
+                                />
+                              </g>
+                            </svg>
+                          </button>
+                          <span class="enquiry-state-date pull-right">
+                            {{getSchedStartDate()| date: 'dd MMM yyyy'}} To {{getSchedEndDate()| date: 'dd MMM yyyy'}}
+                          </span>
                         </li>
                       </ul>
+
                     </div>
-                    <div class="schedule-scroller" *ngIf="isProfessional">
-                      <ul class="ct-ongoing" *ngFor="let class of getClassListDetails();let i = index;">
-                        <li>
-                          <div>{{class.start_time}} - {{class.end_time}}</div>
-                          <p>{{class.class_room_name}}</p>
-                        </li>
-                        <li class="cls-type">
-                          <div>
-                            {{class.freq}}
-                            <span class="class-type-status">ongoing</span>
+                    <div class="schedule-bottom">
+                      <ul class="sche-head">
+                        <li>Timings</li>
+                        <li class="cls-type">Class type</li>
+                        <li>batch/course</li>
+                        <li>tutor</li>
+                      </ul>
+                      <div class="schedule-scroller" *ngIf="!isProfessional">
+                        <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
+                          <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
+                            <li>
+                              <div>{{class.start_time}} - {{class.end_time}}</div>
+                              <p>{{class.class_room_name}}</p>
+                            </li>
+                            <li class="cls-type">
+                              <div>
+                                {{class.freq}}
+                                <span class="class-type-status">ongoing</span>
+                              </div>
+                            </li>
+                            <li>
+                              <div>{{class.batch_name}}</div>
+                            </li>
+                            <li>
+                              <div>{{class.teacher_name}}</div>
+                            </li>
+                          </ul>
+                          <div class="che-action" [class.display]="i == selectedRow">
+                            <a (click)="initiateMarkAttendance()">
+                              Mark Attendance
+                            </a>
+                            <a>Cancel Exam</a>
+                            <a>Reminder</a>
+                            <a>Reschedule</a>
                           </div>
-                        </li>
-                        <li>
-                          <div>{{class.batch_name}}</div>
-                        </li>
-                        <li>
-                          <div>{{class.teacher_name}}</div>
-                        </li>
-                      </ul>
-                    </div>
-                    <!--
+                        </div>
+                      </div>
+                      <div class="schedule-scroller" *ngIf="isProfessional">
+                        <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
+                          <ul class="ct-ongoing" [class.active]="i == selectedRow" *ngFor="let class of getClassListDetails();let i = index;" (click)="userScheduleSelected(i, class)">
+                            <li>
+                              <div>{{class.start_time}} - {{class.end_time}}</div>
+                              <p>{{class.class_room_name}}</p>
+                            </li>
+                            <li class="cls-type">
+                              <div>
+                                {{class.freq}}
+                                <span class="class-type-status">ongoing</span>
+                              </div>
+                            </li>
+                            <li>
+                              <div>{{class.batch_name}}</div>
+                            </li>
+                            <li>
+                              <div>{{class.teacher_name}}</div>
+                            </li>
+                          </ul>
+                          <div class="che-action">
+                            <a [ngClass]="{'hide': !schedSelected}" (click)="initiateMarkAttendance()">
+                              Mark Attendance
+                            </a>
+                            <a [ngClass]="{'hide': !schedSelected}">Cancel Exam</a>
+                            <a [ngClass]="{'hide': !schedSelected}">Reminder</a>
+                            <a [ngClass]="{'hide': !schedSelected}">Reschedule</a>
+                          </div>
+                        </div>
+                      </div>
+                      <!--
                     <ul class="ct-ongoing">
                       <li>
                         <div>10 :00 Am - 1:00 Pm</div>
@@ -347,88 +372,212 @@
                       </li>
                     </ul> 
                     -->
-                    <div class="ct-disable-wrapper pos-rel">
-                      <ul class="ct-disabled ct-completed">
-                        <li>
-                          <div></div>
-                          <p></p>
-                        </li>
-                        <li class="cls-type">
-                          <div>
-
-                            <span class="class-type-status"></span>
-                          </div>
-                          <p class="anm">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                              <g fill="none" fill-rule="evenodd" stroke="#F00">
-                                <path stroke-width=".5" d="M2.008 13.1h11.984L8 2.774 2.008 13.1z" />
-                                <path d="M7.926 8.776h-.5l.5.5v-.5zm0-1.352v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 1.352v.5l.5-.5h-.5zM7.926 11.1h-.5l.5.5v-.5zm0-.176v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 .176v.5l.5-.5h-.5z"
-                                />
-                              </g>
-                            </svg>
-
-                          </p>
-                        </li>
-                        <li>
-                          <div></div>
-                        </li>
-                        <li>
-                          <div></div>
-                        </li>
-                      </ul>
-                      <div class="che-action">
-                        <a >Mark Attendance</a>
-                        <a >Cancel Exam</a>
-                        <a >Reminder</a>
-                        <a >Reschedule</a>
-                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </li>
+              </li>
 
-            <li class="general-state item" style="height: 200px;" data-id="4">
-              <div class="item-content">
-                <div class="actb-top-header clearfix">
-                  <span class="heading">
-                    General stats
-                  </span>
-                  <button class="pull-right drag-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                      <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
-                      />
-                    </svg>
-                  </button>
+              <li class="general-state item" style="height: 200px;" data-id="4">
+                <div class="item-content">
+                  <div class="actb-top-header clearfix">
+                    <span class="heading">
+                      General stats
+                    </span>
+                    <button class="pull-right drag-button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="general-s-bottom">
+                    <ul>
+                      <li>
+                        <label>Total active students</label>
+                        <a>{{genralStats.total}} Students</a>
+                      </li>
+                      <li>
+                        <label>Sms balance</label>
+                        <a>{{genralStats.sms}}</a>
+                      </li>
+                      <li>
+                        <label>Download limit</label>
+                        <a>{{genralStats.download}} GB</a>
+                      </li>
+                      <li>
+                        <label>Expiry date</label>
+                        <div>{{genralStats.expiry}}</div>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-                <div class="general-s-bottom">
-                  <ul>
-                    <li>
-                      <label>Total active students</label>
-                      <a>{{genralStats.total}} Students</a>
-                    </li>
-                    <li>
-                      <label>Sms balance</label>
-                      <a>{{genralStats.sms}}</a>
-                    </li>
-                    <li>
-                      <label>Download limit</label>
-                      <a>{{genralStats.download}} GB</a>
-                    </li>
-                    <li>
-                      <label>Expiry date</label>
-                      <div>{{genralStats.expiry}}</div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </li>
+              </li>
 
-          </ul>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+  </section>
+
+  <proctur-widget *ngIf="isAttendancePop">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAttendance()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+
+    <h2 widget-header>Mark Attendance:: {{classMarkedForAction.batch_name}} || {{classMarkedForAction.teacher_name}}</h2>
+
+
+
+    <div class="attendanceWrapper" widget-content>
+
+      <div class="row">
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" class="form-checkbox" id="EnableHomeWorkSms" [checked]="home_work_notifn == 1? true: false"
+              (change)="updateHomework($event)">
+            <label for="EnableHomeWorkSms">Enable Homework SMS</label>
+          </div>
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" class="form-checkbox" id="EnableSmsTopic" [checked]="topics_covered_notifn == 1? true: false"
+              (change)="updateTopicCovered($event)">
+            <label for="EnableSmsTopic">Enable SMS For Topic Covered</label>
+          </div>
+        </div>
+        <div class="c-lg-3 c-md-3 c-sm-3">
+          <div class="field-checkbox-wrapper" style="margin-top: 25px;margin-bottom: 0px;">
+            <input type="checkbox" value="" class="form-checkbox" id="MarkAllPresent" [checked]="AllPresent" (change)="markAllPresent($event)">
+            <label for="MarkAllPresent">Mark All Present</label>
+          </div>
+        </div>
+        <div class="c-lg-3 c-md-3 c-sm-3">
+          <div class="field-wrapper" style="margin-bottom: 10px;" [ngClass]="{'has-value': teacher_id != '-1'}">
+            <select id="teachers" class="form-ctrl" [(ngModel)]="teacher_id">
+              <option value='-1'></option>
+              <option [value]="teacher.teacher_id" *ngFor="let teacher of teacherListArr">
+                {{teacher.teacher_name}}
+              </option>
+            </select>
+            <label for="feeType">Tutor</label>
+          </div>
         </div>
       </div>
 
+      <div class="row attendanceMain">
+        <div class="table-scroll-wrapper">
+          <div class="table table-responsive enquiry-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Date of Joining</th>
+                  <th>Attendance</th>
+                  <th *ngIf="instituteSetting.home_work_feature_enable == 1">Home Work Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let s of studentAttList; let i = index;">
+                  <td>
+                    {{s.student_disp_id}}
+                  </td>
+                  <td>
+                    {{s.student_name}}
+                  </td>
+                  <td>
+                    {{s.doj}}
+                  </td>
+                  <td>
+                    <div class="radio-options">
+                      <div class="field-radio-wrapper">
+                        <input type="radio" value="P" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateRadioAttendance($event, i, s)"
+                          id="Present{{s.student_id}}">
+                        <label class="present" for="Present{{s.student_id}}">Present</label>
+                      </div>
+                      <div class="field-radio-wrapper">
+                        <input type="radio" value="L" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateRadioAttendance($event, i, s)"
+                          id="Leave{{s.student_id}}">
+                        <label class="leave" for="Leave{{s.student_id}}">Leave</label>
+                      </div>
+                      <div class="field-radio-wrapper">
+                        <input type="radio" value="A" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateRadioAttendance($event, i, s)"
+                          id="Absent{{s.student_id}}">
+                        <label class="absent" for="Absent{{s.student_id}}">Absent</label>
+                      </div>
+                    </div>
+                  </td>
+                  <td *ngIf="instituteSetting.home_work_feature_enable == 1">
+                    <div class="field-wrapper">
+                      <select class="form-ctrl">
+                        <option></option>
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
 
-  </section>
+  </proctur-widget>
+
+  <proctur-widget *ngIf="isCancelExamPop">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAttendance()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+  </proctur-widget>
+
+  <proctur-widget *ngIf="isReminderPop">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAttendance()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+  </proctur-widget>
+
+  <proctur-widget *ngIf="isReschedulePop">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAttendance()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+  </proctur-widget>
+
+
 </section>

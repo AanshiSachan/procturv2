@@ -160,7 +160,7 @@
 
             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
               <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
-                <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true/>
+                <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true"/>
                 <label for="assignCourses">Slots</label>
               </div>
               <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">

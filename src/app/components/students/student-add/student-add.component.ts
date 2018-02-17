@@ -309,7 +309,9 @@ export class StudentAddComponent implements OnInit {
       }
       this.busyPrefill = this.getSlots();
       this.busyPrefill = this.getlangStudentStatus();
+
       this.studentPrefillService.fetchBatchDetails().subscribe(data => {
+        this.batchList = [];
         data.forEach(el => {
           let obj = {
             isSelected: false,
@@ -317,6 +319,7 @@ export class StudentAddComponent implements OnInit {
             assignDate: moment().format('YYYY-MM-DD')
           }
           this.batchList.push(obj);
+
         })
       });
     }
@@ -327,6 +330,7 @@ export class StudentAddComponent implements OnInit {
         this.convertToStudentDetected();
       }
       this.studentPrefillService.fetchCourseMasterById(this.studentAddFormData.standard_id).subscribe(data => {
+        this.batchList = [];
         data.coursesList.forEach(el => {
           let obj = {
             isSelected: false,
@@ -334,7 +338,8 @@ export class StudentAddComponent implements OnInit {
             assignDate: moment().format('YYYY-MM-DD')
           }
           this.batchList.push(obj);
-        })
+          console.log(this.batchList);
+        });
       });
     }
   }
@@ -350,9 +355,9 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  updateMasterCourseList(id) {
-    this.batchList = [];
+  updateMasterCourseList(id) {   
     this.studentPrefillService.fetchCourseMasterById(id).subscribe(data => {
+      this.batchList = [];
       data.coursesList.forEach(el => {
         let obj = {
           isSelected: false,
@@ -360,6 +365,7 @@ export class StudentAddComponent implements OnInit {
           assignDate: moment().format('YYYY-MM-DD')
         }
         this.batchList.push(obj);
+        console.log(this.batchList);
       })
     });
   }
@@ -458,7 +464,9 @@ export class StudentAddComponent implements OnInit {
     let standard = this.prefill.getEnqStardards().subscribe(data => {
       this.standardList = data;
     });
+
     this.studentPrefillService.fetchBatchDetails().subscribe(data => {
+      this.batchList = [];
       data.forEach(el => {
         let obj = {
           isSelected: false,
@@ -2409,7 +2417,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   setImage(e) {
-    console.log(e);
+    //console.log(e);
     this.studentImage = e;
   }
   /* ============================================================================================================================ */
