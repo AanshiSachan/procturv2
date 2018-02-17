@@ -335,3 +335,13 @@ table {
         }
     }
 }
+
+.field-radio-wrapper[_ngcontent-c6] .form-radio[_ngcontent-c6]:checked+label[_ngcontent-c6]:before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #0084f6;
+    border-radius: 50%;
+    left: 3px;
+    top: 3px;
+}

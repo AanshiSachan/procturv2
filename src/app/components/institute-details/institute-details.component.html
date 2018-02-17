@@ -438,25 +438,43 @@
         </div>
 
         <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
+
+          <fieldset style="margin-top: 10px;margin-left: 15px;">
+            <legend>Student ID</legend>
+            <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top: 10px;margin-left: -15px;">
+              <div class="radio-options">
+                <div class="field-radio-wrapper">
+                  <input type="radio" [checked]="(this.instDetails.is_student_displayId_manual == 0)" (click)="checkInputType($event)" name="sFilter"
+                    class="form-radio" value="Automatic" id="idAutomatic">
+                  <label for="active">Automatic</label>
+                </div>
+                <div class="field-radio-wrapper">
+                  <input type="radio" [checked]="(this.instDetails.is_student_displayId_manual == 1)" (click)="checkInputType($event)" name="sFilter"
+                    value="Manual" class="form-radio" id="idManual">
+                  <label for="Inactive">Manual</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="c-sm-4 c-md-4 c-lg-4" *ngIf="(showPrefix == true)">
+              <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_id_prefix != ''}">
+                <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.student_id_prefix">
+                <label for="slotNew">
+                  Student ID Prefix
+                </label>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_id_prefix != ''}">
               <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.student_id_prefix">
               <label for="slotNew">Student ID
               </label>
             </div>
-          </div>
+          </div> -->
         </div>
 
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_id_prefix != ''}">
-              <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.student_id_prefix">
-              <label for="slotNew">
-                Student ID Prefix
-              </label>
-            </div>
-          </div>
-        </div>
 
 
         <div class="row">

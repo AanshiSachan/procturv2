@@ -164,4 +164,23 @@ export class ClassScheduleService {
         );
     }
 
+
+    sendReminderToServer(data) {
+        data.inst_id = this.institute_id;
+        let url = this.baseURL + "/api/v1/courseClassSchedule/sendReminder";
+        return this.http.post(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    saveDataOnServer(data) {
+        data.inst_id = this.institute_id;
+        let url = this.baseURL + "/api/v1/courseClassSchedule/update";
+        return this.http.post(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
 }

@@ -6,7 +6,7 @@
   </section>
 
   <section class="middle-main clearFix">
-    <div class="row">
+    <div class="row" style="margin-bottom: 10px;">
       <div class="c-lg-3 c-md-3 c-sm-3">
         <div class="field-wrapper has-value">
           <input type="text" id="idMasterCourse" [(ngModel)]="selectedCourseDetails.master_course
@@ -33,16 +33,16 @@
         <table>
           <thead>
             <tr>
-              <th>
+              <th style="width:25%">
                 Course Name
               </th>
-              <th>
+              <th style="width:25%">
                 Start Date
               </th>
-              <th>
+              <th style="width:25%">
                 End Date
               </th>
-              <th>
+              <th style="width:25%">
                 Allow Exam Grades
               </th>
             </tr>
@@ -51,28 +51,34 @@
             <tr id="row{{i}}" *ngFor="let row of mainTableDataSource; let i= index ; trackBy:index">
               <td colspan="5">
                 <div class="tableRow">
-                  <td>
-                    {{row.course_name}}
-                  </td>
-                  <td>
-                    {{row.start_date | date : "short"}}
-                  </td>
-                  <td>
-                    {{row.end_date | date : "short"}}
-                  </td>
-                  <td>
-                    <span *ngIf="(row.is_exam_grad_feature == 0)">No</span>
-                    <span *ngIf="(row.is_exam_grad_feature == 1)">Yes</span>
-                  </td>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td style="width:25%">
+                          {{row.course_name}}
+                        </td>
+                        <td style="width:25%">
+                          {{parseDateFormat(row.start_date)}}
+                        </td>
+                        <td style="width:25%">
+                          {{parseDateFormat(row.end_date)}}
+                        </td>
+                        <td style="width:25%">
+                          <span *ngIf="(row.is_exam_grad_feature == 0)">No</span>
+                          <span *ngIf="(row.is_exam_grad_feature == 1)">Yes</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div id="show{{i}}" class="nestedTable">
+                <div id="show{{i}}" class="nestedTable nested-Table-Show-Wrapper">
                   <div class="row">
                     <div class="c-lg-2 c-md-2 c-sm-2">
                     </div>
                     <div class="c-lg-2 c-md-2 c-sm-2">
                       <div class="field-wrapper has-value">
-                        <input type="text" name="masterCourse" [(ngModel)]="mainTableDataSource[i].course_name" class="form-ctrl" (focus)="inputClickedCheck($event)"
-                        />
+                        <input type="text" name="masterCourse" style="background: transparent" [(ngModel)]="mainTableDataSource[i].course_name" class="form-ctrl"
+                          (focus)="inputClickedCheck($event)" />
                         <label for="masterCourse">Course Name
                           <span style="color:red">*</span>
                         </label>
@@ -80,8 +86,9 @@
                     </div>
                     <div class="c-lg-2 c-md-2 c-sm-2">
                       <div class="field-wrapper has-value">
-                        <input type="text" value="" readonly="true" [ngClass]="{disableDatePicker : addEnableDisableClass(mainTableDataSource[i]) }" [(ngModel)]="mainTableDataSource[i].start_date" class="form-ctrl bsDatepicker" name="startDate"
-                          bsDatepicker (focus)="inputClickedCheck($event)">
+                        <input type="text" value="" readonly="true" style="background: transparent" [ngClass]="{disableDatePicker : addEnableDisableClass(mainTableDataSource[i]) }"
+                          [(ngModel)]="mainTableDataSource[i].start_date" class="form-ctrl bsDatepicker" name="startDate" bsDatepicker
+                          (focus)="inputClickedCheck($event)">
                         <label for="startDate">Start Date
                           <span style="color:red">*</span>
                         </label>
@@ -89,8 +96,8 @@
                     </div>
                     <div class="c-lg-2 c-md-2 c-sm-2">
                       <div class="field-wrapper has-value">
-                        <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="mainTableDataSource[i].end_date" name="endDate" bsDatepicker
-                          (focus)="inputClickedCheck($event)">
+                        <input type="text" value="" readonly="true" style="background: transparent" class="form-ctrl bsDatepicker" [(ngModel)]="mainTableDataSource[i].end_date"
+                          name="endDate" bsDatepicker (focus)="inputClickedCheck($event)">
                         <label for="endDate">End Date
                           <span style="color:red">*</span>
                         </label>
@@ -98,14 +105,15 @@
                     </div>
                     <div class="c-lg-2 c-md-2 c-sm-2">
                       <div class="field-checkbox-wrapper" style="margin-top: 25px;">
-                        <input type="checkbox" value="" [(ngModel)]="mainTableDataSource[i].is_exam_grad_feature" name="allow" class="form-checkbox">
+                        <input type="checkbox" value="" style="background: transparent" [(ngModel)]="mainTableDataSource[i].is_exam_grad_feature"
+                          name="allow" class="form-checkbox">
                         <label for="allow">Allow Exam Grades</label>
                       </div>
                     </div>
                     <div class="c-lg-2 c-md-2 c-sm-2">
                     </div>
                   </div>
-                  <div class="tableWrapper">
+                  <div class="tableWrapper subjectList-table-wrapper">
                     <table>
                       <thead>
                         <tr>
@@ -156,9 +164,10 @@
         </table>
       </div>
     </div>
-    <div>
-      <button class="btn" (click)="updateEditedDetails()">Update Details</button>
-      <button class="btn" (click)="addRowToMainTable()">Add More</button>
+    <div style="margin-top: 10px">
+      <button class="btn btnred" routerLink='/course/courselist'>Cancel</button>
+      <button class="btn fullblue" (click)="updateEditedDetails()">Update Details</button>
+      <button class="btn fullblue" (click)="addRowToMainTable()">Add More</button>
     </div>
   </section>
 

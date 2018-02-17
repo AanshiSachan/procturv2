@@ -10,7 +10,7 @@ import { LoginService } from '../../services/login-services/login.service';
 })
 export class InstituteDetailsComponent implements OnInit {
 
-
+  isRippleLoad: boolean = false;
   instituteDetailsAll: any;
   instituteLogoDetails: any = [];
   kycType: any = [];
@@ -26,6 +26,7 @@ export class InstituteDetailsComponent implements OnInit {
   paymentTable: any = [];
   limitTable: any = [];
   storageInfo: any = {};
+  showPrefix: boolean = false;
 
   constructor(
     private apiService: InstituteDetailService,
@@ -33,6 +34,7 @@ export class InstituteDetailsComponent implements OnInit {
     private login: LoginService, ) { }
 
   ngOnInit() {
+    this.isRippleLoad = true;
     this.removeFullscreen();
     this.removeSelectionFromSideNav();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
@@ -43,7 +45,7 @@ export class InstituteDetailsComponent implements OnInit {
 
   updatePrefillData(): any {
     this.getInstituteDetails();
-    this.getInstituteLogoDetails();
+    // this.getInstituteLogoDetails();
     this.getInstituteKYCDetails();
     this.getOptionDetailsFromServer();
     this.getPlanDetailsFromServer();
@@ -54,27 +56,30 @@ export class InstituteDetailsComponent implements OnInit {
   getInstituteDetails() {
     this.apiService.getInstituDetailsAll().subscribe(
       res => {
-        console.log('Isnt', res);
+        this.isRippleLoad = false;
         this.instituteDetailsAll = res;
         this.instDetails = Object.assign({}, res);
+        if (this.instDetails.is_student_displayId_manual == 0) {
+          this.showPrefix = true;
+        }
       },
       this.errorCallBack
     );
   }
 
-  getInstituteLogoDetails() {
-    this.apiService.getInstituteLogoDetailsFromServer().subscribe(
-      res => {
-        console.log('IsntLog', res);
-        this.instituteLogoDetails = res;
-      }, this.errorCallBack
-    )
+  // getInstituteLogoDetails() {
+  //   this.apiService.getInstituteLogoDetailsFromServer().subscribe(
+  //     res => {
+  //       this.instituteLogoDetails = res;
+  //     }, this.errorCallBack
+  //   )
 
-  }
+  // }
 
   getInstituteKYCDetails() {
     this.apiService.getKycTypeDetails().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.kycType = res;
       }, this.errorCallBack
     );
@@ -83,8 +88,8 @@ export class InstituteDetailsComponent implements OnInit {
   getOptionDetailsFromServer() {
     this.apiService.getOptionDetails().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.instituteOptionDataSource = res;
-        console.log('instoption', this.instituteOptions);
       }, this.errorCallBack
     );
   }
@@ -92,20 +97,21 @@ export class InstituteDetailsComponent implements OnInit {
   getPlanDetailsFromServer() {
     this.apiService.getPlanDetails().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.planDetailDataSource = res;
-        console.log('plan', this.instituteOptions);
       }, this.errorCallBack
     );
   }
 
 
   updateAllDetails() {
-    debugger
+    this.isRippleLoad = true;
     let dataToSend = this.formatDataJsonToSend();
     this.apiService.updateDetailsToServer(dataToSend).subscribe(
       res => {
+        this.isRippleLoad = false;
         console.log('updated successfully', res);
-        this.messageToast('success', 'Updated Successfully', 'Deatils Updated Successfully');
+        this.messageToast('success', 'Updated Successfully', 'Details Updated Successfully');
       },
       this.errorCallBack
     )
@@ -113,9 +119,11 @@ export class InstituteDetailsComponent implements OnInit {
 
 
   getPaymentDeatils() {
+    this.paymentTable = [];
+    this.isRippleLoad = true;
     this.apiService.getPayementInfoFromServer().subscribe(
       res => {
-        console.log('payment', res);
+        this.isRippleLoad = false;
         this.paymentTable = res;
         this.showAllocationPopup = true;
         this.openPopUpName = "PaymentHistory";
@@ -126,9 +134,11 @@ export class InstituteDetailsComponent implements OnInit {
 
 
   smsAllocationHistoryDeatils() {
+    this.smsAllocation = [];
+    this.isRippleLoad = true;
     this.apiService.getSmsInfoFromServer().subscribe(
       res => {
-        console.log('sms', res);
+        this.isRippleLoad = false;
         this.smsAllocation = res;
         this.showAllocationPopup = true;
         this.openPopUpName = "SMSHistory";
@@ -139,9 +149,11 @@ export class InstituteDetailsComponent implements OnInit {
 
 
   downLoadLimitAllocationHistory() {
+    this.limitTable = [];
+    this.isRippleLoad = true;
     this.apiService.getDownloadLimitFromServer().subscribe(
       res => {
-        console.log('limit', res);
+        this.isRippleLoad = false;
         this.limitTable = res;
         this.showAllocationPopup = true;
         this.openPopUpName = "DownloadLimit";
@@ -153,7 +165,6 @@ export class InstituteDetailsComponent implements OnInit {
   getStorageInformation() {
     this.apiService.getStorageLimitFromServer().subscribe(
       res => {
-        console.log('limit', res);
         this.storageInfo = res;
         this.storageInfo.storage_allocated = this.storageInfo.storage_allocated / 1024;
       },
@@ -167,7 +178,6 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   changeKYCInformation(event) {
-    debugger
     for (let i = 0; i < this.kycType.length; i++) {
       if (this.kycType[i].data_key == event) {
         this.instDetails.kyc_document_name = this.kycType[i].kyc_document_name;
@@ -211,12 +221,12 @@ export class InstituteDetailsComponent implements OnInit {
     }
     obj.admin_primary_phone = this.instDetails.admin_primary_phone;
     obj.admin_primary_email = this.instDetails.admin_primary_email;
-    obj.student_id_prefix = this.instDetails.student_id_prefix;
-    if (this.instDetails.student_id_type == null || this.instDetails.student_id_type == "") {
-      obj.student_id_type = "Automatic";
-    } else {                                                //Please check this case
-      obj.student_id_type = "Manual";
-    }
+    obj.student_id_type = this.instDetails.student_id_type;
+    if (this.instDetails.student_id_type == "Manual") {
+      obj.student_id_prefix = '';
+    } else {
+      obj.student_id_prefix = this.instDetails.student_id_prefix;
+    }                                       //Please check this case
     if (this.instDetails.gst_in == "" || this.instDetails.gst_in == null) {
       obj.gst_in = '';
     } else {
@@ -230,6 +240,18 @@ export class InstituteDetailsComponent implements OnInit {
 
     return obj;
   }
+
+  checkInputType(event) {
+    debugger
+    if (event.target.id == "idManual") {
+      this.showPrefix = false;
+      this.instDetails.student_id_type = "Manual";
+    } else {
+      this.showPrefix = true;
+      this.instDetails.student_id_type = "Automatic"
+    }
+  }
+
 
   getPlanOfInstitute(data) {
     let obj = [];
@@ -256,7 +278,6 @@ export class InstituteDetailsComponent implements OnInit {
 
 
   bindTableData() {
-    debugger
     this.instituteOptions = this.getOptionOfInstitute(this.instituteOptionDataSource);
     this.planDetail = this.getPlanOfInstitute(this.planDetailDataSource);
   }
@@ -321,6 +342,7 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   errorCallBack = (err) => {
+    this.isRippleLoad = false;
     console.log(err);
     this.messageToast('error', 'Error', err.error.message);
   }
