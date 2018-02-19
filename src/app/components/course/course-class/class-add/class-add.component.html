@@ -75,7 +75,9 @@
                               {{master.master_course}}
                             </option>
                           </select>
-                          <label for="smc">Select Master Course</label>
+                          <label for="smc">Select Master Course
+                            <span style="color:red">*</span>
+                          </label>
                         </div>
                       </div>
                       <div class="c-lg-3 c-md-3 c-sm-3">
@@ -86,14 +88,18 @@
                               {{course.course_name}}
                             </option>
                           </select>
-                          <label for="sc">Select Course</label>
+                          <label for="sc">Select Course
+                            <span style="color:red">*</span>
+                          </label>
                         </div>
                       </div>
                       <div class="c-lg-3 c-md-3 c-sm-3">
                         <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': (fetchMasterCourseModule.requested_date != 'Invalid date' && fetchMasterCourseModule.requested_date != '' )}">
                           <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="fetchMasterCourseModule.requested_date"
                             readonly="true" name="csd" bsDatepicker>
-                          <label for="csd">Class Schedule Date *</label>
+                          <label for="csd">Class Schedule Date
+                            <span style="color:red">*</span>
+                          </label>
                           <span class="date-clear" name="csdc" (click)="fetchMasterCourseModule.requested_date = ''">clear</span>
                         </div>
                       </div>
@@ -223,7 +229,7 @@
             </div>
           </div> -->
 
-          <div class="row">
+          <!-- <div class="row">
             <div class="pull-left">
 
             </div>
@@ -232,7 +238,7 @@
               <button class="btn" (click)="cancelCourseSchedule()">Cancel</button>
               <button class="btn" (click)="sendReminder()">Send Reminder</button>
             </div>
-          </div>
+          </div> -->
           <div class="row">
             <div class="field-wrapper c-sm-2 c-md-2 c-lg-2">
               <select id="tsesesese" class="form-ctrl" name="row.subject_id" [(ngModel)]="addClassDetails.subject_id">
@@ -339,48 +345,51 @@
                 <table>
                   <thead>
                     <tr>
-                      <th>
+                      <th style="width:12%">
                         Subject
                         <span style="color:red">*</span>
                       </th>
-                      <th>
+                      <th style="width:9%">
                         Start Time
                         <span style="color:red">*</span>
                       </th>
-                      <th>
+                      <th style="width:9%">
                         End Time
                         <span style="color:red">*</span>
                       </th>
-                      <th>
+                      <th style="width:10%">
                         Select Tutor
                         <span style="color:red">*</span>
                       </th>
-                      <th>
+                      <th style="width:10%">
                         Class Description
                       </th>
-                      <th>
+                      <th style="width:10%">
                         Room No.
                       </th>
-                      <th>
+                      <th style="width:10%">
                         Class Type
                       </th>
-                      <th>
-
+                      <th style="width:10%">
+                        Recurrence
+                      </th>
+                      <th style="width:10%">
+                        Action
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr id="row{{i}}" *ngFor="let row of classScheduleArray; let i= index ; trackBy : index">
-                      <td>
+                      <td style="width:12%">
                         {{row.subject_name}}
                       </td>
-                      <td>
+                      <td style="width:9%">
                         {{row.start_time}}
                       </td>
-                      <td>
+                      <td style="width:9%">
                         {{row.end_time}}
                       </td>
-                      <td>
+                      <td style="width:10%">
                         <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="row.teacher_id">
                           <option value="-1"></option>
                           <option *ngFor="let opt of teacherListDataSource" [value]="opt.teacher_id">
@@ -388,18 +397,18 @@
                           </option>
                         </select>
                       </td>
-                      <td>
+                      <td style="width:10%">
                         <div class="field-wrapper">
                           <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_desc" name="label">
                         </div>
                       </td>
-                      <td>
+                      <td style="width:10%">
                         <div class="field-wrapper">
                           <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.room_no" name="label">
                         </div>
                       </td>
 
-                      <td>
+                      <td style="width:10%">
                         <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="row.custom_class_type">
                           <option *ngFor="let opt of customListDataSource">
                             {{opt}}
@@ -407,7 +416,7 @@
                         </select>
                       </td>
 
-                      <td>
+                      <td style="width:10%">
 
                         <select *ngIf="(row.class_schedule_id != 0)" id="" class="form-ctrl" name="row.category_id" (change)="weeklyScheduleChange($event , row)">
                           <option value="1">Does Not Repeat</option>
@@ -415,7 +424,16 @@
                           <option value="3">Custom Recurrence</option>
                         </select>
 
-                        <i class="fas fa fa-trash" style="font-size: 19px;font-family: FontAwesome;" (click)="removeRowFromSchedule(i , row)"></i>
+                      </td>
+                      <td style="width:10%">
+                        <div class="action-box">
+                          <span class="mail-notification" (click)="sendReminder()"></span>
+                          <span class="reschedule-icon" (click)="cancelCourseClicked(row)"></span>
+                          <span (click)="removeRowFromSchedule(i , row)" class="delete-btn">
+                            <i class="fa fa-trash-o" style="font-family: FontAwesome;" aria-hidden="true"></i>
+                          </span>
+                          <!-- <span class="edit-icon"></span> -->
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -425,7 +443,7 @@
           </div>
 
           <div class="row">
-            <button class="btn" (click)="saveCourseSchedule()">Save</button>
+            <button class="btn pull-right" (click)="saveCourseSchedule()">Save</button>
           </div>
         </section>
         <!-- ==================================================================================== -->
@@ -789,7 +807,7 @@
         </svg>
       </span>
       <div class="popup-content">
-        <h2>Custom Recurrence</h2>
+        <h2 style="margin-left: 10px">Custom Recurrence</h2>
 
         <div class="row extraMargin">
           <div class=" c-sm-6 c-md-6 c-lg-6">
@@ -876,11 +894,11 @@
           <span id="idSaturday-6 " class="l-circle l-text " (click)="onWeekDaysSelection($event) " title="Saturday ">S</span>
         </div>
 
-        <div class="row extraMargin ">
+        <!-- <div class="row extraMargin ">
           <h3>Ends</h3>
-        </div>
+        </div> -->
 
-        <div class="row extraMargin ">
+        <!-- <div class="row extraMargin ">
 
           <div class="radio-options ">
             <div class="row extraMargin ">
@@ -889,12 +907,10 @@
                     " id="idCourseEndDate ">
                 <label for="active ">Course End Date</label>
               </div>
-              <!-- <div class="c-sm-3 c-md-3 c-lg-3 "> -->
               <div class="field-wrapper datePickerBox c-sm-3 c-md-3 c-lg-3 " [ngClass]="{ 'disabled': customRec.radioEndDate.radioEndDateSelection==false } ">
                 <input type="text " value=" " readonly="true " [(ngModel)]="customRec.radioEndDate.radioDate " class="form-ctrl
                     bsDatepicker " name="endDate " bsDatepicker>
               </div>
-              <!-- </div> -->
             </div>
             <div class="row extraMargin ">
               <div class="field-radio-wrapper c-sm-6 c-md-6 c-lg-6 ">
@@ -922,7 +938,7 @@
               <span>occurrences</span>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div>
           <button class="btn pull-right " (click)="saveCustomRecurrences() ">Save</button>
@@ -1120,6 +1136,52 @@
 
         <div>
           <button class="btn pull-right " (click)="saveSelectedDateSchedule() ">Save</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- //////////////////////////////////////// Cancellation PopUp ///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancellation PopUp///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancellation PopUp///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancellation PopUp///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancellation PopUp///////////////////////////////////////////// -->
+
+<section id="popup " class="popupWrapper fadeIn " *ngIf="showPopUpCancellation ">
+  <div class="popup pos-abs popup-body-container ">
+    <div class="popup-wrapper pos-rel ">
+      <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closePopup()">
+        <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
+          <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
+            <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
+              <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
+                    rotate(45) " />
+              <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
+                    rotate(45) " />
+            </g>
+            <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
+                    " height="16 " transform="translate(1012 297) " />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content cancelWraper">
+        <h2>Cancel Schedule {{cancelRowSelected.subject_name}}</h2>
+        <div class="row" style="margin:20px 10px">
+          <div class="field-wrapper c-sm-6 c-md-6 c-lg-6">
+            <textarea class="textBox" id="idTexboxReason" placeholder="Cancellation Reason"></textarea>
+          </div>
+
+          <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6" style="margin-top: 50px;">
+            <input type="checkbox" checked name="enableSMS" class="form-checkbox" id="idChkbxEnable">
+            <label for="enableSMS">Notify course students for class cancellation</label>
+          </div>
+        </div>
+
+        <div class="pull-right">
+          <button class="btn" (click)="cancelCourseSchedule()">Cancel Class</button>
+          <button class="btn" (click)="closePopup()">Close</button>
         </div>
 
       </div>

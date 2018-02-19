@@ -200,4 +200,12 @@ export class ClassScheduleService {
         )
     }
 
+    cancelClassSchedule(data) {
+        let url = this.baseURL + "/api/v1/batchClsSched/cancel";
+        return this.http.put(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
 }

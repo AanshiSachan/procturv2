@@ -78,6 +78,8 @@ export class ClassAddComponent implements OnInit {
   classScheduleArray: any = [];
   showPopUp: boolean = false;
   showPopUpRecurence: boolean = false;
+  showPopUpCancellation: boolean = false;
+  cancelRowSelected: any = '';
   customRec = {
     start_hour: '',
     start_minute: '',
@@ -267,13 +269,21 @@ export class ClassAddComponent implements OnInit {
       this.fetchMasterCourseModule.requested_date == '' || this.fetchMasterCourseModule.requested_date == 'Invalid date'
       || this.fetchMasterCourseModule.requested_date == null) {
       console.log(this.fetchMasterCourseModule);
+      this.messageToast('error', 'Error', 'Please provide all mandatory details');
+      return;
     }
     else {
-      this.isClassFormFilled = true;
-      console.log(this.fetchMasterCourseModule);
-      this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
-      this.getCustomList();
-      this.getTeacherList();
+      if (moment(this.courseStartDate).format("YYYY-MM-DD") <= moment(this.fetchMasterCourseModule.requested_date).format("YYYY-MM-DD") && moment(this.fetchMasterCourseModule.requested_date).format("YYYY-MM-DD") <= moment(this.courseEndDate).format("YYYY-MM-DD")) {
+        this.isClassFormFilled = true;
+        this.fetchMasterCourseModule.requested_date = moment(this.fetchMasterCourseModule.requested_date).format("YYYY-MM-DD");
+        console.log(this.fetchMasterCourseModule);
+        this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
+        this.getCustomList();
+        this.getTeacherList();
+      } else {
+        this.messageToast('error', 'Error', 'Please provides date in between course start and end date');
+        return;
+      }
     }
   }
   /* ============================================================================================ */
@@ -741,9 +751,54 @@ export class ClassAddComponent implements OnInit {
     }
   }
 
-  cancelCourseSchedule() {
-    debugger
+
+  cancelCourseClicked(rowData) {
+    this.showPopUpCancellation = true;
+    this.cancelRowSelected = rowData;
   }
+
+  cancelCourseSchedule() {
+    let dataTosend = this.makeCancelClassJson();
+    if (dataTosend != undefined) {
+      this.classService.cancelClassSchedule(dataTosend).subscribe(
+        res => {
+          console.log(res);
+          this.messageToast('success', 'Success', 'Class Cancelled Successfull');
+          this.showPopUpCancellation = false;
+          this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
+        },
+        err => {
+          console.log(err);
+          this.messageToast('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+  makeCancelClassJson() {
+    let text = document.getElementById('idTexboxReason').value;
+    if (text == "" || text == null || text == undefined) {
+      this.messageToast('error', 'Error', 'Please provide cancellation reason');
+      return
+    }
+    let chkbxValue = document.getElementById('idChkbxEnable').checked;
+    if (chkbxValue == true) {
+      chkbxValue = "Y";
+    } else {
+      chkbxValue = "N";
+    }
+    let obj: any = {};
+    obj.batch_id = this.cancelRowSelected.batch_id;
+    obj.cancelSchd = [
+      {
+        cancel_note: text,
+        schd_id: this.cancelRowSelected.class_schedule_id,
+        is_notified: chkbxValue
+      }
+    ];
+    return obj;
+  }
+
 
   sendReminder() {
     if (confirm("Are you sure, You want to notify?")) {
@@ -774,6 +829,7 @@ export class ClassAddComponent implements OnInit {
       res => {
         console.log(res);
         this.messageToast('success', 'Saved', 'Your class created successfully');
+        this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
       },
       err => {
         console.log(err);
@@ -784,7 +840,6 @@ export class ClassAddComponent implements OnInit {
   }
 
   removeRowFromSchedule(i, row) {
-    debugger
     for (let i = 0; i < this.classScheduleArray.length; i++) {
       if (this.classScheduleArray[i].class_schedule_id == row.class_schedule_id) {
         this.classScheduleArray.splice(i, 1);
@@ -800,8 +855,9 @@ export class ClassAddComponent implements OnInit {
     obj.requested_date = moment(this.fetchMasterCourseModule.requested_date).format("YYYY-MM-DD");
     obj.course_id = this.fetchMasterCourseModule.course_id;
     obj.coursesList = [];
-    obj.coursesList.course_id = this.fetchMasterCourseModule.course_id;
-    obj.coursesList.courseClassSchdList = [];
+    let temp: any = {};
+    temp.course_id = this.fetchMasterCourseModule.course_id;
+    temp.courseClassSchdList = [];
     for (let i = 0; i < this.classScheduleArray.length; i++) {
       let test: any = {};
       test.alloted_teacher_id = this.classScheduleArray[i].teacher_id;
@@ -813,8 +869,9 @@ export class ClassAddComponent implements OnInit {
       test.room_no = this.classScheduleArray[i].room_no;
       test.start_time = this.classScheduleArray[i].start_time;
       test.end_time = this.classScheduleArray[i].end_time;
-      obj.coursesList.courseClassSchdList.push(test);
+      temp.courseClassSchdList.push(test);
     }
+    obj.coursesList.push(temp);
     return obj;
   }
 
@@ -873,10 +930,11 @@ export class ClassAddComponent implements OnInit {
   closePopup() {
     this.showPopUpRecurence = false;
     this.showPopUp = false;
+    this.showPopUpCancellation = false;
+    this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
   }
 
   onWeekDaysSelection(event) {
-    debugger
     if ((document.getElementById(event.target.id).classList).contains('l-text')) {
       document.getElementById(event.target.id).classList.remove('l-text');
       document.getElementById(event.target.id).classList.add('p-text');
@@ -887,7 +945,6 @@ export class ClassAddComponent implements OnInit {
   }
 
   radioButtonClick($event) {
-    debugger
     this.clearSelection();
     if ($event.target.id == "idCourseEndDate") {
       this.customRec.radioEndDate.radioEndDateSelection = true;
@@ -909,7 +966,6 @@ export class ClassAddComponent implements OnInit {
 
 
   addDateToArray() {
-    debugger
     if (this.addDates.selectedDate != "" && this.addDates.selectedDate != undefined && this.addDates.selectedDate != null) {
       let obj: any = new Object;
       obj.selectedDate = moment(this.addDates.selectedDate).format("YYYY-MM-DD");
@@ -926,25 +982,27 @@ export class ClassAddComponent implements OnInit {
 
 
   saveCustomRecurrences() {
-    debugger
     this.weekDaysSelected = this.getSelectedDaysOfWeek();
+    if (this.weekDaysSelected.length == 0) {
+      this.messageToast('error', 'Error', 'Please provide days of week.');
+      return;
+    }
     let JsonToSend = this.makeJsonForRecurrence();
     console.log(JsonToSend);
-    // this.classService.saveCustomRecurrenceToServer(JsonToSend).subscribe(
-    //   res => {
-    //     console.log(res);
-    //     this.messageToast('success', 'Saved', 'Saved Successfull');
-    //   },
-    //   err => {
-    //     console.log(err);
-    //     this.messageToast('error', 'Error', err.error.message);
-    //   }
-    // )
+    this.classService.saveCustomRecurrenceToServer(JsonToSend).subscribe(
+      res => {
+        console.log(res);
+        this.messageToast('success', 'Saved', 'Saved Successfull');
+      },
+      err => {
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
+    )
 
   }
 
   getSelectedDaysOfWeek() {
-    debugger
     let arr = [];
     let elementArray = document.getElementsByClassName('p-text');
     for (let t = 0; t < elementArray.length; t++) {
