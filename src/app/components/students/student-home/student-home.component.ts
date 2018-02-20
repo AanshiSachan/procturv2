@@ -610,23 +610,23 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.busy = this.studentFetch.fetchAllStudentDetails(this.instituteData).subscribe(
       res => {
         this.isRippleLoad = false;
-        res.forEach(el => {
-          let obj = {
-            isSelected: false,
-            show: true,
-            data: el
+        if (res.length != 0) {
+          //console.log("data found");
+          this.totalRow = res[0].total_student_count;
+          //console.log(this.totalRow);
+          this.studentDataSource = res;
+        }
+        else {
+          let alert = {
+            type: 'info',
+            title: 'No Records Found',
+            body: 'We did not find any enquiry for the specified query'
           }
-          this.studentDataSource.push(obj);
-          //console.log(res);
-          //this.totalEnquiry = res[0].totalcount;
-        });
-
-
-        /* this.sourceEnquiry = new LocalDataSource(this.rows);
-        this.totalEnquiry = this.rows[0].totalcount;
-        this.indexJSON = [];
-        this.setPageSize(this.totalEnquiry);
-        this.sourceEnquiry.refresh(); */
+          this.loading_message = 2;
+          this.appC.popToast(alert);
+          this.studentDataSource = [];
+          this.totalRow = this.studentDataSource.length;
+        }
       },
       err => { 
         this.isRippleLoad = false;

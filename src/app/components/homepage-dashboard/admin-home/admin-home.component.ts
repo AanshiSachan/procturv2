@@ -19,7 +19,7 @@ import { } from '../../../model/enquirycampaign'
 import * as Muuri from 'muuri/muuri';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service'
 import { Chart } from 'angular-highcharts';
-import { } from '../../../services/'
+import { SelectItem } from 'primeng/components/common/api';
 import { WidgetService } from '../../../services/widget.service';
 
 @Component({
@@ -29,42 +29,44 @@ import { WidgetService } from '../../../services/widget.service';
 })
 export class AdminHomeComponent implements OnInit {
 
-  isProfessional: boolean = false;
-  grid: any;
-  instituteSetting: any;
-  planListArr: any[] = [];
-  enquiryStat: any = {
+  public isProfessional: boolean = false;
+  public grid: any;
+  public instituteSetting: any;
+  public planListArr: any[] = [];
+  public enquiryStat: any = {
     totalcount: null,
     statusMap: null
   };
-  home_work_notifn:number = 0;
-  topics_covered_notifn:number = 0;
-  teacherListArr:any[] = [];
-  isPopupOpened: boolean = false;
-  isAttendancePop: boolean = false;
-  isCancelExamPop: boolean = false;
-  isReminderPop: boolean = false;
-  isReschedulePop: boolean = false;
-  isRippleLoad: boolean = false;
-  AllPresent:boolean = true;
-  teacher_id:number = -1;
-  schedStat: any = {};
-  feeStat: any = null;
-  genralStats: any = {
+  public home_work_notifn: number = 0;
+  public topics_covered_notifn: number = 0;
+  public teacherListArr: any[] = [];
+  public isPopupOpened: boolean = false;
+  public isAttendancePop: boolean = false;
+  public isCancelExamPop: boolean = false;
+  public isReminderPop: boolean = false;
+  public isReschedulePop: boolean = false;
+  public isRippleLoad: boolean = false;
+  public AllPresent: boolean = true;
+  public teacher_id: number = -1;
+  public schedStat: any = {};
+  public feeStat: any = null;
+  is_notified: any = 'Y';
+  public genralStats: any = {
     sms: 0,
     download: 0,
     expiry: moment().format('DD-MMM-YYYY'),
     total: 0
   }
-  selectedRow: number = null;
-  order: string[] = ['1', '2', '3', '4'];
-  schedSelected: boolean = false;
-  enquiryDate: any[] = [];
-  feeDate: any[] = [];
-  schedDate: any[] = [];
-  currentPlan: any = null;
-  classMarkedForAction: any;
-  chart = new Chart({
+  public selectedRow: number = null;
+  public order: string[] = ['1', '2', '3', '4'];
+  public schedSelected: boolean = false;
+  public isOptionVisible: boolean = false;
+  public enquiryDate: any[] = [];
+  public feeDate: any[] = [];
+  public schedDate: any[] = [];
+  public currentPlan: any = null;
+  public classMarkedForAction: any;
+  public chart = new Chart({
     chart: {
       type: 'pie',
       options3d: {
@@ -115,7 +117,45 @@ export class AdminHomeComponent implements OnInit {
       ]
     }]
   });
-  studentAttList:any = [];
+  public attendanceNote: string = "";
+  public homework: string = "";
+  public studentAttList: any = [];
+  public cancellationReason: string = '';
+  resheduleNotified: any = "Y";
+  hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  minArr: any[] = ['', '00', '15', '30', '45'];
+  meridianArr: any[] = ['', "AM", "PM"];
+  reschedDate: any = new Date();
+  reschedReason: any = "";
+  timepicker: any = {
+    reschedStartTime: {
+      hour: '',
+      minute: '',
+      meridian: ''
+    },
+    reschedEndTime: {
+      hour: '',
+      minute: '',
+      meridian: ''
+    },
+  }
+  isSubjectView:boolean = true;
+  types: SelectItem[] = [
+    { label: 'Course', value: 'course'},
+    { label: 'Subject', value: 'subject'}
+  ];
+
+  selectedType: string = "subject";
+
+  onChanged(event){
+    console.log(event.value);
+  }
+
+
+
+  /* ===================================================================================== */
+  /* ===================================================================================== */
+  /* ===================================================================================== */
   constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private enquiryService: FetchenquiryService, private widgetService: WidgetService) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
@@ -126,8 +166,11 @@ export class AdminHomeComponent implements OnInit {
     this.feeDate[1] = new Date();
     this.schedDate[0] = new Date();
     this.schedDate[1] = new Date();
-  }
 
+  }
+  /* ===================================================================================== */
+  /* ===================================================================================== */
+  /* ===================================================================================== */
   ngOnInit() {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.fetchWidgetPrefill();
@@ -154,7 +197,9 @@ export class AdminHomeComponent implements OnInit {
     });
 
   }
-
+  /* ===================================================================================== */
+  /* ===================================================================================== */
+  /* ===================================================================================== */
   fetchWidgetPrefill() {
 
     this.widgetService.getAllplan().subscribe(
@@ -176,7 +221,7 @@ export class AdminHomeComponent implements OnInit {
         this.teacherListArr = res;
       },
       err => {
-        
+
       }
     )
 
@@ -365,6 +410,7 @@ export class AdminHomeComponent implements OnInit {
       from_date: moment(this.feeDate[0]).format('YYYY-MM-DD'),
       to_date: moment(this.feeDate[1]).format('YYYY-MM-DD')
     }
+    this.isOptionVisible = false;
     this.widgetService.fetchFeeWidgetData(e).subscribe(
       res => {
         this.grid.refreshItems().layout();
@@ -380,6 +426,7 @@ export class AdminHomeComponent implements OnInit {
       from_date: moment(e[0]).format('YYYY-MM-DD'),
       to_date: moment(e[1]).format('YYYY-MM-DD')
     }
+    this.isOptionVisible = false;
     this.widgetService.fetchSchedWidgetData(obj).subscribe(
       res => {
         this.grid.refreshItems().layout();
@@ -389,7 +436,18 @@ export class AdminHomeComponent implements OnInit {
     )
   }
 
-  /* ========================================= */
+  getCheckedStatus(id: string) {
+    if (id === "notifyCancel") {
+      return true;
+    }
+    else if (id === 'resheduleNotified') {
+      return true;
+    }
+  }
+
+  /* ======================================================================================================= */
+  /* ===================Wideget Fuctions====================== */
+  /* ======================================================================================================= */
 
   generateEnqChartData(): any[] {
     let tempArr: any[] = [];
@@ -468,23 +526,48 @@ export class AdminHomeComponent implements OnInit {
   }
 
   userScheduleSelected(i, selected) {
-    this.selectedRow = i;
-    this.schedSelected = true;
+    this.generateOption(i, selected.class_date);
     this.classMarkedForAction = selected
   }
+
+
+  generateOption(i, o) {
+    let d = moment(o).format("YYYY-MM-DD");
+    this.selectedRow = i;
+    this.schedSelected = true;
+    if (d >= moment(new Date()).format("YYYY-MM-DD")) {
+      this.isOptionVisible = true;
+    }
+    else {
+      this.isOptionVisible = false;
+    }
+  }
+
+  /* ======================================================================================================= */
+  /* =================================Attendance PopUP===================================== */
+  /* ======================================================================================================= */
 
   initiateMarkAttendance() {
     this.isRippleLoad = true;
     let obj = {
       batch_id: this.classMarkedForAction.batch_id,
       type: 2,
-      attendanceSchdId: this.classMarkedForAction.schd_id 
+      attendanceSchdId: this.classMarkedForAction.schd_id
     }
     this.widgetService.getAttendance(obj).subscribe(
       res => {
+        res.forEach(e => {
+          e.attendance_note = "";
+          e.date = "";
+          e.home_work_status = "Y";
+          e.homework_assigned = "";
+          e.isStatusModified = "N";
+          e.is_home_work_status_changed = "N";
+          e.isStatusModified = "N";
+        })
         this.studentAttList = res;
-        this.home_work_notifn = res.home_work_notifn;
-        this.topics_covered_notifn = res.topics_covered_notifn;
+        this.home_work_notifn = res[0].home_work_notifn;
+        this.topics_covered_notifn = res[0].topics_covered_notifn;
         this.teacher_id = res.teacher_id;
         this.isRippleLoad = false;
         this.isPopupOpened = true;
@@ -497,43 +580,368 @@ export class AdminHomeComponent implements OnInit {
 
   }
 
+
   closeAttendance() {
-    this.isPopupOpened = false;
     this.isAttendancePop = false;
+    this.attendanceNote = "";
+    this.homework = "";
+    this.studentAttList = [];
+    this.home_work_notifn = null;
+    this.topics_covered_notifn = null;
+    this.teacher_id = null;
   }
 
-  updateRadioAttendance(val, i, obj){
+  updateRadioAttendance(val, i, obj) {
   }
 
-  updateHomework(e){
-    if(e.target.checked){
+  updateHomework(e) {
+    if (e.target.checked) {
       this.home_work_notifn = 1;
+      this.studentAttList.forEach(e => {
+        e.home_work_notifn = this.home_work_notifn;
+      });
     }
-    else{
+    else {
       this.home_work_notifn = 0;
+      this.studentAttList.forEach(e => {
+        e.home_work_notifn = this.home_work_notifn;
+      });
     }
   }
 
-  updateTopicCovered(e){
-    if(e.target.checked){
+  updateTopicCovered(e) {
+    if (e.target.checked) {
       this.topics_covered_notifn = 1;
+      this.studentAttList.forEach(e => {
+        e.topics_covered_notifn = this.topics_covered_notifn;
+      });
     }
-    else{
+    else {
       this.topics_covered_notifn = 0;
+      this.studentAttList.forEach(e => {
+        e.topics_covered_notifn = this.topics_covered_notifn;
+      });
     }
   }
 
-  markAllPresent(e){
-    console.log(e.target.checke);
-    if(e.target.checked){
+  markAllPresent(e) {
+
+    if (e.target.checked) {
       this.studentAttList.forEach(e => {
         e.dateLi[0].status = "P";
       });
     }
-    else{
+    else {
       this.studentAttList.forEach(e => {
         e.dateLi[0].status = "A";
       });
+    }
+  }
+
+  updateAttendance() {
+    let arr = [];
+    this.studentAttList.forEach(e => {
+      e.dateLi[0] = Object.assign({}, this.getCustomAttendanceObject(e.dateLi[0], e));
+      let temp = {
+        batch_id: this.classMarkedForAction.batch_id,
+        dateLi: e.dateLi,
+        home_work_notifn: e.home_work_notifn,
+        isNotify: e.isNotify,
+        is_home_work_enabled: e.is_home_work_enabled,
+        student_id: e.student_id,
+        topics_covered_notifn: e.topics_covered_notifn
+      };
+      arr.push(temp);
+    });
+    this.widgetService.updateAttendance(arr).subscribe(
+      res => {
+        //console.log(res);
+        let msg = {
+          type: 'success',
+          title: 'Attendance Updated',
+          body: res.message
+        }
+        this.appC.popToast(msg);
+        this.closeAttendance();
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: 'Failed To Update Attendance',
+          body: err.message
+        }
+        this.appC.popToast(msg);
+      }
+    )
+  }
+
+  getCustomAttendanceObject(d, detail): any {
+    let obj = {
+      attendance_note: this.attendanceNote,
+      date: moment(new Date()).format("YYYY-MM-DD"),
+      home_work_status: detail.home_work_status,
+      homework_assigned: this.homework,
+      isStatusModified: "Y",
+      is_home_work_status_changed: d.is_home_work_status_changed,
+      schId: d.schId,
+      status: d.status,
+      teacher_id: d.teacher_id,
+    }
+
+    return obj;
+  }
+
+  isHomeworkStatusChanged(i) {
+    this.studentAttList[i].dateLi[0].is_home_work_status_changed = "Y";
+  }
+
+  /* ======================================================================================================= */
+  /* ===================================Cancel Class=================================== */
+  /* ======================================================================================================= */
+
+  initiateCancelClass() {
+    this.isCancelExamPop = true;
+  }
+
+  notifyCancelUpdate(e) {
+    if (e.target.checked) {
+      this.is_notified = "Y";
+    }
+    else {
+      this.is_notified = "N";
+    }
+  }
+
+  cancelClass() {
+    let obj = {
+      batch_id: this.classMarkedForAction.batch_id,
+      cancelSchd: []
+    }
+    let schd = {
+      cancel_note: this.cancellationReason,
+      schd_id: this.classMarkedForAction.schd_id,
+      is_notified: this.is_notified
+    }
+    obj.cancelSchd.push(schd);
+    //console.log(obj);
+    this.widgetService.cancelClassSchedule(obj).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: 'Schedule Cancelled',
+          body: 'The requested scheduled has been cancelled'
+        }
+        this.appC.popToast(msg);
+        this.closeCancelClass();
+        this.fetchScheduleWidgetData();
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: 'Failed To Cancel Schedule',
+          body: err.cancelResponseMessage
+        }
+        this.appC.popToast(msg);
+      }
+    )
+  }
+
+  closeCancelClass() {
+    this.isCancelExamPop = false;
+    this.cancellationReason = '';
+  }
+
+  /* ======================================================================================================= */
+  /* =================================Reminder==================================== */
+  /* ======================================================================================================= */
+
+  initiateRemiderClass() {
+    this.isReminderPop = true;
+  }
+
+  sendReminder() {
+    let obj = {
+      batch_id: this.classMarkedForAction.batch_id,
+      class_schedule_id: this.classMarkedForAction.schd_id,
+      is_exam_schedule: "N"
+    };
+
+    this.widgetService.notifyStudentSchedule(obj).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: 'Reminder Sent',
+          body: 'Students have been notified'
+        }
+        this.appC.popToast(msg);
+        this.closeRemiderClass();
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: 'Failed To Notify',
+          body: 'please contact support@proctur.com'
+        }
+        this.appC.popToast(msg);
+      }
+    )
+  }
+
+  closeRemiderClass() {
+    this.isReminderPop = false;
+  }
+
+  /* ======================================================================================================= */
+  /* =================================Reshedule===================================== */
+  /* ======================================================================================================= */
+
+  initiateRescheduleClass() {
+    this.isReschedulePop = true;
+  }
+
+  rescheduleClass() {
+    if (this.reSheduleFormValid()) {
+      let temp1: any = {
+        cancel_note: this.reschedReason,
+        schd_id: this.classMarkedForAction.schd_id,
+        is_notified: this.resheduleNotified
+      }
+      let temp2 = {
+        class_date: moment(this.reschedDate).format("YYYY-MM-DD"),
+        start_time: this.timepicker.reschedStartTime.hour + ":" + this.timepicker.reschedStartTime.minute + " " + this.timepicker.reschedStartTime.meridian,
+        end_time: this.timepicker.reschedEndTime.hour + ":" + this.timepicker.reschedEndTime.minute + " " + this.timepicker.reschedEndTime.meridian,
+        duration: this.getDifference()
+      }
+      let obj = {
+        batch_id: this.classMarkedForAction.batch_id,
+        cancelSchd: [],
+        extraSchd: []
+      }
+      obj.cancelSchd.push(temp1);
+      obj.extraSchd.push(temp2);
+
+      this.widgetService.reScheduleClass(obj).subscribe(
+        res => {
+          let msg = {
+            type: 'success',
+            title: 'Class Rescheduled',
+            body: 'The request has been processed'
+          }
+          this.appC.popToast(msg);
+          this.closeRescheduleClass();
+          this.fetchScheduleWidgetData();
+        },
+        err => {
+          let msg = {
+            type: 'error',
+            title: 'Failed To Reschedule',
+            body: err.message
+          }
+          this.appC.popToast(msg);
+        }
+      )
+    }
+  }
+
+  getDifference(): any {
+    let startTime = this.timepicker.reschedStartTime.hour + ":" + this.timepicker.reschedStartTime.minute + " " + this.timepicker.reschedStartTime.meridian;
+    let endTime = this.timepicker.reschedEndTime.hour + ":" + this.timepicker.reschedEndTime.minute + " " + this.timepicker.reschedEndTime.meridian;
+    let start = moment.utc(startTime, "HH:mm A");
+    let end = moment.utc(endTime, "HH:mm A");
+    if (end.isBefore(start)) {
+      end.add(1, 'day');
+    }
+    let d: any = moment.duration(end.diff(start));
+    return d._milliseconds / 60000;
+  }
+
+  reSheduleFormValid(): boolean {
+    /* Date Validation */
+    if (this.reschedDate != '' && this.reschedDate != 'Invalid Date') {
+      /* Reschedule Reason */
+      if (this.reschedReason.trim() != '') {
+        /* Validate Time */
+        if (this.isTimeValid()) {
+          return true;
+        }
+        else {
+          let msg = {
+            type: 'error',
+            title: 'Invalid Time',
+            body: 'Please provide a complete start and end time for rescheduling'
+          }
+          this.appC.popToast(msg);
+          return false;
+        }
+      }
+      else {
+        let msg = {
+          type: 'error',
+          title: 'Reschedule Reason Missing',
+          body: 'Please mention a reason for rescheduling the class'
+        }
+        this.appC.popToast(msg);
+        return false;
+      }
+    }
+    /* Date not found */
+    else {
+      let msg = {
+        type: 'error',
+        title: 'Date Missing',
+        body: 'Please select a date to reschedule class'
+      }
+      this.appC.popToast(msg);
+      return false;
+    }
+  }
+
+  isTimeValid() {
+
+    if (this.timepicker.reschedStartTime.hour.trim() != '' && this.timepicker.reschedStartTime.minute.trim() != '' && this.timepicker.reschedStartTime.meridian.trim() != '' && this.timepicker.reschedEndTime.hour.trim() != '' && this.timepicker.reschedEndTime.minute.trim() != '' && this.timepicker.reschedEndTime.meridian.trim() != '') {
+      let startTime = this.timepicker.reschedStartTime.hour + ":" + this.timepicker.reschedStartTime.minute + " " + this.timepicker.reschedStartTime.meridian;
+      let endTime = this.timepicker.reschedEndTime.hour + ":" + this.timepicker.reschedEndTime.minute + " " + this.timepicker.reschedEndTime.meridian;
+      let start = moment.utc(startTime, "HH:mm A");
+      let end = moment.utc(endTime, "HH:mm A");
+      if ((parseInt(start.format("HH")) < parseInt(end.format("HH")))) {
+        return true;
+      }
+      else if ((parseInt(start.format("HH")) == parseInt(end.format("HH"))) && (parseInt(start.format("mm")) < parseInt(end.format("mm")))) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    else {
+      return false;
+    }
+  }
+
+  notifyRescheduleUpdate(e) {
+    if (e.target.checked) {
+      this.resheduleNotified = "Y";
+    }
+    else {
+      this.resheduleNotified = "N";
+    }
+  }
+
+  closeRescheduleClass() {
+    this.isReschedulePop = false;
+    this.reschedDate = new Date();
+    this.reschedReason = "";
+    this.timepicker = {
+      reschedStartTime: {
+        hour: '',
+        minute: '',
+        meridian: ''
+      },
+      reschedEndTime: {
+        hour: '',
+        minute: '',
+        meridian: ''
+      }
     }
   }
 

@@ -5,7 +5,6 @@
 
   <section class="activity-page">
     <section class="clearFix row">
-
       <div class="activity-left pull-left">
 
         <div class="act-top clearfix">
@@ -176,6 +175,9 @@
                       <span class="heading">
                         Schedule
                       </span>
+                      <div class="schedSwitcher">
+                        <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton>
+                      </div>
                       <ul class="sche-top-det">
                         <li class="schedule-det">
                           <div>
@@ -237,12 +239,10 @@
                             </li>
                           </ul>
                           <div class="che-action" [class.display]="i == selectedRow">
-                            <a (click)="initiateMarkAttendance()">
-                              Mark Attendance
-                            </a>
-                            <a>Cancel Exam</a>
-                            <a>Reminder</a>
-                            <a>Reschedule</a>
+                            <a style="cursor:pointer" (click)="initiateMarkAttendance()"> Mark Attendance</a>
+                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateCancelClass()">Cancel Exam</a>
+                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
+                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
                           </div>
                         </div>
                       </div>
@@ -418,9 +418,10 @@
         </div>
 
       </div>
-
     </section>
   </section>
+
+
 
   <proctur-widget *ngIf="isAttendancePop">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAttendance()" close-button>
@@ -436,15 +437,33 @@
       </svg>
     </span>
 
-    <h2 widget-header>Mark Attendance:: {{classMarkedForAction.batch_name}} || {{classMarkedForAction.teacher_name}}</h2>
-
-
+    <h2 widget-header>Mark Attendance {{classMarkedForAction.batch_name}} | {{studentAttList.length}} Students</h2>
 
     <div class="attendanceWrapper" widget-content>
 
-      <div class="row">
+      <div class="row topicSection">
         <div class="c-lg-6 c-md-6 c-sm-6">
-          <div class="field-checkbox-wrapper">
+          <div class="field-wrapper">
+            <textarea class="form-ctrl textBox" placeholder="Attendance Note" value="" [(ngModel)]="attendanceNote">
+            </textarea>
+          </div>
+        </div>
+        <div class="c-lg-6 c-md-6 c-sm-6" *ngIf="instituteSetting.home_work_feature_enable == 1">
+          <div class="field-wrapper" style="width: 80%;float: right;" [ngClass]="{'has-value': homework != ''}">
+            <input type="text" value="" class="form-ctrl" id="homeWorkName" name="homeWorkName" [(ngModel)]="homework" />
+            <label for="homeWorkName">Homework</label>
+          </div>
+          <div class="field-wrapper" style="width: 80%;float: right;">
+            <input style="border-bottom:none;" type="text" readonly="true" disabled value="" class="form-ctrl" id="lasthomeWork" name="lasthomeWork"
+            />
+            <label for="lasthomeWork">Last Class Homework</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row settingAttendance">
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-checkbox-wrapper" *ngIf="instituteSetting.home_work_feature_enable == 1">
             <input type="checkbox" value="" class="form-checkbox" id="EnableHomeWorkSms" [checked]="home_work_notifn == 1? true: false"
               (change)="updateHomework($event)">
             <label for="EnableHomeWorkSms">Enable Homework SMS</label>
@@ -476,7 +495,7 @@
 
       <div class="row attendanceMain">
         <div class="table-scroll-wrapper">
-          <div class="table table-responsive enquiry-table">
+          <div class="table table-responsive widget-table">
             <table>
               <thead>
                 <tr>
@@ -519,8 +538,10 @@
                   </td>
                   <td *ngIf="instituteSetting.home_work_feature_enable == 1">
                     <div class="field-wrapper">
-                      <select class="form-ctrl">
-                        <option></option>
+                      <select id="hw_status_11755" class="form-ctrl" [(ngModel)]="s.home_work_status" (ngModelChange)="isHomeworkStatusChanged(i)">
+                        <option value="Y" selected="">Completed</option>
+                        <option value="N">Not Done</option>
+                        <option value="NC">InComplete</option>
                       </select>
                     </div>
                   </td>
@@ -532,10 +553,22 @@
       </div>
     </div>
 
+    <div class="" widget-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeAttendance()">
+          <input type="button" value="Update" (click)="updateAttendance()" class="redBtn btn">
+        </aside>
+      </div>
+    </div>
+
   </proctur-widget>
+
+
 
   <proctur-widget *ngIf="isCancelExamPop">
-    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAttendance()" close-button>
+
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCancelClass()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
           <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
@@ -547,10 +580,41 @@
         </g>
       </svg>
     </span>
+
+    <h2 widget-header>Cancel Schedule {{classMarkedForAction.batch_name}}</h2>
+
+    <div class="CancelWrapper" widget-content>
+      <div class="row cancelField">
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-wrapper">
+            <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:" value="" [(ngModel)]="cancellationReason">
+            </textarea>
+          </div>
+        </div>
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
+            <label for="notifyCancel">Notify Batch Students For Class Cancellation</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="" widget-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeCancelClass()">
+          <input type="button" value="Update Schedule" (click)="cancelClass()" class="redBtn btn">
+        </aside>
+      </div>
+    </div>
+
   </proctur-widget>
+
+
 
   <proctur-widget *ngIf="isReminderPop">
-    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAttendance()" close-button>
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeRemiderClass()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
           <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
@@ -562,10 +626,32 @@
         </g>
       </svg>
     </span>
+
+
+    <h2 widget-header>Send Reminder For {{classMarkedForAction.batch_name}}</h2>
+
+    <div class="reminderWrapper" widget-content>
+      <div class="row" style="margin: 30px 20px;">
+        The reminder for the selected schedule will be sent!! click continue to proceed.
+      </div>
+    </div>
+
+    <div class="" widget-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeRemiderClass()">
+          <input type="button" value="Continue" (click)="sendReminder()" class="redBtn btn">
+        </aside>
+      </div>
+    </div>
+
+
   </proctur-widget>
 
+
+
   <proctur-widget *ngIf="isReschedulePop">
-    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAttendance()" close-button>
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeRescheduleClass()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
           <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
@@ -577,6 +663,107 @@
         </g>
       </svg>
     </span>
+
+    <h2 widget-header>Reschedule {{classMarkedForAction.batch_name}}</h2>
+
+    <div class="rescheduleWrapper" widget-content>
+      <div class="row">
+        <div class="field-wrapper datePickerBox" style="width: 50%;" [ngClass]="{'has-value': reschedDate != ''}">
+          <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
+            bsDatepicker>
+          <label for="reschDate">Reshedule Date</label>
+        </div>
+      </div>
+      <div class="row">
+        <fieldset>
+          <legend>Start Time</legend>
+          <div class="time-picker">
+            <div class="field-wrapper hour" [ngClass]="{'has-value': timepicker.reschedStartTime.hour != ''}">
+              <select id="uniStartHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedStartTime.hour" name="uniStartHour">
+                <option *ngFor="let hour of hourArr" [value]="hour">
+                  {{hour}}
+                </option>
+              </select>
+              <label for="uniStartHour">Hour</label>
+            </div>
+            <div class="field-wrapper minute" [ngClass]="{'has-value': timepicker.reschedStartTime.minute != ''}">
+              <select id="uniStartMinute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedStartTime.minute"
+                name="uniStartMinute">
+                <option *ngFor="let minute of minArr" [value]="minute">
+                  {{minute}}
+                </option>
+              </select>
+              <label for="uniStartMinute">Minute</label>
+            </div>
+            <div class="field-wrapper meridian" [ngClass]="{'has-value': timepicker.reschedStartTime.meridian != ''}">
+              <select id="uniStartHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedStartTime.meridian"
+                name="uniStartHour">
+                <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                  {{meridian}}
+                </option>
+              </select>
+              <label for="uniStartHour">Meridian</label>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>
+            End Time
+          </legend>
+          <div class="time-picker">
+            <div class="field-wrapper hour" [ngClass]="{'has-value': timepicker.reschedEndTime.hour != ''}">
+              <select id="uniEndHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.hour" name="uniEndHour">
+                <option *ngFor="let hour of hourArr" [value]="hour">
+                  {{hour}}
+                </option>
+              </select>
+              <label for="uniEndHour">Hour</label>
+            </div>
+            <div class="field-wrapper minute" [ngClass]="{'has-value': timepicker.reschedEndTime.minute != ''}">
+              <select id="uniEndMinute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.minute" name="uniEndMinute">
+                <option *ngFor="let minute of minArr" [value]="minute">
+                  {{minute}}
+                </option>
+              </select>
+              <label for="uniEndMinute">Minute</label>
+            </div>
+            <div class="field-wrapper meridian" [ngClass]="{'has-value': timepicker.reschedEndTime.meridian != ''}">
+              <select id="uniEndHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.meridian" name="uniEndHour">
+                <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                  {{meridian}}
+                </option>
+              </select>
+              <label for="uniEndHour">Meridian</label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="row">
+        <div class="field-wrapper" style="width: 50%;">
+          <textarea type="text" style="height:50px;" id="reschreason" name="reschreason" [(ngModel)]="reschedReason" value="" placeholder="Reshedule Reason"
+            class="form-ctrl textbox">
+          </textarea>
+        </div>
+      </div>
+      <div class="row" style="margin: 10px 0px;">
+        <div class="field-checkbox-wrapper">
+          <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus('resheduleNotified')"
+            (change)="notifyRescheduleUpdate($event)">
+          <label for="is_reshedule_notified">Notify Batch Students For Class Cancellation</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="" widget-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeRescheduleClass()">
+          <input type="button" value="Reschedule Class" (click)="rescheduleClass()" class="redBtn btn">
+        </aside>
+      </div>
+    </div>
+
+
   </proctur-widget>
 
 
