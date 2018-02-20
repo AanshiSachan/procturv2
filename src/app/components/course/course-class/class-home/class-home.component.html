@@ -27,8 +27,8 @@
               <div class="row">
                 <div class="c-lg-12 c-md-12 c-sm-12">
                   <!-- Batch Module -->
-                  <div class="search-filter-wrapper" *ngIf="isProfessional">
-                    <div class="c-lg-3 c-md-3 c-sm-3">
+                  <div class="search-filter-wrapper" *ngIf="isLangInstitute">
+                    <!-- <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.standard_id != '-1'}">
                         <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.standard_id" (ngModelChange)="updateSubjectList($event)">
                           <option value="-1"></option>
@@ -63,11 +63,11 @@
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <input type="button" class="fullBlue btn" value="Enter" (click)="submitMasterBatch()">
-                    </div>
+                    </div> -->
                   </div>
                   <!-- Course Module -->
-                  <div class="search-filter-wrapper" *ngIf="!isProfessional">
-                    <div class="c-lg-3 c-md-3 c-sm-3">
+                  <div class="search-filter-wrapper" *ngIf="!isLangInstitute">
+                    <!-- <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.master_course != '-1'}">
                         <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course" (ngModelChange)="updateCourseList($event)">
                           <option value="-1"></option>
@@ -91,7 +91,7 @@
                     </div>                    
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <input type="button" class="fullBlue btn" value="Enter" (click)="submitMasterCourse()">
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -101,7 +101,7 @@
         <!-- ==================================================================================== -->
         <!-- ==================================================================================== -->
         <!-- ========================== View Type List/Calendar ================================= -->
-        <section class="schedule-class" *ngIf="isClassFormFilled">
+        <!-- <section class="schedule-class" *ngIf="isClassFormFilled">
           <div class="row">
             <div class="c-lg-7 c-sm-7 c-md-7 c-xs-12">
               <div class="schedule-class-left">
@@ -111,35 +111,35 @@
               </div>
             </div>
             <div class="c-lg-5 c-sm-5 c-md-5 c-xs-12 align-right">
-              <!-- <input type="button" value="Calendar View fullBlue" class="btn fullBlue">
-              <input type="button" value="List View" class="btn "> -->
+              <input type="button" value="Calendar View fullBlue" class="btn fullBlue">
+              <input type="button" value="List View" class="btn ">
             </div>
           </div>
-        </section>
+        </section> -->
         <!-- ==================================================================================== -->
         <!-- ==================================================================================== -->
         <!-- ========================== Day/Weekly/Mothly ========================================== -->
-        <section class="view-tab" *ngIf="isClassFormFilled">
+        <!-- <section class="view-tab" *ngIf="isClassFormFilled">
           <ul class="clearFix">
-            <!-- <li>
+            <li>
               <a href="#" class="btn fullBlue">Day view</a>
-            </li> -->
+            </li>
             <li>
               <a href="javascript:void(0)" class="btn">Weekly view</a>
             </li>
-            <!-- <li>
+            <li>
               <a href="#" class="btn">Monthly view</a>
-            </li> -->
+            </li>
           </ul>
-        </section>
+        </section> -->
         <!-- ==================================================================================== -->
         <!-- ==================================================================================== -->
         <!-- ========================== Week Span ========================================== -->
-        <section class="view-c-detail" *ngIf="isClassFormFilled">
+        <!-- <section class="view-c-detail" *ngIf="isClassFormFilled">
           <div class="row">
             <div class="c-lg-2 c-md-2 c-sm-2 vcd-l">
               <label>
-                <!-- May / -->
+                May /
                 <strong>{{getCurrentMonthYear()}}</strong>
               </label>
             </div>
@@ -150,15 +150,15 @@
             </div>
             <div class="c-lg-2 c-md-2 c-sm-2 align-right filter-search">
               <ul class="export-print pull-right">
-                <!-- <li class="print-icon">Print Time Table</li> -->
+                <li class="print-icon">Print Time Table</li>
               </ul>
             </div>
           </div>
-        </section>
+        </section> -->
         <!-- ==================================================================================== -->
         <!-- ==================================================================================== -->
         <!-- ========================== Weeks Tabs and Navigator ================================ -->
-        <section class="calender-course clearFix" *ngIf="isClassFormFilled">
+        <!-- <section class="calender-course clearFix" *ngIf="isClassFormFilled">
           <div class="cal-left c-control" (click)="gotoPreviousWeek()"></div>
           <ul>
             <li class="" *ngFor="let day of getWeekArray()">
@@ -167,14 +167,14 @@
                   <span class="c-date">{{day.date | date:'d' }}</span>
                 </div>
                 <div class="pull-right">
-                  <!-- <span class="exam-is"></span>
-                  <span class="class-cancel blue">x</span> -->
+                  <span class="exam-is"></span>
+                  <span class="class-cancel blue">x</span>
                 </div>
               </div>
             </li>
           </ul>
           <div class="cal-right c-control" (click)="gotoNextWeek()"></div>
-        </section>
+        </section> -->
         <!-- ==================================================================================== -->
         <!-- ==================================================================================== -->
         <!-- ========================== Class Schedule Table ==================================== -->

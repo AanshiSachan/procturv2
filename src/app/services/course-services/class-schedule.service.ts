@@ -183,4 +183,60 @@ export class ClassScheduleService {
         )
     }
 
+    selectedDateScheduleToServer(data) {
+        let url = this.baseURL + "/api/v1/courseClassSchedule/copyCourseSchedule";
+        return this.http.put(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+
+    saveCustomRecurrenceToServer(data) {
+        let url = this.baseURL + "/api/v1/courseClassSchedule/updateWeeklySubjectSchedule";
+        return this.http.put(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    cancelClassSchedule(data) {
+        let url = this.baseURL + "/api/v1/batchClsSched/cancel";
+        return this.http.put(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+
+
+
+    //////////////////////////////////////////////////////////////////////////////
+    ///////////////Batch Model////////////////////////////////////////////
+
+    getWeekOfDays() {
+        let url = this.baseURL + "/api/v1/masterData/type/DAY_OF_WEEK";
+        return this.http.get(url, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+
+    notifyCancelledClassSchedule(data) {
+        let url = this.baseURL + "/api/v1/coursePlanner/notify";
+        return this.http.post(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    createWeeklyBatch(data) {
+        let url = this.baseURL + "/api/v1/batchClsSched";
+        return this.http.put(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
 }
