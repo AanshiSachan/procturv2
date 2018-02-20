@@ -12,6 +12,7 @@ import * as moment from 'moment';
 export class WidgetService {
 
 
+
     baseUrl = 'http://test999.proctur.com/StdMgmtWebAPI';
     Authorization: any;
     headers;
@@ -45,7 +46,7 @@ export class WidgetService {
 
 
     getInstituteSettings(): Observable<any> {
-        let url = this.baseUrl + "/api/v1/institutes/" + this.institute_id;
+        let url = this.baseUrl + "/api/v1/institute/settings/" + this.institute_id;
         return this.http.get(url, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }
@@ -72,12 +73,64 @@ export class WidgetService {
         )
     }
 
-    getAllteachers(): Observable<any>{
-        let url = this.baseUrl +"/api/v1/teachers/all/" +this.institute_id +"?active=Y";
+    getAllteachers(): Observable<any> {
+        let url = this.baseUrl + "/api/v1/teachers/all/" + this.institute_id + "?active=Y";
 
-        return this.http.get(url, {headers: this.headers}).map(
+        return this.http.get(url, { headers: this.headers }).map(
             res => {
                 return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+
+    updateAttendance(obj): Observable<any> {
+        let url = this.baseUrl + "/api/v1/attendance";
+
+        return this.http.put(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+
+    cancelClassSchedule(obj) {
+        let url = this.baseUrl + "/api/v1/batchClsSched/cancel";
+
+        return this.http.put(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+
+    notifyStudentSchedule(obj){
+        let url = this.baseUrl +"/api/v1/coursePlanner/notify";
+
+        return this.http.post(url, obj, {headers: this.headers}).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+
+    reScheduleClass(obj): Observable<any>{
+        let url = this.baseUrl +"/api/v1/batchClsSched/reschedule";
+
+        return this.http.put(url, obj, {headers: this.headers}).map(
+            res => { 
+                return res; 
             },
             err => {
                 return err;
