@@ -43,8 +43,6 @@ export class ClassAddComponent implements OnInit {
   instituteSetting: any[] = [];
   courseList: any[] = [];
   batchDetails: any;
-  classFrequency: any[] = [];
-  dayOfWeek: any[] = [];
   hourArr: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   minArr: any[] = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
   meridianArr: any[] = ["AM", "PM"];
@@ -186,23 +184,7 @@ export class ClassAddComponent implements OnInit {
         }
       );
 
-      this.classService.getClassFrequencyAll().subscribe(
-        res => {
-          this.classFrequency = res;
-        },
-        err => {
-
-        }
-      );
-
-      this.classService.getDayofWeekAll().subscribe(
-        res => {
-          this.dayOfWeek = res;
-        },
-        err => {
-
-        }
-      );
+      this.getWeekOfDaysFromServer();
 
     }/* Course Model */
     else {
@@ -331,6 +313,7 @@ export class ClassAddComponent implements OnInit {
   /* ============================================================================================ */
   /* ============================================================================================ */
   submitMasterBatch() {
+    debugger
     console.log(this.fetchMasterBatchModule);
     /* standard selected */
     if (this.fetchMasterBatchModule.standard_id != '-1' && this.fetchMasterBatchModule.standard_id != -1 && this.fetchMasterBatchModule.standard_id != undefined) {
@@ -527,11 +510,16 @@ export class ClassAddComponent implements OnInit {
     this.isRippleLoad = true;
     this.classService.getBatchDetailsById(id).subscribe(
       res => {
-        this.batchDetails = Object.assign({}, res);
+        console.log(res);
         this.isRippleLoad = false;
         this.isClassFormFilled = true;
+        this.batchDetails = Object.assign({}, res);
+        this.calculateFieldForTables(res);
       },
-      err => { }
+      err => {
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
     );
   }
   /* ============================================================================================ */
@@ -720,7 +708,8 @@ export class ClassAddComponent implements OnInit {
   getDifference(startTime, endTime) {
     let start = moment.utc(startTime, "HH:mm");
     let end = moment.utc(endTime, "HH:mm");
-    if (end.isBefore(start)) end.add(1, 'day');
+    if (end.isBefore(start))
+      end.add(1, 'day');
     let d: any = moment.duration(end.diff(start));
     return d._milliseconds / 60000;
   }
@@ -1094,26 +1083,6 @@ export class ClassAddComponent implements OnInit {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   /* ============================================================================================ */
   /* ============================================================================================ */
 
@@ -1123,7 +1092,245 @@ export class ClassAddComponent implements OnInit {
 
 
   /* ============================================================================================ */
-  /* ============================================================================================ */
+  /* =================================Batch Model=========================================================== */
+  /* =================================Batch Model=========================================================== */
+  /* =================================Batch Model=========================================================== */
+  /* =================================Batch Model=========================================================== */
+  /* =================================Batch Model=========================================================== */
+  /* =================================Batch Model=========================================================== */
+  /* =================================Batch Model=========================================================== */
+
+
+  batchFrequency: number = 1;
+  weekDays: any = [];
+  weekDaysTable: any = [];
+  canceLClassTable: any = [];
+  extraClassTable: any = [];
+  addExtraClass = {
+    date: '',
+    start_hour: '',
+    start_minute: '',
+    start_meridian: '',
+    end_hour: '',
+    end_minute: '',
+    end_meridian: '',
+    desc: '',
+  }
+
+  getWeekOfDaysFromServer() {
+    debugger
+    this.classService.getWeekOfDays().subscribe(
+      res => {
+        console.log(res);
+        this.weekDays = this.addKeyInData(res);
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  calculateFieldForTables(data) {
+    if (data.cancelSchd != null) {
+      this.canceLClassTable = data.cancelSchd;
+    }
+    if (data.extraSchd != null) {
+      this.extraClassTable = data.extraSchd;
+    }
+    if (data.weekSchd.length > 0) {
+      this.makeJsonForWeekTable(data.weekSchd);
+    }
+  }
+
+
+  makeJsonForWeekTable(data) {
+    this.weekDaysTable = this.weekDays;
+    for (let i = 0; i < this.weekDaysTable.length; i++) {
+      for (let t = 0; t < data.length; t++) {
+        if (data[t].day_of_week == this.weekDaysTable[i].data_key) {
+          this.weekDaysTable[i].uiSelected = true;
+          this.weekDaysTable[i].day_of_week = data[t].day_of_week;
+          this.weekDaysTable[i].data_value = this.weekDays[i].data_value;
+          this.weekDaysTable[i].schd_id = data[t].schd_id;
+          this.weekDaysTable[i].duration = data[t].duration;
+          this.weekDaysTable[i].start_time = this.convertTimeToHourMinMeridian(data[t].start_time);
+          this.weekDaysTable[i].end_time = this.convertTimeToHourMinMeridian(data[t].end_time);
+        }
+      }
+    }
+    console.log(this.weekDaysTable);
+  }
+
+
+  notifyCancelClass(row) {
+    if (confirm("Are you sure, You want to notify?")) {
+      let data = {
+        batch_id: row.batch_id,
+        class_schedule_id: row.class_schedule_id,
+        is_exam_schedule: row.is_exam_schedule
+      };
+      // this.classService.notifyCancelledClassSchedule(data).subscribe(
+      //   res => {
+      //     console.log(res);
+      //     this.messageToast('success', 'Notified', 'Notification Sent');
+      //   },
+      //   err => {
+      //     console.log(err);
+      //     this.messageToast('error', 'Error', err.error.message);
+      //   }
+      // )
+    }
+
+  }
+
+
+  cancelExtraClassSchedule(row) {
+    this.showPopUpCancellation = true;
+    this.cancelRowSelected = row;
+  }
+
+  cancelBatchSchedule() {
+    let data = this.makeJSONToSendBatchDet();
+    this.classService.cancelClassSchedule(data).subscribe(
+      res => {
+        console.log(res);
+        this.messageToast('success', 'Notified', 'Cancelled Successfully');
+      },
+      err => {
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+
+  makeJSONToSendBatchDet() {
+    let text = document.getElementById('idTexboxReason').value;
+    if (text == "" || text == null || text == undefined) {
+      this.messageToast('error', 'Error', 'Please provide cancellation reason');
+      return
+    }
+    let chkbxValue = document.getElementById('idChkbxEnable').checked;
+    if (chkbxValue == true) {
+      chkbxValue = "Y";
+    } else {
+      chkbxValue = "N";
+    }
+    let obj: any = {};
+    obj.batch_id = this.cancelRowSelected.batch_id;
+    obj.class_freq = this.cancelRowSelected.freq;
+    obj.cancelSchd = [
+      {
+        cancel_note: text,
+        is_notified: chkbxValue,
+        schd_id: this.cancelRowSelected.schd_id,
+      }
+    ];
+    return obj;
+  }
+
+  notifyExtraClassSchedule(row) {
+    this.notifyCancelClass(row);
+  }
+
+  deleteExtraClassSchedule(row, index) {
+    this.extraClassTable.splice(index, 1);
+  }
+
+  updateWeeklySchedule() {
+    debugger
+    let data = this.prepareJSONDATA();
+    this.classService.createWeeklyBatch(data).subscribe(
+      res => {
+        console.log(res);
+        this.messageToast('success', 'Updated', 'Details Updated Successfully');
+        this.submitMasterBatch();
+      },
+      err => {
+        this.messageToast('error', 'Error', err.error.message);
+        console.log(err);
+      }
+    )
+
+  }
+
+  prepareJSONDATA() {
+    debugger
+    let obj: any = {};
+    obj.batch_id = this.batchDetails.batch_id;
+    obj.class_freq = "WEEK";
+    obj.weekSchd = [];
+    for (let i = 0; i < this.weekDaysTable.length; i++) {
+      if (this.weekDaysTable[i].uiSelected == true) {
+        let test: any = {};
+        test.day_of_week = this.weekDaysTable[i].day_of_week;
+        let startTime = moment(this.weekDaysTable[i].start_time.hour + ':' + this.weekDaysTable[i].start_time.minute + this.weekDaysTable[i].start_time.meridian, 'h:mma');
+        let endTime = moment(this.weekDaysTable[i].end_time.hour + ':' + this.weekDaysTable[i].end_time.minute + this.weekDaysTable[i].end_time.meridian, 'h:mma');
+        if (!(startTime.isBefore(endTime))) {
+          this.messageToast('error', 'Error', 'Please provide correct start time and end time');
+          return
+        } else {
+          test.start_time = this.weekDaysTable[i].start_time.hour + ':' + this.weekDaysTable[i].start_time.minute + ' ' + this.weekDaysTable[i].start_time.meridian;
+          test.end_time = this.weekDaysTable[i].end_time.hour + ':' + this.weekDaysTable[i].end_time.minute + ' ' + this.weekDaysTable[i].end_time.meridian;
+        }
+        startTime = this.convertIntoFullClock(this.weekDaysTable[i].start_time.hour, this.weekDaysTable[i].start_time.minute, this.weekDaysTable[i].start_time.meridian);
+        endTime = this.convertIntoFullClock(this.weekDaysTable[i].end_time.hour, this.weekDaysTable[i].end_time.minute, this.weekDaysTable[i].end_time.meridian);
+        test.duration = this.getDifference(startTime, endTime);
+        obj.weekSchd.push(test);
+      }
+    }
+    return obj;
+  }
+
+  addNewExtraClass() {
+    let obj: any = {};
+    obj.class_date = this.addExtraClass.date;
+    let startTime = moment(this.addExtraClass.start_hour + ':' + this.addExtraClass.start_minute + this.addExtraClass.start_meridian, 'h:mma');
+    let endTime = moment(this.addExtraClass.end_hour + ':' + this.addExtraClass.end_minute + this.addExtraClass.end_meridian, 'h:mma');
+    if (!(startTime.isBefore(endTime))) {
+      this.messageToast('error', 'Error', 'Please provide correct start time and end time');
+      return
+    } else {
+      obj.start_time = this.addExtraClass.start_hour + ':' + this.addExtraClass.start_minute + ' ' + this.addExtraClass.start_meridian;
+      obj.end_time = this.addExtraClass.end_hour + ':' + this.addExtraClass.end_minute + ' ' + this.addExtraClass.end_meridian;
+    }
+    obj.desc = this.addExtraClass.desc;
+    this.extraClassTable.push(obj);
+  }
+
+  scheduleSelection(event) {
+    debugger
+    let val = event.target.value;
+  }
+
+  applyButtonClick() {
+    debugger
+  }
+
+  cancelWeeklyScheduledClass() {
+    debugger
+  }
+
+
+  addKeyInData(data) {
+    data.forEach(element => {
+      element.uiSelected = '';
+      element.schd_id = '';
+      element.duration = '';
+      element.day_of_week = '';
+      element.start_time = {
+        hour: '',
+        minute: '',
+        meridian: '',
+      };
+      element.end_time = {
+        hour: '',
+        minute: '',
+        meridian: '',
+      };
+    });
+    return data;
+  }
 
 
   /* ============================================================================================ */
