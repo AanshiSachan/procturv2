@@ -93,7 +93,7 @@ export class ScheduleHomeComponent implements OnInit {
       this.no_standard_name = true;
     } else {
       this.isRippleLoad = true;
-      if (this.newStandardDetails.is_active == true) {
+      if (this.newStandardDetails.is_active == true || this.newStandardDetails.is_active == "Y") {
         this.newStandardDetails.is_active = "Y";
       }
       else {

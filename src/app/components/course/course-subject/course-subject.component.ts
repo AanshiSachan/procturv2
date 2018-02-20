@@ -134,7 +134,7 @@ export class CourseSubjectComponent implements OnInit {
       this.toastCtrl.popToast(data);
       return false;
     } else {
-      if (this.newSubjectDetails.is_active == true) {
+      if (this.newSubjectDetails.is_active == true || this.newSubjectDetails.is_active == "Y") {
         this.newSubjectDetails.is_active = "Y";
       } else {
         this.newSubjectDetails.is_active = "N";
