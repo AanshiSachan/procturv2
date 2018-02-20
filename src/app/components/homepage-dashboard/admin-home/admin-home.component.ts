@@ -148,8 +148,10 @@ export class AdminHomeComponent implements OnInit {
   selectedType: string = "subject";
   courseLevelSchedDate: any = new Date();
   courseLevelSchedule:any;
-
-
+  isCourseAttendance:boolean = false;  
+  isCourseCancel:boolean = false;
+  isCourseReminder:boolean = false;
+  courseLevelStudentAtt:any;
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -524,6 +526,7 @@ export class AdminHomeComponent implements OnInit {
 
   userScheduleSelected(i, selected) {
     this.generateOption(i, selected.class_date);
+    console.log(this.classMarkedForAction);
     this.classMarkedForAction = selected
   }
 
@@ -942,9 +945,15 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
+  /* ======================================================================================================= */
+  /* =================================Course Level===================================== */
+  /* ======================================================================================================= */
+  
+
   onChanged(event) {
     if (event.value == 'subject') {
       this.isSubjectView = true;
+      this.fetchScheduleWidgetData();
     }
     else if (event.value == 'course') {
       this.isRippleLoad = true;
@@ -960,7 +969,7 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.fetchCourseLevelWidgetData(obj).subscribe(
       res => {
         this.courseLevelSchedule = res;
-        console.log(this.courseLevelSchedule);
+        //console.log(this.courseLevelSchedule);
         this.isRippleLoad = false;
         this.isSubjectView = false;
       }
@@ -970,5 +979,38 @@ export class AdminHomeComponent implements OnInit {
   updateCourseLevelSched(e) {
     this.generateCourseLevelWidget();
   }
+
+  initiateCourseMarkAttendance(){
+    let obj = {
+      course_id: this.classMarkedForAction.course_ids,
+      startdate: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
+    }
+    this.widgetService.fetchCourseAttendance(obj).subscribe(
+      res => {
+        this.courseLevelStudentAtt = res;
+      },
+      err => {
+
+      }
+    )
+    this.isCourseAttendance = true;    
+  }
+
+  initiateCourseCancelClass(){
+    this.isCourseCancel = true;
+  }
+  
+  initiateCourseRemiderClass(){
+    this.isCourseReminder = true;
+  }
+
+  closeCourseLevelAttendance(){
+    this.isCourseAttendance = false;
+  }
+
+  /* ======================================================================================================= */
+  /* ====================================================================== */
+  /* ======================================================================================================= */
+  
 
 }

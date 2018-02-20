@@ -148,7 +148,18 @@ export class WidgetService {
                 return err;
             }
         )
+    }
 
+    fetchCourseAttendance(obj){
+        let url = this.baseUrl +'/api/v1/attendance/course';
+        return this.http.post(url, obj, {headers: this.headers}).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
     }
 
 }
