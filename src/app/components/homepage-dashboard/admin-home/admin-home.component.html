@@ -1,3 +1,99 @@
+<!--
+                    <ul class="ct-ongoing">
+                      <li>
+                        <div>10 :00 Am - 1:00 Pm</div>
+                        <p>302</p>
+                      </li>
+                      <li class="cls-type">
+                        <div>
+                          Regular Class
+                          <span class="class-type-status">ongoing</span>
+                        </div>
+                      </li>
+                      <li>
+                        <div>Second Batch</div>
+                      </li>
+                      <li>
+                        <div>Prof. Ramesh Sharma</div>
+                      </li>
+                    </ul>
+                    <ul class="ct-completed active">
+                      <li>
+                        <div>10 :00 Am - 1:00 Pm</div>
+                        <p>302</p>
+                      </li>
+                      <li class="cls-type">
+                        <div>
+                          Regular Class
+                          <span class="class-type-status">Completed</span>
+                        </div>
+                        <p class="anm">
+                          Attendance Not Marked</p>
+                      </li>
+                      <li>
+                        <div>Second Batch</div>
+                      </li>
+                      <li>
+                        <div>Prof. Ramesh Sharma</div>
+                      </li>
+                    </ul>
+                    <ul class="ct-cancel">
+                      <li>
+                        <div>10 :00 Am - 1:00 Pm</div>
+                        <p>302</p>
+                      </li>
+                      <li class="cls-type">
+                        <div>
+                          Regular Class
+                          <span class="class-type-status">Cancelled</span>
+                        </div>
+                        <p class="anm">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                            <g fill="none" fill-rule="evenodd" stroke="#F00">
+                              <path stroke-width=".5" d="M2.008 13.1h11.984L8 2.774 2.008 13.1z" />
+                              <path d="M7.926 8.776h-.5l.5.5v-.5zm0-1.352v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 1.352v.5l.5-.5h-.5zM7.926 11.1h-.5l.5.5v-.5zm0-.176v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 .176v.5l.5-.5h-.5z"
+                              />
+                            </g>
+                          </svg>
+
+                          Attendance Not Marked</p>
+                      </li>
+                      <li>
+                        <div>Second Batch</div>
+                      </li>
+                      <li>
+                        <div>Prof. Ramesh Sharma</div>
+                      </li>
+                    </ul>
+                    <ul class="ct-cancel">
+                      <li>
+                        <div>10 :00 Am - 1:00 Pm</div>
+                        <p>302</p>
+                      </li>
+                      <li class="cls-type">
+                        <div>
+                          Regular Class
+                          <span class="class-type-status">Cancelled</span>
+                        </div>
+                        <p class="anm">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                            <g fill="none" fill-rule="evenodd" stroke="#F00">
+                              <path stroke-width=".5" d="M2.008 13.1h11.984L8 2.774 2.008 13.1z" />
+                              <path d="M7.926 8.776h-.5l.5.5v-.5zm0-1.352v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 1.352v.5l.5-.5h-.5zM7.926 11.1h-.5l.5.5v-.5zm0-.176v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 .176v.5l.5-.5h-.5z"
+                              />
+                            </g>
+                          </svg>
+
+                          Attendance Not Marked</p>
+                      </li>
+                      <li>
+                        <div>Second Batch</div>
+                      </li>
+                      <li>
+                        <div>Prof. Ramesh Sharma</div>
+                      </li>
+                    </ul> 
+                    -->
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 
@@ -175,11 +271,28 @@
                       <span class="heading">
                         Schedule
                       </span>
-                      <div class="schedSwitcher">
+                      <div class="schedSwitcher" *ngIf="!isProfessional">
                         <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton>
                       </div>
                       <ul class="sche-top-det">
-                        <li class="schedule-det">
+                        <li class="schedule-det" *ngIf="!isProfessional && isSubjectView">
+                          <div>
+                            <label>Total Classes :</label>
+                            <span>{{getClassCount()}}</span>
+                            <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
+                              [(ngModel)]="schedDate" (ngModelChange)="updateschedByDate($event)" readonly="true" bsDaterangepicker/>
+                          </div>
+                        </li>
+                        <li class="schedule-det" *ngIf="!isProfessional && !isSubjectView">
+                          <div>
+                            <label>Total Course :</label>
+                            <span> 123</span>
+                            <input style="margin-left:12%;" type="text" value="" id="schedWidDate" class="widgetDatepicker bsDatepicker" name="schedWidDate"
+                              [(ngModel)]="courseLevelSchedDate" (ngModelChange)="updateCourseLevelSched($event)" readonly="true"
+                              bsDatepicker/>
+                          </div>
+                        </li>
+                        <li class="schedule-det" *ngIf="isProfessional">
                           <div>
                             <label>Total Classes :</label>
                             <span>{{getClassCount()}}</span>
@@ -204,21 +317,36 @@
                               </g>
                             </svg>
                           </button>
-                          <span class="enquiry-state-date pull-right">
+                          <span class="enquiry-state-date pull-right" *ngIf="!isProfessional && isSubjectView">
+                            {{getSchedStartDate()| date: 'dd MMM yyyy'}} To {{getSchedEndDate()| date: 'dd MMM yyyy'}}
+                          </span>
+                          <span class="enquiry-state-date pull-right" *ngIf="!isProfessional && !isSubjectView">
+                            {{courseLevelSchedDate| date: 'dd MMM yyyy'}}
+                          </span>
+                          <span class="enquiry-state-date pull-right" *ngIf="isProfessional">
                             {{getSchedStartDate()| date: 'dd MMM yyyy'}} To {{getSchedEndDate()| date: 'dd MMM yyyy'}}
                           </span>
                         </li>
                       </ul>
-
                     </div>
                     <div class="schedule-bottom">
-                      <ul class="sche-head">
+                      <ul class="sche-head" *ngIf="!isProfessional && isSubjectView">
                         <li>Timings</li>
                         <li class="cls-type">Class type</li>
                         <li>batch/course</li>
                         <li>tutor</li>
                       </ul>
-                      <div class="schedule-scroller" *ngIf="!isProfessional">
+                      <ul class="sche-head" *ngIf="!isProfessional && !isSubjectView">
+                        <li>Master Course</li>
+                        <li>Courses</li>
+                      </ul>
+                      <ul class="sche-head" *ngIf="isProfessional">
+                        <li>Timings</li>
+                        <li class="cls-type">Class type</li>
+                        <li>batch/course</li>
+                        <li>tutor</li>
+                      </ul>
+                      <div class="schedule-scroller" *ngIf="!isProfessional && isSubjectView">
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
                             <li>
@@ -243,6 +371,27 @@
                             <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateCancelClass()">Cancel Exam</a>
                             <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
                             <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="schedule-scroller" *ngIf="!isProfessional && !isSubjectView">
+                        <div class="ct-disable-wrapper pos-rel" *ngFor="let class of courseLevelSchedule;let i = index;">
+                          <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
+                            <li>
+                              <div>{{class.master_course}}</div>
+                              <p></p>
+                            </li>
+                            <li class="cls-type">
+                              <div>
+                                {{class.coursee_names}}
+                                <span></span>
+                              </div>
+                            </li>
+                          </ul>
+                          <div class="che-action" [class.display]="i == selectedRow">
+                            <a style="cursor:pointer" (click)="initiateMarkAttendance()"> Mark Attendance</a>
+                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateCancelClass()">Cancel Exam</a>
+                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
                           </div>
                         </div>
                       </div>
@@ -276,102 +425,6 @@
                           </div>
                         </div>
                       </div>
-                      <!--
-                    <ul class="ct-ongoing">
-                      <li>
-                        <div>10 :00 Am - 1:00 Pm</div>
-                        <p>302</p>
-                      </li>
-                      <li class="cls-type">
-                        <div>
-                          Regular Class
-                          <span class="class-type-status">ongoing</span>
-                        </div>
-                      </li>
-                      <li>
-                        <div>Second Batch</div>
-                      </li>
-                      <li>
-                        <div>Prof. Ramesh Sharma</div>
-                      </li>
-                    </ul>
-                    <ul class="ct-completed active">
-                      <li>
-                        <div>10 :00 Am - 1:00 Pm</div>
-                        <p>302</p>
-                      </li>
-                      <li class="cls-type">
-                        <div>
-                          Regular Class
-                          <span class="class-type-status">Completed</span>
-                        </div>
-                        <p class="anm">
-                          Attendance Not Marked</p>
-                      </li>
-                      <li>
-                        <div>Second Batch</div>
-                      </li>
-                      <li>
-                        <div>Prof. Ramesh Sharma</div>
-                      </li>
-                    </ul>
-                    <ul class="ct-cancel">
-                      <li>
-                        <div>10 :00 Am - 1:00 Pm</div>
-                        <p>302</p>
-                      </li>
-                      <li class="cls-type">
-                        <div>
-                          Regular Class
-                          <span class="class-type-status">Cancelled</span>
-                        </div>
-                        <p class="anm">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                            <g fill="none" fill-rule="evenodd" stroke="#F00">
-                              <path stroke-width=".5" d="M2.008 13.1h11.984L8 2.774 2.008 13.1z" />
-                              <path d="M7.926 8.776h-.5l.5.5v-.5zm0-1.352v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 1.352v.5l.5-.5h-.5zM7.926 11.1h-.5l.5.5v-.5zm0-.176v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 .176v.5l.5-.5h-.5z"
-                              />
-                            </g>
-                          </svg>
-
-                          Attendance Not Marked</p>
-                      </li>
-                      <li>
-                        <div>Second Batch</div>
-                      </li>
-                      <li>
-                        <div>Prof. Ramesh Sharma</div>
-                      </li>
-                    </ul>
-                    <ul class="ct-cancel">
-                      <li>
-                        <div>10 :00 Am - 1:00 Pm</div>
-                        <p>302</p>
-                      </li>
-                      <li class="cls-type">
-                        <div>
-                          Regular Class
-                          <span class="class-type-status">Cancelled</span>
-                        </div>
-                        <p class="anm">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                            <g fill="none" fill-rule="evenodd" stroke="#F00">
-                              <path stroke-width=".5" d="M2.008 13.1h11.984L8 2.774 2.008 13.1z" />
-                              <path d="M7.926 8.776h-.5l.5.5v-.5zm0-1.352v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 1.352v.5l.5-.5h-.5zM7.926 11.1h-.5l.5.5v-.5zm0-.176v-.5l-.5.5h.5zm.148 0h.5l-.5-.5v.5zm0 .176v.5l.5-.5h-.5z"
-                              />
-                            </g>
-                          </svg>
-
-                          Attendance Not Marked</p>
-                      </li>
-                      <li>
-                        <div>Second Batch</div>
-                      </li>
-                      <li>
-                        <div>Prof. Ramesh Sharma</div>
-                      </li>
-                    </ul> 
-                    -->
                     </div>
                   </div>
                 </div>

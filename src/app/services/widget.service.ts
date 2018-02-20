@@ -138,4 +138,17 @@ export class WidgetService {
         )
     }
 
+    fetchCourseLevelWidgetData(obj){
+        let url = this.baseUrl +'/api/v1/courseClassSchedule/fetchMasterCourseDetails/todaySchedule';
+        return this.http.post(url, obj, {headers: this.headers}).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+
+    }
+
 }

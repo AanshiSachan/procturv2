@@ -139,18 +139,15 @@ export class AdminHomeComponent implements OnInit {
       meridian: ''
     },
   }
-  isSubjectView:boolean = true;
+  isSubjectView: boolean = true;
   types: SelectItem[] = [
-    { label: 'Course', value: 'course'},
-    { label: 'Subject', value: 'subject'}
+    { label: 'Course', value: 'course' },
+    { label: 'Subject', value: 'subject' }
   ];
 
   selectedType: string = "subject";
-
-  onChanged(event){
-    console.log(event.value);
-  }
-
+  courseLevelSchedDate: any = new Date();
+  courseLevelSchedule:any;
 
 
   /* ===================================================================================== */
@@ -943,6 +940,35 @@ export class AdminHomeComponent implements OnInit {
         meridian: ''
       }
     }
+  }
+
+  onChanged(event) {
+    if (event.value == 'subject') {
+      this.isSubjectView = true;
+    }
+    else if (event.value == 'course') {
+      this.isRippleLoad = true;
+      this.generateCourseLevelWidget();
+    }
+  }
+
+  generateCourseLevelWidget() {
+    let obj = {
+      inst_id: sessionStorage.getItem('institute_id'),
+      requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
+    }
+    this.widgetService.fetchCourseLevelWidgetData(obj).subscribe(
+      res => {
+        this.courseLevelSchedule = res;
+        console.log(this.courseLevelSchedule);
+        this.isRippleLoad = false;
+        this.isSubjectView = false;
+      }
+    )
+  }
+
+  updateCourseLevelSched(e) {
+    this.generateCourseLevelWidget();
   }
 
 }
