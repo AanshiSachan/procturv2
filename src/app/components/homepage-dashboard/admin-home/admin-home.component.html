@@ -102,7 +102,6 @@
   <section class="activity-page">
     <section class="clearFix row">
       <div class="activity-left pull-left">
-
         <div class="act-top clearfix">
           <h1 class="pull-left">Activity Page</h1>
           <div class="pull-right act-right-sec">
@@ -333,7 +332,7 @@
                       <ul class="sche-head" *ngIf="!isProfessional && isSubjectView">
                         <li>Timings</li>
                         <li class="cls-type">Class type</li>
-                        <li>batch/course</li>
+                        <li>Subject/Course</li>
                         <li>tutor</li>
                       </ul>
                       <ul class="sche-head" *ngIf="!isProfessional && !isSubjectView">
@@ -343,8 +342,8 @@
                       <ul class="sche-head" *ngIf="isProfessional">
                         <li>Timings</li>
                         <li class="cls-type">Class type</li>
-                        <li>batch/course</li>
-                        <li>tutor</li>
+                        <li>Batch</li>
+                        <li>Tutor</li>
                       </ul>
                       <div class="schedule-scroller" *ngIf="!isProfessional && isSubjectView">
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
@@ -368,7 +367,7 @@
                           </ul>
                           <div class="che-action" [class.display]="i == selectedRow">
                             <a style="cursor:pointer" (click)="initiateMarkAttendance()"> Mark Attendance</a>
-                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateCancelClass()">Cancel Exam</a>
+                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateCancelClass()">Cancel</a>
                             <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
                             <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
                           </div>
@@ -390,14 +389,14 @@
                           </ul>
                           <div class="che-action" [class.display]="i == selectedRow">
                             <a style="cursor:pointer" (click)="initiateCourseMarkAttendance()"> Mark Attendance</a>
-                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateCourseCancelClass()">Cancel Exam</a>
+                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateCourseCancelClass()">Cancel</a>
                             <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateCourseRemiderClass()">Reminder</a>
                           </div>
                         </div>
                       </div>
                       <div class="schedule-scroller" *ngIf="isProfessional">
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
-                          <ul class="ct-ongoing" [class.active]="i == selectedRow" *ngFor="let class of getClassListDetails();let i = index;" (click)="userScheduleSelected(i, class)">
+                          <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
                             <li>
                               <div>{{class.start_time}} - {{class.end_time}}</div>
                               <p>{{class.class_room_name}}</p>
@@ -415,13 +414,11 @@
                               <div>{{class.teacher_name}}</div>
                             </li>
                           </ul>
-                          <div class="che-action">
-                            <a [ngClass]="{'hide': !schedSelected}" (click)="initiateMarkAttendance()">
-                              Mark Attendance
-                            </a>
-                            <a [ngClass]="{'hide': !schedSelected}">Cancel Exam</a>
-                            <a [ngClass]="{'hide': !schedSelected}">Reminder</a>
-                            <a [ngClass]="{'hide': !schedSelected}">Reschedule</a>
+                          <div class="che-action" [class.display]="i == selectedRow">
+                            <a style="cursor:pointer" (click)="initiateMarkAttendance()"> Mark Attendance</a>
+                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateCancelClass()">Cancel</a>
+                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
+                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
                           </div>
                         </div>
                       </div>
@@ -469,7 +466,6 @@
             </ul>
           </div>
         </div>
-
       </div>
     </section>
   </section>

@@ -529,7 +529,6 @@ export class AdminHomeComponent implements OnInit {
     this.classMarkedForAction = selected
   }
 
-
   generateOption(i, o) {
     let d = moment(o).format("YYYY-MM-DD");
     this.selectedRow = i;
@@ -567,40 +566,76 @@ export class AdminHomeComponent implements OnInit {
 
   initiateMarkAttendance() {
     this.isRippleLoad = true;
-    let obj = {
-      batch_id: this.classMarkedForAction.batch_id,
-      type: 2,
-      attendanceSchdId: this.classMarkedForAction.schd_id
-    }
-    this.widgetService.getAttendance(obj).subscribe(
-      res => {
-        res.forEach(e => {
-          e.attendance_note = "";
-          e.date = "";
-          e.home_work_status = "Y";
-          e.homework_assigned = "";
-          e.isStatusModified = "N";
-          e.is_home_work_status_changed = "N";
-          e.isStatusModified = "N";
-          if (e.dateLi[0].status == "L") {
-            e.dateLi[0].serverStatus = "L";
-          } else {
-            e.dateLi[0].serverStatus = "";
-          }
-        })
-        this.studentAttList = res;
-        this.home_work_notifn = res[0].home_work_notifn;
-        this.topics_covered_notifn = res[0].topics_covered_notifn;
-        this.teacher_id = res.teacher_id;
-        this.isRippleLoad = false;
-        this.isPopupOpened = true;
-        this.isAttendancePop = true;
-      },
-      err => {
-        this.isRippleLoad = false;
+    if (!this.isProfessional) {
+      let obj = {
+        batch_id: this.classMarkedForAction.batch_id,
+        type: 2,
+        attendanceSchdId: this.classMarkedForAction.schd_id
       }
-    )
-
+      this.widgetService.getAttendance(obj).subscribe(
+        res => {
+          res.forEach(e => {
+            e.attendance_note = "";
+            e.date = "";
+            e.home_work_status = "Y";
+            e.homework_assigned = "";
+            e.isStatusModified = "N";
+            e.is_home_work_status_changed = "N";
+            e.isStatusModified = "N";
+            if (e.dateLi[0].status == "L") {
+              e.dateLi[0].serverStatus = "L";
+            } else {
+              e.dateLi[0].serverStatus = "";
+            }
+          })
+          this.studentAttList = res;
+          this.home_work_notifn = res[0].home_work_notifn;
+          this.topics_covered_notifn = res[0].topics_covered_notifn;
+          this.teacher_id = res.teacher_id;
+          this.isRippleLoad = false;
+          this.isPopupOpened = true;
+          this.isAttendancePop = true;
+        },
+        err => {
+          this.isRippleLoad = false;
+        }
+      )
+    }
+    else {
+      let obj = {
+        batch_id: this.classMarkedForAction.batch_id,
+        type: 2,
+        attendanceSchdId: this.classMarkedForAction.schd_id
+      }
+      this.widgetService.getAttendance(obj).subscribe(
+        res => {
+          res.forEach(e => {
+            e.attendance_note = "";
+            e.date = "";
+            e.home_work_status = "Y";
+            e.homework_assigned = "";
+            e.isStatusModified = "N";
+            e.is_home_work_status_changed = "N";
+            e.isStatusModified = "N";
+            if (e.dateLi[0].status == "L") {
+              e.dateLi[0].serverStatus = "L";
+            } else {
+              e.dateLi[0].serverStatus = "";
+            }
+          })
+          this.studentAttList = res;
+          this.home_work_notifn = res[0].home_work_notifn;
+          this.topics_covered_notifn = res[0].topics_covered_notifn;
+          this.teacher_id = res.teacher_id;
+          this.isRippleLoad = false;
+          this.isPopupOpened = true;
+          this.isAttendancePop = true;
+        },
+        err => {
+          this.isRippleLoad = false;
+        }
+      )
+    }
   }
 
 
@@ -1115,7 +1150,7 @@ export class AdminHomeComponent implements OnInit {
         }
         this.appC.popToast(msg);
         this.closeCourseCancelClass();
-        this.generateCourseLevelWidget();        
+        this.generateCourseLevelWidget();
       },
       err => {
         let msg = {
