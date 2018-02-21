@@ -45,6 +45,26 @@ export class ClassHomeComponent implements OnInit {
   currentDate: Date = new Date();
   weekStart: any = moment(this.currentDate).isoWeekday("Monday").format("DD MMMM YYYY");
   weekEnd: any = moment(this.currentDate).isoWeekday("Sunday").format("DD MMMM YYYY");
+  reschedulePopUp: boolean = false;
+  reschedDate: any = new Date();
+  timepicker: any = {
+    reschedStartTime: {
+      hour: '',
+      minute: '',
+      meridian: ''
+    },
+    reschedEndTime: {
+      hour: '',
+      minute: '',
+      meridian: ''
+    },
+  }
+  reschedReason: any = "";
+  resheduleNotified: any = "Y";
+  rescheduleDet: any = "";
+  hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  minArr: any[] = ['', '00', '15', '30', '45'];
+  meridianArr: any[] = ['', "AM", "PM"];
 
   constructor
     (
@@ -154,7 +174,7 @@ export class ClassHomeComponent implements OnInit {
   }
 
   submitMasterCourse() {
-  
+
     let data;
     if (this.isLangInstitute) {
       data = this.makeJsonForBatch()
@@ -258,30 +278,228 @@ export class ClassHomeComponent implements OnInit {
     this.submitMasterCourse();
   }
 
-  delete(level, index, subIndex){
-    if(level == 'course'){
+  delete(level, index, subIndex) {
+    if (level == 'course') {
       console.log(this.weekScheduleList[index]);
       console.log('this has to be deleted');
     }
-    else if(level == 'subject'){
+    else if (level == 'subject') {
       console.log(this.weekScheduleList[index].data[subIndex]);
       console.log('this has to be deleted');
     }
-    else if(level == 'batch'){}
+    else if (level == 'batch') { }
   }
 
-  notify(level, index, subIndex){
-    if(level == 'course'){
-      console.log(this.weekScheduleList[index]);
-      console.log('this has to be notified');
-    }
-    else if(level == 'subject'){
-      console.log(this.weekScheduleList[index].data[subIndex]);
-      console.log('this has to be deleted');
-    }
-    else if(level == 'batch'){
-
+  notify(notify) {
+    if (confirm("Are you sure, You want to notify?")) {
+      let obj = {
+        course_ids: this.fetchMasterCourseModule.course_id,
+        inst_id: sessionStorage.getItem('institute_id'),
+        master_course: this.fetchMasterCourseModule.master_course,
+        requested_date: moment(notify.id).format("YYYY-MM-DD")
+      }
+      this.classService.remindCourseLevel(obj).subscribe(
+        res => {
+          let msg = {
+            type: 'success',
+            title: 'Reminder Sent',
+            body: 'The student have been notified'
+          }
+          this.toastCtrl.popToast(msg);
+        },
+        err => {
+          let msg = {
+            type: 'error',
+            title: 'Unable to Send Reminder',
+            body: 'please contact support@proctur.com'
+          }
+          this.toastCtrl.popToast(msg);
+        }
+      )
     }
   }
+
+  notifySubjectLevel(rowdata, dateRow) {
+    if (confirm("Are you sure, You want to notify?")) {
+      let obj: any = {};
+      obj.batch_id = rowdata.batch_id;
+      obj.class_schedule_id = rowdata.schd_id;
+      obj.is_exam_schedule = "N";
+      this.classService.sendReminderToServerSubject(obj).subscribe(
+        res => {
+          console.log(res);
+          this.messageToast('success', 'Successfully', 'Notification sent successfully');
+        },
+        err => {
+          console.log(err);
+          this.messageToast('error', 'Error', err.error.message);
+        }
+      )
+    };
+
+  }
+
+  rescheduleClassData(rowData) {
+    debugger
+    this.reschedulePopUp = true;
+    this.rescheduleDet = rowData;
+  }
+
+  getCheckedStatus(id: string) {
+    if (id === "notifyCancel") {
+      return true;
+    }
+    else if (id === 'resheduleNotified') {
+      return true;
+    }
+  }
+
+  closeRescheduleClass() {
+    this.reschedulePopUp = false;
+    this.reschedDate = new Date();
+    this.reschedReason = "";
+    this.timepicker = {
+      reschedStartTime: {
+        hour: '',
+        minute: '',
+        meridian: ''
+      },
+      reschedEndTime: {
+        hour: '',
+        minute: '',
+        meridian: ''
+      }
+    }
+  }
+
+  notifyRescheduleUpdate(e) {
+    if (e.target.checked) {
+      this.resheduleNotified = "Y";
+    }
+    else {
+      this.resheduleNotified = "N";
+    }
+  }
+
+
+  rescheduleClass() {
+    debugger
+    if (this.reSheduleFormValid()) {
+      let temp1: any = {
+        cancel_note: this.reschedReason,
+        schd_id: this.rescheduleDet.schd_id,
+        is_notified: this.resheduleNotified
+      }
+      let temp2 = {
+        class_date: moment(this.reschedDate).format("YYYY-MM-DD"),
+        start_time: this.timepicker.reschedStartTime.hour + ":" + this.timepicker.reschedStartTime.minute + " " + this.timepicker.reschedStartTime.meridian,
+        end_time: this.timepicker.reschedEndTime.hour + ":" + this.timepicker.reschedEndTime.minute + " " + this.timepicker.reschedEndTime.meridian,
+        duration: this.getDifference()
+      }
+      let obj = {
+        batch_id: this.rescheduleDet.batch_id,
+        cancelSchd: [],
+        extraSchd: []
+      }
+      obj.cancelSchd.push(temp1);
+      obj.extraSchd.push(temp2);
+
+      this.classService.reScheduleClass(obj).subscribe(
+        res => {
+          let msg = {
+            type: 'success',
+            title: 'Class Rescheduled',
+            body: 'The request has been processed'
+          }
+          this.toastCtrl.popToast(msg);
+          this.closeRescheduleClass();
+        },
+        err => {
+          let msg = {
+            type: 'error',
+            title: 'Failed To Reschedule',
+            body: err.message
+          }
+          this.toastCtrl.popToast(msg);
+        }
+      )
+    }
+  }
+
+  getDifference(): any {
+    let startTime = this.timepicker.reschedStartTime.hour + ":" + this.timepicker.reschedStartTime.minute + " " + this.timepicker.reschedStartTime.meridian;
+    let endTime = this.timepicker.reschedEndTime.hour + ":" + this.timepicker.reschedEndTime.minute + " " + this.timepicker.reschedEndTime.meridian;
+    let start = moment.utc(startTime, "HH:mm A");
+    let end = moment.utc(endTime, "HH:mm A");
+    if (end.isBefore(start)) {
+      end.add(1, 'day');
+    }
+    let d: any = moment.duration(end.diff(start));
+    return d._milliseconds / 60000;
+  }
+
+  reSheduleFormValid(): boolean {
+    /* Date Validation */
+    if (this.reschedDate != '' && this.reschedDate != 'Invalid Date') {
+      /* Reschedule Reason */
+      if (this.reschedReason.trim() != '') {
+        /* Validate Time */
+        if (this.isTimeValid()) {
+          return true;
+        }
+        else {
+          let msg = {
+            type: 'error',
+            title: 'Invalid Time',
+            body: 'Please provide a complete start and end time for rescheduling'
+          }
+          this.toastCtrl.popToast(msg);
+          return false;
+        }
+      }
+      else {
+        let msg = {
+          type: 'error',
+          title: 'Reschedule Reason Missing',
+          body: 'Please mention a reason for rescheduling the class'
+        }
+        this.toastCtrl.popToast(msg);
+        return false;
+      }
+    }
+    /* Date not found */
+    else {
+      let msg = {
+        type: 'error',
+        title: 'Date Missing',
+        body: 'Please select a date to reschedule class'
+      }
+      this.toastCtrl.popToast(msg);
+      return false;
+    }
+  }
+
+  isTimeValid() {
+
+    if (this.timepicker.reschedStartTime.hour.trim() != '' && this.timepicker.reschedStartTime.minute.trim() != '' && this.timepicker.reschedStartTime.meridian.trim() != '' && this.timepicker.reschedEndTime.hour.trim() != '' && this.timepicker.reschedEndTime.minute.trim() != '' && this.timepicker.reschedEndTime.meridian.trim() != '') {
+      let startTime = this.timepicker.reschedStartTime.hour + ":" + this.timepicker.reschedStartTime.minute + " " + this.timepicker.reschedStartTime.meridian;
+      let endTime = this.timepicker.reschedEndTime.hour + ":" + this.timepicker.reschedEndTime.minute + " " + this.timepicker.reschedEndTime.meridian;
+      let start = moment.utc(startTime, "HH:mm A");
+      let end = moment.utc(endTime, "HH:mm A");
+      if ((parseInt(start.format("HH")) < parseInt(end.format("HH")))) {
+        return true;
+      }
+      else if ((parseInt(start.format("HH")) == parseInt(end.format("HH"))) && (parseInt(start.format("mm")) < parseInt(end.format("mm")))) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    else {
+      return false;
+    }
+  }
+
 
 }

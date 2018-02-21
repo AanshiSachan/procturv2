@@ -174,6 +174,27 @@ export class ClassScheduleService {
         )
     }
 
+    sendReminderToServerSubject(data) {
+        let url = this.baseURL + "/api/v1/coursePlanner/notify";
+        return this.http.post(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    remindCourseLevel(obj): Observable<any> {
+        let url = this.baseURL + "/api/v1/courseClassSchedule/sendCourseMasterReminder";
+
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
     saveDataOnServer(data) {
         data.inst_id = this.institute_id;
         let url = this.baseURL + "/api/v1/courseClassSchedule/update";
@@ -262,5 +283,19 @@ export class ClassScheduleService {
             }
         );
     }
+
+    reScheduleClass(obj): Observable<any> {
+        let url = this.baseURL + "/api/v1/batchClsSched/reschedule";
+
+        return this.http.put(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
 
 }
