@@ -573,17 +573,17 @@
                   <td>
                     <div class="radio-options">
                       <div class="field-radio-wrapper">
-                        <input type="radio" value="P" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateRadioAttendance($event, i, s)"
+                        <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateRadioAttendance($event, i, s)"
                           id="Present{{s.student_id}}">
                         <label class="present" for="Present{{s.student_id}}">Present</label>
                       </div>
                       <div class="field-radio-wrapper">
-                        <input type="radio" value="L" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateRadioAttendance($event, i, s)"
+                        <input [disabled]="getDisability(s)" type="radio" value="L" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateRadioAttendance($event, i, s)"
                           id="Leave{{s.student_id}}">
                         <label class="leave" for="Leave{{s.student_id}}">Leave</label>
                       </div>
                       <div class="field-radio-wrapper">
-                        <input type="radio" value="A" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateRadioAttendance($event, i, s)"
+                        <input [disabled]="getDisability(s)" type="radio" value="A" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateRadioAttendance($event, i, s)"
                           id="Absent{{s.student_id}}">
                         <label class="absent" for="Absent{{s.student_id}}">Absent</label>
                       </div>
@@ -591,7 +591,7 @@
                   </td>
                   <td *ngIf="instituteSetting.home_work_feature_enable == 1">
                     <div class="field-wrapper">
-                      <select id="hw_status_11755" class="form-ctrl" [(ngModel)]="s.home_work_status" (ngModelChange)="isHomeworkStatusChanged(i)">
+                      <select [disabled]="s.dateLi[0].status =='L' || s.dateLi[0].status =='A'" id="hw_status_11755" class="form-ctrl" [(ngModel)]="s.dateLi[0].home_work_status" (ngModelChange)="isHomeworkStatusChanged(i)">
                         <option value="Y" selected="">Completed</option>
                         <option value="N">Not Done</option>
                         <option value="NC">InComplete</option>
@@ -833,19 +833,19 @@
         </g>
       </svg>
     </span>
-    <h2 widget-header>Mark Attendance  Students</h2>
+    <h2 widget-header>Mark Attendance Students</h2>
     <div class="attendanceWrapper" widget-content>
       <div class="row attendanceMain">
         <div class="table-scroll-wrapper">
           <div class="table table-responsive widget-table">
             <table>
               <thead>
-                <tr>
-                  <th>Student Id</th>
-                  <th>Student Name</th>
-                  <th>Joining Date</th>
-                  <th>Attendance</th>
-                  <th *ngIf="instituteSetting.home_work_feature_enable == 1">Home Work Status</th>
+                <tr style="height: 35px;">
+                  <th style="font-size: 14px;font-weight: 600;">Student Id</th>
+                  <th style="font-size: 14px;font-weight: 600;">Student Name</th>
+                  <th style="font-size: 14px;font-weight: 600;">Joining Date</th>
+                  <th style="font-size: 14px;font-weight: 600;">Attendance</th>
+                  <th style="font-size: 14px;font-weight: 600;" *ngIf="instituteSetting.home_work_feature_enable == 1">Home Work Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -862,17 +862,16 @@
                   <td>
                     <div class="radio-options">
                       <div class="field-radio-wrapper">
-                        <input type="radio" value="P" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateRadioAttendance($event, i, s)"
+                        <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateCourseRadioAttendance($event, i, s)"
                           id="Present{{s.student_id}}">
                         <label class="present" for="Present{{s.student_id}}">Present</label>
                       </div>
                       <div class="field-radio-wrapper">
-                        <input type="radio" value="L" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateRadioAttendance($event, i, s)"
-                          id="Leave{{s.student_id}}">
+                        <input [disabled]="getDisability(s)" type="radio" value="L" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Leave{{s.student_id}}">
                         <label class="leave" for="Leave{{s.student_id}}">Leave</label>
                       </div>
                       <div class="field-radio-wrapper">
-                        <input type="radio" value="A" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateRadioAttendance($event, i, s)"
+                        <input [disabled]="getDisability(s)" type="radio" value="A" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateCourseRadioAttendance($event, i, s)"
                           id="Absent{{s.student_id}}">
                         <label class="absent" for="Absent{{s.student_id}}">Absent</label>
                       </div>
@@ -880,8 +879,8 @@
                   </td>
                   <td *ngIf="instituteSetting.home_work_feature_enable == 1">
                     <div class="field-wrapper">
-                      <select id="hw_status_11755" class="form-ctrl" [(ngModel)]="s.home_work_status" (ngModelChange)="isHomeworkStatusChanged(i)">
-                        <option value="Y" selected="">Completed</option>
+                      <select [disabled]="s.dateLi[0].status =='L' || s.dateLi[0].status =='A'" id="hw_status" class="form-ctrl" [ngModel]="getCourseHomeworkData(i)" (ngModelChange)="isCourseHomeworkStatusChanged($event,i)">
+                        <option value="Y" selected>Completed</option>
                         <option value="N">Not Done</option>
                         <option value="NC">InComplete</option>
                       </select>
@@ -899,12 +898,10 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCourseLevelAttendance()">
-          <input type="button" value="Update" (click)="updateAttendance()" class="redBtn btn">
+          <input type="button" value="Update" (click)="updateCourseAttendance()" class="redBtn btn">
         </aside>
       </div>
     </div>
-
   </proctur-widget>
-
 
 </section>

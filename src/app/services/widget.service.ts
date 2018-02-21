@@ -162,4 +162,17 @@ export class WidgetService {
         )
     }
 
+    updateCourseAttendance(obj): Observable<any>{
+        let url = this.baseUrl +"/api/v1/attendance/course";
+
+        return this.http.put(url, obj, {headers: this.headers}).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
 }

@@ -147,11 +147,11 @@ export class AdminHomeComponent implements OnInit {
 
   selectedType: string = "subject";
   courseLevelSchedDate: any = new Date();
-  courseLevelSchedule:any;
-  isCourseAttendance:boolean = false;  
-  isCourseCancel:boolean = false;
-  isCourseReminder:boolean = false;
-  courseLevelStudentAtt:any;
+  courseLevelSchedule: any;
+  isCourseAttendance: boolean = false;
+  isCourseCancel: boolean = false;
+  isCourseReminder: boolean = false;
+  courseLevelStudentAtt: any;
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -526,7 +526,6 @@ export class AdminHomeComponent implements OnInit {
 
   userScheduleSelected(i, selected) {
     this.generateOption(i, selected.class_date);
-    console.log(this.classMarkedForAction);
     this.classMarkedForAction = selected
   }
 
@@ -540,6 +539,25 @@ export class AdminHomeComponent implements OnInit {
     }
     else {
       this.isOptionVisible = false;
+    }
+  }
+
+  getCourseHomeworkData(i): string {
+    return this.courseLevelStudentAtt[i].dateLi[0].home_work_status;
+  }
+
+  isCourseHomeworkStatusChanged(ev, i) {
+    this.courseLevelStudentAtt[i].dateLi[0].home_work_status = ev;
+    this.courseLevelStudentAtt[i].dateLi[0].is_home_work_status_changed = "Y";
+  }
+
+  getDisability(s): boolean {
+    if (s.dateLi[0].serverStatus == "L") {
+      console.log(s.dateLi[0].is_home_work_status_changed === "Y" && s.dateLi[0].status === "L");
+      return true;
+    }
+    else {
+      return false;
     }
   }
 
@@ -564,6 +582,11 @@ export class AdminHomeComponent implements OnInit {
           e.isStatusModified = "N";
           e.is_home_work_status_changed = "N";
           e.isStatusModified = "N";
+          if (e.dateLi[0].status == "L") {
+            e.dateLi[0].serverStatus = "L";
+          } else {
+            e.dateLi[0].serverStatus = "";
+          }
         })
         this.studentAttList = res;
         this.home_work_notifn = res[0].home_work_notifn;
@@ -592,6 +615,21 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateRadioAttendance(val, i, obj) {
+    if (val === "L") {
+      this.studentAttList[i].dateLi[0].home_work_status = "N";
+    }
+    else if (val === "A") {
+      this.studentAttList[i].dateLi[0].home_work_status = "N";
+    }
+  }
+
+  updateCourseRadioAttendance(val, i, obj) {
+    if (val === "L") {
+      this.courseLevelStudentAtt[i].dateLi[0].home_work_status = "N";
+    }
+    else if (val === "A") {
+      this.courseLevelStudentAtt[i].dateLi[0].home_work_status = "N";
+    }
   }
 
   updateHomework(e) {
@@ -655,7 +693,6 @@ export class AdminHomeComponent implements OnInit {
     });
     this.widgetService.updateAttendance(arr).subscribe(
       res => {
-        //console.log(res);
         let msg = {
           type: 'success',
           title: 'Attendance Updated',
@@ -686,6 +723,18 @@ export class AdminHomeComponent implements OnInit {
       schId: d.schId,
       status: d.status,
       teacher_id: d.teacher_id,
+    }
+
+    return obj;
+  }
+
+  getCustomCourseLevelAttendanceObject(d, detail): any {
+    let obj = {
+      date: moment(new Date()).format("YYYY-MM-DD"),
+      home_work_status: detail.home_work_status,
+      isStatusModified: "Y",
+      is_home_work_status_changed: d.is_home_work_status_changed,
+      status: d.status,
     }
 
     return obj;
@@ -723,7 +772,6 @@ export class AdminHomeComponent implements OnInit {
       is_notified: this.is_notified
     }
     obj.cancelSchd.push(schd);
-    //console.log(obj);
     this.widgetService.cancelClassSchedule(obj).subscribe(
       res => {
         let msg = {
@@ -948,7 +996,7 @@ export class AdminHomeComponent implements OnInit {
   /* ======================================================================================================= */
   /* =================================Course Level===================================== */
   /* ======================================================================================================= */
-  
+
 
   onChanged(event) {
     if (event.value == 'subject') {
@@ -968,54 +1016,129 @@ export class AdminHomeComponent implements OnInit {
     }
     this.widgetService.fetchCourseLevelWidgetData(obj).subscribe(
       res => {
-        this.courseLevelSchedule = res;
-        //console.log(this.courseLevelSchedule);
+        let tempArr: any[] = [];
+        for (let o in res) {
+          let temp = res[o].course_ids.split(',');
+          if (temp.length > 1) {
+            let length = temp.length;
+            let nameArr = res[o].coursee_names.split(',');
+            let idArr = res[o].course_ids.split(',');
+            for (let i = 0; i < length; i++) {
+              let tobj = {
+                cancel_reason: res[o].cancel_reason,
+                course_id: res[o].course_id,
+                course_ids: "",
+                coursee_names: "",
+                coursesList: res[o].coursesList,
+                end_date: res[o].end_date,
+                inst_id: res[o].inst_id,
+                is_cancel_notify: res[o].is_cancel_notify,
+                master_course: res[o].master_course,
+                requested_date: res[o].requested_date,
+                standard_id: res[o].standard_id,
+                standard_name: res[o].standard_name,
+                start_date: res[o].start_date,
+              }
+              tobj.course_ids = idArr[i];
+              tobj.coursee_names = nameArr[i];
+              tempArr.push(tobj);
+            }
+          }
+          else {
+            tempArr.push(res[o]);
+          }
+        }
+        this.courseLevelSchedule = tempArr;
         this.isRippleLoad = false;
         this.isSubjectView = false;
       }
-    )
+    );
   }
 
   updateCourseLevelSched(e) {
     this.generateCourseLevelWidget();
   }
 
-  initiateCourseMarkAttendance(){
+  initiateCourseMarkAttendance() {
+    console.log(this.classMarkedForAction);
     let obj = {
       course_id: this.classMarkedForAction.course_ids,
       startdate: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
     }
-    this.widgetService.fetchCourseAttendance(obj).subscribe(
-      res => {
-        console.log(res);
-        for(let o in res){
-          console.log(o);
-          console.log(res[o]);
-        }
-        this.courseLevelStudentAtt = res;
-      },
-      err => {
+    if (this.classMarkedForAction.course_ids != null && this.classMarkedForAction.course_ids != undefined) {
+      this.widgetService.fetchCourseAttendance(obj).subscribe(
+        (res: any) => {
+          res.forEach(e => {
+            if (e.dateLi[0].status == "L") {
+              e.dateLi[0].serverStatus = "L";
+            } else {
+              e.dateLi[0].serverStatus = "";
+            }
+          })
+          this.courseLevelStudentAtt = res;
+          this.isCourseAttendance = true;
+        },
+        err => {
 
-      }
-    )
-    this.isCourseAttendance = true;    
+        }
+      );
+    } else {
+      alert('This scenario is not being replicated please specify set of steps to replicate');
+      console.log(this.classMarkedForAction);
+    }
   }
 
-  initiateCourseCancelClass(){
+  initiateCourseCancelClass() {
     this.isCourseCancel = true;
   }
-  
-  initiateCourseRemiderClass(){
+
+  initiateCourseRemiderClass() {
     this.isCourseReminder = true;
   }
 
-  closeCourseLevelAttendance(){
+  closeCourseLevelAttendance() {
     this.isCourseAttendance = false;
+  }
+
+  updateCourseAttendance() {
+    let arr = [];
+    this.courseLevelStudentAtt.forEach(e => {
+      e.dateLi[0] = Object.assign({}, this.getCustomCourseLevelAttendanceObject(e.dateLi[0], e));
+      let temp = {
+        course_id: this.classMarkedForAction.course_ids,
+        dateLi: e.dateLi,
+        isNotify: e.isNotify,
+        is_home_work_enabled: e.is_home_work_enabled,
+        student_id: e.student_id,
+      };
+      arr.push(temp);
+    });
+
+    this.widgetService.updateCourseAttendance(arr).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: 'Attendance Updated',
+          body: res.message
+        }
+        this.appC.popToast(msg);
+        this.closeCourseLevelAttendance();
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: 'Failed To Update Attendance',
+          body: err.message
+        }
+        this.appC.popToast(msg);
+      }
+    )
+
   }
 
   /* ======================================================================================================= */
   /* ====================================================================== */
   /* ======================================================================================================= */
-  
+
 
 }
