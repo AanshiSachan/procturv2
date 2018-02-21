@@ -1101,7 +1101,7 @@ export class ClassAddComponent implements OnInit {
   /* =================================Batch Model=========================================================== */
 
 
-  batchFrequency: number = 1;
+  batchFrequency: any = '1';
   weekDays: any = [];
   weekDaysTable: any = [];
   canceLClassTable: any = [];
@@ -1115,6 +1115,17 @@ export class ClassAddComponent implements OnInit {
     end_minute: '',
     end_meridian: '',
     desc: '',
+  }
+
+  mainStartTime = {
+    hour: '',
+    minute: '',
+    meridian: ''
+  }
+  mainEndTime = {
+    hour: '',
+    minute: '',
+    meridian: ''
   }
 
   getWeekOfDaysFromServer() {
@@ -1137,7 +1148,7 @@ export class ClassAddComponent implements OnInit {
     if (data.extraSchd != null) {
       this.extraClassTable = data.extraSchd;
     }
-    if (data.weekSchd.length > 0) {
+    if (data.weekSchd != null) {
       this.makeJsonForWeekTable(data.weekSchd);
     }
   }
@@ -1283,8 +1294,9 @@ export class ClassAddComponent implements OnInit {
   }
 
   addNewExtraClass() {
+    debugger
     let obj: any = {};
-    obj.class_date = this.addExtraClass.date;
+    obj.class_date = moment(this.addExtraClass.date).format("YYYY-MM-DD");
     let startTime = moment(this.addExtraClass.start_hour + ':' + this.addExtraClass.start_minute + this.addExtraClass.start_meridian, 'h:mma');
     let endTime = moment(this.addExtraClass.end_hour + ':' + this.addExtraClass.end_minute + this.addExtraClass.end_meridian, 'h:mma');
     if (!(startTime.isBefore(endTime))) {
@@ -1294,22 +1306,155 @@ export class ClassAddComponent implements OnInit {
       obj.start_time = this.addExtraClass.start_hour + ':' + this.addExtraClass.start_minute + ' ' + this.addExtraClass.start_meridian;
       obj.end_time = this.addExtraClass.end_hour + ':' + this.addExtraClass.end_minute + ' ' + this.addExtraClass.end_meridian;
     }
-    obj.desc = this.addExtraClass.desc;
+    obj.note = this.addExtraClass.desc;
+    obj.batch_id = this.batchDetails.batch_id;
+    obj.schd_id = 0;
     this.extraClassTable.push(obj);
   }
 
   scheduleSelection(event) {
     debugger
-    let val = event.target.value;
+    this.batchFrequency = event;
   }
 
   applyButtonClick() {
-    debugger
+    let startTime = moment(this.mainStartTime.hour + ':' + this.mainStartTime.minute + this.mainStartTime.meridian, 'h:mma');
+    let endTime = moment(this.mainEndTime.hour + ':' + this.mainEndTime.minute + this.mainEndTime.meridian, 'h:mma');
+    if (!(startTime.isBefore(endTime))) {
+      this.messageToast('error', 'Error', 'Please provide correct start time and end time');
+      return
+    } else {
+      let startTime = this.mainStartTime.hour + ':' + this.mainStartTime.minute + ' ' + this.mainStartTime.meridian;
+      let endTime = this.mainEndTime.hour + ':' + this.mainEndTime.minute + ' ' + this.mainEndTime.meridian;
+      for (let t = 0; t < this.weekDaysTable.length; t++) {
+        this.weekDaysTable[t].start_time = this.convertTimeToHourMinMeridian(startTime);
+        this.weekDaysTable[t].end_time = this.convertTimeToHourMinMeridian(endTime);
+      }
+    }
+  }
+
+
+
+  updateExtraClass() {
+    let data = this.makeJsonForExtraClass();
+    this.classService.createWeeklyBatch(data).subscribe(
+      res => {
+        console.log(res);
+        this.messageToast('success', 'Updated', 'Details Updated Successfully');
+        this.submitMasterBatch();
+      },
+      err => {
+        this.messageToast('error', 'Error', err.error.message);
+        console.log(err);
+      }
+    )
+  }
+
+
+  makeJsonForExtraClass() {
+    let obj: any = {};
+    obj.batch_id = this.batchDetails.batch_id;
+    obj.class_freq = "EXTRA";
+    obj.extraSchd = [];
+    for (let i = 0; i < this.extraClassTable.length; i++) {
+      let t: any = {};
+      t.class_date = this.extraClassTable[i].class_date;
+      t.start_time = this.extraClassTable[i].start_time;
+      t.end_time = this.extraClassTable[i].end_time;
+      t.note = this.extraClassTable[i].note;
+      t.schd_id = this.extraClassTable[i].schd_id;
+      let testStart: any = this.convertTimeToHourMinMeridian(t.start_time);
+      let testStart1: any = this.convertTimeToHourMinMeridian(t.end_time);
+      let start = this.convertIntoFullClock(testStart.hour, testStart.minute, testStart.meridian);
+      let end = this.convertIntoFullClock(testStart1.hour, testStart1.minute, testStart1.meridian);
+      t.duration = this.getDifference(start, end);
+      obj.extraSchd.push(t);
+    }
+    return obj;
   }
 
   cancelWeeklyScheduledClass() {
     debugger
   }
+
+
+  customTable: any = [];
+  custom = {
+    date: '',
+    start_hour: '',
+    start_minute: '',
+    start_meridian: '',
+    end_hour: '',
+    end_minute: '',
+    end_meridian: '',
+    desc: '',
+  }
+
+  addNewCustomClass() {
+    let obj: any = {};
+    obj.class_date = moment(this.custom.date).format("YYYY-MM-DD");
+    let some = moment(this.custom.date).unix();
+    let currentDate = moment().unix();
+    if (currentDate > some) {
+      this.messageToast('error', 'Error', 'Please provide valid date');
+      return
+    }
+    let startTime = moment(this.custom.start_hour + ':' + this.custom.start_minute + this.custom.start_meridian, 'h:mma');
+    let endTime = moment(this.custom.end_hour + ':' + this.custom.end_minute + this.custom.end_meridian, 'h:mma');
+    if (!(startTime.isBefore(endTime))) {
+      this.messageToast('error', 'Error', 'Please provide correct start time and end time');
+      return
+    } else {
+      obj.start_time = this.custom.start_hour + ':' + this.custom.start_minute + ' ' + this.custom.start_meridian;
+      obj.end_time = this.custom.end_hour + ':' + this.custom.end_minute + ' ' + this.custom.end_meridian;
+    }
+    obj.note = this.custom.desc;
+    obj.batch_id = this.batchDetails.batch_id;
+    obj.schd_id = 0;
+    this.customTable.push(obj);
+  }
+
+
+
+  makeJsonForCustomClass() {
+    let obj: any = {};
+    obj.batch_id = this.batchDetails.batch_id;
+    obj.class_freq = "OTHER";
+    obj.extraSchd = [];
+    for (let i = 0; i < this.customTable.length; i++) {
+      let t: any = {};
+      t.class_date = this.customTable[i].class_date;
+      t.start_time = this.customTable[i].start_time;
+      t.end_time = this.customTable[i].end_time;
+      t.note = this.customTable[i].note;
+      t.schd_id = this.customTable[i].schd_id;
+      let testStart: any = this.convertTimeToHourMinMeridian(t.start_time);
+      let testStart1: any = this.convertTimeToHourMinMeridian(t.end_time);
+      let start = this.convertIntoFullClock(testStart.hour, testStart.minute, testStart.meridian);
+      let end = this.convertIntoFullClock(testStart1.hour, testStart1.minute, testStart1.meridian);
+      t.duration = this.getDifference(start, end);
+      obj.extraSchd.push(t);
+    }
+    return obj;
+  }
+
+
+  updateCustomClass() {
+    let obj = this.makeJsonForCustomClass();
+    this.classService.createWeeklyBatch(obj).subscribe(
+      res => {
+        console.log(res);
+        this.messageToast('success', 'Updated', 'Details Updated Successfully');
+
+      },
+      err => {
+        this.messageToast('error', 'Error', err.error.message);
+        console.log(err);
+      }
+    )
+  }
+
+
 
 
   addKeyInData(data) {

@@ -121,7 +121,7 @@ export class ClassScheduleService {
     }
 
     getTimeTable(obj): Observable<any> {
-
+        obj.institute_id = this.institute_id;
         let url = this.baseURL + "/api/v1/timeTable";
 
         return this.http.post(url, obj, { headers: this.headers }).map(
@@ -237,6 +237,30 @@ export class ClassScheduleService {
             this.successCallback,
             this.errorCallBack
         )
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////Home Class///////////////////////////////////////////////
+
+    getSubjectList(data) {
+        let url = this.baseURL + "/api/v1/courseMaster/fetch/courses/" + this.institute_id + '/' + data;
+        return this.http.get(url, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    getAllTeachersList(): Observable<any> {
+        let url = this.baseURL + "/api/v1/teachers/all/" + this.institute_id + '?active=Y';
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            error => {
+                return error;
+            }
+        );
     }
 
 }
