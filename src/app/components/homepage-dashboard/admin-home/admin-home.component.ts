@@ -987,6 +987,11 @@ export class AdminHomeComponent implements OnInit {
     }
     this.widgetService.fetchCourseAttendance(obj).subscribe(
       res => {
+        console.log(res);
+        for(let o in res){
+          console.log(o);
+          console.log(res[o]);
+        }
         this.courseLevelStudentAtt = res;
       },
       err => {
