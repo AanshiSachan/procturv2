@@ -27,8 +27,8 @@
               <div class="row">
                 <div class="c-lg-12 c-md-12 c-sm-12">
                   <!-- Batch Module -->
-                  <div class="search-filter-wrapper" *ngIf="isLangInstitute">
-                    <!-- <div class="c-lg-3 c-md-3 c-sm-3">
+                  <!-- <div class="search-filter-wrapper" *ngIf="isLangInstitute">
+                    <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterBatchModule.standard_id != '-1'}">
                         <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterBatchModule.standard_id" (ngModelChange)="updateSubjectList($event)">
                           <option value="-1"></option>
@@ -63,11 +63,11 @@
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <input type="button" class="fullBlue btn" value="Enter" (click)="submitMasterBatch()">
-                    </div> -->
-                  </div>
+                    </div>
+                  </div> -->
                   <!-- Course Module -->
                   <div class="search-filter-wrapper" *ngIf="!isLangInstitute">
-                    <!-- <div class="c-lg-3 c-md-3 c-sm-3">
+                    <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.master_course != '-1'}">
                         <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course" (ngModelChange)="updateCourseList($event)">
                           <option value="-1"></option>
@@ -80,19 +80,46 @@
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.course_id != '-1'}">
-                        <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id">
+                        <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id" (ngModelChange)="updateSubjectList($event)">
                           <option value="-1"></option>
-                          <option [value]="course.course_id" *ngFor="let course of courseList">
+                          <option [value]="course.course_id" *ngFor="let course of courseList.coursesList
+                          ">
                             {{course.course_name}}
                           </option>
                         </select>
                         <label for="sc">Select Course</label>
                       </div>
-                    </div>                    
+                    </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
-                      <input type="button" class="fullBlue btn" value="Enter" (click)="submitMasterCourse()">
-                    </div> -->
+                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.subject_id != '-1'}">
+                        <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.subject_id">
+                          <option value="-1"></option>
+                          <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
+                            {{subject.subject_name}}
+                          </option>
+                        </select>
+                        <label for="sc">Select Subject</label>
+                      </div>
+                    </div>
+                    <div class="c-lg-3 c-md-3 c-sm-3">
+                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.teacher_id != '-1'}">
+                        <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.teacher_id">
+                          <option value="-1"></option>
+                          <option [value]="subject.teacher_id" *ngFor="let subject of teacherList">
+                            {{subject.teacher_name}}
+                          </option>
+                        </select>
+                        <label for="sc">Select Teacher</label>
+                      </div>
+                    </div>
+
                   </div>
+
+                </div>
+              </div>
+              <div class="row" style="padding: 15px;">
+                <div>
+                  <input type="button" class="fullBlue btn" value="Submit" (click)="submitMasterCourse('0')">
                 </div>
               </div>
             </div>
@@ -100,88 +127,32 @@
         </section>
         <!-- ==================================================================================== -->
         <!-- ==================================================================================== -->
-        <!-- ========================== View Type List/Calendar ================================= -->
-        <!-- <section class="schedule-class" *ngIf="isClassFormFilled">
-          <div class="row">
-            <div class="c-lg-7 c-sm-7 c-md-7 c-xs-12">
-              <div class="schedule-class-left">
-                <label>Schedule Class</label>
-                <span>{{getMasterCourse()}} | {{getCourseName()}} | Date -{{currentWeek.d1.date | date:'d MMM yyyy'}} - {{currentWeek.d7.date
-                  | date:'d MMM yyyy'}}</span>
-              </div>
-            </div>
-            <div class="c-lg-5 c-sm-5 c-md-5 c-xs-12 align-right">
-              <input type="button" value="Calendar View fullBlue" class="btn fullBlue">
-              <input type="button" value="List View" class="btn ">
-            </div>
-          </div>
-        </section> -->
-        <!-- ==================================================================================== -->
-        <!-- ==================================================================================== -->
-        <!-- ========================== Day/Weekly/Mothly ========================================== -->
-        <!-- <section class="view-tab" *ngIf="isClassFormFilled">
-          <ul class="clearFix">
-            <li>
-              <a href="#" class="btn fullBlue">Day view</a>
-            </li>
-            <li>
-              <a href="javascript:void(0)" class="btn">Weekly view</a>
-            </li>
-            <li>
-              <a href="#" class="btn">Monthly view</a>
-            </li>
-          </ul>
-        </section> -->
-        <!-- ==================================================================================== -->
-        <!-- ==================================================================================== -->
-        <!-- ========================== Week Span ========================================== -->
-        <!-- <section class="view-c-detail" *ngIf="isClassFormFilled">
+        <!-- ========================== Weeks Tabs and Navigator ================================ -->
+        <section class="calender-course clearFix view-c-detail" *ngIf="showContent">
           <div class="row">
             <div class="c-lg-2 c-md-2 c-sm-2 vcd-l">
               <label>
-                May /
-                <strong>{{getCurrentMonthYear()}}</strong>
+           
               </label>
             </div>
             <div class="c-lg-8 c-md-8 c-sm-8 align-center  vcd-l date-arrow">
               <div>
-                <span class="">{{currentWeek.d1.date | date:'d MMM yy'}} - {{currentWeek.d7.date| date:'d MMM yy'}}</span>
+                <span class="">{{weekStart}} to {{weekEnd}}</span>
               </div>
             </div>
             <div class="c-lg-2 c-md-2 c-sm-2 align-right filter-search">
-              <ul class="export-print pull-right">
-                <li class="print-icon">Print Time Table</li>
-              </ul>
             </div>
           </div>
-        </section> -->
-        <!-- ==================================================================================== -->
-        <!-- ==================================================================================== -->
-        <!-- ========================== Weeks Tabs and Navigator ================================ -->
-        <!-- <section class="calender-course clearFix" *ngIf="isClassFormFilled">
           <div class="cal-left c-control" (click)="gotoPreviousWeek()"></div>
-          <ul>
-            <li class="" *ngFor="let day of getWeekArray()">
-              <div class="calender-class-detail">
-                <div class="pull-left">
-                  <span class="c-date">{{day.date | date:'d' }}</span>
-                </div>
-                <div class="pull-right">
-                  <span class="exam-is"></span>
-                  <span class="class-cancel blue">x</span>
-                </div>
-              </div>
-            </li>
-          </ul>
           <div class="cal-right c-control" (click)="gotoNextWeek()"></div>
-        </section> -->
+        </section>
         <!-- ==================================================================================== -->
         <!-- ==================================================================================== -->
         <!-- ========================== Class Schedule Table ==================================== -->
-        <!-- <section class="clearFix calender-view1" *ngIf="isClassFormFilled">
-          <div class="table-responsive">
+        <section class="clearFix calender-view1" *ngIf="showContent">
+          <div class="table-responsive ">
             <table>
-              <tbody>
+              <thead>
                 <tr>
                   <th>Type</th>
                   <th>Subject</th>
@@ -189,29 +160,53 @@
                   <th>End Date</th>
                   <th>Teacher</th>
                   <th>Topic</th>
-                  <th>Home Work</th>
-                  <th width="100">Status</th>
-                  <th width="115">Action</th>
+                  <!-- <th>Home Work</th>
+                  <th width="100 ">Status</th> -->
+                  <th width="115 ">Action</th>
                 </tr>
-              </tbody>
-              <tbody class="table-accor-head active">
+              </thead>
+              <tbody id="tbodyItem{{i}}" class="table-accor-head" *ngFor="let class of weekScheduleList; let i=index;">
                 <tr>
-                  <td colspan="9">
+                  <td colspan="7">
                     <div class="accordian-heading">
-                      <h4 class="clearFix">
-                        <span class="close-accor">-</span>
-                        <span class="open-accor">+</span>
-                        <span class="date-c">01 March 2017</span>
-                        <span class="pull-right delete-icon">
-                          <i class="fa fa-trash-o" aria-hidden="true"></i>
+                      <h4 class="clearFix ">
+                        <span class="close-accor" (click)="toggleTbodyClass(i)">-</span>
+                        <span class="open-accor" (click)="toggleTbodyClass(i)">+</span>
+                        <span class="date-c" (click)="toggleTbodyClass(i)">{{class.id}}</span>
+                        <span class="pull-right delete-icon" (click)="delete('course', i, null)">
+                          <i class="fa fa-trash-o " aria-hidden="true"></i>
                         </span>
-                        <span class="pull-right mail-notification"></span>
+                        <span class="pull-right mail-notification" (click)="notify('course', i, null)"></span>
                       </h4>
                     </div>
                   </td>
                 </tr>
+                <tr id="tbodyView{{i}}" class="hide">
+                  <td colspan="7">
+                    <table>
+                      <tbody class="table-accor-view ">
+                        <tr *ngFor="let sc of class.data; let y= index;">
+                          <td>{{sc.class_type}}</td>
+                          <td>{{sc.subject_name}}</td>
+                          <td>{{sc.start_time}}</td>
+                          <td>{{sc.end_time}}</td>
+                          <td>{{sc.teacher_name}}</td>
+                          <td>{{sc.topics_covered}}</td>
+                          <td>
+                            <div class="action-box ">
+                              <span class="mail-notification" (click)="notify('subject', i, y)"></span>
+                              <span class="reschedule-icon "></span>
+                              <span class="delete-btn " (click)="delete('subject', i, y)"><i class="fa fa-trash-o " aria-hidden="true "></i></span>
+                              <!-- <span class="edit-icon "></span> -->
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
               </tbody>
-              <tbody class="table-accor-view">
+              <!-- <tbody class="table-accor-view ">
                 <tr>
                   <td>Regular</td>
                   <td>Maths</td>
@@ -221,16 +216,16 @@
                   <td>Geometry ...</td>
                   <td>Exercise No.2</td>
                   <td>
-                    <span class="tick-mark1"></span>
+                    <span class="tick-mark1 "></span>
                   </td>
                   <td>
-                    <div class="action-box">
-                      <span class="mail-notification"></span>
-                      <span class="reschedule-icon"></span>
-                      <span class="delete-btn">
-                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <div class="action-box ">
+                      <span class="mail-notification "></span>
+                      <span class="reschedule-icon "></span>
+                      <span class="delete-btn ">
+                        <i class="fa fa-trash-o " aria-hidden="true "></i>
                       </span>
-                      <span class="edit-icon"></span>
+                      <span class="edit-icon "></span>
                     </div>
                   </td>
                 </tr>
@@ -243,16 +238,16 @@
                   <td>Geometry ...</td>
                   <td>Exercise No.2</td>
                   <td>
-                    <span class="tick-mark1"></span>
+                    <span class="tick-mark1 "></span>
                   </td>
                   <td>
-                    <div class="action-box">
-                      <span class="mail-notification"></span>
-                      <span class="reschedule-icon"></span>
-                      <span class="delete-btn">
-                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <div class="action-box ">
+                      <span class="mail-notification "></span>
+                      <span class="reschedule-icon "></span>
+                      <span class="delete-btn ">
+                        <i class="fa fa-trash-o " aria-hidden="true "></i>
                       </span>
-                      <span class="edit-icon"></span>
+                      <span class="edit-icon "></span>
                     </div>
                   </td>
                 </tr>
@@ -265,91 +260,86 @@
                   <td>Geometry ...</td>
                   <td>Exercise No.2</td>
                   <td>
-                    <span class="tick-mark1"></span>
+                    <span class="tick-mark1 "></span>
                   </td>
                   <td>
-                    <div class="action-box">
-                      <span class="mail-notification"></span>
-                      <span class="reschedule-icon"></span>
-                      <span class="delete-btn">
-                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    <div class="action-box ">
+                      <span class="mail-notification "></span>
+                      <span class="reschedule-icon "></span>
+                      <span class="delete-btn ">
+                        <i class="fa fa-trash-o " aria-hidden="true "></i>
                       </span>
-                      <span class="edit-icon"></span>
+                      <span class="edit-icon "></span>
                     </div>
                   </td>
                 </tr>
               </tbody>
-              <tbody class="table-accor-head">
+              <tbody class="table-accor-head ">
                 <tr>
-                  <td colspan="9">
-                    <div class="accordian-heading">
-                      <h4 class="clearFix">
-                        <span class="close-accor">-</span>
-                        <span class="open-accor">+</span>
-                        <span class="date-c">01 March 2017</span>
-                        <span class="pull-right delete-icon">
-                          <i class="fa fa-trash-o" aria-hidden="true"></i>
+                  <td colspan="9 ">
+                    <div class="accordian-heading ">
+                      <h4 class="clearFix ">
+                        <span class="close-accor ">-</span>
+                        <span class="open-accor ">+</span>
+                        <span class="date-c ">01 March 2017</span>
+                        <span class="pull-right delete-icon ">
+                          <i class="fa fa-trash-o " aria-hidden="true "></i>
                         </span>
-                        <span class="pull-right mail-notification"></span>
+                        <span class="pull-right mail-notification "></span>
                       </h4>
                     </div>
                   </td>
                 </tr>
               </tbody>
-              <tbody class="table-accor-head">
+              <tbody class="table-accor-head ">
                 <tr>
-                  <td colspan="9">
-                    <div class="accordian-heading">
-                      <h4 class="clearFix">
-                        <span class="close-accor">-</span>
-                        <span class="open-accor">+</span>
-                        <span class="date-c">01 March 2017</span>
-                        <span class="pull-right delete-icon">
-                          <i class="fa fa-trash-o" aria-hidden="true"></i>
+                  <td colspan="9 ">
+                    <div class="accordian-heading ">
+                      <h4 class="clearFix ">
+                        <span class="close-accor ">-</span>
+                        <span class="open-accor ">+</span>
+                        <span class="date-c ">01 March 2017</span>
+                        <span class="pull-right delete-icon ">
+                          <i class="fa fa-trash-o " aria-hidden="true "></i>
                         </span>
-                        <span class="pull-right mail-notification"></span>
+                        <span class="pull-right mail-notification "></span>
                       </h4>
                     </div>
                   </td>
                 </tr>
               </tbody>
-              <tbody class="table-accor-head">
+              <tbody class="table-accor-head ">
                 <tr>
-                  <td colspan="9">
-                    <div class="accordian-heading">
-                      <h4 class="clearFix">
-                        <span class="close-accor">-</span>
-                        <span class="open-accor">+</span>
-                        <span class="date-c">01 March 2017</span>
-                        <span class="pull-right delete-icon">
-                          <i class="fa fa-trash-o" aria-hidden="true"></i>
+                  <td colspan="9 ">
+                    <div class="accordian-heading ">
+                      <h4 class="clearFix ">
+                        <span class="close-accor ">-</span>
+                        <span class="open-accor ">+</span>
+                        <span class="date-c ">01 March 2017</span>
+                        <span class="pull-right delete-icon ">
+                          <i class="fa fa-trash-o " aria-hidden="true "></i>
                         </span>
-                        <span class="pull-right mail-notification"></span>
+                        <span class="pull-right mail-notification "></span>
                       </h4>
                     </div>
                   </td>
                 </tr>
-              </tbody>
+              </tbody> -->
             </table>
           </div>
-          <div class="fullwidth clearFix ledgend-footer">
-            <label class="pull-left">Ledgend</label>
-            <div class="pull-left">
-              <span class="class-is"></span>Class</div>
-            <div class="pull-left">
-              <span class="exam-is"></span>Exam</div>
-            <div class="pull-left">
-              <span class="class-cancel blue">x</span>Cancelled Class</div>
-            <div class="pull-left">
-              <span class="class-cancel yellow">x</span>Cancelled Exam</div>
-          </div>
-        </section> -->
-        <!-- ==================================================================================== -->
-        <!-- ==================================================================================== -->
-        <!-- ========================== Footer Section ========================================== -->
+          <!-- <div class="fullwidth clearFix ledgend-footer ">
+            <label class="pull-left ">Ledgend</label>
+            <div class="pull-left ">
+              <span class="class-is "></span>Class</div>
+            <div class="pull-left ">
+              <span class="exam-is "></span>Exam</div>
+            <div class="pull-left ">
+              <span class="class-cancel blue ">x</span>Cancelled Class</div>
+            <div class="pull-left ">
+              <span class="class-cancel yellow ">x</span>Cancelled Exam</div>
+          </div> -->
+        </section>
       </section>
-      <!-- ==================================================================================== -->
-      <!-- ==================================================================================== -->
     </aside>
   </section>
 </section>

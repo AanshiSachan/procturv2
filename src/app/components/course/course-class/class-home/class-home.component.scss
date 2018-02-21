@@ -35,7 +35,7 @@
     background: #efefef;
     .field-wrapper {
         background: transparent;
-        .form-ctrl{
+        .form-ctrl {
             background: transparent;
         }
     }
@@ -51,18 +51,18 @@
                 display: inline-block !important;
                 margin: 0px 10px 0px 0px !important;
                 background: transparent;
-                .form-ctrl{
+                .form-ctrl {
                     background: transparent;
                     width: inherit !important;
                 }
             }
-            .hour{
+            .hour {
                 width: 75px;
             }
-            .minute{
+            .minute {
                 width: 75px;
             }
-            .meridian{
+            .meridian {
                 width: 100px;
             }
         }
@@ -210,7 +210,9 @@
 }
 
 .filter-search {
-    margin-bottom: 10px;
+    .row{
+        margin: 0px 15px;
+    }
     &>div {
         margin-bottom: 0;
     }
@@ -654,7 +656,7 @@
         .open-accor {
             width: 18px;
             height: 18px;
-            line-height: 18px;
+            line-height: 16px;
             margin-top: 0;
         }
         .date-c {
@@ -1122,4 +1124,37 @@
     .field-checkbox-wrapper .form-checkbox+label {
         font-size: 12px;
     }
+}
+
+.filter-fields {
+    padding: 0 15px 20px;
+    background: $bg-white;
+    border: 1px solid #ccc;
+    position: absolute;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 1;
+    left: 0;
+    top: 70%;
+    transition: all 0.3s;
+    visibility: hidden;
+    opacity: 0;
+    box-shadow: 0px 2px 1px #e2e0e0;
+    .field-wrapper {
+        margin: 15px 0;
+    }
+}
+
+.filter-fields .form-ctrl {
+    background: transparent;
+    font: 400 13.3333px Arial;
+    border-bottom: solid 1px #d2d2d2;
+}
+
+.filter-fields .btn {
+    margin: 0;
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px 12px;
+    height: auto;
 }
