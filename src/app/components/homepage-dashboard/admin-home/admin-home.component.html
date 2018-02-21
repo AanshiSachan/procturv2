@@ -474,8 +474,6 @@
     </section>
   </section>
 
-
-
   <proctur-widget *ngIf="isAttendancePop">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAttendance()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -573,25 +571,26 @@
                   <td>
                     <div class="radio-options">
                       <div class="field-radio-wrapper">
-                        <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateRadioAttendance($event, i, s)"
-                          id="Present{{s.student_id}}">
+                        <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
+                          (ngModelChange)="updateRadioAttendance($event, i, s)" id="Present{{s.student_id}}">
                         <label class="present" for="Present{{s.student_id}}">Present</label>
                       </div>
                       <div class="field-radio-wrapper">
-                        <input [disabled]="getDisability(s)" type="radio" value="L" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateRadioAttendance($event, i, s)"
-                          id="Leave{{s.student_id}}">
+                        <input [disabled]="getDisability(s)" type="radio" value="L" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
+                          (ngModelChange)="updateRadioAttendance($event, i, s)" id="Leave{{s.student_id}}">
                         <label class="leave" for="Leave{{s.student_id}}">Leave</label>
                       </div>
                       <div class="field-radio-wrapper">
-                        <input [disabled]="getDisability(s)" type="radio" value="A" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateRadioAttendance($event, i, s)"
-                          id="Absent{{s.student_id}}">
+                        <input [disabled]="getDisability(s)" type="radio" value="A" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
+                          (ngModelChange)="updateRadioAttendance($event, i, s)" id="Absent{{s.student_id}}">
                         <label class="absent" for="Absent{{s.student_id}}">Absent</label>
                       </div>
                     </div>
                   </td>
                   <td *ngIf="instituteSetting.home_work_feature_enable == 1">
                     <div class="field-wrapper">
-                      <select [disabled]="s.dateLi[0].status =='L' || s.dateLi[0].status =='A'" id="hw_status_11755" class="form-ctrl" [(ngModel)]="s.dateLi[0].home_work_status" (ngModelChange)="isHomeworkStatusChanged(i)">
+                      <select [disabled]="s.dateLi[0].status =='L' || s.dateLi[0].status =='A'" id="hw_status_11755" class="form-ctrl" [(ngModel)]="s.dateLi[0].home_work_status"
+                        (ngModelChange)="isHomeworkStatusChanged(i)">
                         <option value="Y" selected="">Completed</option>
                         <option value="N">Not Done</option>
                         <option value="NC">InComplete</option>
@@ -616,8 +615,6 @@
     </div>
 
   </proctur-widget>
-
-
 
   <proctur-widget *ngIf="isCancelExamPop">
 
@@ -664,8 +661,6 @@
 
   </proctur-widget>
 
-
-
   <proctur-widget *ngIf="isReminderPop">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeRemiderClass()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -700,8 +695,6 @@
 
 
   </proctur-widget>
-
-
 
   <proctur-widget *ngIf="isReschedulePop">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeRescheduleClass()" close-button>
@@ -819,7 +812,6 @@
 
   </proctur-widget>
 
-
   <proctur-widget *ngIf="isCourseAttendance">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCourseLevelAttendance()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -862,24 +854,26 @@
                   <td>
                     <div class="radio-options">
                       <div class="field-radio-wrapper">
-                        <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateCourseRadioAttendance($event, i, s)"
-                          id="Present{{s.student_id}}">
+                        <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
+                          (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Present{{s.student_id}}">
                         <label class="present" for="Present{{s.student_id}}">Present</label>
                       </div>
                       <div class="field-radio-wrapper">
-                        <input [disabled]="getDisability(s)" type="radio" value="L" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Leave{{s.student_id}}">
+                        <input [disabled]="getDisability(s)" type="radio" value="L" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
+                          (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Leave{{s.student_id}}">
                         <label class="leave" for="Leave{{s.student_id}}">Leave</label>
                       </div>
                       <div class="field-radio-wrapper">
-                        <input [disabled]="getDisability(s)" type="radio" value="A" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateCourseRadioAttendance($event, i, s)"
-                          id="Absent{{s.student_id}}">
+                        <input [disabled]="getDisability(s)" type="radio" value="A" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
+                          (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Absent{{s.student_id}}">
                         <label class="absent" for="Absent{{s.student_id}}">Absent</label>
                       </div>
                     </div>
                   </td>
                   <td *ngIf="instituteSetting.home_work_feature_enable == 1">
                     <div class="field-wrapper">
-                      <select [disabled]="s.dateLi[0].status =='L' || s.dateLi[0].status =='A'" id="hw_status" class="form-ctrl" [ngModel]="getCourseHomeworkData(i)" (ngModelChange)="isCourseHomeworkStatusChanged($event,i)">
+                      <select [disabled]="s.dateLi[0].status =='L' || s.dateLi[0].status =='A'" id="hw_status" class="form-ctrl" [ngModel]="getCourseHomeworkData(i)"
+                        (ngModelChange)="isCourseHomeworkStatusChanged($event,i)">
                         <option value="Y" selected>Completed</option>
                         <option value="N">Not Done</option>
                         <option value="NC">InComplete</option>
@@ -902,6 +896,50 @@
         </aside>
       </div>
     </div>
+  </proctur-widget>
+
+  <proctur-widget *ngIf="isCourseCancel">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCourseCancelClass()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+
+    <h2 widget-header>Cancel Schedule {{classMarkedForAction.batch_name}}</h2>
+
+    <div class="CancelWrapper" widget-content>
+      <div class="row cancelField">
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-wrapper">
+            <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:" value="" [(ngModel)]="cancellationReason">
+            </textarea>
+          </div>
+        </div>
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
+            <label for="notifyCancel">Notify Batch Students For Class Cancellation</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="" widget-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeCourseCancelClass()">
+          <input type="button" value="Update Schedule" (click)="cancelCourseClass()" class="redBtn btn">
+        </aside>
+      </div>
+    </div>
+
   </proctur-widget>
 
 </section>

@@ -115,32 +115,34 @@ export class WidgetService {
     }
 
 
-    notifyStudentSchedule(obj){
-        let url = this.baseUrl +"/api/v1/coursePlanner/notify";
+    cancelCourseSchedule(obj) {
+        let url = this.baseUrl + "/api/v1/courseClassSchedule/cancelMasterClassSchedule";
 
-        return this.http.post(url, obj, {headers: this.headers}).map(
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }    
+
+
+    notifyStudentSchedule(obj) {
+        let url = this.baseUrl + "/api/v1/coursePlanner/notify";
+
+        return this.http.post(url, obj, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }
         )
     }
 
 
-    reScheduleClass(obj): Observable<any>{
-        let url = this.baseUrl +"/api/v1/batchClsSched/reschedule";
+    reScheduleClass(obj): Observable<any> {
+        let url = this.baseUrl + "/api/v1/batchClsSched/reschedule";
 
-        return this.http.put(url, obj, {headers: this.headers}).map(
-            res => { 
-                return res; 
-            },
-            err => {
-                return err;
-            }
-        )
-    }
-
-    fetchCourseLevelWidgetData(obj){
-        let url = this.baseUrl +'/api/v1/courseClassSchedule/fetchMasterCourseDetails/todaySchedule';
-        return this.http.post(url, obj, {headers: this.headers}).map(
+        return this.http.put(url, obj, { headers: this.headers }).map(
             res => {
                 return res;
             },
@@ -150,9 +152,9 @@ export class WidgetService {
         )
     }
 
-    fetchCourseAttendance(obj){
-        let url = this.baseUrl +'/api/v1/attendance/course';
-        return this.http.post(url, obj, {headers: this.headers}).map(
+    fetchCourseLevelWidgetData(obj) {
+        let url = this.baseUrl + '/api/v1/courseClassSchedule/fetchMasterCourseDetails/todaySchedule';
+        return this.http.post(url, obj, { headers: this.headers }).map(
             res => {
                 return res;
             },
@@ -162,10 +164,35 @@ export class WidgetService {
         )
     }
 
-    updateCourseAttendance(obj): Observable<any>{
-        let url = this.baseUrl +"/api/v1/attendance/course";
+    fetchCourseAttendance(obj) {
+        let url = this.baseUrl + '/api/v1/attendance/course';
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
 
-        return this.http.put(url, obj, {headers: this.headers}).map(
+    updateCourseAttendance(obj): Observable<any> {
+        let url = this.baseUrl + "/api/v1/attendance/course";
+
+        return this.http.put(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    remindCourseLevel(obj): Observable<any> {
+        let url = this.baseUrl + "/api/v1/courseClassSchedule/sendCourseMasterReminder";
+
+        return this.http.post(url, obj, { headers: this.headers }).map(
             res => {
                 return res;
             },

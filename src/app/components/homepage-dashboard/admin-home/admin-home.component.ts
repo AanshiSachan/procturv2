@@ -1092,8 +1092,69 @@ export class AdminHomeComponent implements OnInit {
     this.isCourseCancel = true;
   }
 
+  closeCourseCancelClass() {
+    this.isCourseCancel = false;
+    this.cancellationReason = '';
+  }
+
+  cancelCourseClass() {
+    let obj = {
+      cancel_reason: this.cancellationReason,
+      course_ids: this.classMarkedForAction.course_ids,
+      inst_id: sessionStorage.getItem('institute_id'),
+      is_cancel_notify: this.is_notified,
+      master_course: this.classMarkedForAction.master_course,
+      requested_date: moment().format("YYYY-MM-DD")
+    }
+    this.widgetService.cancelCourseSchedule(obj).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: 'Course Schedule Cancelled',
+          body: 'The requested scheduled has been cancelled'
+        }
+        this.appC.popToast(msg);
+        this.closeCourseCancelClass();
+        this.generateCourseLevelWidget();        
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: 'Failed To Cancel Schedule',
+          body: err.cancelResponseMessage
+        }
+        this.appC.popToast(msg);
+      }
+    )
+  }
+
   initiateCourseRemiderClass() {
-    this.isCourseReminder = true;
+    if (confirm("Are you sure, You want to notify?")) {
+      let obj = {
+        course_ids: this.classMarkedForAction.course_ids,
+        inst_id: sessionStorage.getItem('institute_id'),
+        master_course: this.classMarkedForAction.master_course,
+        requested_date: moment().format("YYYY-MM-DD")
+      }
+      this.widgetService.remindCourseLevel(obj).subscribe(
+        res => {
+          let msg = {
+            type: 'success',
+            title: 'Reminder Sent',
+            body: 'The student have been notified'
+          }
+          this.appC.popToast(msg);
+        },
+        err => {
+          let msg = {
+            type: 'error',
+            title: 'Unable to Send Reminder',
+            body: 'please contact support@proctur.com'
+          }
+          this.appC.popToast(msg);
+        }
+      )
+    }
   }
 
   closeCourseLevelAttendance() {
