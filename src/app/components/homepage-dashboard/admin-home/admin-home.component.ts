@@ -139,20 +139,19 @@ export class AdminHomeComponent implements OnInit {
       meridian: ''
     },
   }
-  isSubjectView:boolean = true;
+  isSubjectView: boolean = true;
   types: SelectItem[] = [
-    { label: 'Course', value: 'course'},
-    { label: 'Subject', value: 'subject'}
+    { label: 'Course', value: 'course' },
+    { label: 'Subject', value: 'subject' }
   ];
 
   selectedType: string = "subject";
-
-  onChanged(event){
-    console.log(event.value);
-  }
-
-
-
+  courseLevelSchedDate: any = new Date();
+  courseLevelSchedule:any;
+  isCourseAttendance:boolean = false;  
+  isCourseCancel:boolean = false;
+  isCourseReminder:boolean = false;
+  courseLevelStudentAtt:any;
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -527,6 +526,7 @@ export class AdminHomeComponent implements OnInit {
 
   userScheduleSelected(i, selected) {
     this.generateOption(i, selected.class_date);
+    console.log(this.classMarkedForAction);
     this.classMarkedForAction = selected
   }
 
@@ -944,5 +944,73 @@ export class AdminHomeComponent implements OnInit {
       }
     }
   }
+
+  /* ======================================================================================================= */
+  /* =================================Course Level===================================== */
+  /* ======================================================================================================= */
+  
+
+  onChanged(event) {
+    if (event.value == 'subject') {
+      this.isSubjectView = true;
+      this.fetchScheduleWidgetData();
+    }
+    else if (event.value == 'course') {
+      this.isRippleLoad = true;
+      this.generateCourseLevelWidget();
+    }
+  }
+
+  generateCourseLevelWidget() {
+    let obj = {
+      inst_id: sessionStorage.getItem('institute_id'),
+      requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
+    }
+    this.widgetService.fetchCourseLevelWidgetData(obj).subscribe(
+      res => {
+        this.courseLevelSchedule = res;
+        //console.log(this.courseLevelSchedule);
+        this.isRippleLoad = false;
+        this.isSubjectView = false;
+      }
+    )
+  }
+
+  updateCourseLevelSched(e) {
+    this.generateCourseLevelWidget();
+  }
+
+  initiateCourseMarkAttendance(){
+    let obj = {
+      course_id: this.classMarkedForAction.course_ids,
+      startdate: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
+    }
+    this.widgetService.fetchCourseAttendance(obj).subscribe(
+      res => {
+        this.courseLevelStudentAtt = res;
+      },
+      err => {
+
+      }
+    )
+    this.isCourseAttendance = true;    
+  }
+
+  initiateCourseCancelClass(){
+    this.isCourseCancel = true;
+  }
+  
+  initiateCourseRemiderClass(){
+    this.isCourseReminder = true;
+  }
+
+  closeCourseLevelAttendance(){
+    this.isCourseAttendance = false;
+  }
+
+  /* ======================================================================================================= */
+  /* ====================================================================== */
+  /* ======================================================================================================= */
+  
 
 }
