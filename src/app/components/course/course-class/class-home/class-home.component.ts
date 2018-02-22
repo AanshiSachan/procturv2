@@ -223,13 +223,12 @@ export class ClassHomeComponent implements OnInit {
   }
 
   submitMasterCourse() {
-    debugger
     let data;
     if (this.isLangInstitute) {
-      // let fieldCheck = this.checkFieldFilled();
-      // if (fieldCheck == false) {
-      //   return;
-      // }
+      let fieldCheck = this.checkFieldFilled();
+      if (fieldCheck == false) {
+        return;
+      }
       data = this.makeJsonForBatch();
     } else {
       data = this.makeJsonForSubmit();
@@ -237,12 +236,9 @@ export class ClassHomeComponent implements OnInit {
     this.weekScheduleList = [];
     this.classService.getTimeTable(data).subscribe(
       res => {
-        this.messageToast('success', 'Success', 'Success');
-        //console.log(res);
         this.timeTableResponse = res;
         this.showContent = true;
         this.weekScheduleList = this.getClassList();
-        //console.log(this.timeTableResponse);
       },
       err => {
         console.log(err);
@@ -281,17 +277,20 @@ export class ClassHomeComponent implements OnInit {
   }
 
   checkFieldFilled() {
-    let check = false;
-    if (this.batchData.standard_id != 0) {
-      if (this.batchData.batch_id != 0 && this.batchData.batch_id != -1) {
-        return true;
+    if (this.batchData.standard_id == -1 && this.batchData.subject_id == -1 && this.batchData.batch_id == -1) {
+      return true
+    } else {
+      if (this.batchData.standard_id > 0) {
+        if (this.batchData.batch_id > 0) {
+          return true;
+        } else {
+          this.messageToast('error', 'Error', 'Please provide batch');
+          return false;
+        }
       } else {
-        this.messageToast('error', 'Error', 'Please provide batcvh details');
+        this.messageToast('error', 'Error', 'Please select master course');
         return false;
       }
-    } else {
-      this.messageToast('error', 'Error', 'Please provide');
-      return false;
     }
   }
 
