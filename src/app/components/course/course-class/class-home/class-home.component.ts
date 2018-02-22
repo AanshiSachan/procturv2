@@ -116,7 +116,6 @@ export class ClassHomeComponent implements OnInit {
   getCombinedData() {
     this.classService.getCombinedDataFromServer(this.batchData.standard_id, this.batchData.subject_id).subscribe(
       res => {
-        debugger
         console.log('Combined data', res);
         this.combinedData = res;
         if (res.standardLi != null) {
@@ -215,8 +214,6 @@ export class ClassHomeComponent implements OnInit {
   }
 
   toggleTbodyClass(i) {
-    debugger
-    //console.log('tbodyItem'+i);
     document.getElementById('tbodyItem' + i).classList.toggle("active");
     document.getElementById('tbodyView' + i).classList.toggle("hide");
     //document.getElementById('tbodyItem'+i).classList.toggle('active');

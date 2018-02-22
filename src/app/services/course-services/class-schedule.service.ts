@@ -260,6 +260,14 @@ export class ClassScheduleService {
         )
     }
 
+    createWeeklyBatchPost(data) {
+        let url = this.baseURL + "/api/v1/batchClsSched";
+        return this.http.post(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////Home Class///////////////////////////////////////////////

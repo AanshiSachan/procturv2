@@ -287,19 +287,19 @@
           </g>
         </svg>
       </span>
-      <div class="popup-content">
+      <div class="popup-content" style="padding-left: 15px;">
 
         <h2 widget-header>Reschedule {{rescheduleDet.batch_name}}</h2>
 
         <div class="rescheduleWrapper" widget-content>
-          <div class="row">
+          <div class="">
             <div class="field-wrapper datePickerBox" style="width: 50%;" [ngClass]="{'has-value': reschedDate != ''}">
               <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
                 bsDatepicker>
               <label for="reschDate">Reshedule Date</label>
             </div>
           </div>
-          <div class="row">
+          <div class="">
             <fieldset>
               <legend>Start Time</legend>
               <div class="time-picker">
@@ -363,14 +363,14 @@
               </div>
             </fieldset>
           </div>
-          <div class="row">
+          <div class="">
             <div class="field-wrapper" style="width: 50%;">
               <textarea type="text" style="height:50px;" id="reschreason" name="reschreason" [(ngModel)]="reschedReason" value="" placeholder="Reshedule Reason"
                 class="form-ctrl textbox">
                 </textarea>
             </div>
           </div>
-          <div class="row" style="margin: 10px 0px;">
+          <div class="" style="margin: 10px 0px;">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus('resheduleNotified')"
                 (change)="notifyRescheduleUpdate($event)">

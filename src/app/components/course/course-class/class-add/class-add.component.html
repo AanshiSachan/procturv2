@@ -437,8 +437,8 @@
           </div>
 
           <div class="" *ngIf="batchFrequency == '1'">
-            <div class="">
-              <div class="table-scroll-wrapper">
+            <div class="class-wrapper">
+              <div class="table-scroll-wrapper marginTopBottom">
                 <div class="table table-responsive">
                   <table>
                     <thead>
@@ -520,147 +520,9 @@
                           </div>
                         </td>
                       </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <button class="btn" (click)="updateWeeklySchedule()">Update</button>
-            </div>
-
-            <div class="row">
-
-              <div class="c-lg-3 c-md-3 c-sm-3">
-                <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="addExtraClass.date" readonly="true" name="csd"
-                    bsDatepicker>
-                  <label for="csd">Date
-                    <span style="color:red">*</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="c-lg-3 c-md-3 c-sm-3">
-                <fieldset>
-                  <legend>Start Time</legend>
-                  <div class="time-picker">
-                    <div class="field-wrapper has-value">
-                      <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.start_hour" name="hour" style="background: transparent">
-                        <option *ngFor="let hour of hourArr" [value]="hour">
-                          {{hour}}
-                        </option>
-                      </select>
-                      <label for="hour">Hour</label>
-                    </div>
-                    <div class="field-wrapper has-value">
-                      <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.start_minute" name="minute"
-                        style="background: transparent">
-                        <option *ngFor="let minute of minArr" [value]="minute">
-                          {{minute}}
-                        </option>
-                      </select>
-                      <label for="minute">Minute</label>
-                    </div>
-                    <div class="field-wrapper has-value">
-                      <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.start_meridian" name="meridian"
-                        style="background: transparent">
-                        <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                          {{meridian}}
-                        </option>
-                      </select>
-                      <label for="meridian">Meridian</label>
-                    </div>
-                  </div>
-                </fieldset>
-              </div>
-
-              <div class="c-lg-3 c-md-3 c-sm-3">
-                <fieldset>
-                  <legend>End Time</legend>
-                  <div class="time-picker">
-                    <div class="field-wrapper has-value">
-                      <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.end_hour" name="hour" style="background: transparent">
-                        <option *ngFor="let hour of hourArr" [value]="hour">
-                          {{hour}}
-                        </option>
-                      </select>
-                      <label for="hour">Hour</label>
-                    </div>
-                    <div class="field-wrapper has-value">
-                      <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.end_minute" name="minute" style="background: transparent">
-                        <option *ngFor="let minute of minArr" [value]="minute">
-                          {{minute}}
-                        </option>
-                      </select>
-                      <label for="minute">Minute</label>
-                    </div>
-                    <div class="field-wrapper has-value">
-                      <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.end_meridian" name="meridian"
-                        style="background: transparent">
-                        <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                          {{meridian}}
-                        </option>
-                      </select>
-                      <label for="meridian">Meridian</label>
-                    </div>
-                  </div>
-                </fieldset>
-              </div>
-              <div>
-                <label>Class Description</label>
-                <textarea [(ngModel)]="addExtraClass.desc" id="txtAreaDesc"></textarea>
-              </div>
-              <div>
-                <button class="btn" (click)="addNewExtraClass()">Add</button>
-              </div>
-
-            </div>
-
-            <div>
-              <h3>Extra Class</h3>
-
-              <div class="table-scroll-wrapper">
-                <div class="table table-responsive">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>
-                          Date
-                        </th>
-                        <th>
-                          Start Time
-                        </th>
-                        <th>
-                          End Time
-                        </th>
-                        <th>
-                          Class Description
-                        </th>
-                        <th>
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let row of extraClassTable; let i=index ; trackBy : index">
-                        <td>
-                          {{row.class_date}}
-                        </td>
-                        <td>
-                          {{row.start_time}}
-                        </td>
-                        <td>
-                          {{row.end_time}}
-                        </td>
-                        <td>
-                          {{row.note}}
-                        </td>
-                        <td>
-                          <a style="cursor:pointer" (click)="cancelExtraClassSchedule(row)">Cancel Class</a>
-                          <a style="cursor:pointer" (click)="notifyExtraClassSchedule(row)">Notify</a>
-                          <a style="cursor:pointer" (click)="deleteExtraClassSchedule(row , index)">Delete</a>
+                      <tr *ngIf="weekDaysTable.length == 0">
+                        <td colspan="3" style="text-align: center">
+                          No Schedule Of Week Found
                         </td>
                       </tr>
                     </tbody>
@@ -668,16 +530,162 @@
                 </div>
               </div>
 
-              <div>
-                <button class="btn" (click)="updateExtraClass()">Update</button>
+              <div class="row">
+                <button class="btn pull-right" [disabled]="weekDaysTable.length > 0" style="margin-right: 10px;" (click)="updateWeeklySchedule()">Update</button>
               </div>
-
-
             </div>
 
-            <div>
+            <div class="extra-wrapper">
+              <div class="row">
+
+                <div class="c-lg-3 c-md-3 c-sm-3">
+                  <div class="field-wrapper datePickerBox">
+                    <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="addExtraClass.date" readonly="true" name="csd"
+                      bsDatepicker>
+                    <label for="csd">Date
+                      <span style="color:red">*</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="c-lg-3 c-md-3 c-sm-3">
+                  <fieldset>
+                    <legend>Start Time</legend>
+                    <div class="time-picker">
+                      <div class="field-wrapper has-value">
+                        <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.start_hour" name="hour" style="background: transparent">
+                          <option *ngFor="let hour of hourArr" [value]="hour">
+                            {{hour}}
+                          </option>
+                        </select>
+                        <label for="hour">Hour</label>
+                      </div>
+                      <div class="field-wrapper has-value">
+                        <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.start_minute" name="minute"
+                          style="background: transparent">
+                          <option *ngFor="let minute of minArr" [value]="minute">
+                            {{minute}}
+                          </option>
+                        </select>
+                        <label for="minute">Minute</label>
+                      </div>
+                      <div class="field-wrapper has-value">
+                        <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.start_meridian" name="meridian"
+                          style="background: transparent">
+                          <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                            {{meridian}}
+                          </option>
+                        </select>
+                        <label for="meridian">Meridian</label>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+
+                <div class="c-lg-3 c-md-3 c-sm-3">
+                  <fieldset>
+                    <legend>End Time</legend>
+                    <div class="time-picker">
+                      <div class="field-wrapper has-value">
+                        <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.end_hour" name="hour" style="background: transparent">
+                          <option *ngFor="let hour of hourArr" [value]="hour">
+                            {{hour}}
+                          </option>
+                        </select>
+                        <label for="hour">Hour</label>
+                      </div>
+                      <div class="field-wrapper has-value">
+                        <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.end_minute" name="minute" style="background: transparent">
+                          <option *ngFor="let minute of minArr" [value]="minute">
+                            {{minute}}
+                          </option>
+                        </select>
+                        <label for="minute">Minute</label>
+                      </div>
+                      <div class="field-wrapper has-value">
+                        <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.end_meridian" name="meridian"
+                          style="background: transparent">
+                          <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                            {{meridian}}
+                          </option>
+                        </select>
+                        <label for="meridian">Meridian</label>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+                <div>
+                  <label>Class Description</label>
+                  <textarea [(ngModel)]="addExtraClass.desc" id="txtAreaDesc"></textarea>
+                </div>
+                <div>
+                  <button class="btn" (click)="addNewExtraClass()">Add</button>
+                </div>
+
+              </div>
+              <div>
+                <h3>Extra Class</h3>
+
+                <div class="table-scroll-wrapper marginTopBottom">
+                  <div class="table table-responsive">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>
+                            Date
+                          </th>
+                          <th>
+                            Start Time
+                          </th>
+                          <th>
+                            End Time
+                          </th>
+                          <th>
+                            Class Description
+                          </th>
+                          <th>
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of extraClassTable; let i=index ; trackBy : index">
+                          <td>
+                            {{row.class_date}}
+                          </td>
+                          <td>
+                            {{row.start_time}}
+                          </td>
+                          <td>
+                            {{row.end_time}}
+                          </td>
+                          <td>
+                            {{row.note}}
+                          </td>
+                          <td>
+                            <a style="cursor:pointer" (click)="cancelExtraClassSchedule(row)">Cancel Class</a>
+                            <a style="cursor:pointer" (click)="notifyExtraClassSchedule(row)">Notify</a>
+                            <a style="cursor:pointer" (click)="deleteExtraClassSchedule(row , index)">Delete</a>
+                          </td>
+                        </tr>
+                        <tr *ngIf="extraClassTable.length == 0">
+                          <td colspan="5" style="text-align: center">
+                            No Extra Class Schedule Found
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <button class="btn pull-right" style="margin-right: 10px;" [disabled]="extraClassTable.length > 0" (click)="updateExtraClass()">Update</button>
+              </div>
+            </div>
+
+            <div class="cancel-wrapper">
               <h3>Cancelled Class</h3>
-              <div class="table-scroll-wrapper">
+              <div class="table-scroll-wrapper marginTopBottom">
                 <div class="table table-responsive">
                   <table>
                     <thead>
@@ -718,6 +726,11 @@
                           <span>Last Notified</span> {{row.last_notify_sent_time}}
                         </td>
                       </tr>
+                      <tr *ngIf="canceLClassTable.length == 0">
+                        <td colspan="5" style="text-align: center">
+                          No Cancelled Class Schedule Found
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -728,14 +741,9 @@
 
           <div class="" *ngIf="batchFrequency == '2'">
 
-
-
-
-
-            <div class="row">
-
-              <div class="c-lg-3 c-md-3 c-sm-3">
-                <div class="field-wrapper datePickerBox">
+            <div class="row rowAllignCustomAdd">
+              <div class="c-lg-2 c-md-2 c-sm-2">
+                <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': custom.date!=''}">
                   <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="custom.date" readonly="true" name="csd"
                     bsDatepicker>
                   <label for="csd">Date
@@ -746,7 +754,7 @@
 
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <fieldset>
-                  <legend>Start Time</legend>
+                  <legend style="color: #0084f6;">Start Time</legend>
                   <div class="time-picker">
                     <div class="field-wrapper has-value">
                       <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.start_hour" name="hour" style="background: transparent">
@@ -775,10 +783,9 @@
                   </div>
                 </fieldset>
               </div>
-
               <div class="c-lg-3 c-md-3 c-sm-3">
                 <fieldset>
-                  <legend>End Time</legend>
+                  <legend style="color: #0084f6;">End Time</legend>
                   <div class="time-picker">
                     <div class="field-wrapper has-value">
                       <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.end_hour" name="hour" style="background: transparent">
@@ -807,19 +814,61 @@
                   </div>
                 </fieldset>
               </div>
-              <div>
-                <label>Class Description</label>
-                <textarea [(ngModel)]="custom.desc" id="txtAreaDesc"></textarea>
+              <div class="c-lg-2 c-md-2 c-sm-2">
+                <textarea class="textBoxContent" [(ngModel)]="custom.desc" id="txtAreaDesc" placeholder="Class Description"></textarea>
               </div>
-              <div>
+              <div class="c-lg-2 c-md-2 c-sm-2">
                 <button class="btn" (click)="addNewCustomClass()">Add</button>
               </div>
-
             </div>
 
+            <div class="table-scroll-wrapper customTableWrapper" *ngIf="customTable.length > 0 ">
+              <div class="table table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Date
+                      </th>
+                      <th>
+                        Start Time
+                      </th>
+                      <th>
+                        End Time
+                      </th>
+                      <th>
+                        Class Description
+                      </th>
+                      <th>
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of customTable; let i=index ; trackBy : index">
+                      <td>
+                        {{row.class_date}}
+                      </td>
+                      <td>
+                        {{row.start_time}}
+                      </td>
+                      <td>
+                        {{row.end_time}}
+                      </td>
+                      <td>
+                        {{row.desc}}
+                      </td>
+                      <td>
+                        <a style="cursor:pointer" (click)="deleteFromCustomTable(row , index)">Delete</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
-            <div>
-              <button class="btn" (click)="updateCustomClass()">Update</button>
+            <div class="pull-right" *ngIf="customTable.length > 0">
+              <button class="btn" (click)="updateCustomClass()" style="margin-top: 10px;">Update</button>
             </div>
 
 
