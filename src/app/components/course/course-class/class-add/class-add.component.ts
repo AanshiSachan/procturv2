@@ -135,6 +135,17 @@ export class ClassAddComponent implements OnInit {
   }
 
   selectedClassFrequency: any = 'WEEK';
+  customTable: any = [];
+  custom = {
+    date: '',
+    start_hour: '',
+    start_minute: '',
+    start_meridian: '',
+    end_hour: '',
+    end_minute: '',
+    end_meridian: '',
+    desc: '',
+  }
 
   /* ============================================================================================ */
   /* ============================================================================================ */
@@ -1129,7 +1140,6 @@ export class ClassAddComponent implements OnInit {
   }
 
   getWeekOfDaysFromServer() {
-    debugger
     this.classService.getWeekOfDays().subscribe(
       res => {
         console.log(res);
@@ -1377,19 +1387,6 @@ export class ClassAddComponent implements OnInit {
     debugger
   }
 
-
-  customTable: any = [];
-  custom = {
-    date: '',
-    start_hour: '',
-    start_minute: '',
-    start_meridian: '',
-    end_hour: '',
-    end_minute: '',
-    end_meridian: '',
-    desc: '',
-  }
-
   addNewCustomClass() {
     let obj: any = {};
     obj.class_date = moment(this.custom.date).format("YYYY-MM-DD");
@@ -1412,8 +1409,22 @@ export class ClassAddComponent implements OnInit {
     obj.batch_id = this.batchDetails.batch_id;
     obj.schd_id = 0;
     this.customTable.push(obj);
+    this.custom = {
+      date: '',
+      start_hour: '',
+      start_minute: '',
+      start_meridian: '',
+      end_hour: '',
+      end_minute: '',
+      end_meridian: '',
+      desc: '',
+    }
   }
 
+
+  deleteFromCustomTable(row, index) {
+    this.customTable.splice(index, 1);
+  }
 
 
   makeJsonForCustomClass() {
@@ -1440,8 +1451,12 @@ export class ClassAddComponent implements OnInit {
 
 
   updateCustomClass() {
+    if (this.customTable.length == 0) {
+      this.messageToast('error', 'Error', 'Please provide dates');
+      return;
+    }
     let obj = this.makeJsonForCustomClass();
-    this.classService.createWeeklyBatch(obj).subscribe(
+    this.classService.createWeeklyBatchPost(obj).subscribe(
       res => {
         console.log(res);
         this.messageToast('success', 'Updated', 'Details Updated Successfully');
