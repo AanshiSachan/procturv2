@@ -65,6 +65,27 @@ export class ClassHomeComponent implements OnInit {
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   minArr: any[] = ['', '00', '15', '30', '45'];
   meridianArr: any[] = ['', "AM", "PM"];
+  fetchBatchModule = {
+    batch_id: null,
+    master_course: "",
+    course_id: -1,
+    subject_id: -1,
+    teacher_id: null,
+  }
+  selectedRadioButton: string = '';
+  combinedData: any = [];
+  batchData = {
+    standard_id: -1,
+    subject_id: -1,
+    batch_id: -1,
+  }
+  batchMasterCourse: any = [];
+  subjectListBatch: any = [];
+  batchList: any = [];
+  public cancellationReason: string = '';
+  isCourseCancel: boolean = false;
+  classMarkedForAction: any = '';
+  is_notified: any = 'Y';
 
   constructor
     (
@@ -83,8 +104,36 @@ export class ClassHomeComponent implements OnInit {
   }
 
   getPrefillData() {
-    this.getMasterCourseList()
+    if (this.isLangInstitute) {
+      this.submitMasterCourse();
+      this.getCombinedData();
+    } else {
+      this.getMasterCourseList()
+    }
     this.getTeachers();
+  }
+
+  getCombinedData() {
+    this.classService.getCombinedDataFromServer(this.batchData.standard_id, this.batchData.subject_id).subscribe(
+      res => {
+        debugger
+        console.log('Combined data', res);
+        this.combinedData = res;
+        if (res.standardLi != null) {
+          this.batchMasterCourse = res.standardLi;
+        }
+        if (res.subjectLi != null) {
+          this.subjectListBatch = res.subjectLi;
+        }
+        if (res.batchLi != null) {
+          this.batchList = res.batchLi;
+        }
+      },
+      err => {
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
+    )
   }
 
   getMasterCourseList() {
@@ -174,10 +223,14 @@ export class ClassHomeComponent implements OnInit {
   }
 
   submitMasterCourse() {
-
+    debugger
     let data;
     if (this.isLangInstitute) {
-      data = this.makeJsonForBatch()
+      // let fieldCheck = this.checkFieldFilled();
+      // if (fieldCheck == false) {
+      //   return;
+      // }
+      data = this.makeJsonForBatch();
     } else {
       data = this.makeJsonForSubmit();
     }
@@ -192,7 +245,7 @@ export class ClassHomeComponent implements OnInit {
         //console.log(this.timeTableResponse);
       },
       err => {
-
+        console.log(err);
       }
     )
   }
@@ -214,17 +267,32 @@ export class ClassHomeComponent implements OnInit {
 
   makeJsonForBatch() {
     let obj: any = {};
-    obj.batch_id = null;
-    obj.course_id = this.fetchMasterCourseModule.course_id;
-    obj.master_course = this.courseList.master_course;
-    obj.subject_id = -1;
-    obj.teacher_id = this.fetchMasterCourseModule.teacher_id;
-    obj.standard_id = -1;
+    obj.batch_id = this.batchData.batch_id;
+    obj.course_id = this.fetchBatchModule.course_id;
+    obj.master_course = this.fetchBatchModule.master_course;
+    obj.subject_id = this.batchData.subject_id;
+    obj.teacher_id = this.fetchBatchModule.teacher_id;
+    obj.standard_id = this.batchData.standard_id;
     obj.isExamIncludedInTimeTable = 'Y';
     obj.startdate = this.getStartDate();
     obj.enddate = this.getEndDate();
     obj.type = 2;
     return obj;
+  }
+
+  checkFieldFilled() {
+    let check = false;
+    if (this.batchData.standard_id != 0) {
+      if (this.batchData.batch_id != 0 && this.batchData.batch_id != -1) {
+        return true;
+      } else {
+        this.messageToast('error', 'Error', 'Please provide batcvh details');
+        return false;
+      }
+    } else {
+      this.messageToast('error', 'Error', 'Please provide');
+      return false;
+    }
   }
 
   getEndDate(): string {
@@ -241,6 +309,14 @@ export class ClassHomeComponent implements OnInit {
     for (let t = 0; t < data.length; t++) {
       if (data[t][key] == value) {
         return data[t].batch_id;
+      }
+    }
+  }
+
+  getValueOfStandardID(data, key, value, ) {
+    for (let t = 0; t < data.length; t++) {
+      if (data[t][key] == value) {
+        return data[t].standard_id;
       }
     }
   }
@@ -291,6 +367,7 @@ export class ClassHomeComponent implements OnInit {
   }
 
   notify(notify) {
+    debugger
     if (confirm("Are you sure, You want to notify?")) {
       let obj = {
         course_ids: this.fetchMasterCourseModule.course_id,
@@ -340,7 +417,6 @@ export class ClassHomeComponent implements OnInit {
   }
 
   rescheduleClassData(rowData) {
-    debugger
     this.reschedulePopUp = true;
     this.rescheduleDet = rowData;
   }
@@ -370,6 +446,7 @@ export class ClassHomeComponent implements OnInit {
         meridian: ''
       }
     }
+    this.submitMasterCourse();
   }
 
   notifyRescheduleUpdate(e) {
@@ -383,7 +460,6 @@ export class ClassHomeComponent implements OnInit {
 
 
   rescheduleClass() {
-    debugger
     if (this.reSheduleFormValid()) {
       let temp1: any = {
         cancel_note: this.reschedReason,
@@ -480,7 +556,6 @@ export class ClassHomeComponent implements OnInit {
   }
 
   isTimeValid() {
-
     if (this.timepicker.reschedStartTime.hour.trim() != '' && this.timepicker.reschedStartTime.minute.trim() != '' && this.timepicker.reschedStartTime.meridian.trim() != '' && this.timepicker.reschedEndTime.hour.trim() != '' && this.timepicker.reschedEndTime.minute.trim() != '' && this.timepicker.reschedEndTime.meridian.trim() != '') {
       let startTime = this.timepicker.reschedStartTime.hour + ":" + this.timepicker.reschedStartTime.minute + " " + this.timepicker.reschedStartTime.meridian;
       let endTime = this.timepicker.reschedEndTime.hour + ":" + this.timepicker.reschedEndTime.minute + " " + this.timepicker.reschedEndTime.meridian;
@@ -498,6 +573,89 @@ export class ClassHomeComponent implements OnInit {
     }
     else {
       return false;
+    }
+  }
+
+  checkInputType(event) {
+    if (event.target.id == "idAll") {
+      this.weekScheduleList = [];
+      this.selectedRadioButton = "";
+      this.fetchBatchModule = {
+        batch_id: null,
+        master_course: "",
+        course_id: -1,
+        subject_id: -1,
+        teacher_id: null,
+      }
+    }
+    else if (event.target.id == "idTeacher") {
+      this.weekScheduleList = [];
+      this.selectedRadioButton = "Teacher";
+    } else {
+      this.weekScheduleList = [];
+      this.selectedRadioButton = "Batch";
+    }
+  }
+
+  onBatchMasterCourseSelection(event) {
+    this.getCombinedData();
+  }
+
+  onSubjectSelection(event) {
+    this.batchList = [];
+    this.batchData.batch_id = -1;
+    this.getCombinedData();
+  }
+
+  CancelClass(rowData) {
+    debugger
+    this.isCourseCancel = true;
+    this.classMarkedForAction = rowData;
+  }
+
+  closeCourseCancelClass() {
+    this.isCourseCancel = false;
+    this.cancellationReason = '';
+    this.submitMasterCourse();
+  }
+
+  cancelClass() {
+    let data: any = {};
+    data.batch_id = this.classMarkedForAction.batch_id;
+    data.cancelSchd = [
+      {
+        cancel_note: this.cancellationReason,
+        is_notified: this.is_notified,
+        schd_id: this.classMarkedForAction.schd_id
+      }
+    ]
+    this.classService.cancelClassSchedule(data).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: 'Course Schedule Cancelled',
+          body: 'The requested scheduled has been cancelled'
+        }
+        this.toastCtrl.popToast(msg);
+        this.closeCourseCancelClass();
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: 'Failed To Cancel Schedule',
+          body: err.cancelResponseMessage
+        }
+        this.toastCtrl.popToast(msg);
+      }
+    )
+  }
+
+  notifyCancelUpdate(e) {
+    if (e.target.checked) {
+      this.is_notified = "Y";
+    }
+    else {
+      this.is_notified = "N";
     }
   }
 
