@@ -20,8 +20,7 @@ export class HomepageDashboardComponent implements OnInit {
     document.getElementById('liseven').classList.remove('active');
     document.getElementById('lieight').classList.remove('active');
     document.getElementById('linine').classList.remove('active');
-    //document.getElementById('liten').classList.remove('active');
-    //document.getElementById('lieleven').classList.remove('active');
+    document.getElementById('lizero').classList.add('active');
   }
 
 
