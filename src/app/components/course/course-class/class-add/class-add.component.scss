@@ -1352,3 +1352,67 @@
         overflow-y: auto;
     }
 }
+
+.customTableWrapper {
+    max-height: 400px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+table {
+    thead {
+        tr {
+            th {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+        }
+    }
+}
+
+.rowAllignCustomAdd {
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background: #efefef;
+    margin-right: 0px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+.textBoxContent {
+    max-height: 60px;
+    background: transparent;
+    min-height: 40px;
+    border-bottom: 1px solid #0084f6;
+}
+
+.marginTopBottom {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.class-wrapper {
+    border-bottom: 1px solid #ccc;
+    margin-top: 5px;
+    padding-bottom: 10px;
+}
+
+.extra-wrapper {
+    border-bottom: 1px solid #ccc;
+    margin-top: 5px;
+    padding-bottom: 10px;
+}
+
+.cancel-wrapper {
+    margin-top: 5px;
+    border-bottom: 1px solid #ccc;
+}
