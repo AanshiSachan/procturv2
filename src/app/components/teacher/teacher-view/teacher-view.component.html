@@ -42,39 +42,50 @@
         </div>
       </div>
     </div>
-    <div class="extraMargin c-sm-12">
-      <div class="c-sm-2">
 
-      </div>
-      <div class="c-sm-2">
-        <div class="field-wrapper">
-          <select id="" class="form-ctrl" (focus)="inputClickedCheck($event)" [(ngModel)]="selectedBatch">
-            <option *ngFor="let opt of batchesList" [value]="opt.batch_id">
-              {{opt.batch_name}}
-            </option>
-          </select>
-          <label for="">Batch
-          </label>
-        </div>
-      </div>
-      <div class="c-sm-8">
-        <div class="field-wrapper datePickerBox c-sm-3" style="margin-right: 10px">
-          <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="fromDate" (focus)="inputClickedCheck($event)"
-            [(ngModel)]="selectedFromDate" bsDatepicker/>
-          <label for="fromDate" style="margin-left: 15px;">From Date</label>
-          <!-- <span class="date-clear" name="fromDate" (click)="clearDate($event)">Clear</span> -->
-        </div>
-        <div class="field-wrapper datePickerBox c-sm-3" style="margin-right: 10px">
-          <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="createdDate" (focus)="inputClickedCheck($event)"
-            [(ngModel)]="selectedToDate" bsDatepicker />
-          <label for="createdDate" style="margin-left: 15px;">To Date</label>
-          <!-- <span class="date-clear" name="createdDate" (click)="clearDate($event)">Clear</span> -->
-        </div>
-        <div class="c-sm-3">
-          <button class="btn" (click)="searchTeacherInfo()">Go</button>
-        </div>
-      </div>
+    <div class="clearFix add-edit">
+      <a (click)="toggleFilter()">
+        <i id="showAddBtn" class="addBtnClass">+</i>
+        <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
+        <span>Filter</span>
+      </a>
     </div>
+    <section class="clearFix create-standard-form" *ngIf="advanceFilter">
+      <div class="row create-standard-field">
+        <div class="c-sm-2">
+        </div>
+        <div class="c-sm-2">
+          <div class="field-wrapper">
+            <select id="" class="form-ctrl" (focus)="inputClickedCheck($event)" [(ngModel)]="selectedBatch">
+              <option *ngFor="let opt of batchesList" [value]="opt.batch_id">
+                {{opt.batch_name}}
+              </option>
+            </select>
+            <label for="">Batch
+            </label>
+          </div>
+        </div>
+        <div class="c-sm-8">
+          <div class="field-wrapper datePickerBox c-sm-3" style="margin-right: 10px">
+            <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="fromDate" (focus)="inputClickedCheck($event)"
+              [(ngModel)]="selectedFromDate" bsDatepicker/>
+            <label for="fromDate" style="margin-left: 15px;">From Date</label>
+            <!-- <span class="date-clear" name="fromDate" (click)="clearDate($event)">Clear</span> -->
+          </div>
+          <div class="field-wrapper datePickerBox c-sm-3" style="margin-right: 10px">
+            <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="createdDate" (focus)="inputClickedCheck($event)"
+              [(ngModel)]="selectedToDate" bsDatepicker />
+            <label for="createdDate" style="margin-left: 15px;">To Date</label>
+            <!-- <span class="date-clear" name="createdDate" (click)="clearDate($event)">Clear</span> -->
+          </div>
+          <div class="c-sm-3">
+            <button class="btn" (click)="searchTeacherInfo()">Go</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
     <div>
       <div>
         <h2 class="pull-left marginTenPixel">
@@ -246,7 +257,7 @@
       </div>
     </div>
     <div class="marginTenPixel" style="text-align: center;">
-      <button class="btn" (click)="cancelViewDetails()">Cancel</button>
+      <button class="btn pull-right" (click)="cancelViewDetails()">Cancel</button>
     </div>
   </section>
 
