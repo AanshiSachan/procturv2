@@ -3,8 +3,299 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
+.feeManager {
+    min-height: 400px;
+    max-height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+     ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+    .fee-content {
+        max-height: 440px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    .row {
+        margin: 0px;
+    }
+    .header {
+        border-bottom: 1px solid rgba(119, 119, 119, 0.733);
+        margin: 5px 0px;
+    }
+    table {
+        .field-wrapper {
+            background: transparent;
+            width: 100%;
+            .form-ctrl {
+                background: transparent !important;
+                border-bottom: solid 1px #0084f6 !important;
+                text-align: center !important;
+                width: 180px !important;
+            }
+        }
+        .field-wrapper {
+            position: relative;
+            padding-top: 20px;
+            &.datePickerBox {
+                .bsDatepicker {
+                    cursor: pointer;
+                    position: relative;
+                    z-index: 1;
+                    background: transparent;
+                }
+                &:after {
+                    content: '';
+                    background: url("../../../../assets/images/calendar.svg") no-repeat;
+                    position: absolute;
+                    right: 30px;
+                    top: 0px;
+                    width: 21px;
+                    height: 21px;
+                    z-index: 0;
+                }
+            }
+            .date-clear {
+                position: absolute;
+                right: 60%;
+                top: 50px;
+                cursor: pointer;
+                color: #0084f6;
+            }
+        }
+        tr {
+            line-height: 20px;
+            i {
+                font-size: 18px;
+                cursor: pointer;
+            }
+            td {
+                padding: 3px 20px;
+            }
+        }
+    }
+    .installment {
+        border: 2px solid #004a7e;
+        padding: 5px;
+        box-shadow: 1px 5px 5px 1px #004a7e;
+        legend {
+            padding: 0.2em 0.5em;
+            border: 1px solid #004a7e;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: left;
+            width: 200px;
+            background: #004a7e;
+        }
+        .data-adder {
+            margin: 0px 0px 5px 0px;
+            .outer {
+                .inner {
+                    width: 30%;
+                    display: inline-flex;
+                    .btn {
+                        padding: 2px 0px 0px 7px;
+                        border: none;
+                        height: 35px;
+                        width: 35px;
+                        border-radius: 50%;
+                        .tooltip {
+                            position: relative;
+                            top: -30px;
+                            right: 50px;
+                            min-width: 100px;
+                            font-size: 12px;
+                            padding: 6px;
+                            height: 35px;
+                            border-radius: 5px;
+                            background: rgba(0, 0, 0, 0.774);
+                            color: white;
+                            visibility: hidden;
+                            opacity: 0;
+                        }
+                        &:hover {
+                            background: rgb(216, 214, 214);
+                            .tooltip {
+                                position: relative;
+                                top: -65px;
+                                right: 100px;
+                                min-width: 160px;
+                                padding: 6px;
+                                border-radius: 5px;
+                                font-size: 12px;
+                                height: 35px;
+                                background: rgba(0, 0, 0, 0.541);
+                                color: white;
+                                visibility: visible;
+                                opacity: 1;
+                                transition: all 0.2s;
+                            }
+                        }
+                        &:focus {
+                            outline: none;
+                        }
+                        &:active {
+                            box-shadow: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .additional {
+        margin-top: 40px;
+        border: 2px solid #004a7e;
+        padding: 5px;
+        box-shadow: 1px 5px 5px 1px #004a7e;
+        legend {
+            padding: 0.2em 0.5em;
+            border: 1px solid #004a7e;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: left;
+            width: 200px;
+            background: #004a7e;
+        }
+        .data-adder {
+            margin: 0px 0px 5px 0px;
+            .outer {
+                .inner {
+                    width: 30%;
+                    display: inline-flex;
+                    .btn {
+                        padding: 2px 0px 0px 7px;
+                        border: none;
+                        height: 35px;
+                        width: 35px;
+                        border-radius: 50%;
+                        .tooltip {
+                            position: relative;
+                            top: -30px;
+                            right: 50px;
+                            min-width: 100px;
+                            font-size: 12px;
+                            padding: 6px;
+                            height: 35px;
+                            border-radius: 5px;
+                            background: rgba(0, 0, 0, 0.774);
+                            color: white;
+                            visibility: hidden;
+                            opacity: 0;
+                        }
+                        &:hover {
+                            background: rgb(216, 214, 214);
+                            .tooltip {
+                                position: relative;
+                                top: -65px;
+                                right: 100px;
+                                min-width: 160px;
+                                padding: 6px;
+                                border-radius: 5px;
+                                font-size: 12px;
+                                height: 35px;
+                                background: rgba(0, 0, 0, 0.541);
+                                color: white;
+                                visibility: visible;
+                                opacity: 1;
+                                transition: all 0.2s;
+                            }
+                        }
+                        &:focus {
+                            outline: none;
+                        }
+                        &:active {
+                            box-shadow: none;
+                        }
+                    }
+                }
+                .innermost {
+                    display: inline-flex;
+                    .field-wrapper {
+                        width: 200px;
+                    }
+                    .btn {
+                        padding: 2px 0px 0px 7px;
+                        border: none;
+                        height: 35px;
+                        width: 35px;
+                        border-radius: 50%;
+                        .tooltip {
+                            position: relative;
+                            top: -30px;
+                            right: 50px;
+                            min-width: 100px;
+                            font-size: 12px;
+                            padding: 6px;
+                            height: 35px;
+                            border-radius: 5px;
+                            background: rgba(0, 0, 0, 0.774);
+                            color: white;
+                            visibility: hidden;
+                            opacity: 0;
+                        }
+                        &:hover {
+                            background: rgb(216, 214, 214);
+                            .tooltip {
+                                position: relative;
+                                top: -65px;
+                                right: 100px;
+                                min-width: 160px;
+                                padding: 6px;
+                                border-radius: 5px;
+                                font-size: 12px;
+                                height: 35px;
+                                background: rgba(0, 0, 0, 0.541);
+                                color: white;
+                                visibility: visible;
+                                opacity: 1;
+                                transition: all 0.2s;
+                            }
+                        }
+                        &:focus {
+                            outline: none;
+                        }
+                        &:active {
+                            box-shadow: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.feeName{
+    
+}
+
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+
+
+/* Webkit browsers like Safari and Chrome */
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 
 /* =================================================================================== */
+
+.feeactions {
+    ul {
+        li {
+            display: inline-block;
+            cursor: pointer;
+        }
+    }
+}
 
 
 /* =================================================================================== */
@@ -293,6 +584,11 @@ screen and (max-height: 768px) {
         overflow-y: visible;
         overflow-x: visible;
         table {
+            td,
+            th {
+                text-align: left !important;
+                padding: 15px;
+            }
             .field-checkbox-wrapper {
                 width: 22px !important;
                 overflow: hidden;

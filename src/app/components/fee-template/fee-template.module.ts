@@ -13,6 +13,7 @@ import 'hammerjs';
 import { FeeStrucService } from '../../services/feeStruc.service';
 //import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
+import { TemplatePopUpComponent } from './template-popup/template-popup.component';
 import { TemplateHomeComponent } from './template-home/template-home.component';
 
 @NgModule({
@@ -33,6 +34,7 @@ import { TemplateHomeComponent } from './template-home/template-home.component';
     declarations: [
         FeeTemplateHomeComponent,
         TemplateHomeComponent,
+        TemplatePopUpComponent
     ],
     entryComponents: [
     ],
