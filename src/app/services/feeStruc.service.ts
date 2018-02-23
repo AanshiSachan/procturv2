@@ -40,4 +40,14 @@ export class FeeStrucService {
 
     }
 
+
+    fetchFeeDetail(id): Observable<any> {
+        let url = this.baseUrl +"/api/v1/student_wise/feeStructure/fetch/" +this.institute_id +"/" +id;
+
+        return this.http.get(url, {headers: this.headers}).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
 }

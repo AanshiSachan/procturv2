@@ -8,6 +8,7 @@
     max-height: 400px;
     overflow-x: hidden;
     overflow-y: auto;
+    padding-top: 20px;
      ::-webkit-scrollbar {
         display: block;
         width: 7px;
@@ -268,8 +269,43 @@
     }
 }
 
-.feeName{
-    
+.Pheader {
+    h2 {
+        display: inline-block;
+    }
+    .headitor {
+        display: inline-block;
+        &.field-wrapper {
+            padding-top: 0px;
+            .form-ctrl {
+                margin: 0px 0px 0px 15px;
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+                padding: 5px 0px 0px 0px;
+                outline: none;
+                border: 0;
+                border-bottom: solid 1px #e2ebee;
+                height: 30px;
+                font: 400 13.3333px Arial;
+                box-shadow: none;
+                border-radius: 0;
+                line-height: 24px;
+            }
+        }
+    }
+    a {
+        display: inline-block;
+        line-height: 1.2;
+        position: relative;
+        cursor: S;
+        bottom: -5px;
+        margin-left: 15px;
+        img {
+            width: 25px;
+            height: 25px;
+        }
+    }
 }
 
 input[type='number'] {
