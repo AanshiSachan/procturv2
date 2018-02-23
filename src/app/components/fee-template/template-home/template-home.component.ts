@@ -25,10 +25,10 @@ export class TemplateHomeComponent implements OnInit {
 
   isProfessional: boolean = false;
   source: any[] = [];
-  selectedTemplate:any;
-  isHeaderEdit:boolean = false;
-  isEditFee:boolean = false;
-
+  selectedTemplate: any;
+  isHeaderEdit: boolean = false;
+  isEditFee: boolean = false;
+  feeStructure:any;
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private fetchService: FeeStrucService) {
     if (sessionStorage.getItem('Authorization') == null) {
@@ -52,7 +52,7 @@ export class TemplateHomeComponent implements OnInit {
   getFeeStructures() {
     this.fetchService.fetchFeeStruc().subscribe(
       res => {
-        this.source = res;        
+        this.source = res;
       },
       err => {
 
@@ -60,19 +60,44 @@ export class TemplateHomeComponent implements OnInit {
     )
   }
 
-  editFee(fee){
+  editFee(fee) {
     console.log(fee);
     this.selectedTemplate = fee;
-    this.isEditFee = true;
+    this.fetchService.fetchFeeDetail(fee.template_id).subscribe(
+      res => {
+        this.feeStructure = res;
+        console.log(res);
+        this.isEditFee = true;
+      },
+      err => {}
+    )
   }
 
-  closeFeeEditor(){
-    this.isEditFee = false;
+  closeFeeEditor() {
+    this.getFeeStructures();
+    this.isHeaderEdit = false;
+    this.isEditFee = false;    
   }
 
-  updateFeeTemplate(){
-    
+  updateFeeTemplate() {
+  
   }
+
+  updateTemplateName() {
+    if (this.selectedTemplate.template_name.trim() != '') {
+      this.isHeaderEdit = false
+    }
+    else {
+      let msg = {
+        type: 'error',
+        title: 'Fee Template Name is Mandatory',
+        body: 'Please enter a valid fee template name'
+      }
+      this.appC.popToast(msg);
+    }
+  }
+
+
 
 }
 

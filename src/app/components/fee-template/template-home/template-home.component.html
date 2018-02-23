@@ -91,24 +91,106 @@
         </svg>
       </span>
 
-      <div class="" popup-header>
-        <h2 *ngIf="!isHeaderEdit">Edit Template {{selectedTemplate.template_name}}</h2>
-        <a (click)="isHeaderEdit = true">
+      <div class="Pheader" popup-header>
+        <h2 *ngIf="!isHeaderEdit">Edit Template ::
+          <i>{{selectedTemplate.template_name}}</i>
+        </h2>
+        <a *ngIf="!isHeaderEdit" (click)="isHeaderEdit = true">
           <img src="./assets/images/edit_details.svg" alt="feeName">
         </a>
-        <h2 *ngIf="isHeaderEdit">Edit Template {{selectedTemplate.template_name}}</h2>
-        <a (click)="isHeaderEdit = false">
+        <h2 *ngIf="isHeaderEdit">Edit Template</h2>
+        <div *ngIf="isHeaderEdit" class="headitor field-wrapper">
+          <input type="text" class="form-ctrl" autofocus [(ngModel)]="selectedTemplate.template_name">
+        </div>
+        <a *ngIf="isHeaderEdit" (click)="updateTemplateName()">
           <img src="./assets/images/plus.png" alt="feeName">
         </a>
       </div>
 
       <div class="feeManager" popup-content>
         <div class="fee-content">
+          <fieldset class="installment">
+            <legend>Edit Fee Installments</legend>
+            <div class="row data-adder">
+              <div class="outer">
+                <div class="c-lg-3 c-md-3 pull-left"></div>
+                <div class="c-lg-9 c-md-9 pull-right">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="table-scroll-wrapper">
+                <div class="table table-responsive">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Installment # </th>
+                        <th>Due Date</th>
+                        <th>Amount</th>
+                        <th>Tax</th>
+                        <th>Fee Amount Incl Tax</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </fieldset>
 
-          <div class="row feeName">
-
-          </div>
-
+          <fieldset class="additional">
+            <legend>Edit Additional Fees</legend>
+            <div class="row data-adder">
+              <div class="outer">
+                <div class="c-lg-12 c-md-12">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="table-scroll-wrapper">
+                <div class="table table-responsive">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Fee Type </th>
+                        <th>Due Date</th>
+                        <th>Amount</th>
+                        <th>Tax</th>
+                        <th>Fee Amount Incl Tax</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </fieldset>
         </div>
       </div>
 
