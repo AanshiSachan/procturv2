@@ -34,12 +34,41 @@ export class FeeStrucService {
                 return res;
             },
             err => {
-            return err;
-            }   
+                return err;
+            }
         )
 
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    //////////////////////Fee Type////////////////////////////////////////
+
+
+    getAllFeeType() {
+        let url = this.baseUrl + "/api/v1/batchFeeSched/feeType/" + this.institute_id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    upadateFeeType(data) {
+        let url = this.baseUrl + "/api/v1/batchFeeSched/feeType/" + this.institute_id;
+        return this.http.post(url, data, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
 
     fetchFeeDetail(id): Observable<any> {
         let url = this.baseUrl +"/api/v1/student_wise/feeStructure/fetch/" +this.institute_id +"/" +id;
@@ -47,6 +76,7 @@ export class FeeStrucService {
         return this.http.get(url, {headers: this.headers}).map(
             res => { return res; },
             err => { return err; }
+
         )
     }
 

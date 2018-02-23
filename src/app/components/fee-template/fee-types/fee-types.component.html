@@ -60,7 +60,7 @@
             </label>
           </div>
         </div>
-        <div class="pull-left create-cancel-small">
+        <div style="margin-top: 1.5%;" class="pull-left create-cancel-small">
           <button class="btn" (click)="addNewFeeType()">Add</button>
         </div>
       </div>
@@ -86,11 +86,39 @@
           </th>
         </thead>
         <tbody>
-          <tr>
-
+          <tr *ngFor="let row of feeTypeList; let i = index">
+            <td>
+              <div class="field-wrapper">
+                <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.fee_type" name="label">
+              </div>
+            </td>
+            <td>
+              <div class="field-wrapper">
+                <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.fee_type_desc" name="label">
+              </div>
+            </td>
+            <td>
+              <div class="field-wrapper">
+                <input type="number" class="form-ctrl editCellInput" style="width:25%" [(ngModel)]="row.fee_amount" name="label">
+              </div>
+            </td>
+            <td>
+              <div class="field-wrapper">
+                <input type="number" class="form-ctrl editCellInput" style="width:25%" [(ngModel)]="row.fee_type_tax" name="label">
+              </div>
+            </td>
+            <td>
+              <span *ngIf="row.fee_type_id == 0" class="delete-btn" style="font-family: FontAwesome; font-size: 19px" (click)="deleteRow(row , i)">
+                <i class="fa fa-trash-o " aria-hidden="true "></i>
+              </span>
+            </td>
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div style="margin-top: 1.5%;">
+      <button class="btn fullBlue pull-right" (click)="updateDetails()">Update</button>
     </div>
 
   </section>

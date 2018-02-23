@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from '../../services/login-services/login.service';
 
 @Component({
   selector: 'app-fee-template',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FeeTemplateHomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private login: LoginService,
+  ) { }
 
   ngOnInit() {
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.removeFullscreen();
     document.getElementById('lione').classList.remove('active');
     document.getElementById('litwo').classList.remove('active');
