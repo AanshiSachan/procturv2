@@ -298,7 +298,7 @@
 
           <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" (click)="closeEnquiryFullDetails($event)">
-              X
+              <i style="font-family: FontAwesome; color: red;font-size: 30px;" class="fas fa-times-circle"></i>
             </a>
             <div class="skeleton" #skelton *ngIf="!isSideBar"></div>
             <enquiry-sidebar *ngIf="isSideBar" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority" [statusArr]="enqstatus"
