@@ -10,7 +10,7 @@
 }
 
 .note-wrapper {
-    background: #d8d8d8;
+    background: #efefef;
     h3 {
         margin-top: 5px;
         margin-bottom: 5px;
@@ -64,4 +64,52 @@
 
 .closeBtnClass {
     line-height: 11px !important;
+}
+
+.editCellInput {
+    margin: auto;
+}
+
+table {
+    thead {
+        tr {
+            th {
+                padding-top: 10px !important;
+                padding-bottom: 10px !important;
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+            .field-wrapper {
+                padding: 0px !important;
+                .form-ctrl {
+                    display: block;
+                    box-sizing: border-box;
+                    padding: 0px 0px 0px 5px;
+                    outline: none;
+                    border: 0;
+                    height: 26px;
+                    box-shadow: none;
+                    border-radius: 0;
+                    line-height: 25px;
+                    background: transparent;
+                    width: 50%;
+                    text-align: center;
+                    border-bottom: 1px solid #ccc;
+                }
+            }
+        }
+    }
+}
+
+////// Turn off spinner
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
