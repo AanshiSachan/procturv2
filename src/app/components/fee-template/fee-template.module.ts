@@ -14,6 +14,7 @@ import { FeeStrucService } from '../../services/feeStruc.service';
 //import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { TemplateHomeComponent } from './template-home/template-home.component';
+import { FeeTypesComponent } from './fee-types/fee-types.component';
 
 @NgModule({
     imports: [
@@ -33,6 +34,7 @@ import { TemplateHomeComponent } from './template-home/template-home.component';
     declarations: [
         FeeTemplateHomeComponent,
         TemplateHomeComponent,
+        FeeTypesComponent,
     ],
     entryComponents: [
     ],
