@@ -33,12 +33,12 @@
           <input type="text" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_name" name="label">
           <label *ngIf="(isLangInstitue != true )">
             Subject Name
-            <span style="color:red">*</span> (Eg. Maths or Science or Accounts)
           </label>
           <label *ngIf="(isLangInstitue == true )">
             Course Name
-            <span style="color:red">*</span> (Eg. Maths or Science or Accounts)
+            <span style="color:red">*</span>
           </label>
+          <p>(Eg. Maths or Science or Accounts)</p>
         </div>
 
         <div class="field-checkbox-wrapper c-lg-4 c-sm-4 c-md-4">

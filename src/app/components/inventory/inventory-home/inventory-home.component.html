@@ -167,15 +167,13 @@
                   <div class="displayAddItem" id="add-item{{i}}">
                     <a class="view-addItem" (click)="addItemsEnable(i)" style="cursor: pointer;">Add Quantity</a>
                     <div class="field-wrapper edit-addItem">
-                      <input type="number" class="form-ctrl addQuantityInput" [(ngModel)]="row.units_added" name="label">
-                      <ul class="editOptions" style="cursor: pointer;">
-                        <li>
-                          <a (click)="addItemsQuantity(row)">Add</a>
-                        </li>
-                        <li>
-                          <a (click)="cancelItem(i)">Cancel</a>
-                        </li>
-                      </ul>
+                      <input type="number" class="form-ctrl addQuantityInput" style="display: inline-block" [(ngModel)]="row.units_added" name="label">
+                      <a style="cursor:pointer ; margin-right:10px; display: inline-block" (click)="addItemsQuantity(row)">
+                        <i class="far fa fa-save" style="font-family: FontAwesome ;font-size: 19px; display: inline-block;" title="Update"></i>
+                      </a>
+                      <a style="cursor:pointer" (click)="cancelItem(i)">
+                        <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;  display: inline-block;" title="Cancel"></i>
+                      </a>
                     </div>
                   </div>
                 </td>
@@ -288,15 +286,12 @@
                 </td>
 
                 <td class="table-action edit-comp">
-                  <ul>
-                    <li>
-                      <a (click)="updateRow(row , i)">Update</a>
-                    </li>
-                    <li>
-                      <a (click)="cancelRow(i)">Cancel
-                      </a>
-                    </li>
-                  </ul>
+                  <a style="cursor:pointer ; margin-right:10px" (click)="updateRow(row , i)">
+                    <i class="far fa fa-save" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i>
+                  </a>
+                  <a style="cursor:pointer" (click)="cancelRow(i)">
+                    <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
+                  </a>
                 </td>
 
                 <td class="view-comp">
@@ -312,7 +307,7 @@
 
 
                 <td *ngIf="showAllocateOption">
-                  <a (click)="allocateQuantityToSubBranches(row)">Allocate</a>
+                  <a (click)="allocateQuantityToSubBranches(row)" style="cursor:pointer;">Allocate</a>
                 </td>
 
               </tr>
@@ -548,7 +543,7 @@
         <form [formGroup]="allocateItemForm" novalidate (ngSubmit)="allocateItemToBranches()">
           <div class="row extraMargin">
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
-              <div class="field-wrapper">
+              <div class="field-wrapper has-value">
                 <select id="" class="form-ctrl" formControlName="sub_branch_id" (change)="onSubBranchSelection()" (focus)="inputClickedCheck($event)">
                   <option *ngFor="let opt of subBranchList" [value]="opt.institute_id">
                     {{opt.institute_name}}
