@@ -1,6 +1,4 @@
 <div class="middle-section clearFix" id="enquiryList" #enquiryManager [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
-
-
   <!-- Main View -->
   <aside class="middle-full">
     <!-- Navigation to other tabs -->
@@ -46,7 +44,6 @@
 
     <!-- Enquiry Page Start here -->
     <section class="middle-main clearFix" id="middleMainForEnquiryList">
-
       <!-- Search bar and Advanced Filter -->
       <section class="common-search-filter" id="searchFilter" (click)="inputClicked($event)">
         <div class="filter-search">
@@ -283,10 +280,8 @@
 
       <!-- Data Table and Pagination -->
       <section class="search-data">
-
         <!-- Enquiry DataTable -->
         <div class="" id="table-main">
-
           <div class="table-scroll-wrapper">
             <div class="table table-responsive enquiry-table">
               <proctur-checkbox-table [records]="sourceEnquiry" [tableName]="'enquiry'" [settings]="EnquirySettings" (userRowSelect)="userRowSelect($event)"
@@ -323,14 +318,8 @@
           </div>
 
         </div>
-
-
       </section>
-
-
-
     </section>
-
   </aside>
 
 

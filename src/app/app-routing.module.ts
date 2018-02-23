@@ -81,6 +81,11 @@ import { SlotComponent } from './components/slot/slot.component';
                     canLoad: [AuthGuard]
                 },
                 {
+                    path: 'fee',
+                    loadChildren: 'app/components/fee-template/fee-template.module#FeeTemplateModule',
+                    canLoad: [AuthGuard]
+                },
+                {
                     path: 'help',
                     loadChildren: 'app/components/help-home/help-home.module#HelpHomeModule',
                     canLoad: [AuthGuard]

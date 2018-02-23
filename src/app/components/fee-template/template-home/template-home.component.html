@@ -1,0 +1,71 @@
+<div class="middle-section clearFix" id="enquiryList" #enquiryManager [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
+  <!-- Main View -->
+  <aside class="middle-full">
+    <section class="middle-top mb0 clearFix">
+      <h1 class="pull-left">
+        Manage Fee Structures
+      </h1>
+
+      <aside class="headEnq pull-right">
+        <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 8px;" class="btn" routerLink='add'>
+          <div class="option-wrap">
+            <img src="./assets/images/plus.png" alt="feeStructure">
+            <span class="tooltip">
+              New Structure
+            </span>
+          </div>
+        </button>
+        <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 8px;" class="btn" routerLink='add'>
+          <div class="option-wrap">
+            <img src="./assets/images/plus.png" alt="feeType">
+            <span class="tooltip">
+              Fee Types
+            </span>
+          </div>
+        </button>
+      </aside>
+    </section>
+
+    <!-- Fee Table Container -->
+    <section class="middle-main clearFix" id="middleMainForEnquiryList">
+      <!-- Data Table and Pagination -->
+      <section class="search-data">
+        <div class="" id="table-main">
+          <div class="table-scroll-wrapper">
+            <div class="table table-responsive enquiry-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Fee Structure Name</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let fee of source">
+                    <td>
+
+                    </td>
+                    <td>
+                      
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paginator Here -->
+        <!-- <div class="row filter-res pagination" id="pager" style="width: 100%;">
+          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+            <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+              [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)"
+              [count]="totalEnquiry">
+            </pagination>
+          </div>
+        </div> -->
+      </section>
+    </section>
+
+  </aside>
+</div>
