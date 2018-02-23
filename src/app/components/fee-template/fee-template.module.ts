@@ -13,6 +13,7 @@ import 'hammerjs';
 import { FeeStrucService } from '../../services/feeStruc.service';
 //import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
+import { TemplatePopUpComponent } from './template-popup/template-popup.component';
 import { TemplateHomeComponent } from './template-home/template-home.component';
 import { FeeTypesComponent } from './fee-types/fee-types.component';
 
@@ -35,6 +36,7 @@ import { FeeTypesComponent } from './fee-types/fee-types.component';
         FeeTemplateHomeComponent,
         TemplateHomeComponent,
         FeeTypesComponent,
+        TemplatePopUpComponent
     ],
     entryComponents: [
     ],

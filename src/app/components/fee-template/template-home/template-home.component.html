@@ -15,9 +15,9 @@
             </span>
           </div>
         </button>
-        <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 8px;" class="btn" routerLink='add'>
+        <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 9px;" class="btn" routerLink='add'>
           <div class="option-wrap">
-            <img src="./assets/images/plus.png" alt="feeType">
+            <img src="./assets/images/fork.png" alt="feeType" style="height: 80%;">
             <span class="tooltip">
               Fee Types
             </span>
@@ -43,10 +43,19 @@
                 <tbody>
                   <tr *ngFor="let fee of source">
                     <td>
-
+                      <label>
+                        {{fee.template_name}}
+                      </label>
                     </td>
-                    <td>
-                      
+                    <td class="feeactions">
+                      <ul>
+                        <li (click)="editFee(fee)">
+                          <a>Edit</a>
+                        </li>
+                        <li>
+                          <a>Delete</a>
+                        </li>
+                      </ul>
                     </td>
                   </tr>
                 </tbody>
@@ -66,6 +75,53 @@
         </div> -->
       </section>
     </section>
+
+
+    <template-popup *ngIf="isEditFee">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeFeeEditor()" close-button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+
+      <div class="" popup-header>
+        <h2 *ngIf="!isHeaderEdit">Edit Template {{selectedTemplate.template_name}}</h2>
+        <a (click)="isHeaderEdit = true">
+          <img src="./assets/images/edit_details.svg" alt="feeName">
+        </a>
+        <h2 *ngIf="isHeaderEdit">Edit Template {{selectedTemplate.template_name}}</h2>
+        <a (click)="isHeaderEdit = false">
+          <img src="./assets/images/plus.png" alt="feeName">
+        </a>
+      </div>
+
+      <div class="feeManager" popup-content>
+        <div class="fee-content">
+
+          <div class="row feeName">
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="" popup-footer>
+        <div class="clearfix">
+          <aside class="pull-right popup-btn">
+            <input type="button" value="Cancel" class="btn" (click)="closeFeeEditor()">
+            <input type="button" value="Apply" (click)="updateFeeTemplate()" class="redBtn btn">
+          </aside>
+        </div>
+      </div>
+
+    </template-popup>
 
   </aside>
 </div>

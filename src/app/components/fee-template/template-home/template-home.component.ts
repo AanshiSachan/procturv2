@@ -25,6 +25,9 @@ export class TemplateHomeComponent implements OnInit {
 
   isProfessional: boolean = false;
   source: any[] = [];
+  selectedTemplate:any;
+  isHeaderEdit:boolean = false;
+  isEditFee:boolean = false;
 
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private fetchService: FeeStrucService) {
@@ -57,4 +60,21 @@ export class TemplateHomeComponent implements OnInit {
     )
   }
 
+  editFee(fee){
+    console.log(fee);
+    this.selectedTemplate = fee;
+    this.isEditFee = true;
+  }
+
+  closeFeeEditor(){
+    this.isEditFee = false;
+  }
+
+  updateFeeTemplate(){
+    
+  }
+
 }
+
+
+
