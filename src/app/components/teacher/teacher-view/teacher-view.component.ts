@@ -32,6 +32,7 @@ export class TeacherViewComponent implements OnInit {
   containerWidth: any = "150px";
   containerHeight: any = "150px";
   readonly: any = true;
+  advanceFilter: boolean = false;
 
   constructor(
     private route: Router,
@@ -211,6 +212,18 @@ export class TeacherViewComponent implements OnInit {
 
   setImage(e) {
     this.studentImage = e;
+  }
+
+  toggleFilter() {
+    if (this.advanceFilter == false) {
+      this.advanceFilter = true;
+      document.getElementById('showCloseBtn').style.display = '';
+      document.getElementById('showAddBtn').style.display = 'none';
+    } else {
+      this.advanceFilter = false;
+      document.getElementById('showCloseBtn').style.display = 'none';
+      document.getElementById('showAddBtn').style.display = '';
+    }
   }
 
 }

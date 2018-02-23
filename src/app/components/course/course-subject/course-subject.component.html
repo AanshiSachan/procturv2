@@ -10,7 +10,7 @@
     </a>
   </div>
   <section class="clearFix create-standard-form" *ngIf="createNewSubject">
-    <div class="c-lg-10 c-sm-10 c-md-10">
+    <div class="c-lg-8 c-sm-8 c-md-8">
       <div class="row create-standard-field">
 
         <div class="field-wrapper c-lg-4 c-sm-4 c-md-4" [ngClass]="{'has-value' : newSubjectDetails.standard_id != '-1'}">
@@ -48,10 +48,10 @@
 
       </div>
     </div>
-    <div class="c-lg-2 c-sm-2 c-md-2 pull-right">
+    <div class="c-lg-4 c-sm-4 c-md-4 pull-right">
       <aside class="pull-left create-cancel-small">
+        <input type="button" value="Cancel" class="btn" style="font-size: 16px;height: 40px;" (click)="toggleCreateNewStandard()">
         <input type="button" value="Create" class="btn redBtn" (click)="addNewSubject()">
-        <input type="button" value="Cancel" class="btn cancle" (click)="toggleCreateNewStandard()">
       </aside>
     </div>
   </section>
