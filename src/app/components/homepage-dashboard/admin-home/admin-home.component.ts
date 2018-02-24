@@ -510,12 +510,12 @@ export class AdminHomeComponent implements OnInit {
 
     if (this.feeStat != null && this.feeStat != undefined) {
       if (id === 'total') {
-        return 100000
-        // let totalFee = this.feeStat.map(student => student.student_total_fees).reduce((acc, val) => val + acc);
-        // return totalFee;
+        let totalFee = this.feeStat.map(student => student.student_total_fees).reduce((acc, val) => val + acc);
+        return totalFee;
       }
       else if (id === 'pending') {
-        return 10000
+        let pendng = this.feeStat.map(student => student.amount_still_payable).reduce((acc, val) => val + acc);
+        return pendng;
       }
       else if (id === 'past') {
         return 200000
