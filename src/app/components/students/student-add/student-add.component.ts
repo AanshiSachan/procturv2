@@ -284,6 +284,7 @@ export class StudentAddComponent implements OnInit {
   key: string = 'name'; //set default
   reverse: boolean = false;
   allotInventoryArr: any[] = [];
+  taxEnableCheck: any = '';
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -355,7 +356,7 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  updateMasterCourseList(id) {   
+  updateMasterCourseList(id) {
     this.studentPrefillService.fetchCourseMasterById(id).subscribe(data => {
       this.batchList = [];
       data.coursesList.forEach(el => {
@@ -1173,6 +1174,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   applyConfiguredFees($event) {
+    debugger
     $event.preventDefault();
     this.isPaymentDetailsValid = false;
     this.feeTemplateById = {
@@ -1210,6 +1212,7 @@ export class StudentAddComponent implements OnInit {
     let dd = moment(this.feeStructureForm.template_effective_date).format('YYYY-MM-DD');
     /* success */
     if ((this.feeTempSelected != "" && this.feeTempSelected != null) && (dd != "" && dd != null && dd != "Invalid date")) {
+      this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
       this.feeStructureForm.template_effective_date = dd;
       //console.log(this.feeTempSelected + "   " + this.feeStructureForm);
       this.studentPrefillService.getFeeStructureById(this.feeTempSelected, this.feeStructureForm).subscribe(
@@ -1220,7 +1223,7 @@ export class StudentAddComponent implements OnInit {
           this.isDefineFees = true;
 
           this.isFeeApplied = true;
-          
+
           if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
             this.service_tax = res.registeredServiceTax;
           }
@@ -1369,6 +1372,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   addNewInstallmentFee() {
+    debugger
     if (this.addFeeInstallment.due_date == "" || this.addFeeInstallment.due_date == null || isNaN(this.addFeeInstallment.initial_fee_amount) || this.addFeeInstallment.initial_fee_amount == "" || this.addFeeInstallment.initial_fee_amount <= 0) {
       if (this.addFeeInstallment.due_date == "" || this.addFeeInstallment.due_date == null) {
         let msg = {
@@ -1820,7 +1824,8 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  sortTableByDate(i) {
+  sortTableByDate(i , event) {
+    this.instalmentTableData[i].due_date = event;
     this.updateTableInstallment();
   }
   /* ============================================================================================================================ */
