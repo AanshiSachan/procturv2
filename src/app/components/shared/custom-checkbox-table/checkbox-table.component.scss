@@ -20,6 +20,18 @@ $color-highlight: lighten($color-base, 7%);
   }
 }
 
+.numberAlign{
+  cursor: pointer;
+  text-align: right;
+  padding: 8px 15px;
+}
+
+.textAlign{
+  cursor: pointer;
+  text-align: left;
+  padding: 8px 15px;
+}
+
 @keyframes progress {
   0% {
     transform: translate3d(-100%, 0, 0);

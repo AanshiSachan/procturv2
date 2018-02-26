@@ -390,10 +390,7 @@ export class EnquiryAddComponent implements OnInit {
     this.prefill.fetchLastDetail().subscribe(
       data => {
         this.lastDetail = data;
-        this.lastDetail.name = data.name;
-        this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
-        let createTime = new Date(data.enquiry_creation_datetime);
-        this.lastUpdated = moment(createTime).fromNow();
+        console.log(this.lastDetail);
       },
       err => {
         // console.log(err);
@@ -668,11 +665,24 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
+  getCustomComponents(): any[]{
+    let tempArr:any[] = [];
+    this.customComponents.forEach(e => {
+      if(e.value.trim() != ''){
+        let obj:any = {};
+        obj.component_id = e.id;
+        obj.enq_custom_id = 0;
+        obj.enq_custom_value = e.value;
+        tempArr.push(obj);
+      }
+    });
+    return tempArr;
+  }
 
 
   /* Function to submit validated form data */
   submitForm(form: NgForm) {
-    debugger
+    //debugger
     //Validates if the custom component required fields are selected or not
     let customComponentValidator = this.validateCustomComponent();
 
@@ -681,32 +691,39 @@ export class EnquiryAddComponent implements OnInit {
 
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
-
       if (this.validateTime()) {
         this.newEnqData.enquiry_date = moment(this.newEnqData.enquiry_date).format('YYYY-MM-DD');
         this.newEnqData.followUpDate = moment(this.newEnqData.followUpDate).format('YYYY-MM-DD');
+        this.newEnqData.enqCustomLi = this.getCustomComponents();
+        console.log(this.newEnqData.enqCustomLi);
         if (this.hour != '') {
           this.newEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         }
         this.poster.postNewEnquiry(this.newEnqData).subscribe(
           data => {
             this.enquiryConfirm = data;
-            if (this.addNextCheck) {
-              let msg = {
-                type: "success",
-                title: "New Enquiry Added",
-                body: "Your enquiry has been submitted"
+            this.prefill.fetchLastDetail().subscribe(data => {
+              this.lastDetail = data;
+              if (this.addNextCheck) {
+                let msg = {
+                  type: "success",
+                  title: "New Enquiry Added",
+                  body: "Your enquiry has been submitted"
+                }
+
+                //form.reset();
+                this.appC.popToast(msg);
+                this.clearFormData();
               }
-              this.lastDetail.name = this.newEnqData.name;
-              form.reset();
-              this.appC.popToast(msg);
-              this.clearFormData();
-            }
-            else {
-              this.openConfirmationPopup();
-              form.reset();
-              this.clearFormData();
-            }
+              else {
+                this.openConfirmationPopup();
+                //form.reset();
+                this.clearFormData();
+              }
+            },
+              err => {
+                
+              });
           },
           err => {
             let data = {
@@ -717,15 +734,6 @@ export class EnquiryAddComponent implements OnInit {
             this.appC.popToast(data);
           }
         );
-        this.prefill.fetchLastDetail().subscribe(data => {
-          //console.log(data);
-          this.lastDetail = data;
-          this.lastDetail.name = data.name;
-          this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
-          localStorage.setItem('institute_enquiry_id', data.institute_enquiry_id);
-          let createTime = new Date(data.enquiry_creation_datetime);
-          this.lastUpdated = moment(createTime).fromNow();
-        });
       }
       else {
         let msg = {
@@ -737,8 +745,8 @@ export class EnquiryAddComponent implements OnInit {
       }
     }
     else {
-      console.log(this.isFormValid);
-      console.log(customComponentValidator);
+      //console.log(this.isFormValid);
+      //console.log(customComponentValidator);
       let msg = {
         type: 'error',
         title: 'Academic Data Incomplete',
@@ -802,10 +810,6 @@ export class EnquiryAddComponent implements OnInit {
   updateLastUpdatedDetails() {
     this.prefill.fetchLastDetail().subscribe(data => {
       this.lastDetail = data;
-      this.lastDetail.name = data.name;
-      this.lastDetail.institute_enquiry_id = data.institute_enquiry_id;
-      let createTime = new Date(data.enquiry_creation_datetime);
-      this.lastUpdated = moment(createTime).fromNow();
     },
       err => {
         //  console.log(err);
@@ -1453,19 +1457,19 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
+  getLastAddName(): string {
+    //console.log(this.lastDetail.name);
+    return this.lastDetail.name;
+  }
 
+  getLastEnqNum() {
+    return this.lastDetail.enquiry_no;
+  }
 
-
-
-
-
-
-
-
-
-
-
-
+  getLastUpdateTime() {
+    //console.log(this.lastDetail);
+    return moment(this.lastDetail.enquiry_creation_datetime).fromNow();
+  }
 
   clearAddEnquiryDate() {
     this.newEnqData.enquiry_date = "";

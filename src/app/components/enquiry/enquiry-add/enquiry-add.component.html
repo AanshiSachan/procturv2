@@ -1,8 +1,7 @@
-<section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
+<section class="homewrap middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
 
 
   <form novalidate #myForm="ngForm" (ngSubmit)="submitForm(myForm)">
-
     <!-- Left Side Form -->
     <aside class="pull-left middle-left " id="addNewEnquiry">
       <!-- Header -->
@@ -35,6 +34,8 @@
               <!-- Accordian Form 1 -->
               <div class="accordian-content">
                 <div class="form-type1">
+                  
+                  <!-- Name -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.name != ''}">
                     <input type="text" value="" id="name" #name="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.name" name="name" maxlength="50"
                       pattern="[a-zA-Z .]+[a-zA-Z .]+" required />
@@ -44,18 +45,24 @@
                         name is required.
                       </div>
                       <div *ngIf="name.errors.pattern">
-                        name cannot have special characters or numbers.
+                        Please enter a valid name.
                       </div>
                     </div>
                   </div>
+                  
+                  <!-- phone -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.phone != ''}">
                     <input type="text" value="" id="phone" class="form-ctrl" [(ngModel)]="newEnqData.phone" (focusout)="updatePhoneFetchRecords()"
                       name="phone" maxlength="10"  OnlyNumber="true"/>
                     <label for="phone">Phone No</label>
                   </div>
+                  
+                  <!-- fetch more details -->
                   <div class="more-detail">
                     <a (click)="getLeadDetails()" style="cursor:pointer">Fetch Lead Details</a>
                   </div>
+                  
+                  <!-- email enq -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.email != ''}">
                     <input type="text" value="" id="email" #email="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$"/>
                     <label for="email">Email ID</label>
@@ -65,6 +72,8 @@
                       </div>
                     </div>
                   </div>
+                  
+                  <!-- gender -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.gender != ''}">
                     <select class="form-ctrl" [(ngModel)]="newEnqData.gender" name="gender" id="gender" >
                       <option value=""></option>
@@ -74,20 +83,31 @@
                     </select>
                     <label for="gender">Gender</label>
                   </div>
-                  <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.curr_address != ''}">
-                    <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="newEnqData.curr_address" name="address" />
-                    <label for="userAddress">Address</label>
+                  <!-- Date of Birth -->
+
+                  <!-- Source -->
+                  <div class="field-wrapper " [ngClass]="{'has-value': newEnqData.source_id != '-1'}">
+                    <select id="source" class="form-ctrl" [(ngModel)]="newEnqData.source_id" name="source" >
+                      <option value="-1"></option>
+                      <option *ngFor="let source of sourceLead" [value]="source.id">{{source.name}}</option>
+                    </select>
+                    <label for="source">Source*</label>
+                    <span (click)="showAddSourcePops()" class="sourceI iconPlus">+</span>
                   </div>
-                  <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.city != ''}">
-                    <input type="text" value="" id="userCity" class="form-ctrl" [(ngModel)]="newEnqData.city" name="city" />
-                    <label for="userCity">City</label>
-                  </div>
+
+                  <!-- Additional details -->
                   <div class="more-detail">
-                    <a (click)="showAdditionDetails()" style="cursor:pointer">+ &nbsp; Add Additional Details</a>
+                    <b><a (click)="showAdditionDetails()" style="font-size: 14px;font-weight: 600;cursor:pointer">+ &nbsp; Add Additional Details</a></b>
                   </div>
+
                 </div>
                 <div class="form-type1" *ngIf="additionDetails">
                   <br>
+                  <!-- address -->
+                  <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.curr_address != ''}">
+                    <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="newEnqData.curr_address" name="address" />
+                    <label for="userAddress">Address</label>
+                  </div>                   
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.phone2 != ''}">
                     <input type="text" value="" id="phone2" #phone2="ngModel" class="form-ctrl" [(ngModel)]="newEnqData.phone2" name="phone2"
                       maxlength="10"  OnlyNumber="true"/>
@@ -166,6 +186,7 @@
               </div>
               <div class="accordian-content">
                 <div class="form-type2">
+                  <!-- school -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.school_id != '-1'}">
                     <select id="institutionName" class="form-ctrl" [(ngModel)]="newEnqData.school_id" name="institutename" >
                       <option value="-1"></option>
@@ -176,6 +197,12 @@
                     <label for="institutionName">Institution Name</label>
                     <a (click)="openAddInstitute()" class="create-institution" style="cursor:pointer">+ Create Institution</a>
                   </div>
+                  <!-- city -->
+                  <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.city != ''}">
+                    <input type="text" value="" id="userCity" class="form-ctrl" [(ngModel)]="newEnqData.city" name="city" />
+                    <label for="userCity">City</label>
+                  </div>
+                  <!-- standard -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.standard_id != '-1'}">
                     <select id="editStandard" class="form-ctrl" [ngModel]="newEnqData.standard_id" (ngModelChange)="fetchSubject($event)" name="editStandard" >
                       <option value="-1"></option>
@@ -189,6 +216,7 @@
                       </div>
                     </div>
                   </div>
+                  <!-- subject -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.subject_id != '-1'}">
                     <select id="forSubject" class="form-ctrl" [(ngModel)]="newEnqData.subject_id" name="subject" >
                       <option value="-1"></option>
@@ -202,6 +230,7 @@
                       </div>
                     </div>
                   </div>
+                  <!-- custom -->
                   <custom-enquiry *ngFor="let component of customComponents">
 
                     <div class="" *ngIf="component.type == 1" input-def>
@@ -265,19 +294,18 @@
       <!-- Footer for Accordian Menu -->
       <section class="middle-bottom clearFix">
         <div class="pull-left" style="margin-left: 25px;">
-          <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" [(ngModel)]="addNextCheck" class="form-checkbox" id="addNextEnquiry" name="addNextEnquiry">
-            <label for="addNextEnquiry">Add Next Enquiry</label>
-          </div>
+
         </div>
         <aside class="pull-right">
-          <input type="button" value="Cancel" class="btn cancle" routerLink="/enquiry">
-          <input type="button" value="Submit" [disabled]="!myForm.form.valid" class="btn redBtn" (click)="submitForm(myForm)">
+          <div style="display: inline-block;" class="field-checkbox-wrapper">
+            <input type="checkbox" value="" [(ngModel)]="addNextCheck" class="form-checkbox" id="addNextEnquiry" name="addNextEnquiry">
+            <label for="addNextEnquiry">Add Next Enquiry</label>
+          </div>          
+          <input style="display: inline-block;"  type="button" value="Cancel" class="btn cancle" routerLink="/enquiry">
+          <input style="display: inline-block;"  type="button" value="Submit" [disabled]="!myForm.form.valid" class="btn redBtn" (click)="submitForm(myForm)">
         </aside>
       </section>
     </aside>
-
-
     <!-- Right side form for Office purrpose only -->
     <aside class="pull-right middle-right" id="rightSideBar">
       <!--Last enquiry information-->
@@ -287,7 +315,7 @@
             <li>
               <span class="last-user-name">
                 <strong>Last Added Name -</strong>
-                <dfn>{{lastDetail.name}}</dfn>
+                <dfn>{{getLastAddName()}}</dfn>
               </span>
               <span class="view-details">
                 <a style="cursor:pointer" (click)="navigateToEdit()">View details</a>
@@ -296,9 +324,9 @@
             <li>
               <span class="last-Enquiry-no">
                 <strong>Enquiry No. -</strong>
-                <dfn>{{lastDetail.enquiry_no}}</dfn>
+                <dfn>{{getLastEnqNum()}}</dfn>
               </span>
-              <span class="enquiry-time">{{lastUpdated}}</span>
+              <span class="enquiry-time">{{getLastUpdateTime()}}</span>
             </li>
           </ul>
         </div>
@@ -312,7 +340,6 @@
             <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="newEnqData.enquiry_date" name="enqDate"
              readonly="true" bsDatepicker>
             <label for="">Enquiry Date</label>
-            <span class="date-clear" name="followupdate" (click)="newEnqData.enquiry_date = ''">clear</span>
           </div>
           <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.status != '-1'}">
             <select id="eStatus" class="form-ctrl" [(ngModel)]="newEnqData.status" name="status" disabled>
@@ -375,21 +402,13 @@
               <label for="meridian">Meridian</label>
             </div>
           </div>
-          <div class="field-wrapper " [ngClass]="{'has-value': newEnqData.source_id != '-1'}">
-            <select id="source" class="form-ctrl" [(ngModel)]="newEnqData.source_id" name="source" >
-              <option value="-1"></option>
-              <option *ngFor="let source of sourceLead" [value]="source.id">{{source.name}}</option>
-            </select>
-            <label for="source">Source*</label>
-            <span style="cursor:pointer; line-height:15px;" (click)="showAddSourcePops()" class="open-accor">+</span>
-          </div>
           <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.referred_by != '-1'}">
             <select id="refferedBy" class="form-ctrl" [(ngModel)]="newEnqData.referred_by" name="reffered" >
               <option value="-1"></option>
               <option *ngFor="let refer of refferedBy" [value]="refer.id">{{refer.name}}</option>
             </select>
             <label for="refferedBy">Referred By</label>
-            <span style="cursor:pointer; line-height:15px;" class="open-accor" (click)="showAddReferPops()">+</span>
+            <span style="right: 5px;" class="sourceI iconPlus" (click)="showAddReferPops()">+</span>
           </div>
           <div class="field-wrapper" *ngIf="isEnquiryAdmin" [ngClass]="{'has-value': newEnqData.assigned_to != '-1'}">
             <select id="assignedTo" class="form-ctrl" [(ngModel)]="newEnqData.assigned_to" name="assigned_to" >
@@ -440,7 +459,7 @@
           <div class="">
             <p>Thank you for submitting New Enquiry.</p>
             <p>If you like to make any changes to the last submitted enquiry, kindly click
-              <a style="cursor:pointer" routerLink="/enquiry/edit">Edit</a>
+              <a style="cursor:pointer" (click)="navigateToEdit()">Edit</a>
             </p>
           </div>
           <div class="">

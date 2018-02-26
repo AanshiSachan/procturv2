@@ -60,6 +60,7 @@
     top: 75px;
     right: 15%;
     width: 320px;
+    max-height: 500px;
     height: 80%;
     border-radius: 4px;
     background: rgb(255, 255, 255);
@@ -497,7 +498,7 @@ $shadow-L3: 0 10px 20px rgba(0, 0, 0, 0.19),
   .auth-page-header {
     position: relative;
     top: 0;
-    left: 0;
+    left: 35%;
     width: 100%;
     .row {
         margin: 0 5%;
@@ -507,6 +508,26 @@ $shadow-L3: 0 10px 20px rgba(0, 0, 0, 0.19),
   .login-box{
     top: 135px !important;
     height: 70%;
-    right: 12%;
+    left: 30%;
   }
 }
+@media only screen and (max-width:550px) {
+    .box{
+      display: none;
+    }
+    .auth-page-header {
+      position: relative;
+      top: 0;
+      left: 15%;
+      width: 100%;
+      .row {
+          margin: 0 5%;
+          padding-top: 10px;
+      }
+    }
+    .login-box{
+      top: 135px !important;
+      height: 70%;
+      left: 10%;
+    }
+  }

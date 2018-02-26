@@ -15,7 +15,7 @@ export class CheckboxTableComponent implements OnChanges {
     @Input() tableName: string = '';
     @Input() dataStatus: number;
     @Input() primaryKey: string = '';
-    @Input() key1:string;
+    @Input() key1: string;
 
     @Output() userRowSelect = new EventEmitter();
     @Output() rowsSelected = new EventEmitter<number>();
@@ -136,25 +136,49 @@ export class CheckboxTableComponent implements OnChanges {
         this.sortById.emit(ev);
     }
 
-    getColor(key, value): any {
+    getStyle(key, value): any {
+        /* for followup date */
         if (key == this.key1) {
             if (value != '') {
                 let cmp = moment(value).unix();
-                let tod = moment().unix();
+                let tod = moment(new Date()).subtract(1, 'd').unix();
                 if (cmp > tod) {
-                    return undefined;
+                    return 'left';
                 }
                 else {
-                    return 'red';
+                    return 'redleft';
                 }
             }
-            else{
-                return null;
+            else {
+                return 'left';
             }
         }
+        /* else for left and right allignment */
         else {
-            return null;
+            if(key == 'enquiry_no'){
+                return 'right';
+            }
+            else if(key == 'enquiry_date'){
+                return 'left';
+            }
+            else if(key == 'name'){
+                return 'left';
+            }
+            else if(key == 'phone'){
+                return 'right';
+            }
+            else if(key == 'statusValue'){
+                return 'left';
+            }
+            else if(key == 'priority'){
+                return 'left';
+            }
+            else if(key == 'follow_type'){
+                return 'left';
+            }
+            else if(key == ''){
+                return 'left';
+            }
         }
     }
-    
 }

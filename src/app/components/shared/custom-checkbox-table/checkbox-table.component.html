@@ -20,8 +20,9 @@
                     <label>asdf</label>
                 </div>
             </td>
-            <td style="cursor:pointer;" *ngFor="let map of columnMaps" [ctStyleCell]="getColor(map.primaryKey,record[map.access(record)])"
-                (click)="userRowClicked($event, i, record)">
+            <td style="cursor:pointer;" *ngFor="let map of columnMaps" 
+            [ctStyleCell]="getStyle(map.primaryKey,record[map.access(record)])" 
+            (click)="userRowClicked($event, i, record)">
                 {{ record[map.access(record)] | formatCell:map.primaryKey }}
             </td>
         </tr>

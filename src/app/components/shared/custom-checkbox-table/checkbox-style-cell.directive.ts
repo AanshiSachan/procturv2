@@ -1,23 +1,23 @@
-import { Directive, ElementRef, 
-    Input, Renderer, OnInit } from '@angular/core';
-@Directive({ selector: '[ctStyleCell]'})
+import {
+    Directive, ElementRef,
+    Input, Renderer, OnInit
+} from '@angular/core';
+@Directive({ selector: '[ctStyleCell]' })
 export class StyleCellDirective implements OnInit {
-@Input() ctStyleCell: string;
-constructor(
-  private el: ElementRef, 
-  private renderer: Renderer) { }
-ngOnInit() {
-   if (this.ctStyleCell === undefined) {
-       this.renderer.setElementStyle(
-            this.el.nativeElement, 
-            'text-align', 
-            'center');
-   }
-   if (this.ctStyleCell === 'red') {
-       this.renderer.setElementStyle(
-            this.el.nativeElement, 
-            'color', 
-            'red');
-   }
-}
+    @Input() ctStyleCell: string;
+    constructor(
+        private el: ElementRef,
+        private renderer: Renderer) { }
+    ngOnInit() {
+        if (this.ctStyleCell === 'left') {
+            this.renderer.setElementStyle(this.el.nativeElement,'text-align','left');
+        }
+        else if (this.ctStyleCell === 'redleft') {
+            this.renderer.setElementStyle(this.el.nativeElement,'text-align','left');
+            this.renderer.setElementStyle(this.el.nativeElement,'color','red');
+        }
+        else if (this.ctStyleCell === 'right') {
+            this.renderer.setElementStyle(this.el.nativeElement,'text-align','right');
+        }
+    }
 }

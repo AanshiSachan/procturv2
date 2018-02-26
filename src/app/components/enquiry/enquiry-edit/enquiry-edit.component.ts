@@ -173,7 +173,7 @@ export class EnquiryEditComponent implements OnInit {
 
   /* set the enquiry feilds for Form */
   updateEnquiryData() {
-    debugger;
+    //debugger;
     this.institute_enquiry_id = this.route.snapshot.paramMap.get('id');
     this.fetchCommentData(this.route.snapshot.paramMap.get('id'));
     let id = this.institute_enquiry_id;
@@ -190,11 +190,52 @@ export class EnquiryEditComponent implements OnInit {
           this.meridian = moment(followUpDateTime).format('a').toString().toUpperCase();
           document.getElementById('meridianpar').classList.add('has-value');
         }
+        this.updateCustomComponent(id);
         this.fetchSubject(this.editEnqData.standard_id);
       });
   }
 
+  getCustomComponents(): any[] {
+    let tempArr: any[] = [];
+    this.customComponents.forEach(e => {
+      if (e.value.trim() != '') {
+        let obj: any = {};
+        obj.component_id = e.id;
+        obj.enq_custom_id = 0;
+        obj.enq_custom_value = e.value;
+        tempArr.push(obj);
+      }
+    });
+    return tempArr;
+  }
 
+
+  updateCustomComponent(id) {
+    this.prefill.fetchCustomComponentById(id)
+      .subscribe(
+        data => {
+          //debugger
+          this.customComponents = [];
+          data.forEach(el => {
+            let obj = {
+              data: el,
+              id: el.component_id,
+              is_required: el.is_required,
+              is_searchable: el.is_searchable,
+              label: el.label,
+              prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+              selected: [],
+              selectedString: '',
+              type: el.type,
+              value: el.enq_custom_value
+            }
+            this.customComponents.push(obj);
+          });
+          this.emptyCustomComponent = this.componentListObject;
+        },
+        err => {
+        });
+  }
 
 
   /* Function for Toggling Form Visibility */
@@ -488,6 +529,7 @@ export class EnquiryEditComponent implements OnInit {
         let id = this.institute_enquiry_id;
         this.editEnqData.enquiry_date = moment(this.editEnqData.enquiry_date).format('YYYY-MM-DD');
         this.editEnqData.followUpDate = moment(this.editEnqData.followUpDate).format('YYYY-MM-DD');
+        this.editEnqData.enqCustomLi = this.getCustomComponents();
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
           data => {
             if (data.statusCode == 200) {
