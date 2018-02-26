@@ -52,6 +52,10 @@ export class ScheduleHomeComponent implements OnInit {
         console.log(data); 3
         this.totalRow = data.length;
         this.standardListDataSource = data;
+        this.standardListDataSource.sort(function (a, b) {
+          return moment(a.created_date).unix() - moment(b.created_date).unix();
+        })
+        this.standardListDataSource.reverse();
         this.fetchTableDataByPage(this.PageIndex);
         this.isRippleLoad = false;
         this.dataStatus = 2;

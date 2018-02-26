@@ -816,34 +816,6 @@ export class CampaignHomeComponent implements OnInit {
     }
   }
 
-
-
-  // searchDatabase() {
-  //   if (this.searchBarData == undefined || this.searchBarData == null) {
-  //     this.searchBarData = "";
-  //   }
-
-  //   let term = this.searchBarData;
-
-  //   this.sourceCampaign = this.sourceCampaign_total.filter(item =>
-  //     Object.keys(item).some(k => item[k] != null &&
-  //       item[k].toString().toLowerCase()
-  //         .includes(term.toLowerCase()))
-  //   );
-
-  //   if (this.sourceCampaign == undefined || this.sourceCampaign == null) {
-  //     this.sourceCampaign = [];
-  //   }
-
-  //   this.totalVisibleEnquiry = this.sourceCampaign.length;
-  //   this.totalCampaign = this.sourceCampaign_total.length;
-
-
-  //   // this.sourceCampaign = this.search_function(this.searchBarData,this.sourceCampaign_total)
-
-  // }
-
-
   searchDatabase() {
 
     if (this.searchBarData == undefined || this.searchBarData == null) {
