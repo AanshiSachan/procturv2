@@ -46,25 +46,25 @@ export class CampaignHomeComponent implements OnInit {
   };
 
   /* Variable Declaration */
-  sourceCampaign: any[] = []; sourceCampaign_total = [] ; smsPopSource: LocalDataSource; busy: Subscription;
+  sourceCampaign: any[] = []; sourceCampaign_total = []; smsPopSource: LocalDataSource; busy: Subscription;
   checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = [];
   enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = [];
   enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; commentFormData: any = {};
-  today: any = Date.now(); searchBarData: any = null;searchBarDate: any = moment().format('YYYY-MM-DD');
+  today: any = Date.now(); searchBarData: any = null; searchBarDate: any = moment().format('YYYY-MM-DD');
   displayBatchSize: number = 100; incrementFlag: boolean = true; updateFormComments: any = [];
   updateFormCommentsBy: any = []; updateFormCommentsOn: any = []; PageIndex: number = 1;
-  maxPageSize: number = 0; totalVisibleEnquiry:number = 0; totalCampaign: number = 0; isProfessional: boolean = false;
+  maxPageSize: number = 0; totalVisibleEnquiry: number = 0; totalCampaign: number = 0; isProfessional: boolean = false;
   isActionDisabled: boolean = false; isMessageAddOpen: boolean = false; isMultiSms: boolean = false;
   smsSelectedRowsLength: number = 0; sizeArr: any[] = [25, 50, 100, 150, 200, 500];
   isAllSelected: boolean = false;
-  hourArr:any[] = ['1','2','3','4','5','6','7','8','9','10','11','12'];
-  minArr:any[] = ['00','15','30','45']; meridianArr:any[] = ["AM", "PM"];
-  hour:string = '12'; minute:string = '00'; meridian:string = 'AM';
+  hourArr: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  minArr: any[] = ['00', '15', '30', '45']; meridianArr: any[] = ["AM", "PM"];
+  hour: string = '12'; minute: string = '00'; meridian: string = 'AM';
 
   currentDirection = 'desc'; selectedRowGroup: any[] = []; componentPrefill: any = [];
   componentListObject: any = {}; emptyCustomComponent: any; componentRenderer: any = []; customComponentResponse: any = [];
   fetchingDataMessage: string = "Loading"; smsBtnToggle: boolean = false;
-  testMessagePopUp=false;
+  testMessagePopUp = false;
 
   /* items added on ngOnInit */
   bulkAddItems: MenuItem[];
@@ -81,7 +81,7 @@ export class CampaignHomeComponent implements OnInit {
   selectedMessage = [];
 
   header: any = {
-    list_name:{ id: 'list_name', title: 'Lead Name', filter: false, show: true },
+    list_name: { id: 'list_name', title: 'Lead Name', filter: false, show: true },
     referred_by: { id: 'referred_by', title: 'Referred By', filter: false, show: true },
     source: { id: 'source', title: 'Source', filter: false, show: true },
     created_date: { id: 'created_date', title: 'Created date', filter: false, show: true },
@@ -104,7 +104,7 @@ export class CampaignHomeComponent implements OnInit {
   };
 
   //for test sms popups
-  phone:any;
+  phone: any;
   smsMessageTest = [];
 
   selectedSMS: any = {
@@ -123,7 +123,7 @@ export class CampaignHomeComponent implements OnInit {
     messageArray: []
   };
 
-  messageList:any;
+  messageList: any;
 
   //flag for sorting
   sortFlag = "asc";
@@ -161,10 +161,10 @@ export class CampaignHomeComponent implements OnInit {
 
 
 
-  statusString: any[] = ["0", "3"]; smsSelectedRows: any; smsGroupSelected: any[] = []; 
+  statusString: any[] = ["0", "3"]; smsSelectedRows: any; smsGroupSelected: any[] = [];
 
-   /* Model for checkbox toggler to update data table */
-   stats = {
+  /* Model for checkbox toggler to update data table */
+  stats = {
     All: { value: 'All', prop: 'All', checked: false, disabled: false },
     Open: { value: 'Open', prop: 'Open', checked: true, disabled: false },
     Registered: { value: 'Registered', prop: 'In Progress', checked: false, disabled: false },
@@ -173,18 +173,24 @@ export class CampaignHomeComponent implements OnInit {
   };
 
 
-  myOptions:any[] = [
-    { id: 'email', name: 'Email'},
+  myOptions: any[] = [
+    { id: 'email', name: 'Email' },
     { id: 'Gender', name: 'Gender' },
     { id: 'standard', name: 'Standard' },
     { id: 'subjects', name: 'Subject' }
   ]
 
+  studentdisplaysize: number = 10;
+  searchDataFlag: boolean = false;
+  sourceCampaignDataSource: any = [];
+  totalRow: number = 0;
+  searchData: any = [];
+
   constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService,
     private router: Router, private logger: Logger, private fb: FormBuilder,
-    private pops: PopupHandlerService,private postdata: PostEnquiryDataService,
+    private pops: PopupHandlerService, private postdata: PostEnquiryDataService,
     private appC: AppComponent, private login: LoginService, private cd: ChangeDetectorRef,
-    private postData: CampaignService, 
+    private postData: CampaignService,
   ) { }
 
   ngOnInit() {
@@ -197,24 +203,25 @@ export class CampaignHomeComponent implements OnInit {
     /* Load paginated campaign data from server */
     this.busy = this.loadTableDatatoSource(this.instituteData);
 
-    
+
   }
 
   /* Load Table data with respect to the institute data provided */
   loadTableDatatoSource(obj) {
-
     this.postData.campaignMessageList().subscribe(
-      data => {console.log(data);
-              this.messageList = data;},
-      error => {console.log(error)}
+      data => {
+        console.log(data);
+        this.messageList = data;
+      },
+      error => { console.log(error) }
     )
-    
+
     this.fetchingDataMessage = "Loading";
     // document.getElementById("bulk-drop").classList.add("hide");
     // document.getElementById('headerCheckbox').checked = false;
     this.isAllSelected = false;
 
-    this.sourceCampaign = [];    
+    this.sourceCampaign = [];
     this.selectedRow = null;
     this.selectedRowGroup = [];
 
@@ -222,6 +229,7 @@ export class CampaignHomeComponent implements OnInit {
     if (obj.start_index == 0) {
       return this.postData.campaignUploadList(obj).subscribe(
         data => {
+          debugger
           console.log("date" + data);
           if (data.length != 0) {
             if (this.indexJSON.length != 0) {
@@ -234,8 +242,10 @@ export class CampaignHomeComponent implements OnInit {
                   show: true,
                   data: el
                 }
-                this.sourceCampaign.push(obj);
+                this.sourceCampaignDataSource.push(obj);
               });
+              this.fetchTableDataByPage(this.PageIndex);
+              this.totalRow = this.sourceCampaignDataSource.length;
               this.cd.markForCheck();
               this.sourceCampaign_total = this.sourceCampaign;
               this.totalVisibleEnquiry = this.sourceCampaign.length;
@@ -248,13 +258,15 @@ export class CampaignHomeComponent implements OnInit {
               this.setPageSize(this.totalCampaign);
               data.forEach(el => {
                 let obj = {
-                  
+
                   isSelected: false,
                   show: true,
                   data: el
                 }
-                this.sourceCampaign.push(obj);
+                this.sourceCampaignDataSource.push(obj);
               });
+              this.fetchTableDataByPage(this.PageIndex);
+              this.totalRow = this.sourceCampaignDataSource.length;
               this.cd.markForCheck();
               this.sourceCampaign_total = this.sourceCampaign;
               this.totalVisibleEnquiry = this.sourceCampaign.length;
@@ -288,34 +300,38 @@ export class CampaignHomeComponent implements OnInit {
                 show: true,
                 data: el
               }
-              this.sourceCampaign.push(obj);
+              this.sourceCampaignDataSource.push(obj);
             });
             this.cd.markForCheck();
+            this.fetchTableDataByPage(this.PageIndex);
+            this.totalRow = this.sourceCampaignDataSource.length;
             this.sourceCampaign_total = this.sourceCampaign;
             this.totalVisibleEnquiry = this.sourceCampaign.length;
             this.totalCampaign = this.sourceCampaign_total.length;
             return this.sourceCampaign;
           }
           else {
-            
+
             data.forEach(el => {
               let obj = {
-                list:el.list_name,
-                date:el.created_date,
-                referred_by:el.referred_by,
-                source:el.source,
+                list: el.list_name,
+                date: el.created_date,
+                referred_by: el.referred_by,
+                source: el.source,
                 isSelected: false,
                 show: true,
                 data: el
               }
-              this.sourceCampaign.push(obj);
+              this.sourceCampaignDataSource.push(obj);
             });
+            this.fetchTableDataByPage(this.PageIndex);
+            this.totalRow = this.sourceCampaignDataSource.length;
             this.cd.markForCheck();
             this.sourceCampaign_total = this.sourceCampaign;
             this.totalVisibleEnquiry = this.sourceCampaign.length;
             this.totalCampaign = this.sourceCampaign_total.length;
             return this.sourceCampaign;
-            
+
           }
         }
         else {
@@ -336,10 +352,10 @@ export class CampaignHomeComponent implements OnInit {
         }
       });
 
-      
+
     }
 
-    
+
   }
 
 
@@ -363,7 +379,7 @@ export class CampaignHomeComponent implements OnInit {
       start = start + this.displayBatchSize;
     }
   }
-  
+
 
 
 
@@ -390,7 +406,7 @@ export class CampaignHomeComponent implements OnInit {
 
   /* Function to toggle smart table column on click event */
   toggleOptionChange(bool, id) {
-    
+
     if (bool) {
       this.selectedOption[id].show = true;
       this.cd.markForCheck();
@@ -452,7 +468,7 @@ export class CampaignHomeComponent implements OnInit {
     document.getElementById('advanced-filter-section').classList.add('hide');
   }
 
-  openSmsPopup(row){
+  openSmsPopup(row) {
     console.log("we are here");
     console.log(row);
     this.smsSelectedRows = row;
@@ -466,24 +482,24 @@ export class CampaignHomeComponent implements OnInit {
     this.testMessagePopUp = false;
     this.selectedMessage = [];
     this.smsMessageTest = [];
-    
+
   }
 
   /* common function to close popups */
   closePopupTest() {
     this.testMessagePopUp = false;
     this.selectedMessage = [];
-    this.smsMessageTest =[];
+    this.smsMessageTest = [];
   }
- 
+
   /* Approved SMS template send */
   sendSmsTemplate() {
-    
-    if(this.selectedMessage.length == 1){
+
+    if (this.selectedMessage.length == 1) {
 
       this.testMessagePopUp = true;
 
-    }else if(this.selectedMessage.length > 1){
+    } else if (this.selectedMessage.length > 1) {
       let msg = {
         type: 'error',
         title: 'Cannot Send Multiple Test SMS',
@@ -529,7 +545,7 @@ export class CampaignHomeComponent implements OnInit {
 
   /* SMS search */
   onSearch(query: string = '') {
-    
+
     this.smsPopSource.setFilter(
       [{
         field: 'message',
@@ -540,59 +556,59 @@ export class CampaignHomeComponent implements OnInit {
   }
 
   saveEditedSms() {
-    let hours:any;
-    let minutes:any;
-    let meridian:any;
-    let queryParam = {campaign_list_id : this.smsSelectedRows.data.list_id, date : "",messageArray:this.selectedMessage};
+    let hours: any;
+    let minutes: any;
+    let meridian: any;
+    let queryParam = { campaign_list_id: this.smsSelectedRows.data.list_id, date: "", messageArray: this.selectedMessage };
 
-    minutes = this.minute;      
+    minutes = this.minute;
     hours = this.hour;
     meridian = this.meridian;
-    
+
 
     let date = this.formatDate(this.searchBarDate);
 
-    let finaldate = date + " "+hours+":"+minutes+" "+meridian;
-    
+    let finaldate = date + " " + hours + ":" + minutes + " " + meridian;
+
     console.log(finaldate);
 
-    if(this.selectedMessage == null || this.selectedMessage.length == 0){
+    if (this.selectedMessage == null || this.selectedMessage.length == 0) {
       let msg = {
         type: 'error',
         title: "Please select a message"
       }
       this.appC.popToast(msg);
 
-    }else{
+    } else {
       queryParam.date = finaldate
-      console.log(queryParam); 
-      
-      this.busy =  this.postData.saveSMSservice(queryParam).subscribe(
+      console.log(queryParam);
+
+      this.busy = this.postData.saveSMSservice(queryParam).subscribe(
         res => {
-                let msg = {
-                  type: 'success',
-                  title: "Campaign created successfully!"
-                }
-                this.appC.popToast(msg);
-          },
-        error => {
-                  console.log(error);          
-                  let err_msg = JSON.parse(error._body);
-                  console.log(error.statusText);
-                  console.log(err_msg);
-                  console.log(err_msg.message);
-                  let msg = {
-                    type: 'error',
-                    title: error.statusText,
-                    body: err_msg.message
-                  }
-                  this.appC.popToast(msg);
+          let msg = {
+            type: 'success',
+            title: "Campaign created successfully!"
           }
+          this.appC.popToast(msg);
+        },
+        error => {
+          console.log(error);
+          let err_msg = JSON.parse(error._body);
+          console.log(error.statusText);
+          console.log(err_msg);
+          console.log(err_msg.message);
+          let msg = {
+            type: 'error',
+            title: error.statusText,
+            body: err_msg.message
+          }
+          this.appC.popToast(msg);
+        }
       );
     }
 
 
-    
+
 
 
 
@@ -600,24 +616,24 @@ export class CampaignHomeComponent implements OnInit {
   }
 
 
-  clearDate(event){
+  clearDate(event) {
     let node = event.target.parentNode.childNodes;
 
-    [].forEach.call(node, function(el){
-      if(el.type == "text" && el.tagName == "INPUT"){
+    [].forEach.call(node, function (el) {
+      if (el.type == "text" && el.tagName == "INPUT") {
         console.log(el.value);
         el.value = '';
       }
     });
-    
+
   }
 
 
   formatDate(date) {
     var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
 
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
@@ -625,14 +641,14 @@ export class CampaignHomeComponent implements OnInit {
     return [year, month, day].join('-');
   }
 
-  selectMessage(message,i){
+  selectMessage(message, i) {
     console.log(message);
     console.log(i);
   }
 
   /* Function to handle event on table row click*/
   rowClicked(row) {
-    
+
   }
 
 
@@ -642,59 +658,60 @@ export class CampaignHomeComponent implements OnInit {
     console.log(state);
     console.log(id);
     console.log(no);
-    
-    
+
+
     if (state) {
       this.selectedMessage.push(no);
       this.smsMessageTest.push(message)
-      
-    }else{
-      let pop_index = this.selectedMessage.indexOf(no);
-      this.selectedMessage.splice(pop_index,1);
 
-      this.smsMessageTest.splice(pop_index,1);
-    }  
-    
+    } else {
+      let pop_index = this.selectedMessage.indexOf(no);
+      this.selectedMessage.splice(pop_index, 1);
+
+      this.smsMessageTest.splice(pop_index, 1);
+    }
+
     console.log(this.selectedMessage);
     console.log(this.smsMessageTest);
 
   }
-  
 
 
-  sendTestSMS(form: NgForm){
+
+  sendTestSMS(form: NgForm) {
 
     if (form.valid) {
-      let queryParam = {message   :this.smsMessageTest[0],
-                        message_id:this.selectedMessage[0],
-                        mobile    :this.phone
-                      }
+      let queryParam = {
+        message: this.smsMessageTest[0],
+        message_id: this.selectedMessage[0],
+        mobile: this.phone
+      }
 
-      this.busy =  this.postData.campaignSMSTestService(queryParam).subscribe(
+      this.busy = this.postData.campaignSMSTestService(queryParam).subscribe(
         res => {
-                let msg = {
-                  type: 'success',
-                  title: "Test Message Send Successfully!"
-                }
-                this.appC.popToast(msg);
-          },
-        error => {
-                  console.log(error);          
-                  let err_msg = JSON.parse(error._body);
-                  console.log(error.statusText);
-                  console.log(err_msg);
-                  console.log(err_msg.message);
-                  let msg = {
-                    type: 'error',
-                    title: error.statusText,
-                    body: err_msg.message
-                  }
-                  this.appC.popToast(msg);
+          let msg = {
+            type: 'success',
+            title: "Test Message Send Successfully!"
           }
+          this.appC.popToast(msg);
+        },
+        error => {
+          console.log(error);
+          let err_msg = JSON.parse(error._body);
+          console.log(error.statusText);
+          console.log(err_msg);
+          console.log(err_msg.message);
+          let msg = {
+            type: 'error',
+            title: error.statusText,
+            body: err_msg.message
+          }
+          this.appC.popToast(msg);
+        }
       );
 
     }
-    else{
+    else {
       let msg = {
         type: 'error',
         title: "Invalid Mobile Number",
@@ -707,16 +724,15 @@ export class CampaignHomeComponent implements OnInit {
 
   dynamicSort(property) {
     var sortOrder = 1;
-    if(property[0] === "-") {
-        sortOrder = -1;
-        property = property.substr(1);
+    if (property[0] === "-") {
+      sortOrder = -1;
+      property = property.substr(1);
     }
-    return function (a,b) {
-        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-        return result * sortOrder;
+    return function (a, b) {
+      var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+      return result * sortOrder;
     }
-}
-  
+  }
 
 
 
@@ -724,108 +740,163 @@ export class CampaignHomeComponent implements OnInit {
 
 
 
-  sortTableById(sortBy){    
 
-    if(sortBy == 'Lead Name'){
-      if(this.sortFlag == 'desc'){
+  sortTableById(sortBy) {
+
+    if (sortBy == 'Lead Name') {
+      if (this.sortFlag == 'desc') {
         this.sourceCampaign.sort(this.dynamicSort("list"));
         this.sortFlag = 'asc';
-      }else{
+      } else {
         this.sourceCampaign.sort(this.dynamicSort("-list"));
         this.sortFlag = 'desc';
-      }      
-    }else if(sortBy == 'Created date'){
-      if(this.sortFlag == 'desc'){
+      }
+    } else if (sortBy == 'Created date') {
+      if (this.sortFlag == 'desc') {
         this.sourceCampaign.sort(this.dynamicSort("date"));
         this.sortFlag = 'asc';
-      }else{
+      } else {
         this.sourceCampaign.sort(this.dynamicSort("-date"));
         this.sortFlag = 'desc';
-      }  
+      }
     }
 
   }
 
 
-    /* base64 data to be converted to xls file */
-    downloadFailureListFile(data) {
+  /* base64 data to be converted to xls file */
+  downloadFailureListFile(data) {
 
-      //console.log(data.data.list_name);
-      this.postData.downloadFailureListFile(data.data.list_id).subscribe(
-        res => {
-          
-          let byteArr= this.convertBase64ToArray(res.document);
-          //console.log(byteArr);
-          let format = res.format;
-          let fileName = res.docTitle;
-          let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
-          //console.log(file);
-          let url = URL.createObjectURL(file);
-          let dwldLink = document.getElementById('template_link_'+data.data.list_id);
-          //console.log(dwldLink.getAttribute('href'));
-          if(dwldLink.getAttribute('href') == null ||dwldLink.getAttribute('href') == undefined ||dwldLink.getAttribute('href') == ''){
-            dwldLink.setAttribute("href", url);
-            dwldLink.setAttribute("download", fileName);
-            dwldLink.click();
-            dwldLink.setAttribute("href", null);
-            dwldLink.setAttribute("download", '');
-          }
-        },
-        err => {
-          console.log(err.responseJSON.message);
-        })
+    //console.log(data.data.list_name);
+    this.postData.downloadFailureListFile(data.data.list_id).subscribe(
+      res => {
+
+        let byteArr = this.convertBase64ToArray(res.document);
+        //console.log(byteArr);
+        let format = res.format;
+        let fileName = res.docTitle;
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        //console.log(file);
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('template_link_' + data.data.list_id);
+        //console.log(dwldLink.getAttribute('href'));
+        if (dwldLink.getAttribute('href') == null || dwldLink.getAttribute('href') == undefined || dwldLink.getAttribute('href') == '') {
+          dwldLink.setAttribute("href", url);
+          dwldLink.setAttribute("download", fileName);
+          dwldLink.click();
+          dwldLink.setAttribute("href", null);
+          dwldLink.setAttribute("download", '');
+        }
+      },
+      err => {
+        console.log(err.responseJSON.message);
+      })
+  }
+
+
+  /* convert base64 string to byte array */
+  convertBase64ToArray(val) {
+
+    var binary_string = window.atob(val);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
     }
-  
-  
-    /* convert base64 string to byte array */
-    convertBase64ToArray(val) {
-  
-      var binary_string = window.atob(val);
-      var len = binary_string.length;
-      var bytes = new Uint8Array(len);
-      for (var i = 0; i < len; i++) {
-        bytes[i] = binary_string.charCodeAt(i);
-      }
-      return bytes.buffer;
-  
-    }
+    return bytes.buffer;
+
+  }
 
 
-    search_function(nameKey, myArray){
-      for (var i=0; i < myArray.length; i++) {
-          if (myArray[i].list === nameKey) {
-              return myArray[i];
-          }
+  search_function(nameKey, myArray) {
+    for (var i = 0; i < myArray.length; i++) {
+      if (myArray[i].list === nameKey) {
+        return myArray[i];
       }
     }
+  }
 
 
 
-    searchDatabase(){
-      if(this.searchBarData == undefined || this.searchBarData == null){
-        this.searchBarData = "";
-      }
+  // searchDatabase() {
+  //   if (this.searchBarData == undefined || this.searchBarData == null) {
+  //     this.searchBarData = "";
+  //   }
 
-      let term = this.searchBarData;
+  //   let term = this.searchBarData;
 
-      this.sourceCampaign = this.sourceCampaign_total.filter(item => 
-        Object.keys(item).some(k => item[k] != null && 
-        item[k].toString().toLowerCase()
-        .includes(term.toLowerCase()))
+  //   this.sourceCampaign = this.sourceCampaign_total.filter(item =>
+  //     Object.keys(item).some(k => item[k] != null &&
+  //       item[k].toString().toLowerCase()
+  //         .includes(term.toLowerCase()))
+  //   );
+
+  //   if (this.sourceCampaign == undefined || this.sourceCampaign == null) {
+  //     this.sourceCampaign = [];
+  //   }
+
+  //   this.totalVisibleEnquiry = this.sourceCampaign.length;
+  //   this.totalCampaign = this.sourceCampaign_total.length;
+
+
+  //   // this.sourceCampaign = this.search_function(this.searchBarData,this.sourceCampaign_total)
+
+  // }
+
+
+  searchDatabase() {
+
+    if (this.searchBarData == undefined || this.searchBarData == null) {
+      this.searchBarData = "";
+      this.sourceCampaign = [];
+      this.searchDataFlag = false;
+      this.fetchTableDataByPage(this.PageIndex);
+      this.totalRow = this.sourceCampaignDataSource.length;
+    }
+    else {
+      let searchData = this.sourceCampaignDataSource.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchBarData.toLowerCase()))
       );
-
-      if(this.sourceCampaign == undefined || this.sourceCampaign == null){
-        this.sourceCampaign = [];
-      }
-
-      this.totalVisibleEnquiry = this.sourceCampaign.length;
-      this.totalCampaign = this.sourceCampaign_total.length;
-
-
-      // this.sourceCampaign = this.search_function(this.searchBarData,this.sourceCampaign_total)
-      
+      this.searchData = searchData;
+      this.totalRow = searchData.length;
+      this.searchDataFlag = true;
+      this.fetchTableDataByPage(this.PageIndex);
     }
-  
+  }
+
+
+  ///////PAGINATION/////////////////
+
+  // pagination functions 
+  fetchTableDataByPage(index) {
+    this.PageIndex = index;
+    let startindex = this.studentdisplaysize * (index - 1);
+    this.sourceCampaign = this.getDataFromDataSource(startindex);
+  }
+
+  fetchNext() {
+    this.PageIndex++;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
+  fetchPrevious() {
+    if (this.PageIndex != 1) {
+      this.PageIndex--;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
+  }
+
+  getDataFromDataSource(startindex) {
+    let data = [];
+    if (this.searchDataFlag) {
+      data = this.searchData.slice(startindex, startindex + this.studentdisplaysize);
+    } else {
+      data = this.sourceCampaignDataSource.slice(startindex, startindex + this.studentdisplaysize);
+    }
+    return data;
+  }
+
 
 
 }

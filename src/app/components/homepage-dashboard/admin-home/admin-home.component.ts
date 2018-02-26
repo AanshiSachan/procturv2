@@ -282,7 +282,7 @@ export class AdminHomeComponent implements OnInit {
       type: 0,
       installment_id: -1,
       subject_id: -1,
-      master_course_name: -1,
+      master_course_name: '-1',
       course_id: -1,
       is_fee_report_view: 1,
       from_date: moment(this.feeDate[0]).format('YYYY-MM-DD'),
@@ -403,14 +403,14 @@ export class AdminHomeComponent implements OnInit {
       type: 0,
       installment_id: -1,
       subject_id: -1,
-      master_course_name: -1,
+      master_course_name: '-1',
       course_id: -1,
       is_fee_report_view: 1,
       from_date: moment(this.feeDate[0]).format('YYYY-MM-DD'),
       to_date: moment(this.feeDate[1]).format('YYYY-MM-DD')
     }
     this.isOptionVisible = false;
-    this.widgetService.fetchFeeWidgetData(e).subscribe(
+    this.widgetService.fetchFeeWidgetData(obj).subscribe(
       res => {
         this.grid.refreshItems().layout();
         this.selectedRow = null;
@@ -510,10 +510,12 @@ export class AdminHomeComponent implements OnInit {
 
     if (this.feeStat != null && this.feeStat != undefined) {
       if (id === 'total') {
-        return 100000
+        let totalFee = this.feeStat.map(student => student.student_total_fees).reduce((acc, val) => val + acc);
+        return totalFee;
       }
       else if (id === 'pending') {
-        return 10000
+        let pendng = this.feeStat.map(student => student.amount_still_payable).reduce((acc, val) => val + acc);
+        return pendng;
       }
       else if (id === 'past') {
         return 200000

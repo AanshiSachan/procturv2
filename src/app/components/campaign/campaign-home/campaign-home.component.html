@@ -3,11 +3,24 @@
 
     <!-- Header and Navigation -->
     <section class="middle-top mb0 clearFix">
-      <h1 class="pull-left">
-        Campaign List
-      </h1>
+      <aside class="pull-left">
+        <div class="search-filter-wrapper">
+          <input #search type="text" class="normal-field " placeholder="Search" [(ngModel)]="searchBarData" id="search" name="searchData"
+            (keyup)="searchDatabase(search)">
+        </div>
+      </aside>
       <aside class="pull-right">
-        <input type="button" value="Upload Lead" class="btn" routerLink="/campaign/bulk">
+
+        <div class="btnWrapper">
+          <button class="btn pull-right" routerLink="/campaign/bulk">
+            <div class="option-wrap">
+              <img src="assets/images/plus.png" alt="Add Item" style="vertical-align: -webkit-baseline-middle;">
+              <span class="tooltip tooltipSpan">
+                Upload Lead
+              </span>
+            </div>
+          </button>
+        </div>
       </aside>
 
     </section>
@@ -19,37 +32,6 @@
       <section class="search-data">
 
         <!-- Export and Toggler Here -->
-        <div class="row class filter-res">
-          <div class="c-lg-6 c-md-6 c-sm-6 align-left">
-            <ul class="export-print">
-              <li>
-                <label>Showing 1 to {{(displayBatchSize > totalCampaign)? totalVisibleEnquiry: (instituteData.start_index+displayBatchSize)}}
-                  of {{totalCampaign}} Enquiries</label>
-              </li>
-              <li>
-
-
-
-              </li>
-            </ul>
-          </div>
-
-          <div class="c-lg-6 c-md-6 c-sm-6 align-left">
-
-            <div class="field-wrapper">
-              <img class="pull-right" src="assets/images/search.svg" style="max-width: 3.5%;position: absolute;right: 10px" (click)="searchDatabase(search)"
-              />
-            </div>
-
-            <div class="search-filter-wrapper" style="width:100%;">
-
-              <input #search type="text" class="normal-field pull-right" placeholder="Search lead name" style="width:30%;font-size:12px; margin: 0px 5px 2px -5px;"
-                [(ngModel)]="searchBarData" id="search" name="searchData" (keyup.enter)="searchDatabase(search)">
-
-            </div>
-          </div>
-
-        </div>
 
         <!-- Enquiry DataTable -->
         <div class="row">
@@ -166,11 +148,9 @@
                   </tbody>
 
                   <tbody *ngIf="sourceCampaign.length == 0">
-                    <tr class="empty-table-wrapper" style="background: none;">
-                      <td colspan="12">
-                        <ul>
-                          <li style="font-weight: 700">{{fetchingDataMessage}}</li>
-                        </ul>
+                    <tr class="">
+                      <td colspan="9">
+                        No Campaign Data Found
                       </td>
                     </tr>
                   </tbody>
@@ -184,6 +164,11 @@
 
         <!-- Paginator Here -->
         <div class="row filter-res pagination" style="width: 100%;">
+          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+              [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+            </pagination>
+          </div>
         </div>
 
       </section>
@@ -231,8 +216,8 @@
 
                 <div class="c-lg-3 c-md-3 c-sm-3">
                   <div class="field-wrapper datePickerBox">
-                    <input type="text" value="" id="followupdate" class="form-ctrl bsDatepicker" [(ngModel)]="searchBarDate" style="cursor: pointer;" (keyup.enter)="searchDatabase()"
-                     readonly="true" name="followupdate" bsDatepicker/>
+                    <input type="text" value="" id="followupdate" class="form-ctrl bsDatepicker" [(ngModel)]="searchBarDate" style="cursor: pointer;"
+                      (keyup.enter)="searchDatabase()" readonly="true" name="followupdate" bsDatepicker/>
                     <!-- <label for="followupdate">Follow up Date</label> -->
                     <span class="date-clear" name="followupdate" (click)="clearDate($event)"></span>
                   </div>

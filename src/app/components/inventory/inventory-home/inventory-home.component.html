@@ -24,7 +24,7 @@
 
             </div>
             <div class="search-filter-wrapper">
-              <input #search type="text" class="normal-field pull-right" placeholder="Search name" style="font-size:12px; margin: 0px 5px 2px -5px;width: 30%"
+              <input #search type="text" class="normal-field pull-right" placeholder="Search" style="font-size:12px; margin: 0px 5px 2px -5px;width: 30%"
                 id="search" name="searchData" (keyup)="searchDatabase(search)">
             </div>
           </div>
@@ -165,7 +165,12 @@
 
                 <td class="view-comp">
                   <div class="displayAddItem" id="add-item{{i}}">
-                    <a class="view-addItem" (click)="addItemsEnable(i)" style="cursor: pointer;">Add Quantity</a>
+                    <a class="view-addItem" (click)="addItemsEnable(i)" style="cursor: pointer;">
+                      <img src="assets/images/plus.png" title="Add Quantity">
+                    </a>
+                    <a class="view-addItem" (click)="subtractItemsEnable(i)" style="cursor: pointer;">
+                      <i class="fas fa-minus" style="font-family: FontAwesome;size: 19px" title="Subtract Quantity"></i>
+                    </a>
                     <div class="field-wrapper edit-addItem">
                       <input type="number" class="form-ctrl addQuantityInput" style="display: inline-block" [(ngModel)]="row.units_added" name="label">
                       <a style="cursor:pointer ; margin-right:10px; display: inline-block" (click)="addItemsQuantity(row)">

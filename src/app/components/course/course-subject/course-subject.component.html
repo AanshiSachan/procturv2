@@ -1,14 +1,30 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 <section class="marginExtra">
-  <div class="clearFix add-edit">
-    <a (click)="toggleCreateNewSubject()">
-      <i id="showAddBtnSubject" class="addBtnClass">+</i>
-      <i id="showCloseBtnSubject" style="display:none" class="closeBtnClass">-</i>
-      <span *ngIf="(isLangInstitue != true )">Create Subject</span>
-      <span *ngIf="(isLangInstitue == true )">Create Course</span>
-    </a>
+
+  <div class="row" style="margin-top:10px;margin-bottom: 10px">
+    <div class="c-lg-6 c-md-6 c-sm-6">
+      <div class="clearFix add-edit">
+        <a (click)="toggleCreateNewSubject()">
+          <i id="showAddBtnSubject" class="addBtnClass">+</i>
+          <i id="showCloseBtnSubject" style="display:none" class="closeBtnClass">-</i>
+          <span *ngIf="(isLangInstitue != true )">Add Subject</span>
+          <span *ngIf="(isLangInstitue == true )">Add Course</span>
+        </a>
+      </div>
+    </div>
+    <div class="c-lg-3 c-md-3 c-sm-3">
+
+    </div>
+
+    <div class="pull-right">
+      <div class="search-filter-wrapper">
+        <input #searchVal type="text" class="normal-field pull-right" style="margin-right: 15px" placeholder="Search" id="search"
+          name="searchData " (keyup)="searchInList(searchVal)">
+      </div>
+    </div>
   </div>
+
   <section class="clearFix create-standard-form" *ngIf="createNewSubject">
     <div class="c-lg-8 c-sm-8 c-md-8">
       <div class="row create-standard-field">
@@ -55,23 +71,6 @@
       </aside>
     </div>
   </section>
-
-  <div class="row" style="margin-bottom: 10px">
-    <div class="c-lg-6 c-md-6 c-sm-6" style="margin-top:10px">
-      <h3 *ngIf="(isLangInstitue != true )">Subject list</h3>
-      <h3 *ngIf="(isLangInstitue == true )">Course list</h3>
-    </div>
-    <div class="c-lg-3 c-md-3 c-sm-3">
-
-    </div>
-
-    <div class="pull-right">
-      <div class="search-filter-wrapper">
-        <input #searchVal type="text" class="normal-field pull-right" style="margin-right: 15px" placeholder="Search here" id="search"
-          name="searchData " (keyup)="searchInList(searchVal)">
-      </div>
-    </div>
-  </div>
 
   <div class="fee-install-table courses-list-table">
     <div class="table-responsive">

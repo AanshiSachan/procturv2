@@ -70,6 +70,7 @@ export class HomeComponent implements OnInit {
   };
 
   busy: Subscription;
+  subtractFlag: boolean = false;
 
   constructor(
     private inventoryApi: InventoryService,
@@ -161,17 +162,29 @@ export class HomeComponent implements OnInit {
     document.getElementById(("add-item" + i).toString()).classList.remove('displayAddItem');
   }
 
+  subtractItemsEnable(i) {
+    document.getElementById(("add-item" + i).toString()).classList.add('editAddItem');
+    document.getElementById(("add-item" + i).toString()).classList.remove('displayAddItem');
+    this.subtractFlag = true;
+  }
+
   addItemsQuantity(row) {
-    debugger
     if (row.units_added > 0) {
       let data: any = {};
       data.item_id = row.item_id;
-      data.units_added = row.units_added;
+      if (this.subtractFlag) {
+        data.units_added = "-" + row.units_added;
+      } else {
+        data.units_added = row.units_added;
+      }
       this.inventoryApi.addQuantityInStock(data).subscribe(
         data => {
           this.loadTableDatatoSource();
+          this.subtractFlag = false;
         },
         error => {
+          this.subtractFlag = false;
+          this.loadTableDatatoSource();
           console.log('Add Stock Error', error);
         }
       )

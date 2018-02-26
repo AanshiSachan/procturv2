@@ -4,13 +4,24 @@
     <div class="firstScreen">
         <!-- Standard Layout START -->
         <div class="marginExtra">
-            <div class="clearFix add-edit">
-                <a (click)="toggleCreateNewStandard()">
-                    <i id="showAddBtn" class="addBtnClass">+</i>
-                    <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
-                    <span *ngIf="(isLangInstitue != true)">Create Standard</span>
-                    <span *ngIf="(isLangInstitue == true)">Create Master Course</span>
-                </a>
+            <div class="row class filter-res filter-for-courses" style="margin-top:10px;margin-bottom: 10px">
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                    <!-- <h3 *ngIf="(isLangInstitue != true)">Standard list</h3>
+                                <h3 *ngIf="(isLangInstitue == true)">Master Course list</h3> -->
+                    <div class="clearFix add-edit">
+                        <a (click)="toggleCreateNewStandard()">
+                            <i id="showAddBtn" class="addBtnClass">+</i>
+                            <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
+                            <span *ngIf="(isLangInstitue != true)">Add Standard</span>
+                            <span *ngIf="(isLangInstitue == true)">Add Master Course</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <div class="search-filter-wrapper ">
+                        <input type="text" class="normal-field pull-right" placeholder="Search" name="searchData" #searchVal (keyup)="searchInList(searchVal)">
+                    </div>
+                </div>
             </div>
             <section class="clearFix create-standard-form" *ngIf="createNewStandard">
                 <div class="c-lg-6 c-sm-6 c-md-6">
@@ -46,22 +57,6 @@
                     </aside>
                 </div>
             </section>
-            <div class="row class filter-res filter-for-courses" style="margin-bottom: 10px">
-                <div class="c-lg-6 c-md-6 c-sm-6" style="margin-top: 10px;">
-                    <h3 *ngIf="(isLangInstitue != true)">Standard list</h3>
-                    <h3 *ngIf="(isLangInstitue == true)">Master Course list</h3>
-                </div>
-                <div class="c-lg-3 c-md-3 c-sm-3">
-
-                </div>
-                <div class="c-lg-3 c-md-3 c-sm-3">
-
-                    <div class="search-filter-wrapper ">
-                        <input type="text" class="normal-field pull-right" placeholder="Type here to search" name="searchData" #searchVal (keyup)="searchInList(searchVal)">
-                    </div>
-
-                </div>
-            </div>
             <div class="fee-install-table courses-list-table">
                 <div class="table-responsive">
                     <table>
