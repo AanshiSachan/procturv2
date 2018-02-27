@@ -53,7 +53,7 @@
                       </div>
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
-                      <input type="button" class="fullBlue btn" value="Enter" (click)="submitMasterBatch()">
+                      <input type="button" class="fullBlue btn" value="Create Class" (click)="submitMasterBatch()">
                     </div>
                   </div>
                   <div class="search-filter-wrapper" *ngIf="!isProfessional">
@@ -95,19 +95,13 @@
                         </div>
                       </div>
                       <div class="c-lg-3 c-md-3 c-sm-3">
-                        <input type="button" class="fullBlue btn" value="Enter" (click)="submitMasterCourse()">
+                        <input type="button" class="fullBlue btn" value="Create Class" (click)="submitMasterCourse()">
                       </div>
                     </div>
                     <div class="row" *ngIf="courseStartDate" style="margin-top:10px;margin-left:15px">
-                      <div class="c-lg-3 c-md-3 c-sm-3">
-                        <label>Course Duration</label>
-                      </div>
-                      <div class="c-lg-3 c-md-3 c-sm-3">
-                        <span>Start Date: {{courseStartDate}}</span>
-                      </div>
-                      <div class="c-lg-3 c-md-3 c-sm-3">
-                        <span>End Date: {{courseEndDate}}</span>
-                      </div>
+                      <span>Course Duration: </span>
+                      <span>Start Date: {{courseStartDate}}</span>
+                      <span>End Date: {{courseEndDate}}</span>
                     </div>
                   </div>
                 </div>
@@ -217,7 +211,7 @@
                     {{opt.teacher_name}}
                   </option>
                 </select>
-                <label for="row.category_id">Teacher Name</label>
+                <label for="row.category_id">Tutor Name</label>
               </div>
 
               <div class="field-wrapper c-sm-2 c-md-2 c-lg-2" [ngClass]="{'has-value' : addClassDetails.desc != '' && addClassDetails.desc != null }">
@@ -225,7 +219,7 @@
                 <label for="label">Description</label>
               </div>
 
-              <div class="field-wrapper c-sm-2 c-md-2 c-lg-2" [ngClass]="{'has-value' : addClassDetails.roomNo != '' && addClassDetails.roomNo != null }">
+              <div class="field-wrapper c-sm-1 c-md-1 c-lg-1" [ngClass]="{'has-value' : addClassDetails.roomNo != '' && addClassDetails.roomNo != null }">
                 <input type="text" class="form-ctrl" name="label" [(ngModel)]="addClassDetails.roomNo">
                 <label for="label">Room No</label>
               </div>
@@ -237,7 +231,8 @@
                   </option>
                 </select>
                 <label for="row.category_id">Class Type</label>
-                <i (click)="addClassSchedule()" class="fal fa-plus-circle" style="font-family: FontAwesome ;font-size: 19px;"></i>
+                <img src="assets/images/plus.png" (click)="addClassSchedule()" alt="Add" style="vertical-align: -webkit-baseline-middle;">
+                <!-- <i (click)="addClassSchedule()" class="fal fa-plus-circle" style="font-family: FontAwesome ;font-size: 19px;"></i> -->
               </div>
 
             </div>
@@ -293,7 +288,7 @@
                         {{row.end_time}}
                       </td>
                       <td style="width:10%">
-                        <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="row.teacher_id">
+                        <select id="" class="form-ctrl" name="row.category_id" style="background: transparent" [(ngModel)]="row.teacher_id">
                           <option value="-1"></option>
                           <option *ngFor="let opt of teacherListDataSource" [value]="opt.teacher_id">
                             {{opt.teacher_name}}
@@ -302,17 +297,17 @@
                       </td>
                       <td style="width:10%">
                         <div class="field-wrapper">
-                          <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_desc" name="label">
+                          <input type="text" class="form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.class_desc" name="label">
                         </div>
                       </td>
                       <td style="width:10%">
                         <div class="field-wrapper">
-                          <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.room_no" name="label">
+                          <input type="text" class="form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.room_no" name="label">
                         </div>
                       </td>
 
                       <td style="width:10%">
-                        <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="row.custom_class_type">
+                        <select id="" class="form-ctrl" name="row.category_id" style="background: transparent" [(ngModel)]="row.custom_class_type">
                           <option *ngFor="let opt of customListDataSource">
                             {{opt}}
                           </option>
@@ -321,7 +316,7 @@
 
                       <td style="width:10%">
 
-                        <select *ngIf="(row.class_schedule_id != 0)" id="" class="form-ctrl" name="row.category_id" (change)="weeklyScheduleChange($event , row)">
+                        <select *ngIf="(row.class_schedule_id != 0)" id="" style="background: transparent" class="form-ctrl" name="row.category_id" (change)="weeklyScheduleChange($event , row)">
                           <option value="1">Does Not Repeat</option>
                           <option value="2">Select Dates</option>
                           <option value="3">Custom Recurrence</option>

@@ -97,6 +97,7 @@
                     <a class="cursor-icon" style="color:white;">Allocate To Sub Branches</a>
                   </label>
                 </th>
+
               </tr>
             </thead>
 
@@ -193,6 +194,15 @@
                   </div>
                 </td>
 
+                <td class="table-action edit-comp">
+                  <a style="cursor:pointer ; margin-right:10px" (click)="updateRow(row , i)">
+                    <i class="far fa fa-save" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i>
+                  </a>
+                  <a style="cursor:pointer" (click)="cancelRow(i)">
+                    <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
+                  </a>
+                </td>
+
                 <td class="enquiry-action table-action view-comp">
                   <div>
                     <span class="action-icon">
@@ -206,7 +216,6 @@
                     </span>
                     <div class="action-menu">
                       <div class="action-menu-inner">
-                        <!--<span class="close">X</span>-->
                         <ul>
                           <li class="edit-detail-icon listClasses" (click)="editRow(i,row.item_id)">
                             <i class="imageContent">
@@ -288,15 +297,6 @@
 
                     </div>
                   </div>
-                </td>
-
-                <td class="table-action edit-comp">
-                  <a style="cursor:pointer ; margin-right:10px" (click)="updateRow(row , i)">
-                    <i class="far fa fa-save" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i>
-                  </a>
-                  <a style="cursor:pointer" (click)="cancelRow(i)">
-                    <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
-                  </a>
                 </td>
 
                 <td class="view-comp">

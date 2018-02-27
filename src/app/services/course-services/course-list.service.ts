@@ -70,6 +70,32 @@ export class CourseListService {
         )
     }
 
+    getStudentList(data) {
+        data.institute_id = this.institute_id;
+        let url = this.baseURL + "/api/v1/courseMaster/fetch/courses/" + this.institute_id + '/' + data.course_id + "/students";
+        return this.http.post(url, data, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            error => {
+                return error;
+            }
+        )
+    }
+
+    saveUpdatedList(data, ID) {
+        data.institute_id = this.institute_id;
+        let url = this.baseURL + "/api/v1/courseMaster/course/" + ID + '/assignStudents';
+        return this.http.post(url, data, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            error => {
+                return error;
+            }
+        )
+    }
+
     /////// Edit Couse //////
 
     getSeletedMasterCourseEdit(course_name) {
