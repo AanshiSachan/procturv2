@@ -82,6 +82,12 @@
 
                 <th>
                   <label>
+                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.success_count.title)">{{header.edit.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
                     <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.total_count.title)">{{header.cost.title}}</a>
                   </label>
                 </th>
@@ -92,11 +98,6 @@
                   </label>
                 </th>
 
-                <th>
-                  <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.success_count.title)">{{header.edit.title}}</a>
-                  </label>
-                </th>
               </tr>
             </thead>
 
@@ -202,23 +203,7 @@
                   </a>
                 </td>
 
-                <td class="view-comp">
-                  <div class="field-wrapper">
-                    {{row.unit_cost}}
-                  </div>
-                </td>
-                <td class="edit-comp editCellAllignment">
-                  <div class="field-wrapper">
-                    <input type="number" class="form-ctrl" [(ngModel)]="row.unit_cost" name="label">
-                  </div>
-                </td>
-
-
-                <td *ngIf="showAllocateOption">
-                  <a (click)="allocateQuantityToSubBranches(row)" style="cursor:pointer;">Allocate</a>
-                </td>
-
-                <!-- <td class="enquiry-action table-action view-comp">
+                <td class="enquiry-action table-action view-comp">
                   <div>
                     <span class="action-icon">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9082 373 17 21">
@@ -312,17 +297,22 @@
 
                     </div>
                   </div>
-                </td> -->
+                </td>
 
-                <td>
-                  <div class="">
-                    <select class="">
-                      <option style="color: #0084f6">...</option>
-                      <option value="edit">Edit</option>
-                      <option value="delete">Delete</option>
-                      <option value="allocation">Allocation Details</option>
-                    </select>
+                <td class="view-comp">
+                  <div class="field-wrapper">
+                    {{row.unit_cost}}
                   </div>
+                </td>
+                <td class="edit-comp editCellAllignment">
+                  <div class="field-wrapper">
+                    <input type="number" class="form-ctrl" [(ngModel)]="row.unit_cost" name="label">
+                  </div>
+                </td>
+
+
+                <td *ngIf="showAllocateOption">
+                  <a (click)="allocateQuantityToSubBranches(row)" style="cursor:pointer;">Allocate</a>
                 </td>
 
               </tr>
