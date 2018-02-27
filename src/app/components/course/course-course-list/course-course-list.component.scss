@@ -349,6 +349,30 @@ $color-highlight: lighten($color-base, 7%);
     }
 }
 
+.tableCourseExp{
+    max-height: 415px;
+    overflow: hidden;
+    ::-webkit-scrollbar{
+        display: block;
+
+    }
+    .tableCourseInn{
+        max-height: 400px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}
+
+.accorInnerTable{
+    tr{
+        line-height: 25px;
+        td{
+            font-size: 14px;
+            font-weight: 500;
+        }
+    }
+}
+
 .calender-view1 {
     th {
         padding: 10px;

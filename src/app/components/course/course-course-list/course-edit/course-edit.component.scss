@@ -1,3 +1,33 @@
+.open-accor{
+    float: left;
+    width: 24px;
+    font-size: 24px;
+    height: 24px;
+    text-align: center;
+    border: 1px solid #0084f6;
+    border-radius: 50%;
+    line-height: 22px;
+    margin-left: 20px;
+    margin-top: 3px;
+    cursor: pointer;
+    color: #0084f6;
+}
+.close-accor{
+    line-height: 17px;
+}
+.nestedTable{
+    .field-wrapper{
+        max-width: 150px;
+        padding-top: 0px;
+        .form-ctrl{
+            border-bottom: 1px solid #0084f6;
+            &.disableDatePicker{
+                border-bottom: none;
+            }
+        }        
+    }
+}
+
 .middle-section {
     padding: 5px 15px;
     width: 100%;
@@ -17,12 +47,13 @@
 }
 
 .nested-Table-Show-Wrapper {
-    max-height: 200px;
-    overflow: hidden;
+    .field-wrapper{
+        background: transparent;
+        .form-ctrl{
+            background: transparent;
+        }
+    }
     .subjectList-table-wrapper {
-        max-height: 180px;
-        overflow-x: hidden;
-        overflow-y: scroll;
     }
      ::-webkit-scrollbar {
         display: block;
