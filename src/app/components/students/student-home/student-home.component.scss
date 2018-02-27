@@ -39,12 +39,12 @@
             .tooltip {
                 position: relative;
                 top: -30px;
-                right: 120px;
-                min-width: 100px;
-                padding: 6px;
+                right: 125px;
+                min-width: 111px;
+                padding: 7px 20px;
                 border-radius: 5px;
-                font-size: 12px;
-                height: 35px;
+                font-size: 11px;
+                height: 30px;
                 background: rgba(0, 0, 0, 0.541);
                 color: white;
                 visibility: visible;
@@ -107,10 +107,10 @@
 
 .adfilter-submitter {
     .submit {
-        width: 70%;
+        width: 20%;
     }
     .cancel {
-        width: 100%;
+        width: 20%;
     }
 }
 
@@ -473,6 +473,7 @@
         width: 7px;
         height: 7px;
     }
+    
 }
 
 @media screen and (max-width: 995px),

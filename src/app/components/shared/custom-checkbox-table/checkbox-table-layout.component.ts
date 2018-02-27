@@ -156,7 +156,7 @@ export class CheckboxTableComponent implements OnChanges {
         /* else for left and right allignment */
         else {
             if(key == 'enquiry_no'){
-                return 'right';
+                return 'left';
             }
             else if(key == 'enquiry_date'){
                 return 'left';
@@ -176,7 +176,7 @@ export class CheckboxTableComponent implements OnChanges {
             else if(key == 'follow_type'){
                 return 'left';
             }
-            else if(key == ''){
+            else{
                 return 'left';
             }
         }

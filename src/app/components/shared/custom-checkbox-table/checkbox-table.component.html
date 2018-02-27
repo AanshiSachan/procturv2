@@ -8,7 +8,11 @@
                     <label>asdf</label>
                 </div>
             </th>
-            <th style="cursor: pointer;" *ngFor="let map of columnMaps" (click)="requestSort(map.primaryKey)">{{ map.header }}</th>
+            <th style="cursor: pointer;"
+             *ngFor="let map of columnMaps" 
+             (click)="requestSort(map.primaryKey)"
+             [ctStyleCell]="getStyle(map.primaryKey, '')"
+             >{{ map.header }}</th>
         </tr>
     </thead>
     <tbody *ngIf="records.length != 0">

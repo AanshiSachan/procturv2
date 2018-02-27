@@ -7,6 +7,7 @@ import { Base64 } from 'js-base64';
 import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-student-bulk',
@@ -23,7 +24,7 @@ export class StudentBulkComponent implements OnInit {
   studentUploadForm: any;
 
   constructor(private fetchData: FetchStudentService, private postData: PostStudentDataService,
-    private appC: AppComponent, private router: Router) {
+    private appC: AppComponent, private router: Router, private auth: AuthenticatorService) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -92,8 +93,8 @@ export class StudentBulkComponent implements OnInit {
           type: 'error',
           title: 'Invalid File Selected',
           body: 'Please provide a valid excel document'
-          }
-          this.appC.popToast(msg);
+        }
+        this.appC.popToast(msg);
       }
     }
   }
@@ -137,8 +138,8 @@ export class StudentBulkComponent implements OnInit {
       comments: "",
       institute_id: sessionStorage.getItem('institute_id')
     }
-
-    let urlPostXlsDocument = "http://test999.proctur.com/StdMgmtWebAPI/api/v1/students/bulkUpload";
+    let base = this.auth.getBaseUrl();
+    let urlPostXlsDocument = base +"/api/v1/students/bulkUpload";
 
     let xhr: XMLHttpRequest = new XMLHttpRequest();
     xhr.open("POST", urlPostXlsDocument, true);
@@ -215,7 +216,7 @@ export class StudentBulkComponent implements OnInit {
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
         let dwldLink = document.getElementById('success' + fileId);
-        if(dwldLink.getAttribute('href') == null ||dwldLink.getAttribute('href') == undefined ||dwldLink.getAttribute('href') == ''){
+        if (dwldLink.getAttribute('href') == null || dwldLink.getAttribute('href') == undefined || dwldLink.getAttribute('href') == '') {
           dwldLink.setAttribute("href", url);
           dwldLink.setAttribute("download", fileName);
           dwldLink.click();
@@ -237,7 +238,7 @@ export class StudentBulkComponent implements OnInit {
         let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
         let url = URL.createObjectURL(file);
         let dwldLink = document.getElementById('failure' + fileId);
-        if(dwldLink.getAttribute('href') == null ||dwldLink.getAttribute('href') == undefined ||dwldLink.getAttribute('href') == ''){
+        if (dwldLink.getAttribute('href') == null || dwldLink.getAttribute('href') == undefined || dwldLink.getAttribute('href') == '') {
           dwldLink.setAttribute("href", url);
           dwldLink.setAttribute("download", fileName);
           dwldLink.click();

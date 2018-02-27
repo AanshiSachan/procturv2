@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, ViewChild, ElementRef, Renderer2, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, ViewChild, ElementRef, Renderer2, Input, Output, EventEmitter, SimpleChanges, HostListener } from '@angular/core';
 //import * as Croppie from 'croppie/croppie';
 declare var Croppie: any;
 
@@ -43,7 +43,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
   isSnap: boolean = false;
   isCrop: boolean = false;
 
-  constructor(private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2, private eRef: ElementRef) { }
 
   ngOnInit() {
   }
@@ -61,19 +61,18 @@ export class PictureCropComponent implements OnInit, OnChanges {
   }
 
   setReadOnly() {
-    console.log(this.readonly);
+    //console.log(this.readonly);
   }
 
   setRemoveImg() {
-
   }
 
   setServerImg() {
     if (this.serverImg === '' || this.serverImg === null) {
       this.removeImage();
-    } 
+    }
     else {
-      console.log(this.serverImg);
+      //console.log(this.serverImg);
       const temp: any[] = [];
       temp[0] = this.imgPrefill;
       temp[1] = this.serverImg;
@@ -132,7 +131,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
     this.vanilla.result('blob').then((blob) => {
       const url = URL.createObjectURL(blob);
       preview.src = url;
-      
+
       this.sendReadFile(blob);
     });
 
@@ -195,7 +194,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
   }
 
   flushModal() {
-    debugger;
+    //debugger;
     this.isVideo = false;
     this.isSnap = false;
     this.isCrop = false;
@@ -211,13 +210,21 @@ export class PictureCropComponent implements OnInit, OnChanges {
     }
   }
 
-  clickDetector($event){
+  clickDetector($event) {
     $event.preventDefault();
-    if($event.target.id === "myModal"){
+    if ($event.target.id === "myModal") {
       this.flushModal();
     }
   }
 
-  
+  @HostListener("document:click", ['$event'])
+  onWindowClick(event) {
+    if(this.eRef.nativeElement.contains(event.target)) {
+      console.log("inside");
+    } else {
+      console.log("outside");
+      this.isMenuVisible = false;
+    }
+  }
 
 }

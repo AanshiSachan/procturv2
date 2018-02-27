@@ -27,12 +27,13 @@ export class FetchenquiryService {
   urlDownloadTemplate: string;
   urlDownloadAllEnquiry: string;
   urlFetchAllSms: string;
-  baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
+  baseUrl: string = "";
 
   /* initialize the value of variables on service call */
   constructor(private http: Http, private auth: AuthenticatorService) {
     this.Authorization = this.auth.getAuthToken();
     this.institute_id = this.auth.getInstituteId();
+    this.baseUrl = this.auth.getBaseUrl();
     this.url = this.baseUrl + "/api/v1/enquiry/dashboard/" + this.institute_id;
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");

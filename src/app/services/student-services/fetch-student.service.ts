@@ -15,7 +15,7 @@ import { AuthenticatorService } from '../authenticator.service';
 export class FetchStudentService {
 
   url: string;
-  baseUrl: string = 'http://test999.proctur.com/StdMgmtWebAPI';
+  baseUrl:string = '';
   authorization: string;
   institute_id: number;
   headers: Headers;
@@ -23,6 +23,7 @@ export class FetchStudentService {
   constructor(private http: Http, private auth: AuthenticatorService) {
     this.authorization = this.auth.getAuthToken();
     this.institute_id = this.auth.getInstituteId();
+    this.baseUrl = this.auth.getBaseUrl();
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
     this.headers.append("Authorization", this.authorization);

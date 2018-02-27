@@ -7,7 +7,7 @@ import { error } from 'util';
 
 export class CourseListService {
 
-    baseURL: string = "http://test999.proctur.com/StdMgmtWebAPI";
+    baseURL: string = "";
     Authorization: any;
     headers;
     institute_id;
@@ -18,6 +18,7 @@ export class CourseListService {
     ) {
         this.institute_id = this.auth.getInstituteId();
         this.Authorization = this.auth.getAuthToken();
+        this.baseURL = this.auth.getBaseUrl();
         this.headers = new HttpHeaders(
             { "Content-Type": "application/json", "Authorization": this.Authorization });
     }

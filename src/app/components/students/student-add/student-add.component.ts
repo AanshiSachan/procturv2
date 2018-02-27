@@ -284,7 +284,7 @@ export class StudentAddComponent implements OnInit {
   key: string = 'name'; //set default
   reverse: boolean = false;
   allotInventoryArr: any[] = [];
-  taxEnableCheck: any = '';
+  taxEnableCheck: any = '1';
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -295,6 +295,8 @@ export class StudentAddComponent implements OnInit {
     private router: Router, private login: LoginService,
     private appC: AppComponent) {
     this.getInstType();
+    this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    console.log(this.taxEnableCheck);
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -792,8 +794,9 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateMultiSelect(data, id) {
+    //debugger;
     this.customComponents.forEach(el => {
-      if (el.id == id) {
+      if (el.id == id && el.type == 4) {
         el.prefilled_data.forEach(com => {
           //console.log(com);
           if (com.data == data.data) {
@@ -806,9 +809,8 @@ export class StudentAddComponent implements OnInit {
               else {
                 document.getElementById(id + 'wrapper').classList.remove('has-value');
               }
-              //console.log(com.selected);
               el.selectedString = el.selected.join(',');
-              el.value = el.selectedString;
+              //el.value = el.selectedString;
             }
             /* Component unchecked */
             else {
@@ -1174,7 +1176,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   applyConfiguredFees($event) {
-    debugger
+    //debugger
     $event.preventDefault();
     this.isPaymentDetailsValid = false;
     this.feeTemplateById = {
@@ -1224,12 +1226,11 @@ export class StudentAddComponent implements OnInit {
 
           this.isFeeApplied = true;
 
-          if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+          if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
             this.service_tax = res.registeredServiceTax;
           }
-          else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+          else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
             this.service_tax = 0;
-
           }
           res.customFeeSchedules.forEach(el => {
             if (el.fee_type_name === "INSTALLMENT") {
@@ -1392,7 +1393,7 @@ export class StudentAddComponent implements OnInit {
       }
     }
     else if (this.addFeeInstallment.due_date != "" && !isNaN(this.addFeeInstallment.initial_fee_amount)) {
-      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         this.addFeeInstallment.service_tax = this.feeTemplateById.registeredServiceTax;
         this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
         this.addFeeInstallment.fees_amount = parseInt(this.addFeeInstallment.initial_fee_amount) + (this.precisionRound(((this.addFeeInstallment.service_tax / 100) * parseInt(this.addFeeInstallment.initial_fee_amount)), -1));
@@ -1454,7 +1455,7 @@ export class StudentAddComponent implements OnInit {
           updated_by: null
         }
       }
-      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
         this.addFeeInstallment.service_tax = 0;
         this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
         this.addFeeInstallment.fees_amount = parseInt(this.addFeeInstallment.initial_fee_amount) + (this.precisionRound(((this.addFeeInstallment.service_tax / 100) * parseInt(this.addFeeInstallment.initial_fee_amount)), -1));
