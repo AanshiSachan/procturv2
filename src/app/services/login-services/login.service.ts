@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import { Subject }    from 'rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AuthenticatorService } from '../authenticator.service';
 
@@ -17,7 +17,8 @@ export class LoginService {
   validateOTPurl: string;
   regenerateOTPurl: string;
   forgotPasswordURL: string;
-  baseUrl:string = '';
+  baseUrl: string = '';
+  instituteList = ['100058', '100057']
 
 
   /* institute name and username subscriber */
@@ -31,25 +32,25 @@ export class LoginService {
   currentUsername = this.userNameSource.asObservable();
   currentMenuState = this.overlayMenu.asObservable();
 
-  changeInstituteStatus(institute: string){
+  changeInstituteStatus(institute: string) {
     this.instituteNameSource.next(institute);
   }
 
-  changeSidenavStatus(sidenav: string){
+  changeSidenavStatus(sidenav: string) {
     this.sideNavSource.next(sidenav);
   }
-  
-  changeNameStatus(name: string){
+
+  changeNameStatus(name: string) {
     this.userNameSource.next(name);
   }
 
-  changeMenuStatus(menu: boolean){
+  changeMenuStatus(menu: boolean) {
     this.overlayMenu.next(menu);
   }
 
   constructor(private http: Http, private auth: AuthenticatorService) {
     this.baseUrl = this.auth.getBaseUrl();
-    this.urlLogin = this.baseUrl +"/api/v1/alternateLogin";
+    this.urlLogin = this.baseUrl + "/api/v1/alternateLogin";
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
   }
@@ -62,7 +63,7 @@ export class LoginService {
   }
 
   validateOTPCode(data) {
-    this.validateOTPurl = this.baseUrl +"/api/v1/alternateLogin/register/validateOTP";
+    this.validateOTPurl = this.baseUrl + "/api/v1/alternateLogin/register/validateOTP";
     return this.http.post(this.validateOTPurl, data, { headers: this.headers }).map(res => {
       return res.json();
     })
@@ -88,6 +89,14 @@ export class LoginService {
     sessionStorage.clear();
     localStorage.clear();
     return true;
+  }
+
+  validInstituteCheck(data): Observable<boolean> {
+    if (this.instituteList.indexOf(data.institution_id) == -1) {
+      return Observable.of(false);
+    } else {
+      return Observable.of(true);
+    }
   }
 
 }

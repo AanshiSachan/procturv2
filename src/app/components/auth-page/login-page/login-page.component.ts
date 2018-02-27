@@ -56,14 +56,14 @@ export class LoginPageComponent {
 
   selectedMultiInstitute: any;
   selectedUserRole: any;
-  
+
   multiInstituteLoginInfo: InstituteLoginInfo = {
     alternate_email_id: "",
     password: "",
     userid: "",
     institution_id: ""
   }
-  
+
   userListArr: any[] = [];
   multiUserLoginInfo: any = {
     alternate_email_id: "",
@@ -91,7 +91,7 @@ export class LoginPageComponent {
     private toastCtrl: AppComponent) {
 
     /* hide header and sidebar from the view onInit to give the user the full screen view of the web app  */
-    if (sessionStorage.getItem('Authorization') != null){
+    if (sessionStorage.getItem('Authorization') != null) {
       this.fullscreenLogin();
       this.loginDataForm = {
         alternate_email_id: "",
@@ -145,7 +145,7 @@ export class LoginPageComponent {
         body: "Please enter valid Email ID/Mobile number and Password"
       }
       this.toastCtrl.popToast(data);
-    } 
+    }
     else if (this.loginDataForm.password == "") {
       let data = {
         type: "warning",
@@ -153,7 +153,7 @@ export class LoginPageComponent {
         body: "Please enter Password"
       }
       this.toastCtrl.popToast(data);
-    } 
+    }
     else {
       this.login.postLoginDetails(this.loginDataForm).subscribe(el => {
         //console.log(el);
@@ -215,6 +215,38 @@ export class LoginPageComponent {
 
   //if login is successfull ( Start - 3)
   alternateLoginSuccess(res) {
+    this.login.validInstituteCheck(res).subscribe(
+      res => {
+        if (res == true) {
+          console.log('Institute Id Found');
+        } else {
+          this.route.navigateByUrl('/authPage');
+          console.log('Institute ID Not Found');
+          let data = {
+            type: "error",
+            title: "Institute not registered",
+            body: "Your institute not registered to use this."
+          }
+          this.toastCtrl.popToast(data);
+          sessionStorage.clear();
+          localStorage.clear();
+        }
+      },
+      err => {
+        this.route.navigateByUrl('/authPage');
+        console.log('Institute ID Not Found');
+        let data = {
+          type: "error",
+          title: "Institute not registered",
+          body: "Your institute not registered to use this."
+        }
+        this.toastCtrl.popToast(data);
+        sessionStorage.clear();
+        localStorage.clear();
+      }
+    )
+
+
     sessionStorage.setItem('institute_info', JSON.stringify(res.data));
     let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
     let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
@@ -237,7 +269,7 @@ export class LoginPageComponent {
     sessionStorage.setItem('inst_phone', institute_data.inst_phone);
     sessionStorage.setItem('inst_reg_code', institute_data.inst_reg_code);
     sessionStorage.setItem('inst_set_up', institute_data.inst_set_up);
-    sessionStorage.setItem('institute_type', institute_data.institute_type);    
+    sessionStorage.setItem('institute_type', institute_data.institute_type);
     sessionStorage.setItem('institution_footer', institute_data.institution_footer);
     sessionStorage.setItem('institution_header1', institute_data.institution_header1);
     sessionStorage.setItem('institution_header2', institute_data.institution_header2);
@@ -280,10 +312,10 @@ export class LoginPageComponent {
     sessionStorage.setItem('inst_announcement', institute_data.inst_announcement);
     sessionStorage.setItem('logo_url', institute_data.logo_url);
     sessionStorage.setItem('permitted_roles', JSON.stringify(res.data.featureDivMapping));
-    if(res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null ){
+    if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
       sessionStorage.setItem('permissions', '');
     }
-    else{
+    else {
       sessionStorage.setItem('permissions', JSON.stringify(res.data.permissions.split(',')));
     }
     this.createRoleBasedSidenav();
@@ -556,7 +588,7 @@ export class LoginPageComponent {
 
 
 
-  
+
   removeFullscreen() {
     var header = document.getElementsByTagName('core-header');
     var sidebar = document.getElementsByTagName('core-sidednav');
@@ -574,7 +606,7 @@ export class LoginPageComponent {
 
 
 
-  createRoleBasedSidenav(){
+  createRoleBasedSidenav() {
     this.login.changeSidenavStatus('authorized');
     this.route.navigateByUrl('home');
   }
