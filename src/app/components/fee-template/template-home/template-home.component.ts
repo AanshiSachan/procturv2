@@ -46,6 +46,9 @@ export class TemplateHomeComponent implements OnInit {
     fee_tax: '',
     fees_amount: ''
   }
+  customJson: any = [];
+  totalAmount: any = '';
+  discountAmount: any = '';
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private fetchService: FeeStrucService) {
     if (sessionStorage.getItem('Authorization') == null) {
@@ -119,8 +122,64 @@ export class TemplateHomeComponent implements OnInit {
   }
 
   updateFeeTemplate() {
-    
+    let data: any = {
+      customFeeSchedules: this.makeJSONForCustomFee(),
+      studentwise_total_fees_amount: this.totalAmount,
+      studentwise_total_fees_discount: this.discountAmount,
+      studentwise_fees_tax_applicable: this.feeStructure.studentwise_fees_tax_applicable,
+      template_id: this.feeStructure.template_id,
+      template_name: this.feeStructure.template_name
+    };
+    this.fetchService.updateFeeTemplate(data).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      }
+    )
   }
+
+  makeJSONForCustomFee() {
+    debugger
+    this.customJson = [];
+    this.totalAmount = 0;
+    this.discountAmount = 0;
+    let data: any = [];
+    for (let t = 0; t < this.installmentList.length; t++) {
+      let test: any = {};
+      test.fee_type = '0';
+      test.initial_fee_amount = this.installmentList[t].initial_fee_amount;
+      test.service_tax = this.installmentList[t].service_tax;
+      test.fees_amount = this.installmentList[t].fees_amount;
+      test.service_tax_applicable = this.installmentList[t].service_tax_applicable;
+      test.schedule_id = this.installmentList[t].schedule_id;
+      test.is_referenced = this.installmentList[t].is_referenced;
+      test.day_type = this.installmentList[t].day_type;
+      test.days = this.installmentList[t].days;
+      this.totalAmount = this.totalAmount + this.installmentList[t].fees_amount;
+      this.discountAmount = this.discountAmount + this.installmentList[t].fees_amount - this.installmentList[t].initial_fee_amount;
+      data.push(test);
+    }
+    for (let t = 0; t < this.otherInstList.length; t++) {
+      let test: any = {};
+      test.fee_type = this.otherInstList[t].fee_type;
+      test.initial_fee_amount = this.otherInstList[t].initial_fee_amount;
+      test.service_tax = this.otherInstList[t].service_tax;
+      test.fees_amount = this.otherInstList[t].fees_amount;
+      test.service_tax_applicable = this.otherInstList[t].service_tax_applicable;
+      test.schedule_id = this.otherInstList[t].schedule_id;
+      test.is_referenced = this.otherInstList[t].is_referenced;
+      test.day_type = this.otherInstList[t].day_type;
+      test.days = this.otherInstList[t].days;
+      this.totalAmount = this.totalAmount + this.otherInstList[t].fees_amount;
+      this.discountAmount = this.discountAmount + this.otherInstList[t].fees_amount - this.otherInstList[t].initial_fee_amount;
+      data.push(test);
+    }
+    this.customJson = data;
+    return data;
+  }
+
 
   updateTemplateName() {
     if (this.selectedTemplate.template_name.trim() != '') {
