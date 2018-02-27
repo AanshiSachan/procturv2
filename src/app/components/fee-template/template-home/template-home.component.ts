@@ -28,7 +28,24 @@ export class TemplateHomeComponent implements OnInit {
   selectedTemplate: any;
   isHeaderEdit: boolean = false;
   isEditFee: boolean = false;
-  feeStructure:any;
+  feeStructure: any;
+  installmentList: any = [];
+  otherInstList: any = [];
+  otherFeetype: any = [];
+  AddInstallment = {
+    day_type: '',
+    days: '',
+    initial_fee_amount: '',
+    fees_amount: '',
+  }
+  additionalInstallment = {
+    fee_type_name: '',
+    day_type: '',
+    days: '',
+    initial_fee_amount: '',
+    fee_tax: '',
+    fees_amount: ''
+  }
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private fetchService: FeeStrucService) {
     if (sessionStorage.getItem('Authorization') == null) {
@@ -68,19 +85,41 @@ export class TemplateHomeComponent implements OnInit {
         this.feeStructure = res;
         console.log(res);
         this.isEditFee = true;
+        this.fillFeeType(res.feeTypeMap);
+        this.fillDataInYTable(res.customFeeSchedules);
       },
-      err => {}
+      err => { }
     )
+  }
+
+  fillFeeType(data) {
+    let keys = Object.keys(data);
+    for (let i = 0; i < keys.length; i++) {
+      let test: any = {};
+      test.id = keys[i];
+      test.value = data[keys[i]];
+      this.otherFeetype.push(test);
+    }
+  }
+
+  fillDataInYTable(data) {
+    for (let t = 0; t < data.length; t++) {
+      if (data[t].fee_type_name == "INSTALLMENT") {
+        this.installmentList.push(data[t]);
+      } else {
+        this.otherInstList.push(data[t]);
+      }
+    }
   }
 
   closeFeeEditor() {
     this.getFeeStructures();
     this.isHeaderEdit = false;
-    this.isEditFee = false;    
+    this.isEditFee = false;
   }
 
   updateFeeTemplate() {
-  
+    
   }
 
   updateTemplateName() {
@@ -97,7 +136,57 @@ export class TemplateHomeComponent implements OnInit {
     }
   }
 
+  calculateTaxAmout(row) {
+    return row.fees_amount - row.initial_fee_amount;
+  }
 
+  calculateTotalAmount() {
+    return 0;
+  }
+
+  onApplyTaxChechbox() {
+
+  }
+
+  deleteRow(row, i) {
+    this.installmentList.splice(i, 1);
+  }
+
+  deleteAdditionalRow(row, i) {
+    this.otherInstList.splice(i, 1);
+  }
+
+
+  addInstallmentInTable() {
+    if (Number(this.AddInstallment.initial_fee_amount) > 0) {
+      this.installmentList.fees_amount = this.AddInstallment.initial_fee_amount;
+      this.installmentList.push(this.AddInstallment);
+      this.AddInstallment = {
+        day_type: '',
+        days: '',
+        initial_fee_amount: '',
+        fees_amount: '',
+      }
+    } else {
+      console.log('error');
+    }
+  }
+
+
+  addAdditionalInst() {
+    if (Number(this.additionalInstallment.initial_fee_amount) > 0) {
+      this.additionalInstallment.fees_amount = this.additionalInstallment.initial_fee_amount;
+      this.otherInstList.push(this.additionalInstallment);
+      this.additionalInstallment = {
+        fee_type_name: '',
+        day_type: '',
+        days: '',
+        initial_fee_amount: '',
+        fee_tax: '',
+        fees_amount: ''
+      }
+    }
+  }
 
 }
 
