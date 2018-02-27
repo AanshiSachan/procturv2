@@ -7,7 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class InventoryCategoryService {
 
-  baseUrl = 'http://test999.proctur.com/StdMgmtWebAPI';
+  baseUrl = '';
   Authorization: any;
   headers;
 
@@ -16,9 +16,10 @@ export class InventoryCategoryService {
     private auth: AuthenticatorService
   ) {
     this.Authorization = this.auth.getAuthToken();
+    this.baseUrl = this.auth.getBaseUrl();
     this.headers = new HttpHeaders(
       { "Content-Type": "application/json", "Authorization": this.Authorization });
-  }
+  } 
 
   // Getting all category list from server
   getCategoryList() {

@@ -11,6 +11,8 @@ export class AuthenticatorService {
     public institute_id: any = null;
     public institute_type: any = null;
     public institution_type: any = null;
+    public baseUrl:string = "http://test999.proctur.com/StdMgmtWebAPI"
+
 
     constructor() {
         // set token if saved in session storage
@@ -42,4 +44,10 @@ export class AuthenticatorService {
         else{
         }
     }
+
+    getBaseUrl(): string{
+        return this.baseUrl;
+    }
+
+
 }

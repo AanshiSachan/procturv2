@@ -8,8 +8,8 @@ import { Observer } from 'rxjs/Observer';
 import 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
-import { AuthenticatorService } from '../authenticator.service';
 import { AddCategoryInInventory } from '../../model/add-item-inventory';
+import { AuthenticatorService } from '../authenticator.service';
 
 @Injectable()
 export class InventoryService {
@@ -28,12 +28,12 @@ export class InventoryService {
   urlDownloadTemplate: string;
   urlDownloadAllEnquiry: string;
   urlFetchAllSms: string;
-  baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
+  baseUrl: string = "";
 
   constructor(private http: Http, private auth: AuthenticatorService) {
     this.Authorization = this.auth.getAuthToken();
     this.institute_id = this.auth.getInstituteId();
-    this.url = this.baseUrl + "/api/v1/enquiry/dashboard/" + this.institute_id;
+    this.baseUrl = this.auth.getBaseUrl();
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
     this.headers.append("Authorization", this.Authorization);
@@ -43,24 +43,22 @@ export class InventoryService {
   }
 
   fetchAllItems() {
-    this.url = this.baseUrl + "/api/v1/inventory/item/all/" + this.institute_id;
+    let url = this.baseUrl + "/api/v1/inventory/item/all/" + this.institute_id;
 
-    return this.http.get(this.url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).map(
       data => { return data.json() },
       err => {
-        //  console.log("error fetching template");
       }
     );
   }
 
 
   fetchAllCategories() {
-    this.url = this.baseUrl + "/api/v1/inventory/category/all/" + this.institute_id;
+    let url = this.baseUrl + "/api/v1/inventory/category/all/" + this.institute_id;
 
-    return this.http.get(this.url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).map(
       data => { return data.json() },
       err => {
-        //  console.log("error fetching template");
       }
     );
   }
@@ -68,25 +66,23 @@ export class InventoryService {
 
   updateInventoryItem(data) {
     data.institution_id = this.institute_id;
-    this.url = this.baseUrl + "/api/v1/inventory/item";
-    return this.http.put(this.url, data, { headers: this.headers }).map(
+    let url = this.baseUrl + "/api/v1/inventory/item";
+    return this.http.put(url, data, { headers: this.headers }).map(
       data => {
         return data.json()
       },
       err => {
-        console.log(err, 'Error');
       }
     );
   }
 
   fetchAllMasterCategoryItem() {
-    this.url = this.baseUrl + "/api/v1/standards/all/" + this.institute_id;
-    return this.http.get(this.url, { headers: this.headers }).map(
+    let url = this.baseUrl + "/api/v1/standards/all/" + this.institute_id;
+    return this.http.get(url, { headers: this.headers }).map(
       data => {
         return data.json();
       },
       err => {
-        console.log("error fetching template", err);
       }
     );
   }
@@ -98,32 +94,29 @@ export class InventoryService {
         return data.json();
       },
       err => {
-        console.log("error fetching template", err);
       }
     );
   }
 
   getCourseOnBasisOfMasterCourse(data_id) {
-    this.url = this.baseUrl + "/api/v1/subjects/standards/" + data_id;
-    return this.http.get(this.url, { headers: this.headers }).map(
+    let url = this.baseUrl + "/api/v1/subjects/standards/" + data_id;
+    return this.http.get( url, { headers: this.headers }).map(
       data => {
         return data.json();
       },
       err => {
-        console.log("error fetching template", err);
       }
     );
   }
 
   addItemDetailsInCategory(data: AddCategoryInInventory) {
     data.institution_id = this.institute_id;
-    this.url = this.baseUrl + "/api/v1/inventory/item";
-    return this.http.post(this.url, data, { headers: this.headers }).map(
+    let url = this.baseUrl + "/api/v1/inventory/item";
+    return this.http.post( url, data, { headers: this.headers }).map(
       data => {
         return data.json();
       },
       err => {
-        console.log("error fetching template", err);
       }
     );
   }
@@ -131,20 +124,19 @@ export class InventoryService {
 
   addQuantityInStock(data) {
     data.institution_id = this.institute_id;
-    this.url = this.baseUrl + "/api/v1/inventory/item/stockUpdate/";
-    return this.http.put(this.url, data, { headers: this.headers }).map(
+    let url = this.baseUrl + "/api/v1/inventory/item/stockUpdate/";
+    return this.http.put( url, data, { headers: this.headers }).map(
       data => {
         return data.json();
       },
       err => {
-        console.log("error fetching template", err);
       }
     );
   }
 
   getItemDetailsForSubBranches(item_id) {
-    this.url = this.baseUrl + "/api/v1/inventory/item/" + this.institute_id + "/" + item_id;
-    return this.http.get(this.url, { headers: this.headers }).map(
+    let url = this.baseUrl + "/api/v1/inventory/item/" + this.institute_id + "/" + item_id;
+    return this.http.get( url, { headers: this.headers }).map(
       data => {
         return data.json();
       },
@@ -155,8 +147,8 @@ export class InventoryService {
   }
 
   getAllSubBranchesInfo() {
-    this.url = this.baseUrl + '/api/v1/institutes/all/subBranches/' + this.institute_id;
-    return this.http.get(this.url, { headers: this.headers }).map(
+    let url = this.baseUrl + '/api/v1/institutes/all/subBranches/' + this.institute_id;
+    return this.http.get( url, { headers: this.headers }).map(
       data => {
         return data.json();
       },
@@ -167,8 +159,8 @@ export class InventoryService {
   }
 
   getSubBranchItemInfo(dataId) {
-    this.url = this.baseUrl + '/api/v1/inventory/item/all/' + dataId;
-    return this.http.get(this.url, { headers: this.headers }).map(
+    let url = this.baseUrl + '/api/v1/inventory/item/all/' + dataId;
+    return this.http.get( url, { headers: this.headers }).map(
       data => {
         return data.json();
       },
@@ -181,8 +173,8 @@ export class InventoryService {
   allocateItemToSubBranch(data) {
     data.institution_id = this.institute_id;
     console.log(data);
-    this.url = this.baseUrl + '/api/v1/inventory/item/allocate/subBranch';
-    return this.http.post(this.url, data, { headers: this.headers }).map(
+    let url = this.baseUrl + '/api/v1/inventory/item/allocate/subBranch';
+    return this.http.post( url, data, { headers: this.headers }).map(
       data => {
         return data.json();
       },
@@ -199,7 +191,7 @@ export class InventoryService {
         return res.json();
       },
       error => {
-        return error;
+        return error.json();
       }
     )
   }

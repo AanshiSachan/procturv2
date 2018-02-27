@@ -28,12 +28,13 @@ export class CampaignService {
   urlDownloadTemplate: string;
   urlDownloadAllEnquiry: string;
   urlFetchAllSms: string;
-  baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
+  baseUrl: string = "";
 
   /* initialize the value of variables on service call */
   constructor(private http: Http, private auth: AuthenticatorService) {
     this.Authorization = this.auth.getAuthToken();
     this.institute_id = this.auth.getInstituteId();
+    this.baseUrl = this.auth.getBaseUrl();
     this.url = this.baseUrl + "/api/v1/enquiry/dashboard/" + this.institute_id;
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
@@ -47,19 +48,27 @@ export class CampaignService {
 
   /* return the template user has to edit */
   fetchDownloadTemplate() {
-    this.urlDownloadTemplate = "http://test999.proctur.com/doc/lead_upload_form.xls";
-
-    return this.http.get(this.urlDownloadTemplate).map(
-      data => { return data.json() },
-      err => {
-        //  console.log("error fetching template");
-      }
-    );
+    if(this.baseUrl == 'http://test999.proctur.com/StdMgmtWebAPI'){
+      this.urlDownloadTemplate = "http://test999.proctur.com/doc/lead_upload_form.xls";
+      return this.http.get(this.urlDownloadTemplate).map(
+        data => { return data.json() },
+        err => {
+          //  console.log("error fetching template");
+        }
+      );
+    }
+    else{
+      this.urlDownloadTemplate = "https://app.proctur.com/doc/lead_upload_form.xls";
+      return this.http.get(this.urlDownloadTemplate).map(
+        data => { return data.json() },
+        err => {
+          //  console.log("error fetching template");
+        }
+      );
+    }
   }
 
   uploadFileStep2(response){
-
-    console.log(response);
     let data = response;
 
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/campaign/list/" + this.institute_id + "/upload";

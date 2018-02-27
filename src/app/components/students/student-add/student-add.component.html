@@ -965,7 +965,7 @@
   </student-pop-up>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
-  <!-- =============== Assign Batch =============================== -->
+  <!-- =============== Duplicate Contact =============================== -->
   <student-pop-up [hidden]="!isDuplicateStudent">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isDuplicateContactClose()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -1017,7 +1017,7 @@
     </div>
   </student-pop-up>
   <!-- ======================================================== -->
-  <!-- ======================================================== -->
+  <!-- ========================User Selects a Template here================================ -->
   <!-- =============== Configure Fees =============================== -->
   <student-pop-up *ngIf="isConfigureFees">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeConfigureFees($event)" close-button>
@@ -1072,7 +1072,7 @@
 
   </student-pop-up>
   <!-- ======================================================== -->
-  <!-- ======================================================== -->
+  <!-- ========================Payment Sections here================================ -->
   <!-- =============== Fees Payment Manager=============================== -->
   <student-pop-up *ngIf="isFeePaymentUpdate">
 
@@ -1142,7 +1142,7 @@
 
   </student-pop-up>
   <!-- ======================================================== -->
-  <!-- ======================================================== -->
+  <!-- =====================Define Fee Table Here=================================== -->
   <!-- =============== assign fees =============================== -->
   <student-pop-up [isBig]="'y'" *ngIf="isDefineFees">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAllFeePops()" close-button>

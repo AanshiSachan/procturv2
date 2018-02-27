@@ -17,7 +17,7 @@ export class LoginService {
   validateOTPurl: string;
   regenerateOTPurl: string;
   forgotPasswordURL: string;
-  baseUrl:string = 'http://test999.proctur.com/StdMgmtWebAPI';
+  baseUrl:string = '';
 
 
   /* institute name and username subscriber */
@@ -47,7 +47,8 @@ export class LoginService {
     this.overlayMenu.next(menu);
   }
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private auth: AuthenticatorService) {
+    this.baseUrl = this.auth.getBaseUrl();
     this.urlLogin = this.baseUrl +"/api/v1/alternateLogin";
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");

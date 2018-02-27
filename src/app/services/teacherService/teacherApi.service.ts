@@ -7,7 +7,7 @@ import { forkJoin } from "rxjs/observable/forkJoin";
 
 export class TeacherAPIService {
 
-    baseUrl = 'http://test999.proctur.com/StdMgmtWebAPI';
+    baseUrl:string = '';
     Authorization: any;
     headers;
     institute_id;
@@ -18,6 +18,7 @@ export class TeacherAPIService {
     ) {
         this.institute_id = this.auth.getInstituteId();
         this.Authorization = this.auth.getAuthToken();
+        this.baseUrl = this.auth.getBaseUrl();
         this.headers = new HttpHeaders(
             { "Content-Type": "application/json", "Authorization": this.Authorization });
     }

@@ -37,16 +37,11 @@ export class FetchprefilldataService {
   urlCustomComponent: string; //url for custom component
   urlEnquiryByID: string; //url for enquiry edit data
   addCampaignURL: string; //url for adding a lead
-  baseUrl: string = 'http://test999.proctur.com/StdMgmtWebAPI';
+  baseUrl:string = '';
   Authorization: string; 
   headers: Headers; 
   headersPost: Headers;
   institute_id: number;
-
-
-
-
-
 
   /* set default value for each url, header and autherization on service creation */
   constructor(private http: Http, private auth: AuthenticatorService) {
@@ -55,7 +50,7 @@ export class FetchprefilldataService {
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
     this.headers.append("Authorization", this.Authorization);
-
+    this.baseUrl = this.auth.getBaseUrl();
     this.headersPost = new Headers();
     this.headersPost.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
   }
