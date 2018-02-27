@@ -1,42 +1,63 @@
 $color-base: #ccc;
 $color-highlight: lighten($color-base, 7%);
-
 .skeleton {
-  position: relative;
-  overflow: hidden;
-  width: 80%;
-  height: 12px;
-  background: $color-base;
-  border-radius: 2px;
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, $color-base, $color-highlight, $color-base);
-    animation: progress 1s ease-in-out infinite;
-  }
+    position: relative;
+    overflow: hidden;
+    width: 80%;
+    height: 12px;
+    background: $color-base;
+    border-radius: 2px;
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, $color-base, $color-highlight, $color-base);
+        animation: progress 1s ease-in-out infinite;
+    }
 }
 
-.numberAlign{
-  cursor: pointer;
-  text-align: right;
-  padding: 8px 15px;
+.numberAlign {
+    cursor: pointer;
+    text-align: right;
+    padding: 8px 15px;
 }
 
-.textAlign{
-  cursor: pointer;
-  text-align: left;
-  padding: 8px 15px;
+.textAlign {
+    cursor: pointer;
+    text-align: left;
+    padding: 8px 15px;
+}
+
+table {
+    thead {
+        tr {
+            th {
+                background: #004a7e !important;
+                padding: 8px 10px 10px 10px !important;
+                font-size: 12px !important;
+                color: #fff !important;
+                font-weight: 600 !important;
+                &:first-child{
+                    padding: 8px 10px 5px 10px !important;
+                }
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {}
+        }
+    }
 }
 
 @keyframes progress {
-  0% {
-    transform: translate3d(-100%, 0, 0);
-  }
-  100% {
-    transform: translate3d(100%, 0, 0);
-  }
+    0% {
+        transform: translate3d(-100%, 0, 0);
+    }
+    100% {
+        transform: translate3d(100%, 0, 0);
+    }
 }

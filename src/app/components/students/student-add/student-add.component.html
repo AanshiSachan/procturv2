@@ -263,7 +263,7 @@
                     </option>
                   </select>
                   <label for="schoolStitution">School/Institution</label>
-                  <span class="open-accor" (click)="openInstituteAdder()">+</span>
+                  <span class="iconPlus sourceI" (click)="openInstituteAdder()">+</span>
                 </div>
 
                 <!-- ================================================================= -->
@@ -349,11 +349,7 @@
                   </a>
                 </div> -->
 
-                <div class="field-checkbox-wrapper">
-                  <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive" (ngModelChange)="updateFormIsActive($event)"
-                    class="form-checkbox" id="isStudentActive">
-                  <label for="quickAddStudent">Is Active Student</label>
-                </div>
+
 
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
@@ -369,6 +365,13 @@
         <section class="middle-bottom clearFix">
           <div class="pull-left">
             <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive" (ngModelChange)="updateFormIsActive($event)"
+                class="form-checkbox" id="isStudentActive">
+              <label for="quickAddStudent">Is Active Student</label>
+            </div>
+          </div>
+          <aside class="pull-right">
+            <div style="display: inline-block;" class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="quickadd" [(ngModel)]="quickAddStudent" class="form-checkbox" id="quickAddStudent">
               <label for="quickAddStudent">Quick Add Student</label>
               <div class="questionInfo pos-rel">
@@ -378,8 +381,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
             <input type="button" id="form-continue" [disabled]="!values.form.valid" [class.hide]="quickAddStudent" value="Save and Continue"
               class="btn redBtn" (click)="navigateTo('kyc')">
@@ -419,10 +420,9 @@
 
                 <div class="row" *ngIf="component.type == 1" input-def>
                   <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                    <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
-                    />
-                    <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
-                    <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
+                    <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"/>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.label}} {{component.id}}">{{component.label}}*</label>
+                    <label *ngIf="component.is_required == 'N'" for="{{component.label}} {{component.id}}">{{component.label}} </label>
                   </div>
                 </div>
 
@@ -477,7 +477,9 @@
         <section class="middle-bottom clearFix ">
           <aside class="pull-left">
             <input type="button" value="Back" class="btn" (click)="navigateTo('studentForm')">
-            <div class="field-checkbox-wrapper">
+          </aside>
+          <aside class="pull-right">
+            <div style="display: inline-block;" class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="quickadd" [(ngModel)]="quickAddStudent" class="form-checkbox" id="quickAddStudent">
               <label for="quickAddStudent">Quick Add Student</label>
               <div class="questionInfo pos-rel">
@@ -487,8 +489,6 @@
                 </div>
               </div>
             </div>
-          </aside>
-          <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
             <input type="button" id="form-kyc-continue" [disabled]="!values.form.valid" value="Save and Continue" class="btn redBtn"
               [class.hide]="quickAddStudent" (click)="navigateTo('feeDetails')">
@@ -512,20 +512,6 @@
             Fees
           </h1>
           <aside class="pull-right btn-diff">
-            <!-- <button class="btn">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                <g fill="none" fill-rule="evenodd">
-                  <path fill="#0084F6" fill-rule="nonzero" d="M7.856 13.359h3.708v1H7.856zM7.856 15.647h4.451v1H7.856zM14.534 15.647h2.97v1h-2.97zM7.856 17.935H20.47v1H7.856z"
-                  />
-                  <path fill="#0084F6" fill-rule="nonzero" d="M20.443 11.075H6v9.907h18.55v-9.907h-4.107zm3.364 9.144H6.743v-8.381h17.064v8.381z"
-                  />
-                  <circle cx="22" cy="12" r="3" fill="#FFF" stroke="#0084F6" stroke-width=".5" />
-                  <path fill="#0084F6" fill-rule="nonzero" d="M19.856 11.647h4.451v1h-4.451z" />
-                  <path fill="#0084F6" fill-rule="nonzero" d="M21.7 14.254V9.803h1v4.45z" />
-                </g>
-              </svg>
-              <span>Add PDC</span>
-            </button> -->
             <button class="btn" *ngIf="feeTemplateById.template_name == ''" (click)="configureFees($event)">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                 <g fill="#0084F6" fill-rule="nonzero">
@@ -554,8 +540,8 @@
         <!--====================================middle <Main> section==========================-->
         <section class="middle-main clearFix">
           <!-- Colored Tabs here -->
-          <div class="fee-summary">
-            <ul>
+          <div class="fee-summary" >
+            <ul *ngIf="userCustommizedFee.length != 0">
               <li>
                 <label>Fees</label>
                 <div class="blue">
@@ -601,6 +587,9 @@
                 </div>
               </li>
             </ul>
+            <h1 *ngIf="userCustommizedFee.length == 0" style="text-align: center;">
+              No Fee Template Selected, Click Configure Fees To Select A Template
+            </h1>
           </div>
           <!-- Card layout here -->
           <div class="fee-detail-summary" *ngIf="userCustommizedFee.length != 0">

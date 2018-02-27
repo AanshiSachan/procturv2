@@ -9,7 +9,32 @@
 
 
 /* ============================================================================================================= */
+.sourceI {
+    cursor: pointer;
+    line-height: 20px;
+    position: absolute;
+    right: -3px;
+    bottom: 5px;
+}
 
+.iconPlus {
+    float: right;
+    width: 24px;
+    font-size: 24px;
+    height: 24px;
+    text-align: center;
+    border-radius: 50%;
+    line-height: 22px;
+    margin-right: 4px;
+    margin-top: 3px;
+    cursor: pointer;
+    color: #0084f6;
+    cursor: pointer;
+    &:hover {
+        background: #0084f6;
+        color: white;
+    }
+}
 
 /* ============================================================================================================= */
 
@@ -86,12 +111,12 @@
                 background: transparent;
                 border-bottom: solid 1px #0084f6;
                 text-align: center;
-                width: 180px;
+                width: 150px;
             }
         }
         .field-wrapper {
             position: relative;
-            padding-top: 20px;
+            /* padding-top: 20px; */
             &.datePickerBox {
                 .bsDatepicker {
                     cursor: pointer;
@@ -104,7 +129,7 @@
                     background: url("../../../../assets/images/calendar.svg") no-repeat;
                     position: absolute;
                     right: 30px;
-                    top: 0px;
+                    /* top: 0px; */
                     width: 21px;
                     height: 21px;
                     z-index: 0;
@@ -337,13 +362,14 @@
     }    
     th {
         text-align: left;
+        padding: 10px 5px;
     }
     td {
         padding: 10px 5px;
         text-align: left;
         .field-wrapper {
             position: relative;
-            padding-top: 20px;
+            padding-top: 0px;
             &.datePickerBox {
                 .bsDatepicker {
                     cursor: pointer;
@@ -497,7 +523,7 @@ input[type=number]::-webkit-outer-spin-button {
     background: white;
     min-width: 300px;
     min-height: 50px;
-    top: -26px;
+    top: -125px;
     .multiselect-wrapper-inner {
         padding: 10px;
         ul {

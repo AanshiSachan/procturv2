@@ -792,8 +792,9 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateMultiSelect(data, id) {
+    debugger;
     this.customComponents.forEach(el => {
-      if (el.id == id) {
+      if (el.id == id && el.type == 4) {
         el.prefilled_data.forEach(com => {
           //console.log(com);
           if (com.data == data.data) {
@@ -806,9 +807,8 @@ export class StudentAddComponent implements OnInit {
               else {
                 document.getElementById(id + 'wrapper').classList.remove('has-value');
               }
-              //console.log(com.selected);
               el.selectedString = el.selected.join(',');
-              el.value = el.selectedString;
+              //el.value = el.selectedString;
             }
             /* Component unchecked */
             else {
