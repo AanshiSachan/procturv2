@@ -20,59 +20,83 @@
           </div>
         </div>
       </section>
-      <section style="padding-top: 10px;" class="CourseListtableWrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>
-                <label style="cursor:pointer;" (click)="sortTable('master_course')">Master Course Name</label>
-              </th>
-              <th>
-                <label style="cursor:pointer;" (click)="sortTable('standard_name')">Standard</label>
-              </th>
-              <th>
-                <label style="cursor:pointer;" (click)="sortTable('coursee_names')">Course(s)</label>
-              </th>
-              <th>
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody *ngIf="courseList.length != 0">
-            <tr id="row{{i}}" (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" *ngFor="let row of courseList; let i= index ; trackBy : index">
-              <td>
-                {{row.master_course}}
-              </td>
-              <td>
-                {{row.standard_name}}
-              </td>
-              <td>
-                {{row.coursee_names}}
-              </td>
-              <td style="cursor: pointer">
-                <a routerLink="{{row.master_course}}">
-                  <i class="edit-icon" aria-hidden="true" title="Edit"></i>
-                </a>
-              </td>
-            </tr>
-          </tbody>
-          <tbody *ngIf="courseList.length == 0 && dataStatus === 1">
-            <tr *ngFor="let dummy of dummyArr">
-              <td *ngFor="let c of columnMaps">
-                <div class="skeleton">
-                </div>
-              </td>
-            </tr>
-          </tbody>
-          <tbody *ngIf="(courseList.length ==0 && dataStatus === 2)">
-            <tr>
-              <td colspan="4" style="text-align:center">
-                No Data Found
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
+
+
+
+      <section class="clearFix calender-view1">
+        <div class="table-responsive ">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:30%; text-align: left">
+                  <label style="cursor:pointer;" (click)="sortTable('master_course')">Master Course Name</label>
+                </th>
+                <th style="width:25%">
+                  <label style="cursor:pointer;" (click)="sortTable('coursee_names')">Course(s)</label>
+                </th>
+                <th style="width:25%">
+                  <label style="cursor:pointer;" (click)="sortTable('standard_name')">Standard</label>
+                </th>
+                <th style="width:20%">Action</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyItem{{i}}" class="table-accor-head" *ngFor="let row of courseList; let i=index;">
+              <tr>
+                <td colspan="4">
+                  <div class="accordian-heading">
+                    <h4 class="clearFix ">
+                      <span class="close-accor" (click)="toggleTbodyClass(i)">-</span>
+                      <span class="open-accor" (click)="toggleTbodyClass(i)">+</span>
+                      <span class="date-c" (click)="toggleTbodyClass(i)">{{row.master_course}}</span>
+                      <span class="pull-right" routerLink="{{row.master_course}}" style="cursor: pointer;padding-right: 9% !important;text-align: left;">
+                        <i class="edit-icon" aria-hidden="true" title="Edit"></i>
+                      </span>
+                    </h4>
+                  </div>
+                </td>
+              </tr>
+              <tr id="tbodyView{{i}}" class="hide">
+                <td colspan="4">
+                  <table>
+                    <tbody class="table-accor-view ">
+                      <tr *ngFor="let sc of row.coursesList; let y= index;">
+                        <td style="width:30%"></td>
+                        <td style="width:25%">{{sc.course_name}}</td>
+                        <td style="width:25%">{{row.standard_name}}</td>
+                        <td style="width:20%">
+                          <div class="action-box ">
+                            <a style="cursor:pointer" (click)="addStudentToBatch(sc)">
+                              <i class="far fa fa-plus-square" style="font-size: 14px" alt="Add Student" title="Add Student"></i>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="courseList.length == 0 && dataStatus === 1">
+              <tr *ngFor="let dummy of dummyArr">
+                <td *ngFor="let c of columnMaps">
+                  <div class="skeleton">
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="(courseList.length ==0 && dataStatus === 2)">
+              <tr>
+                <td colspan="5" style="text-align:center">
+                  No Data Found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
+
+
 
       <div class="row filter-res pagination" style="width: 100%;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
@@ -85,6 +109,113 @@
   </section>
 </section>
 
+
+
+<!-- =============================================================================== -->
+<section id="popup" class="popupWrapper fadeIn" *ngIf="addStudentPopUp">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeStudentPopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <div>
+          <h3>{{courseDetails.coursee_names}}</h3>
+        </div>
+        <div class="row">
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <h2>Student List</h2>
+          </div>
+          <div class="pull-right">
+            <div class="search-filter-wrapper">
+              <input #searchVal type="text" class="normal-field pull-right" placeholder="Search here" style="font-size:12px;margin-right: 25%;"
+                id="searchStudent" name="searchData" (keyup)="searchStudent(searchVal) ">
+            </div>
+          </div>
+        </div>
+
+
+        <div style="margin-top: 15px;max-height: 363px;overflow: scroll;">
+          <table>
+            <thead>
+              <th>
+                <div class="field-checkbox-wrapper">
+                  <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked" (click)="selectAllCheckBox(idSelectAll)">
+                  <label></label>
+                  <span>Assign?UnAssign</span>
+                </div>
+              </th>
+              <th>
+                Student ID
+              </th>
+              <th>
+                Student Name
+              </th>
+              <th>
+                Contact No.
+              </th>
+              <th>
+                Joining Date
+              </th>
+              <th>
+                Institution Name
+              </th>
+              <th>
+                Standard Class
+              </th>
+            </thead>
+            <tbody>
+              <tr id="row{{i}}" *ngFor="let row of studentList; let i = index; trackBy: i;">
+                <td>
+                  <div class="field-checkbox-wrapper">
+                    <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                    <label></label>
+                  </div>
+                </td>
+                <td>
+                  {{row.student_disp_id}}
+                </td>
+                <td>
+                  {{row.student_name}}
+                </td>
+                <td>
+                  {{row.student_phone}}
+                </td>
+                <td>
+                  {{row.doj}}
+                </td>
+                <td>
+                  {{row.school}}
+                </td>
+                <td>
+                  {{row.student_class}}
+                </td>
+              </tr>
+              <tr *ngIf="(studentList.length == 0)">
+                <td colspan="8">
+                  No Data Found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pull-right">
+          <button class="btn" (click)="saveChanges()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 
 <!--  Add Course PopUp  -->

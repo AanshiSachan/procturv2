@@ -207,7 +207,7 @@
                         <!-- <span class="pull-right delete-icon" style="font-family: FontAwesome;" (click)="delete('course', i, null)">
                           <i class="fa fa-trash-o " aria-hidden="true"></i>
                         </span> -->
-                        <span class="pull-right mail-notification" (click)="notify(class)"></span>
+                        <span class="pull-right mail-notification" (click)="notify(class)" title="Send Reminder"></span>
                       </h4>
                     </div>
                   </td>
@@ -225,11 +225,11 @@
                           <td style="width:15%">{{sc.topics_covered}}</td>
                           <td style="width:15%">
                             <div class="action-box ">
-                              <span class="delete-btn" style="font-family: FontAwesome;" (click)="CancelClass(sc)">
+                              <span class="delete-btn" style="font-family: FontAwesome;" (click)="CancelClass(sc)" title="Cancel Class">
                                 <i class="fa fa-trash-o " aria-hidden="true "></i>
                               </span>
-                              <span class="reschedule-icon" (click)="rescheduleClassData(sc)"></span>
-                              <span class="mail-notification" (click)="notifySubjectLevel(sc ,class )"></span>
+                              <span class="reschedule-icon" (click)="rescheduleClassData(sc)" title="Reschedule"></span>
+                              <span class="mail-notification" (click)="notifySubjectLevel(sc ,class )" title="Send Reminder"></span>
                               <!-- <span class="edit-icon "></span> -->
                             </div>
                           </td>

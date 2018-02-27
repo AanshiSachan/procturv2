@@ -16,7 +16,7 @@ export class ScheduleHomeComponent implements OnInit {
 
   isRippleLoad: boolean = false;
   no_standard_name: boolean = false;
-  standardListDataSource;
+  standardListDataSource: any = [];
   displayBatchSize = 10;
   standardList: any = [];
   PageIndex: number = 1;
