@@ -809,7 +809,7 @@ export class StudentAddComponent implements OnInit {
               else {
                 document.getElementById(id + 'wrapper').classList.remove('has-value');
               }
-              el.selectedString = el.selected.join(',');
+              el.selectedString = this.concatDataWithComma(el.selected);
               //el.value = el.selectedString;
             }
             /* Component unchecked */
@@ -825,7 +825,7 @@ export class StudentAddComponent implements OnInit {
               if (index > -1) {
                 el.selected.splice(index, 1);
               }
-              el.selectedString = el.selected.join(',');
+              el.selectedString = this.concatDataWithComma(el.selected);
               el.value = el.selectedString;
               /* var index2 = el.selected.indexOf(data.data);
                 if (index2 > -1) {
@@ -840,6 +840,23 @@ export class StudentAddComponent implements OnInit {
     });
 
   }
+
+  concatDataWithComma(data) {
+    let test = "";
+    if (data.length > 0) {
+      for (let t = 0; t < data.length; t++) {
+        if (data[t] !== "") {
+          if (test != "") {
+            test = test + "," + data[t];
+          } else {
+            test = test + data[t];
+          }
+        }
+      }
+    }
+    return test;
+  }
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   fetchCourseFromMaster(id) {
@@ -1825,7 +1842,7 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  sortTableByDate(i , event) {
+  sortTableByDate(i, event) {
     this.instalmentTableData[i].due_date = event;
     this.updateTableInstallment();
   }
@@ -2453,6 +2470,14 @@ export class SortPipe {
       }
     });
     return array;
+  }
+}
+
+@Pipe({ name: "commaSeprator" })
+export class CommaSeprationAmount {
+  transform(value: number, exponent: string): any {
+    debugger
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 }
 

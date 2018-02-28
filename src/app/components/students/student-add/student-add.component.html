@@ -420,7 +420,8 @@
 
                 <div class="row" *ngIf="component.type == 1" input-def>
                   <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                    <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"/>
+                    <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
+                    />
                     <label *ngIf="component.is_required == 'Y'" for="{{component.label}} {{component.id}}">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.label}} {{component.id}}">{{component.label}} </label>
                   </div>
@@ -540,20 +541,20 @@
         <!--====================================middle <Main> section==========================-->
         <section class="middle-main clearFix">
           <!-- Colored Tabs here -->
-          <div class="fee-summary" >
+          <div class="fee-summary">
             <ul *ngIf="userCustommizedFee.length != 0">
               <li>
                 <label>Fees</label>
                 <div class="blue">
                   <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_amount}}</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{feeTemplateById.studentwise_total_fees_amount | commaSeprator}}</span>
                 </div>
               </li>
               <li>
                 <label>Discount</label>
                 <div class="purple">
                   <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_discount}}</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{feeTemplateById.studentwise_total_fees_discount | commaSeprator}}</span>
                   <a *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0" (click)="openDiscountApply()">Add more</a>
                 </div>
               </li>
@@ -568,14 +569,14 @@
                 <label>Amount Paid</label>
                 <div class="green">
                   <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_amount_paid}}</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{feeTemplateById.studentwise_total_fees_amount_paid | commaSeprator}}</span>
                 </div>
               </li>
               <li>
                 <label>Amount Due</label>
                 <div class="red">
                   <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">Rs {{feeTemplateById.studentwise_total_fees_balance_amount}}</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{feeTemplateById.studentwise_total_fees_balance_amount | commaSeprator}}</span>
                 </div>
               </li>
               <li>
@@ -601,7 +602,7 @@
                 </div>
                 <div class="pull-right c-xs-4 c-sm-4">
                   <ul class="export-print align-right">
-                    <li class="print-icon">
+                    <li style="cursor: pointer" (click)="window.print()" class="print-icon">
                       Print
                     </li>
                   </ul>
@@ -631,7 +632,7 @@
                             Fee Amount
                           </label>
                           <span>
-                            {{installment.fees_amount}}
+                            {{installment.fees_amount | commaSeprator}}
                           </span>
                         </li>
                         <li>
@@ -647,7 +648,7 @@
                             Tax amount
                           </label>
                           <span>
-                            Rs {{installment.tax}}
+                            &#8377; {{installment.tax}}
                           </span>
                         </li>
                         <li>
@@ -671,7 +672,7 @@
         <!--====================================middle Bottom section==========================-->
         <section class="middle-bottom fd-btm clearFix">
           <div class="fd-btm-label" *ngIf="userCustommizedFee != ''">
-            Payment for Rs {{totalFeePaid}} to be updated
+            Payment for &#8377; {{totalFeePaid | commaSeprator}} to be updated
           </div>
 
           <div class="" *ngIf="!isPaymentDetailsValid">
@@ -1094,7 +1095,7 @@
     <div class="configureFee" popup-content>
 
       <div class="row">
-        <h4>Payment Details for Rs {{totalFeePaid}}</h4>
+        <h4>Payment Details for &#8377; {{totalFeePaid}}</h4>
       </div>
 
       <div class="row">
@@ -1271,7 +1272,7 @@
                   </div>
                 </div>
                 <div class="innermost">
-                  <div class="field-wrapper" [class.has-value]="addFeeOther.service_tax != ''">
+                  <div class="field-wrapper" [class.has-value]="addFeeOther.initial_fee_amount >= '0'">
                     <input type="number" class="form-ctrl" [(ngModel)]="addFeeOther.initial_fee_amount" name="amt">
                     <label for="dd">
                       Amount*
@@ -1279,7 +1280,7 @@
                   </div>
                 </div>
                 <div class="innermost">
-                  <div class="field-wrapper" [class.has-value]="addFeeOther.service_tax != ''">
+                  <div class="field-wrapper" [class.has-value]="addFeeOther.service_tax >= '0'">
                     <input type="number" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax" name="amt">
                     <label for="dd">
                       Tax %
