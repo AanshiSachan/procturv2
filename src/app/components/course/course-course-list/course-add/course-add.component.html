@@ -42,15 +42,15 @@
         </div>
       </div>
 
-      <aside class="pull-left asideWrapper" style="padding-bottom: 10px; width:30%">
-        <div *ngIf="(subjectList.length > 0)" style="margin-left: 30px;">
-          <div class="field-wrapper" [ngClass]="{'has-value': courseDetails.course_name != ''}" style="width:50%">
+      <aside class="pull-left asideWrapper" style="padding-bottom: 10px; width:20%">
+        <div *ngIf="(subjectList.length > 0)" style="margin-left: 30px;padding: 20px 10px 10px 10px;">
+          <div class="field-wrapper" [ngClass]="{'has-value': courseDetails.course_name != ''}" style="width:80%">
             <input type="text" name="masterCourse" [(ngModel)]="courseDetails.course_name" class="form-ctrl" />
             <label for="masterCourse">Course Name
               <span style="color:red">*</span>
             </label>
           </div>
-          <div class="field-wrapper" [ngClass]="{'has-value': courseDetails.start_Date != ''}" style="width:50%">
+          <div class="field-wrapper" [ngClass]="{'has-value': courseDetails.start_Date != ''}" style="width:80%">
             <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="courseDetails.start_Date" name="startDate"
               bsDatepicker>
             <label for="startDate">Start Date
@@ -58,7 +58,7 @@
             </label>
             <!-- <span class="date-clear" name="followupdate" (click)="clearAddEnquiryDate('startDatePicker')">clear</span> -->
           </div>
-          <div class="field-wrapper" [ngClass]="{'has-value': courseDetails.end_Date != ''}" style="width:50%">
+          <div class="field-wrapper" [ngClass]="{'has-value': courseDetails.end_Date != ''}" style="width:80%">
             <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="courseDetails.end_Date" name="endDate"
               bsDatepicker>
             <label for="endDate">End Date
@@ -72,7 +72,7 @@
           </div>
         </div>
       </aside>
-      <aside class="pull-right asideWrapper" style="padding-bottom: 15px;width: 70%;">
+      <aside class="pull-right asideWrapper" style="width: 80%;">
         <div *ngIf="(subjectList.length > 0)" class="asideTableWrapper" style="margin-right: 15px; border-top: 1px solid #d8d8d8;border-top: 1px solid #d8d8d8;">
           <table class="tableDiv">
             <thead>
@@ -112,14 +112,14 @@
             </tbody>
           </table>
         </div>
-        <div *ngIf="(subjectList.length > 0)" style="margin: 10px 15px 0px 0px;">
-          <button class="btn pull-right" (click)="addDataToTable()">Add</button>
+        <div *ngIf="(subjectList.length > 0)" style="margin: 0px 15px 0px 0px;">
+          <button style="margin: 7px;" class="btn pull-right" (click)="addDataToTable()">Add</button>
         </div>
       </aside>
     </div>
   </section>
 
-  <section *ngIf="showTable" style="margin-top: 15px;">
+  <section *ngIf="mainArrayForTable.length" style="margin-top: 15px;">
     <div style="padding-left: 20px;padding-right: 20px;">
       <table>
         <thead>
@@ -184,44 +184,40 @@
 
               <div id="show{{i}}" class="nestedTable nestedTableHide">
 
-                <aside style="width:30%" class="pull-left">
+                <aside style="width:30%" class="pull-left leftform">
                   <div class="row" style="margin-left: 10px">
-                    <div class="c-lg-4 c-md-4 c-sm-4" style="margin-right: 25px;">
-                      <div class="field-wrapper" style="background: transparent" [ngClass]="{'has-value': nestedTableForm.course_name != ''}">
-                        <input type="text" style="background: transparent" name="masterCourse" [(ngModel)]="nestedTableForm.course_name" class="form-ctrl"
-                          (focus)="inputClickedCheck($event)" />
-                        <label for="masterCourse">Course Name
-                          <span style="color:red">*</span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="c-lg-4 c-md-4 c-sm-4">
-                      <div class="field-wrapper" style="background: transparent" [ngClass]="{'has-value': nestedTableForm.start_Date != ''}">
-                        <input type="text" value="" style="background: transparent" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="nestedTableForm.start_Date"
-                          name="startDate" bsDatepicker (focus)="inputClickedCheck($event)">
-                        <label for="startDate">Start Date
-                          <span style="color:red">*</span>
-                        </label>
-                        <span class="date-clear" name="followupdate" (click)="clearAddEnquiryDate('startDatePicker')">clear</span>
-                      </div>
+                    <div class="field-wrapper" style="background: transparent" [ngClass]="{'has-value': nestedTableForm.course_name != ''}">
+                      <input type="text" style="background: transparent" name="masterCourse" [(ngModel)]="nestedTableForm.course_name" class="form-ctrl"
+                        (focus)="inputClickedCheck($event)" />
+                      <label for="masterCourse">Course Name
+                        <span style="color:red">*</span>
+                      </label>
                     </div>
                   </div>
                   <div class="row" style="margin-left: 10px">
-                    <div class="c-lg-4 c-md-4 c-sm-4" style="margin-right: 25px;">
-                      <div class="field-wrapper" style="background: transparent" [ngClass]="{'has-value': courseDetails.end_Date != ''}">
-                        <input type="text" value="" style="background: transparent" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="nestedTableForm.end_Date"
-                          name="endDate" bsDatepicker (focus)="inputClickedCheck($event)">
-                        <label for="endDate">End Date
-                          <span style="color:red">*</span>
-                        </label>
-                        <span class="date-clear" name="followupdate" (click)="clearAddEnquiryDate('endDatePicker')">clear</span>
-                      </div>
+                    <div class="field-wrapper" style="background: transparent" [ngClass]="{'has-value': nestedTableForm.start_Date != ''}">
+                      <input type="text" value="" style="background: transparent" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="nestedTableForm.start_Date"
+                        name="startDate" bsDatepicker (focus)="inputClickedCheck($event)">
+                      <label for="startDate">Start Date
+                        <span style="color:red">*</span>
+                      </label>
+                      <span class="date-clear" name="followupdate" (click)="clearAddEnquiryDate('startDatePicker')">clear</span>
                     </div>
-                    <div class="c-lg-4 c-md-4 c-sm-4">
-                      <div class="field-checkbox-wrapper" style="background: transparent" style="margin-top: 25px;">
-                        <input type="checkbox" value="" [(ngModel)]="nestedTableForm.allow_exam_grades" name="allow" class="form-checkbox">
-                        <label for="allow">Allow Exam Grades</label>
-                      </div>
+                  </div>
+                  <div class="row" style="margin-left: 10px">
+                    <div class="field-wrapper" style="background: transparent" [ngClass]="{'has-value': courseDetails.end_Date != ''}">
+                      <input type="text" value="" style="background: transparent" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="nestedTableForm.end_Date"
+                        name="endDate" bsDatepicker (focus)="inputClickedCheck($event)">
+                      <label for="endDate">End Date
+                        <span style="color:red">*</span>
+                      </label>
+                      <span class="date-clear" name="followupdate" (click)="clearAddEnquiryDate('endDatePicker')">clear</span>
+                    </div>
+                  </div>
+                  <div class="row" style="margin: 0;width: 50%;">
+                    <div class="field-checkbox-wrapper" style="background: transparent" style="margin-top: 25px;">
+                      <input type="checkbox" value="" [(ngModel)]="nestedTableForm.allow_exam_grades" name="allow" class="form-checkbox">
+                      <label for="allow">Allow Exam Grades</label>
                     </div>
                   </div>
                 </aside>

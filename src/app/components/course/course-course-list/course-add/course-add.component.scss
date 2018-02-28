@@ -83,9 +83,8 @@ table {
 }
 
 .asideWrapper {
-    width: 50%;
     background: #efefef;
-    max-height: 200px;
+    max-height: 220px;
     overflow: hidden;
      ::-webkit-scrollbar {
         display: block;
@@ -97,10 +96,10 @@ table {
 .asideTableWrapper {
     border-bottom: 1px solid #d8d8d8;
     border-left: 1px solid #d8d8d8;
-    max-height: 135px;
+    max-height: 155px;
     overflow-x: hidden;
     overflow-y: scroll;
-    margin-top: 10px; // .tableDiv {}
+    margin-top: 20px; // .tableDiv {}
      ::-webkit-scrollbar {
         display: block;
         width: 7px;
@@ -108,8 +107,18 @@ table {
     }
 }
 
+.leftform{
+    .row{
+        margin: 0;
+        padding: 15px;
+        .field-wrapper{
+            width: 60%;
+        }
+    }
+}
+
 .nestedTable {
-    max-height: 130px;
+    max-height: 220px;
     overflow: scroll;
 }
 
