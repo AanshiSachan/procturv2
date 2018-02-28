@@ -181,7 +181,7 @@
                             <tr class="adder">
 
                               <td>
-                                <div class="field-wrapper" [ngClass]="{'has-value' : addClassDetails.subject_id != '-1' && addClassDetails.subject_id != '' }">
+                                <div style="width: 125px;" class="field-wrapper" [ngClass]="{'has-value' : addClassDetails.subject_id != '-1' && addClassDetails.subject_id != '' }">
                                   <select id="tsesesese" class="form-ctrl" name="row.subject_id" [(ngModel)]="addClassDetails.subject_id">
                                     <option value="-1"> </option>
                                     <option *ngFor="let opt of subjectListDataSource" [value]="opt.subject_id">

@@ -18,7 +18,7 @@ export class LoginService {
   regenerateOTPurl: string;
   forgotPasswordURL: string;
   baseUrl: string = '';
-  instituteList = ['100058', '100057']
+  public instituteList: string[] = ['100123', '100180', '100126', '100127'];
 
 
   /* institute name and username subscriber */

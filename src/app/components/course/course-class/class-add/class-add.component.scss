@@ -11,14 +11,14 @@
         tr {
             th {
                 text-align: left;
-                padding: 10px 20px;
+                padding: 10px 10px 10px 25px;
             }
             td {
                 text-align: left;
             }
             &.adder{
                 td{
-                    padding: 0px 20px;
+                    padding: 0px 5px;
                     .time-picker{
                         .field-wrapper{
                             margin: 0px;
