@@ -86,7 +86,6 @@ export class LoginPageComponent {
 
 
 
-
   constructor(private login: LoginService, private route: Router, private actroute: ActivatedRoute,
     private toastCtrl: AppComponent) {
 
@@ -210,115 +209,105 @@ export class LoginPageComponent {
 
 
 
-
+  validInstituteCheck(data): boolean {
+    let instIdArr = this.login.getAllInstituteId();
+    if (instIdArr.indexOf(data.institution_id) == -1) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
 
   //if login is successfull ( Start - 3)
   alternateLoginSuccess(res) {
-    this.login.validInstituteCheck(res).subscribe(
-      res => {
-        if (res == true) {
-          console.log('Institute Id Found');
-        } else {
-          this.route.navigateByUrl('/authPage');
-          console.log('Institute ID Not Found');
-          let data = {
-            type: "error",
-            title: "Institute not registered",
-            body: "Your institute not registered to use this."
-          }
-          this.toastCtrl.popToast(data);
-          sessionStorage.clear();
-          localStorage.clear();
-        }
-      },
-      err => {
-        this.route.navigateByUrl('/authPage');
-        console.log('Institute ID Not Found');
-        let data = {
-          type: "error",
-          title: "Institute not registered",
-          body: "Your institute not registered to use this."
-        }
-        this.toastCtrl.popToast(data);
-        sessionStorage.clear();
-        localStorage.clear();
+    if (!this.validInstituteCheck(res)) {
+      this.route.navigateByUrl('/authPage');
+      console.log('Institute ID Not Found');
+      let data = {
+        type: "error",
+        title: "Institute not registered",
+        body: "Your institute not registered to use this."
       }
-    )
-
-
-    sessionStorage.setItem('institute_info', JSON.stringify(res.data));
-    let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
-    let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
-
-    sessionStorage.setItem('about_us_image', institute_data.about_us_image);
-    sessionStorage.setItem('about_us_text', institute_data.about_us_text);
-    sessionStorage.setItem('accountId', institute_data.accountId);
-    sessionStorage.setItem('alternate_email_id', institute_data.alternate_email_id);
-    sessionStorage.setItem('biometric_attendance_feature', institute_data.biometric_attendance_feature);
-    sessionStorage.setItem('courseType', institute_data.courseType);
-    sessionStorage.setItem('course_structure_flag', institute_data.course_structure_flag);
-    sessionStorage.setItem('enable_fee_payment_mandatory_student_creation', institute_data.enable_fee_payment_mandatory_student_creation);
-    sessionStorage.setItem('enable_fee_templates', institute_data.enable_fee_templates);
-    sessionStorage.setItem('enable_tax_applicable_fee_installments', institute_data.enable_tax_applicable_fee_installments);
-    sessionStorage.setItem('exam_grading_system', institute_data.exam_grading_system);
-    sessionStorage.setItem('fb_page_url', institute_data.fb_page_url);
-    sessionStorage.setItem('fee_functionality', institute_data.fee_functionality);
-    sessionStorage.setItem('fetaures_map', institute_data.fetaures_map);
-    sessionStorage.setItem('inst_email', institute_data.inst_email);
-    sessionStorage.setItem('inst_phone', institute_data.inst_phone);
-    sessionStorage.setItem('inst_reg_code', institute_data.inst_reg_code);
-    sessionStorage.setItem('inst_set_up', institute_data.inst_set_up);
-    sessionStorage.setItem('institute_type', institute_data.institute_type);
-    sessionStorage.setItem('institution_footer', institute_data.institution_footer);
-    sessionStorage.setItem('institution_header1', institute_data.institution_header1);
-    sessionStorage.setItem('institution_header2', institute_data.institution_header2);
-    sessionStorage.setItem('institution_header3', institute_data.institution_header3);
-    sessionStorage.setItem('institute_id', institute_data.institution_id);
-    sessionStorage.setItem('institution_logo', institute_data.institution_logo);
-    sessionStorage.setItem('institution_name', institute_data.institution_name);
-    sessionStorage.setItem('institute_name', institute_data.institute_name);
-    sessionStorage.setItem('is_campaign_message_approve_feature', institute_data.is_campaign_message_approve_feature);
-    sessionStorage.setItem('is_main_branch', institute_data.is_main_branch);
-    sessionStorage.setItem('is_student_bulk_upload_byClient', institute_data.is_student_bulk_upload_byClient);
-    sessionStorage.setItem('is_student_mgmt_flag', institute_data.is_student_mgmt_flag);
-    sessionStorage.setItem('login_student_id', institute_data.login_student_id);
-    sessionStorage.setItem('login_teacher_id', institute_data.login_teacher_id);
-    sessionStorage.setItem('manual_student_disp_id', institute_data.manual_student_disp_id);
-    sessionStorage.setItem('name', institute_data.name);
-    sessionStorage.setItem('online_payment_feature', institute_data.online_payment_feature);
-    sessionStorage.setItem('password', institute_data.password);
-    sessionStorage.setItem('promoCode', institute_data.promoCode);
-    sessionStorage.setItem('religion_feature', institute_data.religion_feature);
-    sessionStorage.setItem('student_report_card_fee_module', institute_data.student_report_card_fee_module);
-    sessionStorage.setItem('studwise_fee_mod_with_amt', institute_data.studwise_fee_mod_with_amt);
-    sessionStorage.setItem('tag_line', institute_data.tag_line);
-    sessionStorage.setItem('test_feature', institute_data.test_feature);
-    sessionStorage.setItem('testprepEnabled', institute_data.testprepEnabled);
-    sessionStorage.setItem('userCat', institute_data.userCat);
-    sessionStorage.setItem('userTimeGrp', institute_data.userTimeGrp);
-    sessionStorage.setItem('userType', institute_data.userType);
-    sessionStorage.setItem('user_permission', institute_data.user_permission);
-    sessionStorage.setItem('user_type_name', institute_data.user_type_name);
-    sessionStorage.setItem('username', institute_data.username);
-    sessionStorage.setItem('Authorization', Authorization);
-    sessionStorage.setItem('username', institute_data.username);
-    sessionStorage.setItem('userid', institute_data.userid);
-    sessionStorage.setItem('message', institute_data.message);
-    sessionStorage.setItem('name', institute_data.name);
-    sessionStorage.setItem('fb_page_url', institute_data.fb_page_url);
-    sessionStorage.setItem('about_us_text', institute_data.about_us_text);
-    sessionStorage.setItem('mobile_no', institute_data.mobile_no);
-    sessionStorage.setItem('inst_announcement', institute_data.inst_announcement);
-    sessionStorage.setItem('logo_url', institute_data.logo_url);
-    sessionStorage.setItem('permitted_roles', JSON.stringify(res.data.featureDivMapping));
-    if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
-      sessionStorage.setItem('permissions', '');
+      this.toastCtrl.popToast(data);
+      sessionStorage.clear();
+      localStorage.clear();
+      return
     }
     else {
-      sessionStorage.setItem('permissions', JSON.stringify(res.data.permissions.split(',')));
+      sessionStorage.setItem('institute_info', JSON.stringify(res.data));
+      let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
+      let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
+
+      sessionStorage.setItem('about_us_image', institute_data.about_us_image);
+      sessionStorage.setItem('about_us_text', institute_data.about_us_text);
+      sessionStorage.setItem('accountId', institute_data.accountId);
+      sessionStorage.setItem('alternate_email_id', institute_data.alternate_email_id);
+      sessionStorage.setItem('biometric_attendance_feature', institute_data.biometric_attendance_feature);
+      sessionStorage.setItem('courseType', institute_data.courseType);
+      sessionStorage.setItem('course_structure_flag', institute_data.course_structure_flag);
+      sessionStorage.setItem('enable_fee_payment_mandatory_student_creation', institute_data.enable_fee_payment_mandatory_student_creation);
+      sessionStorage.setItem('enable_fee_templates', institute_data.enable_fee_templates);
+      sessionStorage.setItem('enable_tax_applicable_fee_installments', institute_data.enable_tax_applicable_fee_installments);
+      sessionStorage.setItem('exam_grading_system', institute_data.exam_grading_system);
+      sessionStorage.setItem('fb_page_url', institute_data.fb_page_url);
+      sessionStorage.setItem('fee_functionality', institute_data.fee_functionality);
+      sessionStorage.setItem('fetaures_map', institute_data.fetaures_map);
+      sessionStorage.setItem('inst_email', institute_data.inst_email);
+      sessionStorage.setItem('inst_phone', institute_data.inst_phone);
+      sessionStorage.setItem('inst_reg_code', institute_data.inst_reg_code);
+      sessionStorage.setItem('inst_set_up', institute_data.inst_set_up);
+      sessionStorage.setItem('institute_type', institute_data.institute_type);
+      sessionStorage.setItem('institution_footer', institute_data.institution_footer);
+      sessionStorage.setItem('institution_header1', institute_data.institution_header1);
+      sessionStorage.setItem('institution_header2', institute_data.institution_header2);
+      sessionStorage.setItem('institution_header3', institute_data.institution_header3);
+      sessionStorage.setItem('institute_id', institute_data.institution_id);
+      sessionStorage.setItem('institution_logo', institute_data.institution_logo);
+      sessionStorage.setItem('institution_name', institute_data.institution_name);
+      sessionStorage.setItem('institute_name', institute_data.institute_name);
+      sessionStorage.setItem('is_campaign_message_approve_feature', institute_data.is_campaign_message_approve_feature);
+      sessionStorage.setItem('is_main_branch', institute_data.is_main_branch);
+      sessionStorage.setItem('is_student_bulk_upload_byClient', institute_data.is_student_bulk_upload_byClient);
+      sessionStorage.setItem('is_student_mgmt_flag', institute_data.is_student_mgmt_flag);
+      sessionStorage.setItem('login_student_id', institute_data.login_student_id);
+      sessionStorage.setItem('login_teacher_id', institute_data.login_teacher_id);
+      sessionStorage.setItem('manual_student_disp_id', institute_data.manual_student_disp_id);
+      sessionStorage.setItem('name', institute_data.name);
+      sessionStorage.setItem('online_payment_feature', institute_data.online_payment_feature);
+      sessionStorage.setItem('password', institute_data.password);
+      sessionStorage.setItem('promoCode', institute_data.promoCode);
+      sessionStorage.setItem('religion_feature', institute_data.religion_feature);
+      sessionStorage.setItem('student_report_card_fee_module', institute_data.student_report_card_fee_module);
+      sessionStorage.setItem('studwise_fee_mod_with_amt', institute_data.studwise_fee_mod_with_amt);
+      sessionStorage.setItem('tag_line', institute_data.tag_line);
+      sessionStorage.setItem('test_feature', institute_data.test_feature);
+      sessionStorage.setItem('testprepEnabled', institute_data.testprepEnabled);
+      sessionStorage.setItem('userCat', institute_data.userCat);
+      sessionStorage.setItem('userTimeGrp', institute_data.userTimeGrp);
+      sessionStorage.setItem('userType', institute_data.userType);
+      sessionStorage.setItem('user_permission', institute_data.user_permission);
+      sessionStorage.setItem('user_type_name', institute_data.user_type_name);
+      sessionStorage.setItem('username', institute_data.username);
+      sessionStorage.setItem('Authorization', Authorization);
+      sessionStorage.setItem('username', institute_data.username);
+      sessionStorage.setItem('userid', institute_data.userid);
+      sessionStorage.setItem('message', institute_data.message);
+      sessionStorage.setItem('name', institute_data.name);
+      sessionStorage.setItem('fb_page_url', institute_data.fb_page_url);
+      sessionStorage.setItem('about_us_text', institute_data.about_us_text);
+      sessionStorage.setItem('mobile_no', institute_data.mobile_no);
+      sessionStorage.setItem('inst_announcement', institute_data.inst_announcement);
+      sessionStorage.setItem('logo_url', institute_data.logo_url);
+      sessionStorage.setItem('permitted_roles', JSON.stringify(res.data.featureDivMapping));
+      if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
+        sessionStorage.setItem('permissions', '');
+      }
+      else {
+        sessionStorage.setItem('permissions', JSON.stringify(res.data.permissions.split(',')));
+      }
+      this.createRoleBasedSidenav();
     }
-    this.createRoleBasedSidenav();
   }
   //End - 3
 

@@ -91,12 +91,8 @@ export class LoginService {
     return true;
   }
 
-  validInstituteCheck(data): Observable<boolean> {
-    if (this.instituteList.indexOf(data.institution_id) == -1) {
-      return Observable.of(false);
-    } else {
-      return Observable.of(true);
-    }
+  getAllInstituteId() {
+    return this.instituteList;
   }
 
 }
