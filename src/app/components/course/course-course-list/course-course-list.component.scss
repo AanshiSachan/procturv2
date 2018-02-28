@@ -304,16 +304,18 @@ table {
     thead {
         tr {
             th {
+                padding-top: 10px;
                 padding-bottom: 10px;
-                padding-top: 10px
+                font-size: 12px;
+                font-weight: 500;
             }
         }
     }
     tbody {
         tr {
             td {
-                padding-bottom: 10px;
-                padding-top: 10px
+                padding-bottom: 5px;
+                padding-top: 5px
             }
         }
     }
@@ -349,24 +351,23 @@ $color-highlight: lighten($color-base, 7%);
     }
 }
 
-.tableCourseExp{
+.tableCourseExp {
     max-height: 415px;
     overflow: hidden;
-    ::-webkit-scrollbar{
+     ::-webkit-scrollbar {
         display: block;
-
     }
-    .tableCourseInn{
+    .tableCourseInn {
         max-height: 400px;
         overflow-x: hidden;
         overflow-y: auto;
     }
 }
 
-.accorInnerTable{
-    tr{
+.accorInnerTable {
+    tr {
         line-height: 25px;
-        td{
+        td {
             font-size: 14px;
             font-weight: 500;
         }
