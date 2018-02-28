@@ -129,117 +129,14 @@
         <!-- ==================================================================================== -->
         <!-- ========================== Account 5 Course Schedule ================================= -->
         <section class="" *ngIf="isClassFormFilled && !isProfessional">
-          <div class="classSchedule-Add">
+          <!-- <div class="classSchedule-Add">
             <div class="row">
-              <div class="field-wrapper c-sm-2 c-md-2 c-lg-2" [ngClass]="{'has-value' : addClassDetails.subject_id != '-1' && addClassDetails.subject_id != '' }">
-                <select id="tsesesese" class="form-ctrl" name="row.subject_id" [(ngModel)]="addClassDetails.subject_id">
-                  <option value="-1"> </option>
-                  <option *ngFor="let opt of subjectListDataSource" [value]="opt.subject_id">
-                    {{opt.subject_name}}
-                  </option>
-                </select>
-                <label for="row.subject_id">Subject Name</label>
-              </div>
-              <div class="time-picker c-sm-3 c-md-3 c-lg-3">
-                <fieldset>
-                  <legend style="color:#0084f6">Start Time</legend>
-                  <div class="field-wrapper has-value">
-                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addClassDetails.start_hour" name="hour" style="background: transparent">
-                      <option *ngFor="let hour of hourArr" [value]="hour">
-                        {{hour}}
-                      </option>
-                    </select>
-                    <label for="hour">Hour</label>
-                  </div>
-                  <div class="field-wrapper has-value">
-                    <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addClassDetails.start_minute" name="minute"
-                      style="background: transparent">
-                      <option *ngFor="let minute of minArr" [value]="minute">
-                        {{minute}}
-                      </option>
-                    </select>
-                    <label for="minute">Minute</label>
-                  </div>
-                  <div class="field-wrapper has-value">
-                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addClassDetails.start_meridian" name="meridian"
-                      style="background: transparent">
-                      <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                        {{meridian}}
-                      </option>
-                    </select>
-                    <label for="meridian">Meridian</label>
-                  </div>
-                </fieldset>
-              </div>
-
-              <div class="time-picker c-sm-3 c-md-3 c-lg-3">
-                <fieldset>
-                  <legend>End Time</legend>
-                  <div class="field-wrapper has-value">
-                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addClassDetails.end_hour" name="hour" style="background: transparent">
-                      <option *ngFor="let hour of hourArr" [value]="hour">
-                        {{hour}}
-                      </option>
-                    </select>
-                    <label for="hour">Hour</label>
-                  </div>
-                  <div class="field-wrapper has-value">
-                    <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addClassDetails.end_minute" name="minute"
-                      style="background: transparent">
-                      <option *ngFor="let minute of minArr" [value]="minute">
-                        {{minute}}
-                      </option>
-                    </select>
-                    <label for="minute">Minute</label>
-                  </div>
-                  <div class="field-wrapper has-value">
-                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addClassDetails.end_meridian" name="meridian"
-                      style="background: transparent">
-                      <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                        {{meridian}}
-                      </option>
-                    </select>
-                    <label for="meridian">Meridian</label>
-                  </div>
-                </fieldset>
-              </div>
-
-              <div class="field-wrapper c-sm-2 c-md-2 c-lg-2" [ngClass]="{'has-value' : addClassDetails.teacher_id != '-1' && addClassDetails.teacher_id != '' }">
-                <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="addClassDetails.teacher_id">
-                  <option value="-1"></option>
-                  <option *ngFor="let opt of teacherListDataSource" [value]="opt.teacher_id">
-                    {{opt.teacher_name}}
-                  </option>
-                </select>
-                <label for="row.category_id">Tutor Name</label>
-              </div>
-
-              <div class="field-wrapper c-sm-2 c-md-2 c-lg-2" [ngClass]="{'has-value' : addClassDetails.desc != '' && addClassDetails.desc != null }">
-                <input type="textbox" class="form-ctrl" name="label" [(ngModel)]="addClassDetails.desc">
-                <label for="label">Description</label>
-              </div>
-
-              <div class="field-wrapper c-sm-1 c-md-1 c-lg-1" [ngClass]="{'has-value' : addClassDetails.roomNo != '' && addClassDetails.roomNo != null }">
-                <input type="text" class="form-ctrl" name="label" [(ngModel)]="addClassDetails.roomNo">
-                <label for="label">Room No</label>
-              </div>
-
-              <div class="c-sm-2 c-md-2 c-lg-2" [ngClass]="{'has-value' : addClassDetails.customListData != '-1' && addClassDetails.customListData != '' }">
-                <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="addClassDetails.customListData" style="background: transparent;">
-                  <option *ngFor="let opt of customListDataSource">
-                    {{opt}}
-                  </option>
-                </select>
-                <label for="row.category_id">Class Type</label>
-                <img src="assets/images/plus.png" (click)="addClassSchedule()" alt="Add" style="vertical-align: -webkit-baseline-middle;">
-                <!-- <i (click)="addClassSchedule()" class="fal fa-plus-circle" style="font-family: FontAwesome ;font-size: 19px;"></i> -->
-              </div>
 
             </div>
-          </div>
+          </div> -->
           <div class="table-wrapper tableStyling">
             <div class="table-scroll-wrapper">
-              <div class="table table-responsive">
+              <div class="table table-responsive classScheduleTable">
                 <table>
                   <thead>
                     <tr>
@@ -277,68 +174,210 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr id="row{{i}}" *ngFor="let row of classScheduleArray; let i= index ; trackBy : index">
-                      <td style="width:12%">
-                        {{row.subject_name}}
-                      </td>
-                      <td style="width:9%">
-                        {{row.start_time}}
-                      </td>
-                      <td style="width:9%">
-                        {{row.end_time}}
-                      </td>
-                      <td style="width:10%">
-                        <select id="" class="form-ctrl" name="row.category_id" style="background: transparent" [(ngModel)]="row.teacher_id">
-                          <option value="-1"></option>
-                          <option *ngFor="let opt of teacherListDataSource" [value]="opt.teacher_id">
-                            {{opt.teacher_name}}
-                          </option>
-                        </select>
-                      </td>
-                      <td style="width:10%">
-                        <div class="field-wrapper">
-                          <input type="text" class="form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.class_desc" name="label">
-                        </div>
-                      </td>
-                      <td style="width:10%">
-                        <div class="field-wrapper">
-                          <input type="text" class="form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.room_no" name="label">
-                        </div>
-                      </td>
-
-                      <td style="width:10%">
-                        <select id="" class="form-ctrl" name="row.category_id" style="background: transparent" [(ngModel)]="row.custom_class_type">
-                          <option *ngFor="let opt of customListDataSource">
-                            {{opt}}
-                          </option>
-                        </select>
-                      </td>
-
-                      <td style="width:10%">
-
-                        <select *ngIf="(row.class_schedule_id != 0)" id="" style="background: transparent" class="form-ctrl" name="row.category_id" (change)="weeklyScheduleChange($event , row)">
-                          <option value="1">Does Not Repeat</option>
-                          <option value="2">Select Dates</option>
-                          <option value="3">Custom Recurrence</option>
-                        </select>
-
-                      </td>
-                      <td style="width:10%">
-                        <div class="action-box">
-                          <span class="mail-notification" (click)="sendReminder()"></span>
-                          <span class="reschedule-icon" (click)="cancelCourseClicked(row)"></span>
-                          <span (click)="removeRowFromSchedule(i , row)" class="delete-btn">
-                            <i class="fa fa-trash-o" style="font-family: FontAwesome;" aria-hidden="true"></i>
-                          </span>
-                          <!-- <span class="edit-icon"></span> -->
-                        </div>
-                      </td>
-                    </tr>
-                    <tr *ngIf="classScheduleArray.length ==0">
+                    <tr>
                       <td colspan="9">
-                        No Schedule For Current Date Found
+                        <table>
+                          <tbody>
+                            <tr class="adder">
+
+                              <td>
+                                <div class="field-wrapper" [ngClass]="{'has-value' : addClassDetails.subject_id != '-1' && addClassDetails.subject_id != '' }">
+                                  <select id="tsesesese" class="form-ctrl" name="row.subject_id" [(ngModel)]="addClassDetails.subject_id">
+                                    <option value="-1"> </option>
+                                    <option *ngFor="let opt of subjectListDataSource" [value]="opt.subject_id">
+                                      {{opt.subject_name}}
+                                    </option>
+                                  </select>
+                                </div>
+                              </td>
+
+                              <td>
+                                <div class="time-picker">
+                                  <div class="field-wrapper has-value">
+                                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addClassDetails.start_hour" name="hour" style="background: transparent">
+                                      <option *ngFor="let hour of hourArr" [value]="hour">
+                                        {{hour}}
+                                      </option>
+                                    </select>
+                                    <label for="hour">Hr</label>
+                                  </div>
+                                  <div class="field-wrapper has-value">
+                                    <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addClassDetails.start_minute" name="minute"
+                                      style="background: transparent">
+                                      <option *ngFor="let minute of minArr" [value]="minute">
+                                        {{minute}}
+                                      </option>
+                                    </select>
+                                    <label for="minute">Min</label>
+                                  </div>
+                                  <div class="field-wrapper has-value">
+                                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addClassDetails.start_meridian" name="meridian"
+                                      style="background: transparent">
+                                      <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                                        {{meridian}}
+                                      </option>
+                                    </select>
+                                    <label for="meridian">Mer</label>
+                                  </div>
+                                </div>
+                              </td>
+
+                              <td>
+                                <div class="time-picker">
+                                  <div class="field-wrapper has-value">
+                                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addClassDetails.end_hour" name="hour" style="background: transparent">
+                                      <option *ngFor="let hour of hourArr" [value]="hour">
+                                        {{hour}}
+                                      </option>
+                                    </select>
+                                    <label for="hour">Hr</label>
+                                  </div>
+                                  <div class="field-wrapper has-value">
+                                    <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addClassDetails.end_minute" name="minute"
+                                      style="background: transparent">
+                                      <option *ngFor="let minute of minArr" [value]="minute">
+                                        {{minute}}
+                                      </option>
+                                    </select>
+                                    <label for="minute">Min</label>
+                                  </div>
+                                  <div class="field-wrapper has-value">
+                                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addClassDetails.end_meridian" name="meridian"
+                                      style="background: transparent">
+                                      <option *ngFor="let meridian of meridianArr" [value]="meridian">
+                                        {{meridian}}
+                                      </option>
+                                    </select>
+                                    <label for="meridian">Mer</label>
+                                  </div>
+                                </div>
+                              </td>
+
+                              <td>
+                                <div class="field-wrapper" [ngClass]="{'has-value' : addClassDetails.teacher_id != '-1' && addClassDetails.teacher_id != '' }">
+                                  <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="addClassDetails.teacher_id">
+                                    <option value="-1"></option>
+                                    <option *ngFor="let opt of teacherListDataSource" [value]="opt.teacher_id">
+                                      {{opt.teacher_name}}
+                                    </option>
+                                  </select>
+                                  <label for="row.category_id">Tutor Name</label>
+                                </div>
+                              </td>
+
+                              <td>
+                                <div class="field-wrapper" [ngClass]="{'has-value' : addClassDetails.desc != '' && addClassDetails.desc != null }">
+                                  <input type="textbox" class="form-ctrl" name="label" [(ngModel)]="addClassDetails.desc">
+                                  <label for="label">Description</label>
+                                </div>
+                              </td>
+
+                              <td>
+                                <div class="field-wrapper" [ngClass]="{'has-value' : addClassDetails.roomNo != '' && addClassDetails.roomNo != null }">
+                                  <input type="text" class="form-ctrl" name="label" [(ngModel)]="addClassDetails.roomNo">
+                                  <label for="label">Room No</label>
+                                </div>
+                              </td>
+
+                              <td>
+                                <div class="field-wrapper" [ngClass]="{'has-value' : addClassDetails.customListData != '-1' && addClassDetails.customListData != '' }">
+                                  <select id="" class="form-ctrl" name="row.category_id" [(ngModel)]="addClassDetails.customListData" style="background: transparent;">
+                                    <option *ngFor="let opt of customListDataSource">
+                                      {{opt}}
+                                    </option>
+                                  </select>
+                                  <label for="row.category_id">Class Type</label>
+                                  <img src="assets/images/plus.png" (click)="addClassSchedule()" alt="Add" style="vertical-align: -webkit-baseline-middle;">
+                                  <!-- <i (click)="addClassSchedule()" class="fal fa-plus-circle" style="font-family: FontAwesome ;font-size: 19px;"></i> -->
+                                </div>
+                              </td>
+
+                              <td>
+
+                              </td>
+
+                              <td>
+
+                              </td>
+
+                            </tr>
+                          </tbody>
+                        </table>
                       </td>
                     </tr>
+
+                    <tr>
+                      <td colspan="9">
+                        <table>
+                          <tbody>
+                            <tr id="row{{i}}" *ngFor="let row of classScheduleArray; let i= index ; trackBy : index">
+                              <td style="width:12%">
+                                {{row.subject_name}}
+                              </td>
+                              <td style="width:9%">
+                                {{row.start_time}}
+                              </td>
+                              <td style="width:9%">
+                                {{row.end_time}}
+                              </td>
+                              <td style="width:10%">
+                                <select id="" class="form-ctrl" name="row.category_id" style="background: transparent" [(ngModel)]="row.teacher_id">
+                                  <option value="-1"></option>
+                                  <option *ngFor="let opt of teacherListDataSource" [value]="opt.teacher_id">
+                                    {{opt.teacher_name}}
+                                  </option>
+                                </select>
+                              </td>
+                              <td style="width:10%">
+                                <div class="field-wrapper">
+                                  <input type="text" class="form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.class_desc" name="label">
+                                </div>
+                              </td>
+                              <td style="width:10%">
+                                <div class="field-wrapper">
+                                  <input type="text" class="form-ctrl editCellInput" style="background: transparent" [(ngModel)]="row.room_no" name="label">
+                                </div>
+                              </td>
+
+                              <td style="width:10%">
+                                <select id="" class="form-ctrl" name="row.category_id" style="background: transparent" [(ngModel)]="row.custom_class_type">
+                                  <option *ngFor="let opt of customListDataSource">
+                                    {{opt}}
+                                  </option>
+                                </select>
+                              </td>
+
+                              <td style="width:10%">
+
+                                <select *ngIf="(row.class_schedule_id != 0)" id="" style="background: transparent" class="form-ctrl" name="row.category_id"
+                                  (change)="weeklyScheduleChange($event , row)">
+                                  <option value="1">Does Not Repeat</option>
+                                  <option value="2">Select Dates</option>
+                                  <option value="3">Custom Recurrence</option>
+                                </select>
+
+                              </td>
+                              <td style="width:10%">
+                                <div class="action-box">
+                                  <span class="mail-notification" (click)="sendReminder()"></span>
+                                  <span class="reschedule-icon" (click)="cancelCourseClicked(row)"></span>
+                                  <span (click)="removeRowFromSchedule(i , row)" class="delete-btn">
+                                    <i class="fa fa-trash-o" style="font-family: FontAwesome;" aria-hidden="true"></i>
+                                  </span>
+                                  <!-- <span class="edit-icon"></span> -->
+                                </div>
+                              </td>
+                            </tr>
+                            <tr *ngIf="classScheduleArray.length ==0">
+                              <td colspan="9">
+                                No Schedule For Current Date Found
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+
                   </tbody>
                 </table>
               </div>

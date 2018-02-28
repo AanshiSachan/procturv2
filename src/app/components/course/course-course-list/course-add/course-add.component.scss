@@ -1,4 +1,53 @@
 @import "./src/assets/css/common/variables.scss";
+.courseAdd{
+    table {
+        tr {
+            background: white;
+            th {
+                text-align: left;
+                padding: 10px 10px;
+                font-size: 12px;
+                font-weight: 500;
+            }
+            td {
+                text-align: left;
+                padding: 5px 10px;
+            }
+        }
+        &.adderTable{
+            tr{
+                td{
+                    .field-wrapper{
+                        padding-top: 0px;
+                        .form-ctrl{
+                            padding: 5px 0 0px;
+                            height: 30px;
+                        }
+                    }
+                }
+            }
+        }
+    }   
+}
+
+.asideWrapperNested{
+    table {
+        tr {
+            background: white;
+            th {
+                text-align: left;
+                padding: 10px 10px;
+                font-size: 12px;
+                font-weight: 500;
+            }
+            td {
+                text-align: left;
+                padding: 0px 10px;
+            }
+        }
+    }   
+}
+
 .middle-section {
     padding: 5px 15px;
     width: 100%;
@@ -63,25 +112,6 @@
     }
 }
 
-table {
-    thead {
-        tr {
-            th {
-                padding-bottom: 5px;
-                padding-top: 5px;
-            }
-        }
-    }
-    tbody {
-        tr {
-            td {
-                padding-bottom: 5px;
-                padding-top: 5px;
-            }
-        }
-    }
-}
-
 .asideWrapper {
     background: #efefef;
     max-height: 220px;
@@ -94,8 +124,7 @@ table {
 }
 
 .asideTableWrapper {
-    border-bottom: 1px solid #d8d8d8;
-    border-left: 1px solid #d8d8d8;
+    border-bottom: 1px solid #d8d8d8; //border-left: 1px solid #d8d8d8;
     max-height: 155px;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -107,12 +136,12 @@ table {
     }
 }
 
-.leftform{
-    .row{
+.leftform {
+    .row {
         margin: 0;
         padding: 15px;
-        .field-wrapper{
-            width: 60%;
+        .field-wrapper {
+            width: 80%;
         }
     }
 }
@@ -131,7 +160,7 @@ table {
 }
 
 .asideWrapperNested {
-    max-height: 120px;
+    max-height: 180px;
     overflow-x: hidden;
      ::-webkit-scrollbar {
         display: block;
@@ -149,7 +178,6 @@ table {
 }
 
 .nestedTableAsideWrapper {
-    border-bottom: 1px solid #d8d8d8;
-    border-left: 1px solid #d8d8d8;
+    border-bottom: 1px solid #d8d8d8; //border-left: 1px solid #d8d8d8;
     margin-top: 10px;
 }

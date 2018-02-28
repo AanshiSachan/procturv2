@@ -6,6 +6,34 @@
 
 /* ========================================================================================= */
 
+.classScheduleTable {
+    table {
+        tr {
+            th {
+                text-align: left;
+                padding: 10px 20px;
+            }
+            td {
+                text-align: left;
+            }
+            &.adder{
+                td{
+                    padding: 0px 20px;
+                    .time-picker{
+                        .field-wrapper{
+                            margin: 0px;
+                            width: 30px;
+                            .form-ctrl{
+                                width: 30px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 /* ========================================================================================= */
 
