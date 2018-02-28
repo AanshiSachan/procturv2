@@ -43,6 +43,20 @@ export class CourseEditComponent implements OnInit {
     this.getActiveTeacherList();
   }
 
+  openSubjectTable(i){
+    let t = document.getElementById('spani'+i).innerHTML;
+    if(t == '+'){
+      document.getElementById('spani'+i).innerHTML = '-';
+      document.getElementById('spani'+i).classList.add('close-accor');
+      document.getElementById('sub'+i).classList.toggle('hide');
+    }
+    else{
+      document.getElementById('spani'+i).innerHTML = '+';
+      document.getElementById('spani'+i).classList.remove('close-accor');
+      document.getElementById('sub'+i).classList.toggle('hide');
+    }
+  }
+
   getSelectedCourse(data) {
     this.apiService.getSeletedMasterCourseEdit(data).subscribe(
       (res: any) => {
@@ -314,5 +328,6 @@ export class CourseEditComponent implements OnInit {
   parseDateFormat(date) {
     return moment(date).format("YYYY-MM-DD")
   }
+  
 
 }

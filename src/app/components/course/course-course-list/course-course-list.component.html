@@ -3,10 +3,11 @@
 <section class="middle-section clearFix">
   <section class="course-second course">
     <div class="boxPadding15">
+      <!-- Header Section and Router  -->
       <section class="middle-top clearFix">
         <div class="row">
           <div>
-            <h1 class="pull-left" style="margin-top: 10px;margin-left: 15px;">Course</h1>
+            <!-- <h1 class="pull-left" style="margin-top: 10px;margin-left: 15px;">Course</h1> -->
           </div>
           <div class="pull-right btnWrapper">
             <button class="btn" routerLink="add" style="margin-top: 10px;margin-right: 20px;">
@@ -21,11 +22,10 @@
         </div>
       </section>
 
+      <!-- Expanding Table -->
 
-
-
-      <section class="clearFix calender-view1">
-        <div class="table-responsive ">
+      <section class="clearFix tableCourseExp calender-view1">
+        <div class="tableCourseInn table-responsive ">
           <table>
             <thead>
               <tr>
@@ -49,7 +49,7 @@
                       <span class="close-accor" (click)="toggleTbodyClass(i)">-</span>
                       <span class="open-accor" (click)="toggleTbodyClass(i)">+</span>
                       <span class="date-c" (click)="toggleTbodyClass(i)">{{row.master_course}}</span>
-                      <span class="pull-right" routerLink="{{row.master_course}}" style="cursor: pointer;padding-right: 9% !important;text-align: left;">
+                      <span class="pull-right" routerLink="{{row.master_course}}" style="cursor: pointer;padding-right: 15% !important;text-align: left;">
                         <i class="edit-icon" aria-hidden="true" title="Edit"></i>
                       </span>
                     </h4>
@@ -59,7 +59,7 @@
               <tr id="tbodyView{{i}}" class="hide">
                 <td colspan="4">
                   <table>
-                    <tbody class="table-accor-view ">
+                    <tbody class="table-accor-view accorInnerTable">
                       <tr *ngFor="let sc of row.coursesList; let y= index;">
                         <td style="width:30%"></td>
                         <td style="width:25%">{{sc.course_name}}</td>
@@ -67,7 +67,7 @@
                         <td style="width:20%">
                           <div class="action-box ">
                             <a style="cursor:pointer" (click)="addStudentToBatch(sc)">
-                              <i class="far fa fa-plus-square" style="font-size: 14px" alt="Add Student" title="Add Student"></i>
+                              <i class="far fa fa-plus-square" style="font-size: 25px" alt="Add Student" title="Add Student"></i>
                             </a>
                           </div>
                         </td>
@@ -96,7 +96,7 @@
         </div>
       </section>
 
-
+      <!-- Pagination -->
 
       <div class="row filter-res pagination" style="width: 100%;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
@@ -105,6 +105,7 @@
           </pagination>
         </div>
       </div>
+
     </div>
   </section>
 </section>
@@ -144,14 +145,13 @@
         </div>
 
 
-        <div style="margin-top: 15px;max-height: 363px;overflow: scroll;">
+        <div style="margin-top: 15px;max-height: 363px;overflow-x: hidden;overflow-y: scroll;">
           <table>
             <thead>
-              <th>
+              <th style="padding: 6px 0px 6px 20px;">
                 <div class="field-checkbox-wrapper">
                   <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked" (click)="selectAllCheckBox(idSelectAll)">
                   <label></label>
-                  <span>Assign?UnAssign</span>
                 </div>
               </th>
               <th>
