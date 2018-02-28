@@ -400,7 +400,7 @@ export class AdminHomeComponent implements OnInit {
     let obj = {
       standard_id: -1,
       batch_id: -1,
-      type: 0,
+      type: 2,
       installment_id: -1,
       subject_id: -1,
       master_course_name: '-1',

@@ -72,11 +72,11 @@ export class StudentEditComponent implements OnInit {
     institution_id: sessionStorage.getItem('institute_id'),
     student_id: 0
   }
-  studentServerImage:string = '';
+  studentServerImage: string = '';
   newPdcArr: any[] = [];
   pdcSelectedArr: any[] = [];
   formIsActive: boolean = true;
-  studentImage:string = '';
+  studentImage: string = '';
   private quickAddStudent: boolean = false;
   private additionalBasicDetails: boolean = false;
   private isAssignBatch: boolean = false;
@@ -322,9 +322,9 @@ export class StudentEditComponent implements OnInit {
     cheque_no: '',
     pdc_cheque_id: ''
   }
-  
+
   isPdcFeePaymentSelected: boolean = false;
-  containerWidth:any = "200px";
+  containerWidth: any = "200px";
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -499,7 +499,7 @@ export class StudentEditComponent implements OnInit {
   /* ============================================================================================================================ */
   /* Function to navigate on icon click */
   switchToView(id) {
-    
+
     switch (id) {
       case "studentForm-icon": {
         //console.log(id);
@@ -846,7 +846,7 @@ export class StudentEditComponent implements OnInit {
               body: ''
             }
             this.appC.popToast(alert);
-            
+
             form.reset();
             this.removeImage = true;
             this.clearFormAndMove();
@@ -1007,6 +1007,7 @@ export class StudentEditComponent implements OnInit {
     this.customComponents.forEach(el => {
       if (el.id == id) {
         el.prefilled_data.forEach(com => {
+          debugger
           //console.log(com);
           if (com.data == data.data) {
             /* Component checked */
@@ -1019,7 +1020,7 @@ export class StudentEditComponent implements OnInit {
                 document.getElementById(id + 'wrapper').classList.remove('has-value');
               }
               //console.log(com.selected);
-              el.selectedString = el.selected.join(',');
+              el.selectedString = this.concatDataWithComma(el.selected);
               el.value = el.selectedString;
             }
             /* Component unchecked */
@@ -1035,7 +1036,7 @@ export class StudentEditComponent implements OnInit {
               if (index > -1) {
                 el.selected.splice(index, 1);
               }
-              el.selectedString = el.selected.join(',');
+              el.selectedString = this.concatDataWithComma(el.selected);
               el.value = el.selectedString;
               /* var index2 = el.selected.indexOf(data.data);
                 if (index2 > -1) {
@@ -1050,6 +1051,25 @@ export class StudentEditComponent implements OnInit {
     });
 
   }
+
+
+  concatDataWithComma(data) {
+    let test = "";
+    if (data.length > 0) {
+      for (let t = 0; t < data.length; t++) {
+        if (data[t] !== "") {
+          if (test != "") {
+            test = test + "," + data[t];
+          } else {
+            test = test + data[t];
+          }
+        }
+      }
+    }
+    return test;
+  }
+
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   fetchCourseFromMaster(id) {
@@ -1107,7 +1127,7 @@ export class StudentEditComponent implements OnInit {
             body: ''
           }
           this.appC.popToast(alert);
-          
+
           form.reset();
           this.clearFormAndMove();
         }
@@ -1358,7 +1378,7 @@ export class StudentEditComponent implements OnInit {
           this.isDefineFees = true;
 
           this.isFeeApplied = true;
-          
+
           if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
             this.service_tax = res.registeredServiceTax;
           }
@@ -1454,7 +1474,7 @@ export class StudentEditComponent implements OnInit {
   /* ============================================================================================================================ */
   openPaymentDetails($event) {
     $event.preventDefault();
-    
+
     this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
     this.isFeePaymentUpdate = true;
   }
@@ -1462,7 +1482,7 @@ export class StudentEditComponent implements OnInit {
   /* ============================================================================================================================ */
   openPaymentDetailsAndExit($event) {
     $event.preventDefault();
-    
+
     this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
     this.isFeePaymentUpdate = true;
     this.isUpdateFeeAndExit = true;
@@ -2243,7 +2263,7 @@ export class StudentEditComponent implements OnInit {
           debugger;
           let statusCode = res.statusCode;
           if (statusCode == 200) {
-            
+
             this.removeImage = true;
             //console.log(this.isFeeApplied);
             /* Inventory defined and fee as well */
@@ -2259,7 +2279,7 @@ export class StudentEditComponent implements OnInit {
             /* Inventory defined but fee is not*/
             else if (this.allotInventoryArr.length == 0 && this.isFeeApplied == false) {
               debugger;
-              this.allocateInventory(this.student_id); 
+              this.allocateInventory(this.student_id);
             }
             /* Inventory and fee both are not defined */
             else if (this.allotInventoryArr.length == 0 && this.isFeeApplied == false) {
@@ -2996,7 +3016,7 @@ export class StudentEditComponent implements OnInit {
     )
   }
 
-  setImage(e){
+  setImage(e) {
     //debugger
     this.studentServerImage = e;
   }
