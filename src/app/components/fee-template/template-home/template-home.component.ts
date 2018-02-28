@@ -200,6 +200,8 @@ export class TemplateHomeComponent implements OnInit {
   }
 
   calculateTotalAmount() {
+    // let totalFee = this.feeStructure.map(fee => fee.student_total_fees).reduce((acc, val) => val + acc);
+    // return totalFee;
     return 0;
   }
 

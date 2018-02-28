@@ -9,14 +9,16 @@ table {
             th {
                 padding-top: 10px;
                 padding-bottom: 10px;
+                font-size: 12px;
+                font-weight: 500;
             }
         }
     }
     tbody {
         tr {
             td {
-                padding-top: 10px;
-                padding-bottom: 10px;
+                padding-top: 5px;
+                padding-bottom: 5px;
                 .editOptions li {
                     display: inline-block;
                 }
