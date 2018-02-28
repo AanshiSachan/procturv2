@@ -52,9 +52,9 @@
                         <li (click)="editFee(fee)">
                           <a>Edit</a>
                         </li>
-                        <li>
+                        <!-- <li>
                           <a>Delete</a>
-                        </li>
+                        </li> -->
                       </ul>
                     </td>
                   </tr>
@@ -118,6 +118,69 @@
                 </div>
               </div>
             </div>
+            <div class="row" style="margin-top: 10px;margin-bottom: 10px">
+              <div class="c-sm-3 c-md-3 c-lg-3">
+                <div class="field-wrapper has-value">
+                  <input type="number" min="0" readonly="true" class="form-ctrl" [ngModel]="calculateTotalAmount()" name="slotNew">
+                  <label for="slotNew">Total Amount (Rs)*
+                  </label>
+                </div>
+              </div>
+              <div class="c-sm-4 c-md-4 c-lg-4">
+                <div class="field-wrapper has-value">
+                  <input type="number" min="0" readonly="true" #idSlot class="form-ctrl" name="slotNew">
+                  <label for="slotNew">Total AmountNo of Installments*
+                  </label>
+                </div>
+              </div>
+              <div class="c-sm-3 c-md-3 c-lg-3">
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" name="checkbx" class="form-checkbox" (click)="onApplyTaxChechbox()">
+                  <label for="checkbx">Apply Tax( 0%)</label>
+                </div>
+              </div>
+              <div class="c-sm-3 c-md-3 c-lg-3">
+
+              </div>
+            </div>
+
+
+            <div class="row" style="margin-top: 10pxd;margin-bottom: 10px">
+
+              <div class="c-sm-3 c-md-3 c-lg-3">
+                <div class="field-wrapper has-value">
+                  <select id="" class="form-ctrl" style="background: transparent" name="AddInstallment.day_type" [(ngModel)]="AddInstallment.day_type">
+                    <option value="1">Date Of Joining</option>
+                    <option value="2">No of days after DOJ</option>
+                    <option value="3">No of Month after DOJ</option>
+                  </select>
+                  <label for="row.category_id">Trigger Date</label>
+                </div>
+              </div>
+
+              <div class="c-sm-3 c-md-3 c-lg-3">
+                <div class="field-wrapper has-value">
+                  <input type="number" min="0" class="form-ctrl" [(ngModel)]="AddInstallment.days" name="slotNew">
+                  <label for="slotNew"> No.
+                  </label>
+                  <p>(Days/Months)</p>
+                </div>
+              </div>
+
+              <div class="c-sm-3 c-md-3 c-lg-3">
+                <div class="field-wrapper has-value">
+                  <input type="number" min="0" class="form-ctrl" [(ngModel)]="AddInstallment.initial_fee_amount" name="slotNew">
+                  <label for="slotNew">Fee Amount
+                  </label>
+                </div>
+              </div>
+
+              <div class="c-sm-2 c-md-2 c-lg-2">
+                <img src="assets/images/plus.png" (click)="addInstallmentInTable()" alt="Add" style="vertical-align: -webkit-baseline-middle;">
+              </div>
+            </div>
+
+
             <div class="row">
               <div class="table-scroll-wrapper">
                 <div class="table table-responsive">
@@ -133,13 +196,37 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                      <tr *ngFor="let row of installmentList; let i= index ; trackBy : index">
+                        <td>
+                          <select [(ngModel)]="row.day_type" style="background: transparent">
+                            <option value="1">Date Of Joining</option>
+                            <option value="2">No of days after DOJ</option>
+                            <option value="3">No of Month after DOJ</option>
+                          </select>
+                        </td>
+                        <td>
+                          <div class="field-wrapper">
+                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.days" name="label">
+                          </div>
+                        </td>
+                        <td>
+                          <div class="field-wrapper">
+                            <input type="number" min="0" readonly="true" class="editCellInput" [(ngModel)]="row.initial_fee_amount" name="label">
+                          </div>
+                        </td>
+                        <td>
+                          <div class="field-wrapper">
+                            <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='calculateTaxAmout(row)' name="label">
+                          </div>
+                        </td>
+                        <td>
+                          <div class="field-wrapper">
+                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.fees_amount" name="label">
+                          </div>
+                        </td>
+                        <td>
+                          <a style="cursor: pointer" (click)="deleteRow(row , i)">Delete</a>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -156,6 +243,58 @@
                 </div>
               </div>
             </div>
+
+
+            <div class="row" style="margin-top: 10pxd;margin-bottom: 10px">
+              <div class="c-sm-2 c-md-2 c-lg-2">
+                <div class="field-wrapper has-value">
+                  <select id="" class="form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.fee_type_name" name="row.category_id">
+                    <option *ngFor="let opt of otherFeetype; let i= index ; trackBy : index" [value]="opt.id">
+                      {{opt.value}}
+                    </option>
+                  </select>
+                  <label for="row.category_id">Select Fee Type</label>
+                </div>
+              </div>
+
+              <div class="c-sm-2 c-md-2 c-lg-2">
+                <div class="field-wrapper has-value">
+                  <select id="" class="form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.day_type" name="row.category_id">
+                    <option value="1">Date Of Joining</option>
+                    <option value="2">No of days after DOJ</option>
+                    <option value="3">No of Month after DOJ</option>
+                  </select>
+                  <label for="row.category_id">Trigger Date</label>
+                </div>
+              </div>
+
+              <div class="c-sm-2 c-md-2 c-lg-2">
+                <div class="field-wrapper has-value">
+                  <input type="number" min="0" class="form-ctrl" [(ngModel)]="additionalInstallment.days" name="slotNew">
+                  <label for="slotNew"> No.
+                  </label>
+                  <p>(Days/Months)</p>
+                </div>
+              </div>
+              <div class="c-sm-2 c-md-2 c-lg-2">
+                <div class="field-wrapper has-value">
+                  <input type="number" min="0" class="form-ctrl" [(ngModel)]="additionalInstallment.initial_fee_amount" name="slotNew">
+                  <label for="slotNew">Fee Amount
+                  </label>
+                </div>
+              </div>
+              <div class="c-sm-2 c-md-2 c-lg-2">
+                <div class="field-wrapper has-value">
+                  <input type="number" min="0" class="form-ctrl" [(ngModel)]="additionalInstallment.fee_tax" name="slotNew">
+                  <label for="slotNew">Tax Applicable (%)
+                  </label>
+                </div>
+              </div>
+              <div class="c-sm-2 c-md-2 c-lg-2">
+                <img src="assets/images/plus.png" (click)="addAdditionalInst()" alt="Add" style="vertical-align: -webkit-baseline-middle;">
+              </div>
+            </div>
+
             <div class="row">
               <div class="table-scroll-wrapper">
                 <div class="table table-responsive">
@@ -163,7 +302,8 @@
                     <thead>
                       <tr>
                         <th>Fee Type </th>
-                        <th>Due Date</th>
+                        <th>Trigger Date</th>
+                        <th>No.(Days/Months)Due Date</th>
                         <th>Amount</th>
                         <th>Tax</th>
                         <th>Fee Amount Incl Tax</th>
@@ -171,18 +311,39 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr *ngFor="let row of otherInstList; let i= index ; trackBy : index">
                         <td>
+                          {{row.fee_type_name}}
                         </td>
                         <td>
+                          <select [(ngModel)]="row.day_type" style="background: transparent">
+                            <option value="1">Date Of Joining</option>
+                            <option value="2">No of days after DOJ</option>
+                            <option value="3">No of Month after DOJ</option>
+                          </select>
                         </td>
                         <td>
+                          <div class="field-wrapper">
+                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.days" name="label">
+                          </div>
                         </td>
                         <td>
+                          <div class="field-wrapper">
+                            <input type="number" min="0" readonly="true" class="editCellInput" [(ngModel)]="row.initial_fee_amount" name="label">
+                          </div>
                         </td>
                         <td>
+                          <div class="field-wrapper">
+                            <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='calculateTaxAmout(row)' name="label">
+                          </div>
                         </td>
                         <td>
+                          <div class="field-wrapper">
+                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.fees_amount" name="label">
+                          </div>
+                        </td>
+                        <td>
+                          <a style="cursor: pointer" (click)="deleteAdditionalRow(row , i)">Delete</a>
                         </td>
                       </tr>
                     </tbody>

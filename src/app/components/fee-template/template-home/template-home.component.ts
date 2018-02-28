@@ -28,7 +28,27 @@ export class TemplateHomeComponent implements OnInit {
   selectedTemplate: any;
   isHeaderEdit: boolean = false;
   isEditFee: boolean = false;
-  feeStructure:any;
+  feeStructure: any;
+  installmentList: any = [];
+  otherInstList: any = [];
+  otherFeetype: any = [];
+  AddInstallment = {
+    day_type: '',
+    days: '',
+    initial_fee_amount: '',
+    fees_amount: '',
+  }
+  additionalInstallment = {
+    fee_type_name: '',
+    day_type: '',
+    days: '',
+    initial_fee_amount: '',
+    fee_tax: '',
+    fees_amount: ''
+  }
+  customJson: any = [];
+  totalAmount: any = '';
+  discountAmount: any = '';
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private fetchService: FeeStrucService) {
     if (sessionStorage.getItem('Authorization') == null) {
@@ -68,20 +88,98 @@ export class TemplateHomeComponent implements OnInit {
         this.feeStructure = res;
         console.log(res);
         this.isEditFee = true;
+        this.fillFeeType(res.feeTypeMap);
+        this.fillDataInYTable(res.customFeeSchedules);
       },
-      err => {}
+      err => { }
     )
+  }
+
+  fillFeeType(data) {
+    let keys = Object.keys(data);
+    for (let i = 0; i < keys.length; i++) {
+      let test: any = {};
+      test.id = keys[i];
+      test.value = data[keys[i]];
+      this.otherFeetype.push(test);
+    }
+  }
+
+  fillDataInYTable(data) {
+    for (let t = 0; t < data.length; t++) {
+      if (data[t].fee_type_name == "INSTALLMENT") {
+        this.installmentList.push(data[t]);
+      } else {
+        this.otherInstList.push(data[t]);
+      }
+    }
   }
 
   closeFeeEditor() {
     this.getFeeStructures();
     this.isHeaderEdit = false;
-    this.isEditFee = false;    
+    this.isEditFee = false;
   }
 
   updateFeeTemplate() {
-  
+    let data: any = {
+      customFeeSchedules: this.makeJSONForCustomFee(),
+      studentwise_total_fees_amount: this.totalAmount,
+      studentwise_total_fees_discount: this.discountAmount,
+      studentwise_fees_tax_applicable: this.feeStructure.studentwise_fees_tax_applicable,
+      template_id: this.feeStructure.template_id,
+      template_name: this.feeStructure.template_name
+    };
+    this.fetchService.updateFeeTemplate(data).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      }
+    )
   }
+
+  makeJSONForCustomFee() {
+    debugger
+    this.customJson = [];
+    this.totalAmount = 0;
+    this.discountAmount = 0;
+    let data: any = [];
+    for (let t = 0; t < this.installmentList.length; t++) {
+      let test: any = {};
+      test.fee_type = '0';
+      test.initial_fee_amount = this.installmentList[t].initial_fee_amount;
+      test.service_tax = this.installmentList[t].service_tax;
+      test.fees_amount = this.installmentList[t].fees_amount;
+      test.service_tax_applicable = this.installmentList[t].service_tax_applicable;
+      test.schedule_id = this.installmentList[t].schedule_id;
+      test.is_referenced = this.installmentList[t].is_referenced;
+      test.day_type = this.installmentList[t].day_type;
+      test.days = this.installmentList[t].days;
+      this.totalAmount = this.totalAmount + this.installmentList[t].fees_amount;
+      this.discountAmount = this.discountAmount + this.installmentList[t].fees_amount - this.installmentList[t].initial_fee_amount;
+      data.push(test);
+    }
+    for (let t = 0; t < this.otherInstList.length; t++) {
+      let test: any = {};
+      test.fee_type = this.otherInstList[t].fee_type;
+      test.initial_fee_amount = this.otherInstList[t].initial_fee_amount;
+      test.service_tax = this.otherInstList[t].service_tax;
+      test.fees_amount = this.otherInstList[t].fees_amount;
+      test.service_tax_applicable = this.otherInstList[t].service_tax_applicable;
+      test.schedule_id = this.otherInstList[t].schedule_id;
+      test.is_referenced = this.otherInstList[t].is_referenced;
+      test.day_type = this.otherInstList[t].day_type;
+      test.days = this.otherInstList[t].days;
+      this.totalAmount = this.totalAmount + this.otherInstList[t].fees_amount;
+      this.discountAmount = this.discountAmount + this.otherInstList[t].fees_amount - this.otherInstList[t].initial_fee_amount;
+      data.push(test);
+    }
+    this.customJson = data;
+    return data;
+  }
+
 
   updateTemplateName() {
     if (this.selectedTemplate.template_name.trim() != '') {
@@ -97,7 +195,57 @@ export class TemplateHomeComponent implements OnInit {
     }
   }
 
+  calculateTaxAmout(row) {
+    return row.fees_amount - row.initial_fee_amount;
+  }
 
+  calculateTotalAmount() {
+    return 0;
+  }
+
+  onApplyTaxChechbox() {
+
+  }
+
+  deleteRow(row, i) {
+    this.installmentList.splice(i, 1);
+  }
+
+  deleteAdditionalRow(row, i) {
+    this.otherInstList.splice(i, 1);
+  }
+
+
+  addInstallmentInTable() {
+    if (Number(this.AddInstallment.initial_fee_amount) > 0) {
+      this.installmentList.fees_amount = this.AddInstallment.initial_fee_amount;
+      this.installmentList.push(this.AddInstallment);
+      this.AddInstallment = {
+        day_type: '',
+        days: '',
+        initial_fee_amount: '',
+        fees_amount: '',
+      }
+    } else {
+      console.log('error');
+    }
+  }
+
+
+  addAdditionalInst() {
+    if (Number(this.additionalInstallment.initial_fee_amount) > 0) {
+      this.additionalInstallment.fees_amount = this.additionalInstallment.initial_fee_amount;
+      this.otherInstList.push(this.additionalInstallment);
+      this.additionalInstallment = {
+        fee_type_name: '',
+        day_type: '',
+        days: '',
+        initial_fee_amount: '',
+        fee_tax: '',
+        fees_amount: ''
+      }
+    }
+  }
 
 }
 
