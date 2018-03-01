@@ -69,7 +69,8 @@ export class StudentAddComponent implements OnInit {
   private isProfessional: boolean = false;
   private multiOpt: boolean = false;
   private isDuplicateStudent: boolean = false;
-
+  genPdcAck: boolean = false;
+  sendPdcAck: boolean = false;
   private instituteList: any[] = [];
   private standardList: any[] = [];
   private courseList: any[] = [];
@@ -211,6 +212,7 @@ export class StudentAddComponent implements OnInit {
     update_date: null,
     updated_by: null
   }
+  isPaymentPdc:boolean = false;
   otherFeeType: any[] = [];
   feeStructureForm: any = {
     studentArray: ["-1"],
@@ -2131,7 +2133,7 @@ export class StudentAddComponent implements OnInit {
       template_id: ""
     }
     obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
-    console.log(obj.customFeeSchedules);
+    //console.log(obj.customFeeSchedules);
     obj.discount_fee_reason = this.discountReason;
     obj.is_undo = 'N';
     obj.paid_date = this.feeTemplateById.paid_date;
@@ -2144,12 +2146,33 @@ export class StudentAddComponent implements OnInit {
     obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
     this.postService.allocateStudentFees(obj).subscribe(
       res => {
-        this.studentAddedNotifier();
+        if (this.genPdcAck || this.sendPdcAck) {
+          let feeid = res.generated_id;
+          
+          this.postService.generateFeeReceipt(id, feeid).subscribe(
+            res => {
+              this.studentAddedNotifier();
+            },
+            err => {}
+          );          
+        }
+        else {
+          this.studentAddedNotifier();
+        }
       },
       err => { }
     );
-
   }
+
+
+  /* paymentModeUpdate(e) {
+    if (e === 'Cheque/PDC/DD No.') {
+      this.isPaymentPdc = true;
+    }
+    else {
+      this.isPaymentPdc = false;
+    }
+  } */
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   openDiscountApply() {
@@ -2482,3 +2505,10 @@ export class CommaSeprationAmount {
 }
 
 
+
+
+
+/* 
+
+
+*/

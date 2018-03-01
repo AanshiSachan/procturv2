@@ -1477,7 +1477,6 @@ ul.customDropdown li:hover {
     .btn {
         font-size: 16px;
         height: 40px;
-        color: #333;
         &.redBtn {
             color: $bg-white;
             min-width: 160px;
@@ -1725,7 +1724,7 @@ ul.customDropdown li:hover {
         line-height: 8px;
         padding: 4px 0px 0px 0px;
         font-size: 24px;
-        border: 1px solid #0084f6;
+        //border: 1px solid #0084f6;
         display: inline-block;
         width: 20px;
         height: 20px;

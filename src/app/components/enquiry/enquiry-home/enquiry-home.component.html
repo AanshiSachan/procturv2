@@ -157,7 +157,7 @@
 
             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
               <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
-                <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true"/>
+                <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
                 <label for="assignCourses">Slots</label>
               </div>
               <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
@@ -243,7 +243,7 @@
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
                 <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                   <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
-                    readonly="true"/>
+                    readonly="true" />
                   <label for="{{component.label}}">{{component.label}} </label>
                 </div>
                 <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
@@ -266,11 +266,12 @@
             <div class="row">
               <div class="c-lg-12 c-md-12 c-sm-12">
                 <div class="field-wrapper pull-left">
-                  <input type="button" class="btn filterSearchBtn redBtn" value="Search Now" (click)="filterAdvanced()" />
-                </div>
-                <div class="field-wrapper pull-left">
                   <input type="button" class="btn filterSearchBtn" value="Clear Advanced Filter" (click)="clearFilterAdvanced()" />
                 </div>
+                <div class="field-wrapper pull-left">
+                  <input type="button" class="btn filterSearchBtn fullBlue" value="Search Now" (click)="filterAdvanced()" />
+                </div>
+
               </div>
             </div>
           </div>
@@ -306,14 +307,9 @@
         <!-- Paginator Here -->
         <div class="row filter-res pagination" id="pager" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <pagination 
-            (goPage)="fectchTableDataByPage($event)" 
-            (goNext)="fetchNext()" (goPrev)="fetchPrevious()" 
-            [pagesToShow]="10" [page]="PageIndex" 
-            [perPage]="displayBatchSize" 
-            [sizeArr]="sizeArr" 
-            (sizeChange)="updateTableBatchSize($event)"
-            [count]="totalEnquiry">
+            <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+              [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)"
+              [count]="totalEnquiry">
             </pagination>
           </div>
 
@@ -435,7 +431,7 @@
                 <div class="clearfix">
                   <aside class="pull-left popup-btn">
                     <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                    <input type="button" value="Update" class="redBtn btn" (click)="pushUpdatedEnquiry()">
+                    <input type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
                   </aside>
                 </div>
               </div>
@@ -546,7 +542,7 @@
               <div class="clearfix">
                 <aside class="pull-right popup-btn">
                   <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                  <input type="button" value="Convert" class="redBtn btn" (click)="convertRow(selectedRow.data)">
+                  <input type="button" value="Convert" class="fullBlue btn" (click)="convertRow(selectedRow.data)">
                 </aside>
               </div>
             </div>
@@ -720,7 +716,7 @@
                 <div class="c-lg-12 c-md-12 c-sm-12" *ngIf="isadmitted">
                   <aside class="pull-right popup-btn">
                     <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                    <input type="button" value="Save" class="btn redBtn" (click)="registerPayment()">
+                    <input type="button" value="Save" class="btn fullBlue" (click)="registerPayment()">
                   </aside>
                 </div>
 
@@ -791,7 +787,7 @@
               <div class="clearfix">
                 <aside class="pull-right popup-btn">
                   <input type="button" value="Cancel" class="btn" (click)="bulkAssignEnquiriesClose()">
-                  <input type="button" value="Assign Enquiries" class="redBtn btn" (click)="bulkAssignEnquiries()">
+                  <input type="button" value="Assign Enquiries" class="fullBlue btn" (click)="bulkAssignEnquiries()">
                 </aside>
               </div>
             </div>
@@ -861,7 +857,7 @@
                         <div class="c-lg-4 c-sm-4 c-md-4 c-xs-4 pull-right">
                           <aside class="pull-left create-cancel-small">
                             <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()">
-                            <input type="button" class="btn redBtn" value="Save SMS" (click)="addNewSmsTemplate()">
+                            <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()">
                           </aside>
                         </div>
 
@@ -1003,9 +999,9 @@
                     <div class="clearfix">
                       <aside class="popup-btn">
                         <input type="button" value="Cancel Edit" class="btn" *ngIf="smsBtnToggle" (click)="cancelSmsEdit()">
-                        <input type="button" value="Save Template" class="redBtn btn" *ngIf="smsBtnToggle" (click)="saveEditedSms()">
+                        <input type="button" value="Save Template" class="fullBlue btn" *ngIf="smsBtnToggle" (click)="saveEditedSms()">
                         <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closePopup()">
-                        <input type="button" value="Send SMS" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
+                        <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
                       </aside>
                     </div>
                   </div>
@@ -1080,7 +1076,7 @@
                         <div class="c-lg-4 c-sm-4 c-md-4 c-xs-4 pull-right">
                           <aside class="pull-left create-cancel-small">
                             <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()">
-                            <input type="button" class="btn redBtn" value="Save SMS" (click)="addNewSmsTemplate()">
+                            <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()">
                           </aside>
                         </div>
 
@@ -1221,9 +1217,9 @@
                     <div class="clearfix">
                       <aside class="popup-btn">
                         <input type="button" value="Cancel" class="btn" *ngIf="smsBtnToggle" (click)="cancelSmsEdit()">
-                        <input type="button" value="Save" class="redBtn btn" *ngIf="smsBtnToggle" (click)="saveEditedSms()">
+                        <input type="button" value="Save" class="fullBlue btn" *ngIf="smsBtnToggle" (click)="saveEditedSms()">
                         <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closeBulkSms()">
-                        <input type="button" value="Send SMS" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
+                        <input type="button" value="Send SMS" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
                       </aside>
                     </div>
                   </div>

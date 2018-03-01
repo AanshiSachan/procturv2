@@ -1296,6 +1296,10 @@ select.form-new-field {
     vertical-align: middle;
 }
 
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+}
+
 .view-icon {
     background: url('/./assets/images/view_details.svg') no-repeat;
     width: 13px;

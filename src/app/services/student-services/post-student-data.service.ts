@@ -194,6 +194,21 @@ export class PostStudentDataService {
         )
     }
 
+    generateFeeReceipt(id, feeid): Observable<any>{
+
+        let url = this.baseUrl +"/api/v1/studentWise/fee/" +id +"/feeReceipt/" +feeid +"/download?emailSent=Y";
+
+        return this.http.get(url, {headers: this.headers}).map( 
+            res => {
+                console.log(res);
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
 }
 
 

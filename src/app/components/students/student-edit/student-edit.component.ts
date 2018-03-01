@@ -2450,7 +2450,18 @@ export class StudentEditComponent implements OnInit {
       obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
       this.postService.allocateStudentFees(obj).subscribe(
         res => {
-          this.studentAddedNotifier();
+          if (this.genPdcAck || this.sendPdcAck) {
+            let feeid = res.generated_id;
+            this.postService.generateFeeReceipt(id, feeid).subscribe(
+              res => {
+                this.studentAddedNotifier();
+              },
+              err => {}
+            );          
+          }
+          else {
+            this.studentAddedNotifier();
+          }
         },
         err => { }
       );
@@ -3021,6 +3032,9 @@ export class StudentEditComponent implements OnInit {
     this.studentServerImage = e;
   }
 
+  printFee(){
+    window.print()
+  }
 
 
   feePdcSelected(obj) {

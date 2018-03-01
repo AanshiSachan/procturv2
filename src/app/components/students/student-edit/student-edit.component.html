@@ -372,9 +372,9 @@
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
             <input type="button" id="form-continue" [disabled]="!values.form.valid" [class.hide]="quickAddStudent" value="Save and Continue"
-              class="btn redBtn" (click)="navigateTo('kyc')">
+              class="btn fullBlue" (click)="navigateTo('kyc')">
             <input type="button" id="form-submit" [disabled]="!values.form.valid" [class.hide]="!quickAddStudent" (click)="studentQuickAdder(values)"
-              value="Submit" class="btn hide redBtn">
+              value="Submit" class="btn hide fullBlue">
           </aside>
         </section>
 
@@ -480,10 +480,10 @@
           </aside>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
-            <input type="button" id="form-kyc-continue" [disabled]="!values.form.valid" value="Save and Continue" class="btn redBtn"
+            <input type="button" id="form-kyc-continue" [disabled]="!values.form.valid" value="Save and Continue" class="btn fullBlue"
               [class.hide]="quickAddStudent" (click)="navigateTo('feeDetails')">
             <input type="button" id="form-kyc-submit" [disabled]="!values.form.valid" (click)="studentQuickAdder(values)" value="Submit"
-              [class.hide]="!quickAddStudent" class="btn hide redBtn">
+              [class.hide]="!quickAddStudent" class="btn hide fullBlue">
           </aside>
         </section>
       </section>
@@ -542,7 +542,7 @@
         </section>
 
         <!--====================================middle <Main> section==========================-->
-        <section class="middle-main clearFix">
+        <section id="printView" class="middle-main clearFix">
           <!-- Colored Tabs here -->
           <div class="fee-summary">
             <ul>
@@ -601,8 +601,9 @@
                   <h2>Fee Details</h2>
                 </div>
                 <div class="pull-right c-xs-4 c-sm-4">
-                  <ul class="export-print align-right">
-                    <li (click)="window.print()" class="print-icon">
+                  <ul style="width: 60px;float: right;" class="export-print align-right">
+                    <li style="cursor:pointer" (click)="printFee()" class="print-icon">
+                      
                       Print
                     </li>
                   </ul>
@@ -681,11 +682,11 @@
             <div class="" *ngIf="!isPaymentDetailsValid">
               <input type="button" *ngIf="totalFeePaid != 0" value="Update and Continue" (click)="openPaymentDetails($event)" class="btn fullBlue">
               <input type="button" *ngIf="totalFeePaid != 0" value="Update and Exit" (click)="openPaymentDetailsAndExit($event)" class="btn fullBlue">
-              <input type="button" value="Save and Continue" (click)="navigateTo('inventory')" class="btn redBtn">
+              <input type="button" value="Save and Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
             </div>
 
             <div class="" *ngIf="isPaymentDetailsValid">
-              <input type="button" value="Continue" (click)="navigateTo('inventory')" class="btn redBtn">
+              <input type="button" value="Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
             </div>
           </aside>
         </section>
@@ -771,8 +772,8 @@
             </div>
             <aside class="pull-right">
               <input type="button" (click)="cancelStudentUpload()" value="Cancel" class="btn cancle">
-              <input type="button" value="Update Inventory and Exit" (click)="updateStudentAllocatedInventory()" class="btn redBtn">
-              <input type="button" value="Submit" (click)="addNewStudentFullView()" class="btn redBtn">
+              <input type="button" value="Update Inventory and Exit" (click)="updateStudentAllocatedInventory()" class="btn fullBlue">
+              <input type="button" value="Submit" (click)="addNewStudentFullView()" class="btn fullBlue">
             </aside>
           </section>
         </aside>
@@ -829,7 +830,7 @@
           <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-right">
             <aside class="pull-right">
               <input type="button" value="Cancel" class="btn" (click)="closeAddInstitute()">
-              <input type="button" value="Create" class="redBtn btn" (click)="addInstituteData()">
+              <input type="button" value="Create" class="fullBlue btn" (click)="addInstituteData()">
             </aside>
           </div>
 
@@ -960,7 +961,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeBatchAssign()">
-          <input type="button" value="Assign" class="redBtn btn" (click)="assignBatch()">
+          <input type="button" value="Assign" class="fullBlue btn" (click)="assignBatch()">
         </aside>
       </div>
     </div>
@@ -1014,7 +1015,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="isDuplicateContactClose()">
-          <input type="button" value="Ok" class="redBtn btn" [disabled]="!semail.form.valid" (click)="registerDuplicateStudent(semail)">
+          <input type="button" value="Ok" class="fullBlue btn" [disabled]="!semail.form.valid" (click)="registerDuplicateStudent(semail)">
         </aside>
       </div>
     </div>
@@ -1068,7 +1069,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeConfigureFees($event)">
-          <input type="button" value="Apply" (click)="applyConfiguredFees($event)" class="redBtn btn">
+          <input type="button" value="Apply" (click)="applyConfiguredFees($event)" class="fullBlue btn">
         </aside>
       </div>
     </div>
@@ -1191,23 +1192,22 @@
             </div>
 
           </div>
-
-          <div class="row" style="margin-top: 10px;" *ngIf="isPdcFeePaymentSelected">
-            <div class="c-lg-6 c-md-6 c-sm-6">
-              <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
-                <label for="isGenPdc">Generate Acknowledgement</label>
-              </div>
-            </div>
-            <div class="c-lg-6 c-md-6 c-sm-6">
-              <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
-                <label for="emailPdc">Send Email Acknowledgement</label>
-              </div>
-            </div>
-          </div>
-
         </fieldset>
+      </div>
+
+      <div class="row" style="margin-top: 10px;">
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
+            <label for="isGenPdc">Generate Acknowledgement</label>
+          </div>
+        </div>
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
+            <label for="emailPdc">Send Email Acknowledgement</label>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -1216,7 +1216,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closePaymentDetails()">
-          <input type="button" value="Apply" (click)="validatePaymentDetails($event)" class="redBtn btn">
+          <input type="button" value="Apply" (click)="validatePaymentDetails($event)" class="fullBlue btn">
         </aside>
       </div>
     </div>
@@ -1438,7 +1438,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeAllFeePops()">
-          <input type="button" value="Apply" (click)="createCustomFeeSchedule()" class="redBtn btn">
+          <input type="button" value="Apply" (click)="createCustomFeeSchedule()" class="fullBlue btn">
         </aside>
       </div>
     </div>
@@ -1514,7 +1514,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeDiscountApply()">
-          <input type="button" value="Apply" (click)="applyDiscount()" class="redBtn btn">
+          <input type="button" value="Apply" (click)="applyDiscount()" class="fullBlue btn">
         </aside>
       </div>
     </div>
@@ -1594,7 +1594,7 @@
                           </div>
                         </td>
                         <td>
-                          <button (click)="addNewPDCState()" class="redBtn btn">
+                          <button (click)="addNewPDCState()" class="fullBlue btn">
                             <i style="font-family: FontAwesome;" class="fa fa-plus" aria-hidden="true"></i>
                           </button>
                         </td>
@@ -1637,7 +1637,7 @@
                   </div>
                 </aside>
                 <aside class="pull-right popup-btn">
-                  <input type="button" value="Save" (click)="addPdcDataToServer()" class="redBtn btn">
+                  <input type="button" value="Save" (click)="addPdcDataToServer()" class="fullBlue btn">
                 </aside>
               </div>
             </div>
@@ -1676,7 +1676,7 @@
                 </div>
               </div>
               <div class="c-lg-3 c-md-3 c-sm-3">
-                <input type="button" value="Search" (click)="getPdcChequeList()" class="redBtn btn">
+                <input type="button" value="Search" (click)="getPdcChequeList()" class="fullBlue btn">
               </div>
             </div>
             <div class="row pdcList">
@@ -1792,8 +1792,8 @@
     <div class="" popup-footer>
       <div class="clearfix">
         <aside class="pull-left popup-btn" *ngIf="pdcSelectedArr.length">
-          <input type="button" value="Generate Acknowledgement" (click)="generateAck()" class="redBtn btn">
-          <input type="button" value="Send Acknowledgement" (click)="sendAck()" class="redBtn btn">
+          <input type="button" value="Generate Acknowledgement" (click)="generateAck()" class="fullBlue btn">
+          <input type="button" value="Send Acknowledgement" (click)="sendAck()" class="btn">
         </aside>
       </div>
     </div>
