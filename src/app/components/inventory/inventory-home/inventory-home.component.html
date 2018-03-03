@@ -1,3 +1,6 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
 <section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
   <div class="boxPadding15">
     <aside class="middle-full row">
@@ -32,7 +35,7 @@
 
         <!-- Enquiry DataTable -->
 
-        <div class="table table-responsive enquiry-table">
+        <div class="table table-responsive enquiry-table" #ActionInv>
           <table id="item-Table" class="align-center">
             <thead>
               <tr id="table-header" class="displayComp">
@@ -78,14 +81,6 @@
                   </label>
                 </th>
 
-                <th></th>
-
-                <th>
-                  <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.success_count.title)">{{header.edit.title}}</a>
-                  </label>
-                </th>
-
                 <th>
                   <label>
                     <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.total_count.title)">{{header.cost.title}}</a>
@@ -98,12 +93,19 @@
                   </label>
                 </th>
 
+                <th>
+                  Manage Unit
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.success_count.title)">{{header.edit.title}}</a>
+                  </label>
+                </th>
+
               </tr>
             </thead>
-
-
             <tbody class="" *ngIf="itemList.length != 0">
-
               <tr id="row{{i}}" class="displayComp" *ngFor="let row of itemList; let i = index; trackBy: i;">
 
                 <td class="view-comp">
@@ -142,16 +144,6 @@
                 <td>
                   {{row.standard_name}}
                 </td>
-                <!-- <td class="edit-comp">
-                        <div class="field-wrapper">
-                          <select id="" class="form-ctrl" name="row.standard_id" [(ngModel)]="row.standard_id">
-                            <option *ngFor="let opt of masterCategoryList" [value]="opt.standard_id">
-                              {{opt.standard_name}}
-                            </option>
-                          </select>
-                        </div>
-                      </td> -->
-
                 <td>
                   {{row.subject_name}}
                 </td>
@@ -159,9 +151,24 @@
                 <td>
                   {{row.alloted_units}}
                 </td>
-
                 <td>
                   {{row.available_units}}
+                </td>
+
+                <td class="view-comp">
+                  <div class="field-wrapper">
+                    {{row.unit_cost}}
+                  </div>
+                </td>
+                <td class="edit-comp editCellAllignment">
+                  <div class="field-wrapper">
+                    <input type="number" class="form-ctrl" [(ngModel)]="row.unit_cost" name="label">
+                  </div>
+                </td>
+
+
+                <td *ngIf="showAllocateOption">
+                  <a (click)="allocateQuantityToSubBranches(row)" style="cursor:pointer;">Allocate</a>
                 </td>
 
                 <td class="view-comp">
@@ -183,17 +190,13 @@
                     </div>
                   </div>
                 </td>
-
                 <td class="edit-comp" *ngIf="!isAddUnit">
-
                 </td>
-
                 <td class="edit-comp" *ngIf="isAddUnit">
                   <div class="field-wrapper">
                     <input type="number" class="form-ctrl" [(ngModel)]="row.unit_cost" name="label">
                   </div>
                 </td>
-
                 <td class="table-action edit-comp">
                   <a style="cursor:pointer ; margin-right:10px" (click)="updateRow(row , i)">
                     <i class="far fa fa-save" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i>
@@ -202,128 +205,111 @@
                     <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
                   </a>
                 </td>
-
                 <td class="enquiry-action table-action view-comp">
                   <div>
-                    <span class="action-icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9082 373 17 21">
-                        <g id="Group_1226" data-name="Group 1226" transform="translate(8100 -6)">
-                          <rect id="Rectangle_693" data-name="Rectangle 693" class="cls-1" width="17" height="21" transform="translate(982 379)" />
-                          <path id="Path_192" data-name="Path 192" class="cls-2" d="M10.915,10.841,11.992,2.9,2.3,12.959H7.685L6.608,20.9,16.3,10.841Z"
-                            transform="translate(981.2 377.6)" />
-                        </g>
-                      </svg>
-                    </span>
-                    <div class="action-menu">
-                      <div class="action-menu-inner">
-                        <ul>
-                          <li class="edit-detail-icon listClasses" (click)="editRow(i,row.item_id)">
-                            <i class="imageContent">
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="11778 358 26 22">
+                    <button aria-expanded="true" class="dropdown-trigger" (click)="openMenu(i)">
+                      <span class="svg-icon-wrap">
+                        <span class="visually-hidden"></span>
+                        <div aria-hidden="true" type="ellipsis-horizontal-icon">
+                          <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+                            focusable="false">
+                            <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
+                          </svg>
+                        </div>
+                      </span>
+                    </button>
 
-                                <g id="Group_1234" data-name="Group 1234" transform="translate(10862 -6)">
-                                  <rect id="Rectangle_697" data-name="Rectangle 697" class="cls-1" width="26" height="22" transform="translate(916 364)" />
-                                  <g id="Group_1126" data-name="Group 1126" transform="translate(-0.478 -0.386)">
-                                    <path id="Path_215" data-name="Path 215" class="cls-2" d="M0,0H17.753" transform="translate(920.478 385.386)" />
-                                    <path id="Path_214" data-name="Path 214" class="cls-3" d="M8.492,16.068,3,17.621l1.553-5.492,10.6-10.6a1.877,1.877,0,0,1,2.718,0L19.089,2.7a1.877,1.877,0,0,1,0,2.718Z"
-                                      transform="translate(919.142 364.436)" />
-                                    <line id="Line_159" data-name="Line 159" class="cls-3" x1="3.883" y1="3.883" transform="translate(932.738 367.578)" />
-                                  </g>
-                                </g>
-                              </svg>
-
-                            </i>
-                            <span class="textContent">
-                              Edit
-                              <br> Details
-                            </span>
-                          </li>
-                          <li class="listClasses" *ngIf="row.is_delete" (click)="deleteRow(row, i)">
-                            <i class="imageContent">
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="11841 358 26 22">
-
-                                <g id="Group_1237" data-name="Group 1237" transform="translate(10862 -6)">
-                                  <rect id="Rectangle_698" data-name="Rectangle 698" class="cls-1" width="26" height="22" transform="translate(979 364)" />
-                                  <g id="Group_795" data-name="Group 795" transform="translate(981 365)">
-                                    <path id="Path_216" data-name="Path 216" class="cls-2" d="M20.294,6V20.706a2.36,2.36,0,0,1-2.353,2.353H7.353A2.36,2.36,0,0,1,5,20.706V6"
-                                      transform="translate(-2.059 -3.059)" />
-                                    <line id="Line_160" data-name="Line 160" class="cls-2" x2="21.176" transform="translate(0 2.941)" />
-                                    <path id="Path_217" data-name="Path 217" class="cls-2" d="M19.059,3.941H12V2.176A1.18,1.18,0,0,1,13.176,1h4.706a1.18,1.18,0,0,1,1.176,1.176Z"
-                                      transform="translate(-4.941 -1)" />
-                                    <line id="Line_161" data-name="Line 161" class="cls-2" y2="11.176" transform="translate(10.588 5.882)" />
-                                    <line id="Line_162" data-name="Line 162" class="cls-2" y2="11.176" transform="translate(14.118 5.882)" />
-                                    <line id="Line_163" data-name="Line 163" class="cls-2" y2="11.176" transform="translate(7.059 5.882)" />
-                                  </g>
-                                </g>
-                              </svg>
-                            </i>
-                            <span class="textContent">
-                              Delete
-                              <br>Entry
-                            </span>
-                          </li>
-                          <li class="listClasses" (click)="allocationDetails(row , i)">
-                            <i class="imageContent">
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="11966 358 26 22">
-                                <g id="Group_1236" data-name="Group 1236" transform="translate(10862 -6)">
-                                  <rect id="Rectangle_700" data-name="Rectangle 700" class="cls-1" width="26" height="22" transform="translate(1104 364)" />
-                                  <g id="Group_946" data-name="Group 946" transform="translate(1128 368) rotate(90)">
-                                    <g id="Group_1233" data-name="Group 1233">
-                                      <path id="Path_239" data-name="Path 239" class="cls-2" d="M17,38.4v-.755s1.277-.83,1.277-1.887V35" transform="translate(-9.191 -21.169)"
-                                      />
-                                      <path id="Path_240" data-name="Path 240" class="cls-2" d="M4.553,22l-1.7,1.132c-.6.491-.851.755-.851,1.51V30.3" transform="translate(-0.574 -13.075)"
-                                      />
-                                      <path id="Path_241" data-name="Path 241" class="cls-2" d="M1,47.773V44H8.66v3.773" transform="translate(0 -26.773)" />
-                                      <path id="Path_242" data-name="Path 242" class="cls-2" d="M8,11.944V1h8.936V13.831H10.553" transform="translate(-4.021)"
-                                      />
-                                      <path id="Path_243" data-name="Path 243" class="cls-2" d="M14.553,14.812h1.7a1.189,1.189,0,0,1,1.277-1.132V6.132A1.189,1.189,0,0,1,16.255,5H13.277A1.189,1.189,0,0,1,12,6.132v5.661"
-                                        transform="translate(-6.319 -2.49)" />
-                                      <ellipse id="Ellipse_21" data-name="Ellipse 21" class="cls-2" cx="1.489" cy="1.321" rx="1.489" ry="1.321" transform="translate(6.957 5.906)"
-                                      />
-                                      <path id="Path_244" data-name="Path 244" class="cls-2" d="M6,26.762l3.4-3.019c.766-.679,2,1.019,1.064,2.076L9.4,26.762v1.132A1.534,1.534,0,0,1,7.7,29.4"
-                                        transform="translate(-2.872 -14.063)" />
+                    <div id="menuList{{i}}" class="dd-list-container hide">
+                      <div class="dropdown-list">
+                        <div class="dd-list-inner">
+                          <ul class="actions-menu">
+                            <li class="action-item " (click)="editRow(i,row.item_id)">
+                              <i class="imageContent">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="11778 358 26 22">
+                                  <g id="Group_1234" data-name="Group 1234" transform="translate(10862 -6)">
+                                    <rect id="Rectangle_697" data-name="Rectangle 697" class="cls-1" width="26" height="22" transform="translate(916 364)" />
+                                    <g id="Group_1126" data-name="Group 1126" transform="translate(-0.478 -0.386)">
+                                      <path id="Path_215" data-name="Path 215" class="cls-2" d="M0,0H17.753" transform="translate(920.478 385.386)" />
+                                      <path id="Path_214" data-name="Path 214" class="cls-3" d="M8.492,16.068,3,17.621l1.553-5.492,10.6-10.6a1.877,1.877,0,0,1,2.718,0L19.089,2.7a1.877,1.877,0,0,1,0,2.718Z"
+                                        transform="translate(919.142 364.436)" />
+                                      <line id="Line_159" data-name="Line 159" class="cls-3" x1="3.883" y1="3.883" transform="translate(932.738 367.578)" />
                                     </g>
                                   </g>
-                                </g>
-                              </svg>
-                            </i>
-                            <span class="textContent">
-                              Allocation
-                              <br> History
-                            </span>
-                          </li>
-                        </ul>
+                                </svg>
+                              </i>
+                              <span class="textContent">
+                                Edit Details
+                              </span>
+                            </li>
+                            <li class="action-item" *ngIf="row.is_delete" (click)="deleteRow(row, i)">
+                              <i class="imageContent">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="11841 358 26 22">
+
+                                  <g id="Group_1237" data-name="Group 1237" transform="translate(10862 -6)">
+                                    <rect id="Rectangle_698" data-name="Rectangle 698" class="cls-1" width="26" height="22" transform="translate(979 364)" />
+                                    <g id="Group_795" data-name="Group 795" transform="translate(981 365)">
+                                      <path id="Path_216" data-name="Path 216" class="cls-2" d="M20.294,6V20.706a2.36,2.36,0,0,1-2.353,2.353H7.353A2.36,2.36,0,0,1,5,20.706V6"
+                                        transform="translate(-2.059 -3.059)" />
+                                      <line id="Line_160" data-name="Line 160" class="cls-2" x2="21.176" transform="translate(0 2.941)" />
+                                      <path id="Path_217" data-name="Path 217" class="cls-2" d="M19.059,3.941H12V2.176A1.18,1.18,0,0,1,13.176,1h4.706a1.18,1.18,0,0,1,1.176,1.176Z"
+                                        transform="translate(-4.941 -1)" />
+                                      <line id="Line_161" data-name="Line 161" class="cls-2" y2="11.176" transform="translate(10.588 5.882)" />
+                                      <line id="Line_162" data-name="Line 162" class="cls-2" y2="11.176" transform="translate(14.118 5.882)" />
+                                      <line id="Line_163" data-name="Line 163" class="cls-2" y2="11.176" transform="translate(7.059 5.882)" />
+                                    </g>
+                                  </g>
+                                </svg>
+                              </i>
+                              <span class="textContent">
+                                Delete Entry
+                              </span>
+                            </li>
+                            <li class="action-item" (click)="allocationDetails(row , i)">
+                              <i class="imageContent">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="11966 358 26 22">
+                                  <g id="Group_1236" data-name="Group 1236" transform="translate(10862 -6)">
+                                    <rect id="Rectangle_700" data-name="Rectangle 700" class="cls-1" width="26" height="22" transform="translate(1104 364)" />
+                                    <g id="Group_946" data-name="Group 946" transform="translate(1128 368) rotate(90)">
+                                      <g id="Group_1233" data-name="Group 1233">
+                                        <path id="Path_239" data-name="Path 239" class="cls-2" d="M17,38.4v-.755s1.277-.83,1.277-1.887V35" transform="translate(-9.191 -21.169)"
+                                        />
+                                        <path id="Path_240" data-name="Path 240" class="cls-2" d="M4.553,22l-1.7,1.132c-.6.491-.851.755-.851,1.51V30.3" transform="translate(-0.574 -13.075)"
+                                        />
+                                        <path id="Path_241" data-name="Path 241" class="cls-2" d="M1,47.773V44H8.66v3.773" transform="translate(0 -26.773)" />
+                                        <path id="Path_242" data-name="Path 242" class="cls-2" d="M8,11.944V1h8.936V13.831H10.553" transform="translate(-4.021)"
+                                        />
+                                        <path id="Path_243" data-name="Path 243" class="cls-2" d="M14.553,14.812h1.7a1.189,1.189,0,0,1,1.277-1.132V6.132A1.189,1.189,0,0,1,16.255,5H13.277A1.189,1.189,0,0,1,12,6.132v5.661"
+                                          transform="translate(-6.319 -2.49)" />
+                                        <ellipse id="Ellipse_21" data-name="Ellipse 21" class="cls-2" cx="1.489" cy="1.321" rx="1.489" ry="1.321" transform="translate(6.957 5.906)"
+                                        />
+                                        <path id="Path_244" data-name="Path 244" class="cls-2" d="M6,26.762l3.4-3.019c.766-.679,2,1.019,1.064,2.076L9.4,26.762v1.132A1.534,1.534,0,0,1,7.7,29.4"
+                                          transform="translate(-2.872 -14.063)" />
+                                      </g>
+                                    </g>
+                                  </g>
+                                </svg>
+                              </i>
+                              <span class="textContent">
+                                Allocation History
+                              </span>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
-
                     </div>
-                  </div>
-                </td>
 
-                <td class="view-comp">
-                  <div class="field-wrapper">
-                    {{row.unit_cost}}
                   </div>
-                </td>
-                <td class="edit-comp editCellAllignment">
-                  <div class="field-wrapper">
-                    <input type="number" class="form-ctrl" [(ngModel)]="row.unit_cost" name="label">
-                  </div>
-                </td>
-
-
-                <td *ngIf="showAllocateOption">
-                  <a (click)="allocateQuantityToSubBranches(row)" style="cursor:pointer;">Allocate</a>
                 </td>
 
               </tr>
-              <tr *ngIf="itemList.length == 0">
+            </tbody>
+            <tbody *ngIf="itemList.length == 0">
+              <tr>
                 <td colspan="10" style="text-align: center">
                   No Data Found
                 </td>
               </tr>
             </tbody>
-
-
           </table>
         </div>
 
@@ -340,6 +326,7 @@
     </aside>
   </div>
 </section>
+
 <!-- Delete PopUp -->
 <!-- =============================================================================== -->
 <section id="popup" class="popupWrapper fadeIn" *ngIf="deleteItemPopUp">

@@ -37,7 +37,9 @@ export class ScheduleHomeComponent implements OnInit {
   constructor(
     private apiService: StandardServices,
     private toastCtrl: AppComponent
-  ) { }
+  ) { 
+    
+  }
 
   ngOnInit() {
     this.checkInstituteType();

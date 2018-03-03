@@ -232,7 +232,7 @@
         padding: 10px;
         box-shadow: 0px 0px 10px rgb(22, 21, 21);
         ;
-        overflow-y: scroll;
+        overflow-y: auto;
         overflow-x: hidden;
     }
 }
@@ -282,7 +282,7 @@ screen and (max-height: 768px) {
 
 .table-scroll-wrapper {
     max-height: 400px;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: auto;
      ::-webkit-scrollbar {
         display: block;
@@ -1508,7 +1508,7 @@ ul.customDropdown li:hover {
         .enquiry-update-history {
             min-height: 370px;
             max-height: 400px;
-            overflow-y: scroll;
+            overflow-y: auto;
             overflow-x: hidden;
              ::-webkit-scrollbar {
                 display: block;
@@ -1848,7 +1848,7 @@ ul.customDropdown li:hover {
     z-index: 1;
     top: 100px;
     right: 0;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     transition: 0.1s;
      ::-webkit-scrollbar {
@@ -1859,7 +1859,7 @@ ul.customDropdown li:hover {
 }
 
 .sidenav a {
-    padding: 8px 8px 8px 32px;
+    padding: 0;
     text-decoration: none;
     font-size: 25px;
     color: #d60909;
@@ -1871,6 +1871,20 @@ ul.customDropdown li:hover {
 }
 
 .sidenav .closebtn {
+    right: 20px;
+    left: 85%;
+    width:30px;
+    text-align: right;
+    top: 0px;
+    font-size: 20px;
+    font-weight: 900;
+    position: absolute;
+    cursor: pointer;
+    z-index: 100;
+    margin-right: 0px;
+}
+
+/* .sidenav .closebtn {
     position: absolute;
     left: 80%;
     font-size: 16px;
@@ -1878,7 +1892,7 @@ ul.customDropdown li:hover {
     position: absolute;
     top: 0px;
     margin-right: 50px;
-}
+} */
 
 #main {
     transition: margin-right .5s;

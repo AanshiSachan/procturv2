@@ -125,7 +125,7 @@
     z-index: 1;
     top: 100px;
     right: 0;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden; //transition: 0.1s;
 }
 
@@ -500,7 +500,7 @@ screen and (max-height: 768px) {
 
 .table-scroll-wrapper {
     max-height: 400px;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: auto;
      ::-webkit-scrollbar {
         display: block;

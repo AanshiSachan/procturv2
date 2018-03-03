@@ -64,7 +64,7 @@ export class CourseComponent implements OnInit {
     setTimeout(() => {
       document.getElementById('liStandard').classList.remove('active');
       document.getElementById('liSubject').classList.remove('active');
-      document.getElementById('liExam').classList.remove('active');
+      //document.getElementById('liExam').classList.remove('active');
       document.getElementById('liClass').classList.remove('active');
       if (this.isLangInstitue) {
         document.getElementById('liManageBatch').classList.remove('active');

@@ -54,6 +54,8 @@ export class HomeComponent implements OnInit {
   itemName;
   searchData: any = [];
   searchDataFlag: boolean = false;
+  isRippleLoad:boolean = false;
+  private showMenu: boolean = false;
 
   header: any = {
     inventory_item: { id: 'inventory_item', title: 'Inventory Item', filter: false, show: true },
@@ -69,7 +71,6 @@ export class HomeComponent implements OnInit {
 
   };
 
-  busy: Subscription;
   subtractFlag: boolean = false;
 
   constructor(
@@ -77,6 +78,8 @@ export class HomeComponent implements OnInit {
     private fb: FormBuilder
   ) {
   }
+
+  @ViewChild('ActionInv') ActionInv: ElementRef;
 
   ngOnInit() {
     this.checkMainBranchOrSubBranch()
@@ -97,14 +100,17 @@ export class HomeComponent implements OnInit {
 
   loadTableDatatoSource() {
     this.itemList = [];
+    this.isRippleLoad = true;
     this.inventoryApi.fetchAllItems().subscribe(
       data => {
+        this.isRippleLoad = false;
         this.totalRow = data.length;
         this.itemTableDatasource = data;
         this.fetchTableDataByPage(this.PageIndex);
         this.selectedRow = "";
       },
       error => {
+        this.isRippleLoad = false;
         console.log(error);
       }
     )
@@ -112,28 +118,35 @@ export class HomeComponent implements OnInit {
   }
 
   loadItemCategories() {
+    this.isRippleLoad = true;
     this.inventoryApi.fetchAllCategories().subscribe(
       data => {
+        this.isRippleLoad = false;
         this.categoryList = data;
       },
       error => {
+        this.isRippleLoad = false;
         console.log(error)
       }
     )
   }
 
   loadItemCategoryMaster() {
+    this.isRippleLoad = true;
     this.inventoryApi.fetchAllMasterCategoryItem().subscribe(
       data => {
+        this.isRippleLoad = false;
         this.masterCategoryList = data;
       },
       error => {
+        this.isRippleLoad = false;
         console.log(error);
       }
     )
   }
 
   editRow(row_no, item_id) {
+    console.log(row_no)
     this.isAddUnit = false;
     if (this.selectedRow !== "") {
       console.log(this.selectedRow);
@@ -177,12 +190,15 @@ export class HomeComponent implements OnInit {
       } else {
         data.units_added = row.units_added;
       }
+      this.isRippleLoad = true;
       this.inventoryApi.addQuantityInStock(data).subscribe(
         data => {
+          this.isRippleLoad = false;
           this.loadTableDatatoSource();
           this.subtractFlag = false;
         },
         error => {
+          this.isRippleLoad = false;
           this.subtractFlag = false;
           this.loadTableDatatoSource();
           console.log('Add Stock Error', error);
@@ -209,14 +225,17 @@ export class HomeComponent implements OnInit {
       subject_id: row.subject_id.toString(),
       unit_cost: row.unit_cost.toString()
     };
+    this.isRippleLoad = true;
     this.inventoryApi.updateInventoryItem(postdata).subscribe(
       data => {
+        this.isRippleLoad = false;
         this.loadTableDatatoSource();
         this.categoryList = data;
         document.getElementById(("row" + i).toString()).classList.add('displayComp');
         document.getElementById(("row" + i).toString()).classList.remove('editComp');
       },
       error => {
+        this.isRippleLoad = false;
         console.log(error);
       }
     )
@@ -232,12 +251,15 @@ export class HomeComponent implements OnInit {
   }
 
   deleteStudent() {
+    this.isRippleLoad = true;
     this.inventoryApi.deleteRowFromItem(this.deleteRowDetails.item_id).subscribe(
       data => {
+        this.isRippleLoad = false;
         this.loadTableDatatoSource();
         this.deleteItemPopUp = false;
       },
       error => {
+        this.isRippleLoad = false;
         console.log(error);
       }
     )
@@ -245,13 +267,17 @@ export class HomeComponent implements OnInit {
 
 
   allocationDetails(row, i) {
+    console.log(i); 
     this.itemName = row.item_name;
+    this.isRippleLoad = true;
     this.inventoryApi.getInventoryItemHistory(row.item_id).subscribe(
       data => {
+        this.isRippleLoad = false;
         this.showAllocationHistoryPopUp = true;
         this.allocationHistoryList = data;
       },
       error => {
+        this.isRippleLoad = false;
         console.log(error);
       }
     )
@@ -339,12 +365,15 @@ export class HomeComponent implements OnInit {
 
   masterCourseSelected() {
     let courseId = this.addItemForm.value.standardDet;
+    this.isRippleLoad = true;
     this.inventoryApi.getCourseOnBasisOfMasterCourse(courseId).subscribe(
       data => {
+        this.isRippleLoad = false;
         console.log('Change Event Triggered', data);
         this.courseList = data;
       },
       error => {
+        this.isRippleLoad = false;
         console.log("Error", error);
       }
     )
@@ -367,13 +396,16 @@ export class HomeComponent implements OnInit {
       data.subject_id = -1;
     }
     data.unit_cost = this.addItemForm.value.unit_cost.toString();
+    this.isRippleLoad = true;
     this.inventoryApi.addItemDetailsInCategory(data).subscribe(
       data => {
+        this.isRippleLoad = false;
         console.log(data);
         this.loadTableDatatoSource();
         this.createItemPopUp = false;
       },
       error => {
+        this.isRippleLoad = false;
         console.log("Error", error);
       }
     )
@@ -405,24 +437,30 @@ export class HomeComponent implements OnInit {
   }
 
   getItemInformation(rowId) {
+    this.isRippleLoad = true;
     this.inventoryApi.getItemDetailsForSubBranches(rowId).subscribe(
       data => {
+        this.isRippleLoad = false;
         console.log("getItemInfo", data);
         this.allocateItemDetails = data;
       },
       error => {
+        this.isRippleLoad = false;
         console.log(error);
       }
     )
   }
 
   getAllSubBranchesInformation() {
+    this.isRippleLoad = true;
     this.inventoryApi.getAllSubBranchesInfo().subscribe(
       data => {
+        this.isRippleLoad = false;
         this.subBranchList = data;
         console.log('All Branches', data);
       },
       error => {
+        this.isRippleLoad = false;
         console.log(error);
       }
     )
@@ -430,12 +468,15 @@ export class HomeComponent implements OnInit {
 
   onSubBranchSelection() {
     let data_id = this.allocateItemForm.value.sub_branch_id;
+    this.isRippleLoad = true;
     this.inventoryApi.getSubBranchItemInfo(data_id).subscribe(
       data => {
+        this.isRippleLoad = false;
         this.subBranchItemList = data;
         console.log('Sub Branch Selection', data);
       },
       error => {
+        this.isRippleLoad = false;
         console.log('Error', error);
       }
     )
@@ -450,6 +491,31 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
+  
+  /* open action menu on click */
+  openMenu(i) {
+    this.selectedRow = i;
+    console.log(i);
+    document.getElementById('menuList' +i).classList.toggle('hide');
+  }
+
+  /* close action menu on events  */
+  closeMenu() {
+    document.getElementById('menuList' +this.selectedRow).classList.add('hide');
+  }
+
+
+  @HostListener("document:click", ['$event'])
+  onWindowClick(event) {
+    if (this.ActionInv.nativeElement.contains(event.target)) {
+      console.log("clicked inside table");
+    } else {
+      document.getElementById('menuList' +this.selectedRow).classList.add('hide');
+      console.log("clicked outside table")
+    }
+  }
+
 
 
   allocateItemToBranches() {
