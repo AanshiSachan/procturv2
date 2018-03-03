@@ -25,28 +25,52 @@
         </div>
     </div>
 
-    <div class="row button-bar" style="padding-left: 25px;">
-        <div class="enq-act-main">
-            <a class="enq-act enq-act--one" (click)="emitEdit($event)">
-                <img src="./assets/images/edit_details.svg" height="10" width="20">
-                <div class="tooltip">Edit Student</div>
-            </a>
+    <div class="row">
 
-            <a class="enq-act enq-act--three">
-                <img src="./assets/images/delete_entry.svg" height="10" width="20" (click)="emitDelete($event)">
-                <div class="tooltip">Delete Student</div>
-            </a>
+        <button aria-expanded="true" class="dropdown-trigger" (click)="openMenu()">
+            <span class="svg-icon-wrap">
+                <span class="visually-hidden"></span>
+                <div aria-hidden="true" type="ellipsis-horizontal-icon">
+                    <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+                        focusable="false">
+                        <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
+                    </svg>
+                </div>
+            </span>
+        </button>
 
-            <a class="enq-act enq-act--four">
-                <img src="./assets/images/convert_student.svg" height="10" width="20">
-                <div class="tooltip">Mark Leave</div>
-            </a>
+        <div class="dd-list-container" *ngIf="showMenu">
+            <div class="dropdown-list">
+                <div class="dd-list-inner">
+                    <ul class="actions-menu">
 
-            <a class="enq-act enq-act--five">
-                <img src="./assets/images/reciept_preview.svg" height="10" width="20">
-                <div class="tooltip">Manage PDC</div>
-            </a>
+                        <li class="action-item" (click)="emitEdit($event)">
+                            <a class="">
+                                <img src="./assets/images/edit_details.svg" height="10" width="20">Edit Student
+                            </a>
+                        </li>
 
+                        <li class="action-item" (click)="emitDelete($event)">
+                            <a class="">
+                                <img src="./assets/images/delete_entry.svg" height="10" width="20">Delete Student
+                            </a>
+                        </li>
+
+                        <!-- <li class="action-item">
+                            <a class="enq-act enq-act--four">
+                                <img src="./assets/images/convert_student.svg" height="10" width="20">Mark Leave
+                            </a>
+                        </li> -->
+
+                        <!-- <li class="action-item">
+                            <a class="enq-act enq-act--five">
+                                <img src="./assets/images/reciept_preview.svg" height="10" width="20">Manage PDC
+                            </a>
+                        </li> -->
+
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 

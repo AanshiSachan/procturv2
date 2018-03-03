@@ -1842,7 +1842,7 @@ ul.customDropdown li:hover {
 
 .sidenav {
     //min-height: 480px;
-    max-height: 480px;
+    min-height: 400px;
     width: 0;
     position: absolute;
     z-index: 1;
@@ -1873,11 +1873,10 @@ ul.customDropdown li:hover {
 .sidenav .closebtn {
     position: absolute;
     left: 80%;
-    top: 10px;
     font-size: 16px;
     font-weight: 900;
     position: absolute;
-    top: 20px;
+    top: 0px;
     margin-right: 50px;
 }
 
@@ -1896,9 +1895,9 @@ ul.customDropdown li:hover {
 }
 
 .skeleton:empty {
-    margin: 30px 0px 0px -100px;
-    width: 500px;
-    height: 400px;
+    margin: 55px 0px 0px 0px;
+    width: 100%;
+    height: 300px;
     background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0.5) 20%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 20%, rgba(255, 255, 255, 0) 80%), linear-gradient(lightgray 10px, transparent 0), linear-gradient(lightgray 10px, transparent 0), linear-gradient(lightgray 10px, transparent 0), linear-gradient(lightgray 10px, transparent 0), linear-gradient(lightgray 10px, transparent 0), linear-gradient(lightgray 10px, transparent 0);
     background-repeat: repeat-y;
     background-size: 350px 200px, 350px 200px, 350px 200px, 350px 200px, 350px 200px, 350px 200px, 150px 200px, 150px 200px;

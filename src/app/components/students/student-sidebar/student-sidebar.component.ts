@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer2, HostListener } from '@angular/core';
 import { instituteInfo } from '../../../model/instituteinfo';
 
 
@@ -20,10 +20,10 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
 
   @ViewChild('imgDisp') im: ElementRef;
-
-  containerWidth:string = "70px";
-  studentServerImage:any = '';
-  readonly:boolean = true;
+  private showMenu: boolean = false;
+  containerWidth: string = "70px";
+  studentServerImage: any = '';
+  readonly: boolean = true;
 
   /* Model for institute Data for fetching student enquiry */
   currRow: instituteInfo = {
@@ -41,7 +41,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   };
 
 
-  constructor(private rend: Renderer2) { }
+  constructor(private rend: Renderer2, private eRef: ElementRef) { }
 
   ngOnInit() {
   }
@@ -72,19 +72,38 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   }
 
   fetchStudentDetails(ev) {
-    console.log(ev.photo);
-    if(ev.photo != '' || ev.photo != null){
+    // console.log(ev.photo);
+    if (ev.photo != '' || ev.photo != null) {
       this.studentServerImage = ev.photo;
     }
-    else{
+    else {
       this.studentServerImage = '';
     }
 
   }
 
 
-  getImageFile(f){
+  getImageFile(f) {
 
+  }
+
+  /* open action menu on click */
+  openMenu(ev) {
+    this.showMenu = !this.showMenu;
+  }
+
+  /* close action menu on events  */
+  closeMenu() {
+    this.showMenu = false;
+  }
+
+
+  @HostListener("document:click", ['$event'])
+  onWindowClick(event) {
+    if (this.eRef.nativeElement.contains(event.target)) {
+    } else {
+      this.showMenu = false;
+    }
   }
 
 

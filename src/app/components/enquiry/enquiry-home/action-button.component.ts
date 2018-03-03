@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, HostListener, ElementRef, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnChanges, HostListener, ElementRef, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2} from '@angular/core';
 import { ViewCell } from '../../../../assets/imported_modules/ng2-smart-table';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 import { Router } from '@angular/router';
@@ -24,7 +24,7 @@ export class ActionButtonComponent implements OnInit, OnChanges {
 
   @Output() eventSelected = new EventEmitter<string>();
 
-  constructor(private pops: PopupHandlerService, private router: Router, private cd: ChangeDetectorRef) { }
+  constructor(private pops: PopupHandlerService, private router: Router, private cd: ChangeDetectorRef, private renderer: Renderer2, private eRef: ElementRef) { }
 
   /* OnInit function to listen the changes in message value from service */
   ngOnInit() { }
@@ -81,6 +81,15 @@ export class ActionButtonComponent implements OnInit, OnChanges {
       else {
         this.hasStudentAccess = false;
       }
+    }
+  }
+
+
+  @HostListener("document:click", ['$event'])
+  onWindowClick(event) {
+    if(this.eRef.nativeElement.contains(event.target)) {
+    } else {
+      this.showMenu = false;
     }
   }
 
