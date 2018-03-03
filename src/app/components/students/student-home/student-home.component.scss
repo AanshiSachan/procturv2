@@ -22,14 +22,14 @@
         border-radius: 50%;
         .tooltip {
             position: relative;
-            top: -30px;
-            right: -30px;
-            min-width: 100px;
-            font-size: 12px;
-            padding: 6px;
-            height: 35px;
-            border-radius: 5px;
-            background: rgba(0, 0, 0, 0.541);
+            top: -20px;
+            right: 25px;
+            min-width: 80px;
+            font-size: 8px;
+            padding: 2px 0px 2px 18px;
+            height: auto;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.801);
             color: white;
             visibility: hidden;
             opacity: 0;
@@ -38,14 +38,14 @@
             background: rgb(216, 214, 214);
             .tooltip {
                 position: relative;
-                top: -30px;
-                right: 125px;
-                min-width: 111px;
-                padding: 7px 20px;
-                border-radius: 5px;
-                font-size: 11px;
-                height: 30px;
-                background: rgba(0, 0, 0, 0.541);
+                top: 8px;
+                right: 25px;
+                min-width: 80px;
+                padding: 2px 0px 2px 18px;
+                border-radius: 8px;
+                font-size: 8px;
+                height: auto;
+                background: rgba(0, 0, 0, 0.801);
                 color: white;
                 visibility: visible;
                 opacity: 1;
@@ -70,7 +70,7 @@
         ul {
             list-style: none;
             .export-icon {
-                background: url('../../../../assets/images/expand.svg') no-repeat;
+                background: url('/assets/images/expand.svg') no-repeat;
                 margin: 10px 0px 0px 2px;
                 background-size: 20px auto;
                 padding: 0px 0px 0px 25px;
@@ -82,7 +82,7 @@
                 }
             }
             .upload-icon {
-                background: url('../../../../assets/images/pdf_download.svg') no-repeat;
+                background: url('/assets/images/pdf_download.svg') no-repeat;
                 margin: 10px 0px 0px 2px;
                 background-size: 20px auto;
                 padding: 0px 0px 0px 25px;

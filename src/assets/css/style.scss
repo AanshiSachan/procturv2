@@ -20,29 +20,27 @@
 /* import header css*/
 
 @import "../css/wrapper";
-
-
 @font-face {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 700;
     src: local("Open Sans Bold"), local("OpenSans-Bold"), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff) format("woff");
 }
-  
+
 @font-face {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 300;
     src: local("Open Sans Light"), local("OpenSans-Light"), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format("woff");
 }
-  
+
 @font-face {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 600;
     src: local("Open Sans Semibold"), local("OpenSans-Semibold"), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff) format("woff");
 }
-  
+
 @font-face {
     font-family: 'Open Sans';
     font-style: normal;
@@ -396,6 +394,10 @@ table {
     .field-checkbox-wrapper .form-checkbox:checked+label:after,
     .field-checkbox-wrapper .form-checkbox:checked+label:before {
         border-color: green;
+        width: 12px;
+        height: 5px;
+        left: 2px;
+        top: 5px;
     }
     .accordian-section .accordian>li.data-filled .accordian-heading h4 {
         background: rgba(3, 93, 3, 0.29);
