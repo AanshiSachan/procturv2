@@ -508,7 +508,7 @@ export class AdminHomeComponent implements OnInit {
 
   getFeeAmount(id: String): number {
 
-    if (this.feeStat != null && this.feeStat != undefined) {
+    if (this.feeStat != null && this.feeStat != undefined && this.feeStat.length != 0) {
       if (id === 'total') {
         let totalFee = this.feeStat.map(student => student.student_total_fees).reduce((acc, val) => val + acc);
         return totalFee;

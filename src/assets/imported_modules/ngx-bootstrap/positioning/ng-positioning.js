@@ -96,7 +96,13 @@ var Positioning = (function () {
             bottom: hostElPosition.top + hostElPosition.height
         };
         var targetElBCR = targetElement.getBoundingClientRect();
-        var placementPrimary = placement.split(' ')[0] || 'top';
+        //var placementPrimary = placement.split(' ')[0] || 'top';
+        var calendarTriggerY = hostElement.getBoundingClientRect().bottom;
+        
+        var placementPrimary = 'bottom';
+        if(calendarTriggerY >= (screen.height/2)) {
+            var placementPrimary = 'top';
+        }
         var placementSecondary = placement.split(' ')[1] || 'center';
         var targetElPosition = {
             height: targetElBCR.height || targetElement.offsetHeight,

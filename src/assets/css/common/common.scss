@@ -539,7 +539,7 @@ h3 {
 .field-wrapper label {
     position: absolute;
     top: 22px;
-    font-size: 12px;
+    font-size: 14px;
     left: 0px;
     z-index: 1;
     transition: all 0.1s ease-in-out;
@@ -555,7 +555,7 @@ h3 {
 
 .field-wrapper.has-value .form-ctrl+label,
 .field-wrapper .form-ctrl:focus+label {
-    font-size: 8px;
+    font-size: 12px;
     top: 6px;
     left: 0px;
 }
@@ -563,7 +563,7 @@ h3 {
 .field-wrapper.has-value .form-ctrl+label,
 .field-wrapper .form-ctrl:focus+label {
     color: $common-blue;
-    font-size: 8px;
+    font-size: 12px;
 }
 
 

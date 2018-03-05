@@ -149,6 +149,7 @@ export class EnquiryBulkaddComponent implements OnInit {
 
   /* toggle visibility of tabular displayy of bulk data upload */
   bulkStatusReporter() {
+    this.fetchBulkUploadStatusData();
     this.isBulkUploadStatus = true;
   }
 

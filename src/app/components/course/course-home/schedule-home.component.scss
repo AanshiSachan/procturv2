@@ -297,15 +297,14 @@
     }
     .field-wrapper {
         margin-top: -10px;
-        label {
-            top: 25px;
-            font-size: 13px;
-            font-weight: 600;
+        .form-ctrl {
+            background: transparent;
+            border-bottom: solid 1px #cccccc;
+            z-index: 10;
         }
-    }
-    .form-ctrl {
-        background: transparent;
-        border-bottom: solid 1px #cccccc;
+        label {
+            z-index: 1;
+        }
     }
     p {
         margin-top: 5px;

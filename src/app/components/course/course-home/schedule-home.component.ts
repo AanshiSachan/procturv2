@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
@@ -33,6 +33,8 @@ export class ScheduleHomeComponent implements OnInit {
   dataStatus: number = 1;
   selectedRow: number;
   isLangInstitue: boolean = false;
+
+  @ViewChild('#StdName') standard_name_label : ElementRef
 
   constructor(
     private apiService: StandardServices,
@@ -187,6 +189,10 @@ export class ScheduleHomeComponent implements OnInit {
         console.log(error);
       }
     )
+  }
+
+  clickSN(){
+    document.getElementById('StdName').focus();
   }
 
   // pagination functions 
