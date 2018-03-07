@@ -12,6 +12,12 @@ import { CheckboxTableComponent } from './custom-checkbox-table/checkbox-table-l
 import { AppLoaderComponent } from './app-loader/app-loader.component';
 import { PictureCropComponent } from './img-cropper/picture-crop.component';
 
+/* Fixed Header Table declaration */
+import { RobTableComponent } from './ng-robTable/ng-robTable.component';
+import { RobTableCellPipe } from './ng-robTable/ng-robTable-format-cell.pipe';
+import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive';
+
+
 
 @NgModule({
     imports: [
@@ -20,9 +26,12 @@ import { PictureCropComponent } from './img-cropper/picture-crop.component';
     ],
     declarations: [
         TableLayoutComponent,
+        RobTableComponent,
         CheckboxTableComponent,
         FormatCellPipe,
+        RobTableCellPipe,
         StyleCellDirective,
+        RobTableCellDirective,
         PaginationComponent,
         ImageUploadComponent,
         QuickFilterComponent,
@@ -32,6 +41,7 @@ import { PictureCropComponent } from './img-cropper/picture-crop.component';
     exports: [
         CommonModule,
         TableLayoutComponent,
+        RobTableComponent,
         CheckboxTableComponent,
         PaginationComponent,
         ImageUploadComponent,

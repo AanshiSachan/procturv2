@@ -288,15 +288,15 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   EnquirySettings: ColumnSetting[] = [
     { primaryKey: 'enquiry_no', header: 'Enquiry No.' },
-    { primaryKey: 'enquiry_date', header: 'Enquiry Date.' },
+    //{ primaryKey: 'enquiry_date', header: 'Enquiry Date.' },
     { primaryKey: 'name', header: 'Name' },
     { primaryKey: 'phone', header: 'Contact No.' },
     { primaryKey: 'statusValue', header: 'Status' },
     { primaryKey: 'priority', header: 'Priority' },
-    { primaryKey: 'follow_type', header: 'Follow up Type' },
+    //{ primaryKey: 'follow_type', header: 'Follow up Type' },
     { primaryKey: 'followUpDateTime', header: 'Follow up Date' },
     { primaryKey: 'updateDate', header: 'Update Date' },
-    { primaryKey: 'assigned_name', header: 'Assigned To' }
+    //{ primaryKey: 'assigned_name', header: 'Assigned To' }
   ];
 
 
@@ -307,7 +307,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   };
 
   @ViewChild('skelton') skel: ElementRef;
-
+  @ViewChild('mySidenav') mySidenav: ElementRef;
+  @ViewChild('enqPage') enqPage: ElementRef;
+  @ViewChild('tablemain') tablemain: ElementRef;
+  @ViewChild('pager') pager: ElementRef;
+  
 
   /* =========================================================================== */
   /* ===================== Declaration Fin ===================================== */
@@ -3045,15 +3049,20 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /*  */
   sortTableById(id) {
+    //console.log(id);
+    if(id === 'name' || id === 'phone'){
+    
+    }
+    else{
     /* Custom server sided sorting */
     if (id == 'followUpDateTime') { id = 'followUpDate' }
     this.instituteData.sorted_by = id;
     this.currentDirection = this.currentDirection == 'desc' ? 'asc' : 'desc'
     this.instituteData.order_by = this.currentDirection;
-    console.log(this.statusString);
     this.instituteData.filtered_statuses = this.statusString.join(',');
     this.cd.markForCheck();
     this.busy = this.loadTableDatatoSource(this.instituteData);
+    }
   }
 
 
@@ -3238,11 +3247,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   openEnquiryFullDetails(id) {
     this.closeAdFilter();
-    document.getElementById("mySidenav").style.width = "30%";
-    document.getElementById("table-main").style.width = "70%";
-    document.getElementById("table-main").style.marginRight = "30%";
-    document.getElementById("pager").style.width = "70%";
-    document.getElementById("pager").style.marginRight = "30%";
+    this.mySidenav.nativeElement.style.width = "30%";
+    this.enqPage.nativeElement.style.width = "70%";
+    this.enqPage.nativeElement.style.marginRight = "30%";
     this.cd.markForCheck();
     this.prefill.fetchCustomComponentById(id).subscribe(
       res => {
@@ -3261,11 +3268,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   closeEnquiryFullDetails() {
     this.isSideBar = false;
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("table-main").style.width = "100%";
-    document.getElementById("table-main").style.marginRight = "0";
-    document.getElementById("pager").style.width = "100%";
-    document.getElementById("pager").style.marginRight = "0%";
+    this.mySidenav.nativeElement.style.width = "0";
+    this.enqPage.nativeElement.style.width = "100%";
+    this.enqPage.nativeElement.style.marginRight = "0";
   }
 
   /* =========================================================================== */

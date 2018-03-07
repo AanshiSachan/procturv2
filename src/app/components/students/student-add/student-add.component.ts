@@ -343,7 +343,7 @@ export class StudentAddComponent implements OnInit {
             assignDate: moment().format('YYYY-MM-DD')
           }
           this.batchList.push(obj);
-          console.log(this.batchList);
+          //console.log(this.batchList);
         });
       });
     }
@@ -586,6 +586,7 @@ export class StudentAddComponent implements OnInit {
       let customArr = [];
       this.customComponents.forEach(el => {
         if (el.value != '' && (typeof el.value != 'boolean')) {
+          //console.log(el.value +"case1");
           let obj = {
             component_id: el.id,
             enq_custom_id: "0",
@@ -594,6 +595,7 @@ export class StudentAddComponent implements OnInit {
           customArr.push(obj);
         }
         else if (el.value != '' && (typeof el.value == 'boolean')) {
+          console.log(el.value +"case2");
           if (el.value) {
             let obj = {
               component_id: el.id,
@@ -612,6 +614,7 @@ export class StudentAddComponent implements OnInit {
           }
         }
         else if (el.value == '' && (el.type == 2)) {
+          console.log(el.value +"case3");
           let obj = {
             component_id: el.id,
             enq_custom_id: "0",
@@ -622,7 +625,7 @@ export class StudentAddComponent implements OnInit {
       });
 
       /* Get slot data and store on form */
-      this.studentAddFormData.slot_id = this.selectedSlotsID;
+      /* this.studentAddFormData.slot_id = this.selectedSlotsID;
       this.studentAddFormData.stuCustomLi = customArr;
       this.studentAddFormData.photo = this.studentImage;
       this.additionalBasicDetails = false;
@@ -658,7 +661,7 @@ export class StudentAddComponent implements OnInit {
         err => {
           console.log(err);
         }
-      );
+      ); */
     }
     else {
       let alert = {

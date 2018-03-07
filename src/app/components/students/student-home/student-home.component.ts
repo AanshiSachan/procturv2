@@ -1145,9 +1145,11 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   sortTableById(id) {
     //console.log(id);
-    this.instituteData.sorted_by = id;
-    this.instituteData.order_by = this.getDirection();
-    this.busy = this.loadTableDataSource(this.instituteData);
+    if(id != 'noOfBatchesAssigned'){
+      this.instituteData.sorted_by = id;
+      this.instituteData.order_by = this.getDirection();
+      this.busy = this.loadTableDataSource(this.instituteData);
+    }
   }
 
 

@@ -1,6 +1,6 @@
 <div class="middle-section clearFix" id="enquiryList" #enquiryManager [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
   <!-- Main View -->
-  <aside class="middle-full">
+  <aside class="middle-full" #enqPage>
     <!-- Navigation to other tabs -->
     <section class="middle-top mb0 clearFix">
       <h1 class="pull-left">
@@ -9,21 +9,20 @@
 
       <aside class="headEnq pull-right">
         <p-splitButton label="{{selectedRowCount}} Enquiry Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton>
-        <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 8px;" class="btn" routerLink='add'>
+        <button style="" class="btn" routerLink='add'>
           <div class="option-wrap">
             <img src="./assets/images/plus.png" alt="addEnquiry">
-            <span class="tooltip">
-              Add Enquiry
-            </span>
           </div>
+          Add Enquiry
         </button>
-        <button style="margin:0px 20px 7px 0px;padding:0px 6px 3px 6px;" class="btn optEnq" (click)="isEnquiryOptions = !isEnquiryOptions">
+        <button style="" class="btn" (click)="isEnquiryOptions = !isEnquiryOptions">
           <div class="option-wrap">
-            <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon" focusable="false"><path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path></svg>
-            <span class="tooltip">
-              Options
-            </span>
+            <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+              focusable="false">
+              <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
+            </svg>
           </div>
+          More
         </button>
         <div class="enq-dropdown-content" *ngIf="isEnquiryOptions" (mouseleave)="isEnquiryOptions = false">
           <ul>
@@ -282,30 +281,23 @@
       <!-- Data Table and Pagination -->
       <section class="search-data">
         <!-- Enquiry DataTable -->
-        <div class="" id="table-main">
+        <div class="" id="table-main" #tablemain>
           <div class="table-scroll-wrapper">
             <div class="table table-responsive enquiry-table">
-              <proctur-checkbox-table [records]="sourceEnquiry" [tableName]="'enquiry'" [settings]="EnquirySettings" (userRowSelect)="userRowSelect($event)"
+              <!-- <proctur-checkbox-table [records]="sourceEnquiry" [tableName]="'enquiry'" [settings]="EnquirySettings" (userRowSelect)="userRowSelect($event)"
                 (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage" [key1]="'followUpDateTime'" [primaryKey]="'institute_enquiry_id'"
                 (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)">
-              </proctur-checkbox-table>
+              </proctur-checkbox-table> -->
+              <ng-robTable [records]="sourceEnquiry" [tableName]="'enquiry'" [settings]="EnquirySettings" (userRowSelect)="userRowSelect($event)"
+                (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage" [key1]="'followUpDateTime'" [primaryKey]="'institute_enquiry_id'"
+                (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)">
+              </ng-robTable>
             </div>
           </div>
-
-          <div id="mySidenav" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn" (click)="closeEnquiryFullDetails($event)">
-              <i style="font-family: FontAwesome; color: red;font-size: 30px;" class="fas fa-times"></i>
-            </a>
-            <div class="skeleton" #skelton *ngIf="!isSideBar"></div>
-            <enquiry-sidebar *ngIf="isSideBar" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority" [statusArr]="enqstatus"
-              [customComp]="customCompid" [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)" (cancelUpdate)="closeEnquiryFullDetails($event)">
-            </enquiry-sidebar>
-          </div>
-
         </div>
 
         <!-- Paginator Here -->
-        <div class="row filter-res pagination" id="pager" style="width: 100%;">
+        <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
               [page]="PageIndex" [perPage]="displayBatchSize" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)"
@@ -316,10 +308,20 @@
         </div>
       </section>
     </section>
+
   </aside>
 
-
-
+  <aside #mySidenav class="middle-full sidenav">
+    <div class="">
+      <a href="javascript:void(0)" class="closebtn" (click)="closeEnquiryFullDetails($event)">
+        <i style="font-family: FontAwesome; color: red;font-size: 30px;" class="fas fa-times"></i>
+      </a>
+      <div class="skeleton" #skelton *ngIf="!isSideBar"></div>
+      <enquiry-sidebar *ngIf="isSideBar" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority" [statusArr]="enqstatus"
+        [customComp]="customCompid" [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)" (cancelUpdate)="closeEnquiryFullDetails($event)">
+      </enquiry-sidebar>
+    </div>
+  </aside>
 
   <!-- Update PopUp -->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'update'" (click)="inputClicked($event)">
@@ -469,11 +471,6 @@
     </div>
   </section>
 
-
-
-
-
-
   <!-- Delete PopUp -->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'delete'" (click)="inputClicked($event)">
     <div class="popup pos-abs">
@@ -509,10 +506,6 @@
       </div>
     </div>
   </section>
-
-
-
-
 
   <!-- Convert PopUp -->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'convert'" (click)="inputClicked($event)">
@@ -571,9 +564,6 @@
       </div>
     </div>
   </section>
-
-
-
 
   <!--Registration Payment PopUp -->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'payment'" (click)="inputClicked($event)">
@@ -750,9 +740,6 @@
     </div>
   </section>
 
-
-
-
   <!-- Bulk Assign PopUp -->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="isAssignEnquiry" (click)="inputClicked($event)">
     <div class="popup pos-abs">
@@ -796,11 +783,6 @@
       </div>
     </div>
   </section>
-
-
-
-
-
 
   <!-- SMS PopUp Single-->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="message === 'sms'" (click)="inputClicked($event)">
@@ -1018,11 +1000,8 @@
 
   </section>
 
-
-
   <!-- SMS PopUp MultiRow Selected-->
   <section id="popup" class="popupWrapper fadeIn" *ngIf="isMultiSms" (click)="inputClicked($event)">
-
     <!--  -->
     <div class="popup pos-abs popup-body-container">
       <div class="popup-wrapper pos-rel">
@@ -1234,6 +1213,5 @@
     </div>
 
   </section>
-
 
 </div>

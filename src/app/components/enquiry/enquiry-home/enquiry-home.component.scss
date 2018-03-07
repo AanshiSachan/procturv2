@@ -10,53 +10,18 @@
 /* =================================================================================== */
 
 .headEnq {
-    .option-wrap {
-        width: 20px;
-        height: 20px;
-    }
+    
     .btn {
-        padding: 2px 0px 0px 7px;
-        border: none;
         height: 35px;
-        width: 35px;
-        border-radius: 50%;
-        .tooltip {
-            position: relative;
-            top: -20px;
-            right: 25px;
-            min-width: 80px;
-            font-size: 8px;
-            padding: 2px 0px 2px 18px;
-            height: auto;
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.801);
-            color: white;
-            visibility: hidden;
-            opacity: 0;
+        background: transparent;
+        width: 150px;
+        border: 1px solid;
+        .option-wrap {
+            width: 20px;
+            height: 20px;
         }
         &:hover {
-            background: rgb(216, 214, 214);
-            .tooltip {
-                position: relative;
-                top: 8px;
-                right: 25px;
-                min-width: 80px;
-                padding: 2px 0px 2px 18px;
-                border-radius: 8px;
-                font-size: 8px;
-                height: auto;
-                background: rgba(0, 0, 0, 0.801);
-                color: white;
-                visibility: visible;
-                opacity: 1;
-                transition: all 0.2s;
-            }
-        }
-        &:focus {
-            outline: none;
-        }
-        &:active {
-            box-shadow: none;
+
         }
     }
     .enq-dropdown-content {
@@ -248,7 +213,7 @@
 
 #table-main {
     margin-left: 0px !important;
-    margin-top: 15px;
+    margin-top: 0px;
     margin-right: 15px !important;
     max-height: 375px;
     overflow: hidden;
@@ -264,13 +229,13 @@
 screen and (max-height: 768px) {
     #table-main {
         margin-left: 0px !important;
-        margin-top: 15px;
+        margin-top: 0px;
         margin-right: 15px !important;
-        max-height: 375px;
-        overflow: hidden;
+        /* max-height: 375px;
+        overflow: hidden; */
         width: 100%;
         .table-scroll-wrapper {
-            max-height: 400px;
+            /* max-height: 400px; */
         }
          ::-webkit-scrollbar {
             display: block;
@@ -281,14 +246,14 @@ screen and (max-height: 768px) {
 }
 
 .table-scroll-wrapper {
-    max-height: 400px;
+    /*     max-height: 400px;
     overflow-y: auto;
     overflow-x: auto;
      ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
-    }
+    } */
     .enquiry-table {
         overflow-y: visible;
         overflow-x: visible;
@@ -779,7 +744,7 @@ screen and (max-height: 768px) {
 }
 
 .filter-box {
-    padding: 20px 0px;
+    padding: 10px 0px;
     background: #efefef;
 }
 
@@ -1143,7 +1108,7 @@ screen and (max-height: 768px) {
 /**===============================search data=========================*/
 
 .search-data {
-    margin: 10px 0px;
+    margin: 0px 0px;
     th {
         padding: 10px 20px;
         font-weight: 500;
@@ -1841,16 +1806,17 @@ ul.customDropdown li:hover {
 }
 
 .sidenav {
-    //min-height: 480px;
-    min-height: 400px;
-    width: 0;
     position: absolute;
+    position: absolute;
+    width: 0%;
+    right: 0;
+    top: 60px;
+    padding: 10px;
+    bottom: 0;
+    z-index: 1;
     z-index: 1;
     top: 100px;
     right: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    transition: 0.1s;
      ::-webkit-scrollbar {
         display: none;
         width: 7px;
@@ -1873,7 +1839,7 @@ ul.customDropdown li:hover {
 .sidenav .closebtn {
     right: 20px;
     left: 85%;
-    width:30px;
+    width: 30px;
     text-align: right;
     top: 0px;
     font-size: 20px;
@@ -1883,6 +1849,7 @@ ul.customDropdown li:hover {
     z-index: 100;
     margin-right: 0px;
 }
+
 
 /* .sidenav .closebtn {
     position: absolute;

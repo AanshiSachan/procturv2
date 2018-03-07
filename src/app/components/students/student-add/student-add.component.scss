@@ -128,7 +128,7 @@
                     content: '';
                     background: url("../../../../assets/images/calendar.svg") no-repeat;
                     position: absolute;
-                    right: 30px;
+                    //right: 10px;
                     /* top: 0px; */
                     width: 21px;
                     height: 21px;
@@ -145,11 +145,13 @@
         }
         tr {
             line-height: 20px;
+            background: white;
             i {
                 font-size: 18px;
                 cursor: pointer;
             }
             td {
+                background: white;
                 padding: 3px 20px;
             }
         }
