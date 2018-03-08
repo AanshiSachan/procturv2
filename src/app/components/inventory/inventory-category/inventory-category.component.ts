@@ -29,6 +29,7 @@ export class InventoryCategoryComponent implements OnInit {
 
   ngOnInit() {
     this.getAllCategoryList();
+    this.switchActiveView('category');
   }
 
   addNewCategoryRow(categoryElement, descriptionElement) {
@@ -183,6 +184,13 @@ export class InventoryCategoryComponent implements OnInit {
         });
       }
     }
+  }
+
+
+  switchActiveView(tabName) {
+    document.getElementById('item').classList.remove('active');
+    document.getElementById('category').classList.remove('active');
+    document.getElementById(tabName).classList.add('active');
   }
 
 }
