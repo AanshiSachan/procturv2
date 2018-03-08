@@ -18,12 +18,7 @@
           </div>
         </div>
         <div class="row field-wrapper">
-          <input type="text" class="form-ctrl" formControlName="teacher_curr_addr" name="CurrentAddress" (focus)="inputClickedCheck($event)">
-          <label for="CurrentAddress">Current Address
-          </label>
-        </div>
-        <div class="row field-wrapper">
-          <input type="text" class="form-ctrl" formControlName="teacher_phone" name="contNumber" (focus)="inputClickedCheck($event)">
+          <input type="text" maxlength="10" class="form-ctrl" formControlName="teacher_phone" name="contNumber" (focus)="inputClickedCheck($event)">
           <label for="contNumber">Contact Number
             <span style="color:red">*</span>
           </label>
@@ -41,6 +36,16 @@
           </div>
         </div>
         <div class="row field-wrapper">
+          <input type="email" class="form-ctrl" name="emailID" formControlName="teacher_email" (focus)="inputClickedCheck($event)">
+          <label for="emailID">Email Id
+          </label>
+        </div>
+        <div class="row field-wrapper">
+          <input type="text" class="form-ctrl" formControlName="teacher_curr_addr" name="CurrentAddress" (focus)="inputClickedCheck($event)">
+          <label for="CurrentAddress">Current Address
+          </label>
+        </div>
+        <div class="row field-wrapper">
           <input type="number" class="form-ctrl" name="alternateNo" formControlName="teacher_alt_phone" (focus)="inputClickedCheck($event)">
           <label for="alternateNo">Alternate Contact Number
           </label>
@@ -48,11 +53,6 @@
         <div class="row field-wrapper">
           <input type="text" class="form-ctrl" name="standard" formControlName="teacher_standards" (focus)="inputClickedCheck($event)">
           <label for="standard">Standard
-          </label>
-        </div>
-        <div class="row field-wrapper">
-          <input type="email" class="form-ctrl" name="emailID" formControlName="teacher_email" (focus)="inputClickedCheck($event)">
-          <label for="emailID">Email Id
           </label>
         </div>
         <div class="row field-wrapper">

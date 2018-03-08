@@ -314,7 +314,8 @@
                     {{row.start_time}} - {{row.end_time}}
                   </td>
                   <td>
-                    {{row.class_type}}
+                    <span *ngIf="row.is_class_taken == 'WEEK'">Regular</span>
+                    <span *ngIf="row.is_class_taken != 'WEEK'">{{row.class_type}}</span>
                   </td>
                   <td>
                     {{row.is_class_taken}}

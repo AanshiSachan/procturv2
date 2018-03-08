@@ -115,7 +115,10 @@ export class ScheduleHomeComponent implements OnInit {
             body: "New Standard added Successfull!"
           }
           this.toastCtrl.popToast(data);
-          document.getElementById('standard_name').value = "";
+          this.newStandardDetails = {
+            is_active: "Y",
+            standard_name: ""
+          }
           this.getAllStandardList();
           this.isRippleLoad = false;
         },

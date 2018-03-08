@@ -224,7 +224,7 @@
                         <div class="dd-list-inner">
                           <ul class="actions-menu">
                             <li class="action-item " (click)="editRow(i,row.item_id)">
-                              <i class="imageContent">
+                              <!-- <i class="imageContent">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="11778 358 26 22">
                                   <g id="Group_1234" data-name="Group 1234" transform="translate(10862 -6)">
                                     <rect id="Rectangle_697" data-name="Rectangle 697" class="cls-1" width="26" height="22" transform="translate(916 364)" />
@@ -236,13 +236,13 @@
                                     </g>
                                   </g>
                                 </svg>
-                              </i>
+                              </i> -->
                               <span class="textContent">
                                 Edit Details
                               </span>
                             </li>
                             <li class="action-item" *ngIf="row.is_delete" (click)="deleteRow(row, i)">
-                              <i class="imageContent">
+                              <!-- <i class="imageContent">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="11841 358 26 22">
 
                                   <g id="Group_1237" data-name="Group 1237" transform="translate(10862 -6)">
@@ -259,13 +259,13 @@
                                     </g>
                                   </g>
                                 </svg>
-                              </i>
+                              </i> -->
                               <span class="textContent">
                                 Delete Entry
                               </span>
                             </li>
                             <li class="action-item" (click)="allocationDetails(row , i)">
-                              <i class="imageContent">
+                              <!-- <i class="imageContent">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="11966 358 26 22">
                                   <g id="Group_1236" data-name="Group 1236" transform="translate(10862 -6)">
                                     <rect id="Rectangle_700" data-name="Rectangle 700" class="cls-1" width="26" height="22" transform="translate(1104 364)" />
@@ -288,7 +288,7 @@
                                     </g>
                                   </g>
                                 </svg>
-                              </i>
+                              </i> -->
                               <span class="textContent">
                                 Allocation History
                               </span>
@@ -382,13 +382,17 @@
         </svg>
       </span>
       <div class="popup-content">
-        <h2>Add Inventory Item</h2>
+        <div class="">
+          <h2>Add Inventory Item</h2>
+          <button class="btn pull-right" routerLink="/inventory/category">Add Category</button>
+        </div>
+
         <div class="row">
           <form [formGroup]="addItemForm" novalidate (ngSubmit)="saveItemDetails()">
 
 
             <div class="row extraMargin">
-              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6" style="margin-top: 25px;">
                 <div class="field-wrapper">
                   <input type="text" class="form-ctrl" formControlName="item_name" name="item" (focus)="inputClickedCheck($event)">
                   <label for="item">Item Name
@@ -528,7 +532,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="">
           <h3>Allocate Inventory Item To Sub Branch</h3>
         </div>
 
@@ -611,7 +615,7 @@
               <div class="field-wrapper datePickerBox">
                 <input type="text" value="" id="followupdate" class="form-ctrl" formControlName="challan_date" style="cursor: pointer;" name="createdDate"
                   (focus)="inputClickedCheck($event)" readonly="true" bsDatepicker/>
-                <span class="date-clear" name="createdDate" (click)="clearDate($event)"></span>
+                <label for="createdDate">Challan Date</label>
               </div>
             </div>
           </div>

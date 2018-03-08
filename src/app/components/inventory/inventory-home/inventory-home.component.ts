@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit {
   itemName;
   searchData: any = [];
   searchDataFlag: boolean = false;
-  isRippleLoad:boolean = false;
+  isRippleLoad: boolean = false;
   private showMenu: boolean = false;
 
   header: any = {
@@ -67,7 +67,7 @@ export class HomeComponent implements OnInit {
     available: { id: 'available', title: 'Available Units', filter: false, show: true },
     edit: { id: 'edit', title: 'Action', filter: false, show: true },
     add_units: { id: 'add_units', title: 'Add Units', filter: false, show: true },
-    cost: { id: 'cost', title: 'Cost', filter: false, show: true },
+    cost: { id: 'cost', title: 'Unit Cost', filter: false, show: true },
 
   };
 
@@ -101,6 +101,7 @@ export class HomeComponent implements OnInit {
   loadTableDatatoSource() {
     this.itemList = [];
     this.isRippleLoad = true;
+    this.itemTableDatasource = [];
     this.inventoryApi.fetchAllItems().subscribe(
       data => {
         this.isRippleLoad = false;
@@ -230,7 +231,6 @@ export class HomeComponent implements OnInit {
       data => {
         this.isRippleLoad = false;
         this.loadTableDatatoSource();
-        this.categoryList = data;
         document.getElementById(("row" + i).toString()).classList.add('displayComp');
         document.getElementById(("row" + i).toString()).classList.remove('editComp');
       },
@@ -267,7 +267,7 @@ export class HomeComponent implements OnInit {
 
 
   allocationDetails(row, i) {
-    console.log(i); 
+    console.log(i);
     this.itemName = row.item_name;
     this.isRippleLoad = true;
     this.inventoryApi.getInventoryItemHistory(row.item_id).subscribe(
@@ -308,7 +308,8 @@ export class HomeComponent implements OnInit {
   fetchTableDataByPage(index) {
     this.PageIndex = index;
     let startindex = this.studentdisplaysize * (index - 1);
-    this.itemList = this.getDataFromDataSource(startindex);
+    this.itemList = Array.from(this.getDataFromDataSource(startindex));
+    console.log(this.itemList);
   }
 
   fetchNext() {
@@ -492,27 +493,28 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  
+
   /* open action menu on click */
   openMenu(i) {
     this.selectedRow = i;
     console.log(i);
-    document.getElementById('menuList' +i).classList.toggle('hide');
+    document.getElementById('menuList' + i).classList.toggle('hide');
   }
 
   /* close action menu on events  */
   closeMenu() {
-    document.getElementById('menuList' +this.selectedRow).classList.add('hide');
+    document.getElementById('menuList' + this.selectedRow).classList.add('hide');
   }
 
 
   @HostListener("document:click", ['$event'])
   onWindowClick(event) {
     if (this.ActionInv.nativeElement.contains(event.target)) {
-      console.log("clicked inside table");
+      // console.log("clicked inside table");
     } else {
-      document.getElementById('menuList' +this.selectedRow).classList.add('hide');
-      console.log("clicked outside table")
+      if (document.getElementById('menuList' + this.selectedRow) != null) {
+        document.getElementById('menuList' + this.selectedRow).classList.add('hide');
+      }
     }
   }
 
