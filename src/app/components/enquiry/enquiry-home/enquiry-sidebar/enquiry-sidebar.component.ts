@@ -20,15 +20,24 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
 
 
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 AM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 PM']
   minArr: any[] = ['', '00', '15', '30', '45'];
   meridianArr: any[] = ['', "AM", "PM"];
-  hour: string = ''; minute: string = ''; meridian: string = '';
+  timeObj: any = {
+    fhour: '',
+    fminute: '',
+    fmeridian: '',
+    whour: '',
+    wminute: '',
+    wmeridian: '',
+  }
 
   rowData: any;
   instituteEnqId: any;
 
   @Input() enquiryRow: any;
   @Input() priorityArr: any;
+  @Input() enqAssignTo: any;
   @Input() statusArr: any;
   @Input() followupArr: any;
   @Input() row: any;
@@ -37,31 +46,47 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   @Output() updateEnq = new EventEmitter<any>();
   @Output() cancelUpdate = new EventEmitter<any>();
 
-
-
-  @ViewChild('hourpar') h: ElementRef;
-  @ViewChild('minutepar') min: ElementRef;
-  @ViewChild('meridianpar') mer: ElementRef;
   @ViewChild('acc') acc: ElementRef;
+  @ViewChild('one') one: ElementRef;
+  @ViewChild('two') two: ElementRef;
+  @ViewChild('three') three: ElementRef;
+  @ViewChild('four') four: ElementRef;
 
 
+  notifyme: boolean = false;
+  followUpTime: any;
+  walkin_followUpTime: any;
 
-  updateFormData: updateEnquiryForm = {
-    comment: "",
-    status: "",
-    statusValue: "",
-    institution_id: sessionStorage.getItem('institute_id'),
-    isEnquiryUpdate: "Y",
+  updateFormData = {
+    assigned_to: '-1',
     closedReason: null,
-    slot_id: null,
-    priority: "",
-    follow_type: "",
-    followUpDate: "",
+    comment: "",
     commentDate: moment().format('YYYY-MM-DD'),
+    demo_account_end_date: "",
+    demo_account_password: "",
+    demo_account_status: "",
+    demo_account_userid: "",
+    followUpDate: "",
     followUpTime: "",
+    follow_type: "-1",
+    institution_id: sessionStorage.getItem('institute_id'),
+    interested_in: "",
+    isEnquiryUpdate: "Y",
+    is_follow_up_time_notification: 0,
+    next_follow_type: "",
+    no_of_branches: "",
+    no_of_students: "",
+    occupation_id: null,
+    priority: "-1",
+    slot_id: null,
+    source_instituteId: sessionStorage.getItem('institute_id'),
+    status: "-1",
+    statusValue: "",
     followUpDateTime: '',
     isEnquiryV2Update: "N",
     isRegisterFeeUpdate: "N",
+    walkin_followUpDate: moment().format('YYYY-MM-DD'),
+    walkin_followUpTime: "",
     amount: null,
     paymentMode: null,
     paymentDate: null,
@@ -91,9 +116,6 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     this.updateFormData.priority = "";
     this.updateFormData.follow_type = "";
     this.updateFormData.statusValue = "";
-    this.hour = "";
-    this.minute = "";
-    this.meridian = "";
     this.getDetailsById(this.instituteEnqId);
   }
 
@@ -108,22 +130,32 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     this.updateFormData.priority = this.rowData.priority;
     this.updateFormData.follow_type = this.rowData.follow_type;
     this.updateFormData.statusValue = this.rowData.statusValue;
+    this.timeObj = {
+      fhour: '',
+      fminute: '',
+      fmeridian: '',
+      whour: '',
+      wminute: '',
+      wmeridian: '',
+    }
+    this.followUpTime = '';
+    this.walkin_followUpTime = '';
     this.prefill.fetchAllDataEnquiry(id).subscribe(res => {
       this.updateFormData.followUpDate = res.followUpDate;
       this.cd.markForCheck();
-      let followUpDateTime = res.followUpDate + " " + res.followUpTime
       if (res.followUpTime != '' && res.followUpTime != null) {
-        this.hour = moment(followUpDateTime).format('h');
-        this.h.nativeElement.classList.add('has-value');
-        this.minute = moment(followUpDateTime).format('mm');
-        this.min.nativeElement.classList.add('has-value');
-        this.meridian = moment(followUpDateTime).format('a').toString().toUpperCase();
-        this.mer.nativeElement.classList.add('has-value');
+        let followDateTime = res.followUpDate + " " + res.followUpTime;
+        this.timeObj.fhour = moment(followDateTime).format('h');
+        this.timeObj.fminute = moment(followDateTime).format('mm');
+        this.timeObj.fmeridian = moment(followDateTime).format('a').toString().toUpperCase();
+        this.followUpTime = this.timeObj.fhour + " " + this.timeObj.fmeridian;
       }
-      else {
-        this.h.nativeElement.classList.remove('has-value');
-        this.min.nativeElement.classList.remove('has-value');
-        this.mer.nativeElement.classList.remove('has-value');
+      if (res.walkin_followUpTime != '' && res.walkin_followUpTime != null) {
+        let walkinfollowUpTime = res.walkin_followUpDate + " " + res.walkin_followUpTime;
+        this.timeObj.fhour = moment(walkinfollowUpTime).format('h');
+        this.timeObj.fminute = moment(walkinfollowUpTime).format('mm');
+        this.timeObj.fmeridian = moment(walkinfollowUpTime).format('a').toString().toUpperCase();
+        this.walkin_followUpTime = this.timeObj.whour + " " + this.timeObj.wmeridian;
       }
       this.updateFormComments = res.comments;
       this.updateFormCommentsOn = res.commentedOn;
@@ -167,8 +199,6 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     return temp;
   }
 
-
-
   getStatusReverse(id): string {
     let temp: string = ""
     this.statusArr.forEach(el => {
@@ -179,9 +209,6 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     return temp;
   }
 
-
-
-
   getFollowUpReverse(id): string {
     let temp: string = ""
     this.followupArr.forEach(el => {
@@ -191,9 +218,6 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     });
     return temp;
   }
-
-
-
 
   getPriorityReverse(id): string {
     let temp: string = ""
@@ -206,24 +230,22 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     return temp;
   }
 
-
-
-
   clearupdateDate() {
     this.updateFormData.followUpDate = "";
-    this.hour = '';
-    this.minute = '';
-    this.meridian = '';
+    this.updateFormData.walkin_followUpDate = "";
+    this.timeObj = {
+      fhour: '',
+      fminute: '',
+      fmeridian: '',
+      whour: '',
+      wminute: '',
+      wmeridian: '',
+    }
   }
-
-
-
 
   closeSideNav() {
     this.cancelUpdate.emit(null);
   }
-
-
 
   createUpdateForm() {
     if (this.validateTime()) {
@@ -231,20 +253,13 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
       this.updateFormData.priority = this.updateFormData.priority == "" ? "" : this.getPriorityReverse(this.updateFormData.priority);
       this.updateFormData.status = this.updateFormData.statusValue == "" ? "" : this.getStatusReverse(this.updateFormData.statusValue);
       this.updateFormData.follow_type = this.updateFormData.follow_type == "" ? "" : this.getFollowUpReverse(this.updateFormData.follow_type);
-      this.updateFormData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
+      this.updateFormData.followUpTime = this.timeObj.fhour + ":" + this.timeObj.fminute + " " + this.timeObj.fmeridian;
+      this.updateFormData.walkin_followUpTime = this.timeObj.whour + ":" + this.timeObj.wminute + " " + this.timeObj.wmeridian;
       this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('YYYY-MM-DD');
+      this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
       this.pushUpdatedEnquiry(this.updateFormData);
     }
-    else {
-      let msg = {
-        type: 'error',
-        title: 'Invalid Time Input',
-        body: 'Please select a valid time for follow up'
-      }
-      this.appC.popToast(msg);
-    }
   }
-
 
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry(obj) {
@@ -256,10 +271,32 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   }
 
 
+  timeChanges(ev, id) {
+    if (id === 'followUpTime') {
+      if(ev.split(' ')[0] != ''){
+        this.timeObj.fhour = ev.split(' ')[0];
+        this.timeObj.fmeridian = ev.split(' ')[1];
+      }
+      else{
+        this.timeObj.fhour = '';
+        this.timeObj.fmeridian = '';
+      }
+    }
+    else {
+      if(ev.split(' ')[0] != ''){
+        this.timeObj.whour = ev.split(' ')[0];
+        this.timeObj.wmeridian = ev.split(' ')[1];
+      }
+      else{
+        this.timeObj.whour = '';
+        this.timeObj.wmeridian = '';
+      }
+    }
+  }
+
 
   validateTime(): boolean {
-    /* some time selected by user or nothing*/
-    if ((this.hour != '' && this.minute != '' && this.meridian != '') || (this.hour == '' && this.minute == '' && this.meridian == '')) {
+    if (this.validatefollowuptime() && this.validatewalkintime()) {
       return true;
     }
     else {
@@ -267,35 +304,82 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     }
   }
 
-
-
-
-  /* Customiized click detection strategy */
-  inputClicked(ev) {
-    //document.getElementById("bulk-drop").classList.add("hide");
-    if (ev.target.classList.contains('form-ctrl')) {
-      if (ev.target.classList.contains('bsDatepicker')) {
-        var nodelist = document.querySelectorAll('.bsDatepicker');
-        [].forEach.call(nodelist, (elm) => {
-          elm.addEventListener('focusout', function (event) {
-            event.target.parentNode.classList.add('has-value');
-          });
-
-        });
+  validatefollowuptime(): boolean {
+    /* some time selected by user or nothing*/
+    if (
+      (this.timeObj.fhour != '' && this.timeObj.fminute != '' && this.timeObj.fmeridian != '') ||
+      (this.timeObj.fhour == '' && this.timeObj.fminute == '' && this.timeObj.fmeridian == '')) {
+      return true;
+    }
+    else {
+      let msg = {
+        type: 'error',
+        title: 'Invalid Time Input',
+        body: 'Please select a valid time for follow up'
       }
-      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
-        //document.getElementById(ev.target.id).click();
-        ev.target.addEventListener('blur', function (event) {
-          if (event.target.value != '') {
-            event.target.parentNode.classList.add('has-value');
-          } else {
-            event.target.parentNode.classList.remove('has-value');
-          }
-        });
-      }
+      this.appC.popToast(msg);
+      return false;
     }
   }
 
+  validatewalkintime(): boolean {
+    /* some time selected by user or nothing*/
+    if (
+      (this.timeObj.whour != '' && this.timeObj.wminute != '' && this.timeObj.wmeridian != '') ||
+      (this.timeObj.whour == '' && this.timeObj.wminute == '' && this.timeObj.wmeridian == '')
+    ) {
+      return true;
+    }
+    else {
+      let msg = {
+        type: 'error',
+        title: 'Invalid Time Input',
+        body: 'Please select a valid time for walkin up'
+      }
+      this.appC.popToast(msg);
+      return false;
+    }
+  }
 
+  updateStatusForEnquiryUpdate(e) {
+    console.log(e)
+  }
+
+  toggleAccordian(id) {
+    console.log(id);
+    if (id === 'one') {
+      this.one.nativeElement.classList.toggle('liclosed');
+      this.two.nativeElement.classList.add('liclosed');
+      this.three.nativeElement.classList.add('liclosed');
+      this.four.nativeElement.classList.add('liclosed');
+    }
+    else if (id === 'two') {
+      this.two.nativeElement.classList.toggle('liclosed');
+      this.one.nativeElement.classList.add('liclosed');
+      this.three.nativeElement.classList.add('liclosed');
+      this.four.nativeElement.classList.add('liclosed');
+    }
+    else if (id === 'three') {
+      this.three.nativeElement.classList.toggle('liclosed');
+      this.two.nativeElement.classList.add('liclosed');
+      this.one.nativeElement.classList.add('liclosed');
+      this.four.nativeElement.classList.add('liclosed');
+    }
+    else if (id === 'four') {
+      this.four.nativeElement.classList.toggle('liclosed');
+      this.two.nativeElement.classList.add('liclosed');
+      this.three.nativeElement.classList.add('liclosed');
+      this.one.nativeElement.classList.add('liclosed');
+    }
+  }
+
+  notifyMe(e) {
+    if (e) {
+      this.updateFormData.is_follow_up_time_notification = 1;
+    }
+    else {
+      this.updateFormData.is_follow_up_time_notification = 0;
+    }
+  }
 
 }

@@ -16,6 +16,8 @@ export class RobTableComponent implements OnChanges {
     @Input() dataStatus: number;
     @Input() primaryKey: string = '';
     @Input() key1: string;
+    @Input() reset: boolean;
+
 
     @Output() userRowSelect = new EventEmitter();
     @Output() rowsSelected = new EventEmitter<number>();
@@ -122,13 +124,18 @@ export class RobTableComponent implements OnChanges {
 
     refreshTable() {
         this.cd.markForCheck();
-        this.isAllSelected = false;
-        this.selectedRow = null;
-        this.rowSelectedCount = 0;
-        this.rowSelectedId = [];
-        //this.hc.nativeElement.checked = false;
-        this.rowIdArr.emit(this.rowSelectedId);
-        this.rowsSelected.emit(this.rowSelectedCount);
+        if (!this.reset) {
+            this.selectedRow = null;
+            this.isAllSelected = false;
+            this.rowSelectedCount = 0;
+            this.rowSelectedId = [];
+            this.rowIdArr.emit(this.rowSelectedId);
+            this.rowsSelected.emit(this.rowSelectedCount);
+            this.records.forEach(x => x.uiSelected = false);
+            this.rowSelectedCount = 0;
+            this.rowsSelected.emit(this.rowSelectedCount);
+            this.getSelectedRows();
+        }
     }
 
 
@@ -155,28 +162,28 @@ export class RobTableComponent implements OnChanges {
         }
         /* else for left and right allignment */
         else {
-            if(key == 'enquiry_no'){
+            if (key == 'enquiry_no') {
                 return 'left';
             }
-            else if(key == 'enquiry_date'){
+            else if (key == 'enquiry_date') {
                 return 'left';
             }
-            else if(key == 'name'){
+            else if (key == 'name') {
                 return 'left';
             }
-            else if(key == 'phone'){
+            else if (key == 'phone') {
                 return 'right';
             }
-            else if(key == 'statusValue'){
+            else if (key == 'statusValue') {
                 return 'left';
             }
-            else if(key == 'priority'){
+            else if (key == 'priority') {
                 return 'left';
             }
-            else if(key == 'follow_type'){
+            else if (key == 'follow_type') {
                 return 'left';
             }
-            else{
+            else {
                 return 'left';
             }
         }

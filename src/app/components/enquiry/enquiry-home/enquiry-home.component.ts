@@ -3247,9 +3247,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   openEnquiryFullDetails(id) {
     this.closeAdFilter();
-    this.mySidenav.nativeElement.style.width = "30%";
+    this.mySidenav.nativeElement.style.width = "29%";
+    this.mySidenav.nativeElement.style.display = 'block';
     this.enqPage.nativeElement.style.width = "70%";
-    this.enqPage.nativeElement.style.marginRight = "30%";
+    this.enqPage.nativeElement.style.marginRight = "29%";
     this.cd.markForCheck();
     this.prefill.fetchCustomComponentById(id).subscribe(
       res => {
@@ -3269,6 +3270,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   closeEnquiryFullDetails() {
     this.isSideBar = false;
     this.mySidenav.nativeElement.style.width = "0";
+    this.mySidenav.nativeElement.style.display = 'none';
     this.enqPage.nativeElement.style.width = "100%";
     this.enqPage.nativeElement.style.marginRight = "0";
   }

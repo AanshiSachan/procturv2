@@ -8,35 +8,48 @@
       </h1>
 
       <aside class="headEnq pull-right">
-        <p-splitButton label="{{selectedRowCount}} Enquiry Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton>
-        <button style="" class="btn" routerLink='add'>
-          <div class="option-wrap">
-            <img src="./assets/images/plus.png" alt="addEnquiry">
-          </div>
-          Add Enquiry
-        </button>
-        <button style="" class="btn" (click)="isEnquiryOptions = !isEnquiryOptions">
-          <div class="option-wrap">
-            <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
-              focusable="false">
-              <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
-            </svg>
-          </div>
-          More
-        </button>
-        <div class="enq-dropdown-content" *ngIf="isEnquiryOptions" (mouseleave)="isEnquiryOptions = false">
-          <ul>
-            <li class="export-icon" (click)="downloadAllEnquiries()">
-              <a id="enq_download"></a>
-              <label>Export</label>
-            </li>
-            <li class="upload-icon">
-              <label id="upload" routerLink='upload'>
-                Upload Enquiry
-              </label>
-            </li>
-          </ul>
-        </div>
+        <ul>
+          <li style="display: inline-flex;">
+            <p-splitButton label="{{selectedRowCount}} Enquiry Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton>
+          </li>
+          <li class="headerBtn" routerLink='add'>
+            <i>
+              <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+                focusable="false">
+                <path d="M14,9H9v5H7V9H2V7H7V2H9V7h5V9Z" class="small-icon" style="fill: currentColor"></path>
+              </svg>
+            </i>
+            <p>
+              Add Enquiry
+            </p>
+          </li>
+          <li class="headerBtn" (click)="isEnquiryOptions = !isEnquiryOptions">
+            <i>
+              <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+                focusable="false">
+                <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
+              </svg>
+            </i>
+            <p>
+              More
+            </p>
+          </li>
+          <li style="margin-left: 90px;">
+            <div class="enq-dropdown-content" *ngIf="isEnquiryOptions" (mouseleave)="isEnquiryOptions = false">
+              <ul>
+                <li class="export-icon" (click)="downloadAllEnquiries()">
+                  <a id="enq_download"></a>
+                  <label>Export</label>
+                </li>
+                <li class="upload-icon">
+                  <label id="upload" routerLink='upload'>
+                    Upload Enquiry
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
       </aside>
 
     </section>
@@ -288,7 +301,7 @@
                 (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage" [key1]="'followUpDateTime'" [primaryKey]="'institute_enquiry_id'"
                 (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)">
               </proctur-checkbox-table> -->
-              <ng-robTable [records]="sourceEnquiry" [tableName]="'enquiry'" [settings]="EnquirySettings" (userRowSelect)="userRowSelect($event)"
+              <ng-robTable [records]="sourceEnquiry" [reset]="isSideBar" [tableName]="'enquiry'" [settings]="EnquirySettings" (userRowSelect)="userRowSelect($event)"
                 (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage" [key1]="'followUpDateTime'" [primaryKey]="'institute_enquiry_id'"
                 (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)">
               </ng-robTable>
@@ -312,12 +325,12 @@
   </aside>
 
   <aside #mySidenav class="middle-full sidenav">
-    <div class="">
-      <a href="javascript:void(0)" class="closebtn" (click)="closeEnquiryFullDetails($event)">
-        <i style="font-family: FontAwesome; color: red;font-size: 30px;" class="fas fa-times"></i>
+    <div class="" *ngIf="isSideBar">
+      <a href="javascript:void(0)" title="close" class="closebtn" (click)="closeEnquiryFullDetails($event)">
+        <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon" focusable="false"><path d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" class="large-icon" style="fill: currentColor"></path></svg>
       </a>
       <div class="skeleton" #skelton *ngIf="!isSideBar"></div>
-      <enquiry-sidebar *ngIf="isSideBar" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority" [statusArr]="enqstatus"
+      <enquiry-sidebar *ngIf="isSideBar" [enqAssignTo]="enqAssignTo" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority" [statusArr]="enqstatus"
         [customComp]="customCompid" [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)" (cancelUpdate)="closeEnquiryFullDetails($event)">
       </enquiry-sidebar>
     </div>

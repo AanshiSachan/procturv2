@@ -1,4 +1,4 @@
-<div class="sidebar-wrapper" (click)="inputClicked($event)">
+<div class="sidebar-wrapper">
 
     <div class="row pull-left fixed-header" style="margin:0px">
         <enquiry-actions [rowData]="rowData"></enquiry-actions>
@@ -8,9 +8,9 @@
         <div class="c-lg-9 c-md-9 c-sm-9" style="padding-top: 7px;">
             <ul>
                 <li style="border-top: none;">
-                    <h3>Enquiry No. {{rowData.enquiry_no}}</h3>
+                    <h2>Enquiry No. {{rowData.enquiry_no}}</h2>
                 </li>
-                <li style="border-top: none;">
+                <li class="header-name" style="border-top: none;">
                     {{rowData.name}}
                 </li>
             </ul>
@@ -21,97 +21,144 @@
 
     <div class="acc-wrapper">
         <ul>
-            <li>
-                <input type="checkbox" checked>
-                <i></i>
-                <h2>Update Enquiry</h2>
+            <li #one class="">
+                <div class="row lihead" (click)="toggleAccordian('one')">
+                    <i></i>
+                    <h2>Update Enquiry</h2>
+                </div>
                 <section>
-
                     <div class="update-form-wrapper">
 
-                        <div class="c-lg-12 c-md-12 c-sm-12 sixty">
-                            <div class="field-wrapper has-value">
-                                <select id="priorityEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.priority" name="priority">
-                                    <option></option>
-                                    <option *ngFor="let priority of priorityArr" [value]="priority.data_value" [attr.selected]="priority.data_value == updateFormData.priority ? '' : null">
-                                        {{priority.data_value}}
-                                    </option>
-                                </select>
-                                <label for="priorityEdit">Priority</label>
-                            </div>
+                        <!-- Status -->
+                        <div class="form-wrapper c-sm-6 c-xs-6">
+                            <label for="enquiryStatusEdit">Status</label>
+                            <select id="enquiryStatusEdit" class="side-form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.statusValue"
+                                (ngModelChange)="updateStatusForEnquiryUpdate($event)" name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
+                                <option value="-1"></option>
+                                <option *ngFor="let status of statusArr" [value]="status.data_value" [attr.selected]="status.data_value == updateFormData.statusValue ? '' : null"
+                                    [hidden]="status.data_key == 12 ? true : false">
+                                    {{status.data_value}}
+                                </option>
+                            </select>
                         </div>
 
-                        <div class="c-lg-12 c-md-12 c-sm-12 sixty">
-                            <div class="field-wrapper has-value">
-                                <select id="selectFollowupEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.follow_type" name="follow_type">
-                                    <option></option>
-                                    <option *ngFor="let followT of followupArr" [value]="followT.data_value" [attr.selected]="followT.data_value == updateFormData.follow_type ? '' : null">
-                                        {{followT.data_value}}
-                                    </option>
-                                </select>
-                                <label for="selectFollowupEdit">Follow Up Type</label>
-                            </div>
+                        <!-- Priority -->
+                        <div class="form-wrapper c-sm-6 c-xs-6">
+                            <label for="priorityEdit">Priority</label>
+                            <select id="priorityEdit" class="side-form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.priority" name="priority">
+                                <option value="-1"></option>
+                                <option *ngFor="let priority of priorityArr" [value]="priority.data_value" [attr.selected]="priority.data_value == updateFormData.priority ? '' : null">
+                                    {{priority.data_value}}
+                                </option>
+                            </select>
                         </div>
 
-                        <div class="c-lg-12 c-md-12 c-sm-12 sixty">
-                            <div class="field-wrapper has-value">
-                                <select id="enquiryStatusEdit" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.statusValue" (ngModelChange)="updateStatusForEnquiryUpdate($event)"
-                                    name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
-                                    <option></option>
-                                    <option *ngFor="let status of statusArr" [value]="status.data_value" [attr.selected]="status.data_value == updateFormData.statusValue ? '' : null"
-                                        [hidden]="status.data_key == 12 ? true : false">
-                                        {{status.data_value}}
-                                    </option>
-                                </select>
-                                <label for="enquiryStatusEdit">Status</label>
-                            </div>
+                        <!-- Followup type -->
+                        <div class="form-wrapper c-sm-6 c-xs-6">
+                            <label for="selectFollowupEdit">Follow Up Type</label>
+                            <select id="selectFollowupEdit" class="side-form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.follow_type"
+                                name="follow_type">
+                                <option value="-1"></option>
+                                <option *ngFor="let followT of followupArr" [value]="followT.data_value" [attr.selected]="followT.data_value == updateFormData.follow_type ? '' : null">
+                                    {{followT.data_value}}
+                                </option>
+                            </select>
                         </div>
 
-                        <div class="c-lg-12 c-md-12 c-sm-12 sixty">
-                            <div class="field-wrapper has-value datePickerBox">
-                                <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit"
-                                readonly="true" bsDatepicker style="width: 60%;" />
-                                <label for="followUPdateEdit">Follow Up Date</label>
-                                <span style="top:15px;right:20%;" class="date-clear" name="followupdate" (click)="clearupdateDate()">clear</span>
-                            </div>
+                        <!-- Assigned To -->
+                        <div class="form-wrapper c-sm-6 c-xs-6">
+                            <label for="assignedTo">Assigned To</label>
+                            <select id="assignedTo" class="side-form-ctrl" name="assignedTo" [(ngModel)]="updateFormData.assigned_to">
+                                <option value="-1"></option>
+                                <option *ngFor="let assigned of enqAssignTo" [value]="assigned.userid">
+                                    {{ assigned.name }}
+                                </option>
+                            </select>
                         </div>
 
-                        <div class="c-lg-12 c-md-12 c-sm-12 time-picker">
-                            <div class="field-wrapper" #hourpar id="hourpar">
-                                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="hour" name="hour" style="width: 60px;">
-                                    <option *ngFor="let hour of hourArr" [value]="hour">
-                                        {{hour}}
+                        <!-- Followup Date -->
+                        <div class="form-wrapper datepicker c-sm-6 c-xs-6">
+                            <label for="followUPdateEdit">Follow Up Date</label>
+                            <input type="text" class="side-form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate"
+                                id="followUPdateEdit" readonly="true" bsDatepicker/>
+                            <span class="date-clear" name="followupdate" (click)="clearupdateDate()">Clear</span>
+                        </div>
+
+                        <!-- Followup Time -->
+                        <div class="form-wrapper c-sm-6 c-xs-6 timepick">
+                            <label for="followuptime">FollowUp Time</label>
+                            <div class="c-xs-6" style="padding: 0px;">
+                                <select id="followuptime" class="side-form-ctrl" [(ngModel)]="followUpTime" (ngModelChange)="timeChanges($event, 'followUpTime')" name="followuptime">
+                                    <option [value]="time" *ngFor="let time of times">
+                                        {{time}}
                                     </option>
                                 </select>
-                                <label for="hour">Hour</label>
                             </div>
-                            <div class="field-wrapper" #minutepar id="minutepar">
-                                <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute" style="width: 70px;">
+                            <div class="c-xs-6" style="padding: 0px;">
+                                <select id="minute" class="side-form-ctrl" [(ngModel)]="timeObj.fminute" name="minute" style="width: 70px;">
                                     <option *ngFor="let minute of minArr" [value]="minute">
                                         {{minute}}
                                     </option>
                                 </select>
-                                <label for="minute">Minute</label>
-                            </div>
-                            <div class="field-wrapper" #meridianpar id="meridianpar">
-                                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="meridian" name="meridian" style="width: 85px;">
-                                    <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                                        {{meridian}}
-                                    </option>
-                                </select>
-                                <label for="meridian">Meridian</label>
                             </div>
                         </div>
 
-                        <div class="c-lg-12 c-md-12 c-sm-12">
+                        <!-- Walkin Date  -->
+                        <div class="form-wrapper datepicker c-sm-6 c-xs-6">
+                            <label for="walkindate">Walkin Date</label>
+                            <input type="text" class="side-form-ctrl bsDatepicker" [(ngModel)]="updateFormData.walkin_followUpDate" value="" placeholder=""
+                                id="walkindate" readonly="true" bsDatepicker/>
+                            <span class="date-clear" name="walkindate">Clear</span>
+                        </div>
+
+                        <!-- Walkin Time -->
+                        <div class="form-wrapper c-sm-6 c-xs-6">
+                            <label for="walkintime">Walkin Time</label>
+                            <div class="c-xs-6" style="padding: 0px;">
+                                <select id="walkintime" class="side-form-ctrl" [(ngModel)]="walkin_followUpTime" (ngModelChange)="timeChanges($event, 'walkin_followUpTime')" name="walkintime">
+                                    <option [value]="time" *ngFor="let time of times">
+                                        {{time}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="c-xs-6" style="padding: 0px;">
+                                <select id="minute" class="side-form-ctrl" [(ngModel)]="timeObj.wminute" name="minute" style="width: 70px;">
+                                    <option *ngFor="let minute of minArr" [value]="minute">
+                                        {{minute}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Branch -->
+                        <div class="form-wrapper c-sm-6 c-xs-6">
+                            <label for="branch">Branch</label>
+                            <select id="branch" class="side-form-ctrl" [(ngModel)]="updateFormData.no_of_branches" name="branch">
+                                <option value="-1"></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                            </select>
+                        </div>
+
+                        <!-- Notify Me -->
+                        <div class="form-checkbox-wrapper c-sm-6 c-xs-6">
+                            <div class="field-checkbox-wrapper">
+                                <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox" />
+                                <label for="notifyme">Notify Me</label>
+                            </div>
+                        </div>
+
+                        <!-- Comments -->
+                        <div class="form-wrapper c-sm-12 c-xs-12">
                             <div class="field-wrapper">
-                                <textarea placeholder="Update Comment Here (max 1000 characters)" rows="2" cols="10" style="height: 60px;" id="addcommentEdit"
+                                <textarea placeholder="Update Comment Here (max 1000 characters)" rows="1" cols="2" style="height: 30px;" id="addcommentEdit"
                                     class="form-ctrl" [(ngModel)]="updateFormData.comment">
                                 </textarea>
                             </div>
                         </div>
 
-                        <div class="c-lg-12 c-md-12 c-sm-12">
+                        <!-- Submitter -->
+                        <div class="">
                             <div class="pull-left submitter">
                                 <div class="clearfix">
                                     <aside class="pull-left popup-btn">
@@ -121,14 +168,15 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </section>
             </li>
-            <li>
-                <input type="checkbox" checked>
-                <i></i>
-                <h2>Previous Comments</h2>
+            <li #two class="liclosed" (click)="toggleAccordian($event.target.id)">
+                <div class="row lihead" (click)="toggleAccordian('two')">
+                    <i></i>
+                    <h2>Previous Comments</h2>
+                </div>
                 <section>
                     <div class="comment-card" *ngFor="let comments of updateFormComments; let i = index;">
                         <div class="row">
@@ -148,10 +196,11 @@
                     </div>
                 </section>
             </li>
-            <li>
-                <input type="checkbox" checked>
-                <i></i>
-                <h2>Basic Details</h2>
+            <li #three class="liclosed" (click)="toggleAccordian($event.target.id)">
+                <div class="row lihead" (click)="toggleAccordian('three')">
+                    <i></i>
+                    <h2>Basic Details</h2>
+                </div>
                 <section>
                     <div class="basic-wrapper">
                         <div class="row">
@@ -197,10 +246,11 @@
                     </div>
                 </section>
             </li>
-            <li>
-                <input type="checkbox" checked>
-                <i></i>
-                <h2>Other Details</h2>
+            <li #four class="liclosed" (click)="toggleAccordian($event.target.id)">
+                <div class="row lihead" (click)="toggleAccordian('four')">
+                    <i></i>
+                    <h2>Other Details</h2>
+                </div>
                 <section>
                     <div class="other-wrapper">
                         <div *ngFor="let cus of customComp">
