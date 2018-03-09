@@ -341,7 +341,7 @@
 
                               <td style="width:10%">
                                 <select id="" class="form-ctrl" name="row.category_id" style="background: transparent" [(ngModel)]="row.custom_class_type">
-                                  <option *ngFor="let opt of customListDataSource">
+                                  <option *ngFor="let opt of customListDataSource" [value]="opt">
                                     {{opt}}
                                   </option>
                                 </select>

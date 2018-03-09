@@ -843,12 +843,13 @@ export class ClassAddComponent implements OnInit {
   }
 
   removeRowFromSchedule(i, row) {
-    for (let i = 0; i < this.classScheduleArray.length; i++) {
-      if (this.classScheduleArray[i].class_schedule_id == row.class_schedule_id) {
-        this.classScheduleArray.splice(i, 1);
+    if (confirm("Are you sure you want to delete?")) {
+      for (let i = 0; i < this.classScheduleArray.length; i++) {
+        if (this.classScheduleArray[i].class_schedule_id == row.class_schedule_id) {
+          this.classScheduleArray.splice(i, 1);
+        }
       }
     }
-
   }
 
 
@@ -980,7 +981,9 @@ export class ClassAddComponent implements OnInit {
   }
 
   removeDateToArray(index, row) {
-    this.selectedDateArray.splice(index, 1);
+    if (confirm("Are you sure you want to delete?")) {
+      this.selectedDateArray.splice(index, 1);
+    }
   }
 
 
@@ -1267,7 +1270,9 @@ export class ClassAddComponent implements OnInit {
   }
 
   deleteExtraClassSchedule(row, index) {
-    this.extraClassTable.splice(index, 1);
+    if (confirm("Are you sure you want to delete?")) {
+      this.extraClassTable.splice(index, 1);
+    }
   }
 
   updateWeeklySchedule() {
@@ -1435,7 +1440,9 @@ export class ClassAddComponent implements OnInit {
 
 
   deleteFromCustomTable(row, index) {
-    this.customTable.splice(index, 1);
+    if (confirm("Are you sure you want to delete?")) {
+      this.customTable.splice(index, 1);
+    }
   }
 
 
