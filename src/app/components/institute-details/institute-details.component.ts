@@ -166,7 +166,7 @@ export class InstituteDetailsComponent implements OnInit {
     this.apiService.getStorageLimitFromServer().subscribe(
       res => {
         this.storageInfo = res;
-        this.storageInfo.storage_allocated = this.storageInfo.storage_allocated / 1024;
+        this.storageInfo.storage_allocated = this.storageInfo.storage_allocated;
       },
       this.errorCallBack
     )
@@ -182,7 +182,7 @@ export class InstituteDetailsComponent implements OnInit {
       if (this.kycType[i].data_key == event) {
         this.instDetails.kyc_document_name = this.kycType[i].kyc_document_name;
         this.instDetails.kyc_document = this.kycType[i].kyc_document;
-        this.instDetails.kyc_document_type = this.kycType[i].kyc_document_type;
+        this.instDetails.kyc_document_type = this.kycType[i].kyc_document_type.toString();
       } else {
         this.instDetails.kyc_document_name = '';
         this.instDetails.kyc_document = '';
@@ -221,7 +221,11 @@ export class InstituteDetailsComponent implements OnInit {
     }
     obj.admin_primary_phone = this.instDetails.admin_primary_phone;
     obj.admin_primary_email = this.instDetails.admin_primary_email;
-    obj.student_id_type = this.instDetails.student_id_type;
+    if (this.instDetails.student_id_type == null) {
+      obj.student_id_type = "Automatic";
+    } else {
+      obj.student_id_type = this.instDetails.student_id_type;
+    }
     if (this.instDetails.student_id_type == "Manual") {
       obj.student_id_prefix = '';
     } else {
@@ -350,10 +354,10 @@ export class InstituteDetailsComponent implements OnInit {
   validatePhoneNumber(data) {
     let check: boolean = false;
     if (data != "" && data != null) {
-      if (!isNaN(data) || data.length != 10) {
-        check = false;
-      } else {
+      if (isNaN(data) == false && data.length == 10) {
         check = true;
+      } else {
+        check = false;
       }
       return check;
     } else {

@@ -266,15 +266,15 @@
                               </td>
 
                               <td>
-                                <div class="field-wrapper" [ngClass]="{'has-value' : addClassDetails.desc != '' && addClassDetails.desc != null }">
-                                  <input type="textbox" class="form-ctrl" name="label" [(ngModel)]="addClassDetails.desc">
+                                <div class="field-wrapper" [ngClass]="{'has-value' : addClassDetails.class_desc != '' && addClassDetails.class_desc != null }">
+                                  <input type="textbox" class="form-ctrl" name="label" [(ngModel)]="addClassDetails.class_desc">
                                   <label for="label">Description</label>
                                 </div>
                               </td>
 
                               <td>
-                                <div class="field-wrapper" [ngClass]="{'has-value' : addClassDetails.roomNo != '' && addClassDetails.roomNo != null }">
-                                  <input type="text" class="form-ctrl" name="label" [(ngModel)]="addClassDetails.roomNo">
+                                <div class="field-wrapper" [ngClass]="{'has-value' : addClassDetails.room_no != '' && addClassDetails.room_no != null }">
+                                  <input type="text" class="form-ctrl" name="label" [(ngModel)]="addClassDetails.room_no">
                                   <label for="label">Room No</label>
                                 </div>
                               </td>
@@ -341,7 +341,7 @@
 
                               <td style="width:10%">
                                 <select id="" class="form-ctrl" name="row.category_id" style="background: transparent" [(ngModel)]="row.custom_class_type">
-                                  <option *ngFor="let opt of customListDataSource">
+                                  <option *ngFor="let opt of customListDataSource" [value]="opt">
                                     {{opt}}
                                   </option>
                                 </select>
@@ -1098,7 +1098,7 @@
 <!-- //////////////////////////////////////// Select Dates///////////////////////////////////////////// -->
 <!-- //////////////////////////////////////// Select Dates///////////////////////////////////////////// -->
 
-<section id="popup " class="popupWrapper fadeIn " *ngIf="showPopUp ">
+<section id="popup " class="popupWrapper fadeIn " *ngIf="showPopUp">
   <div class="popup pos-abs popup-body-container ">
     <div class="popup-wrapper pos-rel ">
       <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closePopup() ">
@@ -1121,7 +1121,7 @@
         <div class="row extraMargin ">
           <div class="table-scroll-wrapper ">
             <div class="table table-responsive ">
-              <table style="width:50% ">
+              <table>
                 <thead>
                   <tr>
                     <th>
@@ -1175,8 +1175,8 @@
 
         <div class="row extraMargin ">
           <div class="row extraMargin ">
-            <div class="field-wrapper c-sm-2 c-md-2 c-lg-2 ">
-              <select id="tsesesese " class="form-ctrl " name="row.subject_id " [(ngModel)]="selctedScheduledClass.subject_id ">
+            <div class="field-wrapper has-value">
+              <select id="tsesesese " class="form-ctrl " name="row.subject_id " [(ngModel)]="selctedScheduledClass.subject_id">
                 <option value="-1 "> </option>
                 <option *ngFor="let opt of subjectListDataSource " [value]="opt.subject_id ">
                   {{opt.subject_name}}
@@ -1184,7 +1184,7 @@
               </select>
               <label for="row.subject_id ">Subject Name</label>
             </div>
-            <div class="time-picker c-sm-2 c-md-2 c-lg-2 ">
+            <div class="time-picker">
               <div class="field-wrapper has-value ">
                 <select id="hour " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="selctedScheduledClass.startTime.hour
                     " name="hour " style="background: transparent ">
@@ -1214,7 +1214,7 @@
               </div>
             </div>
 
-            <div class="time-picker c-sm-2 c-md-2 c-lg-2 ">
+            <div class="time-picker">
               <div class="field-wrapper has-value ">
                 <select id="hour " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="selctedScheduledClass.endTime.hour
                     " name="hour " style="background: transparent ">
@@ -1244,7 +1244,7 @@
               </div>
             </div>
 
-            <div class="field-wrapper c-sm-2 c-md-2 c-lg-2 ">
+            <div class="field-wrapper has-value">
               <select id=" " class="form-ctrl " name="row.category_id " [(ngModel)]="selctedScheduledClass.teacher_id ">
                 <option value="-1 "></option>
                 <option *ngFor="let opt of teacherListDataSource " [value]="opt.teacher_id ">
@@ -1254,17 +1254,17 @@
               <label for="row.category_id ">Teacher Name</label>
             </div>
 
-            <div class="field-wrapper c-sm-2 c-md-2 c-lg-2 ">
+            <div class="field-wrapper has-value">
               <input type="textbox " class="form-ctrl " name="label " [(ngModel)]="selctedScheduledClass.class_desc ">
               <label for="label ">Description</label>
             </div>
 
-            <div class="field-wrapper c-sm-2 c-md-2 c-lg-2 ">
+            <div class="field-wrapper has-value">
               <input type="text " class="form-ctrl " name="label " [(ngModel)]="selctedScheduledClass.room_no ">
               <label for="label ">Room No</label>
             </div>
 
-            <div class="c-sm-2 c-md-2 c-lg-2 ">
+            <div class="field-wrapper has-value">
               <select id=" " class="form-ctrl " name="row.category_id " style="background: transparent; " [(ngModel)]="selctedScheduledClass.custom_class_type ">
                 <option *ngFor="let opt of customListDataSource ">
                   {{opt}}

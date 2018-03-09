@@ -43,17 +43,17 @@ export class CourseEditComponent implements OnInit {
     this.getActiveTeacherList();
   }
 
-  openSubjectTable(i){
-    let t = document.getElementById('spani'+i).innerHTML;
-    if(t == '+'){
-      document.getElementById('spani'+i).innerHTML = '-';
-      document.getElementById('spani'+i).classList.add('close-accor');
-      document.getElementById('sub'+i).classList.toggle('hide');
+  openSubjectTable(i) {
+    let t = document.getElementById('spani' + i).innerHTML;
+    if (t == '+') {
+      document.getElementById('spani' + i).innerHTML = '-';
+      document.getElementById('spani' + i).classList.add('close-accor');
+      document.getElementById('sub' + i).classList.toggle('hide');
     }
-    else{
-      document.getElementById('spani'+i).innerHTML = '+';
-      document.getElementById('spani'+i).classList.remove('close-accor');
-      document.getElementById('sub'+i).classList.toggle('hide');
+    else {
+      document.getElementById('spani' + i).innerHTML = '+';
+      document.getElementById('spani' + i).classList.remove('close-accor');
+      document.getElementById('sub' + i).classList.toggle('hide');
     }
   }
 
@@ -131,19 +131,21 @@ export class CourseEditComponent implements OnInit {
   }
 
   deleteSubjectRow(row, mainTableIndex, nestedTableIndex) {
-    if (row.hasOwnProperty('otherDetails')) {
-      this.apiService.deleteSubjectFromServer(row.otherDetails.batch_id).subscribe(
-        data => {
-          console.log(data);
-          this.mainTableDataSource[mainTableIndex].batchesList.splice(nestedTableIndex, 1);
-          this.checkIfAnySelectedRowExist(this.mainTableDataSource[mainTableIndex], mainTableIndex);
-          this.messageToast('success', 'Deleted', 'Sucessfully deleted from the list.');
-        },
-        error => {
-          console.log(error);
-          this.messageToast('error', 'Error', error.error.message);
-        }
-      )
+    if (confirm("Are you sure you want to delete?")) {
+      if (row.hasOwnProperty('otherDetails')) {
+        this.apiService.deleteSubjectFromServer(row.otherDetails.batch_id).subscribe(
+          data => {
+            console.log(data);
+            this.mainTableDataSource[mainTableIndex].batchesList.splice(nestedTableIndex, 1);
+            this.checkIfAnySelectedRowExist(this.mainTableDataSource[mainTableIndex], mainTableIndex);
+            this.messageToast('success', 'Deleted', 'Sucessfully deleted from the list.');
+          },
+          error => {
+            console.log(error);
+            this.messageToast('error', 'Error', error.error.message);
+          }
+        )
+      }
     }
   }
 
@@ -328,6 +330,6 @@ export class CourseEditComponent implements OnInit {
   parseDateFormat(date) {
     return moment(date).format("YYYY-MM-DD")
   }
-  
+
 
 }

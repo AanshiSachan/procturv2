@@ -146,8 +146,8 @@ export class CourseSubjectComponent implements OnInit {
         res => {
           let data = {
             type: "success",
-            title: "Standard Added",
-            body: "New Standard added Successfull!"
+            title: "Subject Added",
+            body: "New Subject added Successfull!"
           }
           this.toastCtrl.popToast(data);
           this.getAllSubjectList();
@@ -198,6 +198,11 @@ export class CourseSubjectComponent implements OnInit {
       this.createNewSubject = false;
       document.getElementById('showCloseBtnSubject').style.display = 'none';
       document.getElementById('showAddBtnSubject').style.display = '';
+      this.newSubjectDetails = {
+        is_active: "Y",
+        standard_id: "",
+        subject_name: ''
+      }
     }
   }
 
