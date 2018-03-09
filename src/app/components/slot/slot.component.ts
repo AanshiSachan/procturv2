@@ -52,7 +52,7 @@ export class SlotComponent implements OnInit {
       this.apiService.addNewSlotToList({ "slot_name": element.value.trim() }).subscribe(
         data => {
           let msg = {
-            type: 'sucess',
+            type: 'success',
             title: "",
             body: "Slot added successfully."
           }

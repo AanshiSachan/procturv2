@@ -109,18 +109,22 @@
 
                 </proctur-image>
             </div>
-            <div class="row">
-                <div class="c-sm-4 c-md-4 c-lg-4" style="margin-right: 20px;">
+            <div class="row" style="margin-top:15%">
+                <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top: 10px;padding-left: 40px" *ngIf="(hasIdCard == 'Y')">
+                    <fieldset>
+                        <legend style="color: #0084f6;">Download Id-Card</legend>
+                        <a>
+                            <img #uploadedImage src="assets/images/download_doc.jpg" style="width: 30px;" (click)="downloadIdCard()" title="Download Attachment">
+                        </a>
+                        <a #uploadImageAnchor class="hide"></a>
+                    </fieldset>
+                </div>
+                <div class="c-sm-4 c-md-4 c-lg-4">
                     <div class="field-wrapper">
                         <input class="hide" type="file" #idCardUpload accept="image/gif,image/jpeg,image/jpg,image/png" (change)="onChangeIdCardUpload()">
                         <input *ngIf="(hasIdCard == 'Y')" type="button" class="btn" value="Update Id-Card" (click)="updateIdCard($event)">
                         <input *ngIf="(hasIdCard == 'N')" type="button" class="btn" value="Upload Id-Card" (click)="updateIdCard($event)">
                     </div>
-                </div>
-                <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top: 10px;" *ngIf="(hasIdCard == 'Y')">
-                    <a #uploadImageAnchor>
-                        <img #uploadedImage src="assets/images/download_doc.jpg" style="width: 30px;" (click)="downloadIdCard()">
-                    </a>
                 </div>
             </div>
         </aside>

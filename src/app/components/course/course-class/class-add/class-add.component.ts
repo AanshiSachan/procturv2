@@ -585,7 +585,7 @@ export class ClassAddComponent implements OnInit {
             obj.duration = courseScheduleList[i].duration;
             obj.subject_name = courseScheduleList[i].subject_name;
             obj.subject_id = courseScheduleList[i].subject_id;
-            obj.teacher_id = batchesList[j].teacher_id;
+            obj.teacher_id = courseScheduleList[i].alloted_teacher_id;
             obj.batch_id = courseScheduleList[i].batch_id;
             obj.class_desc = courseScheduleList[i].class_desc;
             obj.room_no = courseScheduleList[i].room_no;
