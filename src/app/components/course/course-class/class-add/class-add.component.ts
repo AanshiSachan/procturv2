@@ -121,7 +121,7 @@ export class ClassAddComponent implements OnInit {
 
   fetchMasterCourseModule: any = {
     master_course: "-1",
-    requested_date: "Invalid date",
+    requested_date: moment().format("YYYY-MM-DD"),
     inst_id: sessionStorage.getItem('institute_id'),
     course_id: "-1"
   }

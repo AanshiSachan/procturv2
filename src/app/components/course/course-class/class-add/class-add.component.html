@@ -359,9 +359,9 @@
                               </td>
                               <td style="width:10%">
                                 <div class="action-box">
-                                  <span class="mail-notification" (click)="sendReminder()"></span>
-                                  <span class="reschedule-icon" (click)="cancelCourseClicked(row)"></span>
-                                  <span (click)="removeRowFromSchedule(i , row)" class="delete-btn">
+                                  <span class="mail-notification" title="Send Reminder" (click)="sendReminder()"></span>
+                                  <span class="reschedule-icon" title="Cancel Class" (click)="cancelCourseClicked(row)"></span>
+                                  <span (click)="removeRowFromSchedule(i , row)" title="Delete" class="delete-btn">
                                     <i class="fa fa-trash-o" style="font-family: FontAwesome;" aria-hidden="true"></i>
                                   </span>
                                   <!-- <span class="edit-icon"></span> -->
