@@ -589,6 +589,9 @@ export class ClassAddComponent implements OnInit {
             obj.batch_id = courseScheduleList[i].batch_id;
             obj.class_desc = courseScheduleList[i].class_desc;
             obj.room_no = courseScheduleList[i].room_no;
+            obj.course_id = data.coursesList[0].course_id;
+            obj.start_date = data.coursesList[0].start_date;
+            obj.end_date = data.coursesList[0].end_date;
             arr.push(obj);
           }
         }
@@ -982,6 +985,7 @@ export class ClassAddComponent implements OnInit {
 
 
   saveCustomRecurrences() {
+    debugger
     this.weekDaysSelected = this.getSelectedDaysOfWeek();
     if (this.weekDaysSelected.length == 0) {
       this.messageToast('error', 'Error', 'Please provide days of week.');
@@ -993,6 +997,7 @@ export class ClassAddComponent implements OnInit {
       res => {
         console.log(res);
         this.messageToast('success', 'Saved', 'Saved Successfull');
+        this.showPopUpRecurence = false;
       },
       err => {
         console.log(err);
@@ -1021,6 +1026,7 @@ export class ClassAddComponent implements OnInit {
         console.log(res);
         this.messageToast('success', 'Saved', 'Saved Successfull');
         this.checkDatesOverLapping(res);
+        this.showPopUp = false;
       },
       err => {
         console.log(err);
@@ -1084,12 +1090,18 @@ export class ClassAddComponent implements OnInit {
     obj.weekSchd = [];
     for (let t = 0; t < this.weekDaysSelected.length; t++) {
       let test: any = {};
-      test.day_of_week = this.weekDaysSelected[t];
+      test.day_of_week = Number(this.weekDaysSelected[t]);
       test.start_time = startTime;
       test.end_time = endTime;
       test.duration = duration;
       obj.weekSchd.push(test);
     }
+    obj.course_id = this.selctedScheduledClass.course_id;
+    obj.start_date = moment(this.selctedScheduledClass.start_date).format("YYYY-MM-DD");
+    obj.end_date = moment(this.selctedScheduledClass.end_date).format("YYYY-MM-DD");
+    obj.courseClassSchdList = [{
+      class_schedule_id: this.selctedScheduledClass.class_schedule_id
+    }]
     return obj;
   }
 
