@@ -65,7 +65,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   minArr: any[] = ['', '00', '15', '30', '45'];
   meridianArr: any[] = ['', "AM", "PM"];
-
+  isRippleLoad:boolean = false;
   hour: string = ''; minute: string = ''; meridian: string = '';
   newSmsString = {
     data: "",
@@ -334,7 +334,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* OnInit Function */
   ngOnInit() {
-
+    
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.isEnquiryAdministrator();
     this.FetchEnquiryPrefilledData();
@@ -463,9 +463,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Load Table data with respect to the institute data provided */
   loadTableDatatoSource(obj) {
-
+    this.isRippleLoad = true;
     this.fetchingDataMessage = 1;
-    //document.getElementById("bulk-drop").classList.add("hide");
     this.isAllSelected = false;
     this.sourceEnquiry = [];
     this.closeEnquiryFullDetails();
@@ -474,32 +473,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     if (obj.start_index == 0) {
       return this.enquire.getAllEnquiry(obj).subscribe(
         data => {
+          //this.isRippleLoad = false;
           if (data.length != 0) {
             this.totalEnquiry = data[0].totalcount;
             this.sourceEnquiry = data;
-            /* let sourceArr: any[] = [];
-            data.forEach(el => {
-              let obj = {
-                assigned_name: el.assigned_name,
-                enquiry_date: el.enquiry_date,
-                enquiry_no: el.enquiry_no,
-                followUpDate:el.followUpDate,
-                followUpDateTime:el.followUpDateTime,
-                followUpTime: el.followUpTime,
-                follow_type: el.follow_type,
-                institute_enquiry_id: el.institute_enquiry_id,
-                name: el.name,
-                phone: el.phone,
-                priority: el.priority,
-                order_by: el.order_by,
-                sorted_by: el.sorted_by,
-                statusValue: el.statusValue,
-                uiSelected: el.uiSelected,
-                updateDate: el.updateDate,
-              }
-              sourceArr.push(obj);
-            });
-            this.sourceEnquiry = sourceArr; */
             this.cd.markForCheck();
             return this.sourceEnquiry;
           }
@@ -516,6 +493,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           }
         },
         err => {
+          this.isRippleLoad = false;
           let alert = {
             type: 'error',
             title: 'Unable To Connect To Server',
@@ -530,15 +508,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     else {
       return this.enquire.getAllEnquiry(obj).subscribe(
         data => {
+          this.isRippleLoad = false;
           if (data.length != 0) {
-            /* data.forEach(el => {
-              let obj = {
-                isSelected: false,
-                show: true,
-                data: el
-              }
-              this.sourceEnquiry.push(obj);
-            }); */
             this.sourceEnquiry = data;
             this.cd.markForCheck();
           }
@@ -555,6 +526,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           }
         },
         err => {
+          this.isRippleLoad = false;
           let alert = {
             type: 'error',
             title: 'Unable To Connect To Server',
@@ -575,7 +547,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Function to fetch prefill data for advanced filter */
   FetchEnquiryPrefilledData() {
-
+    
     /* Status */
     let status = this.prefill.getEnqStatus().subscribe(
       data => {
@@ -1707,10 +1679,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
     if (this.validateTime()) {
+      this.isRippleLoad = true;
       this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
       this.updateFormData.follow_type = this.getFollowUpReverse(this.updateFormData.follow_type);
       this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
-
       let followupdateTime: string = "";
       if (this.hour != '') {
         let followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
@@ -1721,30 +1693,18 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData)
         .subscribe(
         res => {
+          this.isRippleLoad = false;
           let msg = {
             type: 'success',
             title: 'Enquiry Updated',
             body: 'Your enquiry has been successfully submitted'
           }
-
-        /* this.selectedRow.priority = this.getPriority(this.updateFormData.priority);
-          this.selectedRow.follow_type = this.getFollowUp(this.updateFormData.follow_type);
-          this.selectedRow.statusValue = this.updateFormData.statusValue;
-          this.selectedRow.status = this.enqstatus.forEach(el => { if (el.data_value == this.updateFormData.statusValue) { return el.data_key; } });
-          this.selectedRow.updateDate = moment().format();
-          if (this.hour != '') {
-            let dateTime =
-              this.selectedRow.followUpDateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + this.updateFormData.followUpTime;
-          }
-          else if (this.hour == '') {
-            this.selectedRow.followUpDateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
-          } 
-        */
           this.appC.popToast(msg);
           this.closePopup();
           this.busy = this.loadTableDatatoSource(this.instituteData);
         },
         err => {
+          this.isRippleLoad = false;
           let alert = {
             type: 'error',
             title: 'Failed To Update Enquiry',
@@ -1799,9 +1759,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Delete Enquiry  */
   deleteEnquiry() {
+    this.isRippleLoad = true;
     //console.log(this.selectedRow.institute_enquiry_id);
     this.busy = this.postdata.deleteEnquiryById(this.selectedRow.institute_enquiry_id).subscribe(
       res => {
+        this.isRippleLoad = false;
         let alert = {
           type: 'success',
           title: 'Enquiry Deleted',
@@ -1813,6 +1775,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.busy = this.loadTableDatatoSource(this.instituteData);
       },
       err => {
+        this.isRippleLoad = false;
         let alert = {
           type: 'error',
           title: 'Failed To Delete Enquiry',
@@ -1833,10 +1796,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Make Registration Payment Data update */
   registerPayment() {
+    this.isRippleLoad = true;
     this.registrationForm.institute_enquiry_id = this.selectedRow.institute_enquiry_id.toString();
     this.registrationForm.paymentDate = moment(this.registrationForm.paymentDate).format('YYYY-MM-DD');
     this.postdata.updateRegisterationPayment(this.registrationForm).subscribe(
       res => {
+        this.isRippleLoad = false;
         let alert = {
           type: 'success',
           title: 'Registration Fee Updated',
@@ -1856,6 +1821,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.cd.markForCheck();
       },
       err => {
+        this.isRippleLoad = false;
         let alert = {
           type: 'error',
           title: 'Failed To Update Registration Fee',
@@ -1873,10 +1839,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Service to fetch sms records from server and update table*/
   smsServicesInvoked() {
+    this.isRippleLoad = true;
     /* store the data from server and update table */
     this.cd.markForCheck();
     this.enquire.fetchAllSms().subscribe(
       data => {
+        this.isRippleLoad = false;
         this.cd.markForCheck();
         this.smsSourceApproved = [];
         this.smsSourceOpen = [];
@@ -1895,6 +1863,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         })
       },
       err => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'error',
           title: "Error loading SMS",
@@ -1975,8 +1944,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         message: this.newSmsString.data,
         sms_type: "Transactional"
       }
+      this.isRippleLoad = true;
       this.postdata.addNewSmsTemplate(sms).subscribe(
         res => {
+          this.isRippleLoad = false;
           if (res.statusCode == 200) {
             let msg = {
               type: "success",
@@ -2016,7 +1987,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             this.cd.markForCheck();
           }
         },
-        err => { }
+        err => { 
+          this.isRippleLoad = false;
+        }
       )
     }
   }
@@ -2045,7 +2018,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   opSmsSelected(row, id) {
     this.cd.markForCheck();
     document.getElementById('opradiosms' + id).click();
-    //this.smsBtnToggle = false;
     this.selectedSMS = row;
   }
 
@@ -2057,9 +2029,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* toggle visibility for add new sms DIV */
   addNewMessage() {
-    //console.log(document.getElementById('sms-toggler-icon').innerHTML);
     let content = document.getElementById('sms-toggler-icon').innerHTML;
-
     if (content == "-") {
       document.getElementById('sms-toggler-icon').innerHTML = "+";
       this.newSmsString.data = "";
@@ -2080,20 +2050,14 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Char Count and sms string data update */
   smsStringUpdate(ev) {
-
     let stringArr = this.newSmsString.data.split('');
-    //console.log(stringArr);
     this.newSmsString.length = 0;
     stringArr.forEach(ch => {
       if (ch.charCodeAt(0) <= 127) {
-        /* Unicode text detected */
-        //console.log(ch.charCodeAt(0));
         this.newSmsString.length = this.newSmsString.length + 1;
         this.cd.markForCheck();
       }
       else {
-        /* Non unicode detected */
-        //console.log(ch.charCodeAt(0));
         this.newSmsString.length = this.newSmsString.length + 1;
         this.cd.markForCheck();
       }
@@ -2109,17 +2073,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /* SMS button visibility */
   editSms() {
     this.smsBtnToggle = true;
-    /*  if(this.selectedSMS.message == ''){
-       this.smsBtnToggle = true;
-     }
-     else if(this.selectedSMS.message != ''){
-       if(confirm('Any changes made to template will be discarded')){
-         this.smsBtnToggle = true;
-       }
-       else{
-         this.smsBtnToggle = false;
-       }
-     } */
   }
 
 
@@ -2146,9 +2099,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     let data = {
       message: this.selectedSMS.message
     }
-
+    this.isRippleLoad = true;
     this.postdata.saveEditedSms(this.selectedSMS.message_id, data).subscribe(
       res => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'success',
           title: "SMS Template saved",
@@ -2158,6 +2112,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.cancelSmsEdit();
       },
       err => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'error',
           title: "Failed To Edit SMS Template",
@@ -2279,8 +2234,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       this.appC.popToast(msg);
     }
 
-
-
   }
 
 
@@ -2291,7 +2244,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Trigger Bulk Send SMS PopUp */
   sendBulkSms() {
-    //console.log(this.selectedRowGroup);
     if ((this.selectedRowGroup != null || this.selectedRowGroup != undefined) && (this.selectedRowGroup.length != 0)) {
       this.isMultiSms = true;
       this.smsServicesInvoked();
@@ -2364,8 +2316,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
               enquiryIdList: deleteString.slice(1),
               institution_id: sessionStorage.getItem('institute_id')
             };
+            this.isRippleLoad = true;
             this.postdata.deleteEnquiryBulk(data).subscribe(
               res => {
+                this.isRippleLoad = false;
                 let alert = {
                   type: 'success',
                   title: 'Enquiry Deleted from Record',
@@ -2376,6 +2330,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
                 this.statusFilter({ value: 'All', prop: 'All', checked: true, disabled: false });
               },
               err => {
+                this.isRippleLoad = false;
                 let alert = {
                   type: 'error',
                   title: 'Failed To Delete Enquiry',
@@ -2579,10 +2534,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   bulkAssignEnquiries() {
     this.cd.markForCheck();
     let assigneeArr: any[] = [];
-
+    this.isRippleLoad = true;
     this.assignMultipleForm.enqLi = this.selectedRowGroup;
     this.postdata.setEnquiryAssignee(this.assignMultipleForm).subscribe(
       res => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'success',
           title: 'Enquiries Assigned',
@@ -2593,6 +2549,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.cd.markForCheck();
       },
       err => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'error',
           title: 'Failed To Assign Enquiry',
@@ -2664,8 +2621,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.selectedRow = null;
     this.closeEnquiryFullDetails();
     this.isSideBar = false;
+    this.isRippleLoad = true;
     this.busy = this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
       data => {
+        this.isRippleLoad = false;
         this.sourceEnquiry = data
         /* pagination defination here */
         if (this.sourceEnquiry.length != 0) {
@@ -2687,7 +2646,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         }
       },
       err => {
-
+        this.isRippleLoad = false;
       }
     );
   }
@@ -2809,15 +2768,21 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* fetch subject when user selects any standard on select menu */
   fetchEnquirySubject() {
-    if (this.advancedFilterForm.standard_id != null || this.advancedFilterForm.standard_id != '') {
+    this.isRippleLoad = true;
+    if (this.advancedFilterForm.standard_id != null || this.advancedFilterForm.standard_id != '-1') {
+      this.advancedFilterForm.subject_id = '-1';
+      this.enqSubject = [];
       this.prefill.getEnqSubjects(this.advancedFilterForm.standard_id).subscribe(
         data => {
+          this.isRippleLoad = false;
           this.enqSubject = data;
           this.cd.markForCheck();
         }
       );
     }
     else {
+      this.isRippleLoad = false;
+      this.advancedFilterForm.subject_id = '-1';
       this.enqSubject = [];
     }
   }
@@ -2872,8 +2837,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /* Fetches Data as per the user selected batch size */
   updateTableBatchSize(num) {
     this.displayBatchSize = parseInt(num);
-    //document.getElementById("bulk-drop").classList.add("hide");
-    //sessionStorage.setItem('displayBatchSize', num);
     this.instituteData.batch_size = this.displayBatchSize;
     this.instituteData.start_index = 0;
     this.stats.All.checked = true;
@@ -2886,35 +2849,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.busy = this.loadTableDatatoSource(this.instituteData);
   }
 
-
   /* =========================================================================== */
   /* =========================================================================== */
-
-
-
-  /* Toggle DropDown Menu on Click */
-  /* bulkActionFunctionOpen() {
-    if (document.getElementById("bulk-drop").classList.contains('hide')) {
-      document.getElementById("bulk-drop").classList.remove("hide");
-    }
-    else {
-      document.getElementById("bulk-drop").classList.add("hide");
-    }
-  } */
-
-
-  /* =========================================================================== */
-  /* =========================================================================== */
-
-
-  /* bulkActionFunctionClose() {
-    document.getElementById("bulk-drop").classList.add("hide");
-  } */
-
-
-  /* =========================================================================== */
-  /* =========================================================================== */
-
 
   /* Function to store the data of Custom Component in to Base64 encoded array string */
   customComponentUpdated(val, data) {
@@ -2929,8 +2865,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /* Fetch all the enquiries as xls file */
   downloadAllEnquiries() {
     this.cd.markForCheck();
+    this.isRippleLoad = true;
     this.busy = this.enquire.fetchAllEnquiryAsXls(this.instituteData).subscribe(
       res => {
+        this.isRippleLoad = false;
         let byteArr = this.convertBase64ToArray(res.document);
         let format = res.format;
         let fileName = res.docTitle;
@@ -2991,9 +2929,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Download Receipt API */
   downloadReceiptPdf() {
-
+    this.isRippleLoad = true;
     this.enquire.fetchReceiptPdf(this.selectedRow.invoice_no).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.cd.markForCheck();
         let byteArr = this.convertBase64ToArray(res.document);
         let format = res.format;
@@ -3251,12 +3190,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.mySidenav.nativeElement.style.display = 'block';
     this.enqPage.nativeElement.style.width = "70%";
     this.enqPage.nativeElement.style.marginRight = "29%";
+    this.isRippleLoad = true;
     this.cd.markForCheck();
     this.prefill.fetchCustomComponentById(id).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.cd.markForCheck();
         this.customCompid = res;
         this.isSideBar = true;
+      },
+      err => {
+        this.isRippleLoad = false;
       }
     )
   }
@@ -3268,11 +3212,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
   closeEnquiryFullDetails() {
+    this.isRippleLoad = true;
     this.isSideBar = false;
     this.mySidenav.nativeElement.style.width = "0";
     this.mySidenav.nativeElement.style.display = 'none';
     this.enqPage.nativeElement.style.width = "100%";
     this.enqPage.nativeElement.style.marginRight = "0";
+    this.isRippleLoad = false;
   }
 
   /* =========================================================================== */
@@ -3327,36 +3273,23 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   virtualUpdateEnquiry(obj) {
     this.updateFormData = obj;
     this.cd.markForCheck();
+    this.isRippleLoad = true;
     this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData)
       .subscribe(
       res => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'success',
           title: 'Enquiry Updated',
           body: 'Your enquiry has been successfully submitted'
         }
         this.cd.markForCheck();
-      /* this.selectedRow.priority = obj.priority;
-        this.cd.markForCheck();
-        this.selectedRow.follow_type = obj.follow_type;
-        this.cd.markForCheck();
-        this.selectedRow.statusValue = this.updateFormData.statusValue;
-        this.cd.markForCheck();
-        this.selectedRow.status = this.enqstatus.forEach(el => { if (el.data_value == this.updateFormData.statusValue) { return el.data_key; } });
-        this.selectedRow.updateDate = moment().format('DD-MMM-YY h:mm:ss a');
-        if (this.hour != '') {
-          let dateTime =
-            this.selectedRow.followUpDateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + this.updateFormData.followUpTime;
-        }
-        else if (this.hour == '') {
-          this.selectedRow.followUpDateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
-        } 
-      */
         this.appC.popToast(msg);
         this.closePopup();
         this.busy = this.loadTableDatatoSource(this.instituteData);
       },
       err => {
+        this.isRippleLoad = false;
         let alert = {
           type: 'error',
           title: 'Failed To Update Enquiry',
@@ -3388,70 +3321,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* =========================================================================== */
   /* =========================================================================== */
-
-
-
-  /* Function to convert all select-option tag to ul-li */
-  /*convertSelectToUl() {
- 
-    var myNodeListOne = document.querySelectorAll('.form-ctrl');
- 
-    [].forEach.call(myNodeListOne, function (elm) {
-      if (elm.tagName == 'SELECT') {
-        var allOptions = elm.getElementsByTagName('option');
-        var allreadyCustomDropDown = elm.parentNode.querySelector('.customDropdown');
-        if (allreadyCustomDropDown != null) {
-          allreadyCustomDropDown.remove();
-        }
-        if (allOptions.length > 0) {
-          var listWrapper = document.createElement('ul');
-          listWrapper.classList.add('customDropdown');
-          for (var i = 0; i < allOptions.length; i++) {
-            var list = document.createElement('li');
-            list.innerHTML = allOptions[i].innerHTML;
-            listWrapper.appendChild(list);
-          }
-          elm.parentNode.appendChild(listWrapper);
-          elm.parentNode.classList.add('customSelectWrapper');
-          var listNode = listWrapper.querySelectorAll('li');
-          [].forEach.call(listNode, function (liList) {
-            liList.addEventListener('click', function () {
-              liList.parentNode.parentNode.querySelector('.form-ctrl').value = liList.innerHTML;
-              liList.parentNode.parentNode.classList.add('has-value');
-              liList.parentNode.classList.remove('visibleDropdown');
-              liList.parentNode.parentNode.querySelector('.form-ctrl').style.opacity = 1;
-            })
-          })
-        }
- 
-      }
-    });
- 
-    var myNodeListTwo = document.querySelectorAll('select.form-ctrl');
- 
-    [].forEach.call(myNodeListTwo, function (elm) {
-      elm.addEventListener('click', function () {
-        var listDropdown = document.querySelectorAll('.customDropdown');
-        [].forEach.call(listDropdown, function (elm1) {
-          elm1.parentNode.querySelector('.customDropdown').classList.remove('visibleDropdown');
-        });
-        elm.style.opacity = 0;
-        elm.parentNode.querySelector('.customDropdown').classList.add('visibleDropdown');
-      });
-    });
- 
-    document.addEventListener('click', (e) => {
-      let parent = (<HTMLElement>(<HTMLElement>e.target).parentNode);
-      if (!parent.classList.contains('customDropdown')
-        && !parent.classList.contains('customSelectWrapper')) {
-        var nodeDropdown = document.querySelectorAll('.customDropdown');
-        [].forEach.call(nodeDropdown, function (elm) {
-          elm.classList.remove('visibleDropdown');
-          elm.parentNode.querySelector('.form-ctrl').style.opacity = 1;
-        });
-      }
-    });
-  }*/
 
 }
 

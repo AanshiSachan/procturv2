@@ -3,6 +3,7 @@ export interface addEnquiryForm{
 	phone?: any,
 	email?: any,
 	gender?: any,
+	dob?: any,
 	phone2?: any,
 	email2?: any,
 	curr_address?: any,

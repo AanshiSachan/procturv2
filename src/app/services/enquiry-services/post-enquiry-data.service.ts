@@ -73,8 +73,10 @@ export class PostEnquiryDataService {
 
 
   editFormUpdater(id, data) {
+    data.enquiry_date = moment(data.enquiry_date).format('YYYY-MM-DD');
+    data.followUpDate = moment(data.followUpDate).format('YYYY-MM-DD') == "Invalid date" ? '': moment(data.followUpDate).format('YYYY-MM-DD');
+    data.dob = moment(data.dob).format('YYYY-MM-DD') == "Invalid date"? '': moment(data.dob).format('YYYY-MM-DD');
     this.urlEditFormUpdater = this.baseUrl + "/api/v1/enquiry/" + this.institute_id + "/" + id;
-
     return this.http.put(this.urlEditFormUpdater, data, { headers: this.headers })
       .map(data => {
         return data.json();
@@ -85,10 +87,13 @@ export class PostEnquiryDataService {
 
 
   postNewEnquiry(data) {
+    data.enquiry_date = moment(data.enquiry_date).format('YYYY-MM-DD');
+    data.followUpDate = moment(data.followUpDate).format('YYYY-MM-DD') == "Invalid date" ? '': moment(data.followUpDate).format('YYYY-MM-DD');
+    data.dob = moment(data.dob).format('YYYY-MM-DD') == "Invalid date"? '': moment(data.dob).format('YYYY-MM-DD');
     this.urlPostEnquiry = this.baseUrl + "/api/v1/enquiry/" + this.institute_id;
     return this.http.post(this.urlPostEnquiry, data, { headers: this.headers }).map(
       data => { return data.json(); }
-    )
+    );
   }
 
 

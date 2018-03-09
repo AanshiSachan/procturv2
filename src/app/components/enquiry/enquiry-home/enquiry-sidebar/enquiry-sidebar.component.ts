@@ -31,7 +31,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     wminute: '',
     wmeridian: '',
   }
-
+  isEnquiryAdmin: boolean = false;
   rowData: any;
   instituteEnqId: any;
 
@@ -99,7 +99,9 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
 
 
 
-  constructor(private prefill: FetchprefilldataService, private cd: ChangeDetectorRef, private appC: AppComponent) { }
+  constructor(private prefill: FetchprefilldataService, private cd: ChangeDetectorRef, private appC: AppComponent) {
+    this.isEnquiryAdministrator();
+   }
 
 
 
@@ -379,6 +381,24 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     }
     else {
       this.updateFormData.is_follow_up_time_notification = 0;
+    }
+  }
+
+  isEnquiryAdministrator() {
+    if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+      this.isEnquiryAdmin = true;
+    }
+    else {
+      let permissions: any[] = [];
+      permissions = JSON.parse(sessionStorage.getItem('permissions'));
+      /* User has permission to view all enquiries */
+      if (permissions.includes('115')) {
+        this.isEnquiryAdmin = true;
+      }
+      /* User is not authorized as enquiry admin and see only enquiry assigned to him */
+      else {
+        this.isEnquiryAdmin = false;
+      }
     }
   }
 

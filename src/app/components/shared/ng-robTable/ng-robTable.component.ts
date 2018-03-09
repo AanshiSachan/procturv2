@@ -31,7 +31,7 @@ export class RobTableComponent implements OnChanges {
     selectedRow: number;
     rowSelectedCount: number = 0;
     rowSelectedId: any[] = [];
-    dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
+    dummyArr: any[] = [0, 1, 2, 3, 4,];
 
     @ViewChild('headerCheckbox') hc: ElementRef;
 

@@ -1821,6 +1821,8 @@ ul.customDropdown li:hover {
     position: absolute;
     display: none;
     width: 0%;
+    height: 585px;
+    overflow: hidden;
     right: 0;
     top: 60px;
     padding: 10px;
@@ -1835,6 +1837,16 @@ ul.customDropdown li:hover {
         display: none;
         width: 7px;
         height: 7px;
+    }
+    .sidewrapper{
+        height: 560px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        ::-webkit-scrollbar {
+            display: none;
+            width: 7px;
+            height: 7px;
+        }
     }
 }
 

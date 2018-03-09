@@ -1,10 +1,9 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <section class="homewrap middle-section clearFix" (click)="inputClicked($event)" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
-
   <form (ngSubmit)="save()" #myForm="ngForm">
-
     <!-- Left Side Form -->
     <aside class="pull-left middle-left " id="addNewEnquiry">
-
       <!-- Header -->
       <section class="middle-top clearFix">
         <div class="row">
@@ -15,7 +14,6 @@
 
           </aside>
         </div>
-
       </section>
 
       <!-- Accordian Menu Element -->
@@ -35,34 +33,42 @@
               <!    -- Accordian Form 1 -->
               <div class="accordian-content">
                 <div class="form-type1">
+
+                  <!-- Name -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.name != ''}">
                     <input type="text" value="" id="name" #name="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.name" name="name" maxlength="50"
-                      pattern="[a-zA-Z .]+[a-zA-Z .]+" required />
+                      pattern="^([a-zA-Z .-]){1,30}$" required />
                     <label for="name">Name*</label>
                     <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert invalid-alert">
                       <div *ngIf="name.errors.required">
                         name is required.
                       </div>
                       <div *ngIf="name.errors.pattern">
-                        name cannot have special characters or numbers.
+                        Only Alphabets . - Allowed.
                       </div>
                     </div>
                   </div>
+
+                  <!-- Phone -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.phone != ''}">
                     <input type="text" value="" id="phone" #phone="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.phone" name="phone" maxlength="10"
                       minlength="10" OnlyNumber="true" />
                     <label for="phone">Phone No</label>
                   </div>
+
+                  <!-- Email -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.email != ''}">
                     <input type="text" value="" id="email" #email="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.email" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$"
                     />
                     <label for="email">Email ID</label>
                     <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert invalid-alert">
                       <div *ngIf="email.errors.pattern">
-                        Please enter a valid email ID.
+                        Enter email in format eg. someone@xyz.com
                       </div>
                     </div>
                   </div>
+
+                  <!-- Gender -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.gender != ''}">
                     <select class="form-ctrl" [(ngModel)]="editEnqData.gender" name="gender" id="gender">
                       <option value=""></option>
@@ -72,6 +78,16 @@
                     </select>
                     <label for="gender">Gender</label>
                   </div>
+
+                  <!-- Date of Birth -->
+                  <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': editEnqData.dob != ''}">
+                    <input type="text" value="" id="dob" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.dob" name="dob" readonly='true'
+                      bsDatepicker>
+                    <label for="dob">Date of Birth</label>
+                    <span style="top: 20px;right: -50px;" class="date-clear" name="dob" (click)="editEnqData.dob = ''">clear</span>
+                  </div>
+
+                  <!-- Source -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.source_id != '-1'}">
                     <select id="source" class="form-ctrl" [(ngModel)]="editEnqData.source_id" name="source">
                       <option value="-1"></option>
@@ -79,85 +95,99 @@
                     </select>
                     <label for="source">Source*</label>
                   </div>
+
+                  <!-- Additonal details -->
                   <div class="more-detail">
                     <b>
                       <a (click)="showAdditionDetails()" style="font-size: 14px;font-weight: 600;cursor:pointer">+ &nbsp; Add Additional Details</a>
                     </b>
                   </div>
+
                 </div>
+
                 <div class="form-type1" *ngIf="additionDetails">
                   <br>
+
+                  <!-- Address -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.curr_address != ''}">
                     <input type="text" value="" id="userAddress" class="form-ctrl" [(ngModel)]="editEnqData.curr_address" name="address" />
                     <label for="userAddress">Address</label>
                   </div>
+
+                  <!-- City -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.city != ''}">
                     <input type="text" value="" id="userCity" class="form-ctrl" [(ngModel)]="editEnqData.city" name="city" />
                     <label for="userCity">City</label>
                   </div>
+
+                  <!-- Phone -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.phone2 != ''}">
                     <input type="text" value="" id="phone2" class="form-ctrl" [(ngModel)]="editEnqData.phone2" name="phone2" maxlength="10" minlength="10"
                       OnlyNumber="true" />
                     <label for="altContact">Alternate Contact</label>
                   </div>
+
+                  <!-- Email -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.email2 != ''}">
                     <input type="text" value="" id="email2" #email2="ngModel" class="form-ctrl" [(ngModel)]="editEnqData.email2" name="email2"
                       pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$" />
                     <label for="email2">Alternate Email ID</label>
                     <div *ngIf="email2.invalid && (email2.dirty || email2.touched)" class="alert invalid-alert">
                       <div *ngIf="email2.errors.pattern">
-                        Please enter a valid email ID.
+                        Enter email in format eg. someone@xyz.com
                       </div>
                     </div>
                   </div>
+
+                  <!-- Name -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.parent_name != ''}">
                     <input type="text" value="" id="guardianName" class="form-ctrl" [(ngModel)]="editEnqData.parent_name" name="guardianName"
-                      pattern="[a-zA-Z .]+[a-zA-Z .]+" maxlength="50" #guardianName="ngModel" />
+                      pattern="^([a-zA-Z .-]){1,30}$" maxlength="50" #guardianName="ngModel" />
                     <label for="guardianName">Guardian Name</label>
                     <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianName.errors.pattern">
-                        name cannot have special characters or numbers.
+                        Only Alphabets . - Allowed.
                       </div>
                     </div>
                   </div>
+
+                  <!-- Phone -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.parent_phone != ''}">
                     <input type="text" value="" id="guardianContact" class="form-ctrl" [(ngModel)]="editEnqData.parent_phone" name="guardianContact"
                       maxlength="10" minlength="10" OnlyNumber="true" />
                     <label for="guardianContact">Guardian Contact</label>
                   </div>
+
+                  <!-- Email -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.parent_email != ''}">
                     <input type="text" value="" id="guardianEmail" class="form-ctrl" [(ngModel)]="editEnqData.parent_email" name="guardianEmail"
                       pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$" #guardianEmail="ngModel" />
                     <label for="guardianEmail">Guardian Email</label>
                     <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianEmail.errors.pattern">
-                        Please enter a valid email Id.
+                        Enter email in format eg. someone@xyz.com
                       </div>
                     </div>
                   </div>
+
+                  <!-- Link -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.link != ''}">
                     <input type="text" value="" id="enquirerLink" class="form-ctrl" [(ngModel)]="editEnqData.link" name="enquirerLink" />
                     <label for="enquirerLink">Link Details</label>
                   </div>
+
+                  <!-- Fee Commited -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.fee_committed != ''}">
                     <input type="text" value="" id="feeCommitted" class="form-ctrl" [(ngModel)]="editEnqData.fee_committed" name="feeCommitted"
-                      pattern="[0-9]+" #feeCommitted="ngModel" />
+                      #feeCommitted="ngModel" OnlyNumber="true" />
                     <label for="feeCommitted">Fees Committed Details</label>
-                    <div *ngIf="feeCommitted.invalid && (feeCommitted.dirty || feeCommitted.touched)" class="alert invalid-alert">
-                      <div *ngIf="feeCommitted.errors.pattern">
-                        Fee cannot have alphabets or special characters.
-                      </div>
-                    </div>
                   </div>
+
+                  <!-- Discount -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.discount_offered != ''}">
                     <input type="text" value="" id="discount" class="form-ctrl" [(ngModel)]="editEnqData.discount_offered" name="discount" pattern="[0-9]+"
-                      #discount="ngModel" />
+                      OnlyNumber="true" #discount="ngModel" />
                     <label for="discount">Discount Offered Details</label>
-                    <div *ngIf="discount.invalid && (discount.dirty || discount.touched)" class="alert invalid-alert">
-                      <div *ngIf="discount.errors.pattern">
-                        discount cannot have alphabets or special characters.
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -173,6 +203,7 @@
               </div>
               <div class="accordian-content">
                 <div class="form-type2">
+
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.school_id != '-1'}">
                     <select id="institutionName" class="form-ctrl" [(ngModel)]="editEnqData.school_id" name="institutename">
                       <option value="-1"></option>
@@ -182,24 +213,26 @@
                     </select>
                     <label for="institutionName">Institution Name</label>
                   </div>
+
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.standard_id != '-1'}">
                     <select id="editStandard" class="form-ctrl" [(ngModel)]="editEnqData.standard_id" (ngModelChange)="fetchSubject($event)"
                       name="editStandard">
                       <option value="-1"></option>
                       <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
                     </select>
-                    <label for="editStandard">For Standard</label>
-                    <!-- <div class="questionInfo">
-                      <span class="qInfoIcon">?</span>
-                    </div> -->
+                    <label *ngIf="!isProfessional" for="standard">Standard</label>
+                    <label *ngIf="isProfessional" for="standard">Master Course</label>
                   </div>
+
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.subject_id != '-1'}">
                     <select id="forSubject" class="form-ctrl" [(ngModel)]="editEnqData.subject_id" name="subject">
                       <option value="-1"></option>
                       <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
                     </select>
-                    <label for="forSubject">For Subject</label>
+                    <label *ngIf="!isProfessional" for="selectSub">Subject</label>
+                    <label *ngIf="isProfessional" for="selectSub">Course</label>
                   </div>
+
                   <custom-enquiry *ngFor="let component of customComponents">
                     <div class="" *ngIf="component.type == 1" input-def>
                       <div class="field-wrapper" [class.has-value]="component.value != ''">
@@ -254,6 +287,7 @@
                     </div>
 
                   </custom-enquiry>
+                  
                 </div>
               </div>
             </li>
@@ -396,8 +430,8 @@
               <div class="row" style="background: #d1d1d1;">
                 <div class="c-lg-12 c-md-12 c-sm-12">
                   <div class="field-wrapper" style="background: transparent;">
-                    <textarea placeholder="Update Comment Here (max 1000 characters)" rows="2" cols="10" style="height: 200px;background: transparent;" id="addcommentEdit"
-                      class="form-ctrl" [(ngModel)]="updateFormData.comment">
+                    <textarea placeholder="Update Comment Here (max 1000 characters)" rows="2" cols="10" style="height: 200px;background: transparent;"
+                      id="addcommentEdit" class="form-ctrl" [(ngModel)]="updateFormData.comment">
                     </textarea>
                   </div>
                 </div>
@@ -433,7 +467,7 @@
                       <td>{{updateFormCommentsBy[i]}}</td>
                     </tr>
                   </tbody>
-                  <tbody  *ngIf="updateFormComments.length == 0">
+                  <tbody *ngIf="updateFormComments.length == 0">
                     <tr>
                       <td colspan="3">
                         No Comments Found

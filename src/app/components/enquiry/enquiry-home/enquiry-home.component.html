@@ -1,3 +1,5 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <div class="middle-section clearFix" id="enquiryList" #enquiryManager [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
   <!-- Main View -->
   <aside class="middle-full" #enqPage>
@@ -10,7 +12,7 @@
       <aside class="headEnq pull-right">
         <ul>
           <li style="display: inline-flex;">
-            <p-splitButton label="{{selectedRowCount}} Enquiry Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton>
+            
           </li>
           <li class="headerBtn" routerLink='add'>
             <i>
@@ -106,6 +108,7 @@
           <!-- Advanced Filter Div Element -->
           <div class="AdFilter-field hide" id="advanced-filter-section">
 
+            <!-- Status -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper">
                 <select id="enquiryStatus" class="form-ctrl" [(ngModel)]="advancedFilterForm.filtered_statuses" name="status">
@@ -116,6 +119,7 @@
               </div>
             </div>
 
+            <!-- Priority -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper">
                 <select id="enquiryPriority" class="form-ctrl" [(ngModel)]="advancedFilterForm.priority" name="priority">
@@ -128,6 +132,7 @@
               </div>
             </div>
 
+            <!-- Followup Type -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper">
                 <select id="followupType" class="form-ctrl" [(ngModel)]="advancedFilterForm.follow_type" name="followType">
@@ -140,11 +145,11 @@
               </div>
             </div>
 
-
+            <!-- Standard -->
             <div class="c-lg-4 c-md-4 c-sm-4">
-              <div class="field-wrapper">
+              <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.standard_id != '-1'}">
                 <select id="standard" class="form-ctrl" [(ngModel)]="advancedFilterForm.standard_id" name="standard" (ngModelChange)="fetchEnquirySubject()">
-                  <option></option>
+                  <option value="-1"></option>
                   <option *ngFor="let std of enqStd" [value]="std.standard_id">
                     {{ std.standard_name }}
                   </option>
@@ -154,10 +159,11 @@
               </div>
             </div>
 
+            <!-- Subject -->
             <div class="c-lg-4 c-md-4 c-sm-4">
-              <div class="field-wrapper">
+              <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.subject_id != '-1'}">
                 <select id="selectSub" class="form-ctrl" [(ngModel)]="advancedFilterForm.subject_id" name="subject">
-                  <option></option>
+                  <option value="-1"></option>
                   <option *ngFor="let subject of enqSubject" [value]="subject.subject_id">
                     {{ subject.subject_name }}
                   </option>
@@ -167,6 +173,7 @@
               </div>
             </div>
 
+            <!-- Slot -->
             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
               <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                 <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
@@ -186,6 +193,7 @@
               </div>
             </div>
 
+            <!-- Assigned -->
             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isEnquiryAdmin">
               <div class="field-wrapper">
                 <select id="assignTo" class="form-ctrl" [(ngModel)]="advancedFilterForm.assigned_to" name="assignTo">
@@ -198,6 +206,7 @@
               </div>
             </div>
 
+            <!-- Update Date -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper datePickerBox">
                 <input type="text" value="" id="updateDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.updateDate" name="UD"
@@ -207,6 +216,7 @@
               </div>
             </div>
 
+            <!-- Enquiry From Date -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper datePickerBox">
                 <input type="text" value="" id="enquiryFromDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.enquireDateFrom"
@@ -216,6 +226,7 @@
               </div>
             </div>
 
+            <!-- Enquiry To Date -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper datePickerBox">
                 <input type="text" value="" id="enquiryToDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.enquireDateTo"
@@ -225,6 +236,7 @@
               </div>
             </div>
 
+            <!-- Custom Component -->
             <custom-enquiry *ngFor="let component of customComponents">
 
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
@@ -275,6 +287,7 @@
 
             </custom-enquiry>
 
+            <!-- Submitter -->
             <div class="row">
               <div class="c-lg-12 c-md-12 c-sm-12">
                 <div class="field-wrapper pull-left">
@@ -286,6 +299,7 @@
 
               </div>
             </div>
+
           </div>
 
         </div>
@@ -325,7 +339,7 @@
   </aside>
 
   <aside #mySidenav class="middle-full sidenav">
-    <div class="" *ngIf="isSideBar">
+    <div class="sidewrapper" *ngIf="isSideBar">
       <a href="javascript:void(0)" title="close" class="closebtn" (click)="closeEnquiryFullDetails($event)">
         <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon" focusable="false"><path d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" class="large-icon" style="fill: currentColor"></path></svg>
       </a>

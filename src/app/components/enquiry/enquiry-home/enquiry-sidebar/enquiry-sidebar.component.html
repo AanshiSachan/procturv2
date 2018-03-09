@@ -66,7 +66,7 @@
                         </div>
 
                         <!-- Assigned To -->
-                        <div class="form-wrapper c-sm-6 c-xs-6">
+                        <div class="form-wrapper c-sm-6 c-xs-6" *ngIf="isEnquiryAdmin">
                             <label for="assignedTo">Assigned To</label>
                             <select id="assignedTo" class="side-form-ctrl" name="assignedTo" [(ngModel)]="updateFormData.assigned_to">
                                 <option value="-1"></option>
@@ -131,14 +131,14 @@
                         </div>
 
                         <!-- Branch -->
-                        <div class="form-wrapper c-sm-6 c-xs-6">
+                        <!-- <div class="form-wrapper c-sm-6 c-xs-6">
                             <label for="branch">Branch</label>
                             <select id="branch" class="side-form-ctrl" [(ngModel)]="updateFormData.no_of_branches" name="branch">
                                 <option value="-1"></option>
                                 <option value=""></option>
                                 <option value=""></option>
                             </select>
-                        </div>
+                        </div> -->
 
                         <!-- Notify Me -->
                         <div class="form-checkbox-wrapper c-sm-6 c-xs-6">
@@ -151,7 +151,7 @@
                         <!-- Comments -->
                         <div class="form-wrapper c-sm-12 c-xs-12">
                             <div class="field-wrapper">
-                                <textarea placeholder="Update Comment Here (max 1000 characters)" rows="1" cols="2" style="height: 30px;" id="addcommentEdit"
+                                <textarea placeholder="Update Comment Here (max 1000 characters)" rows="1" cols="2" style="height: 45px;" id="addcommentEdit"
                                     class="form-ctrl" [(ngModel)]="updateFormData.comment">
                                 </textarea>
                             </div>

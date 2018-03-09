@@ -41,11 +41,13 @@ export class EnquiryEditComponent implements OnInit {
   lastDetail: any = [];
   confimationPop: boolean = false;
   updatePop: boolean = false;
+  isProfessional: boolean = false;
   institute_enquiry_id: any = '';
   editEnqData: addEnquiryForm = {
     name: "",
     phone: "",
     email: "",
+    dob: null,
     gender: "",
     phone2: "",
     email2: "",
@@ -144,6 +146,7 @@ export class EnquiryEditComponent implements OnInit {
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
   constructor(private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private pops: PopupHandlerService,
     private poster: PostEnquiryDataService, private appC: AppComponent, private login: LoginService, private route: ActivatedRoute) {
+    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     if (sessionStorage.getItem('Authorization') == null) {
       let data = {
         type: "error",
@@ -499,14 +502,16 @@ export class EnquiryEditComponent implements OnInit {
 
   /* Function to fetch subject when user selects a standard from dropdown */
   fetchSubject(value) {
-
     if (value != null && value != '' && value != '-1') {
+      this.editEnqData.subject_id = '-1';
+      this.enqSub = [];
       this.editEnqData.standard_id = value;
       this.prefill.getEnqSubjects(this.editEnqData.standard_id).subscribe(
         data => { this.enqSub = data; }
       )
     }
     else {
+      this.editEnqData.subject_id = '-1';
       this.enqSub = [];
     }
   }
@@ -515,7 +520,7 @@ export class EnquiryEditComponent implements OnInit {
 
 
   /* Function to submit validated form data */
-  submitForm() {
+  submitForm() { 
 
     //Validates if the custom component required fields are selected or not
     let customComponentValidator = this.validateCustomComponent();
@@ -527,8 +532,6 @@ export class EnquiryEditComponent implements OnInit {
 
       if (this.validateTime()) {
         let id = this.institute_enquiry_id;
-        this.editEnqData.enquiry_date = moment(this.editEnqData.enquiry_date).format('YYYY-MM-DD');
-        this.editEnqData.followUpDate = moment(this.editEnqData.followUpDate).format('YYYY-MM-DD');
         this.editEnqData.enqCustomLi = this.getCustomComponents();
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
           data => {

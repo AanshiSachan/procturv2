@@ -29,6 +29,7 @@ export class EnquiryAddComponent implements OnInit {
   enqFollowType: any = [];
   enqAssignTo: any = [];
   enqStd: any = [];
+  isProfessional: boolean = false;
   enqSub: any = [];
   enqScholarship: any = [];
   enqSub2: any = [];
@@ -47,6 +48,7 @@ export class EnquiryAddComponent implements OnInit {
     gender: "",
     phone2: "",
     email2: "",
+    dob: null,
     curr_address: "",
     parent_name: "",
     parent_phone: "",
@@ -170,6 +172,7 @@ export class EnquiryAddComponent implements OnInit {
 
   constructor(private prefill: FetchprefilldataService, private router: Router,
     private logger: Logger, private appC: AppComponent, private poster: PostEnquiryDataService, private login: LoginService) {
+    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
@@ -390,7 +393,7 @@ export class EnquiryAddComponent implements OnInit {
     this.prefill.fetchLastDetail().subscribe(
       data => {
         this.lastDetail = data;
-        console.log(this.lastDetail);
+        //console.log(this.lastDetail);
       },
       err => {
         // console.log(err);
@@ -595,8 +598,9 @@ export class EnquiryAddComponent implements OnInit {
 
   /* Function to fetch subject when user selects a standard from dropdown */
   fetchSubject(value) {
-
     if (value != null && value != '' && value != '-1') {
+      this.newEnqData.subject_id = '-1';
+      this.enqSub = [];
       this.newEnqData.standard_id = value;
       this.prefill.getEnqSubjects(this.newEnqData.standard_id).subscribe(
         data => {
@@ -605,6 +609,7 @@ export class EnquiryAddComponent implements OnInit {
       )
     }
     else {
+      this.newEnqData.subject_id = '-1';
       this.enqSub = [];
     }
 
@@ -682,7 +687,6 @@ export class EnquiryAddComponent implements OnInit {
 
   /* Function to submit validated form data */
   submitForm(form: NgForm) {
-    //debugger
     //Validates if the custom component required fields are selected or not
     let customComponentValidator = this.validateCustomComponent();
 
@@ -692,10 +696,7 @@ export class EnquiryAddComponent implements OnInit {
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
       if (this.validateTime()) {
-        this.newEnqData.enquiry_date = moment(this.newEnqData.enquiry_date).format('YYYY-MM-DD');
-        this.newEnqData.followUpDate = moment(this.newEnqData.followUpDate).format('YYYY-MM-DD');
         this.newEnqData.enqCustomLi = this.getCustomComponents();
-        console.log(this.newEnqData.enqCustomLi);
         if (this.hour != '') {
           this.newEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         }
@@ -745,8 +746,6 @@ export class EnquiryAddComponent implements OnInit {
       }
     }
     else {
-      //console.log(this.isFormValid);
-      //console.log(customComponentValidator);
       let msg = {
         type: 'error',
         title: 'Academic Data Incomplete',
