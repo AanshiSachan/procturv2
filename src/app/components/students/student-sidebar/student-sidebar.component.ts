@@ -18,6 +18,10 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   @Output() deleteStudent = new EventEmitter<any>();
   @Output() editNotes = new EventEmitter<any>();
 
+  //@ViewChild('acc') acc: ElementRef;
+  @ViewChild('one') one: ElementRef;
+  @ViewChild('two') two: ElementRef;
+
 
   @ViewChild('imgDisp') im: ElementRef;
   private showMenu: boolean = false;
@@ -96,6 +100,19 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   closeMenu() {
     this.showMenu = false;
   }
+
+  toggleAccordian(id) {
+    //console.log(id);
+    if (id === 'one') {
+      this.one.nativeElement.classList.toggle('liclosed');
+      this.two.nativeElement.classList.add('liclosed');
+    }
+    else if (id === 'two') {
+      this.two.nativeElement.classList.toggle('liclosed');
+      this.one.nativeElement.classList.add('liclosed');
+    }
+  }
+
 
 
   @HostListener("document:click", ['$event'])

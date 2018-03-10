@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
@@ -78,25 +78,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     institution_id: sessionStorage.getItem('institute_id')
   }
 
-  private headerArr: any = {
-    student_disp_id: { id: 'student_disp_id', title: 'Student ID.', filter: false, show: true },
-    student_name: { id: 'student_name', title: 'Student Name', filter: false, show: true },
-    student_phone: { id: 'student_phone', title: 'Contact No.', filter: false, show: true },
-    doj: { id: 'doj', title: 'Joining Date', filter: false, show: true },
-    student_class: { id: 'student_class', title: 'Standard/Class', filter: false, show: true },
-    parent_phone: { id: 'parent_phone', title: 'Parent Contact No.', filter: false, show: true },
-    noOfBatchesAssigned: { id: 'noOfBatchesAssigned', title: 'Course Assigned', filter: false, show: true },
-    student_email: { id: 'student_email', title: 'Student Email', filter: false, show: false },
-    student_sex: { id: 'student_sex', title: 'Gender', filter: false, show: false },
-    dob: { id: 'dob', title: 'Date Of Birth', filter: false, show: false },
-    alternateEmailID: { id: 'alternateEmailID', title: 'Alternate Email', filter: false, show: false },
-    guardian_email: { id: 'guardian_email', title: 'Guardian Email', filter: false, show: false },
-    guardian_name: { id: 'guardian_name', title: 'Guardian Name', filter: false, show: false },
-    guardian_phone: { id: 'guardian_phone', title: 'Guardian Phone', filter: false, show: false },
-    parent_name: { id: 'parent_name', title: 'Parent Name', filter: false, show: false },
-    parent_email: { id: 'parent_email', title: 'Parent Email', filter: false, show: false },
-  };
-
   StudentSettings: ColumnSetting[] = [
     { primaryKey: 'student_disp_id', header: 'Student Id.' },
     { primaryKey: 'student_name', header: 'Name.' },
@@ -107,58 +88,9 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     { primaryKey: 'noOfBatchesAssigned', header: 'Batch Assigned' }
   ];
 
-  selectedOption: any = {
-    student_email: { id: 'student_email', show: false },
-    student_sex: { id: 'student_sex', show: false },
-    dob: { id: 'dob', show: false },
-    alternateEmailID: { id: 'alternateEmailID', show: false },
-    guardian_email: { id: 'guardian_email', show: false },
-    guardian_name: { id: 'guardian_name', show: false },
-    guardian_phone: { id: 'guardian_phone', show: false },
-    parent_name: { id: 'parent_name', show: false },
-    parent_email: { id: 'parent_email', show: false },
-  };
-
-
-  myOptions: any[] = [
-    { id: 'alternateEmailID', name: 'Alternate Email' },
-    { id: 'dob', name: 'Date Of Birth' },
-    { id: 'guardian_email', name: 'Guardian Email' },
-    { id: 'guardian_name', name: 'Guardian Name' },
-    { id: 'guardian_phone', name: 'Guardian Phone' },
-    { id: 'student_sex', name: 'Gender' },
-    { id: 'parent_name', name: 'Parent Name' },
-    { id: 'parent_email', name: 'Parent Email' },
-    { id: 'student_email', name: 'Student Email' }
-  ]
-
-  /* Setting for Multiselect dropdown menu */
-  mySettings: IMultiSelectSettings = {
-    enableSearch: true,
-    checkedStyle: 'checkboxes',
-    buttonClasses: 'btn dropdown-button',
-    fixedTitle: true,
-    dynamicTitleMaxItems: 0,
-    displayAllSelectedText: false
-  };
-
-
-  /* Default Text for Multiselect dropdown menu */
-  myTexts: IMultiSelectTexts = {
-    checkAll: 'Select all',
-    uncheckAll: 'Unselect all',
-    checked: '',
-    checkedPlural: '',
-    searchPlaceholder: 'Find',
-    searchEmptyResult: 'Nothing found...',
-    searchNoRenderText: 'Type in search box to see results...',
-    defaultTitle: '',
-    allSelected: 'All selected',
-  };
-
-
-
-
+  @ViewChild('studentPage') studentPage: ElementRef;
+  @ViewChild('mySidenav') mySidenav: ElementRef;  
+  @ViewChild('optMenu') optMenu: ElementRef;
   /* Model for institute Data for fetching student enquiry */
   instituteData: instituteInfo = {
     school_id: -1,
@@ -178,9 +110,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     order_by: ''
   };
 
-
-
-
   advancedFilterForm: instituteInfo = {
     school_id: -1,
     standard_id: -1,
@@ -199,16 +128,10 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     order_by: ''
   }
 
-
-
-
-
   constructor(private prefill: FetchprefilldataService, private router: Router,
     private studentFetch: FetchStudentService, private login: LoginService,
     private appC: AppComponent, private studentPrefill: AddStudentPrefillService, private postService: PostStudentDataService) {
   }
-
-
 
   /* OnInit function to set toggle default columns and load student data for table*/
   ngOnInit() {
@@ -218,24 +141,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.busy = this.loadTableDataSource(this.instituteData);
     this.busy = this.fetchStudentPrefill();
-    this.myOptions = [
-      { id: 'alternateEmailID', name: 'Alternate Email' },
-      { id: 'dob', name: 'Date Of Birth' },
-      { id: 'guardian_email', name: 'Guardian Email' },
-      { id: 'guardian_name', name: 'Guardian Name' },
-      { id: 'guardian_phone', name: 'Guardian Phone' },
-      { id: 'student_sex', name: 'Gender' },
-      { id: 'parent_name', name: 'Parent Name' },
-      { id: 'parent_email', name: 'Parent Email' },
-      { id: 'student_email', name: 'Student Email' },
-      /* { id: 'student_phone', name: 'Contact No.' }, */
-      /* { id: 'noOfBatchesAssigned', name: 'Course Assigned' }, */
-      /* { id: 'doj', name: 'Joining Date' },
-      { id: 'parent_phone', name: 'Parent Contact No.' }, */
-      /* { id: 'student_class', name: 'Standard/Class' }, */
-      /* { id: 'student_disp_id', name: 'Student ID.' },
-      { id: 'student_name', name: 'Student Name' }, */
-    ];
+    
     this.bulkActionItems = [
       {
         label: 'Bulk Action 2', icon: 'fa-trash-o', command: () => {
@@ -245,13 +151,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     ];
   }
 
-
-
-  ngOnChanges() {
-
-  }
-
-
+  ngOnChanges() {}
 
   /* Fetch data from server and convert to custom array */
   loadTableDataSource(obj) {
@@ -339,10 +239,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   }
 
-
-
-
-
   getDirection(): string {
     //console.log(this.currentDirection);
     if (this.currentDirection == "desc") {
@@ -355,9 +251,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
-
-
-
   /* fetch the data from server based on specific page number by converting the index into start_index */
   fectchTableDataByPage(index) {
     this.PageIndex = index;
@@ -369,19 +262,11 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.busy = this.loadTableDataSource(this.instituteData);
   }
 
-
-
-
-
   /* Fetch next set of data from server and update table */
   fetchNext() {
     this.PageIndex++;
     this.fectchTableDataByPage(this.PageIndex);
   }
-
-
-
-
 
   /* Fetch previous set of data from server and update table */
   fetchPrevious() {
@@ -389,19 +274,11 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.fectchTableDataByPage(this.PageIndex);
   }
 
-
-
-
-
   /* When user click on a row add class 
     selected and check that row */
   rowclicked(row) {
     this.selectedRow = row;
   }
-
-
-
-
 
   /* update the checked status of the user selected rows checkbox on click */
   rowCheckBoxClick(state, id, no) {
@@ -420,17 +297,11 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
-
-
-
   /* navigate the user to edit page for the specific student */
   editStudent(id) {
     localStorage.setItem('studentId', id);
     this.router.navigate(['/student/edit/'+id]);
   }
-
-
-
 
   /* Delete the student selected or archieve the student selected */
   deleteStudent(id) {
@@ -454,31 +325,22 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     );
   }
 
-
-
-
   deleteStudentOpen(row) {
     this.selectedRow = row;
     this.isDeleteStudentPrompt = true;
   }
 
-
-
-
   closeDeletePopup() {
     this.isDeleteStudentPrompt = false;
   }
-
-
-
 
   /* Perform the bulk action for checcked row on basis of the id of selected LI */
   bulkActionPerformer(id) {
 
     if (id == 1) {
       if (this.selectedRowGroup.length != 0) {
-        console.log('bulk action' + id + 'selected');
-        console.log(this.selectedRowGroup);
+        //console.log('bulk action' + id + 'selected');
+        //console.log(this.selectedRowGroup);
       }
       else {
         let msg = {
@@ -504,23 +366,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
-
-
-
-  /* Toggle the status of the selected column the static column will not move and the user can toggle the rest */
-  toggleOptionChange(bool, id) {
-    if (bool) {
-      this.selectedOption[id].show = true;
-    }
-    else {
-      this.selectedOption[id].show = false;
-    }
-
-  }
-
-
-
-
   /* Function to open advanced filter */
   openAdFilter() {
     this.closeSideBar();
@@ -531,9 +376,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     document.getElementById('advanced-filter-section').classList.remove('hide');
   }
 
-
-
-
   /* Function to close advanced filter */
   closeAdFilter() {
     //document.getElementById('middleMainForEnquiryList').classList.remove('hasFilter');
@@ -542,10 +384,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     document.getElementById('adFilterOpen').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.add('hide');
   }
-
-
-
-
 
   /* update the advanced filter forn */
   advancedSearch() {
@@ -573,8 +411,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.closeAdFilter();
   }
 
-
-
   /* If the user select the top checkbox and update its status, all the rows are selectedd or unselected on this basis*/
   toggleSelectAll(status) {
 
@@ -595,9 +431,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
 
   }
-
-
-
 
   /* Fetches Data as per the user selected batch size */
   updateTableBatchSize(num) {
@@ -634,15 +467,10 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     );
   }
 
-
-
-
   /* Toggle page size menu on Click */
   bulkActionFunction() {
     document.getElementById("bulk-drop").classList.toggle("show");
   }
-
-
 
   /* Download the records for student as per the set institute data */
   downloadAllStudent() {
@@ -660,7 +488,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       course_id: -1
     }
 
-    this.busy = this.studentFetch.downloadStudentTableasXls(data).subscribe(
+    this.busy = this.studentFetch.downloadStudentTableasXls(this.instituteData).subscribe(
       res => {
         let byteArr = this.convertBase64ToArray(res.document);
         let format = res.format;
@@ -684,8 +512,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     );
   }
 
-
-
   /* Converts base64 string into a byte[] */
   convertBase64ToArray(val) {
 
@@ -698,9 +524,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     return bytes.buffer;
 
   }
-
-
-
 
   /* Store the prefill data for student add form component */
   fetchStudentPrefill() {
@@ -754,9 +577,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
-
-
-
   /* Custom Compoenent array creater */
   createPrefilledData(dataArr: any[]): any[] {
     let customPrefilled: any[] = [];
@@ -771,9 +591,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     return customPrefilled;
   }
 
-
-
-
   /* if custom component is of type multielect then toggle the visibility of the dropdowm */
   multiselectVisible(elid) {
     let targetid = elid + "multi";
@@ -786,9 +603,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       }
     }
   }
-
-
-
 
   /* if custom component is of type multielect then update the selected or unselected data*/
   updateMultiSelect(data, id) {
@@ -833,10 +647,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   }
 
-
-
-
-
   /* When user select the master course or standard then fetch the sub or sub course for them */
   updateSubCourse(course) {
     this.advancedFilterForm.course_id = '-1';
@@ -847,10 +657,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       }
     })
   }
-
-
-
-
 
   /* when the user select the master course then fetch course for the related */
   fetchCourseForMaster(id) {
@@ -863,9 +669,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       }
     )
   }
-
-
-
 
   /* Customiized click detection strategy */
   inputClicked(ev) {
@@ -891,8 +694,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       }
     }
   }
-
-
 
   clearAdvancedFilterForm() {
 
@@ -920,9 +721,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     });
 
   }
-
-
-
 
   searchDatabase() {
     /* If User has entered an empty value needs to be informed */
@@ -992,26 +790,16 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
-
-
-
-
   /* update the latest comment for the selected student */
   openEditComment(row) {
     this.selectedRow = row;
     this.isAddComment = true;
   }
 
-
-
-
   /* update the latest comment for the selected student */
   closeEditComment() {
     this.isAddComment = false;
   }
-
-
-
 
   /* update the latest comment for the selected student */
   updateComment() {
@@ -1040,15 +828,9 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     )
   }
 
-
-
-
   getMin(): number {
     return ((this.studentdisplaysize * this.PageIndex) - this.studentdisplaysize) + 1;
   }
-
-
-
 
   getMax(): number {
     if (this.studentDataSource.length != 0) {
@@ -1059,8 +841,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       return max;
     }
   }
-
-
 
   getSlots() {
     return this.studentPrefill.fetchSlots().subscribe(
@@ -1078,8 +858,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       err => { }
     )
   }
-
-
 
   updateSlotSelected(data) {
     /* slot checked */
@@ -1123,13 +901,10 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   }
 
-
-
   getSelected(ev) {
     //console.log(ev);
     this.selectedRowGroup = ev;
   }
-
 
   getRowCount(ev) {
     //console.log(ev);
@@ -1152,14 +927,12 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
-
-
   openSideBar(ev) {
-    document.getElementById("student-side").style.width = "30%";
-    document.getElementById("student-table").style.width = "70%";
-    document.getElementById("paginator").style.width = "70%";
-    document.getElementById("student-table").style.marginRight = "30%";
-    document.getElementById("paginator").style.marginRight = "30%";    
+    this.studentPage.nativeElement.style.width = "70%";
+    this.studentPage.nativeElement.style.marginRight = "29%";
+    this.mySidenav.nativeElement.style.width = "29%";
+    this.mySidenav.nativeElement.style.display = 'block';
+    this.optMenu.nativeElement.classList.add('shorted');
     let id = ev.student_id;
     this.isSideBar = false;
     this.isRippleLoad = true;
@@ -1174,17 +947,18 @@ export class StudentHomeComponent implements OnInit, OnChanges {
           }
         )
       }
-    )
+    );
   }
 
 
   closeSideBar() {
     this.isSideBar = false;
-    document.getElementById("student-side").style.width = "0";
-    document.getElementById("student-table").style.width = "100%";
-    document.getElementById("student-table").style.marginRight = "0";
-    document.getElementById("paginator").style.width = "100%";
-    document.getElementById("paginator").style.marginRight = "0";
+    this.studentPage.nativeElement.style.width = "100%";
+    this.studentPage.nativeElement.style.marginRight = "0";
+    this.mySidenav.nativeElement.style.width = "0";
+    this.mySidenav.nativeElement.style.display = 'none';
+    this.optMenu.nativeElement.classList.remove('shorted');
   }
   
+
 }

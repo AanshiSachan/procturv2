@@ -76,10 +76,11 @@
 
     <div class="acc-wrapper">
         <ul>
-            <li>
-                <input type="checkbox" checked>
-                <i></i>
-                <h2>Basic Details</h2>
+            <li #one class="">
+                <div class="row lihead" (click)="toggleAccordian('one')">
+                    <i></i>
+                    <h2>Basic Details</h2>
+                </div>
                 <section>
                     <div class="row">
                         <div class="c-lg-6 c-md-6 c-sm-6">
@@ -177,12 +178,14 @@
                             {{rowData.student_curr_addr}}
                         </div>
                     </div>
-                </section>
+                </section>                
             </li>
-            <li>
-                <input type="checkbox" checked>
-                <i></i>
-                <h2>Other Details</h2>
+
+            <li #two class="liclosed">
+                <div class="row lihead" (click)="toggleAccordian('two')">
+                    <i></i>
+                    <h2>Other Details</h2>
+                </div>
                 <section>
                     <div class="row" *ngFor="let custom of customComponent">
                         <div class="c-lg-6 c-md-6 c-sm-6">
@@ -194,22 +197,7 @@
                     </div>
                 </section>
             </li>
-            <!-- <li>
-                <input type="checkbox" checked>
-                <i></i>
-                <h2>Fee Status</h2>
-                <section>
-
-                </section>
-            </li>
-            <li>
-                <input type="checkbox" checked>
-                <i></i>
-                <h2>Inventory Status</h2>
-                <section>
-
-                </section>
-            </li> -->
+                            
         </ul>
     </div>
 
