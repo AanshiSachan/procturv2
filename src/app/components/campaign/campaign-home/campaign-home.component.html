@@ -1,15 +1,14 @@
 <section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}" (click)="inputClicked()">
-  <aside class="middle-full row">
+  <aside class="middle-full">
 
     <!-- Header and Navigation -->
     <section class="middle-top mb0 clearFix">
-      <aside class="pull-left">
+      <div class="pull-right">
+
         <div class="search-filter-wrapper">
           <input #search type="text" class="normal-field " placeholder="Search" [(ngModel)]="searchBarData" id="search" name="searchData"
             (keyup)="searchDatabase(search)">
         </div>
-      </aside>
-      <aside class="pull-right">
 
         <div class="btnWrapper">
           <button class="btn pull-right" routerLink="/campaign/bulk">
@@ -21,7 +20,7 @@
             </div>
           </button>
         </div>
-      </aside>
+      </div>
 
     </section>
 
@@ -203,35 +202,32 @@
 
       <div class="popup-content">
         <h2>Send Promotional SMS </h2>
-        <div class="sms-form sms-popup-content">
+        <div class="sms-form sms-popup-content" style="margin-top: -25px;">
           <div class="sms-update">
             <div class="sms-top-section">
+              <h4>
+                Campaign List*
+              </h4>
 
               <div class="row">
-                <div class="c-lg-6 c-md-6 c-sm-6">
-                  <h4>
-                    Campaign List*
-                  </h4>
-                </div>
-
                 <div class="c-lg-3 c-md-3 c-sm-3">
-                  <div class="field-wrapper datePickerBox">
-                    <input type="text" value="" id="followupdate" class="form-ctrl bsDatepicker" [(ngModel)]="searchBarDate" style="cursor: pointer;"
-                      (keyup.enter)="searchDatabase()" readonly="true" name="followupdate" bsDatepicker/>
-                    <!-- <label for="followupdate">Follow up Date</label> -->
-                    <span class="date-clear" name="followupdate" (click)="clearDate($event)"></span>
+                  <div class="field-wrapper has-value">
+                    <select class="form-ctrl" name="ddnSelect">
+                      <option value={{smsSelectedRows.data.list_name}}>{{smsSelectedRows.data.list_name}}</option>
+                    </select>
+                    <label for="ddnSelect">Lead Name</label>
                   </div>
                 </div>
-                <div class="c-lg-3 c-md-3 c-sm-3">
-                </div>
-
               </div>
 
               <div class="row">
-                <div class="c-lg-6 c-md-6 c-sm-6" style="padding-top: 10px;">
-                  <select>
-                    <option value={{smsSelectedRows.data.list_name}}>{{smsSelectedRows.data.list_name}}</option>
-                  </select>
+                <div class="c-lg-3 c-md-3 c-sm-3">
+                  <div class="field-wrapper datePickerBox has-value">
+                    <input type="text" value="" id="followupdate" class="form-ctrl bsDatepicker" [(ngModel)]="searchBarDate" style="cursor: pointer;"
+                      (keyup.enter)="searchDatabase()" readonly="true" name="followupdate" bsDatepicker/>
+                    <label for="followupdate">Campaign Date</label>
+                    <span class="date-clear" name="followupdate" (click)="clearDate($event)"></span>
+                  </div>
                 </div>
 
                 <div class="c-lg-6 c-md-6 c-sm-6 time-picker">
@@ -259,25 +255,22 @@
                     </select>
                     <label for="meridian">Meridian</label>
                   </div>
+                  <p>Note: Please specify the time window between 9 AM to 9 PM for scheduling campaign.</p>
                 </div>
               </div>
 
-              <div class="row">
-                <div class="c-lg-12">
-                  <h4>
-                    Campaign Message
-                  </h4>
-                </div>
-              </div>
+              <h4>
+                Campaign Message
+              </h4>
 
               <div class="row">
                 <div class="c-lg-12 c-md-12 c-sm-12" style="padding-top: 10px;">
                   <div class="table table-responsive enquiry-table">
                     <table style="width:100%" div class="field-checkbox-wrapper">
-                      <tr>
+                      <!-- <tr>
                         <th></th>
                         <th></th>
-                      </tr>
+                      </tr> -->
                       <tr id="message{{i}}" *ngFor="let message of messageList; let i = index; trackBy: i;">
                         <td class="c-lg-12 c-md-12 c-sm-12">
                           <div class="field-checkbox-wrapper">
@@ -286,7 +279,7 @@
                             <label>{{message.message}}</label>
                           </div>
                         </td>
-                        <td>
+                        <td style="text-align: left">
                           {{message.message}}
                         </td>
                     </table>
