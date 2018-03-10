@@ -145,6 +145,8 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     this.prefill.fetchAllDataEnquiry(id).subscribe(res => {
       this.updateFormData.followUpDate = res.followUpDate;
       this.cd.markForCheck();
+      this.updateFormData.assigned_to = res.assigned_to;
+
       if (res.followUpTime != '' && res.followUpTime != null) {
         let followDateTime = res.followUpDate + " " + res.followUpTime;
         this.timeObj.fhour = moment(followDateTime).format('h');
@@ -344,11 +346,11 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   }
 
   updateStatusForEnquiryUpdate(e) {
-    console.log(e)
+    //console.log(e)
   }
 
   toggleAccordian(id) {
-    console.log(id);
+    //console.log(id);
     if (id === 'one') {
       this.one.nativeElement.classList.toggle('liclosed');
       this.two.nativeElement.classList.add('liclosed');

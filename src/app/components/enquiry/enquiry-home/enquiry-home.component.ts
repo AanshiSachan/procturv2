@@ -311,6 +311,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('enqPage') enqPage: ElementRef;
   @ViewChild('tablemain') tablemain: ElementRef;
   @ViewChild('pager') pager: ElementRef;
+  @ViewChild('optMenu') optMenu: ElementRef;
   
 
   /* =========================================================================== */
@@ -3182,14 +3183,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /* =========================================================================== */
   /* =========================================================================== */
 
-
-
   openEnquiryFullDetails(id) {
     this.closeAdFilter();
     this.mySidenav.nativeElement.style.width = "29%";
     this.mySidenav.nativeElement.style.display = 'block';
     this.enqPage.nativeElement.style.width = "70%";
     this.enqPage.nativeElement.style.marginRight = "29%";
+    this.optMenu.nativeElement.classList.add('shorted');
     this.isRippleLoad = true;
     this.cd.markForCheck();
     this.prefill.fetchCustomComponentById(id).subscribe(
@@ -3218,6 +3218,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.mySidenav.nativeElement.style.display = 'none';
     this.enqPage.nativeElement.style.width = "100%";
     this.enqPage.nativeElement.style.marginRight = "0";
+    this.optMenu.nativeElement.classList.remove('shorted');
     this.isRippleLoad = false;
   }
 

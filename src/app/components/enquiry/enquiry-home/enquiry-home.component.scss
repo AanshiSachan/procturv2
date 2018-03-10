@@ -33,45 +33,92 @@
             cursor: pointer;
         }
     }
-    .enq-dropdown-content {
-        position: absolute;
-        background: white;
-        z-index: 10;
-        width: 150px;
-        padding: 0px 5px;
-        height: 80px;
-        box-shadow: 0px 0px 2px 0px #313030;
-        ul {
-            list-style: none;
-            .export-icon {
-                background: url('/assets/images/expand.svg') no-repeat;
-                margin: 10px 0px 0px 2px;
-                background-size: 20px auto;
-                padding: 0px 0px 0px 25px;
-                cursor: pointer;
-                font-size: 14px;
-                color: #888;
-                &:hover {
-                    color: $common-blue;
+    .optMenu{
+        .enq-dropdown-content {
+            position: absolute;
+            background: white;
+            z-index: 10;
+            right: 2%;
+            width: 150px;
+            padding: 0px 5px;
+            height: 80px;
+            box-shadow: 0px 0px 2px 0px #313030;
+            ul {
+                list-style: none;
+                .export-icon {
+                    background: url('../../../../assets/images/expand.svg') no-repeat;
+                    margin: 10px 0px 0px 2px;
+                    background-size: 20px auto;
+                    padding: 0px 0px 0px 25px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    color: #888;
+                    &:hover {
+                        color: $common-blue;
+                    }
+                }
+                .upload-icon {
+                    background: url('../../../../assets/images/pdf_download.svg') no-repeat;
+                    margin: 10px 0px 0px 2px;
+                    background-size: 20px auto;
+                    padding: 0px 0px 0px 25px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    color: #888;
+                    &:hover {
+                        color: $common-blue;
+                    }
+                }
+                li {
+                    height: 25px;
+                    padding: 7px;
+                    border-bottom: 1px solid rgba(119, 119, 119, 0.705);
                 }
             }
-            .upload-icon {
-                background: url('/assets/images/pdf_download.svg') no-repeat;
-                margin: 10px 0px 0px 2px;
-                background-size: 20px auto;
-                padding: 0px 0px 0px 25px;
-                cursor: pointer;
-                font-size: 14px;
-                color: #888;
-                &:hover {
-                    color: $common-blue;
+        }
+        &.shorted{
+            .enq-dropdown-content {
+                position: absolute;
+                background: white;
+                z-index: 10;
+                right: 29%;
+                width: 150px;
+                padding: 0px 5px;
+                height: 80px;
+                box-shadow: 0px 0px 2px 0px #313030;
+                ul {
+                    list-style: none;
+                    .export-icon {
+                        background: url('../../../../assets/images/expand.svg') no-repeat;
+                        margin: 10px 0px 0px 2px;
+                        background-size: 20px auto;
+                        padding: 0px 0px 0px 25px;
+                        cursor: pointer;
+                        font-size: 14px;
+                        color: #888;
+                        &:hover {
+                            color: $common-blue;
+                        }
+                    }
+                    .upload-icon {
+                        background: url('../../../../assets/images/pdf_download.svg') no-repeat;
+                        margin: 10px 0px 0px 2px;
+                        background-size: 20px auto;
+                        padding: 0px 0px 0px 25px;
+                        cursor: pointer;
+                        font-size: 14px;
+                        color: #888;
+                        &:hover {
+                            color: $common-blue;
+                        }
+                    }
+                    li {
+                        height: 25px;
+                        padding: 7px;
+                        border-bottom: 1px solid rgba(119, 119, 119, 0.705);
+                    }
                 }
-            }
-            li {
-                height: 25px;
-                padding: 7px;
-                border-bottom: 1px solid rgba(119, 119, 119, 0.705);
-            }
+            }   
         }
     }
 }
@@ -1821,6 +1868,7 @@ ul.customDropdown li:hover {
     position: absolute;
     display: none;
     width: 0%;
+    transition: 100ms ease-in-out;
     height: 585px;
     overflow: hidden;
     right: 0;
@@ -1868,17 +1916,6 @@ ul.customDropdown li:hover {
     display: block;
     padding: 0;
 }
-
-
-/* .sidenav .closebtn {
-    position: absolute;
-    left: 80%;
-    font-size: 16px;
-    font-weight: 900;
-    position: absolute;
-    top: 0px;
-    margin-right: 50px;
-} */
 
 #main {
     transition: margin-right .5s;

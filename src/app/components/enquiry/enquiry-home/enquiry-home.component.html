@@ -10,10 +10,12 @@
       </h1>
 
       <aside class="headEnq pull-right">
-        <ul>
-          <li style="display: inline-flex;">
-            
-          </li>
+        <div style="display: inline-flex;
+          position: relative;
+          top: -12px;">
+          <p-splitButton label="{{selectedRowCount}} Enquiry Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton>
+        </div>
+        <ul style="display: inline-flex;">
           <li class="headerBtn" routerLink='add'>
             <i>
               <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
@@ -36,7 +38,7 @@
               More
             </p>
           </li>
-          <li style="margin-left: 90px;">
+          <li class="optMenu" #optMenu>
             <div class="enq-dropdown-content" *ngIf="isEnquiryOptions" (mouseleave)="isEnquiryOptions = false">
               <ul>
                 <li class="export-icon" (click)="downloadAllEnquiries()">
@@ -338,14 +340,19 @@
 
   </aside>
 
-  <aside #mySidenav class="middle-full sidenav">
-    <div class="sidewrapper" *ngIf="isSideBar">
-      <a href="javascript:void(0)" title="close" class="closebtn" (click)="closeEnquiryFullDetails($event)">
-        <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon" focusable="false"><path d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" class="large-icon" style="fill: currentColor"></path></svg>
+  <aside #mySidenav class="middle-full sidenav" [ngClass]="{'hide': !isSideBar}">
+    <div class="sidewrapper">
+      <a href="javascript:void(0)" title="close" class="closebtn" (click)="closeEnquiryFullDetails($event); false; $event.stopPropagation()">
+        <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+          focusable="false">
+          <path d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" class="large-icon"
+            style="fill: currentColor"></path>
+        </svg>
       </a>
-      <div class="skeleton" #skelton *ngIf="!isSideBar"></div>
-      <enquiry-sidebar *ngIf="isSideBar" [enqAssignTo]="enqAssignTo" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority" [statusArr]="enqstatus"
-        [customComp]="customCompid" [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)" (cancelUpdate)="closeEnquiryFullDetails($event)">
+      <!-- <div class="skeleton" #skelton *ngIf="!isSideBar"></div> -->
+      <enquiry-sidebar *ngIf="isSideBar" [enqAssignTo]="enqAssignTo" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority"
+        [statusArr]="enqstatus" [customComp]="customCompid" [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)"
+        (cancelUpdate)="closeEnquiryFullDetails($event); false; $event.stopPropagation()">
       </enquiry-sidebar>
     </div>
   </aside>

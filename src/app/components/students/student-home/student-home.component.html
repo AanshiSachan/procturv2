@@ -4,7 +4,7 @@
     (click)="inputClicked($event)">
     <!-- =============================================================================== -->
     <!-- =============================================================================== -->
-    <aside class="middle-full row">
+    <aside class="middle-full" #studentPage>
         <!-- =============================================================================== -->
         <!--====================================middle Top section==========================-->
         <!-- =============================================================================== -->
@@ -13,36 +13,50 @@
                 Student List
             </h1>
             <aside class="headEnq pull-right">
-                <p-splitButton label="{{selectedRowCount}} Student Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton>
-                <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 8px;" class="btn" routerLink='/student/add'>
-                    <div class="option-wrap">
-                        <img src="./assets/images/plus.png" alt="addEnquiry">
-                        <span class="tooltip">
-                            Add Student
-                        </span>
-                    </div>
-                </button>
-                <button style="margin:0px 20px 7px 0px;padding:0px 6px 3px 6px;" class="btn optEnq" (click)="isOptions = !isOptions">
-                    <div class="option-wrap">
-                        <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon" focusable="false"><path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path></svg>
-                        <span class="tooltip">
-                            Options
-                        </span>
-                    </div>
-                </button>
-                <div class="enq-dropdown-content" *ngIf="isOptions" (mouseleave)="isOptions = false">
-                    <ul>
-                        <li class="export-icon" (click)="downloadAllStudent()">
-                            <a id="student_download"></a>
-                            Export
-                        </li>
-                        <li class="upload-icon">
-                            <label id="upload" routerLink='/student/bulk'>
-                                Upload Student
-                            </label>
-                        </li>
-                    </ul>
+                <div style="display: inline-flex;
+                position: relative;
+                top: -12px;">
+                    <p-splitButton label="{{selectedRowCount}} Student Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton>
                 </div>
+                <ul style="display: inline-flex;">
+                    <li class="headerBtn" routerLink='add'>
+                        <i>
+                            <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+                            focusable="false">
+                            <path d="M14,9H9v5H7V9H2V7H7V2H9V7h5V9Z" class="small-icon" style="fill: currentColor"></path>
+                            </svg>
+                        </i>
+                        <p>
+                            Add Enquiry
+                        </p>
+                    </li>
+                    <li class="headerBtn" (click)="isOptions = !isOptions">
+                        <i>
+                            <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+                            focusable="false">
+                            <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
+                            </svg>
+                        </i>
+                        <p>
+                            More
+                        </p>
+                    </li>
+                    <li class="optMenu" #optMenu>
+                        <div class="enq-dropdown-content" *ngIf="isOptions" (mouseleave)="isOptions = false">
+                             <ul>
+                                <li class="export-icon" (click)="downloadAllStudent()">
+                                 <a id="student_download"></a>
+                                 Export
+                                </li>
+                                <li class="upload-icon">
+                                <label id="upload" routerLink='/student/bulk'>
+                                 Upload Student
+                                </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
             </aside>
 
         </section>
@@ -318,32 +332,19 @@
 
                 <!-- Student  Table  Here-->
                 <div class="row" id="student-table">
-
                     <div class="table-scroll-wrapper">
                         <div class="table table-responsive student-table">
-                            <proctur-checkbox-table [records]="studentDataSource" [tableName]="'student'" [settings]="StudentSettings" [dataStatus]="loading_message"
+                            <ng-robTable [records]="studentDataSource" [reset]="isSideBar" [tableName]="'student'" [settings]="StudentSettings" (userRowSelect)="userRowSelect($event)"
+                                (rowsSelected)="getRowCount($event)" [dataStatus]="loading_message" [key1]="'isActive'" [primaryKey]="'student_id'"
+                                (rowIdArr)="getSelected($event)" (sortById)="sortTableById($event)">
+                            </ng-robTable>
+                            <!-- <proctur-checkbox-table [records]="studentDataSource" [tableName]="'student'" 
+                                [settings]="StudentSettings" [dataStatus]="loading_message"
                                 [key1]="'isActive'" [primaryKey]="'student_id'" (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)"
                                 (rowIdArr)="getSelected($event)" (sortById)="sortTableById($event)">
-                            </proctur-checkbox-table>
+                            </proctur-checkbox-table> -->
                         </div>
                     </div>
-
-                    <div id="student-side" class="sidenav">
-                        <a href="javascript:void(0)" class="closebtn" (click)="closeSideBar($event)">
-                            <i style="font-family: FontAwesome; color: red;font-size: 30px;" class="fas fa-times"></i>
-                        </a>
-                        <div *ngIf="!isSideBar" class="skeleton">
-                            <div class="skel1"></div>
-                            <div class="skel2"></div>
-                        </div>
-
-
-                        <student-sidebar *ngIf="isSideBar" [rowData]="selectedRow" [customComponent]="studentCustomComponent" [studentDetails]="studentDetailsById"
-                            (closeSide)="closeSideBar($event)" (editStudent)="editStudent($event)" (deleteStudent)="deleteStudentOpen($event)"
-                            (editNotes)="openEditComment($event)">
-                        </student-sidebar>
-                    </div>
-
                 </div>
 
                 <!-- Paginator Here -->
@@ -364,6 +365,24 @@
         <!-- =============================================================================== -->
         <!-- =============================================================================== -->
     </aside>
+    <!-- =============================================================================== -->
+    <!-- =============================================================================== -->
+    <aside #mySidenav class="middle-full sidenav" [ngClass]="{'hide': !isSideBar}">
+        <div id="student-side" class="sidewrapper">
+            <a href="javascript:void(0)" class="closebtn" (click)="closeSideBar($event)">
+                <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon" focusable="false"><path d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" class="large-icon" style="fill: currentColor"></path></svg>
+            </a>
+            <!-- <div *ngIf="!isSideBar" class="skeleton">
+                <div class="skel1"></div>
+                <div class="skel2"></div>
+            </div> -->
+            <student-sidebar *ngIf="isSideBar" [rowData]="selectedRow" [customComponent]="studentCustomComponent" [studentDetails]="studentDetailsById"
+                (closeSide)="closeSideBar($event)" (editStudent)="editStudent($event)" (deleteStudent)="deleteStudentOpen($event)"
+                (editNotes)="openEditComment($event)">
+            </student-sidebar>
+        </div>
+    </aside>
+
     <!-- =============================================================================== -->
     <!-- =============================================================================== -->
     <!-- =============================================================================== -->
