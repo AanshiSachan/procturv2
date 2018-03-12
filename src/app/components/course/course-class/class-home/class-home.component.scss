@@ -1311,3 +1311,17 @@
 .popupWrapperMob.showPopupMob .popup-mob {
     bottom: 0;
 }
+
+.radio-options {
+    .field-radio-wrapper {
+        .form-radio:checked+label:before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #0084f6;
+            border-radius: 50%;
+            left: 3px;
+            top: 3px;
+        }
+    }
+}
