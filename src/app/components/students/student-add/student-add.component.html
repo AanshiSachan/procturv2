@@ -671,18 +671,22 @@
 
         <!--====================================middle Bottom section==========================-->
         <section class="middle-bottom fd-btm clearFix">
-          <div class="fd-btm-label" *ngIf="userCustommizedFee != ''">
-            Payment for &#8377; {{totalFeePaid | commaSeprator}} to be updated
-          </div>
 
-          <div class="" *ngIf="!isPaymentDetailsValid">
-            <input type="button" *ngIf="totalFeePaid != 0" value="Update Fees" (click)="openPaymentDetails($event)" class="btn fullBlue">
-            <input type="button" value="Save and Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
-          </div>
+          <aside class="pull-left">
+            <div class="fd-btm-label" *ngIf="userCustommizedFee.length != 0">
+              Payment for &#8377; {{totalFeePaid | commaSeprator}} to be updated
+            </div>
+          </aside>
+          <aside class="pull-right">
+            <div class="" *ngIf="!isPaymentDetailsValid">
+              <input type="button" *ngIf="totalFeePaid != 0" value="Update and Continue" (click)="openPaymentDetails($event)" class="btn fullBlue">
+              <input type="button" value="Skip and Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
+            </div>
 
-          <div class="" *ngIf="isPaymentDetailsValid">
-            <input type="button" value="Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
-          </div>
+            <div class="" *ngIf="isPaymentDetailsValid">
+              <input type="button" value="Skip and Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
+            </div>
+          </aside>
         </section>
 
       </section>
@@ -1338,25 +1342,25 @@
             <ul>
               <li>
                 <div class="form-wrapper">
-                    <select id="feetype" class="form-ctrl" [(ngModel)]="addFeeOther.fee_type" (ngModelChange)="updateOtherFeeData($event)" name="feetype">
-                        <option value="" selected>Select Fee Type</option>
-                        <option [value]="type.id" *ngFor="let type of getOtherFeesArray()">{{type.value}}</option>
-                      </select>
+                  <select id="feetype" class="form-ctrl" [(ngModel)]="addFeeOther.fee_type" (ngModelChange)="updateOtherFeeData($event)" name="feetype">
+                    <option value="" selected>Select Fee Type</option>
+                    <option [value]="type.id" *ngFor="let type of getOtherFeesArray()">{{type.value}}</option>
+                  </select>
                 </div>
               </li>
               <li>
                 <div class="form-wrapper datePickerBox">
-                    <input type="text" value="" class="form-ctrl bsDatepicker" readonly="true" name="dd" [(ngModel)]="addFeeOther.due_date" bsDatepicker>
+                  <input type="text" value="" class="form-ctrl bsDatepicker" readonly="true" name="dd" [(ngModel)]="addFeeOther.due_date" bsDatepicker>
                 </div>
               </li>
               <li>
                 <div class="form-wrapper">
-                    <input type="number" class="form-ctrl" [(ngModel)]="addFeeOther.initial_fee_amount" name="amt">
+                  <input type="number" class="form-ctrl" [(ngModel)]="addFeeOther.initial_fee_amount" name="amt">
                 </div>
               </li>
               <li>
                 <div class="form-wrapper">
-                    <input type="number" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax" name="amt">
+                  <input type="number" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax" name="amt">
                 </div>
               </li>
               <li>
@@ -1379,31 +1383,31 @@
               <li>Action</li>
             </ul>
             <div class="table-data">
-              <ul class="table-row"  *ngFor="let fee of otherFeeTableData; let i = index">
+              <ul class="table-row" *ngFor="let fee of otherFeeTableData; let i = index">
                 <li>{{fee.fee_type_name}}</li>
                 <li>
                   <div class="form-wrapper datePickerBox">
-                      <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="fee.due_date" bsDatepicker readonly="true">
+                    <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="fee.due_date" bsDatepicker readonly="true">
                   </div>
                 </li>
                 <li>
                   <div class="form-wrapper">
-                      <input type="number" class="form-ctrl" name="amt" [(ngModel)]="fee.initial_fee_amount">
+                    <input type="number" class="form-ctrl" name="amt" [(ngModel)]="fee.initial_fee_amount">
                   </div>
                 </li>
                 <li>
                   <div class="form-wrapper">
-                      <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getOtherTaxes(fee.initial_fee_amount, fee.service_tax_applicable, i)">
+                    <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getOtherTaxes(fee.initial_fee_amount, fee.service_tax_applicable, i)">
                   </div>
                 </li>
                 <li>
                   <div class="form-wrapper">
-                      <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, i)">
+                    <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, i)">
                   </div>
                 </li>
                 <li>
                   <a *ngIf="fee.is_paid == 0">
-                      <i (click)="deleteOtherFee(i)" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
+                    <i (click)="deleteOtherFee(i)" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
                   </a>
                   <a *ngIf="fee.is_paid != 0" class="paid-fee">Paid</a>
                 </li>

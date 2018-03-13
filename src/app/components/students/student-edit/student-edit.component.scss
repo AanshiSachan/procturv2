@@ -7,6 +7,7 @@
 
 /* ============================================================================================================= */
 
+
 /* ============================================================================================================= */
 
 .fee-definations {
@@ -84,11 +85,10 @@
                 }
             }
         }
-
-        .additional-container{
+        .additional-container {
             box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
             margin-top: 20px;
-            .additional-header{
+            .additional-header {
                 background: #efefef;
                 padding: 10px;
                 font-size: 18px;
@@ -96,7 +96,7 @@
                 border-top-left-radius: 5px;
                 border-top-right-radius: 5px;
             }
-            .additional-adder{
+            .additional-adder {
                 background: #efefef;
                 padding: 20px 5px 10px 5px;
                 ul {
@@ -107,7 +107,7 @@
                     }
                 }
             }
-            .additional-table{
+            .additional-table {
                 ul {
                     li {
                         display: inline-flex;
@@ -151,7 +151,7 @@
     }
 }
 
-.table-row{
+.table-row {
     padding: 10px 5px;
 }
 
@@ -192,15 +192,13 @@
 /* ============================================================================================================= */
 
 
-
 /* ============================================================================================================= */
 
 .pdcChequePayment {
     margin: 15px 10px 0px 10px !important;
     fieldset {
         border: 1px solid #777;
-        padding: 5px;
-        //box-shadow: 1px 5px 5px 1px #004a7e;
+        padding: 5px; //box-shadow: 1px 5px 5px 1px #004a7e;
         legend {
             padding: 0.2em 0.5em;
             border: 1px solid #0084f6;
@@ -226,88 +224,82 @@
     }
 }
 
-.pdcMainWrapper {
+.pdc-container {
+    width: 100%;
+    max-height: 460px;
+    overflow: hidden;
+    border-top: 2px solid rgba(119, 119, 119, 0.12);
      ::-webkit-scrollbar {
         display: block;
-        width: 7px;
-        height: 7px;
     }
-    max-height: 475px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    .row {
-        margin: 0px 5px;
-    }
-    fieldset {
-        border: 1px solid #777;
-        padding: 5px;
-        //box-shadow: 1px 5px 5px 1px #004a7e;
-        legend {
-            padding: 0.2em 0.5em;
-            border: 1px solid #0084f6;
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 600;
-            text-align: left;
-            width: 200px;
-            background: #0084f6;
+    .pdc-wrapper {
+         ::-webkit-scrollbar {
+            display: block;
+            width: 7px;
+            height: 7px;
         }
-    }
-    .pdcAside {
-        margin: 10px 0px;
-        &.pdcadd {
-            .row {
-                margin: 0px;
+        padding-top: 10px;
+        max-height: 455px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        .row {
+            margin: 0px;
+        }
+        .pdc-shell {
+            box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
+            .pdc-header {
+                background: #efefef;
+                padding: 10px;
+                font-size: 18px;
+                font-weight: 700;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
             }
-            table {
-                thead {
-                    tr {
-                        th {
-                            text-align: left
+            .pdc-adder {
+                background: #efefef;
+                padding: 20px 5px 10px 5px;
+                ul {
+                    li {
+                        display: inline-flex;
+                        width: 15%;
+                        margin: 0px 5px;
+                    }
+                }
+            }
+            .pdc-table {
+                ul {
+                    li {
+                        display: inline-flex;
+                    }
+                    &.table-header {
+                        border: 1px solid rgba(119, 119, 119, 0.24);
+                        font-size: 14px;
+                        font-weight: 600;
+                        li {
+                            width: 15%;
+                            padding: 10px;
+                            margin-left: 10px;
+                            text-transform: uppercase;
+                            color: #777;
+                            &.bigger {
+                                width: 20%;
+                            }
                         }
                     }
                 }
-                tbody {
-                    tr {
-                        td {
-                            text-align: left;
-                            .field-wrapper {
-                                background: transparent;
-                                width: 70%;
-                                .form-ctrl {
-                                    background: transparent;
-                                    border-bottom: solid 1px #0084f6;
-                                    text-align: left;
-                                    width: 100%;
-                                }
-                            }
-                            .field-wrapper {
-                                position: relative;
-                                padding-top: 20px;
-                                &.datePickerBox {
-                                    .bsDatepicker {
-                                        cursor: pointer;
-                                        position: relative;
-                                        z-index: 1;
-                                        background: transparent;
-                                    }
-                                    &:after {
-                                        content: '';
-                                        background: url("../../../../assets/images/calendar.svg") no-repeat;
-                                        position: absolute;
-                                        left: 80%;
-                                        top: 0px;
-                                        width: 21px;
-                                        height: 21px;
-                                        z-index: 0;
-                                    }
-                                }
-                                .date-clear {
-                                    position: absolute;
-                                    right: 60%;
-                                    top: 50px;
-                                    cursor: pointer;
-                                    color: #0084f6;
+                .table-data {
+                    ul {
+                        border: 1px solid #efefef;
+                        li {
+                            display: inline-flex;
+                            width: 15%;
+                            padding: 2px 12px;
+                            margin-left: 10px;
+                            text-align: center;
+                            &.bigger {
+                                width: 20%;
+                                a {
+                                    margin-left: 40px;
                                 }
                             }
                         }
@@ -315,106 +307,142 @@
                 }
             }
         }
-        &.pdclist {
-            .searchPdc {
-                margin: 0px 0px 25px 0px;
-                .field-wrapper {
-                    position: relative;
-                    padding-top: 10px;
-                    &.datePickerBox {
-                        .bsDatepicker {
-                            cursor: pointer;
-                            position: relative;
-                            z-index: 1;
+        .pdc-data-shell {
+            margin-top: 20px;
+            box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
+            .pdc-header {
+                background: #efefef;
+                padding: 10px;
+                font-size: 18px;
+                font-weight: 700;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+            }
+            .pdc-search {
+                background: #efefef;
+                padding: 20px 5px 10px 5px;
+                ul {
+                    li {
+                        display: inline-flex;
+                        /* width: 15%; */
+                        margin: 0px 5px;
+                        .form-wrapper {
                             background: transparent;
+                            border: none;
+                            margin: 0px;
+                            &.datepicker {
+                                span {
+                                    position: absolute;
+                                    top: 30px;
+                                    right: 20px;
+                                    font-weight: 300;
+                                    color: red;
+                                    cursor: pointer;
+                                }
+                            }
+                            label {
+                                font-size: 12px;
+                                font-weight: 400;
+                                font-family: -webkit-body;
+                                color: black;
+                                text-decoration: none;
+                                text-shadow: none;
+                                -webkit-font-smoothing: antialiased;
+                            }
+                            .form-ctrl {
+                                background: transparent;
+                                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                                width: 100%;
+                                padding: 8px 5px;
+                                font-weight: 600;
+                                font-size: 14px;
+                                color: black;
+                                &.bsDatepicker {
+                                    padding: 10px 5px;
+                                }
+                            }
+                            &.timepick {
+                                .side-form-ctrl {
+                                    background: transparent;
+                                    border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                                    width: 100%;
+                                    padding: 8px 5px;
+                                    font-weight: 600;
+                                    font-size: 14px;
+                                    color: black;
+                                }
+                            }
                         }
-                        &:after {
-                            content: '';
-                            background: url("../../../../assets/images/calendar.svg") no-repeat;
-                            position: absolute;
-                            right: 0;
-                            top: 18px;
-                            width: 21px;
-                            height: 21px;
-                            z-index: 0;
-                        }
-                    }
-                    .date-clear {
-                        position: absolute;
-                        right: 0;
-                        bottom: 0;
-                        cursor: pointer;
-                        color: #0084f6;
                     }
                 }
             }
-            table {
-                thead {
-                    tr {
-                        th {}
+            .pdc-table {
+                ul {
+                    li {
+                        display: inline-flex;
+                    }
+                    &.table-header {
+                        border: 1px solid rgba(119, 119, 119, 0.24);
+                        font-size: 14px;
+                        font-weight: 600;
+                        li {
+                            width: 12%;
+                            padding: 10px;
+                            margin-left: 10px;
+                            text-transform: uppercase;
+                            color: #777;
+                            &.bigger {
+                                width: 20%;
+                            }
+                        }
                     }
                 }
-                tbody {
-                    tr {
-                        td {
-                            .field-wrapper {
-                                background: transparent;
-                                width: 120px;
-                                margin: auto;
-                                .form-ctrl {
-                                    background: transparent;
-                                    border-bottom: solid 1px #0084f6;
-                                    text-align: center;
-                                    width: 100%;
-                                }
-                            }
-                            .field-wrapper {
-                                position: relative;
-                                padding-top: 20px;
-                                &.datePickerBox {
-                                    .bsDatepicker {
-                                        cursor: pointer;
-                                        position: relative;
-                                        z-index: 1;
-                                        background: transparent;
-                                    }
-                                    &:after {
-                                        content: '';
-                                        background: url("../../../../assets/images/calendar.svg") no-repeat;
-                                        position: absolute;
-                                        left: 90%;
-                                        top: 0px;
-                                        width: 21px;
-                                        height: 21px;
-                                        z-index: 0;
-                                    }
-                                }
-                                .date-clear {
-                                    position: absolute;
-                                    right: 60%;
-                                    top: 50px;
-                                    cursor: pointer;
-                                    color: #0084f6;
+                .table-data {
+                    ul {
+                        li {
+                            display: inline-flex;
+                            width: 12%;
+                            padding: 2px 12px;
+                            margin-left: 10px;
+                            text-align: center;
+                            &.bigger {
+                                width: 20%;
+                                a {
+                                    margin-left: 40px;
                                 }
                             }
                         }
-                    }
-                    .displayComp {
-                        .view-comp {}
-                        .edit-comp {
-                            display: none
+                        border: 1px solid #efefef;
+                        &.displayComp {
+                            .view-comp {}
+                            .edit-comp {
+                                display: none
+                            }
                         }
-                    }
-                    .editComp {
-                        .view-comp {
-                            display: none
+                        &.editComp {
+                            .view-comp {
+                                display: none
+                            }
+                            .edit-comp {}
                         }
-                        .edit-comp {}
+                        &.actions{
+                            a{
+                                margin-right: 15px;
+                                display: inline-flex;
+                                text-decoration: none;
+                            }
+                        }
                     }
                 }
             }
         }
     }
+}
+
+.save-pdf {
+    margin: 0px;
+    padding: 0px 20px;
+    background: #efefef;
 }
 
 
@@ -1699,7 +1727,7 @@ input[type=number]::-webkit-outer-spin-button {
     max-height: 400px;
     overflow-x: hidden;
     overflow-y: auto;
-    ::-webkit-scrollbar{
+     ::-webkit-scrollbar {
         display: block;
     }
     .row {
