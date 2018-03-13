@@ -1597,7 +1597,7 @@
               <li>Cheque Amount*</li>
               <li>Action</li>
             </ul>
-            <div class="table-data">
+            <div class="table-data" *ngIf="newPdcArr.length != 0">
               <ul class="table-row" *ngFor="let c of newPdcArr; let i = index;">
                 <li>
                   {{c.bank_name}}
@@ -1618,6 +1618,9 @@
                   <i style="font-family: FontAwesome; cursor: pointer;" class="fa fa-trash-o" aria-hidden="true"></i>
                 </li>
               </ul>
+            </div>
+            <div class="table-data" *ngIf="newPdcArr.length == 0">
+              <h3 style="text-align: center;padding: 20px 0px;border-bottom: 1px solid rgba(119, 119, 119, 0.32);border-left: 1px solid rgba(119, 119, 119, 0.32);border-right: 1px solid rgba(119, 119, 119, 0.32);">No PDC Available</h3>
             </div>
           </div>
           <!-- Save Added -->
@@ -1780,17 +1783,17 @@
                 <!-- Action -->
                 <li class="view-comp actions">
                   <a style="cursor:pointer;margin-right: 15px;" (click)="editPDC(ch)" *ngIf="(ch.cheque_status_key != 3 && ch.cheque_status_key != 2)">Edit</a>
-                  <a  style="cursor:pointer;margin-right: 15px;" (click)="deletePDC(ch, i)" *ngIf="(ch.cheque_status_key != 3 && ch.cheque_status_key != 2)">Delete</a>
+                  <a style="cursor:pointer;margin-right: 15px;" (click)="deletePDC(ch, i)" *ngIf="(ch.cheque_status_key != 3 && ch.cheque_status_key != 2)">Delete</a>
                 </li>
                 <li class="edit-comp">
-                  <a  style="cursor:pointer;margin-right: 15px;" (click)="updatePDC(ch)">Update</a>
-                  <a  style="cursor:pointer;margin-right: 15px;" (click)="cancelEditPDC(ch)">Cancel</a>
+                  <a style="cursor:pointer;margin-right: 15px;" (click)="updatePDC(ch)">Update</a>
+                  <a style="cursor:pointer;margin-right: 15px;" (click)="cancelEditPDC(ch)">Cancel</a>
                 </li>
 
               </ul>
             </div>
             <div class="table-data" *ngIf="chequePdcList.length == 0">
-              <h3 style="text-align: center;padding: 50px 0px;">No Cheque Saved</h3>
+              <h3 style="text-align: center;padding: 20px 0px;border-bottom: 1px solid rgba(119, 119, 119, 0.32);border-left: 1px solid rgba(119, 119, 119, 0.32);border-right: 1px solid rgba(119, 119, 119, 0.32);">No Cheque Saved</h3>
             </div>
           </div>
         </div>
