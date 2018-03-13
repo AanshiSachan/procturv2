@@ -152,6 +152,9 @@ export class AdminHomeComponent implements OnInit {
   isCourseCancel: boolean = false;
   isCourseReminder: boolean = false;
   courseLevelStudentAtt: any;
+  absentCount: number = 0;
+  presentCount: number = 0;
+  leaveCount: number = 0;
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -593,10 +596,13 @@ export class AdminHomeComponent implements OnInit {
           this.studentAttList = res;
           this.home_work_notifn = res[0].home_work_notifn;
           this.topics_covered_notifn = res[0].topics_covered_notifn;
-          this.teacher_id = res.teacher_id;
+          this.teacher_id = res[0].dateLi[0].teacher_id;
           this.isRippleLoad = false;
           this.isPopupOpened = true;
           this.isAttendancePop = true;
+          this.attendanceNote = res[0].attendance_note;
+          this.homework = res[0].homework_assigned;
+          this.getCountOfAbsentPresentLeave(res);
         },
         err => {
           this.isRippleLoad = false;
@@ -628,10 +634,13 @@ export class AdminHomeComponent implements OnInit {
           this.studentAttList = res;
           this.home_work_notifn = res[0].home_work_notifn;
           this.topics_covered_notifn = res[0].topics_covered_notifn;
-          this.teacher_id = res.teacher_id;
+          this.teacher_id = res[0].dateLi[0].teacher_id;;
           this.isRippleLoad = false;
           this.isPopupOpened = true;
           this.isAttendancePop = true;
+          this.attendanceNote = res[0].attendance_note;
+          this.homework = res[0].homework_assigned;
+          this.getCountOfAbsentPresentLeave(res);
         },
         err => {
           this.isRippleLoad = false;
@@ -640,6 +649,21 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
+
+  getCountOfAbsentPresentLeave(data) {
+    this.absentCount = 0;
+    this.presentCount = 0;
+    this.leaveCount = 0;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].dateLi[0].status == "P") {
+        this.presentCount++;
+      } else if (data[i].dateLi[0].status == "A") {
+        this.absentCount++;
+      } else {
+        this.leaveCount++;
+      }
+    }
+  }
 
   closeAttendance() {
     this.isAttendancePop = false;
@@ -658,6 +682,7 @@ export class AdminHomeComponent implements OnInit {
     else if (val === "A") {
       this.studentAttList[i].dateLi[0].home_work_status = "N";
     }
+    this.getCountOfAbsentPresentLeave(this.studentAttList);
   }
 
   updateCourseRadioAttendance(val, i, obj) {
@@ -711,6 +736,7 @@ export class AdminHomeComponent implements OnInit {
         e.dateLi[0].status = "A";
       });
     }
+    this.getCountOfAbsentPresentLeave(this.studentAttList);
   }
 
   updateAttendance() {
@@ -1238,5 +1264,8 @@ export class AdminHomeComponent implements OnInit {
   /* ====================================================================== */
   /* ======================================================================================================= */
 
+  markAttendance(i) {
+
+  }
 
 }

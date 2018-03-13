@@ -1,11 +1,10 @@
-<section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}"
-(click)="inputClicked()">
+<section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}" (click)="inputClicked()">
 
   <form #values="ngForm" (ngSubmit)="uploadHandler($event,values)">
 
     <section class="middle-top clearFix bulk-header">
-    
-      <div class="row">
+
+      <!-- <div class="row">
         <ul class="breadc">
 
           <li>
@@ -17,7 +16,7 @@
           </li>
 
         </ul>
-      </div>
+      </div> -->
 
       <div class="row">
         <h1 class="pull-left">
@@ -37,47 +36,50 @@
     <!-- ++++++++++++++++++user -->
 
     <section class="middle-main clearFix" id="middleMainForEnquiryList">
-    <div class="row">
-      <div class="c-lg-6 c-md-6 c-sm-6">
-        <div class="field-wrapper">
+      <div class="row" style="padding-left:15px">
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-wrapper">
             <input type="text" value="" class="form-ctrl" id="Name" [(ngModel)]="campaignAddFormData.name" name="Name" maxlength="50"
-            pattern="[a-zA-Z .]+[a-zA-Z .]+" #name="ngModel" required>
-          <label for="Name">Name*</label>
-          <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert invalid-alert">
-            <div *ngIf="name.errors.required">
-              Lead name is required.
-            </div>
-            <div *ngIf="name.errors.pattern">
-              Please enter a lead name.
+              #name="ngModel" required style="width: 75%">
+            <label for="Name">Name
+              <span style="color:red">*</span>
+            </label>
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert invalid-alert">
+              <div *ngIf="name.errors.required" style="color: red">
+                Lead name is required.
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="c-lg-6 c-md-6 c-sm-6">
-        <div class="field-wrapper">
-          <select id="referred" class="form-ctrl" [(ngModel)]="campaignAddFormData.referred" name="referred">
-            <option value=""></option>
-            <option [value]="refer.id" *ngFor="let refer of referralList">
-              {{refer.name}}
-            </option>
-          </select>
-          <label for="referred">Referred by</label>
+      <div class="row" style="padding-left:15px">
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-wrapper">
+            <select id="referred" class="form-ctrl" [(ngModel)]="campaignAddFormData.referred" name="referred" style="width: 75%">
+              <option value=""></option>
+              <option [value]="refer.id" *ngFor="let refer of referralList">
+                {{refer.name}}
+              </option>
+            </select>
+            <label for="referred">Referred by</label>
+          </div>
         </div>
       </div>
-      <div class="c-lg-6 c-md-6 c-sm-6">
-        <div class="field-wrapper">
-          <select id="source" class="form-ctrl" [(ngModel)]="campaignAddFormData.source" name="source">
-            <option value=""></option>
-            <option [value]="source.id" *ngFor="let source of sourceList">
+
+      <div class="row" style="padding-left:15px">
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-wrapper">
+            <select id="source" class="form-ctrl" [(ngModel)]="campaignAddFormData.source" name="source" style="width: 75%">
+              <option value=""></option>
+              <option [value]="source.id" *ngFor="let source of sourceList">
                 {{source.name}}
-            </option>
-          </select>
-          <label for="source">Source</label>
+              </option>
+            </select>
+            <label for="source">Source</label>
+          </div>
         </div>
       </div>
-    </div>   
+
     </section>
 
 
@@ -91,8 +93,7 @@
             <ul>
               <li>
                 <!-- accept="application/vnd.ms-excel" -->
-                <p-fileUpload
-                  customUpload="true" type="submit" (uploadHandler)="uploadHandler($event,values)" [showCancelButton]="false">
+                <p-fileUpload customUpload="true" type="submit" (uploadHandler)="uploadHandler($event,values)" [showCancelButton]="false">
                 </p-fileUpload>
 
                 <div class="uploadProcessAndFileName clearfix" *ngIf="isUploadingXls">
@@ -153,7 +154,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor = "let record of bulkUploadRecords">
+              <tr *ngFor="let record of bulkUploadRecords">
                 <td>{{record.list_name}}</td>
                 <td>{{record.created_date}}</td>
                 <td>{{record.total_count}}</td>
@@ -173,5 +174,5 @@
     </div>
 
   </campaign-pop-up>
-  
+
 </section>

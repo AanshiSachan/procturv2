@@ -16,14 +16,14 @@
             td {
                 text-align: left;
             }
-            &.adder{
-                td{
+            &.adder {
+                td {
                     padding: 0px 5px;
-                    .time-picker{
-                        .field-wrapper{
+                    .time-picker {
+                        .field-wrapper {
                             margin: 0px;
                             width: 30px;
-                            .form-ctrl{
+                            .form-ctrl {
                                 width: 30px;
                             }
                         }
@@ -1345,14 +1345,18 @@
 }
 
 /////////////////////////
-.field-radio-wrapper[_ngcontent-c8] .form-radio[_ngcontent-c8]:checked+label[_ngcontent-c8]:before {
-    content: '';
-    width: 10px;
-    height: 10px;
-    background: #0084f6;
-    border-radius: 50%;
-    left: 3px;
-    top: 3px;
+.radio-options {
+    .field-radio-wrapper {
+        .form-radio:checked+label:before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #0084f6;
+            border-radius: 50%;
+            left: 3px;
+            top: 3px;
+        }
+    }
 }
 
 //////////////////////

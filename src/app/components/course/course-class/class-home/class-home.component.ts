@@ -202,14 +202,23 @@ export class ClassHomeComponent implements OnInit {
 
   getClassList(): any[] {
     let temp: any[] = [];
-    for (let key in this.timeTableResponse.batchTimeTableList) {
+    let dataList: any = [];
+    if (this.isLangInstitute) {
+      dataList = this.timeTableResponse.batchTimeTableList;
+    } else {
+      if (this.fetchMasterCourseModule.master_course != "" && this.fetchMasterCourseModule.course_id == "-1" && this.fetchMasterCourseModule.teacher_id == "-1" && this.fetchMasterCourseModule.subject_id == "-1") {
+        dataList = this.timeTableResponse[0].batchTimeTableList;
+      } else {
+        dataList = this.timeTableResponse.batchTimeTableList;
+      }
+    }
+    for (let key in dataList) {
       let obj = {
         id: key,
-        data: this.timeTableResponse.batchTimeTableList[key]
+        data: dataList[key]
       }
       temp.push(obj);
     }
-    console.log(temp);
     return temp;
   }
 
@@ -245,7 +254,11 @@ export class ClassHomeComponent implements OnInit {
 
   makeJsonForSubmit() {
     let obj: any = {};
-    obj.batch_id = this.getValueOfKey(this.courseList.coursesList, 'batch_id', this.fetchMasterCourseModule.course_id);
+    if (this.courseList.length > 0) {
+      obj.batch_id = this.getValueOfKey(this.courseList.coursesList, 'batch_id', this.fetchMasterCourseModule.course_id);
+    } else {
+      obj.batch_id = "-1";
+    }
     obj.course_id = this.fetchMasterCourseModule.course_id;
     obj.master_course = this.courseList.master_course;
     obj.subject_id = -1;
@@ -302,11 +315,13 @@ export class ClassHomeComponent implements OnInit {
   }
 
   getValueOfKey(data, key, value) {
+    let test = "-1";
     for (let t = 0; t < data.length; t++) {
       if (data[t][key] == value) {
-        return data[t].batch_id;
+        test = data[t].batch_id;
       }
     }
+    return test;
   }
 
   getValueOfStandardID(data, key, value, ) {

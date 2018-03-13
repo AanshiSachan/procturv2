@@ -35,8 +35,7 @@ fieldset {
 }
 
 .CancelWrapper {
-    padding: 20px;
-    .cancelField {}
+    padding: 20px; // .cancelField {}
 }
 
 .widget-wrapper {
@@ -115,7 +114,7 @@ fieldset {
 
 .textBox {
     width: 100%;
-    height: 45px;
+    height: 60px;
     padding: 10px;
     box-sizing: border-box;
     resize: none;
@@ -199,60 +198,126 @@ fieldset {
     padding: 15px;
 }
 
+.attendanceHeadingHr {
+    margin-top: 20px;
+    margin-bottom: 0px;
+    border-top: 2px solid #eee;
+}
+
 .attendanceWrapper {
-    padding-top: 15px;
-    width: 99%;
-    .radio-options div {
-        display: inline-block;
-        margin-right: 10px;
-        margin-bottom: 15px;
-    }
-    .field-radio-wrapper .form-radio:checked+label {
-        &.present {
-            color: #000000;
-            &:before {
-                content: '';
-                width: 10px;
-                height: 10px;
-                background: #38e420;
-                border-radius: 50%;
-                left: 3px;
-                top: 3px;
+    border-top: 2px solid #eee;
+    margin-top: 15px;
+    .row {
+        display: flex;
+        .tableSection {
+            display: inline-block;
+            width: 75%;
+            padding: 10px 30px 0px 0px;
+            .button-row {
+                position: relative;
+                height: 45px;
+                button {
+                    position: absolute;
+                    right: 0;
+                    border: 2px solid #0084f6;
+                }
             }
-            &:after {
-                border: 2px solid #38e420;
+            .filterSection {
+                padding-top: 20px;
+                margin-left: 15px;
+                padding-bottom: 5px;
+                background-color: #e6e6e6;
+                span {
+                    padding: 0px 5px;
+                }
+                .absent {
+                    color: white;
+                    background: #fe552a;
+                    border-radius: 5px;
+                }
+                .present {
+                    color: white;
+                    background: #4191da;
+                    border-radius: 5px;
+                }
+                .leave {
+                    color: white;
+                    background: #7a7a7a;
+                    border-radius: 5px;
+                }
+            }
+            .studentTableWrapper {
+                border: 2px solid #eee;
+                width: 100%;
+                .schedule-bottom {
+                    width: 100%;
+                }
+            }
+            .row {
+                margin-left: 15px;
             }
         }
-        &.leave {
-            color: #000000;
-            &:before {
-                content: '';
-                width: 10px;
-                height: 10px;
-                background: #0084f6;
-                border-radius: 50%;
-                left: 3px;
-                top: 3px;
+        .detailsSection {
+            display: inline-block;
+            width: 25%;
+            padding: 20px 30px 20px 15px;
+            background-color: #ebebeb;
+            div {
+                margin-top: 10px;
+                margin-bottom: 10px;
             }
-            &:after {
-                border: 2px solid #0084f6;
-            }
-        }
-        &.absent {
-            color: #000000;
-            &:before {
-                content: '';
-                width: 10px;
-                height: 10px;
-                background: #f60000;
-                border-radius: 50%;
-                left: 3px;
-                top: 3px;
-            }
-            &:after {
-                border: 2px solid #f60000;
-            }
-        }
+        } // .radio-options div {
+        //     display: inline-block;
+        //     margin-right: 10px;
+        //     margin-bottom: 15px;
+        // }
+        // .field-radio-wrapper .form-radio:checked+label {
+        //     &.present {
+        //         color: #000000;
+        //         &:before {
+        //             content: '';
+        //             width: 10px;
+        //             height: 10px;
+        //             background: #38e420;
+        //             border-radius: 50%;
+        //             left: 3px;
+        //             top: 3px;
+        //         }
+        //         &:after {
+        //             border: 2px solid #38e420;
+        //         }
+        //     }
+        //     &.leave {
+        //         color: #000000;
+        //         &:before {
+        //             content: '';
+        //             width: 10px;
+        //             height: 10px;
+        //             background: #0084f6;
+        //             border-radius: 50%;
+        //             left: 3px;
+        //             top: 3px;
+        //         }
+        //         &:after {
+        //             border: 2px solid #0084f6;
+        //         }
+        //     }
+        //     &.absent {
+        //         color: #000000;
+        //         &:before {
+        //             content: '';
+        //             width: 10px;
+        //             height: 10px;
+        //             background: #f60000;
+        //             border-radius: 50%;
+        //             left: 3px;
+        //             top: 3px;
+        //         }
+        //         &:after {
+        //             border: 2px solid #f60000;
+        //         }
+        //     }
+        // }
     }
 }
 
@@ -746,7 +811,7 @@ div#enqChart {
             li {
                 padding: 20px 24px 12px;
                 text-transform: uppercase;
-                color: rgba(102, 102, 102, 0.6);
+                color: rgba(102, 102, 102, 0.938);
                 font-size: 12px;
             }
         }
@@ -1215,5 +1280,93 @@ div#enqChart {
                 padding: 10px 24px 10px;
             }
         }
+    }
+}
+
+.homeWorkNotFoundClass {
+    ul {
+        li:first-child {
+            width: 30% !important;
+        }
+        li:nth-child(2) {
+            width: 30% !important;
+        }
+        li:last-child {
+            width: 40% !important;
+        }
+    }
+}
+
+.attendanceGroup {
+    display: flex;
+}
+
+.passive {
+    border: 1px solid grey;
+    border-radius: 10%;
+    background-color: #eee;
+}
+
+.radio-options div {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 15px;
+}
+
+.field-radio-wrapper .form-radio:checked+label {
+    &.present {
+        color: #4191da;
+        &:before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #4191da;
+            border-radius: 50%;
+            left: 3px;
+            top: 3px;
+        }
+        &:after {
+            border: 2px solid #4191da;
+        }
+    }
+    &.leave {
+        color: #7a7a7a;
+        &:before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #7a7a7a;
+            border-radius: 50%;
+            left: 3px;
+            top: 3px;
+        }
+        &:after {
+            border: 2px solid #7a7a7a;
+        }
+    }
+    &.absent {
+        color: #fe552a;
+        &:before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #fe552a;
+            border-radius: 50%;
+            left: 3px;
+            top: 3px;
+        }
+        &:after {
+            border: 2px solid #fe552a;
+        }
+    }
+}
+
+.customDropdown {
+    font-weight: 800;
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    padding: 5px 5px;
+    select {
+        width: 100%;
+        background: transparent;
     }
 }

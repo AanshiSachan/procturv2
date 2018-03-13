@@ -232,6 +232,9 @@ export class CampaignHomeComponent implements OnInit {
           debugger
           console.log("date" + data);
           if (data.length != 0) {
+            data = data.sort(function (a, b) {
+              return moment(a.created_date).unix() - moment(b.created_date).unix();
+            })
             if (this.indexJSON.length != 0) {
               this.totalCampaign = data[0].totalcount;
               this.indexJSON = [];
