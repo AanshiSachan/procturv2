@@ -1236,229 +1236,181 @@
       </svg>
     </span>
     <h2 popup-header style="padding: 10px 5px;">Define Fee Schedule</h2>
-    <div class="feeManager" popup-content>
-      <div class="fee-content">
 
-        <fieldset class="installment">
-          <legend>Edit Fee Installments</legend>
-          <!-- <div class="row data-adder">
-            <div class="outer">
-              <div class="c-lg-3 c-md-3 pull-left"></div>
-              <div class="c-lg-9 c-md-9 pull-right">
-                <div class="inner">
-
-                </div>
-                <div class="inner">
-
-                </div>
-                <div class="inner">
-                </div>
-              </div>
+    <div class="fee-definations" popup-content>
+      <div class="fee-container">
+        <div class="installment-container">
+          <!-- Header Installment -->
+          <div class="installment-header">
+            <div class="pull-left">
+              EDIT FEE INSTALLMENTS (COURSE NAME)
+              <span class="installment-count">4</span>
             </div>
-          </div> -->
-          <div class="row">
-            <div class="table-scroll-wrapper">
-              <div class="table table-responsive">
-                <table>
-                  <thead>
-                    <tr>
-                      <th style="width: 15%;">Installment # </th>
-                      <th style="width: 15%;" (click)="sort('due_date')">Due Date</th>
-                      <th style="width: 15%;" *ngIf="taxEnableCheck == '1'">Amount</th>
-                      <th style="width: 15%;" *ngIf="taxEnableCheck == '1'">Tax</th>
-                      <th style="width: 15%;" >Fee Amount Incl Tax</th>
-                      <th style="width: 15%;" >Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <!-- Adder Here -->
-                    <tr>  
-                      <td colspan="6">
-                        <div>
-                          <table>
-                            <tbody>
-                              <tr>
-                                <td style="width: 10%;"></td>
-                                <td style="width: 15%;">
-                                  <div class="field-wrapper datePickerBox has-value">
-                                    <input type="text" value="" class="form-ctrl bsDatepicker" readonly="true" name="dd" [(ngModel)]="addFeeInstallment.due_date"
-                                      bsDatepicker>
-                                    <label for="dd">
-                                      Due Date
-                                    </label>
-                                  </div>
-                                </td>
-                                <td style="width: 45%;" colspan="3">
-                                  <div class="field-wrapper has-value">
-                                    <input type="number" class="form-ctrl" [(ngModel)]="addFeeInstallment.initial_fee_amount" name="amt">
-                                    <label for="dd">
-                                      New Installment
-                                    </label>
-                                  </div>
-                                </td>
-                                <td style="width: 15%;">
-                                  <button style="margin:0px;padding: 10px 0px 0px 2px;" class="btn" (click)="addNewInstallmentFee()">
-                                    <div class="option-wrap">
-                                      <img src="./assets/images/plus.png" alt="addInstallment">
-                                      <span class="tooltip">
-                                        Add Installment
-                                      </span>
-                                    </div>
-                                  </button>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </td>
-                    </tr>
-                    <!-- Table Here -->
-                    <tr>
-                      <td colspan="6">
-                        <div>
-                          <table>
-                            <tbody>
-                              <tr *ngFor="let fee of instalmentTableData| orderBy: key : reverse; let i = index;">
-                                <td style="width:15%">
-                                  # {{i+1}}
-                                </td>
-                                <td style="width:15%">
-                                  <div class="field-wrapper datePickerBox">
-                                    <input type="text" value="" class="form-ctrl bsDatepicker" readonly="true" name="dd" (ngModelChange)="sortTableByDate(i , $event)"
-                                      [(ngModel)]="fee.due_date" bsDatepicker>
-                                  </div>
-                                </td>
-                                <td style="width:15%" *ngIf="taxEnableCheck == '1'">
-                                  <div class="field-wrapper">
-                                    <input type="number" class="form-ctrl" readonly="true" name="amt" [(ngModel)]="fee.initial_fee_amount">
-                                  </div>
-                                </td>
-                                <td style="width:15%" *ngIf="taxEnableCheck == '1'">
-                                  <div class="field-wrapper">
-                                    <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getTaxedAmount(fee.initial_fee_amount, fee.service_tax_applicable, i)">
-                                  </div>
-                                </td>
-                                <td style="width:15%">
-                                  <div class="field-wrapper">
-                                    <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
-                                  </div>
-                                </td>
-                                <td style="width:15%">
-                                  <i (click)="deleteInstallment(i)" *ngIf="fee.is_paid == 0" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div class="pull-right">
+              TOTAL FEES : Rs 9XXXX
             </div>
           </div>
-        </fieldset>
+          <!-- Installment Adding Here -->
+          <div class="installment-adder">
+            <ul>
+              <li>
+                <div class="form-wrapper">
+                  <input type="text" class="form-ctrl" readonly placeholder="Installment">
+                </div>
+              </li>
+              <li>
+                <div class="form-wrapper datePickerBox">
+                  <input type="text" value="" class="form-ctrl bsDatepicker" readonly="true" name="dd" [(ngModel)]="addFeeInstallment.due_date"
+                    bsDatepicker>
+                </div>
+              </li>
+              <li>
+                <div class="form-wrapper">
+                  <input type="number" class="form-ctrl" [(ngModel)]="addFeeInstallment.initial_fee_amount" name="amt">
+                </div>
+              </li>
+              <li>
+                <button type="submit" class="btn fee-adder" (click)="addNewInstallmentFee()">
+                  <i></i>
+                  Add
+                </button>
+              </li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div>
+          <!-- Installment Table Configure -->
+          <div class="installment-table">
+            <ul class="table-header">
+              <li [ngClass]="{'bigger': taxEnableCheck == '0'}">Installment # </li>
+              <li [ngClass]="{'bigger': taxEnableCheck == '0'}" (click)="sort('due_date')">Due Date</li>
+              <li [ngClass]="{'hide': taxEnableCheck == '0'}">Amount</li>
+              <li [ngClass]="{'hide': taxEnableCheck == '0'}">Tax</li>
+              <li [ngClass]="{'bigger': taxEnableCheck == '0'}">Fee Incl Tax</li>
+              <li [ngClass]="{'bigger': taxEnableCheck == '0'}">Action</li>
+            </ul>
+            <div class="table-data">
+              <ul class="table-row" *ngFor="let fee of instalmentTableData| orderBy: key : reverse; let i = index;">
+                <li [ngClass]="{'bigger': taxEnableCheck == '0'}">{{i+1}}</li>
+                <li>
+                  <div class="form-wrapper datePickerBox">
+                    <input type="text" value="" class="form-ctrl bsDatepicker" readonly="true" name="dd" (ngModelChange)="sortTableByDate(i , $event)"
+                      [(ngModel)]="fee.due_date" bsDatepicker>
+                  </div>
+                </li>
+                <li [ngClass]="{'hide': taxEnableCheck == '0'}">
+                  <div class="form-wrapper">
+                    <input type="number" class="form-ctrl" readonly="true" name="amt" [(ngModel)]="fee.initial_fee_amount">
+                  </div>
+                </li>
+                <li [ngClass]="{'hide': taxEnableCheck == '0'}">
+                  <div class="form-wrapper">
+                    <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getTaxedAmount(fee.initial_fee_amount, fee.service_tax_applicable, i)">
+                  </div>
+                </li>
+                <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
+                  <div class="form-wrapper">
+                    <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
+                  </div>
+                </li>
+                <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
+                  <a *ngIf="fee.is_paid == 0">
+                    <i (click)="deleteInstallment(i)" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
+                  </a>
+                  <a *ngIf="fee.is_paid != 0" class="paid-fee">Paid</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
 
-        <fieldset class="additional">
-          <legend>Edit Additional Fees</legend>
-          <div class="row data-adder">
-            <div class="outer">
-              <div class="c-lg-12 c-md-12">
-                <div class="innermost">
-                  <div class="field-wrapper">
+        <div class="additional-container">
+          <!-- Header Installment -->
+          <div class="additional-header">
+            <div class="pull-left">
+              EDIT ADDITIONAL FEES
+            </div>
+            <div class="pull-right">
+            </div>
+          </div>
+          <!-- Installment Adding Here -->
+          <div class="additional-adder">
+            <ul>
+              <li>
+                <div class="form-wrapper">
                     <select id="feetype" class="form-ctrl" [(ngModel)]="addFeeOther.fee_type" (ngModelChange)="updateOtherFeeData($event)" name="feetype">
-                      <option value=""></option>
-                      <option [value]="type.id" *ngFor="let type of getOtherFeesArray()">{{type.value}}</option>
-                    </select>
-                    <label for="feetype">Fee Type*</label>
-                  </div>
+                        <option value="" selected>Select Fee Type</option>
+                        <option [value]="type.id" *ngFor="let type of getOtherFeesArray()">{{type.value}}</option>
+                      </select>
                 </div>
-                <div class="innermost">
-                  <div class="field-wrapper datePickerBox has-value">
+              </li>
+              <li>
+                <div class="form-wrapper datePickerBox">
                     <input type="text" value="" class="form-ctrl bsDatepicker" readonly="true" name="dd" [(ngModel)]="addFeeOther.due_date" bsDatepicker>
-                    <label for="dd">
-                      Due Date*
-                    </label>
-                  </div>
                 </div>
-                <div class="innermost">
-                  <div class="field-wrapper" [class.has-value]="addFeeOther.initial_fee_amount >= '0'">
+              </li>
+              <li>
+                <div class="form-wrapper">
                     <input type="number" class="form-ctrl" [(ngModel)]="addFeeOther.initial_fee_amount" name="amt">
-                    <label for="dd">
-                      Amount*
-                    </label>
-                  </div>
                 </div>
-                <div class="innermost">
-                  <div class="field-wrapper" [class.has-value]="addFeeOther.service_tax >= '0'">
+              </li>
+              <li>
+                <div class="form-wrapper">
                     <input type="number" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax" name="amt">
-                    <label for="dd">
-                      Tax %
-                    </label>
+                </div>
+              </li>
+              <li>
+                <button type="submit" class="btn fee-adder" (click)="addNewOtherFee()">
+                  <i></i>
+                  Add
+                </button>
+              </li>
+              <li></li>
+            </ul>
+          </div>
+          <!-- Installment Table Configure -->
+          <div class="additional-table">
+            <ul class="table-header">
+              <li>Fee Type</li>
+              <li>Due Date</li>
+              <li>Amount</li>
+              <li>Tax</li>
+              <li>Fee Incl Tax</li>
+              <li>Action</li>
+            </ul>
+            <div class="table-data">
+              <ul class="table-row"  *ngFor="let fee of otherFeeTableData; let i = index">
+                <li>{{fee.fee_type_name}}</li>
+                <li>
+                  <div class="form-wrapper datePickerBox">
+                      <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="fee.due_date" bsDatepicker readonly="true">
                   </div>
-                </div>
-                <div class="innermost">
-                  <button style="margin:0px;padding: 10px 0px 0px 2px;" class="btn" (click)="addNewOtherFee()">
-                    <div class="option-wrap">
-                      <img src="./assets/images/plus.png" alt="addInstallment">
-                      <span class="tooltip">
-                        Add Installment
-                      </span>
-                    </div>
-                  </button>
-                </div>
-              </div>
+                </li>
+                <li>
+                  <div class="form-wrapper">
+                      <input type="number" class="form-ctrl" name="amt" [(ngModel)]="fee.initial_fee_amount">
+                  </div>
+                </li>
+                <li>
+                  <div class="form-wrapper">
+                      <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getOtherTaxes(fee.initial_fee_amount, fee.service_tax_applicable, i)">
+                  </div>
+                </li>
+                <li>
+                  <div class="form-wrapper">
+                      <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, i)">
+                  </div>
+                </li>
+                <li>
+                  <a *ngIf="fee.is_paid == 0">
+                      <i (click)="deleteOtherFee(i)" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
+                  </a>
+                  <a *ngIf="fee.is_paid != 0" class="paid-fee">Paid</a>
+                </li>
+              </ul>
             </div>
           </div>
-          <div class="row">
-            <div class="table-scroll-wrapper">
-              <div class="table table-responsive">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Fee Type </th>
-                      <th>Due Date</th>
-                      <th>Amount</th>
-                      <th>Tax</th>
-                      <th>Fee Amount Incl Tax</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let fee of otherFeeTableData; let i = index">
-                      <td>
-                        {{fee.fee_type_name}}
-                      </td>
-                      <td>
-                        <div class="field-wrapper datePickerBox">
-                          <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="fee.due_date" bsDatepicker readonly="true">
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-wrapper">
-                          <input type="number" class="form-ctrl" name="amt" [(ngModel)]="fee.initial_fee_amount">
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-wrapper">
-                          <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getOtherTaxes(fee.initial_fee_amount, fee.service_tax_applicable, i)">
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-wrapper">
-                          <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, i)">
-                        </div>
-                      </td>
-                      <td>
-                        <i (click)="deleteOtherFee(i)" *ngIf="fee.is_paid == 0" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </fieldset>
+        </div>
 
       </div>
     </div>
