@@ -600,7 +600,7 @@ export class AdminHomeComponent implements OnInit {
           this.isRippleLoad = false;
           this.isPopupOpened = true;
           this.isAttendancePop = true;
-          this.attendanceNote = res[0].attendance_note;
+          this.attendanceNote = res[0].dateLi[0].attendance_note;
           this.homework = res[0].homework_assigned;
           this.getCountOfAbsentPresentLeave(res);
         },
@@ -638,7 +638,7 @@ export class AdminHomeComponent implements OnInit {
           this.isRippleLoad = false;
           this.isPopupOpened = true;
           this.isAttendancePop = true;
-          this.attendanceNote = res[0].attendance_note;
+          this.attendanceNote = res[0].dateLi[0].attendance_note;
           this.homework = res[0].homework_assigned;
           this.getCountOfAbsentPresentLeave(res);
         },
@@ -740,6 +740,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateAttendance() {
+    this.isRippleLoad = true;
     let arr = [];
     this.studentAttList.forEach(e => {
       e.dateLi[0] = Object.assign({}, this.getCustomAttendanceObject(e.dateLi[0], e));
@@ -756,6 +757,7 @@ export class AdminHomeComponent implements OnInit {
     });
     this.widgetService.updateAttendance(arr).subscribe(
       res => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'success',
           title: 'Attendance Updated',
@@ -763,8 +765,10 @@ export class AdminHomeComponent implements OnInit {
         }
         this.appC.popToast(msg);
         this.closeAttendance();
+        this.fetchScheduleWidgetData();
       },
       err => {
+        this.isRippleLoad = false;
         let msg = {
           type: 'error',
           title: 'Failed To Update Attendance',

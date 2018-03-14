@@ -243,6 +243,8 @@ export class TemplateHomeComponent implements OnInit {
       } else {
         return 0;
       }
+    } else {
+      this.calculateTotalAmount();
     }
   }
 
