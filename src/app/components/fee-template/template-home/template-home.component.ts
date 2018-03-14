@@ -106,6 +106,8 @@ export class TemplateHomeComponent implements OnInit {
   }
 
   fillDataInYTable(data) {
+    this.installmentList = [];
+    this.otherInstList = [];
     for (let t = 0; t < data.length; t++) {
       if (data[t].fee_type_name == "INSTALLMENT") {
         this.installmentList.push(data[t]);
@@ -195,18 +197,76 @@ export class TemplateHomeComponent implements OnInit {
     }
   }
 
+
   calculateTaxAmout(row) {
-    return row.fees_amount - row.initial_fee_amount;
+    if (document.getElementById('checkBoxtaxes').checked == true) {
+      return row.fees_amount - row.initial_fee_amount;
+    }
   }
 
+
   calculateTotalAmount() {
-    // let totalFee = this.feeStructure.map(fee => fee.student_total_fees).reduce((acc, val) => val + acc);
-    // return totalFee;
-    return 0;
+    if (document.getElementById('checkBoxtaxes').checked == true) {
+      let otherAmount = 0;
+      if (this.otherInstList.length > 0) {
+        otherAmount = this.otherInstList.map(fee => fee.initial_fee_amount).reduce((acc, val) => val + acc)
+      } else {
+        otherAmount = 0;
+      }
+      return Math.floor(this.onApplyTaxChechbox() + otherAmount);
+    } else {
+      let installAmount = 0;
+      let otherAmount = 0;
+      if (this.installmentList.length > 0) {
+        installAmount = this.installmentList.map(fee => fee.initial_fee_amount).reduce((acc, val) => val + acc);
+      }
+      if (this.otherInstList.length > 0) {
+        otherAmount = this.otherInstList.map(fee => fee.initial_fee_amount).reduce((acc, val) => val + acc);
+      }
+      return Math.floor(installAmount + otherAmount);
+    }
   }
 
   onApplyTaxChechbox() {
+    let taxPercent = this.feeStructure.registeredServiceTax;
+    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      if (this.installmentList.length > 0) {
+        this.addTaxInInstallmentTable();
+        if (document.getElementById('checkBoxtaxes').checked == true) {
+          let totalAmount = this.installmentList.map(fee => fee.initial_fee_amount).reduce((acc, val) => val + acc);
+          totalAmount = totalAmount + (totalAmount * taxPercent * 0.01);
+          return Math.floor(totalAmount);
+        } else {
+          let totalAmount = this.installmentList.map(fee => fee.initial_fee_amount).reduce((acc, val) => val + acc);
+          return Math.floor(totalAmount);
+        }
+      } else {
+        return 0;
+      }
+    } else {
+      this.calculateTotalAmount();
+    }
+  }
 
+  addTaxInInstallmentTable() {
+    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      let taxPercent = this.feeStructure.registeredServiceTax;
+      if (document.getElementById('checkBoxtaxes').checked == true) {
+        this.installmentList.map(
+          fee => {
+            fee.tax = Math.floor(fee.initial_fee_amount * taxPercent * 0.01);
+          }
+        )
+      } else {
+        this.installmentList.map(
+          fee => {
+            if (fee.tax != 0) {
+              fee.tax = 0;
+            }
+          }
+        )
+      }
+    }
   }
 
   deleteRow(row, i) {

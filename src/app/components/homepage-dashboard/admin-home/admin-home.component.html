@@ -152,15 +152,15 @@
                     <ul>
                       <li>
                         <label>Total Collected</label>
-                        <div>Rs. {{getFeeAmount('total')}}</div>
+                        <div>Rs. {{getFeeAmount('total') | commaSeprator}}</div>
                       </li>
                       <li>
                         <label>Total Pending Cheques</label>
-                        <div>Rs. {{getFeeAmount('pending')}}</div>
+                        <div>Rs. {{getFeeAmount('pending') | commaSeprator}} </div>
                       </li>
                       <li>
                         <label>Past Dues</label>
-                        <div>Rs. {{getFeeAmount('past')}}</div>
+                        <div>Rs. {{getFeeAmount('past') | commaSeprator}}</div>
                       </li>
                     </ul>
                   </div>
@@ -323,9 +323,9 @@
                           <div class="che-action" [class.display]="i == selectedRow">
                             <a *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()"> Mark Attendance</a>
                             <a *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()"> View Attendance</a>
-                            <a *ngIf='isOptionVisible && class.is_attendance_marked != "Y"' style="cursor:pointer" (click)="initiateCancelClass()">Cancel</a>
+                            <a *ngIf='isOptionVisible && class.is_attendance_marked !="Y"' style="cursor:pointer" (click)="initiateCancelClass()">Cancel</a>
                             <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
-                            <a *ngIf="isOptionVisible && class.is_attendance_marked != 'Y'" style="cursor:pointer " (click)="initiateRescheduleClass() ">Reschedule</a>
+                            <a *ngIf="isOptionVisible && class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
                           </div>
                         </div>
                       </div>
@@ -334,24 +334,24 @@
                 </div>
               </li>
 
-              <li class="general-state item " style="height: 200px; " data-id="4 ">
-                <div class="item-content ">
-                  <div class="actb-top-header clearfix ">
-                    <span class="heading ">
-                      General stats
+              <li class="general-state item" style="height: 200px;" data-id="4">
+                <div class="item-content">
+                  <div class="actb-top-header clearfix">
+                    <span class="heading">
+                      Account Details
                     </span>
-                    <button class="pull-right drag-button ">
-                      <svg xmlns="http://www.w3.org/2000/svg " width="24 " height="24 " viewBox="0 0 24 24 ">
-                        <path fill="#0C8AF6 " fill-rule="nonzero " d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493
+                    <button class="pull-right drag-button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493
                               0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85
                               6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683
                               1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494
                               0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494
-                              0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z " />
+                              0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z" />
                       </svg>
                     </button>
                   </div>
-                  <div class="general-s-bottom ">
+                  <div class="general-s-bottom">
                     <ul>
                       <li>
                         <label>Total active students</label>
@@ -381,18 +381,18 @@
     </section>
   </section>
 
-  <proctur-widget *ngIf="isAttendancePop ">
-    <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeAttendance() " close-button>
-      <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
-        <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
-          <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
-            <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
-                              rotate(45) " />
-            <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
-                              rotate(45) " />
+  <proctur-widget *ngIf="isAttendancePop">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAttendance()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77)
+                              rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77)
+                              rotate(45)" />
           </g>
-          <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
-                              " height="16 " transform="translate(1012 297) " />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16
+               " height="16" transform="translate(1012 297)" />
         </g>
       </svg>
     </span>
@@ -401,96 +401,95 @@
 
     <hr>
 
-    <div class="attendanceWrapper " widget-content>
+    <div class="attendanceWrapper" widget-content>
 
-      <div class="row ">
-        <aside class="tableSection ">
-          <div class="row button-row hide ">
-            <button class="btn pull-right ">Update Topic/SubTopic</button>
+      <div class="row">
+        <aside class="tableSection">
+          <div class="row button-row hide">
+            <button class="btn pull-right">Update Topic/SubTopic</button>
           </div>
 
-          <div class="row filterSection ">
-            <div class="c-sm-3 c-md-3 c-lg-3 ">
+          <div class="row filterSection">
+            <div class="c-sm-3 c-md-3 c-lg-3">
               <h3>Total Students : {{studentAttList.length}} </h3>
             </div>
 
-            <div class="c-sm-3 c-md-3 c-lg-3 ">
-              <span class="leave ">{{leaveCount}}</span>
-              <span class="absent ">{{absentCount}}</span>
-              <span class="present ">{{presentCount}}</span>
+            <div class="c-sm-3 c-md-3 c-lg-3">
+              <span class="leave">{{leaveCount}}</span>
+              <span class="absent">{{absentCount}}</span>
+              <span class="present">{{presentCount}}</span>
             </div>
 
-            <div class="c-sm-3 c-md-3 c-lg-3 ">
+            <div class="c-sm-3 c-md-3 c-lg-3">
               <div class="field-checkbox-wrapper" *ngIf="classMarkedForAction.is_attendance_marked != 'Y'">
-                <input type="checkbox " value=" " class="form-checkbox " id="MarkAllPresent " [checked]="AllPresent " (change)="markAllPresent($event) ">
-                <label for="MarkAllPresent ">Mark All Present</label>
+                <input type="checkbox" value="" class="form-checkbox" id="MarkAllPresent" [checked]="AllPresent" (change)="markAllPresent($event)">
+                <label for="MarkAllPresent">Mark All Present</label>
               </div>
             </div>
 
-            <div class="c-sm-3 c-md-3 c-lg-3 " style="margin-top: -10px ">
-              <div class="field-wrapper " [ngClass]="{ 'has-value': teacher_id !='-1' } ">
-                <select id="teachers " class="form-ctrl " [(ngModel)]="teacher_id " style="background: transparent;
-                  border-bottom: 1px solid #4191da ">
+            <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: -10px">
+              <div class="field-wrapper" [ngClass]="{ 'has-value': teacher_id !='-1' }">
+                <select id="teachers" class="form-ctrl" [(ngModel)]="teacher_id" style="background: transparent;
+                  border-bottom: 1px solid #4191da">
                   <option value='-1'>Select Tutor</option>
-                  <option [value]="teacher.teacher_id " *ngFor="let teacher of teacherListArr ">
+                  <option [value]="teacher.teacher_id" *ngFor="let teacher of teacherListArr">
                     {{teacher.teacher_name}}
                   </option>
                 </select>
-                <label for="feeType ">Tutor</label>
+                <label for="feeType">Tutor</label>
               </div>
             </div>
           </div>
 
-          <div class="row studentTableWrapper ">
-            <div class="schedule-bottom ">
-              <ul class="sche-head " *ngIf="instituteSetting.home_work_feature_enable==1 ">
-                <li style="width: 20%; font-weight: 400 ">Student ID</li>
-                <li style="width: 20%; font-weight: 400 ">Student Name</li>
-                <li style="width: 35%; font-weight: 400 ">Mark Attendance</li>
-                <li style="width: 25%; font-weight: 400 ">Home Work Status</li>
+          <div class="row studentTableWrapper">
+            <div class="schedule-bottom">
+              <ul class="sche-head" *ngIf="instituteSetting.home_work_feature_enable==1">
+                <li style="width: 20%; font-weight: 400">Student ID</li>
+                <li style="width: 20%; font-weight: 400">Student Name</li>
+                <li style="width: 35%; font-weight: 400">Mark Attendance</li>
+                <li style="width: 25%; font-weight: 400">Home Work Status</li>
               </ul>
-              <ul class="sche-head " *ngIf="instituteSetting.home_work_feature_enable !=1 ">
-                <li style="width: 30%; font-weight: 400 ">Student ID</li>
-                <li style="width: 30%; font-weight: 400 ">Student Name</li>
-                <li style="width: 40%; font-weight: 400 ">Mark Attendance</li>
+              <ul class="sche-head" *ngIf="instituteSetting.home_work_feature_enable !=1">
+                <li style="width: 30%; font-weight: 400">Student ID</li>
+                <li style="width: 30%; font-weight: 400">Student Name</li>
+                <li style="width: 40%; font-weight: 400">Mark Attendance</li>
               </ul>
-              <div class="schedule-scroller ">
-                <div class="ct-disable-wrapper pos-rel " *ngFor="let s of studentAttList;let i=index;
-                  " [ngClass]="{ homeWorkNotFoundClass: instituteSetting.home_work_feature_enable !=1 } ">
-                  <ul class="ct-ongoing ">
-                    <li style="width: 20%; font-weight: 800 ">
+              <div class="schedule-scroller">
+                <div class="ct-disable-wrapper pos-rel" *ngFor="let s of studentAttList;let i=index;" [ngClass]="{ homeWorkNotFoundClass: instituteSetting.home_work_feature_enable !=1 }">
+                  <ul class="ct-ongoing">
+                    <li style="width: 20%; font-weight: 800">
                       <div>{{s.student_disp_id}}</div>
                     </li>
 
-                    <li class="cls-type " style="width: 20% ; font-weight: 800 ">
+                    <li class="cls-type" style="width: 20% ; font-weight: 800">
                       <div>
                         {{s.student_name}}
                       </div>
                     </li>
 
-                    <li style="width: 35% ">
-                      <div class="radio-options attendanceGroup ">
+                    <li style="width: 35%">
+                      <div class="radio-options attendanceGroup">
                         <div class="field-radio-wrapper">
                           <input [disabled]="getDisability(s)" type="radio" value="L" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
                             (ngModelChange)="updateRadioAttendance($event, i, s)" id="Leave{{s.student_id}}">
-                          <label class="leave " for="Leave{{s.student_id}}">Leave</label>
+                          <label class="leave" for="Leave{{s.student_id}}">Leave</label>
                         </div>
-                        <div class="field-radio-wrapper ">
+                        <div class="field-radio-wrapper">
                           <input [disabled]="getDisability(s)" type="radio" value="A" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
-                            (ngModelChange)="updateRadioAttendance($event, i, s) " id="Absent{{s.student_id}}">
-                          <label class="absent " for="Absent{{s.student_id}}">Absent</label>
+                            (ngModelChange)="updateRadioAttendance($event, i, s)" id="Absent{{s.student_id}}">
+                          <label class="absent" for="Absent{{s.student_id}}">Absent</label>
                         </div>
                         <div class="field-radio-wrapper">
                           <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
                             (ngModelChange)="updateRadioAttendance($event, i, s)" id="Present{{s.student_id}}">
-                          <label class="present " for="Present{{s.student_id}} ">Present</label>
+                          <label class="present" for="Present{{s.student_id}}">Present</label>
                         </div>
                       </div>
                     </li>
 
-                    <li style="width: 25%; " *ngIf="instituteSetting.home_work_feature_enable==1 ">
-                      <div class="customDropdown ">
-                        <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A' " id="hw_status_11755" class=" " [(ngModel)]="s.dateLi[0].home_work_status"
+                    <li style="width: 25%;" *ngIf="instituteSetting.home_work_feature_enable==1">
+                      <div class="customDropdown">
+                        <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status_11755" class="" [(ngModel)]="s.dateLi[0].home_work_status"
                           (ngModelChange)="isHomeworkStatusChanged(i)">
                           <option value="Y" selected=" ">Completed</option>
                           <option value="N">Not Done</option>
@@ -507,38 +506,38 @@
 
         </aside>
 
-        <aside class="detailsSection ">
-          <div style="margin-top: 0px ">
+        <aside class="detailsSection">
+          <div style="margin-top: 0px">
             <h3>Attendance Note</h3>
             <div class="field-wrapper">
-              <textarea class="form-ctrl textBox" value=" " [(ngModel)]="attendanceNote">
+              <textarea class="form-ctrl textBox" value="" [(ngModel)]="attendanceNote">
                   </textarea>
             </div>
           </div>
-          <div>
+          <div *ngIf="instituteSetting.home_work_feature_enable==1">
             <h3>Homework</h3>
-            <div class="field-wrapper " [ngClass]="{ 'has-value': homework !='' } ">
-              <textarea class="form-ctrl textBox" value=" " [(ngModel)]="homework">
+            <div class="field-wrapper" [ngClass]="{ 'has-value': homework !='' }">
+              <textarea class="form-ctrl textBox" value="" [(ngModel)]="homework">
                 </textarea>
             </div>
           </div>
           <div>
             <h3>Yesterdays Homework</h3>
-            <span style="font-weight: 600">{{studentAttList[0].previous_class_homework_assigned}}</span>
+            <span style="font-weight: 600">{{studentAttList[0].dateLi[0].previous_class_homework_assigned}}</span>
           </div>
           <div class="checkboxGroup">
             <div class="field-checkbox-wrapper" *ngIf="instituteSetting.home_work_feature_enable==1">
-              <input type="checkbox " value=" " class="form-checkbox" id="EnableHomeWorkSms" [checked]="home_work_notifn==1 ? true: false"
+              <input type="checkbox" value="" class="form-checkbox" id="EnableHomeWorkSms" [checked]="home_work_notifn==1 ? true: false"
                 (change)="updateHomework($event)">
               <label for="EnableHomeWorkSms">Enable Homework SMS</label>
             </div>
-            <div class="field-checkbox-wrapper ">
-              <input type="checkbox" value=" " class="form-checkbox" id="EnableSmsTopic" [checked]="topics_covered_notifn==1 ? true: false"
-                (change)="updateTopicCovered($event) ">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" class="form-checkbox" id="EnableSmsTopic" [checked]="topics_covered_notifn==1 ? true: false"
+                (change)="updateTopicCovered($event)">
               <label for="EnableSmsTopic">Enable SMS For Topic Covered</label>
             </div>
-            <div class="field-checkbox-wrapper ">
-              <input type="checkbox" value=" " class="form-checkbox" id="EnableSmsAbsentees">
+            <div class="field-checkbox-wrapper hide">
+              <input type="checkbox" value="" class="form-checkbox" id="EnableSmsAbsentees">
               <label for="EnableSmsTopic">Enable SMS For Absentees</label>
             </div>
           </div>
@@ -546,65 +545,65 @@
       </div>
 
 
-      <!-- <div class="row topicSection ">
-        <div class="c-lg-6 c-md-6 c-sm-6 ">
-          <div class="field-wrapper ">
-            <textarea class="form-ctrl textBox " placeholder="Attendance Note " value=" " [(ngModel)]="attendanceNote ">
+      <!-- <div class="row topicSection">
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-wrapper">
+            <textarea class="form-ctrl textBox" placeholder="Attendance Note" value="" [(ngModel)]="attendanceNote">
             </textarea>
           </div>
         </div>
-        <div class="c-lg-6 c-md-6 c-sm-6 " *ngIf="instituteSetting.home_work_feature_enable==1 ">
-          <div class="field-wrapper " style="width: 80%;float: right; " [ngClass]="{ 'has-value': homework !='' } ">
-            <input type="text " value=" " class="form-ctrl " id="homeWorkName " name="homeWorkName " [(ngModel)]="homework " />
-            <label for="homeWorkName ">Homework</label>
+        <div class="c-lg-6 c-md-6 c-sm-6" *ngIf="instituteSetting.home_work_feature_enable==1">
+          <div class="field-wrapper" style="width: 80%;float: right;" [ngClass]="{ 'has-value': homework !='' }">
+            <input type="text" value="" class="form-ctrl" id="homeWorkName" name="homeWorkName" [(ngModel)]="homework" />
+            <label for="homeWorkName">Homework</label>
           </div>
-          <div class="field-wrapper " style="width: 80%;float: right; ">
-            <input style="border-bottom:none; " type="text " readonly="true " disabled value=" " class="form-ctrl
-                  " id="lasthomeWork " name="lasthomeWork "
+          <div class="field-wrapper" style="width: 80%;float: right;">
+            <input style="border-bottom:none;" type="text" readonly="true" disabled value="" class="form-ctrl
+  " id="lasthomeWork" name="lasthomeWork"
             />
-            <label for="lasthomeWork ">Last Class Homework</label>
+            <label for="lasthomeWork">Last Class Homework</label>
           </div>
         </div>
       </div>
 
-      <div class="row settingAttendance ">
-        <div class="c-lg-6 c-md-6 c-sm-6 ">
-          <div class="field-checkbox-wrapper " *ngIf="instituteSetting.home_work_feature_enable==1 ">
-            <input type="checkbox " value=" " class="form-checkbox " id="EnableHomeWorkSms " [checked]="home_work_notifn==1
-                  ? true: false "
-              (change)="updateHomework($event) ">
-            <label for="EnableHomeWorkSms ">Enable Homework SMS</label>
+      <div class="row settingAttendance">
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-checkbox-wrapper" *ngIf="instituteSetting.home_work_feature_enable==1">
+            <input type="checkbox" value="" class="form-checkbox" id="EnableHomeWorkSms" [checked]="home_work_notifn==1
+                  ? true: false"
+              (change)="updateHomework($event)">
+            <label for="EnableHomeWorkSms">Enable Homework SMS</label>
           </div>
-          <div class="field-checkbox-wrapper ">
-            <input type="checkbox " value=" " class="form-checkbox " id="EnableSmsTopic " [checked]="topics_covered_notifn==1
-                  ? true: false "
-              (change)="updateTopicCovered($event) ">
-            <label for="EnableSmsTopic ">Enable SMS For Topic Covered</label>
-          </div>
-        </div>
-        <div class="c-lg-3 c-md-3 c-sm-3 ">
-          <div class="field-checkbox-wrapper " style="margin-top: 25px;margin-bottom: 0px; ">
-            <input type="checkbox " value=" " class="form-checkbox " id="MarkAllPresent " [checked]="AllPresent
-                  " (change)="markAllPresent($event) ">
-            <label for="MarkAllPresent ">Mark All Present</label>
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" class="form-checkbox" id="EnableSmsTopic" [checked]="topics_covered_notifn==1
+                  ? true: false"
+              (change)="updateTopicCovered($event)">
+            <label for="EnableSmsTopic">Enable SMS For Topic Covered</label>
           </div>
         </div>
-        <div class="c-lg-3 c-md-3 c-sm-3 ">
-          <div class="field-wrapper " style="margin-bottom: 10px; " [ngClass]="{ 'has-value': teacher_id !='-1' } ">
-            <select id="teachers " class="form-ctrl " [(ngModel)]="teacher_id ">
+        <div class="c-lg-3 c-md-3 c-sm-3">
+          <div class="field-checkbox-wrapper" style="margin-top: 25px;margin-bottom: 0px;">
+            <input type="checkbox" value="" class="form-checkbox" id="MarkAllPresent" [checked]="AllPresent
+  " (change)="markAllPresent($event)">
+            <label for="MarkAllPresent">Mark All Present</label>
+          </div>
+        </div>
+        <div class="c-lg-3 c-md-3 c-sm-3">
+          <div class="field-wrapper" style="margin-bottom: 10px;" [ngClass]="{ 'has-value': teacher_id !='-1' }">
+            <select id="teachers" class="form-ctrl" [(ngModel)]="teacher_id">
               <option value='-1'></option>
-              <option [value]="teacher.teacher_id " *ngFor="let teacher of teacherListArr ">
+              <option [value]="teacher.teacher_id" *ngFor="let teacher of teacherListArr">
                 {{teacher.teacher_name}}
               </option>
             </select>
-            <label for="feeType ">Tutor</label>
+            <label for="feeType">Tutor</label>
           </div>
         </div>
       </div>
 
-      <div class="row attendanceMain ">
-        <div class="table-scroll-wrapper ">
-          <div class="table table-responsive widget-table ">
+      <div class="row attendanceMain">
+        <div class="table-scroll-wrapper">
+          <div class="table table-responsive widget-table">
             <table>
               <thead>
                 <tr>
@@ -612,11 +611,11 @@
                   <th>Name</th>
                   <th>Date of Joining</th>
                   <th>Attendance</th>
-                  <th *ngIf="instituteSetting.home_work_feature_enable==1 ">Home Work Status</th>
+                  <th *ngIf="instituteSetting.home_work_feature_enable==1">Home Work Status</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let s of studentAttList; let i=index; ">
+                <tr *ngFor="let s of studentAttList; let i=index;">
                   <td>
                     {{s.student_disp_id}}
                   </td>
@@ -627,35 +626,35 @@
                     {{s.doj}}
                   </td>
                   <td>
-                    <div class="radio-options ">
-                      <div class="field-radio-wrapper ">
-                        <input [disabled]="getDisability(s) " type="radio " value="P " name="{{s.student_id}}
-                  " [(ngModel)]="s.dateLi[0].status " class="form-radio "
-                          (ngModelChange)="updateRadioAttendance($event, i, s) " id="Present{{s.student_id}} ">
-                        <label class="present " for="Present{{s.student_id}} ">Present</label>
+                    <div class="radio-options">
+                      <div class="field-radio-wrapper">
+                        <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}
+  " [(ngModel)]="s.dateLi[0].status" class="form-radio"
+                          (ngModelChange)="updateRadioAttendance($event, i, s)" id="Present{{s.student_id}}">
+                        <label class="present" for="Present{{s.student_id}}">Present</label>
                       </div>
-                      <div class="field-radio-wrapper ">
-                        <input [disabled]="getDisability(s) " type="radio " value="L " name="{{s.student_id}}
-                  " [(ngModel)]="s.dateLi[0].status " class="form-radio "
-                          (ngModelChange)="updateRadioAttendance($event, i, s) " id="Leave{{s.student_id}} ">
-                        <label class="leave " for="Leave{{s.student_id}} ">Leave</label>
+                      <div class="field-radio-wrapper">
+                        <input [disabled]="getDisability(s)" type="radio" value="L" name="{{s.student_id}}
+  " [(ngModel)]="s.dateLi[0].status" class="form-radio"
+                          (ngModelChange)="updateRadioAttendance($event, i, s)" id="Leave{{s.student_id}}">
+                        <label class="leave" for="Leave{{s.student_id}}">Leave</label>
                       </div>
-                      <div class="field-radio-wrapper ">
-                        <input [disabled]="getDisability(s) " type="radio " value="A " name="{{s.student_id}}
-                  " [(ngModel)]="s.dateLi[0].status " class="form-radio "
-                          (ngModelChange)="updateRadioAttendance($event, i, s) " id="Absent{{s.student_id}} ">
-                        <label class="absent " for="Absent{{s.student_id}} ">Absent</label>
+                      <div class="field-radio-wrapper">
+                        <input [disabled]="getDisability(s)" type="radio" value="A" name="{{s.student_id}}
+  " [(ngModel)]="s.dateLi[0].status" class="form-radio"
+                          (ngModelChange)="updateRadioAttendance($event, i, s)" id="Absent{{s.student_id}}">
+                        <label class="absent" for="Absent{{s.student_id}}">Absent</label>
                       </div>
                     </div>
                   </td>
-                  <td *ngIf="instituteSetting.home_work_feature_enable==1 ">
-                    <div class="field-wrapper ">
-                      <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A' " id="hw_status_11755
-                  " class="form-ctrl " [(ngModel)]="s.dateLi[0].home_work_status "
-                        (ngModelChange)="isHomeworkStatusChanged(i) ">
-                        <option value="Y " selected=" ">Completed</option>
-                        <option value="N ">Not Done</option>
-                        <option value="NC ">InComplete</option>
+                  <td *ngIf="instituteSetting.home_work_feature_enable==1">
+                    <div class="field-wrapper">
+                      <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status_11755
+  " class="form-ctrl" [(ngModel)]="s.dateLi[0].home_work_status"
+                        (ngModelChange)="isHomeworkStatusChanged(i)">
+                        <option value="Y" selected="">Completed</option>
+                        <option value="N">Not Done</option>
+                        <option value="NC">InComplete</option>
                       </select>
                     </div>
                   </td>
@@ -667,8 +666,8 @@
       </div> -->
     </div>
 
-    <div class=" " widget-footer>
-      <div class="clearfix ">
+    <div class="" widget-footer>
+      <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeAttendance()">
           <input type="button" *ngIf="isProfessional && classMarkedForAction.is_attendance_marked != 'Y'" value="Update" (click)="updateAttendance()"
@@ -680,66 +679,66 @@
 
   </proctur-widget>
 
-  <proctur-widget *ngIf="isCancelExamPop ">
+  <proctur-widget *ngIf="isCancelExamPop">
 
-    <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeCancelClass() " close-button>
-      <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
-        <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
-          <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
-            <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81
-                  305.77) rotate(45) " />
-            <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81
-                  305.77) rotate(45) " />
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCancelClass()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
+                  305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
+                  305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2
-                  " width="16 " height="16 " transform="translate(1012 297) " />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2
+  " width="16" height="16" transform="translate(1012 297)" />
         </g>
       </svg>
     </span>
 
     <h2 widget-header>Cancel Schedule {{classMarkedForAction.batch_name}}</h2>
 
-    <div class="CancelWrapper " widget-content>
-      <div class="row cancelField ">
-        <div class="c-lg-6 c-md-6 c-sm-6 ">
-          <div class="field-wrapper ">
-            <textarea class="form-ctrl textBox " style="height: 100px;" placeholder="Cancellation Reason:" value=" " [(ngModel)]="cancellationReason ">
+    <div class="CancelWrapper" widget-content>
+      <div class="row cancelField">
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-wrapper">
+            <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:" value="" [(ngModel)]="cancellationReason">
             </textarea>
           </div>
         </div>
-        <div class="c-lg-6 c-md-6 c-sm-6 ">
-          <div class="field-checkbox-wrapper ">
-            <input type="checkbox " value=" " class="form-checkbox " id="notifyCancel " [checked]="getCheckedStatus(
-                  'notifyCancel') " (change)="notifyCancelUpdate($event) ">
-            <label for="notifyCancel ">Notify Batch Students For Class Cancellation</label>
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus(
+                  'notifyCancel')" (change)="notifyCancelUpdate($event)">
+            <label for="notifyCancel">Notify Batch Students For Class Cancellation</label>
           </div>
         </div>
       </div>
     </div>
 
-    <div class=" " widget-footer>
-      <div class="clearfix ">
-        <aside class="pull-right popup-btn ">
-          <input type="button " value="Cancel " class="btn " (click)="closeCancelClass() ">
-          <input type="button " value="Update Schedule " (click)="cancelClass() " class="redBtn btn ">
+    <div class="" widget-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeCancelClass()">
+          <input type="button" value="Update Schedule" (click)="cancelClass()" class="redBtn btn">
         </aside>
       </div>
     </div>
 
   </proctur-widget>
 
-  <proctur-widget *ngIf="isReminderPop ">
-    <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeRemiderClass() " close-button>
-      <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
-        <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
-          <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
-            <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81
-                  305.77) rotate(45) " />
-            <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81
-                  305.77) rotate(45) " />
+  <proctur-widget *ngIf="isReminderPop">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeRemiderClass()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
+                  305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
+                  305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2
-                  " width="16 " height="16 " transform="translate(1012 297) " />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2
+  " width="16" height="16" transform="translate(1012 297)" />
         </g>
       </svg>
     </span>
@@ -747,17 +746,17 @@
 
     <h2 widget-header>Send Reminder For {{classMarkedForAction.batch_name}}</h2>
 
-    <div class="reminderWrapper " widget-content>
-      <div class="row " style="margin: 30px 20px; ">
+    <div class="reminderWrapper" widget-content>
+      <div class="row" style="margin: 30px 20px;">
         The reminder for the selected schedule will be sent!! click continue to proceed.
       </div>
     </div>
 
-    <div class=" " widget-footer>
-      <div class="clearfix ">
-        <aside class="pull-right popup-btn ">
-          <input type="button " value="Cancel " class="btn " (click)="closeRemiderClass() ">
-          <input type="button " value="Continue " (click)="sendReminder() " class="redBtn btn ">
+    <div class="" widget-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeRemiderClass()">
+          <input type="button" value="Continue" (click)="sendReminder()" class="redBtn btn">
         </aside>
       </div>
     </div>
@@ -765,66 +764,66 @@
 
   </proctur-widget>
 
-  <proctur-widget *ngIf="isReschedulePop ">
-    <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeRescheduleClass() " close-button>
-      <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
-        <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
-          <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
-            <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81
-                  305.77) rotate(45) " />
-            <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81
-                  305.77) rotate(45) " />
+  <proctur-widget *ngIf="isReschedulePop">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeRescheduleClass()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
+                  305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
+                  305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2
-                  " width="16 " height="16 " transform="translate(1012 297) " />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2
+  " width="16" height="16" transform="translate(1012 297)" />
         </g>
       </svg>
     </span>
 
     <h2 widget-header>Reschedule {{classMarkedForAction.batch_name}}</h2>
 
-    <div class="rescheduleWrapper " widget-content>
-      <div class="row ">
-        <div class="field-wrapper datePickerBox " style="width: 50%; " [ngClass]="{ 'has-value': reschedDate
-                  !='' } ">
-          <input type="text " id="reschDate " name="reschDate " readonly="true " class="form-ctrl bsDatepicker
-                  " [(ngModel)]="reschedDate " bsDatepicker>
-          <label for="reschDate ">Reshedule Date</label>
+    <div class="rescheduleWrapper" widget-content>
+      <div class="row">
+        <div class="field-wrapper datePickerBox" style="width: 50%;" [ngClass]="{ 'has-value': reschedDate
+                  !='' }">
+          <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker
+  " [(ngModel)]="reschedDate" bsDatepicker>
+          <label for="reschDate">Reshedule Date</label>
         </div>
       </div>
-      <div class="row ">
+      <div class="row">
         <fieldset>
           <legend>Start Time</legend>
-          <div class="time-picker ">
-            <div class="field-wrapper hour " [ngClass]="{ 'has-value': timepicker.reschedStartTime.hour
-                  !='' } ">
-              <select id="uniStartHour " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="timepicker.reschedStartTime.hour
-                  " name="uniStartHour ">
-                <option *ngFor="let hour of hourArr " [value]="hour ">
+          <div class="time-picker">
+            <div class="field-wrapper hour" [ngClass]="{ 'has-value': timepicker.reschedStartTime.hour
+                  !='' }">
+              <select id="uniStartHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedStartTime.hour
+  " name="uniStartHour">
+                <option *ngFor="let hour of hourArr" [value]="hour">
                   {{hour}}
                 </option>
               </select>
-              <label for="uniStartHour ">Hour</label>
+              <label for="uniStartHour">Hour</label>
             </div>
-            <div class="field-wrapper minute " [ngClass]="{ 'has-value': timepicker.reschedStartTime.minute
-                  !='' } ">
-              <select id="uniStartMinute " class="form-ctrl ng-valid ng-touched ng-dirty
-                  " [(ngModel)]="timepicker.reschedStartTime.minute " name="uniStartMinute ">
-                <option *ngFor="let minute of minArr " [value]="minute ">
+            <div class="field-wrapper minute" [ngClass]="{ 'has-value': timepicker.reschedStartTime.minute
+                  !='' }">
+              <select id="uniStartMinute" class="form-ctrl ng-valid ng-touched ng-dirty
+  " [(ngModel)]="timepicker.reschedStartTime.minute" name="uniStartMinute">
+                <option *ngFor="let minute of minArr" [value]="minute">
                   {{minute}}
                 </option>
               </select>
-              <label for="uniStartMinute ">Minute</label>
+              <label for="uniStartMinute">Minute</label>
             </div>
-            <div class="field-wrapper meridian " [ngClass]="{ 'has-value': timepicker.reschedStartTime.meridian
-                  !='' } ">
-              <select id="uniStartHour " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="timepicker.reschedStartTime.meridian "
-                name="uniStartHour ">
-                <option *ngFor="let meridian of meridianArr " [value]="meridian ">
+            <div class="field-wrapper meridian" [ngClass]="{ 'has-value': timepicker.reschedStartTime.meridian
+                  !='' }">
+              <select id="uniStartHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedStartTime.meridian"
+                name="uniStartHour">
+                <option *ngFor="let meridian of meridianArr" [value]="meridian">
                   {{meridian}}
                 </option>
               </select>
-              <label for="uniStartHour ">Meridian</label>
+              <label for="uniStartHour">Meridian</label>
             </div>
           </div>
         </fieldset>
@@ -832,61 +831,61 @@
           <legend>
             End Time
           </legend>
-          <div class="time-picker ">
-            <div class="field-wrapper hour " [ngClass]="{ 'has-value': timepicker.reschedEndTime.hour !=''
-                  } ">
-              <select id="uniEndHour " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="timepicker.reschedEndTime.hour
-                  " name="uniEndHour ">
-                <option *ngFor="let hour of hourArr " [value]="hour ">
+          <div class="time-picker">
+            <div class="field-wrapper hour" [ngClass]="{ 'has-value': timepicker.reschedEndTime.hour !=''
+                  }">
+              <select id="uniEndHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.hour
+  " name="uniEndHour">
+                <option *ngFor="let hour of hourArr" [value]="hour">
                   {{hour}}
                 </option>
               </select>
-              <label for="uniEndHour ">Hour</label>
+              <label for="uniEndHour">Hour</label>
             </div>
-            <div class="field-wrapper minute " [ngClass]="{ 'has-value': timepicker.reschedEndTime.minute
-                  !='' } ">
-              <select id="uniEndMinute " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="timepicker.reschedEndTime.minute
-                  " name="uniEndMinute ">
-                <option *ngFor="let minute of minArr " [value]="minute ">
+            <div class="field-wrapper minute" [ngClass]="{ 'has-value': timepicker.reschedEndTime.minute
+                  !='' }">
+              <select id="uniEndMinute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.minute
+  " name="uniEndMinute">
+                <option *ngFor="let minute of minArr" [value]="minute">
                   {{minute}}
                 </option>
               </select>
-              <label for="uniEndMinute ">Minute</label>
+              <label for="uniEndMinute">Minute</label>
             </div>
-            <div class="field-wrapper meridian " [ngClass]="{ 'has-value': timepicker.reschedEndTime.meridian
-                  !='' } ">
-              <select id="uniEndHour " class="form-ctrl ng-valid ng-touched ng-dirty " [(ngModel)]="timepicker.reschedEndTime.meridian
-                  " name="uniEndHour ">
-                <option *ngFor="let meridian of meridianArr " [value]="meridian ">
+            <div class="field-wrapper meridian" [ngClass]="{ 'has-value': timepicker.reschedEndTime.meridian
+                  !='' }">
+              <select id="uniEndHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.meridian
+  " name="uniEndHour">
+                <option *ngFor="let meridian of meridianArr" [value]="meridian">
                   {{meridian}}
                 </option>
               </select>
-              <label for="uniEndHour ">Meridian</label>
+              <label for="uniEndHour">Meridian</label>
             </div>
           </div>
         </fieldset>
       </div>
-      <div class="row ">
-        <div class="field-wrapper " style="width: 50%; ">
-          <textarea type="text " style="height:50px; " id="reschreason " name="reschreason
-                  " [(ngModel)]="reschedReason " value=" " placeholder="Reshedule Reason " class="form-ctrl textbox ">
+      <div class="row">
+        <div class="field-wrapper" style="width: 50%;">
+          <textarea type="text" style="height:50px;" id="reschreason" name="reschreason
+  " [(ngModel)]="reschedReason" value="" placeholder="Reschedule Reason" class="form-ctrl textbox">
           </textarea>
         </div>
       </div>
-      <div class="row " style="margin: 10px 0px; ">
-        <div class="field-checkbox-wrapper ">
-          <input type="checkbox " value=" " class="form-checkbox " id="is_reshedule_notified
-                  " [checked]="getCheckedStatus( 'resheduleNotified') " (change)="notifyRescheduleUpdate($event) ">
-          <label for="is_reshedule_notified ">Notify Batch Students For Class Cancellation</label>
+      <div class="row" style="margin: 10px 0px;">
+        <div class="field-checkbox-wrapper">
+          <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified
+  " [checked]="getCheckedStatus( 'resheduleNotified')" (change)="notifyRescheduleUpdate($event)">
+          <label for="is_reshedule_notified">Notify Batch Students For Class Cancellation</label>
         </div>
       </div>
     </div>
 
-    <div class=" " widget-footer>
-      <div class="clearfix ">
-        <aside class="pull-right popup-btn ">
-          <input type="button " value="Cancel " class="btn " (click)="closeRescheduleClass() ">
-          <input type="button " value="Reschedule Class " (click)="rescheduleClass() " class="redBtn btn ">
+    <div class="" widget-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeRescheduleClass()">
+          <input type="button" value="Reschedule Class" (click)="rescheduleClass()" class="redBtn btn">
         </aside>
       </div>
     </div>
@@ -894,38 +893,38 @@
 
   </proctur-widget>
 
-  <proctur-widget *ngIf="isCourseAttendance ">
-    <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeCourseLevelAttendance() " close-button>
-      <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
-        <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
-          <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
-            <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81
-                  305.77) rotate(45) " />
-            <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81
-                  305.77) rotate(45) " />
+  <proctur-widget *ngIf="isCourseAttendance">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCourseLevelAttendance()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
+                  305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
+                  305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2
-                  " width="16 " height="16 " transform="translate(1012 297) " />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2
+   " width="16" height="16" transform="translate(1012 297)" />
         </g>
       </svg>
     </span>
     <h2 widget-header>Mark Attendance Students</h2>
-    <div class="attendanceWrapper " widget-content>
-      <div class="row attendanceMain ">
-        <div class="table-scroll-wrapper ">
-          <div class="table table-responsive widget-table ">
+    <div class="attendanceWrapper" widget-content>
+      <div class="attendanceMain">
+        <div class="table-scroll-wrapper">
+          <div class="table table-responsive widget-table">
             <table>
               <thead>
-                <tr style="height: 35px; ">
-                  <th style="font-size: 14px;font-weight: 600; ">Student Id</th>
-                  <th style="font-size: 14px;font-weight: 600; ">Student Name</th>
-                  <th style="font-size: 14px;font-weight: 600; ">Joining Date</th>
-                  <th style="font-size: 14px;font-weight: 600; ">Attendance</th>
-                  <th style="font-size: 14px;font-weight: 600; " *ngIf="instituteSetting.home_work_feature_enable==1 ">Home Work Status</th>
+                <tr style="height: 35px;">
+                  <th style="font-size: 14px;font-weight: 600;">Student Id</th>
+                  <th style="font-size: 14px;font-weight: 600;">Student Name</th>
+                  <th style="font-size: 14px;font-weight: 600;">Joining Date</th>
+                  <th style="font-size: 14px;font-weight: 600;">Attendance</th>
+                  <th style="font-size: 14px;font-weight: 600;" *ngIf="instituteSetting.home_work_feature_enable==1">Home Work Status</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let s of courseLevelStudentAtt; let i=index; ">
+                <tr *ngFor="let s of courseLevelStudentAtt; let i=index;">
                   <td>
                     {{s.student_disp_id}}
                   </td>
@@ -936,34 +935,31 @@
                     {{s.doj}}
                   </td>
                   <td>
-                    <div class="radio-options ">
-                      <div class="field-radio-wrapper ">
-                        <input [disabled]="getDisability(s) " type="radio " value="P " name="{{s.student_id}}
-                  " [(ngModel)]="s.dateLi[0].status " class="form-radio " (ngModelChange)="updateCourseRadioAttendance($event, i, s) "
-                          id="Present{{s.student_id}} ">
-                        <label class="present " for="Present{{s.student_id}} ">Present</label>
+                    <div class="radio-options">
+                      <div class="field-radio-wrapper">
+                        <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}
+   " [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Present{{s.student_id}}">
+                        <label class="present" for="Present{{s.student_id}}">Present</label>
                       </div>
-                      <div class="field-radio-wrapper ">
-                        <input [disabled]="getDisability(s) " type="radio " value="L " name="{{s.student_id}}
-                  " [(ngModel)]="s.dateLi[0].status " class="form-radio " (ngModelChange)="updateCourseRadioAttendance($event, i, s) "
-                          id="Leave{{s.student_id}} ">
-                        <label class="leave " for="Leave{{s.student_id}} ">Leave</label>
+                      <div class="field-radio-wrapper">
+                        <input [disabled]="getDisability(s)" type="radio" value="L" name="{{s.student_id}}
+   " [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Leave{{s.student_id}}">
+                        <label class="leave" for="Leave{{s.student_id}}">Leave</label>
                       </div>
-                      <div class="field-radio-wrapper ">
-                        <input [disabled]="getDisability(s) " type="radio " value="A " name="{{s.student_id}}
-                  " [(ngModel)]="s.dateLi[0].status " class="form-radio " (ngModelChange)="updateCourseRadioAttendance($event, i, s) "
-                          id="Absent{{s.student_id}} ">
-                        <label class="absent " for="Absent{{s.student_id}} ">Absent</label>
+                      <div class="field-radio-wrapper">
+                        <input [disabled]="getDisability(s)" type="radio" value="A" name="{{s.student_id}}
+   " [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Absent{{s.student_id}}">
+                        <label class="absent" for="Absent{{s.student_id}}">Absent</label>
                       </div>
                     </div>
                   </td>
-                  <td *ngIf="instituteSetting.home_work_feature_enable==1 ">
-                    <div class="field-wrapper ">
-                      <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A' " id="hw_status
-                  " class="form-ctrl " [ngModel]="getCourseHomeworkData(i) " (ngModelChange)="isCourseHomeworkStatusChanged($event,i) ">
-                        <option value="Y " selected>Completed</option>
-                        <option value="N ">Not Done</option>
-                        <option value="NC ">InComplete</option>
+                  <td *ngIf="instituteSetting.home_work_feature_enable==1">
+                    <div class="field-wrapper">
+                      <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status
+   " class="form-ctrl" [ngModel]="getCourseHomeworkData(i)" (ngModelChange)="isCourseHomeworkStatusChanged($event,i)">
+                        <option value="Y" selected>Completed</option>
+                        <option value="N">Not Done</option>
+                        <option value="NC">InComplete</option>
                       </select>
                     </div>
                   </td>
@@ -975,58 +971,58 @@
       </div>
     </div>
 
-    <div class=" " widget-footer>
-      <div class="clearfix ">
-        <aside class="pull-right popup-btn ">
-          <input type="button " value="Cancel " class="btn " (click)="closeCourseLevelAttendance() ">
-          <input type="button " value="Update " (click)="updateCourseAttendance() " class="redBtn btn ">
+    <div class="" widget-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeCourseLevelAttendance()">
+          <input type="button" value="Update" (click)="updateCourseAttendance()" class="redBtn btn">
         </aside>
       </div>
     </div>
   </proctur-widget>
 
-  <proctur-widget *ngIf="isCourseCancel ">
-    <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeCourseCancelClass() " close-button>
-      <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
-        <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
-          <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
-            <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81
-                  305.77) rotate(45) " />
-            <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81
-                  305.77) rotate(45) " />
+  <proctur-widget *ngIf="isCourseCancel">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCourseCancelClass()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
+                  305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
+                  305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2
-                  " width="16 " height="16 " transform="translate(1012 297) " />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2
+   " width="16" height="16" transform="translate(1012 297)" />
         </g>
       </svg>
     </span>
 
     <h2 widget-header>Cancel Schedule {{classMarkedForAction.batch_name}}</h2>
 
-    <div class="CancelWrapper " widget-content>
-      <div class="row cancelField ">
-        <div class="c-lg-6 c-md-6 c-sm-6 ">
-          <div class="field-wrapper ">
-            <textarea class="form-ctrl textBox " style="height: 100px; " placeholder="Cancellation Reason:
-                  " value=" " [(ngModel)]="cancellationReason ">
+    <div class="CancelWrapper" widget-content>
+      <div class="row cancelField">
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-wrapper">
+            <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:
+   " value="" [(ngModel)]="cancellationReason">
             </textarea>
           </div>
         </div>
-        <div class="c-lg-6 c-md-6 c-sm-6 ">
-          <div class="field-checkbox-wrapper ">
-            <input type="checkbox " value=" " class="form-checkbox " id="notifyCancel " [checked]="getCheckedStatus(
-                  'notifyCancel') " (change)="notifyCancelUpdate($event) ">
-            <label for="notifyCancel ">Notify Batch Students For Class Cancellation</label>
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus(
+                  'notifyCancel')" (change)="notifyCancelUpdate($event)">
+            <label for="notifyCancel">Notify Batch Students For Class Cancellation</label>
           </div>
         </div>
       </div>
     </div>
 
-    <div class=" " widget-footer>
-      <div class="clearfix ">
-        <aside class="pull-right popup-btn ">
-          <input type="button " value="Cancel " class="btn " (click)="closeCourseCancelClass() ">
-          <input type="button " value="Update Schedule " (click)="cancelCourseClass() " class="redBtn btn ">
+    <div class="" widget-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeCourseCancelClass()">
+          <input type="button" value="Update Schedule" (click)="cancelCourseClass()" class="redBtn btn">
         </aside>
       </div>
     </div>

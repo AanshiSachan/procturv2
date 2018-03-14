@@ -2499,14 +2499,6 @@ export class SortPipe {
   }
 }
 
-@Pipe({ name: "commaSeprator" })
-export class CommaSeprationAmount {
-  transform(value: number, exponent: string): any {
-    debugger
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-}
-
 
 
 

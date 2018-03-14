@@ -128,15 +128,15 @@
               </div>
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper has-value">
-                  <input type="number" min="0" readonly="true" #idSlot class="form-ctrl" name="slotNew">
+                  <input type="number" min="0" readonly="true" #idSlot [value]="installmentList.length" class="form-ctrl" name="slotNew">
                   <label for="slotNew">Total AmountNo of Installments*
                   </label>
                 </div>
               </div>
               <div class="c-sm-3 c-md-3 c-lg-3">
                 <div class="field-checkbox-wrapper">
-                  <input type="checkbox" name="checkbx" class="form-checkbox" (click)="onApplyTaxChechbox()">
-                  <label for="checkbx">Apply Tax( 0%)</label>
+                  <input type="checkbox" id="checkBoxtaxes" name="checkbx" class="form-checkbox" (click)="onApplyTaxChechbox()">
+                  <label for="checkbx">Apply Tax({{feeStructure.registeredServiceTax}}%)</label>
                 </div>
               </div>
               <div class="c-sm-3 c-md-3 c-lg-3">
@@ -216,12 +216,12 @@
                         </td>
                         <td>
                           <div class="field-wrapper">
-                            <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='calculateTaxAmout(row)' name="label">
+                            <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.tax' name="label">
                           </div>
                         </td>
                         <td>
                           <div class="field-wrapper">
-                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.fees_amount" name="label">
+                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.initial_fee_amount + row.tax" name="label">
                           </div>
                         </td>
                         <td>
@@ -334,7 +334,7 @@
                         </td>
                         <td>
                           <div class="field-wrapper">
-                            <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='calculateTaxAmout(row)' name="label">
+                            <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.tax' name="label">
                           </div>
                         </td>
                         <td>
