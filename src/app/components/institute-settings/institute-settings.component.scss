@@ -27,7 +27,7 @@
         ul {
             height: 100%;
             li {
-                line-height: 80px;
+                line-height: 60px;
                 border-bottom: 1px solid #d0f4ff;
                 font-size: 20px;
                 font-weight: 600;
@@ -74,6 +74,7 @@
             }
         }
         .sms-setting-wrapper {
+            margin: 5px 15px;
             max-height: 380px;
             overflow-x: hidden;
             overflow-y: scroll;
@@ -83,15 +84,17 @@
             border-right: 2px solid #dcdcdc;
             border-radius: 5px;
             table {
-                thead {
-                    tr {
-                        th {
-                            text-align: left;
+                tbody {
+                    .sec-row {
+                        height: 40px;
+                        td {
+                            color: #a2a2a2;
                         }
                     }
-                }
-                tbody {
                     tr {
+                        background-color: white;
+                        border-bottom: 2px solid rgba(220, 220, 220, 0.2196078431372549);
+                        height: 45px;
                         td {
                             &:first-child {
                                 padding-left: 15px;
