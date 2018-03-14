@@ -8,16 +8,6 @@
     height: 7px;
 }
 
-//form wrapper encoding for forms
-
-/* .form-wrapper{
-    border: 1px solid rgba(119, 119, 119, 0.34);
-    padding: 5px 8px;
-    .form-ctrl{
-        background: transparent;
-    }
-} */
-
 
 /* Track */
 
@@ -41,55 +31,70 @@
     background: rgba(7, 27, 119, 0.4);
 }
 
-.image-wrapper {
-    height: 200px;
-    width: 200px;
+:host /deep/ .bs-datepicker {
+    .bs-datepicker-container {
+        padding: 10px; //background: #004b7f;
+    }
+}
+
+:host /deep/ bs-days-calendar-view {
+    .bs-datepicker-head {
+        //background-color: #004c80;
+        color: white;
+        border-top: 1px solid white;
+        border-left: 1px solid white;
+        border-right: 1px solid white;
+        min-width: 300px !important;
+        font-weight: 800;
+    }
+    .bs-datepicker-body {
+        padding: 5px;
+    }
+}
+
+::ng-deep .bs-datepicker-container {
+    padding: 5px;
+}
+
+ ::ng-deep .bs-datepicker-head {
+    //background-color: #004c80;
+    color: white;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    min-width: 300px !important;
+    font-weight: 800;
+}
+
+ ::ng-deep .bs-datepicker-body {
     padding: 0px;
-    float: right;
-    border: 3px solid $header-bg;
-    border-radius: 50%;
-    overflow: hidden;
-    &:hover {
-        .input-holder {
-            display: block;
-        }
-    }
-    img {
-        height: 100%;
-        width: 100%;
-    }
-    .input-holder {
-        position: absolute;
-        top: 35%;
-        left: 40%;
-        display: none;
-        input[type="file"] {
-            display: none;
-        }
-        .uploadImg {
-            font-size: 16px;
-            font-weight: 700;
-            padding: 0px 0px 10px 0px;
-            color: #8a8a8a;
-            cursor: pointer;
-            &::before {
-                content: '\f030';
-                font-size: 16px;
-                font-family: 'FontAwesome'
-            }
-        }
-        .removeImg {
-            font-size: 16px;
-            font-weight: 700;
-            color: $error-color;
-            cursor: pointer;
-            &::before {
-                content: '\f00d';
-                font-size: 16px;
-                font-family: 'FontAwesome'
-            }
-        }
-    }
+    border: 1px solid rgba(119, 119, 119, 0.28);
+}
+
+::ng-deep .bs-datepicker-body table tbody tr td {
+    padding: 0px;
+    border-top: 1px solid rgba(211, 212, 213, 0.5);
+    border-bottom: 1px solid rgba(211, 212, 213, 0.5);
+}
+
+:host /deep/ .bs-datepicker-body table tbody tr td {
+    padding: 0px;
+    border-top: 1px solid rgba(211, 212, 213, 0.5);
+    border-bottom: 1px solid rgba(211, 212, 213, 0.5);
+}
+
+::ng-deep .bs-datepicker-body table thead tr th {
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: center;
+}
+
+:host /deep/ .bs-datepicker-body table thead tr th {
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: center;
 }
 
 .cursor-icon {
@@ -251,45 +256,6 @@ textarea {
             margin: 0px 0px -3px 0px;
         } */
     }
-}
-
-:host /deep/ .bs-datepicker {
-    .bs-datepicker-container {
-        padding: 10px; //background: #004b7f;
-    }
-}
-
-:host /deep/ bs-days-calendar-view {
-    .bs-datepicker-head {
-        //background-color: #004c80;
-        color: white;
-        border-top: 1px solid white;
-        border-left: 1px solid white;
-        border-right: 1px solid white;
-        min-width: 300px !important;
-        font-weight: 800;
-    }
-    .bs-datepicker-body {
-        padding: 5px;
-    }
-}
-
-::ng-deep .bs-datepicker-container {
-    padding: 10px; // background: #004b7f;
-}
-
- ::ng-deep .bs-datepicker-head {
-    //background-color: #004c80;
-    color: white;
-    border-top: 1px solid white;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
-    min-width: 300px !important;
-    font-weight: 800;
-}
-
- ::ng-deep .bs-datepicker-body {
-    padding: 5px;
 }
 
 .time-picker {
@@ -775,6 +741,7 @@ table tr:nth-child(even) {
     background: #ffffff;
     border-left: 1px solid hsla(210, 2%, 83%, .5);
     border-right: 1px solid hsla(210, 2%, 83%, .5);
+    cursor: pointer;
     td {
         border-top: 2px solid hsla(210, 2%, 83%, .5);
         border-bottom: 2px solid hsla(210, 2%, 83%, .5);
@@ -787,6 +754,7 @@ table tr:nth-child(odd) {
     background: #ffffff;
     border-left: 1px solid hsla(210, 2%, 83%, .5);
     border-right: 1px solid hsla(210, 2%, 83%, .5);
+    cursor: pointer;
     td {
         border-top: 2px solid hsla(210, 2%, 83%, .5);
         border-bottom: 2px solid hsla(210, 2%, 83%, .5);

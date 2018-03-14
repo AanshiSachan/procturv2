@@ -79,8 +79,14 @@ export class SmsReportComponent implements OnInit {
     if(obj.start_index == 0){
       return this.getSms.fetchSmsReport(obj).subscribe(
         res => {
-          this.smsSource = res;
-          this.totalRecords = res[0].totalCount;
+          if(res.length != 0){
+            this.smsSource = res;
+            this.totalRecords = res[0].totalCount;
+          }
+          else{
+            this.smsSource = [];
+            this.totalRecords = 0;
+          }
         }
       )
     }
