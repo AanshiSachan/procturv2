@@ -10,8 +10,8 @@
 }
 
 .setting-full {
-    padding: 15px;
-    max-height: 500px;
+    display: flex;
+    margin-top: -15px;
     overflow: hidden;
      ::-webkit-scrollbar {
         display: block;
@@ -20,15 +20,15 @@
         margin: 0px 5px;
     }
     .setting-left {
-        padding: 15px;
-        max-height: 500px;
+        height: 100vh;
+        border-right: 1px solid #dcdcdc;
         overflow-x: hidden;
         overflow-y: auto;
         ul {
-            padding: 15px 10px;
+            height: 100%;
             li {
-                line-height: 50px;
-                border-radius: 5px;
+                line-height: 80px;
+                border-bottom: 1px solid #d0f4ff;
                 font-size: 20px;
                 font-weight: 600;
                 background: white;
@@ -39,20 +39,20 @@
                     }
                 }
                 &.active {
-                    background: #0084f6;
+                    background: #d0f4ff;
                     span {
                         margin-left: 20px;
                         a {
-                            color: white;
+                            color: #000000;
                         }
                     }
                 }
                 &:hover {
-                    background: #0084f6;
+                    background: #d0f4ff;
                     span {
                         margin-left: 20px;
                         a {
-                            color: white;
+                            color: #000000;
                         }
                     }
                 }
@@ -61,12 +61,27 @@
     }
     .setting-right {
         padding: 15px;
+        .checkboxes {
+            padding: 10px 0px;
+            label {
+                color: #585858;
+                font-size: 0.9em;
+                font-weight: bold;
+                p {
+                    color: #a2a2a2;
+                    font-weight: normal;
+                }
+            }
+        }
         .sms-setting-wrapper {
             max-height: 380px;
             overflow-x: hidden;
             overflow-y: scroll;
-            border: 1px solid #777;
-            padding: 2px 0px 1px 2px;
+            border-top: 1px solid #dcdcdc;
+            border-bottom: 1px solid #dcdcdc;
+            border-left: 2px solid #dcdcdc;
+            border-right: 2px solid #dcdcdc;
+            border-radius: 5px;
             table {
                 thead {
                     tr {

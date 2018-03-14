@@ -39,28 +39,34 @@
       <section id="divSMSContent">
 
         <div class="row extraMarginTen" style="padding:5px 0px">
-          <h3>SMS Setting</h3>
+          <h3 style="font-weight: bold; color: #585858; font-size: 1.2em">NOTIFICATION SETTING</h3>
         </div>
-        <div class="row extraMarginTen" style="padding:5px 0px">
-          <div class="c-sm-4 c-lg-4 c-md-4">
+        <div class="row extraMarginTen checkboxes">
+          <div class="c-sm-4 c-lg-3 c-md-4">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.sms_notification"
                 id="idEnableSMS">
-              <label for="enableSMS">Enable SMS Notification(If not enabled, no SMS will be sent)</label>
+              <label for="enableSMS">Enable SMS Notification
+                <p>(If not enabled, no SMS will be sent)</p>
+              </label>
             </div>
           </div>
-          <div class="c-sm-4 c-lg-4 c-md-4">
+          <div class="c-sm-4 c-lg-3 c-md-4">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="enableEmail" [(ngModel)]="instituteSettingDet.email_notification" class="form-checkbox"
                 id="idEnableEmail">
-              <label for="enableEmail">Enable Email Notification(If not enabled, no Email will be sent)</label>
+              <label for="enableEmail">Enable Email Notification
+                <p>(If not enabled, no Email will be sent)</p>
+              </label>
             </div>
           </div>
-          <div class="c-sm-4 c-lg-4 c-md-4">
+          <div class="c-sm-4 c-lg-3 c-md-4">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="smsReporting" [(ngModel)]="instituteSettingDet.sms_status_report" class="form-checkbox"
                 id="idSmsReport">
-              <label for="smsReporting">Enable Failed SMS reporting (Extra, Exam and Cancel Class Only)</label>
+              <label for="smsReporting">Enable Failed SMS reporting
+                <p>(Extra, Exam and Cancel Class Only)</p>
+              </label>
             </div>
           </div>
         </div>
@@ -69,34 +75,32 @@
             <div class="table-scroll-wrapper">
               <div class="table table-responsive">
                 <table>
-                  <thead>
+                    <tbody>
                     <tr>
-                      <th colspan="6">
+                      <td colspan="6">
                         SMS Notification Settings for the events
-                      </th>
+                      </td>
                     </tr>
                     <tr>
-                      <th>
+                      <td>
                         Feature
-                      </th>
-                      <th>
+                      </td>
+                      <td>
                         Student
-                      </th>
-                      <th>
+                      </td>
+                      <td>
                         Parent
-                      </th>
-                      <th>
+                      </td>
+                      <td>
                         Guardian
-                      </th>
-                      <th>
+                      </td>
+                      <td>
                         Teacher
-                      </th>
-                      <th>
+                      </td>
+                      <td>
                         Admin
-                      </th>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
                     <tr>
                       <td>
                         Student Registration
