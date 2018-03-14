@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { StudentsComponent } from './students.component';
-import { StudentAddComponent, CommaSeprationAmount } from './student-add/student-add.component'
+import { StudentAddComponent } from './student-add/student-add.component'
 import { StudentHomeComponent } from './student-home/student-home.component';
 import { StudentRoutingModule } from './student-routing.module';
 import { AddStudentPrefillService } from '../../services/student-services/add-student-prefill.service';
@@ -53,7 +53,6 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
         StudentBulkComponent,
         StudentSidebarComponent,
         SortPipe,
-        CommaSeprationAmount
     ],
     providers: [
         AddStudentPrefillService

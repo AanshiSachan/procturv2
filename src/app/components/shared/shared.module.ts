@@ -16,6 +16,7 @@ import { PictureCropComponent } from './img-cropper/picture-crop.component';
 import { RobTableComponent } from './ng-robTable/ng-robTable.component';
 import { RobTableCellPipe } from './ng-robTable/ng-robTable-format-cell.pipe';
 import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive';
+import { CommaSeprationAmount } from './pipes/commaSepratorPipe';
 
 
 
@@ -36,7 +37,8 @@ import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive'
         ImageUploadComponent,
         QuickFilterComponent,
         AppLoaderComponent,
-        PictureCropComponent
+        PictureCropComponent,
+        CommaSeprationAmount
     ],
     exports: [
         CommonModule,
@@ -47,7 +49,8 @@ import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive'
         ImageUploadComponent,
         QuickFilterComponent,
         AppLoaderComponent,
-        PictureCropComponent
+        PictureCropComponent,
+        CommaSeprationAmount 
     ],
     providers: [CurrencyPipe]
 })

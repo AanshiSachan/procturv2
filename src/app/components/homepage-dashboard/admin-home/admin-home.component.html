@@ -152,15 +152,15 @@
                     <ul>
                       <li>
                         <label>Total Collected</label>
-                        <div>Rs. {{getFeeAmount('total')}}</div>
+                        <div>Rs. {{getFeeAmount('total') | commaSeprator}}</div>
                       </li>
                       <li>
                         <label>Total Pending Cheques</label>
-                        <div>Rs. {{getFeeAmount('pending')}}</div>
+                        <div>Rs. {{getFeeAmount('pending') | commaSeprator}} </div>
                       </li>
                       <li>
                         <label>Past Dues</label>
-                        <div>Rs. {{getFeeAmount('past')}}</div>
+                        <div>Rs. {{getFeeAmount('past') | commaSeprator}}</div>
                       </li>
                     </ul>
                   </div>
@@ -514,7 +514,7 @@
                   </textarea>
             </div>
           </div>
-          <div>
+          <div *ngIf="instituteSetting.home_work_feature_enable==1">
             <h3>Homework</h3>
             <div class="field-wrapper" [ngClass]="{ 'has-value': homework !='' }">
               <textarea class="form-ctrl textBox" value="" [(ngModel)]="homework">
@@ -523,7 +523,7 @@
           </div>
           <div>
             <h3>Yesterdays Homework</h3>
-            <span style="font-weight: 600">{{studentAttList[0].previous_class_homework_assigned}}</span>
+            <span style="font-weight: 600">{{studentAttList[0].dateLi[0].previous_class_homework_assigned}}</span>
           </div>
           <div class="checkboxGroup">
             <div class="field-checkbox-wrapper" *ngIf="instituteSetting.home_work_feature_enable==1">
@@ -536,7 +536,7 @@
                 (change)="updateTopicCovered($event)">
               <label for="EnableSmsTopic">Enable SMS For Topic Covered</label>
             </div>
-            <div class="field-checkbox-wrapper">
+            <div class="field-checkbox-wrapper hide">
               <input type="checkbox" value="" class="form-checkbox" id="EnableSmsAbsentees">
               <label for="EnableSmsTopic">Enable SMS For Absentees</label>
             </div>
@@ -910,7 +910,7 @@
     </span>
     <h2 widget-header>Mark Attendance Students</h2>
     <div class="attendanceWrapper" widget-content>
-      <div class="row attendanceMain">
+      <div class="attendanceMain">
         <div class="table-scroll-wrapper">
           <div class="table table-responsive widget-table">
             <table>
