@@ -3,22 +3,16 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
+
+.courses-list-table{
+    max-height: 400px;
+    overflow: auto;
+}
+
 table {
-    thead {
-        tr {
-            th {
-                padding-top: 10px;
-                padding-bottom: 10px;
-                font-size: 12px;
-                font-weight: 500;
-            }
-        }
-    }
     tbody {
         tr {
             td {
-                padding-top: 5px;
-                padding-bottom: 5px;
                 .editOptions li {
                     display: inline-block;
                 }
@@ -192,7 +186,7 @@ table {
     }
 }
 
-$color-base: #ccc;
+$color-base: #efefef;
 $color-highlight: lighten($color-base, 7%);
 .skeleton {
     position: relative;

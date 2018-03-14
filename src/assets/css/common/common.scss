@@ -1,6 +1,5 @@
 @import "variables";
 
-
 /* Scrollbar thickness changed here for vertical display */
 
 ::-webkit-scrollbar {
@@ -100,8 +99,21 @@
 .table-responsive {
     max-width: 100%;
     overflow: auto;
+     ::-webkit-scrollbar {
+        display: block;
+    }
 }
 
+.courses-list-table {
+    max-height: 400px;
+    overflow: auto;
+    padding: 5px;
+    background: #efefef;
+    box-shadow: 0px 2px 5px 0px rgba(38, 0, 0, 0.2);
+     ::-webkit-scrollbar {
+        display: block;
+    }
+}
 
 .field-wrapper {
     position: relative;
@@ -123,7 +135,6 @@
             height: 21px;
             z-index: 0;
         }
-        
     }
     .date-clear {
         position: absolute;
@@ -134,12 +145,10 @@
     }
 }
 
-
-
 .field-wrapper {
     position: relative;
     padding-top: 10px;
-    .form-ctrl{
+    .form-ctrl {
         z-index: 10;
     }
     &.datePickerBox {
@@ -167,7 +176,7 @@
         cursor: pointer;
         color: #0084f6;
     }
-    label{
+    label {
         font-size: 12px;
         z-index: 1;
     }
@@ -246,8 +255,7 @@ textarea {
 
 :host /deep/ .bs-datepicker {
     .bs-datepicker-container {
-        padding: 10px;
-        //background: #004b7f;
+        padding: 10px; //background: #004b7f;
     }
 }
 
@@ -267,8 +275,7 @@ textarea {
 }
 
 ::ng-deep .bs-datepicker-container {
-    padding: 10px;
-   // background: #004b7f;
+    padding: 10px; // background: #004b7f;
 }
 
  ::ng-deep .bs-datepicker-head {
@@ -285,17 +292,15 @@ textarea {
     padding: 5px;
 }
 
-
-.time-picker{
-    .field-wrapper{
+.time-picker {
+    .field-wrapper {
         display: inline-block;
         margin: 5px 10px 0px 0px;
-        .form-ctrl{
+        .form-ctrl {
             width: 70px;
-            
             z-index: 10;
         }
-        label{
+        label {
             font-size: 12px;
             z-index: 1;
         }
@@ -322,25 +327,27 @@ textarea {
     }
 }
 
-
 input[type="text"][disabled] {
     background: transparent !important;
 }
 
 
+/* ================================================================================================= */
+
 
 /* ================================================================================================= */
 
-/* ================================================================================================= */
 
 /* ================================================================================================= */
 
-/* ================================================================================================= */
 
 /* ================================================================================================= */
 
+
 /* ================================================================================================= */
 
+
+/* ================================================================================================= */
 
 .fbold {
     font-weight: 700;
@@ -669,7 +676,6 @@ h3 {
     position: absolute;
     left: 0;
     top: 0;
-
 }
 
 .field-checkbox-wrapper .form-checkbox:checked+label:after {
@@ -677,7 +683,6 @@ h3 {
 }
 
 .field-checkbox-wrapper .form-checkbox+label:before {
-    
     width: 1px;
     height: 1px;
     left: 8px;
@@ -735,16 +740,18 @@ table {
 
 th,
 td {
-    font-size: 12px;
+    font-size: 14px;
     padding: 6px 2px;
     vertical-align: middle;
 }
 
 th {
-    background: $tableHeadingBgColor;
-    font-size: 11px;
+    background: #0084f6;
+    font-size: 14px !important;
     color: #fff;
     font-weight: normal;
+    padding: 10px;
+    border-top: 2px solid rgba(119, 119, 119, 0.11);
 }
 
 td {
@@ -755,12 +762,37 @@ table tr {
     transition: all 0.1s;
 }
 
-table tr:nth-child(even) {
+
+/* table tr:nth-child(even) {
     background: #efefef;
 }
 
 table tr:nth-child(odd) {
     background: #f7f7f7;
+} */
+
+table tr:nth-child(even) {
+    background: #ffffff;
+    border-left: 1px solid hsla(210, 2%, 83%, .5);
+    border-right: 1px solid hsla(210, 2%, 83%, .5);
+    td {
+        border-top: 2px solid hsla(210, 2%, 83%, .5);
+        border-bottom: 2px solid hsla(210, 2%, 83%, .5);
+        padding: 15px;
+        font-size: 14px;
+    }
+}
+
+table tr:nth-child(odd) {
+    background: #ffffff;
+    border-left: 1px solid hsla(210, 2%, 83%, .5);
+    border-right: 1px solid hsla(210, 2%, 83%, .5);
+    td {
+        border-top: 2px solid hsla(210, 2%, 83%, .5);
+        border-bottom: 2px solid hsla(210, 2%, 83%, .5);
+        padding: 15px;
+        font-size: 14px;
+    }
 }
 
 table tr:nth-child(even):hover {
@@ -773,6 +805,8 @@ table tr:nth-child(odd):hover {
 
 table tr.selected {
     background: #dceff7 !important;
+    box-shadow: 0px 11px 8px -10px #CCC, 0px -11px 13px -9px #CCC;
+    transform: scale(1);
 }
 
 .table-responsive tr td:first-child .field-checkbox-wrapper,
@@ -1333,14 +1367,13 @@ input:-webkit-autofill {
     vertical-align: middle;
 }
 
-
-.alert-danger{
+.alert-danger {
     color: red !important;
     background-color: transparent !important;
     border: none !important;
 }
 
-.alert{
+.alert {
     padding: 0px !important;
     margin-bottom: 0px !important;
 }

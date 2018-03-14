@@ -1254,7 +1254,7 @@
               <span class="installment-count">4</span>
             </div>
             <div class="pull-right">
-              TOTAL FEES : Rs 9XXXX
+              <!-- TOTAL FEES : Rs 9XXXX -->
             </div>
           </div>
           <!-- Installment Adding Here -->
@@ -1262,18 +1262,21 @@
             <ul>
               <li>
                 <div class="form-wrapper">
-                  <input type="text" class="form-ctrl" readonly placeholder="Installment">
+                  <label for="instt">Installment</label>
+                  <input type="text" class="form-ctrl" name="instt" readonly>
                 </div>
               </li>
               <li>
                 <div class="form-wrapper datePickerBox">
-                  <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" readonly="true" name="dd" [(ngModel)]="addFeeInstallment.due_date"
+                  <label for="dddue_date">Due Date</label>
+                  <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" readonly="true" name="dddue_date" [(ngModel)]="addFeeInstallment.due_date"
                     bsDatepicker>
                 </div>
               </li>
               <li>
                 <div class="form-wrapper">
-                  <input type="number" class="form-ctrl" [(ngModel)]="addFeeInstallment.initial_fee_amount" name="amt">
+                  <label for="amountinst">Amount</label>
+                  <input type="number" class="form-ctrl" [(ngModel)]="addFeeInstallment.initial_fee_amount" name="amountinst">
                 </div>
               </li>
               <li>
@@ -1345,6 +1348,7 @@
             <ul>
               <li>
                 <div class="form-wrapper">
+                  <label for="feetype">Fee Type</label>
                   <select id="feetype" class="form-ctrl" [(ngModel)]="addFeeOther.fee_type" (ngModelChange)="updateOtherFeeData($event)" name="feetype">
                     <option value="" selected>Select Fee Type</option>
                     <option [value]="type.id" *ngFor="let type of getOtherFeesArray()">{{type.value}}</option>
@@ -1353,17 +1357,20 @@
               </li>
               <li>
                 <div class="form-wrapper datePickerBox">
+                  <label for="dd">Due Date</label>
                   <input type="text" value="" class="form-ctrl bsDatepicker" readonly="true" name="dd" [(ngModel)]="addFeeOther.due_date" bsDatepicker>
                 </div>
               </li>
               <li>
                 <div class="form-wrapper">
+                  <label for="amt">Amount</label>
                   <input type="number" class="form-ctrl" [(ngModel)]="addFeeOther.initial_fee_amount" name="amt">
                 </div>
               </li>
               <li>
                 <div class="form-wrapper">
-                  <input type="number" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax" name="amt">
+                  <label for="taxamt">Service Tax</label>
+                  <input type="number" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax" name="taxamt">
                 </div>
               </li>
               <li>
