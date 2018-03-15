@@ -13,7 +13,7 @@ export class WidgetService {
 
 
 
-    baseUrl:string = '';
+    baseUrl: string = '';
     Authorization: any;
     headers;
     institute_id;
@@ -127,7 +127,7 @@ export class WidgetService {
                 return err;
             }
         )
-    }    
+    }
 
 
     notifyStudentSchedule(obj) {
@@ -194,6 +194,19 @@ export class WidgetService {
         let url = this.baseUrl + "/api/v1/courseClassSchedule/sendCourseMasterReminder";
 
         return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    getListOfTopics(batchId): Observable<any> {
+        let url = this.baseUrl + "/api/v1/topic_manager/getAllTopics/" + this.institute_id;
+
+        return this.http.post(url, batchId, { headers: this.headers }).map(
             res => {
                 return res;
             },

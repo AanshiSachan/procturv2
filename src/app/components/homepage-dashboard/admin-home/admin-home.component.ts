@@ -155,6 +155,8 @@ export class AdminHomeComponent implements OnInit {
   absentCount: number = 0;
   presentCount: number = 0;
   leaveCount: number = 0;
+  topicsList: any = [];
+  showTopicList: boolean = false;
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -1264,6 +1266,40 @@ export class AdminHomeComponent implements OnInit {
 
   }
 
+  getTopicsUpdate() {
+    debugger
+    this.isRippleLoad = true;
+    this.topicsList = [];
+    let obj = { batch_id: this.classMarkedForAction.batch_id.toString() };
+    this.widgetService.getListOfTopics(obj).subscribe(
+      res => {
+        if (res.length == 0) {
+          let msg = {
+            type: 'error',
+            title: 'Error',
+            body: "No toppics list found"
+          }
+          this.appC.popToast(msg);
+          this.isRippleLoad = false;
+        } else {
+          this.isRippleLoad = false;
+          this.topicsList = res;
+          this.showTopicList = true;
+        }
+      },
+      err => {
+        this.isRippleLoad = false;
+        let msg = {
+          type: 'error',
+          title: 'Failed To Update Attendance',
+          body: err.message
+        }
+        this.appC.popToast(msg);
+      }
+    )
+  }
+
+
   /* ======================================================================================================= */
   /* ====================================================================== */
   /* ======================================================================================================= */
@@ -1272,4 +1308,42 @@ export class AdminHomeComponent implements OnInit {
 
   }
 
+  getClassStatus(row) {
+    if (moment(row.class_date).format('DD-MM-YYYY') == moment().format('DD-MM-YYYY')) {
+      let currentTime: any = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+      let startMinute = this.convertIntOMinutes(row.start_time);
+      let endMinute = this.convertIntOMinutes(row.end_time);
+      currentTime = this.convertIntOMinutes(currentTime);
+      if (startMinute <= currentTime && currentTime <= endMinute) {
+        return "";
+      } else {
+        return "hide";
+      }
+    } else {
+      return "hide";
+    }
+  }
+
+  convertIntOMinutes(time) {
+    let data: any = '';
+    let hr = time.split(':')[0];
+    let min = time.split(':')[1].split(' ')[0];
+    let meridian = time.split(':')[1].split(' ')[1];
+    if (meridian == "AM") {
+      if (hr == "12") {
+        data = Number(min);
+      } else {
+        data = Number(hr) * 60 + Number(min);
+      }
+    } else {
+      if (hr == "12") {
+        data = Number(hr) * 60 + Number(min);
+      } else {
+        data = (Number(hr) + 12) * 60 + Number(min);
+      }
+    }
+    return data;
+  }
+
 }
+
