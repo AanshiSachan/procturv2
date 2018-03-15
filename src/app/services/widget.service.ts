@@ -47,7 +47,7 @@ export class WidgetService {
 
 
     getInstituteSettings(): Observable<any> {
-        let url = this.baseUrl + "/api/v1/institute/settings/" + this.institute_id;
+        let url = this.baseUrl + "/api/v1/institutes/" + this.institute_id;
         return this.http.get(url, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }

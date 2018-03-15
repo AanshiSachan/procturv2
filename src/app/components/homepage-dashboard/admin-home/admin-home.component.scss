@@ -767,16 +767,16 @@ div#enqChart {
             li.cls-type {
                 div {
                     position: relative;
-                    &:before {
-                        content: '';
-                        width: 6px;
-                        height: 6px;
-                        border-radius: 50%;
-                        background: #ff0000;
-                        position: absolute;
-                        left: -16px;
-                        top: 7px;
-                    }
+                    // &:before {
+                    //     content: '';
+                    //     width: 6px;
+                    //     height: 6px;
+                    //     border-radius: 50%;
+                    //     background: #ff0000;
+                    //     position: absolute;
+                    //     left: -16px;
+                    //     top: 7px;
+                    // }
                 }
             }
         } // justify-content: space-between;

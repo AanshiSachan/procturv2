@@ -269,12 +269,19 @@ export class InstituteDetailsComponent implements OnInit {
 
   getOptionOfInstitute(data) {
     let obj = [];
-    let arr = this.instDetails.option_selected_id.split(',')
-    for (let i = 0; i < data.length; i++) {
-      for (let j = 0; j < arr.length; j++) {
-        if (data[i].id == arr[i]) {
-          obj.push(data[i]);
+    let arr: any = [];
+    if (this.instDetails.hasOwnProperty('option_selected_id')) {
+      if (this.instDetails.option_selected_id != null && this.instDetails.option_selected_id != "") {
+        arr = this.instDetails.option_selected_id.split(',');
+        for (let i = 0; i < data.length; i++) {
+          for (let j = 0; j < arr.length; j++) {
+            if (data[i].id == arr[i]) {
+              obj.push(data[i]);
+            }
+          }
         }
+      } else {
+        return obj;
       }
     }
     return obj;
