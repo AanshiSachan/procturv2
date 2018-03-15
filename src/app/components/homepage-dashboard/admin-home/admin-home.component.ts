@@ -877,31 +877,35 @@ export class AdminHomeComponent implements OnInit {
   }
 
   sendReminder() {
-    let obj = {
-      batch_id: this.classMarkedForAction.batch_id,
-      class_schedule_id: this.classMarkedForAction.schd_id,
-      is_exam_schedule: "N"
-    };
+    if (!this.isProfessional && !this.isSubjectView) {
+      this.initiateCourseRemiderClass();
+    } else {
+      let obj = {
+        batch_id: this.classMarkedForAction.batch_id,
+        class_schedule_id: this.classMarkedForAction.schd_id,
+        is_exam_schedule: "N"
+      };
 
-    this.widgetService.notifyStudentSchedule(obj).subscribe(
-      res => {
-        let msg = {
-          type: 'success',
-          title: 'Reminder Sent',
-          body: 'Students have been notified'
+      this.widgetService.notifyStudentSchedule(obj).subscribe(
+        res => {
+          let msg = {
+            type: 'success',
+            title: 'Reminder Sent',
+            body: 'Students have been notified'
+          }
+          this.appC.popToast(msg);
+          this.closeRemiderClass();
+        },
+        err => {
+          let msg = {
+            type: 'error',
+            title: 'Failed To Notify',
+            body: 'please contact support@proctur.com'
+          }
+          this.appC.popToast(msg);
         }
-        this.appC.popToast(msg);
-        this.closeRemiderClass();
-      },
-      err => {
-        let msg = {
-          type: 'error',
-          title: 'Failed To Notify',
-          body: 'please contact support@proctur.com'
-        }
-        this.appC.popToast(msg);
-      }
-    )
+      )
+    }
   }
 
   closeRemiderClass() {
@@ -1068,6 +1072,7 @@ export class AdminHomeComponent implements OnInit {
 
 
   onChanged(event) {
+    this.selectedRow = null;
     if (event.value == 'subject') {
       this.isSubjectView = true;
       this.fetchScheduleWidgetData();
@@ -1198,32 +1203,31 @@ export class AdminHomeComponent implements OnInit {
   }
 
   initiateCourseRemiderClass() {
-    if (confirm("Are you sure, You want to notify?")) {
-      let obj = {
-        course_ids: this.classMarkedForAction.course_ids,
-        inst_id: sessionStorage.getItem('institute_id'),
-        master_course: this.classMarkedForAction.master_course,
-        requested_date: moment().format("YYYY-MM-DD")
-      }
-      this.widgetService.remindCourseLevel(obj).subscribe(
-        res => {
-          let msg = {
-            type: 'success',
-            title: 'Reminder Sent',
-            body: 'The student have been notified'
-          }
-          this.appC.popToast(msg);
-        },
-        err => {
-          let msg = {
-            type: 'error',
-            title: 'Unable to Send Reminder',
-            body: 'please contact support@proctur.com'
-          }
-          this.appC.popToast(msg);
-        }
-      )
+    let obj = {
+      course_ids: this.classMarkedForAction.course_ids,
+      inst_id: sessionStorage.getItem('institute_id'),
+      master_course: this.classMarkedForAction.master_course,
+      requested_date: moment().format("YYYY-MM-DD")
     }
+    this.widgetService.remindCourseLevel(obj).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: 'Reminder Sent',
+          body: 'The student have been notified'
+        }
+        this.appC.popToast(msg);
+        this.closeRemiderClass();
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: 'Unable to Send Reminder',
+          body: 'please contact support@proctur.com'
+        }
+        this.appC.popToast(msg);
+      }
+    )
   }
 
   closeCourseLevelAttendance() {

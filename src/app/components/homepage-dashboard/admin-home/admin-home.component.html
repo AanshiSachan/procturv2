@@ -296,7 +296,7 @@
                             <a style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance()"> Mark Attendance</a>
                             <a style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance()"> Update Attendance</a>
                             <a *ngIf='isOptionVisible && class.is_attendance_marked !="Y" ' style="cursor:pointer" (click)="initiateCourseCancelClass()">Cancel</a>
-                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateCourseRemiderClass()">Reminder</a>
+                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
                           </div>
                         </div>
                       </div>
@@ -712,8 +712,7 @@
         </div>
         <div class="c-lg-6 c-md-6 c-sm-6">
           <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus(
-                  'notifyCancel')" (change)="notifyCancelUpdate($event)">
+            <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
             <label for="notifyCancel">Notify Students For Class Cancellation</label>
           </div>
         </div>
@@ -748,7 +747,11 @@
     </span>
 
 
-    <h2 widget-header>Send Reminder For {{classMarkedForAction.batch_name}}</h2>
+    <h2 widget-header>Send Reminder For
+      <span *ngIf="isProfessional">{{classMarkedForAction.batch_name}}</span>
+      <span *ngIf="!isProfessional && isSubjectView">{{classMarkedForAction.batch_name}}</span>
+      <span *ngIf="!isProfessional && !isSubjectView">{{classMarkedForAction.master_course}} | {{classMarkedForAction.coursee_names}} </span>
+    </h2>
 
     <div class="reminderWrapper" widget-content>
       <div class="row" style="margin: 30px 20px;">
@@ -871,8 +874,8 @@
       </div>
       <div class="row">
         <div class="field-wrapper" style="width: 50%;">
-          <textarea type="text" style="height:50px;" id="reschreason" name="reschreason
-  " [(ngModel)]="reschedReason" value="" placeholder="Reschedule Reason" class="form-ctrl textbox">
+          <textarea type="text" style="height:50px;" id="reschreason" name="reschreason" [(ngModel)]="reschedReason" value="" placeholder="Reschedule Reason"
+            class="form-ctrl textbox">
           </textarea>
         </div>
       </div>
@@ -1007,15 +1010,13 @@
       <div class="row cancelField">
         <div class="c-lg-6 c-md-6 c-sm-6">
           <div class="field-wrapper">
-            <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:
-   " value="" [(ngModel)]="cancellationReason">
+            <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:" value="" [(ngModel)]="cancellationReason">
             </textarea>
           </div>
         </div>
         <div class="c-lg-6 c-md-6 c-sm-6">
           <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus(
-                  'notifyCancel')" (change)="notifyCancelUpdate($event)">
+            <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
             <label for="notifyCancel">Notify Students For Class Cancellation</label>
           </div>
         </div>
