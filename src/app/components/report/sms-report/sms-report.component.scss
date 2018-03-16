@@ -11,6 +11,26 @@
     }
 }
 
+.sms-table-wrapper{
+    max-height: 375px;
+    overflow: hidden;
+    ::-webkit-scrollbar{
+        display: block;
+    }
+    .table-responsive{
+        max-height: 340px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        ::-webkit-scrollbar{
+            display: block;
+        }
+    } 
+    .pagination{
+    width: 100%;
+    border-top: 1px solid rgba(119, 119, 119, 0.28);
+    }
+}
+
 .sms-header{
     padding: 15px;
 }

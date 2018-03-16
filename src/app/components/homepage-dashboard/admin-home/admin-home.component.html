@@ -251,7 +251,7 @@
                       </ul>
                       <div class="schedule-scroller" *ngIf="!isProfessional && isSubjectView">
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
-                          <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
+                          <ul class="ct-ongoing" [class.active]="i == selectedRow" (mouseover)="userScheduleSelected(i, class)">
                             <li>
                               <div>{{class.start_time}} - {{class.end_time}}</div>
                               <p>{{class.class_room_name}}</p>
@@ -270,17 +270,19 @@
                             </li>
                           </ul>
                           <div class="che-action" [class.display]="i == selectedRow">
-                            <a style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance()"> Mark Attendance</a>
-                            <a style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance()"> Update Attendance</a>
-                            <a *ngIf='isOptionVisible && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass()">Cancel</a>
-                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
-                            <a *ngIf="isOptionVisible && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
+                            <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance()">
+                            Mark Attendance</a>
+                            <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance()">
+                            Update Attendance</a>
+                            <a class="fish-chips" *ngIf='isOptionVisible && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass()">Cancel</a>
+                            <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
+                            <a class="fish-chips" *ngIf="isOptionVisible && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
                           </div>
                         </div>
                       </div>
                       <div class="schedule-scroller" *ngIf="!isProfessional && !isSubjectView">
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of courseLevelSchedule;let i = index;">
-                          <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
+                          <ul class="ct-ongoing" [class.active]="i == selectedRow" (mouseover)="userScheduleSelected(i, class)">
                             <li>
                               <div>{{class.master_course}}</div>
                               <p></p>
@@ -293,16 +295,18 @@
                             </li>
                           </ul>
                           <div class="che-action" [class.display]="i == selectedRow">
-                            <a style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance()"> Mark Attendance</a>
-                            <a style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance()"> Update Attendance</a>
-                            <a *ngIf='isOptionVisible && class.is_attendance_marked !="Y" ' style="cursor:pointer" (click)="initiateCourseCancelClass()">Cancel</a>
-                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
+                            <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance()">
+                            Mark Attendance</a>
+                            <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance()">
+                            Update Attendance</a>
+                            <a class="fish-chips" *ngIf='isOptionVisible && class.is_attendance_marked !="Y" ' style="cursor:pointer" (click)="initiateCourseCancelClass()">Cancel</a>
+                            <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
                           </div>
                         </div>
                       </div>
                       <div class="schedule-scroller" *ngIf="isProfessional">
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
-                          <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
+                          <ul class="ct-ongoing" [class.active]="i == selectedRow" (mouseover)="userScheduleSelected(i, class)">
                             <li>
                               <div>{{class.start_time}} - {{class.end_time}}</div>
                               <p>{{class.class_room_name}}</p>
@@ -321,11 +325,13 @@
                             </li>
                           </ul>
                           <div class="che-action" [class.display]="i == selectedRow">
-                            <a *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()"> Mark Attendance</a>
-                            <a *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()"> View Attendance</a>
-                            <a *ngIf='isOptionVisible && class.is_attendance_marked !="Y"' style="cursor:pointer" (click)="initiateCancelClass()">Cancel</a>
-                            <a *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
-                            <a *ngIf="isOptionVisible && class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
+                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()">
+                            Mark Attendance</a>
+                            <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()">
+                            View Attendance</a>
+                            <a class="fish-chips" *ngIf='isOptionVisible && class.is_attendance_marked !="Y"' style="cursor:pointer" (click)="initiateCancelClass()">Cancel</a>
+                            <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
+                            <a class="fish-chips" *ngIf="isOptionVisible && class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
                           </div>
                         </div>
                       </div>
@@ -458,7 +464,7 @@
                 <li style="width: 30%; font-weight: 400">Student Name</li>
                 <li style="width: 40%; font-weight: 400">Mark Attendance</li>
               </ul>
-              <div class="schedule-scroller">
+              <div class="schedule-scroller" style="max-height: 250px;min-height: 250px;">
                 <div class="ct-disable-wrapper pos-rel" *ngFor="let s of studentAttList;let i=index;" [ngClass]="{ homeWorkNotFoundClass: instituteSetting.home_work_feature_enable !=1 }">
                   <ul class="ct-ongoing">
                     <li style="width: 20%; font-weight: 800">
@@ -512,21 +518,39 @@
 
         <aside class="detailsSection">
           <div style="margin-top: 0px">
-            <h3>Attendance Note</h3>
+            <h3 style="display: inline-flex;">Attendance Note</h3>
+            <div class="questionInfo">
+                <span class="qInfoIcon">?</span>
+                <div class="tooltip-box-field">
+                  Details of any attendance related task 
+                </div>
+            </div>
             <div class="field-wrapper">
-              <textarea class="form-ctrl textBox" value="" [(ngModel)]="attendanceNote">
-                  </textarea>
+              <textarea style="width: 92%;" class="form-ctrl textBox" value="" [(ngModel)]="attendanceNote">
+              </textarea>
             </div>
           </div>
           <div *ngIf="instituteSetting.home_work_feature_enable==1">
-            <h3>Homework</h3>
+            <h3 style="display: inline-flex;" >Homework</h3>
+            <!-- <div class="questionInfo">
+                <span class="qInfoIcon">?</span>
+                <div class="tooltip-box-field">
+                  Details of any attendance related task 
+                </div>
+            </div> -->
             <div class="field-wrapper" [ngClass]="{ 'has-value': homework !='' }">
               <textarea class="form-ctrl textBox" value="" [(ngModel)]="homework">
                 </textarea>
             </div>
           </div>
           <div>
-            <h3>Yesterdays Homework</h3>
+            <h3 style="display: inline-flex;">Yesterdays Homework</h3>
+            <!-- <div class="questionInfo">
+                <span class="qInfoIcon">?</span>
+                <div class="tooltip-box-field">
+                  Details of any attendance related task 
+                </div>
+            </div> -->
             <span style="font-weight: 600">{{studentAttList[0].dateLi[0].previous_class_homework_assigned}}</span>
           </div>
           <div class="checkboxGroup">
@@ -547,131 +571,10 @@
           </div>
         </aside>
       </div>
-
-
-      <!-- <div class="row topicSection">
-        <div class="c-lg-6 c-md-6 c-sm-6">
-          <div class="field-wrapper">
-            <textarea class="form-ctrl textBox" placeholder="Attendance Note" value="" [(ngModel)]="attendanceNote">
-            </textarea>
-          </div>
-        </div>
-        <div class="c-lg-6 c-md-6 c-sm-6" *ngIf="instituteSetting.home_work_feature_enable==1">
-          <div class="field-wrapper" style="width: 80%;float: right;" [ngClass]="{ 'has-value': homework !='' }">
-            <input type="text" value="" class="form-ctrl" id="homeWorkName" name="homeWorkName" [(ngModel)]="homework" />
-            <label for="homeWorkName">Homework</label>
-          </div>
-          <div class="field-wrapper" style="width: 80%;float: right;">
-            <input style="border-bottom:none;" type="text" readonly="true" disabled value="" class="form-ctrl
-  " id="lasthomeWork" name="lasthomeWork"
-            />
-            <label for="lasthomeWork">Last Class Homework</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="row settingAttendance">
-        <div class="c-lg-6 c-md-6 c-sm-6">
-          <div class="field-checkbox-wrapper" *ngIf="instituteSetting.home_work_feature_enable==1">
-            <input type="checkbox" value="" class="form-checkbox" id="EnableHomeWorkSms" [checked]="home_work_notifn==1
-                  ? true: false"
-              (change)="updateHomework($event)">
-            <label for="EnableHomeWorkSms">Enable Homework SMS</label>
-          </div>
-          <div class="field-checkbox-wrapper">
-            <input type="checkbox" value="" class="form-checkbox" id="EnableSmsTopic" [checked]="topics_covered_notifn==1
-                  ? true: false"
-              (change)="updateTopicCovered($event)">
-            <label for="EnableSmsTopic">Enable SMS For Topic Covered</label>
-          </div>
-        </div>
-        <div class="c-lg-3 c-md-3 c-sm-3">
-          <div class="field-checkbox-wrapper" style="margin-top: 25px;margin-bottom: 0px;">
-            <input type="checkbox" value="" class="form-checkbox" id="MarkAllPresent" [checked]="AllPresent
-  " (change)="markAllPresent($event)">
-            <label for="MarkAllPresent">Mark All Present</label>
-          </div>
-        </div>
-        <div class="c-lg-3 c-md-3 c-sm-3">
-          <div class="field-wrapper" style="margin-bottom: 10px;" [ngClass]="{ 'has-value': teacher_id !='-1' }">
-            <select id="teachers" class="form-ctrl" [(ngModel)]="teacher_id">
-              <option value='-1'></option>
-              <option [value]="teacher.teacher_id" *ngFor="let teacher of teacherListArr">
-                {{teacher.teacher_name}}
-              </option>
-            </select>
-            <label for="feeType">Tutor</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="row attendanceMain">
-        <div class="table-scroll-wrapper">
-          <div class="table table-responsive widget-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Name</th>
-                  <th>Date of Joining</th>
-                  <th>Attendance</th>
-                  <th *ngIf="instituteSetting.home_work_feature_enable==1">Home Work Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let s of studentAttList; let i=index;">
-                  <td>
-                    {{s.student_disp_id}}
-                  </td>
-                  <td>
-                    {{s.student_name}}
-                  </td>
-                  <td>
-                    {{s.doj}}
-                  </td>
-                  <td>
-                    <div class="radio-options">
-                      <div class="field-radio-wrapper">
-                        <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}
-  " [(ngModel)]="s.dateLi[0].status" class="form-radio"
-                          (ngModelChange)="updateRadioAttendance($event, i, s)" id="Present{{s.student_id}}">
-                        <label class="present" for="Present{{s.student_id}}">Present</label>
-                      </div>
-                      <div class="field-radio-wrapper">
-                        <input [disabled]="getDisability(s)" type="radio" value="L" name="{{s.student_id}}
-  " [(ngModel)]="s.dateLi[0].status" class="form-radio"
-                          (ngModelChange)="updateRadioAttendance($event, i, s)" id="Leave{{s.student_id}}">
-                        <label class="leave" for="Leave{{s.student_id}}">Leave</label>
-                      </div>
-                      <div class="field-radio-wrapper">
-                        <input [disabled]="getDisability(s)" type="radio" value="A" name="{{s.student_id}}
-  " [(ngModel)]="s.dateLi[0].status" class="form-radio"
-                          (ngModelChange)="updateRadioAttendance($event, i, s)" id="Absent{{s.student_id}}">
-                        <label class="absent" for="Absent{{s.student_id}}">Absent</label>
-                      </div>
-                    </div>
-                  </td>
-                  <td *ngIf="instituteSetting.home_work_feature_enable==1">
-                    <div class="field-wrapper">
-                      <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status_11755
-  " class="form-ctrl" [(ngModel)]="s.dateLi[0].home_work_status"
-                        (ngModelChange)="isHomeworkStatusChanged(i)">
-                        <option value="Y" selected="">Completed</option>
-                        <option value="N">Not Done</option>
-                        <option value="NC">InComplete</option>
-                      </select>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div> -->
     </div>
 
     <div class="" widget-footer>
-      <div class="clearfix">
+      <div style="margin-top: 10px;" class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeAttendance()">
           <input type="button" *ngIf="isProfessional && classMarkedForAction.is_attendance_marked != 'Y'" value="Update" (click)="updateAttendance()"

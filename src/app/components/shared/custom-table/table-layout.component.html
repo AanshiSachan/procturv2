@@ -3,25 +3,30 @@
         <tr>
             <th *ngIf="isMulti">
                 <div class="field-checkbox-wrapper" style="background: transparent;">
-                    <input id="headerCheckbox" type="checkbox" value="" name="check" 
-                    class="form-checkbox" [(ngModel)]="isAllSelected" (ngModelChange)="selectAllRows($event)">
+                    <input id="headerCheckbox" type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="isAllSelected" (ngModelChange)="selectAllRows($event)">
                     <label>asdf</label>
                 </div>
             </th>
             <th *ngFor="let map of columnMaps">{{ map.header }}</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody *ngIf="records.length != 0">
         <tr *ngFor="let record of records; let i = index;">
             <td *ngIf="isMulti">
                 <div class="field-checkbox-wrapper" style="background: transparent;">
-                    <input id="{{tableName}}check{{i}}" type="checkbox" value="" name="check" class="form-checkbox"
-                    [(ngModel)]="record.isSelected">
+                    <input id="{{tableName}}check{{i}}" type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="record.isSelected">
                     <label>asdf</label>
                 </div>
             </td>
             <td *ngFor="let map of columnMaps" [ctStyleCell]="record[map.access(record)]">
                 {{ record[map.access(record)] | formatCell:map.format }}
+            </td>
+        </tr>
+    </tbody>
+    <tbody *ngIf="records.length == 0">
+        <tr>
+            <td colspan="10">
+                <label style="font-size: 16px;font-weight: 600;">No Records Found</label>
             </td>
         </tr>
     </tbody>

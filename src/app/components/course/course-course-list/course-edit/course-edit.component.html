@@ -52,28 +52,7 @@
           </thead>
           <tbody>
             <tr id="row{{i}}" *ngFor="let row of mainTableDataSource; let i= index ; trackBy:index">
-              <td colspan="5">
-                <!-- <div class="tableRow">
-                  <table>
-                    <tbody>
-                      <tr>  
-                        <td style="width:25%">
-                          {{row.course_name}}
-                        </td>
-                        <td style="width:25%">
-                          {{parseDateFormat(row.start_date)}}
-                        </td>
-                        <td style="width:25%">
-                          {{parseDateFormat(row.end_date)}}
-                        </td>
-                        <td style="width:25%">
-                          <span *ngIf="(row.is_exam_grad_feature == 0)">No</span>
-                          <span *ngIf="(row.is_exam_grad_feature == 1)">Yes</span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div> -->
+              <td style="padding: 0px;" colspan="5">
                 <div id="show{{i}}" class="nestedTable nested-Table-Show-Wrapper">
                   <div class="row" style="margin: 0px 0px;">
                     <table>
