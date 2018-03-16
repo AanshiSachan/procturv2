@@ -872,7 +872,9 @@ export class CampaignHomeComponent implements OnInit {
     return data;
   }
 
-
+  rowClickEvent(row) {
+    this.selectedRow = row;
+  }
 
 }
 
