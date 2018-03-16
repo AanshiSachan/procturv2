@@ -1,3 +1,48 @@
+.fish-chips{
+    color: #fff;
+    padding: 3px;
+    margin: 0px 10px 0px 10px;
+    border-radius: 13px;
+    border: 1px solid #0084f6;
+    background: #0084f6;
+    box-shadow: 0px 1px 1px 0.5px #777;
+}
+
+.tooltip-box-field {
+    position: absolute;
+    width: 130px;
+    min-height: 30px;
+    background: #e0e0e0;
+    border: 1px solid #ccc;
+    left: 80%;
+    z-index: 1;
+    top: 100px;
+    visibility: hidden;
+    opacity: 0;
+    //transition: all 0.1s linear 0.1s;
+    font-size: 11px;
+    border-radius: 4px;
+    padding: 3px 5px;
+    box-shadow: 0px 0px 4px #ccc;
+}
+
+.questionInfo{
+    display: inline-flex;
+    padding: 0px 5px;
+    cursor: pointer;
+    border: 1px solid #777;
+    border-radius: 50%;
+    &:hover{
+        .tooltip-box-field{
+            visibility: visible;
+            opacity: 1;
+            right: 0px;
+            top: 100px;
+            left: 90%;
+        }
+    }
+}
+
 fieldset {
     margin: 10px 0px;
     legend {
@@ -207,12 +252,14 @@ fieldset {
 .attendanceWrapper {
     border-top: 2px solid #eee;
     margin-top: 15px;
+    max-height: 420px;
+    overflow: hidden;
     .row {
         display: flex;
         .tableSection {
             display: inline-block;
             width: 75%;
-            padding: 10px 30px 0px 0px;
+            padding: 10px 20px 0px 0px;
             .button-row {
                 position: relative;
                 height: 45px;
@@ -260,8 +307,8 @@ fieldset {
         .detailsSection {
             display: inline-block;
             width: 25%;
-            padding: 20px 30px 20px 15px;
-            background-color: #ebebeb;
+            padding: 20px 10px 20px 10px;
+            background-color: #efefef;
             div {
                 margin-top: 10px;
                 margin-bottom: 10px;
@@ -767,21 +814,11 @@ div#enqChart {
             li.cls-type {
                 div {
                     position: relative;
-                    // &:before {
-                    //     content: '';
-                    //     width: 6px;
-                    //     height: 6px;
-                    //     border-radius: 50%;
-                    //     background: #ff0000;
-                    //     position: absolute;
-                    //     left: -16px;
-                    //     top: 7px;
-                    // }
                 }
             }
         } // justify-content: space-between;
         li {
-            padding: 16px 24px 12px;
+            padding: 20px 25px 15px;
             &.cls-type {
                 width: 29%;
             }
@@ -854,6 +891,7 @@ div#enqChart {
             position: absolute;
             display: none; //height: 0%;
             bottom: 2px;
+            height: 25px;
             right: 0px;
             text-align: right;
             &.display {
@@ -861,9 +899,9 @@ div#enqChart {
                 display: block !important;
             }
             a {
-                margin-left: 5%;
+                margin: 0px 10px 0px 10px;
                 font-size: 14px;
-                font-weight: 600;
+                font-weight: 400;
             }
         }
     }

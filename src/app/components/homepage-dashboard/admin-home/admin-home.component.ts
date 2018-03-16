@@ -536,6 +536,11 @@ export class AdminHomeComponent implements OnInit {
     this.classMarkedForAction = selected
   }
 
+  deselectSelected(){
+    console.log('fired');
+    this.selectedRow = null;
+  }
+
   generateOption(i, o) {
     let d = moment(o).format("YYYY-MM-DD");
     this.selectedRow = i;

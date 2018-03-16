@@ -197,7 +197,7 @@ export class EnquiryAddComponent implements OnInit {
 
   /* OnInit Initialized */
   ngOnInit() {
-    this.isEnquiryAdministrator;
+    this.isEnquiryAdministrator();
     this.busy = this.FetchEnquiryPrefilledData();
 
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
@@ -672,15 +672,19 @@ export class EnquiryAddComponent implements OnInit {
 
   getCustomComponents(): any[]{
     let tempArr:any[] = [];
+    
     this.customComponents.forEach(e => {
-      if(e.value.trim() != ''){
-        let obj:any = {};
-        obj.component_id = e.id;
-        obj.enq_custom_id = 0;
-        obj.enq_custom_value = e.value;
-        tempArr.push(obj);
-      }
-    });
+       console.log(e);
+       if(e != null && e != undefined){
+        if(e.value.trim() != ''){
+          let obj:any = {};
+          obj.component_id = e.id;
+          obj.enq_custom_id = 0;
+          obj.enq_custom_value = e.value;
+          tempArr.push(obj);
+        }
+       }
+    }); 
     return tempArr;
   }
 

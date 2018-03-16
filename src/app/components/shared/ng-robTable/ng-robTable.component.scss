@@ -228,6 +228,7 @@ $color-highlight: lighten($color-base, 7%);
             &.selected{
                 transform: scale(1.01,1);
                 transition: 100ms ease-in;
+                background: #e3f7f5;
                 box-shadow: 0px 11px 8px -10px #CCC, 0px -11px 13px -9px #CCC;
             }
             li {

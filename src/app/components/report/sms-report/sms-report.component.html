@@ -39,7 +39,7 @@
         </div>
       </section>
 
-      <div class="sms-table-controller">
+      <!-- <div class="sms-table-controller">
         <div class="c-lg-12 c-md-12 c-sm-12 align-left">
           
           <ul class="record-list">
@@ -70,7 +70,7 @@
           </ul>
        
         </div>
-      </div>
+      </div> -->
 
       <section class="sms-table-wrapper">
 
@@ -83,7 +83,7 @@
 
 
         <!-- Paginator Here -->
-        <div class="row filter-res pagination" style="width: 100%;">
+        <div class="filter-res pagination" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
               [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
