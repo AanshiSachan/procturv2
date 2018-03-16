@@ -224,7 +224,7 @@ export class InstituteSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.changeView('liSMS', 'divSMSContent');
+    // this.changeView('liSMS', 'divSMSContent');
     this.checkInstitutionType();
     this.getSettingFromServer();
   }
