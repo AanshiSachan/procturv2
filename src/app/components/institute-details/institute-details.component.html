@@ -371,6 +371,11 @@
                       {{row.total_price}}
                     </td>
                   </tr>
+                  <tr *ngIf="instituteOptions.length == 0">
+                    <td colspan="5">
+                      No Option Available
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
