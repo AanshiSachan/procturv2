@@ -1,183 +1,171 @@
 <section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}" (click)="inputClicked()">
-  <aside class="middle-full">
 
-    <!-- Header and Navigation -->
-    <section class="middle-top mb0 clearFix">
-      <div class="pull-right">
+  <!-- Header and Navigation -->
+  <section class="middle-top mb0 clearFix">
+    <h1 class="pull-left">Campaign List</h1>
+    <div class="pull-right">
 
-        <div class="search-filter-wrapper">
-          <input #search type="text" class="normal-field " placeholder="Search" [(ngModel)]="searchBarData" id="search" name="searchData"
-            (keyup)="searchDatabase(search)">
-        </div>
-
-        <div class="btnWrapper">
-          <button class="btn pull-right" routerLink="/campaign/bulk">
-            <div class="option-wrap">
-              <img src="assets/images/plus.png" alt="Add Item" style="vertical-align: -webkit-baseline-middle;">
-              <span class="tooltip tooltipSpan">
-                Upload Lead
-              </span>
-            </div>
-          </button>
-        </div>
+      <div class="search-filter-wrapper">
+        <input #search type="text" class="normal-field " placeholder="Search" [(ngModel)]="searchBarData" id="search" name="searchData"
+          (keyup)="searchDatabase(search)">
       </div>
 
-    </section>
-
-
-    <section class="middle-main clearFix" id="studentList">
-
-      <!-- Data Table and Pagination -->
-      <section class="search-data">
-
-        <!-- Export and Toggler Here -->
-
-        <!-- Enquiry DataTable -->
-        <div class="row">
-          <div class="c-lg-12 c-md-12 c-sm-12">
-            <div class="table-scroll-wrapper">
-              <div class="table table-responsive enquiry-table">
-                <table class="align-center">
-                  <thead>
-                    <tr>
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.list_name.title)">{{header.list_name.title}}</a>
-                        </label>
-                      </th>
-
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.referred_by.title)">{{header.referred_by.title}}</a>
-                        </label>
-                      </th>
-
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.source.title)">{{header.source.title}}</a>
-                        </label>
-                      </th>
-
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.created_date.title)">{{header.created_date.title}}</a>
-                        </label>
-                      </th>
-
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.status.title)">{{header.status.title}}</a>
-                        </label>
-                      </th>
-
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.total_count.title)">{{header.total_count.title}}</a>
-                        </label>
-                      </th>
-
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.success_count.title)">{{header.success_count.title}}</a>
-                        </label>
-                      </th>
-
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.failure_count.title)">{{header.failure_count.title}}</a>
-                        </label>
-                      </th>
-
-                      <th>
-                        <label>
-                          <a class="cursor-icon" style="color:white;">{{header.allow_sms.title}}</a>
-                        </label>
-                      </th>
-
-                    </tr>
-                  </thead>
-
-                  <tbody class="" *ngIf="sourceCampaign.length != 0">
-
-                    <tr id="row{{i}}" *ngFor="let row of sourceCampaign; let i = index; trackBy: i;">
-                      <td (click)="rowClicked(row)">
-                        {{row.data.list_name}}
-                      </td>
-
-                      <td>
-                        {{row.data.referred_by}}
-                      </td>
-
-                      <td>
-                        {{row.data.source}}
-                      </td>
-
-                      <td>
-                        {{row.data.created_date| date:'dd-MMM-yy'}}
-                      </td>
-
-                      <td>
-                        {{row.data.statusValue}}
-                      </td>
-
-                      <td>
-                        {{row.data.total_count}}
-                      </td>
-
-                      <td>
-                        {{row.data.success_count}}
-                      </td>
-
-
-                      <td *ngIf="row.data.failure_count == 0">
-                        {{row.data.failure_count}}
-                      </td>
-
-                      <td *ngIf="row.data.failure_count > 0" style="cursor:pointer" (click)="downloadFailureListFile(row)" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
-                        <a id="template_link_{{row.data.list_id}}">{{row.data.failure_count}}</a>
-                      </td>
-
-                      <td>
-                        <a style="cursor: pointer;" (click)="openSmsPopup(row)" *ngIf="row.data.success_count > 0" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
-                          Send
-                        </a>
-                      </td>
-                    </tr>
-
-                  </tbody>
-
-                  <tbody *ngIf="sourceCampaign.length == 0">
-                    <tr class="">
-                      <td colspan="9">
-                        No Campaign Data Found
-                      </td>
-                    </tr>
-                  </tbody>
-
-                </table>
-
-              </div>
-            </div>
+      <div class="btnWrapper">
+        <button class="btn pull-right" routerLink="/campaign/bulk">
+          <div class="option-wrap">
+            <img src="assets/images/plus.png" alt="Add Item" style="vertical-align: -webkit-baseline-middle;">
+            <span class="tooltip tooltipSpan">
+              Upload Lead
+            </span>
           </div>
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+
+  <section class="middle-main clearFix" id="studentList">
+    <!-- Enquiry DataTable -->
+
+    <div class="c-lg-12 c-md-12 c-sm-12 table-wrapper">
+      <div class="table-scroll-wrapper">
+        <div class="table table-responsive enquiry-table">
+          <table class="align-center">
+            <thead>
+              <tr>
+                <th>
+                  <label>
+                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.list_name.title)">{{header.list_name.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.referred_by.title)">{{header.referred_by.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.source.title)">{{header.source.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.created_date.title)">{{header.created_date.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.status.title)">{{header.status.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.total_count.title)">{{header.total_count.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.success_count.title)">{{header.success_count.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.failure_count.title)">{{header.failure_count.title}}</a>
+                  </label>
+                </th>
+
+                <th>
+                  <label>
+                    <a class="cursor-icon" style="color:white;">{{header.allow_sms.title}}</a>
+                  </label>
+                </th>
+
+              </tr>
+            </thead>
+
+            <tbody class="" *ngIf="sourceCampaign.length != 0">
+
+              <tr id="row{{i}}" *ngFor="let row of sourceCampaign; let i = index; trackBy: i;" (click)="rowClickEvent(i)" [class.selected]="i == selectedRow">
+                <td (click)="rowClicked(row)">
+                  {{row.data.list_name}}
+                </td>
+
+                <td>
+                  {{row.data.referred_by}}
+                </td>
+
+                <td>
+                  {{row.data.source}}
+                </td>
+
+                <td>
+                  {{row.data.created_date| date:'dd-MMM-yy'}}
+                </td>
+
+                <td>
+                  {{row.data.statusValue}}
+                </td>
+
+                <td>
+                  {{row.data.total_count}}
+                </td>
+
+                <td>
+                  {{row.data.success_count}}
+                </td>
+
+
+                <td *ngIf="row.data.failure_count == 0">
+                  {{row.data.failure_count}}
+                </td>
+
+                <td *ngIf="row.data.failure_count > 0" style="cursor:pointer" (click)="downloadFailureListFile(row)" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
+                  <a id="template_link_{{row.data.list_id}}">{{row.data.failure_count}}</a>
+                </td>
+
+                <td>
+                  <a style="cursor: pointer;" (click)="openSmsPopup(row)" *ngIf="row.data.success_count > 0" [ngStyle]="{'color':getFollowUpColor(row.data.followUpDate)}">
+                    Send
+                  </a>
+                </td>
+              </tr>
+
+            </tbody>
+
+            <tbody *ngIf="sourceCampaign.length == 0">
+              <tr class="">
+                <td colspan="9">
+                  No Campaign Data Found
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+
         </div>
-
-        <!-- Paginator Here -->
-        <div class="row filter-res pagination" style="width: 100%;">
-          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-              [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
-            </pagination>
-          </div>
-        </div>
-
-      </section>
-
+      </div>
+    </div>
+    <!-- Paginator Here -->
+    <div class="filter-res pagination" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+        </pagination>
+      </div>
+    </div>
 
 
+  </section>
 
-    </section>
 
-  </aside>
 </section>
 
 
