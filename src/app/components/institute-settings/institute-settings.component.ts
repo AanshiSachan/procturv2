@@ -224,25 +224,27 @@ export class InstituteSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.changeView('liSMS', 'divSMSContent');
+    this.changeView('liSMS', 'divSMSContent');
     this.checkInstitutionType();
     this.getSettingFromServer();
   }
 
 
   changeView(lidiv, showView) {
-    document.getElementById('divSMSContent').classList.add('hideDivClass');
-    document.getElementById('divExamReport').classList.add('hideDivClass');
-    document.getElementById('divFeeContent').classList.add('hideDivClass');
-    document.getElementById('divReportContent').classList.add('hideDivClass');
-    document.getElementById('divMiscContent').classList.add('hideDivClass');
-    document.getElementById('liSMS').classList.remove('active');
-    document.getElementById('liExamRep').classList.remove('active');
-    document.getElementById('liFee').classList.remove('active');
-    document.getElementById('liReport').classList.remove('active');
-    document.getElementById('liMisc').classList.remove('active');
-    document.getElementById(lidiv).classList.add('active');
-    document.getElementById(showView).classList.remove('hideDivClass');
+    document.getElementById(showView).scrollIntoView(true);
+    window.scrollBy(0, -100);
+    // document.getElementById('divSMSContent').classList.add('hideDivClass');
+    // document.getElementById('divExamReport').classList.add('hideDivClass');
+    // document.getElementById('divFeeContent').classList.add('hideDivClass');
+    // document.getElementById('divReportContent').classList.add('hideDivClass');
+    // document.getElementById('divMiscContent').classList.add('hideDivClass');
+    // document.getElementById('liSMS').classList.remove('active');
+    // document.getElementById('liExamRep').classList.remove('active');
+    // document.getElementById('liFee').classList.remove('active');
+    // document.getElementById('liReport').classList.remove('active');
+    // document.getElementById('liMisc').classList.remove('active');
+    // document.getElementById(lidiv).classList.add('active');
+    // document.getElementById(showView).classList.remove('hideDivClass');
     if (showView == "divExamReport") {
       this.enableRankSpecifier()
     }

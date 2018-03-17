@@ -964,7 +964,7 @@
 
       <section id="divExamReport" class="examReportWrapper">
         <div class="row">
-          <div class="report-table-wrapper">
+          <div class="exam-table-wrapper">
             <div class="table-scroll-wrapper">
               <div class="table table-responsive">
                 <table>
@@ -1006,7 +1006,7 @@
                           <h3>Exam Rank Notification Setting</h3>
                           <div class="row rank-wrapper">
                             <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-20px;margin-top: 10px;">
-                              <div class="field-checkbox-wrapper">
+                              <div class="field-checkbox-wrapper" style="width: 100%">
                                 <input type="checkbox" id="enableRank" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.rank_to_send_for_marks_sms"
                                   (click)="enableRankSpecifier()">
                                 <label for="enableSMS">Specify Rank in Exam Mark Notification</label>
@@ -1042,6 +1042,10 @@
                             </label>
                           </div>
                         </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
                         <div class="row" style="margin-top:10px">
                           <h3>Absent Attendance Setting</h3>
                           <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.absent_attendance_in_a_month_threshold >= '0'}">
@@ -1283,138 +1287,180 @@
 
       <section id="divReportContent" class="report-content-wrapper">
         <div class="row">
-          <h3>Home Work Setting</h3>
-        </div>
-        <div class="row">
-          <div class="c-sm-4 c-lg-4 c-md-4" style="margin-left:-15px">
-            <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.home_work_feature_enable"
-                id="idEnableSMS">
-              <label for="enableSMS">Enable Student(s) Home work Feature</label>
+          <div class="report-table-wrapper">
+            <div class="table-scroll-wrapper">
+              <div class="table table-responsive">
+                <table>
+                  <tbody>
+                    <tr style="height: 45px; background-color: #efefef">
+                      <td colspan="6" style="font-size: 1.3em; font-weight: normal">
+                        REPORT SETTING
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <h3>Home Work Setting</h3>
+                        <div class="row">
+                          <div class="c-sm-4 c-lg-4 c-md-4" style="margin-left:-15px">
+                            <div class="field-checkbox-wrapper">
+                              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.home_work_feature_enable"
+                                id="idEnableSMS">
+                              <label for="enableSMS">Enable Student(s) Home work Feature</label>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <h3>Enquiry Setting</h3>
+                        <div class="row">
+                          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_enquiry_handler_no != ''}">
+                              <input type="number" min="0" max="9999999999" id="inputSpecifyRank" [(ngModel)]="instituteSettingDet.inst_enquiry_handler_no"
+                                class="form-ctrl" name="slotNew">
+                              <label for="slotNew">Contact No. for handling Enquiries:
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <h3>Report Setting</h3>
+                        <div class="row">
+                          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.pre_enquiry_follow_up_reminder_time != ''}">
+                              <select id="" class="form-ctrl" name="instituteSettingDet.pre_enquiry_follow_up_reminder_time" (focus)="inputClickedCheck($event)"
+                                [(ngModel)]="instituteSettingDet.pre_enquiry_follow_up_reminder_time">
+                                <option value="-1">---select---</option>
+                                <option value="00:15">After 15 minutes</option>
+                                <option value="00:30">After 30 minutes</option>
+                                <option value="01:00">After 1 hour</option>
+                                <option value="02:00">After 2 hour</option>
+                                <option value="24:00">After 1 day</option>
+                              </select>
+                              <label>Enquiry Follow up Reminder Notification ? </label>
+                            </div>
+                          </div>
+                          <div class="c-sm-4 c-md-4 c-lg-4">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.post_enquiry_follow_up_reminder_time != ''}">
+                              <select id="" class="form-ctrl" name="instituteSettingDet.post_enquiry_follow_up_reminder_time" (focus)="inputClickedCheck($event)"
+                                [(ngModel)]="instituteSettingDet.post_enquiry_follow_up_reminder_time">
+                                <option value="-1">---select---</option>
+                                <option value="00:15">After 15 minutes</option>
+                                <option value="00:30">After 30 minutes</option>
+                                <option value="01:00">After 1 hour</option>
+                                <option value="02:00">After 2 hour</option>
+                                <option value="24:00">After 1 day</option>
+                              </select>
+                              <label>Enquiry Follow up Reminder Notification ? </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px;margin-top:15px">
+                            <div class="field-checkbox-wrapper">
+                              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.daily_account_summary"
+                                id="">
+                              <label for="enableSMS">Daily Account Summary </label>
+                            </div>
+                          </div>
+                          <div class="c-sm-4 c-md-4 c-lg-4">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.emailids_for_report != ''}">
+                              <input type="text" [(ngModel)]="instituteSettingDet.emailids_for_report" class="form-ctrl" name="slotNew">
+                              <label for="slotNew">Point Of Contact(s)(Email IDs) for Reports
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
-        <div class="row">
-          <h3>Enquiry Setting</h3>
-        </div>
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_enquiry_handler_no != ''}">
-              <input type="number" min="0" max="9999999999" id="inputSpecifyRank" [(ngModel)]="instituteSettingDet.inst_enquiry_handler_no"
-                class="form-ctrl" name="slotNew">
-              <label for="slotNew">Contact No. for handling Enquiries:
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.pre_enquiry_follow_up_reminder_time != ''}">
-              <select id="" class="form-ctrl" name="instituteSettingDet.pre_enquiry_follow_up_reminder_time" (focus)="inputClickedCheck($event)"
-                [(ngModel)]="instituteSettingDet.pre_enquiry_follow_up_reminder_time">
-                <option value="-1">---select---</option>
-                <option value="00:15">After 15 minutes</option>
-                <option value="00:30">After 30 minutes</option>
-                <option value="01:00">After 1 hour</option>
-                <option value="02:00">After 2 hour</option>
-                <option value="24:00">After 1 day</option>
-              </select>
-              <label>Enquiry Follow up Reminder Notification ? </label>
-            </div>
-          </div>
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.post_enquiry_follow_up_reminder_time != ''}">
-              <select id="" class="form-ctrl" name="instituteSettingDet.post_enquiry_follow_up_reminder_time" (focus)="inputClickedCheck($event)"
-                [(ngModel)]="instituteSettingDet.post_enquiry_follow_up_reminder_time">
-                <option value="-1">---select---</option>
-                <option value="00:15">After 15 minutes</option>
-                <option value="00:30">After 30 minutes</option>
-                <option value="01:00">After 1 hour</option>
-                <option value="02:00">After 2 hour</option>
-                <option value="24:00">After 1 day</option>
-              </select>
-              <label>Enquiry Follow up Reminder Notification ? </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <h3>Report Setting</h3>
-        </div>
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px;margin-top:15px">
-            <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.daily_account_summary"
-                id="">
-              <label for="enableSMS">Daily Account Summary </label>
-            </div>
-          </div>
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.emailids_for_report != ''}">
-              <input type="text" [(ngModel)]="instituteSettingDet.emailids_for_report" class="form-ctrl" name="slotNew">
-              <label for="slotNew">Point Of Contact(s)(Email IDs) for Reports
-              </label>
-            </div>
-          </div>
-        </div>
-
       </section>
+
+      <hr>
+      <hr>
 
       <section id="divMiscContent" class="misc-content-wrapper">
         <div class="row">
-          <h3>Miscellaneous Setting</h3>
-        </div>
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px;margin-top:15px">
-            <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.allow_simple_registration"
-                id="">
-              <label for="enableSMS">Allow Simple Registration</label>
-            </div>
-          </div>
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.virtual_host_url != ''}">
-              <input type="text" [(ngModel)]="instituteSettingDet.virtual_host_url" class="form-ctrl" name="slotNew">
-              <label for="slotNew">Virtual Host URL:
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <h3>Online Payment Setting</h3>
-        </div>
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px">
-            <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_online_payment_email_notification"
-                id="">
-              <label for="enableSMS">Enable Online Payment Email Notification </label>
-            </div>
-          </div>
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_online_payment_sms_notification"
-                id="">
-              <label for="enableSMS">Enable Online Payment SMS Notification </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.online_payment_notify_emailIds != ''}">
-              <input type="text" [(ngModel)]="instituteSettingDet.online_payment_notify_emailIds" class="form-ctrl" name="slotNew">
-              <label for="slotNew">Email ID(s) For Online Payment Notification
-              </label>
-            </div>
-          </div>
-          <div class="c-sm-4 c-md-4 c-lg-4">
-            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.online_payment_notify_mobiles != ''}">
-              <input type="text" [(ngModel)]="instituteSettingDet.online_payment_notify_mobiles" class="form-ctrl" name="slotNew">
-              <label for="slotNew">Contact No.(s) For Online Payment Notification
-              </label>
+          <div class="misc-table-wrapper">
+            <div class="table-scroll-wrapper">
+              <div class="table table-responsive">
+                <table>
+                  <tbody>
+                    <tr style="height: 45px; background-color: #efefef">
+                      <td colspan="6" style="font-size: 1.3em; font-weight: normal">
+                        MISCELLANEOUS SETTING
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <h3>Miscellaneous Setting</h3>
+                        <div class="row">
+                          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px;margin-top:15px">
+                            <div class="field-checkbox-wrapper">
+                              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.allow_simple_registration"
+                                id="">
+                              <label for="enableSMS">Allow Simple Registration</label>
+                            </div>
+                          </div>
+                          <div class="c-sm-4 c-md-4 c-lg-4">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.virtual_host_url != ''}">
+                              <input type="text" [(ngModel)]="instituteSettingDet.virtual_host_url" class="form-ctrl" name="slotNew">
+                              <label for="slotNew">Virtual Host URL:
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <h3>Online Payment Setting</h3>
+                        <div class="row">
+                          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px">
+                            <div class="field-checkbox-wrapper">
+                              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_online_payment_email_notification"
+                                id="">
+                              <label for="enableSMS">Enable Online Payment Email Notification </label>
+                            </div>
+                          </div>
+                          <div class="c-sm-4 c-md-4 c-lg-4">
+                            <div class="field-checkbox-wrapper">
+                              <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_online_payment_sms_notification"
+                                id="">
+                              <label for="enableSMS">Enable Online Payment SMS Notification </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.online_payment_notify_emailIds != ''}">
+                              <input type="text" [(ngModel)]="instituteSettingDet.online_payment_notify_emailIds" class="form-ctrl" name="slotNew">
+                              <label for="slotNew">Email ID(s) For Online Payment Notification
+                              </label>
+                            </div>
+                          </div>
+                          <div class="c-sm-4 c-md-4 c-lg-4">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.online_payment_notify_mobiles != ''}">
+                              <input type="text" [(ngModel)]="instituteSettingDet.online_payment_notify_mobiles" class="form-ctrl" name="slotNew">
+                              <label for="slotNew">Contact No.(s) For Online Payment Notification
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

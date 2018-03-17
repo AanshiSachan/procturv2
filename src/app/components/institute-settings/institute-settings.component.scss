@@ -105,7 +105,7 @@ hr {
             }
         }
         .sms-setting-wrapper {
-            margin: 5px 15px;
+            margin-right: 10px;
             overflow-x: hidden;
             border-top: 1px solid #dcdcdc;
             border-bottom: 1px solid #dcdcdc;
@@ -146,16 +146,18 @@ hr {
             }
         }
         .examReportWrapper {
-            margin: 5px 15px;
             .row {
                 margin: 0px 5px;
-                .report-table-wrapper {
+                .exam-table-wrapper {
                     overflow-x: hidden;
                     border-top: 1px solid #dcdcdc;
                     border-bottom: 1px solid #dcdcdc;
                     border-left: 2px solid #dcdcdc;
                     border-right: 2px solid #dcdcdc;
                     border-radius: 5px;
+                    .field-checkbox-wrapper {
+                        width: 20%;
+                    }
                     table {
                         tbody {
                             tr {
@@ -221,19 +223,63 @@ hr {
             }
         }
         .report-content-wrapper {
-            padding: 15px;
             .row {
-                margin: 0px 5px;
-                margin-top: 10px;
-                margin-bottom: 10px;
+                .report-table-wrapper {
+                    overflow-x: hidden;
+                    border-top: 1px solid #dcdcdc;
+                    border-bottom: 1px solid #dcdcdc;
+                    border-left: 2px solid #dcdcdc;
+                    border-right: 2px solid #dcdcdc;
+                    border-radius: 5px;
+                    table {
+                        tbody {
+                            tr {
+                                background-color: white;
+                                border-bottom: 2px solid rgba(220, 220, 220, 0.2196078431372549);
+                                height: 45px;
+                                td {
+                                    padding: 15px 15px;
+                                    text-align: left;
+                                    .row {
+                                        margin: 0px 5px;
+                                        margin-top: 10px;
+                                        margin-bottom: 10px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         .misc-content-wrapper {
-            padding: 15px;
             .row {
-                margin: 0px 5px;
-                margin-top: 10px;
-                margin-bottom: 10px;
+                .misc-table-wrapper {
+                    overflow-x: hidden;
+                    border-top: 1px solid #dcdcdc;
+                    border-bottom: 1px solid #dcdcdc;
+                    border-left: 2px solid #dcdcdc;
+                    border-right: 2px solid #dcdcdc;
+                    border-radius: 5px;
+                    table {
+                        tbody {
+                            tr {
+                                background-color: white;
+                                border-bottom: 2px solid rgba(220, 220, 220, 0.2196078431372549);
+                                height: 45px;
+                                td {
+                                    padding: 15px 15px;
+                                    text-align: left;
+                                    .row {
+                                        margin: 0px 5px;
+                                        margin-top: 10px;
+                                        margin-bottom: 10px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
