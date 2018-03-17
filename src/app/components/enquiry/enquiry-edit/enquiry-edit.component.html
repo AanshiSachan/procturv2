@@ -246,7 +246,7 @@
                     <div class="" *ngIf="component.type == 2" input-def>
                       <br>
                       <div class="field-checkbox-wrapper" [class.has-value]="component.value != ''">
-                        <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}"
+                        <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value"  (ngModelChange)="fillCustomComponent($event, component)" name="{{component.label}}"
                           value="">
                         <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>

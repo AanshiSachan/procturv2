@@ -502,12 +502,7 @@ export class EnquiryAddComponent implements OnInit {
               }
               el.selectedString = el.selected.join(',');
               el.value = el.selectedString;
-              /* var index2 = el.selected.indexOf(data.data);
-                if (index2 > -1) {
-                el.selected.splice(index, 1);
-                }
-                el.selectedString = el.selected.join(','); 
-              */
+
             }
           }
         });
@@ -669,22 +664,54 @@ export class EnquiryAddComponent implements OnInit {
 
   }
 
-
-  getCustomComponents(): any[]{
-    let tempArr:any[] = [];
-    
-    this.customComponents.forEach(e => {
-       console.log(e);
-       if(e != null && e != undefined){
-        if(e.value.trim() != ''){
-          let obj:any = {};
-          obj.component_id = e.id;
-          obj.enq_custom_id = 0;
-          obj.enq_custom_value = e.value;
-          tempArr.push(obj);
+  updateCustomComponent(v, comp) {
+    if (v) {
+      this.customComponents.forEach(e => {
+        if (e.id === comp.id) {
+          e.value = v;
         }
-       }
-    }); 
+      })
+    }
+    else {
+      this.customComponents.forEach(e => {
+        if (e.id === comp.id) {
+          e.value = v;
+        }
+      })
+    }
+  }
+
+  getCustomComponents(): any[] {
+    let tempArr: any[] = [];
+    this.customComponents.forEach(e => {
+      if (e.hasOwnProperty('value')) {
+        if (typeof e.value == 'string') {
+          if (e.value.trim() != '') {
+            let obj: any = {};
+            obj.component_id = e.id;
+            obj.enq_custom_id = 0;
+            obj.enq_custom_value = e.value;
+            tempArr.push(obj);
+          }
+        }
+        else if (typeof e.value == 'boolean') {
+          if(e.value){
+            let obj: any = {};
+            obj.component_id = e.id;
+            obj.enq_custom_id = 0;
+            obj.enq_custom_value = "Y";
+            tempArr.push(obj);
+          }
+          /* else{
+            let obj: any = {};
+            obj.component_id = e.id;
+            obj.enq_custom_id = 0;
+            obj.enq_custom_value = "N";
+            tempArr.push(obj);
+          } */
+        }
+      }
+    });
     return tempArr;
   }
 
@@ -701,6 +728,7 @@ export class EnquiryAddComponent implements OnInit {
     if (this.isFormValid && customComponentValidator) {
       if (this.validateTime()) {
         this.newEnqData.enqCustomLi = this.getCustomComponents();
+        console.log(this.newEnqData.enqCustomLi);
         if (this.hour != '') {
           this.newEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         }
@@ -727,7 +755,7 @@ export class EnquiryAddComponent implements OnInit {
               }
             },
               err => {
-                
+
               });
           },
           err => {
