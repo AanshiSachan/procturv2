@@ -227,23 +227,60 @@ export class InstituteSettingsComponent implements OnInit {
     this.changeView('liSMS', 'divSMSContent');
     this.checkInstitutionType();
     this.getSettingFromServer();
+    this.scrollListener();
   }
 
+  scrollListener() {
+    var nav = document.getElementById('nav');
+    window.onscroll = () => {
+      console.log(window.pageYOffset);
+      // console.log(window.innerWidth);
+      if (window.innerWidth > 1250) {
+        if (window.pageYOffset < 1300) {
+          this.changeView('liSMS', 'stay');
+        } else if (window.pageYOffset < 2000) {
+          this.changeView('liExamRep', 'stay');
+        } else if (window.pageYOffset < 2900) {
+          this.changeView('liFee', 'stay');
+        } else if (window.pageYOffset < 3400) {
+          this.changeView('liReport', 'stay');
+        } else {
+          this.changeView('liMisc', 'stay');
+        }
+      } else {
+        if (window.pageYOffset < 1700) {
+          this.changeView('liSMS', 'stay');
+        } else if (window.pageYOffset < 2300) {
+          this.changeView('liExamRep', 'stay');
+        } else if (window.pageYOffset < 3300) {
+          this.changeView('liFee', 'stay');
+        } else if (window.pageYOffset < 3800) {
+          this.changeView('liReport', 'stay');
+        } else {
+          this.changeView('liMisc', 'stay');
+        }
+      }
+    }
+  }
 
   changeView(lidiv, showView) {
-    document.getElementById(showView).scrollIntoView(true);
-    window.scrollBy(0, -100);
+    if (showView !== 'stay') {
+      document.getElementById(showView).scrollIntoView(true);
+      if (showView !== 'divMiscContent') {
+        window.scrollBy(0, -100);
+      }
+    }
     // document.getElementById('divSMSContent').classList.add('hideDivClass');
     // document.getElementById('divExamReport').classList.add('hideDivClass');
     // document.getElementById('divFeeContent').classList.add('hideDivClass');
     // document.getElementById('divReportContent').classList.add('hideDivClass');
     // document.getElementById('divMiscContent').classList.add('hideDivClass');
-    // document.getElementById('liSMS').classList.remove('active');
-    // document.getElementById('liExamRep').classList.remove('active');
-    // document.getElementById('liFee').classList.remove('active');
-    // document.getElementById('liReport').classList.remove('active');
-    // document.getElementById('liMisc').classList.remove('active');
-    // document.getElementById(lidiv).classList.add('active');
+    document.getElementById('liSMS').classList.remove('active');
+    document.getElementById('liExamRep').classList.remove('active');
+    document.getElementById('liFee').classList.remove('active');
+    document.getElementById('liReport').classList.remove('active');
+    document.getElementById('liMisc').classList.remove('active');
+    document.getElementById(lidiv).classList.add('active');
     // document.getElementById(showView).classList.remove('hideDivClass');
     if (showView == "divExamReport") {
       this.enableRankSpecifier()
