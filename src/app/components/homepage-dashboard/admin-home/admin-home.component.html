@@ -472,7 +472,7 @@
             </div>
 
             <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: -10px">
-              <div class="field-wrapper" [ngClass]="{ 'has-value': teacher_id !='-1' }">
+              <div class="field-wrapper" [ngClass]="{ 'has-value': teacher_id !='' }">
                 <select id="teachers" class="form-ctrl" [(ngModel)]="teacher_id" style="background: transparent;
                   border-bottom: 1px solid #4191da">
                   <option value='-1'>Select Tutor</option>
@@ -485,7 +485,7 @@
             </div>
           </div>
 
-          <div class="row studentTableWrapper">
+          <div class="row studentTableWrapper" style="padding: 0px 5px 0px 0px;margin-left: 5px;">
             <div class="schedule-bottom">
               <ul class="sche-head" *ngIf="instituteSetting.home_work_feature_enable==1">
                 <li style="width: 20%; font-weight: 400">Student ID</li>
@@ -604,7 +604,7 @@
             </div>
 
           </div>
-          <div style="margin-top: 10px;" class="clearfix">
+          <div style="margin: 0px;padding: 10px;" class="clearfix">
             <aside class="pull-right popup-btn">
               <input type="button" value="Cancel" class="btn" (click)="closeAttendance()">
               <input type="button" *ngIf="isProfessional && classMarkedForAction.is_attendance_marked != 'Y'" value="Update" (click)="updateAttendance()"

@@ -218,7 +218,7 @@ fieldset {
     .widget-table {
         height: 200px;
         overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: auto;
         .field-wrapper {
             .form-ctrl {
                 background: transparent;
@@ -258,24 +258,25 @@ fieldset {
         display: flex;
         .tableSection {
             display: inline-block;
-            width: 75%;
-            padding: 10px 20px 0px 0px;
+            width: 73%;
+            padding: 10px;
+            background: #fff;
             .button-row {
                 position: relative;
                 height: 45px;
+                padding: 0px 10px;
                 button {
                     position: absolute;
-                    right: 0;
+                    right: 10px;
                     border: 2px solid #0084f6;
                 }
             }
             .filterSection {
-                padding-top: 20px;
-                margin-left: 15px;
-                padding-bottom: 5px;
-                background-color: #e6e6e6;
+                padding: 20px 0px 10px 0px !important;
+                margin: 0px !important;
+                background-color: #efefef;
                 span {
-                    padding: 0px 5px;
+                    padding: 4px 12px;
                 }
                 .absent {
                     color: white;
@@ -294,21 +295,25 @@ fieldset {
                 }
             }
             .studentTableWrapper {
-                border: 2px solid #eee;
+                //border: 2px solid #eee;
                 width: 100%;
                 .schedule-bottom {
                     width: 100%;
+                    ul{
+                        border-left: 2px solid hsla(210,2%,83%,.5);
+                        border-right: 2px solid hsla(210,2%,83%,.5);
+                    }
                 }
             }
             .row {
-                margin-left: 15px;
+                margin-left: 10px;
             }
         }
         .detailsSection {
             display: inline-block;
-            width: 25%;
-            padding: 20px 10px 20px 10px;
-            background-color: rgba(239, 239, 239, 0.52);
+            width: 26%;
+            padding: 20px 5px 10px 10px;
+            background-color: #f7f7f7;
             .field-wrapper{
                 .form-ctrl{
                     background: transparent;
@@ -830,7 +835,7 @@ div#enqChart {
         min-height: 300px;
         max-height: 300px;
         overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
     ul {
         border-bottom: 2px solid rgba(211, 212, 213, 0.5);
