@@ -536,24 +536,37 @@ export class AdminHomeComponent implements OnInit {
   }
 
   userScheduleSelected(i, selected) {
-    this.generateOption(i, selected.class_date);
+    this.selectedRow = i;
     this.classMarkedForAction = selected
   }
 
-  deselectSelected() {
+
+  /* deselectSelected() {
     console.log('fired');
     this.selectedRow = null;
-  }
+     }
+   */
 
   generateOption(i, o) {
     let d = moment(o).format("YYYY-MM-DD");
-    this.selectedRow = i;
-    this.schedSelected = true;
+
+    //this.schedSelected = true;
     if (d >= moment(new Date()).format("YYYY-MM-DD")) {
       this.isOptionVisible = true;
     }
     else {
       this.isOptionVisible = false;
+    }
+  }
+
+  getVisibility(c): boolean{
+    let d = moment(c.class_date).format("YYYY-MM-DD");
+    //this.schedSelected = true;
+    if (d >= moment(new Date()).format("YYYY-MM-DD")) {
+      return true;
+    }
+    else {
+      return false;
     }
   }
 
@@ -580,7 +593,9 @@ export class AdminHomeComponent implements OnInit {
   /* =================================Attendance PopUP===================================== */
   /* ======================================================================================================= */
 
-  initiateMarkAttendance() {
+  initiateMarkAttendance(i, selected) {
+    this.selectedRow = i;
+    this.classMarkedForAction = selected;
     this.isRippleLoad = true;
     if (!this.isProfessional) {
       let obj = {
@@ -837,7 +852,9 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================Cancel Class=================================== */
   /* ======================================================================================================= */
 
-  initiateCancelClass() {
+  initiateCancelClass(i, selected) {
+    this.selectedRow = i;
+    this.classMarkedForAction = selected;
     this.isCancelExamPop = true;
   }
 
@@ -892,7 +909,9 @@ export class AdminHomeComponent implements OnInit {
   /* =================================Reminder==================================== */
   /* ======================================================================================================= */
 
-  initiateRemiderClass() {
+  initiateRemiderClass(i, selected) {
+    this.selectedRow = i;
+    this.classMarkedForAction = selected;
     this.isReminderPop = true;
   }
 
@@ -936,7 +955,9 @@ export class AdminHomeComponent implements OnInit {
   /* =================================Reshedule===================================== */
   /* ======================================================================================================= */
 
-  initiateRescheduleClass() {
+  initiateRescheduleClass(i, selected) {
+    this.selectedRow = i;
+    this.classMarkedForAction = selected;
     this.isReschedulePop = true;
   }
 
@@ -1153,8 +1174,10 @@ export class AdminHomeComponent implements OnInit {
     this.generateCourseLevelWidget();
   }
 
-  initiateCourseMarkAttendance() {
-    console.log(this.classMarkedForAction);
+  initiateCourseMarkAttendance(i, selected) {
+    this.selectedRow = i;
+    this.classMarkedForAction = selected;
+    //console.log(this.classMarkedForAction);
     let obj = {
       course_id: this.classMarkedForAction.course_ids,
       startdate: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
@@ -1182,7 +1205,9 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  initiateCourseCancelClass() {
+  initiateCourseCancelClass(i, selected) {
+    this.selectedRow = i;
+    this.classMarkedForAction = selected;
     this.isCourseCancel = true;
   }
 
