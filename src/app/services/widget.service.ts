@@ -216,4 +216,28 @@ export class WidgetService {
         )
     }
 
+    fetchCombinedData(standard_id, subject_id) {
+        let url = this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id + "?standard_id=" + standard_id + "&subject_id=" + subject_id + "&assigned=Y";
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    fetchStudentListData(batch_id) {
+        let url = this.baseUrl + "/api/v1//studentBatchMap/batches/" + batch_id;
+        return this.http.post(url, "", { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
 }

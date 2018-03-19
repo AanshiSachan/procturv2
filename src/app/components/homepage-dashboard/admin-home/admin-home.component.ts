@@ -157,6 +157,8 @@ export class AdminHomeComponent implements OnInit {
   leaveCount: number = 0;
   topicsList: any = [];
   showTopicList: boolean = false;
+  notificationPopUp: boolean = false;
+  combinedDataRes: any = {};
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -382,7 +384,9 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateEnqChart() {
-    this.chart.ref.series[0].setData(this.generateEnqChartData())
+    if (this.chart.ref.series.length > 0) {
+      this.chart.ref.series[0].setData(this.generateEnqChartData())
+    }
     this.chart.ref.redraw();
   }
 
@@ -536,10 +540,12 @@ export class AdminHomeComponent implements OnInit {
     this.classMarkedForAction = selected
   }
 
-  /* deselectSelected(){
+
+  /* deselectSelected() {
     console.log('fired');
     this.selectedRow = null;
-  } */
+     }
+   */
 
   generateOption(i, o) {
     let d = moment(o).format("YYYY-MM-DD");
@@ -683,6 +689,11 @@ export class AdminHomeComponent implements OnInit {
         this.leaveCount++;
       }
     }
+    if (this.studentAttList.length == this.presentCount) {
+      this.AllPresent = true;
+    } else {
+      this.AllPresent = false;
+    }
   }
 
   closeAttendance() {
@@ -748,11 +759,17 @@ export class AdminHomeComponent implements OnInit {
 
     if (e.target.checked) {
       this.studentAttList.forEach(e => {
+        document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
+        document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
+        document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
         e.dateLi[0].status = "P";
       });
     }
     else {
       this.studentAttList.forEach(e => {
+        document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
+        document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
+        document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
         e.dateLi[0].status = "A";
       });
     }
@@ -1375,6 +1392,189 @@ export class AdminHomeComponent implements OnInit {
       }
     }
     return data;
+  }
+
+  markAttendaceBtnClick(event, rowData, index) {
+    document.getElementById('leaveBtn' + rowData.student_id).classList.remove('classLeaveBtn');
+    document.getElementById('absentBtn' + rowData.student_id).classList.remove('classAbsentBtn');
+    document.getElementById('presentBtn' + rowData.student_id).classList.remove('classPresentBtn');
+    if (event.target.innerText == "Leave") {
+      document.getElementById('leaveBtn' + rowData.student_id).classList.add('classLeaveBtn');
+      this.studentAttList[index].dateLi[0].status = "L";
+    } else if (event.target.innerText == "Absent") {
+      document.getElementById('absentBtn' + rowData.student_id).classList.add('classAbsentBtn');
+      this.studentAttList[index].dateLi[0].status = "A";
+    } else {
+      document.getElementById('presentBtn' + rowData.student_id).classList.add('classPresentBtn');
+      this.studentAttList[index].dateLi[0].status = "P";
+    }
+    this.getCountOfAbsentPresentLeave(this.studentAttList);
+  }
+
+  getClassForLeave(data) {
+    if (data.dateLi[0].status == "L") {
+      return "classLeaveBtn";
+    } else {
+      return "";
+    }
+  }
+
+  getClassForAbsent(data) {
+    if (data.dateLi[0].status == "A") {
+      return "classAbsentBtn";
+    } else {
+      return "";
+    }
+  }
+
+  getClassForPresent(data) {
+    if (data.dateLi[0].status == "P") {
+      return "classPresentBtn";
+    } else {
+      return "";
+    }
+  }
+
+  addSendNotification() {
+    this.notificationPopUp = true;
+    this.sendNotification = {
+      standard_id: '-1',
+      subject_id: '-1',
+      batch_id: '-1',
+    };
+    this.getMasterCourseAndBatch(this.sendNotification);
+  }
+
+  closeNotificationPopUp() {
+    this.notificationPopUp = false;
+  }
+
+  flushData() {
+    this.batchList = [];
+    this.courseList = [];
+    this.studentList = [];
+  }
+
+  batchList: any = [];
+  masterCourseList: any = [];
+  courseList: any = [];
+  studentList: any = [];
+  addNotification: boolean = false;
+  showTableFlag: boolean = false;
+  newMessageText: string = "";
+  sendNotification = {
+    standard_id: '-1',
+    subject_id: '-1',
+    batch_id: '-1',
+  }
+
+  getMasterCourseAndBatch(data) {
+    this.flushData();
+    this.widgetService.fetchCombinedData(data.standard_id, data.subject_id).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.combinedDataRes = res;
+        this.batchList = res.batchLi;
+        this.courseList = res.subjectLi;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  addNewNotification() {
+    this.addNotification = true;
+  }
+
+  closeNewMessageDiv() {
+    this.addNotification = false;
+    this.newMessageText = "";
+  }
+
+  selectTabMenu(id, div) {
+    document.getElementById('divAudience').classList.add('hide');
+    document.getElementById('divSendMessage').classList.add('hide');
+    document.getElementById('idAudience').classList.remove('active');
+    document.getElementById('idSendMessage').classList.remove('active');
+    document.getElementById(id).classList.add('active');
+    document.getElementById(div).classList.remove('hide');
+  }
+
+  onMasterCourseSelection(event) {
+    this.showTableFlag = false;
+    this.getMasterCourseAndBatch(this.sendNotification);
+  }
+
+  onCourseSelection(event) {
+    this.showTableFlag = false;
+    this.getMasterCourseAndBatch(this.sendNotification);
+  }
+
+  fetchDataOnBatchBasis(event) {
+    this.widgetService.fetchStudentListData(this.sendNotification.batch_id).subscribe(
+      res => {
+        this.showTableFlag = true;
+        console.log(res);
+        this.studentList = this.addKeys(res);
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  addKeys(data) {
+    data.forEach(
+      element => {
+        element.assigned = false;
+      }
+    )
+    return data;
+  }
+
+  checkAllChechboxes(event) {
+    this.studentList.forEach(
+      element => {
+        element.assigned = event.target.checked;
+      }
+    )
+  }
+
+  chkBoxAllActiveStudent(event) {
+    if (event.target.checked) {
+
+    } else {
+      this.flushData();
+    }
+  }
+
+  chkBoxAllTeacher(event) {
+    if (event.target.checked) {
+
+    } else {
+      this.flushData();
+    }
+  }
+
+  chkBoxAllInActiveStudent(event) {
+    if (event.target.checked) {
+
+    } else {
+      this.flushData();
+    }
+  }
+
+  chkBoxAllAluminiStudent(event) {
+    if (event.target.checked) {
+
+    } else {
+      this.flushData();
+    }
+  }
+
+  fetchDataFromFields() {
+
   }
 
 }

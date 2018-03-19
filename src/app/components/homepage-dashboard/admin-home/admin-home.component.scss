@@ -1,4 +1,9 @@
-.fish-chips{
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+.fish-chips {
     color: #fff;
     padding: 3px;
     margin: 0px 10px 0px 10px;
@@ -18,22 +23,21 @@
     z-index: 1;
     top: 100px;
     visibility: hidden;
-    opacity: 0;
-    //transition: all 0.1s linear 0.1s;
+    opacity: 0; //transition: all 0.1s linear 0.1s;
     font-size: 11px;
     border-radius: 4px;
     padding: 3px 5px;
     box-shadow: 0px 0px 4px #ccc;
 }
 
-.questionInfo{
+.questionInfo {
     display: inline-flex;
     padding: 0px 5px;
     cursor: pointer;
     border: 1px solid #777;
     border-radius: 50%;
-    &:hover{
-        .tooltip-box-field{
+    &:hover {
+        .tooltip-box-field {
             visibility: visible;
             opacity: 1;
             right: 0px;
@@ -1505,5 +1509,214 @@ div#enqChart {
     select {
         width: 100%;
         background: transparent;
+    }
+}
+
+.btnGroup {
+    .btn {
+        padding: 5px 5px !important;
+        color: black !important;
+    }
+    .classLeaveBtn {
+        background: #7a7a7a;
+    }
+    .classAbsentBtn {
+        background: #fe552a;
+    }
+    .classPresentBtn {
+        background: #4191da;
+    }
+}
+
+.btnWrapper {
+    .btn {
+        padding: 2px 7px 0px 7px;
+        border: none;
+        height: 35px;
+        width: 35px;
+        border-radius: 50%;
+        .tooltip {
+            position: relative;
+            top: -30px;
+            left: 35px;
+            min-width: 190px;
+            font-size: 12px;
+            padding: 6px;
+            height: 35px;
+            border-radius: 5px;
+            background: black;
+            color: white;
+            visibility: hidden;
+            opacity: 0;
+        }
+        &:hover {
+            background: rgb(216, 214, 214);
+            .tooltip {
+                position: relative;
+                top: -25px;
+                left: 35px;
+                min-width: 190px;
+                padding: 6px;
+                border-radius: 5px;
+                font-size: 14px;
+                height: 35px;
+                background: black;
+                color: white;
+                visibility: visible;
+                opacity: 1;
+                transition: all 0.2s;
+            }
+        }
+        &:focus {
+            outline: none;
+        }
+        &:active {
+            box-shadow: none;
+        }
+    }
+}
+
+.notification-content-wrapper {
+    padding: 0px 10px 0px 15px;
+    .row {
+        margin: 10px 0px 10px 0px;
+    }
+    .add-notificaton-wrapper {
+        margin: 10px 0px 10px 0px;
+        background: #efefef;
+        padding: 5px 5px 5px 5px;
+        .row {
+            textarea {
+                height: 75px !important;
+                background: white !important;
+                border: .2px solid rgba(0, 0, 0, 0.1607843137254902);
+            }
+            p {
+                margin-top: 5px;
+                font-size: 15px;
+                font-weight: 400;
+            }
+            .btn-Group {
+                margin-top: 35px;
+            }
+        }
+    }
+    .content-section-wrapper {
+        .common-tab {
+            padding-top: 5px;
+            ul {
+                font-size: 0;
+                border-bottom: 1px solid #f1f1f1;
+                li {
+                    margin-right: 1px;
+                    display: inline-block;
+                    width: 10%;
+                    max-width: 158px;
+                    cursor: pointer;
+                    a {
+                        display: block;
+                        padding: 10px 5px;
+                        background: #eff7ff;
+                        border: 1px solid #cccdcd;
+                        color: $common-blue;
+                        text-align: center;
+                        font-size: 14px;
+                        font-weight: 600;
+                    }
+                    &:hover,
+                    &.active {
+                        a {
+                            background: $common-blue;
+                            color: $bg-white;
+                            border-color: $common-blue;
+                            font-weight: normal;
+                        }
+                    }
+                }
+            }
+        }
+        .main-content-wrapper {
+            .filter-section {
+                .form-wrapper {
+                    background: transparent;
+                    margin: 0px;
+                    &.datepicker {
+                        span {
+                            position: absolute;
+                            top: 30px;
+                            right: 20px;
+                            font-weight: 300;
+                            color: red;
+                            cursor: pointer;
+                        }
+                    }
+                    label {
+                        font-size: 12px;
+                        font-weight: 400;
+                        font-family: -webkit-body;
+                        color: black;
+                        text-decoration: none;
+                        text-shadow: none;
+                        -webkit-font-smoothing: antialiased;
+                    }
+                    .side-form-ctrl {
+                        background: transparent;
+                        border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                        width: 100%;
+                        padding: 8px 5px;
+                        font-weight: 600;
+                        font-size: 14px;
+                        color: black;
+                        &.bsDatepicker {
+                            padding: 5px 5px 6px 5px;
+                            width: 70%;
+                        }
+                    }
+                    &.timepick {
+                        .side-form-ctrl {
+                            background: transparent;
+                            border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                            width: 100%;
+                            padding: 8px 5px;
+                            font-weight: 600;
+                            font-size: 14px;
+                            color: black;
+                        }
+                    }
+                }
+            }
+            .checkbox-Group {
+                margin-top: 15px;
+                margin-bottom: 10px;
+            }
+            .table-content-wrapper {
+                max-height: 210px;
+                overflow-x: hidden;
+                overflow-y: scroll;
+                table {
+                    &.table-wrapper {
+                        max-height: 200px;
+                        tbody {
+                            tr {
+                                padding: 0px 0px !important;
+                                td {
+                                    padding: 5px 5px !important;
+                                }
+                            }
+                        }
+                    }
+                }
+                 ::-webkit-scrollbar {
+                    display: block;
+                    width: 7px;
+                    height: 7px;
+                }
+            }
+            #divSendMessage {
+                .row {
+                    margin: 10px 0p x;
+                }
+            }
+        }
     }
 }
