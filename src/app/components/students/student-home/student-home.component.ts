@@ -84,15 +84,16 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     { primaryKey: 'student_disp_id', header: 'Student Id.' },
     { primaryKey: 'student_name', header: 'Name.' },
     { primaryKey: 'student_phone', header: 'Contact No.' },
-    { primaryKey: 'doj', header: 'Date of Joining' },
+    //{ primaryKey: 'doj', header: 'Date of Joining' },
     { primaryKey: 'student_class', header: 'Class' },
-    { primaryKey: 'student_email', header: 'Email ID' },
+    //{ primaryKey: 'student_email', header: 'Email ID' },
     { primaryKey: 'noOfBatchesAssigned', header: 'Batch Assigned' }
   ];
 
   @ViewChild('studentPage') studentPage: ElementRef;
   @ViewChild('mySidenav') mySidenav: ElementRef;  
   @ViewChild('optMenu') optMenu: ElementRef;
+
   /* Model for institute Data for fetching student enquiry */
   instituteData: instituteInfo = {
     school_id: -1,

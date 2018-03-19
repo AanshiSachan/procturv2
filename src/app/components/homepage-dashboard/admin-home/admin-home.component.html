@@ -607,9 +607,9 @@
           <div style="margin: 0px;padding: 10px;" class="clearfix">
             <aside class="pull-right popup-btn">
               <input type="button" value="Cancel" class="btn" (click)="closeAttendance()">
-              <input type="button" *ngIf="isProfessional && classMarkedForAction.is_attendance_marked != 'Y'" value="Update" (click)="updateAttendance()"
-                class="redBtn btn">
-              <input type="button" *ngIf="!isProfessional" value="Update" (click)="updateAttendance()" class="redBtn btn">
+              <input type="button" *ngIf="isProfessional && classMarkedForAction.is_attendance_marked != 'Y'" value="Mark Attendance" (click)="updateAttendance()"
+                class="fullBlue btn">
+              <input type="button" *ngIf="!isProfessional" value="Mark Attendance" (click)="updateAttendance()" class="fullBlue btn">
             </aside>
           </div>
         </aside>
