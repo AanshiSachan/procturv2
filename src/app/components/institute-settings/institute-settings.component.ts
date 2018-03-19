@@ -235,7 +235,7 @@ export class InstituteSettingsComponent implements OnInit {
     window.onscroll = () => {
       console.log(window.pageYOffset);
       // console.log(window.innerWidth);
-      if (window.innerWidth > 1250) {
+      if (window.innerWidth < 1250) {
         if (window.pageYOffset < 1300) {
           this.changeView('liSMS', 'stay');
         } else if (window.pageYOffset < 2000) {

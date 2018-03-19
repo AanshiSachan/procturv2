@@ -274,6 +274,10 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     this.updateFormData.follow_type = this.updateFormData.follow_type == "" ? "" : this.getFollowUp(this.updateFormData.follow_type);
   }
 
+  getCommentDate(upDate): string{
+    return moment(upDate).fromNow();
+  }
+
 
   timeChanges(ev, id) {
     if (id === 'followUpTime') {

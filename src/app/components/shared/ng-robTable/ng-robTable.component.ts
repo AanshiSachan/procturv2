@@ -162,7 +162,7 @@ export class RobTableComponent implements OnChanges {
         }
         /* else for left and right allignment */
         else {
-            console.log(key);
+            //console.log(key);
             if (key == 'enquiry_no') {
                 return 'left';
             }
