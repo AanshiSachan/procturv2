@@ -9,7 +9,7 @@
         <div class="act-top clearfix">
           <h1 class="pull-left">Activity Page</h1>
           <div class="pull-right act-right-sec">
-            <button class="btn">
+            <button class="btn" (click)="addSendNotification()">
               <svg height="32" viewBox="0 0 32 32" width="32" xmlns="http://www.w3.org/2000/svg">
                 <g fill="none" fill-rule="evenodd">
                   <path d="M-1-1h191v34H-1z" stroke="#1984F6"></path>
@@ -271,9 +271,9 @@
                           </ul>
                           <div class="che-action" [class.display]="i == selectedRow">
                             <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance()">
-                            Mark Attendance</a>
+                              Mark Attendance</a>
                             <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance()">
-                            Update Attendance</a>
+                              Update Attendance</a>
                             <a class="fish-chips" *ngIf='isOptionVisible && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass()">Cancel</a>
                             <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
                             <a class="fish-chips" *ngIf="isOptionVisible && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
@@ -296,9 +296,9 @@
                           </ul>
                           <div class="che-action" [class.display]="i == selectedRow">
                             <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance()">
-                            Mark Attendance</a>
+                              Mark Attendance</a>
                             <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance()">
-                            Update Attendance</a>
+                              Update Attendance</a>
                             <a class="fish-chips" *ngIf='isOptionVisible && class.is_attendance_marked !="Y" ' style="cursor:pointer" (click)="initiateCourseCancelClass()">Cancel</a>
                             <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
                           </div>
@@ -326,9 +326,9 @@
                           </ul>
                           <div class="che-action" [class.display]="i == selectedRow">
                             <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()">
-                            Mark Attendance</a>
+                              Mark Attendance</a>
                             <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()">
-                            View Attendance</a>
+                              View Attendance</a>
                             <a class="fish-chips" *ngIf='isOptionVisible && class.is_attendance_marked !="Y"' style="cursor:pointer" (click)="initiateCancelClass()">Cancel</a>
                             <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
                             <a class="fish-chips" *ngIf="isOptionVisible && class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
@@ -478,7 +478,7 @@
                     </li>
 
                     <li style="width: 35%">
-                      <div class="radio-options attendanceGroup">
+                      <!-- <div class="radio-options attendanceGroup">
                         <div class="field-radio-wrapper">
                           <input [disabled]="getDisability(s)" type="radio" value="L" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
                             (ngModelChange)="updateRadioAttendance($event, i, s)" id="Leave{{s.student_id}}">
@@ -494,6 +494,11 @@
                             (ngModelChange)="updateRadioAttendance($event, i, s)" id="Present{{s.student_id}}">
                           <label class="present" for="Present{{s.student_id}}">Present</label>
                         </div>
+                      </div> -->
+                      <div class="btnGroup">
+                        <button id="leaveBtn{{s.student_id}}" (click)="markAttendaceBtnClick($event , s , i)" class="btn" [ngClass]="getClassForLeave(s)">Leave</button>
+                        <button id="absentBtn{{s.student_id}}" (click)="markAttendaceBtnClick($event , s, i)" class="btn" [ngClass]="getClassForAbsent(s)">Absent</button>
+                        <button id="presentBtn{{s.student_id}}" (click)="markAttendaceBtnClick($event , s, i)" class="btn" [ngClass]="getClassForPresent(s)">Present</button>
                       </div>
                     </li>
 
@@ -520,10 +525,10 @@
           <div style="margin-top: 0px">
             <h3 style="display: inline-flex;">Attendance Note</h3>
             <div class="questionInfo">
-                <span class="qInfoIcon">?</span>
-                <div class="tooltip-box-field">
-                  Details of any attendance related task 
-                </div>
+              <span class="qInfoIcon">?</span>
+              <div class="tooltip-box-field">
+                Details of any attendance related task
+              </div>
             </div>
             <div class="field-wrapper">
               <textarea style="width: 92%;" class="form-ctrl textBox" value="" [(ngModel)]="attendanceNote">
@@ -531,7 +536,7 @@
             </div>
           </div>
           <div *ngIf="instituteSetting.home_work_feature_enable==1">
-            <h3 style="display: inline-flex;" >Homework</h3>
+            <h3 style="display: inline-flex;">Homework</h3>
             <!-- <div class="questionInfo">
                 <span class="qInfoIcon">?</span>
                 <div class="tooltip-box-field">
@@ -543,7 +548,7 @@
                 </textarea>
             </div>
           </div>
-          <div>
+          <div *ngIf="instituteSetting.home_work_feature_enable==1">
             <h3 style="display: inline-flex;">Yesterdays Homework</h3>
             <!-- <div class="questionInfo">
                 <span class="qInfoIcon">?</span>
@@ -597,8 +602,8 @@
             <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
                   305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2
-  " width="16" height="16" transform="translate(1012 297)" />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
         </g>
       </svg>
     </span>
@@ -643,8 +648,8 @@
             <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
                   305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2
-  " width="16" height="16" transform="translate(1012 297)" />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
         </g>
       </svg>
     </span>
@@ -684,8 +689,8 @@
             <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
                   305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2
-  " width="16" height="16" transform="translate(1012 297)" />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
         </g>
       </svg>
     </span>
@@ -696,8 +701,8 @@
       <div class="row">
         <div class="field-wrapper datePickerBox" style="width: 50%;" [ngClass]="{ 'has-value': reschedDate
                   !='' }">
-          <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker
-  " [(ngModel)]="reschedDate" bsDatepicker>
+          <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
+            bsDatepicker>
           <label for="reschDate">Reshedule Date</label>
         </div>
       </div>
@@ -707,26 +712,23 @@
           <div class="time-picker">
             <div class="field-wrapper hour" [ngClass]="{ 'has-value': timepicker.reschedStartTime.hour
                   !='' }">
-              <select id="uniStartHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedStartTime.hour
-  " name="uniStartHour">
+              <select id="uniStartHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedStartTime.hour" name="uniStartHour">
                 <option *ngFor="let hour of hourArr" [value]="hour">
                   {{hour}}
                 </option>
               </select>
               <label for="uniStartHour">Hour</label>
             </div>
-            <div class="field-wrapper minute" [ngClass]="{ 'has-value': timepicker.reschedStartTime.minute
-                  !='' }">
-              <select id="uniStartMinute" class="form-ctrl ng-valid ng-touched ng-dirty
-  " [(ngModel)]="timepicker.reschedStartTime.minute" name="uniStartMinute">
+            <div class="field-wrapper minute" [ngClass]="{ 'has-value': timepicker.reschedStartTime.minute!='' }">
+              <select id="uniStartMinute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedStartTime.minute"
+                name="uniStartMinute">
                 <option *ngFor="let minute of minArr" [value]="minute">
                   {{minute}}
                 </option>
               </select>
               <label for="uniStartMinute">Minute</label>
             </div>
-            <div class="field-wrapper meridian" [ngClass]="{ 'has-value': timepicker.reschedStartTime.meridian
-                  !='' }">
+            <div class="field-wrapper meridian" [ngClass]="{ 'has-value':timepicker.reschedStartTime.meridian!='' }">
               <select id="uniStartHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedStartTime.meridian"
                 name="uniStartHour">
                 <option *ngFor="let meridian of meridianArr" [value]="meridian">
@@ -742,30 +744,24 @@
             End Time
           </legend>
           <div class="time-picker">
-            <div class="field-wrapper hour" [ngClass]="{ 'has-value': timepicker.reschedEndTime.hour !=''
-                  }">
-              <select id="uniEndHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.hour
-  " name="uniEndHour">
+            <div class="field-wrapper hour" [ngClass]="{'has-value':timepicker.reschedEndTime.hour !=''}">
+              <select id="uniEndHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.hour" name="uniEndHour">
                 <option *ngFor="let hour of hourArr" [value]="hour">
                   {{hour}}
                 </option>
               </select>
               <label for="uniEndHour">Hour</label>
             </div>
-            <div class="field-wrapper minute" [ngClass]="{ 'has-value': timepicker.reschedEndTime.minute
-                  !='' }">
-              <select id="uniEndMinute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.minute
-  " name="uniEndMinute">
+            <div class="field-wrapper minute" [ngClass]="{ 'has-value':timepicker.reschedEndTime.minute!='' }">
+              <select id="uniEndMinute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.minute" name="uniEndMinute">
                 <option *ngFor="let minute of minArr" [value]="minute">
                   {{minute}}
                 </option>
               </select>
               <label for="uniEndMinute">Minute</label>
             </div>
-            <div class="field-wrapper meridian" [ngClass]="{ 'has-value': timepicker.reschedEndTime.meridian
-                  !='' }">
-              <select id="uniEndHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.meridian
-  " name="uniEndHour">
+            <div class="field-wrapper meridian" [ngClass]="{ 'has-value': timepicker.reschedEndTime.meridian!='' }">
+              <select id="uniEndHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.meridian" name="uniEndHour">
                 <option *ngFor="let meridian of meridianArr" [value]="meridian">
                   {{meridian}}
                 </option>
@@ -784,8 +780,8 @@
       </div>
       <div class="row" style="margin: 10px 0px;">
         <div class="field-checkbox-wrapper">
-          <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified
-  " [checked]="getCheckedStatus( 'resheduleNotified')" (change)="notifyRescheduleUpdate($event)">
+          <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus( 'resheduleNotified')"
+            (change)="notifyRescheduleUpdate($event)">
           <label for="is_reshedule_notified">Notify Students For Class Cancellation</label>
         </div>
       </div>
@@ -813,8 +809,8 @@
             <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
                   305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2
-   " width="16" height="16" transform="translate(1012 297)" />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
         </g>
       </svg>
     </span>
@@ -847,26 +843,26 @@
                   <td>
                     <div class="radio-options">
                       <div class="field-radio-wrapper">
-                        <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}
-   " [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Present{{s.student_id}}">
+                        <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
+                          (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Present{{s.student_id}}">
                         <label class="present" for="Present{{s.student_id}}">Present</label>
                       </div>
                       <div class="field-radio-wrapper">
-                        <input [disabled]="getDisability(s)" type="radio" value="L" name="{{s.student_id}}
-   " [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Leave{{s.student_id}}">
+                        <input [disabled]="getDisability(s)" type="radio" value="L" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
+                          (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Leave{{s.student_id}}">
                         <label class="leave" for="Leave{{s.student_id}}">Leave</label>
                       </div>
                       <div class="field-radio-wrapper">
-                        <input [disabled]="getDisability(s)" type="radio" value="A" name="{{s.student_id}}
-   " [(ngModel)]="s.dateLi[0].status" class="form-radio" (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Absent{{s.student_id}}">
+                        <input [disabled]="getDisability(s)" type="radio" value="A" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
+                          (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Absent{{s.student_id}}">
                         <label class="absent" for="Absent{{s.student_id}}">Absent</label>
                       </div>
                     </div>
                   </td>
                   <td *ngIf="instituteSetting.home_work_feature_enable==1">
                     <div class="field-wrapper">
-                      <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status
-   " class="form-ctrl" [ngModel]="getCourseHomeworkData(i)" (ngModelChange)="isCourseHomeworkStatusChanged($event,i)">
+                      <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status" class="form-ctrl" [ngModel]="getCourseHomeworkData(i)"
+                        (ngModelChange)="isCourseHomeworkStatusChanged($event,i)">
                         <option value="Y" selected>Completed</option>
                         <option value="N">Not Done</option>
                         <option value="NC">InComplete</option>
@@ -901,8 +897,8 @@
             <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
                   305.77) rotate(45)" />
           </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2
-   " width="16" height="16" transform="translate(1012 297)" />
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
         </g>
       </svg>
     </span>
@@ -935,6 +931,272 @@
       </div>
     </div>
 
+  </proctur-widget>
+
+  <proctur-widget *ngIf="notificationPopUp">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeNotificationPopUp()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
+                      305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
+                      305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+
+    <h2 widget-header style="margin-bottom: 10px;">Notification Management</h2>
+
+    <div class="" widget-content>
+      <div class="notification-content-wrapper">
+        <!-- <div class="row">
+          <div class="btnWrapper">
+            <button class="btn" (click)="addNewNotification()">
+              <div class="option-wrap">
+                <img src="assets/images/plus.png" alt="Add Item" style="vertical-align: -webkit-baseline-middle;">
+                <span class="tooltip tooltipSpan">
+                  Add Notification Message
+                </span>
+              </div>
+            </button>
+          </div>
+        </div> -->
+
+        <div class="add-notificaton-wrapper" *ngIf="addNotification">
+          <div class="row">
+            <div class="c-sm-4 c-md-4 c-lg-4">
+              <div class="field-wrapper">
+                <textarea class="form-ctrl textBox" value="" [(ngModel)]="newMessageText" placeholder="Message/SMS"></textarea>
+                <p>Total Character Count : {{newMessageText.length}}</p>
+              </div>
+            </div>
+            <div class="c-sm-5 c-md-5 c-lg-5 note-section">
+              <h3>Note</h3>
+              <span>1. Always start with "Dear Student, Dear Parent, Dear Teacher etc".</span>
+              <br>
+              <span>2. Please check spelling and grammar of the SMS.</span>
+              <br>
+              <span>3. Do not use any improper or derogatory statements.</span>
+              <br>
+              <span>4. Message approval may generally take 15 to 30 minutes.</span>
+              <br>
+            </div>
+            <div class="c-sm-3 c-md-3 c-lg-3 btn-Group">
+              <button class="btn fullBlue" (click)="saveNewMessage()">Save</button>
+              <button class="btn" (click)="closeNewMessageDiv()">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-section-wrapper">
+
+
+          <div class="common-tab">
+            <ul>
+              <li id="idAudience" (click)="selectTabMenu('idAudience','divAudience')" class="active" style="width:150px">
+                <a>1.Select Audience</a>
+              </li>
+              <li id="idSendMessage" (click)="selectTabMenu('idSendMessage','divSendMessage')" style="width:150px">
+                <a>2.Send Message</a>
+              </li>
+              <li class="pull-right" (click)="addNewNotification()">
+                <a>Add</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="main-content-wrapper">
+
+            <div id="divAudience" class="active">
+
+              <div class="row filter-section">
+
+                <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
+                  <label for="masterCourse">Master Course</label>
+                  <div class="" style="padding: 0px;">
+                    <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotification.standard_id" (ngModelChange)="onMasterCourseSelection($event)"
+                      name="masterCourse">
+                      <option value="-1"></option>
+                      <option *ngFor="let opt of masterCourseList" [value]="opt.standard_id">
+                        {{opt.standard_name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
+                  <label for="course">Course</label>
+                  <div class="" style="padding: 0px;">
+                    <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotification.subject_id" (ngModelChange)="onCourseSelection($event)"
+                      name="course">
+                      <option value="-1"></option>
+                      <option *ngFor="let opt of courseList" [value]="opt.subject_id">
+                        {{opt.subject_name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
+                  <label for="batch">Batch</label>
+                  <div class="" style="padding: 0px;">
+                    <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotification.batch_id" (ngModelChange)="fetchDataOnBatchBasis(event)"
+                      name="batch">
+                      <option value="-1"></option>
+                      <option *ngFor="let opt of batchList" [value]="opt.batch_id">
+                        {{opt.batch_name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="c-sm-3 c-md-3 c-lg-3">
+                  <button class="btn" style=" margin-top: 15px;" (click)="fetchDataFromFields()">Go</button>
+                </div>
+
+              </div>
+
+              <div class="row checkbox-Group">
+                <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                  <input type="checkbox" value="" (click)="chkBoxAllActiveStudent($event)" name="activeStudent" class="form-checkbox" id="">
+                  <label for="activeStudent" style=" margin-left: 10px;">All Active Students</label>
+                </div>
+
+                <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                  <input type="checkbox" value="" name="tutorName" (click)="chkBoxAllTeacher($event)" class="form-checkbox" id="">
+                  <label for="tutorName" style=" margin-left: 10px;">All Tutor</label>
+                </div>
+
+                <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                  <input type="checkbox" value="" name="inactiveStudent" (click)="chkBoxAllInActiveStudent($event)" class="form-checkbox" id="">
+                  <label for="inactiveStudent" style=" margin-left: 10px;">All Inactive Students</label>
+                </div>
+
+                <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                  <input type="checkbox" value="" name="aluminiStudent" (click)="chkBoxAllAluminiStudent($event)" class="form-checkbox" id="">
+                  <label for="aluminiStudent" style=" margin-left: 10px;">All Alumini Students</label>
+                </div>
+              </div>
+
+              <div *ngIf="showTableFlag" class="table-content-wrapper">
+                <table class="table-wrapper">
+                  <thead>
+                    <th>
+                      <div class="field-checkbox-wrapper">
+                        <input type="checkbox" class="form-checkbox" (click)="checkAllChechboxes($event)">
+                        <label></label>
+                      </div>
+                    </th>
+                    <th>
+                      Student ID
+                    </th>
+                    <th>
+                      Student Name
+                    </th>
+                    <th>
+                      Contact No
+                    </th>
+                    <th>
+                      Standard
+                    </th>
+                    <th>
+                      Joining Date
+                    </th>
+                    <th>
+                      Student Email
+                    </th>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of studentList; let i = index; trackBy: i;">
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                          <label></label>
+                        </div>
+                      </td>
+                      <td>
+                        {{row.student_disp_id}}
+                      </td>
+                      <td>
+                        {{row.student_name}}
+                      </td>
+                      <td>
+                        {{row.student_phone}}
+                      </td>
+                      <td>
+                        {{row.student_class}}
+                      </td>
+                      <td>
+                        {{row.doj}}
+                      </td>
+                      <td>
+                        {{row.student_email}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+
+            </div>
+
+            <div id="divSendMessage">
+              <div class="row">
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="loginMessage" class="form-checkbox" id="">
+                  <label for="loginMessage" style=" margin-left: 10px;">Send Login Message</label>
+                </div>
+              </div>
+
+              <h3>Delivery Mode</h3>
+              <div class="row">
+                <div class="c-sm-4 c-md-4 c-lg-4">
+                  <div class="field-checkbox-wrapper">
+                    <input type="checkbox" value="" name="sms" class="form-checkbox" id="">
+                    <label for="sms" style=" margin-left: 10px;">SMS</label>
+                  </div>
+                  <div class="field-checkbox-wrapper">
+                    <input type="checkbox" value="" name="mail" class="form-checkbox" id="">
+                    <label for="mail" style=" margin-left: 10px;">Mail</label>
+                  </div>
+                </div>
+                <div class="c-sm-6 c-md-6 c-lg-6">
+                  <div class="field-checkbox-wrapper">
+                    <input type="checkbox" value="" name="student" class="form-checkbox" id="">
+                    <label for="student" style=" margin-left: 10px;">Student</label>
+                  </div>
+                  <div class="field-checkbox-wrapper">
+                    <input type="checkbox" value="" name="parent" class="form-checkbox" id="">
+                    <label for="parent" style=" margin-left: 10px;">Parent</label>
+                  </div>
+                  <div class="field-checkbox-wrapper">
+                    <input type="checkbox" value="" name="guardian" class="form-checkbox" id="">
+                    <label for="guardian" style=" margin-left: 10px;">Guardian</label>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- <div class="" widget-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeCourseCancelClass()">
+          <input type="button" value="Update Schedule" (click)="cancelCourseClass()" class="redBtn btn">
+        </aside>
+      </div>
+    </div> -->
   </proctur-widget>
 
 </section>

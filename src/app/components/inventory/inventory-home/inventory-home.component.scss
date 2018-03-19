@@ -7,7 +7,7 @@
         background: transparent;
         padding: 8px 8px 0px 8px;
         border-radius: 50%;
-        &:hover{
+        &:hover {
             background: #dadada;
         }
     }
@@ -405,6 +405,7 @@
         tbody {
             tr {
                 td {
+                    padding: 0px 0px !important;
                     .editOptions li {
                         display: inline-block;
                     }
