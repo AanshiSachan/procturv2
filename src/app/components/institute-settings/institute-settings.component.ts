@@ -232,7 +232,7 @@ export class InstituteSettingsComponent implements OnInit {
 
   scrollListener() {
     window.onscroll = () => {
-      console.log(window.pageYOffset);
+      // console.log(window.pageYOffset);
       if (window.innerWidth > 1370) {
 
         if (window.pageYOffset < 1600) {
