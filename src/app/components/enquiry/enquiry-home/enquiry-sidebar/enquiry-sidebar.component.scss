@@ -37,11 +37,13 @@
                 font-size: 14px;
                 color: black;
                 &.bsDatepicker {
-                    padding: 5px 5px 6px 5px;
+                    padding: 5px;
                     width: 70%;
                 }
             }
             &.timepick{
+                width: 50%;
+                padding: 1px 15px;
                 .side-form-ctrl {
                     background: transparent;
                     border: 1px solid rgba(119, 119, 119, 0.4196078431372549);

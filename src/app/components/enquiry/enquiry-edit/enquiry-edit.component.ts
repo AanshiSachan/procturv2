@@ -201,17 +201,53 @@ export class EnquiryEditComponent implements OnInit {
   getCustomComponents(): any[] {
     let tempArr: any[] = [];
     this.customComponents.forEach(e => {
-      if (e.value.trim() != '') {
-        let obj: any = {};
-        obj.component_id = e.id;
-        obj.enq_custom_id = 0;
-        obj.enq_custom_value = e.value;
-        tempArr.push(obj);
+      if (e.hasOwnProperty('value')) {
+        if (typeof e.value == 'string') {
+          if (e.value.trim() != '') {
+            let obj: any = {};
+            obj.component_id = e.id;
+            obj.enq_custom_id = 0;
+            obj.enq_custom_value = e.value;
+            tempArr.push(obj);
+          }
+        }
+        else if (typeof e.value == 'boolean') {
+          if(e.value){
+            let obj: any = {};
+            obj.component_id = e.id;
+            obj.enq_custom_id = 0;
+            obj.enq_custom_value = "Y";
+            tempArr.push(obj);
+          }
+          else{
+            let obj: any = {};
+            obj.component_id = e.id;
+            obj.enq_custom_id = 0;
+            obj.enq_custom_value = "N";
+            tempArr.push(obj);
+          }
+        }
       }
     });
     return tempArr;
   }
 
+  fillCustomComponent(v, comp) {
+    if (v) {
+      this.customComponents.forEach(e => {
+        if (e.id === comp.id) {
+          e.value = v;
+        }
+      })
+    }
+    else {
+      this.customComponents.forEach(e => {
+        if (e.id === comp.id) {
+          e.value = v;
+        }
+      })
+    }
+  }
 
   updateCustomComponent(id) {
     this.prefill.fetchCustomComponentById(id)

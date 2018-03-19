@@ -26,6 +26,8 @@ import { ColumnSetting } from '../../shared/custom-table/layout.model';
 })
 export class StudentHomeComponent implements OnInit, OnChanges {
 
+  isNotifyStudent: boolean;
+  isMarkLeave: boolean;
   /* Variable declaration */
   private rows: any = [];
   private enqstatus: any = [];
@@ -82,15 +84,16 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     { primaryKey: 'student_disp_id', header: 'Student Id.' },
     { primaryKey: 'student_name', header: 'Name.' },
     { primaryKey: 'student_phone', header: 'Contact No.' },
-    { primaryKey: 'doj', header: 'Date of Joining' },
+    //{ primaryKey: 'doj', header: 'Date of Joining' },
     { primaryKey: 'student_class', header: 'Class' },
-    { primaryKey: 'student_email', header: 'Email ID' },
+    //{ primaryKey: 'student_email', header: 'Email ID' },
     { primaryKey: 'noOfBatchesAssigned', header: 'Batch Assigned' }
   ];
 
   @ViewChild('studentPage') studentPage: ElementRef;
   @ViewChild('mySidenav') mySidenav: ElementRef;  
   @ViewChild('optMenu') optMenu: ElementRef;
+
   /* Model for institute Data for fetching student enquiry */
   instituteData: instituteInfo = {
     school_id: -1,
@@ -144,8 +147,13 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     
     this.bulkActionItems = [
       {
-        label: 'Bulk Action 2', icon: 'fa-trash-o', command: () => {
-          this.bulkActionPerformer(2);
+        label: 'Mark Leave', icon: 'fas fa-exclamation', command: () => {
+          this.markLeave();
+        }
+      },
+      {
+        label: 'Send Notification', icon: 'far fa-bell', command: () => {
+          this.notifySelectedStudent();
         }
       }
     ];
@@ -960,5 +968,24 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.optMenu.nativeElement.classList.remove('shorted');
   }
   
+  markLeave(){
+    this.isMarkLeave = true;
+  }
+
+  closeMarkLeave(){
+    this.isMarkLeave = false;
+  }
+
+  updateMarkLeave(){
+    
+  }
+
+  notifySelectedStudent(){
+    this.isNotifyStudent = true;
+  }
+
+  closeNotifyStudent(){
+    this.isNotifyStudent = false;
+  }
 
 }

@@ -146,7 +146,7 @@ $color-highlight: lighten($color-base, 7%);
         min-height: 300px;
         max-height: 300px;
         overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
     ul {
         border-bottom: 2px solid rgba(211, 212, 213, 0.5);
@@ -202,11 +202,13 @@ $color-highlight: lighten($color-base, 7%);
             }
         }
         &.sche-head {
+            background: rgb(217, 218, 218);
             li {
                 width: 15%;
-                padding: 20px 24px 12px;
+                padding: 20px 10px 10px;
                 text-transform: uppercase;
-                color: rgba(102, 102, 102, 0.6);
+                color: black;
+                background: transparent;
                 font-size: 12px;
                 &:first-child{
                     width: 5%;
@@ -233,7 +235,7 @@ $color-highlight: lighten($color-base, 7%);
             }
             li {
                 width: 15%;
-                padding: 20px 24px 12px;
+                padding: 10px 10px 0px;
                 text-transform: uppercase;
                 color: black;
                 font-size: 12px;

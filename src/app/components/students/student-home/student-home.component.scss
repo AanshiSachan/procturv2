@@ -7,6 +7,79 @@
 @import "./src/app/components/enquiry/enquiry-home/enquiry-home.component.scss";
 @import "./src/app/components/students/student-add/student-add.component.scss";
 
+.notify-wrapper{
+    min-height: 335px;
+    max-height: 335px;
+    overflow: hidden;
+    .row{
+        margin: 0px;
+    }    
+}
+
+.leave-wrapper {
+    min-height: 335px;
+    max-height: 335px;
+    overflow: hidden;
+    .leave-detail {
+        width: 60%;
+        padding: 0px 5px;
+    }
+    .leave-add {
+        padding: 0px 10px;
+        width: 40%;
+        .field-wrapper .form-ctrl {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 0 5px;
+            outline: none;
+            border: 0;
+            border-bottom: solid 1px #e2ebee;
+            height: 36px;
+            z-index: 10;
+            font: 400 13.3333px Arial;
+            box-shadow: none;
+            border-radius: 0;
+            line-height: 24px;
+        }
+        .field-wrapper label {
+            position: absolute;
+            top: 22px;
+            font-size: 14px;
+            left: 20px;
+            z-index: 1;
+            transition: all 0.1s ease-in-out;
+            color: #777;
+        }
+        .field-wrapper{
+            &.datePickerBox{
+                span{
+                    cursor: pointer;
+                    color: rgb(216, 37, 37);
+                }
+            }
+        }
+        .field-wrapper .form-ctrl:focus {
+            padding: 12px 0 6px;
+            border-bottom: solid 2px $common-blue;
+            box-shadow: none;
+            line-height: 26px;
+        }
+        .field-wrapper.has-value .form-ctrl+label,
+        .field-wrapper .form-ctrl:focus+label {
+            font-size: 12px;
+            top: 6px;
+            left: 15px;
+        }
+        .field-wrapper.has-value .form-ctrl+label,
+        .field-wrapper .form-ctrl:focus+label {
+            color: $common-blue;
+            font-size: 12px;
+        }
+    }
+}
+
+
 /* ======================================================================================================== */
 
 .headEnq {
@@ -33,7 +106,7 @@
             cursor: pointer;
         }
     }
-    .optMenu{
+    .optMenu {
         .enq-dropdown-content {
             position: absolute;
             background: white;
@@ -76,7 +149,7 @@
                 }
             }
         }
-        &.shorted{
+        &.shorted {
             .enq-dropdown-content {
                 position: absolute;
                 background: white;
@@ -118,11 +191,10 @@
                         border-bottom: 1px solid rgba(119, 119, 119, 0.705);
                     }
                 }
-            }   
+            }
         }
     }
 }
-
 
 
 /* =========================================================================================================== */
@@ -162,11 +234,11 @@
         width: 7px;
         height: 7px;
     }
-    .sidewrapper{
+    .sidewrapper {
         height: 560px;
         overflow-x: hidden;
         overflow-y: auto;
-        ::-webkit-scrollbar {
+         ::-webkit-scrollbar {
             display: none;
             width: 7px;
             height: 7px;
@@ -511,7 +583,6 @@
         width: 7px;
         height: 7px;
     }
-    
 }
 
 @media screen and (max-width: 995px),
@@ -521,8 +592,7 @@ screen and (max-height: 768px) {
         margin-top: 0px;
         margin-right: 15px !important;
         width: 100%;
-        .table-scroll-wrapper {
-        }
+        .table-scroll-wrapper {}
          ::-webkit-scrollbar {
             display: block;
             width: 7px;
@@ -538,7 +608,6 @@ screen and (max-height: 768px) {
         height: 7px;
     }
     .student-table {
-
         table {
             .field-checkbox-wrapper {
                 width: 22px !important;
