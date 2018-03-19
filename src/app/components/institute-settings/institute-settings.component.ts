@@ -231,24 +231,11 @@ export class InstituteSettingsComponent implements OnInit {
   }
 
   scrollListener() {
-    var nav = document.getElementById('nav');
     window.onscroll = () => {
       console.log(window.pageYOffset);
-      // console.log(window.innerWidth);
-      if (window.innerWidth < 1250) {
-        if (window.pageYOffset < 1300) {
-          this.changeView('liSMS', 'stay');
-        } else if (window.pageYOffset < 2000) {
-          this.changeView('liExamRep', 'stay');
-        } else if (window.pageYOffset < 2900) {
-          this.changeView('liFee', 'stay');
-        } else if (window.pageYOffset < 3400) {
-          this.changeView('liReport', 'stay');
-        } else {
-          this.changeView('liMisc', 'stay');
-        }
-      } else {
-        if (window.pageYOffset < 1700) {
+      if (window.innerWidth > 1370) {
+
+        if (window.pageYOffset < 1600) {
           this.changeView('liSMS', 'stay');
         } else if (window.pageYOffset < 2300) {
           this.changeView('liExamRep', 'stay');
@@ -259,11 +246,43 @@ export class InstituteSettingsComponent implements OnInit {
         } else {
           this.changeView('liMisc', 'stay');
         }
+
+      } else if(window.innerWidth > 1050) {
+        
+        if (window.pageYOffset < 1800) {
+          this.changeView('liSMS', 'stay');
+        } else if (window.pageYOffset < 2500) {
+          this.changeView('liExamRep', 'stay');
+        } else if (window.pageYOffset < 3500) {
+          this.changeView('liFee', 'stay');
+        } else if (window.pageYOffset < 4000) {
+          this.changeView('liReport', 'stay');
+        } else {
+          this.changeView('liMisc', 'stay');
+        }
+
+      }
+
+      else {
+        
+        if (window.pageYOffset < 2300) {
+          this.changeView('liSMS', 'stay');
+        } else if (window.pageYOffset < 3000) {
+          this.changeView('liExamRep', 'stay');
+        } else if (window.pageYOffset < 4000) {
+          this.changeView('liFee', 'stay');
+        } else if (window.pageYOffset < 4500) {
+          this.changeView('liReport', 'stay');
+        } else {
+          this.changeView('liMisc', 'stay');
+        }
+        
       }
     }
   }
 
   changeView(lidiv, showView) {
+    // console.log(lidiv + ' ' + showView);
     if (showView !== 'stay') {
       document.getElementById(showView).scrollIntoView(true);
       if (showView !== 'divMiscContent') {
