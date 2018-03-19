@@ -16,14 +16,14 @@
                 <div style="display: inline-flex;
                 position: relative;
                 top: -12px;">
-                    <p-splitButton label="{{selectedRowCount}} Student Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton>
+                    <p-splitButton label="{{selectedRowCount}} Student Selected" [model]="bulkActionItems" *ngIf="selectedRowCount != 0"></p-splitButton>
                 </div>
                 <ul style="display: inline-flex;">
                     <li class="headerBtn" routerLink='add'>
                         <i>
                             <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
-                            focusable="false">
-                            <path d="M14,9H9v5H7V9H2V7H7V2H9V7h5V9Z" class="small-icon" style="fill: currentColor"></path>
+                                focusable="false">
+                                <path d="M14,9H9v5H7V9H2V7H7V2H9V7h5V9Z" class="small-icon" style="fill: currentColor"></path>
                             </svg>
                         </i>
                         <p>
@@ -33,8 +33,8 @@
                     <li class="headerBtn" (click)="isOptions = !isOptions">
                         <i>
                             <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
-                            focusable="false">
-                            <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
+                                focusable="false">
+                                <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon" style="fill: currentColor"></path>
                             </svg>
                         </i>
                         <p>
@@ -43,15 +43,15 @@
                     </li>
                     <li class="optMenu" #optMenu>
                         <div class="enq-dropdown-content" *ngIf="isOptions" (mouseleave)="isOptions = false">
-                             <ul>
+                            <ul>
                                 <li class="export-icon" (click)="downloadAllStudent()">
-                                 <a id="student_download"></a>
-                                 Export
+                                    <a id="student_download"></a>
+                                    Export
                                 </li>
                                 <li class="upload-icon">
-                                <label id="upload" routerLink='/student/bulk'>
-                                 Upload Student
-                                </label>
+                                    <label id="upload" routerLink='/student/bulk'>
+                                        Upload Student
+                                    </label>
                                 </li>
                             </ul>
                         </div>
@@ -370,7 +370,11 @@
     <aside #mySidenav class="middle-full sidenav" [ngClass]="{'hide': !isSideBar}">
         <div id="student-side" class="sidewrapper">
             <a href="javascript:void(0)" class="closebtn" (click)="closeSideBar($event)">
-                <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon" focusable="false"><path d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" class="large-icon" style="fill: currentColor"></path></svg>
+                <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+                    focusable="false">
+                    <path d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" class="large-icon"
+                        style="fill: currentColor"></path>
+                </svg>
             </a>
             <!-- <div *ngIf="!isSideBar" class="skeleton">
                 <div class="skel1"></div>
@@ -466,6 +470,137 @@
             </div>
         </div>
     </section>
+
+
+    <!-- =============================================================================== -->
+    <!-- Mark Leave -->
+    <!-- =============================================================================== -->
+    <section id="popup" class="popupWrapper fadeIn" *ngIf="isMarkLeave">
+        <div class="popup pos-abs">
+            <div class="popup-wrapper pos-rel">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeMarkLeave()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                            </g>
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                            />
+                        </g>
+                    </svg>
+                </span>
+                <div class="popup-content">
+                    <h2>Apply Student Leave</h2>
+                    <div class="update-enquiry-form overflowHidden">
+                        <div class="">
+                            <div class="leave-wrapper">
+                                <aside class="leave-detail pull-left">
+                                    <div class="header">
+                                        <h3>Leave Details</h3>
+                                        <div class="table-responsive table">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Leave From</th>
+                                                        <th>Leave To</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </aside>
+                                <aside class="leave-add pull-right">
+                                    <div class="field-wrapper datePickerBox c-md-6">
+                                        <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker required>
+                                        <label for="">Start Date*</label>
+                                        <span>Clear</span>
+                                    </div>
+                                    <div class="field-wrapper datePickerBox c-md-6">
+                                        <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker required>
+                                        <label for="">End Date*</label>
+                                        <span>Clear</span>
+                                    </div>
+                                    <div class="field-wrapper c-md-12">
+                                        <textarea placeholder="Reason" rows="1" cols="1" style="height: 150px;padding: 10px;margin-top: 30px;border: 1px solid #777;"
+                                            id="reason" class="form-ctrl">
+                                            </textarea>
+                                    </div>
+                                </aside>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="clearfix">
+                                <aside class="pull-right popup-btn">
+                                    <input type="button" value="Cancel" class="btn" (click)="closeMarkLeave()">
+                                    <input type="button" value="Apply" class="fullBlue btn" (click)="updateMarkLeave()">
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- =============================================================================== -->
+    <!-- Notify Student -->
+    <!-- =============================================================================== -->
+    <section id="popup" class="popupWrapper fadeIn" *ngIf="isNotifyStudent">
+        <div class="popup pos-abs">
+            <div class="popup-wrapper pos-rel">
+                <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeNotifyStudent()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                            </g>
+                            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                            />
+                        </g>
+                    </svg>
+                </span>
+                <div class="popup-content">
+                    <h2>Send Notification</h2>
+                    <div class="update-enquiry-form overflowHidden">
+                        <div class="notify-wrapper">
+                            <div class="row">
+                                <div class="c-md-6">
+                                    <ul>
+                                        <li>Delivery Mode</li>
+                                        <li>
+                                            
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="c-md-6">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="clearfix">
+                                <aside class="pull-right popup-btn">
+                                    <input type="button" value="Cancel" class="btn" (click)="closeNotifyStudent()">
+                                    <input type="button" value="Send" class="fullBlue btn" (click)="updateComment()">
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
 
 </section>

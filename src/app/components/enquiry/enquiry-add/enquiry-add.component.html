@@ -254,29 +254,29 @@
 
                     <div class="" *ngIf="component.type == 1" input-def>
                       <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                        <input type="text" value="" id="component.id" [(ngModel)]="component.value" class="form-ctrl" name="component.label" />
-                        <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
-                        <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
+                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}" />
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
                       </div>
                     </div>
 
                     <div class="" *ngIf="component.type == 2" input-def>
                       <br>
                       <div class="field-checkbox-wrapper">
-                        <input class="form-checkbox" id="component.id" type="checkbox" [(ngModel)]="component.value" name="component.label" value="">
-                        <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
-                        <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
+                        <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" (ngModelChange)="updateCustomComponent($event, component)" name="{{component.label}}" value="">
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
                       </div>
                     </div>
 
                     <div class="" *ngIf="component.type == 3" input-def>
                       <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                        <select id="component.id" class="form-ctrl" [(ngModel)]="component.value" name="component.label">
+                        <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="{{component.label}}">
                           <option value=""></option>
                           <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                         </select>
-                        <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
-                        <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
                       </div>
                     </div>
 
