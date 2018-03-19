@@ -240,4 +240,17 @@ export class WidgetService {
         )
     }
 
+
+    saveMessageTOServer(obj) {
+        let url = this.baseUrl + "/api/v1 /notification/message/" + this.institute_id
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
 }

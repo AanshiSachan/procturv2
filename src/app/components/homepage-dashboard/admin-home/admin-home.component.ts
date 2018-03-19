@@ -1487,6 +1487,30 @@ export class AdminHomeComponent implements OnInit {
     this.addNotification = true;
   }
 
+  saveNewMessage() {
+    let obj = { message: this.newMessageText };
+    this.widgetService.saveMessageTOServer(obj).subscribe(
+      res => {
+        console.log(res);
+        let msg = {
+          type: 'success',
+          title: 'Message',
+          body: "Saved Successfully"
+        };
+        this.appC.popToast(msg);
+      },
+      err => {
+        console.log(err);
+        let msg = {
+          type: 'error',
+          title: 'Failed To Save Message',
+          body: err.message
+        };
+        this.appC.popToast(msg);
+      }
+    )
+  }
+
   closeNewMessageDiv() {
     this.addNotification = false;
     this.newMessageText = "";
