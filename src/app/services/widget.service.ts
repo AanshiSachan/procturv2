@@ -242,8 +242,146 @@ export class WidgetService {
 
 
     saveMessageTOServer(obj) {
-        let url = this.baseUrl + "/api/v1 /notification/message/" + this.institute_id
+        let url = this.baseUrl + "/api/v1/notification/message/" + this.institute_id;
         return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    getAllActiveStudentList() {
+        let url = this.baseUrl + "/api/v1/students/all/" + this.institute_id + "?active=Y";
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    getAllTeacherList() {
+        let url = this.baseUrl + "/api/v1/teachers/all/" + this.institute_id + "?active=Y";
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    getAllInActiveList() {
+        let url = this.baseUrl + "/api/v1/students/all/" + this.institute_id + "?active=NA";
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    getAllAluminiList() {
+        let url = this.baseUrl + "/api/v1/archive/students/alumni/" + this.institute_id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    getMessageList(obj) {
+        let url = this.baseUrl + "/api/v1/notification/message/" + this.institute_id + "/all";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+
+    sendNotification(obj) {
+        obj.institution_id = this.institute_id;
+        let url = this.baseUrl + "/api/v1/alerts/config";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    sendPushNotificationToServer(obj) {
+        obj.institution_id = this.institute_id;
+        let url = this.baseUrl + "/api/v1/pushNotification/send";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    smsForAddDownload(obj) {
+        let url = this.baseUrl + "/api/v1/profiles/sendAPPSMS/" + this.institute_id;
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+
+    ///Course Model Api
+
+    getAllMasterCourse() {
+        let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all";
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    getAllCourse(name) {
+        let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + name;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    getStudentListOfCourse(obje) {
+        let url = this.baseUrl + "/api/v1/studentBatchMap/manageBatchStudent/" + this.institute_id;
+        return this.http.post(url, obje, { headers: this.headers }).map(
             res => {
                 return res;
             },

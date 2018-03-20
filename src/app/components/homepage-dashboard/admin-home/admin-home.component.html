@@ -275,24 +275,24 @@
                               <div class="che-action">
                                 <ul class="ul-action">
                                   <li>
-                                      <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
-                                      <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance</span>
+                                    <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
+                                    <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance</span>
                                   </li>
                                   <li>
-                                      <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass(i, class)">Cancel</span>
+                                    <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass(i, class)">Cancel</span>
                                   </li>
                                   <li>
-                                      <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</span>
+                                    <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</span>
                                   </li>
                                   <li>
-                                      <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
+                                    <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
                                   </li>
                                 </ul>
                               </div>
                             </li>
                           </ul>
 
-                        <!--  <div class="che-action" [class.display]="i == selectedRow">
+                          <!--  <div class="che-action" [class.display]="i == selectedRow">
                             <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance()">
                               Mark Attendance</a>
                             <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance()">
@@ -318,26 +318,26 @@
                               </div>
                             </li>
                             <li>
-                                <div class="che-action">
-                                  <ul class="ul-action">
-                                    <li>
-                                      <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
-                                      <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance</span>
-                                    </li>
-                                    <li>
-                                      <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
-                                    </li>
-                                    <li>
-                                      <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</span>
-                                    </li>
-                                    <li>
-                                      <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
-                                    </li>
-                                  </ul>
-                                  </div>
+                              <div class="che-action">
+                                <ul class="ul-action">
+                                  <li>
+                                    <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
+                                    <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance</span>
+                                  </li>
+                                  <li>
+                                    <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
+                                  </li>
+                                  <li>
+                                    <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</span>
+                                  </li>
+                                  <li>
+                                    <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
+                                  </li>
+                                </ul>
+                              </div>
                             </li>
                           </ul>
-                        <!--  <div class="che-action" [class.display]="i == selectedRow">
+                          <!--  <div class="che-action" [class.display]="i == selectedRow">
                             <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance()">
                               Mark Attendance</a>
                             <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance()">
@@ -368,26 +368,26 @@
                               <div>{{class.teacher_name}}</div>
                             </li>
                             <li>
-                                <div class="che-action">
-                                    <ul class="ul-action">
-                                        <li>
-                                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
-                                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance</span>
-                                        </li>
-                                        <li>
-                                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass(i, class)">Cancel</span>
-                                        </li>
-                                        <li>
-                                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</span>
-                                        </li>
-                                        <li>
-                                            <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
-                                        </li>
-                                      </ul>
-                                  </div>
+                              <div class="che-action">
+                                <ul class="ul-action">
+                                  <li>
+                                    <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
+                                    <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance</span>
+                                  </li>
+                                  <li>
+                                    <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass(i, class)">Cancel</span>
+                                  </li>
+                                  <li>
+                                    <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</span>
+                                  </li>
+                                  <li>
+                                    <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
+                                  </li>
+                                </ul>
+                              </div>
                             </li>
                           </ul>
-                       <!--   <div class="che-action" [class.display]="i == selectedRow">
+                          <!--   <div class="che-action" [class.display]="i == selectedRow">
                             <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()">
                               Mark Attendance</a>
                             <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()">
@@ -1059,12 +1059,12 @@
           <div class="common-tab">
             <ul>
               <li id="idAudience" (click)="selectTabMenu('idAudience','divAudience')" class="active" style="width:150px">
-                <a>1.Select Audience</a>
+                <a>1 Select Audience</a>
               </li>
               <li id="idSendMessage" (click)="selectTabMenu('idSendMessage','divSendMessage')" style="width:150px">
-                <a>2.Send Message</a>
+                <a>2 Send Message</a>
               </li>
-              <li class="pull-right" (click)="addNewNotification()">
+              <li id="liAdd" class="pull-right hide" (click)="addNewNotification()">
                 <a>Add</a>
               </li>
             </ul>
@@ -1074,7 +1074,7 @@
 
             <div id="divAudience" class="active">
 
-              <div class="row filter-section">
+              <div class="row filter-section" *ngIf="isProfessional">
 
                 <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
                   <label for="masterCourse">Master Course</label>
@@ -1115,6 +1115,40 @@
                   </div>
                 </div>
 
+                <!-- <div class="c-sm-3 c-md-3 c-lg-3">
+                  <button class="btn" style=" margin-top: 15px;" (click)="fetchDataFromFields()">Go</button>
+                </div> -->
+
+              </div>
+
+              <div class="row filter-section" *ngIf="!isProfessional">
+
+                <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
+                  <label for="masterCourse">Master Course</label>
+                  <div class="" style="padding: 0px;">
+                    <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotificationCourse.master_course" (ngModelChange)="onMasterCourseChange($event)"
+                      name="masterCourse">
+                      <option value="-1"></option>
+                      <option *ngFor="let opt of masterCourseList" [value]="opt.master_course">
+                        {{opt.master_course}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-wrapper c-sm-3 c-md-3 c-lg-3">
+                  <label for="course">Course</label>
+                  <div class="" style="padding: 0px;">
+                    <select id="walkintime" class="side-form-ctrl" [(ngModel)]="sendNotificationCourse.course_id" (ngModelChange)="($event)"
+                      name="course">
+                      <option value="-1"></option>
+                      <option *ngFor="let opt of courseList" [value]="opt.course_id">
+                        {{opt.course_name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
                 <div class="c-sm-3 c-md-3 c-lg-3">
                   <button class="btn" style=" margin-top: 15px;" (click)="fetchDataFromFields()">Go</button>
                 </div>
@@ -1123,53 +1157,55 @@
 
               <div class="row checkbox-Group">
                 <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                  <input type="checkbox" value="" (click)="chkBoxAllActiveStudent($event)" name="activeStudent" class="form-checkbox" id="">
+                  <input type="checkbox" value="" (click)="chkBoxAllActiveStudent($event)" name="activeStudent" class="form-checkbox" id="chkBoxActiveSelection">
                   <label for="activeStudent" style=" margin-left: 10px;">All Active Students</label>
                 </div>
 
                 <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                  <input type="checkbox" value="" name="tutorName" (click)="chkBoxAllTeacher($event)" class="form-checkbox" id="">
+                  <input type="checkbox" value="" name="tutorName" (click)="chkBoxAllTeacher($event)" class="form-checkbox" id="chkBoxTutorSelection">
                   <label for="tutorName" style=" margin-left: 10px;">All Tutor</label>
                 </div>
 
                 <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                  <input type="checkbox" value="" name="inactiveStudent" (click)="chkBoxAllInActiveStudent($event)" class="form-checkbox" id="">
+                  <input type="checkbox" value="" name="inactiveStudent" (click)="chkBoxAllInActiveStudent($event)" class="form-checkbox" id="chkBoxInActiveSelection">
                   <label for="inactiveStudent" style=" margin-left: 10px;">All Inactive Students</label>
                 </div>
 
                 <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                  <input type="checkbox" value="" name="aluminiStudent" (click)="chkBoxAllAluminiStudent($event)" class="form-checkbox" id="">
+                  <input type="checkbox" value="" name="aluminiStudent" (click)="chkBoxAllAluminiStudent($event)" class="form-checkbox" id="chkBoxAluminiSelection">
                   <label for="aluminiStudent" style=" margin-left: 10px;">All Alumini Students</label>
                 </div>
               </div>
 
               <div *ngIf="showTableFlag" class="table-content-wrapper">
-                <table class="table-wrapper">
+                <table *ngIf="selectedOption != 'showTutor'" class="table-wrapper">
                   <thead>
-                    <th>
-                      <div class="field-checkbox-wrapper">
-                        <input type="checkbox" class="form-checkbox" (click)="checkAllChechboxes($event)">
-                        <label></label>
-                      </div>
-                    </th>
-                    <th>
-                      Student ID
-                    </th>
-                    <th>
-                      Student Name
-                    </th>
-                    <th>
-                      Contact No
-                    </th>
-                    <th>
-                      Standard
-                    </th>
-                    <th>
-                      Joining Date
-                    </th>
-                    <th>
-                      Student Email
-                    </th>
+                    <tr>
+                      <th>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus(studentList)" (click)="checkAllChechboxes($event , studentList)">
+                          <label></label>
+                        </div>
+                      </th>
+                      <th>
+                        ID
+                      </th>
+                      <th>
+                        Name
+                      </th>
+                      <th>
+                        Contact No
+                      </th>
+                      <th>
+                        Standard
+                      </th>
+                      <th>
+                        Joining Date
+                      </th>
+                      <th>
+                        Email
+                      </th>
+                    </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let row of studentList; let i = index; trackBy: i;">
@@ -1200,45 +1236,190 @@
                     </tr>
                   </tbody>
                 </table>
-              </div>
 
+                <!-- Special Case OF Tutor -->
+                <table *ngIf="selectedOption == 'showTutor'" class="table-wrapper">
+                  <thead>
+                    <tr>
+                      <th>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus(studentList)" (click)="checkAllChechboxes($event , studentList)">
+                          <label></label>
+                        </div>
+                      </th>
+                      <th>
+                        Name
+                      </th>
+                      <th>
+                        Contact No
+                      </th>
+                      <th>
+                        Subject
+                      </th>
+                      <th>
+                        IsActive
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of studentList; let i = index; trackBy: i;">
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                          <label></label>
+                        </div>
+                      </td>
+                      <td>
+                        {{row.teacher_name}}
+                      </td>
+                      <td>
+                        {{row.teacher_phone}}
+                      </td>
+                      <td>
+                        {{row.teacher_subjects}}
+                      </td>
+                      <td>
+                        {{row.is_active}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
             </div>
 
-            <div id="divSendMessage">
+            <div id="divSendMessage" class="hide">
               <div class="row">
                 <div class="field-checkbox-wrapper">
-                  <input type="checkbox" value="" name="loginMessage" class="form-checkbox" id="">
+                  <input type="checkbox" (click)="changeCurrentView($event)" value="" name="loginMessage" class="form-checkbox" id="">
                   <label for="loginMessage" style=" margin-left: 10px;">Send Login Message</label>
                 </div>
               </div>
 
-              <h3>Delivery Mode</h3>
-              <div class="row">
-                <div class="c-sm-4 c-md-4 c-lg-4">
-                  <div class="field-checkbox-wrapper">
-                    <input type="checkbox" value="" name="sms" class="form-checkbox" id="">
-                    <label for="sms" style=" margin-left: 10px;">SMS</label>
+              <div id="divDeliveryMode" class="show">
+                <h3>Delivery Mode</h3>
+                <div class="row">
+                  <div id="divSendOption" class="c-sm-4 c-md-4 c-lg-4">
+                    <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
+                      <input type="checkbox" checked="true" value="" name="sms" class="form-checkbox" id="chkbxSmsSend">
+                      <label for="sms" style=" margin-left: 10px;">SMS</label>
+                    </div>
+                    <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
+                      <input type="checkbox" value="" (click)="emailCheckBoxClick($event)" name="mail" class="form-checkbox" id="chkbxEmailSend">
+                      <label for="mail" style=" margin-left: 10px;">Mail</label>
+                    </div>
                   </div>
-                  <div class="field-checkbox-wrapper">
-                    <input type="checkbox" value="" name="mail" class="form-checkbox" id="">
-                    <label for="mail" style=" margin-left: 10px;">Mail</label>
+                  <div id="divParentOrGaurdian" class="c-sm-6 c-md-6 c-lg-6">
+                    <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                      <input type="checkbox" checked="true" value="" name="student" class="form-checkbox" id="chkBoxStudent">
+                      <label for="student" style=" margin-left: 10px;">Student</label>
+                    </div>
+                    <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                      <input type="checkbox" value="" name="parent" class="form-checkbox" id="chkBoxParent">
+                      <label for="parent" style=" margin-left: 10px;">Parent</label>
+                    </div>
+                    <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                      <input type="checkbox" value="" name="guardian" class="form-checkbox" id="chkBoxGaurdian">
+                      <label for="guardian" style=" margin-left: 10px;">Guardian</label>
+                    </div>
                   </div>
                 </div>
-                <div class="c-sm-6 c-md-6 c-lg-6">
-                  <div class="field-checkbox-wrapper">
-                    <input type="checkbox" value="" name="student" class="form-checkbox" id="">
-                    <label for="student" style=" margin-left: 10px;">Student</label>
+
+                <div class="row" *ngIf="showEmailSubject">
+
+                  <div class="form-wrapper datepicker c-sm-6 c-xs-6">
+                    <label for="subject" style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Subject</label>
+                    <input type="text" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
+                      id="divSubjectMessage" />
                   </div>
-                  <div class="field-checkbox-wrapper">
-                    <input type="checkbox" value="" name="parent" class="form-checkbox" id="">
-                    <label for="parent" style=" margin-left: 10px;">Parent</label>
+
+                </div>
+
+                <div class="row" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'showTutor')">
+                  <a (click)="getAllSavedMessages()">See All Message</a>
+
+                  <div class="row message-table-wrapper">
+                    <table class="message-table">
+                      <thead>
+                        <tr>
+                          <th>
+                            <!-- <div class="field-checkbox-wrapper">
+                              <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus(messageList)" (click)="checkAllChechboxes($event , messageList)">
+                              <label></label>
+                            </div> -->
+                          </th>
+                          <th>
+                            Date
+                          </th>
+                          <th>
+                            Message
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of messageList; let i = index; trackBy: i;">
+                          <td>
+                            <div class="field-checkbox-wrapper">
+                              <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                              <label></label>
+                            </div>
+                          </td>
+                          <td>
+                            {{row.date}}
+                          </td>
+                          <td>
+                            {{row.message}}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
-                  <div class="field-checkbox-wrapper">
-                    <input type="checkbox" value="" name="guardian" class="form-checkbox" id="">
-                    <label for="guardian" style=" margin-left: 10px;">Guardian</label>
+
+                </div>
+
+                <div class="row" *ngIf="studentSelected && selectedOption == 'showTextBox'">
+                  <div class="form-wrapper datepicker c-sm-6 c-xs-6">
+                    <label for="subject" style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Message
+                      <span style="color:red">*</span>
+                    </label>
+                    <input type="text" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
+                      id="divMessageTextbox" />
                   </div>
                 </div>
+
+                <div class="">
+                  <button class="btn" (click)="sendNotificationMessage()">Send</button>
+                  <button class="btn" *ngIf="selectedOption == 'showTable'" (click)="sendPushNotification()">Send Push Notification</button>
+                </div>
+
+              </div>
+
+              <div id="divLoginMode" class="hide">
+
+                <div class="row">
+                  <div class="radio-options">
+                    <div class="field-radio-wrapper">
+                      <input type="radio" checked="true" value="0" name="student" class="form-radio">
+                      <label for="student">Student Only</label>
+                    </div>
+                    <div class="field-radio-wrapper">
+                      <input type="radio" value="parent" name="1" class="form-radio">
+                      <label for="parent">Parent Only</label>
+                    </div>
+                    <div class="field-radio-wrapper">
+                      <input type="radio" value="both" name="2" class="form-radio">
+                      <label for="both">Both</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'showTutor')">
+                  <button class="btn" (click)="sendSmsForApp('1')">Send SMS For App Download</button>
+                  <button class="btn" (click)="sendSmsForApp('2')">Send SMS For App Upgradation</button>
+                  <button class="btn" (click)="sendSmsForApp('3')">Send SMS For Alternate Login Registration</button>
+                  <button class="btn" (click)="sendSmsForApp('4')">Send Credentials</button>
+                </div>
+
               </div>
 
             </div>

@@ -159,6 +159,26 @@ export class AdminHomeComponent implements OnInit {
   showTopicList: boolean = false;
   notificationPopUp: boolean = false;
   combinedDataRes: any = {};
+  batchList: any = [];
+  masterCourseList: any = [];
+  courseList: any = [];
+  studentList: any = [];
+  addNotification: boolean = false;
+  showTableFlag: boolean = false;
+  newMessageText: string = "";
+  sendNotification = {
+    standard_id: '-1',
+    subject_id: '-1',
+    batch_id: '-1',
+  }
+  showEmailSubject: boolean = false;
+  studentSelected: boolean = false;
+  messageList: any = [];
+  selectedOption: any = "";
+  sendNotificationCourse = {
+    master_course: '',
+    course_id: ''
+  }
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -559,7 +579,7 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  getVisibility(c): boolean{
+  getVisibility(c): boolean {
     let d = moment(c.class_date).format("YYYY-MM-DD");
     //this.schedSelected = true;
     if (d >= moment(new Date()).format("YYYY-MM-DD")) {
@@ -1401,9 +1421,11 @@ export class AdminHomeComponent implements OnInit {
     if (event.target.innerText == "Leave") {
       document.getElementById('leaveBtn' + rowData.student_id).classList.add('classLeaveBtn');
       this.studentAttList[index].dateLi[0].status = "L";
+      this.studentAttList[index].dateLi[0].home_work_status = "N";
     } else if (event.target.innerText == "Absent") {
       document.getElementById('absentBtn' + rowData.student_id).classList.add('classAbsentBtn');
       this.studentAttList[index].dateLi[0].status = "A";
+      this.studentAttList[index].dateLi[0].home_work_status = "N";
     } else {
       document.getElementById('presentBtn' + rowData.student_id).classList.add('classPresentBtn');
       this.studentAttList[index].dateLi[0].status = "P";
@@ -1442,7 +1464,11 @@ export class AdminHomeComponent implements OnInit {
       subject_id: '-1',
       batch_id: '-1',
     };
-    this.getMasterCourseAndBatch(this.sendNotification);
+    if (this.isProfessional) {
+      this.getMasterCourseAndBatch(this.sendNotification);
+    } else {
+      this.getMaterCourseList();
+    }
   }
 
   closeNotificationPopUp() {
@@ -1455,29 +1481,78 @@ export class AdminHomeComponent implements OnInit {
     this.studentList = [];
   }
 
-  batchList: any = [];
-  masterCourseList: any = [];
-  courseList: any = [];
-  studentList: any = [];
-  addNotification: boolean = false;
-  showTableFlag: boolean = false;
-  newMessageText: string = "";
-  sendNotification = {
-    standard_id: '-1',
-    subject_id: '-1',
-    batch_id: '-1',
+  getMaterCourseList() {
+    this.flushData();
+    this.isRippleLoad = true;
+    this.widgetService.getAllMasterCourse().subscribe(
+      res => {
+        this.isRippleLoad = false;
+        console.log(res);
+        this.masterCourseList = res;
+      },
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+      }
+    )
+  }
+
+  onMasterCourseChange(event) {
+    if (this.sendNotificationCourse.master_course != "-1") {
+      this.isRippleLoad = true;
+      this.widgetService.getAllCourse(this.sendNotificationCourse.master_course).subscribe(
+        (res: any) => {
+          this.isRippleLoad = false;
+          this.courseList = res.coursesList;
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+        }
+      )
+    }
+  }
+
+  fetchDataFromFields() {
+    if (this.sendNotificationCourse.course_id != "-1") {
+      this.isRippleLoad = true;
+      let obj = {
+        course_id: this.sendNotificationCourse.course_id,
+        master_course_name: this.sendNotificationCourse.master_course
+      }
+      this.widgetService.getStudentListOfCourse(obj).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.showTableFlag = true;
+          this.studentList = this.addKeys(res, true);
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+        }
+      )
+    }
   }
 
   getMasterCourseAndBatch(data) {
-    this.flushData();
+    this.isRippleLoad = true;
     this.widgetService.fetchCombinedData(data.standard_id, data.subject_id).subscribe(
       (res: any) => {
-        console.log(res);
+        this.isRippleLoad = false;
         this.combinedDataRes = res;
-        this.batchList = res.batchLi;
-        this.courseList = res.subjectLi;
+        if (res.standardLi != null) {
+          this.masterCourseList = res.standardLi;
+        }
+        if (res.batchLi != null) {
+          this.batchList = res.batchLi;
+        }
+        if (res.subjectLi != null) {
+          this.courseList = res.subjectLi;
+        }
+
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
       }
     )
@@ -1517,21 +1592,75 @@ export class AdminHomeComponent implements OnInit {
   }
 
   selectTabMenu(id, div) {
+    document.getElementById('liAdd').classList.add('hide');
     document.getElementById('divAudience').classList.add('hide');
     document.getElementById('divSendMessage').classList.add('hide');
     document.getElementById('idAudience').classList.remove('active');
     document.getElementById('idSendMessage').classList.remove('active');
     document.getElementById(id).classList.add('active');
     document.getElementById(div).classList.remove('hide');
+    document.getElementById('divParentOrGaurdian').classList.remove('hide');
+    if (div == "divSendMessage") {
+      this.showViewContent();
+      this.getAllMessageFromServer();
+      document.getElementById('liAdd').classList.remove('hide');
+      if (document.getElementById('chkBoxTutorSelection').checked) {
+        document.getElementById('divParentOrGaurdian').classList.add('hide');
+      } else {
+        document.getElementById('divParentOrGaurdian').classList.remove('hide');
+      }
+      this.whichCheckBoxSelected();
+    }
+  }
+
+
+  whichCheckBoxSelected() {
+    if (document.getElementById('chkBoxActiveSelection').checked) {
+      this.selectedOption = "showTable";
+      return;
+    } else {
+      this.selectedOption = "";
+    }
+
+    if (document.getElementById('chkBoxTutorSelection').checked) {
+      this.selectedOption = "showTutor";
+      return
+    } else {
+      this.selectedOption = "";
+    }
+
+    if (document.getElementById('chkBoxInActiveSelection').checked || document.getElementById('chkBoxAluminiSelection').checked) {
+      this.selectedOption = "showTextBox";
+      return
+    } else {
+      this.selectedOption = "";
+    }
+
+  }
+
+
+  showViewContent() {
+    for (let t = 0; t < this.studentList.length; t++) {
+      if (this.studentList[t].assigned == true) {
+        this.studentSelected = true;
+        break;
+      } else {
+        this.studentSelected = false;
+      }
+    }
   }
 
   onMasterCourseSelection(event) {
+    this.batchList = [];
+    this.courseList = [];
     this.showTableFlag = false;
     this.getMasterCourseAndBatch(this.sendNotification);
   }
 
   onCourseSelection(event) {
     this.showTableFlag = false;
+    this.batchList = [];
+    this.sendNotification.batch_id = "-1";
     this.getMasterCourseAndBatch(this.sendNotification);
   }
 
@@ -1540,7 +1669,7 @@ export class AdminHomeComponent implements OnInit {
       res => {
         this.showTableFlag = true;
         console.log(res);
-        this.studentList = this.addKeys(res);
+        this.studentList = this.addKeys(res, true);
       },
       err => {
         console.log(err);
@@ -1548,57 +1677,437 @@ export class AdminHomeComponent implements OnInit {
     )
   }
 
-  addKeys(data) {
+  checkCheckAllChkboxStatus(data) {
+    data.forEach(element => {
+      if (element.assigned == false) {
+        return false;
+      }
+    });
+    return true;
+  }
+
+  addKeys(data, val) {
     data.forEach(
       element => {
-        element.assigned = false;
+        element.assigned = val;
       }
     )
     return data;
   }
 
-  checkAllChechboxes(event) {
-    this.studentList.forEach(
+  checkAllChechboxes(event, data) {
+    data.forEach(
       element => {
         element.assigned = event.target.checked;
       }
     )
   }
 
-  chkBoxAllActiveStudent(event) {
-    if (event.target.checked) {
+  clearCheckBoxSelction(id) {
+    document.getElementById('chkBoxActiveSelection').checked = false;
+    document.getElementById('chkBoxTutorSelection').checked = false;
+    document.getElementById('chkBoxInActiveSelection').checked = false;
+    document.getElementById('chkBoxAluminiSelection').checked = false;
+    document.getElementById(id).checked = true;
+    this.whichCheckBoxSelected();
+  }
 
+  chkBoxAllActiveStudent(event) {
+    this.sendNotification = {
+      standard_id: '-1',
+      subject_id: '-1',
+      batch_id: '-1',
+    }
+    if (event.target.checked) {
+      this.clearCheckBoxSelction(event.target.id);
+      this.isRippleLoad = true;
+      this.studentList = [];
+      this.widgetService.getAllActiveStudentList().subscribe(
+        res => {
+          this.showTableFlag = true;
+          this.isRippleLoad = false;
+          this.studentList = this.addKeys(res, true);
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+        }
+      )
     } else {
       this.flushData();
+      this.showTableFlag = false;
     }
   }
 
   chkBoxAllTeacher(event) {
+    this.sendNotification = {
+      standard_id: '-1',
+      subject_id: '-1',
+      batch_id: '-1',
+    }
     if (event.target.checked) {
-
+      this.clearCheckBoxSelction(event.target.id);
+      this.isRippleLoad = true;
+      this.studentList = [];
+      this.widgetService.getAllTeacherList().subscribe(
+        res => {
+          this.showTableFlag = true;
+          this.isRippleLoad = false;
+          this.studentList = this.addKeys(res, true);
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+        }
+      )
     } else {
       this.flushData();
+      this.showTableFlag = false;
+
     }
   }
 
   chkBoxAllInActiveStudent(event) {
+    this.sendNotification = {
+      standard_id: '-1',
+      subject_id: '-1',
+      batch_id: '-1',
+    }
     if (event.target.checked) {
-
+      this.clearCheckBoxSelction(event.target.id);
+      this.isRippleLoad = true;
+      this.studentList = [];
+      this.widgetService.getAllInActiveList().subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.showTableFlag = true;
+          this.studentList = this.addKeys(res, true);
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+        }
+      )
     } else {
       this.flushData();
+      this.showTableFlag = false;
+
     }
   }
 
   chkBoxAllAluminiStudent(event) {
     if (event.target.checked) {
-
+      this.clearCheckBoxSelction(event.target.id);
+      this.isRippleLoad = true;
+      this.studentList = [];
+      this.widgetService.getAllAluminiList().subscribe(
+        res => {
+          this.showTableFlag = true;
+          this.isRippleLoad = false;
+          this.studentList = this.addKeys(res, true);
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+        }
+      )
     } else {
       this.flushData();
+      this.showTableFlag = false;
+
     }
   }
 
-  fetchDataFromFields() {
+  emailCheckBoxClick(event) {
+    if (event.target.checked) {
+      this.showEmailSubject = true;
+    } else {
+      this.showEmailSubject = false;
+    }
+  }
 
+  getAllMessageFromServer() {
+    this.messageList = [];
+    this.isRippleLoad = true;
+    let obj = {
+      from_date: moment().subtract(1, 'months').format("YYYY-MM-DD"),
+      status: 1,
+      to_date: moment().format("YYYY-MM-DD")
+    }
+    this.widgetService.getMessageList(obj).subscribe(
+      res => {
+        this.isRippleLoad = false;
+        console.log(res);
+        this.messageList = this.addKeys(res, false);
+      },
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+      }
+    )
+  }
+
+  getAllSavedMessages() {
+    this.messageList = [];
+    this.widgetService.getMessageList({ status: 1 }).subscribe(
+      res => {
+        console.log(res);
+        this.messageList = this.addKeys(res, false);
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  getListOfIds(key) {
+    let id: any = [];
+    for (let t = 0; t < this.studentList.length; t++) {
+      if (this.studentList[t].assigned == true) {
+        id.push(this.studentList[t][key]);
+      }
+    }
+    return id.join(',');
+  }
+
+  validateAllFields() {
+    if (this.showEmailSubject) {
+      let text = document.getElementById('divSubjectMessage').value;
+      if (text.trim() == "" && text.trim() == null) {
+        let msg = {
+          type: 'error',
+          title: 'Error',
+          body: "Please enter subject for email"
+        };
+        this.appC.popToast(msg);
+        return false;
+      } else {
+        return text;
+      }
+    }
+
+    if (this.selectedOption == "showTextBox") {
+      let text = document.getElementById('divMessageTextbox').value;
+      if (text.trim() == "" && text.trim() == null) {
+        let msg = {
+          type: 'error',
+          title: 'Error',
+          body: "Please enter subject for email"
+        };
+        this.appC.popToast(msg);
+        return false;
+      } else {
+        return text;
+      }
+    }
+    return "";
+  }
+
+  getNotificationMessage() {
+    let count = 0;
+    for (let t = 0; t < this.messageList.length; t++) {
+      if (this.messageList[t].assigned == true) {
+        return {
+          message: this.messageList[t].message, messageId: this.messageList[t].message_id
+        };
+      } else {
+        count++;
+      }
+    }
+    if (this.messageList.length == count) {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: "Please select message"
+      };
+      this.appC.popToast(msg);
+      return false;
+    }
+  }
+
+  getDeliveryModeValue() {
+    let sms = document.getElementById('chkbxSmsSend').checked;
+    let email = document.getElementById('chkbxEmailSend').checked;
+    if (sms == true && email == true) {
+      return 2;
+    } else if (sms == true && email == false) {
+      return 0;
+    } else if (sms == false && email == true) {
+      return 1;
+    } else {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: "Please select Delivery Mode(SMS , Email)"
+      };
+      this.appC.popToast(msg);
+      return false;
+    }
+
+  }
+
+  getDestinationValue() {
+    let student = document.getElementById('chkBoxStudent').checked;
+    let parent = document.getElementById('chkBoxParent').checked;
+    let gaurdian = document.getElementById('chkBoxGaurdian').checked;
+    if (student == true && parent == false && gaurdian == false) {
+      return 0;
+    } else if (student == false && parent == true && gaurdian == false) {
+      return 1;
+    } else if (student = false && parent == false && gaurdian == true) {
+      return 3;
+    } else if (student && parent && gaurdian == false) {
+      return 2;
+    } else if (student && gaurdian && parent == false) {
+      return 5;
+    } else if (parent && gaurdian && student == false) {
+      return 6;
+    }
+    else if (student && parent && gaurdian) {
+      return 4;
+    } else {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: "Please correct option in Send SMS To.."
+      };
+      this.appC.popToast(msg);
+      return false;
+    }
+  }
+
+  sendNotificationMessage() {
+    let messageSelected: any;
+    let configuredMessage: boolean = false;
+    if (this.selectedOption == "showTextBox") {
+      messageSelected = { message: '', messageId: '' };
+      configuredMessage = false;
+    } else {
+      messageSelected = this.getNotificationMessage();
+      configuredMessage = true;
+    }
+    if (messageSelected === false) {
+      return
+    }
+    let check = this.validateAllFields();
+    if (check === false) {
+      return;
+    }
+    let delivery_mode = this.getDeliveryModeValue();
+    if (delivery_mode === false) {
+      return;
+    }
+    let destination = this.getDestinationValue();
+    if (destination === false) {
+      return;
+    }
+
+    let batch_id;
+    if (this.isProfessional) {
+      batch_id = this.sendNotification.batch_id;
+    } else {
+      batch_id = this.sendNotificationCourse.course_id;
+    }
+    let obj = {
+      delivery_mode: Number(delivery_mode),
+      notifn_message: messageSelected.message,
+      notifn_subject: check,
+      destination: Number(destination),
+      student_ids: this.getListOfIds('student_id'),
+      batch_id: batch_id,
+      cancel_date: '',
+      isEnquiry_notifn: 0,
+      isAlumniSMS: 0,
+      isTeacherSMS: 0,
+      configuredMessage: configuredMessage,
+      message_id: messageSelected.messageId
+    }
+
+    this.widgetService.sendNotification(obj).subscribe(
+      res => {
+        console.log(res);
+        let msg = {
+          type: 'success',
+          title: 'Message',
+          body: "Send Successfully"
+        };
+        this.appC.popToast(msg);
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  sendPushNotification() {
+    let messageSelected: any;
+    if (this.selectedOption == "showTextBox") {
+      messageSelected = { message: '', messageId: '' };
+    } else {
+      messageSelected = this.getNotificationMessage();
+    }
+    if (messageSelected === false) {
+      return
+    }
+    let obj = {
+      notifn_message: messageSelected.message,
+      message_id: messageSelected.messageId,
+      student_ids: this.getListOfIds('student_id'),
+    }
+    this.widgetService.sendPushNotificationToServer(obj).subscribe(
+      res => {
+        console.log(res);
+        let msg = {
+          type: 'success',
+          title: 'Message',
+          body: "Send Successfully"
+        };
+        this.appC.popToast(msg);
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  changeCurrentView(event) {
+    if (event.target.checked) {
+      document.getElementById('divDeliveryMode').classList.remove('show');
+      document.getElementById('divDeliveryMode').classList.add('hide');
+      document.getElementById('divLoginMode').classList.remove('hide');
+      document.getElementById('divLoginMode').classList.add('show');
+    } else {
+      document.getElementById('divDeliveryMode').classList.remove('remove');
+      document.getElementById('divDeliveryMode').classList.add('show');
+      document.getElementById('divLoginMode').classList.remove('show');
+      document.getElementById('divLoginMode').classList.add('hide');
+    }
+  }
+
+  sendSmsForApp(value) {
+    if (confirm("Are you sure you want to send SMS to selected users?")) {
+      let obj = {
+        app_sms_type: Number(value),
+        studentArray: this.getListOfIds('student_id'),
+        userArray: this.getListOfIds('user_id'),
+        user_role: '0'
+      }
+      this.widgetService.smsForAddDownload(obj).subscribe(
+        res => {
+          console.log(res);
+          let msg = {
+            type: 'success',
+            title: 'Message',
+            body: "Send Successfully"
+          };
+          this.appC.popToast(msg);
+        },
+        err => {
+          console.log(err);
+        }
+      )
+
+    }
   }
 
 }
