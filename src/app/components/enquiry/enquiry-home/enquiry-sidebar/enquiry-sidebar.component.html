@@ -32,8 +32,8 @@
                             <!-- Status -->
                             <div class="form-wrapper c-sm-6 c-xs-6">
                                 <label for="enquiryStatusEdit">Status</label>
-                                <select id="enquiryStatusEdit" class="side-form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.statusValue"
-                                    (ngModelChange)="updateStatusForEnquiryUpdate($event)" name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
+                                <select id="enquiryStatusEdit" class="side-form-ctrl " [(ngModel)]="updateFormData.statusValue" (ngModelChange)="updateStatusForEnquiryUpdate($event)"
+                                    name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
                                     <option value="-1"></option>
                                     <option *ngFor="let status of statusArr" [value]="status.data_value" [attr.selected]="status.data_value == updateFormData.statusValue ? '' : null"
                                         [hidden]="status.data_key == 12 ? true : false">
@@ -45,7 +45,7 @@
                             <!-- Priority -->
                             <div class="form-wrapper c-sm-6 c-xs-6">
                                 <label for="priorityEdit">Priority</label>
-                                <select id="priorityEdit" class="side-form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.priority" name="priority">
+                                <select id="priorityEdit" class="side-form-ctrl " [(ngModel)]="updateFormData.priority" name="priority">
                                     <option value="-1"></option>
                                     <option *ngFor="let priority of priorityArr" [value]="priority.data_value" [attr.selected]="priority.data_value == updateFormData.priority ? '' : null">
                                         {{priority.data_value}}
@@ -56,8 +56,7 @@
                             <!-- Followup type -->
                             <div class="form-wrapper c-sm-6 c-xs-6">
                                 <label for="selectFollowupEdit">Follow Up Type</label>
-                                <select id="selectFollowupEdit" class="side-form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="updateFormData.follow_type"
-                                    name="follow_type">
+                                <select id="selectFollowupEdit" class="side-form-ctrl " [(ngModel)]="updateFormData.follow_type" name="follow_type">
                                     <option value="-1"></option>
                                     <option *ngFor="let followT of followupArr" [value]="followT.data_value" [attr.selected]="followT.data_value == updateFormData.follow_type ? '' : null">
                                         {{followT.data_value}}
@@ -156,7 +155,7 @@
                             </div>
 
                             <!-- Comments -->
-                            <div class="form-wrapper c-sm-12 c-xs-12">
+                            <div class="form-wrapper c-xs-12">
                                 <div class="field-wrapper" style="padding-top: 25px;">
                                     <label style="top: 0px;" for="commies">Comments</label>
                                     <textarea placeholder="Max 1000 characters" rows="1" cols="1" style="height: 85px;border: solid 2px rgba(53, 53, 53, 0.26);padding: 5px;"
@@ -188,7 +187,7 @@
                     <h2>Previous Comments</h2>
                 </div>
                 <section>
-                    <div class="comment-wrapper" *ngIf="updateFormComments.length != 0">
+                    <div class="comment-wrapper" *ngIf="updateFormComments != null">
                         <div class="comment-card" *ngFor="let comments of updateFormComments; let i = index;">
                             <div class="comment-box">
                                 <div class="comment-head">
@@ -196,7 +195,7 @@
                                     <h6 class="comment-name">
                                         <a>{{updateFormCommentsBy[i]}}</a>
                                     </h6>
-								    <span>{{getCommentDate(updateFormCommentsOn[i])}}</span>
+                                    <span>{{getCommentDate(updateFormCommentsOn[i])}}</span>
                                 </div>
                                 <div class="comment-content">
                                     {{comments}}
@@ -204,8 +203,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="comment-wrapper" *ngIf="updateFormComments.length == 0">
-                        <h3>No Comments</h3>
+                    <div class="comment-wrapper" *ngIf="updateFormComments == null">
+                        <h3 style="padding: 10px;text-align: center;">No Comments Updated</h3>
                     </div>
                 </section>
             </li>
@@ -216,45 +215,21 @@
                 </div>
                 <section>
                     <div class="basic-wrapper">
-                        <div class="row">
-                            <div class="c-lg-4 c-md-4 c-sm-4 label">
-                                Email
-                            </div>
-                            <div class="c-lg-8 c-md-8 c-sm-8 data">
-                                {{rowData.email}}
-                            </div>
+                        <div class="form-wrapper ">
+                            <label for="Email">Email</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.email" type="text" name="Email">
                         </div>
-                        <div class="row">
-                            <div class="c-lg-4 c-md-4 c-sm-4 label">
-                                Parent Name
-                            </div>
-                            <div class="c-lg-8 c-md-8 c-sm-8 data">
-                                {{rowData.parent_name}}
-                            </div>
+                        <div class="form-wrapper ">
+                            <label for="ParentName">Parent Name</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.parent_name" type="text" name="ParentName">
                         </div>
-                        <div class="row">
-                            <div class="c-lg-4 c-md-4 c-sm-4 label">
-                                Contact Name
-                            </div>
-                            <div class="c-lg-8 c-md-8 c-sm-8 data">
-                                {{rowData.name}}
-                            </div>
+                        <div class="form-wrapper ">
+                            <label for="Standard">Standard</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.standard" type="text" name="Standard">
                         </div>
-                        <div class="row">
-                            <div class="c-lg-4 c-md-4 c-sm-4 label">
-                                Standard
-                            </div>
-                            <div class="c-lg-8 c-md-8 c-sm-8 data">
-                                {{rowData.standard}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="c-lg-4 c-md-4 c-sm-4 label">
-                                Subject
-                            </div>
-                            <div class="c-lg-8 c-md-8 c-sm-8 data">
-                                {{rowData.subjects}}
-                            </div>
+                        <div class="form-wrapper ">
+                            <label for="Subject">Subject</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.subjects" type="text" name="Subject">
                         </div>
                     </div>
                 </section>
@@ -267,13 +242,9 @@
                 <section>
                     <div class="other-wrapper">
                         <div *ngFor="let cus of customComp">
-                            <div class="row">
-                                <div class="c-lg-4 c-md-4 c-sm-4 label">
-                                    {{cus.label}}
-                                </div>
-                                <div class="c-lg-8 c-md-8 c-sm-8 data">
-                                    {{cus.enq_custom_value}}
-                                </div>
+                            <div class="form-wrapper">
+                                <label for="{{cus.label}}">{{cus.label}}</label>
+                                <input readonly="true" class="side-form-ctrl" [(ngModel)]="cus.enq_custom_value" type="text" name="{{cus.label}}">
                             </div>
                         </div>
                     </div>

@@ -82,103 +82,62 @@
                     <h2>Basic Details</h2>
                 </div>
                 <section>
-                    <div class="row">
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            Batches:
+                    <div class="detail-wrapper">
+                        <div class="form-wrapper c-xs-12">
+                            <div class="field-wrapper" style="padding-top: 25px;">
+                                <label style="top: 0px;" for="Batches">Batches</label>
+                                <textarea rows="1" cols="1" style="height: 85px;border: solid 2px rgba(53, 53, 53, 0.26);padding: 5px;" readonly="true" id="Batches"
+                                    name="Batches" class="form-ctrl" [(ngModel)]="rowData.batchesAssigned">
+                                </textarea>
+                            </div>
                         </div>
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            {{rowData.batchesAssigned}}
+                        <div class="form-wrapper c-xs-12">
+                            <label for="dob">Date Of Birth</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.dob" type="text" name="dob">
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            Date Of Birth:
+                        <div class="form-wrapper c-xs-12">
+                            <label for="doj">Date Of Joining</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.doj" type="text" name="doj">
                         </div>
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            {{rowData.dob}}
+                        <div class="form-wrapper c-xs-12">
+                            <label for="ParentName">Parent Name</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.parent_name" type="text" name="ParentName">
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            Date Of Joining:
+                        <div class="form-wrapper c-xs-12">
+                            <label for="ParentPhone">Parent Phone</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.parent_phone" type="text" name="ParentPhone">
                         </div>
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            {{rowData.doj}}
+                        <div class="form-wrapper c-xs-12">
+                            <label for="ParentEmail">Parent Email</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.parent_email" type="text" name="ParentEmail">
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            Parent Name:
+
+                        <div class="form-wrapper c-xs-12">
+                            <label for="GuardianName">Guardian Name</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.guardian_name" type="text" name="Guardian Name">
                         </div>
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            {{rowData.parent_name}}
+                        <div class="form-wrapper c-xs-12">
+                            <label for="GuardianPhone">Guardian Phone</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.guardian_phone" type="text" name="GuardianPhone">
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            Parent Phone:
+                        <div class="form-wrapper c-xs-12">
+                            <label for="Guardian Email"></label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.guardian_email" type="text" name="Guardian Email">
                         </div>
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            {{rowData.parent_phone}}
+                        <div class="form-wrapper c-xs-12">
+                            <label for="SchoolName">School Name</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.school_name" type="text" name="SchoolName">
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            Parent Email:
+                        <div class="form-wrapper c-xs-12">
+                            <label for="student_class">Student Class</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.student_class" type="text" name="student_class">
                         </div>
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            {{rowData.parent_email}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            Guardian Name:
-                        </div>
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            {{rowData.guardian_name}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            Guardian Phone:
-                        </div>
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            {{rowData.guardian_phone}}
+                        <div class="form-wrapper c-xs-12">
+                            <label for="Address">Address</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.student_curr_addr" type="text" name="Address">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            Guardian Email:
-                        </div>
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            {{rowData.guardian_email}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            School Name:
-                        </div>
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            {{rowData.school_name}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            student_class:
-                        </div>
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            {{rowData.student_class}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            Address:
-                        </div>
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            {{rowData.student_curr_addr}}
-                        </div>
-                    </div>
-                </section>                
+                </section>
             </li>
 
             <li #two class="liclosed">
@@ -187,17 +146,15 @@
                     <h2>Other Details</h2>
                 </div>
                 <section>
-                    <div class="row" *ngFor="let custom of customComponent">
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            {{custom.label}}:
-                        </div>
-                        <div class="c-lg-6 c-md-6 c-sm-6">
-                            {{custom.enq_custom_value}}
+                    <div class="detail-wrapper" *ngFor="let custom of customComponent">
+                        <div class="form-wrapper c-xs-12">
+                            <label for="{{custom.label}}">{{custom.label}}</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="custom.enq_custom_value" type="text" name="{{custom.label}}">
                         </div>
                     </div>
                 </section>
             </li>
-                            
+
         </ul>
     </div>
 

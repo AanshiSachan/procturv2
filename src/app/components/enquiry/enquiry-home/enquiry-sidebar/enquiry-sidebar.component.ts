@@ -95,7 +95,9 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
 
 
 
-  updateFormComments: any = []; updateFormCommentsBy: any = []; updateFormCommentsOn: any = [];
+  updateFormComments: any[] = []; 
+  updateFormCommentsBy: any[] = []; 
+  updateFormCommentsOn: any[] = [];
 
 
 
