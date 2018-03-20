@@ -46,7 +46,7 @@
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.sms_notification"
                 id="idEnableSMS">
-              <label for="enableSMS">Enable SMS Notification <span title="Enable this to start sending SMS">i</span>
+              <label for="enableSMS">SMS Notifications for Institute<span title="Enable this to start sending SMS">i</span>
                 <p>(If not enabled, no SMS will be sent)</p>
               </label>
             </div>
@@ -64,7 +64,7 @@
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="smsReporting" [(ngModel)]="instituteSettingDet.sms_status_report" class="form-checkbox"
                 id="idSmsReport">
-              <label for="smsReporting">Enable Failed SMS reporting <span title="Enable this to received failed SMS Reporting">i</span>
+              <label for="smsReporting">Failed SMS reporting <span title="Enable this to received failed SMS Reporting">i</span>
                 <p>(Extra, Exam and Cancel Class Only)</p>
               </label>
             </div>
@@ -159,7 +159,7 @@
                     </tr>
                     <tr>
                       <td>
-                        Batch Exam Schedule Reminder
+                        Exam Schedule Reminder
                         <span title="Enable to send Exam Schedule Reminder">i</span>
                       </td>
                       <td>
@@ -195,7 +195,7 @@
                     </tr>
                     <tr>
                       <td>
-                        Batch Extra Class Schedule Reminder
+                        Extra Class Schedule Reminder
                         <span title="Enable to send Extra Class Schedule Reminder">i</span>
                       </td>
                       <td>
@@ -259,7 +259,7 @@
                     </tr>
                     <tr>
                       <td>
-                        Batch Cancel Class/Exam Reminder
+                        Cancel Class/Exam Reminder
                         <span title="Enable to send Cancel Class / Exam SMS">i</span>
                       </td>
                       <td>
@@ -388,7 +388,7 @@
                     <tr>
                       <td>
                         <aside class="c-sm-4" style="margin-left: -15px;line-height: 5;">
-                          Batch Fees Dues Daily Notification
+                          Fee Reminder - On Due Date
                           <span>i</span>
                         </aside>
                         <aside class="c-sm-6">
@@ -453,7 +453,7 @@
                       <td>
                         <div class="row">
                           <div class="c-sm-4" style="margin-left: -20px;line-height: 5;">
-                            Batch Fees Dues Notification(Intervals)
+                            Fee Reminder - Post Due Date
                             <span>i</span>
                           </div>
                           <div class="c-sm-6">
@@ -525,7 +525,7 @@
                       <td>
                         <div class="row">
                           <div class="c-sm-4" style="margin-left: -20px;line-height: 5;">
-                            Batch Pre Fee Dues Notification(Intervals)
+                            Fee Reminder - Pre Due Date
                             <span>i</span>
                           </div>
                           <div class="c-sm-6">
@@ -596,8 +596,8 @@
 
                     <tr>
                       <td>
-                        Batch Fees Dues Notification to selected students
-                        <span>i</span>
+                        Fee Reminder - To selected Students
+                        <span title="Enable to send Fee Reminder to students selected in Fee Report">i</span>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
@@ -747,7 +747,7 @@
                     </tr>
                     <tr>
                       <td>
-                        Batch Regular Class Schedule Reminder
+                        Regular Class Schedule Reminder
                         <span title="Enable to send Regular Class Schedule Reminder">i</span>
                       </td>
                       <td>
@@ -783,7 +783,7 @@
                     </tr>
                     <tr>
                       <td>
-                        Batch PTM Reminder
+                        PTM Notification
                         <span title="Enable to send PTM Notification SMS">i</span>
                       </td>
                       <td>
@@ -919,7 +919,7 @@
                     </tr>
                     <tr>
                       <td>
-                        Topics Covered Reminder
+                        Topics Covered Notification
                         <span title="Enable to send Topics Covered SMS">i</span>
                       </td>
                       <td>
@@ -1125,7 +1125,7 @@
                           <div class="c-sm-4 c-md-4 c-lg-4">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.gst_enabled" id="">
-                              <label for="enableSMS">Enable GST</label>
+                              <label for="enableSMS">Enable GST <span title="Enable this if GST to be applied in Fee Receipts">i</span></label>
                             </div>
                           </div>
                           <div class="c-sm-4 c-md-4 c-lg-4">
@@ -1355,7 +1355,7 @@
                                 <option value="02:00">After 2 hour</option>
                                 <option value="24:00">After 1 day</option>
                               </select>
-                              <label>Enquiry Follow up Reminder Notification ? </label>
+                              <label>Enquiry Follow up Reminder Notification Past due date/time ? </label>
                             </div>
                           </div>
                         </div>
