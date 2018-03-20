@@ -46,7 +46,7 @@
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.sms_notification"
                 id="idEnableSMS">
-              <label for="enableSMS">Enable SMS Notification <span title="Enable this to start sending SMS">i</span>
+              <label for="enableSMS">SMS Notifications for Institute<span title="Enable this to start sending SMS">i</span>
                 <p>(If not enabled, no SMS will be sent)</p>
               </label>
             </div>
@@ -64,7 +64,7 @@
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="smsReporting" [(ngModel)]="instituteSettingDet.sms_status_report" class="form-checkbox"
                 id="idSmsReport">
-              <label for="smsReporting">Enable Failed SMS reporting <span title="Enable this to received failed SMS Reporting">i</span>
+              <label for="smsReporting">Failed SMS reporting <span title="Enable this to received failed SMS Reporting">i</span>
                 <p>(Extra, Exam and Cancel Class Only)</p>
               </label>
             </div>
@@ -159,7 +159,7 @@
                     </tr>
                     <tr>
                       <td>
-                        Batch Exam Schedule Reminder
+                        Exam Schedule Reminder
                         <span title="Enable to send Exam Schedule Reminder">i</span>
                       </td>
                       <td>
@@ -195,7 +195,7 @@
                     </tr>
                     <tr>
                       <td>
-                        Batch Extra Class Schedule Reminder
+                        Extra Class Schedule Reminder
                         <span title="Enable to send Extra Class Schedule Reminder">i</span>
                       </td>
                       <td>
@@ -259,7 +259,7 @@
                     </tr>
                     <tr>
                       <td>
-                        Batch Cancel Class/Exam Reminder
+                        Cancel Class/Exam Reminder
                         <span title="Enable to send Cancel Class / Exam SMS">i</span>
                       </td>
                       <td>
@@ -388,10 +388,10 @@
                     <tr>
                       <td>
                         <aside class="c-sm-4" style="margin-left: -15px;line-height: 5;">
-                          Batch Fees Dues Daily Notification
+                          Fee Reminder - On Due Date
                           <span>i</span>
                         </aside>
-                        <aside class="c-sm-4">
+                        <aside class="c-sm-6">
                           <div class="time-picker">
                             <div class="field-wrapper has-value">
                               <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.fee_dues_daily_schedule.hour"
@@ -453,10 +453,10 @@
                       <td>
                         <div class="row">
                           <div class="c-sm-4" style="margin-left: -20px;line-height: 5;">
-                            Batch Fees Dues Notification(Intervals)
+                            Fee Reminder - Post Due Date
                             <span>i</span>
                           </div>
-                          <div class="c-sm-4">
+                          <div class="c-sm-6">
                             <div class="time-picker">
                               <div class="field-wrapper has-value">
                                 <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.fee_dues_interval_schedule.hour"
@@ -525,10 +525,10 @@
                       <td>
                         <div class="row">
                           <div class="c-sm-4" style="margin-left: -20px;line-height: 5;">
-                            Batch Pre Fee Dues Notification(Intervals)
+                            Fee Reminder - Pre Due Date
                             <span>i</span>
                           </div>
-                          <div class="c-sm-4">
+                          <div class="c-sm-6">
                             <div class="time-picker">
                               <div class="field-wrapper has-value">
                                 <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.pre_fee_dues_interval_schedule.hour"
@@ -596,8 +596,8 @@
 
                     <tr>
                       <td>
-                        Batch Fees Dues Notification to selected students
-                        <span>i</span>
+                        Fee Reminder - To selected Students
+                        <span title="Enable to send Fee Reminder to students selected in Fee Report">i</span>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
@@ -685,7 +685,7 @@
                           Alumni Student Birthday
                           <span title="Enable to send Automatic Birthday SMS to Alumni Students (If DOB is specified)">i</span>
                         </div>
-                        <div class="c-sm-4">
+                        <div class="c-sm-6">
                           <div class="time-picker">
                             <div class="field-wrapper has-value">
                               <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.hour"
@@ -747,7 +747,7 @@
                     </tr>
                     <tr>
                       <td>
-                        Batch Regular Class Schedule Reminder
+                        Regular Class Schedule Reminder
                         <span title="Enable to send Regular Class Schedule Reminder">i</span>
                       </td>
                       <td>
@@ -783,7 +783,7 @@
                     </tr>
                     <tr>
                       <td>
-                        Batch PTM Reminder
+                        PTM Notification
                         <span title="Enable to send PTM Notification SMS">i</span>
                       </td>
                       <td>
@@ -919,7 +919,7 @@
                     </tr>
                     <tr>
                       <td>
-                        Topics Covered Reminder
+                        Topics Covered Notification
                         <span title="Enable to send Topics Covered SMS">i</span>
                       </td>
                       <td>
@@ -1005,7 +1005,7 @@
                         <div class="row">
                           <h3>Exam Rank Notification Setting</h3>
                           <div class="row rank-wrapper">
-                            <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-20px;margin-top: 10px;">
+                            <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-20px;margin-top: 10px;">
                               <div class="field-checkbox-wrapper" style="width: 100%">
                                 <input type="checkbox" id="enableRank" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.rank_to_send_for_marks_sms"
                                   (click)="enableRankSpecifier()">
@@ -1028,7 +1028,7 @@
                       <td>
                         <div class="row">
                           <h3>Exam Grade System Setting</h3>
-                          <div class="field-checkbox-wrapper checkbox-bundle-wrapper">
+                          <div class="field-checkbox-wrapper checkbox-bundle-wrapper" style="width: 100%">
                             <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.is_exam_grad_feature"
                               id="idEnableGrading">
                             <label for="enableSMS">Enable Exam Grading System</label>
@@ -1108,7 +1108,7 @@
                           </div>
                         </div>
                         <div class="row">
-                          <div class="c-sm-4 c-md-4 c-lg-4">
+                          <div class="c-sm-5 c-md-5 c-lg-5">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.phone_no_fee_receipt >= ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.phone_no_fee_receipt" class="form-ctrl" name="slotNew">
                               <label for="slotNew">Institute Contact No(s) For Fee Receipt <span title="Specify Contact Numbers here to be displayed on Fee Receipts">i</span>
@@ -1125,7 +1125,7 @@
                           <div class="c-sm-4 c-md-4 c-lg-4">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.gst_enabled" id="">
-                              <label for="enableSMS">Enable GST</label>
+                              <label for="enableSMS">Enable GST <span title="Enable this if GST to be applied in Fee Receipts">i</span></label>
                             </div>
                           </div>
                           <div class="c-sm-4 c-md-4 c-lg-4">
@@ -1157,14 +1157,14 @@
                     <tr>
                       <td>
                         <div class="row">
-                          <div class="c-sm-4 c-md-4 c-lg-4">
+                          <div class="c-sm-5 c-md-5 c-lg-5">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_fee_activity_email_recipients != ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.inst_fee_activity_email_recipients" class="form-ctrl" name="slotNew">
                               <label for="slotNew">Point Of Contact(s)(Email IDs) for Fee Activities
                               </label>
                             </div>
                           </div>
-                          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top: 10px">
+                          <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 10px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.pdc_reminder_setting"
                                 id="">
@@ -1184,7 +1184,7 @@
                     <tr>
                       <td>
                         <div class="row">
-                          <div class="c-sm-4 c-md-4 c-lg-4">
+                          <div class="c-sm-6 c-md-6 c-lg-6">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_report_card_fee_module"
                                 id="">
@@ -1192,7 +1192,7 @@
                             </div>
                           </div>
                           <div class="c-sm-4 c-md-4 c-lg-4">
-                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.student_wise_fee_fine_amount != ''}">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.student_wise_fee_fine_amount !== ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.student_wise_fee_fine_amount" class="form-ctrl" name="slotNew">
                               <label for="slotNew">Fine Amount
                               </label>
@@ -1247,7 +1247,7 @@
                     <tr>
                       <td>
                         <div class="row">
-                          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top:15px">
+                          <div class="c-sm-6 c-md-6 c-lg-6" style="margin-top:15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.tax_payable_on_reverse_charge_basis"
                                 id="">
@@ -1330,7 +1330,7 @@
                       <td>
                         <h3>Report Setting</h3>
                         <div class="row">
-                          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px">
+                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.pre_enquiry_follow_up_reminder_time != ''}">
                               <select id="" class="form-ctrl" name="instituteSettingDet.pre_enquiry_follow_up_reminder_time" (focus)="inputClickedCheck($event)"
                                 [(ngModel)]="instituteSettingDet.pre_enquiry_follow_up_reminder_time">
@@ -1344,7 +1344,7 @@
                               <label>Enquiry Follow up Reminder Notification ? <span title="Enable this to send SMS for Enquiry Follow Up Reminder">i</span> </label>
                             </div>
                           </div>
-                          <div class="c-sm-4 c-md-4 c-lg-4">
+                          <div class="c-sm-5 c-md-5 c-lg-5">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.post_enquiry_follow_up_reminder_time != ''}">
                               <select id="" class="form-ctrl" name="instituteSettingDet.post_enquiry_follow_up_reminder_time" (focus)="inputClickedCheck($event)"
                                 [(ngModel)]="instituteSettingDet.post_enquiry_follow_up_reminder_time">
@@ -1355,19 +1355,19 @@
                                 <option value="02:00">After 2 hour</option>
                                 <option value="24:00">After 1 day</option>
                               </select>
-                              <label>Enquiry Follow up Reminder Notification ? </label>
+                              <label>Enquiry Follow up Reminder Notification Past due date/time ? </label>
                             </div>
                           </div>
                         </div>
                         <div class="row">
-                          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px;margin-top:15px">
+                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px;margin-top:15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.daily_account_summary"
                                 id="">
                               <label for="enableSMS">Daily Account Summary <span title="Enable this to receive Daily Summary Report via Email at End of Day">i</span> </label>
                             </div>
                           </div>
-                          <div class="c-sm-4 c-md-4 c-lg-4">
+                          <div class="c-sm-5 c-md-5 c-lg-5">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.emailids_for_report != ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.emailids_for_report" class="form-ctrl" name="slotNew">
                               <label for="slotNew">Point Of Contact(s)(Email IDs) for Reports <span title="Specify Emails Id's on which you want to receive daily summary report">i</span>
@@ -1404,14 +1404,14 @@
                       <td>
                         <h3>Miscellaneous Setting</h3>
                         <div class="row">
-                          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px;margin-top:15px">
+                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px;margin-top:15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.allow_simple_registration"
                                 id="">
                               <label for="enableSMS">Allow Simple Registration</label>
                             </div>
                           </div>
-                          <div class="c-sm-4 c-md-4 c-lg-4">
+                          <div class="c-sm-5 c-md-5 c-lg-5">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.virtual_host_url != ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.virtual_host_url" class="form-ctrl" name="slotNew">
                               <label for="slotNew">Virtual Host URL:
@@ -1425,14 +1425,14 @@
                       <td>
                         <h3>Online Payment Setting</h3>
                         <div class="row">
-                          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px">
+                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_online_payment_email_notification"
                                 id="">
                               <label for="enableSMS">Enable Online Payment Email Notification </label>
                             </div>
                           </div>
-                          <div class="c-sm-4 c-md-4 c-lg-4">
+                          <div class="c-sm-5 c-md-5 c-lg-5">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.enable_online_payment_sms_notification"
                                 id="">
@@ -1441,14 +1441,14 @@
                           </div>
                         </div>
                         <div class="row">
-                          <div class="c-sm-4 c-md-4 c-lg-4" style="margin-left:-15px">
+                          <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-15px">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.online_payment_notify_emailIds != ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.online_payment_notify_emailIds" class="form-ctrl" name="slotNew">
                               <label for="slotNew">Email ID(s) For Online Payment Notification
                               </label>
                             </div>
                           </div>
-                          <div class="c-sm-4 c-md-4 c-lg-4">
+                          <div class="c-sm-5 c-md-5 c-lg-5">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.online_payment_notify_mobiles != ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.online_payment_notify_mobiles" class="form-ctrl" name="slotNew">
                               <label for="slotNew">Contact No.(s) For Online Payment Notification

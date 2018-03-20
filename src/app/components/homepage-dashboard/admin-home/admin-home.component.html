@@ -256,7 +256,7 @@
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
                             <li>
-                              <div>{{class.start_time}} - {{class.end_time}}</div>
+                              <div>{{class.start_time}} - {{class.end_time}}  ({{class.class_date | date:'dd MMM yyyy'}})</div>
                               <p>{{class.class_room_name}}</p>
                             </li>
                             <li class="cls-type">
@@ -404,7 +404,7 @@
                 </div>
               </li>
 
-              <li class="general-state item" style="height: 200px;" data-id="4">
+              <li class="general-state item" style="height: 150px;" data-id="4">
                 <div class="item-content">
                   <div class="actb-top-header clearfix">
                     <span class="heading">

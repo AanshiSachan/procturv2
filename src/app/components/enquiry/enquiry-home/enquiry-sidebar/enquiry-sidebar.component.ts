@@ -95,7 +95,9 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
 
 
 
-  updateFormComments: any = []; updateFormCommentsBy: any = []; updateFormCommentsOn: any = [];
+  updateFormComments: any[] = []; 
+  updateFormCommentsBy: any[] = []; 
+  updateFormCommentsOn: any[] = [];
 
 
 
@@ -272,6 +274,10 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     this.updateFormData.priority = this.updateFormData.priority == "" ? "" : this.getPriority(this.updateFormData.priority);
     this.updateFormData.status = this.updateFormData.statusValue == "" ? "" : this.getStatus(this.updateFormData.statusValue);
     this.updateFormData.follow_type = this.updateFormData.follow_type == "" ? "" : this.getFollowUp(this.updateFormData.follow_type);
+  }
+
+  getCommentDate(upDate): string{
+    return moment(upDate).fromNow();
   }
 
 
