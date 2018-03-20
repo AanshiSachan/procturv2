@@ -303,9 +303,9 @@ fieldset {
                 width: 100%;
                 .schedule-bottom {
                     width: 100%;
-                    ul{
-                        border-left: 2px solid hsla(210,2%,83%,.5);
-                        border-right: 2px solid hsla(210,2%,83%,.5);
+                    ul {
+                        border-left: 2px solid hsla(210, 2%, 83%, .5);
+                        border-right: 2px solid hsla(210, 2%, 83%, .5);
                     }
                 }
             }
@@ -318,8 +318,8 @@ fieldset {
             width: 26%;
             padding: 20px 5px 10px 10px;
             background-color: #f7f7f7;
-            .field-wrapper{
-                .form-ctrl{
+            .field-wrapper {
+                .form-ctrl {
                     background: transparent;
                     border: solid 1px #e2ebee;
                 }
@@ -328,7 +328,7 @@ fieldset {
                 margin-top: 10px;
                 margin-bottom: 10px;
             }
-        } 
+        }
     }
 }
 
@@ -396,15 +396,15 @@ fieldset {
                 margin: 0px;
                 text-align: left !important;
                 display: none;
-                ul{
+                ul {
                     border: none;
                     background: transparent;
                     display: inline-block;
                     padding-top: 0;
-                    &:hover{
+                    &:hover {
                         background: transparent;
                     }
-                    li{
+                    li {
                         background: transparent;
                         padding: 3px 0px;
                         width: 100% !important;
@@ -414,11 +414,11 @@ fieldset {
                             font-size: 13px;
                             font-weight: 400;
                         }
-                        &:first-child{
+                        &:first-child {
                             width: 100% !important;
                         }
-                        &:nth-last-child(2){
-                            width: 100% !important; 
+                        &:nth-last-child(2) {
+                            width: 100% !important;
                             text-align: left;
                         }
                     }
@@ -492,15 +492,15 @@ fieldset {
                 margin: 0px;
                 text-align: left;
                 display: none;
-                ul{
+                ul {
                     border: none;
                     background: transparent;
                     display: inline-block;
                     padding-top: 0;
-                    &:hover{
+                    &:hover {
                         background: transparent;
                     }
-                    li{
+                    li {
                         background: transparent;
                         padding: 3px 0px;
                         width: 100% !important;
@@ -510,11 +510,11 @@ fieldset {
                             font-size: 13px;
                             font-weight: 400;
                         }
-                        &:first-child{
+                        &:first-child {
                             width: 100% !important;
                         }
-                        &:nth-last-child(2){
-                            width: 100% !important; 
+                        &:nth-last-child(2) {
+                            width: 100% !important;
                             text-align: left;
                         }
                     }
@@ -849,11 +849,10 @@ div#enqChart {
         &.active,
         &:not(.sche-head):not(.ct-disabled):hover {
             background: rgba(27, 96, 163, 0.16);
-            .che-action{
+            .che-action {
                 display: block;
-            }    
+            }
         }
-
         &.active {
             li.cls-type {
                 div {
@@ -899,7 +898,7 @@ div#enqChart {
                 text-transform: uppercase;
                 color: rgba(102, 102, 102, 0.938);
                 font-size: 12px;
-                &.batch{
+                &.batch {
                     width: 20%;
                 }
             }
@@ -941,14 +940,14 @@ div#enqChart {
             margin: 0px;
             text-align: center;
             display: none;
-            ul{
+            ul {
                 border: none;
                 background: transparent;
                 padding-top: 15px;
-                &:hover{
+                &:hover {
                     background: transparent;
                 }
-                li{
+                li {
                     background: transparent;
                     padding: 0;
                     width: 15%;
@@ -958,11 +957,11 @@ div#enqChart {
                         font-size: 13px;
                         font-weight: 600;
                     }
-                    &:first-child{
+                    &:first-child {
                         width: 32%;
                     }
-                    &:nth-last-child(2){
-                        width: 20%; 
+                    &:nth-last-child(2) {
+                        width: 20%;
                         text-align: left;
                     }
                 }
@@ -1324,15 +1323,15 @@ div#enqChart {
                 margin: 0px;
                 text-align: left;
                 display: none;
-                ul{
+                ul {
                     border: none;
                     background: transparent;
                     display: inline-block;
                     padding-top: 0;
-                    &:hover{
+                    &:hover {
                         background: transparent;
                     }
-                    li{
+                    li {
                         background: transparent;
                         padding: 0px 0px !important;
                         width: 100% !important;
@@ -1342,11 +1341,11 @@ div#enqChart {
                             font-size: 13px;
                             font-weight: 400;
                         }
-                        &:first-child{
+                        &:first-child {
                             width: 100% !important;
                         }
-                        &:nth-last-child(2){
-                            width: 100% !important; 
+                        &:nth-last-child(2) {
+                            width: 100% !important;
                             text-align: left;
                         }
                     }
@@ -1375,7 +1374,6 @@ div#enqChart {
     .fees-state-bottom ul {
         flex-wrap: wrap;
     }
-    
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1000px) {
@@ -1714,7 +1712,30 @@ div#enqChart {
             }
             #divSendMessage {
                 .row {
-                    margin: 10px 0p x;
+                    margin: 10px 0px;
+                }
+                .message-table-wrapper {
+                    max-height: 210px;
+                    overflow-x: hidden;
+                    overflow-y: scroll;
+                    table {
+                        &.message-table {
+                            max-height: 200px;
+                            tbody {
+                                tr {
+                                    padding: 0px 0px !important;
+                                    td {
+                                        padding: 5px 5px !important;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                     ::-webkit-scrollbar {
+                        display: block;
+                        width: 7px;
+                        height: 7px;
+                    }
                 }
             }
         }
