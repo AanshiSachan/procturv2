@@ -25,7 +25,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
   @ViewChild('imgDisp') im: ElementRef;
   private showMenu: boolean = false;
-  containerWidth: string = "70px";
+  containerWidth: string = "50px";
   studentServerImage: any = '';
   readonly: boolean = true;
 
