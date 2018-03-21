@@ -239,18 +239,20 @@
                         <li class="cls-name">Subject/Course</li>
                         <li>Faculty</li>
                         <li></li>
+
                       </ul>
                       <ul class="sche-head" *ngIf="!isProfessional && !isSubjectView">
                         <li class="batch">Master Course</li>
                         <li class="batch">Courses</li>
-                        <li></li>
                       </ul>
                       <ul class="sche-head" *ngIf="isProfessional">
                         <li>Timings</li>
                         <li class="cls-type">Class type</li>
                         <li>Batch</li>
+
                         <li>Faculty</li>
                         <li></li>
+
                       </ul>
                       <div class="schedule-scroller" *ngIf="!isProfessional && isSubjectView">
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
@@ -271,7 +273,7 @@
                             <li>
                               <div>{{class.teacher_name}}</div>
                             </li>
-                            <li>
+                            <!-- <li>
                               <div class="che-action">
                                 <ul class="ul-action">
                                   <li>
@@ -289,19 +291,23 @@
                                   </li>
                                 </ul>
                               </div>
-                            </li>
+                            </li> -->
                           </ul>
+                          <div class="che-action">
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance</span>
+                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass(i, class)">Cancel</span>
+                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</span>
+                            <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
 
-                          <!--  <div class="che-action" [class.display]="i == selectedRow">
-                            <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance()">
+                          <!-- <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance()">
                               Mark Attendance</a>
                             <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance()">
                               Update Attendance</a>
                             <a class="fish-chips" *ngIf='isOptionVisible && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass()">Cancel</a>
                             <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
-                            <a class="fish-chips" *ngIf="isOptionVisible && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
-                          </div> 
-                          -->
+                            <a class="fish-chips" *ngIf="isOptionVisible && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a> -->
+                          </div>
                         </div>
                       </div>
                       <div class="schedule-scroller" *ngIf="!isProfessional && !isSubjectView">
@@ -317,35 +323,40 @@
                                 <span></span>
                               </div>
                             </li>
-                            <li>
+                            <!-- <li>
                               <div class="che-action">
                                 <ul class="ul-action">
                                   <li>
-                                    <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
-                                    <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance</span>
+
                                   </li>
                                   <li>
-                                    <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
+
                                   </li>
                                   <li>
-                                    <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</span>
+
                                   </li>
                                   <li>
-                                    <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
+
                                   </li>
                                 </ul>
                               </div>
-                            </li>
+                            </li> -->
                           </ul>
-                          <!--  <div class="che-action" [class.display]="i == selectedRow">
-                            <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance()">
+                          <div class="che-action" [class.display]="i == selectedRow">
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance</span>
+                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
+                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</span>
+                            <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
+
+                            <!-- <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance()">
                               Mark Attendance</a>
                             <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance()">
                               Update Attendance</a>
                             <a class="fish-chips" *ngIf='isOptionVisible && class.is_attendance_marked !="Y" ' style="cursor:pointer" (click)="initiateCourseCancelClass()">Cancel</a>
-                            <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
+                            <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a> -->
                           </div>
-                          -->
+
                         </div>
                       </div>
                       <div class="schedule-scroller" *ngIf="isProfessional">
@@ -387,7 +398,7 @@
                               </div>
                             </li>
                           </ul>
-                          <!--   <div class="che-action" [class.display]="i == selectedRow">
+                          <div class="che-action" [class.display]="i == selectedRow">
                             <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()">
                               Mark Attendance</a>
                             <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()">
@@ -396,7 +407,7 @@
                             <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
                             <a class="fish-chips" *ngIf="isOptionVisible && class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
                           </div>
-                          -->
+
                         </div>
                       </div>
                     </div>
