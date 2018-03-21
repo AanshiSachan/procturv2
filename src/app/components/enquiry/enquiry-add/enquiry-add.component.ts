@@ -112,23 +112,28 @@ export class EnquiryAddComponent implements OnInit {
   /* Institute List for edit and delete purpose */
   referList: any;
 
-  hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  /*hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   minArr: any[] = ['', '00', '15', '30', '45'];
   meridianArr: any[] = ['', "AM", "PM"];
-  hour: string = ''; minute: string = ''; meridian: string = '';
+  hour: string = ''; minute: string = ''; meridian: string = '';*/
 
+  hourArr:any[]=['','1','2','3','4','5','6','7','8','9','10','11','12'];
+  minArr:any[]=['','00','15','30','45'];
+  meridianArr:any[]=['',"AM","PM"];
+  hour:string = '';
+  minute:string='';
+  meridian:string=''
 
-
-
-
-
-
-
-
-
-
-
-
+  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 AM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 PM']
+  timeObj: any = {
+    fhour: '',
+    fminute: '',
+    fmeridian: '',
+    whour: '',
+    wminute: '',
+    wmeridian: '',
+  };
+  followUpTime: any="";
 
 
   /* Model for Creating Institute */
@@ -149,27 +154,6 @@ export class EnquiryAddComponent implements OnInit {
     inst_id: sessionStorage.getItem('institute_id')
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   constructor(private prefill: FetchprefilldataService, private router: Router,
     private logger: Logger, private appC: AppComponent, private poster: PostEnquiryDataService, private login: LoginService) {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
@@ -178,23 +162,28 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  timeChange(ev, id) {
+    if (id === 'followUpTime') {
+      if(ev.split(' ')[0] != ''){
+        this.timeObj.fhour = ev.split(' ')[0];
+        this.timeObj.fmeridian = ev.split(' ')[1];
+      }
+      else{
+        this.timeObj.fhour = '';
+        this.timeObj.fmeridian = '';
+      }
+    }
+    else {
+      if(ev.split(' ')[0] != ''){
+        this.timeObj.whour = ev.split(' ')[0];
+        this.timeObj.wmeridian = ev.split(' ')[1];
+      }
+      else{
+        this.timeObj.whour = '';
+        this.timeObj.wmeridian = '';
+      }
+    }
+  }
   /* OnInit Initialized */
   ngOnInit() {
     this.isEnquiryAdministrator();
@@ -1406,6 +1395,21 @@ export class EnquiryAddComponent implements OnInit {
     });
   }
 
+  timeChanges(ev, id) {
+     // debugger
+      if(ev.split(' ')[0] != ''){
+        this.hour = ev.split(' ')[0];
+        this.meridian = ev.split(' ')[1];
+
+        //console.log(this.hour + "" +this.meridian)
+      }
+      else{
+        this.hour = '';
+        this.meridian = '';
+      }
+    
+    
+  }
 
   /* Source delete*/
   deleteSource(id) {
