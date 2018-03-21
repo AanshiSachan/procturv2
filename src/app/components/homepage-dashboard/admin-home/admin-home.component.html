@@ -769,9 +769,10 @@
 
     <h2 widget-header>Reschedule {{classMarkedForAction.batch_name}}</h2>
 
-    <div class="rescheduleWrapper" widget-content>
+    <div class="rescheduleWrapper" style="padding-left: 1%" widget-content>
+
       <div class="row">
-        <div class="field-wrapper datePickerBox" style="width: 50%;" [ngClass]="{ 'has-value': reschedDate
+        <div class="field-wrapper datePickerBox" style="width: 30%;" [ngClass]="{ 'has-value': reschedDate
                   !='' }">
           <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
             bsDatepicker>

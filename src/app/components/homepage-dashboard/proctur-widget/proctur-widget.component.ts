@@ -38,6 +38,4 @@ export class ProcturWidgetComponent implements OnInit {
     console.log(this.size);
   }
 
-
-
 }
