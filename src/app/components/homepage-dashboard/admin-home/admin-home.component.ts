@@ -542,13 +542,13 @@ export class AdminHomeComponent implements OnInit {
 
     if (this.feeStat != null && this.feeStat != undefined && this.feeStat.length != 0) {
       if (id === 'total') {
-        return this.feeStat[0].total_fees;
+        return this.feeStat[0].total_fees_collected;
       }
       else if (id === 'pending') {
-        return this.feeStat[0].total_dues_pending;
+        return this.feeStat[0].total_fees_collected_other;
       }
       else if (id === 'past') {
-        return this.feeStat[0].total_fees_collected_other;
+        return this.feeStat[0].total_dues_pending;
       }
     }
     else {
