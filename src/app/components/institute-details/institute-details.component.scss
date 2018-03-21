@@ -12,7 +12,7 @@
 .setting-full {
     padding: 15px;
     max-height: 500px;
-    overflow: hidden;
+    // overflow: hidden;
      ::-webkit-scrollbar {
         display: block;
     }
@@ -20,18 +20,20 @@
         margin: 0px 5px;
     }
     .setting-left {
-        padding: 15px;
-        max-height: 500px;
+        height: 100vh;
+        margin: -30px 0px 0px -15px;
         overflow-x: hidden;
         overflow-y: auto;
+        border-right: 1px solid #dcdcdc;
         ul {
-            padding: 15px 10px;
+            // padding: 15px 10px;
             li {
-                line-height: 50px;
-                border-radius: 5px;
+                line-height: 60px;
+                // border-radius: 5px;
                 font-size: 20px;
                 font-weight: 600;
                 background: white;
+                border-bottom: 1px solid #d0f4ff;
                 span {
                     margin-left: 20px;
                     a {
@@ -39,20 +41,20 @@
                     }
                 }
                 &.active {
-                    background: #0084f6;
+                    background: #d0f4ff;
                     span {
                         margin-left: 20px;
                         a {
-                            color: white;
+                            color: black;
                         }
                     }
                 }
                 &:hover {
-                    background: #0084f6;
+                    background: #d0f4ff;
                     span {
                         margin-left: 20px;
                         a {
-                            color: white;
+                            color: black;
                         }
                     }
                 }
