@@ -133,10 +133,29 @@ export class EnquiryEditComponent implements OnInit {
   }
 
 
-  hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  minArr: any[] = ['', '00', '15', '30', '45'];
-  meridianArr: any[] = ['', "AM", "PM"];
-  hour: string = ''; minute: string = ''; meridian: string = '';
+  // hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  // minArr: any[] = ['', '00', '15', '30', '45'];
+  // meridianArr: any[] = ['', "AM", "PM"];
+  // hour: string = ''; minute: string = ''; meridian: string = '';
+
+  hourArr:any[]=['','1','2','3','4','5','6','7','8','9','10','11','12'];
+  minArr:any[]=['','00','15','30','45'];
+  meridianArr:any[]=['',"AM","PM"];
+  hour:string = '';
+  minute:string='';
+  meridian:string=''
+
+  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 AM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 PM']
+  timeObj: any = {
+    fhour: '',
+    fminute: '',
+    fmeridian: '',
+    whour: '',
+    wminute: '',
+    wmeridian: '',
+  };
+  followUpTime: any="";
+
 
 
 
@@ -173,7 +192,21 @@ export class EnquiryEditComponent implements OnInit {
   }
 
 
+  timeChanges(ev, id) {
+    // debugger
+     if(ev.split(' ')[0] != ''){
+       this.hour = ev.split(' ')[0];
+       this.meridian = ev.split(' ')[1];
 
+       //console.log(this.hour + "" +this.meridian)
+     }
+     else{
+       this.hour = '';
+       this.meridian = '';
+     }
+   
+   
+ }
   /* set the enquiry feilds for Form */
   updateEnquiryData() {
     //debugger;
@@ -187,11 +220,11 @@ export class EnquiryEditComponent implements OnInit {
         if (data.followUpTime != '') {
           let followUpDateTime = moment(data.followUpDate).format('YYYY-MM-DD') + " " + data.followUpTime;
           this.hour = moment(followUpDateTime).format('h');
-          document.getElementById('hourpar').classList.add('has-value');
+         
           this.minute = moment(followUpDateTime).format('mm');
-          document.getElementById('minutepar').classList.add('has-value');
+         
           this.meridian = moment(followUpDateTime).format('a').toString().toUpperCase();
-          document.getElementById('meridianpar').classList.add('has-value');
+          
         }
         this.updateCustomComponent(id);
         this.fetchSubject(this.editEnqData.standard_id);
@@ -568,6 +601,9 @@ export class EnquiryEditComponent implements OnInit {
 
       if (this.validateTime()) {
         let id = this.institute_enquiry_id;
+        if (this.hour != '') {
+          this.editEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
+        }
         this.editEnqData.enqCustomLi = this.getCustomComponents();
         this.poster.editFormUpdater(id, this.editEnqData).subscribe(
           data => {
