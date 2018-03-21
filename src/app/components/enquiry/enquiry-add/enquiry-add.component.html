@@ -393,7 +393,7 @@
             <label for="followUpDate">Follow Up Date</label>
             <span class="date-clear" name="followupdate" (click)="newEnqData.followUpDate = ''">clear</span>
           </div>
-          <div class="time-picker">
+          <!-- <div class="time-picker">
             <div class="field-wrapper" id="hourpar" style="padding-right: 10px;" [ngClass]="{'has-value': hour != ''}">
               <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="hour" name="hour" style="width: 60px;">
                 <option *ngFor="let hour of hourArr" [value]="hour">
@@ -418,7 +418,28 @@
               </select>
               <label for="meridian">Meridian</label>
             </div>
-          </div>
+          </div>   -->
+
+          <div class="time-picker">
+            <div class="field-wrapper" id="hourpar" style="padding-right: 10px;" [ngClass]="{'has-value': hour != ''}">
+              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="followUpTime" name="hour" style="width: 60px;"  (ngModelChange)="timeChanges($event)">
+                <option *ngFor="let time of times" [value]="time">
+                  {{time}}
+                </option>
+              </select>
+              <label for="hour">Hour</label>
+            </div>
+            <div class="field-wrapper" id="minutepar" style="padding-right: 10px;" [ngClass]="{'has-value': minute != ''}">
+              <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute" style="width: 70px;">
+                <option *ngFor="let minute of minArr" [value]="minute">
+                  {{minute}}
+                </option>
+              </select>
+              <label for="minute">Minute</label>
+            </div>
+            
+          </div> 
+          
           <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.referred_by != '-1'}">
             <select id="refferedBy" class="form-ctrl" [(ngModel)]="newEnqData.referred_by" name="reffered">
               <option value="-1"></option>
