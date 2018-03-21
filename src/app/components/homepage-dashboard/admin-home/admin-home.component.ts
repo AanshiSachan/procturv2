@@ -539,15 +539,13 @@ export class AdminHomeComponent implements OnInit {
 
     if (this.feeStat != null && this.feeStat != undefined && this.feeStat.length != 0) {
       if (id === 'total') {
-        let totalFee = this.feeStat.map(student => student.student_total_fees).reduce((acc, val) => val + acc);
-        return totalFee;
+        return this.feeStat[0].total_fees;
       }
       else if (id === 'pending') {
-        let pendng = this.feeStat.map(student => student.amount_still_payable).reduce((acc, val) => val + acc);
-        return pendng;
+        return this.feeStat[0].total_dues_pending;
       }
       else if (id === 'past') {
-        return 200000
+        return this.feeStat[0].total_fees_collected_other;
       }
     }
     else {
@@ -1459,11 +1457,7 @@ export class AdminHomeComponent implements OnInit {
 
   addSendNotification() {
     this.notificationPopUp = true;
-    this.sendNotification = {
-      standard_id: '-1',
-      subject_id: '-1',
-      batch_id: '-1',
-    };
+    this.clearDropDownBinding();
     if (this.isProfessional) {
       this.getMasterCourseAndBatch(this.sendNotification);
     } else {
@@ -1498,10 +1492,16 @@ export class AdminHomeComponent implements OnInit {
   }
 
   onMasterCourseChange(event) {
+    document.getElementById('chkBoxActiveSelection').checked = false;
+    document.getElementById('chkBoxTutorSelection').checked = false;
+    document.getElementById('chkBoxInActiveSelection').checked = false;
+    document.getElementById('chkBoxAluminiSelection').checked = false;
+    this.flushData();
     if (this.sendNotificationCourse.master_course != "-1") {
       this.isRippleLoad = true;
       this.widgetService.getAllCourse(this.sendNotificationCourse.master_course).subscribe(
         (res: any) => {
+          this.showTableFlag = false;
           this.isRippleLoad = false;
           this.courseList = res.coursesList;
         },
@@ -1651,6 +1651,10 @@ export class AdminHomeComponent implements OnInit {
   }
 
   onMasterCourseSelection(event) {
+    document.getElementById('chkBoxActiveSelection').checked = false;
+    document.getElementById('chkBoxTutorSelection').checked = false;
+    document.getElementById('chkBoxInActiveSelection').checked = false;
+    document.getElementById('chkBoxAluminiSelection').checked = false;
     this.batchList = [];
     this.courseList = [];
     this.showTableFlag = false;
@@ -1658,6 +1662,10 @@ export class AdminHomeComponent implements OnInit {
   }
 
   onCourseSelection(event) {
+    document.getElementById('chkBoxActiveSelection').checked = false;
+    document.getElementById('chkBoxTutorSelection').checked = false;
+    document.getElementById('chkBoxInActiveSelection').checked = false;
+    document.getElementById('chkBoxAluminiSelection').checked = false;
     this.showTableFlag = false;
     this.batchList = [];
     this.sendNotification.batch_id = "-1";
@@ -1665,6 +1673,10 @@ export class AdminHomeComponent implements OnInit {
   }
 
   fetchDataOnBatchBasis(event) {
+    document.getElementById('chkBoxActiveSelection').checked = false;
+    document.getElementById('chkBoxTutorSelection').checked = false;
+    document.getElementById('chkBoxInActiveSelection').checked = false;
+    document.getElementById('chkBoxAluminiSelection').checked = false;
     this.widgetService.fetchStudentListData(this.sendNotification.batch_id).subscribe(
       res => {
         this.showTableFlag = true;
@@ -1713,11 +1725,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   chkBoxAllActiveStudent(event) {
-    this.sendNotification = {
-      standard_id: '-1',
-      subject_id: '-1',
-      batch_id: '-1',
-    }
+    this.clearDropDownBinding();
     if (event.target.checked) {
       this.clearCheckBoxSelction(event.target.id);
       this.isRippleLoad = true;
@@ -1740,11 +1748,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   chkBoxAllTeacher(event) {
-    this.sendNotification = {
-      standard_id: '-1',
-      subject_id: '-1',
-      batch_id: '-1',
-    }
+    this.clearDropDownBinding();
     if (event.target.checked) {
       this.clearCheckBoxSelction(event.target.id);
       this.isRippleLoad = true;
@@ -1768,11 +1772,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   chkBoxAllInActiveStudent(event) {
-    this.sendNotification = {
-      standard_id: '-1',
-      subject_id: '-1',
-      batch_id: '-1',
-    }
+    this.clearDropDownBinding();
     if (event.target.checked) {
       this.clearCheckBoxSelction(event.target.id);
       this.isRippleLoad = true;
@@ -1796,6 +1796,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   chkBoxAllAluminiStudent(event) {
+    this.clearDropDownBinding();
     if (event.target.checked) {
       this.clearCheckBoxSelction(event.target.id);
       this.isRippleLoad = true;
@@ -1815,6 +1816,21 @@ export class AdminHomeComponent implements OnInit {
       this.flushData();
       this.showTableFlag = false;
 
+    }
+  }
+
+  clearDropDownBinding() {
+    if (this.isProfessional) {
+      this.sendNotification = {
+        standard_id: '-1',
+        subject_id: '-1',
+        batch_id: '-1',
+      };
+    } else {
+      this.sendNotificationCourse = {
+        master_course: '',
+        course_id: '-1'
+      }
     }
   }
 
