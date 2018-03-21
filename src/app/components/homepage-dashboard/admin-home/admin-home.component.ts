@@ -182,6 +182,8 @@ export class AdminHomeComponent implements OnInit {
   loginField = {
     checkBox: ''
   }
+  permissionArray = sessionStorage.getItem('permissions');
+
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -2128,6 +2130,23 @@ export class AdminHomeComponent implements OnInit {
 
     }
   }
+
+
+  //  Role Based Access
+
+  checkIfUserHadAccess(id) {
+    if (this.permissionArray === "") {
+      return true;
+    } else {
+      let data = JSON.parse(this.permissionArray);
+      if (data.indexOf(id) == "-1") {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
+
 
 }
 
