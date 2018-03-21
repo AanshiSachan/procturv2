@@ -1409,15 +1409,15 @@
                 <div class="row">
                   <div class="radio-options">
                     <div class="field-radio-wrapper">
-                      <input type="radio" checked="true" value="0" name="student" class="form-radio">
+                      <input type="radio" checked="true" [(ngModel)]="loginField.checkBox" value="0" name="student" class="form-radio">
                       <label for="student">Student Only</label>
                     </div>
                     <div class="field-radio-wrapper">
-                      <input type="radio" value="parent" name="1" class="form-radio">
+                      <input type="radio" value="1" [(ngModel)]="loginField.checkBox" name="parent" class="form-radio">
                       <label for="parent">Parent Only</label>
                     </div>
                     <div class="field-radio-wrapper">
-                      <input type="radio" value="both" name="2" class="form-radio">
+                      <input type="radio" value="2" [(ngModel)]="loginField.checkBox" name="both" class="form-radio">
                       <label for="both">Both</label>
                     </div>
                   </div>

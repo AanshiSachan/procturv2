@@ -179,6 +179,9 @@ export class AdminHomeComponent implements OnInit {
     master_course: '',
     course_id: ''
   }
+  loginField = {
+    checkBox: ''
+  }
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -2106,7 +2109,7 @@ export class AdminHomeComponent implements OnInit {
         app_sms_type: Number(value),
         studentArray: this.getListOfIds('student_id'),
         userArray: this.getListOfIds('user_id'),
-        user_role: '0'
+        user_role: this.loginField.checkBox
       }
       this.widgetService.smsForAddDownload(obj).subscribe(
         res => {

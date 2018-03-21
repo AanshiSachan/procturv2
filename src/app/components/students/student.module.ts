@@ -26,6 +26,7 @@ import { SharedModule } from '../shared/shared.module';
 import { SortPipe } from "./student-add/student-add.component";
 import { StudentSidebarComponent } from './student-sidebar/student-sidebar.component';
 import { Ng2OrderModule } from 'ng2-order-pipe';
+import { WidgetService } from '../../services/widget.service';
 
 @NgModule({
     imports: [
@@ -55,7 +56,8 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
         SortPipe,
     ],
     providers: [
-        AddStudentPrefillService
+        AddStudentPrefillService,
+        WidgetService
     ],
     entryComponents: [
         UserStudentComponent
