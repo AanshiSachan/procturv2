@@ -151,15 +151,15 @@
                   <div class="fees-state-bottom">
                     <ul>
                       <li>
-                        <label>Total Collected</label>
+                        <label>Total Fees Collection</label>
                         <div>Rs. {{getFeeAmount('total') | commaSeprator}}</div>
                       </li>
                       <li>
-                        <label>Total Pending Cheques</label>
+                        <label>Total Fees Collection(others)</label>
                         <div>Rs. {{getFeeAmount('pending') | commaSeprator}} </div>
                       </li>
                       <li>
-                        <label>Past Dues</label>
+                        <label>Total Dues</label>
                         <div>Rs. {{getFeeAmount('past') | commaSeprator}}</div>
                       </li>
                     </ul>
@@ -256,7 +256,7 @@
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
                             <li>
-                              <div>{{class.start_time}} - {{class.end_time}}  ({{class.class_date | date:'dd MMM yyyy'}})</div>
+                              <div>{{class.start_time}} - {{class.end_time}} ({{class.class_date | date:'dd MMM yyyy'}})</div>
                               <p>{{class.class_room_name}}</p>
                             </li>
                             <li class="cls-type">
@@ -1234,6 +1234,11 @@
                         {{row.student_email}}
                       </td>
                     </tr>
+                    <tr *ngIf="studentList.length == 0">
+                      <td colspan="6">
+                        No Student Found
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
 
@@ -1280,6 +1285,11 @@
                       </td>
                       <td>
                         {{row.is_active}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="5">
+                        No Tutor Found
                       </td>
                     </tr>
                   </tbody>
@@ -1399,15 +1409,15 @@
                 <div class="row">
                   <div class="radio-options">
                     <div class="field-radio-wrapper">
-                      <input type="radio" checked="true" value="0" name="student" class="form-radio">
+                      <input type="radio" checked="true" [(ngModel)]="loginField.checkBox" value="0" name="student" class="form-radio">
                       <label for="student">Student Only</label>
                     </div>
                     <div class="field-radio-wrapper">
-                      <input type="radio" value="parent" name="1" class="form-radio">
+                      <input type="radio" value="1" [(ngModel)]="loginField.checkBox" name="parent" class="form-radio">
                       <label for="parent">Parent Only</label>
                     </div>
                     <div class="field-radio-wrapper">
-                      <input type="radio" value="both" name="2" class="form-radio">
+                      <input type="radio" value="2" [(ngModel)]="loginField.checkBox" name="both" class="form-radio">
                       <label for="both">Both</label>
                     </div>
                   </div>

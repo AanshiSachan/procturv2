@@ -23,6 +23,7 @@ export class RobTableComponent implements OnChanges {
     @Output() rowsSelected = new EventEmitter<number>();
     @Output() rowIdArr = new EventEmitter<any[]>();
     @Output() sortById = new EventEmitter<string>();
+    @Output() rowUserId = new EventEmitter<string>();
 
 
     isAllSelected: boolean = false;
@@ -32,6 +33,7 @@ export class RobTableComponent implements OnChanges {
     rowSelectedCount: number = 0;
     rowSelectedId: any[] = [];
     dummyArr: any[] = [0, 1, 2, 3, 4,];
+    userIdArray: any = [];
 
     @ViewChild('headerCheckbox') hc: ElementRef;
 
@@ -74,12 +76,15 @@ export class RobTableComponent implements OnChanges {
 
     getSelectedRows() {
         this.rowSelectedId = [];
+        this.userIdArray = [];
         this.records.forEach(e => {
             if (e.uiSelected) {
                 this.rowSelectedId.push(e[this.primaryKey]);
+                this.userIdArray.push(e.user_id);
             }
         });
         this.rowIdArr.emit(this.rowSelectedId);
+        this.rowUserId.emit(this.userIdArray);
     }
 
     isAllChecked(): boolean {
@@ -184,7 +189,7 @@ export class RobTableComponent implements OnChanges {
             else if (key == 'follow_type') {
                 return 'left';
             }
-            else if(key == 'student_class') {
+            else if (key == 'student_class') {
                 return 'width25'
             }
             else {
