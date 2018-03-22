@@ -65,7 +65,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   minArr: any[] = ['', '00', '15', '30', '45'];
   meridianArr: any[] = ['', "AM", "PM"];
-  isRippleLoad:boolean = false;
+  isRippleLoad: boolean = false;
   hour: string = ''; minute: string = ''; meridian: string = '';
   newSmsString = {
     data: "",
@@ -101,7 +101,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   selectedRow: any = {
   };
 
-  isEnquiryOptions:boolean = false;
+  isEnquiryOptions: boolean = false;
 
   currentDirection = 'desc'; selectedRowGroup: any[] = []; componentPrefill: any = [];
   componentListObject: any = {}; emptyCustomComponent: any; componentRenderer: any = []; customComponentResponse: any = [];
@@ -145,10 +145,15 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     paymentMode: null,
     paymentDate: null,
     reference: null,
-
+    walkin_followUpDate: '',
+    walkin_followUpTime: {
+      hour: '',
+      minute: '',
+    },
+    is_follow_up_time_notification: 0,
   }
 
-  customCompid:any;
+  customCompid: any;
 
   /* Model For Registration, valid only for professional institute 
   where status is registred else will thow an error with status code 400 */
@@ -301,7 +306,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     //{ primaryKey: 'assigned_name', header: 'Assigned To' }
   ];
 
-
+  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 AM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 PM']
 
   assignMultipleForm: any = {
     enqLi: [],/* array of institute enquiry ID */
@@ -314,7 +319,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('tablemain') tablemain: ElementRef;
   @ViewChild('pager') pager: ElementRef;
   @ViewChild('optMenu') optMenu: ElementRef;
-  
+
 
   /* =========================================================================== */
   /* ===================== Declaration Fin ===================================== */
@@ -337,7 +342,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* OnInit Function */
   ngOnInit() {
-    
+
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.isEnquiryAdministrator();
     this.FetchEnquiryPrefilledData();
@@ -383,13 +388,18 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           this.updateFormData.statusValue = this.selectedRow.statusValue;
           this.updateFormData.followUpDate = moment(this.selectedRow.followUpDate).format('YYYY-MM-DD');
           if (this.selectedRow.followUpTime != '' && this.selectedRow.followUpTime != null) {
-            this.hour = moment(this.selectedRow.followUpDateTime).format('h');
-            document.getElementById('hourpar').classList.add('has-value');
-            this.minute = moment(this.selectedRow.followUpDateTime).format('mm');
-            document.getElementById('minutepar').classList.add('has-value');
-            this.meridian = moment(this.selectedRow.followUpDateTime).format('a').toString().toUpperCase();
-            document.getElementById('meridianpar').classList.add('has-value');
+            let timeObj = this.convertTimeToFormat(this.selectedRow.followUpTime);
+            this.hour = timeObj.hour + " " + timeObj.meridian;
+            this.minute = timeObj.minute;
           }
+
+          if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null) {
+            let timeObj = this.convertTimeToFormat(res.walkin_followUpTime);
+            this.updateFormData.walkin_followUpTime.hour = timeObj.hour + " " + timeObj.meridian;
+            this.updateFormData.walkin_followUpTime.minute = timeObj.minute;
+          }
+          this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
+          this.updateFormData.is_follow_up_time_notification = res.is_follow_up_time_notification;
           this.updateFormComments = res.comments;
           this.updateFormCommentsOn = res.commentedOn;
           this.updateFormCommentsBy = res.commentedBy;
@@ -418,6 +428,30 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   }
 
+  convertTimeToFormat(data) {
+    let time: any = {};
+    time.hour = data.split(':')[0];
+    time.minute = data.split(':')[1].split(" ")[0];
+    time.meridian = data.split(':')[1].split(" ")[1];
+    return time;
+  }
+
+  timeChanges(ev) {
+    let obj: any = {};
+    let time = ev.split(' ');
+    obj.hour = time[0];
+    obj.meridian = time[1];
+    return obj;
+  }
+
+  notifyMe(e) {
+    if (e) {
+      this.updateFormData.is_follow_up_time_notification = 1;
+    }
+    else {
+      this.updateFormData.is_follow_up_time_notification = 0;
+    }
+  }
 
   /* =========================================================================== */
   /* =========================================================================== */
@@ -550,7 +584,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Function to fetch prefill data for advanced filter */
   FetchEnquiryPrefilledData() {
-    
+
     /* Status */
     let status = this.prefill.getEnqStatus().subscribe(
       data => {
@@ -731,9 +765,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /* =========================================================================== */
 
 
-  statusFilterUpdater(e){
-  //console.log(e);
-  this.stats[e.prop].checked = e.checked;
+  statusFilterUpdater(e) {
+    //console.log(e);
+    this.stats[e.prop].checked = e.checked;
     this.statusFilter(e);
   }
 
@@ -785,7 +819,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       }
     }
 
-    else if(checkerObj.prop == "pending"){
+    else if (checkerObj.prop == "pending") {
       this.stats.Admitted.checked = false;
       this.stats.Inactive.checked = false;
       this.stats.Open.checked = false;
@@ -1712,33 +1746,50 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
       let followupdateTime: string = "";
       if (this.hour != '') {
-        let followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
+        let time = this.timeChanges(this.hour);
+        let followUpTime = time.hour + ":" + this.minute + " " + time.meridian;
         followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + followUpTime;
         this.updateFormData.followUpTime = followUpTime;
       }
       followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
+
+      if (this.updateFormData.walkin_followUpTime.hour != "") {
+        let time = this.timeChanges(this.updateFormData.walkin_followUpTime.hour);
+        let walkin_followUpTime = time.hour + ":" + this.updateFormData.walkin_followUpTime.minute + " " + time.meridian;
+        this.updateFormData.walkin_followUpTime = walkin_followUpTime;
+      } else {
+        this.updateFormData.walkin_followUpTime = "";
+      }
+
+      if (this.updateFormData.walkin_followUpDate != "" && this.updateFormData.walkin_followUpDate != null) {
+        let walkinfollowUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+        this.updateFormData.walkin_followUpDate = walkinfollowUpDate;
+      } else {
+        this.updateFormData.walkin_followUpDate = "";
+      }
+
       this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData)
         .subscribe(
-        res => {
-          this.isRippleLoad = false;
-          let msg = {
-            type: 'success',
-            title: 'Enquiry Updated',
-            body: 'Your enquiry has been successfully submitted'
-          }
-          this.appC.popToast(msg);
-          this.closePopup();
-          this.busy = this.loadTableDatatoSource(this.instituteData);
-        },
-        err => {
-          this.isRippleLoad = false;
-          let alert = {
-            type: 'error',
-            title: 'Failed To Update Enquiry',
-            body: 'There was an error processing your request'
-          }
-          this.appC.popToast(alert);
-        })
+          res => {
+            this.isRippleLoad = false;
+            let msg = {
+              type: 'success',
+              title: 'Enquiry Updated',
+              body: 'Your enquiry has been successfully submitted'
+            }
+            this.appC.popToast(msg);
+            this.closePopup();
+            this.busy = this.loadTableDatatoSource(this.instituteData);
+          },
+          err => {
+            this.isRippleLoad = false;
+            let alert = {
+              type: 'error',
+              title: 'Failed To Update Enquiry',
+              body: 'There was an error processing your request'
+            }
+            this.appC.popToast(alert);
+          })
     }
     else {
       let msg = {
@@ -1757,12 +1808,21 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   validateTime(): boolean {
     /* some time selected by user or nothing*/
-    if ((this.hour != '' && this.minute != '' && this.meridian != '') || (this.hour == '' && this.minute == '' && this.meridian == '')) {
-      return true;
+    let check = false;
+    if ((this.hour != '' && this.minute != '') || (this.hour == '' && this.minute == '')) {
+      check = true;
     }
     else {
-      return false;
+      check = false;
+      return check;
     }
+    if ((this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.minute != "") || (this.updateFormData.walkin_followUpTime.hour == "" && this.updateFormData.walkin_followUpTime.minute == "")) {
+      check = true;
+    } else {
+      check = false;
+      return check;
+    }
+    return check;
   }
 
   /* =========================================================================== */
@@ -2014,7 +2074,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             this.cd.markForCheck();
           }
         },
-        err => { 
+        err => {
           this.isRippleLoad = false;
         }
       )
@@ -2783,6 +2843,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       paymentMode: null,
       paymentDate: null,
       reference: null,
+      walkin_followUpDate: '',
+      walkin_followUpTime: {
+        hour: '',
+        minute: '',
+      },
+      is_follow_up_time_notification: 0,
     }
     this.cd.markForCheck();
   }
@@ -3016,18 +3082,18 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /*  */
   sortTableById(id) {
     //console.log(id);
-    if(id === 'name' || id === 'phone'){
-    
+    if (id === 'name' || id === 'phone') {
+
     }
-    else{
-    /* Custom server sided sorting */
-    if (id == 'followUpDateTime') { id = 'followUpDate' }
-    this.instituteData.sorted_by = id;
-    this.currentDirection = this.currentDirection == 'desc' ? 'asc' : 'desc'
-    this.instituteData.order_by = this.currentDirection;
-    this.instituteData.filtered_statuses = this.statusString.join(',');
-    this.cd.markForCheck();
-    this.busy = this.loadTableDatatoSource(this.instituteData);
+    else {
+      /* Custom server sided sorting */
+      if (id == 'followUpDateTime') { id = 'followUpDate' }
+      this.instituteData.sorted_by = id;
+      this.currentDirection = this.currentDirection == 'desc' ? 'asc' : 'desc'
+      this.instituteData.order_by = this.currentDirection;
+      this.instituteData.filtered_statuses = this.statusString.join(',');
+      this.cd.markForCheck();
+      this.busy = this.loadTableDatatoSource(this.instituteData);
     }
   }
 
@@ -3303,27 +3369,27 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.isRippleLoad = true;
     this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData)
       .subscribe(
-      res => {
-        this.isRippleLoad = false;
-        let msg = {
-          type: 'success',
-          title: 'Enquiry Updated',
-          body: 'Your enquiry has been successfully submitted'
-        }
-        this.cd.markForCheck();
-        this.appC.popToast(msg);
-        this.closePopup();
-        this.busy = this.loadTableDatatoSource(this.instituteData);
-      },
-      err => {
-        this.isRippleLoad = false;
-        let alert = {
-          type: 'error',
-          title: 'Failed To Update Enquiry',
-          body: 'There was an error processing your request'
-        }
-        this.appC.popToast(alert);
-      })
+        res => {
+          this.isRippleLoad = false;
+          let msg = {
+            type: 'success',
+            title: 'Enquiry Updated',
+            body: 'Your enquiry has been successfully submitted'
+          }
+          this.cd.markForCheck();
+          this.appC.popToast(msg);
+          this.closePopup();
+          this.busy = this.loadTableDatatoSource(this.instituteData);
+        },
+        err => {
+          this.isRippleLoad = false;
+          let alert = {
+            type: 'error',
+            title: 'Failed To Update Enquiry',
+            body: 'There was an error processing your request'
+          }
+          this.appC.popToast(alert);
+        })
   }
 
 
