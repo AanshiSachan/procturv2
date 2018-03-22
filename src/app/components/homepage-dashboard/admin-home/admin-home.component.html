@@ -238,7 +238,6 @@
                         <li class="cls-type">Class type</li>
                         <li class="cls-name">Subject/Course</li>
                         <li>Faculty</li>
-                        <li></li>
 
                       </ul>
                       <ul class="sche-head" *ngIf="!isProfessional && !isSubjectView">
@@ -251,7 +250,7 @@
                         <li>Batch</li>
 
                         <li>Faculty</li>
-                        <li></li>
+                        
 
                       </ul>
                       <div class="schedule-scroller" *ngIf="!isProfessional && isSubjectView">
@@ -754,7 +753,7 @@
 
   </proctur-widget>
 
-  <proctur-widget *ngIf="isReschedulePop">
+  <proctur-widget *ngIf="isReschedulePop" [size]="'40%'">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeRescheduleClass()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -772,9 +771,10 @@
 
     <h2 widget-header>Reschedule {{classMarkedForAction.batch_name}}</h2>
 
-    <div class="rescheduleWrapper" widget-content>
+    <div class="rescheduleWrapper" style="padding-left: 1%" widget-content>
+
       <div class="row">
-        <div class="field-wrapper datePickerBox" style="width: 50%;" [ngClass]="{ 'has-value': reschedDate
+        <div class="field-wrapper datePickerBox" style="width: 30%;" [ngClass]="{ 'has-value': reschedDate
                   !='' }">
           <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
             bsDatepicker>
