@@ -2135,14 +2135,14 @@ export class AdminHomeComponent implements OnInit {
   //  Role Based Access
 
   checkIfUserHadAccess(id) {
-    if (this.permissionArray === "") {
-      return true;
+    if (this.permissionArray == "") {
+      return false;
     } else {
       let data = JSON.parse(this.permissionArray);
       if (data.indexOf(id) == "-1") {
-        return false;
-      } else {
         return true;
+      } else {
+        return false;
       }
     }
   }

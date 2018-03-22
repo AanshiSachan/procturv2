@@ -382,7 +382,7 @@
             </div> -->
             <student-sidebar *ngIf="isSideBar" [rowData]="selectedRow" [customComponent]="studentCustomComponent" [studentDetails]="studentDetailsById"
                 (closeSide)="closeSideBar($event)" (editStudent)="editStudent($event)" (deleteStudent)="deleteStudentOpen($event)"
-                (editNotes)="openEditComment($event)">
+                (leaveEvent)="markStudentLeave($event)" (editNotes)="openEditComment($event)" (pdcEdit)="editFeePDCDetails($event)">
             </student-sidebar>
         </div>
     </aside>
@@ -492,48 +492,57 @@
                 </span>
                 <div class="popup-content">
                     <h2>Apply Student Leave</h2>
-                    <div class="update-enquiry-form overflowHidden">
-                        <div class="">
-                            <div class="leave-wrapper">
-                                <aside class="leave-detail pull-left">
-                                    <div class="header">
-                                        <h3>Leave Details</h3>
-                                        <div class="table-responsive table">
-                                            <table>
-                                                <thead>
-                                                    <tr>
-                                                        <th>Leave From</th>
-                                                        <th>Leave To</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                    <div class="update-leave-form overflowHidden">
+                        <div class="leave-wrapper">
+                            <aside class="leave-detail pull-left">
+                                <div class="header">
+                                    <h3>Leave Details</h3>
+                                    <div class="table-responsive table">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Leave From</th>
+                                                    <th>Leave To</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let row of leaveDataArray">
+                                                    <td>
+                                                        {{row.start_date}}
+                                                    </td>
+                                                    <td>
+                                                        {{row.end_date}}
+                                                    </td>
+                                                    <td>
+                                                        <a [ngClass]="{'hide' : showDeleteBtn(row)}" (click)="deletePerticularLeave(row)">Delete</a>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="leaveDataArray.length == 0">
+                                                    <td colspan="3">
+                                                        No Leave Details Found
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                </aside>
-                                <aside class="leave-add pull-right">
-                                    <div class="field-wrapper datePickerBox c-md-6">
-                                        <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker required>
-                                        <label for="">Start Date*</label>
-                                        <span>Clear</span>
-                                    </div>
-                                    <div class="field-wrapper datePickerBox c-md-6">
-                                        <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker required>
-                                        <label for="">End Date*</label>
-                                        <span>Clear</span>
-                                    </div>
-                                    <div class="field-wrapper c-md-12">
-                                        <textarea placeholder="Reason" rows="1" cols="1" style="height: 150px;padding: 10px;margin-top: 30px;border: 1px solid #777;"
-                                            id="reason" class="form-ctrl">
+                                </div>
+                            </aside>
+                            <aside class="leave-add pull-right">
+                                <div class="field-wrapper datePickerBox c-md-6 has-value">
+                                    <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker required [(ngModel)]="applyLeave.start_date">
+                                    <label for="">Start Date*</label>
+                                </div>
+                                <div class="field-wrapper datePickerBox c-md-6 has-value">
+                                    <input type="text" class="form-ctrl bsDatepicker" readonly='true' bsDatepicker required [(ngModel)]="applyLeave.end_date">
+                                    <label for="">End Date*</label>
+                                </div>
+                                <div class="field-wrapper c-md-12">
+                                    <textarea placeholder="Reason" rows="1" cols="1" style="height: 150px;padding: 10px;margin-top: 30px;border: 1px solid #777;"
+                                        id="reason" class="form-ctrl" [(ngModel)]="applyLeave.reason">
                                             </textarea>
-                                    </div>
-                                </aside>
-                            </div>
+                                </div>
+                            </aside>
                         </div>
                         <div class="">
                             <div class="clearfix">
