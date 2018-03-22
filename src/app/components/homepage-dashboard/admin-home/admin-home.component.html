@@ -9,7 +9,7 @@
         <div class="act-top clearfix">
           <h1 class="pull-left">Activity Page</h1>
           <div class="pull-right act-right-sec">
-            <button class="btn" (click)="addSendNotification()">
+            <button class="btn" [ngClass]="{hide : checkIfUserHadAccess('105')}" (click)="addSendNotification()">
               <svg height="32" viewBox="0 0 32 32" width="32" xmlns="http://www.w3.org/2000/svg">
                 <g fill="none" fill-rule="evenodd">
                   <path d="M-1-1h191v34H-1z" stroke="#1984F6"></path>
@@ -294,13 +294,14 @@
                             </li> -->
                           </ul>
                           <div class="che-action">
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="{hide : checkIfUserHadAccess('101')}"
+                              (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass(i, class)">Cancel</span>
                             <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</span>
                             <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
 
-                          <!-- <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance()">
+                            <!-- <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance()">
                               Mark Attendance</a>
                             <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance()">
                               Update Attendance</a>
@@ -343,7 +344,8 @@
                             </li> -->
                           </ul>
                           <div class="che-action" [class.display]="i == selectedRow">
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="{hide : checkIfUserHadAccess('101')}"
+                              (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
                             <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</span>
@@ -382,7 +384,8 @@
                               <div class="che-action">
                                 <ul class="ul-action">
                                   <li>
-                                    <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
+                                    <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="{hide : checkIfUserHadAccess('101')}"
+                                      (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
                                     <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance</span>
                                   </li>
                                   <li>
