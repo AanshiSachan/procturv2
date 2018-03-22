@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AddStudentPrefillService } from '../../../services/student-services/add-student-prefill.service';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
@@ -22,7 +22,7 @@ import { MenuItem } from 'primeng/primeng';
   templateUrl: './student-edit.component.html',
   styleUrls: ['./student-edit.component.scss']
 })
-export class StudentEditComponent implements OnInit {
+export class StudentEditComponent implements OnInit, OnDestroy {
 
   private studentAddFormData: StudentForm = {
     student_name: "",
@@ -340,9 +340,13 @@ export class StudentEditComponent implements OnInit {
   ngOnInit() {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
+    if (sessionStorage.getItem('editPdc') != "" && sessionStorage.getItem('editPdc') != null) {
+      this.switchToView('feeDetails-icon');
+    }
   }
   /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+  /* 
+  ============================================================================================================================ */
   getInstType() {
     let institute_type = sessionStorage.getItem('institute_type');
     if (institute_type == 'LANG') {
@@ -353,6 +357,11 @@ export class StudentEditComponent implements OnInit {
     }
   }
   /* ============================================================================================================================ */
+
+  ngOnDestroy() {
+    sessionStorage.setItem('editPdc', '');
+  }
+
   /* ============================================================================================================================ */
   /* Function to navigate through the Student Add Form on button Click Save/Submit*/
   navigateTo(text) {
@@ -2456,8 +2465,8 @@ export class StudentEditComponent implements OnInit {
               res => {
                 this.studentAddedNotifier();
               },
-              err => {}
-            );          
+              err => { }
+            );
           }
           else {
             this.studentAddedNotifier();
@@ -3032,7 +3041,7 @@ export class StudentEditComponent implements OnInit {
     this.studentServerImage = e;
   }
 
-  printFee(){
+  printFee() {
     window.print()
   }
 

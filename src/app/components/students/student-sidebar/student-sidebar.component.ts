@@ -18,6 +18,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   @Output() deleteStudent = new EventEmitter<any>();
   @Output() editNotes = new EventEmitter<any>();
   @Output() leaveEvent = new EventEmitter<any>();
+  @Output() pdcEdit = new EventEmitter<any>();
 
   //@ViewChild('acc') acc: ElementRef;
   @ViewChild('one') one: ElementRef;
@@ -70,6 +71,10 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
 
   emitLeave() {
     this.leaveEvent.emit(this.rowData.student_id);
+  }
+
+  emitEditLeave() {
+    this.pdcEdit.emit(this.rowData.student_id);
   }
 
   emitNotes() {

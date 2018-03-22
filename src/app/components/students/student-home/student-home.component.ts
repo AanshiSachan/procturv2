@@ -1103,6 +1103,12 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
   }
 
+  editFeePDCDetails(event) {
+    sessionStorage.setItem('editPdc', "true");
+    localStorage.setItem('studentId', event);
+    this.router.navigate(['/student/edit/' + event]);
+  }
+
   notifySelectedStudent() {
     this.isNotifyStudent = true;
     this.getAllMessageFromServer();
