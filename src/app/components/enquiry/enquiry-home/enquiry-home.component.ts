@@ -165,6 +165,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /* Model for checkbox toggler to update data table */
   stats = {
     All: { value: 'All', prop: 'All', checked: false, disabled: false },
+    pending: { value: 'Pending Followup', prop: 'pending', checked: false, disabled: false },
     Open: { value: 'Open', prop: 'Open', checked: true, disabled: false },
     Registered: { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
     Admitted: { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
@@ -173,6 +174,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   statFilter = [
     { value: 'All', prop: 'All', checked: false, disabled: false },
+    { value: 'Pending Followup', prop: 'pending', checked: false, disabled: false },
     { value: 'Open', prop: 'Open', checked: true, disabled: false },
     { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
     { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
@@ -730,7 +732,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
   statusFilterUpdater(e){
-  this.stats[e.value].checked = e.checked;
+  //console.log(e);
+  this.stats[e.prop].checked = e.checked;
     this.statusFilter(e);
   }
 
@@ -739,17 +742,16 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Function to toggle table data on checkbox click */
   statusFilter(checkerObj) {
-    //console.log(checkerObj);
     this.searchBarData = '';
-    //this.searchBarDate
 
-    if (checkerObj.value == "All") {
+    if (checkerObj.prop == "All") {
       this.statusString = [];
       if (checkerObj.checked) {
         this.stats.Admitted.checked = false;
         this.stats.Inactive.checked = false;
         this.stats.Open.checked = false;
         this.stats.Registered.checked = false;
+        this.stats.pending.checked = false;
         this.stats.All.checked = true;
         this.instituteData = {
           name: "",
@@ -760,7 +762,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           priority: "",
           status: -1,
           follow_type: "",
-          followUpDate: this.searchBarDate,
+          followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
           standard_id: -1,
@@ -783,10 +785,45 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       }
     }
 
+    else if(checkerObj.prop == "pending"){
+      this.stats.Admitted.checked = false;
+      this.stats.Inactive.checked = false;
+      this.stats.Open.checked = false;
+      this.stats.Registered.checked = false;
+      this.stats.pending.checked = true;
+      this.stats.All.checked = false;
+      this.instituteData = {
+        name: "",
+        phone: "",
+        email: "",
+        enquiry_no: "",
+        commentShow: 'false',
+        priority: "",
+        status: -1,
+        follow_type: "",
+        followUpDate: this.searchBarDate,
+        enquiry_date: "",
+        assigned_to: -1,
+        standard_id: -1,
+        subject_id: -1,
+        is_recent: "Y",
+        slot_id: -1,
+        filtered_slots: "",
+        isDashbord: "N",
+        enquireDateFrom: "",
+        enquireDateTo: "",
+        updateDate: "",
+        updateDateFrom: "",
+        updateDateTo: "",
+        start_index: 0,
+        batch_size: this.displayBatchSize,
+        closedReason: "",
+        enqCustomLi: null
+      };
+      this.busy = this.loadTableDatatoSource(this.instituteData);
+    }
 
-
-
-    else if (checkerObj.value == "Admitted") {
+    else if (checkerObj.prop == "Admitted") {
       this.stats.All.checked = false;
 
       if (this.stats.Admitted.checked) {
@@ -803,7 +840,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           status: -1,
           filtered_statuses: stat,
           follow_type: "",
-          followUpDate: this.searchBarDate,
+          followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
           standard_id: -1,
@@ -847,7 +884,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             priority: "",
             status: -1,
             follow_type: "",
-            followUpDate: this.searchBarDate,
+            followUpDate: "",
             enquiry_date: "",
             assigned_to: -1,
             standard_id: -1,
@@ -881,7 +918,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             status: -1,
             filtered_statuses: stat,
             follow_type: "",
-            followUpDate: this.searchBarDate,
+            followUpDate: "",
             enquiry_date: "",
             assigned_to: -1,
             standard_id: -1,
@@ -906,10 +943,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
     }
 
-
-
-
-    else if (checkerObj.value == "Inactive") {
+    else if (checkerObj.prop == "Inactive") {
       this.stats.All.checked = false;
 
       if (this.stats.Inactive.checked) {
@@ -1029,11 +1063,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
     }
 
-
-
-
-
-    else if (checkerObj.value == "Open") {
+    else if (checkerObj.prop == "Open") {
       this.stats.All.checked = false;
 
       if (this.stats.Open.checked) {
@@ -1159,11 +1189,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
     }
 
-
-
-
-
-    else if (checkerObj.value == "Registered") {
+    else if (checkerObj.prop == "Registered") {
       this.stats.All.checked = false;
       if (this.stats.Registered.checked) {
         this.statusString.push('11');

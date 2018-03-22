@@ -27,7 +27,7 @@ export class QuickFilterComponent implements OnChanges {
         this.selectedOptions = [];
         this.inputList.forEach(e => {
             if(e.checked){
-                this.selectedOptions.push(e.value);
+                this.selectedOptions.push(e.prop);
                 this.selectedOptionsString = this.selectedOptions.join(",");
             }
         });
@@ -35,6 +35,7 @@ export class QuickFilterComponent implements OnChanges {
 
 
     checkBoxUpdated(i) {
+        console.log(i);
         if (this.modelName === 'enqList') {
             this.updateEnqArray(i);
         }
@@ -54,15 +55,18 @@ export class QuickFilterComponent implements OnChanges {
     }
 
     updateEnqArray(i) {
-        if (i.value == "All") {
+        debugger
+        if (i.prop == "All") {
             this.selectedOptions = [];
+            this.selectedOptionsString = '';
             if (i.checked) {
                 this.inputList.forEach(el => {
-                    if (el.value != "All") {
+                    console.log(el);
+                    if (el.prop != "All") {
                         el.checked = false;
                     }
                 });
-                this.selectedOptions.push(i.value);
+                this.selectedOptions.push(i.prop);
                 this.selectedOptionsString = this.selectedOptions.join(",");
                 this.selectedValue.emit(i);
             }
@@ -70,22 +74,46 @@ export class QuickFilterComponent implements OnChanges {
 
             }
         }
-        else {
-            if(this.selectedOptions.indexOf("All") !== -1){
-                let indexAll = this.selectedOptions.indexOf("All");
-                this.selectedOptions.splice(indexAll, 1);
+        if (i.prop == "pending") {
+            this.selectedOptions = [];
+            this.selectedOptionsString = '';
+            if (i.checked) {
                 this.inputList.forEach(el => {
-                    if (el.value == "All") {
+                    if (el.prop != "pending") {
+                        el.checked = false;
+                    }
+                });
+                this.selectedOptions.push(i.prop);
+                this.selectedOptionsString = this.selectedOptions.join(",");
+                this.selectedValue.emit(i);
+            }
+            else{
+
+            }
+        }
+        else if (i.prop != "All" && i.prop != "pending") {
+            //console.log(this.selectedOptions);
+            if(this.selectedOptions.indexOf("All") !== -1 || this.selectedOptions.indexOf("pending") !== -1){
+                if(this.selectedOptions.indexOf("All") !== -1){
+                    let indexAll = this.selectedOptions.indexOf("All");
+                    this.selectedOptions.splice(indexAll, 1);                    
+                }
+                if(this.selectedOptions.indexOf("pending") !== -1){
+                    let indextod = this.selectedOptions.indexOf("pending");
+                    this.selectedOptions.splice(indextod, 1);   
+                }
+                this.inputList.forEach(el => {
+                    if (el.prop == "All" || el.prop == 'pending') {
                         el.checked = false;
                     }
                 });
                 this.selectedValue.emit(i);
                 if (i.checked) {
-                    this.selectedOptions.push(i.value);
+                    this.selectedOptions.push(i.prop);
                     this.selectedOptionsString = this.selectedOptions.join(",");
                 }
                 else {
-                    let index = this.selectedOptions.indexOf(i.value);
+                    let index = this.selectedOptions.indexOf(i.prop);
                     if (index !== -1) {
                         this.selectedOptions.splice(index, 1);
                     }
@@ -94,17 +122,17 @@ export class QuickFilterComponent implements OnChanges {
             }
             else{
                 this.inputList.forEach(el => {
-                    if (el.value == "All") {
+                    if (el.prop == "All" || el.prop == "pending") {
                         el.checked = false;
                     }
                 });
                 this.selectedValue.emit(i);
                 if (i.checked) {
-                    this.selectedOptions.push(i.value);
+                    this.selectedOptions.push(i.prop);
                     this.selectedOptionsString = this.selectedOptions.join(",");
                 }
                 else {
-                    let index = this.selectedOptions.indexOf(i.value);
+                    let index = this.selectedOptions.indexOf(i.prop);
                     if (index !== -1) {
                         this.selectedOptions.splice(index, 1);
                     }
@@ -116,11 +144,11 @@ export class QuickFilterComponent implements OnChanges {
 
     optionSelected(i) {
         if (i.checked) {
-            this.selectedOptions.push(i.value);
+            this.selectedOptions.push(i.prop);
             this.selectedOptionsString = this.selectedOptions.join(",");
         }
         else {
-            let index = this.selectedOptions.indexOf(i.value);
+            let index = this.selectedOptions.indexOf(i.prop);
             if (index !== -1) {
                 this.selectedOptions.splice(index, 1);
             }

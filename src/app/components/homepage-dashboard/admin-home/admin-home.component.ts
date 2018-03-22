@@ -208,7 +208,7 @@ export class AdminHomeComponent implements OnInit {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.grid = new Muuri('.grid', {
-      dragEnabled: true,
+      dragEnabled: false,
       layout: {
         fillGaps: true,
         rounding: true

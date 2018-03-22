@@ -796,12 +796,15 @@ div#enqChart {
         li {
             padding: 16px 24px 12px;
             &.cls-type {
-                width: 29%;
+                width: 15%;
             }
             &:first-child {
-                width: 16%;
+                width: 25%;
             }
             &:nth-last-child(2) {
+                width: 30%;
+            }
+            &:last-child {
                 width: 15%;
             }
             div {
