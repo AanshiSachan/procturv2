@@ -1,3 +1,5 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <section class="middle-section clearFix" (click)="inputClicked($event)" (change)="inputClicked($event)" [ngBusy]="{busy: busyPrefill, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
 
   <section class="" id="studentFlow">
@@ -52,7 +54,7 @@
               <div class="questionInfo">
                 <span class="qInfoIcon">?</span>
                 <div class="tooltip-box-field">
-                  Show-Why and when to quick Add Student
+                  You can fill the student basic details, manage fee and allocate inventory all at once.
                 </div>
               </div>
               <a style="cursor:pointer">Need help?</a>
@@ -61,9 +63,7 @@
         </section>
         <!-- Main Enquiry Form -->
         <section class="clearFix student-flow  row" id="studentFlow">
-
           <aside class="pull-left middle-left">
-
             <!-- Form 1 -->
             <div class="row">
               <div class="c-lg-8 c-md-8 c-sm-8">
@@ -84,14 +84,11 @@
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_phone != ''}">
                     <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
-                      maxlength="10" minlength="10" #cNumber="ngModel" pattern="[789][0-9]{9}" required/>
+                      maxlength="10" minlength="10" OnlyNumber="true" #cNumber="ngModel" required/>
                     <label for="cNumber">Contact Number*</label>
                     <div *ngIf="cNumber.invalid && (cNumber.dirty || cNumber.touched)" class="alert invalid-alert">
                       <div *ngIf="cNumber.errors.required">
-                        phone number is required.
-                      </div>
-                      <div *ngIf="cNumber.errors.pattern">
-                        Please enter a valid 10 digits mobile number.
+                        Phone number is required.
                       </div>
                     </div>
                   </div>
@@ -102,7 +99,7 @@
                     <label for="sEmail">Email ID</label>
                     <div *ngIf="sEmail.invalid && (sEmail.dirty || sEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="sEmail.errors.pattern">
-                        Please enter a valid email-ID.
+                        Enter email in format eg. someone@xyz.com
                       </div>
                     </div>
                   </div>
@@ -130,13 +127,8 @@
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_phone != ''}">
                     <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
-                      maxlength="10" minlength="10" pattern="[789][0-9]{9}" #parentContactNo="ngModel" />
+                      maxlength="10" minlength="10" OnlyNumber="true" #parentContactNo="ngModel" />
                     <label for="parentContactNo">Parent Contact Number</label>
-                    <div *ngIf="parentContactNo.invalid && (parentContactNo.dirty || parentContactNo.touched)" class="alert invalid-alert">
-                      <div *ngIf="parentContactNo.errors.pattern">
-                        Please enter a valid 10 digits mobile number.
-                      </div>
-                    </div>
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_email != ''}">
@@ -145,13 +137,13 @@
                     <label for="parentEmail">Parent Email ID</label>
                     <div *ngIf="parentEmail.invalid && (parentEmail.dirty || parentEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="parentEmail.errors.pattern">
-                        Please enter a valid email ID.
+                          Enter email in format eg. someone@xyz.com
                       </div>
                     </div>
                   </div>
 
-                  <div class="more-detail">
-                    <a style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+ &nbsp; Add Additional Details</a>
+                  <div class="more-detail" style="font-size: 14px;">
+                      <a style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+ &nbsp; Add Additional Details</a>
                   </div>
 
                 </div>
@@ -198,13 +190,8 @@
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_phone != ''}">
                     <input type="text" value="" id="guardianContact" class="form-ctrl" maxlength="10" minlength="10" [(ngModel)]="studentAddFormData.guardian_phone"
-                      name="guardianContact" pattern="[789][0-9]{9}" #guardianContact="ngModel">
+                      name="guardianContact" OnlyNumber="true" #guardianContact="ngModel">
                     <label for="guardianContact">Guardian Contact Number</label>
-                    <div *ngIf="guardianContact.invalid && (guardianContact.dirty || guardianContact.touched)" class="alert invalid-alert">
-                      <div *ngIf="guardianContact.errors.pattern">
-                        Please enter a valid 10 digits mobile number.
-                      </div>
-                    </div>
                     <div class="questionInfo pos-rel">
                       <span class="qInfoIcon">?</span>
                       <div class="tooltip-box-field">
@@ -219,7 +206,7 @@
                     <label for="guardianEmail">Guardian Email Id</label>
                     <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianEmail.errors.pattern">
-                        please enter a valid email ID.
+                          Enter email in format eg. someone@xyz.com
                       </div>
                     </div>
                   </div>
@@ -236,12 +223,8 @@
           </aside>
 
           <aside class="pull-right middle-right" id="studentRightSideBar">
-
-
             <div class="common-right-section">
             </div>
-
-
             <!-- Enquiry Details official use-->
             <section class="enquiry-detail common-right-section">
               <h4>
@@ -382,7 +365,7 @@
               </div>
             </div>
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
-            <input type="button" id="form-continue" [disabled]="!values.form.valid" [class.hide]="quickAddStudent" value="Save and Continue"
+            <input type="button" id="form-continue" [class.hide]="quickAddStudent" value="Continue"
               class="btn fullBlue" (click)="navigateTo('kyc')">
             <input type="button" id="form-submit" [disabled]="!values.form.valid" [class.hide]="!quickAddStudent" (click)="studentQuickAdder(values)"
               value="Submit" class="btn hide fullBlue">
@@ -492,7 +475,7 @@
             </div>
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
             <input type="button" id="form-kyc-continue" [disabled]="!values.form.valid" value="Save and Continue" class="btn fullBlue"
-              [class.hide]="quickAddStudent" (click)="navigateTo('feeDetails')">
+              [class.hide]="quickAddStudent" (click)="addStudentDataAndFetchFee(values)">
             <input type="button" id="form-kyc-submit" [disabled]="!values.form.valid" (click)="studentQuickAdder(values)" value="Submit"
               [class.hide]="!quickAddStudent" class="btn hide fullBlue">
           </aside>
@@ -505,7 +488,7 @@
 
     <!-- ======================================================== -->
     <!-- =============== Fee Details =============================== -->
-    <section class="student-flow-wrapper " *ngIf="isFeeActive" id="feeDetails" [class.hide]="quickAddStudent">
+    <section class="student-flow-wrapper " *ngIf="isFeeActive" id="feeDetails">
       <section class="fee-section-page">
         <!--====================================middle Top section==========================-->
         <section class="middle-top clearFix">
@@ -698,7 +681,7 @@
     <!-- ======================================================== -->
     <!-- =============== Inventory =============================== -->
     <!--===========================================allocation inventory item===========================-->
-    <section class="student-flow-wrapper " *ngIf="isInventoryActive" id="inventory" [class.hide]="quickAddStudent">
+    <section class="student-flow-wrapper " *ngIf="isInventoryActive" id="inventory" >
 
       <section class="clearFix allocation row" id="allocationInventoryItem">
 

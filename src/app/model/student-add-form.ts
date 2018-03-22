@@ -17,6 +17,7 @@ export interface StudentForm{
 	is_active?: any, // "Y",
 	institution_id?: any, // "100123",
 	assignedBatches?: any, // ["5660", "2447", "4163", "3067"],
+	assignedBatchescademicYearArray?: any;
 	fee_type?: any, // 0,
 	fee_due_day?: any, // 0,
 	batchJoiningDates?: any, // ["2017-10-25", "2017-10-25", "2017-10-25", "2017-10-25"],
