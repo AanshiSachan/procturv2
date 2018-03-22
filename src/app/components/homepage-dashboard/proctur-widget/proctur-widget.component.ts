@@ -23,6 +23,9 @@ import 'rxjs/Rx';
 })
 export class ProcturWidgetComponent implements OnInit {
 
+  @Input() size: string;
+  @ViewChild('popup') popup: ElementRef;
+
   isProfessional:boolean = false;
 
   constructor(private router: Router, private fb: FormBuilder, private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef) {
@@ -30,8 +33,9 @@ export class ProcturWidgetComponent implements OnInit {
 
   ngOnInit() {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.size = this.size || '80%';
+    this.popup.nativeElement.style.maxWidth = this.size;
+    console.log(this.size);
   }
-
-
 
 }

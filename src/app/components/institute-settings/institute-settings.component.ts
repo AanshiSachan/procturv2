@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppComponent } from '../../app.component';
 import { LoginService } from '../../services/login-services/login.service';
 import { InstituteSettingService } from '../../services/institute-setting-service/institute-setting-service';
@@ -9,7 +9,7 @@ import { document } from '../../../assets/imported_modules/ngx-bootstrap/utils/f
   templateUrl: './institute-settings.component.html',
   styleUrls: ['./institute-settings.component.scss']
 })
-export class InstituteSettingsComponent implements OnInit {
+export class InstituteSettingsComponent implements OnInit, OnDestroy {
 
 
   isRippleLoad: boolean = false;
@@ -228,6 +228,10 @@ export class InstituteSettingsComponent implements OnInit {
     this.checkInstitutionType();
     this.getSettingFromServer();
     this.scrollListener();
+  }
+
+  ngOnDestroy() {
+    window.onscroll = null;
   }
 
   scrollListener() {

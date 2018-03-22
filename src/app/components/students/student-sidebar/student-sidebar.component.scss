@@ -3,14 +3,12 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-
 @import "./src/assets/css/style.scss";
 @import "./src/assets/css/wrapper.scss";
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-
-.dropdown-trigger{
+.dropdown-trigger {
     background: white;
     position: absolute;
     right: 60px;
@@ -35,7 +33,7 @@
     width: 1px;
 }
 
-.dd-list-container{
+.dd-list-container {
     position: absolute;
     top: 40px;
     border: 1px solid rgba(119, 119, 119, 0.29);
@@ -46,26 +44,24 @@
     height: auto;
     background: white;
     box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.611764705882353);
-    .dropdown-list{
-
-    }
+    .dropdown-list {}
 }
 
-.actions-menu{
+.actions-menu {
     list-style-type: none;
     padding-left: 0;
     margin-top: 0;
     padding: 5px;
-    .action-item{
+    .action-item {
         padding: 10px;
         background: white;
         cursor: pointer;
-        img{
+        img {
             max-width: 100%;
             height: auto;
             margin-right: 8px;
         }
-        &:hover{
+        &:hover {
             background: #eff1f5;
         }
     }
@@ -192,6 +188,40 @@
         margin: 5px 0px;
     }
     .header-row {
+        .student-details-wrapper {
+            width: 50%;
+            padding: 10px 0px 0px 15px;
+            display: inline-block;
+        }
+        .profile-details-wrapper {
+            width: 20%;
+            display: inline-block;
+            .profile-wrapper {
+                height: 50px;
+                width: 50px;
+                padding: 0px;
+                float: right;
+                border: 3px solid #0060A3;
+                border-radius: 50%;
+                background: #4b9cd3;
+                overflow: hidden;
+                .no-img {
+                    background-image: url("../../../../assets/images/studentblue.png");
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    width: 100%;
+                    z-index: 1;
+                    height: 100%;
+                }
+                .image-disp {
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    width: 100%;
+                    z-index: 10;
+                    height: 100%;
+                }
+            }
+        }
         ul {
             list-style: none;
             li {
@@ -203,32 +233,6 @@
     }
 }
 
-.profile-wrapper {
-    height: 70px;
-    width: 70px;
-    padding: 0px;
-    float: right;
-    border: 3px solid #0060A3;
-    border-radius: 50%;
-    background: #4b9cd3;
-    overflow: hidden;
-    .no-img {
-        background-image: url("../../../../assets/images/studentblue.png");
-        background-repeat: no-repeat;
-        background-size: contain;
-        width: 100%;
-        z-index: 1;
-        height: 100%;
-    }
-    .image-disp{
-        background-repeat: no-repeat;
-        background-size: contain;
-        width: 100%;
-        z-index: 10;
-        height: 100%;
-    }
-    
-}
 
 /* Style the buttons that are used to open and close the accordion panel */
 
@@ -273,7 +277,7 @@
     padding: 0px 5px;
     width: 100%;
     height: 100%;
-    .detail-wrapper{
+    .detail-wrapper {
         .form-wrapper {
             background: transparent;
             margin: 5px 0px;
@@ -302,8 +306,7 @@
             }
             label {
                 font-size: 12px;
-                font-weight: 400;
-                //font-family: -webkit-body;
+                font-weight: 400; //font-family: -webkit-body;
                 color: rgba(0, 0, 0, 0.77);
                 padding-bottom: 2px;
                 text-decoration: none;

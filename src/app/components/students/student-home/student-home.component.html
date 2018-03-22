@@ -336,7 +336,7 @@
                         <div class="table table-responsive student-table">
                             <ng-robTable [records]="studentDataSource" [reset]="isSideBar" [tableName]="'student'" [settings]="StudentSettings" (userRowSelect)="userRowSelect($event)"
                                 (rowsSelected)="getRowCount($event)" [dataStatus]="loading_message" [key1]="'isActive'" [primaryKey]="'student_id'"
-                                (rowIdArr)="getSelected($event)" (sortById)="sortTableById($event)">
+                                (rowIdArr)="getSelected($event)" (rowUserIDArrayList)="getSelectedUserIDS($event)" (sortById)="sortTableById($event)">
                             </ng-robTable>
                             <!-- <proctur-checkbox-table [records]="studentDataSource" [tableName]="'student'" 
                                 [settings]="StudentSettings" [dataStatus]="loading_message"
@@ -571,7 +571,7 @@
                 </span>
                 <div class="popup-content">
                     <h2>Send Notification</h2>
-                    <div class="update-enquiry-form overflowHidden">
+                    <!-- <div class="update-enquiry-form overflowHidden">
                         <div class="notify-wrapper">
                             <div class="row">
                                 <div class="c-md-6">
@@ -595,7 +595,137 @@
                                 </aside>
                             </div>
                         </div>
+                    </div> -->
+
+
+                    <div class="notification-content-wrapper">
+
+                        <div class="marginTenPixel">
+                            <div class="field-checkbox-wrapper">
+                                <input type="checkbox" value="" [(ngModel)]="sendNotification.loginMessageChkbx" name="loginMessage" class="form-checkbox"
+                                    id="">
+                                <label for="loginMessage" style=" margin-left: 10px;">Send Login Message</label>
+                            </div>
+                        </div>
+
+                        <div id="divDeliveryOptions" *ngIf="!sendNotification.loginMessageChkbx" class="content-delivery marginTenPixel">
+                            <h3>Delivery Mode</h3>
+
+                            <div class="row marginTenPixel">
+                                <div id="" class="c-sm-4 c-md-4 c-lg-4">
+                                    <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
+                                        <input type="checkbox" [(ngModel)]="sendNotification.smsChkbx" value="" name="sms" class="form-checkbox" id="">
+                                        <label for="sms" style=" margin-left: 10px;">SMS</label>
+                                    </div>
+                                    <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
+                                        <input type="checkbox" value="" [(ngModel)]="sendNotification.emailChkbx" name="mail" class="form-checkbox" id="">
+                                        <label for="mail" style=" margin-left: 10px;">Mail</label>
+                                    </div>
+                                </div>
+                                <div id="" class="c-sm-6 c-md-6 c-lg-6">
+                                    <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                                        <input type="checkbox" [(ngModel)]="sendNotification.studentChkbx" value="" name="student" class="form-checkbox" id="">
+                                        <label for="student" style=" margin-left: 10px;">Student</label>
+                                    </div>
+                                    <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                                        <input type="checkbox" value="" name="parent" [(ngModel)]="sendNotification.parentChkbx" class="form-checkbox" id="">
+                                        <label for="parent" style=" margin-left: 10px;">Parent</label>
+                                    </div>
+                                    <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
+                                        <input type="checkbox" value="" name="guardian" [(ngModel)]="sendNotification.gaurdianChkbx" class="form-checkbox" id="">
+                                        <label for="guardian" style=" margin-left: 10px;">Guardian</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row marginTenPixel" *ngIf="sendNotification.emailChkbx == true">
+
+                                <div class="form-wrapper datepicker c-sm-6 c-xs-6">
+                                    <label for="subject" style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Subject</label>
+                                    <input type="text" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
+                                        id="divSubjectMessage" />
+                                </div>
+
+                            </div>
+
+                            <div class="row marginTenPixel">
+                                <a (click)="getAllSavedMessages()">See All Message</a>
+
+                                <div class="message-table-wrapper">
+                                    <table class="message-table">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <!-- <div class="field-checkbox-wrapper">
+                                                          <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus(messageList)" (click)="checkAllChechboxes($event , messageList)">
+                                                          <label></label>
+                                                        </div> -->
+                                                </th>
+                                                <th>
+                                                    Date
+                                                </th>
+                                                <th>
+                                                    Message
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let row of messageList; let i = index; trackBy: i;">
+                                                <td>
+                                                    <div class="field-checkbox-wrapper">
+                                                        <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                                                        <label></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    {{row.date}}
+                                                </td>
+                                                <td>
+                                                    {{row.message}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                            <div class="marginTenPixel pull-right">
+                                <button class="btn" (click)="sendNotificationMessage()">Send</button>
+                                <button class="btn" (click)="sendPushNotification()">Send Push Notification</button>
+                            </div>
+
+                        </div>
+
+                        <div id="divSendLogin" *ngIf="sendNotification.loginMessageChkbx" class="marginTenPixel">
+
+                            <div class="marginTenPixel">
+                                <div class="radio-options">
+                                    <div class="field-radio-wrapper">
+                                        <input type="radio" checked="checked" [(ngModel)]="loginField.checkBox" value="0" name="student" class="form-radio">
+                                        <label for="student">Student Only</label>
+                                    </div>
+                                    <div class="field-radio-wrapper">
+                                        <input type="radio" [(ngModel)]="loginField.checkBox" value="1" name="parent" class="form-radio">
+                                        <label for="parent">Parent Only</label>
+                                    </div>
+                                    <div class="field-radio-wrapper">
+                                        <input type="radio" [(ngModel)]="loginField.checkBox" value="2" name="both" class="form-radio">
+                                        <label for="both">Both</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="marginTenPixel">
+                                <button class="btn" (click)="sendSmsForApp('1')">Send SMS For App Download</button>
+                                <button class="btn" (click)="sendSmsForApp('2')">Send SMS For App Upgradation</button>
+                                <button class="btn" (click)="sendSmsForApp('3')">Send SMS For Alternate Login Registration</button>
+                                <button class="btn" (click)="sendSmsForApp('4')">Send Credentials</button>
+                            </div>
+                        </div>
+
                     </div>
+
                 </div>
             </div>
         </div>

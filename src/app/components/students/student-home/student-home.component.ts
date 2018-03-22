@@ -17,6 +17,7 @@ import { AddStudentPrefillService } from '../../../services/student-services/add
 import { PostStudentDataService } from '../../../services/student-services/post-student-data.service';
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
+import { WidgetService } from '../../../services/widget.service';
 
 
 @Component({
@@ -71,10 +72,10 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   loading_message: number = 1;
   private selectedSlotsID: string = '';
   selectedRowCount: number = 0;
-  isRippleLoad:boolean  = false;
+  isRippleLoad: boolean = false;
   /* set true to see the sidebar */
   isSideBar: boolean = false;
-  isOptions:boolean = false;
+  isOptions: boolean = false;
   private editForm: any = {
     comments: "",
     institution_id: sessionStorage.getItem('institute_id')
@@ -91,7 +92,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   ];
 
   @ViewChild('studentPage') studentPage: ElementRef;
-  @ViewChild('mySidenav') mySidenav: ElementRef;  
+  @ViewChild('mySidenav') mySidenav: ElementRef;
   @ViewChild('optMenu') optMenu: ElementRef;
 
   /* Model for institute Data for fetching student enquiry */
@@ -133,7 +134,9 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   constructor(private prefill: FetchprefilldataService, private router: Router,
     private studentFetch: FetchStudentService, private login: LoginService,
-    private appC: AppComponent, private studentPrefill: AddStudentPrefillService, private postService: PostStudentDataService) {
+    private appC: AppComponent, private studentPrefill: AddStudentPrefillService,
+    private widgetService: WidgetService,
+    private postService: PostStudentDataService) {
   }
 
   /* OnInit function to set toggle default columns and load student data for table*/
@@ -144,7 +147,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.busy = this.loadTableDataSource(this.instituteData);
     this.busy = this.fetchStudentPrefill();
-    
+
     this.bulkActionItems = [
       {
         label: 'Mark Leave', icon: 'fas fa-exclamation', command: () => {
@@ -159,7 +162,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     ];
   }
 
-  ngOnChanges() {}
+  ngOnChanges() { }
 
   /* Fetch data from server and convert to custom array */
   loadTableDataSource(obj) {
@@ -308,12 +311,12 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   /* navigate the user to edit page for the specific student */
   editStudent(id) {
     localStorage.setItem('studentId', id);
-    this.router.navigate(['/student/edit/'+id]);
+    this.router.navigate(['/student/edit/' + id]);
   }
 
   /* Delete the student selected or archieve the student selected */
   deleteStudent(id) {
-    
+
     let obj = {
       studentIds: this.selectedRow.student_id.toString(),
       studentAlumniArrayString: "Y"
@@ -469,7 +472,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
           this.totalRow = this.studentDataSource.length;
         }
       },
-      err => { 
+      err => {
         this.isRippleLoad = false;
       }
     );
@@ -914,6 +917,10 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.selectedRowGroup = ev;
   }
 
+  getSelectedUserIDS(ev) {
+    this.selectedUserId = ev;
+  }
+
   getRowCount(ev) {
     //console.log(ev);
     this.selectedRowCount = ev;
@@ -928,7 +935,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   sortTableById(id) {
     //console.log(id);
-    if(id != 'noOfBatchesAssigned'){
+    if (id != 'noOfBatchesAssigned') {
       this.instituteData.sorted_by = id;
       this.instituteData.order_by = this.getDirection();
       this.busy = this.loadTableDataSource(this.instituteData);
@@ -967,25 +974,298 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.mySidenav.nativeElement.style.display = 'none';
     this.optMenu.nativeElement.classList.remove('shorted');
   }
-  
-  markLeave(){
+
+  markLeave() {
     this.isMarkLeave = true;
   }
 
-  closeMarkLeave(){
+  closeMarkLeave() {
     this.isMarkLeave = false;
   }
 
-  updateMarkLeave(){
-    
+  updateMarkLeave() {
+
   }
 
-  notifySelectedStudent(){
+  notifySelectedStudent() {
     this.isNotifyStudent = true;
+    this.getAllMessageFromServer();
+    this.sendNotification = {
+      loginMessageChkbx: false,
+      smsChkbx: true,
+      emailChkbx: false,
+      studentChkbx: true,
+      parentChkbx: false,
+      gaurdianChkbx: false,
+      subjectMessage: ''
+    }
+    this.loginField = {
+      checkBox: 0
+    }
   }
 
-  closeNotifyStudent(){
+  closeNotifyStudent() {
     this.isNotifyStudent = false;
+  }
+
+  // SEND NOTIFICATION POPUP
+
+  sendNotification = {
+    loginMessageChkbx: false,
+    smsChkbx: true,
+    emailChkbx: false,
+    studentChkbx: true,
+    parentChkbx: false,
+    gaurdianChkbx: false,
+    subjectMessage: ''
+  }
+  loginField = {
+    checkBox: 0
+  }
+  messageList: any = [];
+  selectedUserId: any = [];
+
+  getAllMessageFromServer() {
+    this.messageList = [];
+    this.isRippleLoad = true;
+    let obj = {
+      from_date: moment().subtract(1, 'months').format("YYYY-MM-DD"),
+      status: 1,
+      to_date: moment().format("YYYY-MM-DD")
+    }
+    this.widgetService.getMessageList(obj).subscribe(
+      res => {
+        this.isRippleLoad = false;
+        this.messageList = this.addKeys(res, false);
+      },
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+      }
+    )
+  }
+
+  getAllSavedMessages() {
+    this.isRippleLoad = true;
+    this.messageList = [];
+    this.widgetService.getMessageList({ status: 1 }).subscribe(
+      res => {
+        this.isRippleLoad = false;
+        this.messageList = this.addKeys(res, false);
+      },
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+      }
+    )
+  }
+
+  getDeliveryModeValue() {
+    if (this.sendNotification.smsChkbx == true && this.sendNotification.emailChkbx == true) {
+      return 2;
+    } else if (this.sendNotification.smsChkbx == true && this.sendNotification.emailChkbx == false) {
+      return 0;
+    } else if (this.sendNotification.smsChkbx == false && this.sendNotification.emailChkbx == true) {
+      return 1;
+    }
+  }
+
+  validateAllFields() {
+    if (this.sendNotification.smsChkbx == false && this.sendNotification.emailChkbx == false) {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: "Please select Delivery Mode(SMS , Email)"
+      };
+      this.appC.popToast(msg);
+      return false;
+    }
+
+    if (this.sendNotification.emailChkbx == true) {
+      if (this.sendNotification.subjectMessage.trim() == "" || this.sendNotification.subjectMessage.trim() == null) {
+        let msg = {
+          type: 'error',
+          title: 'Error',
+          body: "Please provide Email Subject"
+        };
+        this.appC.popToast(msg);
+        return false;
+      }
+    }
+
+    if ((this.sendNotification.studentChkbx == false) && (this.sendNotification.parentChkbx == false) && (this.sendNotification.gaurdianChkbx == false)) {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: "Please correct option in Send SMS To.."
+      };
+      this.appC.popToast(msg);
+      return false;
+    }
+
+  }
+
+  getNotificationMessage() {
+    let count = 0;
+    for (let t = 0; t < this.messageList.length; t++) {
+      if (this.messageList[t].assigned == true) {
+        return {
+          message: this.messageList[t].message, messageId: this.messageList[t].message_id
+        };
+      } else {
+        count++;
+      }
+    }
+    if (this.messageList.length == count) {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: "Please select message"
+      };
+      this.appC.popToast(msg);
+      return false;
+    }
+  }
+
+  getDestinationValue() {
+    if (this.sendNotification.studentChkbx == true && this.sendNotification.parentChkbx == false && this.sendNotification.gaurdianChkbx == false) {
+      return 0;
+    } else if (this.sendNotification.studentChkbx == false && this.sendNotification.parentChkbx == true && this.sendNotification.gaurdianChkbx == false) {
+      return 1;
+    } else if (this.sendNotification.studentChkbx = false && this.sendNotification.parentChkbx == false && this.sendNotification.gaurdianChkbx == true) {
+      return 3;
+    } else if (this.sendNotification.studentChkbx && this.sendNotification.parentChkbx && this.sendNotification.gaurdianChkbx == false) {
+      return 2;
+    } else if (this.sendNotification.studentChkbx && this.sendNotification.gaurdianChkbx && this.sendNotification.parentChkbx == false) {
+      return 5;
+    } else if (this.sendNotification.parentChkbx && this.sendNotification.gaurdianChkbx && this.sendNotification.studentChkbx == false) {
+      return 6;
+    }
+    else if (this.sendNotification.studentChkbx && this.sendNotification.parentChkbx && this.sendNotification.gaurdianChkbx) {
+      return 4;
+    }
+  }
+
+  sendNotificationMessage() {
+    let check = this.validateAllFields();
+    if (check === false) {
+      return false;
+    }
+    let messageSelected = this.getNotificationMessage();
+    if (messageSelected === false) {
+      return;
+    }
+    let obj = {
+      delivery_mode: Number(this.getDeliveryModeValue()),
+      notifn_message: messageSelected.message,
+      notifn_subject: this.sendNotification.subjectMessage.trim(),
+      destination: Number(this.getDestinationValue()),
+      student_ids: this.getListOfIds(this.selectedRowGroup),
+      batch_id: '-1',
+      cancel_date: '',
+      isEnquiry_notifn: 0,
+      isAlumniSMS: 0,
+      isTeacherSMS: 0,
+      configuredMessage: false,
+      message_id: messageSelected.messageId
+    }
+
+    this.widgetService.sendNotification(obj).subscribe(
+      res => {
+        console.log(res);
+        let msg = {
+          type: 'success',
+          title: 'Message',
+          body: "Send Successfully"
+        };
+        this.appC.popToast(msg);
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: 'error',
+          body: err.error.message
+        };
+        this.appC.popToast(msg);
+        console.log(err);
+      }
+    )
+  }
+
+  sendPushNotification() {
+    let messageSelected = this.getNotificationMessage();
+    if (messageSelected === false) {
+      return;
+    }
+    let obj = {
+      notifn_message: messageSelected.message,
+      message_id: messageSelected.messageId,
+      student_ids: this.getListOfIds(this.selectedRowGroup),
+    }
+    this.widgetService.sendPushNotificationToServer(obj).subscribe(
+      res => {
+        console.log(res);
+        let msg = {
+          type: 'success',
+          title: 'Message',
+          body: "Send Successfully"
+        };
+        this.appC.popToast(msg);
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: 'error',
+          body: err.error.message
+        };
+        this.appC.popToast(msg);
+        console.log(err);
+      }
+    )
+  }
+
+  sendSmsForApp(value) {
+    if (confirm("Are you sure you want to send SMS to selected users?")) {
+      let obj = {
+        app_sms_type: Number(value),
+        studentArray: this.getListOfIds(this.selectedRowGroup),
+        userArray: this.getListOfIds(this.selectedUserId),
+        user_role: this.loginField.checkBox
+      }
+      this.widgetService.smsForAddDownload(obj).subscribe(
+        res => {
+          let msg = {
+            type: 'success',
+            title: 'Message',
+            body: "Send Successfully"
+          };
+          this.appC.popToast(msg);
+        },
+        err => {
+          let msg = {
+            type: 'error',
+            title: 'error',
+            body: err.error.message
+          };
+          this.appC.popToast(msg);
+          console.log(err);
+        }
+      )
+
+    }
+  }
+
+  addKeys(data, val) {
+    data.forEach(
+      element => {
+        element.assigned = val;
+      }
+    )
+    return data;
+  }
+
+  getListOfIds(data) {
+    return data.join(',');
   }
 
 }

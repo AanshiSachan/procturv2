@@ -70,12 +70,12 @@
                 <input #search type="text" class="normal-field" placeholder="Search Name/Contact/Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;"
                   [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
                 <!-- followup date handler -->
-                <div class="field-wrapper datePickerBox">
+                <!-- <div class="field-wrapper datePickerBox">
                   <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="searchBarDate" style="cursor: pointer;" (keyup.enter)="searchDatabase()"
                     name="followupdate" bsDatepicker readonly="true" />
                   <label for="followupdate">Follow up Date</label>
                   <span class="date-clear" name="followupdate" (click)="clearSearchDate()">clear</span>
-                </div>
+                </div> -->
                 <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
               </div>
             </div>
@@ -109,7 +109,6 @@
 
           <!-- Advance Filter Div Element -->
           <div class="AdFilter-field hide" id="advanced-filter-section">
-
             <!-- Status -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper">
