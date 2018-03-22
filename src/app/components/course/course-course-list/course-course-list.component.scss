@@ -3,6 +3,75 @@
     box-sizing: $border-box;
     padding: 0 15px;
 }
+.headEnq {
+    .headerBtn {
+        display: inline-flex;
+        border: 1px solid $common-blue;
+        height: 35px; //width: 150px;
+        padding: 8px 12px;
+        cursor: pointer;
+        color: $common-blue;
+        box-shadow: 0px 0px 1px #0084f6;
+        text-align: center;
+        i {
+            display: inline-block;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        p {
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: capitalize;
+            text-align: center;
+            cursor: pointer;
+        }
+    }
+}
+.optMenu{
+    .enq-dropdown-content {
+        position: absolute;
+        background: white;
+        z-index: 10;
+        right: 2%;
+        width: 150px;
+        padding: 0px 5px;
+        height: 80px;
+        box-shadow: 0px 0px 2px 0px #313030;
+        ul {
+            list-style: none;
+            .export-icon {
+                background: url('../../../../assets/images/expand.svg') no-repeat;
+                margin: 10px 0px 0px 2px;
+                background-size: 20px auto;
+                padding: 0px 0px 0px 25px;
+                cursor: pointer;
+                font-size: 14px;
+                color: #888;
+                &:hover {
+                    color: $common-blue;
+                }
+            }
+            .upload-icon {
+                background: url('../../../../assets/images/pdf_download.svg') no-repeat;
+                margin: 10px 0px 0px 2px;
+                background-size: 20px auto;
+                padding: 0px 0px 0px 25px;
+                cursor: pointer;
+                font-size: 14px;
+                color: #888;
+                &:hover {
+                    color: $common-blue;
+                }
+            }
+            li {
+                height: 25px;
+                padding: 7px;
+                border-bottom: 1px solid rgba(119, 119, 119, 0.705);
+            }
+        }
+    }
+}
 
 .course-second {
     .filter-for-courses {
@@ -386,8 +455,13 @@ $color-highlight: lighten($color-base, 7%);
     .table-accor-head {
         .open-accor {
             display: block;
+           padding: -5px 2px 2px 2px;
+           margin-bottom: 2px;
+           border:none;
+           margin-top: -5px;
         }
         .close-accor {
+            border:none;
             display: none;
         }
         &.active {

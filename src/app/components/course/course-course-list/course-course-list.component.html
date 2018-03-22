@@ -4,12 +4,12 @@
   <section class="course-second course">
     <div class="boxPadding15">
       <!-- Header Section and Router  -->
-      <section class="middle-top clearFix">
-        <div class="row">
-          <div>
+     <!-- <section class="middle-top clearFix"> -->
+        <!-- <div class="row">-->
+          <!--<div>-->
             <!-- <h1 class="pull-left" style="margin-top: 10px;margin-left: 15px;">Course</h1> -->
-          </div>
-          <div class="pull-right btnWrapper">
+          <!-- </div>
+           <div class="pull-right btnWrapper">
             <button class="btn" routerLink="add" style="margin-top: 10px;margin-right: 20px;">
               <div class="option-wrap">
                 <img src="./assets/images/plus.png" alt="addCourse">
@@ -19,10 +19,39 @@
               </div>
             </button>
           </div>
-        </div>
-      </section>
+        </div>  
+      </section> 
+      
 
       <!-- Expanding Table -->
+      <section class="middle-top mb0 clearFix">
+          <h1 class="pull-left"  style="padding-left:20px; padding-top:10px;">
+              Course List
+            </h1>
+      <aside class="headEnq pull-right" style="margin-top:5px;">
+        <div style="display: inline-flex;
+          position: absolute;
+          top: -12px;">
+          <!-- <p-splitButton label="{{selectedRowCount}} Enquiry Selected" [model]="bulkAddItems" *ngIf="selectedRowCount != 0"></p-splitButton> -->
+        </div>
+        <ul style="display: inline-flex;">
+          <li class="headerBtn" routerLink='add'>
+            <i>
+              <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon"
+                focusable="false">
+                <path d="M14,9H9v5H7V9H2V7H7V2H9V7h5V9Z" class="small-icon" style="fill: currentColor"></path>
+              </svg>
+            </i>
+            <p>
+              Add Course
+            </p>
+          </li>
+          
+        </ul>
+      </aside>
+    </section>
+
+     
 
       <section class="clearFix tableCourseExp calender-view1">
         <div class="tableCourseInn table-responsive ">
@@ -37,8 +66,8 @@
                 </th>
                 <th style="width:25%">
                   <label style="cursor:pointer;" (click)="sortTable('standard_name')">Standard</label>
-                </th>
-                <th style="width:20%">Action</th>
+                </th><th style="width:20%">Action</th>
+                
               </tr>
             </thead>
             <tbody id="tbodyItem{{i}}" class="table-accor-head" *ngFor="let row of courseList; let i=index;">
@@ -49,7 +78,7 @@
                       <span class="close-accor" (click)="toggleTbodyClass(i)">-</span>
                       <span class="open-accor" (click)="toggleTbodyClass(i)">+</span>
                       <span class="date-c" (click)="toggleTbodyClass(i)">{{row.master_course}}</span>
-                      <span class="pull-right" routerLink="{{row.master_course}}" style="cursor: pointer;padding-right: 15% !important;text-align: left;">
+                      <span class="pull-right" routerLink="{{row.master_course}}" style="cursor: pointer;padding-right: 9% !important;text-align: left;">
                         <i class="edit-icon" aria-hidden="true" style="margin-right: 5px;" title="Edit"></i>Edit
                       </span>
                     </h4>
