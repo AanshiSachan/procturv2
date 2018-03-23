@@ -132,6 +132,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     order_by: ''
   }
 
+  sortBy:string = "student_name";
+
   constructor(private prefill: FetchprefilldataService, private router: Router,
     private studentFetch: FetchStudentService, private login: LoginService,
     private appC: AppComponent, private studentPrefill: AddStudentPrefillService,
@@ -934,6 +936,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   sortTableById(id) {
+    this.sortBy = id;
     //console.log(id);
     if (id != 'noOfBatchesAssigned') {
       this.instituteData.sorted_by = id;
