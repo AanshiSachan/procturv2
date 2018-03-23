@@ -24,6 +24,19 @@ import 'rxjs/add/operator/filter';
 export class StudentAddComponent implements OnInit {
 
   studentAddnMove: boolean;
+  isPdcApply: boolean = false;
+  pdcAddForm: any = {
+    bank_name: '',
+    cheque_amount: '',
+    cheque_date: '',
+    cheque_id: 0,
+    cheque_no: '',
+    cheque_status: '',
+    cheque_status_key: 0,
+    clearing_date: '',
+    institution_id: sessionStorage.getItem('institute_id'),
+    student_id: 0
+  }
   private studentAddFormData: StudentForm = {
     student_name: "",
     student_sex: "",
@@ -314,11 +327,14 @@ export class StudentAddComponent implements OnInit {
   }
 
   studentAddedGetFee(id) {
+    this.isRippleLoad = true;
     this.studentPrefillService.fetchStudentFeeDetailById(id).subscribe( res => {
       if(res.customFeeSchedules != null){
+        this.isRippleLoad = false;
         this.allignStudentFeeView(res);
       }
       else if(res.customFeeSchedules == null){
+        this.isRippleLoad = false;
         this.navigateTo('feeDetails');
       }
     });
@@ -330,8 +346,7 @@ export class StudentAddComponent implements OnInit {
     this.instalmentTableData = [];
     this.otherFeeTableData = [];
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
-    console.log(data);
-    this.isDefineFees = true;
+    this.isDefineFees = false;
     this.isFeeApplied = true;
     if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
       this.service_tax = data.registeredServiceTax;
@@ -348,10 +363,8 @@ export class StudentAddComponent implements OnInit {
       }
     });
     this.updateTableInstallment();
-  
-    console.log(this.instalmentTableData);
-    console.log(this.otherFeeTableData);
-
+    this.createCustomFeeSchedule();
+    this.navigateTo('feeDetails');
   }
 
 
@@ -672,9 +685,10 @@ export class StudentAddComponent implements OnInit {
       if(this.studentAddFormData.assignedBatches != null){
         this.studentAddFormData.assignedBatchescademicYearArray.reverse();
       }
-      //console.log(this.studentAddFormData);
+      this.isRippleLoad = true;
       this.busyPrefill = this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
+          this.isRippleLoad = false;
           let statusCode = res.statusCode;
           if (statusCode == 200) {
             this.removeImage = true;
@@ -701,6 +715,7 @@ export class StudentAddComponent implements OnInit {
           }
         },
         err => {
+          this.isRippleLoad = false;
           // console.log(err);
       });
     }
@@ -1902,7 +1917,6 @@ export class StudentAddComponent implements OnInit {
     for (var i = 0; i < this.otherFeeTableData.length; i++) {
       this.otherFeeTableData[i].installment_no = this.instalmentTableData.length + i + 1;
     }
-
     this.userCustommizedFee = [];
     this.userCustommizedFee = this.instalmentTableData.concat(this.otherFeeTableData);
     let totalFee: number = 0;
@@ -1947,7 +1961,9 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
 
   closeAllFeePops() {
-    if (confirm("All Changes made to fee template will be discarded!")) {
+    if (confirm("Any unsaved changes made to fee template will be discarded!")) {
+      this.setStudentFeeDetail();      
+   /* this.studentAddedGetFee(this.student_id);
       this.isDefineFees = false;
       this.totalFeePaid = 0;
       this.isFeeApplied = false;
@@ -1989,12 +2005,29 @@ export class StudentAddComponent implements OnInit {
         studentArray: ["-1"],
         template_effective_date: moment().format('YYYY-MM-DD')
       }
-
       this.isDiscountApplied = false;
-      this.discountReason = '';
-
+      this.discountReason = ''; 
+   */
     }
   }
+
+    /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  setStudentFeeDetail() {
+    this.studentPrefillService.fetchStudentFeeDetailById(this.student_id).subscribe( res => {
+      if(res.customFeeSchedules != null){
+        this.isRippleLoad = false;
+        this.allignStudentFeeView(res);
+      }
+      else if(res.customFeeSchedules == null){
+        this.isRippleLoad = false;
+        this.navigateTo('feeDetails');
+      }
+    });
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   sortTableByDate(i, event) {

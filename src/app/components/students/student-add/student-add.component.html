@@ -496,6 +496,20 @@
             Fees
           </h1>
           <aside class="pull-right btn-diff">
+              <button class="btn" (click)="isPdcApply = true" *ngIf="!feeTemplateById.toCreate">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                    <g fill="none" fill-rule="evenodd">
+                      <path fill="#0084F6" fill-rule="nonzero" d="M7.856 13.359h3.708v1H7.856zM7.856 15.647h4.451v1H7.856zM14.534 15.647h2.97v1h-2.97zM7.856 17.935H20.47v1H7.856z"
+                      />
+                      <path fill="#0084F6" fill-rule="nonzero" d="M20.443 11.075H6v9.907h18.55v-9.907h-4.107zm3.364 9.144H6.743v-8.381h17.064v8.381z"
+                      />
+                      <circle cx="22" cy="12" r="3" fill="#FFF" stroke="#0084F6" stroke-width=".5" />
+                      <path fill="#0084F6" fill-rule="nonzero" d="M19.856 11.647h4.451v1h-4.451z" />
+                      <path fill="#0084F6" fill-rule="nonzero" d="M21.7 14.254V9.803h1v4.45z" />
+                    </g>
+                  </svg>
+                  <span>Add PDC</span>
+                </button>
             <button class="btn" *ngIf="feeTemplateById.template_name == ''" (click)="configureFees($event)">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                 <g fill="#0084F6" fill-rule="nonzero">
@@ -567,7 +581,7 @@
                 <div class="gray">
                   <span *ngIf="feeTemplateById.template_name == ''">NA</span>
                   <span class="feename" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">{{feeTemplateById.template_name}}</span>
-                  <a (click)="reCreateFeeAgain()" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">Change</a>
+                  <!-- <a (click)="reCreateFeeAgain()" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">Change</a> -->
                 </div>
               </li>
             </ul>
@@ -1498,6 +1512,7 @@
   <!-- ======================================================== -->
   <!-- ===============Manage PDC ============================ -->
   <student-pop-up *ngIf="isPdcApply">
+
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isPdcApply = false" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -1511,54 +1526,286 @@
       </svg>
     </span>
 
-    <h2 popup-header style="padding: 10px 5px;">Manage PDC</h2>
+    <h2 popup-header style="padding: 10px 5px;">Manage PDC Cheques for {{studentAddFormData.student_name}}</h2>
 
-    <div class="configureFee" popup-content>
+    <div class="pdc-container" popup-content>
+      <div class="pdc-wrapper">
+        <div class="pdc-shell">
+          <!-- Header Installment -->
+          <div class="pdc-header">
+            <div class="pull-left">
+              Add Post Dated Cheque
+              <!-- <span class="installment-count">4</span> -->
+            </div>
+            <div class="pull-right">
+            </div>
+          </div>
+          <!-- Installment Adding Here -->
+          <div class="pdc-adder">
+            <ul>
 
-      <div class="row">
+              <li>
+                <div class="form-wrapper">
+                  <input type="text" value="" placeholder="Bank Name" class="form-ctrl" id="bankName" [(ngModel)]="pdcAddForm.bank_name" name="bankName"
+                    maxlength="50" required>
+                </div>
+              </li>
 
+              <li>
+                <div class="form-wrapper">
+                  <input type="number" value="" placeholder="Cheque Number" class="form-ctrl" id="chequeno" [(ngModel)]="pdcAddForm.cheque_no"
+                    name="chequeno" max="6" #chequeno="ngModel" required>
+                </div>
+              </li>
 
-        <div class="field-wrapper has-value">
-          <select id="dtype" name="dtype" [(ngModel)]="discountApplyForm.type" class="form-ctrl">
-            <option value="amount">Amount</option>
-            <option value="percentage">Percentage</option>
-          </select>
-          <label for="dtype">Discount Type*</label>
-        </div>
+              <li>
+                <div class="form-wrapper">
+                  <input type="text" value="" placeholder="Cheque Date" id="chequedate" class="form-ctrl bsDatepicker" name="chequedate" [(ngModel)]="pdcAddForm.cheque_date"
+                    readonly="true" #chequedate="ngModel" bsDatepicker>
+                </div>
+              </li>
 
-        <div class="field-wrapper">
-          <input type="number" value="" id="ref" class="form-ctrl" name="ref" [(ngModel)]="discountApplyForm.value" />
-          <label for="ref">Discount Value*</label>
-        </div>
+              <li>
+                <div class="form-wrapper">
+                  <input type="text" value="" id="clearDate" class="form-ctrl bsDatepicker" name="clearDate" [(ngModel)]="pdcAddForm.clearing_date"
+                    placeholder="Clear Date" readonly="true" #clearDate="ngModel" bsDatepicker>
+                </div>
+              </li>
 
-        <div class="field-wrapper">
+              <li>
+                <div class="form-wrapper">
+                  <input type="number" value="" id="chequeamount" class="form-ctrl" name="chequeamount" [(ngModel)]="pdcAddForm.cheque_amount"
+                    max="6" placeholder="Amount">
+                </div>
+              </li>
 
-          <input type="text" value="" id="rema" class="form-ctrl" name="rema" [(ngModel)]="discountApplyForm.reason" />
+              <li>
+                <button (click)="addNewPDCState()" class="fullBlue btn">
+                  <i style="font-family: FontAwesome;" class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+              </li>
 
-          <label for="rema">Discount Reason*</label>
-        </div>
-
-        <div class="" style="margin-top:10px;">
-          <div class="field-radio-wrapper">
-            <input class="form-radio" type="radio" name="discount" value="all" id='r1' [(ngModel)]="discountApplyForm.state" checked>
-            <label for="r1">Equal in all installment</label>
+            </ul>
+          </div>
+          <!-- Installment Table Configure -->
+          <div class="pdc-table">
+            <ul class="table-header">
+              <li>Bank*</li>
+              <li>Cheque Number*</li>
+              <li>Cheque Date*</li>
+              <li>Clearing Date*</li>
+              <li>Cheque Amount*</li>
+              <li>Action</li>
+            </ul>
+            <div class="table-data" *ngIf="newPdcArr.length != 0">
+              <ul class="table-row" *ngFor="let c of newPdcArr; let i = index;">
+                <li>
+                  {{c.bank_name}}
+                </li>
+                <li>
+                  {{c.cheque_no}}
+                </li>
+                <li>
+                  {{c.cheque_date}}
+                </li>
+                <li>
+                  {{c.clearing_date}}
+                </li>
+                <li>
+                  {{c.cheque_amount}}
+                </li>
+                <li (click)="deleteUnsavedPdc(i)">
+                  <i style="font-family: FontAwesome; cursor: pointer;" class="fa fa-trash-o" aria-hidden="true"></i>
+                </li>
+              </ul>
+            </div>
+            <div class="table-data" *ngIf="newPdcArr.length == 0">
+              <h3 style="text-align: center;padding: 20px 0px;border-bottom: 1px solid rgba(119, 119, 119, 0.32);border-left: 1px solid rgba(119, 119, 119, 0.32);border-right: 1px solid rgba(119, 119, 119, 0.32);">No PDC Available</h3>
+            </div>
+          </div>
+          <!-- Save Added -->
+          <div class="row save-pdf">
+            <div class="clearfix">
+              <aside class="pull-left popup-btn">
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
+                  <label for="isGenPdc">Generate Acknowledgement</label>
+                </div>
+                <div class="field-checkbox-wrapper">
+                  <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
+                  <label for="emailPdc">Send Email Acknowledgement</label>
+                </div>
+              </aside>
+              <aside class="pull-right popup-btn">
+                <input type="button" value="Save" (click)="addPdcDataToServer()" class="fullBlue btn">
+              </aside>
+            </div>
           </div>
 
-          <div class="field-radio-wrapper">
-            <input class="form-radio" type="radio" name="discount" value="last" id='r2' [(ngModel)]="discountApplyForm.state">
-            <label for="r2">In last installment</label>
-          </div>
-
         </div>
+
+        <div class="pdc-data-shell">
+          <!-- Header Installment -->
+          <div class="pdc-header">
+            <div class="pull-left">
+              Search and Edit
+              <!-- <span class="installment-count">4</span> -->
+            </div>
+            <div class="pull-right">
+            </div>
+          </div>
+          <!-- Installment Adding Here -->
+          <div class="pdc-search">
+            <ul>
+              <li>
+                <div class="form-wrapper">
+                  <label for="pdcstatus">PDC Status</label>
+                  <select id="pdcstatus" name="pdcstatus" [(ngModel)]="pdcSearchObj.cheque_status" class="form-ctrl">
+                    <option value=""></option>
+                    <option [value]="opt.data_key" *ngFor="let opt of pdcStatus">
+                      {{opt.data_value}}
+                    </option>
+                  </select>
+                </div>
+              </li>
+
+              <li>
+                <div class="form-wrapper">
+                  <label for="pdfrom">Cheque Date From</label>
+                  <span id="pdfrom" class="date-clear" name="cpd" (click)="pdcSearchObj.cheque_date_from = ''">clear</span>
+                  <input type="text" value="" id="pdfrom" class="form-ctrl bsDatepicker" [(ngModel)]="pdcSearchObj.cheque_date_from" name="pdfrom"
+                    readonly="true" bsDatepicker>
+                </div>
+              </li>
+
+              <li>
+                <div class="form-wrapper">
+                  <label for="pdto">Cheque Date To</label>
+                  <span class="date-clear" name="cpd" (click)="pdcSearchObj.cheque_date_to = ''">clear</span>
+                  <input type="text" value="" id="pdto" class="form-ctrl bsDatepicker" [(ngModel)]="pdcSearchObj.cheque_date_to" name="pdto"
+                    readonly="true" bsDatepicker>
+                </div>
+              </li>
+
+              <li>
+                <div class="submitter">
+                  <input style="position: relative;bottom: -25px;" type="button" value="Search" (click)="getPdcChequeList()" class="fullBlue btn">
+                </div>
+              </li>
+
+              <li></li>
+
+              <li></li>
+
+            </ul>
+          </div>
+          <!-- Installment Table Configure -->
+          <div class="pdc-table">
+            <ul class="table-header">
+              <li>Bank*</li>
+              <li>Cheque Number*</li>
+              <li>Cheque Date*</li>
+              <li>Clearing Date*</li>
+              <li>Cheque Amount*</li>
+              <li>Status</li>
+              <li>Action</li>
+            </ul>
+            <div class="table-data" *ngIf="chequePdcList.length != 0">
+              <ul class="table-row displayComp" [id]='ch.student_id +ch.cheque_id' *ngFor="let ch of chequePdcList; let i = index;">
+
+                <!-- Bank Name -->
+                <li class="view-comp">
+                  {{ch.bank_name}}
+                </li>
+                <li class="edit-comp ">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl" [(ngModel)]="ch.bank_name" name="">
+                  </div>
+                </li>
+
+
+                <!-- Cheque Number -->
+                <li class="view-comp">
+                  {{ch.cheque_no}}
+                </li>
+                <li class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl" [(ngModel)]="ch.cheque_no" name="cnum">
+                  </div>
+                </li>
+
+                <!-- Cheque date -->
+                <li class="view-comp">
+                  {{ch.cheque_date| date:"dd-MMM-yyyy"}}
+                </li>
+                <li class="edit-comp ">
+                  <div class="field-wrapper datePickerBox">
+                    <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="ch.cheque_date" name="pdto" readonly="true"
+                      bsDatepicker>
+                  </div>
+                </li>
+
+                <!-- Clearing Date -->
+                <li class="view-comp">
+                  {{ch.clearing_date| date:"dd-MMM-yyyy"}}
+                </li>
+                <li class="edit-comp ">
+                  <div class="field-wrapper datePickerBox">
+                    <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="ch.clearing_date" name="pdto" readonly="true"
+                      bsDatepicker>
+                  </div>
+                </li>
+
+                <!-- Amount -->
+                <li class="view-comp">
+                  {{ch.cheque_amount}}
+                </li>
+                <li class="edit-comp ">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl" [(ngModel)]="ch.cheque_amount" name="cnum">
+                  </div>
+                </li>
+
+                <!-- Status -->
+                <li class="view-comp">
+                  {{ch.cheque_status}}
+                </li>
+                <li class="edit-comp ">
+                  <div class="field-wrapper">
+                    <select id="" class="form-ctrl" name="" [(ngModel)]="ch.cheque_status_key">
+                      <option *ngFor="let opt of pdcStatus" [value]="opt.data_key" [hidden]="opt.data_key == '3'">
+                        {{opt.data_value}}
+                      </option>
+                    </select>
+                  </div>
+                </li>
+
+                <!-- Action -->
+                <li class="view-comp actions">
+                  <a style="cursor:pointer;margin-right: 15px;" (click)="editPDC(ch)" *ngIf="(ch.cheque_status_key != 3 && ch.cheque_status_key != 2)">Edit</a>
+                  <a style="cursor:pointer;margin-right: 15px;" (click)="deletePDC(ch, i)" *ngIf="(ch.cheque_status_key != 3 && ch.cheque_status_key != 2)">Delete</a>
+                </li>
+                <li class="edit-comp">
+                  <a style="cursor:pointer;margin-right: 15px;" (click)="updatePDC(ch)">Update</a>
+                  <a style="cursor:pointer;margin-right: 15px;" (click)="cancelEditPDC(ch)">Cancel</a>
+                </li>
+
+              </ul>
+            </div>
+            <div class="table-data" *ngIf="chequePdcList.length == 0">
+              <h3 style="text-align: center;padding: 20px 0px;border-bottom: 1px solid rgba(119, 119, 119, 0.32);border-left: 1px solid rgba(119, 119, 119, 0.32);border-right: 1px solid rgba(119, 119, 119, 0.32);">No Cheque Saved</h3>
+            </div>
+          </div>
+        </div>
+
       </div>
-
     </div>
 
     <div class="" popup-footer>
       <div class="clearfix">
-        <aside class="pull-right popup-btn">
-          <input type="button" value="Cancel" class="btn" (click)="closeDiscountApply()">
-          <input type="button" value="Apply" (click)="applyDiscount()" class="fullBlue btn">
+        <aside class="pull-left popup-btn" *ngIf="pdcSelectedArr.length">
+          <input type="button" value="Generate Acknowledgement" (click)="generateAck()" class="fullBlue btn">
+          <input type="button" value="Send Acknowledgement" (click)="sendAck()" class="btn">
         </aside>
       </div>
     </div>

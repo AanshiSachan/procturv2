@@ -125,7 +125,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   smsSearchData: string = ""; isConverted: boolean = false; hasReceipt: boolean = false; isadmitted: boolean = false; notClosednAdmitted: boolean = false; isClosed: boolean = false; isAssignEnquiry: boolean = false; availableSMS: number = 0; smsDataLength: number = 0; isEnquiryAdmin: boolean = false; selectedRowCount: number = 0;
 
   /* Model for Enquiry Update Popup Form */
-  updateFormData: updateEnquiryForm = {
+  updateFormData: any = {
     comment: "",
     status: "",
     statusValue: "",
