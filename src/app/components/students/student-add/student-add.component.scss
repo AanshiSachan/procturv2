@@ -378,7 +378,7 @@
             height: 7px;
         }
         padding-top: 10px;
-        max-height: 455px;
+        max-height: 400px;
         overflow-x: hidden;
         overflow-y: auto;
         .row {
@@ -530,6 +530,9 @@
                             margin-left: 10px;
                             text-transform: uppercase;
                             color: #777;
+                            &:first-child{
+                                width: 3%;
+                            }
                             &.bigger {
                                 width: 20%;
                             }
@@ -549,6 +552,9 @@
                                 a {
                                     margin-left: 40px;
                                 }
+                            }
+                            &::first-child {
+                                width: 4%;
                             }
                         }
                         border: 1px solid #efefef;

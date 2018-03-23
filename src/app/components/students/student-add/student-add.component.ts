@@ -37,6 +37,29 @@ export class StudentAddComponent implements OnInit {
     institution_id: sessionStorage.getItem('institute_id'),
     student_id: 0
   }
+  newPdcArr: any[] = [];
+  pdcSelectedArr: any[] = [];
+  pdcStatus: any[] = [];
+  pdcSearchObj = {
+    cheque_status: '-1',
+    student_id: '',
+    cheque_date_from: '',
+    cheque_date_to: ''
+  }
+
+  pdcSelectedForPayment: any;
+
+  pdcSelectedForm: any = {
+    bank_name: '',
+    cheque_amount: '',
+    cheque_date: '',
+    cheque_no: '',
+    pdc_cheque_id: ''
+  }
+
+  isPdcFeePaymentSelected: boolean = false;
+  chequePdcList: any[] = [];
+
   private studentAddFormData: StudentForm = {
     student_name: "",
     student_sex: "",
@@ -512,6 +535,12 @@ export class StudentAddComponent implements OnInit {
     let standard = this.prefill.getEnqStardards().subscribe(data => {
       this.standardList = data;
     });
+
+    this.studentPrefillService.getChequeStatus().subscribe(
+      data => {
+        this.pdcStatus = data;
+      }
+    )
 
     /* this.studentPrefillService.fetchBatchDetails().subscribe(data => {
       this.batchList = [];
@@ -2667,7 +2696,217 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  addNewPDCState() {
+    //console.log(this.pdcAddForm);
+    let obj = {
+      bank_name: this.pdcAddForm.bank_name,
+      cheque_amount: this.pdcAddForm.cheque_amount,
+      cheque_date: moment(this.pdcAddForm.cheque_date).format("YYYY-MM-DD"),
+      cheque_id: this.pdcAddForm.cheque_id,
+      cheque_no: this.pdcAddForm.cheque_no,
+      cheque_status: this.pdcAddForm.cheque_status,
+      cheque_status_key: this.pdcAddForm.cheque_status_key,
+      clearing_date: moment(this.pdcAddForm.clearing_date).format("YYYY-MM-DD"),
+      institution_id: sessionStorage.getItem('institute_id'),
+      student_id: this.student_id
+    }
+    if (this.validPdc(obj)) {
+      this.newPdcArr.push(obj);
+      this.pdcAddForm = {
+        bank_name: '',
+        cheque_amount: '',
+        cheque_date: '',
+        cheque_id: 0,
+        cheque_no: '',
+        cheque_status: '',
+        cheque_status_key: 0,
+        clearing_date: '',
+        institution_id: sessionStorage.getItem('institute_id'),
+        student_id: 0
+      }
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  validPdc(obj): boolean {
+    if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '' || obj.clearing_date == 'Invalid date' || obj.clearing_date == '' || obj.cheque_no.toString().length != 6 || obj.cheque_amount <= 0) {
+      let msg = {
+        type: 'error',
+        title: 'Invalid Cheque Details',
+        body: 'Please share valid cheque details'
+      }
+      this.appC.popToast(msg);
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  deleteUnsavedPdc(i) {
+    this.newPdcArr.splice(i, 1);
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  getPdcChequeList() {
+    //console.log(this.pdcSearchObj);
+    let obj = {
+      cheque_status: this.pdcSearchObj.cheque_status == '' ? -1 : this.pdcSearchObj.cheque_status,
+      student_id: this.student_id,
+      cheque_date_from: this.pdcSearchObj.cheque_date_from == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_from).format('YYYY-MM-DD'),
+      cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
+    }
+    //console.log(obj);
+    this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
+      res => {
+        let temp: any[] = [];
+        res.forEach(el => {
+          let obj = {
+            bank_name: el.bank_name,
+            cheque_amount: el.cheque_amount,
+            cheque_date: el.cheque_date,
+            cheque_date_from: el.cheque_date_from,
+            cheque_date_to: el.cheque_date_from,
+            cheque_id: el.cheque_id,
+            cheque_no: el.cheque_no,
+            cheque_status: el.cheque_status,
+            cheque_status_key: el.cheque_status_key,
+            clearing_date: el.clearing_date,
+            genAck: el.genAck,
+            institution_id: el.institution_id,
+            sendAck: el.sendAck,
+            student_id: el.student_id,
+            student_name: el.student_name,
+            student_phone: el.student_phone,
+            uiSelected: false
+          }
+          temp.push(obj);
+        });
+        this.chequePdcList = temp;
+      })
 
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  addPdcDataToServer() {
+    let temp: any[] = [];
+    this.newPdcArr.forEach(e => {
+      let obj = {
+        cheque_no: e.cheque_no,
+        bank_name: e.bank_name,
+        cheque_date: e.cheque_date,
+        student_id: this.student_id,
+        clearing_date: e.clearing_date,
+        institution_id: sessionStorage.getItem('institute_id'),
+        cheque_amount: e.cheque_amount,
+        genAck: this.genPdcAck === true ? "Y" : "N",
+        sendAck: this.sendPdcAck === true ? "Y" : "N"
+      }
+      temp.push(obj);
+    });
+    this.newPdcArr = [];
+    this.genPdcAck = false;
+    this.sendPdcAck = false;
+    this.postService.addChequePdc(temp).subscribe(
+      res => {
+        this.chequePdcList = [];
+        this.getPdcChequeList();
+      },
+      err => {
+        this.chequePdcList = [];
+        this.getPdcChequeList();
+      }
+    )
+
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  editPDC(data) {
+    document.getElementById((data.student_id + data.cheque_id).toString()).classList.remove('displayComp');
+    document.getElementById((data.student_id + data.cheque_id).toString()).classList.add('editComp');
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  updatePDC(el) {
+    if (this.validPdc(el)) {
+      let obj = {
+        bank_name: el.bank_name,
+        cheque_amount: el.cheque_amount,
+        cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"),
+        cheque_id: el.cheque_id,
+        cheque_no: el.cheque_no,
+        cheque_status_key: el.cheque_status_key,
+        clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"),
+        institution_id: sessionStorage.getItem('institute_id'),
+        student_id: el.student_id
+      }
+      this.postService.updateFeeDetails(obj).subscribe(
+        res => {
+          this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
+          console.log(el.cheque_status);
+          document.getElementById((el.student_id + el.cheque_id).toString()).classList.add('displayComp');
+          document.getElementById((el.student_id + el.cheque_id).toString()).classList.remove('editComp');
+        },
+        err => {
+
+        }
+      )
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  deletePDC(data, i) {
+
+    if (confirm("Are you sure,you want to delete the Cheque?")) {
+      this.postService.deletePdcById(data.cheque_id).subscribe(
+        res => {
+          this.chequePdcList.splice(i, 1);
+        },
+        err => {
+
+        }
+      )
+    }
+
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  cancelEditPDC(data) {
+    document.getElementById((data.student_id + data.cheque_id).toString()).classList.add('displayComp');
+    document.getElementById((data.student_id + data.cheque_id).toString()).classList.remove('editComp');
+    this.pdcSelectedArr = [];
+    this.getPdcChequeList();
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  pdcSelected(obj) {
+    if (obj.uiSelected) {
+      this.pdcSelectedArr.push(obj.cheque_id);
+    }
+    else {
+      var i = this.pdcSelectedArr.indexOf(obj.cheque_id);
+      this.pdcSelectedArr.splice(i, 1);
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  generateAck() {
+    this.postService.generateAcknowledge(this.pdcSelectedArr, this.student_id).subscribe(
+      res => {
+      }
+    )
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  sendAck() {
+    this.postService.sendAcknowledge(this.pdcSelectedArr, this.student_id).subscribe(
+      res => {
+      }
+    )
+  }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
 

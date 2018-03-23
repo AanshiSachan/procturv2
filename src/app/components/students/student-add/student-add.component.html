@@ -1553,8 +1553,8 @@
 
               <li>
                 <div class="form-wrapper">
-                  <input type="number" value="" placeholder="Cheque Number" class="form-ctrl" id="chequeno" [(ngModel)]="pdcAddForm.cheque_no"
-                    name="chequeno" max="6" #chequeno="ngModel" required>
+                  <input type="text" OnlyNumber="true" value="" placeholder="Cheque Number" class="form-ctrl" id="chequeno" [(ngModel)]="pdcAddForm.cheque_no"
+                    name="chequeno" minlength="6" maxlength="6" #chequeno="ngModel" required>
                 </div>
               </li>
 
@@ -1574,7 +1574,7 @@
 
               <li>
                 <div class="form-wrapper">
-                  <input type="number" value="" id="chequeamount" class="form-ctrl" name="chequeamount" [(ngModel)]="pdcAddForm.cheque_amount"
+                  <input type="text" OnlyNumber="true" value="" id="chequeamount" class="form-ctrl" name="chequeamount" [(ngModel)]="pdcAddForm.cheque_amount"
                     max="6" placeholder="Amount">
                 </div>
               </li>
@@ -1702,6 +1702,7 @@
           <!-- Installment Table Configure -->
           <div class="pdc-table">
             <ul class="table-header">
+              <li></li>
               <li>Bank*</li>
               <li>Cheque Number*</li>
               <li>Cheque Date*</li>
@@ -1712,7 +1713,12 @@
             </ul>
             <div class="table-data" *ngIf="chequePdcList.length != 0">
               <ul class="table-row displayComp" [id]='ch.student_id +ch.cheque_id' *ngFor="let ch of chequePdcList; let i = index;">
-
+                <li>
+                  <div class="field-checkbox-wrapper">
+                    <input type="checkbox" class="form-checkbox" name="" id="">
+                    <label for=""></label>
+                  </div>
+                </li>
                 <!-- Bank Name -->
                 <li class="view-comp">
                   {{ch.bank_name}}
@@ -1803,7 +1809,7 @@
 
     <div class="" popup-footer>
       <div class="clearfix">
-        <aside class="pull-left popup-btn" *ngIf="pdcSelectedArr.length">
+        <aside class="pull-left popup-btn">
           <input type="button" value="Generate Acknowledgement" (click)="generateAck()" class="fullBlue btn">
           <input type="button" value="Send Acknowledgement" (click)="sendAck()" class="btn">
         </aside>
