@@ -15,7 +15,7 @@ export class AcademicYearComponent implements OnInit {
 
   ngOnInit() {
     this.getAllSlotsFromServer();
-  }
+  } 
 
   getAllSlotsFromServer() {
     this.academicyearservice.getServices().subscribe(

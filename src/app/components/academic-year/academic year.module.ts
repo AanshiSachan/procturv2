@@ -23,7 +23,7 @@ import { AcademicyearService } from '../../services/academicYearService/academic
     ],
     declarations: [
         
-        AcademicYearComponent
+        AcademicYearComponent 
     
 ],
     providers: [
