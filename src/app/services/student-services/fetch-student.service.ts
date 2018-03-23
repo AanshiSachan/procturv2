@@ -15,7 +15,7 @@ import { AuthenticatorService } from '../authenticator.service';
 export class FetchStudentService {
 
   url: string;
-  baseUrl:string = '';
+  baseUrl: string = '';
   authorization: string;
   institute_id: number;
   headers: Headers;
@@ -126,6 +126,41 @@ export class FetchStudentService {
       err => { return err.json(); }
     );
 
+  }
+
+  // Mark LEave For Student
+
+  getStudentLeaveData(id) {
+    let url = this.baseUrl + "/api/v1/studentleaves/" + id;
+
+    return this.http.get(url, { headers: this.headers }).map(
+      res => { return res.json(); },
+      err => { return err.json(); }
+    );
+  }
+
+  markLeaveForDays(obj) {
+    let url = this.baseUrl + "/api/v1/studentleaves";
+    return this.http.post(url, obj, { headers: this.headers }).map(
+      res => {
+        return res.json();
+      },
+      err => {
+        return err.json();
+      }
+    )
+  }
+
+  cancelLeaveOfDay(id) {
+    let url = this.baseUrl + "/api/v1/studentleaves/cancel/" + id;
+    return this.http.delete(url, { headers: this.headers }).map(
+      res => {
+        return res.json();
+      },
+      err => {
+        return err.json();
+      }
+    )
   }
 
 }

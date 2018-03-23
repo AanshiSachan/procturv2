@@ -376,7 +376,7 @@
           <h2>Update Enquiry No: {{selectedRow.enquiry_no}} | Enquirer: {{selectedRow.name}} </h2>
           <div class="update-enquiry-form overflowHidden">
 
-            <aside class="pull-right form-wrapper">
+            <aside class="pull-right form-wrapper right-aside-wrapper">
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
@@ -425,30 +425,74 @@
                 </div>
               </div>
               <div class="row">
-                <div class="c-lg-12 c-md-12 c-sm-12 time-picker">
-                  <div class="field-wrapper" id="hourpar">
-                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="hour" name="hour" style="width: 60px;">
-                      <option *ngFor="let hour of hourArr" [value]="hour">
-                        {{hour}}
-                      </option>
-                    </select>
-                    <label for="hour">Hour</label>
+                <div class="c-lg-6 c-md-6 c-sm-6 time-picker">
+                  <div class="timepick">
+                    <label for="walkintime">Follow Up Time</label>
+                    <div class="tbox" style=" width: 100%;">
+                      <div class="times" style=" width: 85px; display: inline-block; ">
+                        <select id="walkintime" class="side-form-ctrl mins" [(ngModel)]="hour" name="walkintime">
+                          <option [value]="time" *ngFor="let time of times">
+                            {{time}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="times " style=" width: 45px; display: inline-block; ">
+                        <select id="minute" class="side-form-ctrl mers" [(ngModel)]="minute" name="minute" style="width: 70px;">
+                          <option *ngFor="let minute of minArr" [value]="minute">
+                            {{minute}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
-                  <div class="field-wrapper" id="minutepar">
-                    <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="minute" name="minute" style="width: 70px;">
-                      <option *ngFor="let minute of minArr" [value]="minute">
-                        {{minute}}
-                      </option>
-                    </select>
-                    <label for="minute">Minute</label>
+                </div>
+              </div>
+              <div class="row">
+                <!-- Walkin Date  -->
+
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="field-wrapper has-value datePickerBox">
+                    <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.walkin_followUpDate"
+                      id="" bsDatepicker readonly="true" />
+                    <label for="followUPdateEdit">Walkin Date</label>
+                    <span class="date-clear" name="walkinfollowUpDate" (click)="updateFormData.walkin_followUpDate = ''">clear</span>
                   </div>
-                  <div class="field-wrapper" id="meridianpar">
-                    <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="meridian" name="meridian" style="width: 85px;">
-                      <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                        {{meridian}}
-                      </option>
-                    </select>
-                    <label for="meridian">Meridian</label>
+                </div>
+
+                <!-- Walkin Time -->
+
+                <div class="c-lg-6 c-md-6 c-sm-6 time-picker">
+                  <div class="timepick">
+                    <label for="walkintime">Walkin Time</label>
+                    <div class="tbox" style=" width: 100%;">
+                      <div class="times " style=" width: 85px; display: inline-block; ">
+                        <select id="walkintime" class="side-form-ctrl mins" [(ngModel)]="updateFormData.walkin_followUpTime.hour" name="walkintime">
+                          <option [value]="time" *ngFor="let time of times">
+                            {{time}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="times" style=" width: 45px; display: inline-block; ">
+                        <select id="minute" class="side-form-ctrl mers" [(ngModel)]="updateFormData.walkin_followUpTime.minute" name="minute" style="width: 70px;">
+                          <option *ngFor="let minute of minArr" [value]="minute">
+                            {{minute}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row" style="margin-top: 15px">
+                <!-- Notify Me -->
+                <div class="c-lg-6 c-md-6 c-sm-6">
+                  <div class="form-checkbox-wrapper">
+                    <div class="field-checkbox-wrapper">
+                      <input type="checkbox" [(ngModel)]="updateFormData.is_follow_up_time_notification" (ngModelChange)="notifyMe($event)" class="form-checkbox"
+                      />
+                      <label for="notifyme">Notify Me</label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -461,20 +505,10 @@
                   </div>
                 </div>
               </div>
-
-              <div class="pull-right submitter">
-                <div class="clearfix">
-                  <aside class="pull-left popup-btn">
-                    <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                    <input type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
-                  </aside>
-                </div>
-              </div>
-
             </aside>
 
 
-            <aside class="pull-left table-wrapper">
+            <aside class="pull-left table-wrapper left-aside-wrapper">
               <h4>Comment History</h4>
               <div class="enquiry-update-history table-responsive">
                 <table>
@@ -499,6 +533,16 @@
             </aside>
 
           </div>
+
+          <div class="pull-right submitter">
+            <div class="clearfix">
+              <aside class="pull-left popup-btn">
+                <input type="button" value="Cancel" class="btn" (click)="closePopup()">
+                <input type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
+              </aside>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -921,12 +965,12 @@
                               <th></th>
                               <th>
                                 <label>
-                                  <a class="cursor-icon" style="color:white;">{{smsHeader.message.title}}</a>
+                                  <a class="cursor-icon">{{smsHeader.message.title}}</a>
                                 </label>
                               </th>
                               <th>
                                 <label>
-                                  <a class="cursor-icon" style="color:white;">{{smsHeader.date.title}}</a>
+                                  <a class="cursor-icon">{{smsHeader.date.title}}</a>
                                 </label>
                               </th>
                               <th>
