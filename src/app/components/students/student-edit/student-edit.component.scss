@@ -78,7 +78,7 @@
                                     padding: 8px 5px;
                                 }
                             }
-                            &.timepick{
+                            &.timepick {
                                 .form-ctrl {
                                     background: transparent;
                                     border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
@@ -87,7 +87,7 @@
                                     font-weight: 600;
                                     font-size: 14px;
                                     color: black;
-                                }   
+                                }
                             }
                         }
                     }
@@ -190,7 +190,7 @@
                                     padding: 8px 5px;
                                 }
                             }
-                            &.timepick{
+                            &.timepick {
                                 .form-ctrl {
                                     background: transparent;
                                     border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
@@ -199,7 +199,7 @@
                                     font-weight: 600;
                                     font-size: 14px;
                                     color: black;
-                                }   
+                                }
                             }
                         }
                     }
@@ -326,7 +326,7 @@
 
 .pdc-container {
     width: 100%;
-    max-height: 460px;
+    max-height: 400px;
     overflow: hidden;
     border-top: 2px solid rgba(119, 119, 119, 0.12);
      ::-webkit-scrollbar {
@@ -491,8 +491,14 @@
                             margin-left: 10px;
                             text-transform: uppercase;
                             color: #777;
+                            &:first-child {
+                                width: 5%;
+                            }
                             &.bigger {
                                 width: 20%;
+                                a {
+                                    margin-left: 40px;
+                                }
                             }
                         }
                     }
@@ -505,6 +511,9 @@
                             padding: 2px 12px;
                             margin-left: 10px;
                             text-align: center;
+                            &:first-child {
+                                width: 5%;
+                            }
                             &.bigger {
                                 width: 20%;
                                 a {
@@ -525,8 +534,8 @@
                             }
                             .edit-comp {}
                         }
-                        &.actions{
-                            a{
+                        &.actions {
+                            a {
                                 margin-right: 15px;
                                 display: inline-flex;
                                 text-decoration: none;
