@@ -250,7 +250,7 @@
                         <li>Batch</li>
 
                         <li>Faculty</li>
-                        
+
 
                       </ul>
                       <div class="schedule-scroller" *ngIf="!isProfessional && isSubjectView">
@@ -379,7 +379,7 @@
                             <li>
                               <div>{{class.teacher_name}}</div>
                             </li>
-                            <li>
+                            <!-- <li>
                               <div class="che-action">
                                 <ul class="ul-action">
                                   <li>
@@ -398,15 +398,15 @@
                                   </li>
                                 </ul>
                               </div>
-                            </li>
+                            </li> -->
                           </ul>
                           <div class="che-action" [class.display]="i == selectedRow">
-                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()">
+                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance(i, class)">
                               Mark Attendance</a>
-                            <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()">
+                            <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance(i, class)">
                               View Attendance</a>
                             <a class="fish-chips" *ngIf='isOptionVisible && class.is_attendance_marked !="Y"' style="cursor:pointer" (click)="initiateCancelClass()">Cancel</a>
-                            <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
+                            <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</a>
                             <a class="fish-chips" *ngIf="isOptionVisible && class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
                           </div>
 
@@ -604,7 +604,7 @@
             <div class="questionInfo">
               <span class="qInfoIcon">?</span>
               <div class="tooltip-box-field">
-                Details of any attendance related task
+                Details of any attendance related note.
               </div>
             </div>
             <div class="field-wrapper">
@@ -614,12 +614,12 @@
           </div>
           <div *ngIf="instituteSetting.home_work_feature_enable==1">
             <h3 style="display: inline-flex;">Homework</h3>
-            <!-- <div class="questionInfo">
-                <span class="qInfoIcon">?</span>
-                <div class="tooltip-box-field">
-                  Details of any attendance related task 
-                </div>
-            </div> -->
+            <div class="questionInfo">
+              <span class="qInfoIcon">?</span>
+              <div class="tooltip-box-field">
+                Details of homework given to student.
+              </div>
+            </div>
             <div class="field-wrapper" [ngClass]="{ 'has-value': homework !='' }">
               <textarea class="form-ctrl textBox" value="" [(ngModel)]="homework">
                 </textarea>
@@ -653,7 +653,7 @@
 
           </div>
           <div style="margin: 0px;padding: 10px;" class="clearfix">
-            <aside class="pull-right popup-btn">
+            <aside class="pull-right popup-btn" style=" display: inline-flex; ">
               <input type="button" value="Cancel" class="btn" (click)="closeAttendance()">
               <input type="button" *ngIf="isProfessional && classMarkedForAction.is_attendance_marked != 'Y'" value="Mark Attendance" (click)="updateAttendance()"
                 class="fullBlue btn">
