@@ -718,6 +718,14 @@ th {
     font-weight: normal;
     padding: 20px 10px;
     border-top: 2px solid rgba(119, 119, 119, 0.11);
+    label {
+        font-size: 14px !important;
+        color: #000000;
+    }
+    a{
+        font-size: 14px !important;
+        color: #000000;
+    }
     &:first-child{
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;

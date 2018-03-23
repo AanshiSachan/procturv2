@@ -4,11 +4,11 @@
         <div class="student-details-wrapper">
             <ul>
                 <li style="border-top: none;">
-                  <h3>#{{rowData.student_disp_id}}</h3>
+                    <h3>#{{rowData.student_disp_id}}</h3>
                 </li>
                 <li style="border-top: none;">
                     <h4>{{rowData.student_name}}</h4>
-                </li>                
+                </li>
                 <li style="border-top: none;text-overflow: ellipsis;cursor:pointer;" (click)="emitNotes($evnent)">
                     <h5>
                         <i style="font-family: FontAwesome;" class="fa fa-sticky-note" aria-hidden="true"></i>
@@ -56,17 +56,17 @@
                             </a>
                         </li>
 
-                        <!-- <li class="action-item">
-                            <a class="enq-act enq-act--four">
-                                <img src="./assets/images/convert_student.svg" height="10" width="20">Mark Leave
+                        <li class="action-item" (click)="emitLeave($event)">
+                            <a class="">
+                                <i style="font-family: FontAwesome;margin-right: 15px;margin-left: 8px;" class="fas fa-exclamation" aria-hidden="true"></i>Mark Leave
                             </a>
-                        </li> -->
+                        </li>
 
-                        <!-- <li class="action-item">
+                        <li class="action-item" (click)="emitEditLeave($event)">
                             <a class="enq-act enq-act--five">
                                 <img src="./assets/images/reciept_preview.svg" height="10" width="20">Manage PDC
                             </a>
-                        </li> -->
+                        </li>
 
                     </ul>
                 </div>

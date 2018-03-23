@@ -131,6 +131,13 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     sorted_by: '',
     order_by: ''
   }
+  leaveDataArray: any = [];
+  applyLeave = {
+    student_id: '',
+    start_date: moment().format("YYYY-MM-DD"),
+    end_date: moment().format("YYYY-MM-DD"),
+    reason: ''
+  }
 
   sortBy:string = "student_name";
 
@@ -151,11 +158,11 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.busy = this.fetchStudentPrefill();
 
     this.bulkActionItems = [
-      {
-        label: 'Mark Leave', icon: 'fas fa-exclamation', command: () => {
-          this.markLeave();
-        }
-      },
+      // {
+      //   label: 'Mark Leave', icon: 'fas fa-exclamation', command: () => {
+      //     this.markLeave();
+      //   }
+      // },
       {
         label: 'Send Notification', icon: 'far fa-bell', command: () => {
           this.notifySelectedStudent();
@@ -978,16 +985,131 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.optMenu.nativeElement.classList.remove('shorted');
   }
 
-  markLeave() {
+  // markLeave() {
+  //   this.isMarkLeave = true;
+  // }
+
+  markStudentLeave(event) {
+    this.applyLeave.student_id = event;
     this.isMarkLeave = true;
+    this.fetchLEaveData();
+  }
+
+  fetchLEaveData() {
+    this.leaveDataArray = [];
+    this.isRippleLoad = true;
+    this.studentFetch.getStudentLeaveData(this.applyLeave.student_id).subscribe(
+      res => {
+        this.isRippleLoad = false;
+        this.leaveDataArray = res;
+      },
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+      }
+    )
   }
 
   closeMarkLeave() {
     this.isMarkLeave = false;
+    this.applyLeave = {
+      student_id: '',
+      start_date: moment().format("YYYY-MM-DD"),
+      end_date: moment().format("YYYY-MM-DD"),
+      reason: ''
+    }
+  }
+
+  checkDatesSelection() {
+    let currentDate: any = moment();
+    let start_date: any = moment(this.applyLeave.start_date);
+    let end_date: any = moment(this.applyLeave.end_date);
+    let startDiff = start_date.diff(currentDate);
+    let btwDiff = end_date.diff(start_date);
+    if (startDiff > 0 && btwDiff >= 0) {
+      return true;
+    } else {
+
+      let msg = {
+        type: 'error',
+        title: 'Date Selection',
+        body: 'Please select future dates for Start and End date'
+      }
+      this.appC.popToast(msg);
+      return false;
+    }
   }
 
   updateMarkLeave() {
+    let check = this.checkDatesSelection();
+    if (check == false) {
+      return
+    }
+    let obj = {
+      student_id: this.applyLeave.student_id,
+      start_date: moment(this.applyLeave.start_date).format("YYYY-MM-DD"),
+      end_date: moment(this.applyLeave.end_date).format("YYYY-MM-DD"),
+      reason: ''
+    }
+    this.isRippleLoad = true;
+    this.studentFetch.markLeaveForDays(obj).subscribe(
+      res => {
+        this.isRippleLoad = false;
+        let msg = {
+          type: 'success',
+          title: 'Leave Applied',
+          body: 'Leave applied for dates successfull'
+        }
+        this.appC.popToast(msg);
+        this.fetchLEaveData();
+      },
+      err => {
+        console.log(err);
+        this.isRippleLoad = false;
+        let msg = {
+          type: 'error',
+          title: 'Error',
+          body: JSON.parse(err._body).message
+        }
+        this.appC.popToast(msg);
+      }
+    )
+  }
 
+  deletePerticularLeave(row) {
+    console.log(row);
+    this.studentFetch.cancelLeaveOfDay(row.leave_id).subscribe(
+      res => {
+        console.log(res);
+        let msg = {
+          type: 'success',
+          title: 'Leave Removed',
+          body: 'Leave removed for dates successfull'
+        }
+        this.appC.popToast(msg);
+        this.fetchLEaveData();
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  showDeleteBtn(data) {
+    let currentDate = moment();
+    let startDate = moment(data.start_date);
+    let diff = startDate.diff(currentDate);
+    if (diff > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  editFeePDCDetails(event) {
+    sessionStorage.setItem('editPdc', "true");
+    localStorage.setItem('studentId', event);
+    this.router.navigate(['/student/edit/' + event]);
   }
 
   notifySelectedStudent() {

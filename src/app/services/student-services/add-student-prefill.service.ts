@@ -237,7 +237,7 @@ export class AddStudentPrefillService {
 
 
   fetchAllFeeStructure() : Observable<any> {
-    let urlFeeStruc = this.baseUrl + "/api/v1/student_wise/feeStructure/fetchAll/" + this.institute_id;
+    let urlFeeStruc = this.baseUrl + "/api/v1/student_wise/feeStructure/fetchAll/" + this.institute_id +'?isGeneral=true';
 
     return this.http.get(urlFeeStruc, { headers: this.headers }).map(
       res => {
@@ -260,6 +260,21 @@ export class AddStudentPrefillService {
       err => {
         return err.json();
       });
+  }
+
+
+  fetchStudentFeeDetailById(id): Observable<any> {
+
+    let urlFeeById = this.baseUrl + "/api/v1/studentWise/fee/schedule/fetch/" + this.institute_id + "/" + id;
+
+    return this.http.get(urlFeeById, { headers: this.headers }).map(
+      res => {
+        return res.json();
+      },
+      err => {
+        return err.json();
+      })
+
   }
 
 

@@ -27,6 +27,7 @@ import { SortPipe } from "./student-add/student-add.component";
 import { StudentSidebarComponent } from './student-sidebar/student-sidebar.component';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { WidgetService } from '../../services/widget.service';
+import { OnlyNumber } from './student-directives/onlynumber.directive';
 
 @NgModule({
     imports: [
@@ -54,6 +55,7 @@ import { WidgetService } from '../../services/widget.service';
         StudentBulkComponent,
         StudentSidebarComponent,
         SortPipe,
+        OnlyNumber
     ],
     providers: [
         AddStudentPrefillService,
