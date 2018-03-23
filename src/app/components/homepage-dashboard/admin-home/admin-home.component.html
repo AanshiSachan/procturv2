@@ -250,7 +250,7 @@
                         <li>Batch</li>
 
                         <li>Faculty</li>
-                        
+
 
                       </ul>
                       <div class="schedule-scroller" *ngIf="!isProfessional && isSubjectView">
@@ -297,7 +297,7 @@
                               (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass(i, class)">Cancel</span>
-                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</span>
+                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
                             <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
 
                             <!-- <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance()">
@@ -347,7 +347,7 @@
                               (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
-                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</span>
+                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
                             <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
 
                             <!-- <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance()">
@@ -379,7 +379,7 @@
                             <li>
                               <div>{{class.teacher_name}}</div>
                             </li>
-                            <li>
+                            <!-- <li>
                               <div class="che-action">
                                 <ul class="ul-action">
                                   <li>
@@ -398,15 +398,15 @@
                                   </li>
                                 </ul>
                               </div>
-                            </li>
+                            </li> -->
                           </ul>
                           <div class="che-action" [class.display]="i == selectedRow">
-                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()">
+                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance(i, class)">
                               Mark Attendance</a>
-                            <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance()">
+                            <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance(i, class)">
                               View Attendance</a>
                             <a class="fish-chips" *ngIf='isOptionVisible && class.is_attendance_marked !="Y"' style="cursor:pointer" (click)="initiateCancelClass()">Cancel</a>
-                            <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass()">Reminder</a>
+                            <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</a>
                             <a class="fish-chips" *ngIf="isOptionVisible && class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
                           </div>
 
@@ -573,9 +573,12 @@
                         </div>
                       </div> -->
                       <div class="btnGroup">
-                        <button id="leaveBtn{{s.student_id}}" (click)="markAttendaceBtnClick($event , s , i)" class="btn" [ngClass]="getClassForLeave(s)">Leave</button>
-                        <button id="absentBtn{{s.student_id}}" (click)="markAttendaceBtnClick($event , s, i)" class="btn" [ngClass]="getClassForAbsent(s)">Absent</button>
-                        <button id="presentBtn{{s.student_id}}" (click)="markAttendaceBtnClick($event , s, i)" class="btn" [ngClass]="getClassForPresent(s)">Present</button>
+                        <button id="leaveBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s , i)" class="btn"
+                          [ngClass]="getClassForLeave(s)">Leave</button>
+                        <button id="absentBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s, i)" class="btn"
+                          [ngClass]="getClassForAbsent(s)">Absent</button>
+                        <button id="presentBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s, i)" class="btn"
+                          [ngClass]="getClassForPresent(s)">Present</button>
                       </div>
                     </li>
 
@@ -604,7 +607,7 @@
             <div class="questionInfo">
               <span class="qInfoIcon">?</span>
               <div class="tooltip-box-field">
-                Details of any attendance related task
+                Details of any attendance related note.
               </div>
             </div>
             <div class="field-wrapper">
@@ -614,12 +617,12 @@
           </div>
           <div *ngIf="instituteSetting.home_work_feature_enable==1">
             <h3 style="display: inline-flex;">Homework</h3>
-            <!-- <div class="questionInfo">
-                <span class="qInfoIcon">?</span>
-                <div class="tooltip-box-field">
-                  Details of any attendance related task 
-                </div>
-            </div> -->
+            <div class="questionInfo">
+              <span class="qInfoIcon">?</span>
+              <div class="tooltip-box-field">
+                Details of homework given to student.
+              </div>
+            </div>
             <div class="field-wrapper" [ngClass]="{ 'has-value': homework !='' }">
               <textarea class="form-ctrl textBox" value="" [(ngModel)]="homework">
                 </textarea>
@@ -653,7 +656,7 @@
 
           </div>
           <div style="margin: 0px;padding: 10px;" class="clearfix">
-            <aside class="pull-right popup-btn">
+            <aside class="pull-right popup-btn" style=" display: inline-flex; ">
               <input type="button" value="Cancel" class="btn" (click)="closeAttendance()">
               <input type="button" *ngIf="isProfessional && classMarkedForAction.is_attendance_marked != 'Y'" value="Mark Attendance" (click)="updateAttendance()"
                 class="fullBlue btn">
@@ -665,7 +668,7 @@
     </div>
   </proctur-widget>
 
-  <proctur-widget *ngIf="isCancelExamPop">
+  <proctur-widget *ngIf="isCancelExamPop" [size]="'40%'">
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCancelClass()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -686,13 +689,13 @@
 
     <div class="CancelWrapper" widget-content>
       <div class="row cancelField">
-        <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="c-lg-12 c-md-12 c-sm-12">
           <div class="field-wrapper">
             <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:" value="" [(ngModel)]="cancellationReason">
             </textarea>
           </div>
         </div>
-        <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="c-lg-12 c-md-12 c-sm-12" style="margin-top: 20px">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
             <label for="notifyCancel">Notify Students For Class Cancellation</label>
@@ -705,7 +708,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCancelClass()">
-          <input type="button" value="Update Schedule" (click)="cancelClass()" class="redBtn btn">
+          <input type="button" value="Cancel Class" (click)="cancelClass()" class="redBtn btn">
         </aside>
       </div>
     </div>
@@ -889,11 +892,12 @@
         </g>
       </svg>
     </span>
-    <h2 widget-header>Mark Attendance Students</h2>
-    <div class="attendanceWrapper" widget-content>
+    <h2 widget-header>Mark Attendance Students
+      <span style="font-weight: 600">{{classMarkedForAction.master_course}}</span> - {{classMarkedForAction.coursee_names}}</h2>
+    <div class="attendanceWrapperCourse" widget-content>
       <div class="attendanceMain">
         <div class="table-scroll-wrapper">
-          <div class="table table-responsive widget-table">
+          <div class="table table-responsive">
             <table>
               <thead>
                 <tr style="height: 35px;">
@@ -916,7 +920,7 @@
                     {{s.doj}}
                   </td>
                   <td>
-                    <div class="radio-options">
+                    <!-- <div class="radio-options">
                       <div class="field-radio-wrapper">
                         <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
                           (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Present{{s.student_id}}">
@@ -932,7 +936,20 @@
                           (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Absent{{s.student_id}}">
                         <label class="absent" for="Absent{{s.student_id}}">Absent</label>
                       </div>
+                    </div> -->
+
+
+                    <div class="btnGroup">
+                      <button id="leaveBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s , i)"
+                        class="btn" [ngClass]="getClassForLeave(s)">Leave</button>
+                      <button id="absentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
+                        class="btn" [ngClass]="getClassForAbsent(s)">Absent</button>
+                      <button id="presentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
+                        class="btn" [ngClass]="getClassForPresent(s)">Present</button>
                     </div>
+
+
+
                   </td>
                   <td *ngIf="instituteSetting.home_work_feature_enable==1">
                     <div class="field-wrapper">
@@ -953,7 +970,7 @@
     </div>
 
     <div class="" widget-footer>
-      <div class="clearfix">
+      <div class="clearfix" style="padding-top: 15px">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCourseLevelAttendance()">
           <input type="button" value="Update" (click)="updateCourseAttendance()" class="redBtn btn">
@@ -962,7 +979,7 @@
     </div>
   </proctur-widget>
 
-  <proctur-widget *ngIf="isCourseCancel">
+  <proctur-widget *ngIf="isCourseCancel" [size]="'40%'">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCourseCancelClass()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -978,17 +995,19 @@
       </svg>
     </span>
 
-    <h2 widget-header>Cancel Schedule {{classMarkedForAction.batch_name}}</h2>
+    <h2 widget-header>Cancel Schedule
+      <span style="font-weight: 600">{{classMarkedForAction.master_course}}</span> - {{classMarkedForAction.coursee_names}}
+    </h2>
 
     <div class="CancelWrapper" widget-content>
       <div class="row cancelField">
-        <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="c-lg-12 c-md-12 c-sm-12">
           <div class="field-wrapper">
             <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:" value="" [(ngModel)]="cancellationReason">
             </textarea>
           </div>
         </div>
-        <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="c-lg-12 c-md-12 c-sm-12" style="margin-top: 20px">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
             <label for="notifyCancel">Notify Students For Class Cancellation</label>

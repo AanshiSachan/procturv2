@@ -332,6 +332,22 @@ fieldset {
     }
 }
 
+.attendanceWrapperCourse {
+    border-top: 2px solid #eee;
+    margin-top: 15px;
+    max-height: 480px;
+    overflow: hidden;
+    .attendanceMain {
+        .table-scroll-wrapper {
+            max-height: 375px;
+            overflow: auto;
+        }
+         ::-webkit-scrollbar {
+            display: block;
+        }
+    }
+}
+
 @media only screen and (max-width:800px) {
     .HomePopupWrapper {
         position: absolute;
@@ -388,7 +404,6 @@ fieldset {
             }
         }
     }
-    
 }
 
 @media only screen and (max-width:640px) {
@@ -447,7 +462,6 @@ fieldset {
             }
         }
     }
-    
 }
 
 .HomePopupWrapper {
@@ -784,7 +798,7 @@ div#enqChart {
                         content: '';
                         width: 6px;
                         height: 6px;
-                        border-radius: 50%;
+                        border-radius: 50%; 
                         // background: #ff0000;
                         position: absolute;
                         left: -16px;
