@@ -37,6 +37,7 @@ import { ColumnSetting } from '../../shared/custom-table/layout.model';
 export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
+  sortBy: string = 'followUpDateTime';
   /* =========================================================================== */
   /* =========================================================================== */
   /* =========================================================================== */
@@ -294,14 +295,14 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
   EnquirySettings: ColumnSetting[] = [
-    { primaryKey: 'enquiry_no', header: 'Enquiry No.' },
+    { primaryKey: 'enquiry_no', header: 'Enquiry No.', format:this.currentDirection},
     //{ primaryKey: 'enquiry_date', header: 'Enquiry Date.' },
     { primaryKey: 'name', header: 'Name' },
     { primaryKey: 'phone', header: 'Contact No.' },
     { primaryKey: 'statusValue', header: 'Status' },
     { primaryKey: 'priority', header: 'Priority' },
     //{ primaryKey: 'follow_type', header: 'Follow up Type' },
-    { primaryKey: 'followUpDateTime', header: 'Follow up Date' },
+    { primaryKey: 'followUpDateTime', header: 'Follow up Date', format:this.currentDirection},
     { primaryKey: 'updateDate', header: 'Update Date' },
     //{ primaryKey: 'assigned_name', header: 'Assigned To' }
   ];
@@ -3081,20 +3082,16 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /*  */
   sortTableById(id) {
+    this.sortBy = id;
     //console.log(id);
-    if (id === 'name' || id === 'phone') {
+    if (id == 'followUpDateTime') { id = 'followUpDate' }
+    this.instituteData.sorted_by = id;
+    this.currentDirection = this.currentDirection == 'desc' ? 'asc' : 'desc';
+    this.instituteData.order_by = this.currentDirection;
+    this.instituteData.filtered_statuses = this.statusString.join(',');
+    this.cd.markForCheck();
+    this.busy = this.loadTableDatatoSource(this.instituteData);
 
-    }
-    else {
-      /* Custom server sided sorting */
-      if (id == 'followUpDateTime') { id = 'followUpDate' }
-      this.instituteData.sorted_by = id;
-      this.currentDirection = this.currentDirection == 'desc' ? 'asc' : 'desc'
-      this.instituteData.order_by = this.currentDirection;
-      this.instituteData.filtered_statuses = this.statusString.join(',');
-      this.cd.markForCheck();
-      this.busy = this.loadTableDatatoSource(this.instituteData);
-    }
   }
 
 

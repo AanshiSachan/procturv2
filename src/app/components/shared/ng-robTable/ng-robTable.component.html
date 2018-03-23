@@ -6,6 +6,7 @@
                     <li class="schedule-state">
                         <div>
                             <div class="schedule-bottom">
+
                                 <ul class="sche-head">
                                     <li>
                                         <div class="field-checkbox-wrapper" style="background: transparent;">
@@ -15,9 +16,21 @@
                                         </div>
                                     </li>
                                     <li *ngFor="let map of columnMaps" (click)="requestSort(map.primaryKey)" [ctStyleCell]="getStyle(map.primaryKey, '')">
+
+                                        <div *ngIf="isSorted(map)" style="display: inline-block">
+                                            <div *ngIf="asc;then ascending else descending">
+                                            </div>
+                                            <ng-template #ascending>
+                                                <div class="fa fa-caret-up"></div>
+                                            </ng-template>
+                                            <ng-template #descending>
+                                                <div class="fa fa-caret-down"></div>
+                                            </ng-template>
+                                        </div>
                                         {{ map.header }}
                                     </li>
                                 </ul>
+
                                 <div class="schedule-scroller" *ngIf="records.length != 0">
                                     <ul class="ul-body ct-ongoing" *ngFor="let record of records; let i = index;" [class.selected]="i == selectedRow">
                                         <li>
@@ -32,7 +45,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="schedule-scroller"  *ngIf="records.length == 0 && dataStatus === 1">
+                                <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus === 1">
                                     <ul class="ul-body ct-ongoing" *ngFor="let dummy of dummyArr">
                                         <li>
                                             <div class="skeleton">
@@ -44,13 +57,13 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="schedule-scroller"  *ngIf="records.length == 0 && dataStatus === 2">
+                                <div class="schedule-scroller" *ngIf="records.length == 0 && dataStatus === 2">
                                     <ul class="ul-body ct-ongoing">
                                         <li>
                                             <label style="font-size: 16px;font-weight: 600;">No Records Found</label>
                                         </li>
                                     </ul>
-                                </div>                      
+                                </div>
                             </div>
                         </div>
                     </li>
