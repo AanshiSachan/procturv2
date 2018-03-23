@@ -2977,9 +2977,43 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.cd.markForCheck();
       },
       err => {
+        this.isRippleLoad = false;
       }
     )
   }
+
+
+  ///// Download Summary Report
+
+  downloadSummaryReport() {
+    this.isRippleLoad = true;
+    this.cd.markForCheck();
+    this.busy = this.enquire.getSummaryReport().subscribe(
+      res => {
+        this.isRippleLoad = false;
+        this.isRippleLoad = false;
+        let byteArr = this.convertBase64ToArray(res.document);
+        let format = res.format;
+        let fileName = res.docTitle;
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('summary_download');
+        this.cd.markForCheck();
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        this.cd.markForCheck();
+        dwldLink.click();
+        this.cd.markForCheck();
+      },
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+      }
+    )
+
+  }
+
 
 
   /* =========================================================================== */

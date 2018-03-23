@@ -297,7 +297,7 @@
                               (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass(i, class)">Cancel</span>
-                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</span>
+                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
                             <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
 
                             <!-- <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance()">
@@ -347,7 +347,7 @@
                               (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
-                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</span>
+                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
                             <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
 
                             <!-- <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance()">
@@ -406,7 +406,7 @@
                             <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance(i, class)">
                               View Attendance</a>
                             <a class="fish-chips" *ngIf='isOptionVisible && class.is_attendance_marked !="Y"' style="cursor:pointer" (click)="initiateCancelClass()">Cancel</a>
-                            <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Reminder</a>
+                            <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</a>
                             <a class="fish-chips" *ngIf="isOptionVisible && class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
                           </div>
 
@@ -668,7 +668,7 @@
     </div>
   </proctur-widget>
 
-  <proctur-widget *ngIf="isCancelExamPop">
+  <proctur-widget *ngIf="isCancelExamPop" [size]="'40%'">
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCancelClass()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -689,13 +689,13 @@
 
     <div class="CancelWrapper" widget-content>
       <div class="row cancelField">
-        <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="c-lg-12 c-md-12 c-sm-12">
           <div class="field-wrapper">
             <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:" value="" [(ngModel)]="cancellationReason">
             </textarea>
           </div>
         </div>
-        <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="c-lg-12 c-md-12 c-sm-12" style="margin-top: 20px">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
             <label for="notifyCancel">Notify Students For Class Cancellation</label>
@@ -708,7 +708,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCancelClass()">
-          <input type="button" value="Update Schedule" (click)="cancelClass()" class="redBtn btn">
+          <input type="button" value="Cancel Class" (click)="cancelClass()" class="redBtn btn">
         </aside>
       </div>
     </div>
@@ -979,7 +979,7 @@
     </div>
   </proctur-widget>
 
-  <proctur-widget *ngIf="isCourseCancel">
+  <proctur-widget *ngIf="isCourseCancel" [size]="'40%'">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCourseCancelClass()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -1001,13 +1001,13 @@
 
     <div class="CancelWrapper" widget-content>
       <div class="row cancelField">
-        <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="c-lg-12 c-md-12 c-sm-12">
           <div class="field-wrapper">
             <textarea class="form-ctrl textBox" style="height: 100px;" placeholder="Cancellation Reason:" value="" [(ngModel)]="cancellationReason">
             </textarea>
           </div>
         </div>
-        <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="c-lg-12 c-md-12 c-sm-12" style="margin-top: 20px">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
             <label for="notifyCancel">Notify Students For Class Cancellation</label>

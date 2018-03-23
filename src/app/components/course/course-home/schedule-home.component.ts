@@ -34,13 +34,13 @@ export class ScheduleHomeComponent implements OnInit {
   selectedRow: number;
   isLangInstitue: boolean = false;
 
-  @ViewChild('#StdName') standard_name_label : ElementRef
+  @ViewChild('#StdName') standard_name_label: ElementRef
 
   constructor(
     private apiService: StandardServices,
     private toastCtrl: AppComponent
-  ) { 
-    
+  ) {
+
   }
 
   ngOnInit() {
@@ -65,6 +65,7 @@ export class ScheduleHomeComponent implements OnInit {
         this.dataStatus = 2;
       },
       error => {
+        this.isRippleLoad = false;
         console.log(error);
         let data = {
           type: "error",
@@ -123,6 +124,7 @@ export class ScheduleHomeComponent implements OnInit {
           this.isRippleLoad = false;
         },
         err => {
+          this.isRippleLoad = false;
           let data = {
             type: "error",
             title: "",
@@ -183,6 +185,7 @@ export class ScheduleHomeComponent implements OnInit {
         this.isRippleLoad = false;
       },
       error => {
+        this.isRippleLoad = false;
         let data = {
           type: "error",
           title: "",
@@ -194,7 +197,7 @@ export class ScheduleHomeComponent implements OnInit {
     )
   }
 
-  clickSN(){
+  clickSN() {
     document.getElementById('StdName').focus();
   }
 

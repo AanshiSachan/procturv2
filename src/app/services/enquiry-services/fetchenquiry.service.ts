@@ -78,7 +78,7 @@ export class FetchenquiryService {
         obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
         obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
         this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
-  
+
         return this.http.post(this.urlCampaign, obj, { headers: this.headers })
           .map(res => {
             this.row = res.json();
@@ -101,7 +101,7 @@ export class FetchenquiryService {
           .map(res => {
             this.row = res.json();
             return this.row;
-          });        
+          });
       }
     }
   }
@@ -176,11 +176,24 @@ export class FetchenquiryService {
   }
 
 
-  fetchEnquiryWidgetView(obj){
+  fetchEnquiryWidgetView(obj) {
 
-    let url = this.baseUrl +"/api/v1/enquiry/dashboard/" +this.institute_id;
+    let url = this.baseUrl + "/api/v1/enquiry/dashboard/" + this.institute_id;
     return this.http.post(
-      url, obj, {headers: this.headers}
+      url, obj, { headers: this.headers }
+    ).map(
+      res => { return res.json(); },
+      err => { return err.json(); }
+    )
+  }
+
+
+  // Download Report Summary
+
+  getSummaryReport() {
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id;
+    return this.http.post(
+      url, {}, { headers: this.headers }
     ).map(
       res => { return res.json(); },
       err => { return err.json(); }
