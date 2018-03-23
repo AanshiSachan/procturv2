@@ -2147,6 +2147,23 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
+  markAttendaceBtnClickCourse(event, rowData, index) {
+    document.getElementById('leaveBtnCourse' + rowData.student_id).classList.remove('classLeaveBtn');
+    document.getElementById('absentBtnCourse' + rowData.student_id).classList.remove('classAbsentBtn');
+    document.getElementById('presentBtnCourse' + rowData.student_id).classList.remove('classPresentBtn');
+    if (event.target.innerText == "Leave") {
+      document.getElementById('leaveBtnCourse' + rowData.student_id).classList.add('classLeaveBtn');
+      this.courseLevelStudentAtt[index].dateLi[0].status = "L";
+      this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
+    } else if (event.target.innerText == "Absent") {
+      document.getElementById('absentBtnCourse' + rowData.student_id).classList.add('classAbsentBtn');
+      this.courseLevelStudentAtt[index].dateLi[0].status = "A";
+      this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
+    } else {
+      document.getElementById('presentBtnCourse' + rowData.student_id).classList.add('classPresentBtn');
+      this.courseLevelStudentAtt[index].dateLi[0].status = "P";
+    }
+  }
 
 }
 

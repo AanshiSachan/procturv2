@@ -573,9 +573,12 @@
                         </div>
                       </div> -->
                       <div class="btnGroup">
-                        <button id="leaveBtn{{s.student_id}}" (click)="markAttendaceBtnClick($event , s , i)" class="btn" [ngClass]="getClassForLeave(s)">Leave</button>
-                        <button id="absentBtn{{s.student_id}}" (click)="markAttendaceBtnClick($event , s, i)" class="btn" [ngClass]="getClassForAbsent(s)">Absent</button>
-                        <button id="presentBtn{{s.student_id}}" (click)="markAttendaceBtnClick($event , s, i)" class="btn" [ngClass]="getClassForPresent(s)">Present</button>
+                        <button id="leaveBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s , i)" class="btn"
+                          [ngClass]="getClassForLeave(s)">Leave</button>
+                        <button id="absentBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s, i)" class="btn"
+                          [ngClass]="getClassForAbsent(s)">Absent</button>
+                        <button id="presentBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s, i)" class="btn"
+                          [ngClass]="getClassForPresent(s)">Present</button>
                       </div>
                     </li>
 
@@ -916,7 +919,7 @@
                     {{s.doj}}
                   </td>
                   <td>
-                    <div class="radio-options">
+                    <!-- <div class="radio-options">
                       <div class="field-radio-wrapper">
                         <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
                           (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Present{{s.student_id}}">
@@ -932,7 +935,20 @@
                           (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Absent{{s.student_id}}">
                         <label class="absent" for="Absent{{s.student_id}}">Absent</label>
                       </div>
+                    </div> -->
+
+
+                    <div class="btnGroup">
+                      <button id="leaveBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s , i)"
+                        class="btn" [ngClass]="getClassForLeave(s)">Leave</button>
+                      <button id="absentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
+                        class="btn" [ngClass]="getClassForAbsent(s)">Absent</button>
+                      <button id="presentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
+                        class="btn" [ngClass]="getClassForPresent(s)">Present</button>
                     </div>
+
+
+
                   </td>
                   <td *ngIf="instituteSetting.home_work_feature_enable==1">
                     <div class="field-wrapper">
