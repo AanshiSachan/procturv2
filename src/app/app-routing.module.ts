@@ -96,6 +96,10 @@ import { SlotComponent } from './components/slot/slot.component';
                     canLoad: [AuthGuard]
                 },
                 {
+                    path: 'academic',
+                    loadChildren: 'app/components/academic-year/academic year.module#academicYearModule',
+                },
+                {
                     path: 'setting',
                     loadChildren: 'app/components/institute-settings/institutes-setting.module#InstituteSettingModule',
                 },

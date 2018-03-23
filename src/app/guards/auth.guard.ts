@@ -27,7 +27,6 @@ export class AuthGuard implements CanActivate, CanLoad {
 
 
     checkLogin(string): boolean {
-
         if ((sessionStorage.getItem('Authorization') != null) && sessionStorage.getItem('institute_id') != null) {
             if (string.indexOf('enquiry') >= 0) {
                 return this.hasEnquiryAccess();
@@ -77,6 +76,9 @@ export class AuthGuard implements CanActivate, CanLoad {
             }
             else if (string.indexOf('classroom') >= 0) {
                 return this.hasTeacher();
+            }
+            else if (string.indexOf('academic') >= 0) {
+                return true;
             }
         }
         else {
