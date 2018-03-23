@@ -1302,20 +1302,38 @@ export class AdminHomeComponent implements OnInit {
     this.isCourseAttendance = false;
   }
 
+  //   {
+  //   "student_id": "11919",
+  //     "course_id": "79",
+  //       "dateLi": [{
+  //         "date": "2018-03-14",
+  //         "status": "P",
+  //         "isStatusModified": "N",
+  //         "home_work_status": "Y",
+  //         "is_home_work_status_changed": "N"
+  //       }],
+  //         "isNotify": "Y",
+  //           "is_home_work_enabled": "Y"
+  // },
+
   updateCourseAttendance() {
     let arr = [];
-    this.courseLevelStudentAtt.forEach(e => {
-      e.dateLi[0] = Object.assign({}, this.getCustomCourseLevelAttendanceObject(e.dateLi[0], e));
+    this.courseLevelStudentAtt.forEach(element => {
       let temp = {
-        course_id: this.classMarkedForAction.course_ids,
-        dateLi: e.dateLi,
-        isNotify: e.isNotify,
-        is_home_work_enabled: e.is_home_work_enabled,
-        student_id: e.student_id,
-      };
+        "student_id": element.student_id,
+        "course_id": this.classMarkedForAction.course_ids,
+        "dateLi": [{
+          "date": moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
+          "status": element.dateLi[0].status,
+          "isStatusModified": element.dateLi[0].isStatusModified,
+          "home_work_status": element.dateLi[0].home_work_status,
+          "is_home_work_status_changed": element.dateLi[0].is_home_work_status_changed
+        }],
+        "isNotify": element.isNotify,
+        "is_home_work_enabled": element.is_home_work_enabled,
+      }
       arr.push(temp);
     });
-
     this.widgetService.updateCourseAttendance(arr).subscribe(
       res => {
         let msg = {
@@ -2155,13 +2173,17 @@ export class AdminHomeComponent implements OnInit {
       document.getElementById('leaveBtnCourse' + rowData.student_id).classList.add('classLeaveBtn');
       this.courseLevelStudentAtt[index].dateLi[0].status = "L";
       this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
+      this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
     } else if (event.target.innerText == "Absent") {
       document.getElementById('absentBtnCourse' + rowData.student_id).classList.add('classAbsentBtn');
       this.courseLevelStudentAtt[index].dateLi[0].status = "A";
       this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
+      this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
     } else {
       document.getElementById('presentBtnCourse' + rowData.student_id).classList.add('classPresentBtn');
       this.courseLevelStudentAtt[index].dateLi[0].status = "P";
+      this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
+
     }
   }
 

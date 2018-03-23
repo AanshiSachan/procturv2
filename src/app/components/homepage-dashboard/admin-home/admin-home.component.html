@@ -892,11 +892,12 @@
         </g>
       </svg>
     </span>
-    <h2 widget-header>Mark Attendance Students</h2>
-    <div class="attendanceWrapper" widget-content>
+    <h2 widget-header>Mark Attendance Students
+      <span style="font-weight: 600">{{classMarkedForAction.master_course}}</span> - {{classMarkedForAction.coursee_names}}</h2>
+    <div class="attendanceWrapperCourse" widget-content>
       <div class="attendanceMain">
         <div class="table-scroll-wrapper">
-          <div class="table table-responsive widget-table">
+          <div class="table table-responsive">
             <table>
               <thead>
                 <tr style="height: 35px;">
@@ -969,7 +970,7 @@
     </div>
 
     <div class="" widget-footer>
-      <div class="clearfix">
+      <div class="clearfix" style="padding-top: 15px">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCourseLevelAttendance()">
           <input type="button" value="Update" (click)="updateCourseAttendance()" class="redBtn btn">
@@ -994,7 +995,9 @@
       </svg>
     </span>
 
-    <h2 widget-header>Cancel Schedule {{classMarkedForAction.batch_name}}</h2>
+    <h2 widget-header>Cancel Schedule
+      <span style="font-weight: 600">{{classMarkedForAction.master_course}}</span> - {{classMarkedForAction.coursee_names}}
+    </h2>
 
     <div class="CancelWrapper" widget-content>
       <div class="row cancelField">
