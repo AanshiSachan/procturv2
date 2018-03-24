@@ -183,7 +183,7 @@ export class AdminHomeComponent implements OnInit {
     checkBox: ''
   }
   permissionArray = sessionStorage.getItem('permissions');
-
+  settingInfo: any = [];
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -246,6 +246,15 @@ export class AdminHomeComponent implements OnInit {
       },
       err => { }
     );
+
+    this.widgetService.getSettings().subscribe(
+      res => {
+        this.settingInfo = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
 
     this.widgetService.getAllteachers().subscribe(
       res => {

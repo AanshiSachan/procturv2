@@ -1403,6 +1403,7 @@ div#enqChart {
 }
 
 .btnGroup {
+    display: inline-flex;
     .btn {
         padding: 5px 5px !important;
         color: black !important;
