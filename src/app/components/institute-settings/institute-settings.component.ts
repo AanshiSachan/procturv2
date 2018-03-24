@@ -251,8 +251,8 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
           this.changeView('liMisc', 'stay');
         }
 
-      } else if(window.innerWidth > 1050) {
-        
+      } else if (window.innerWidth > 1050) {
+
         if (window.pageYOffset < 1800) {
           this.changeView('liSMS', 'stay');
         } else if (window.pageYOffset < 2500) {
@@ -268,7 +268,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
       }
 
       else {
-        
+
         if (window.pageYOffset < 2300) {
           this.changeView('liSMS', 'stay');
         } else if (window.pageYOffset < 3000) {
@@ -280,7 +280,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
         } else {
           this.changeView('liMisc', 'stay');
         }
-        
+
       }
     }
   }
@@ -329,6 +329,12 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
 
   saveAllSettings() {
     let dataToSend: any = {};
+    if (this.instituteSettingDet.gst_enabled) {
+      if (this.instituteSettingDet.gst_no == "" || this.instituteSettingDet.gst_no == null) {
+        this.messageToast('error', 'Error', "Please specify GST NO.");
+        return;
+      }
+    }
     dataToSend = this.constructJsonToSend();
     console.log(dataToSend);
     this.isRippleLoad = true;
