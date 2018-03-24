@@ -19,7 +19,7 @@ export class CourseSubjectComponent implements OnInit {
   displayBatchSize = 10;
   totalRow: number;
   subjectList: any = [];
-  standardList;
+  standardList: any = [];
   newSubjectDetails: any = {
     is_active: "Y",
     standard_id: "-1",
