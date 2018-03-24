@@ -75,7 +75,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private inventoryApi: InventoryService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private appC: AppComponent
   ) {
   }
 
@@ -201,6 +202,12 @@ export class HomeComponent implements OnInit {
         error => {
           this.isRippleLoad = false;
           this.subtractFlag = false;
+          let data = {
+            type: 'error',
+            title: "Error",
+            body: JSON.parse(error._body).message
+          }
+          this.appC.popToast(data);
           this.loadTableDatatoSource();
           console.log('Add Stock Error', error);
         }
@@ -544,6 +551,7 @@ export class HomeComponent implements OnInit {
 
   closeAllocateSubBranchPopup() {
     this.showAllocationBranchPopUp = false;
+    this.showAvailableUnits = false;
   }
 
   /* Customiized click detection strategy */
