@@ -50,10 +50,10 @@ export class CourseSubjectComponent implements OnInit {
       (data: any) => {
         console.log(data);
         this.totalRow = data.length;
-        this.subjectListDataSource = data;
-        this.subjectListDataSource.sort(function (a, b) {
-          return moment(a.created_date).unix() - moment(b.created_date).unix();
+        data.sort(function (a, b) {
+          return moment(b.created_date).unix() - moment(a.created_date).unix();
         })
+        this.subjectListDataSource = data;
         this.fetchTableDataByPage(this.PageIndex);
         this.isRippleLoad = false;
         this.dataStatus = 2;
