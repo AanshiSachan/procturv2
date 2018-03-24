@@ -220,9 +220,9 @@ export class PictureCropComponent implements OnInit, OnChanges {
   @HostListener("document:click", ['$event'])
   onWindowClick(event) {
     if(this.eRef.nativeElement.contains(event.target)) {
-      console.log("inside");
+      //console.log("inside");
     } else {
-      console.log("outside");
+      //console.log("outside");
       this.isMenuVisible = false;
     }
   }

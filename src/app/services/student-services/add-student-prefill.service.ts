@@ -45,7 +45,7 @@ export class AddStudentPrefillService {
         return el.json();
       },
       err => {
-        //console.log('error while loading Inventory, please check your internet connection');
+        return err.json();
       });
   }
 
@@ -58,7 +58,7 @@ export class AddStudentPrefillService {
         return el.json();
       },
       err => {
-        //console.log('error while loading Inventory, please check your internet connection');
+        return err.json();
       });
   }
 
@@ -71,7 +71,7 @@ export class AddStudentPrefillService {
         return res.json();
       },
       err => {
-        
+        return err.json();
       }
     )
 
@@ -91,6 +91,7 @@ export class AddStudentPrefillService {
         }
       },
       err => {
+        return err.json();
       }
       );
   }
@@ -111,7 +112,7 @@ export class AddStudentPrefillService {
         } 
       },
       err => {
-        //console.log("an error occurred while fetching custom component for student add view");
+        return err.json();
       }
       );
   }
@@ -126,7 +127,7 @@ export class AddStudentPrefillService {
       .map(
       data => { return data.json(); },
       err => {
-        // console.log("there was an error fetching batch data for student add view");
+        return err.json();
       }
       );
   }
@@ -140,7 +141,7 @@ export class AddStudentPrefillService {
       .map(
       data => { return data.json(); },
       err => {
-        //console.log("there is an error fetching fee structures, please check your internet connection");
+        return err.json();
       })
   }
 
@@ -155,7 +156,7 @@ export class AddStudentPrefillService {
       .map(
       data => { return data.json(); },
       err => {
-        //console.log("there is an error fetching fee schedule, please check your internet connection");
+        return err.json();
       }
       )
   }
@@ -170,7 +171,7 @@ export class AddStudentPrefillService {
       .map(
       data => { return data.json(); },
       err => {
-        // console.log("error fetching installment data, please check your internet connection");
+        return err.json();
       }
       )
   }
@@ -183,7 +184,7 @@ export class AddStudentPrefillService {
       .map(
       data => { return data.json(); },
       err => {
-        //console.log("error fetching additional fee details, please check your internet connection");
+        return err.json();
       }
       )
   }
@@ -193,7 +194,12 @@ export class AddStudentPrefillService {
     let urlFetchSlot = this.baseUrl + "/api/v1/inst_slot/all/" + this.institute_id;
 
     return this.http.get(urlFetchSlot, { headers: this.headers }).map(
-      res => { return res.json(); }
+      res => { 
+        return res.json(); 
+      },
+      err => {
+        return err.json();
+      }
     )
   }
 
@@ -202,7 +208,10 @@ export class AddStudentPrefillService {
     let urlLangStatus = this.baseUrl + "/api/v1/masterData/type/LANG_STUDENT_STATUS";
 
     return this.http.get(urlLangStatus, { headers: this.headers }).map(
-      res => { return res.json(); }
+      res => { return res.json(); },
+      err => {
+        return err.json();
+      }
     )
   }
 
@@ -211,7 +220,10 @@ export class AddStudentPrefillService {
     let urlLangBatch = this.baseUrl + "/api/v1/batches/all/" + this.institute_id + "?active=Y";
 
     return this.http.get(urlLangBatch, { headers: this.headers }).map(
-      res => { return res.json(); }
+      res => { return res.json(); },
+      err => {
+        return err.json();
+      }
     )
   }
 
@@ -222,7 +234,10 @@ export class AddStudentPrefillService {
     let urlCourses = this.baseUrl + "/api/v1/subjects/standards/" + id;
 
     return this.http.get(urlCourses, { headers: this.headers }).map(
-      res => { return res.json(); }
+      res => { return res.json(); },
+      err => {
+        return err.json();
+      }
     )
 
   }
@@ -231,7 +246,10 @@ export class AddStudentPrefillService {
   fetchMasterCourse() : Observable<any> {
     let urlMaster = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all";
     return this.http.get(urlMaster, { headers: this.headers }).map(
-      res => { return res.json(); }
+      res => { return res.json(); },
+      err => {
+        return err.json();
+      }
     )
   }
 
@@ -300,7 +318,7 @@ export class AddStudentPrefillService {
         }
       },
       err => {
-
+        return err.json();
       }
     )
   }
@@ -315,7 +333,7 @@ export class AddStudentPrefillService {
         }
       },
       err => {
-
+        return err.json();
       }
     )
   }
@@ -326,6 +344,9 @@ export class AddStudentPrefillService {
     return this.http.get(urlCourseMaster, { headers: this.headers }).map(
       res => { 
         return res.json(); 
+      },
+      err => {
+        return err.json();
       })
   }
 

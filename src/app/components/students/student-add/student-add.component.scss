@@ -553,8 +553,8 @@
                                     margin-left: 40px;
                                 }
                             }
-                            &::first-child {
-                                width: 4%;
+                            &:first-child {
+                                width: 3%;
                             }
                         }
                         border: 1px solid #efefef;
@@ -1832,6 +1832,9 @@ input[type=number]::-webkit-outer-spin-button {
         .field-wrapper {
             width: 40%;
         }
+    }
+    .pdcChequePayment{
+        margin-top: 15px;
     }
 }
 
