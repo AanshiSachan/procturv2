@@ -122,6 +122,8 @@ export class ScheduleHomeComponent implements OnInit {
           }
           this.getAllStandardList();
           this.isRippleLoad = false;
+          this.no_standard_name = false;
+          this.toggleCreateNewStandard();
         },
         err => {
           this.isRippleLoad = false;
