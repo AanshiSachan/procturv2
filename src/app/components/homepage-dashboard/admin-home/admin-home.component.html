@@ -296,8 +296,9 @@
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="{hide : checkIfUserHadAccess('101')}"
                               (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance</span>
-                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass(i, class)">Cancel</span>
-                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
+                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' [ngClass]="getClassStatus(class)" style="cursor:pointer"
+                              (click)="initiateCancelClass(i, class)">Cancel</span>
+                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" [ngClass]="getClassStatus(class)" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
                             <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
 
                             <!-- <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance()">
@@ -348,7 +349,7 @@
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
                             <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
-                            <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
+                            <!-- <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span> -->
 
                             <!-- <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance()">
                               Mark Attendance</a>
@@ -530,19 +531,19 @@
 
           <div class="row studentTableWrapper" style="padding: 0px 5px 0px 0px;margin-left: 5px;">
             <div class="schedule-bottom">
-              <ul class="sche-head" *ngIf="instituteSetting.home_work_feature_enable==1">
+              <ul class="sche-head" *ngIf="settingInfo.home_work_feature_enable==1">
                 <li style="width: 20%; font-weight: 400">Student ID</li>
                 <li style="width: 20%; font-weight: 400">Student Name</li>
                 <li style="width: 35%; font-weight: 400">Mark Attendance</li>
                 <li style="width: 25%; font-weight: 400">Home Work Status</li>
               </ul>
-              <ul class="sche-head" *ngIf="instituteSetting.home_work_feature_enable !=1">
+              <ul class="sche-head" *ngIf="settingInfo.home_work_feature_enable !=1">
                 <li style="width: 30%; font-weight: 400">Student ID</li>
                 <li style="width: 30%; font-weight: 400">Student Name</li>
                 <li style="width: 40%; font-weight: 400">Mark Attendance</li>
               </ul>
               <div class="schedule-scroller" style="max-height: 250px;min-height: 250px;">
-                <div class="ct-disable-wrapper pos-rel" *ngFor="let s of studentAttList;let i=index;" [ngClass]="{ homeWorkNotFoundClass: instituteSetting.home_work_feature_enable !=1 }">
+                <div class="ct-disable-wrapper pos-rel" *ngFor="let s of studentAttList;let i=index;" [ngClass]="{ homeWorkNotFoundClass: settingInfo.home_work_feature_enable !=1 }">
                   <ul class="ct-ongoing">
                     <li style="width: 20%; font-weight: 800">
                       <div>{{s.student_disp_id}}</div>
@@ -582,7 +583,7 @@
                       </div>
                     </li>
 
-                    <li style="width: 25%;" *ngIf="instituteSetting.home_work_feature_enable==1">
+                    <li style="width: 25%;" *ngIf="settingInfo.home_work_feature_enable==1">
                       <div class="customDropdown">
                         <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status_11755" class="" [(ngModel)]="s.dateLi[0].home_work_status"
                           (ngModelChange)="isHomeworkStatusChanged(i)">
@@ -615,7 +616,7 @@
               </textarea>
             </div>
           </div>
-          <div *ngIf="instituteSetting.home_work_feature_enable==1">
+          <div *ngIf="settingInfo.home_work_feature_enable==1">
             <h3 style="display: inline-flex;">Homework</h3>
             <div class="questionInfo">
               <span class="qInfoIcon">?</span>
@@ -628,7 +629,7 @@
                 </textarea>
             </div>
           </div>
-          <div *ngIf="instituteSetting.home_work_feature_enable==1">
+          <div *ngIf="settingInfo.home_work_feature_enable==1">
             <h3 style="display: inline-flex;">Yesterdays Homework</h3>
             <!-- <div class="questionInfo">
                 <span class="qInfoIcon">?</span>
@@ -639,7 +640,7 @@
             <span style="font-weight: 600">{{studentAttList[0].dateLi[0].previous_class_homework_assigned}}</span>
           </div>
           <div class="checkboxGroup">
-            <div class="field-checkbox-wrapper" *ngIf="instituteSetting.home_work_feature_enable==1">
+            <div class="field-checkbox-wrapper" *ngIf="settingInfo.home_work_feature_enable==1">
               <input type="checkbox" value="" class="form-checkbox" id="EnableHomeWorkSms" [checked]="home_work_notifn==1 ? true: false"
                 (change)="updateHomework($event)">
               <label for="EnableHomeWorkSms">Enable Homework SMS</label>
@@ -892,9 +893,23 @@
         </g>
       </svg>
     </span>
-    <h2 widget-header>Mark Attendance Students
-      <span style="font-weight: 600">{{classMarkedForAction.master_course}}</span> - {{classMarkedForAction.coursee_names}}</h2>
+    <h2 widget-header>Mark Attendance Students -{{classMarkedForAction.master_course}}</h2>
+
     <div class="attendanceWrapperCourse" widget-content>
+
+      <div class="row filterSection">
+        <div class="c-sm-3 c-md-3 c-lg-3">
+          <h3>Total Students : {{courseLevelStudentAtt.length}} </h3>
+        </div>
+
+        <div class="c-sm-3 c-md-3 c-lg-3">
+          <span class="leave">{{leaveCount}}</span>
+          <span class="absent">{{absentCount}}</span>
+          <span class="present">{{presentCount}}</span>
+        </div>
+
+      </div>
+
       <div class="attendanceMain">
         <div class="table-scroll-wrapper">
           <div class="table table-responsive">
@@ -905,7 +920,7 @@
                   <th style="font-size: 14px;font-weight: 600;">Student Name</th>
                   <th style="font-size: 14px;font-weight: 600;">Joining Date</th>
                   <th style="font-size: 14px;font-weight: 600;">Attendance</th>
-                  <th style="font-size: 14px;font-weight: 600;" *ngIf="instituteSetting.home_work_feature_enable==1">Home Work Status</th>
+                  <th style="font-size: 14px;font-weight: 600;" *ngIf="settingInfo.home_work_feature_enable==1">Home Work Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -951,7 +966,7 @@
 
 
                   </td>
-                  <td *ngIf="instituteSetting.home_work_feature_enable==1">
+                  <td *ngIf="settingInfo.home_work_feature_enable==1">
                     <div class="field-wrapper">
                       <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status" class="form-ctrl" [ngModel]="getCourseHomeworkData(i)"
                         (ngModelChange)="isCourseHomeworkStatusChanged($event,i)">

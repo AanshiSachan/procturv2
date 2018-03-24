@@ -566,7 +566,7 @@
                 <label for="label">Sub Branch Item
                   <span style="color:red">*</span>
                 </label>
-                <span *ngIf="showAvailableUnits">Available Units : {{availabelItemCount}}</span>
+                <span *ngIf="showAvailableUnits">Units available in Sub Branch: {{availabelItemCount}}</span>
                 <div *ngIf="allocateItemForm.controls['sub_branch_item_id'].invalid && (allocateItemForm.controls['sub_branch_item_id'].dirty || allocateItemForm.controls['sub_branch_item_id'].touched)"
                   class="alert alert-danger">
                   <div *ngIf="allocateItemForm.controls['sub_branch_item_id'].hasError('required')">

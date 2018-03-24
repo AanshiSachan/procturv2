@@ -40,7 +40,6 @@ export class InventoryCategoryComponent implements OnInit {
 
   //  Add Row Of Table
   addTableRow(data) {
-    debugger
     if (data.category_name == "" || data.category_name == null) {
       let data = {
         type: 'error',

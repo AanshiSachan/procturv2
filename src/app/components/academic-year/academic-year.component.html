@@ -1,0 +1,109 @@
+<div class="middle-section clearFix">
+  <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+    <h1 class="pull-left">
+      Academic Year List
+    </h1>
+  </section>
+
+  <section class="middle-main clearFix">
+
+    <div class="clearFix add-edit">
+      <a (click)="toggleCreateNewSlot()">
+        <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
+        <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
+        <span>Add Academic Year</span>
+      </a>
+    </div>
+    <section class="clearFix create-standard-form" *ngIf="createNewSlot">
+      <div class="row create-standard-field">
+        <div class="c-lg-2 c-md-2 c-sm-2">
+        </div>
+        <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="field-wrapper">
+            <input type="text" #idSlot class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
+            <label for="slotNew">Slot
+            </label>
+          </div>
+          <!-- <p>* You can provide time Example 10-12 PM</p> -->
+        </div>
+        <div class="c-lg-4 c-md-4 c-sm-4" style="margin-top: 1%;">
+          <aside class="pull-left create-cancel-small">
+            <button class="btn" (click)="addNewSlot(idSlot)">Add</button>
+          </aside>
+        </div>
+      </div>
+
+    </section>
+    <div id="divSlotTable">
+      <div class="table-scroll-wrapper">
+        <div class="table table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  Id
+                </th>
+                <th>
+                  Academic Year
+                </th>
+                <th>
+                  Description
+                </th>
+                <th>
+                  Start Date
+                </th>
+                <th>
+                  End Date
+                </th>
+                <th>
+                  Added Date
+                </th>
+                <th>
+                  Is Default
+                </th>
+                <th>
+                  Edit
+                </th>
+              </tr>
+            </thead>
+            <tr id="row{{i}}" class="displayComp" *ngFor="let row of slotTableList; let i = index; trackBy: i;">
+              <td>
+                {{i + 1}}
+              </td>
+ 
+              <td class="view-comp">
+                {{row.inst_acad_year}}
+              </td>
+              <td class="view-comp">
+                {{row.desc}}
+              </td>
+              <td class="view-comp">
+                {{row.start_date}}
+              </td>
+              <td class="view-comp">
+                {{row.end_date}}
+              </td>
+              <td class="view-comp">
+                {{row.created_date}}
+              </td>
+              <td class="view-comp">
+                {{row.is_active}}
+              </td>
+            
+            
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paginator Here -->
+    <div class="row filter-res pagination" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+        </pagination>
+      </div>
+    </div>
+  </section>
+
+</div>

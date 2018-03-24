@@ -685,6 +685,7 @@ export class ClassAddComponent implements OnInit {
     let endTime = moment(this.addClassDetails.end_hour + ':' + this.addClassDetails.end_minute + this.addClassDetails.end_meridian, 'h:mma');
     if (!(startTime.isBefore(endTime))) {
       this.messageToast('error', 'Error', 'Please provide correct start time and end time');
+      this.convertTimeToBindableFormat();
       return
     } else {
       obj.start_time = this.addClassDetails.start_hour + ':' + this.addClassDetails.start_minute + ' ' + this.addClassDetails.start_meridian;
@@ -696,6 +697,7 @@ export class ClassAddComponent implements OnInit {
     obj.subject_name = this.getValueFromArray(this.subjectListDataSource, 'subject_id', obj.subject_id, 'subject_name');
     if (this.addClassDetails.teacher_id == "" || this.addClassDetails.teacher_id == '-1') {
       this.messageToast('error', 'Error', 'Please provide correct teacher name');
+      this.convertTimeToBindableFormat();
       return
     } else {
       obj.teacher_id = Number(this.addClassDetails.teacher_id);
@@ -705,6 +707,13 @@ export class ClassAddComponent implements OnInit {
     obj.room_no = this.addClassDetails.room_no;
     this.classScheduleArray.push(obj);
     this.clearClassScheduleForm();
+  }
+
+  convertTimeToBindableFormat() {
+    this.addClassDetails.start_hour = this.addClassDetails.start_hour + ' ' + this.addClassDetails.start_meridian;
+    this.addClassDetails.start_meridian = "";
+    this.addClassDetails.end_hour = this.addClassDetails.end_hour + ' ' + this.addClassDetails.end_meridian;
+    this.addClassDetails.end_meridian = "";
   }
 
   timeChanges(data, name) {

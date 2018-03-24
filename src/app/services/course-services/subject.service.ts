@@ -48,7 +48,7 @@ export class SubjectApiService {
     }
 
     getAllStandardName() {
-        let url = this.baseURL + '/api/v1/standards/all/' + this.institute_id;
+        let url = this.baseURL + '/api/v1/standards/all/' + this.institute_id + "?active=Y";
         return this.http.get(url, { headers: this.headers }).map(
             res => {
                 return res;
@@ -60,7 +60,7 @@ export class SubjectApiService {
     }
 
     createNewSubject(data) {
-        let url = this.baseURL + '/api/v1/subjects' ;
+        let url = this.baseURL + '/api/v1/subjects';
         return this.http.post(url, data, { headers: this.headers }).map(
             res => {
                 return res;
