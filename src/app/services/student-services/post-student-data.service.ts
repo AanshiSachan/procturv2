@@ -15,7 +15,7 @@ export class PostStudentDataService {
     authorization: string;
     institute_id: number;
     headers: Headers;
-    baseUrl:string = '';
+    baseUrl: string = '';
 
     constructor(private http: Http, private auth: AuthenticatorService) {
         this.authorization = this.auth.getAuthToken();
@@ -167,8 +167,8 @@ export class PostStudentDataService {
     }
 
 
-    generateAcknowledge(arr: any[], id): Observable<any> {
-        let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" + id + "?ChequeIds=" + arr.join(',') + "&sendEmail=undefined";
+    generateAcknowledge(arr, id, email): Observable<any> {
+        let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" + id + "?ChequeIds=" + arr + "&sendEmail=" + email;
 
         return this.http.post(urlsend, null, { headers: this.headers }).map(
             res => { return res.json(); },
@@ -187,18 +187,18 @@ export class PostStudentDataService {
 
     uploadStudentBulk(obj): Observable<any> {
         let urlPostXlsDocument = this.baseUrl + "/api/v1/students/bulkUpload";
-        
-        return this.http.post(urlPostXlsDocument, obj, {headers: this.headers}).map(
+
+        return this.http.post(urlPostXlsDocument, obj, { headers: this.headers }).map(
             res => { return res.json(); },
             err => { return err.json(); }
         )
     }
 
-    generateFeeReceipt(id, feeid): Observable<any>{
+    generateFeeReceipt(id, feeid): Observable<any> {
 
-        let url = this.baseUrl +"/api/v1/studentWise/fee/" +id +"/feeReceipt/" +feeid +"/download?emailSent=Y";
+        let url = this.baseUrl + "/api/v1/studentWise/fee/" + id + "/feeReceipt/" + feeid + "/download?emailSent=Y";
 
-        return this.http.get(url, {headers: this.headers}).map( 
+        return this.http.get(url, { headers: this.headers }).map(
             res => {
                 console.log(res);
                 return res;

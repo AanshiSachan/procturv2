@@ -3023,15 +3023,69 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
 
   generateAck() {
-    this.postService.generateAcknowledge(this.pdcSelectedArr, this.student_id).subscribe(
+    let check = this.checkIfRowSelcted(this.chequePdcList);
+    if (check.length == 0) {
+      let msg = {
+        type: 'error',
+        title: 'Select',
+        body: 'Please select from cheque list'
+      }
+      this.appC.popToast(msg);
+      return false;
+    }
+    let checque_id = check.join(',');
+    this.isRippleLoad = true;
+    this.postService.generateAcknowledge(checque_id, this.student_id, "undefined").subscribe(
       res => {
+        this.isRippleLoad = false;
+        let byteArr = this.convertBase64ToArray(res.document);
+        let format = res.format;
+        let fileName = res.docTitle;
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById('hiddenAnchorAck');
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        document.body.appendChild(dwldLink);
+        dwldLink.click();
+      },
+      err => {
+        this.isRippleLoad = false;
       }
     )
   }
 
   sendAck() {
-    this.postService.sendAcknowledge(this.pdcSelectedArr, this.student_id).subscribe(
+    let check = this.checkIfRowSelcted(this.chequePdcList);
+    if (check.length == 0) {
+      let msg = {
+        type: 'error',
+        title: 'Select',
+        body: 'Please select from cheque list'
+      }
+      this.appC.popToast(msg);
+      return false;
+    }
+    let checque_id = check.join(',');
+    this.isRippleLoad = true;
+    this.postService.generateAcknowledge(checque_id, this.student_id, "Y").subscribe(
       res => {
+        this.isRippleLoad = false;
+        let msg = {
+          type: 'success',
+          title: 'Success',
+          body: 'Send Successfullly'
+        }
+        this.appC.popToast(msg);
+      },
+      err => {
+        this.isRippleLoad = false;
+        let msg = {
+          type: 'error',
+          title: 'Error',
+          body: JSON.parse(err._body).message
+        }
+        this.appC.popToast(msg);
       }
     )
   }
@@ -3072,6 +3126,29 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  checkIfRowSelcted(data) {
+    let selected: any = [];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].uiSelected) {
+        selected.push(data[i].cheque_id);
+      }
+    }
+    return selected;
+  }
+
+  /* Converts base64 string into a byte[] */
+  convertBase64ToArray(val) {
+
+    var binary_string = window.atob(val);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+
   }
 
 }
