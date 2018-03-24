@@ -55,10 +55,10 @@ export class ScheduleHomeComponent implements OnInit {
       (data: any) => {
         console.log(data); 3
         this.totalRow = data.length;
-        this.standardListDataSource = data;
-        this.standardListDataSource.sort(function (a, b) {
+        data.sort(function (a, b) {
           return moment(a.created_date).unix() - moment(b.created_date).unix();
         })
+        this.standardListDataSource = data;
         this.standardListDataSource.reverse();
         this.fetchTableDataByPage(this.PageIndex);
         this.isRippleLoad = false;
@@ -122,6 +122,8 @@ export class ScheduleHomeComponent implements OnInit {
           }
           this.getAllStandardList();
           this.isRippleLoad = false;
+          this.no_standard_name = false;
+          this.toggleCreateNewStandard();
         },
         err => {
           this.isRippleLoad = false;

@@ -304,6 +304,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
           this.changeView('liMisc', 'stay');
         }
 
+
       }
     }
   }
@@ -352,6 +353,12 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
 
   saveAllSettings() {
     let dataToSend: any = {};
+    if (this.instituteSettingDet.gst_enabled) {
+      if (this.instituteSettingDet.gst_no == "" || this.instituteSettingDet.gst_no == null) {
+        this.messageToast('error', 'Error', "Please specify GST NO.");
+        return;
+      }
+    }
     dataToSend = this.constructJsonToSend();
     console.log(dataToSend);
     this.isRippleLoad = true;
