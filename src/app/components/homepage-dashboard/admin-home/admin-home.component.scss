@@ -337,6 +337,29 @@ fieldset {
     margin-top: 15px;
     max-height: 480px;
     overflow: hidden;
+    .filterSection {
+        padding: 20px 0px 10px 0px !important;
+        margin: 0px !important;
+        background-color: #efefef;
+        span {
+            padding: 4px 12px;
+        }
+        .absent {
+            color: white;
+            background: #fe552a;
+            border-radius: 5px;
+        }
+        .present {
+            color: white;
+            background: #4191da;
+            border-radius: 5px;
+        }
+        .leave {
+            color: white;
+            background: #7a7a7a;
+            border-radius: 5px;
+        }
+    }
     .attendanceMain {
         .table-scroll-wrapper {
             max-height: 375px;
@@ -798,8 +821,7 @@ div#enqChart {
                         content: '';
                         width: 6px;
                         height: 6px;
-                        border-radius: 50%; 
-                        // background: #ff0000;
+                        border-radius: 50%; // background: #ff0000;
                         position: absolute;
                         left: -16px;
                         top: 7px;

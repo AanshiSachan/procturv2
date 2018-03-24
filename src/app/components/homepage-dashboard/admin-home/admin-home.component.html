@@ -296,8 +296,9 @@
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="{hide : checkIfUserHadAccess('101')}"
                               (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance</span>
-                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCancelClass(i, class)">Cancel</span>
-                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
+                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' [ngClass]="getClassStatus(class)" style="cursor:pointer"
+                              (click)="initiateCancelClass(i, class)">Cancel</span>
+                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" [ngClass]="getClassStatus(class)" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
                             <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
 
                             <!-- <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance()">
@@ -348,7 +349,7 @@
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
                             <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
-                            <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
+                            <!-- <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span> -->
 
                             <!-- <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance()">
                               Mark Attendance</a>
@@ -892,9 +893,23 @@
         </g>
       </svg>
     </span>
-    <h2 widget-header>Mark Attendance Students
-      <span style="font-weight: 600">{{classMarkedForAction.master_course}}</span> - {{classMarkedForAction.coursee_names}}</h2>
+    <h2 widget-header>Mark Attendance Students -{{classMarkedForAction.master_course}}</h2>
+
     <div class="attendanceWrapperCourse" widget-content>
+
+      <div class="row filterSection">
+        <div class="c-sm-3 c-md-3 c-lg-3">
+          <h3>Total Students : {{courseLevelStudentAtt.length}} </h3>
+        </div>
+
+        <div class="c-sm-3 c-md-3 c-lg-3">
+          <span class="leave">{{leaveCount}}</span>
+          <span class="absent">{{absentCount}}</span>
+          <span class="present">{{presentCount}}</span>
+        </div>
+
+      </div>
+
       <div class="attendanceMain">
         <div class="table-scroll-wrapper">
           <div class="table table-responsive">

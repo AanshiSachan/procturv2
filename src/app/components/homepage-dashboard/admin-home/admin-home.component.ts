@@ -151,7 +151,7 @@ export class AdminHomeComponent implements OnInit {
   isCourseAttendance: boolean = false;
   isCourseCancel: boolean = false;
   isCourseReminder: boolean = false;
-  courseLevelStudentAtt: any;
+  courseLevelStudentAtt: any = [];
   absentCount: number = 0;
   presentCount: number = 0;
   leaveCount: number = 0;
@@ -1210,7 +1210,8 @@ export class AdminHomeComponent implements OnInit {
   initiateCourseMarkAttendance(i, selected) {
     this.selectedRow = i;
     this.classMarkedForAction = selected;
-    //console.log(this.classMarkedForAction);
+    this.isCourseAttendance = true;
+    this.courseLevelStudentAtt = [];
     let obj = {
       course_id: this.classMarkedForAction.course_ids,
       startdate: moment(this.courseLevelSchedDate).format("YYYY-MM-DD")
@@ -1226,7 +1227,7 @@ export class AdminHomeComponent implements OnInit {
             }
           })
           this.courseLevelStudentAtt = res;
-          this.isCourseAttendance = true;
+          this.getTotalCountForCourse(res);
         },
         err => {
 
@@ -1235,6 +1236,21 @@ export class AdminHomeComponent implements OnInit {
     } else {
       alert('This scenario is not being replicated please specify set of steps to replicate');
       console.log(this.classMarkedForAction);
+    }
+  }
+
+  getTotalCountForCourse(data) {
+    this.absentCount = 0;
+    this.presentCount = 0;
+    this.leaveCount = 0;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].dateLi[0].status == "P") {
+        this.presentCount++;
+      } else if (data[i].dateLi[0].status == "A") {
+        this.absentCount++;
+      } else {
+        this.leaveCount++;
+      }
     }
   }
 
@@ -2195,6 +2211,7 @@ export class AdminHomeComponent implements OnInit {
       this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
 
     }
+    this.getTotalCountForCourse(this.courseLevelStudentAtt);
   }
 
 }
