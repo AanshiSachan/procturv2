@@ -237,6 +237,8 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
   scrollListener() {
     window.onscroll = () => {
       // console.log(window.pageYOffset);
+
+      // For Large Desktop Screens
       if (window.innerWidth > 1370) {
 
         if (window.pageYOffset < 1600) {
@@ -251,7 +253,10 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
           this.changeView('liMisc', 'stay');
         }
 
-      } else if (window.innerWidth > 1050) {
+      }
+
+      // For width 1366
+      else if (window.innerWidth > 1050) {
 
         if (window.pageYOffset < 1800) {
           this.changeView('liSMS', 'stay');
@@ -267,7 +272,8 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
 
       }
 
-      else {
+      // For width 1280
+      else if (window.innerWidth > 1250) {
 
         if (window.pageYOffset < 2300) {
           this.changeView('liSMS', 'stay');
@@ -280,6 +286,24 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
         } else {
           this.changeView('liMisc', 'stay');
         }
+
+      }
+
+      // For Width 1024
+      else {
+
+        if (window.pageYOffset < 2450) {
+          this.changeView('liSMS', 'stay');
+        } else if (window.pageYOffset < 3200) {
+          this.changeView('liExamRep', 'stay');
+        } else if (window.pageYOffset < 4400) {
+          this.changeView('liFee', 'stay');
+        } else if (window.pageYOffset < 5000) {
+          this.changeView('liReport', 'stay');
+        } else {
+          this.changeView('liMisc', 'stay');
+        }
+
 
       }
     }
