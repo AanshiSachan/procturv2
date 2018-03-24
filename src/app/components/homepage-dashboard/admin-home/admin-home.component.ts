@@ -785,6 +785,7 @@ export class AdminHomeComponent implements OnInit {
         document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
         document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
         document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
+        document.getElementById('presentBtn' + e.student_id).classList.add('classPresentBtn');
         e.dateLi[0].status = "P";
       });
     }
