@@ -320,7 +320,7 @@
                 (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage" [key1]="'followUpDateTime'" [primaryKey]="'institute_enquiry_id'"
                 (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)">
               </proctur-checkbox-table> -->
-              <ng-robTable [records]="sourceEnquiry" [reset]="isSideBar" [tableName]="'enquiry'" [settings]="EnquirySettings" (userRowSelect)="userRowSelect($event)"
+              <ng-robTable [records]="sourceEnquiry" [reset]="isSideBar" [defaultSort]="sortBy" [tableName]="'enquiry'" [settings]="EnquirySettings" (userRowSelect)="userRowSelect($event)"
                 (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage" [key1]="'followUpDateTime'" [primaryKey]="'institute_enquiry_id'"
                 (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)">
               </ng-robTable>
@@ -969,12 +969,12 @@
                               <th></th>
                               <th>
                                 <label>
-                                  <a class="cursor-icon" style="color:white;">{{smsHeader.message.title}}</a>
+                                  <a class="cursor-icon">{{smsHeader.message.title}}</a>
                                 </label>
                               </th>
                               <th>
                                 <label>
-                                  <a class="cursor-icon" style="color:white;">{{smsHeader.date.title}}</a>
+                                  <a class="cursor-icon">{{smsHeader.date.title}}</a>
                                 </label>
                               </th>
                               <th>

@@ -10,6 +10,7 @@ import * as moment from 'moment';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RobTableComponent implements OnChanges {
+    headerSort: any;
     @Input() records: any[];
     @Input() settings: ColumnSetting[];
     @Input() tableName: string = '';
@@ -17,6 +18,7 @@ export class RobTableComponent implements OnChanges {
     @Input() primaryKey: string = '';
     @Input() key1: string;
     @Input() reset: boolean;
+    @Input() defaultSort:string="";
 
 
     @Output() userRowSelect = new EventEmitter();
@@ -34,15 +36,20 @@ export class RobTableComponent implements OnChanges {
     rowSelectedId: any[] = [];
     dummyArr: any[] = [0, 1, 2, 3, 4,];
     userIdArray: any = [];
+    asc: boolean = true;
+    caret = true;
 
     @ViewChild('headerCheckbox') hc: ElementRef;
 
     constructor(private rd: Renderer2, private cd: ChangeDetectorRef, private eleRef: ElementRef) { }
 
+
+
     ngOnChanges() {
         this.cd.markForCheck();
         this.dataStatus;
         this.key1;
+        this.defaultSort;
         this.refreshTable();
         if (this.settings) {
             this.columnMaps = this.settings
@@ -52,8 +59,8 @@ export class RobTableComponent implements OnChanges {
                 return new ColumnMap({ primaryKey: key });
             });
         }
+        console.log(this.records);
     }
-
 
     selectAllRows(ev) {
         this.cd.markForCheck();
@@ -129,6 +136,8 @@ export class RobTableComponent implements OnChanges {
 
     refreshTable() {
         this.cd.markForCheck();
+              
+        this.headerSort = this.defaultSort;
         if (!this.reset) {
             this.selectedRow = null;
             this.isAllSelected = false;
@@ -145,6 +154,11 @@ export class RobTableComponent implements OnChanges {
 
 
     requestSort(ev) {
+        this.cd.markForCheck();
+        this.caret = true;
+        console.log(ev);
+        this.headerSort=ev;
+        (this.asc) ? (this.asc=false) : (this.asc=true);
         this.sortById.emit(ev);
     }
 
@@ -197,4 +211,17 @@ export class RobTableComponent implements OnChanges {
             }
         }
     }
+
+    isSorted(map):boolean{
+        if (map.primaryKey != 'noOfBatchesAssigned') {
+            this.cd.markForCheck();
+            console.log(this.headerSort);
+            console.log(this.defaultSort);  
+            return  (map.primaryKey==this.headerSort && this.caret);
+        }
+        else{
+            return false;
+        }
+    }
+
 }

@@ -23,6 +23,43 @@ import 'rxjs/add/operator/filter';
 })
 export class StudentAddComponent implements OnInit {
 
+  studentAddnMove: boolean;
+  isPdcApply: boolean = false;
+  pdcAddForm: any = {
+    bank_name: '',
+    cheque_amount: '',
+    cheque_date: '',
+    cheque_id: 0,
+    cheque_no: '',
+    cheque_status: '',
+    cheque_status_key: 0,
+    clearing_date: '',
+    institution_id: sessionStorage.getItem('institute_id'),
+    student_id: 0
+  }
+  newPdcArr: any[] = [];
+  pdcSelectedArr: any[] = [];
+  pdcStatus: any[] = [];
+  pdcSearchObj = {
+    cheque_status: '-1',
+    student_id: '',
+    cheque_date_from: '',
+    cheque_date_to: ''
+  }
+
+  pdcSelectedForPayment: any;
+
+  pdcSelectedForm: any = {
+    bank_name: '',
+    cheque_amount: '',
+    cheque_date: '',
+    cheque_no: '',
+    pdc_cheque_id: ''
+  }
+
+  isPdcFeePaymentSelected: boolean = false;
+  chequePdcList: any[] = [];
+
   private studentAddFormData: StudentForm = {
     student_name: "",
     student_sex: "",
@@ -42,6 +79,7 @@ export class StudentAddComponent implements OnInit {
     is_active: "Y",
     institution_id: sessionStorage.getItem('institute_id'),
     assignedBatches: [],
+    assignedBatchescademicYearArray: [""],
     fee_type: 0,
     fee_due_day: 0,
     batchJoiningDates: [],
@@ -61,46 +99,25 @@ export class StudentAddComponent implements OnInit {
   };
 
   formIsActive: boolean = true;
+  isRippleLoad: boolean = false;
+  private quickAddStudent: boolean = false; private additionalBasicDetails: boolean = false; private isAssignBatch: boolean = false; private isAcad: boolean = false;
+  private isProfessional: boolean = false; private multiOpt: boolean = false; private isDuplicateStudent: boolean = false; private genPdcAck: boolean = false;
+  private sendPdcAck: boolean = false; private instituteList: any[] = []; private standardList: any[] = []; private courseList: any[] = [];
+  private batchList: any[] = []; private slots: any[] = []; private langStatus: any[] = []; private selectedSlots: any[] = [];
+  private customComponents: any[] = []; private slotIdArr: any[] = []; private uploadedFiles: any[] = [];
+  private assignedBatch: string = ""; private selectedSlotsString: string = ''; private selectedSlotsID: string = ''; private assignedBatchString: string = '';
+  private userImageEncoded: string = ''; private busyPrefill: Subscription; private isConvertEnquiry: boolean = false; private isNewInstitute: boolean = true;
+  private isNewInstituteEditor: boolean = false; private school: any[] = []; public removeImage: boolean = false; private userCustommizedFee: any[] = [];
+  private isBasicActive: boolean = true; private isOtherActive: boolean = false; private isFeeActive: boolean = false; private isInventoryActive: boolean = false;
+  private isConfigureFees: boolean = false; private feeTempSelected: any = ""; private isDiscountApplied: boolean = false;
+  private discountReason: string = ''; private key: string = 'name'; private reverse: boolean = false; private allotInventoryArr: any[] = [];
+  private taxEnableCheck: any = '1'; private isPaymentPdc: boolean = false; private otherFeeType: any[] = []; private instalmentTableData: any[] = [];
+  private otherFeeTableData: any[] = []; private feeTemplateStore: any[] = []; private inventoryItemsArr: any[] = []; public containerWidth: any = "200px"
+  public studentImage: string = ''; private isPaymentDetailsValid: boolean = false; private student_id: any = 0;
+  private service_tax: number = 0; private totalFeePaid: number = 0; private paymentStatusArr: any[] = [];
+  private isFeePaymentUpdate: boolean = false; private isDefineFees: boolean = false; private isFeeApplied: boolean = false; private isNewInstallment: boolean = false; private isDiscountApply: boolean = false;
 
-  private quickAddStudent: boolean = false;
-  private additionalBasicDetails: boolean = false;
-  private isAssignBatch: boolean = false;
-  private isAcad: boolean = false;
-  private isProfessional: boolean = false;
-  private multiOpt: boolean = false;
-  private isDuplicateStudent: boolean = false;
-  genPdcAck: boolean = false;
-  sendPdcAck: boolean = false;
-  private instituteList: any[] = [];
-  private standardList: any[] = [];
-  private courseList: any[] = [];
-  private batchList: any[] = [];
-  private slots: any[] = [];
-  private langStatus: any[] = [];
-  private selectedSlots: any[] = [];
-  private customComponents: any[] = [];
-  private slotIdArr: any[] = [];
-  uploadedFiles: any[] = [];
-
-  private assignedBatch: string = "";
-  private selectedSlotsString: string = '';
-  private selectedSlotsID: string = '';
-  private assignedBatchString: string = '';
-  private userImageEncoded: string = '';
-  busyPrefill: Subscription;
-  private isConvertEnquiry: boolean = false;
-  private isNewInstitute: boolean = true;
-  private isNewInstituteEditor: boolean = false;
-  school: any[] = [];
-  removeImage: boolean = false;
-  userCustommizedFee: any[] = [];
-  isBasicActive: boolean = true;
-  isOtherActive: boolean = false;
-  isFeeActive: boolean = false;
-  isInventoryActive: boolean = false;
-  isConfigureFees: boolean = false;
-  feeTempSelected: any = "";
-  addFeeInstallment: any = {
+  private addFeeInstallment: any = {
     amount_paid: '',
     amount_paid_inRs: null,
     balance_amount: 0,
@@ -156,7 +173,7 @@ export class StudentAddComponent implements OnInit {
     update_date: null,
     updated_by: null
   }
-  addFeeOther: any = {
+  private addFeeOther: any = {
     amount_paid: '',
     amount_paid_inRs: null,
     balance_amount: 0,
@@ -212,30 +229,21 @@ export class StudentAddComponent implements OnInit {
     update_date: null,
     updated_by: null
   }
-  isPaymentPdc:boolean = false;
-  otherFeeType: any[] = [];
-  feeStructureForm: any = {
+  private feeStructureForm: any = {
     studentArray: ["-1"],
     template_effective_date: moment().format('YYYY-MM-DD')
   }
-  instalmentTableData: any[] = [];
-  otherFeeTableData: any[] = [];
-  feeTemplateStore: any[] = [];
-  inventoryItemsArr: any[] = [];
-  createInstitute = {
+  private createInstitute = {
     instituteName: "",
     isActive: "Y"
   }
-  containerWidth: any = "200px"
-  allocationForm: any = {
+  private allocationForm: any = {
     alloted_units: "",
     item_id: "",
     student_id: 0,
     institution_id: sessionStorage.getItem('institute_id')
   }
-  studentImage: string = '';
-  isPaymentDetailsValid: boolean = false;
-  feeTemplateById: StudentFeeStructure = {
+  private feeTemplateById: StudentFeeStructure = {
     feeTypeMap: "",
     customFeeSchedules: [],
     registeredServiceTax: "",
@@ -265,29 +273,12 @@ export class StudentAddComponent implements OnInit {
     invoice_no: "",
     uiSelected: false
   }
-  student_id: any;
-  service_tax: number = 0;
-  totalFeePaid: number = 0;
-  paymentStatusArr: any[] = [];
-  isFeePaymentUpdate: boolean = false;
-  isDefineFees: boolean = false;
-  isFeeApplied: boolean = false;
-  isNewInstallment: boolean = false;
-  isDiscountApply: boolean = false;
-  discountApplyForm: any = {
+  private discountApplyForm: any = {
     type: 'amount',
     value: null,
     reason: '',
     state: 'all'
   }
-
-  isDiscountApplied: boolean = false;
-  discountReason: string = '';
-  key: string = 'name'; //set default
-  reverse: boolean = false;
-  allotInventoryArr: any[] = [];
-  taxEnableCheck: any = '1';
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(
@@ -296,9 +287,10 @@ export class StudentAddComponent implements OnInit {
     private postService: PostStudentDataService,
     private router: Router, private login: LoginService,
     private appC: AppComponent) {
+    this.isRippleLoad = true
     this.getInstType();
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
-    console.log(this.taxEnableCheck);
+    //console.log(this.taxEnableCheck);
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -334,6 +326,7 @@ export class StudentAddComponent implements OnInit {
         this.busyPrefill = this.getlangStudentStatus();
         this.convertToStudentDetected();
       }
+      this.isRippleLoad = true;
       this.studentPrefillService.fetchCourseMasterById(this.studentAddFormData.standard_id).subscribe(data => {
         this.batchList = [];
         data.coursesList.forEach(el => {
@@ -343,11 +336,64 @@ export class StudentAddComponent implements OnInit {
             assignDate: moment().format('YYYY-MM-DD')
           }
           this.batchList.push(obj);
-          //console.log(this.batchList);
         });
+        this.isRippleLoad = false;
       });
     }
   }
+
+  /* Navigate or check for submission */
+
+  addStudentDataAndFetchFee(values: NgForm) {
+    this.studentAddnMove = true;
+    this.studentQuickAdder(values);
+  }
+
+  studentAddedGetFee(id) {
+    this.isRippleLoad = true;
+    this.studentPrefillService.fetchStudentFeeDetailById(id).subscribe( res => {
+      if(res.customFeeSchedules != null){
+        this.isRippleLoad = false;
+        this.allignStudentFeeView(res);
+      }
+      else if(res.customFeeSchedules == null){
+        this.isRippleLoad = false;
+        this.navigateTo('feeDetails');
+      }
+    });
+  }
+
+  allignStudentFeeView(data){
+    this.isPaymentDetailsValid = false;
+    this.feeTemplateById = data;
+    this.instalmentTableData = [];
+    this.otherFeeTableData = [];
+    this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    this.isDefineFees = false;
+    this.isFeeApplied = true;
+    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      this.service_tax = data.registeredServiceTax;
+    }
+    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+      this.service_tax = 0;
+    }
+    data.customFeeSchedules.forEach(el => {
+      if (el.fee_type_name === "INSTALLMENT") {
+        this.instalmentTableData.push(el);
+      }
+      else {
+        this.otherFeeTableData.push(el);
+      }
+    });
+    this.updateTableInstallment();
+    this.createCustomFeeSchedule();
+    this.navigateTo('feeDetails');
+  }
+
+
+
+
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getInstType() {
@@ -359,7 +405,8 @@ export class StudentAddComponent implements OnInit {
       this.isAcad = true;
     }
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   updateMasterCourseList(id) {
     this.studentPrefillService.fetchCourseMasterById(id).subscribe(data => {
       this.batchList = [];
@@ -379,6 +426,7 @@ export class StudentAddComponent implements OnInit {
   /* Function to navigate through the Student Add Form on button Click Save/Submit*/
   navigateTo(text) {
     if (text === "studentForm") {
+      if (this.student_id == 0 || this.student_id == null){
       document.getElementById('li-one').classList.add('active');
       document.getElementById('li-two').classList.remove('active');
       document.getElementById('li-three').classList.remove('active');
@@ -386,9 +434,10 @@ export class StudentAddComponent implements OnInit {
       this.isBasicActive = true;
       this.isOtherActive = false;
       this.isFeeActive = false;
-      this.isInventoryActive = false;
+      this.isInventoryActive = false;}
     }
     else if (text === "kyc") {
+      if (this.student_id == 0 || this.student_id == null){
       document.getElementById('li-one').classList.remove('active');
       document.getElementById('li-two').classList.add('active');
       document.getElementById('li-three').classList.remove('active');
@@ -396,27 +445,32 @@ export class StudentAddComponent implements OnInit {
       this.isBasicActive = false;
       this.isOtherActive = true;
       this.isFeeActive = false;
-      this.isInventoryActive = false;
+      this.isInventoryActive = false;}
     }
     else if (text === "feeDetails") {
-      document.getElementById('li-one').classList.remove('active');
-      document.getElementById('li-two').classList.remove('active');
-      document.getElementById('li-three').classList.add('active');
-      document.getElementById('li-four').classList.remove('active');
-      this.isBasicActive = false;
-      this.isOtherActive = false;
-      this.isFeeActive = true;
-      this.isInventoryActive = false;
+      if (this.student_id != 0 && this.student_id != null) {
+        document.getElementById('li-one').classList.remove('active');
+        document.getElementById('li-two').classList.remove('active');
+        document.getElementById('li-three').classList.add('active');
+        document.getElementById('li-four').classList.remove('active');
+        this.isBasicActive = false;
+        this.isOtherActive = false;
+        this.isFeeActive = true;
+        this.isInventoryActive = false;
+      }
+
     }
     else if (text === "inventory") {
-      document.getElementById('li-one').classList.remove('active');
-      document.getElementById('li-two').classList.remove('active');
-      document.getElementById('li-three').classList.remove('active');
-      document.getElementById('li-four').classList.add('active');
-      this.isBasicActive = false;
-      this.isOtherActive = false;
-      this.isFeeActive = false;
-      this.isInventoryActive = true;
+      if (this.student_id != 0 && this.student_id != null) {
+        document.getElementById('li-one').classList.remove('active');
+        document.getElementById('li-two').classList.remove('active');
+        document.getElementById('li-three').classList.remove('active');
+        document.getElementById('li-four').classList.add('active');
+        this.isBasicActive = false;
+        this.isOtherActive = false;
+        this.isFeeActive = false;
+        this.isInventoryActive = true;
+      }
     }
   }
   /* ============================================================================================================================ */
@@ -456,21 +510,39 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
+    this.isRippleLoad = true;
+
     let inventory = this.studentPrefillService.fetchInventoryList().subscribe(
       data => {
+        this.isRippleLoad = false;
         this.inventoryItemsArr = data;
-
-      });
-
-    let institute = this.prefill.getSchoolDetails().subscribe(data => {
-      this.instituteList = data;
+      },
+      err => {
+        this.isRippleLoad = false;
     });
+
+    //this.isRippleLoad = true;
+    let institute = this.prefill.getSchoolDetails().subscribe(
+      data => {
+        this.instituteList = data;
+      },
+      err => {
+        this.isRippleLoad = false;
+    });
+
     this.getFeeStructue();
+
     let standard = this.prefill.getEnqStardards().subscribe(data => {
       this.standardList = data;
     });
 
-    this.studentPrefillService.fetchBatchDetails().subscribe(data => {
+    this.studentPrefillService.getChequeStatus().subscribe(
+      data => {
+        this.pdcStatus = data;
+      }
+    )
+
+    /* this.studentPrefillService.fetchBatchDetails().subscribe(data => {
       this.batchList = [];
       data.forEach(el => {
         let obj = {
@@ -480,7 +552,8 @@ export class StudentAddComponent implements OnInit {
         }
         this.batchList.push(obj);
       })
-    });
+    }); */
+
     if (inventory != null && institute != null && standard != null) {
       let customComp = this.studentPrefillService.fetchCustomComponent().subscribe(data => {
         data.forEach(el => {
@@ -498,10 +571,16 @@ export class StudentAddComponent implements OnInit {
           }
           this.customComponents.push(obj);
         });
-      });
+        this.isRippleLoad = false;
+      },
+        err => {
+          this.isRippleLoad = false;
+        });
+
       //console.log(this.customComponents);
       return customComp;
     }
+
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -540,18 +619,20 @@ export class StudentAddComponent implements OnInit {
   /* align the user selected batch into input and update the data into array to be updated to server */
   assignBatch() {
     let batchString: any[] = [];
-
     //console.log(this.batchList); 
     this.batchList.forEach(el => {
       if (el.isSelected) {
+
         if (this.isProfessional) {
           this.studentAddFormData.assignedBatches.push(el.data.batch_id.toString());
           this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
+          this.studentAddFormData.assignedBatchescademicYearArray.push("1");
           batchString.push(el.data.batch_name);
         }
         else {
           this.studentAddFormData.assignedBatches.push(el.data.course_id.toString());
           this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
+          this.studentAddFormData.assignedBatchescademicYearArray.push("1");
           batchString.push("(" + el.data.master_course + "||" + el.data.course_name + ")");
         }
       }
@@ -580,9 +661,116 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   studentQuickAdder(form: NgForm) {
+    /* Both Form are Valid Else there seems to be an error on custom component */
+    let isCustomComponentValid: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
+    let formValid: boolean = this.formfullValidator();
+    if (isCustomComponentValid && formValid) {
+      //console.log("valid student generating Id Now");
+      let customArr = [];
+      this.customComponents.forEach(el => {
+        if (el.value != '' && (typeof el.value != 'boolean')) {
+          let obj = {
+            component_id: el.id,
+            enq_custom_id: "0",
+            enq_custom_value: el.value
+          }
+          customArr.push(obj);
+        }
+        else if (el.value != '' && (typeof el.value == 'boolean')) {
+          if (el.value) {
+            let obj = {
+              component_id: el.id,
+              enq_custom_id: "0",
+              enq_custom_value: "Y"
+            }
+            customArr.push(obj);
+          }
+          else {
+            let obj = {
+              component_id: el.id,
+              enq_custom_id: "0",
+              enq_custom_value: "N"
+            }
+            customArr.push(obj);
+          }
+        }
+        else if (el.value == '' && (el.type == 2)) {
+          let obj = {
+            component_id: el.id,
+            enq_custom_id: "0",
+            enq_custom_value: "N"
+          }
+          customArr.push(obj);
+        }
+      });
+      /* Get slot data and store on form */
+      this.studentAddFormData.slot_id = this.selectedSlotsID;
+      this.studentAddFormData.stuCustomLi = customArr;
+      this.studentAddFormData.photo = this.studentImage;
+      this.additionalBasicDetails = false;
+      if(this.studentAddFormData.assignedBatches == null){
+        this.studentAddFormData.assignedBatchescademicYearArray = null;
+      }
+      if(this.studentAddFormData.assignedBatches != null){
+        this.studentAddFormData.assignedBatchescademicYearArray.reverse();
+      }
+      this.isRippleLoad = true;
+      this.busyPrefill = this.postService.quickAddStudent(this.studentAddFormData).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          let statusCode = res.statusCode;
+          if (statusCode == 200) {
+            this.removeImage = true;
+            this.student_id = res.generated_id;
+            let msg = {
+              type: 'success',
+              title: 'Student Registered',
+              body: 'Student details have been updated to database'
+            }
+            this.appC.popToast(msg);
+            if (this.studentAddnMove) {
+              this.studentAddedGetFee(res.generated_id);
+            }
+          }
+          else if (statusCode == 2) {
+            let alert = {
+              type: 'error',
+              title: 'Contact Number In Use',
+              body: 'An enquiry with the same contact number seems to exist'
+            }
+            this.removeImage = true;
+            this.appC.popToast(alert);
+            this.isDuplicateContactOpen();
+          }
+        },
+        err => {
+          this.isRippleLoad = false;
+          // console.log(err);
+      });
+    }
+    else {
+      if (!isCustomComponentValid) {
+        //console.log("invalid custom component");
+        let alert = {
+          type: 'error',
+          title: 'Required Fields not filled',
+          body: 'Please fill all the required fields on other details tab'
+        }
+        this.appC.popToast(alert);
+      }
+      else if (!formValid) {
+        //console.log("invalid name number");
+        let alert = {
+          type: 'error',
+          title: 'Personal Details Invalid/Incorrect',
+          body: 'Please provide valid name and contact number on personal details tab'
+        }
+        this.appC.popToast(alert);
+      }
+    }
     /* Both Form are Valid Else there seems to 
         be an error on custom component */
-    if (form.valid && this.customComponentValid() && this.formValidator()) {
+    /* if (form.valid && this.customComponentValid() && this.formValidator()) {
       let customArr = [];
       this.customComponents.forEach(el => {
         if (el.value != '' && (typeof el.value != 'boolean')) {
@@ -624,8 +812,8 @@ export class StudentAddComponent implements OnInit {
         }
       });
 
-      /* Get slot data and store on form */
-      /* this.studentAddFormData.slot_id = this.selectedSlotsID;
+
+      this.studentAddFormData.slot_id = this.selectedSlotsID;
       this.studentAddFormData.stuCustomLi = customArr;
       this.studentAddFormData.photo = this.studentImage;
       this.additionalBasicDetails = false;
@@ -661,7 +849,7 @@ export class StudentAddComponent implements OnInit {
         err => {
           console.log(err);
         }
-      ); */
+      );
     }
     else {
       let alert = {
@@ -671,7 +859,7 @@ export class StudentAddComponent implements OnInit {
       }
       this.appC.popToast(alert);
 
-    }
+    } */
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -944,6 +1132,7 @@ export class StudentAddComponent implements OnInit {
       is_active: "Y", // "Y",
       institution_id: sessionStorage.getItem('institute_id'), // "100123",
       assignedBatches: [], // ["5660", "2447", "4163", "3067"],
+      assignedBatchescademicYearArray: [""],
       fee_type: 0,
       fee_due_day: 0,
       batchJoiningDates: [], // ["2017-10-25", "2017-10-25", "2017-10-25", "2017-10-25"],
@@ -1004,6 +1193,7 @@ export class StudentAddComponent implements OnInit {
       is_active: "Y",
       institution_id: sessionStorage.getItem('institute_id'),
       assignedBatches: [],
+      assignedBatchescademicYearArray: [""],
       fee_type: 0,
       fee_due_day: 0,
       batchJoiningDates: [],
@@ -1333,7 +1523,11 @@ export class StudentAddComponent implements OnInit {
   getFeeStructue() {
     this.studentPrefillService.fetchAllFeeStructure().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.feeTemplateStore = res;
+      },
+      err => {
+        this.isRippleLoad = false;
       }
     )
   }
@@ -1752,7 +1946,6 @@ export class StudentAddComponent implements OnInit {
     for (var i = 0; i < this.otherFeeTableData.length; i++) {
       this.otherFeeTableData[i].installment_no = this.instalmentTableData.length + i + 1;
     }
-
     this.userCustommizedFee = [];
     this.userCustommizedFee = this.instalmentTableData.concat(this.otherFeeTableData);
     let totalFee: number = 0;
@@ -1797,7 +1990,9 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
 
   closeAllFeePops() {
-    if (confirm("All Changes made to fee template will be discarded!")) {
+    if (confirm("Any unsaved changes made to fee template will be discarded!")) {
+      this.setStudentFeeDetail();      
+   /* this.studentAddedGetFee(this.student_id);
       this.isDefineFees = false;
       this.totalFeePaid = 0;
       this.isFeeApplied = false;
@@ -1839,12 +2034,29 @@ export class StudentAddComponent implements OnInit {
         studentArray: ["-1"],
         template_effective_date: moment().format('YYYY-MM-DD')
       }
-
       this.isDiscountApplied = false;
-      this.discountReason = '';
-
+      this.discountReason = ''; 
+   */
     }
   }
+
+    /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  setStudentFeeDetail() {
+    this.studentPrefillService.fetchStudentFeeDetailById(this.student_id).subscribe( res => {
+      if(res.customFeeSchedules != null){
+        this.isRippleLoad = false;
+        this.allignStudentFeeView(res);
+      }
+      else if(res.customFeeSchedules == null){
+        this.isRippleLoad = false;
+        this.navigateTo('feeDetails');
+      }
+    });
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   sortTableByDate(i, event) {
@@ -1920,7 +2132,19 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   addNewStudentFull() {
     //console.log("validate student form and generate id");
-    this.studentAdder();
+    //this.studentAdder();
+    /* Inventory Allocated*/
+    if (this.allotInventoryArr.length > 0) {
+     this.allocateInventory(this.student_id);
+    }
+    /* Inventory is not defined but fee is defined*/
+    else if (this.allotInventoryArr.length == 0 && this.isFeeApplied) {
+      this.asssignCustomizedFee(this.student_id);
+    }
+    /* Inventory and fee both are not defined */
+    else if (this.allotInventoryArr.length == 0 && !this.isFeeApplied) {
+      this.studentAddedNotifier();
+    }    
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -2054,8 +2278,9 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   formfullValidator() {
+    debugger
     if (this.studentAddFormData.student_name != "" && this.studentAddFormData.student_name != " "
-      && this.studentAddFormData.student_phone != "" && this.validateName() && this.validatePhone() && this.studentAddFormData.student_phone != " "
+      && this.studentAddFormData.student_phone != "" && this.validateName() && this.studentAddFormData.student_phone != " "
       && this.studentAddFormData.student_phone.length == 10) {
       return true;
     }
@@ -2151,13 +2376,13 @@ export class StudentAddComponent implements OnInit {
       res => {
         if (this.genPdcAck || this.sendPdcAck) {
           let feeid = res.generated_id;
-          
+
           this.postService.generateFeeReceipt(id, feeid).subscribe(
             res => {
               this.studentAddedNotifier();
             },
-            err => {}
-          );          
+            err => { }
+          );
         }
         else {
           this.studentAddedNotifier();
@@ -2437,7 +2662,7 @@ export class StudentAddComponent implements OnInit {
   studentAddedNotifier() {
     let msg = {
       type: 'success',
-      title: 'Student Registered',
+      title: 'Student Added',
       body: 'Student details have been updated to database'
     }
     this.appC.popToast(msg);
@@ -2471,7 +2696,217 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  addNewPDCState() {
+    //console.log(this.pdcAddForm);
+    let obj = {
+      bank_name: this.pdcAddForm.bank_name,
+      cheque_amount: this.pdcAddForm.cheque_amount,
+      cheque_date: moment(this.pdcAddForm.cheque_date).format("YYYY-MM-DD"),
+      cheque_id: this.pdcAddForm.cheque_id,
+      cheque_no: this.pdcAddForm.cheque_no,
+      cheque_status: this.pdcAddForm.cheque_status,
+      cheque_status_key: this.pdcAddForm.cheque_status_key,
+      clearing_date: moment(this.pdcAddForm.clearing_date).format("YYYY-MM-DD"),
+      institution_id: sessionStorage.getItem('institute_id'),
+      student_id: this.student_id
+    }
+    if (this.validPdc(obj)) {
+      this.newPdcArr.push(obj);
+      this.pdcAddForm = {
+        bank_name: '',
+        cheque_amount: '',
+        cheque_date: '',
+        cheque_id: 0,
+        cheque_no: '',
+        cheque_status: '',
+        cheque_status_key: 0,
+        clearing_date: '',
+        institution_id: sessionStorage.getItem('institute_id'),
+        student_id: 0
+      }
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  validPdc(obj): boolean {
+    if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '' || obj.clearing_date == 'Invalid date' || obj.clearing_date == '' || obj.cheque_no.toString().length != 6 || obj.cheque_amount <= 0) {
+      let msg = {
+        type: 'error',
+        title: 'Invalid Cheque Details',
+        body: 'Please share valid cheque details'
+      }
+      this.appC.popToast(msg);
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  deleteUnsavedPdc(i) {
+    this.newPdcArr.splice(i, 1);
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  getPdcChequeList() {
+    //console.log(this.pdcSearchObj);
+    let obj = {
+      cheque_status: this.pdcSearchObj.cheque_status == '' ? -1 : this.pdcSearchObj.cheque_status,
+      student_id: this.student_id,
+      cheque_date_from: this.pdcSearchObj.cheque_date_from == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_from).format('YYYY-MM-DD'),
+      cheque_date_to: this.pdcSearchObj.cheque_date_to == "Invalid date" ? '' : moment(this.pdcSearchObj.cheque_date_to).format('YYYY-MM-DD')
+    }
+    //console.log(obj);
+    this.studentPrefillService.getPdcList(this.student_id, obj).subscribe(
+      res => {
+        let temp: any[] = [];
+        res.forEach(el => {
+          let obj = {
+            bank_name: el.bank_name,
+            cheque_amount: el.cheque_amount,
+            cheque_date: el.cheque_date,
+            cheque_date_from: el.cheque_date_from,
+            cheque_date_to: el.cheque_date_from,
+            cheque_id: el.cheque_id,
+            cheque_no: el.cheque_no,
+            cheque_status: el.cheque_status,
+            cheque_status_key: el.cheque_status_key,
+            clearing_date: el.clearing_date,
+            genAck: el.genAck,
+            institution_id: el.institution_id,
+            sendAck: el.sendAck,
+            student_id: el.student_id,
+            student_name: el.student_name,
+            student_phone: el.student_phone,
+            uiSelected: false
+          }
+          temp.push(obj);
+        });
+        this.chequePdcList = temp;
+      })
 
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  addPdcDataToServer() {
+    let temp: any[] = [];
+    this.newPdcArr.forEach(e => {
+      let obj = {
+        cheque_no: e.cheque_no,
+        bank_name: e.bank_name,
+        cheque_date: e.cheque_date,
+        student_id: this.student_id,
+        clearing_date: e.clearing_date,
+        institution_id: sessionStorage.getItem('institute_id'),
+        cheque_amount: e.cheque_amount,
+        genAck: this.genPdcAck === true ? "Y" : "N",
+        sendAck: this.sendPdcAck === true ? "Y" : "N"
+      }
+      temp.push(obj);
+    });
+    this.newPdcArr = [];
+    this.genPdcAck = false;
+    this.sendPdcAck = false;
+    this.postService.addChequePdc(temp).subscribe(
+      res => {
+        this.chequePdcList = [];
+        this.getPdcChequeList();
+      },
+      err => {
+        this.chequePdcList = [];
+        this.getPdcChequeList();
+      }
+    )
+
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  editPDC(data) {
+    document.getElementById((data.student_id + data.cheque_id).toString()).classList.remove('displayComp');
+    document.getElementById((data.student_id + data.cheque_id).toString()).classList.add('editComp');
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  updatePDC(el) {
+    if (this.validPdc(el)) {
+      let obj = {
+        bank_name: el.bank_name,
+        cheque_amount: el.cheque_amount,
+        cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"),
+        cheque_id: el.cheque_id,
+        cheque_no: el.cheque_no,
+        cheque_status_key: el.cheque_status_key,
+        clearing_date: moment(el.clearing_date).format("YYYY-MM-DD"),
+        institution_id: sessionStorage.getItem('institute_id'),
+        student_id: el.student_id
+      }
+      this.postService.updateFeeDetails(obj).subscribe(
+        res => {
+          this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
+          console.log(el.cheque_status);
+          document.getElementById((el.student_id + el.cheque_id).toString()).classList.add('displayComp');
+          document.getElementById((el.student_id + el.cheque_id).toString()).classList.remove('editComp');
+        },
+        err => {
+
+        }
+      )
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  deletePDC(data, i) {
+
+    if (confirm("Are you sure,you want to delete the Cheque?")) {
+      this.postService.deletePdcById(data.cheque_id).subscribe(
+        res => {
+          this.chequePdcList.splice(i, 1);
+        },
+        err => {
+
+        }
+      )
+    }
+
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  cancelEditPDC(data) {
+    document.getElementById((data.student_id + data.cheque_id).toString()).classList.add('displayComp');
+    document.getElementById((data.student_id + data.cheque_id).toString()).classList.remove('editComp');
+    this.pdcSelectedArr = [];
+    this.getPdcChequeList();
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  pdcSelected(obj) {
+    if (obj.uiSelected) {
+      this.pdcSelectedArr.push(obj.cheque_id);
+    }
+    else {
+      var i = this.pdcSelectedArr.indexOf(obj.cheque_id);
+      this.pdcSelectedArr.splice(i, 1);
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  generateAck() {
+    this.postService.generateAcknowledge(this.pdcSelectedArr, this.student_id).subscribe(
+      res => {
+      }
+    )
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  sendAck() {
+    this.postService.sendAcknowledge(this.pdcSelectedArr, this.student_id).subscribe(
+      res => {
+      }
+    )
+  }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
 
