@@ -3107,7 +3107,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   generateAck() {
-    this.postService.generateAcknowledge(this.pdcSelectedArr, this.student_id).subscribe(
+    this.postService.generateAcknowledge(this.pdcSelectedArr, this.student_id, "undefined").subscribe(
       res => {
       }
     )
