@@ -60,6 +60,7 @@ export class TemplateHomeComponent implements OnInit {
   totalAmount: any = '';
   discountAmount: any = '';
   isRippleLoad: boolean = false;
+  feeTyeDetails: any = [];
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private fetchService: FeeStrucService) {
     if (sessionStorage.getItem('Authorization') == null) {
@@ -264,9 +265,9 @@ export class TemplateHomeComponent implements OnInit {
       if (this.installmentList.length > 0) {
         this.addTaxInInstallmentTable();
         if (document.getElementById('checkBoxtaxes').checked == true) {
-          let totalAmount = this.installmentList.map(fee => fee.initial_fee_amount).reduce((acc, val) => val + acc);
+          let totalAmount = this.installmentList.map(fee => fee.fees_amount).reduce((acc, val) => val + acc);
           this.installmentList.map(fee => fee.service_tax_applicable = "Y");
-          totalAmount = totalAmount + (totalAmount * taxPercent * 0.01);
+          // totalAmount = totalAmount + (totalAmount * taxPercent * 0.01);
           return Math.floor(totalAmount);
         } else {
           this.installmentList.map(fee => fee.service_tax_applicable = "N");
@@ -287,7 +288,7 @@ export class TemplateHomeComponent implements OnInit {
       if (document.getElementById('checkBoxtaxes').checked == true) {
         this.installmentList.map(
           fee => {
-            fee.tax = Math.floor(fee.initial_fee_amount * taxPercent * 0.01);
+            fee.tax = Math.floor(fee.fees_amount - fee.initial_fee_amount);
           }
         )
       } else {
@@ -318,14 +319,15 @@ export class TemplateHomeComponent implements OnInit {
         this.AddInstallment.service_tax = Number(this.feeStructure.registeredServiceTax);
         if (document.getElementById('checkBoxtaxes').checked) {
           this.AddInstallment.tax = Math.floor(this.AddInstallment.initial_fee_amount * Number(this.feeStructure.registeredServiceTax) * 0.01);
-          this.AddInstallment.fees_amount += this.AddInstallment.tax;
+          this.AddInstallment.initial_fee_amount = this.AddInstallment.initial_fee_amount - this.AddInstallment.tax;
         } else {
           this.AddInstallment.fees_amount = this.AddInstallment.initial_fee_amount;
+          this.AddInstallment.initial_fee_amount = this.AddInstallment.fees_amount - Math.floor(this.AddInstallment.initial_fee_amount * Number(this.feeStructure.registeredServiceTax) * 0.01);
         }
       } else {
         this.AddInstallment.fees_amount = this.AddInstallment.initial_fee_amount;
       }
-      this.installmentList.fees_amount = this.AddInstallment.initial_fee_amount;
+      this.installmentList.fees_amount = this.AddInstallment.initial_fee_amount + this.AddInstallment.tax;
       this.installmentList.push(this.AddInstallment);
       this.AddInstallment = {
         days: '',
@@ -364,7 +366,6 @@ export class TemplateHomeComponent implements OnInit {
     }
   }
 
-  feeTyeDetails: any = [];
   onAdditionalFeeSelection(event) {
     let id = event;
     this.feeTyeDetails = [];

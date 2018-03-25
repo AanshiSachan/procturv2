@@ -9,7 +9,7 @@
       </h1>
 
       <aside class="headEnq pull-right">
-        <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 8px;" class="btn" routerLink='add'>
+        <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 8px;" class="btn" routerLink='/fee/add'>
           <div class="option-wrap">
             <img src="./assets/images/plus.png" alt="feeStructure">
             <span class="tooltip">
@@ -288,7 +288,7 @@
               </div>
               <div class="c-sm-2 c-md-2 c-lg-2">
                 <div class="field-wrapper has-value">
-                  <input type="number" min="0" class="form-ctrl" [(ngModel)]="additionalInstallment.fee_tax" name="slotNew">
+                  <input type="number" min="0" class="form-ctrl" [(ngModel)]="additionalInstallment.service_tax" disabled name="slotNew">
                   <label for="slotNew">Tax Applicable (%)
                   </label>
                 </div>
