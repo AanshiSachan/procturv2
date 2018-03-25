@@ -89,4 +89,31 @@ export class FeeStrucService {
         )
     }
 
+
+    getAdditionalFeeDeatails(id) {
+        let url = this.baseUrl + "/api/v1/batchFeeSched/feeType/" + id + "/details";
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    // Create Fee Template
+
+    getMasterCourse() {
+        let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all";
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    getCourse(name) {
+        let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + name;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
 }

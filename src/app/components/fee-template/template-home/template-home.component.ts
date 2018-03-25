@@ -33,22 +33,34 @@ export class TemplateHomeComponent implements OnInit {
   otherInstList: any = [];
   otherFeetype: any = [];
   AddInstallment = {
-    day_type: '',
     days: '',
-    initial_fee_amount: '',
-    fees_amount: '',
+    day_type: '',
+    fee_type: 0,
+    fees_amount: 0,
+    initial_fee_amount: 0,
+    is_referenced: 'N',
+    schedule_id: 0,
+    service_tax: 0,
+    service_tax_applicable: "N",
+    tax: 0
   }
   additionalInstallment = {
-    fee_type_name: '',
-    day_type: '',
     days: '',
-    initial_fee_amount: '',
-    fee_tax: '',
-    fees_amount: ''
+    day_type: '',
+    fee_type: 0,
+    fees_amount: 0,
+    initial_fee_amount: 0,
+    is_referenced: 'N',
+    schedule_id: 0,
+    service_tax: 0,
+    service_tax_applicable: 'N',
+    fee_type_name: ''
   }
   customJson: any = [];
   totalAmount: any = '';
   discountAmount: any = '';
+  isRippleLoad: boolean = false;
+  feeTyeDetails: any = [];
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private fetchService: FeeStrucService) {
     if (sessionStorage.getItem('Authorization') == null) {
@@ -70,28 +82,34 @@ export class TemplateHomeComponent implements OnInit {
 
 
   getFeeStructures() {
+    this.isRippleLoad = true;
     this.fetchService.fetchFeeStruc().subscribe(
       res => {
+        this.isRippleLoad = false;
         this.source = res;
       },
       err => {
-
+        this.isRippleLoad = false;
       }
     )
   }
 
   editFee(fee) {
-    console.log(fee);
     this.selectedTemplate = fee;
+    this.feeStructure = [];
+    this.isEditFee = true;
+    this.isRippleLoad = true;
     this.fetchService.fetchFeeDetail(fee.template_id).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.feeStructure = res;
-        console.log(res);
-        this.isEditFee = true;
         this.fillFeeType(res.feeTypeMap);
         this.fillDataInYTable(res.customFeeSchedules);
       },
-      err => { }
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+      }
     )
   }
 
@@ -126,39 +144,53 @@ export class TemplateHomeComponent implements OnInit {
   updateFeeTemplate() {
     let data: any = {
       customFeeSchedules: this.makeJSONForCustomFee(),
-      studentwise_total_fees_amount: this.totalAmount,
+      studentwise_total_fees_amount: this.totalAmount.toString(),
       studentwise_total_fees_discount: this.discountAmount,
       studentwise_fees_tax_applicable: this.feeStructure.studentwise_fees_tax_applicable,
-      template_id: this.feeStructure.template_id,
+      template_id: this.selectedTemplate.template_id.toString(),
       template_name: this.feeStructure.template_name
     };
+    this.isRippleLoad = true;
     this.fetchService.updateFeeTemplate(data).subscribe(
       res => {
-        console.log(res);
+        this.isRippleLoad = false;
+        let msg = {
+          type: 'success',
+          title: 'Updated',
+          body: "Fee Structure Updated Successfully"
+        }
+        this.appC.popToast(msg);
+        this.closeFeeEditor();
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
+        let msg = {
+          type: 'error',
+          title: 'Error',
+          body: err.error.message
+        }
+        this.appC.popToast(msg);
       }
     )
   }
 
   makeJSONForCustomFee() {
-    debugger
     this.customJson = [];
     this.totalAmount = 0;
     this.discountAmount = 0;
     let data: any = [];
     for (let t = 0; t < this.installmentList.length; t++) {
       let test: any = {};
-      test.fee_type = '0';
-      test.initial_fee_amount = this.installmentList[t].initial_fee_amount;
-      test.service_tax = this.installmentList[t].service_tax;
-      test.fees_amount = this.installmentList[t].fees_amount;
+      test.fee_type = 0;
+      test.initial_fee_amount = this.installmentList[t].initial_fee_amount.toString();
+      test.service_tax = this.installmentList[t].service_tax.toString();
+      test.fees_amount = this.installmentList[t].fees_amount.toString();
       test.service_tax_applicable = this.installmentList[t].service_tax_applicable;
-      test.schedule_id = this.installmentList[t].schedule_id;
+      test.schedule_id = this.installmentList[t].schedule_id.toString();
       test.is_referenced = this.installmentList[t].is_referenced;
-      test.day_type = this.installmentList[t].day_type;
-      test.days = this.installmentList[t].days;
+      test.day_type = this.installmentList[t].day_type.toString();
+      test.days = this.installmentList[t].days.toString();
       this.totalAmount = this.totalAmount + this.installmentList[t].fees_amount;
       this.discountAmount = this.discountAmount + this.installmentList[t].fees_amount - this.installmentList[t].initial_fee_amount;
       data.push(test);
@@ -166,14 +198,14 @@ export class TemplateHomeComponent implements OnInit {
     for (let t = 0; t < this.otherInstList.length; t++) {
       let test: any = {};
       test.fee_type = this.otherInstList[t].fee_type;
-      test.initial_fee_amount = this.otherInstList[t].initial_fee_amount;
-      test.service_tax = this.otherInstList[t].service_tax;
-      test.fees_amount = this.otherInstList[t].fees_amount;
+      test.initial_fee_amount = this.otherInstList[t].initial_fee_amount.toString();
+      test.service_tax = this.otherInstList[t].service_tax.toString();
+      test.fees_amount = this.otherInstList[t].fees_amount.toString();
       test.service_tax_applicable = this.otherInstList[t].service_tax_applicable;
-      test.schedule_id = this.otherInstList[t].schedule_id;
+      test.schedule_id = this.otherInstList[t].schedule_id.toString();
       test.is_referenced = this.otherInstList[t].is_referenced;
-      test.day_type = this.otherInstList[t].day_type;
-      test.days = this.otherInstList[t].days;
+      test.day_type = this.otherInstList[t].day_type.toString();
+      test.days = this.otherInstList[t].days.toString();
       this.totalAmount = this.totalAmount + this.otherInstList[t].fees_amount;
       this.discountAmount = this.discountAmount + this.otherInstList[t].fees_amount - this.otherInstList[t].initial_fee_amount;
       data.push(test);
@@ -233,10 +265,12 @@ export class TemplateHomeComponent implements OnInit {
       if (this.installmentList.length > 0) {
         this.addTaxInInstallmentTable();
         if (document.getElementById('checkBoxtaxes').checked == true) {
-          let totalAmount = this.installmentList.map(fee => fee.initial_fee_amount).reduce((acc, val) => val + acc);
-          totalAmount = totalAmount + (totalAmount * taxPercent * 0.01);
+          let totalAmount = this.installmentList.map(fee => fee.fees_amount).reduce((acc, val) => val + acc);
+          this.installmentList.map(fee => fee.service_tax_applicable = "Y");
+          // totalAmount = totalAmount + (totalAmount * taxPercent * 0.01);
           return Math.floor(totalAmount);
         } else {
+          this.installmentList.map(fee => fee.service_tax_applicable = "N");
           let totalAmount = this.installmentList.map(fee => fee.initial_fee_amount).reduce((acc, val) => val + acc);
           return Math.floor(totalAmount);
         }
@@ -254,7 +288,7 @@ export class TemplateHomeComponent implements OnInit {
       if (document.getElementById('checkBoxtaxes').checked == true) {
         this.installmentList.map(
           fee => {
-            fee.tax = Math.floor(fee.initial_fee_amount * taxPercent * 0.01);
+            fee.tax = Math.floor(fee.fees_amount - fee.initial_fee_amount);
           }
         )
       } else {
@@ -280,13 +314,32 @@ export class TemplateHomeComponent implements OnInit {
 
   addInstallmentInTable() {
     if (Number(this.AddInstallment.initial_fee_amount) > 0) {
-      this.installmentList.fees_amount = this.AddInstallment.initial_fee_amount;
+      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+        this.AddInstallment.service_tax_applicable = "Y";
+        this.AddInstallment.service_tax = Number(this.feeStructure.registeredServiceTax);
+        if (document.getElementById('checkBoxtaxes').checked) {
+          this.AddInstallment.tax = Math.floor(this.AddInstallment.initial_fee_amount * Number(this.feeStructure.registeredServiceTax) * 0.01);
+          this.AddInstallment.initial_fee_amount = this.AddInstallment.initial_fee_amount - this.AddInstallment.tax;
+        } else {
+          this.AddInstallment.fees_amount = this.AddInstallment.initial_fee_amount;
+          this.AddInstallment.initial_fee_amount = this.AddInstallment.fees_amount - Math.floor(this.AddInstallment.initial_fee_amount * Number(this.feeStructure.registeredServiceTax) * 0.01);
+        }
+      } else {
+        this.AddInstallment.fees_amount = this.AddInstallment.initial_fee_amount;
+      }
+      this.installmentList.fees_amount = this.AddInstallment.initial_fee_amount + this.AddInstallment.tax;
       this.installmentList.push(this.AddInstallment);
       this.AddInstallment = {
-        day_type: '',
         days: '',
-        initial_fee_amount: '',
-        fees_amount: '',
+        day_type: '',
+        fee_type: 0,
+        fees_amount: 0,
+        initial_fee_amount: 0,
+        is_referenced: 'N',
+        schedule_id: 0,
+        service_tax: 0,
+        service_tax_applicable: 'N',
+        tax: 0
       }
     } else {
       console.log('error');
@@ -299,15 +352,42 @@ export class TemplateHomeComponent implements OnInit {
       this.additionalInstallment.fees_amount = this.additionalInstallment.initial_fee_amount;
       this.otherInstList.push(this.additionalInstallment);
       this.additionalInstallment = {
-        fee_type_name: '',
-        day_type: '',
         days: '',
-        initial_fee_amount: '',
-        fee_tax: '',
-        fees_amount: ''
+        day_type: '',
+        fee_type: 0,
+        fees_amount: 0,
+        initial_fee_amount: 0,
+        is_referenced: 'N',
+        schedule_id: 0,
+        service_tax: 0,
+        service_tax_applicable: 'N',
+        fee_type_name: ''
       }
     }
   }
+
+  onAdditionalFeeSelection(event) {
+    let id = event;
+    this.feeTyeDetails = [];
+    this.fetchService.getAdditionalFeeDeatails(event).subscribe(
+      (res: any) => {
+        this.feeTyeDetails = res;
+        this.additionalInstallment.initial_fee_amount = res.fee_amount;
+        this.additionalInstallment.service_tax = res.fee_type_tax;
+        this.additionalInstallment.fee_type = res.fee_type_id;
+        if (res.fee_type_tax > 0) {
+          this.additionalInstallment.service_tax_applicable = "Y";
+        }
+        this.additionalInstallment.fee_type = id;
+        this.additionalInstallment.fees_amount = res.fee_amount + (res.fee_amount * res.fee_type_tax * 0.01);
+        this.additionalInstallment.fee_type_name = res.fee_type;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
 
 }
 

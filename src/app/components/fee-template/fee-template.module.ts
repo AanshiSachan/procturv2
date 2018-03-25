@@ -16,6 +16,7 @@ import { SharedModule } from '../shared/shared.module';
 import { TemplatePopUpComponent } from './template-popup/template-popup.component';
 import { TemplateHomeComponent } from './template-home/template-home.component';
 import { FeeTypesComponent } from './fee-types/fee-types.component';
+import { FeeTemplateAddComponent } from './fee-template-add/fee-template-add.component';
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import { FeeTypesComponent } from './fee-types/fee-types.component';
         FeeTemplateHomeComponent,
         TemplateHomeComponent,
         FeeTypesComponent,
-        TemplatePopUpComponent
+        TemplatePopUpComponent,
+        FeeTemplateAddComponent
     ],
     entryComponents: [
     ],

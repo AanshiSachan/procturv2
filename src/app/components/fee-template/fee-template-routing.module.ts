@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { FeeTemplateHomeComponent } from './fee-template.component';
 import { TemplateHomeComponent } from './template-home/template-home.component';
 import { FeeTypesComponent } from './fee-types/fee-types.component';
+import { FeeTemplateAddComponent } from './fee-template-add/fee-template-add.component';
 
 @NgModule({
     imports: [
@@ -21,7 +22,11 @@ import { FeeTypesComponent } from './fee-types/fee-types.component';
                         component: TemplateHomeComponent
                     },
                     {
-                        path: 'fee-type',
+                        path: 'add',
+                        component: FeeTemplateAddComponent
+                    },
+                    {
+                        path: 'feetype',
                         component: FeeTypesComponent
                     }
                 ]
