@@ -43,6 +43,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     is_active: "Y",
     institution_id: sessionStorage.getItem('institute_id'),
     assignedBatches: [],
+    assignedBatchescademicYearArray: [""],
     fee_type: 0,
     fee_due_day: 0,
     batchJoiningDates: [],
@@ -72,48 +73,18 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     institution_id: sessionStorage.getItem('institute_id'),
     student_id: 0
   }
-  studentServerImage: string = '';
-  newPdcArr: any[] = [];
-  pdcSelectedArr: any[] = [];
-  formIsActive: boolean = true;
-  studentImage: string = '';
-  private quickAddStudent: boolean = false;
-  private additionalBasicDetails: boolean = false;
-  private isAssignBatch: boolean = false;
-  private isAcad: boolean = false;
-  private isProfessional: boolean = false;
-  private multiOpt: boolean = false;
-  private isDuplicateStudent: boolean = false;
-  isUpdateFeeAndExit: boolean = false;
-  private instituteList: any[] = [];
-  private standardList: any[] = [];
-  private courseList: any[] = [];
-  private batchList: any[] = [];
-  private slots: any[] = [];
-  private langStatus: any[] = [];
-  private selectedSlots: any[] = [];
-  private customComponents: any[] = [];
-  private slotIdArr: any[] = [];
-  uploadedFiles: any[] = [];
-
-  private assignedBatch: string = "";
-  private selectedSlotsString: string = '';
-  private selectedSlotsID: string = '';
-  private assignedBatchString: string = '';
-  private userImageEncoded: string = '';
-  busyPrefill: Subscription;
-  private isConvertEnquiry: boolean = false;
-  private isNewInstitute: boolean = true;
-  private isNewInstituteEditor: boolean = false;
-  school: any[] = [];
-  removeImage: boolean = false;
-  userCustommizedFee: any[] = [];
-  isBasicActive: boolean = true;
-  isOtherActive: boolean = false;
-  isFeeActive: boolean = false;
-  isInventoryActive: boolean = false;
-  isConfigureFees: boolean = false;
-  feeTempSelected: any = "";
+  studentAddnMove: boolean;  studentServerImage: string = '';  newPdcArr: any[] = [];  pdcSelectedArr: any[] = [];
+  formIsActive: boolean = true;  studentImage: string = '';  private quickAddStudent: boolean = false;  private additionalBasicDetails: boolean = false;
+  private isAssignBatch: boolean = false;  private isAcad: boolean = false;  private isProfessional: boolean = false;  private multiOpt: boolean = false;
+  private isDuplicateStudent: boolean = false;  isUpdateFeeAndExit: boolean = false;  private instituteList: any[] = [];
+  private standardList: any[] = [];  private courseList: any[] = [];  private batchList: any[] = [];  private slots: any[] = [];
+  private langStatus: any[] = [];  private selectedSlots: any[] = [];  private customComponents: any[] = [];
+  private slotIdArr: any[] = [];  uploadedFiles: any[] = [];  private taxEnableCheck: any = '1';
+  private assignedBatch: string = "";  private selectedSlotsString: string = '';  private selectedSlotsID: string = '';
+  private assignedBatchString: string = '';  private userImageEncoded: string = '';  busyPrefill: Subscription;
+  private isConvertEnquiry: boolean = false;  private isNewInstitute: boolean = true;  private isNewInstituteEditor: boolean = false;  school: any[] = [];
+  removeImage: boolean = false;  userCustommizedFee: any[] = [];  isBasicActive: boolean = true;  isOtherActive: boolean = false;
+  isFeeActive: boolean = false;  isInventoryActive: boolean = false;  isConfigureFees: boolean = false;  feeTempSelected: any = "";
   addFeeInstallment: any = {
     amount_paid: '',
     amount_paid_inRs: null,
@@ -231,16 +202,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     studentArray: ["-1"],
     template_effective_date: moment().format('YYYY-MM-DD')
   }
-  instalmentTableData: any[] = [];
-  otherFeeTableData: any[] = [];
-  feeTemplateStore: any[] = [];
-  inventoryItemsArr: any[] = [];
+  instalmentTableData: any[] = [];  otherFeeTableData: any[] = [];  feeTemplateStore: any[] = [];  inventoryItemsArr: any[] = [];
   createInstitute = {
     instituteName: "",
     isActive: "Y"
   }
-  is_undo: string = "N";
-  pdcStatus: any[] = [];
+  is_undo: string = "N";  pdcStatus: any[] = [];
   pdcSearchObj = {
     cheque_status: '-1',
     student_id: '',
@@ -254,7 +221,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     student_id: 0,
     institution_id: sessionStorage.getItem('institute_id')
   }
-
   isPaymentDetailsValid: boolean = false;
   feeTemplateById: StudentFeeStructure = {
     feeTypeMap: "",
@@ -286,35 +252,19 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     invoice_no: "",
     uiSelected: false
   }
-
-  student_id: any;
-  service_tax: number = 0;
-  totalFeePaid: number = 0;
-  paymentStatusArr: any[] = [];
-  isFeePaymentUpdate: boolean = false;
-  isDefineFees: boolean = false;
-  isFeeApplied: boolean = false;
-  isNewInstallment: boolean = false;
-  isDiscountApply: boolean = false;
+  student_id: any;  service_tax: number = 0;  totalFeePaid: number = 0;  paymentStatusArr: any[] = [];
+  isFeePaymentUpdate: boolean = false;  isDefineFees: boolean = false;  isFeeApplied: boolean = false;
+  isNewInstallment: boolean = false;  isDiscountApply: boolean = false;
   discountApplyForm: any = {
     type: 'amount',
     value: null,
     reason: '',
     state: 'all'
   }
-  isPdcApply: boolean = false;
-  allocatedInventoryHistory: any[] = [];
-  isDiscountApplied: boolean = false;
-  discountReason: string = '';
-  key: string = 'name'; //set default
-  reverse: boolean = false;
-  allotInventoryArr: any[] = [];
-  isRippleLoad: boolean = false;
-  studentAssisnedBatches: any[] = [];
-  genPdcAck: boolean = false;
-  sendPdcAck: boolean = false;
-  isPaymentPdc: boolean = false;
-  pdcSelectedForPayment: any;
+  isPdcApply: boolean = false;  allocatedInventoryHistory: any[] = [];  isDiscountApplied: boolean = false;
+  discountReason: string = '';  key: string = 'name'; //set default
+  reverse: boolean = false;  allotInventoryArr: any[] = [];  isRippleLoad: boolean = false;  studentAssisnedBatches: any[] = [];
+  genPdcAck: boolean = false;  sendPdcAck: boolean = false;  isPaymentPdc: boolean = false;  pdcSelectedForPayment: any;
   pdcSelectedForm: any = {
     bank_name: '',
     cheque_amount: '',
@@ -323,8 +273,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     pdc_cheque_id: ''
   }
 
-  isPdcFeePaymentSelected: boolean = false;
-  containerWidth: any = "200px";
+  isPdcFeePaymentSelected: boolean = false;  containerWidth: any = "200px";
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -332,8 +281,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.isRippleLoad = true;
     this.getInstType();
     this.student_id = this.route.snapshot.paramMap.get('id');
-    //console.log("got student id");
-    this.updateStudentForm(this.route.snapshot.paramMap.get('id'));
+    this.busyPrefill = this.fetchPrefillFormData();
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -343,10 +291,95 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (sessionStorage.getItem('editPdc') != "" && sessionStorage.getItem('editPdc') != null) {
       this.switchToView('feeDetails-icon');
     }
+    this.updateStudentForm(this.route.snapshot.paramMap.get('id'));
   }
   /* ============================================================================================================================ */
-  /* 
-  ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  /* Navigate or check for submission */
+  addStudentDataAndFetchFee(values: NgForm) {
+    this.studentAddnMove = true;
+    this.studentQuickAdder(values);
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  studentAddedGetFee(id) {
+    this.isRippleLoad = true;
+    this.studentPrefillService.fetchStudentFeeDetailById(id).subscribe(res => {
+      if (res.customFeeSchedules != null) {
+        this.isRippleLoad = false;
+        this.allignStudentFeeView(res);
+      }
+      else if (res.customFeeSchedules == null) {
+        this.isRippleLoad = false;
+
+        this.feeTemplateById = {
+          feeTypeMap: "",
+          customFeeSchedules: [],
+          registeredServiceTax: "",
+          toCreate: "",
+          studentArray: "",
+          studentwise_total_fees_amount: "",
+          studentwise_total_fees_balance_amount: "",
+          studentwise_total_fees_amount_paid: "",
+          studentwise_total_fees_discount: "",
+          studentwise_fees_tax_applicable: "",
+          no_of_installments: "",
+          discount_fee_reason: "",
+          template_name: "",
+          template_id: "",
+          template_effective_date: "",
+          is_fee_schedule_created: "",
+          is_fee_tx_done: "",
+          is_undo: "",
+          is_fee_other_inst_created: "",
+          is_delete_other_fee_types: "",
+          chequeDetailsJson: "",
+          payment_mode: "Cash",
+          remarks: "",
+          paid_date: "",
+          is_cheque_details_required: "",
+          reference_no: "",
+          invoice_no: "",
+          uiSelected: false
+        }
+        this.navigateTo('feeDetails');
+      }
+    },
+      err => {
+        alert("error fetching student fees");
+      });
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  allignStudentFeeView(data) {
+    this.isPaymentDetailsValid = false;
+    this.feeTemplateById = data;
+    this.instalmentTableData = [];
+    this.otherFeeTableData = [];
+    this.totalFeePaid = 0;
+    this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
+    this.isDefineFees = false;
+    this.isFeeApplied = true;
+    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      this.service_tax = data.registeredServiceTax;
+    }
+    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+      this.service_tax = 0;
+    }
+    data.customFeeSchedules.forEach(el => {
+      if (el.fee_type_name === "INSTALLMENT") {
+        this.instalmentTableData.push(el);
+      }
+      else {
+        this.otherFeeTableData.push(el);
+      }
+    });
+    this.updateTableInstallment();
+    this.createCustomFeeSchedule();
+    this.navigateTo('feeDetails');
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   getInstType() {
     let institute_type = sessionStorage.getItem('institute_type');
     if (institute_type == 'LANG') {
@@ -357,11 +390,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
   /* ============================================================================================================================ */
-
+  /* ============================================================================================================================ */
   ngOnDestroy() {
     sessionStorage.setItem('editPdc', '');
   }
-
   /* ============================================================================================================================ */
   /* Function to navigate through the Student Add Form on button Click Save/Submit*/
   navigateTo(text) {
@@ -410,13 +442,19 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateStudentForm(id) {
+    /* Fetching Student Details from server */
     this.fetchService.getStudentById(id).subscribe(data => {
       this.studentAddFormData = data;
+      if(this.studentAddFormData.assignedBatchescademicYearArray == null){
+        this.studentAddFormData.assignedBatchescademicYearArray =  [""];
+      }
       this.studentServerImage = data.photo;
-      this.busyPrefill = this.fetchPrefillFormData();
+      /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
       this.setStudentFeeDetail();
       this.isRippleLoad = false;
+      /* For Batch Model Fetch the Student Batches */
       if (this.isProfessional) {
+        /* Fetching the student Slots */
         this.getSlots();
         this.studentPrefillService.fetchStudentBatchDetails(id).subscribe(
           res => {
@@ -424,16 +462,17 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               let obj = {
                 isSelected: el.isAssigned == "Y" ? true : false,
                 data: el,
-                assignDate: el.isAssigned == "Y" ? moment(el.created_date).format('YYYY-MM-DD') : null
+                assignDate: el.created_date == ""? moment().format('YYYY-MM-DD'): moment(el.created_date).format('YYYY-MM-DD')
               }
               this.batchList.push(obj);
             });
             this.updateAssignedBatches(this.batchList);
           },
           err => {
-
-          })
+            //alert("Error Fetching Student Batch");
+          });
       }
+      /* For Course Model fetch the Student Courses */
       else {
         this.studentPrefillService.fetchStudentCourseDetails(id, this.studentAddFormData.standard_id).subscribe(
           res => {
@@ -441,7 +480,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               let obj = {
                 isSelected: el.isAssigned == "Y" ? true : false,
                 data: el,
-                assignDate: el.isAssigned == "Y" ? moment(el.created_date).format('YYYY-MM-DD') : null
+                assignDate: el.created_date == ""? moment().format('YYYY-MM-DD'): moment(el.created_date).format('YYYY-MM-DD')
               }
               this.batchList.push(obj);
             });
@@ -452,6 +491,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           })
       }
     });
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  batchChangeAlert(value, batch){
+    console.log(value);
+    console.log(batch);
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -484,7 +529,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         else {
           temp.push(el.data.course_id.toString());
           tempDate.push(moment(el.assignDate).format('YYYY-MM-DD'));
-          batchString.push(el.data.master_course + " || " + el.data.course_name);
+          batchString.push(el.data.course_name);
         }
       }
     });
@@ -651,8 +696,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
     if (inventory != null && institute != null && standard != null) {
       let customComp = this.studentPrefillService.fetchCustomComponentById(this.student_id).subscribe(data => {
+        //console.log(data);
         data.forEach(el => {
-
           let obj = {
             data: el,
             id: el.component_id,
@@ -679,7 +724,21 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               value: el.enq_custom_value
             }
           }
-          else {
+          if (el.type == 2) {
+            obj = {
+              data: el,
+              id: el.component_id,
+              is_required: el.is_required,
+              is_searchable: el.is_searchable,
+              label: el.label,
+              prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+              selected: [],
+              selectedString: '',
+              type: el.type,
+              value: el.enq_custom_value == "N" ? false : true,
+            }
+          }
+          else if(el.type != 2 && el.type != 4) {
             obj = {
               data: el,
               id: el.component_id,
@@ -693,7 +752,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               value: el.enq_custom_value
             }
           }
-
           this.customComponents.push(obj);
         });
       });
@@ -767,12 +825,33 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* align the user selected batch into input and update the data into array to be updated to server */
   assignBatch() {
     let batchString: any[] = [];
-    //console.log(this.batchList); 
+    this.studentAddFormData.assignedBatches = [];
+    this.studentAddFormData.batchJoiningDates = [];
+    this.studentAddFormData.assignedBatchescademicYearArray = [""];
     this.batchList.forEach(el => {
       if (el.isSelected) {
-        this.studentAddFormData.assignedBatches.push(el.data.batch_id.toString());
-        this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
-        batchString.push(el.data.batch_name);
+        if(el.assignDate != "" && el.assignDate != null && el.assignDate != "Invalid date"){
+          if (this.isProfessional) {
+            this.studentAddFormData.assignedBatches.push(el.data.batch_id.toString());
+            this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
+            this.studentAddFormData.assignedBatchescademicYearArray.push("-1");
+            batchString.push(el.data.batch_name);
+          }
+          else {
+            this.studentAddFormData.assignedBatches.push(el.data.course_id.toString());
+            this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
+            this.studentAddFormData.assignedBatchescademicYearArray.push("-1");
+            batchString.push(el.data.course_name);
+          }
+        }
+        else{
+          let alert = {
+            type: 'error',
+            title: 'Assign Date Required',
+            body: 'Please select a joining date for selected option'
+          }
+          this.appC.popToast(alert);
+        }
       }
     });
     if (batchString.length != 0) {
@@ -804,7 +883,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (form.valid && this.customComponentValid() && this.formValidator()) {
       let customArr = [];
       this.customComponents.forEach(el => {
-        if (el.value != '' && (typeof el.value != 'boolean')) {
+        /* Not Checkbox and value not empty */
+        if (el.value != '' && el.type != 2) {
           let obj = {
             component_id: el.id,
             enq_custom_id: "0",
@@ -812,8 +892,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
           customArr.push(obj);
         }
-        else if (el.value != '' && (typeof el.value == 'boolean')) {
-          if (el.value) {
+        /* Checkbox Custom Component */
+        else if (el.type == 2) {
+          if (el.value == "Y" || el.value == true) {
             let obj = {
               component_id: el.id,
               enq_custom_id: "0",
@@ -821,7 +902,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             customArr.push(obj);
           }
-          else {
+          else if (el.value == "N" || el.value == false){
             let obj = {
               component_id: el.id,
               enq_custom_id: "0",
@@ -830,16 +911,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             customArr.push(obj);
           }
         }
-        else if (el.value == '' && (el.type == 2)) {
-          let obj = {
-            component_id: el.id,
-            enq_custom_id: "0",
-            enq_custom_value: "N"
-          }
-          customArr.push(obj);
-        }
       });
-
       /* Get slot data and store on form */
       this.studentAddFormData.slot_id = this.selectedSlotsID;
       this.studentAddFormData.stuCustomLi = customArr;
@@ -855,10 +927,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               body: ''
             }
             this.appC.popToast(alert);
-
-            form.reset();
-            this.removeImage = true;
-            this.clearFormAndMove();
+            this.studentAddedGetFee(this.student_id);
           }
           else if (statusCode == 2) {
             let alert = {
@@ -868,7 +937,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             form.reset();
             this.removeImage = true;
-            //document.getElementById('preview-img').src = '';
             this.appC.popToast(alert);
             this.isDuplicateContactOpen();
           }
@@ -1016,7 +1084,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.customComponents.forEach(el => {
       if (el.id == id) {
         el.prefilled_data.forEach(com => {
-          debugger
           //console.log(com);
           if (com.data == data.data) {
             /* Component checked */
@@ -1060,8 +1127,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     });
 
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   concatDataWithComma(data) {
     let test = "";
     if (data.length > 0) {
@@ -1077,12 +1144,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     return test;
   }
-
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   fetchCourseFromMaster(id) {
-
     if (id == null || id == '') {
       this.courseList = [];
     }
@@ -1100,11 +1164,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               let obj = {
                 isSelected: el.isAssigned == "Y" ? true : false,
                 data: el,
-                assignDate: el.isAssigned == "Y" ? moment(el.created_date).format('YYYY-MM-DD') : null
+                assignDate: el.created_date == ""? moment().format('YYYY-MM-DD'): moment(el.created_date).format('YYYY-MM-DD')
               }
               this.batchList.push(obj);
             });
-            console.log(this.batchList);
           },
           err => {
 
@@ -1451,6 +1514,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.feeTemplateById.customFeeSchedules[id].is_paid = 0;
       let value = this.feeTemplateById.customFeeSchedules[id].fees_amount;
       this.totalFeePaid -= value;
+      if(this.totalFeePaid < 0){
+        this.totalFeePaid = 0;
+      }
     }
   }
   /* ============================================================================================================================ */
@@ -1522,9 +1588,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   validatePaymentDetails($event) {
-
     $event.preventDefault();
-    /* error */
+    /* Error */
     if (this.feeTemplateById.paid_date == "" && this.feeTemplateById.payment_mode == "") {
       let msg = {
         type: 'error',
@@ -1533,7 +1598,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       this.appC.popToast(msg);
     }
-    /* error */
+    /* Error */
     else if (this.feeTemplateById.paid_date != "" && this.feeTemplateById.payment_mode == "") {
       let msg = {
         type: 'error',
@@ -1542,7 +1607,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       this.appC.popToast(msg);
     }
-    /* error */
+    /* Error */
     else if (this.feeTemplateById.paid_date == "" && this.feeTemplateById.payment_mode != "") {
       let msg = {
         type: 'error',
@@ -1551,82 +1616,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       this.appC.popToast(msg);
     }
-    /* success */
     else {
       /* PDC data to be verified */
       if (this.feeTemplateById.payment_mode == 'Cheque/PDC/DD No.') {
         if (this.validatePdcObject()) {
-          if (this.isUpdateFeeAndExit) {
-            let obj = {
-              chequeDetailsJson: {},
-              customFeeSchedules: [],
-              discount_fee_reason: "",
-              is_delete_other_fee_types: 0,
-              is_undo: this.is_undo,
-              paid_date: "",
-              payment_mode: "",
-              reference_no: "",
-              remarks: "",
-              studentArray: [],
-              studentwise_fees_tax_applicable: "",
-              studentwise_total_fees_amount: "",
-              studentwise_total_fees_discount: 0,
-              template_effective_date: "",
-              template_id: ""
-            }
-            this.isFeeApplied = true;
-            console.log(this.isFeeApplied);
-            this.pdcSelectedForm.cheque_date = moment(this.pdcSelectedForm.cheque_date).format("YYYY-MM-DD");
-            obj.chequeDetailsJson = this.pdcSelectedForm;
-            obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
-            obj.discount_fee_reason = this.discountReason;
-            obj.is_undo = this.is_undo;
-            obj.paid_date = this.feeTemplateById.paid_date;
-            obj.payment_mode = this.feeTemplateById.payment_mode;
-            obj.reference_no = this.feeTemplateById.reference_no;
-            obj.remarks = this.feeTemplateById.remarks;
-            obj.studentArray.push(this.student_id);
-            obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
-            obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
-            obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
-            this.postService.allocateStudentFees(obj).subscribe(
-              res => {
-                let msg = {
-                  type: 'success',
-                  title: 'Fees Updated',
-                  body: 'Fee details has been updated'
-                }
-                this.appC.popToast(msg);
-                this.router.navigate(['/student']);
-              },
-              err => { }
-            );
-          }
-          else {
-            this.isPaymentDetailsValid = true;
-            this.isFeeApplied = true;
-            console.log(this.isFeeApplied);
-            this.paymentStatusArr.forEach(el => { el.isPaid = el.uiSelected });
-            this.feeTemplateById.paid_date = moment(this.feeTemplateById.paid_date).format("YYYY-MM-DD");
-            this.pdcSelectedForm.cheque_date = moment(this.pdcSelectedForm.cheque_date).format("YYYY-MM-DD");
-            this.feeTemplateById.chequeDetailsJson = this.pdcSelectedForm;
-            this.feeTemplateById.studentwise_total_fees_amount_paid = this.totalFeePaid;
-            this.feeTemplateById.studentwise_total_fees_balance_amount = this.feeTemplateById.studentwise_total_fees_amount - this.feeTemplateById.studentwise_total_fees_amount_paid - this.feeTemplateById.studentwise_total_fees_discount;
-            this.closePaymentDetails();
-          }
-        }
-        else {
-          let msg = {
-            type: 'error',
-            title: 'Incorrect PDC/Cheque Details',
-            body: 'Please provide correct input for the cheque data'
-          }
-          this.appC.popToast(msg);
-        }
-      }
-      else {
-
-        if (this.isUpdateFeeAndExit) {
           let obj = {
             chequeDetailsJson: {},
             customFeeSchedules: [],
@@ -1645,8 +1638,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             template_id: ""
           }
           this.isFeeApplied = true;
-          console.log(this.isFeeApplied);
-          obj.chequeDetailsJson = this.feeTemplateById.chequeDetailsJson;
+          this.isPaymentPdc = false;
+          this.pdcSelectedForm.cheque_date = moment(this.pdcSelectedForm.cheque_date).format("YYYY-MM-DD");
+          obj.chequeDetailsJson = this.pdcSelectedForm;
           obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
           obj.discount_fee_reason = this.discountReason;
           obj.is_undo = this.is_undo;
@@ -1666,21 +1660,99 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 body: 'Fee details has been updated'
               }
               this.appC.popToast(msg);
-              this.router.navigate(['/student']);
+              this.pdcSelectedForm = {
+                bank_name: '',
+                cheque_amount: '',
+                cheque_date: '',
+                cheque_no: '',
+                pdc_cheque_id: ''
+              }
+              this.isFeeApplied = false;
+              this.pdcSelectedForPayment = "";
+              this.studentAddedGetFee(this.student_id);
+              this.closePaymentDetails();
             },
-            err => { }
+            err => {
+              let msg = {
+                type: 'error',
+                title: 'Incorrect PDC/Cheque Details',
+                body: 'Cheque amount does not match the selected installment'
+              }
+              this.appC.popToast(msg);               
+             }
           );
         }
         else {
-          this.isPaymentDetailsValid = true;
-          this.isFeeApplied = true;
-          console.log(this.isFeeApplied);
-          this.paymentStatusArr.forEach(el => { el.isPaid = el.uiSelected });
-          this.feeTemplateById.paid_date = moment(this.feeTemplateById.paid_date).format("YYYY-MM-DD");
-          this.feeTemplateById.studentwise_total_fees_amount_paid = this.totalFeePaid;
-          this.feeTemplateById.studentwise_total_fees_balance_amount = this.feeTemplateById.studentwise_total_fees_amount - this.feeTemplateById.studentwise_total_fees_amount_paid - this.feeTemplateById.studentwise_total_fees_discount;
-          this.closePaymentDetails();
+          let msg = {
+            type: 'error',
+            title: 'Incorrect PDC/Cheque Details',
+            body: 'Please provide correct input for the cheque data'
+          }
+          this.appC.popToast(msg);
         }
+      }
+      else {
+        let obj = {
+          chequeDetailsJson: {},
+          customFeeSchedules: [],
+          discount_fee_reason: "",
+          is_delete_other_fee_types: 0,
+          is_undo: this.is_undo,
+          paid_date: "",
+          payment_mode: "",
+          reference_no: "",
+          remarks: "",
+          studentArray: [],
+          studentwise_fees_tax_applicable: "",
+          studentwise_total_fees_amount: "",
+          studentwise_total_fees_discount: 0,
+          template_effective_date: "",
+          template_id: ""
+        }
+        this.isFeeApplied = true;
+        this.isPaymentPdc = false;
+        obj.chequeDetailsJson = this.feeTemplateById.chequeDetailsJson;
+        obj.customFeeSchedules = this.getFeeStructure(this.feeTemplateById.customFeeSchedules);
+        obj.discount_fee_reason = this.discountReason;
+        obj.is_undo = this.is_undo;
+        obj.paid_date = this.feeTemplateById.paid_date;
+        obj.payment_mode = this.feeTemplateById.payment_mode;
+        obj.reference_no = this.feeTemplateById.reference_no;
+        obj.remarks = this.feeTemplateById.remarks;
+        obj.studentArray.push(this.student_id);
+        obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
+        obj.studentwise_total_fees_amount = this.feeTemplateById.studentwise_total_fees_amount;
+        obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
+        this.postService.allocateStudentFees(obj).subscribe(
+          res => {
+            let msg = {
+              type: 'success',
+              title: 'Fees Updated',
+              body: 'Fee details has been updated'
+            }
+            this.appC.popToast(msg);
+            this.pdcSelectedForm = {
+              bank_name: '',
+              cheque_amount: '',
+              cheque_date: '',
+              cheque_no: '',
+              pdc_cheque_id: ''
+            }
+            this.isFeeApplied = false;
+            this.pdcSelectedForPayment = "";
+            this.studentAddedGetFee(this.student_id);
+            this.closePaymentDetails();
+          },
+          err => { 
+            let msg = {
+              type: 'error',
+              title: 'Incorrect PDC/Cheque Details',
+              body: 'Cheque amount does not match the selected installment'
+            }
+            this.appC.popToast(msg);
+          }
+        );
+        this.closePaymentDetails();
       }
     }
   }
@@ -2956,13 +3028,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     )
 
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   editPDC(data) {
     document.getElementById((data.student_id + data.cheque_id).toString()).classList.remove('displayComp');
     document.getElementById((data.student_id + data.cheque_id).toString()).classList.add('editComp');
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   updatePDC(el) {
     if (this.validPdc(el)) {
       let obj = {
@@ -2989,7 +3062,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       )
     }
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   deletePDC(data, i) {
 
     if (confirm("Are you sure,you want to delete the Cheque?")) {
@@ -3004,14 +3078,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
 
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   cancelEditPDC(data) {
     document.getElementById((data.student_id + data.cheque_id).toString()).classList.add('displayComp');
     document.getElementById((data.student_id + data.cheque_id).toString()).classList.remove('editComp');
     this.pdcSelectedArr = [];
     this.getPdcChequeList();
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   pdcSelected(obj) {
     if (obj.uiSelected) {
       this.pdcSelectedArr.push(obj.cheque_id);
@@ -3021,7 +3097,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.pdcSelectedArr.splice(i, 1);
     }
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   generateAck() {
     let check = this.checkIfRowSelcted(this.chequePdcList);
     if (check.length == 0) {
@@ -3054,7 +3131,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     )
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   sendAck() {
     let check = this.checkIfRowSelcted(this.chequePdcList);
     if (check.length == 0) {
@@ -3089,17 +3167,19 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     )
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   setImage(e) {
     //debugger
     this.studentServerImage = e;
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   printFee() {
     window.print()
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   feePdcSelected(obj) {
     //console.log(obj);
     if (obj === '') {
@@ -3127,7 +3207,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       });
     }
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   checkIfRowSelcted(data) {
     let selected: any = [];
     for (let i = 0; i < data.length; i++) {
@@ -3137,7 +3218,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     return selected;
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Converts base64 string into a byte[] */
   convertBase64ToArray(val) {
 
@@ -3150,5 +3232,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     return bytes.buffer;
 
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
 }
