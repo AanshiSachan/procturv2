@@ -89,4 +89,13 @@ export class FeeStrucService {
         )
     }
 
+
+    getAdditionalFeeDeatails(id) {
+        let url = this.baseUrl + "/api/v1/batchFeeSched/feeType/" + id + "/details";
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
 }

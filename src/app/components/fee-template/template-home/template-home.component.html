@@ -1,3 +1,5 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <div class="middle-section clearFix" id="enquiryList" #enquiryManager [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
   <!-- Main View -->
   <aside class="middle-full">
@@ -15,7 +17,7 @@
             </span>
           </div>
         </button>
-        <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 9px;" class="btn" routerLink='add'>
+        <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 9px;" class="btn" routerLink='/fee/feetype'>
           <div class="option-wrap">
             <img src="./assets/images/fork.png" alt="feeType" style="height: 80%;">
             <span class="tooltip">
@@ -248,7 +250,8 @@
             <div class="row" style="margin-top: 10pxd;margin-bottom: 10px">
               <div class="c-sm-2 c-md-2 c-lg-2">
                 <div class="field-wrapper has-value">
-                  <select id="" class="form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.fee_type_name" name="row.category_id">
+                  <select id="" class="form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.fee_type" (ngModelChange)="onAdditionalFeeSelection($event)"
+                    name="row.category_id">
                     <option *ngFor="let opt of otherFeetype; let i= index ; trackBy : index" [value]="opt.id">
                       {{opt.value}}
                     </option>
@@ -334,7 +337,7 @@
                         </td>
                         <td>
                           <div class="field-wrapper">
-                            <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.tax' name="label">
+                            <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.fees_amount - row.initial_fee_amount' name="label">
                           </div>
                         </td>
                         <td>

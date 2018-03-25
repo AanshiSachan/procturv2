@@ -21,7 +21,7 @@ import { FeeTypesComponent } from './fee-types/fee-types.component';
                         component: TemplateHomeComponent
                     },
                     {
-                        path: 'fee-type',
+                        path: 'feetype',
                         component: FeeTypesComponent
                     }
                 ]
