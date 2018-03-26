@@ -8,27 +8,47 @@
   <section class="middle-main clearFix">
 
     <div class="clearFix add-edit">
-      <a (click)="toggleCreateNewSlot()">
+      <a (click)="toggleCreateNewAcademicYear()">
         <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
-        <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
+        <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass" >-</i>
         <span>Add Academic Year</span>
       </a>
     </div>
-    <section class="clearFix create-standard-form" *ngIf="createNewSlot">
+    <section class="clearFix create-standard-form" *ngIf="createNewAcademicYear">
       <div class="row create-standard-field">
         <div class="c-lg-2 c-md-2 c-sm-2">
         </div>
         <div class="c-lg-6 c-md-6 c-sm-6">
           <div class="field-wrapper">
-            <input type="text" #idSlot class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
-            <label for="slotNew">Slot
+
+            <input type="text" class="form-ctrl" #acdYear name="academicYear" >
+            <label>Academic Year
             </label>
           </div>
-          <!-- <p>* You can provide time Example 10-12 PM</p> -->
+          <div class="field-wrapper">
+
+            <input type="text" class="form-ctrl" #acdYearDesc name="academicYearDescription" >
+            <label>Academic Year Description
+            </label>
+          </div>
+
+
+          <div class="field-wrapper">
+
+            <input type="text" class="form-ctrl" #strtDate name="startDate">
+            <label>Start Date
+            </label>
+          </div>
+          <div class="field-wrapper">
+
+            <input type="text" class="form-ctrl" #endDate name="academicYear" >
+            <label>End Date
+            </label>
+          </div>
         </div>
-        <div class="c-lg-4 c-md-4 c-sm-4" style="margin-top: 1%;">
+        <div class="c-lg-4 c-md-4 c-sm-4" style="margin-top: 7%;">
           <aside class="pull-left create-cancel-small">
-            <button class="btn" (click)="addNewSlot(idSlot)">Add</button>
+            <button class="btn">Add</button>
           </aside>
         </div>
       </div>
@@ -66,31 +86,82 @@
                 </th>
               </tr>
             </thead>
-            <tr id="row{{i}}" class="displayComp" *ngFor="let row of slotTableList; let i = index; trackBy: i;">
-              <td>
-                {{i + 1}}
+            <tbody *ngIf="slotTableList.length !=0">
+              <tr id="row{{i}}" class="displayComp" *ngFor="let row of slotTableList; let i = index; trackBy: i;">
+                <td>
+                  {{i + 1}}
+                </td>
+
+                <td class="view-comp">
+                  {{row.inst_acad_year}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.inst_acad_year" name="label">
+                  </div>
+                </td>
+                <td class="view-comp">
+                  {{row.desc}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.desc" name="label">
+                  </div>
+                </td>
+
+                <td class="view-comp">
+                  {{row.start_date | date:'yyyy-mm-dd'}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" value="" class="form-ctrl editCellInput" style="cursor: pointer;" name="createdDate" readonly="true" [(ngModel)]="row.start_date" bsDatepicker/>
+                  </div>
+                </td>
+                <td class="view-comp">
+                  {{row.end_date | date:'yyyy-mm-dd'}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.end_date" name="label" bsDatepicker/>
+                  </div>
+                </td>
+                <td class="view-comp">
+                  {{row.created_date}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.created_date" name="label" disabled>
+                  </div>
+                </td>
+                <td class="view-comp">
+                  {{row.is_active}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper has-value">
+                    <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="row.is_active" style="margin: auto;" (focus)="inputClickedCheck($event)">
+                      <option value="Y">Yes</option>
+                      <option value="N">No</option>
+                    </select>
+                  </div>
+                </td>
+
+
+                <td class="view-comp">
+                  <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
+                </td>
+                <td class="edit-comp">
+                  <a class="anchorTagCursor" (click)="saveSlotInformation(row , i)"> Save </a>
+                  <a class="anchorTagCursor" (click)="cancelEditRow(i)"> Cancel </a>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="slotTableList.length ==0">
+              <td colspan="3" style="text-align: center">
+                No Slots List Available
               </td>
- 
-              <td class="view-comp">
-                {{row.inst_acad_year}}
-              </td>
-              <td class="view-comp">
-                {{row.desc}}
-              </td>
-              <td class="view-comp">
-                {{row.start_date}}
-              </td>
-              <td class="view-comp">
-                {{row.end_date}}
-              </td>
-              <td class="view-comp">
-                {{row.created_date}}
-              </td>
-              <td class="view-comp">
-                {{row.is_active}}
-              </td>
-            
-            
+            </tbody>
+
+
           </table>
         </div>
       </div>

@@ -38,4 +38,20 @@ export class AcademicyearService {
   }
   
 
+  addNewAcademicYear(obj){
+
+    let url= this.baseUrl + "/api/v1/academicYear";
+    //console.log(obj);
+    return this.http.post(url, obj, {headers:this.headers}).map(
+      data =>{
+        return data;
+      },
+      err => {
+        return err;
+        
+      })
+   
+
+  }
+
 }
