@@ -1,5 +1,5 @@
 <div class="middle-section clearFix">
-  <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+  <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">
       Add Fee Template
     </h1>
@@ -69,7 +69,7 @@
           </div>
         </div>
 
-        <div class="c-sm-4 c-md-4 c-lg-4">
+        <div class="c-sm-4 c-md-4 c-lg-4 checkBoxAllignment">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" id="" name="checkbx" [disabled]="addNewTemplate.apply_tax == true && addNewTemplate.tax_type != 1"
               [(ngModel)]="addNewTemplate.apply_tax" class="form-checkbox">
@@ -79,7 +79,7 @@
 
       </div>
 
-      <div class="row">
+      <div class="row spanSection">
 
         <div class="c-sm-4 c-md-4 c-lg-4">
           <span>Tax Amount (Rs) : {{addNewTemplate.tax_amount}}</span>
@@ -108,75 +108,66 @@
 
     </section>
 
-    <section class="installment-section">
-      <h3>Manage Installments</h3>
+    <section class="installment-section" *ngIf="showDetails">
 
-
-      <div class="table-scroll-wrapper">
-        <div class="table table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>Installment # </th>
-                <th>Trigger Date</th>
-                <th>No.(Days/Months)</th>
-                <th>Fees Amount (Rs)</th>
-                <th>Tax (Rs)</th>
-                <th>Fees Amount (Incl Tax)(Rs)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let row of installMentTable; let i= index ; trackBy : index">
-                <td>
-                  {{i}}
-                </td>
-                <td>
-                  <select [(ngModel)]="row.day_type" style="background: transparent">
-                    <option value="1">Date Of Joining</option>
-                    <option value="2">No of days after DOJ</option>
-                    <option value="3">No of Month after DOJ</option>
-                  </select>
-                </td>
-                <td>
-                  <div class="field-wrapper">
-                    <input type="number" min="0" class="editCellInput" [(ngModel)]="row.days" name="label">
-                  </div>
-                </td>
-                <td>
-                  <div class="field-wrapper">
-                    <input type="number" min="0" readonly="true" class="editCellInput" [(ngModel)]="row.initial_fee_amount" name="label">
-                  </div>
-                </td>
-                <td>
-                  <div class="field-wrapper">
-                    <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.tax' name="label">
-                  </div>
-                </td>
-                <td>
-                  <div class="field-wrapper">
-                    <input type="number" min="0" class="editCellInput" [(ngModel)]="row.initial_fee_amount + row.tax" name="label">
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-    </section>
-
-    <section>
-      <fieldset class="additional">
-        <legend>Edit Additional Fees</legend>
-        <div class="row data-adder">
-          <div class="outer">
-            <div class="c-lg-12 c-md-12">
-            </div>
+      <section class="installmentSection">
+        <h3>Manage Installments</h3>
+        <div class="table-scroll-wrapper">
+          <div class="table table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Installment # </th>
+                  <th>Trigger Date</th>
+                  <th>No.(Days/Months)</th>
+                  <th>Fees Amount (Rs)</th>
+                  <th>Tax (Rs)</th>
+                  <th>Fees Amount (Incl Tax)(Rs)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of installMentTable; let i= index ; trackBy : index">
+                  <td>
+                    {{i}}
+                  </td>
+                  <td>
+                    <select [(ngModel)]="row.day_type" style="background: transparent">
+                      <option value="1">Date Of Joining</option>
+                      <option value="2">No of days after DOJ</option>
+                      <option value="3">No of Month after DOJ</option>
+                    </select>
+                  </td>
+                  <td>
+                    <div class="field-wrapper">
+                      <input type="number" min="0" class="editCellInput" [(ngModel)]="row.days" name="label">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="field-wrapper">
+                      <input type="number" min="0" readonly="true" class="editCellInput" [(ngModel)]="row.initial_fee_amount" name="label">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="field-wrapper">
+                      <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.tax' name="label">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="field-wrapper">
+                      <input type="number" min="0" class="editCellInput" [(ngModel)]="row.initial_fee_amount + row.tax" name="label">
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
+      </section>
 
+      <section class="additionalFeeSection">
+        <h3>Edit Additional Fees</h3>
 
-        <div class="row" style="margin-top: 10pxd;margin-bottom: 10px">
+        <div class="row">
           <div class="c-sm-2 c-md-2 c-lg-2">
             <div class="field-wrapper has-value">
               <select id="" class="form-ctrl" style="background: transparent" [(ngModel)]="additionalInstallment.fee_type" (ngModelChange)="onAdditionalFeeSelection($event)"
@@ -217,7 +208,8 @@
           </div>
           <div class="c-sm-2 c-md-2 c-lg-2">
             <div class="field-wrapper has-value">
-              <input type="number" min="0" disabled class="form-ctrl" [(ngModel)]="additionalInstallment.service_tax" name="slotNew">
+              <input type="number" min="0" style="background: transparent" disabled class="form-ctrl" [(ngModel)]="additionalInstallment.service_tax"
+                name="slotNew">
               <label for="slotNew">Tax Applicable (%)
               </label>
             </div>
@@ -227,69 +219,73 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="table-scroll-wrapper">
-            <div class="table table-responsive">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Fee Type </th>
-                    <th>Trigger Date</th>
-                    <th>No.(Days/Months)Due Date</th>
-                    <th>Amount</th>
-                    <th>Tax</th>
-                    <th>Fee Amount Incl Tax</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let row of otherInstList; let i= index ; trackBy : index">
-                    <td>
-                      {{row.fee_type_name}}
-                    </td>
-                    <td>
-                      <select [(ngModel)]="row.day_type" style="background: transparent">
-                        <option value="1">Date Of Joining</option>
-                        <option value="2">No of days after DOJ</option>
-                        <option value="3">No of Month after DOJ</option>
-                      </select>
-                    </td>
-                    <td>
-                      <div class="field-wrapper">
-                        <input type="number" min="0" class="editCellInput" [(ngModel)]="row.days" name="label">
-                      </div>
-                    </td>
-                    <td>
-                      <div class="field-wrapper">
-                        <input type="number" min="0" readonly="true" class="editCellInput" [(ngModel)]="row.initial_fee_amount" name="label">
-                      </div>
-                    </td>
-                    <td>
-                      <div class="field-wrapper">
-                        <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.fees_amount - row.initial_fee_amount' name="label">
-                      </div>
-                    </td>
-                    <td>
-                      <div class="field-wrapper">
-                        <input type="number" min="0" class="editCellInput" [(ngModel)]="row.fees_amount" name="label">
-                      </div>
-                    </td>
-                    <td>
-                      <a style="cursor: pointer" (click)="deleteAdditionalRow(row , i)">Delete</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+        <div class="table-scroll-wrapper">
+          <div class="table table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fee Type </th>
+                  <th>Trigger Date</th>
+                  <th>No.(Days/Months)Due Date</th>
+                  <th>Amount</th>
+                  <th>Tax</th>
+                  <th>Fee Amount Incl Tax</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of otherInstList; let i= index ; trackBy : index">
+                  <td>
+                    {{row.fee_type_name}}
+                  </td>
+                  <td>
+                    <select [(ngModel)]="row.day_type" style="background: transparent">
+                      <option value="1">Date Of Joining</option>
+                      <option value="2">No of days after DOJ</option>
+                      <option value="3">No of Month after DOJ</option>
+                    </select>
+                  </td>
+                  <td>
+                    <div class="field-wrapper">
+                      <input type="number" min="0" class="editCellInput" [(ngModel)]="row.days" name="label">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="field-wrapper">
+                      <input type="number" min="0" readonly="true" class="editCellInput" [(ngModel)]="row.initial_fee_amount" name="label">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="field-wrapper">
+                      <input type="number" min="0" readonly="true" class="editCellInput" [ngModel]='row.fees_amount - row.initial_fee_amount' name="label">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="field-wrapper">
+                      <input type="number" min="0" class="editCellInput" [(ngModel)]="row.fees_amount" name="label">
+                    </div>
+                  </td>
+                  <td>
+                    <a style="cursor: pointer" (click)="deleteAdditionalRow(row , i)">Delete</a>
+                  </td>
+                </tr>
+                <tr *ngIf="otherInstList.length == 0">
+                  <td colspan="7">
+                    No Additional Installment
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-      </fieldset>
-    </section>
 
+      </section>
 
-    <section>
-      <button (click)="createFeeTemplate()" class="btn">Create</button>
-      <button routerLink="/fee" class="btn">Back</button>
+      <section class="btnGroup pull-right">
+        <button (click)="createFeeTemplate()" class="btn">Create</button>
+        <button routerLink="/fee" class="btn">Back</button>
+      </section>
+
     </section>
 
   </section>

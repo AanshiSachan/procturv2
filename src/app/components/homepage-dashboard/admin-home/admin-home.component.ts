@@ -1440,6 +1440,23 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
+  getReminderAndCancel(row) {
+    if (moment(row.class_date).format('DD-MM-YYYY') == moment().format('DD-MM-YYYY')) {
+      let currentTime: any = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+      let startMinute = this.convertIntOMinutes(row.start_time);
+      let endMinute = this.convertIntOMinutes(row.end_time);
+      currentTime = this.convertIntOMinutes(currentTime);
+      if (startMinute > currentTime) {
+        return "";
+      } else {
+        return "hide";
+      }
+    } else {
+      return "hide";
+    }
+  }
+
+
   convertIntOMinutes(time) {
     let data: any = '';
     let hr = time.split(':')[0];

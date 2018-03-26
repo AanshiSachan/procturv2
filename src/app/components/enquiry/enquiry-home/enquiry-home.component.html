@@ -320,9 +320,10 @@
                 (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage" [key1]="'followUpDateTime'" [primaryKey]="'institute_enquiry_id'"
                 (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)">
               </proctur-checkbox-table> -->
-              <ng-robTable [records]="sourceEnquiry" [reset]="isSideBar" [defaultSort]="sortBy" [tableName]="'enquiry'" [settings]="EnquirySettings" (userRowSelect)="userRowSelect($event)"
-                (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage" [key1]="'followUpDateTime'" [primaryKey]="'institute_enquiry_id'"
-                (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)">
+              <ng-robTable [records]="sourceEnquiry" [reset]="isSideBar" [defaultSort]="sortBy" [tableName]="'enquiry'" [settings]="EnquirySettings"
+                (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage"
+                [key1]="'followUpDateTime'" [primaryKey]="'institute_enquiry_id'" (rowIdArr)="getSelectedEnquiries($event)"
+                (sortById)="sortTableById($event)">
               </ng-robTable>
             </div>
           </div>
@@ -1294,5 +1295,54 @@
     </div>
 
   </section>
+
+  <!-- Download Summary Report Options PopUp Single-->
+  <section id="" class="popupWrapper fadeIn" *ngIf="summaryOptions">
+    <!-- -->
+    <div class="popup pos-abs popup-body-container">
+      <div class="popup-wrapper pos-rel">
+
+        <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+              <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+              </g>
+              <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+              />
+            </g>
+          </svg>
+        </span>
+
+        <div class="popup-content">
+          <h2>Download Summary Report</h2>
+          <div class="content-section">
+            <div class="row">
+              <div class="c-sm-4 c-lg-4 c-lg-4">
+                <div class="field-wrapper has-value">
+                  <select id="" class="form-ctrl" [(ngModel)]="downloadReportOption" name="priority">
+                    <option value="1">Select Month</option>
+                    <option value="2">This Month</option>
+                    <option value="3">Previous Month</option>
+                    <option value="4">Last Two Month</option>
+                  </select>
+                  <label for="priorityEdit">Select Duration</label>
+                </div>
+              </div>
+              <div class="c-sm-4 c-lg-4 c-lg-4">
+                <button class="btn" (click)="downloadSummaryReportXl()">Download</button>
+              </div>
+            </div>
+            <a id="downloadSummaryReport121" class="hide"></a>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+  </section>
+
 
 </div>

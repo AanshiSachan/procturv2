@@ -295,14 +295,14 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
   EnquirySettings: ColumnSetting[] = [
-    { primaryKey: 'enquiry_no', header: 'Enquiry No.', format:this.currentDirection},
+    { primaryKey: 'enquiry_no', header: 'Enquiry No.', format: this.currentDirection },
     //{ primaryKey: 'enquiry_date', header: 'Enquiry Date.' },
     { primaryKey: 'name', header: 'Name' },
     { primaryKey: 'phone', header: 'Contact No.' },
     { primaryKey: 'statusValue', header: 'Status' },
     { primaryKey: 'priority', header: 'Priority' },
     //{ primaryKey: 'follow_type', header: 'Follow up Type' },
-    { primaryKey: 'followUpDateTime', header: 'Follow up Date', format:this.currentDirection},
+    { primaryKey: 'followUpDateTime', header: 'Follow up Date', format: this.currentDirection },
     { primaryKey: 'updateDate', header: 'Update Date' },
     //{ primaryKey: 'assigned_name', header: 'Assigned To' }
   ];
@@ -313,6 +313,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     enqLi: [],/* array of institute enquiry ID */
     assigned_to: "" /* Id of assignee */
   };
+  summaryOptions: boolean = false;
+  downloadReportOption: any = 1;
 
   @ViewChild('skelton') skel: ElementRef;
   @ViewChild('mySidenav') mySidenav: ElementRef;
@@ -2851,6 +2853,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       },
       is_follow_up_time_notification: 0,
     }
+    this.summaryOptions = false;
     this.cd.markForCheck();
   }
 
@@ -2987,35 +2990,69 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   ///// Download Summary Report
 
   downloadSummaryReport() {
-    this.isRippleLoad = true;
-    this.cd.markForCheck();
-    this.busy = this.enquire.getSummaryReport().subscribe(
-      res => {
-        this.isRippleLoad = false;
-        this.isRippleLoad = false;
-        let byteArr = this.convertBase64ToArray(res.document);
-        let format = res.format;
-        let fileName = res.docTitle;
-        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
-        let url = URL.createObjectURL(file);
-        let dwldLink = document.getElementById('summary_download');
-        this.cd.markForCheck();
-        dwldLink.setAttribute("href", url);
-        dwldLink.setAttribute("download", fileName);
-        document.body.appendChild(dwldLink);
-        this.cd.markForCheck();
-        dwldLink.click();
-        this.cd.markForCheck();
-      },
-      err => {
-        this.isRippleLoad = false;
-        console.log(err);
-      }
-    )
+    this.summaryOptions = true;
+  }
 
+  downloadSummaryReportXl() {
+    if (this.downloadReportOption == 1) {
+      let msg = {
+        type: 'error',
+        title: 'Selection',
+        body: 'Please select other options'
+      }
+      this.appC.popToast(msg);
+    } else if (this.downloadReportOption == 2) {
+      this.isRippleLoad = true;
+      this.enquire.getSummaryReportOfThisMonth().subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.performDownloadAction(res);
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+        }
+      )
+    } else if (this.downloadReportOption == 3) {
+      this.isRippleLoad = true;
+      this.enquire.getPreviousMSummary().subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.performDownloadAction(res);
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+        }
+      )
+    } else {
+      this.isRippleLoad = true;
+      this.enquire.getSummaryReportOfLastTwoMonth().subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.performDownloadAction(res);
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+        }
+      )
+    }
   }
 
 
+  performDownloadAction(res) {
+    let byteArr = this.convertBase64ToArray(res.document);
+    let format = res.format;
+    let fileName = res.docTitle;
+    let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+    let url = URL.createObjectURL(file);
+    let dwldLink = document.getElementById('downloadSummaryReport121');
+    dwldLink.setAttribute("href", url);
+    dwldLink.setAttribute("download", fileName);
+    document.body.appendChild(dwldLink);
+    dwldLink.click();
+  }
 
   /* =========================================================================== */
   /* =========================================================================== */

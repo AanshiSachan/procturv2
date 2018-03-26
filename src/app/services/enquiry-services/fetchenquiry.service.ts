@@ -190,8 +190,29 @@ export class FetchenquiryService {
 
   // Download Report Summary
 
-  getSummaryReport() {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id;
+  getSummaryReportOfThisMonth() {
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/this_month";
+    return this.http.post(
+      url, {}, { headers: this.headers }
+    ).map(
+      res => { return res.json(); },
+      err => { return err.json(); }
+    )
+  }
+
+  getPreviousMSummary() {
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/prev_month";
+    return this.http.post(
+      url, {}, { headers: this.headers }
+    ).map(
+      res => { return res.json(); },
+      err => { return err.json(); }
+    )
+  }
+
+
+  getSummaryReportOfLastTwoMonth() {
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/last_two_months";
     return this.http.post(
       url, {}, { headers: this.headers }
     ).map(
