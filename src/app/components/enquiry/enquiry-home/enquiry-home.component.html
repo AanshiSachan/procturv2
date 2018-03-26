@@ -1299,7 +1299,7 @@
   <!-- Download Summary Report Options PopUp Single-->
   <section id="" class="popupWrapper fadeIn" *ngIf="summaryOptions">
     <!-- -->
-    <div class="popup pos-abs popup-body-container">
+    <div class="popup pos-abs popup-body-container" style="max-width: 30%">
       <div class="popup-wrapper pos-rel">
 
         <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
@@ -1319,7 +1319,7 @@
           <h2>Download Summary Report</h2>
           <div class="content-section">
             <div class="row">
-              <div class="c-sm-4 c-lg-4 c-lg-4">
+              <div class="c-sm-6 c-lg-6 c-lg-6">
                 <div class="field-wrapper has-value">
                   <select id="" class="form-ctrl" [(ngModel)]="downloadReportOption" name="priority">
                     <option value="1">Select Month</option>
