@@ -8,4 +8,5 @@ export interface AddCategoryInInventory {
     standard_id?: any;
     subject_id?: any;
     unit_cost?: any;
+    out_of_stock_indicator_units?: any;
 }

@@ -87,14 +87,16 @@
                   </label>
                 </th>
 
-                <th *ngIf="showAllocateOption">
+                <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;">Allocate To Sub Branches</a>
+                    <a class="cursor-icon" style="color:white;">Low Stock Indicator Units</a>
                   </label>
                 </th>
 
                 <th>
-                  Manage Unit
+                  <label>
+                    <a class="cursor-icon" style="color:white;">Manage Unit</a>
+                  </label>
                 </th>
 
                 <th>
@@ -151,7 +153,7 @@
                 <td>
                   {{row.alloted_units}}
                 </td>
-                <td>
+                <td [ngClass]="{lowquantity : row.available_units <= row.out_of_stock_indicator_units}">
                   {{row.available_units}}
                 </td>
 
@@ -167,8 +169,15 @@
                 </td>
 
 
-                <td *ngIf="showAllocateOption">
-                  <a (click)="allocateQuantityToSubBranches(row)" style="cursor:pointer;">Allocate</a>
+                <td class="view-comp">
+                  <div class="field-wrapper">
+                    {{row.out_of_stock_indicator_units}}
+                  </div>
+                </td>
+                <td class="edit-comp editCellAllignment">
+                  <div class="field-wrapper">
+                    <input type="number" class="form-ctrl" style="margin:auto" [(ngModel)]="row.out_of_stock_indicator_units" name="label">
+                  </div>
                 </td>
 
                 <td class="view-comp">
@@ -291,6 +300,11 @@
                               </i> -->
                               <span class="textContent">
                                 Allocation History
+                              </span>
+                            </li>
+                            <li class="action-item" *ngIf="showAllocateOption" (click)="allocateQuantityToSubBranches(row)">
+                              <span class="textContent">
+                                Allocate To Sub Branches
                               </span>
                             </li>
                           </ul>
@@ -491,6 +505,16 @@
                   <span class="date-clear" name="createdDate" (click)="clearDate($event)"></span>
                 </div>
 
+              </div>
+            </div>
+
+            <div class="row extraMargin">
+              <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+                <div class="field-wrapper">
+                  <input type="number" class="form-ctrl" formControlName="out_of_stock_indicator_units" name="lowUnit" (focus)="inputClickedCheck($event)">
+                  <label for="lowUnit">Low Stock Indicator Units
+                  </label>
+                </div>
               </div>
             </div>
 
