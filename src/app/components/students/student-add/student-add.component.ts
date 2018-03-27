@@ -279,13 +279,13 @@ export class StudentAddComponent implements OnInit {
     reason: '',
     state: 'all'
   }
-  
+
   totalFeeWithTax: number = 0;
   totalDicountAmount: number = 0;
-  totalTaxAmount:number = 0;
-  totalAmountPaid:number = 0;
-  totalAmountDue:number = 0;
-
+  totalTaxAmount: number = 0;
+  totalAmountPaid: number = 0;
+  totalAmountDue: number = 0;
+  totalPaidAmount:number = 0;
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(
@@ -413,18 +413,36 @@ export class StudentAddComponent implements OnInit {
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
     this.isDefineFees = false;
     this.isFeeApplied = true;
-    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-      this.service_tax = data.registeredServiceTax;
-    }
-    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-      this.service_tax = 0;
-    }
+
     data.customFeeSchedules.forEach(el => {
+
+      /* Taxes Here */
+      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+        this.service_tax = data.registeredServiceTax;
+        let tax = el.fees_amount - el.initial_fee_amount;
+        this.totalTaxAmount += tax;
+      }
+      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+        this.service_tax = 0;
+        //let tax = el.fees_amount - el.initial_fee_amount;
+        this.totalTaxAmount = 0;
+      }
+
+
+
+      if (el.is_referenced == "N") {
+        this.totalAmountDue += el.fees_amount
+      }
+      else if(el.is_referenced == "Y") {
+        this.totalPaidAmount += el.amount_paid;
+      }
+
+      this.totalFeeWithTax += parseInt(el.fees_amount);
 
       if (el.fee_type_name === "INSTALLMENT") {
         this.instalmentTableData.push(el);
       }
-      else {
+      else if (el.fee_type_name != "INSTALLMENT") {
         this.otherFeeTableData.push(el);
       }
     });
@@ -830,7 +848,7 @@ export class StudentAddComponent implements OnInit {
             }
             customArr.push(obj);
           }
-          else if (el.value == "N" || el.value == false){
+          else if (el.value == "N" || el.value == false) {
             let obj = {
               component_id: el.id,
               enq_custom_id: "0",
@@ -1587,10 +1605,30 @@ export class StudentAddComponent implements OnInit {
             this.service_tax = 0;
           }
           res.customFeeSchedules.forEach(el => {
+            /* Taxes Here */
+            if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+              this.service_tax = res.registeredServiceTax;
+              let tax = el.fees_amount - el.initial_fee_amount;
+              this.totalTaxAmount += tax;
+            }
+            else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+              this.service_tax = 0;
+              //let tax = el.fees_amount - el.initial_fee_amount;
+              this.totalTaxAmount = 0;
+            }
+
+
+
+            if (el.is_referenced == "N") {
+              this.totalAmountDue += el.fees_amount
+            }
+
+            this.totalFeeWithTax += parseInt(el.fees_amount);
+
             if (el.fee_type_name === "INSTALLMENT") {
               this.instalmentTableData.push(el);
             }
-            else {
+            else if (el.fee_type_name != "INSTALLMENT") {
               this.otherFeeTableData.push(el);
             }
           });
@@ -1641,7 +1679,7 @@ export class StudentAddComponent implements OnInit {
       this.feeTemplateById.customFeeSchedules[id].is_paid = 0;
       let value = this.feeTemplateById.customFeeSchedules[id].fees_amount;
       this.totalFeePaid -= value;
-      if(this.totalFeePaid < 0){
+      if (this.totalFeePaid < 0) {
         this.totalFeePaid = 0;
       }
     }
@@ -1788,7 +1826,7 @@ export class StudentAddComponent implements OnInit {
                 body: 'Cheque amount does not match the selected installment'
               }
               this.appC.popToast(msg);
-             }
+            }
           );
         }
         else {
@@ -1859,7 +1897,7 @@ export class StudentAddComponent implements OnInit {
               body: ''
             }
             this.appC.popToast(msg);
-           }
+          }
         );
         this.closePaymentDetails();
       }
@@ -2320,7 +2358,7 @@ export class StudentAddComponent implements OnInit {
          this.discountReason = ''; 
       */
     }
-    else{
+    else {
 
     }
   }

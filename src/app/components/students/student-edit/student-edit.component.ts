@@ -73,18 +73,18 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     institution_id: sessionStorage.getItem('institute_id'),
     student_id: 0
   }
-  studentAddnMove: boolean;  studentServerImage: string = '';  newPdcArr: any[] = [];  pdcSelectedArr: any[] = [];
-  formIsActive: boolean = true;  studentImage: string = '';  private quickAddStudent: boolean = false;  private additionalBasicDetails: boolean = false;
-  private isAssignBatch: boolean = false;  private isAcad: boolean = false;  private isProfessional: boolean = false;  private multiOpt: boolean = false;
-  private isDuplicateStudent: boolean = false;  isUpdateFeeAndExit: boolean = false;  private instituteList: any[] = [];
-  private standardList: any[] = [];  private courseList: any[] = [];  private batchList: any[] = [];  private slots: any[] = [];
-  private langStatus: any[] = [];  private selectedSlots: any[] = [];  private customComponents: any[] = [];
-  private slotIdArr: any[] = [];  uploadedFiles: any[] = [];  private taxEnableCheck: any = '1';
-  private assignedBatch: string = "";  private selectedSlotsString: string = '';  private selectedSlotsID: string = '';
-  private assignedBatchString: string = '';  private userImageEncoded: string = '';  busyPrefill: Subscription;
-  private isConvertEnquiry: boolean = false;  private isNewInstitute: boolean = true;  private isNewInstituteEditor: boolean = false;  school: any[] = [];
-  removeImage: boolean = false;  userCustommizedFee: any[] = [];  isBasicActive: boolean = true;  isOtherActive: boolean = false;
-  isFeeActive: boolean = false;  isInventoryActive: boolean = false;  isConfigureFees: boolean = false;  feeTempSelected: any = "";
+  studentAddnMove: boolean; studentServerImage: string = ''; newPdcArr: any[] = []; pdcSelectedArr: any[] = [];
+  formIsActive: boolean = true; studentImage: string = ''; private quickAddStudent: boolean = false; private additionalBasicDetails: boolean = false;
+  private isAssignBatch: boolean = false; private isAcad: boolean = false; private isProfessional: boolean = false; private multiOpt: boolean = false;
+  private isDuplicateStudent: boolean = false; isUpdateFeeAndExit: boolean = false; private instituteList: any[] = [];
+  private standardList: any[] = []; private courseList: any[] = []; private batchList: any[] = []; private slots: any[] = [];
+  private langStatus: any[] = []; private selectedSlots: any[] = []; private customComponents: any[] = [];
+  private slotIdArr: any[] = []; uploadedFiles: any[] = []; private taxEnableCheck: any = '1';
+  private assignedBatch: string = ""; private selectedSlotsString: string = ''; private selectedSlotsID: string = '';
+  private assignedBatchString: string = ''; private userImageEncoded: string = ''; busyPrefill: Subscription;
+  private isConvertEnquiry: boolean = false; private isNewInstitute: boolean = true; private isNewInstituteEditor: boolean = false; school: any[] = [];
+  removeImage: boolean = false; userCustommizedFee: any[] = []; isBasicActive: boolean = true; isOtherActive: boolean = false;
+  isFeeActive: boolean = false; isInventoryActive: boolean = false; isConfigureFees: boolean = false; feeTempSelected: any = "";
   addFeeInstallment: any = {
     amount_paid: '',
     amount_paid_inRs: null,
@@ -202,12 +202,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     studentArray: ["-1"],
     template_effective_date: moment().format('YYYY-MM-DD')
   }
-  instalmentTableData: any[] = [];  otherFeeTableData: any[] = [];  feeTemplateStore: any[] = [];  inventoryItemsArr: any[] = [];
+  instalmentTableData: any[] = []; otherFeeTableData: any[] = []; feeTemplateStore: any[] = []; inventoryItemsArr: any[] = [];
   createInstitute = {
     instituteName: "",
     isActive: "Y"
   }
-  is_undo: string = "N";  pdcStatus: any[] = [];
+  is_undo: string = "N"; pdcStatus: any[] = [];
   pdcSearchObj = {
     cheque_status: '-1',
     student_id: '',
@@ -252,19 +252,19 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     invoice_no: "",
     uiSelected: false
   }
-  student_id: any;  service_tax: number = 0;  totalFeePaid: number = 0;  paymentStatusArr: any[] = [];
-  isFeePaymentUpdate: boolean = false;  isDefineFees: boolean = false;  isFeeApplied: boolean = false;
-  isNewInstallment: boolean = false;  isDiscountApply: boolean = false;
+  student_id: any; service_tax: number = 0; totalFeePaid: number = 0; paymentStatusArr: any[] = [];
+  isFeePaymentUpdate: boolean = false; isDefineFees: boolean = false; isFeeApplied: boolean = false;
+  isNewInstallment: boolean = false; isDiscountApply: boolean = false;
   discountApplyForm: any = {
     type: 'amount',
     value: null,
     reason: '',
     state: 'all'
   }
-  isPdcApply: boolean = false;  allocatedInventoryHistory: any[] = [];  isDiscountApplied: boolean = false;
-  discountReason: string = '';  key: string = 'name'; //set default
-  reverse: boolean = false;  allotInventoryArr: any[] = [];  isRippleLoad: boolean = false;  studentAssisnedBatches: any[] = [];
-  genPdcAck: boolean = false;  sendPdcAck: boolean = false;  isPaymentPdc: boolean = false;  pdcSelectedForPayment: any;
+  isPdcApply: boolean = false; allocatedInventoryHistory: any[] = []; isDiscountApplied: boolean = false;
+  discountReason: string = ''; key: string = 'name'; //set default
+  reverse: boolean = false; allotInventoryArr: any[] = []; isRippleLoad: boolean = false; studentAssisnedBatches: any[] = [];
+  genPdcAck: boolean = false; sendPdcAck: boolean = false; isPaymentPdc: boolean = false; pdcSelectedForPayment: any;
   pdcSelectedForm: any = {
     bank_name: '',
     cheque_amount: '',
@@ -273,13 +273,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     pdc_cheque_id: ''
   }
 
-  isPdcFeePaymentSelected: boolean = false;  containerWidth: any = "200px";
+  isPdcFeePaymentSelected: boolean = false; containerWidth: any = "200px";
 
   totalFeeWithTax: number = 0;
   totalDicountAmount: number = 0;
-  totalTaxAmount:number = 0;
-  totalAmountPaid:number = 0;
-  totalAmountDue:number = 0;
+  totalTaxAmount: number = 0;
+  totalPaidAmount:number = 0;
+  totalAmountPaid: number = 0;
+  totalAmountDue: number = 0;
 
 
   /* ============================================================================================================================ */
@@ -303,11 +304,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   studentamountpaid(student) {
     let amountpaid = 0;
     student.customFeeSchedules.map((installment) => {
-      if(installment.is_referenced === 'Y') {
-        if(installment.paid_full === 'Y') {
+      if (installment.is_referenced === 'Y') {
+        if (installment.paid_full === 'Y') {
           amountpaid += installment.amount_paid;
         }
-        else if(installment.paid_full === 'N'){
+        else if (installment.paid_full === 'N') {
           amountpaid += (installment.fees_amount - installment.balance_amount);
         }
       }
@@ -466,8 +467,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     /* Fetching Student Details from server */
     this.fetchService.getStudentById(id).subscribe(data => {
       this.studentAddFormData = data;
-      if(this.studentAddFormData.assignedBatchescademicYearArray == null){
-        this.studentAddFormData.assignedBatchescademicYearArray =  [""];
+      if (this.studentAddFormData.assignedBatchescademicYearArray == null) {
+        this.studentAddFormData.assignedBatchescademicYearArray = [""];
       }
       this.studentServerImage = data.photo;
       /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
@@ -483,7 +484,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               let obj = {
                 isSelected: el.isAssigned == "Y" ? true : false,
                 data: el,
-                assignDate: el.created_date == ""? moment().format('YYYY-MM-DD'): moment(el.created_date).format('YYYY-MM-DD')
+                assignDate: el.created_date == "" ? moment().format('YYYY-MM-DD') : moment(el.created_date).format('YYYY-MM-DD')
               }
               this.batchList.push(obj);
             });
@@ -501,7 +502,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               let obj = {
                 isSelected: el.isAssigned == "Y" ? true : false,
                 data: el,
-                assignDate: el.created_date == ""? moment().format('YYYY-MM-DD'): moment(el.created_date).format('YYYY-MM-DD')
+                assignDate: el.created_date == "" ? moment().format('YYYY-MM-DD') : moment(el.created_date).format('YYYY-MM-DD')
               }
               this.batchList.push(obj);
             });
@@ -515,7 +516,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  batchChangeAlert(value, batch){
+  batchChangeAlert(value, batch) {
     console.log(value);
     console.log(batch);
   }
@@ -613,7 +614,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
           this.totalAmountPaid = res.studentwise_total_fees_amount;
           this.totalDicountAmount = res.studentwise_total_fees_discount;
-          
+
           this.paymentStatusArr = [];
           this.convertCustomizedfee(res.customFeeSchedules);
           this.feeStructureForm.studentArray.push(this.student_id);
@@ -621,11 +622,24 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.userCustommizedFee = res.customFeeSchedules;
           this.userCustommizedFee.forEach(el => {
             el.due_date = moment(el.due_date).format("YYYY-MM-DD");
-            let tax = el.fees_amount - el.initial_fee_amount;
-            this.totalTaxAmount +=tax;
 
-            if(el.is_referenced == "N"){
+            /* Taxes Here */
+            if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+              this.service_tax = res.registeredServiceTax;
+              let tax = el.fees_amount - el.initial_fee_amount;
+              this.totalTaxAmount += tax;
+            }
+            else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+              this.service_tax = 0;
+              //let tax = el.fees_amount - el.initial_fee_amount;
+              this.totalTaxAmount = 0;
+            }
+
+            if (el.is_referenced == "N") {
               this.totalAmountDue += el.fees_amount
+            }
+            else if(el.is_referenced == "Y") {
+              this.totalPaidAmount += el.amount_paid;
             }
 
             this.totalFeeWithTax += parseInt(el.fees_amount);
@@ -764,7 +778,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               value: el.enq_custom_value == "N" ? false : true,
             }
           }
-          else if(el.type != 2 && el.type != 4) {
+          else if (el.type != 2 && el.type != 4) {
             obj = {
               data: el,
               id: el.component_id,
@@ -856,7 +870,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.studentAddFormData.assignedBatchescademicYearArray = [""];
     this.batchList.forEach(el => {
       if (el.isSelected) {
-        if(el.assignDate != "" && el.assignDate != null && el.assignDate != "Invalid date"){
+        if (el.assignDate != "" && el.assignDate != null && el.assignDate != "Invalid date") {
           if (this.isProfessional) {
             this.studentAddFormData.assignedBatches.push(el.data.batch_id.toString());
             this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
@@ -870,7 +884,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             batchString.push(el.data.course_name);
           }
         }
-        else{
+        else {
           let alert = {
             type: 'error',
             title: 'Assign Date Required',
@@ -928,7 +942,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             customArr.push(obj);
           }
-          else if (el.value == "N" || el.value == false){
+          else if (el.value == "N" || el.value == false) {
             let obj = {
               component_id: el.id,
               enq_custom_id: "0",
@@ -1190,7 +1204,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               let obj = {
                 isSelected: el.isAssigned == "Y" ? true : false,
                 data: el,
-                assignDate: el.created_date == ""? moment().format('YYYY-MM-DD'): moment(el.created_date).format('YYYY-MM-DD')
+                assignDate: el.created_date == "" ? moment().format('YYYY-MM-DD') : moment(el.created_date).format('YYYY-MM-DD')
               }
               this.batchList.push(obj);
             });
@@ -1540,7 +1554,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.feeTemplateById.customFeeSchedules[id].is_paid = 0;
       let value = this.feeTemplateById.customFeeSchedules[id].fees_amount;
       this.totalFeePaid -= value;
-      if(this.totalFeePaid < 0){
+      if (this.totalFeePaid < 0) {
         this.totalFeePaid = 0;
       }
     }
@@ -1704,8 +1718,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 title: 'Incorrect PDC/Cheque Details',
                 body: 'Cheque amount does not match the selected installment'
               }
-              this.appC.popToast(msg);               
-             }
+              this.appC.popToast(msg);
+            }
           );
         }
         else {
@@ -1769,7 +1783,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.studentAddedGetFee(this.student_id);
             this.closePaymentDetails();
           },
-          err => { 
+          err => {
             let msg = {
               type: 'error',
               title: 'Incorrect PDC/Cheque Details',
@@ -2189,7 +2203,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.setStudentFeeDetail();
     }
     else {
-            
+
     }
   }
   /* ============================================================================================================================ */
@@ -2338,7 +2352,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             customArr.push(obj);
           }
-          else if (el.value == "N" || el.value == false){
+          else if (el.value == "N" || el.value == false) {
             let obj = {
               component_id: el.id,
               enq_custom_id: "0",
