@@ -42,6 +42,7 @@ export class FeeTemplateAddComponent implements OnInit {
   otherFeetype: any = [];
   totalAmount: any = 0;
   discountAmount: any = 0
+  showDetails: boolean = false;
 
   constructor(
     private apiService: FeeStrucService,
@@ -121,8 +122,10 @@ export class FeeTemplateAddComponent implements OnInit {
   createInstallment() {
     let check = this.validateAllFields();
     if (!check) {
+      this.showDetails = false;
       return
     }
+    this.showDetails = true;
     this.createInstallmentTable();
   }
 

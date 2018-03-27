@@ -796,6 +796,7 @@ export class AdminHomeComponent implements OnInit {
         document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
         document.getElementById('presentBtn' + e.student_id).classList.add('classPresentBtn');
         e.dateLi[0].status = "P";
+        e.dateLi[0].home_work_status = "Y"
       });
     }
     else {
@@ -804,6 +805,7 @@ export class AdminHomeComponent implements OnInit {
         document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
         document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
         e.dateLi[0].status = "A";
+        e.dateLi[0].home_work_status = "N"
       });
     }
     this.getCountOfAbsentPresentLeave(this.studentAttList);
@@ -1439,6 +1441,23 @@ export class AdminHomeComponent implements OnInit {
       return "hide";
     }
   }
+
+  getReminderAndCancel(row) {
+    if (moment(row.class_date).format('DD-MM-YYYY') == moment().format('DD-MM-YYYY')) {
+      let currentTime: any = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+      let startMinute = this.convertIntOMinutes(row.start_time);
+      let endMinute = this.convertIntOMinutes(row.end_time);
+      currentTime = this.convertIntOMinutes(currentTime);
+      if (startMinute > currentTime) {
+        return "";
+      } else {
+        return "hide";
+      }
+    } else {
+      return "";
+    }
+  }
+
 
   convertIntOMinutes(time) {
     let data: any = '';

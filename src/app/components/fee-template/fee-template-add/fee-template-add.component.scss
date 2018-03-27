@@ -1,0 +1,56 @@
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+.middle-section {
+    padding: 5px 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.middle-main {
+    .row {
+        margin: 5px -15px
+    }
+    .editCellInput {
+        background: transparent;
+    }
+    .filler-setcion {
+        .checkBoxAllignment {
+            padding-top: 15px;
+        }
+        .spanSection {
+            margin-top: 10px;
+            span {
+                font-weight: 600
+            }
+        }
+    }
+    .installment-section {
+        margin-top: 10px;
+        border-top: 2px solid #efefef;
+        .installmentSection {
+            h3 {
+                margin-top: 10px;
+            }
+            margin-bottom: 10px;
+        }
+        .additionalFeeSection {
+            border-top: 2px solid #efefef;
+            h3 {
+                margin-top: 10px;
+            }
+        }
+        .btnGroup {
+            margin-top: 10px !important;
+        }
+    }
+}
+
+////// Turn off spinner
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

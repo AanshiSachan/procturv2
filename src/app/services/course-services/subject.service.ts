@@ -71,4 +71,16 @@ export class SubjectApiService {
         )
     }
 
+    deleteSubject(data) {
+        let url = this.baseURL + '/api/v1/subjects/' + data;
+        return this.http.delete(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            error => {
+                return error;
+            }
+        )
+    }
+
 }
