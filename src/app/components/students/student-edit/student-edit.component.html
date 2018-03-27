@@ -537,14 +537,14 @@
                 <label>Fees</label>
                 <div class="blue">
                   <span *ngIf="feeTemplateById.toCreate">NA</span>
-                  <span *ngIf="!feeTemplateById.toCreate">&#8377; {{feeTemplateById.studentwise_total_fees_amount | commaSeprator}}</span>
+                  <span *ngIf="!feeTemplateById.toCreate">&#8377; {{totalFeeWithTax | commaSeprator}}</span>
                 </div>
               </li>
               <li>
                 <label>Discount</label>
                 <div class="purple">
                   <span *ngIf="feeTemplateById.toCreate">NA</span>
-                  <span *ngIf="!feeTemplateById.toCreate">&#8377; {{feeTemplateById.studentwise_total_fees_discount | commaSeprator}}</span>
+                  <span *ngIf="!feeTemplateById.toCreate">&#8377; {{totalDicountAmount | commaSeprator}}</span>
                   <a *ngIf="!feeTemplateById.toCreate" (click)="openDiscountApply()">Add more</a>
                 </div>
               </li>
@@ -552,21 +552,21 @@
                 <label>Taxes</label>
                 <div class="yellow">
                   <span *ngIf="feeTemplateById.toCreate">NA</span>
-                  <span *ngIf="!feeTemplateById.toCreate">&#8377; {{feeTemplateById.registeredServiceTax * feeTemplateById.studentwise_total_fees_amount / 100 | commaSeprator}}</span>
+                  <span *ngIf="!feeTemplateById.toCreate">&#8377; {{totalTaxAmount | commaSeprator}}</span>
                 </div>
               </li>
               <li>
                 <label>Amount Paid</label>
                 <div class="green">
                   <span *ngIf="feeTemplateById.toCreate">NA</span>
-                  <span *ngIf="!feeTemplateById.toCreate">&#8377; {{studentamountpaid(feeTemplateById) | commaSeprator}}</span>
+                  <span *ngIf="!feeTemplateById.toCreate">&#8377; {{feeTemplateById.studentwise_total_fees_amount | commaSeprator}}</span>
                 </div>
               </li>
               <li>
                 <label>Amount Due</label>
                 <div class="red">
                   <span *ngIf="feeTemplateById.toCreate">NA</span>
-                  <span *ngIf="!feeTemplateById.toCreate">&#8377; {{feeTemplateById.studentwise_total_fees_amount - studentamountpaid(feeTemplateById) | commaSeprator}}</span>
+                  <span *ngIf="!feeTemplateById.toCreate">&#8377; {{this.totalAmountDue | commaSeprator}}</span>
                 </div>
               </li>
               <li>
@@ -574,7 +574,7 @@
                 <div class="gray">
                   <span *ngIf="feeTemplateById.toCreate">NA</span>
                   <span class="feename" *ngIf="!feeTemplateById.toCreate">{{getTemplateName(feeTemplateById.template_id)}}</span>
-                  <a (click)="reCreateFeeAgain()" *ngIf="!feeTemplateById.toCreate">Change</a>
+                  <!-- <a (click)="reCreateFeeAgain()" *ngIf="!feeTemplateById.toCreate">Change</a> -->
                 </div>
               </li>
             </ul>
