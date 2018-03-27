@@ -126,7 +126,7 @@
 
             <!-- Campaigns -->
             <div class="c-lg-4 c-md-4 c-sm-4">
-              <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.list_id == '-1' }">
+              <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.list_id != '-1' }">
                 <select id="campaignList" class="form-ctrl" [(ngModel)]="advancedFilterForm.list_id" name="campaign">
                   <option value="-1"></option>
                   <option *ngFor="let campaign of campaignList" [value]="campaign.list_id">{{campaign.list_name}}</option>
@@ -275,7 +275,7 @@
 
             <!-- Institute List  -->
             <div class="c-lg-4 c-md-4 c-sm-4">
-              <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.school_id == '-1' }">
+              <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.school_id != '-1' }">
                 <select id="schoolList" class="form-ctrl" [(ngModel)]="advancedFilterForm.school_id" name="school">
                   <option value="-1"></option>
                   <option *ngFor="let school of schools" [value]="school.school_id">{{school.school_name}}</option>
