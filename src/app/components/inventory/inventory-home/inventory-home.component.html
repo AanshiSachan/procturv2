@@ -41,67 +41,67 @@
               <tr id="table-header" class="displayComp">
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.list_name.title)">{{header.inventory_item.title}}</a>
+                    <a class="cursor-icon"  (click)="sortTableById(header.list_name.title)">{{header.inventory_item.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.referred_by.title)">{{header.category.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)">{{header.category.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.referred_by.title)">{{header.description.title}}</a>
+                    <a class="cursor-icon"  (click)="sortTableById(header.referred_by.title)">{{header.description.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.source.title)">{{header.master_course.title}}</a>
+                    <a class="cursor-icon"  (click)="sortTableById(header.source.title)">{{header.master_course.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.created_date.title)">{{header.course.title}}</a>
+                    <a class="cursor-icon"  (click)="sortTableById(header.created_date.title)">{{header.course.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.status.title)">{{header.total_units.title}}</a>
+                    <a class="cursor-icon"  (click)="sortTableById(header.status.title)">{{header.total_units.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.total_count.title)">{{header.available.title}}</a>
+                    <a class="cursor-icon"  (click)="sortTableById(header.total_count.title)">{{header.available.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.total_count.title)">{{header.cost.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.total_count.title)">{{header.cost.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;">Low Stock Indicator Units</a>
+                    <a class="cursor-icon" >Low Stock Indicator Units</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;">Manage Unit</a>
+                    <a class="cursor-icon" >Manage Unit</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.success_count.title)">{{header.edit.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.success_count.title)">{{header.edit.title}}</a>
                   </label>
                 </th>
 
@@ -207,7 +207,7 @@
                   </div>
                 </td>
                 <td class="table-action edit-comp">
-                  <a style="cursor:pointer ; margin-right:10px" (click)="updateRow(row , i)">
+                  <a style="cursor:pointer" (click)="updateRow(row , i)">
                     <i class="far fa fa-save" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i>
                   </a>
                   <a style="cursor:pointer" (click)="cancelRow(i)">
