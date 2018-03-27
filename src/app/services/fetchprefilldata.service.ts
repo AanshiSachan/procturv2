@@ -183,7 +183,6 @@ export class FetchprefilldataService {
 
     return this.http.get(this.urlLeadSource, { headers: this.headers })
       .map(res => {
-        console.log(res.json());
         return res.json();
       })
   }
