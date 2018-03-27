@@ -22,7 +22,7 @@ export class QuickFilterComponent implements OnChanges {
 
     ngOnChanges(): void {
         this.inputList;
-        console.log(this.inputList);
+        //console.log(this.inputList);
         this.modelName;
         this.selectedOptions = [];
         this.inputList.forEach(e => {

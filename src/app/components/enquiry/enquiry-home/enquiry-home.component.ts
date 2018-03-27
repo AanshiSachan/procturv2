@@ -51,9 +51,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Variable Declaration */
   sourceEnquiry: any[] = []; smsSourceApproved: any[] = []; smsSourceOpen: any[] = []; busy: Subscription;
-  checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = [];
-  enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = [];
-  enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; commentFormData: any = {};
+  checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = []; campaignList:any[]=[];
+  enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = []; sources:any[] =[];
+  enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; schools:any[]=[]; commentFormData: any = {}; 
   today: any = Date.now(); searchBarData: any = null; searchBarDate: any = moment().format('YYYY-MM-DD');
   displayBatchSize: number = 100; incrementFlag: boolean = true; updateFormComments: any = [];
   updateFormCommentsBy: any = []; updateFormCommentsOn: any = []; PageIndex: number = 1;
@@ -270,7 +270,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     start_index: 0,
     batch_size: this.displayBatchSize,
     closedReason: "",
-    enqCustomLi: null
+    enqCustomLi: null,
+    source_id: "-1",
+    school_id: "-1",
+    list_id: "-1"
   };
 
   enquiryFullDetail: any;
@@ -349,6 +352,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.isEnquiryAdministrator();
     this.FetchEnquiryPrefilledData();
+    //this.prefill.getLeadSource().subscribe( (data)=>{ console.log(data)})
     /* Fetch prefill data after table data load completes */
 
     /* Dropdown items for Bulk Actions */
@@ -596,6 +600,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       }
     );
 
+    /* Campaigns */
+    this.prefill.getCampaignsList().subscribe(
+      data => {
+        this.campaignList = data;
+      }
+    )
+
 
     /* Priority */
     let priority = this.prefill.getEnqPriority().subscribe(
@@ -614,6 +625,15 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       data => { this.enqAssignTo = data; }
     );
 
+    /* Sources */
+    this.prefill.getLeadSource().subscribe(
+      data=>{this.sources = data}
+    ); 
+
+    /* Schools */
+    this.prefill.getSchoolDetails().subscribe(
+      data=>{this.schools = data}
+    );
 
     /* Standard */
     this.prefill.getEnqStardards().subscribe(
@@ -1403,6 +1423,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         enqCustomLi: null
       };
       this.busy = this.loadTableDatatoSource(this.instituteData);
+      
     }
     /* date is filled */
     else if ((this.searchBarData === "" || this.searchBarData === " " || this.searchBarData === null) &&
@@ -1473,7 +1494,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-
+          
           this.busy = this.loadTableDatatoSource(this.instituteData);
 
         }
@@ -1577,7 +1598,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             priority: "",
             status: -1,
             follow_type: "",
-            followUpDate: moment(this.searchBarDate).format('YYYY-MM-DD'),
+            followUpDate: "",
             enquiry_date: "",
             assigned_to: -1,
             standard_id: -1,
@@ -1598,7 +1619,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           };
 
           this.busy = this.loadTableDatatoSource(this.instituteData);
-
+         
         }
         /* invalid string raise alert */
         else {
@@ -1678,7 +1699,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-
+          
           this.busy = this.loadTableDatatoSource(this.instituteData);
 
         }
@@ -1720,6 +1741,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     document.getElementById('qfilt').classList.add('hide');
     document.getElementById('adFilterExit').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.remove('hide');
+    //console.log(this.advancedFilterForm);
   }
 
   /* =========================================================================== */
@@ -3187,6 +3209,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   clearadfilterUpdateDate() {
     this.advancedFilterForm.updateDate = "";
+  }
+
+
+  clearfollowUpDate(){
+    this.advancedFilterForm.followUpDate= "";
   }
 
 
