@@ -645,7 +645,7 @@
                 (change)="updateHomework($event)">
               <label for="EnableHomeWorkSms">Enable Homework SMS</label>
             </div>
-            <div class="field-checkbox-wrapper">
+            <div class="field-checkbox-wrapper hide">
               <input type="checkbox" value="" class="form-checkbox" id="EnableSmsTopic" [checked]="topics_covered_notifn==1 ? true: false"
                 (change)="updateTopicCovered($event)">
               <label for="EnableSmsTopic">Enable SMS For Topic Covered</label>
@@ -654,7 +654,6 @@
               <input type="checkbox" value="" class="form-checkbox" id="EnableSmsAbsentees">
               <label for="EnableSmsTopic">Enable SMS For Absentees</label>
             </div>
-
           </div>
           <div style="margin: 0px;padding: 10px;" class="clearfix">
             <aside class="pull-right popup-btn" style=" display: inline-flex; ">
