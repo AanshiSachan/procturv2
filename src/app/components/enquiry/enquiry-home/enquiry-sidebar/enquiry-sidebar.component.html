@@ -222,19 +222,19 @@
                     <div class="basic-wrapper">
                         <div class="form-wrapper ">
                             <label for="Email">Email</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.email" type="text" name="Email">
+                            <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.email" type="text" name="Email">
                         </div>
                         <div class="form-wrapper ">
                             <label for="ParentName">Parent Name</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.parent_name" type="text" name="ParentName">
+                            <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.parent_name" type="text" name="ParentName">
                         </div>
                         <div class="form-wrapper ">
                             <label for="Standard">Standard</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.standard" type="text" name="Standard">
+                            <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.standard" type="text" name="Standard">
                         </div>
                         <div class="form-wrapper ">
                             <label for="Subject">Subject</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.subjects" type="text" name="Subject">
+                            <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.subjects" type="text" name="Subject">
                         </div>
                     </div>
                 </section>
@@ -249,7 +249,7 @@
                         <div *ngFor="let cus of customComp">
                             <div class="form-wrapper">
                                 <label for="{{cus.label}}">{{cus.label}}</label>
-                                <input readonly="true" class="side-form-ctrl" [(ngModel)]="cus.enq_custom_value" type="text" name="{{cus.label}}">
+                                <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="cus.enq_custom_value" type="text" name="{{cus.label}}">
                             </div>
                         </div>
                     </div>
