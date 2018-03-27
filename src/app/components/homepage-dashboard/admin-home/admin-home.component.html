@@ -779,74 +779,54 @@
                   !='' }">
           <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
             bsDatepicker>
-          <label for="reschDate">Reshedule Date</label>
+          <label for="reschDate">Reschedule Date</label>
         </div>
       </div>
+
       <div class="row">
-        <fieldset>
-          <legend>Start Time</legend>
-          <div class="time-picker">
-            <div class="field-wrapper hour" [ngClass]="{ 'has-value': timepicker.reschedStartTime.hour
-                  !='' }">
-              <select id="uniStartHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedStartTime.hour" name="uniStartHour">
-                <option *ngFor="let hour of hourArr" [value]="hour">
-                  {{hour}}
+
+        <div class="form-wrapper c-xs-6 timepick">
+          <label for="startTime">Start Time</label>
+          <div class="tbox">
+            <div class="times ">
+              <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.hour" name="startTime">
+                <option [value]="time" *ngFor="let time of times">
+                  {{time}}
                 </option>
               </select>
-              <label for="uniStartHour">Hour</label>
             </div>
-            <div class="field-wrapper minute" [ngClass]="{ 'has-value': timepicker.reschedStartTime.minute!='' }">
-              <select id="uniStartMinute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedStartTime.minute"
-                name="uniStartMinute">
+            <div class="times">
+              <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.minute" name="minute">
                 <option *ngFor="let minute of minArr" [value]="minute">
                   {{minute}}
                 </option>
               </select>
-              <label for="uniStartMinute">Minute</label>
-            </div>
-            <div class="field-wrapper meridian" [ngClass]="{ 'has-value':timepicker.reschedStartTime.meridian!='' }">
-              <select id="uniStartHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedStartTime.meridian"
-                name="uniStartHour">
-                <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                  {{meridian}}
-                </option>
-              </select>
-              <label for="uniStartHour">Meridian</label>
             </div>
           </div>
-        </fieldset>
-        <fieldset>
-          <legend>
-            End Time
-          </legend>
-          <div class="time-picker">
-            <div class="field-wrapper hour" [ngClass]="{'has-value':timepicker.reschedEndTime.hour !=''}">
-              <select id="uniEndHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.hour" name="uniEndHour">
-                <option *ngFor="let hour of hourArr" [value]="hour">
-                  {{hour}}
+        </div>
+
+        <div class="form-wrapper c-xs-6 timepick">
+          <label for="endtime">End Time</label>
+          <div class="tbox">
+            <div class="times ">
+              <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.hour" name="endtime">
+                <option [value]="time" *ngFor="let time of times">
+                  {{time}}
                 </option>
               </select>
-              <label for="uniEndHour">Hour</label>
             </div>
-            <div class="field-wrapper minute" [ngClass]="{ 'has-value':timepicker.reschedEndTime.minute!='' }">
-              <select id="uniEndMinute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.minute" name="uniEndMinute">
+            <div class="times">
+              <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.minute" name="minute">
                 <option *ngFor="let minute of minArr" [value]="minute">
                   {{minute}}
                 </option>
               </select>
-              <label for="uniEndMinute">Minute</label>
-            </div>
-            <div class="field-wrapper meridian" [ngClass]="{ 'has-value': timepicker.reschedEndTime.meridian!='' }">
-              <select id="uniEndHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.meridian" name="uniEndHour">
-                <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                  {{meridian}}
-                </option>
-              </select>
-              <label for="uniEndHour">Meridian</label>
             </div>
           </div>
-        </fieldset>
+        </div>
+
       </div>
+      
       <div class="row">
         <div class="field-wrapper" style="width: 50%;">
           <textarea type="text" style="height:50px;" id="reschreason" name="reschreason" [(ngModel)]="reschedReason" value="" placeholder="Reschedule Reason"

@@ -293,14 +293,58 @@
         <h2 widget-header>Reschedule {{rescheduleDet.batch_name}}</h2>
 
         <div class="rescheduleWrapper" widget-content>
-          <div class="">
+          <div class="row">
             <div class="field-wrapper datePickerBox" style="width: 50%;" [ngClass]="{'has-value': reschedDate != ''}">
               <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
                 bsDatepicker>
-              <label for="reschDate">Reshedule Date</label>
+              <label for="reschDate">Reschedule Date</label>
             </div>
           </div>
-          <div class="">
+
+          <div class="row">
+
+            <div class="form-wrapper c-xs-6 timepick">
+              <label for="startTime">Start Time</label>
+              <div class="tbox">
+                <div class="times">
+                  <select class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.hour" name="startTime">
+                    <option [value]="time" *ngFor="let time of times">
+                      {{time}}
+                    </option>
+                  </select>
+                </div>
+                <div class="times">
+                  <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.minute" name="minute">
+                    <option *ngFor="let minute of minArr" [value]="minute">
+                      {{minute}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-wrapper c-xs-6 timepick">
+              <label for="endtime">End Time</label>
+              <div class="tbox">
+                <div class="times ">
+                  <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.hour" name="endtime">
+                    <option [value]="time" *ngFor="let time of times">
+                      {{time}}
+                    </option>
+                  </select>
+                </div>
+                <div class="times">
+                  <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.minute" name="minute">
+                    <option *ngFor="let minute of minArr" [value]="minute">
+                      {{minute}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- <div class="">
             <fieldset>
               <legend>Start Time</legend>
               <div class="time-picker">
@@ -363,19 +407,19 @@
                 </div>
               </div>
             </fieldset>
-          </div>
-          <div class="">
+          </div> -->
+          <div class="row">
             <div class="field-wrapper" style="width: 50%;">
               <textarea type="text" style="height:50px;" id="reschreason" name="reschreason" [(ngModel)]="reschedReason" value="" placeholder="Reshedule Reason"
                 class="form-ctrl textbox">
                 </textarea>
             </div>
           </div>
-          <div class="" style="margin: 10px 0px;">
+          <div class="row">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus('resheduleNotified')"
                 (change)="notifyRescheduleUpdate($event)">
-              <label for="is_reshedule_notified">Notify Batch Students For Class Cancellation</label>
+              <label for="is_reshedule_notified">Notify Students For Class Cancellation</label>
             </div>
           </div>
         </div>
