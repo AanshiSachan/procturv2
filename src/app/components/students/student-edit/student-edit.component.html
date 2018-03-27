@@ -552,21 +552,21 @@
                 <label>Taxes</label>
                 <div class="yellow">
                   <span *ngIf="feeTemplateById.toCreate">NA</span>
-                  <span *ngIf="!feeTemplateById.toCreate">{{feeTemplateById.registeredServiceTax}} %</span>
+                  <span *ngIf="!feeTemplateById.toCreate">&#8377; {{feeTemplateById.registeredServiceTax * feeTemplateById.studentwise_total_fees_amount / 100 | commaSeprator}}</span>
                 </div>
               </li>
               <li>
                 <label>Amount Paid</label>
                 <div class="green">
                   <span *ngIf="feeTemplateById.toCreate">NA</span>
-                  <span *ngIf="!feeTemplateById.toCreate">&#8377; {{feeTemplateById.studentwise_total_fees_amount_paid | commaSeprator}}</span>
+                  <span *ngIf="!feeTemplateById.toCreate">&#8377; {{studentamountpaid(feeTemplateById) | commaSeprator}}</span>
                 </div>
               </li>
               <li>
                 <label>Amount Due</label>
                 <div class="red">
                   <span *ngIf="feeTemplateById.toCreate">NA</span>
-                  <span *ngIf="!feeTemplateById.toCreate">&#8377; {{feeTemplateById.studentwise_total_fees_balance_amount | commaSeprator}}</span>
+                  <span *ngIf="!feeTemplateById.toCreate">&#8377; {{feeTemplateById.studentwise_total_fees_amount - studentamountpaid(feeTemplateById) | commaSeprator}}</span>
                 </div>
               </li>
               <li>
@@ -606,7 +606,7 @@
                 <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
                   <div class="pull-left">
                     <div class="field-checkbox-wrapper">
-                      <input type="checkbox" value="" [disabled]="installment.is_referenced == 'Y'" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
+                      <input type="checkbox" value="" [class.hide]="installment.is_referenced == 'Y'" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
                         (ngModelChange)="paymentValueUpdate($event, i)" />
                       <label for="instl{{i}}"></label>
                     </div>

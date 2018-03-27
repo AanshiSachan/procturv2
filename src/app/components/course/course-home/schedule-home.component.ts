@@ -203,6 +203,32 @@ export class ScheduleHomeComponent implements OnInit {
     document.getElementById('StdName').focus();
   }
 
+  deleteRow(data) {
+    this.isRippleLoad = true;
+    this.apiService.deleteStandard(data.standard_id).subscribe(
+      res => {
+        this.isRippleLoad = false;
+        let data = {
+          type: "success",
+          title: "Success",
+          body: "Deleted Successfully"
+        }
+        this.toastCtrl.popToast(data);
+        this.getAllStandardList();
+      },
+      err => {
+        this.isRippleLoad = false;
+        let data = {
+          type: "error",
+          title: "Error",
+          body: err.error.message
+        }
+        this.toastCtrl.popToast(data);
+        console.log(err);
+      }
+    )
+  }
+
   // pagination functions 
 
   fetchTableDataByPage(index) {

@@ -613,7 +613,7 @@
                 <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
                   <div class="pull-left">
                     <div class="field-checkbox-wrapper">
-                      <input type="checkbox" value="" [disabled]="installment.is_referenced == 'Y'" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
+                      <input type="checkbox" value="" [class.hide]="installment.is_referenced == 'Y'" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
                         (ngModelChange)="paymentValueUpdate($event, i)" />
                       <label for="instl{{i}}"></label>
                     </div>
@@ -1251,10 +1251,10 @@
           <div class="installment-adder">
             <ul>
               <li>
-                <div class="form-wrapper">
+                <!-- <div class="form-wrapper">
                   <label for="instt">Installment</label>
                   <input type="text" class="form-ctrl" readonly placeholder="Installment">
-                </div>
+                </div> -->
               </li>
               <li>
                 <div class="form-wrapper datePickerBox">
@@ -1314,10 +1314,10 @@
                   </div>
                 </li>
                 <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
-                  <a *ngIf="fee.is_paid == 0">
+                  <a *ngIf="fee.is_referenced != 'Y'">
                     <i (click)="deleteInstallment(i)" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
                   </a>
-                  <a *ngIf="fee.is_paid != 0" class="paid-fee">Paid</a>
+                  <a *ngIf="fee.is_referenced == 'Y'" class="paid-fee">Paid</a>
                 </li>
               </ul>
             </div>

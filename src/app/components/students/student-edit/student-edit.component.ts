@@ -293,6 +293,20 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     this.updateStudentForm(this.route.snapshot.paramMap.get('id'));
   }
+  studentamountpaid(student) {
+    let amountpaid = 0;
+    student.customFeeSchedules.map((installment) => {
+      if(installment.is_referenced === 'Y') {
+        if(installment.paid_full === 'Y') {
+          amountpaid += installment.amount_paid;
+        }
+        else if(installment.paid_full === 'N'){
+          amountpaid += (installment.fees_amount - installment.balance_amount);
+        }
+      }
+    });
+    return amountpaid;
+  }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   /* Navigate or check for submission */
@@ -2255,26 +2269,21 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let fee = this.feeTemplateById.customFeeSchedules;
 
     /* Payment Details Have been updated proceed to upload student */
-    if (this.isPaymentDetailsValid) {
-
-      //console.log("payments valid proceeding to upload");
+    if (this.totalFeePaid == 0) {
       this.addNewStudentFull();
-    }/* Payment Details not found */
-    else {
-
-      console.log(this.paymentStatusArr);
+    }
+    /* Payment Details not found */
+    else if (this.totalFeePaid != 0) {
       let isPaid = this.paymentStatusArr.every(function (element, index, array) {
         return (element.uiSelected === element.isPaid);
       })
       //console.log(isPaid);
       /* No Payment has been selected for updation */
       if (isPaid) {
-
         //console.log("payments not needed");
         this.addNewStudentFull();
       } /* Payment Selected For updation */
       else {
-
         //console.log("payments not found");
         this.isFeePaymentUpdate = true;
       }
@@ -2295,11 +2304,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let formValid: boolean = this.formfullValidator();
     //console.log(isCustomComponentValid);
     if (isCustomComponentValid && formValid) {
-      debugger;
       //console.log("valid student generating Id Now");
       let customArr = [];
       this.customComponents.forEach(el => {
-        if (el.value != '' && (typeof el.value != 'boolean')) {
+        /* Not Checkbox and value not empty */
+        if (el.value != '' && el.type != 2) {
           let obj = {
             component_id: el.id,
             enq_custom_id: "0",
@@ -2307,8 +2316,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
           customArr.push(obj);
         }
-        else if (el.value != '' && (typeof el.value == 'boolean')) {
-          if (el.value) {
+        /* Checkbox Custom Component */
+        else if (el.type == 2) {
+          if (el.value == "Y" || el.value == true) {
             let obj = {
               component_id: el.id,
               enq_custom_id: "0",
@@ -2316,7 +2326,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             customArr.push(obj);
           }
-          else {
+          else if (el.value == "N" || el.value == false){
             let obj = {
               component_id: el.id,
               enq_custom_id: "0",
@@ -2325,31 +2335,27 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             customArr.push(obj);
           }
         }
-        else if (el.value == '' && (el.type == 2)) {
-          let obj = {
-            component_id: el.id,
-            enq_custom_id: "0",
-            enq_custom_value: "N"
-          }
-          customArr.push(obj);
-        }
       });
       /* Get slot data and store on form */
       this.studentAddFormData.slot_id = this.selectedSlotsID;
       this.studentAddFormData.stuCustomLi = customArr;
       this.studentAddFormData.photo = this.studentServerImage;
       this.additionalBasicDetails = false;
+      if (this.studentAddFormData.assignedBatches == null) {
+        this.studentAddFormData.assignedBatchescademicYearArray = null;
+      }
+      if (this.studentAddFormData.assignedBatches != null) {
+        this.studentAddFormData.assignedBatchescademicYearArray.reverse();
+      }
+      this.isRippleLoad = true;
       this.busyPrefill = this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         res => {
-          debugger;
+          this.isRippleLoad = false;
           let statusCode = res.statusCode;
           if (statusCode == 200) {
-
             this.removeImage = true;
-            //console.log(this.isFeeApplied);
             /* Inventory defined and fee as well */
             if (this.allotInventoryArr.length != 0 && this.isFeeApplied == true) {
-              debugger;
               this.allocateInventory(this.student_id);
             }
             /* Inventory is not defined but fee is defined*/
@@ -2380,7 +2386,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
         },
         err => {
-          // console.log(err);
+          this.isRippleLoad = false;
+          let alert = {
+            type: 'error',
+            title: 'Error Updating Student Details',
+            body: ''
+          }
+          this.appC.popToast(alert);
         });
     }
     else {

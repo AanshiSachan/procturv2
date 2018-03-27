@@ -633,6 +633,7 @@ export class StudentAddComponent implements OnInit {
     if (inventory != null && institute != null && standard != null) {
       let customComp = this.studentPrefillService.fetchCustomComponent().subscribe(
         data => {
+          console.log(data);
           data.forEach(el => {
             let obj = {
               data: el,
@@ -671,7 +672,7 @@ export class StudentAddComponent implements OnInit {
                 selected: [],
                 selectedString: '',
                 type: el.type,
-                value: el.enq_custom_value == "N" ? false : true,
+                value: el.enq_custom_value == "" ? false : true,
               }
             }
             else if (el.type != 2 && el.type != 4) {
@@ -802,7 +803,8 @@ export class StudentAddComponent implements OnInit {
       //console.log("valid student generating Id Now");
       let customArr = [];
       this.customComponents.forEach(el => {
-        if (el.value != '' && (typeof el.value != 'boolean')) {
+        /* Not Checkbox and value not empty */
+        if (el.value != '' && el.type != 2) {
           let obj = {
             component_id: el.id,
             enq_custom_id: "0",
@@ -810,8 +812,9 @@ export class StudentAddComponent implements OnInit {
           }
           customArr.push(obj);
         }
-        else if (el.value != '' && (typeof el.value == 'boolean')) {
-          if (el.value) {
+        /* Checkbox Custom Component */
+        else if (el.type == 2) {
+          if (el.value == "Y" || el.value == true) {
             let obj = {
               component_id: el.id,
               enq_custom_id: "0",
@@ -819,7 +822,7 @@ export class StudentAddComponent implements OnInit {
             }
             customArr.push(obj);
           }
-          else {
+          else if (el.value == "N" || el.value == false){
             let obj = {
               component_id: el.id,
               enq_custom_id: "0",
@@ -827,14 +830,6 @@ export class StudentAddComponent implements OnInit {
             }
             customArr.push(obj);
           }
-        }
-        else if (el.value == '' && (el.type == 2)) {
-          let obj = {
-            component_id: el.id,
-            enq_custom_id: "0",
-            enq_custom_value: "N"
-          }
-          customArr.push(obj);
         }
       });
       /* Get slot data and store on form */
@@ -879,7 +874,12 @@ export class StudentAddComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          // console.log(err);
+          let alert = {
+            type: 'error',
+            title: 'Error Updating Student Details',
+            body: ''
+          }
+          this.appC.popToast(alert);
         });
     }
     else {
