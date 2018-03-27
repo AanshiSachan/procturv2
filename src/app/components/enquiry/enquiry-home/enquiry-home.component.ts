@@ -3345,10 +3345,14 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   openEnquiryFullDetails(id) {
     this.closeAdFilter();
-    this.mySidenav.nativeElement.style.width = "29%";
+    let mySidenavWidth = '29%';
+    console.log(window.innerWidth);
+    if(window.innerWidth < 768)
+      mySidenavWidth = '100%';
+    this.mySidenav.nativeElement.style.width = mySidenavWidth;
     this.mySidenav.nativeElement.style.display = 'block';
     this.enqPage.nativeElement.style.width = "70%";
-    this.enqPage.nativeElement.style.marginRight = "29%";
+    this.enqPage.nativeElement.style.marginRight = mySidenavWidth;
     this.optMenu.nativeElement.classList.add('shorted');
     this.isRippleLoad = true;
     this.cd.markForCheck();
