@@ -219,17 +219,17 @@
             display: block;
         }
     }
-    .table-wrapper{
+    .table-wrapper {
         padding: 0px 2px 0px 2px;
         max-height: 420px;
         overflow-x: hidden;
         overflow-y: scroll
     }
-    ::-webkit-scrollbar {
-                display: block;
-                width: 7px;
-                height: 7px;
-            }
+     ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
 }
 
 .normal-field {
@@ -673,6 +673,83 @@
         }
         &:active {
             box-shadow: none;
+        }
+    }
+}
+
+.promotion-popup-content {
+    width: 100%;
+    max-height: 500px;
+    overflow: auto;
+    .extraMargin {
+        margin-right: 15px;
+    }
+    .addSection {
+        padding: 10px 20px;
+        background: #efefef;
+        margin: 10px 0px;
+        textarea {
+            height: 50px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    }
+    .btnActionGrp {
+        padding-top: 15px;
+    }
+    .spanTagInfo {
+        padding-top: 20px;
+    }
+    table {
+        margin-top: 5px;
+        max-height: 480px;
+        overflow: hidden;
+        tbody {
+            tr {
+                padding: 5px 0px;
+                td {
+                    .editOptions li {
+                        display: inline-block;
+                    }
+                }
+                .field-wrapper {
+                    padding: 0px !important;
+                    .form-ctrl {
+                        display: block;
+                        box-sizing: border-box;
+                        padding: 0px 0px 0px 5px;
+                        outline: none;
+                        border: 0;
+                        height: 26px;
+                        box-shadow: none;
+                        border-radius: 0;
+                        line-height: 25px;
+                        background: transparent;
+                        width: 100%;
+                        text-align: center;
+                        border-bottom: 1px solid #ccc;
+                    }
+                }
+                .actionButtons {
+                    display: inline-flex;
+                    a {
+                        margin-right: 5px;
+                    }
+                }
+            }
+            .displayComp {
+                .view-comp {}
+                .edit-comp {
+                    display: none
+                }
+            }
+            .editComp {
+                .view-comp {
+                    display: none
+                }
+                .edit-comp {}
+            }
         }
     }
 }

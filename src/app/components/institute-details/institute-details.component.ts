@@ -63,7 +63,11 @@ export class InstituteDetailsComponent implements OnInit {
           this.showPrefix = true;
         }
       },
-      this.errorCallBack
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
     );
   }
 
@@ -81,7 +85,12 @@ export class InstituteDetailsComponent implements OnInit {
       res => {
         this.isRippleLoad = false;
         this.kycType = res;
-      }, this.errorCallBack
+      },
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
     );
   }
 
@@ -90,7 +99,12 @@ export class InstituteDetailsComponent implements OnInit {
       res => {
         this.isRippleLoad = false;
         this.instituteOptionDataSource = res;
-      }, this.errorCallBack
+      },
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
     );
   }
 
@@ -99,7 +113,12 @@ export class InstituteDetailsComponent implements OnInit {
       res => {
         this.isRippleLoad = false;
         this.planDetailDataSource = res;
-      }, this.errorCallBack
+      },
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
     );
   }
 
@@ -113,7 +132,11 @@ export class InstituteDetailsComponent implements OnInit {
         console.log('updated successfully', res);
         this.messageToast('success', 'Updated Successfully', 'Details Updated Successfully');
       },
-      this.errorCallBack
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
     )
   }
 
@@ -128,7 +151,11 @@ export class InstituteDetailsComponent implements OnInit {
         this.showAllocationPopup = true;
         this.openPopUpName = "PaymentHistory";
       },
-      this.errorCallBack
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
     )
   }
 
@@ -143,7 +170,11 @@ export class InstituteDetailsComponent implements OnInit {
         this.showAllocationPopup = true;
         this.openPopUpName = "SMSHistory";
       },
-      this.errorCallBack
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
     )
   }
 
@@ -158,7 +189,11 @@ export class InstituteDetailsComponent implements OnInit {
         this.showAllocationPopup = true;
         this.openPopUpName = "DownloadLimit";
       },
-      this.errorCallBack
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
     )
   }
 
@@ -168,7 +203,11 @@ export class InstituteDetailsComponent implements OnInit {
         this.storageInfo = res;
         this.storageInfo.storage_allocated = this.storageInfo.storage_allocated;
       },
-      this.errorCallBack
+      err => {
+        this.isRippleLoad = false;
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
     )
   }
 
@@ -352,11 +391,11 @@ export class InstituteDetailsComponent implements OnInit {
     this.uploadDoc.nativeElement.click();
   }
 
-  errorCallBack = (err) => {
-    this.isRippleLoad = false;
-    console.log(err);
-    this.messageToast('error', 'Error', err.error.message);
-  }
+  // errorCallBack = (err) => {
+  //   this.isRippleLoad = false;
+  //   console.log(err);
+  //   this.messageToast('error', 'Error', err.error.message);
+  // }
 
   validatePhoneNumber(data) {
     let check: boolean = false;

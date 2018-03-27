@@ -185,10 +185,13 @@ export class CampaignHomeComponent implements OnInit {
   sourceCampaignDataSource: any = [];
   totalRow: number = 0;
   searchData: any = [];
+  addEditPromotional: boolean = false;
+  createNew: boolean = false;
+  messageText: any = "";
 
   constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService,
     private router: Router, private logger: Logger, private fb: FormBuilder,
-    private pops: PopupHandlerService, private postdata: PostEnquiryDataService,
+    private pops: PopupHandlerService,
     private appC: AppComponent, private login: LoginService, private cd: ChangeDetectorRef,
     private postData: CampaignService,
   ) { }
@@ -208,13 +211,8 @@ export class CampaignHomeComponent implements OnInit {
 
   /* Load Table data with respect to the institute data provided */
   loadTableDatatoSource(obj) {
-    this.postData.campaignMessageList().subscribe(
-      data => {
-        console.log(data);
-        this.messageList = data;
-      },
-      error => { console.log(error) }
-    )
+
+    this.getSMSList();
 
     this.fetchingDataMessage = "Loading";
     // document.getElementById("bulk-drop").classList.add("hide");
@@ -485,7 +483,7 @@ export class CampaignHomeComponent implements OnInit {
     this.testMessagePopUp = false;
     this.selectedMessage = [];
     this.smsMessageTest = [];
-
+    this.addEditPromotional = false;
   }
 
   /* common function to close popups */
@@ -875,6 +873,165 @@ export class CampaignHomeComponent implements OnInit {
   rowClickEvent(row) {
     this.selectedRow = row;
   }
+
+
+
+  /// Add Edit Promotional SMS
+
+  addEditPromotionalSms() {
+    this.addEditPromotional = true;
+    this.getSMSList();
+  }
+
+  getSMSList() {
+    this.postData.campaignMessageList().subscribe(
+      data => {
+        this.messageList = data;
+      },
+      error => { console.log(error) }
+    )
+  }
+
+  editRowTable(row, index) {
+    document.getElementById(("rowMessage" + index).toString()).classList.remove('displayComp');
+    document.getElementById(("rowMessage" + index).toString()).classList.add('editComp');
+  }
+
+  cancelEditRow(index) {
+    document.getElementById(("rowMessage" + index).toString()).classList.add('displayComp');
+    document.getElementById(("rowMessage" + index).toString()).classList.remove('editComp');
+  }
+
+  deleteRow(row, index) {
+    debugger
+    if (confirm('Do you want to delete this Message>?')) {
+      this.postData.deleteMessage(row.message_id).subscribe(
+        res => {
+          let msg = {
+            type: 'success',
+            title: "Deleted",
+            body: "Deleted Successfully"
+          }
+          this.appC.popToast(msg);
+          this.getSMSList();
+        },
+        err => {
+          console.log(err);
+          let msg = {
+            type: 'error',
+            title: "Error",
+            body: JSON.parse(err._body).message
+          }
+          this.appC.popToast(msg);
+        }
+      )
+    }
+  }
+
+
+  saveInformation(row, index) {
+    debugger
+    if (row.message.trim() != "" && row.message.trim() != null) {
+      let obj = {
+        message: row.message.trim()
+      }
+      this.postData.updateMessage(obj, row.message_id).subscribe(
+        res => {
+          let msg = {
+            type: 'success',
+            title: "Saved",
+            body: "Updated Successfully"
+          }
+          this.appC.popToast(msg);
+          this.getSMSList();
+        },
+        err => {
+          console.log(err);
+          let msg = {
+            type: 'error',
+            title: "Error",
+            body: JSON.parse(err._body).message
+          }
+          this.appC.popToast(msg);
+        }
+      )
+
+    }
+  }
+
+  createNewSMS() {
+    this.createNew = true;
+  }
+
+  closeAddDiv() {
+    this.createNew = false;
+  }
+
+  addNewMessage() {
+    if (this.messageText.trim() != "" && this.messageText.trim() != null) {
+      let test = {
+        message: this.messageText,
+        sms_type: "Promotional"
+      }
+      this.postData.addNewMessage(test).subscribe(
+        res => {
+          let msg = {
+            type: 'success',
+            title: "Added",
+            body: "Added Successfully"
+          }
+          this.appC.popToast(msg);
+          this.getSMSList();
+          this.messageText = "";
+          this.closeAddDiv();
+        },
+        err => {
+          console.log(err);
+          let msg = {
+            type: 'error',
+            title: "Error",
+            body: err.error.message
+          }
+          this.appC.popToast(msg);
+        }
+      )
+    } else {
+      let msg = {
+        type: 'error',
+        title: "Error",
+        body: "Please provide message text"
+      }
+      this.appC.popToast(msg);
+    }
+  }
+
+  approveMessage(data) {
+    if (confirm('Do you want to continue?')) {
+      this.postData.approveMessage(data.message_id).subscribe(
+        res => {
+          let msg = {
+            type: 'success',
+            title: "Added",
+            body: "Added Successfully"
+          }
+          this.appC.popToast(msg);
+          this.getSMSList();
+          this.messageText = "";
+          this.closeAddDiv();
+        },
+        err => {
+          console.log(err);
+          let msg = {
+            type: 'error',
+            title: "Error",
+            body: err.error.message
+          }
+          this.appC.popToast(msg);
+        }
+      )
+    }
+  }
+
 
 }
 
