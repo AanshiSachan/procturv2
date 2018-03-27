@@ -36,55 +36,55 @@
               <tr>
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.list_name.title)">{{header.list_name.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.list_name.title)">{{header.list_name.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.referred_by.title)">{{header.referred_by.title}}</a>
+                    <a class="cursor-icon"  (click)="sortTableById(header.referred_by.title)">{{header.referred_by.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.source.title)">{{header.source.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.source.title)">{{header.source.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.created_date.title)">{{header.created_date.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.created_date.title)">{{header.created_date.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.status.title)">{{header.status.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.status.title)">{{header.status.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.total_count.title)">{{header.total_count.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.total_count.title)">{{header.total_count.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.success_count.title)">{{header.success_count.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.success_count.title)">{{header.success_count.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.failure_count.title)">{{header.failure_count.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.failure_count.title)">{{header.failure_count.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;">{{header.allow_sms.title}}</a>
+                    <a class="cursor-icon" >{{header.allow_sms.title}}</a>
                   </label>
                 </th>
 
@@ -324,7 +324,7 @@
             <div class="sms-update">
               <div class="sms-top-section">
                 <div class="row">
-                  <div class="c-lg-4 c-md-4 c-sm-4" style="padding-top: 10px;">
+                  <div class="c-lg-4 c-md-4 c-sm-4">
                     <div class="field-wrapper">
                       <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="phone" name="cNumber" maxlength="10" minlength="10"
                         #cNumber="ngModel" pattern="[789][0-9]{9}" required/>
