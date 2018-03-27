@@ -4,8 +4,8 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { AcademicYearComponent } from './academic-year.component';
 import { AcademicyearService } from '../../services/academicYearService/academicyear.service';
-
-
+import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
+import { DatePipe } from '@angular/common';
 @NgModule({
     imports: [
         RouterModule.forChild([
@@ -16,7 +16,8 @@ import { AcademicyearService } from '../../services/academicYearService/academic
             }
         ]),
         SharedModule,
-        FormsModule
+        FormsModule,
+        BsDatepickerModule
     ],
     exports: [
         RouterModule

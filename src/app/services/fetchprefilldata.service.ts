@@ -37,6 +37,7 @@ export class FetchprefilldataService {
   urlCustomComponent: string; //url for custom component
   urlEnquiryByID: string; //url for enquiry edit data
   addCampaignURL: string; //url for adding a lead
+  getCampaignsURL: string; //url for getting Campaigns
   baseUrl:string = '';
   Authorization: string; 
   headers: Headers; 
@@ -167,6 +168,7 @@ export class FetchprefilldataService {
 
     return this.http.get(this.urlSchool, { headers: this.headers })
       .map(res => {
+        //console.log(res.json());
         return res.json();
       })
   }
@@ -190,12 +192,21 @@ export class FetchprefilldataService {
 
 
   /* fetch prefill data reference*/  
-  getLeadReffered(): any {
+  getLeadReffered() {
 
     this.urlLeadReffered = this.baseUrl + "/api/v1/enquiry_campaign/master/lead_referred_by/" +this.institute_id +"/all";
 
     return this.http.get(this.urlLeadReffered, { headers: this.headers })
       .map(res => {
+        return res.json();
+      })
+  }
+
+  getCampaignsList(){
+    this.getCampaignsURL = this.baseUrl + "/api/v1/campaign/list/" +this.institute_id;
+    return this.http.post(this.getCampaignsURL, {}, { headers: this.headers })
+      .map(res => {
+        //console.log(res);
         return res.json();
       })
   }
