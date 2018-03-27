@@ -1569,6 +1569,7 @@ export class AdminHomeComponent implements OnInit {
 
   closeNotificationPopUp() {
     this.notificationPopUp = false;
+    this.addNotification = false;
   }
 
   flushData() {

@@ -826,7 +826,7 @@
         </div>
 
       </div>
-      
+
       <div class="row">
         <div class="field-wrapper" style="width: 50%;">
           <textarea type="text" style="height:50px;" id="reschreason" name="reschreason" [(ngModel)]="reschedReason" value="" placeholder="Reschedule Reason"
@@ -1422,7 +1422,7 @@
                   </div>
                 </div>
 
-                <div class="">
+                <div class="" *ngIf="studentSelected">
                   <button class="btn" (click)="sendNotificationMessage()">Send</button>
                   <button class="btn" *ngIf="selectedOption == 'showTable'" (click)="sendPushNotification()">Send Push Notification</button>
                 </div>
