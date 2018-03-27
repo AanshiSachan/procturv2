@@ -10,7 +10,7 @@
     <div class="clearFix add-edit">
       <a (click)="toggleCreateNewSlot()">
         <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
-        <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
+        <i id="showCloseBtn" style="display:none;border:none;"  class="closeBtnClass">-</i>
         <span>Add Slot</span>
       </a>
     </div>
@@ -21,9 +21,10 @@
         <div class="c-lg-6 c-md-6 c-sm-6">
           <div class="field-wrapper">
             <input type="text" #idSlot class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
-            <label for="slotNew">Slot
-            </label>
+            <label for="slotNew">Slot</label>
+                
           </div>
+          
           <!-- <p>* You can provide time Example 10-12 PM</p> -->
         </div>
         <div class="c-lg-4 c-md-4 c-sm-4" style="margin-top: 1%;">
