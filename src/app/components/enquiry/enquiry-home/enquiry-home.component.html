@@ -124,6 +124,17 @@
               </div>
             </div>
 
+            <!-- Campaigns -->
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.list_id == '-1' }">
+                <select id="campaignList" class="form-ctrl" [(ngModel)]="advancedFilterForm.list_id" name="campaign">
+                  <option value="-1"></option>
+                  <option *ngFor="let campaign of campaignList" [value]="campaign.list_id">{{campaign.list_name}}</option>
+                </select>
+                <label for="campaignList">Campaigns</label>
+              </div>
+            </div>
+
             <!-- Priority -->
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper">
@@ -238,6 +249,38 @@
                   name="ETD" bsDatepicker readonly="true" />
                 <label for="enquiryToDate">Enquiry To Date</label>
                 <span class="date-clear" name="followupdate" (click)="clearadfilterEnqToDate()">clear</span>
+              </div>
+            </div>
+
+            <!-- Follow Up Date -->
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper datePickerBox">
+                <input type="text" value="" id="followDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.followUpDate" name="FD"
+                  readonly="true" bsDatepicker/>
+                <label for="followDate">Follow-Up Date</label>
+                <span class="date-clear" name="followupdate" (click)="clearfollowUpDate()">clear</span>
+              </div>
+            </div>
+
+            <!-- Lead Sources  -->
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.id == '-1' }">
+                <select id="sourceList" class="form-ctrl" [(ngModel)]="advancedFilterForm.source_id" name="source">
+                  <option value="-1"></option>
+                  <option *ngFor="let source of sources" [value]="source.id">{{source.name}}</option>
+                </select>
+                <label for="sourceList">Source</label>
+              </div>
+            </div>
+
+            <!-- Institute List  -->
+            <div class="c-lg-4 c-md-4 c-sm-4">
+              <div class="field-wrapper" [ngClass]="{'has-value': advancedFilterForm.school_id == '-1' }">
+                <select id="schoolList" class="form-ctrl" [(ngModel)]="advancedFilterForm.school_id" name="school">
+                  <option value="-1"></option>
+                  <option *ngFor="let school of schools" [value]="school.school_id">{{school.school_name}}</option>
+                </select>
+                <label for="schoolList">Institute Name</label>
               </div>
             </div>
 
