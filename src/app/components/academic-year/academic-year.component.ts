@@ -5,6 +5,10 @@ import { LoginService } from '../../services/login-services/login.service';
 import { SlotApiService } from '../../services/slot-service/slot.service';
 import { DatePipe } from '@angular/common';
 import { AppComponent } from '../../app.component';
+import { AuthenticatorService } from '../../services/authenticator.service';
+import * as moment from 'moment';
+
+
 @Component({
   selector: 'app-academic-year',
   templateUrl: './academic-year.component.html',
@@ -12,38 +16,47 @@ import { AppComponent } from '../../app.component';
 })
 export class AcademicYearComponent implements OnInit {
 
-  academicDetails: any = [];
-  slotTableList: any = [];
+  academicYearDataSource: any = [];
+  academicTableList: any = [];
   createNewAcademicYear: boolean = false;
   PageIndex: number = 1;
   studentdisplaysize: number = 10;
   totalRow: number;
-  slotsDataSource;
+
 
   addAcademicYearTemplate: any = {
-    inst_acad_year: "2017",
-    desc: "test academic",
-    start_date: "2017-01-01",
-    end_date: "2017-12-06",
-    inst_id: "100057",
+    inst_acad_year: "",
+    desc: "",
+    start_date: "",
+    end_date: "",
+    inst_id: this.auth.getInstituteId(),
     default_academic_year: 0
   }
 
-  constructor(private academicyearservice: AcademicyearService, private login: LoginService, private apiService: SlotApiService, private appC: AppComponent, ) { }
+  constructor(
+    private academicyearservice: AcademicyearService,
+    private login: LoginService,
+    private apiService: SlotApiService,
+    private appC: AppComponent,
+    private auth: AuthenticatorService,
+  ) { }
 
 
   ngOnInit() {
-    this.getAllSlotsFromServer();
+    this.getAllAcademicFromServer();
     this.removeFullscreen();
     this.removeSelectionFromSideNav();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
-  getAllSlotsFromServer() {
+
+  getAllAcademicFromServer() {
     this.academicyearservice.getServices().subscribe(
       (data: any) => {
-        this.slotTableList = data;
+        this.academicYearDataSource = data;
+        this.totalRow = data.length;
+        this.fetchTableDataByPage(this.PageIndex);
       },
       error => {
         console.log(error);
@@ -52,7 +65,111 @@ export class AcademicYearComponent implements OnInit {
   }
 
 
+  addAcademicYearDetails() {
+    if (this.addAcademicYearTemplate.inst_acad_year.trim() != "" && this.addAcademicYearTemplate.desc.trim() != ""
+      && this.addAcademicYearTemplate.start_date != "" && this.addAcademicYearTemplate.end_date != "" && this.addAcademicYearTemplate.start_date != null && this.addAcademicYearTemplate.end_date != null) {
+      
+      this.academicyearservice.addNewAcademicYear(this.addAcademicYearTemplate).subscribe(
+        res => {
+          let msg = {
+            type: "success",
+            title: "",
+            body: "academic Year added successfully"
+          }
+          this.appC.popToast(msg);
+          this.addAcademicYearTemplate = {
+            inst_acad_year: "",
+            desc: "",
+            start_date: "",
+            end_date: "",
+            inst_id: this.auth.getInstituteId(),
+            default_academic_year: 0
+          }
+          this.getAllAcademicFromServer();
+        },
+        err => { }
+      )
+    }
+    else {
+      let acad = {
+        type: "error",
+        title: "Incorrect Details",
+        body: "Please fill All The Required Details"
+      }
+      this.appC.popToast(acad);
+    }
 
+  }
+
+
+  editRowTable(row, index) {
+    document.getElementById(("row" + index).toString()).classList.remove('displayComp');
+    document.getElementById(("row" + index).toString()).classList.add('editComp');
+  }
+
+  saveAcademicYearInformation(row, index) {
+    let data = {
+      inst_acad_year: row.inst_acad_year,
+      desc: row.desc,
+      start_date: row.start_date,
+      end_date: row.end_date,
+      inst_id: row.inst_id,
+      default_academic_year: row.default_academic_year
+    }
+    console.log(data);
+    this.academicyearservice.editAcademicYear(data, row.inst_acad_year_id).subscribe(
+      res => {
+        console.log(res);
+        this.cancelEditRow(index);
+        this.getAllAcademicFromServer();
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  cancelEditRow(index) {
+    document.getElementById(("row" + index).toString()).classList.add('displayComp');
+    document.getElementById(("row" + index).toString()).classList.remove('editComp');
+  }
+
+  toggleCreateNewAcademicYear() {
+    if (this.createNewAcademicYear == false) {
+      this.createNewAcademicYear = true;
+      document.getElementById('showCloseBtn').style.display = '';
+      document.getElementById('showAddBtn').style.display = 'none';
+    } else {
+      this.createNewAcademicYear = false;
+      document.getElementById('showCloseBtn').style.display = 'none';
+      document.getElementById('showAddBtn').style.display = '';
+    }
+  }
+
+  // pagination functions
+
+  fetchTableDataByPage(index) {
+    this.PageIndex = index;
+    let startindex = this.studentdisplaysize * (index - 1);
+    this.academicTableList = this.getDataFromDataSource(startindex);
+  }
+
+  fetchNext() {
+    this.PageIndex++;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
+  fetchPrevious() {
+    if (this.PageIndex != 1) {
+      this.PageIndex--;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
+  }
+
+  getDataFromDataSource(startindex) {
+    let t = this.academicYearDataSource.slice(startindex, startindex + this.studentdisplaysize);
+    return t;
+  }
 
   removeFullscreen() {
     var header = document.getElementsByTagName('core-header');
@@ -80,98 +197,5 @@ export class AcademicYearComponent implements OnInit {
     /* document.getElementById('liten').classList.remove('active');
     document.getElementById('lieleven').classList.remove('active'); */
   }
-  editRowTable(row, index) {
-    document.getElementById(("row" + index).toString()).classList.remove('displayComp');
-    document.getElementById(("row" + index).toString()).classList.add('editComp');
-  }
-  saveSlotInformation(row, index) {
-    let data = { "row_desc": row.desc, "row_inst": row.inst_acad_year, "row_start": row.start_date, "row_end": row.end_date }
-    this.apiService.updateSlotName(data).subscribe(
-      data => {
-        console.log(data);
-        this.cancelEditRow(index);
-        this.getAllSlotsFromServer();
-      },
-      error => {
-        console.log(error);
-      }
-    )
-  }
-  cancelEditRow(index) {
-    document.getElementById(("row" + index).toString()).classList.add('displayComp');
-    document.getElementById(("row" + index).toString()).classList.remove('editComp');
-  }
 
-  toggleCreateNewAcademicYear() {
-    if (this.createNewAcademicYear == false) {
-      this.createNewAcademicYear = true;
-      document.getElementById('showCloseBtn').style.display = '';
-      document.getElementById('showAddBtn').style.display = 'none';
-    } else {
-      this.createNewAcademicYear = false;
-      document.getElementById('showCloseBtn').style.display = 'none';
-      document.getElementById('showAddBtn').style.display = '';
-    }
-  }
-  // pagination functions
-
-  fetchTableDataByPage(index) {
-    this.PageIndex = index;
-    let startindex = this.studentdisplaysize * (index - 1);
-    this.slotTableList = this.getDataFromDataSource(startindex);
-  }
-
-  fetchNext() {
-    this.PageIndex++;
-    this.fetchTableDataByPage(this.PageIndex);
-  }
-
-  fetchPrevious() {
-    if (this.PageIndex != 1) {
-      this.PageIndex--;
-      this.fetchTableDataByPage(this.PageIndex);
-    }
-  }
-
-  getDataFromDataSource(startindex) {
-    let t = this.slotsDataSource.slice(startindex, startindex + this.studentdisplaysize);
-    return t;
-  }
-
-  addNewAcademicYear(acdYear, acdYearDesc, strtDate, endDate) {
-
-    if (acdYear.value != "" && acdYear.value != null ) {
-       //this.academicyearservice.addNewAcademicYear({ "inst_acad_year": acdYear.value.trim(), "desc":acdYearDesc.value.trim(), "start_date":strtDate.value.trim(), "end_date":endDate.value.trim() }).subscribe(
-      //   data => {
-      //     console.log(data);
-      //     /*let msg = {
-      //       type: 'success',
-      //       title: "",
-      //       body: "Slot added successfully."
-      //     }
-      //     this.appC.popToast(msg);
-      //     console.log(data);
-      //     /*acdYear.value = "";
-      //     acdYearDesc.value= "";
-      //     strtDate.value= "";
-      //     endDate.value=""
-
-      //     //this.getAllSlotsFromServer();*/
-      //   },
-      //   error => {
-      //     console.log(error);
-      //   }
-      // )
-    }
-     else {
-      let data = {
-        type: 'error',
-        title: "Error",
-        body: "Please fill Academic Form."
-      }
-      this.appC.popToast(data);
-      return;
-    }
-
-  }
 }

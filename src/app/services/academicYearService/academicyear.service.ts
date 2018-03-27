@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
 import {Observable} from 'rxjs/observable';
+import * as moment from 'moment';
  
 @Injectable()
 export class AcademicyearService {
@@ -39,9 +40,10 @@ export class AcademicyearService {
   
 
   addNewAcademicYear(obj){
-
+    obj.start_date = moment(obj.start_date).format("YYYY-MM-DD");
+    obj.end_date = moment(obj.end_date).format("YYYY-MM-DD");
     let url= this.baseUrl + "/api/v1/academicYear";
-    //console.log(obj);
+    console.log(obj);
     return this.http.post(url, obj, {headers:this.headers}).map(
       data =>{
         return data;
@@ -49,9 +51,22 @@ export class AcademicyearService {
       err => {
         return err;
         
-      })
-   
+    })
 
   }
 
+  editAcademicYear(obj, id){
+    obj.start_date = moment(obj.start_date).format("YYYY-MM-DD");
+    obj.end_date = moment(obj.end_date).format("YYYY-MM-DD");
+    let url=this.baseUrl + "/api/v1/academicYear/" +id;
+    console.log(obj);
+    return this.http.put(url, obj, {headers:this.headers}).map(
+      data =>{
+        return data;
+      },
+      err =>{
+        return err;
+      })
+
+  }
 }
