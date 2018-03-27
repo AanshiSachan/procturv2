@@ -208,7 +208,7 @@ export class CourseSubjectComponent implements OnInit {
 
   deleteRow(row) {
     this.isRippleLoad = true;
-    this.apiService.deleteSubject(row.standard_id).subscribe(
+    this.apiService.deleteSubject(row.subject_id).subscribe(
       res => {
         this.isRippleLoad = false;
         let data = {

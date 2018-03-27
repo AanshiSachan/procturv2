@@ -571,7 +571,7 @@ export class LoginPageComponent {
 
 
   openGetAdvice() {
-    let url = "http://proctur.com/get-advice/";
+    let url = "http://proctur.com/get_advice.html";
     window.open(url);
   }
 
