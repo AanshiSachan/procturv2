@@ -281,6 +281,14 @@
     }
 }
 
+@media screen and (max-width: 767px) {
+    .sidenav {
+        margin-top: 20px !important;
+        padding-top: 30px !important;
+        height: 700px !important;
+    }
+}
+
 @media screen and (max-width: 995px),
 screen and (max-height: 768px) {
     #table-main {
