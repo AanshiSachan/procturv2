@@ -279,6 +279,13 @@ export class StudentAddComponent implements OnInit {
     reason: '',
     state: 'all'
   }
+  
+  totalFeeWithTax: number = 0;
+  totalDicountAmount: number = 0;
+  totalTaxAmount:number = 0;
+  totalAmountPaid:number = 0;
+  totalAmountDue:number = 0;
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(

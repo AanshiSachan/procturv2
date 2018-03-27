@@ -275,6 +275,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   isPdcFeePaymentSelected: boolean = false;  containerWidth: any = "200px";
 
+  totalFeeWithTax: number = 0;
+  totalDicountAmount: number = 0;
+  totalTaxAmount:number = 0;
+  totalAmountPaid:number = 0;
+  totalAmountDue:number = 0;
+
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(private studentPrefillService: AddStudentPrefillService, private prefill: FetchprefilldataService, private postService: PostStudentDataService, private router: Router, private route: ActivatedRoute, private login: LoginService, private appC: AppComponent, private fetchService: FetchStudentService) {
@@ -603,8 +610,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       res => {
         this.totalFeePaid = 0;
         if (!res.toCreate) {
-          let totalFee: number = 0;
-          let feePaid: number = 0;
+
+          this.totalAmountPaid = res.studentwise_total_fees_amount;
+          this.totalDicountAmount = res.studentwise_total_fees_discount;
+          
           this.paymentStatusArr = [];
           this.convertCustomizedfee(res.customFeeSchedules);
           this.feeStructureForm.studentArray.push(this.student_id);
@@ -612,15 +621,18 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.userCustommizedFee = res.customFeeSchedules;
           this.userCustommizedFee.forEach(el => {
             el.due_date = moment(el.due_date).format("YYYY-MM-DD");
-            totalFee += parseInt(el.fees_amount);
-            if (el.is_referenced == "Y") {
-              feePaid += parseInt(el.fees_amount);
+            let tax = el.fees_amount - el.initial_fee_amount;
+            this.totalTaxAmount +=tax;
+
+            if(el.is_referenced == "N"){
+              this.totalAmountDue += el.fees_amount
             }
+
+            this.totalFeeWithTax += parseInt(el.fees_amount);
             let obj = {
               uiSelected: el.is_referenced == "Y" ? true : false,
               isPaid: el.is_referenced == "Y" ? true : false
             }
-            //console.log(obj);
             this.paymentStatusArr.push(obj);
           });
           this.feeTemplateById = res;
