@@ -2189,7 +2189,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.setStudentFeeDetail();
     }
     else {
-      console.log("no changes to fee");
+            
     }
   }
   /* ============================================================================================================================ */

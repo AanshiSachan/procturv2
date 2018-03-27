@@ -420,6 +420,7 @@ export class StudentAddComponent implements OnInit {
       this.service_tax = 0;
     }
     data.customFeeSchedules.forEach(el => {
+
       if (el.fee_type_name === "INSTALLMENT") {
         this.instalmentTableData.push(el);
       }
@@ -2231,6 +2232,9 @@ export class StudentAddComponent implements OnInit {
     this.userCustommizedFee.forEach(el => {
       el.due_date = moment(el.due_date).format("YYYY-MM-DD");
       totalFee += parseInt(el.fees_amount);
+
+
+
       if (el.is_paid == 1) {
         feePaid += parseInt(el.fees_amount);
       }
@@ -2315,6 +2319,9 @@ export class StudentAddComponent implements OnInit {
          this.isDiscountApplied = false;
          this.discountReason = ''; 
       */
+    }
+    else{
+
     }
   }
 
