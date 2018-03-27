@@ -1673,3 +1673,80 @@ div#enqChart {
         }
     }
 }
+
+/////////////////////////////////////////////////////
+.form-wrapper {
+    background: transparent;
+    margin: 5px 0px;
+    &.datepicker {
+        span {
+            position: absolute;
+            top: 35px;
+            right: 20px;
+            font-weight: 600;
+            font-size: 16px;
+            color: red;
+            cursor: pointer;
+            width: 20px;
+            text-align: center;
+            /* &::before {
+                content: '';
+                background: url('/assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 25px;
+                top: 0px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            } */
+        }
+    }
+    label {
+        color: #309bf8 !important;
+        font-size: 12px;
+        font-weight: 400; //font-family: -webkit-body;
+        color: rgba(0, 0, 0, 0.77);
+        padding-bottom: 2px;
+        text-decoration: none;
+        text-transform: uppercase;
+        -webkit-font-smoothing: antialiased;
+    }
+    .side-form-ctrl {
+        background: white;
+        border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+        width: 100%;
+        padding: 8px 5px;
+        font-weight: 600;
+        font-size: 14px;
+        color: black;
+        &.bsDatepicker {
+            padding: 5px;
+            width: 100%;
+        }
+    }
+    &.timepick {
+        width: 50%;
+        padding: 1px 0px;
+        .tbox {
+            width: 100%;
+            .times {
+                display: inline-block;
+            }
+            .side-form-ctrl {
+                background: white;
+                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                width: 100%;
+                padding: 8px 5px;
+                font-weight: 600;
+                font-size: 14px;
+                color: black;
+                &.mins {
+                    width: 80px;
+                }
+                &.mers {
+                    width: 50px;
+                }
+            }
+        }
+    }
+}

@@ -86,6 +86,7 @@ export class ClassHomeComponent implements OnInit {
   isCourseCancel: boolean = false;
   classMarkedForAction: any = '';
   is_notified: any = 'Y';
+  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 AM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 PM'];
 
   constructor
     (
@@ -470,7 +471,39 @@ export class ClassHomeComponent implements OnInit {
   }
 
 
+  checkIfTimeProvided(data) {
+    if (data == "" || data == null) {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: 'Please provide correct time'
+      }
+      this.toastCtrl.popToast(msg);
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   rescheduleClass() {
+
+    let check = this.checkIfTimeProvided(this.timepicker.reschedStartTime.hour);
+    if (check) {
+      let startTime = this.timepicker.reschedStartTime.hour.split(' ');
+      this.timepicker.reschedStartTime.hour = startTime[0];
+      this.timepicker.reschedStartTime.meridian = startTime[1];
+    } else {
+      return;
+    }
+    let check1 = this.checkIfTimeProvided(this.timepicker.reschedEndTime.hour);
+    if (check1) {
+      let endTime = this.timepicker.reschedEndTime.hour.split(' ');
+      this.timepicker.reschedEndTime.hour = endTime[0];
+      this.timepicker.reschedEndTime.meridian = endTime[1];
+    } else {
+      return;
+    }
+
     if (this.reSheduleFormValid()) {
       let temp1: any = {
         cancel_note: this.reschedReason,
@@ -510,6 +543,9 @@ export class ClassHomeComponent implements OnInit {
           this.toastCtrl.popToast(msg);
         }
       )
+    } else {
+      this.timepicker.reschedStartTime.hour = this.timepicker.reschedStartTime.hour + " " + this.timepicker.reschedStartTime.meridian;
+      this.timepicker.reschedEndTime.hour = this.timepicker.reschedEndTime.hour + " " + this.timepicker.reschedEndTime.meridian;
     }
   }
 
