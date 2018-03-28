@@ -2231,7 +2231,6 @@ export class AdminHomeComponent implements OnInit {
 
 
   //  Role Based Access
-
   checkIfUserHadAccess(id) {
     this.permissionArray = sessionStorage.getItem('permissions');
     if (this.permissionArray == "") {
@@ -2245,6 +2244,7 @@ export class AdminHomeComponent implements OnInit {
       }
     }
   }
+
 
   markAttendaceBtnClickCourse(event, rowData, index) {
     document.getElementById('leaveBtnCourse' + rowData.student_id).classList.remove('classLeaveBtn');
