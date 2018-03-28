@@ -48,7 +48,7 @@ export class CampaignService {
 
   /* return the template user has to edit */
   fetchDownloadTemplate() {
-    if(this.baseUrl == 'http://test999.proctur.com/StdMgmtWebAPI'){
+    if (this.baseUrl == 'http://test999.proctur.com/StdMgmtWebAPI') {
       this.urlDownloadTemplate = "http://test999.proctur.com/doc/lead_upload_form.xls";
       return this.http.get(this.urlDownloadTemplate).map(
         data => { return data.json() },
@@ -57,7 +57,7 @@ export class CampaignService {
         }
       );
     }
-    else{
+    else {
       this.urlDownloadTemplate = "https://app.proctur.com/doc/lead_upload_form.xls";
       return this.http.get(this.urlDownloadTemplate).map(
         data => { return data.json() },
@@ -68,29 +68,29 @@ export class CampaignService {
     }
   }
 
-  uploadFileStep2(response){
+  uploadFileStep2(response) {
     let data = response;
 
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/campaign/list/" + this.institute_id + "/upload";
-    
-        return this.http.post(this.urlDownloadAllEnquiry, data, {headers: this.headers}).map(
-          data => { return data.json() },
-          err => {
-            //  console.log("error fetching template"); 
-          }
-        );
+
+    return this.http.post(this.urlDownloadAllEnquiry, data, { headers: this.headers }).map(
+      data => { return data.json() },
+      err => {
+        //  console.log("error fetching template"); 
+      }
+    );
 
   }
 
 
-  verifyUploadFileName(name){
-    
-    let data = {campaign_list_name: name};
+  verifyUploadFileName(name) {
+
+    let data = { campaign_list_name: name };
     console.log(data);
 
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/campaign/list/" + this.institute_id + "/checkListName";
-    
-    return this.http.post(this.urlDownloadAllEnquiry, data, {headers: this.headers}).map(
+
+    return this.http.post(this.urlDownloadAllEnquiry, data, { headers: this.headers }).map(
       data => { return data.json() },
       err => {
         //  console.log("error fetching template"); 
@@ -98,16 +98,16 @@ export class CampaignService {
     );
   }
 
-  campaignUploadList(values){
-    
+  campaignUploadList(values) {
+
     values.institute_id = this.institute_id;
 
     let data = {};
     console.log(data);
 
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/campaign/list/" + this.institute_id;
-    
-    return this.http.post(this.urlDownloadAllEnquiry, data, {headers: this.headers}).map(
+
+    return this.http.post(this.urlDownloadAllEnquiry, data, { headers: this.headers }).map(
       data => { return data.json() },
       err => {
         //  console.log("error fetching template"); 
@@ -116,27 +116,24 @@ export class CampaignService {
   }
 
 
-  campaignMessageList(){    
-    let data = {status: 1, sms_type: "Promotional"};
-    console.log(data);
-
+  campaignMessageList( data) {
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id + "/all";
-    
-    return this.http.post(this.urlDownloadAllEnquiry, data, {headers: this.headers}).map(
+
+    return this.http.post(this.urlDownloadAllEnquiry, data, { headers: this.headers }).map(
       data => { return data.json() },
       err => {
-        //  console.log("error fetching template"); 
+        return err.json();
       }
     );
   }
 
 
-  saveSMSservice(data){    
+  saveSMSservice(data) {
     console.log(data);
 
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/campaign/create/" + this.institute_id;
-    
-    return this.http.post(this.urlDownloadAllEnquiry, data, {headers: this.headers}).map(
+
+    return this.http.post(this.urlDownloadAllEnquiry, data, { headers: this.headers }).map(
       data => { return data.json() },
       err => {
         //  console.log("error fetching template"); 
@@ -145,23 +142,61 @@ export class CampaignService {
   }
 
 
-  campaignSMSTestService(data){
+  campaignSMSTestService(data) {
 
     this.url = this.baseUrl + "/api/v1/campaign/sendTestSMS/" + this.institute_id;
 
-    return this.http.post(this.url,data,{headers: this.headers}).map(
-      data => { return data.json()},
+    return this.http.post(this.url, data, { headers: this.headers }).map(
+      data => { return data.json() },
       err => { }
     );
   }
 
 
-  downloadFailureListFile(campaign_id){
+  downloadFailureListFile(campaign_id) {
 
-    this.url = this.baseUrl + "/api/v1/campaign/list/" + this.institute_id + "/download/" + campaign_id ;
+    this.url = this.baseUrl + "/api/v1/campaign/list/" + this.institute_id + "/download/" + campaign_id;
 
-    return this.http.get(this.url,{headers: this.headers}).map(
-      data => { return data.json()},
+    return this.http.get(this.url, { headers: this.headers }).map(
+      data => { return data.json() },
+      err => { }
+    );
+  }
+
+  deleteMessage(id) {
+    let url = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id + "/" + id;
+    let obj = {
+      status: 400
+    };
+    return this.http.put(url, obj, { headers: this.headers }).map(
+      data => { return data.json() },
+      err => { }
+    );
+  }
+
+  updateMessage(obj, id) {
+    let url = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id + "/" + id;
+    return this.http.put(url, obj, { headers: this.headers }).map(
+      data => { return data.json() },
+      err => { }
+    );
+  }
+
+  addNewMessage(obj) {
+    let url = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id;
+    return this.http.post(url, obj, { headers: this.headers }).map(
+      data => { return data.json() },
+      err => { }
+    );
+  }
+
+  approveMessage(id) {
+    let url = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id + "/" + id;
+    let obj = {
+      status: 1
+    }
+    return this.http.put(url, obj, { headers: this.headers }).map(
+      data => { return data.json() },
       err => { }
     );
   }
