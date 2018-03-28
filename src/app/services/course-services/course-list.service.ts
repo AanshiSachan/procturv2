@@ -157,4 +157,18 @@ export class CourseListService {
     }
 
 
+    //  Get acadmeic Year Details
+
+    getAcadYear() {
+        let url = this.baseURL + "/api/v1/academicYear/all/" + this.institute_id;
+        return this.http.get(url, { headers: this.headers }).map(
+            data => {
+                return data;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
 }
