@@ -503,10 +503,20 @@ export class HomeComponent implements OnInit {
 
 
   /* open action menu on click */
-  openMenu(i) {
-    this.selectedRow = i;
-    console.log(i);
-    document.getElementById('menuList' + i).classList.toggle('hide');
+  openMenu(index) {
+    this.selectedRow = index;
+    let len = this.itemList.length;
+    for(var i =0; i< len; i++){
+      if(i == index){
+        document.getElementById('menuList' + i).classList.toggle('hide');  
+      }
+      else if(i != index){
+        document.getElementById('menuList' + i).classList.add('hide');  
+      }
+    }
+
+
+    
   }
 
   /* close action menu on events  */

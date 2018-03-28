@@ -669,9 +669,9 @@
           </aside>
           <aside class="pull-right">
             <div class="" *ngIf="!isPaymentDetailsValid">
-              <input type="button" *ngIf="totalFeePaid != 0" value="Update and Continue" (click)="openPaymentDetails($event)" class="btn fullBlue">
+              <input type="button" *ngIf="totalFeePaid != 0" value="Update Payment" (click)="openPaymentDetails($event)" class="btn fullBlue">
               <!-- <input type="button" *ngIf="totalFeePaid != 0" value="Update and Exit" (click)="openPaymentDetailsAndExit($event)" class="btn fullBlue"> -->
-              <input type="button" value="Skip and Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
+              <input type="button" value="Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
             </div>
 
             <div class="" *ngIf="isPaymentDetailsValid">

@@ -2646,6 +2646,17 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+  getTaxAmount(i) {
+    let fee = this.feeTemplateById.customFeeSchedules[i];
+    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      return this.precisionRound(((this.service_tax / 100) * fee.initial_fee_amount), -1);
+    }
+    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+      return 0;
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   allocateInventory(id) {
 
     let count: number = 0;

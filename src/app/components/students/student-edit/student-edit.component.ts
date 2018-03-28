@@ -637,7 +637,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
               this.service_tax = 0;
-              //let tax = el.fees_amount - el.initial_fee_amount;
               this.totalTaxAmount = 0;
             }
             if (el.is_referenced == "N") {
@@ -695,10 +694,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   getTaxAmount(i) {
     let fee = this.feeTemplateById.customFeeSchedules[i];
-    if (fee.service_tax_applicable == 'Y') {
-      return this.precisionRound(((fee.service_tax / 100) * fee.fees_amount), -1);
+    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      return this.precisionRound(((this.service_tax / 100) * fee.initial_fee_amount), -1);
     }
-    else {
+    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
       return 0;
     }
   }
@@ -2805,7 +2804,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
 
       }
-    }/* Incomplete form data detected */
+    }
+    /* Incomplete form data detected */
     else {
       let msg = {
         type: 'error',

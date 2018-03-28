@@ -648,7 +648,7 @@
                             Tax amount
                           </label>
                           <span>
-                            &#8377; {{installment.tax}}
+                            &#8377; {{getTaxAmount(i) | commaSeprator}}
                           </span>
                         </li>
                         <li>
@@ -679,8 +679,8 @@
           </aside>
           <aside class="pull-right">
             <div class="" *ngIf="!isPaymentDetailsValid">
-              <input type="button" *ngIf="totalFeePaid != 0" value="Update Payment Details" (click)="openPaymentDetails($event)" class="btn fullBlue">
-              <input type="button" value="Skip and Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
+              <input type="button" *ngIf="totalFeePaid != 0" value="Update Payment" (click)="openPaymentDetails($event)" class="btn fullBlue">
+              <input type="button" value="Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
             </div>
 
             <div class="" *ngIf="isPaymentDetailsValid">
