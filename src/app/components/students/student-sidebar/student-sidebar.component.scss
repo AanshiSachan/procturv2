@@ -8,12 +8,20 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
+
+@media screen and (max-width: 767px) {
+    .dropdown-trigger {
+        margin-top: 30px !important;
+    }
+}
+
 .dropdown-trigger {
     background: white;
     position: absolute;
     right: 60px;
     top: 10px;
     margin-top: 6px;
+    z-index: 100;
 }
 
 .svg-icon-wrap {
@@ -314,7 +322,7 @@
                 -webkit-font-smoothing: antialiased;
             }
             .side-form-ctrl {
-                background: white;
+                background: #efefef;
                 border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
                 width: 100%;
                 padding: 8px 5px;
@@ -336,7 +344,7 @@
                         display: inline-block;
                     }
                     .side-form-ctrl {
-                        background: white;
+                        background: #efefef;
                         border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
                         width: 100%;
                         padding: 8px 5px;

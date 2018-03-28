@@ -51,9 +51,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Variable Declaration */
   sourceEnquiry: any[] = []; smsSourceApproved: any[] = []; smsSourceOpen: any[] = []; busy: Subscription;
-  checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = [];
-  enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = [];
-  enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; commentFormData: any = {};
+  checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = []; campaignList:any[]=[];
+  enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = []; sources:any[] =[];
+  enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; schools:any[]=[]; commentFormData: any = {}; 
   today: any = Date.now(); searchBarData: any = null; searchBarDate: any = moment().format('YYYY-MM-DD');
   displayBatchSize: number = 100; incrementFlag: boolean = true; updateFormComments: any = [];
   updateFormCommentsBy: any = []; updateFormCommentsOn: any = []; PageIndex: number = 1;
@@ -270,7 +270,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     start_index: 0,
     batch_size: this.displayBatchSize,
     closedReason: "",
-    enqCustomLi: null
+    enqCustomLi: null,
+    source_id: "-1",
+    school_id: "-1",
+    list_id: "-1"
   };
 
   enquiryFullDetail: any;
@@ -295,14 +298,14 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
   EnquirySettings: ColumnSetting[] = [
-    { primaryKey: 'enquiry_no', header: 'Enquiry No.', format:this.currentDirection},
+    { primaryKey: 'enquiry_no', header: 'Enquiry No.', format: this.currentDirection },
     //{ primaryKey: 'enquiry_date', header: 'Enquiry Date.' },
     { primaryKey: 'name', header: 'Name' },
     { primaryKey: 'phone', header: 'Contact No.' },
     { primaryKey: 'statusValue', header: 'Status' },
     { primaryKey: 'priority', header: 'Priority' },
     //{ primaryKey: 'follow_type', header: 'Follow up Type' },
-    { primaryKey: 'followUpDateTime', header: 'Follow up Date', format:this.currentDirection},
+    { primaryKey: 'followUpDateTime', header: 'Follow up Date', format: this.currentDirection },
     { primaryKey: 'updateDate', header: 'Update Date' },
     //{ primaryKey: 'assigned_name', header: 'Assigned To' }
   ];
@@ -313,6 +316,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     enqLi: [],/* array of institute enquiry ID */
     assigned_to: "" /* Id of assignee */
   };
+  summaryOptions: boolean = false;
+  downloadReportOption: any = 1;
 
   @ViewChild('skelton') skel: ElementRef;
   @ViewChild('mySidenav') mySidenav: ElementRef;
@@ -347,6 +352,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.isEnquiryAdministrator();
     this.FetchEnquiryPrefilledData();
+    //this.prefill.getLeadSource().subscribe( (data)=>{ console.log(data)})
     /* Fetch prefill data after table data load completes */
 
     /* Dropdown items for Bulk Actions */
@@ -594,6 +600,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       }
     );
 
+    /* Campaigns */
+    this.prefill.getCampaignsList().subscribe(
+      data => {
+        this.campaignList = data;
+      }
+    )
+
 
     /* Priority */
     let priority = this.prefill.getEnqPriority().subscribe(
@@ -612,6 +625,15 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       data => { this.enqAssignTo = data; }
     );
 
+    /* Sources */
+    this.prefill.getLeadSource().subscribe(
+      data=>{this.sources = data}
+    ); 
+
+    /* Schools */
+    this.prefill.getSchoolDetails().subscribe(
+      data=>{this.schools = data}
+    );
 
     /* Standard */
     this.prefill.getEnqStardards().subscribe(
@@ -1401,6 +1423,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         enqCustomLi: null
       };
       this.busy = this.loadTableDatatoSource(this.instituteData);
+      
     }
     /* date is filled */
     else if ((this.searchBarData === "" || this.searchBarData === " " || this.searchBarData === null) &&
@@ -1471,7 +1494,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-
+          
           this.busy = this.loadTableDatatoSource(this.instituteData);
 
         }
@@ -1575,7 +1598,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             priority: "",
             status: -1,
             follow_type: "",
-            followUpDate: moment(this.searchBarDate).format('YYYY-MM-DD'),
+            followUpDate: "",
             enquiry_date: "",
             assigned_to: -1,
             standard_id: -1,
@@ -1596,7 +1619,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           };
 
           this.busy = this.loadTableDatatoSource(this.instituteData);
-
+         
         }
         /* invalid string raise alert */
         else {
@@ -1676,7 +1699,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-
+          
           this.busy = this.loadTableDatatoSource(this.instituteData);
 
         }
@@ -1718,6 +1741,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     document.getElementById('qfilt').classList.add('hide');
     document.getElementById('adFilterExit').classList.remove('hide');
     document.getElementById('advanced-filter-section').classList.remove('hide');
+    //console.log(this.advancedFilterForm);
   }
 
   /* =========================================================================== */
@@ -2851,6 +2875,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       },
       is_follow_up_time_notification: 0,
     }
+    this.summaryOptions = false;
     this.cd.markForCheck();
   }
 
@@ -2987,35 +3012,69 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   ///// Download Summary Report
 
   downloadSummaryReport() {
-    this.isRippleLoad = true;
-    this.cd.markForCheck();
-    this.busy = this.enquire.getSummaryReport().subscribe(
-      res => {
-        this.isRippleLoad = false;
-        this.isRippleLoad = false;
-        let byteArr = this.convertBase64ToArray(res.document);
-        let format = res.format;
-        let fileName = res.docTitle;
-        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
-        let url = URL.createObjectURL(file);
-        let dwldLink = document.getElementById('summary_download');
-        this.cd.markForCheck();
-        dwldLink.setAttribute("href", url);
-        dwldLink.setAttribute("download", fileName);
-        document.body.appendChild(dwldLink);
-        this.cd.markForCheck();
-        dwldLink.click();
-        this.cd.markForCheck();
-      },
-      err => {
-        this.isRippleLoad = false;
-        console.log(err);
-      }
-    )
+    this.summaryOptions = true;
+  }
 
+  downloadSummaryReportXl() {
+    if (this.downloadReportOption == 1) {
+      let msg = {
+        type: 'error',
+        title: 'Selection',
+        body: 'Please select other options'
+      }
+      this.appC.popToast(msg);
+    } else if (this.downloadReportOption == 2) {
+      this.isRippleLoad = true;
+      this.enquire.getSummaryReportOfThisMonth().subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.performDownloadAction(res);
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+        }
+      )
+    } else if (this.downloadReportOption == 3) {
+      this.isRippleLoad = true;
+      this.enquire.getPreviousMSummary().subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.performDownloadAction(res);
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+        }
+      )
+    } else {
+      this.isRippleLoad = true;
+      this.enquire.getSummaryReportOfLastTwoMonth().subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.performDownloadAction(res);
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+        }
+      )
+    }
   }
 
 
+  performDownloadAction(res) {
+    let byteArr = this.convertBase64ToArray(res.document);
+    let format = res.format;
+    let fileName = res.docTitle;
+    let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+    let url = URL.createObjectURL(file);
+    let dwldLink = document.getElementById('downloadSummaryReport121');
+    dwldLink.setAttribute("href", url);
+    dwldLink.setAttribute("download", fileName);
+    document.body.appendChild(dwldLink);
+    dwldLink.click();
+  }
 
   /* =========================================================================== */
   /* =========================================================================== */
@@ -3150,6 +3209,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   clearadfilterUpdateDate() {
     this.advancedFilterForm.updateDate = "";
+  }
+
+
+  clearfollowUpDate(){
+    this.advancedFilterForm.followUpDate= "";
   }
 
 
@@ -3308,10 +3372,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   openEnquiryFullDetails(id) {
     this.closeAdFilter();
-    this.mySidenav.nativeElement.style.width = "29%";
+    let mySidenavWidth = '29%';
+    if(window.innerWidth < 768)
+      mySidenavWidth = '100%';
+    this.mySidenav.nativeElement.style.width = mySidenavWidth;
     this.mySidenav.nativeElement.style.display = 'block';
     this.enqPage.nativeElement.style.width = "70%";
-    this.enqPage.nativeElement.style.marginRight = "29%";
+    this.enqPage.nativeElement.style.marginRight = mySidenavWidth;
     this.optMenu.nativeElement.classList.add('shorted');
     this.isRippleLoad = true;
     this.cd.markForCheck();

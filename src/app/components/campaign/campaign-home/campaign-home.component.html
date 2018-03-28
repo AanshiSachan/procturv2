@@ -3,11 +3,12 @@
   <!-- Header and Navigation -->
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">Campaign List</h1>
-    <div class="pull-right">
+    <div class="pull-right" style="display:flex">
 
-      <div class="search-filter-wrapper">
+      <div class="search-filter-wrapper" style="display:flex">
         <input #search type="text" class="normal-field " placeholder="Search" [(ngModel)]="searchBarData" id="search" name="searchData"
           (keyup)="searchDatabase(search)">
+        <input type="button" class="btn" value="Add Promotional SMS" (click)="addEditPromotionalSms()">
       </div>
 
       <div class="btnWrapper">
@@ -36,55 +37,55 @@
               <tr>
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.list_name.title)">{{header.list_name.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.list_name.title)">{{header.list_name.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.referred_by.title)">{{header.referred_by.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.referred_by.title)">{{header.referred_by.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.source.title)">{{header.source.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.source.title)">{{header.source.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.created_date.title)">{{header.created_date.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.created_date.title)">{{header.created_date.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.status.title)">{{header.status.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.status.title)">{{header.status.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.total_count.title)">{{header.total_count.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.total_count.title)">{{header.total_count.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.success_count.title)">{{header.success_count.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.success_count.title)">{{header.success_count.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;" (click)="sortTableById(header.failure_count.title)">{{header.failure_count.title}}</a>
+                    <a class="cursor-icon" (click)="sortTableById(header.failure_count.title)">{{header.failure_count.title}}</a>
                   </label>
                 </th>
 
                 <th>
                   <label>
-                    <a class="cursor-icon" style="color:white;">{{header.allow_sms.title}}</a>
+                    <a class="cursor-icon">{{header.allow_sms.title}}</a>
                   </label>
                 </th>
 
@@ -324,7 +325,7 @@
             <div class="sms-update">
               <div class="sms-top-section">
                 <div class="row">
-                  <div class="c-lg-4 c-md-4 c-sm-4" style="padding-top: 10px;">
+                  <div class="c-lg-4 c-md-4 c-sm-4">
                     <div class="field-wrapper">
                       <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="phone" name="cNumber" maxlength="10" minlength="10"
                         #cNumber="ngModel" pattern="[789][0-9]{9}" required/>
@@ -391,6 +392,112 @@
         </div>
       </form>
 
+    </div>
+  </div>
+
+</section>
+
+
+<!-- Add Edit PRomotional SMS -->
+<!-- SMS PopUp Single-->
+<section id="popup" class="popupWrapper fadeIn" style="overflow:auto;" *ngIf="addEditPromotional" (click)="inputClicked($event)">
+  <div class="popup pos-abs popup-body-container">
+    <div class="popup-wrapper pos-rel">
+
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <h2>Campaign Messages/SMS List</h2>
+        <div class="sms-popup-content">
+          <div class="promotion-popup-content">
+            <div class="row extraMargin">
+              <input type="button" class="btn pull-right" value="Add SMS/Message" id="btnNewSmsAdd" (click)="createNewSMS()">
+            </div>
+            <div class="row addSection" *ngIf="createNew">
+              <h3>Add Promotional Message</h3>
+              <div class="row">
+                <div class="c-cm-6 c-md-6 c-lg-6">
+                  <div class="field-wrapper">
+                    <textarea class="form-ctrl textBox" value="" [(ngModel)]="messageText" placeholder="Message/SMS" style="height:50px"></textarea>
+                    <p>Total Character Count : {{messageText.length}}</p>
+                  </div>
+                </div>
+                <div class="c-cm-2 c-md-2 c-lg-2 spanTagInfo">
+                  <span title="Note: Message having apostrophe or any other special character will be treated as unicode message. A unicode message has a character limit of 70 per SMS.">
+                    <i class="fas fa-info" style="font-family: Fontawesome;font-size: 20px;color: #3184f6;"></i>
+                  </span>
+                </div>
+                <div class="c-sm-4 c-md-4 c-lg-4 btnActionGrp">
+                  <input type="button" class="btn" value="Save" (click)="addNewMessage()">
+                  <input type="button" class="btn" value="Cancel" (click)="closeAddDiv()">
+                </div>
+              </div>
+            </div>
+            <table>
+              <thead>
+                <th>Message/SMS</th>
+                <th>Status</th>
+                <th>Updated Date</th>
+                <th>SMS Type</th>
+                <th>Approve</th>
+                <th>Action</th>
+              </thead>
+              <tbody *ngIf="messageList.length !=0">
+                <tr id="rowMessage{{i}}" class="displayComp" *ngFor="let row of messageList; let i = index; trackBy: i;">
+                  <td class="view-comp">
+                    {{row.message}}
+                  </td>
+                  <td class="edit-comp">
+                    <div class="field-wrapper">
+                      <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.message" name="label">
+                    </div>
+                  </td>
+                  <td>
+                    {{row.statusValue}}
+                  </td>
+                  <td>
+                    {{row.date}}
+                  </td>
+                  <td>
+                    {{row.sms_type}}
+                  </td>
+                  <td>
+                    <span [ngClass]="{hide : showApproveButtons(row)}" (click)="approveMessage(row)">
+                      <i class="fas fa-check" style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
+                    </span>
+                  </td>
+
+                  <td class="view-comp">
+                    <div class="actionButtons" [ngClass]="{hide : showActionButton(row)}">
+                      <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
+                      <a class="anchorTagCursor" (click)="deleteRow(row , i)">Delete</a>
+                    </div>
+                  </td>
+                  <td class="edit-comp actionButtons">
+                    <a class="anchorTagCursor" (click)="saveInformation(row , i)"> Save </a>
+                    <a class="anchorTagCursor" (click)="cancelEditRow(i)"> Cancel </a>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="messageList.length ==0">
+                <td colspan="6" style="text-align: center">
+                  No Message List Available
+                </td>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

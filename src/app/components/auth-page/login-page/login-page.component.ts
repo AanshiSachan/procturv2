@@ -267,6 +267,7 @@ export class LoginPageComponent {
       sessionStorage.setItem('institution_name', institute_data.institution_name);
       sessionStorage.setItem('institute_name', institute_data.institute_name);
       sessionStorage.setItem('is_campaign_message_approve_feature', institute_data.is_campaign_message_approve_feature);
+      sessionStorage.setItem('allow_sms_approve_feature', res.data.allow_sms_approve_feature);
       sessionStorage.setItem('is_main_branch', institute_data.is_main_branch);
       sessionStorage.setItem('is_student_bulk_upload_byClient', institute_data.is_student_bulk_upload_byClient);
       sessionStorage.setItem('is_student_mgmt_flag', institute_data.is_student_mgmt_flag);
@@ -571,7 +572,7 @@ export class LoginPageComponent {
 
 
   openGetAdvice() {
-    let url = "http://proctur.com/get-advice/";
+    let url = "http://proctur.com/get_advice.html";
     window.open(url);
   }
 

@@ -47,8 +47,8 @@ export class FetchenquiryService {
 
   /* Function to fetch json data for all enquiry as per the input institute data  */
   getAllEnquiry(obj) {
-
     /* Admin has requested for enquiry */
+    //console.log(obj);
     if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
       obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
       obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
@@ -58,7 +58,6 @@ export class FetchenquiryService {
       obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
       obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
       this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
-
       return this.http.post(this.urlCampaign, obj, { headers: this.headers })
         .map(res => {
           this.row = res.json();
@@ -78,7 +77,7 @@ export class FetchenquiryService {
         obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
         obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
         this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
-
+        
         return this.http.post(this.urlCampaign, obj, { headers: this.headers })
           .map(res => {
             this.row = res.json();
@@ -190,8 +189,29 @@ export class FetchenquiryService {
 
   // Download Report Summary
 
-  getSummaryReport() {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id;
+  getSummaryReportOfThisMonth() {
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/this_month";
+    return this.http.post(
+      url, {}, { headers: this.headers }
+    ).map(
+      res => { return res.json(); },
+      err => { return err.json(); }
+    )
+  }
+
+  getPreviousMSummary() {
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/prev_month";
+    return this.http.post(
+      url, {}, { headers: this.headers }
+    ).map(
+      res => { return res.json(); },
+      err => { return err.json(); }
+    )
+  }
+
+
+  getSummaryReportOfLastTwoMonth() {
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/last_two_months";
     return this.http.post(
       url, {}, { headers: this.headers }
     ).map(

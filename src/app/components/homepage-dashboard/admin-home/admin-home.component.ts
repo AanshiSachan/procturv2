@@ -184,6 +184,7 @@ export class AdminHomeComponent implements OnInit {
   }
   permissionArray = sessionStorage.getItem('permissions');
   settingInfo: any = [];
+  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 AM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 PM'];
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -798,6 +799,7 @@ export class AdminHomeComponent implements OnInit {
         document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
         document.getElementById('presentBtn' + e.student_id).classList.add('classPresentBtn');
         e.dateLi[0].status = "P";
+        e.dateLi[0].home_work_status = "Y"
       });
     }
     else {
@@ -806,6 +808,7 @@ export class AdminHomeComponent implements OnInit {
         document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
         document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
         e.dateLi[0].status = "A";
+        e.dateLi[0].home_work_status = "N"
       });
     }
     this.getCountOfAbsentPresentLeave(this.studentAttList);
@@ -996,7 +999,37 @@ export class AdminHomeComponent implements OnInit {
     this.isReschedulePop = true;
   }
 
+  checkIfTimeProvided(data) {
+    if (data == "" || data == null) {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: 'Please provide correct time'
+      }
+      this.appC.popToast(msg);
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   rescheduleClass() {
+    let check = this.checkIfTimeProvided(this.timepicker.reschedStartTime.hour);
+    if (check) {
+      let startTime = this.timepicker.reschedStartTime.hour.split(' ');
+      this.timepicker.reschedStartTime.hour = startTime[0];
+      this.timepicker.reschedStartTime.meridian = startTime[1];
+    } else {
+      return;
+    }
+    let check1 = this.checkIfTimeProvided(this.timepicker.reschedEndTime.hour);
+    if (check1) {
+      let endTime = this.timepicker.reschedEndTime.hour.split(' ');
+      this.timepicker.reschedEndTime.hour = endTime[0];
+      this.timepicker.reschedEndTime.meridian = endTime[1];
+    } else {
+      return;
+    }
     if (this.reSheduleFormValid()) {
       let temp1: any = {
         cancel_note: this.reschedReason,
@@ -1037,6 +1070,9 @@ export class AdminHomeComponent implements OnInit {
           this.appC.popToast(msg);
         }
       )
+    } else {
+      this.timepicker.reschedStartTime.hour = this.timepicker.reschedStartTime.hour + " " + this.timepicker.reschedStartTime.meridian;
+      this.timepicker.reschedEndTime.hour = this.timepicker.reschedEndTime.hour + " " + this.timepicker.reschedEndTime.meridian;
     }
   }
 
@@ -1442,6 +1478,23 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
+  getReminderAndCancel(row) {
+    if (moment(row.class_date).format('DD-MM-YYYY') == moment().format('DD-MM-YYYY')) {
+      let currentTime: any = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+      let startMinute = this.convertIntOMinutes(row.start_time);
+      let endMinute = this.convertIntOMinutes(row.end_time);
+      currentTime = this.convertIntOMinutes(currentTime);
+      if (startMinute > currentTime) {
+        return "";
+      } else {
+        return "hide";
+      }
+    } else {
+      return "";
+    }
+  }
+
+
   convertIntOMinutes(time) {
     let data: any = '';
     let hr = time.split(':')[0];
@@ -1518,6 +1571,7 @@ export class AdminHomeComponent implements OnInit {
 
   closeNotificationPopUp() {
     this.notificationPopUp = false;
+    this.addNotification = false;
   }
 
   flushData() {
@@ -2179,8 +2233,8 @@ export class AdminHomeComponent implements OnInit {
 
 
   //  Role Based Access
-
   checkIfUserHadAccess(id) {
+    this.permissionArray = sessionStorage.getItem('permissions');
     if (this.permissionArray == "") {
       return false;
     } else {
@@ -2192,6 +2246,7 @@ export class AdminHomeComponent implements OnInit {
       }
     }
   }
+
 
   markAttendaceBtnClickCourse(event, rowData, index) {
     document.getElementById('leaveBtnCourse' + rowData.student_id).classList.remove('classLeaveBtn');

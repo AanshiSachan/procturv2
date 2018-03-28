@@ -48,9 +48,21 @@ export class StandardServices {
             });
     }
 
-    updateStanadardRowData(data , standard_Id) {
-        let url =  this.baseURL + "/api/v1/standards/" + standard_Id;
-        return this.http.put(url , data , {headers: this.headers}).map(
+    updateStanadardRowData(data, standard_Id) {
+        let url = this.baseURL + "/api/v1/standards/" + standard_Id;
+        return this.http.put(url, data, { headers: this.headers }).map(
+            data => {
+                return data;
+            },
+            error => {
+                return error;
+            }
+        )
+    }
+
+    deleteStandard(id) {
+        let url = this.baseURL + "/api/v1/standards/" + id;
+        return this.http.delete(url, { headers: this.headers }).map(
             data => {
                 return data;
             },

@@ -44,4 +44,6 @@ export interface instituteInfo {
     order_by?: any;
     stuCustomLi?: any;
     commentShow?: any;
+    source_id?: any;
+    list_id?: any;
 }

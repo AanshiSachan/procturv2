@@ -206,6 +206,33 @@ export class CourseSubjectComponent implements OnInit {
     }
   }
 
+  deleteRow(row) {
+    this.isRippleLoad = true;
+    this.apiService.deleteSubject(row.subject_id).subscribe(
+      res => {
+        this.isRippleLoad = false;
+        let data = {
+          type: "success",
+          title: "Success",
+          body: "Deleted Successfully"
+        }
+        this.toastCtrl.popToast(data);
+        this.getAllSubjectList();
+      },
+      err => {
+        this.isRippleLoad = false;
+        let data = {
+          type: "error",
+          title: "",
+          body: err.error.message
+        }
+        this.toastCtrl.popToast(data);
+      }
+    )
+  }
+
+
+
   // pagination functions 
 
   fetchTableDataByPage(index) {

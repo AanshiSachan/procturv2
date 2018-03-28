@@ -16,7 +16,7 @@
 .tooltip-box-field {
     position: absolute;
     width: 130px;
-    min-height: 30px;
+    min-height: 120px;
     background: #e0e0e0;
     border: 1px solid #ccc;
     left: 80%;
@@ -179,7 +179,7 @@ fieldset {
     cursor: pointer;
     line-height: 20px;
     width: 26px;
-    height: 26px;
+    height: 10px;
     box-sizing: border-box;
     text-align: center;
     padding-top: 3px;
@@ -258,6 +258,11 @@ fieldset {
     margin-top: 15px;
     max-height: 420px;
     overflow: hidden;
+
+
+
+
+
     .row {
         display: flex;
         .tableSection {
@@ -316,17 +321,36 @@ fieldset {
         .detailsSection {
             display: inline-block;
             width: 26%;
-            padding: 20px 5px 10px 10px;
+            padding: 5px 5px 10px 10px;
             background-color: #f7f7f7;
+            h3{
+                color: #979797;
+                font-weight: 400;
+            }
             .field-wrapper {
                 .form-ctrl {
                     background: transparent;
                     border: solid 1px #e2ebee;
+                    &.textBox{
+                        height: 60px;
+                        padding: 5px;
+                    }
                 }
             }
             div {
-                margin-top: 10px;
-                margin-bottom: 10px;
+                padding: 5px 0px;
+                &.questionInfo{
+                    padding: 0px 5px !important;
+                }
+                &.checkboxGroup{
+                    padding: 0px;
+                    margin-top: 5px;
+                    .field-checkbox-wrapper {
+                        position: relative;
+                        padding: 0px 0px 0px 25px !important;
+                        margin-bottom: 10px;
+                    }
+                }
             }
         }
     }
@@ -830,7 +854,7 @@ div#enqChart {
             }
         } // justify-content: space-between;
         li {
-            padding: 16px 24px 12px;
+            padding: 8px 10px 0px;
             &.cls-type {
                 width: 15%;
             }
@@ -1415,11 +1439,12 @@ div#enqChart {
 }
 
 .customDropdown {
-    font-weight: 800;
+    font-weight: 500;
     border: 1px solid rgba(0, 0, 0, 0.23);
-    padding: 5px 5px;
+    padding: 1px 1px;
     select {
         width: 100%;
+        
         background: transparent;
     }
 }
@@ -1427,8 +1452,14 @@ div#enqChart {
 .btnGroup {
     display: inline-flex;
     .btn {
-        padding: 5px 5px !important;
+        padding: -10px -10px !important;
         color: black !important;
+        width:30%;
+        height:1%;
+        font-size: 11px;
+        border-radius: 3px;
+    
+    
     }
     .classLeaveBtn {
         background: #7a7a7a;
@@ -1651,6 +1682,100 @@ div#enqChart {
                         width: 7px;
                         height: 7px;
                     }
+                }
+            }
+        }
+    }
+}
+
+.radio-options {
+    .field-radio-wrapper {
+        .form-radio:checked+label:before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #0084f6;
+            border-radius: 50%;
+            left: 3px;
+            top: 3px;
+        }
+        label {
+            margin-left: 10px;
+        }
+    }
+}
+
+/////////////////////////////////////////////////////
+.form-wrapper {
+    background: transparent;
+    margin: 5px 0px;
+    &.datepicker {
+        span {
+            position: absolute;
+            top: 35px;
+            right: 20px;
+            font-weight: 600;
+            font-size: 16px;
+            color: red;
+            cursor: pointer;
+            width: 20px;
+            text-align: center;
+            /* &::before {
+                content: '';
+                background: url('/assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 25px;
+                top: 0px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            } */
+        }
+    }
+    label {
+        color: #309bf8 !important;
+        font-size: 12px;
+        font-weight: 400; //font-family: -webkit-body;
+        color: rgba(0, 0, 0, 0.77);
+        padding-bottom: 2px;
+        text-decoration: none;
+        text-transform: uppercase;
+        -webkit-font-smoothing: antialiased;
+    }
+    .side-form-ctrl {
+        background: white;
+        border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+        width: 100%;
+        padding: 8px 5px;
+        font-weight: 600;
+        font-size: 14px;
+        color: black;
+        &.bsDatepicker {
+            padding: 5px;
+            width: 100%;
+        }
+    }
+    &.timepick {
+        width: 50%;
+        padding: 1px 0px;
+        .tbox {
+            width: 100%;
+            .times {
+                display: inline-block;
+            }
+            .side-form-ctrl {
+                background: white;
+                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                width: 100%;
+                padding: 8px 5px;
+                font-weight: 600;
+                font-size: 14px;
+                color: black;
+                &.mins {
+                    width: 80px;
+                }
+                &.mers {
+                    width: 50px;
                 }
             }
         }

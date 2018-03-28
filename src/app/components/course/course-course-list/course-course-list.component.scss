@@ -3,6 +3,7 @@
     box-sizing: $border-box;
     padding: 0 15px;
 }
+
 .headEnq {
     .headerBtn {
         display: inline-flex;
@@ -28,7 +29,8 @@
         }
     }
 }
-.optMenu{
+
+.optMenu {
     .enq-dropdown-content {
         position: absolute;
         background: white;
@@ -391,7 +393,8 @@ table {
 }
 
 $color-base: #efefef;
-$color-highlight: lighten($color-base, 7%);
+$color-highlight: lighten($color-base,
+7%);
 .skeleton {
     position: relative;
     overflow: hidden;
@@ -455,13 +458,13 @@ $color-highlight: lighten($color-base, 7%);
     .table-accor-head {
         .open-accor {
             display: block;
-           padding: -5px 2px 2px 2px;
-           margin-bottom: 2px;
-           border:none;
-           margin-top: -5px;
+            padding: -5px 2px 2px 2px;
+            margin-bottom: 2px;
+            border: none;
+            margin-top: -5px;
         }
         .close-accor {
-            border:none;
+            border: none;
             display: none;
         }
         &.active {
@@ -574,5 +577,34 @@ $color-highlight: lighten($color-base, 7%);
             left: 85% !important;
             top: 10px !important;
         }
+    }
+}
+
+.student-assign-popup {
+    padding: 5px 15px;
+    .row {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    .popup-title {
+        margin-left: 0px;
+    }
+    .filter-section {
+        .checkBoxWrapper {
+            padding-top: 15px;
+        }
+        .btnPadding {
+            padding-left: 0px;
+            padding-top: 10px;
+        }
+        .serchBox {
+            padding-top: 10px;
+        }
+    }
+    .table-wrapper {
+        margin-top: 15px;
+        max-height: 363px;
+        overflow-x: hidden;
+        overflow-y: scroll;
     }
 }
