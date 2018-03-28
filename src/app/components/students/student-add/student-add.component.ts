@@ -2127,6 +2127,8 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   addNewOtherFee() {
+    let otherFeesArr:any[] = this.otherFeeTableData;
+
     this.addFeeOther.due_date = moment(this.addFeeOther.due_date).format('YYYY-MM-DD');
     if (this.addFeeOther.fee_type == '' || this.addFeeOther.fee_type == null || this.addFeeOther.fee_type == undefined ||
       this.addFeeOther.due_date == '' || this.addFeeOther.due_date == null || this.addFeeOther.due_date == undefined || this.addFeeOther.due_date == 'invalid date' ||
@@ -2156,71 +2158,79 @@ export class StudentAddComponent implements OnInit {
         this.appC.popToast(msg);
       }
       else {
-        console.log(this.addFeeOther.fee_type);
-        console.log(this.addFeeOther.due_date);
-        console.log(this.addFeeOther.initial_fee_amount);
       }
     }
     else {
       this.addFeeOther.due_date = moment(this.addFeeOther.due_date).format("YYYY-MM-DD");
-      this.addFeeOther.fees_amount = parseInt(this.addFeeOther.initial_fee_amount) + (this.precisionRound(((this.addFeeOther.service_tax / 100) * parseInt(this.addFeeOther.initial_fee_amount)), -1));
-      this.otherFeeTableData.push(this.addFeeOther);
-      this.addFeeOther = {
-        amount_paid: '',
-        amount_paid_inRs: null,
-        balance_amount: 0,
-        batch_id: 0,
-        created_by: null,
-        created_date: null,
-        day_type: 0,
-        days: 0,
-        discount: 0,
-        due_date: moment().format("YYYY-MM-DD"),
-        enquiry_counsellor_name: "",
-        enquiry_id: 0,
-        feeTypes: null,
-        fee_date: null,
-        fee_payment_edit_history: null,
-        fee_type: null,
-        fee_type_name: "",
-        fee_type_tax_configured: 0,
-        fees_amount: 0,
-        fineAmount: 0,
-        fine_type: null,
-        initial_fee_amount: 0,
-        installment_no: null,
-        installment_nos: "",
-        invoice_no: 0,
-        is_fee_receipt_generate: 0,
-        is_paid: 0,
-        is_referenced: "N",
-        latest_due_date: "",
-        onlinePaymentJson: null,
-        paid_date: null,
-        paid_full: "N",
-        paymentDate: null,
-        paymentMode: null,
-        paymentModeAmountMap: null,
-        payment_creation_date: null,
-        payment_reference_id: 0,
-        payment_status: 0,
-        payment_tx_id: 0,
-        pdc_cheque_id: -1,
-        reference_no: null,
-        remarks: null,
-        scheduleType: null,
-        schedule_id: 0,
-        service_tax: null,
-        service_tax_applicable: "N",
-        student_category: "",
-        student_disp_id: null,
-        student_id: 0,
-        student_name: null,
-        student_phone: "",
-        tax: 0,
-        update_date: null,
-        updated_by: null
+      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+        this.addFeeOther.fees_amount = parseInt(this.addFeeOther.initial_fee_amount) + (this.precisionRound(((this.addFeeOther.service_tax / 100) * parseInt(this.addFeeOther.initial_fee_amount)), -1));
       }
+      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+        this.addFeeOther.service_tax = 0;
+        this.addFeeOther.fees_amount = parseInt(this.addFeeOther.initial_fee_amount) + (this.precisionRound(((this.addFeeOther.service_tax / 100) * parseInt(this.addFeeOther.initial_fee_amount)), -1));
+      }
+      otherFeesArr.push(this.addFeeOther);
+      this.clearOtherFees(otherFeesArr);
+    }
+  }
+
+  clearOtherFees(arr: any[]){
+    this.otherFeeTableData = arr;
+    this.addFeeOther = {
+      amount_paid: '',
+      amount_paid_inRs: null,
+      balance_amount: 0,
+      batch_id: 0,
+      created_by: null,
+      created_date: null,
+      day_type: 0,
+      days: 0,
+      discount: 0,
+      due_date: moment().format("YYYY-MM-DD"),
+      enquiry_counsellor_name: "",
+      enquiry_id: 0,
+      feeTypes: null,
+      fee_date: null,
+      fee_payment_edit_history: null,
+      fee_type: null,
+      fee_type_name: "",
+      fee_type_tax_configured: 0,
+      fees_amount: 0,
+      fineAmount: 0,
+      fine_type: null,
+      initial_fee_amount: 0,
+      installment_no: null,
+      installment_nos: "",
+      invoice_no: 0,
+      is_fee_receipt_generate: 0,
+      is_paid: 0,
+      is_referenced: "N",
+      latest_due_date: "",
+      onlinePaymentJson: null,
+      paid_date: null,
+      paid_full: "N",
+      paymentDate: null,
+      paymentMode: null,
+      paymentModeAmountMap: null,
+      payment_creation_date: null,
+      payment_reference_id: 0,
+      payment_status: 0,
+      payment_tx_id: 0,
+      pdc_cheque_id: -1,
+      reference_no: null,
+      remarks: null,
+      scheduleType: null,
+      schedule_id: 0,
+      service_tax: null,
+      service_tax_applicable: "N",
+      student_category: "",
+      student_disp_id: null,
+      student_id: 0,
+      student_name: null,
+      student_phone: "",
+      tax: 0,
+      update_date: null,
+      updated_by: null
     }
   }
   /* ============================================================================================================================ */

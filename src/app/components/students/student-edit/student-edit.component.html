@@ -1234,8 +1234,8 @@
           <!-- Header Installment -->
           <div class="installment-header">
             <div class="pull-left">
-              EDIT FEE INSTALLMENTS (COURSE NAME)
-              <span class="installment-count">4</span>
+              EDIT FEE INSTALLMENTS <!-- (COURSE NAME) -->
+              <span class="installment-count"></span>
             </div>
             <div class="pull-right">
               <!-- TOTAL FEES : Rs 9XXXX -->
@@ -1245,10 +1245,10 @@
           <div class="installment-adder">
             <ul>
               <li>
-                <div class="form-wrapper">
+                <!-- <div class="form-wrapper">
                   <label for="instt">Installment</label>
                   <input type="text" class="form-ctrl" name="instt" readonly>
-                </div>
+                </div> -->
               </li>
               <li>
                 <div class="form-wrapper datePickerBox">
@@ -1276,7 +1276,7 @@
           <!-- Installment Table Configure -->
           <div class="installment-table">
             <ul class="table-header">
-              <li [ngClass]="{'bigger': taxEnableCheck == '0'}">Installment # </li>
+              <li [ngClass]="{'bigger': taxEnableCheck == '0'}">#</li>
               <li [ngClass]="{'bigger': taxEnableCheck == '0'}" (click)="sort('due_date')">Due Date</li>
               <li [ngClass]="{'hide': taxEnableCheck == '0'}">Amount</li>
               <li [ngClass]="{'hide': taxEnableCheck == '0'}">Tax</li>
@@ -1287,29 +1287,29 @@
               <ul class="table-row" *ngFor="let fee of instalmentTableData| orderBy: key : reverse; let i = index;">
                 <li [ngClass]="{'bigger': taxEnableCheck == '0'}">{{i+1}}</li>
                 <li>
-                  <div class="form-wrapper datePickerBox">
+                  <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
                     <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)" [(ngModel)]="fee.due_date"
                       readonly="true" bsDatepicker>
                   </div>
                 </li>
                 <li [ngClass]="{'hide': taxEnableCheck == '0'}">
-                  <div class="form-wrapper">
+                  <div class="form-wrapper disable">
                     <input type="number" class="form-ctrl" readonly="true" name="amt" [(ngModel)]="fee.initial_fee_amount">
                   </div>
                 </li>
                 <li [ngClass]="{'hide': taxEnableCheck == '0'}">
-                  <div class="form-wrapper">
+                  <div class="form-wrapper disable">
                     <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getTaxedAmount(fee.initial_fee_amount, fee.service_tax_applicable, i)">
                   </div>
                 </li>
                 <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
-                  <div class="form-wrapper">
+                  <div class="form-wrapper" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
                     <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
                   </div>
                 </li>
                 <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
-                  <a *ngIf="fee.is_referenced == 'N'">
-                    <i (click)="deleteInstallment(i)" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
+                  <a *ngIf="fee.is_referenced == 'N'" (click)="deleteInstallment(i)">
+                    <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
                   </a>
                   <a *ngIf="fee.is_referenced == 'Y'" class="paid-fee">Paid</a>
                 </li>
@@ -1352,7 +1352,7 @@
                 </div>
               </li>
               <li>
-                <div class="form-wrapper">
+                <div class="form-wrapper disable">
                   <label for="taxamt">Service Tax</label>
                   <input type="number" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax" name="taxamt">
                 </div>
