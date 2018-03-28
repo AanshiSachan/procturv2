@@ -103,6 +103,20 @@
       </div>
 
       <div class="row extraMargin">
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+            <div class="field-wrapper">
+              <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.defaultValue" name="defVal" (focus)="inputClicked($event)">
+              <label for="defVal">Default Value</label>
+            </div>
+        </div>
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6"> 
+          <div class="field-checkbox-wrapper" style="margin-top:25px">
+            <input type="checkbox" value="" class="form-checkbox" name="isexternal" [(ngModel)]="createCustomComponentForm.is_external" [checked]="createCustomComponentForm.is_external == 'Y'? true: false">
+            <label for="isexternal">Is External</label>
+          </div>
+        </div>
+      </div>
+      <div class="row extraMargin">
         <div class="c-lg-12 c-md-12 c-sm-12 c-xs-12">
           <aside class="pull-left create-cancel-small">
             <input type="button" value="Cancel" (click)="toggleNewComponentVisisbility()" class="btn cancle">

@@ -32,15 +32,14 @@ export class CreateCustomCompComponent implements OnInit {
     prefilled_data: "",
     sequence_number: "",
     type: "",
-    on_both: "Y"
+    on_both: "Y",
+    defaultValue:"",
+    is_external:'N'
   }
   busy: Subscription;
 
   constructor(private prefill: FetchprefilldataService, private postdata: PostEnquiryDataService, private appC: AppComponent, private login: LoginService) {
   }
-
-
-
 
   ngOnInit() {
 
