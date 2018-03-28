@@ -27,6 +27,18 @@
         margin: 5px 0px;
     }
     table {
+        thead {
+            tr {
+                height: 40px;
+                th {
+                    padding: 0px !important;
+                    font-weight: bold;
+                    color: #777;
+                    border-bottom: 2px solid #ccc;
+                    background: white;
+                }
+            }
+        }
         .field-wrapper {
             background: transparent;
             width: 100%;
@@ -38,8 +50,7 @@
             }
         }
         .field-wrapper {
-            position: relative;
-            padding-top: 20px;
+            position: relative; // padding-top: 20px;
             &.datePickerBox {
                 .bsDatepicker {
                     cursor: pointer;
@@ -78,19 +89,28 @@
         }
     }
     .installment {
-        border: 2px solid #004a7e;
+        // border: 2px solid #004a7e;
         padding: 5px;
-        box-shadow: 1px 5px 5px 1px #004a7e;
-        legend {
-            padding: 0.2em 0.5em;
-            border: 1px solid #004a7e;
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 600;
-            text-align: left;
-            width: 200px;
-            background: #004a7e;
-        }
+        background: #efefef;
+        border-radius: 5px;
+        padding: 10px 10px 10px 10px;
+        .field-wrapper {
+            background: transparent;
+            .form-ctrl {
+                background: transparent;
+                border-bottom: 1px solid #ccc;
+            }
+        } // box-shadow: 1px 5px 5px 1px #004a7e;
+        // legend {
+        //     padding: 0.2em 0.5em;
+        //     border: 1px solid #004a7e;
+        //     color: #ffffff;
+        //     font-size: 14px;
+        //     font-weight: 600;
+        //     text-align: left;
+        //     width: 200px;
+        //     background: #004a7e;
+        // }
         .data-adder {
             margin: 0px 0px 5px 0px;
             .outer {
@@ -148,9 +168,17 @@
     }
     .additional {
         margin-top: 40px;
-        border: 2px solid #004a7e;
         padding: 5px;
-        box-shadow: 1px 5px 5px 1px #004a7e;
+        background: #efefef;
+        border-radius: 5px;
+        padding: 10px 10px 10px 10px;
+        .field-wrapper {
+            background: transparent;
+            .form-ctrl {
+                background: transparent;
+                border-bottom: 1px solid #ccc;
+            }
+        }
         legend {
             padding: 0.2em 0.5em;
             border: 1px solid #004a7e;
@@ -1477,7 +1505,7 @@ screen and (max-height: 768px) {
 .search-data {
     margin: 10px 0px;
     th {
-        padding: 10px 20px;
+        // padding: 10px 20px;
         font-weight: 500;
     }
     td {
@@ -2249,8 +2277,9 @@ ul.customDropdown li:hover {
 }
 
 .editCellInput {
-    width: 40px !important;
-    border-bottom: solid 1px #0084f6 !important;
-    background: transparent;
+    width: 50px !important;
+    border: 1px solid rgba(119, 119, 119, 0.34);
+    border-radius: 5px;
+    // background: #dddddd;
     text-align: center;
 }

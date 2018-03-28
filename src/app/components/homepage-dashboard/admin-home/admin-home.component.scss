@@ -1453,7 +1453,7 @@ div#enqChart {
     display: inline-flex;
     .btn {
         padding: -10px -10px !important;
-        color: black !important;
+        color: black;
         width:30%;
         height:1%;
         font-size: 11px;
@@ -1469,6 +1469,7 @@ div#enqChart {
     }
     .classPresentBtn {
         background: #4191da;
+        color: white;
     }
 }
 
