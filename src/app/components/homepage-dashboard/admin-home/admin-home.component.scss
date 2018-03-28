@@ -943,6 +943,7 @@ div#enqChart {
         &:hover{
             ul{
                 &.ct-ongoing{
+                    background: rgba(27, 96, 163, 0.16);
                     li{
                         padding: 10px 10px 10px;
                     }
