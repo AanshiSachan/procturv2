@@ -33,8 +33,8 @@ export class CreateCustomCompComponent implements OnInit {
     sequence_number: "",
     type: "",
     on_both: "Y",
-    defaultValue:"",
-    is_external:'N'
+    defaultValue: "",
+    is_external: "N"
   }
   busy: Subscription;
 
@@ -49,7 +49,6 @@ export class CreateCustomCompComponent implements OnInit {
     this.login.changeNameStatus(sessionStorage.getItem('name'));
 
   }
-
 
 
 
@@ -71,12 +70,7 @@ export class CreateCustomCompComponent implements OnInit {
 
       }
     );
-
-
   }
-
-
-
 
   /* toggle the visibility of the the new component created */
   toggleNewComponentVisisbility() {
@@ -107,6 +101,7 @@ export class CreateCustomCompComponent implements OnInit {
 
 
   addNewCustomComponent() {
+
     //Case 1 Label/Type is not empty and MaxLength and Sequence
     if (this.createCustomComponentForm.label != "" && this.createCustomComponentForm.label != " "
       && this.createCustomComponentForm.type != "") {
@@ -114,288 +109,127 @@ export class CreateCustomCompComponent implements OnInit {
       //Case 2 if its a select or multiselect dropdown list cannot be empty or duplicate
       if (this.createCustomComponentForm.type == "3" || this.createCustomComponentForm.type == "4") {
         //console.log("select or multiselect detected") /* Non  empty and non duplicate then procede */
-        if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
-          if (this.createCustomComponentForm.is_required == "Y") {
-            if (this.createCustomComponentForm.is_searchable == "Y") {
-              this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
-                res => {
-                  let alert = {
-                    type: 'success',
-                    title: 'Component Updated',
+          if (this.createCustomComponentForm.defaultValue != "" && this.createCustomComponentForm.prefilled_data != ""){ 
+            if(this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
+              if(this.validateDropdownDefvalue(this.createCustomComponentForm.prefilled_data, this.createCustomComponentForm.defaultValue)){
+                this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+                  res => {
+                    let alert = {
+                      type: 'success',
+                      title: 'Component Updated',
+                    }
+                    this.isNewComponent = false;
+                    document.getElementById('addComponent-icon').innerHTML = "+"
+                    this.clearComponentForm();
+                    this.appC.popToast(alert);
+                  },
+                  err => {
+                    let alert = {
+                      type: 'error',
+                      title: 'Failed To Add Component',
+                      body: 'There was an error processing your request' + err.message
+                    }
+                    this.appC.popToast(alert);
                   }
-                  this.isNewComponent = false;
-                  document.getElementById('addComponent-icon').innerHTML = "+"
-                  this.clearComponentForm();
-                  this.appC.popToast(alert);
-                },
-                err => {
-                  let alert = {
-                    type: 'error',
-                    title: 'Failed To Add Component',
-                    body: 'There was an error processing your request' + err.message
-                  }
-                  this.appC.popToast(alert);
+                );
+                this.fetchPrefillData();
+              }
+              else{
+                let alert = {
+                  type: 'error',
+                  title: 'dropdown default value should be present in prefilled data',
+                  body: ''
                 }
-              );
-              this.fetchPrefillData();
+                this.appC.popToast(alert);  
+              }
+              
             }
-            else {
-              this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
-                res => {
-                  let alert = {
-                    type: 'success',
-                    title: 'Component Updated',
-                  }
-                  this.clearComponentForm();
-                  this.isNewComponent = false;
-                  this.appC.popToast(alert);
-                },
-                err => {
-                  let alert = {
-                    type: 'error',
-                    title: 'Failed To Add Component',
-                    body: 'There was an error processing your request' + err.message
-                  }
-                  this.appC.popToast(alert);
-                }
-              );
-              this.fetchPrefillData();
+            else{
+              let alert = {
+                type: 'error',
+                title: 'Prefill data has to be unique and non-empty',
+                body: ''
+              }
+              this.appC.popToast(alert);
             }
-          }
-          else {
-            if (this.createCustomComponentForm.is_searchable == "Y") {
-              this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
-                res => {
-                  let alert = {
-                    type: 'success',
-                    title: 'Component Updated',
-                  }
-                  this.isNewComponent = false;
-                  document.getElementById('addComponent-icon').innerHTML = "+"
-                  this.clearComponentForm();
-                  this.appC.popToast(alert);
-                },
-                err => {
-                  let alert = {
-                    type: 'error',
-                    title: 'Failed To Add Component',
-                    body: 'There was an error processing your request' + err.message
-                  }
-                  this.appC.popToast(alert);
-                }
-              );
-              this.busy = this.fetchPrefillData();
-            }
-            else {
-              this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
-                res => {
-                  let alert = {
-                    type: 'success',
-                    title: 'Component Updated',
-                  }
-                  this.isNewComponent = false;
-                  document.getElementById('addComponent-icon').innerHTML = "+"
-                  this.clearComponentForm();
-                  this.appC.popToast(alert);
-                },
-                err => {
-                  let alert = {
-                    type: 'error',
-                    title: 'Failed To Add Component',
-                    body: 'There was an error processing your request' + err.message
-                  }
-                  this.appC.popToast(alert);
-                }
-              );
-              this.busy = this.fetchPrefillData();
-            }
-          }
-        }
+          }                
         else {
           let alert = {
             type: 'error',
-            title: 'Invalid Input',
-            body: 'Prefill data has to be unique and non-empty'
+            title: 'Default Value & Prefill data cannot be empty',
+            body: ''
           }
           this.appC.popToast(alert);
         }
       }
-      else if(this.createCustomComponentForm.type == "5"){
-        if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {  
-          if (this.createCustomComponentForm.is_required == "Y") {
-            if (this.createCustomComponentForm.is_searchable == "Y") {
-              let alert = {
-                type: 'error',
-                title: 'Invalid Input',
-                body: 'Input cannot be Searchable with Type "Date" '
-              }
-              this.appC.popToast(alert);
-            }
-            else {
-              this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
-                res => {
-                  let alert = {
-                    type: 'success',
-                    title: 'Component Updated',
-                  }
-                  this.clearComponentForm();
-                  this.isNewComponent = false;
-                  this.appC.popToast(alert);
-                },
-                err => {
-                  let alert = {
-                    type: 'error',
-                    title: 'Failed To Add Component',
-                    body: 'There was an error processing your request' + err.message
-                  }
-                  this.appC.popToast(alert);
+      /* Date Custom Component */
+      else if (this.createCustomComponentForm.type == "5") {
+        if (this.createCustomComponentForm.is_searchable == "N" && this.createCustomComponentForm.defaultValue.trim() == "") {
+          if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
+            this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+              res => {
+                let alert = {
+                  type: 'success',
+                  title: 'Component Updated',
                 }
-              );
-              this.fetchPrefillData();
-            }
+                this.isNewComponent = false;
+                document.getElementById('addComponent-icon').innerHTML = "+"
+                this.clearComponentForm();
+                this.appC.popToast(alert);
+              },
+              err => {
+                let alert = {
+                  type: 'error',
+                  title: 'Failed To Add Component',
+                  body: 'There was an error processing your request' + err.message
+                }
+                this.appC.popToast(alert);
+              }
+            );
+            this.busy = this.fetchPrefillData();
           }
           else {
-            if (this.createCustomComponentForm.is_searchable == "Y") {
-              let alert = {
-                type: 'error',
-                title: 'Invalid Input',
-                body: 'Input cannot be Searchable with Type "Date" '
-              }
-              this.appC.popToast(alert);
+            let alert = {
+              type: 'error',
+              title: 'Invalid Input',
+              body: 'Prefill data has to be unique and non-empty'
             }
-            else {
-              this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
-                res => {
-                  let alert = {
-                    type: 'success',
-                    title: 'Component Updated',
-                  }
-                  this.isNewComponent = false;
-                  document.getElementById('addComponent-icon').innerHTML = "+"
-                  this.clearComponentForm();
-                  this.appC.popToast(alert);
-                },
-                err => {
-                  let alert = {
-                    type: 'error',
-                    title: 'Failed To Add Component',
-                    body: 'There was an error processing your request' + err.message
-                  }
-                  this.appC.popToast(alert);
-                }
-              );
-              this.busy = this.fetchPrefillData();
-            }
+            this.appC.popToast(alert);
           }
         }
         else {
-          let alert = {
+          let obj = {
             type: 'error',
-            title: 'Invalid Input',
-            body: 'Prefill data has to be unique and non-empty'
+            title: 'Date component cannot be searchable and cannot have default value',
+            body: ''
           }
-          this.appC.popToast(alert);
+          this.appC.popToast(obj);
         }
       }
+      /* Textbox and Checkbox */
       else {
-        //console.log("input text or checkbox");
-        if (this.createCustomComponentForm.is_required == "Y") {
-          if (this.createCustomComponentForm.is_searchable == "Y") {
-            this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
-              res => {
-                let alert = {
-                  type: 'success',
-                  title: 'Component Updated',
-                }
-                this.isNewComponent = false;
-                document.getElementById('addComponent-icon').innerHTML = "+"
-                this.clearComponentForm();
-                this.appC.popToast(alert);
-              },
-              err => {
-                let alert = {
-                  type: 'error',
-                  title: 'Failed To Add Component',
-                  body: 'There was an error processing your request' + err.message
-                }
-                this.appC.popToast(alert);
+        this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+            res => {
+              let alert = {
+                type: 'success',
+                title: 'Component Updated',
               }
-            );
-            this.busy = this.fetchPrefillData();
-          }
-          else {
-            this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
-              res => {
-                let alert = {
-                  type: 'success',
-                  title: 'Component Updated',
-                }
-                this.isNewComponent = false;
-                document.getElementById('addComponent-icon').innerHTML = "+"
-                this.clearComponentForm();
-                this.appC.popToast(alert);
-              },
-              err => {
-                let alert = {
-                  type: 'error',
-                  title: 'Failed To Add Component',
-                  body: 'There was an error processing your request' + err.message
-                }
-                this.appC.popToast(alert);
+              this.isNewComponent = false;
+              document.getElementById('addComponent-icon').innerHTML = "+"
+              this.clearComponentForm();
+              this.appC.popToast(alert);
+            },
+            err => {
+              let alert = {
+                type: 'error',
+                title: 'Failed To Add Component',
+                body: 'There was an error processing your request' + err.message
               }
-            );
-            this.busy = this.fetchPrefillData();
-          }
+              this.appC.popToast(alert);
+            }
+          );
+          this.busy = this.fetchPrefillData();
         }
-        else {
-          if (this.createCustomComponentForm.is_searchable == "Y") {
-            this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
-              res => {
-                let alert = {
-                  type: 'success',
-                  title: 'Component Updated',
-                }
-                this.isNewComponent = false;
-                document.getElementById('addComponent-icon').innerHTML = "+"
-                this.clearComponentForm();
-                this.appC.popToast(alert);
-              },
-              err => {
-                let alert = {
-                  type: 'error',
-                  title: 'Failed To Add Component',
-                  body: 'There was an error processing your request' + err.message
-                }
-                this.appC.popToast(alert);
-              }
-            );
-            this.busy = this.fetchPrefillData();
-          }
-          else {
-            this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
-              res => {
-                let alert = {
-                  type: 'success',
-                  title: 'Component Updated',
-                }
-                this.isNewComponent = false;
-                document.getElementById('addComponent-icon').innerHTML = "+"
-                this.clearComponentForm();
-                this.appC.popToast(alert);
-              },
-              err => {
-                let alert = {
-                  type: 'error',
-                  title: 'Failed To Add Component',
-                  body: 'There was an error processing your request' + err.message
-                }
-                this.appC.popToast(alert);
-              }
-            );
-            this.busy = this.fetchPrefillData();
-          }
-        }
-      }
     }
     else {
       let alert = {
@@ -406,9 +240,6 @@ export class CreateCustomCompComponent implements OnInit {
       this.appC.popToast(alert);
     }
   }
-
-
-
 
   validateDropDown(data) {
     let arr: any[] = data.split(',');
@@ -421,6 +252,15 @@ export class CreateCustomCompComponent implements OnInit {
     return test1
   }
 
+  validateDropdownDefvalue(tocheck, tomatch){
+    let arr = tocheck.split(',');
+    for(let i = 0; i<arr.length;i++){
+      if(tomatch === arr[i].trim() ){
+        return true;
+      }
+    }
+    return false;
+  }
 
   validateDropDownUpdate(data) {
     let arr: any[] = data.split(',');
@@ -432,16 +272,10 @@ export class CreateCustomCompComponent implements OnInit {
     return test1
   }
 
-
-
-
   editRow(data) {
     document.getElementById((data.label + data.component_id).toString()).classList.remove('displayComp');
     document.getElementById((data.label + data.component_id).toString()).classList.add('editComp');
   }
-
-
-
 
   deleteRow(data) {
 
@@ -469,43 +303,89 @@ export class CreateCustomCompComponent implements OnInit {
 
   }
 
-
-
   cancelEditRow(data) {
     document.getElementById((data.label + data.component_id).toString()).classList.add('displayComp');
     document.getElementById((data.label + data.component_id).toString()).classList.remove('editComp');
     this.fetchPrefillData();
   }
 
-
-
-
   updateRow(data) {
-    
-    if(data.type == '3' || data.type == '4'){
-      if (this.validateDropDownUpdate(data.prefilled_data)) {
-        let arr: any[] = data.prefilled_data.split(',');
-        data.prefilled_data = Array.from(new Set(arr)).join(',');
+
+    if(data.label != "" && data.label != " " && data.type != "" ){
+    if (data.type == '3' || data.type == '4') {
+      if(data.defaultValue != "" && data.prefilled_data != ""){
+        if (this.validateDropDownUpdate(data.prefilled_data)) {
+          let arr: any[] = data.prefilled_data.split(',');
+          data.prefilled_data = Array.from(new Set(arr)).join(',');
+          /*  */
+          if(this.validateDropdownDefvalue(data.prefilled_data, data.defaultValue)){
+            if (data.is_external == "N") {
+               this.postdata.updateCustomComponent(data).subscribe(
+                  res => {
+                    let alert = {
+                      type: 'success',
+                      title: 'Component Updated',
+                    }
+                    this.appC.popToast(alert);
+                    this.cancelEditRow(data);
+                  },
+                  err => {
+                    let alert = {
+                      type: 'error',
+                      title: 'Failed To Update Component',
+                      body: 'component cannot be update as already in use'
+                    }
+                    this.appC.popToast(alert);
+                  }
+                );
+              }
+            else {
+              let msg = {
+                type: 'error',
+                title: 'cannot update label/prefilled data/type/external flag for component used in external website',
+                body: ''
+              }
+              this.appC.popToast(msg);      
+            }
+          }
+          else{
+            let msg = {
+              type: 'error',
+              title: 'dropdown default value should be present in prefilled data',
+              body: ''
+            }
+            this.appC.popToast(msg);    
+          }
+        }
+        else {
+          let msg = {
+            type: 'error',
+            title: 'Invalid Input',
+            body: 'Prefilled data should be non-empty and unique'
+          }
+          this.appC.popToast(msg);
+        }
+      }
+      else{
+        let msg = {
+          type: 'error',
+          title: 'Default Value & Prefill data cannot be empty',
+          body: ''
+        }
+        this.appC.popToast(msg);
+      }
+    }
+
+    else if (data.type == '5') {
+      if (this.validateDropDown(data.prefilled_data)) {
         if (data.is_required == "Y") {
           if (data.is_searchable == "Y") {
-           /* this.busy = */ this.postdata.updateCustomComponent(data).subscribe(
-              res => {
-                let alert = {
-                  type: 'success',
-                  title: 'Component Updated',
-                }
-                this.appC.popToast(alert);
-                this.cancelEditRow(data);
-              },
-              err => {
-                let alert = {
-                  type: 'error',
-                  title: 'Failed To Update Component',
-                  body: 'component cannot be update as already in use'
-                }
-                this.appC.popToast(alert);
-              }
-            );
+            let msg = {
+              type: 'error',
+              title: 'Invalid Input',
+              body: 'Input cannot be Searchable with Type "Date" '
+            }
+            this.appC.popToast(msg);
           }
           else {
             this.postdata.updateCustomComponent(data).subscribe(
@@ -516,7 +396,7 @@ export class CreateCustomCompComponent implements OnInit {
                 }
                 this.appC.popToast(alert);
                 this.cancelEditRow(data);
-  
+
               },
               err => {
                 let alert = {
@@ -531,25 +411,12 @@ export class CreateCustomCompComponent implements OnInit {
         }
         else {
           if (data.is_searchable == "Y") {
-            this.postdata.updateCustomComponent(data).subscribe(
-              res => {
-                let alert = {
-                  type: 'success',
-                  title: 'Component Updated',
-                }
-                this.appC.popToast(alert);
-                this.cancelEditRow(data);
-  
-              },
-              err => {
-                let alert = {
-                  type: 'error',
-                  title: 'Failed To Update Component',
-                  body: 'component cannot be update as already in use'
-                }
-                this.appC.popToast(alert);
-              }
-            );
+            let msg = {
+              type: 'error',
+              title: 'Invalid Input',
+              body: 'Input cannot be Searchable with Type "Date" '
+            }
+            this.appC.popToast(msg);
           }
           else {
             this.postdata.updateCustomComponent(data).subscribe(
@@ -560,7 +427,7 @@ export class CreateCustomCompComponent implements OnInit {
                 }
                 this.appC.popToast(alert);
                 this.cancelEditRow(data);
-  
+
               },
               err => {
                 let alert = {
@@ -572,94 +439,19 @@ export class CreateCustomCompComponent implements OnInit {
               }
             );
           }
-        } 
+        }
       }
       else {
         let msg = {
           type: 'error',
           title: 'Invalid Input',
           body: 'Prefilled data should be non-empty and unique'
-          }
-          this.appC.popToast(msg);        
+        }
+        this.appC.popToast(msg);
       }
     }
 
-    else if(data.type == '5'){
-      if (this.validateDropDown(data.prefilled_data)) {      
-        if (data.is_required == "Y") {
-          if (data.is_searchable == "Y") {
-            let msg = {
-              type: 'error',
-              title: 'Invalid Input',
-              body: 'Input cannot be Searchable with Type "Date" '
-              }
-              this.appC.popToast(msg);        
-          }
-          else{
-            this.postdata.updateCustomComponent(data).subscribe(
-              res => {
-                let alert = {
-                  type: 'success',
-                  title: 'Component Updated',
-                }
-                this.appC.popToast(alert);
-                this.cancelEditRow(data);
-  
-              },
-              err => {
-                let alert = {
-                  type: 'error',
-                  title: 'Failed To Update Component',
-                  body: 'component cannot be update as already in use'
-                }
-                this.appC.popToast(alert);
-              }
-            );
-          }
-        }
-        else{
-          if (data.is_searchable == "Y") {
-            let msg = {
-              type: 'error',
-              title: 'Invalid Input',
-              body: 'Input cannot be Searchable with Type "Date" '
-              }
-              this.appC.popToast(msg);        
-          }
-          else{
-            this.postdata.updateCustomComponent(data).subscribe(
-              res => {
-                let alert = {
-                  type: 'success',
-                  title: 'Component Updated',
-                }
-                this.appC.popToast(alert);
-                this.cancelEditRow(data);
-  
-              },
-              err => {
-                let alert = {
-                  type: 'error',
-                  title: 'Failed To Update Component',
-                  body: 'component cannot be update as already in use'
-                }
-                this.appC.popToast(alert);
-              }
-            );
-          }
-        }
-    }
-    else{
-      let msg = {
-          type: 'error',
-          title: 'Invalid Input',
-          body: 'Prefilled data should be non-empty and unique'
-          }
-          this.appC.popToast(msg);        
-      }
-    }
-
-    else{
+    else {
       if (data.is_required == "Y") {
         if (data.is_searchable == "Y") {
          /* this.busy = */ this.postdata.updateCustomComponent(data).subscribe(
@@ -748,6 +540,15 @@ export class CreateCustomCompComponent implements OnInit {
         }
       }
     }
+  }
+  else{
+    let msg = {
+      type: 'error',
+      title: 'Invalid Input',
+      body: 'Please mention a Label/Type'
+    }
+    this.appC.popToast(msg);
+  }
   }
 
 
