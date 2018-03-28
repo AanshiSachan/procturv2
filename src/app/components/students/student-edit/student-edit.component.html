@@ -239,9 +239,9 @@
                   <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span>
                 </div>
 
-                <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.school_name != ''}">
+                <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.school_name != '-1'}">
                   <select id="schoolStitution" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name" class="form-ctrl">
-                    <option></option>
+                    <option value="-1"></option>
                     <option [value]="institute.school_id" *ngFor="let institute of instituteList">
                       {{institute.school_name}}
                     </option>
@@ -253,8 +253,8 @@
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
-                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}">
-                  <select id="standard" [(ngModel)]="studentAddFormData.student_class" name="standard" class="form-ctrl">
+                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class_key != ''}">
+                  <select id="standard" [(ngModel)]="studentAddFormData.student_class_key" name="standard" class="form-ctrl">
                     <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                       {{standard.standard_name}}
@@ -665,7 +665,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="clearFix add-edit">
+                  <div class="clearFix add-edit" [ngClass]="{'hide': installment.is_referenced == 'N'}">
                       <a >Download receipt</a>
                       <a >E-mail receipt</a>
                   </div>

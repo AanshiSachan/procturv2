@@ -3094,12 +3094,38 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   validPdc(obj): boolean {
     if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '' || obj.clearing_date == 'Invalid date' || obj.clearing_date == '' || obj.cheque_no.toString().length != 6 || obj.cheque_amount <= 0) {
-      let msg = {
-        type: 'error',
-        title: 'Invalid Cheque Details',
-        body: 'Please share valid cheque details'
+      if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '') {
+        let msg = {
+          type: 'error',
+          title: 'Invalid Cheque Details',
+          body: 'Please enter a valid cheque date'
+        }
+        this.appC.popToast(msg);
       }
-      this.appC.popToast(msg);
+      if (obj.clearing_date == 'Invalid date' || obj.clearing_date == '') {
+        let msg = {
+          type: 'error',
+          title: 'Invalid Cheque Details',
+          body: 'Please enter a valid cheque clearing date'
+        }
+        this.appC.popToast(msg);
+      }
+      if (obj.cheque_no.toString().length != 6) {
+        let msg = {
+          type: 'error',
+          title: 'Invalid Cheque Details',
+          body: 'Please enter a valid cheque number'
+        }
+        this.appC.popToast(msg);
+      }
+      if (obj.cheque_amount <= 0) {
+        let msg = {
+          type: 'error',
+          title: 'Invalid Cheque Details',
+          body: 'Please enter a valid amount'
+        }
+        this.appC.popToast(msg);
+      }
       return false;
     }
     else {
