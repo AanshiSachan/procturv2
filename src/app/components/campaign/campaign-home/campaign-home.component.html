@@ -472,16 +472,18 @@
                     {{row.sms_type}}
                   </td>
                   <td>
-                    <span *ngIf="row.statusValue == 'Open'" (click)="approveMessage(row)">
+                    <span [ngClass]="{hide : showApproveButtons(row)}" (click)="approveMessage(row)">
                       <i class="fas fa-check" style="font-family: FontAwesome;font-size: 25px;color: green;"></i>
                     </span>
                   </td>
 
-                  <td class="view-comp actionButtons">
-                    <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
-                    <a class="anchorTagCursor" (click)="deleteRow(row , i)">Delete</a>
+                  <td class="view-comp">
+                    <div class="actionButtons" [ngClass]="{hide : showActionButton(row)}">
+                      <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
+                      <a class="anchorTagCursor" (click)="deleteRow(row , i)">Delete</a>
+                    </div>
                   </td>
-                  <td class="edit-comp">
+                  <td class="edit-comp actionButtons">
                     <a class="anchorTagCursor" (click)="saveInformation(row , i)"> Save </a>
                     <a class="anchorTagCursor" (click)="cancelEditRow(i)"> Cancel </a>
                   </td>

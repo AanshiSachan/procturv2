@@ -123,7 +123,7 @@ export class CampaignHomeComponent implements OnInit {
     messageArray: []
   };
 
-  messageList: any;
+  messageList: any = [];
 
   //flag for sorting
   sortFlag = "asc";
@@ -188,6 +188,8 @@ export class CampaignHomeComponent implements OnInit {
   addEditPromotional: boolean = false;
   createNew: boolean = false;
   messageText: any = "";
+  enableApprove = sessionStorage.getItem('allow_sms_approve_feature');
+  isAdmin = sessionStorage.getItem('permissions');
 
   constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService,
     private router: Router, private logger: Logger, private fb: FormBuilder,
@@ -211,8 +213,6 @@ export class CampaignHomeComponent implements OnInit {
 
   /* Load Table data with respect to the institute data provided */
   loadTableDatatoSource(obj) {
-
-    this.getSMSList();
 
     this.fetchingDataMessage = "Loading";
     // document.getElementById("bulk-drop").classList.add("hide");
@@ -470,10 +470,9 @@ export class CampaignHomeComponent implements OnInit {
   }
 
   openSmsPopup(row) {
-    console.log("we are here");
-    console.log(row);
     this.smsSelectedRows = row;
     this.message = 'sms';
+    this.getSMSList('init');
   }
 
   /* common function to close popups */
@@ -880,11 +879,18 @@ export class CampaignHomeComponent implements OnInit {
 
   addEditPromotionalSms() {
     this.addEditPromotional = true;
-    this.getSMSList();
+    this.getSMSList('');
   }
 
-  getSMSList() {
-    this.postData.campaignMessageList().subscribe(
+  getSMSList(Key) {
+    let data: any;
+    if (Key == "init") {
+      data = { status: 1, sms_type: "Promotional" };
+    } else {
+      data = { feature_type: 1 }
+    }
+    this.messageList = [];
+    this.postData.campaignMessageList(data).subscribe(
       data => {
         this.messageList = data;
       },
@@ -913,7 +919,7 @@ export class CampaignHomeComponent implements OnInit {
             body: "Deleted Successfully"
           }
           this.appC.popToast(msg);
-          this.getSMSList();
+          this.getSMSList('');
         },
         err => {
           console.log(err);
@@ -943,7 +949,7 @@ export class CampaignHomeComponent implements OnInit {
             body: "Updated Successfully"
           }
           this.appC.popToast(msg);
-          this.getSMSList();
+          this.getSMSList('');
         },
         err => {
           console.log(err);
@@ -981,7 +987,7 @@ export class CampaignHomeComponent implements OnInit {
             body: "Added Successfully"
           }
           this.appC.popToast(msg);
-          this.getSMSList();
+          this.getSMSList('');
           this.messageText = "";
           this.closeAddDiv();
         },
@@ -1015,7 +1021,7 @@ export class CampaignHomeComponent implements OnInit {
             body: "Added Successfully"
           }
           this.appC.popToast(msg);
-          this.getSMSList();
+          this.getSMSList('');
           this.messageText = "";
           this.closeAddDiv();
         },
@@ -1032,6 +1038,22 @@ export class CampaignHomeComponent implements OnInit {
     }
   }
 
+  showApproveButtons(data) {
+    let check = false;
+    if (data.statusValue == 'Open' && this.enableApprove == '1' && this.isAdmin == "") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  showActionButton(row) {
+    if (this.enableApprove == '1' && this.isAdmin == "") {
+      return false
+    } else {
+      return true;
+    }
+  }
 
 }
 

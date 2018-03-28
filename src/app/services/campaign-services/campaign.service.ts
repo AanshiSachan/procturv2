@@ -116,14 +116,13 @@ export class CampaignService {
   }
 
 
-  campaignMessageList() {
-    let data = { status: 1, sms_type: "Promotional" };
+  campaignMessageList( data) {
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id + "/all";
 
     return this.http.post(this.urlDownloadAllEnquiry, data, { headers: this.headers }).map(
       data => { return data.json() },
       err => {
-        //  console.log("error fetching template"); 
+        return err.json();
       }
     );
   }
