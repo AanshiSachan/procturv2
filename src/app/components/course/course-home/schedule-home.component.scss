@@ -15,14 +15,26 @@
     ::-webkit-scrollbar{
         display: block;
     }
-    /* tr {
-        td:first-child {
-            text-align: left;
-            padding: 10px;
-            width: 20px;
-        }
-    } */
+
+    table{
+        tr{
+            th{
+                padding-top: 20px;
+                padding-bottom:15px;
+                height:25px;
+            }
+
+td{
+    padding-top:15px;
+    
+    padding-bottom:3px;
 }
+
+        }
+    }
+}
+
+
 
 .filter-res label {
     font-size: 14px;
@@ -390,6 +402,7 @@
                     padding: 7px 10px;
                     background: #fff;
                     font-size: 12px;
+                    
                     text-align: left;
                     border-bottom: 1px solid #ededed;
                     &:last-child {
@@ -420,8 +433,10 @@
 .table-responsive {
     th {
         font-size: 14px !important;
+        
         &:first-child {
             padding-left: 10px !important;
+           
         }
     }
     .field-checkbox-wrapper {
@@ -1160,20 +1175,11 @@
 }
 
 table {
-    thead {
-        tr {
-            th {
-                padding-top: 10px;
-                padding-bottom: 10px;
-                font-size: 12px;
-                font-weight: 500;
-            }
-        }
-    }
     tbody {
         tr {
             td {
                 font-size: 14px;
+
                 .editOptions li {
                     display: inline-block;
                 }
