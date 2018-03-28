@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CreateCustomCompComponent } from './create-custom-comp/create-custom-comp.component';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
+import { OnlyNumber } from './onlynumber.directive';
 
 @NgModule({
     imports: [
@@ -25,7 +26,8 @@ import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular
         CustomCommonComponent,
         CreateCustomCompComponent,
         CheckBoxConverter,
-        BooleanConverter
+        BooleanConverter,
+        OnlyNumber
     ],
     entryComponents: [
     ],

@@ -221,6 +221,83 @@ export class CreateCustomCompComponent implements OnInit {
           this.appC.popToast(alert);
         }
       }
+      else if(this.createCustomComponentForm.type == "5"){
+        if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {  
+          if (this.createCustomComponentForm.is_required == "Y") {
+            if (this.createCustomComponentForm.is_searchable == "Y") {
+              let alert = {
+                type: 'error',
+                title: 'Invalid Input',
+                body: 'Input cannot be Searchable with Type "Date" '
+              }
+              this.appC.popToast(alert);
+            }
+            else {
+              this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+                res => {
+                  let alert = {
+                    type: 'success',
+                    title: 'Component Updated',
+                  }
+                  this.clearComponentForm();
+                  this.isNewComponent = false;
+                  this.appC.popToast(alert);
+                },
+                err => {
+                  let alert = {
+                    type: 'error',
+                    title: 'Failed To Add Component',
+                    body: 'There was an error processing your request' + err.message
+                  }
+                  this.appC.popToast(alert);
+                }
+              );
+              this.fetchPrefillData();
+            }
+          }
+          else {
+            if (this.createCustomComponentForm.is_searchable == "Y") {
+              let alert = {
+                type: 'error',
+                title: 'Invalid Input',
+                body: 'Input cannot be Searchable with Type "Date" '
+              }
+              this.appC.popToast(alert);
+            }
+            else {
+              this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+                res => {
+                  let alert = {
+                    type: 'success',
+                    title: 'Component Updated',
+                  }
+                  this.isNewComponent = false;
+                  document.getElementById('addComponent-icon').innerHTML = "+"
+                  this.clearComponentForm();
+                  this.appC.popToast(alert);
+                },
+                err => {
+                  let alert = {
+                    type: 'error',
+                    title: 'Failed To Add Component',
+                    body: 'There was an error processing your request' + err.message
+                  }
+                  this.appC.popToast(alert);
+                }
+              );
+              this.busy = this.fetchPrefillData();
+            }
+          }
+        }
+        else {
+          let alert = {
+            type: 'error',
+            title: 'Invalid Input',
+            body: 'Prefill data has to be unique and non-empty'
+          }
+          this.appC.popToast(alert);
+        }
+      }
       else {
         //console.log("input text or checkbox");
         if (this.createCustomComponentForm.is_required == "Y") {
@@ -507,6 +584,82 @@ export class CreateCustomCompComponent implements OnInit {
           this.appC.popToast(msg);        
       }
     }
+
+    else if(data.type == '5'){
+      if (this.validateDropDown(data.prefilled_data)) {      
+        if (data.is_required == "Y") {
+          if (data.is_searchable == "Y") {
+            let msg = {
+              type: 'error',
+              title: 'Invalid Input',
+              body: 'Input cannot be Searchable with Type "Date" '
+              }
+              this.appC.popToast(msg);        
+          }
+          else{
+            this.postdata.updateCustomComponent(data).subscribe(
+              res => {
+                let alert = {
+                  type: 'success',
+                  title: 'Component Updated',
+                }
+                this.appC.popToast(alert);
+                this.cancelEditRow(data);
+  
+              },
+              err => {
+                let alert = {
+                  type: 'error',
+                  title: 'Failed To Update Component',
+                  body: 'component cannot be update as already in use'
+                }
+                this.appC.popToast(alert);
+              }
+            );
+          }
+        }
+        else{
+          if (data.is_searchable == "Y") {
+            let msg = {
+              type: 'error',
+              title: 'Invalid Input',
+              body: 'Input cannot be Searchable with Type "Date" '
+              }
+              this.appC.popToast(msg);        
+          }
+          else{
+            this.postdata.updateCustomComponent(data).subscribe(
+              res => {
+                let alert = {
+                  type: 'success',
+                  title: 'Component Updated',
+                }
+                this.appC.popToast(alert);
+                this.cancelEditRow(data);
+  
+              },
+              err => {
+                let alert = {
+                  type: 'error',
+                  title: 'Failed To Update Component',
+                  body: 'component cannot be update as already in use'
+                }
+                this.appC.popToast(alert);
+              }
+            );
+          }
+        }
+    }
+    else{
+      let msg = {
+          type: 'error',
+          title: 'Invalid Input',
+          body: 'Prefilled data should be non-empty and unique'
+          }
+          this.appC.popToast(msg);        
+      }
+    }
+
     else{
       if (data.is_required == "Y") {
         if (data.is_searchable == "Y") {

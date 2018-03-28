@@ -53,7 +53,7 @@ export class ScheduleHomeComponent implements OnInit {
     this.isRippleLoad = true;
     this.apiService.getAllStandardListFromServer().subscribe(
       (data: any) => {
-        console.log(data); 3
+        //console.log(data); 3
         this.totalRow = data.length;
         data.sort(function (a, b) {
           return moment(a.created_date).unix() - moment(b.created_date).unix();
