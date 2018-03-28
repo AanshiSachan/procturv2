@@ -953,9 +953,12 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   openSideBar(ev) {
+    let mySidenavWidth = '29%';
+    if (window.innerWidth < 768)
+      mySidenavWidth = '100%';
     this.studentPage.nativeElement.style.width = "70%";
-    this.studentPage.nativeElement.style.marginRight = "29%";
-    this.mySidenav.nativeElement.style.width = "29%";
+    this.studentPage.nativeElement.style.marginRight = mySidenavWidth;
+    this.mySidenav.nativeElement.style.width = mySidenavWidth;
     this.mySidenav.nativeElement.style.display = 'block';
     this.optMenu.nativeElement.classList.add('shorted');
     let id = ev.student_id;

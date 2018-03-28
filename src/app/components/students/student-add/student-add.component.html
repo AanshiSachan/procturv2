@@ -545,14 +545,14 @@
                 <label>Fees</label>
                 <div class="blue">
                   <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{feeTemplateById.studentwise_total_fees_amount | commaSeprator}}</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{totalFeeWithTax | commaSeprator}}</span>
                 </div>
               </li>
               <li>
                 <label>Discount</label>
                 <div class="purple">
                   <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{feeTemplateById.studentwise_total_fees_discount | commaSeprator}}</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{totalDicountAmount | commaSeprator}}</span>
                   <a *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0" (click)="openDiscountApply()">Add more</a>
                 </div>
               </li>
@@ -560,21 +560,21 @@
                 <label>Taxes</label>
                 <div class="yellow">
                   <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">{{feeTemplateById.registeredServiceTax}} %</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{totalTaxAmount | commaSeprator}}</span>
                 </div>
               </li>
               <li>
                 <label>Amount Paid</label>
                 <div class="green">
                   <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{feeTemplateById.studentwise_total_fees_amount_paid | commaSeprator}}</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{totalPaidAmount | commaSeprator}}</span>
                 </div>
               </li>
               <li>
                 <label>Amount Due</label>
                 <div class="red">
                   <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{feeTemplateById.studentwise_total_fees_balance_amount | commaSeprator}}</span>
+                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{totalAmountDue | commaSeprator}}</span>
                 </div>
               </li>
               <li>
@@ -1293,29 +1293,29 @@
               <ul class="table-row" *ngFor="let fee of instalmentTableData| orderBy: key : reverse; let i = index;">
                 <li [ngClass]="{'bigger': taxEnableCheck == '0'}">{{i+1}}</li>
                 <li>
-                  <div class="form-wrapper datePickerBox">
+                  <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
                     <input type="text" value="" class="form-ctrl bsDatepicker" readonly="true" name="dd" (ngModelChange)="sortTableByDate(i , $event)"
                       [(ngModel)]="fee.due_date" bsDatepicker>
                   </div>
                 </li>
                 <li [ngClass]="{'hide': taxEnableCheck == '0'}">
-                  <div class="form-wrapper">
+                  <div class="form-wrapper disable">
                     <input type="number" class="form-ctrl" readonly="true" name="amt" [(ngModel)]="fee.initial_fee_amount">
                   </div>
                 </li>
                 <li [ngClass]="{'hide': taxEnableCheck == '0'}">
-                  <div class="form-wrapper">
+                  <div class="form-wrapper disable">
                     <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getTaxedAmount(fee.initial_fee_amount, fee.service_tax_applicable, i)">
                   </div>
                 </li>
                 <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
-                  <div class="form-wrapper">
+                  <div class="form-wrapper" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
                     <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
                   </div>
                 </li>
                 <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
-                  <a *ngIf="fee.is_referenced != 'Y'">
-                    <i (click)="deleteInstallment(i)" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
+                  <a *ngIf="fee.is_referenced != 'Y'" (click)="deleteInstallment(i)">
+                    <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
                   </a>
                   <a *ngIf="fee.is_referenced == 'Y'" class="paid-fee">Paid</a>
                 </li>

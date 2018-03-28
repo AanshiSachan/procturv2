@@ -2232,6 +2232,7 @@ export class AdminHomeComponent implements OnInit {
 
   //  Role Based Access
   checkIfUserHadAccess(id) {
+    this.permissionArray = sessionStorage.getItem('permissions');
     if (this.permissionArray == "") {
       return false;
     } else {

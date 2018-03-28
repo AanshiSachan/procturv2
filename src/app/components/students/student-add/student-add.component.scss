@@ -90,7 +90,7 @@
     }
     .fee-container {
         padding-top: 10px;
-        max-height: 450px;
+        max-height: 400px;
         overflow-x: hidden;
         overflow-y: auto;
         .installment-container {
@@ -110,7 +110,7 @@
                     li {
                         display: inline-flex;
                         width: 12%;
-                        margin: 0px 5px;
+                        margin: 0px 10px;
                         .form-wrapper {
                             background: transparent;
                             margin: 0px;
@@ -148,7 +148,7 @@
                                     padding: 8px 5px;
                                 }
                             }
-                            &.timepick{
+                            &.timepick {
                                 .form-ctrl {
                                     background: transparent;
                                     border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
@@ -157,7 +157,7 @@
                                     font-weight: 600;
                                     font-size: 14px;
                                     color: black;
-                                }   
+                                }
                             }
                         }
                     }
@@ -175,7 +175,7 @@
                         li {
                             width: 12%;
                             padding: 10px;
-                            margin-left: 10px;
+                            margin-left: 12px;
                             text-transform: uppercase;
                             color: #777;
                             &.bigger {
@@ -189,7 +189,7 @@
                         border: 1px solid #efefef;
                         li {
                             display: inline-flex;
-                            width: 15%;
+                            width: 12%;
                             padding: 2px 12px;
                             margin-left: 10px;
                             text-align: center;
@@ -204,11 +204,10 @@
                 }
             }
         }
-
-        .additional-container{
+        .additional-container {
             box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
             margin-top: 20px;
-            .additional-header{
+            .additional-header {
                 background: #efefef;
                 padding: 10px;
                 font-size: 18px;
@@ -216,7 +215,7 @@
                 border-top-left-radius: 5px;
                 border-top-right-radius: 5px;
             }
-            .additional-adder{
+            .additional-adder {
                 background: #efefef;
                 padding: 20px 5px 10px 5px;
                 ul {
@@ -261,7 +260,7 @@
                                     padding: 8px 5px;
                                 }
                             }
-                            &.timepick{
+                            &.timepick {
                                 .form-ctrl {
                                     background: transparent;
                                     border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
@@ -270,13 +269,13 @@
                                     font-weight: 600;
                                     font-size: 14px;
                                     color: black;
-                                }   
+                                }
                             }
                         }
                     }
                 }
             }
-            .additional-table{
+            .additional-table {
                 ul {
                     li {
                         display: inline-flex;
@@ -345,11 +344,21 @@
 
 .form-wrapper {
     padding: 8px 5px;
+    width: 100%;
+    border-radius: 5px;
     border: 1px solid rgba(119, 119, 119, 0.34);
     .form-ctrl {
+        width: inherit;
         background: transparent;
     }
+    &.disable {
+        background: #dddddd !important;
+    }
+    &:active{
+        border: 2px solid rgba(37, 122, 233, 0.34);
+    }
 }
+
 
 .paid-fee {
     border-radius: 10px;

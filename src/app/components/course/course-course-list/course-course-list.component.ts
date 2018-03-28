@@ -26,6 +26,12 @@ export class CourseCourseListComponent implements OnInit {
   studentListDataSource: any = [];
   studentList: any = [];
   allChecked: boolean = false;
+  academicList: any = [];
+  standardList: any = [];
+  searchFilter = {
+    unassignFlag: true,
+    standard_id: -1,
+  }
 
   constructor(
     private apiService: CourseListService,
@@ -34,13 +40,13 @@ export class CourseCourseListComponent implements OnInit {
 
   ngOnInit() {
     this.getCourseListForTable();
+    this.getStandardList();
   }
 
   getCourseListForTable() {
     this.isRippleLoad = true;
     this.apiService.getCourseListFromServer().subscribe(
       (data: any) => {
-        console.log(data);
         this.courseListDataSource = data;
         this.totalRow = data.length;
         this.fetchTableDataByPage(this.PageIndex);
@@ -49,6 +55,17 @@ export class CourseCourseListComponent implements OnInit {
       error => {
         this.isRippleLoad = false;
         console.log(error);
+      }
+    )
+  }
+
+  getStandardList() {
+    this.apiService.getStandardListFromServer().subscribe(
+      res => {
+        this.standardList = res;
+      },
+      err => {
+        console.log(err);
       }
     )
   }
@@ -102,20 +119,38 @@ export class CourseCourseListComponent implements OnInit {
 
   addStudentToBatch(rowDetails) {
     this.addStudentPopUp = true;
-    this.getAllStudentList(rowDetails);
     this.courseDetails = rowDetails;
+    this.getAllStudentList();
+    this.getAcademicYearDetails();
   }
 
-  getAllStudentList(rowDetails) {
+  getAcademicYearDetails() {
+    this.academicList = [];
+    this.apiService.getAcadYear().subscribe(
+      res => {
+        this.academicList = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  getAllStudentList() {
+    let unassign: any = "";
+    if (this.searchFilter.unassignFlag == true) {
+      unassign = "Y";
+    } else {
+      unassign = "N";
+    }
     let data = {
-      course_id: rowDetails.course_id,
-      standard_id: -1,
-      isUnassignedStudent: 'Y'
+      course_id: this.courseDetails.course_id,
+      standard_id: this.searchFilter.standard_id,
+      isUnassignedStudent: unassign
     }
     this.isRippleLoad = true;
     this.apiService.getStudentList(data).subscribe(
       res => {
-        console.log("Student list", res);
         this.studentListDataSource = this.keepCloning(res);
         this.studentList = res;
         this.getHeaderCheckBoxValue();
@@ -130,10 +165,10 @@ export class CourseCourseListComponent implements OnInit {
 
   saveChanges() {
     this.isRippleLoad = true;
+    let data = this.getCheckedRows();
     let dataToSend = {
-      batch_id: this.courseDetails.course_id,
-      studentArray: this.getCheckedRows(),
-    };   
+      studentAssignedUnassigned_and_AcademicYearMapping: data,
+    };
     this.apiService.saveUpdatedList(dataToSend, this.courseDetails.course_id).subscribe(
       res => {
         console.log(res);
@@ -151,19 +186,17 @@ export class CourseCourseListComponent implements OnInit {
   }
 
   getCheckedRows() {
-    console.log(this.studentListDataSource);
-    console.log(this.studentList);
+    debugger
     let test = {};
     for (let i = 0; i < this.studentListDataSource.length; i++) {
       for (let t = 0; t < this.studentList.length; t++) {
         if (this.studentList[t].student_id == this.studentListDataSource[i].student_id) {
           if (this.studentList[t].assigned != this.studentListDataSource[i].assigned) {
-            test[this.studentList[t].student_id] = this.studentList[t].assigned;
+            test[this.studentList[t].student_id] = [this.studentList[t].assigned.toString(), this.studentList[t].academic_year.toString()];
           }
         }
       }
     }
-    console.log(test);
     return test;
   }
 
@@ -182,6 +215,11 @@ export class CourseCourseListComponent implements OnInit {
 
   closeStudentPopup() {
     this.addStudentPopUp = false;
+    this.searchFilter = {
+      unassignFlag: true,
+      standard_id: -1,
+    },
+      this.studentList = [];
   }
 
   selectAllCheckBox(element) {
