@@ -33,7 +33,7 @@
                     <div class="update-form-wrapper">
                         <div class="form-wrap">
                             <!-- Status -->
-                            <div class="form-wrapper c-sm-6 c-xs-6">
+                            <div class="form-wrapper ">
                                 <label for="enquiryStatusEdit">Status</label>
                                 <select id="enquiryStatusEdit" class="side-form-ctrl " [(ngModel)]="updateFormData.statusValue" (ngModelChange)="updateStatusForEnquiryUpdate($event)"
                                     name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
@@ -46,7 +46,7 @@
                             </div>
 
                             <!-- Priority -->
-                            <div class="form-wrapper c-sm-6 c-xs-6">
+                            <div class="form-wrapper ">
                                 <label for="priorityEdit">Priority</label>
                                 <select id="priorityEdit" class="side-form-ctrl " [(ngModel)]="updateFormData.priority" name="priority">
                                     <option value="-1"></option>
@@ -57,7 +57,7 @@
                             </div>
 
                             <!-- Followup type -->
-                            <div class="form-wrapper c-sm-6 c-xs-6">
+                            <div class="form-wrapper ">
                                 <label for="selectFollowupEdit">Follow Up Type</label>
                                 <select id="selectFollowupEdit" class="side-form-ctrl " [(ngModel)]="updateFormData.follow_type" name="follow_type">
                                     <option value="-1"></option>
@@ -68,7 +68,7 @@
                             </div>
 
                             <!-- Assigned To -->
-                            <div class="form-wrapper c-sm-6 c-xs-6" *ngIf="isEnquiryAdmin">
+                            <div class="form-wrapper " *ngIf="isEnquiryAdmin">
                                 <label for="assignedTo">Assigned To</label>
                                 <select id="assignedTo" class="side-form-ctrl" name="assignedTo" [(ngModel)]="updateFormData.assigned_to">
                                     <option value="-1"></option>
@@ -79,7 +79,7 @@
                             </div>
 
                             <!-- Followup Date -->
-                            <div class="form-wrapper datepicker c-sm-6 c-xs-6">
+                            <div class="form-wrapper datepicker ">
                                 <label for="followUPdateEdit">Follow Up Date</label>
                                 <input type="text" class="side-form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate"
                                     id="followUPdateEdit" readonly="true" bsDatepicker/>
@@ -87,7 +87,8 @@
                             </div>
 
                             <!-- Followup Time -->
-                            <div class="form-wrapper c-xs-6 timepick">
+                            
+                            <div class="form-wrapper  timepick " >
                                 <label for="followuptime">FollowUp Time</label>
                                 <div class="tbox">
                                     <div class="times ">
@@ -110,16 +111,16 @@
 
                             
                             <!-- Notify Me -->
-                            <div class="form-checkbox-wrapper c-sm-12 c-xs-12">
-                                <div class="field-checkbox-wrapper">
-                                    <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox" />
+                            <div class="form-checkbox-wrapper"   >
+                                <div class="field-checkbox-wrapper" >
+                                    <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox"  style="display:inline-block;" >
                                     <label for="notifyme">Notify Me</label>
                                 </div>
                             </div>
-
+                            
 
                             <!-- Walkin Date  -->
-                            <div class="form-wrapper datepicker c-sm-6 c-xs-6">
+                            <div class="form-wrapper datepicker">
                                 <label for="walkindate">Walkin Date</label>
                                 <input type="text" class="side-form-ctrl bsDatepicker" [(ngModel)]="updateFormData.walkin_followUpDate" value="" placeholder=""
                                     id="walkindate" readonly="true" bsDatepicker/>
@@ -127,7 +128,7 @@
                             </div>
 
                             <!-- Walkin Time -->
-                            <div class="form-wrapper c-xs-6 timepick">
+                            <div class="form-wrapper timepick">
                                 <label for="walkintime">Walkin Time</label>
                                 <div class="tbox">
                                     <div class="times ">

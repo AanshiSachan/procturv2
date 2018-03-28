@@ -518,8 +518,8 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getEnqStartDate() {
-    let l=moment().date(1).format("YYYY-MM-DD");
-    return l;
+    let date=moment().date(1).format("YYYY-MM-DD");
+    return date;
     // return this.enquiryDate;
   }
 
