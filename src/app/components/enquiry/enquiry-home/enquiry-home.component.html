@@ -1029,7 +1029,7 @@
                               </th>
                               <th>
                                 <label>
-                                  <a class="cursor-icon" style="color:white;">{{smsHeader.action.title}}</a>
+                                  <a class="cursor-icon">{{smsHeader.action.title}}</a>
                                 </label>
                               </th>
                             </tr>
@@ -1348,6 +1348,7 @@
   <!-- Download Summary Report Options PopUp Single-->
   <section id="" class="popupWrapper fadeIn" *ngIf="summaryOptions">
     <!-- -->
+
     <div class="popup pos-abs popup-body-container" style="max-width: 30%">
       <div class="popup-wrapper pos-rel">
 
@@ -1369,6 +1370,7 @@
           <div class="content-section">
             <div class="row">
               <div class="c-sm-6 c-lg-6 c-lg-6">
+
                 <div class="field-wrapper has-value">
                   <select id="" class="form-ctrl" [(ngModel)]="downloadReportOption" name="priority">
                     <option value="1">Select Month</option>

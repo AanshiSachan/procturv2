@@ -3373,7 +3373,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   openEnquiryFullDetails(id) {
     this.closeAdFilter();
     let mySidenavWidth = '29%';
-    console.log(window.innerWidth);
     if(window.innerWidth < 768)
       mySidenavWidth = '100%';
     this.mySidenav.nativeElement.style.width = mySidenavWidth;

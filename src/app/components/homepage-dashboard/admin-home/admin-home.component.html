@@ -478,7 +478,7 @@
         </g>
       </svg>
     </span>
-    `
+    
     <h2 widget-header>Mark / Update Attendance : {{classMarkedForAction.batch_name}} - {{studentAttList.length}}</h2>
 
     <hr>
@@ -581,7 +581,7 @@
                       </div>
                     </li>
 
-                    <li style="width: 25%;" *ngIf="settingInfo.home_work_feature_enable==1">
+                    <li style="width: 20%;" *ngIf="settingInfo.home_work_feature_enable==1">
                       <div class="customDropdown">
                         <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status_11755" class="" [(ngModel)]="s.dateLi[0].home_work_status"
                           (ngModelChange)="isHomeworkStatusChanged(i)">
@@ -664,6 +664,7 @@
         </aside>
       </div>
     </div>
+
   </proctur-widget>
 
   <proctur-widget *ngIf="isCancelExamPop" [size]="'40%'">

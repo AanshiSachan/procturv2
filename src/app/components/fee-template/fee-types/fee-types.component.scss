@@ -10,6 +10,7 @@
 }
 
 .note-wrapper {
+    padding: 10px 10px;
     background: #efefef;
     h3 {
         margin-top: 5px;
@@ -26,7 +27,7 @@
     margin-bottom: 15px;
     margin-top: 15px;
     i {
-        border: 1px solid $common-blue;
+        // border: 1px solid $common-blue;
         display: inline-block;
         width: 17px;
         height: 17px;

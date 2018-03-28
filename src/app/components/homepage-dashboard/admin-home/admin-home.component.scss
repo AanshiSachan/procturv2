@@ -16,7 +16,7 @@
 .tooltip-box-field {
     position: absolute;
     width: 130px;
-    min-height: 30px;
+    min-height: 120px;
     background: #e0e0e0;
     border: 1px solid #ccc;
     left: 80%;
@@ -179,7 +179,7 @@ fieldset {
     cursor: pointer;
     line-height: 20px;
     width: 26px;
-    height: 26px;
+    height: 10px;
     box-sizing: border-box;
     text-align: center;
     padding-top: 3px;
@@ -258,6 +258,11 @@ fieldset {
     margin-top: 15px;
     max-height: 420px;
     overflow: hidden;
+
+
+
+
+
     .row {
         display: flex;
         .tableSection {
@@ -316,17 +321,36 @@ fieldset {
         .detailsSection {
             display: inline-block;
             width: 26%;
-            padding: 20px 5px 10px 10px;
+            padding: 5px 5px 10px 10px;
             background-color: #f7f7f7;
+            h3{
+                color: #979797;
+                font-weight: 400;
+            }
             .field-wrapper {
                 .form-ctrl {
                     background: transparent;
                     border: solid 1px #e2ebee;
+                    &.textBox{
+                        height: 60px;
+                        padding: 5px;
+                    }
                 }
             }
             div {
-                margin-top: 10px;
-                margin-bottom: 10px;
+                padding: 5px 0px;
+                &.questionInfo{
+                    padding: 0px 5px !important;
+                }
+                &.checkboxGroup{
+                    padding: 0px;
+                    margin-top: 5px;
+                    .field-checkbox-wrapper {
+                        position: relative;
+                        padding: 0px 0px 0px 25px !important;
+                        margin-bottom: 10px;
+                    }
+                }
             }
         }
     }
@@ -830,7 +854,7 @@ div#enqChart {
             }
         } // justify-content: space-between;
         li {
-            padding: 16px 24px 12px;
+            padding: 8px 10px 0px;
             &.cls-type {
                 width: 15%;
             }
@@ -1415,11 +1439,12 @@ div#enqChart {
 }
 
 .customDropdown {
-    font-weight: 800;
+    font-weight: 500;
     border: 1px solid rgba(0, 0, 0, 0.23);
-    padding: 5px 5px;
+    padding: 1px 1px;
     select {
         width: 100%;
+        
         background: transparent;
     }
 }
@@ -1427,8 +1452,14 @@ div#enqChart {
 .btnGroup {
     display: inline-flex;
     .btn {
-        padding: 5px 5px !important;
+        padding: -10px -10px !important;
         color: black !important;
+        width:30%;
+        height:1%;
+        font-size: 11px;
+        border-radius: 3px;
+    
+    
     }
     .classLeaveBtn {
         background: #7a7a7a;

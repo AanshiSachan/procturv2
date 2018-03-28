@@ -8,28 +8,48 @@
   <section class="middle-main clearFix">
 
     <div class="clearFix add-edit">
-      <a (click)="toggleCreateNewSlot()">
+      <a (click)="toggleCreateNewAcademicYear()">
         <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
-        <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
+        <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
         <span>Add Academic Year</span>
       </a>
     </div>
-    <section class="clearFix create-standard-form" *ngIf="createNewSlot">
+    <section class="clearFix create-standard-form" *ngIf="createNewAcademicYear" style="align:center;">
       <div class="row create-standard-field">
         <div class="c-lg-2 c-md-2 c-sm-2">
-        </div>
-        <div class="c-lg-6 c-md-6 c-sm-6">
-          <div class="field-wrapper">
-            <input type="text" #idSlot class="form-ctrl" name="slotNew" (focus)="inputClickedCheck($event)">
-            <label for="slotNew">Slot
+          <div class="field-wrapper has-value" style="display:inline-block;">
+            <input type="text" class="form-ctrl" name="academicYear" [(ngModel)]="addAcademicYearTemplate.inst_acad_year">
+            <label>Academic Year
             </label>
           </div>
-          <!-- <p>* You can provide time Example 10-12 PM</p> -->
+          </div>
+          <div class="c-lg-2 c-md-2 c-sm-2">
+          <div class="field-wrapper has-value" style="display:inline-block; margin-left:5px;">
+            <input type="text" class="form-ctrl" name="academicYearDescription" [(ngModel)]="addAcademicYearTemplate.desc">
+            <label>Academic Year Description
+            </label>
+          </div>
+          </div>
+          <div class="c-lg-2 c-md-2 c-sm-2">
+          <div class="field-wrapper has-value date" style="display:inline-block;margin-left:5px;">
+            <input type="text" class="form-ctrl" readonly="true" name="startDate" [(ngModel)]="addAcademicYearTemplate.start_date" bsDatepicker/>
+            <label >Start Date
+            </label>
+          </div>
+          </div>
+          <div class="c-lg-2 c-md-2 c-sm-2">
+          <div class="field-wrapper has-value" style="display:inline-block; margin-left:3px;">
+            <input type="text" class="form-ctrl" readonly="true" name="academicYear" [(ngModel)]="addAcademicYearTemplate.end_date" bsDatepicker/>
+            <label>End Date
+            </label>
+          </div>
         </div>
-        <div class="c-lg-4 c-md-4 c-sm-4" style="margin-top: 1%;">
+        <div class="c-lg-3 c-md-3 c-sm-3">
+        <div class="pull-left create-cancel-small" style="display:inline-block; margin-top:10px;">
           <aside class="pull-left create-cancel-small">
-            <button class="btn" (click)="addNewSlot(idSlot)">Add</button>
+            <button class="btn" (click)="addAcademicYearDetails()">Add</button>
           </aside>
+        </div>
         </div>
       </div>
 
@@ -66,31 +86,85 @@
                 </th>
               </tr>
             </thead>
-            <tr id="row{{i}}" class="displayComp" *ngFor="let row of slotTableList; let i = index; trackBy: i;">
-              <td>
-                {{i + 1}}
+            <tbody *ngIf="academicTableList.length !=0">
+              <tr id="row{{i}}" class="displayComp" *ngFor="let row of academicTableList; let i = index; trackBy: i;">
+                <td>
+                  {{i + 1}}
+                </td>
+
+                <td class="view-comp">
+                  {{row.inst_acad_year}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.inst_acad_year" name="label">
+                  </div>
+                </td>
+                <td class="view-comp">
+                  {{row.desc}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.desc" name="label">
+                  </div>
+                </td>
+
+                <td class="view-comp">
+                  {{row.start_date | date:'yyyy-mm-dd'}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" value="" class="form-ctrl editCellInput" style="cursor: pointer;" name="createdDate" readonly="true" [(ngModel)]="row.start_date"
+                      bsDatepicker/>
+                  </div>
+                </td>
+                <td class="view-comp">
+                  {{row.end_date | date:'yyyy-mm-dd'}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" value="" class="form-ctrl editCellInput" style="cursor: pointer;" name="endDate" readonly="true" [(ngModel)]="row.end_date"
+                      bsDatepicker/>
+                  </div>
+                </td>
+                <td class="view-comp">
+                  {{row.created_date}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.created_date" name="label" disabled>
+                  </div>
+                </td>
+                <td class="view-comp">
+                  <span *ngIf="row.default_academic_year == 0">No</span>
+                  <span *ngIf="row.default_academic_year == 1">Yes</span>
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper has-value">
+                    <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="row.default_academic_year" style="margin: auto">
+                      <option value="1">Yes</option>
+                      <option value="0">No</option>
+                    </select>
+                  </div>
+                </td>
+
+
+                <td class="view-comp">
+                  <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
+                </td>
+                <td class="edit-comp">
+                  <a class="anchorTagCursor" (click)="saveAcademicYearInformation(row , i)"> Save </a>
+                  <a class="anchorTagCursor" (click)="cancelEditRow(i)"> Cancel </a>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="academicTableList.length ==0">
+              <td colspan="7" style="text-align: center">
+                No Academic Year List Available
               </td>
- 
-              <td class="view-comp">
-                {{row.inst_acad_year}}
-              </td>
-              <td class="view-comp">
-                {{row.desc}}
-              </td>
-              <td class="view-comp">
-                {{row.start_date}}
-              </td>
-              <td class="view-comp">
-                {{row.end_date}}
-              </td>
-              <td class="view-comp">
-                {{row.created_date}}
-              </td>
-              <td class="view-comp">
-                {{row.is_active}}
-              </td>
-            
-            
+            </tbody>
+
+
           </table>
         </div>
       </div>
