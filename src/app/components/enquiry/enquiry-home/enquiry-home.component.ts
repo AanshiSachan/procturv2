@@ -1766,7 +1766,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   pushUpdatedEnquiry() {
     if (this.validateTime()) {
       this.isRippleLoad = true;
-      this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
+      this.updateFormData.comment = this.updateFormData.comment;
       this.updateFormData.follow_type = this.getFollowUpReverse(this.updateFormData.follow_type);
       this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
       let followupdateTime: string = "";
