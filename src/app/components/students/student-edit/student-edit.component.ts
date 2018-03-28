@@ -2250,6 +2250,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   reConfigureFees() {
+    this.deselectAllSelectedCheckbox();
     this.isDefineFees = true;
   }
   /* ============================================================================================================================ */
@@ -2491,7 +2492,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   formfullValidator() {
     if (this.studentAddFormData.student_name != "" && this.studentAddFormData.student_name != " "
-      && this.studentAddFormData.student_phone != "" && this.validateName() && this.validatePhone() && this.studentAddFormData.student_phone != " "
+      && this.studentAddFormData.student_phone != "" && this.studentAddFormData.student_phone != " "
       && this.studentAddFormData.student_phone.length == 10) {
       return true;
     }
@@ -2552,7 +2553,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   asssignCustomizedFee(id) {
-
     let obj = {
       chequeDetailsJson: {},
       customFeeSchedules: [],
@@ -2626,9 +2626,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   openDiscountApply() {
     this.isDiscountApply = true;
-
   }
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   closeDiscountApply() {
@@ -2642,7 +2640,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+  deselectAllSelectedCheckbox(){
+    this.totalFeePaid = 0;
+    this.paymentStatusArr.forEach(e => {e.uiSelected = false;});
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   applyDiscount() {
+    this.deselectAllSelectedCheckbox();
     /* Form is correctly filled */
     if (this.discountApplyForm.type != '' && this.discountApplyForm.value > 0 && this.discountApplyForm.reason != '' && this.discountApplyForm.reason != ' ') {
       /* discount in form of amount */
@@ -2657,8 +2662,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.appC.popToast(msg);
         }
         /* valid total discount amount < total due */
-        else {
-          
+        else { 
           /* apply discount to all */
           if (this.discountApplyForm.state === 'all') {
             /* Stores the index of all unpaid installments */

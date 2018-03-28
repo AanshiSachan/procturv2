@@ -612,8 +612,8 @@
               <ul>
                 <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
                   <div class="pull-left">
-                    <div class="field-checkbox-wrapper">
-                      <input type="checkbox" value="" [class.hide]="installment.is_referenced == 'Y'" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
+                    <div class="field-checkbox-wrapper" [class.hide]="installment.is_referenced == 'Y'">
+                      <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
                         (ngModelChange)="paymentValueUpdate($event, i)" />
                       <label for="instl{{i}}"></label>
                     </div>

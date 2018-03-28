@@ -593,7 +593,6 @@
                 <div class="pull-right c-xs-4 c-sm-4">
                   <ul style="width: 60px;float: right;" class="export-print align-right">
                     <li style="cursor:pointer" (click)="printFee()" class="print-icon">
-
                       Print
                     </li>
                   </ul>
@@ -605,8 +604,8 @@
               <ul>
                 <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
                   <div class="pull-left">
-                    <div class="field-checkbox-wrapper">
-                      <input type="checkbox" value="" [class.hide]="installment.is_referenced == 'Y'" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
+                    <div class="field-checkbox-wrapper" [ngClass]="{'hide': installment.is_referenced == 'Y'}">
+                      <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
                         (ngModelChange)="paymentValueUpdate($event, i)" />
                       <label for="instl{{i}}"></label>
                     </div>

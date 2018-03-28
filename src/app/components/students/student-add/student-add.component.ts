@@ -2405,7 +2405,6 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   deleteInstallment(i) {
-    console.log(i);
     this.instalmentTableData.splice(i, 1);
     this.updateTableInstallment();
   }
@@ -2417,6 +2416,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   reConfigureFees() {
+    this.deselectAllSelectedCheckbox();
     this.isDefineFees = true;
   }
   /* ============================================================================================================================ */
@@ -2752,8 +2752,13 @@ export class StudentAddComponent implements OnInit {
     }
   }
   /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+  deselectAllSelectedCheckbox(){
+    this.totalFeePaid = 0;
+    this.paymentStatusArr.forEach(e => {e.uiSelected = false;});
+  }
+  /* ============================================================================================================================ */  
   applyDiscount() {
+    this.deselectAllSelectedCheckbox();
     /* Form is correctly filled */
     if (this.discountApplyForm.type != '' && this.discountApplyForm.value > 0 && this.discountApplyForm.reason != '' && this.discountApplyForm.reason != ' ') {
       /* discount in form of amount */
@@ -2921,6 +2926,7 @@ export class StudentAddComponent implements OnInit {
       }
       this.appC.popToast(msg);
     }
+
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
