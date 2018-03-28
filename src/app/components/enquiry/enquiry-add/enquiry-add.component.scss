@@ -846,3 +846,19 @@
 .row.extraMargin {
     margin: 10px -15px 20px;
 }
+
+@media only screen and (max-width: 767px) {
+    .middle-left{
+        width: 100%;
+    }
+    .middle-right{
+        width: 100%;
+        padding: 0;
+    }
+    .accordian-section {
+        padding: 15px 0px 0;
+    }
+    .accordian-section .accordian-content {
+        padding-left: 40px;
+    }
+}

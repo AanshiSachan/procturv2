@@ -532,6 +532,8 @@
         <section id="printView" class="middle-main clearFix">
           <!-- Colored Tabs here -->
           <div class="fee-summary">
+
+            <!-- Header Tabs Here -->
             <ul *ngIf="userCustommizedFee.length != 0">
               <li>
                 <label>Fees</label>
@@ -578,12 +580,15 @@
                 </div>
               </li>
             </ul>
+            <!-- In case No Fee Template Selected -->
             <h1 *ngIf="userCustommizedFee.length == 0" style="text-align: center;">
               No Fee Template Selected, Click Configure Fees To Select A Template
             </h1>
+
           </div>
           <!-- Card layout here -->
           <div class="fee-detail-summary" *ngIf="userCustommizedFee.length != 0">
+           
             <!-- Heading -->
             <div class="clearfix fd-heading">
               <div class="row">
@@ -599,7 +604,7 @@
                 </div>
               </div>
             </div>
-            <!-- Cards -->
+            <!-- Fee Details Section Here -->
             <div class="fee-inst-list">
               <ul>
                 <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
@@ -620,6 +625,7 @@
                     </div>
                     <div class="instl-info">
                       <ul>
+
                         <li>
                           <label>
                             Fee Amount
@@ -628,6 +634,7 @@
                             {{installment.fees_amount | commaSeprator}}
                           </span>
                         </li>
+                        
                         <li>
                           <label>
                             Fee Type
@@ -636,6 +643,7 @@
                             {{installment.fee_type_name}}
                           </span>
                         </li>
+                        
                         <li>
                           <label>
                             Tax amount
@@ -644,6 +652,7 @@
                             &#8377; {{getTaxAmount(i) | commaSeprator}}
                           </span>
                         </li>
+                        
                         <li>
                           <label>
                             Due Date
@@ -652,8 +661,13 @@
                             {{installment.due_date}}
                           </span>
                         </li>
+
                       </ul>
                     </div>
+                  </div>
+                  <div class="clearFix add-edit">
+                      <a >Download receipt</a>
+                      <a >E-mail receipt</a>
                   </div>
                 </li>
               </ul>
