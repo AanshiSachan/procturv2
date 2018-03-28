@@ -289,7 +289,7 @@ export class AdminHomeComponent implements OnInit {
 
   fetchEnqWidgetData() {
     let obj = {
-      updateDateFrom: moment(this.enquiryDate[0]).format("YYYY-MM-DD"),
+      updateDateFrom: moment(this.enquiryDate[0]).date(1).format("YYYY-MM-DD"),
       updateDateTo: moment(this.enquiryDate[1]).format("YYYY-MM-DD")
     }
     this.enquiryService.fetchEnquiryWidgetView(obj).subscribe(
@@ -428,7 +428,7 @@ export class AdminHomeComponent implements OnInit {
 
   updateEnqChartByDate(e) {
     let obj = {
-      updateDateFrom: moment(e[0]).format("YYYY-MM-DD"),
+      updateDateFrom: moment(e[0]).date(1).format("YYYY-MM-DD"),
       updateDateTo: moment(e[1]).format("YYYY-MM-DD")
     }
     this.enquiryService.fetchEnquiryWidgetView(obj).subscribe(
@@ -517,7 +517,9 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getEnqStartDate() {
-    return this.enquiryDate[0];
+    let l=moment().date(1).format("YYYY-MM-DD");
+    return l;
+    // return this.enquiryDate;
   }
 
   getEnqEndDate() {
