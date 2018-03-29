@@ -506,17 +506,17 @@ export class HomeComponent implements OnInit {
   openMenu(index) {
     this.selectedRow = index;
     let len = this.itemList.length;
-    for(var i =0; i< len; i++){
-      if(i == index){
-        document.getElementById('menuList' + i).classList.toggle('hide');  
+    for (var i = 0; i < len; i++) {
+      if (i == index) {
+        document.getElementById('menuList' + i).classList.toggle('hide');
       }
-      else if(i != index){
-        document.getElementById('menuList' + i).classList.add('hide');  
+      else if (i != index) {
+        document.getElementById('menuList' + i).classList.add('hide');
       }
     }
 
 
-    
+
   }
 
   /* close action menu on events  */
@@ -536,9 +536,36 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  validateMandatoryFields() {
+    let msg = {
+      type: 'error',
+      title: "Error",
+      body: ""
+    }
+    if (this.allocateItemForm.value.sub_branch_id == "" || this.allocateItemForm.value.sub_branch_id == null) {
+      msg.body = "Please provide sub branch";
+      this.appC.popToast(msg);
+      return false;
+    }
+    if (this.allocateItemForm.value.sub_branch_item_id == "" || this.allocateItemForm.value.sub_branch_item_id == null) {
+      msg.body = "Please provide sub branch item";
+      this.appC.popToast(msg);
+      return false;
+    }
+    if (this.allocateItemForm.value.alloted_units == "" || this.allocateItemForm.value.alloted_units == null) {
+      msg.body = "Please provide no of allocation units";
+      this.appC.popToast(msg);
+      return false;
+    }
+    return true;
+  }
 
 
   allocateItemToBranches() {
+    let check = this.validateMandatoryFields();
+    if (check == false) {
+      return
+    }
     let data: any = {};
     data.alloted_units = this.allocateItemForm.value.alloted_units;
     data.challan_amount = this.allocateItemForm.value.challan_amount;
@@ -550,12 +577,23 @@ export class HomeComponent implements OnInit {
     data.item_id = this.allocateItemRowClicked.item_id.toString();
     this.inventoryApi.allocateItemToSubBranch(data).subscribe(
       data => {
-        console.log("Allocate Item", data);
+        let msg = {
+          type: 'success',
+          title: "Success",
+          body: "Successfully allocated to sub branch"
+        }
+        this.appC.popToast(msg);
         this.showAllocationBranchPopUp = false;
         this.loadTableDatatoSource();
       },
       error => {
         console.log("Allocate Item", error);
+        let msg = {
+          type: 'error',
+          title: "Error",
+          body: JSON.parse(error._body).message
+        }
+        this.appC.popToast(msg);
       }
     )
   }
