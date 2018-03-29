@@ -833,7 +833,7 @@ export class EnquiryEditComponent implements OnInit {
 
   pushUpdatedEnquiry() {
     let id = this.institute_enquiry_id;
-    this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
+    this.updateFormData.comment = this.updateFormData.comment;
     this.poster.updateEnquiryForm(id, this.updateFormData)
       .subscribe(res => {
         let alert = {

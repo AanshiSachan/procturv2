@@ -255,7 +255,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
 
   createUpdateForm() {
     if (this.validateTime()) {
-      this.updateFormData.comment = "Enquiry Updated. " + this.updateFormData.comment;
+      this.updateFormData.comment = this.updateFormData.comment;
       this.updateFormData.priority = this.updateFormData.priority == "" ? "" : this.getPriorityReverse(this.updateFormData.priority);
       this.updateFormData.status = this.updateFormData.statusValue == "" ? "" : this.getStatusReverse(this.updateFormData.statusValue);
       this.updateFormData.follow_type = this.updateFormData.follow_type == "" ? "" : this.getFollowUpReverse(this.updateFormData.follow_type);

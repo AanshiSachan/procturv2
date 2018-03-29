@@ -472,11 +472,12 @@
                 ul {
                     li {
                         display: inline-flex;
-                        /* width: 15%; */
+                        width: 20%;
                         margin: 0px 5px;
                         .form-wrapper {
                             background: transparent;
                             border: none;
+                            width: 100%;
                             margin: 0px;
                             &.datepicker {
                                 span {

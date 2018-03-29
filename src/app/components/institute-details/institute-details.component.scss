@@ -11,8 +11,7 @@
 
 .setting-full {
     padding: 15px;
-    max-height: 500px;
-    // overflow: hidden;
+    max-height: 500px; // overflow: hidden;
      ::-webkit-scrollbar {
         display: block;
     }
@@ -21,15 +20,14 @@
     }
     .setting-left {
         height: 100vh;
-        margin: -30px 0px 0px -15px;
+        margin: -35px 0px 0px -30px;
         overflow-x: hidden;
         overflow-y: auto;
         border-right: 1px solid #dcdcdc;
         ul {
             // padding: 15px 10px;
             li {
-                line-height: 60px;
-                // border-radius: 5px;
+                line-height: 60px; // border-radius: 5px;
                 font-size: 20px;
                 font-weight: 600;
                 background: white;
@@ -69,10 +67,11 @@
             max-height: 450px;
             overflow-x: hidden;
             overflow-y: scroll;
-            .field-wrapper{
+            .field-wrapper {
                 background: transparent;
-                .form-ctrl{
-                    background:transparent;
+                .form-ctrl {
+                    background: transparent;
+                    border-bottom: 1px solid #ccc;
                 }
             }
             .row {
@@ -91,6 +90,13 @@
             max-height: 450px;
             overflow-x: hidden;
             overflow-y: scroll;
+            .field-wrapper {
+                background: transparent;
+                .form-ctrl {
+                    background: transparent;
+                    border-bottom: 1px solid #ccc;
+                }
+            }
             .row {
                 h3 {
                     padding-left: 15px;
@@ -109,6 +115,13 @@
             max-height: 450px;
             overflow-x: hidden;
             overflow-y: scroll;
+            .field-wrapper {
+                background: transparent;
+                .form-ctrl {
+                    background: transparent;
+                    border-bottom: 1px solid #ccc;
+                }
+            }
             .row {
                 h3 {
                     padding-left: 15px;
@@ -122,6 +135,13 @@
         }
         .app-details-wrapper {
             padding: 15px;
+            .field-wrapper {
+                background: transparent;
+                .form-ctrl {
+                    background: transparent;
+                    border-bottom: 1px solid #ccc;
+                }
+            }
             .row {
                 h3 {
                     padding-left: 15px;
