@@ -258,11 +258,6 @@ fieldset {
     margin-top: 15px;
     max-height: 420px;
     overflow: hidden;
-
-
-
-
-
     .row {
         display: flex;
         .tableSection {
@@ -320,18 +315,20 @@ fieldset {
         }
         .detailsSection {
             display: inline-block;
-            width: 26%;
-            padding: 5px 5px 10px 10px;
+            width: 25%;
+            padding: 0px 5px 0px 5px;
+            max-height: 400px;
+            overflow: auto;
             background-color: #f7f7f7;
-            h3{
+            h3 {
                 color: #979797;
                 font-weight: 400;
             }
             .field-wrapper {
                 .form-ctrl {
-                    background: transparent;
+                    background: white;
                     border: solid 1px #e2ebee;
-                    &.textBox{
+                    &.textBox {
                         height: 60px;
                         padding: 5px;
                     }
@@ -339,16 +336,116 @@ fieldset {
             }
             div {
                 padding: 5px 0px;
-                &.questionInfo{
+                &.questionInfo {
                     padding: 0px 5px !important;
                 }
-                &.checkboxGroup{
+                &.checkboxGroup {
                     padding: 0px;
                     margin-top: 5px;
                     .field-checkbox-wrapper {
                         position: relative;
                         padding: 0px 0px 0px 25px !important;
                         margin-bottom: 10px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .attendanceWrapper {
+        border-top: 2px solid #eee;
+        margin-top: 15px;
+        max-height: 420px;
+        overflow: hidden;
+        .row {
+            display: flex;
+            .tableSection {
+                display: inline-block;
+                width: 100%;
+                padding: 10px;
+                background: #fff;
+                .button-row {
+                    position: relative;
+                    height: 45px;
+                    padding: 0px 10px;
+                    button {
+                        position: absolute;
+                        right: 10px;
+                        border: 2px solid #0084f6;
+                    }
+                }
+                .filterSection {
+                    padding: 20px 0px 10px 0px !important;
+                    margin: 0px !important;
+                    background-color: #efefef;
+                    span {
+                        padding: 4px 12px;
+                    }
+                    .absent {
+                        color: white;
+                        background: #fe552a;
+                        border-radius: 5px;
+                    }
+                    .present {
+                        color: white;
+                        background: #4191da;
+                        border-radius: 5px;
+                    }
+                    .leave {
+                        color: white;
+                        background: #7a7a7a;
+                        border-radius: 5px;
+                    }
+                }
+                .studentTableWrapper {
+                    //border: 2px solid #eee;
+                    width: 100%;
+                    .schedule-bottom {
+                        width: 100%;
+                        ul {
+                            border-left: 2px solid hsla(210, 2%, 83%, .5);
+                            border-right: 2px solid hsla(210, 2%, 83%, .5);
+                        }
+                    }
+                }
+                .row {
+                    margin-left: 10px;
+                }
+            }
+            .detailsSection {
+                display: inline-block;
+                width: 100%;
+                padding: 5px 5px 10px 10px;
+                background-color: #f7f7f7;
+                h3 {
+                    color: #979797;
+                    font-weight: 400;
+                }
+                .field-wrapper {
+                    .form-ctrl {
+                        background: white;
+                        border: solid 1px #e2ebee;
+                        &.textBox {
+                            height: 60px;
+                            padding: 5px;
+                        }
+                    }
+                }
+                div {
+                    padding: 5px 0px;
+                    &.questionInfo {
+                        padding: 0px 5px !important;
+                    }
+                    &.checkboxGroup {
+                        padding: 0px;
+                        margin-top: 5px;
+                        .field-checkbox-wrapper {
+                            position: relative;
+                            padding: 0px 0px 0px 25px !important;
+                            margin-bottom: 10px;
+                        }
                     }
                 }
             }
@@ -601,6 +698,7 @@ div#enqChart {
 }
 
 .act-top {
+    width: 88vw;
     padding-bottom: 10px;
     border-bottom: 1px solid #d3d4d5;
     margin-bottom: 16px;
@@ -940,11 +1038,11 @@ div#enqChart {
                 color: black;
             }
         }
-        &:hover{
-            ul{
-                &.ct-ongoing{
+        &:hover {
+            ul {
+                &.ct-ongoing {
                     background: rgba(27, 96, 163, 0.16);
-                    li{
+                    li {
                         padding: 10px 10px 10px;
                     }
                 }
@@ -966,7 +1064,7 @@ div#enqChart {
                     font-weight: 600;
                     color: black;
                 }
-            }   
+            }
         }
     }
 }
@@ -1469,7 +1567,6 @@ div#enqChart {
     padding: 1px 1px;
     select {
         width: 100%;
-        
         background: transparent;
     }
 }
@@ -1479,12 +1576,10 @@ div#enqChart {
     .btn {
         padding: -10px -10px !important;
         color: black;
-        width:30%;
-        height:1%;
+        width: 30%;
+        height: 1%;
         font-size: 11px;
         border-radius: 3px;
-    
-    
     }
     .classLeaveBtn {
         background: #7a7a7a;
