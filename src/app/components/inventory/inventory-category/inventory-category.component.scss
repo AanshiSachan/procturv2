@@ -37,9 +37,16 @@ table {
             }
         }
         .displayComp {
-            .view-comp {}
+            
+        
+        
+            .view-comp {
+                padding: 6px 6px;
+            }
             .edit-comp {
+                padding:  6px 6px;
                 display: none
+            
             }
         }
         .editComp {
@@ -128,4 +135,11 @@ input[type=number]::-webkit-outer-spin-button {
         background: transparent;
         border-bottom: solid 1px #cccccc;
     }
+}
+
+#category-table{
+    max-height: 340px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    overflow: auto;
 }
