@@ -86,48 +86,91 @@
                                 <span class="date-clear" name="followupdate" (click)="updateFormData.followUpDate = ''">X</span>
                             </div>
 
+
                             <!-- Followup Time -->
-                            
-                            <div class="form-wrapper  timepick " >
-                                <label for="followuptime">FollowUp Time</label>
-                                <div class="tbox">
-                                    <div class="times ">
-                                        <select id="followuptime" class="mins side-form-ctrl" [(ngModel)]="followUpTime" (ngModelChange)="timeChanges($event, 'followUpTime')"
-                                            name="followuptime">
-                                            <option [value]="time" *ngFor="let time of times">
-                                                {{time}}
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="times">
-                                        <select id="minute" class="mers side-form-ctrl" [(ngModel)]="timeObj.fminute" name="minute" >
-                                            <option *ngFor="let minute of minArr" [value]="minute">
-                                                {{minute}}
-                                            </option>
-                                        </select>
+                            <div class=" wrapper-class">
+                                <div class=" followUpTime">
+                                    <div class="form-wrapper  timepick ">
+                                        <label for="followuptime">FollowUp Time</label>
+                                        <div class="tbox">
+                                            <div class="times">
+                                                <select id="followuptime" class="mins side-form-ctrl" [(ngModel)]="followUpTime" (ngModelChange)="timeChanges($event, 'followUpTime')"
+                                                    name="followuptime">
+                                                    <option [value]="time" *ngFor="let time of times">
+                                                        {{time}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="times">
+                                                <select id="minute" class="mers side-form-ctrl" [(ngModel)]="timeObj.fminute" name="minute">
+                                                    <option *ngFor="let minute of minArr" [value]="minute">
+                                                        {{minute}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                                <div >
+                                    <div class="form-checkbox-wrapper">
+                                        <div class="field-checkbox-wrapper">
+                                            <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox" style="display:inline-block;">
+                                            <label for="notifyme">Notify Me</label>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
-                            
-                            <!-- Notify Me -->
-                            <div class="form-checkbox-wrapper"   >
-                                <div class="field-checkbox-wrapper" >
-                                    <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox"  style="display:inline-block;" >
-                                    <label for="notifyme">Notify Me</label>
+
+                            <!-- <div class="double-wrapper">
+                                <div id="double-wrapper-follow-up">
+                                    <div class="form-wrapper  timepick ">
+                                        <label for="followuptime">FollowUp Time</label>
+                                        <div class="tbox">
+                                            <div class="times ">
+                                                <select id="followuptime" class="mins side-form-ctrl" [(ngModel)]="followUpTime" (ngModelChange)="timeChanges($event, 'followUpTime')"
+                                                    name="followuptime">
+                                                    <option [value]="time" *ngFor="let time of times">
+                                                        {{time}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="times">
+                                                <select id="minute" class="mers side-form-ctrl" [(ngModel)]="timeObj.fminute" name="minute">
+                                                    <option *ngFor="let minute of minArr" [value]="minute">
+                                                        {{minute}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    Notify Me
+                                    <div id="double-wrapper-notify-me">
+                                        <div class="form-checkbox-wrapper">
+                                            <div class="field-checkbox-wrapper">
+                                                <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox" style="display:inline-block;">
+                                                <label for="notifyme">Notify Me</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            
+                            </div> -->
+
 
                             <!-- Walkin Date  -->
+                        
                             <div class="form-wrapper datepicker">
                                 <label for="walkindate">Walkin Date</label>
                                 <input type="text" class="side-form-ctrl bsDatepicker" [(ngModel)]="updateFormData.walkin_followUpDate" value="" placeholder=""
                                     id="walkindate" readonly="true" bsDatepicker/>
-                                <span class="date-clear" name="walkindate" (click)="updateFormData.walkin_followUpDate = ''">X</span>
+                                <span class="date-clear" name="walkindate" (click)="updateFormData.walkin_followUpDate =''">X</span>
                             </div>
+                        
 
                             <!-- Walkin Time -->
+                        <div class="wrapper-class">
                             <div class="form-wrapper timepick">
                                 <label for="walkintime">Walkin Time</label>
                                 <div class="tbox">
@@ -148,6 +191,8 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        
 
                             <!-- Branch -->
                             <!-- <div class="form-wrapper c-sm-6 c-xs-6">
@@ -161,7 +206,7 @@
                             -->
 
                             <!-- Comments -->
-                            <div class="form-wrapper c-xs-12">
+                            <div class="form-wrapper c-xs-12" style="padding-left:10px;width:68%;">
                                 <div class="field-wrapper" style="padding-top: 25px;">
                                     <label style="top: 0px;" for="commies">Comments</label>
                                     <textarea placeholder="Max 1000 characters" rows="1" cols="1" style="height: 85px;border: solid 2px rgba(53, 53, 53, 0.26);padding: 5px;"
