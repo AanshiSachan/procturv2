@@ -81,8 +81,7 @@
                             <!-- Followup Date -->
                             <div class="form-wrapper datepicker ">
                                 <label for="followUPdateEdit">Follow Up Date</label>
-                                <input type="text" class="side-form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate"
-                                    id="followUPdateEdit" readonly="true" bsDatepicker/>
+                                <input type="text" class="side-form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit" readonly="true" bsDatepicker/>
                                 <span class="date-clear" name="followupdate" (click)="updateFormData.followUpDate = ''">X</span>
                             </div>
 
@@ -90,8 +89,8 @@
                             <!-- Followup Time -->
                             <div class=" wrapper-class">
                                 <div class=" followUpTime">
-                                    <div class="form-wrapper  timepick ">
-                                        <label for="followuptime">FollowUp Time</label>
+                                    <div class="form-wrapper  timepick">
+                                        <label for="followuptime">Follow Up Time</label>
                                         <div class="tbox">
                                             <div class="times">
                                                 <select id="followuptime" class="mins side-form-ctrl" [(ngModel)]="followUpTime" (ngModelChange)="timeChanges($event, 'followUpTime')"

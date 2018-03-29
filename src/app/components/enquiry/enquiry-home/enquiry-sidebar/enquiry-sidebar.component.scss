@@ -26,9 +26,9 @@
             &.datepicker {
                 padding-top: 3px;
                 span {
-                    position: absolute;
-                    top: -30px;
-                    left: 90%;
+                    // 
+                    position:relative;
+                    right:25px;
                     font-weight: 600;
                     font-size: 16px;
                     color: red;
@@ -186,8 +186,7 @@
                     position: relative;
                     right: 60%;
                     top: 50px;
-                    
-                    color: #0084f6;
+                     color: #0084f6;
                 }
             }
             .field-wrapper .form-ctrl {
@@ -484,8 +483,8 @@
                 &.datepicker {
                     span {
                         position: absolute;
-                        top: 35px;
-                        right: 20px;
+                        top: 30%;
+                        right: 30%;
                         font-weight: 600;
                         font-size: 16px;
                         color: red;
