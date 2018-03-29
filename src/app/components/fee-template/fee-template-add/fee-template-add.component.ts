@@ -292,7 +292,7 @@ export class FeeTemplateAddComponent implements OnInit {
       test.fee_type = 0;
       test.initial_fee_amount = this.installMentTable[t].initial_fee_amount.toString();
       test.service_tax = this.feeStructure.registeredServiceTax;
-      test.fees_amount = this.installMentTable[t].initial_fee_amount + this.installMentTable[t].tax;
+      test.fees_amount = this.installMentTable[t].totalAmount;
       test.service_tax_applicable = this.installMentTable[t].service_tax_applicable;
       test.day_type = this.installMentTable[t].day_type.toString();
       test.days = this.installMentTable[t].days.toString();
