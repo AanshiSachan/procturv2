@@ -704,6 +704,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+  getTaxAmounted(fee){
+    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      return this.precisionRound(((this.service_tax / 100) * fee), -1);
+    }
+    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+      return 0;
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
     let inventory = this.studentPrefillService.fetchInventoryListById(this.student_id).subscribe(
@@ -1953,19 +1963,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getTaxedAmount(amt, stat, i): number {
-
-    if (this.instalmentTableData.length > 0) {
-      if (stat === "Y" || stat === "") {
-        let tax: number = 0;
-        tax = this.precisionRound(((this.service_tax / 100) * amt), -1);
-        this.instalmentTableData[i].tax = tax;
-        return Math.floor(tax);
-      }
-      else if (stat === "N") {
-        let tax: number = 0;
-        this.instalmentTableData[i].tax = tax;
-        return Math.floor(tax);
-      }
+    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      let tax: number = 0;
+      tax = this.precisionRound(((this.service_tax / 100) * amt), -1);
+      this.instalmentTableData[i].tax = tax;
+      return tax;
+    }
+    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+      return 0;
     }
   }
   /* ============================================================================================================================ */
@@ -2404,17 +2409,17 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             /* Inventory is not defined but fee is defined*/
             else if (this.allotInventoryArr.length == 0 && this.isFeeApplied == true) {
-              debugger;
+              
               this.asssignCustomizedFee(this.student_id);
             }
             /* Inventory defined but fee is not*/
             else if (this.allotInventoryArr.length == 0 && this.isFeeApplied == false) {
-              debugger;
+              
               this.allocateInventory(this.student_id);
             }
             /* Inventory and fee both are not defined */
             else if (this.allotInventoryArr.length == 0 && this.isFeeApplied == false) {
-              debugger;
+              
               this.studentAddedNotifier();
             }
           }
@@ -2682,7 +2687,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.applyDiscountCustomFeeSchedule();
               this.totalDicountAmount = this.totalDicountAmount + this.discountApplyForm.value;
               this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-              this.totalAmountDue = this.totalFeeWithTax - this.totalAmountPaid - this.totalDicountAmount;
+              this.totalAmountDue = this.totalFeeWithTax - this.totalPaidAmount - this.totalDicountAmount;
               this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
               this.closeDiscountApply();
             }/* discount is not applicable to any one condition or multiple */
@@ -2698,6 +2703,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
           /* apply to Last installment */
           else {
+            
             /* Stores the index of all unpaid installments */
             let installmentPaidArr: any[] = this.calculateLengthPaid(this.instalmentTableData);
             /* json for storing data for unpaid installments */
@@ -2709,7 +2715,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.applyDiscountCustomFeeSchedule();
               this.totalDicountAmount = this.totalDicountAmount + this.discountApplyForm.value;
               this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-              this.totalAmountDue = this.totalFeeWithTax - this.totalAmountPaid - this.totalDicountAmount;
+              this.totalAmountDue = this.totalFeeWithTax - this.totalPaidAmount - this.totalDicountAmount;
               this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
               this.closeDiscountApply();
             }
@@ -2758,7 +2764,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.applyDiscountCustomFeeSchedule();
               this.totalDicountAmount = this.totalDicountAmount + discountValue;
               this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-              this.totalAmountDue = this.totalFeeWithTax - this.totalAmountPaid - this.totalDicountAmount;
+              this.totalAmountDue = this.totalFeeWithTax - this.totalPaidAmount - this.totalDicountAmount;
               this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
               this.closeDiscountApply();
             }/* discount is not applicable to any one condition or multiple */
@@ -2788,7 +2794,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.applyDiscountCustomFeeSchedule();
               this.totalDicountAmount = this.totalDicountAmount + discountValue;
               this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-              this.totalAmountDue = this.totalFeeWithTax - this.totalAmountPaid - this.totalDicountAmount;
+              this.totalAmountDue = this.totalFeeWithTax - this.totalPaidAmount - this.totalDicountAmount;
               this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
               this.closeDiscountApply();
             }
@@ -3255,7 +3261,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   setImage(e) {
-    //debugger
+    //
     this.studentServerImage = e;
   }
   /* ============================================================================================================================ */

@@ -167,13 +167,16 @@
                 ul {
                     li {
                         display: inline-flex;
+                        &:first-child{
+                            width: 5% !important;
+                        }
                     }
                     &.table-header {
                         border: 1px solid rgba(119, 119, 119, 0.24);
                         font-size: 14px;
                         font-weight: 600;
                         li {
-                            width: 12%;
+                            width: 14%;
                             padding: 10px;
                             margin-left: 12px;
                             text-transform: uppercase;
@@ -189,7 +192,7 @@
                         border: 1px solid #efefef;
                         li {
                             display: inline-flex;
-                            width: 12%;
+                            width: 14%;
                             padding: 2px 12px;
                             margin-left: 10px;
                             text-align: center;
@@ -353,9 +356,6 @@
     }
     &.disable {
         background: #dddddd !important;
-    }
-    &:active{
-        border: 2px solid rgba(37, 122, 233, 0.34);
     }
 }
 
