@@ -100,9 +100,10 @@
     .enquiry-table {
         overflow-y: visible;
         overflow-x: visible;
+        height: 390px;
         table {
             .field-checkbox-wrapper {
-                width: 22px !important;
+                width: 30px !important;
                 overflow: hidden;
                 box-sizing: border-box;
                 height: 22px !important;
@@ -110,7 +111,7 @@
                 margin-bottom: 0;
                 margin-left: 5px;
                 background: transparent;
-                border-radius: 2px;
+                border-radius: 1px;
             }
             .field-checkbox-wrapper .form-checkbox {
                 opacity: 0;
@@ -221,7 +222,7 @@
     }
     .table-wrapper {
         padding: 0px 2px 0px 2px;
-        max-height: 420px;
+        max-height: 400px;
         overflow-x: hidden;
         overflow-y: scroll
     }
@@ -358,7 +359,7 @@
     top: 60px;
     right: 0;
     left: 0px;
-    background: rgba(230, 230, 230, 0.5);
+    background: rgba(78, 26, 26, 0.5);
     z-index: 100; // display: none;  
     visibility: hidden;
     opacity: 0;
@@ -370,7 +371,7 @@
     .popup {
         max-width: 850px; // max-height: 350px;
         width: 100%;
-        height: auto;
+        height: 711px;
         left: 0;
         right: 0;
         top: 5%;
@@ -390,8 +391,8 @@
         font-size: 22px;
     }
     h4 {
-        margin: 25px 0 15px;
-        font-weight: 600;
+        margin: px 0 15px;
+        font-weight: 520;
     }
 }
 
@@ -529,14 +530,18 @@
 
 .popup-body-container {
     max-width: 85% !important;
-    top: 2% !important;
+    top: 10% !important;
     left: 5% !important;
 }
 
 .sms-popup-content {
-    max-height: 80% !important;
+    max-height: 400px !important;
     display: flex !important;
-    overflow: hidden !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+     ::-webkit-scrollbar {
+        display: block;
+    }
 }
 
 .sms-update {
@@ -544,7 +549,7 @@
     width: 100%;
     .sms-table {
         min-height: 300px;
-        max-height: 450px;
+        max-height: 470px;
         border-top: 1px solid $border-common;
         border-right: 1px solid $border-common;
         width: 70%;
@@ -619,7 +624,7 @@
         }
     }
     .sms-preview {
-        min-height: 450px;
+        min-height: 470px;
         border-top: 1px solid $border-common;
         width: 30%;
         padding: 0px 5px;
@@ -754,3 +759,34 @@
         }
     }
 }
+
+.sms-popup-content-wrapper {
+    height: 450px;
+     ::-webkit-scrollbar {
+        display: block;
+    }
+}
+
+.campaign-message-wrapper {
+    max-height: 245px;
+    overflow: hidden;
+}
+
+.campaign-message-table {
+    max-height: 240px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+    table {
+        &.camp-table{
+            tr {
+                td {
+                    padding: 15px;
+                    font-size: 14px;
+                    border-bottom: none;
+                }
+            }
+        }
+    }
