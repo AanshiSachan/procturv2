@@ -189,9 +189,10 @@
         </svg>
       </span>
 
-      <div class="popup-content">
+      <div class="sms-popup-content-wrapper">
         <h2>Send Promotional SMS </h2>
-        <div class="sms-form sms-popup-content" style="margin-top: -25px;">
+      
+        <div class="sms-form sms-popup-content">
           <div class="sms-update">
             <div class="sms-top-section">
               <h4>
@@ -252,10 +253,10 @@
                 Campaign Message
               </h4>
 
-              <div class="row">
-                <div class="c-lg-12 c-md-12 c-sm-12" style="padding-top: 10px;">
+              <div class="row campaign-message-wrapper">
+                <div class="c-lg-12 c-md-12 c-sm-12 campaign-message-table">
                   <div class="table table-responsive enquiry-table">
-                    <table style="width:100%" div class="field-checkbox-wrapper">
+                    <table style="width:100%" class="camp-table">
                       <!-- <tr>
                         <th></th>
                         <th></th>
@@ -276,24 +277,26 @@
                 </div>
               </div>
 
-              <div class="row">
-                <div class="c-lg-12 c-md-12 c-sm-12" style="padding-top: 10px;">
-                  <div class="">
-                    <div class="clearfix">
-                      <aside class="pull-right popup-btn">
-                        <input type="button" value="Cancel" class="btn" *ngIf="smsBtnToggle" (click)="closePopup()">
-                        <input type="button" value="Save" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="saveEditedSms()">
-                        <!-- <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closePopup()"> -->
-                        <input type="button" value="Send Test SMS" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
-                      </aside>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
             </div>
           </div>
         </div>
+
+        <div class="row" popup-footer>
+          <div class="c-lg-12 c-md-12 c-sm-12" style="padding-top: 5px;">
+            <div class="">
+              <div class="clearfix">
+                <aside class="pull-right popup-btn" style="margin-top: 0px;">
+                  <input type="button" value="Cancel" class="btn" *ngIf="smsBtnToggle" (click)="closePopup()">
+                  <input type="button" value="Save" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="saveEditedSms()">
+                  <!-- <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closePopup()"> -->
+                  <input type="button" value="Send Test SMS" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
+                </aside>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
       </div>
 
 
