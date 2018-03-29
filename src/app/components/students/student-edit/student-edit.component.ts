@@ -33,7 +33,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     dob: "",
     doj: moment().format('YYYY-MM-DD'),
     school_name: "-1",
-    student_class: "",
+    student_class_key: "",
     parent_name: "",
     parent_email: "",
     parent_phone: "",
@@ -278,7 +278,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   totalFeeWithTax: number = 0;
   totalDicountAmount: number = 0;
   totalTaxAmount: number = 0;
-  totalPaidAmount:number = 0;
+  totalPaidAmount: number = 0;
   totalAmountPaid: number = 0;
   totalAmountDue: number = 0;
 
@@ -467,6 +467,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     /* Fetching Student Details from server */
     this.fetchService.getStudentById(id).subscribe(data => {
       this.studentAddFormData = data;
+      this.studentAddFormData.school_name = data.school_name;
       if (this.studentAddFormData.assignedBatchescademicYearArray == null) {
         this.studentAddFormData.assignedBatchescademicYearArray = [""];
       }
@@ -607,7 +608,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   setStudentFeeDetail() {
-    
+
     this.totalFeeWithTax = 0;
     this.totalDicountAmount = 0;
     this.totalTaxAmount = 0;
@@ -637,13 +638,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
               this.service_tax = 0;
-              //let tax = el.fees_amount - el.initial_fee_amount;
               this.totalTaxAmount = 0;
             }
             if (el.is_referenced == "N") {
               this.totalAmountDue += el.fees_amount
             }
-            else if(el.is_referenced == "Y") {
+            else if (el.is_referenced == "Y") {
               this.totalPaidAmount += el.amount_paid;
             }
             this.totalFeeWithTax += parseInt(el.fees_amount);
@@ -653,7 +653,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
             this.paymentStatusArr.push(obj);
           });
-          this.totalFeeWithTax = this.totalFeeWithTax +this.totalDicountAmount;
+          this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
           this.feeTemplateById = res;
         }
         else {
@@ -695,10 +695,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   getTaxAmount(i) {
     let fee = this.feeTemplateById.customFeeSchedules[i];
-    if (fee.service_tax_applicable == 'Y') {
-      return this.precisionRound(((fee.service_tax / 100) * fee.fees_amount), -1);
+    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      return this.precisionRound(((this.service_tax / 100) * fee.initial_fee_amount), -1);
     }
-    else {
+    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
       return 0;
     }
   }
@@ -1823,7 +1823,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     }
     else if (this.addFeeInstallment.due_date != "" && !isNaN(this.addFeeInstallment.initial_fee_amount)) {
-      
+
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
         this.addFeeInstallment.service_tax = 0;
         this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
@@ -2032,7 +2032,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   addNewOtherFee() {
-    let otherFeesArr:any[] = this.otherFeeTableData;
+    let otherFeesArr: any[] = this.otherFeeTableData;
     this.addFeeOther.due_date = moment(this.addFeeOther.due_date).format('YYYY-MM-DD');
     if (this.addFeeOther.fee_type == '' || this.addFeeOther.fee_type == null || this.addFeeOther.fee_type == undefined ||
       this.addFeeOther.due_date == '' || this.addFeeOther.due_date == null || this.addFeeOther.due_date == undefined || this.addFeeOther.due_date == 'invalid date' ||
@@ -2078,7 +2078,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  clearOtherFees(arr: any[]){
+  clearOtherFees(arr: any[]) {
     this.otherFeeTableData = arr;
     this.addFeeOther = {
       amount_paid: '',
@@ -2139,7 +2139,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
- 
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateOtherFeeData(e) {
@@ -2250,6 +2250,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   reConfigureFees() {
+    this.deselectAllSelectedCheckbox();
     this.isDefineFees = true;
   }
   /* ============================================================================================================================ */
@@ -2491,7 +2492,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   formfullValidator() {
     if (this.studentAddFormData.student_name != "" && this.studentAddFormData.student_name != " "
-      && this.studentAddFormData.student_phone != "" && this.validateName() && this.validatePhone() && this.studentAddFormData.student_phone != " "
+      && this.studentAddFormData.student_phone != "" && this.studentAddFormData.student_phone != " "
       && this.studentAddFormData.student_phone.length == 10) {
       return true;
     }
@@ -2552,7 +2553,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   asssignCustomizedFee(id) {
-
     let obj = {
       chequeDetailsJson: {},
       customFeeSchedules: [],
@@ -2626,9 +2626,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   openDiscountApply() {
     this.isDiscountApply = true;
-
   }
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   closeDiscountApply() {
@@ -2642,7 +2640,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+  deselectAllSelectedCheckbox() {
+    this.totalFeePaid = 0;
+    this.paymentStatusArr.forEach(e => { e.uiSelected = false; });
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   applyDiscount() {
+    this.deselectAllSelectedCheckbox();
     /* Form is correctly filled */
     if (this.discountApplyForm.type != '' && this.discountApplyForm.value > 0 && this.discountApplyForm.reason != '' && this.discountApplyForm.reason != ' ') {
       /* discount in form of amount */
@@ -2658,7 +2663,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
         /* valid total discount amount < total due */
         else {
-          
           /* apply discount to all */
           if (this.discountApplyForm.state === 'all') {
             /* Stores the index of all unpaid installments */
@@ -2678,7 +2682,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.applyDiscountCustomFeeSchedule();
               this.totalDicountAmount = this.totalDicountAmount + this.discountApplyForm.value;
               this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-              this.totalAmountDue =  this.totalFeeWithTax -this.totalAmountPaid -this.totalDicountAmount;
+              this.totalAmountDue = this.totalFeeWithTax - this.totalAmountPaid - this.totalDicountAmount;
               this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
               this.closeDiscountApply();
             }/* discount is not applicable to any one condition or multiple */
@@ -2705,7 +2709,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.applyDiscountCustomFeeSchedule();
               this.totalDicountAmount = this.totalDicountAmount + this.discountApplyForm.value;
               this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-              this.totalAmountDue =  this.totalFeeWithTax -this.totalAmountPaid -this.totalDicountAmount;
+              this.totalAmountDue = this.totalFeeWithTax - this.totalAmountPaid - this.totalDicountAmount;
               this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
               this.closeDiscountApply();
             }
@@ -2754,7 +2758,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.applyDiscountCustomFeeSchedule();
               this.totalDicountAmount = this.totalDicountAmount + discountValue;
               this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-              this.totalAmountDue =  this.totalFeeWithTax -this.totalAmountPaid -this.totalDicountAmount;
+              this.totalAmountDue = this.totalFeeWithTax - this.totalAmountPaid - this.totalDicountAmount;
               this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
               this.closeDiscountApply();
             }/* discount is not applicable to any one condition or multiple */
@@ -2784,7 +2788,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.applyDiscountCustomFeeSchedule();
               this.totalDicountAmount = this.totalDicountAmount + discountValue;
               this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-              this.totalAmountDue =  this.totalFeeWithTax -this.totalAmountPaid -this.totalDicountAmount;
+              this.totalAmountDue = this.totalFeeWithTax - this.totalAmountPaid - this.totalDicountAmount;
               this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
               this.closeDiscountApply();
             }
@@ -2801,7 +2805,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
 
       }
-    }/* Incomplete form data detected */
+    }
+    /* Incomplete form data detected */
     else {
       let msg = {
         type: 'error',
@@ -2992,12 +2997,38 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   validPdc(obj): boolean {
     if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '' || obj.clearing_date == 'Invalid date' || obj.clearing_date == '' || obj.cheque_no.toString().length != 6 || obj.cheque_amount <= 0) {
-      let msg = {
-        type: 'error',
-        title: 'Invalid Cheque Details',
-        body: 'Please share valid cheque details'
+      if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '') {
+        let msg = {
+          type: 'error',
+          title: 'Invalid Cheque Details',
+          body: 'Please enter a valid cheque date'
+        }
+        this.appC.popToast(msg);
       }
-      this.appC.popToast(msg);
+      if (obj.clearing_date == 'Invalid date' || obj.clearing_date == '') {
+        let msg = {
+          type: 'error',
+          title: 'Invalid Cheque Details',
+          body: 'Please enter a valid cheque clearing date'
+        }
+        this.appC.popToast(msg);
+      }
+      if (obj.cheque_no.toString().length != 6) {
+        let msg = {
+          type: 'error',
+          title: 'Invalid Cheque Details',
+          body: 'Please enter a valid cheque number'
+        }
+        this.appC.popToast(msg);
+      }
+      if (obj.cheque_amount <= 0) {
+        let msg = {
+          type: 'error',
+          title: 'Invalid Cheque Details',
+          body: 'Please enter a valid amount'
+        }
+        this.appC.popToast(msg);
+      }
       return false;
     }
     else {

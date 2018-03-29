@@ -12,6 +12,12 @@
     padding: 0 15px;
 }
 
+.overflowHidden{
+    ::-webkit-scrollbar {
+        display: block;
+    }
+}
+
 .middle-left {
     width: 70%;
     @extend .boxPadding15;

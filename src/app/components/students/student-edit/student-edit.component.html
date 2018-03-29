@@ -239,9 +239,9 @@
                   <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span>
                 </div>
 
-                <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.school_name != ''}">
+                <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.school_name != '-1'}">
                   <select id="schoolStitution" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name" class="form-ctrl">
-                    <option></option>
+                    <option value="-1"></option>
                     <option [value]="institute.school_id" *ngFor="let institute of instituteList">
                       {{institute.school_name}}
                     </option>
@@ -253,8 +253,8 @@
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
-                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}">
-                  <select id="standard" [(ngModel)]="studentAddFormData.student_class" name="standard" class="form-ctrl">
+                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class_key != ''}">
+                  <select id="standard" [(ngModel)]="studentAddFormData.student_class_key" name="standard" class="form-ctrl">
                     <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                       {{standard.standard_name}}
@@ -265,7 +265,7 @@
 
 
                 <div id="assignCoursesParent" class="field-wrapper" *ngIf="isAcad" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}">
-                  <input type="text" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" readonly="true" />
+                  <textarea [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" readonly="true"></textarea>
                   <label (click)="openAssignBatch()" for="assignCourses">Assign Courses</label>
                 </div>
 
@@ -532,6 +532,8 @@
         <section id="printView" class="middle-main clearFix">
           <!-- Colored Tabs here -->
           <div class="fee-summary">
+
+            <!-- Header Tabs Here -->
             <ul *ngIf="userCustommizedFee.length != 0">
               <li>
                 <label>Fees</label>
@@ -578,12 +580,15 @@
                 </div>
               </li>
             </ul>
+            <!-- In case No Fee Template Selected -->
             <h1 *ngIf="userCustommizedFee.length == 0" style="text-align: center;">
               No Fee Template Selected, Click Configure Fees To Select A Template
             </h1>
+
           </div>
           <!-- Card layout here -->
           <div class="fee-detail-summary" *ngIf="userCustommizedFee.length != 0">
+           
             <!-- Heading -->
             <div class="clearfix fd-heading">
               <div class="row">
@@ -593,20 +598,19 @@
                 <div class="pull-right c-xs-4 c-sm-4">
                   <ul style="width: 60px;float: right;" class="export-print align-right">
                     <li style="cursor:pointer" (click)="printFee()" class="print-icon">
-
                       Print
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
-            <!-- Cards -->
+            <!-- Fee Details Section Here -->
             <div class="fee-inst-list">
               <ul>
                 <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
                   <div class="pull-left">
-                    <div class="field-checkbox-wrapper">
-                      <input type="checkbox" value="" [class.hide]="installment.is_referenced == 'Y'" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
+                    <div class="field-checkbox-wrapper" [ngClass]="{'hide': installment.is_referenced == 'Y'}">
+                      <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected"
                         (ngModelChange)="paymentValueUpdate($event, i)" />
                       <label for="instl{{i}}"></label>
                     </div>
@@ -621,6 +625,7 @@
                     </div>
                     <div class="instl-info">
                       <ul>
+
                         <li>
                           <label>
                             Fee Amount
@@ -629,6 +634,7 @@
                             {{installment.fees_amount | commaSeprator}}
                           </span>
                         </li>
+                        
                         <li>
                           <label>
                             Fee Type
@@ -637,6 +643,7 @@
                             {{installment.fee_type_name}}
                           </span>
                         </li>
+                        
                         <li>
                           <label>
                             Tax amount
@@ -645,6 +652,7 @@
                             &#8377; {{getTaxAmount(i) | commaSeprator}}
                           </span>
                         </li>
+                        
                         <li>
                           <label>
                             Due Date
@@ -653,8 +661,13 @@
                             {{installment.due_date}}
                           </span>
                         </li>
+
                       </ul>
                     </div>
+                  </div>
+                  <div class="clearFix add-edit" [ngClass]="{'hide': installment.is_referenced == 'N'}">
+                      <a >Download receipt</a>
+                      <a >E-mail receipt</a>
                   </div>
                 </li>
               </ul>
@@ -670,9 +683,9 @@
           </aside>
           <aside class="pull-right">
             <div class="" *ngIf="!isPaymentDetailsValid">
-              <input type="button" *ngIf="totalFeePaid != 0" value="Update and Continue" (click)="openPaymentDetails($event)" class="btn fullBlue">
+              <input type="button" *ngIf="totalFeePaid != 0" value="Update Payment" (click)="openPaymentDetails($event)" class="btn fullBlue">
               <!-- <input type="button" *ngIf="totalFeePaid != 0" value="Update and Exit" (click)="openPaymentDetailsAndExit($event)" class="btn fullBlue"> -->
-              <input type="button" value="Skip and Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
+              <input type="button" value="Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
             </div>
 
             <div class="" *ngIf="isPaymentDetailsValid">

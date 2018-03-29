@@ -2405,7 +2405,6 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   deleteInstallment(i) {
-    console.log(i);
     this.instalmentTableData.splice(i, 1);
     this.updateTableInstallment();
   }
@@ -2417,6 +2416,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   reConfigureFees() {
+    this.deselectAllSelectedCheckbox();
     this.isDefineFees = true;
   }
   /* ============================================================================================================================ */
@@ -2646,6 +2646,17 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+  getTaxAmount(i) {
+    let fee = this.feeTemplateById.customFeeSchedules[i];
+    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      return this.precisionRound(((this.service_tax / 100) * fee.initial_fee_amount), -1);
+    }
+    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+      return 0;
+    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   allocateInventory(id) {
 
     let count: number = 0;
@@ -2752,8 +2763,13 @@ export class StudentAddComponent implements OnInit {
     }
   }
   /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+  deselectAllSelectedCheckbox(){
+    this.totalFeePaid = 0;
+    this.paymentStatusArr.forEach(e => {e.uiSelected = false;});
+  }
+  /* ============================================================================================================================ */  
   applyDiscount() {
+    this.deselectAllSelectedCheckbox();
     /* Form is correctly filled */
     if (this.discountApplyForm.type != '' && this.discountApplyForm.value > 0 && this.discountApplyForm.reason != '' && this.discountApplyForm.reason != ' ') {
       /* discount in form of amount */
@@ -2921,6 +2937,7 @@ export class StudentAddComponent implements OnInit {
       }
       this.appC.popToast(msg);
     }
+
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -3077,12 +3094,38 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   validPdc(obj): boolean {
     if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '' || obj.clearing_date == 'Invalid date' || obj.clearing_date == '' || obj.cheque_no.toString().length != 6 || obj.cheque_amount <= 0) {
-      let msg = {
-        type: 'error',
-        title: 'Invalid Cheque Details',
-        body: 'Please share valid cheque details'
+      if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '') {
+        let msg = {
+          type: 'error',
+          title: 'Invalid Cheque Details',
+          body: 'Please enter a valid cheque date'
+        }
+        this.appC.popToast(msg);
       }
-      this.appC.popToast(msg);
+      if (obj.clearing_date == 'Invalid date' || obj.clearing_date == '') {
+        let msg = {
+          type: 'error',
+          title: 'Invalid Cheque Details',
+          body: 'Please enter a valid cheque clearing date'
+        }
+        this.appC.popToast(msg);
+      }
+      if (obj.cheque_no.toString().length != 6) {
+        let msg = {
+          type: 'error',
+          title: 'Invalid Cheque Details',
+          body: 'Please enter a valid cheque number'
+        }
+        this.appC.popToast(msg);
+      }
+      if (obj.cheque_amount <= 0) {
+        let msg = {
+          type: 'error',
+          title: 'Invalid Cheque Details',
+          body: 'Please enter a valid amount'
+        }
+        this.appC.popToast(msg);
+      }
       return false;
     }
     else {
