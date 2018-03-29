@@ -25,8 +25,8 @@ export class FeeTemplateAddComponent implements OnInit {
     installmentCount: ''
   }
   additionalInstallment = {
-    days: '',
-    day_type: '',
+    days: 0,
+    day_type: 1,
     fee_type: 0,
     fees_amount: 0,
     initial_fee_amount: 0,
@@ -82,10 +82,10 @@ export class FeeTemplateAddComponent implements OnInit {
     )
   }
 
-  onMasterCourseSelection(event) {
+  onMasterCourseSelection() {
     this.CourseList = [];
-    if (event != "-1") {
-      this.apiService.getCourse(event).subscribe(
+    if (this.addNewTemplate.master_course_name != "-1") {
+      this.apiService.getCourse(this.addNewTemplate.master_course_name).subscribe(
         res => {
           this.CourseList = res;
         },
@@ -96,7 +96,7 @@ export class FeeTemplateAddComponent implements OnInit {
     }
   }
 
-  onTaxTypeChanges(event) {
+  onTaxTypeChanges() {
     if (this.addNewTemplate.tax_type == 1) {
       this.addNewTemplate.apply_tax = false;
       this.addNewTemplate.tax_amount = 0;
@@ -120,6 +120,7 @@ export class FeeTemplateAddComponent implements OnInit {
   }
 
   createInstallment() {
+    this.onTaxTypeChanges();
     let check = this.validateAllFields();
     if (!check) {
       this.showDetails = false;
@@ -130,8 +131,10 @@ export class FeeTemplateAddComponent implements OnInit {
   }
 
   createInstallmentTable() {
-    let amount: any = Number(this.addNewTemplate.fee_amount) / Number(this.addNewTemplate.installmentCount);
-    let tax_amount = this.addNewTemplate.tax_amount / Number(this.addNewTemplate.installmentCount);
+    let amount: any = Math.floor(Number(this.addNewTemplate.fee_amount) / Number(this.addNewTemplate.installmentCount));
+    let tax_amount = Math.floor(this.addNewTemplate.tax_amount / Number(this.addNewTemplate.installmentCount));
+    let totalAmount: number = 0;
+    let taxAmount: number = 0;
     let obj = [];
     for (let i = 0; i < Number(this.addNewTemplate.installmentCount); i++) {
       let test: any = {};
@@ -150,7 +153,18 @@ export class FeeTemplateAddComponent implements OnInit {
         test.initial_fee_amount = amount;
         test.tax = 0;
       }
+      test.totalAmount = test.tax + test.initial_fee_amount;
+      taxAmount = taxAmount + test.tax;
+      totalAmount = totalAmount + test.totalAmount;
       obj.push(test);
+    }
+    if (Number(this.addNewTemplate.total_fee) != totalAmount) {
+      let length = obj.length;
+      obj[length - 1].totalAmount = obj[length - 1].totalAmount + Number(this.addNewTemplate.total_fee) - totalAmount;
+    }
+    if (Number(this.addNewTemplate.tax_amount) != taxAmount) {
+      let length = obj.length;
+      obj[length - 1].tax = obj[length - 1].tax + Number(this.addNewTemplate.tax_amount) - taxAmount;
     }
     this.installMentTable = obj;
   }
@@ -193,11 +207,10 @@ export class FeeTemplateAddComponent implements OnInit {
 
   addAdditionalInst() {
     if (Number(this.additionalInstallment.initial_fee_amount) > 0) {
-      this.additionalInstallment.fees_amount = this.additionalInstallment.initial_fee_amount;
       this.otherInstList.push(this.additionalInstallment);
       this.additionalInstallment = {
-        days: '',
-        day_type: '',
+        days: 0,
+        day_type: 1,
         fee_type: 0,
         fees_amount: 0,
         initial_fee_amount: 0,
@@ -230,17 +243,19 @@ export class FeeTemplateAddComponent implements OnInit {
   }
 
   createFeeTemplate() {
-
     let tax: any;
     if (this.addNewTemplate.apply_tax) {
       tax = "Y";
     } else {
       tax = "N";
     }
-
+    let feeSch: any = this.makeJSONForCustomFee();
+    if (feeSch == false) {
+      return;
+    }
     let data: any = {
       course_id: this.addNewTemplate.course_id,
-      customFeeSchedules: this.makeJSONForCustomFee(),
+      customFeeSchedules: feeSch,
       studentwise_total_fees_amount: this.totalAmount.toString(),
       studentwise_total_fees_discount: 0,
       studentwise_fees_tax_applicable: tax,
@@ -284,6 +299,10 @@ export class FeeTemplateAddComponent implements OnInit {
       this.totalAmount = this.totalAmount + Number(test.fees_amount);
       data.push(test);
     }
+    if (this.totalAmount != this.addNewTemplate.total_fee) {
+      this.messageNotifier('error', 'Error', 'Amount provided in installments doesnot match with total Amount');
+      return false;
+    }
     for (let t = 0; t < this.otherInstList.length; t++) {
       let test: any = {};
       test.fee_type = this.otherInstList[t].fee_type;
@@ -301,5 +320,35 @@ export class FeeTemplateAddComponent implements OnInit {
     return data;
   }
 
+
+  userChangedInitialAmount(data, event) {
+    if (data.service_tax_applicable == "Y") {
+      data.tax = data.initial_fee_amount * 0.01 * this.feeStructure.registeredServiceTax;
+    } else {
+      data.tax = 0;
+    }
+  }
+
+  userChangedAmountTotalAmount(data, event) {
+    if (data.service_tax_applicable == "Y") {
+      data.tax = data.totalAmount * 0.01 * this.feeStructure.registeredServiceTax;
+      data.initial_fee_amount = data.totalAmount - data.tax;
+    } else {
+      data.tax = 0;
+    }
+  }
+
+  userChangeAdditionalFeeAmount(data, event) {
+    if (data.service_tax > 0) {
+      let tax = event * 0.01 * data.service_tax;
+      data.initial_fee_amount = Math.floor(event - tax);
+      if (Number(data.initial_fee_amount + tax) != Number(event)) {
+        data.initial_fee_amount = data.initial_fee_amount + Number(event) - Number(data.initial_fee_amount + tax);
+      }
+    } else {
+      data.initial_fee_amount = event;
+      data.tax = 0;
+    }
+  }
 
 }

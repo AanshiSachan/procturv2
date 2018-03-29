@@ -250,11 +250,11 @@
                     </div>
                   </div>
                   <!-- custom -->
-                  <custom-enquiry *ngFor="let component of customComponents">
+                  <custom-enquiry *ngFor="let component of customComponents;let i= index;">
 
                     <div class="" *ngIf="component.type == 1" input-def>
                       <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}" />
+                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label +i}}" />
                         <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
                       </div>
@@ -263,7 +263,7 @@
                     <div class="" *ngIf="component.type == 2" input-def>
                       <br>
                       <div class="field-checkbox-wrapper">
-                        <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" (ngModelChange)="updateCustomComponent($event, component)" name="{{component.label}}" value="">
+                        <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" (ngModelChange)="updateCustomComponent($event, component)" name="{{component.label +i}}" value="">
                         <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
                       </div>
@@ -271,7 +271,7 @@
 
                     <div class="" *ngIf="component.type == 3" input-def>
                       <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                        <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="{{component.label}}">
+                        <select id="{{component.id}}" class="form-ctrl" name="{{component.label +i}}" [(ngModel)]="component.value">
                           <option value=""></option>
                           <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                         </select>
@@ -282,7 +282,7 @@
 
                     <div class="" *ngIf="component.type == 4" input-def>
                       <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.selectedString != ''}">
-                        <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
+                        <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label +i}}" class="form-ctrl"
                           readonly="true" />
                         <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
                         <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>

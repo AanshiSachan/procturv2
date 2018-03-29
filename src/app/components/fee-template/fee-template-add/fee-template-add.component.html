@@ -32,7 +32,7 @@
 
         <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="field-wrapper has-value">
-            <select id="masterCourseDdn" class="form-ctrl" [(ngModel)]="addNewTemplate.master_course_name" name="masterCourse" (ngModelChange)="onMasterCourseSelection(event)">
+            <select id="masterCourseDdn" class="form-ctrl" [(ngModel)]="addNewTemplate.master_course_name" name="masterCourse" (ngModelChange)="onMasterCourseSelection()">
               <option value="-1"></option>
               <option *ngFor="let opt of masterCourseList" [value]="opt.master_course">
                 {{opt.master_course}}
@@ -44,9 +44,9 @@
 
         <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="field-wrapper has-value">
-            <select id="CourseDdn" class="form-ctrl" name="CourseDdn" [(ngModel)]="addNewTemplate.template_name">
+            <select id="CourseDdn" class="form-ctrl" name="CourseDdn" [(ngModel)]="addNewTemplate.course_id">
               <option value="-1"></option>
-              <option *ngFor="let opt of CourseList" [value]="opt.course_id">
+              <option *ngFor="let opt of CourseList.coursesList" [value]="opt.course_id">
                 {{opt.course_name}}
               </option>
             </select>
@@ -60,10 +60,10 @@
 
         <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="field-wrapper has-value">
-            <select id="" class="form-ctrl" name="taxType" [(ngModel)]="addNewTemplate.tax_type" (click)="onTaxTypeChanges($event)">
+            <select id="" class="form-ctrl" name="taxType" [(ngModel)]="addNewTemplate.tax_type" (click)="onTaxTypeChanges()">
               <option value="1">Tax Out Of Scope</option>
-              <option value="2">Total Fee Includng Tax</option>
-              <option value="3">Total Fee Excludng Tax</option>
+              <option value="2">Total Fee Including Tax</option>
+              <option value="3">Total Fee Excluding Tax</option>
             </select>
             <label for="taxType">Tax Type</label>
           </div>
@@ -128,7 +128,7 @@
               <tbody>
                 <tr *ngFor="let row of installMentTable; let i= index ; trackBy : index">
                   <td>
-                    {{i}}
+                    {{i + 1}}
                   </td>
                   <td>
                     <select [(ngModel)]="row.day_type" style="background: transparent">
@@ -144,7 +144,8 @@
                   </td>
                   <td>
                     <div class="field-wrapper">
-                      <input type="number" min="0" readonly="true" class="editCellInput" [(ngModel)]="row.initial_fee_amount" name="label">
+                      <input type="number" min="0" [readonly]="addNewTemplate.tax_type != '3'" class="editCellInput" [(ngModel)]="row.initial_fee_amount"
+                        (ngModelChange)="userChangedInitialAmount(row ,$event)" name="label">
                     </div>
                   </td>
                   <td>
@@ -154,7 +155,8 @@
                   </td>
                   <td>
                     <div class="field-wrapper">
-                      <input type="number" min="0" class="editCellInput" [(ngModel)]="row.initial_fee_amount + row.tax" name="label">
+                      <input type="number" min="0" [readonly]="addNewTemplate.tax_type == '3'" class="editCellInput" (ngModelChange)="userChangedAmountTotalAmount(row ,$event)"
+                        [(ngModel)]="row.totalAmount" name="label">
                     </div>
                   </td>
                 </tr>
@@ -162,6 +164,7 @@
             </table>
           </div>
         </div>
+        <span>* Sum of final amount should match with defined fee amount.</span>
       </section>
 
       <section class="additionalFeeSection">
@@ -262,7 +265,8 @@
                   </td>
                   <td>
                     <div class="field-wrapper">
-                      <input type="number" min="0" class="editCellInput" [(ngModel)]="row.fees_amount" name="label">
+                      <input type="number" min="0" class="editCellInput" (ngModelChange)="userChangeAdditionalFeeAmount(row , $event)" [(ngModel)]="row.fees_amount"
+                        name="label">
                     </div>
                   </td>
                   <td>

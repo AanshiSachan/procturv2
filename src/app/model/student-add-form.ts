@@ -8,6 +8,7 @@ export interface StudentForm{
 	doj?: any, // "2017-10-25",
 	school_name?: any, // "943",
 	student_class?: any, // "1269",
+	student_class_key?: any,
 	parent_name?: any, // "test parent",
 	parent_email?: any, // "ggere@gmail.com",
 	parent_phone?: any, // "2233331111",
