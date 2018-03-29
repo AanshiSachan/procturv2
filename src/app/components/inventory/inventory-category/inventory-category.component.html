@@ -34,7 +34,7 @@
   </section>
 
   <section>
-    <div id="category-table" style="max-height: 400px;">
+    <div id="category-table" style="max-height: 90%;">
       <div class="table-scroll-wrapper">
         <div class="table table-responsive">
           <table id="tbLCategory">
@@ -92,14 +92,15 @@
           </table>
         </div>
       </div>
+      <div class="row filter-res pagination" style="width: 100%;">
+          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+              [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+            </pagination>
+          </div>
+        </div>
     </div>
     <!-- Paginator Here -->
-    <div class="row filter-res pagination" style="width: 100%;">
-      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
-        </pagination>
-      </div>
-    </div>
+    
   </section>
 </div>

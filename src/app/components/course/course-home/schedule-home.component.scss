@@ -10,6 +10,7 @@
 } */
 
 .courses-list-table {
+    
     max-height: 400px;
     overflow: auto;
     ::-webkit-scrollbar{
@@ -1178,9 +1179,22 @@ td{
 }
 
 table {
+
+    thead {
+        tr {
+            th {
+                
+                font-size: 12px;
+                font-weight: 500;
+                padding:15px;
+            }
+        }
+    }
+
     tbody {
         tr {
             td {
+               padding:10px;
                 font-size: 14px;
 
                 .editOptions li {

@@ -22,11 +22,13 @@
         .form-wrapper {
             background: transparent;
             margin: 5px 0px;
+            width:100%;
             &.datepicker {
+                padding-top: 3px;
                 span {
-                    position: absolute;
-                    top: 35px;
-                    right: 20px;
+                    // 
+                    position:relative;
+                    right:25px;
                     font-weight: 600;
                     font-size: 16px;
                     color: red;
@@ -46,30 +48,33 @@
                 }
             }
             label {
+                padding-left:10px;
                 font-size: 12px;
                 font-weight: 400; //font-family: -webkit-body;
                 color: rgba(0, 0, 0, 0.77);
-                padding-bottom: 2px;
                 text-decoration: none;
                 text-transform: uppercase;
                 -webkit-font-smoothing: antialiased;
+                width:100%;
             }
             .side-form-ctrl {
                 background: white;
                 border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
-                width: 100%;
-                padding: 8px 5px;
+                width: 60%;
+                padding-left:10px;
+                margin-left: 10px;
+                height: 30px;
+                padding: 0px 5px;
                 font-weight: 600;
                 font-size: 14px;
                 color: black;
                 &.bsDatepicker {
-                    padding: 5px;
-                    width: 100%;
+                    width: 60%;
                 }
             }
             &.timepick {
-                width: 50%;
-                padding: 1px 15px;
+                width: 100%;
+                padding-top: 0px;
                 .tbox {
                     width: 100%;
                     .times {
@@ -79,22 +84,22 @@
                         background: white;
                         border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
                         width: 100%;
-                        padding: 8px 5px;
+                        padding: 0px 5px;
                         font-weight: 600;
                         font-size: 14px;
                         color: black;
                         &.mins {
-                            width: 80px;
+                            width: 100%;
                         }
                         &.mers {
-                            width: 50px;
+                            width: 100%;
                         }
                     }
                 }
             }
         }
         .form-checkbox-wrapper {
-            padding: 25px 15px 0px 15px;
+            padding: 0px 15px 0px 10px;
             .field-checkbox-wrapper {
                 .form-checkbox {
                     opacity: 0;
@@ -178,11 +183,10 @@
                     }
                 }
                 .date-clear {
-                    position: absolute;
+                    position: relative;
                     right: 60%;
                     top: 50px;
-                    cursor: pointer;
-                    color: #0084f6;
+                     color: #0084f6;
                 }
             }
             .field-wrapper .form-ctrl {
@@ -479,8 +483,8 @@
                 &.datepicker {
                     span {
                         position: absolute;
-                        top: 35px;
-                        right: 20px;
+                        top: 30%;
+                        right: 30%;
                         font-weight: 600;
                         font-size: 16px;
                         color: red;
@@ -537,6 +541,7 @@
                             background: white;
                             border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
                             width: 100%;
+                            height: 80%;
                             padding: 8px 5px;
                             font-weight: 600;
                             font-size: 14px;
@@ -592,6 +597,7 @@
                     background: white;
                     border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
                     width: 100%;
+                    height: 50%;
                     padding: 8px 5px;
                     font-weight: 600;
                     font-size: 14px;
@@ -617,6 +623,7 @@
                             background: white;
                             border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
                             width: 100%;
+                            height: 50%;
                             padding: 8px 5px;
                             font-weight: 600;
                             font-size: 14px;
@@ -655,5 +662,36 @@
             margin: 0;
             padding-bottom: 3px 5px;
         }
+    }
+}
+
+
+.wrapper-class {
+    .followUpTime {
+        padding-left: 0px;
+        .side-form-ctrl {
+            &.mins {
+                width: 100% !important;
+            }
+            &.mers {
+                width: 100% !important;
+            }
+        }
+    .form-wrapper{
+        
+                .tbox{
+                        .times{
+                                .side-form-ctrl{
+                                                &.mins{
+                                                        width:100% !important;
+                                                      }
+                                                &.mers{
+                                                         width:100% !important;
+                                                    }
+                                                 }
+                                }
+                    }
+                 
+    }
     }
 }
