@@ -2048,19 +2048,20 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getTaxedAmount(amt, stat, i): number {
-
     if (this.instalmentTableData.length > 0) {
-      if (stat === "Y" || stat === "") {
+
+      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         let tax: number = 0;
         tax = this.precisionRound(((this.service_tax / 100) * amt), -1);
         this.instalmentTableData[i].tax = tax;
         return Math.floor(tax);
       }
-      else if (stat === "N") {
-        let tax: number = 0;
-        this.instalmentTableData[i].tax = tax;
-        return Math.floor(tax);
+      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+        return 0;
       }
+    }
+    else{
+      return 0;
     }
   }
   /* ============================================================================================================================ */
@@ -2366,6 +2367,16 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
+
+  getTaxAmounted(fee){
+    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      return this.precisionRound(((this.service_tax / 100) * fee), -1);
+    }
+    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+      return 0;
+    }
+  }
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   setStudentFeeDetail() {
@@ -2381,6 +2392,10 @@ export class StudentAddComponent implements OnInit {
         this.allignStudentFeeView(res);
       }
       else if (res.customFeeSchedules == null) {
+        this.isConfigureFees = false;
+        this.instalmentTableData = [];
+        this.otherFeeTableData = [];
+        this.isPaymentDetailsValid = false;
         this.isRippleLoad = false;
         this.navigateTo('feeDetails');
       }

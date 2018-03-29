@@ -104,6 +104,7 @@
             .field-checkbox-wrapper {
                 width: 22px !important;
                 overflow: hidden;
+                background: transparent;
                 box-sizing: border-box;
                 height: 22px !important;
                 padding-left: 25px !important;
@@ -565,6 +566,7 @@
         }
         .field-checkbox-wrapper,
         .field-radio-wrapper {
+            background: transparent;
             position: relative;
             padding-left: 25px;
             margin-bottom: 10px;

@@ -649,7 +649,7 @@
                             Tax amount
                           </label>
                           <span>
-                            &#8377; {{getTaxAmount(i) | commaSeprator}}
+                            &#8377; {{getTaxAmounted(installment.fees_amount) | commaSeprator}}
                           </span>
                         </li>
                         
@@ -668,6 +668,7 @@
                   <div class="clearFix add-edit" [ngClass]="{'hide': installment.is_referenced == 'N'}">
                       <a >Download receipt</a>
                       <a >E-mail receipt</a>
+                      <a [ngClass]="{'hide': installment.is_partially_paid == '0'}">Pay Remaining Amount</a>
                   </div>
                 </li>
               </ul>
@@ -1243,6 +1244,7 @@
 
     <div class="fee-definations" popup-content>
       <div class="fee-container">
+
         <div class="installment-container">
           <!-- Header Installment -->
           <div class="installment-header">
@@ -1300,9 +1302,13 @@
               <ul class="table-row" *ngFor="let fee of instalmentTableData| orderBy: key : reverse; let i = index;">
                 <li [ngClass]="{'bigger': taxEnableCheck == '0'}">{{i+1}}</li>
                 <li>
-                  <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
-                    <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)" [(ngModel)]="fee.due_date"
+                  <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'N'">
+                    <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)" [(ngModel)]="fee.due_date"
                       readonly="true" bsDatepicker>
+                  </div>
+                  <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'Y'">
+                    <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)" [(ngModel)]="fee.due_date"
+                      readonly="true">
                   </div>
                 </li>
                 <li [ngClass]="{'hide': taxEnableCheck == '0'}">
@@ -1389,7 +1395,8 @@
               <li>Fee Incl Tax</li>
               <li>Action</li>
             </ul>
-            <div class="table-data">
+
+            <div class="table-data" *ngIf="otherFeeTableData.length !=0">
               <ul class="table-row" *ngFor="let fee of otherFeeTableData; let i = index">
                 <li>{{fee.fee_type_name}}</li>
                 <li>
@@ -1420,6 +1427,11 @@
                 </li>
               </ul>
             </div>
+
+            <div class="table-data" *ngIf="otherFeeTableData.length ==0">
+              <h3>No Additional Fees Applied</h3>
+            </div>
+            
           </div>
         </div>
 

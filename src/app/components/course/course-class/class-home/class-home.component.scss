@@ -273,6 +273,7 @@
     border-top: 1px solid #d8d8d8;
     .field-checkbox-wrapper {
         margin-top: 15px;
+        background: transparent;
         .form-checkbox {
             &+label {
                 font-size: 12px;
@@ -334,6 +335,7 @@
     .evoc-box {
         padding: 10px;
         .field-checkbox-wrapper {
+            background: transparent;
             label {
                 span {
                     font-size: 13px;
@@ -954,6 +956,7 @@
         .field-checkbox-wrapper {
             float: left;
             margin-right: 2%;
+            background: transparent;
             margin-left: 2%;
             .form-checkbox+label:after {
                 transform: scale(0.7);
