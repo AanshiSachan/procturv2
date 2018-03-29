@@ -478,8 +478,10 @@
         </g>
       </svg>
     </span>
-    
-    <h2 widget-header>Mark / Update Attendance : {{classMarkedForAction.batch_name}} - {{studentAttList.length}}</h2>
+
+    <h2 widget-header>Mark / Update Attendance
+      <span style="font-weight: normal; font-size: 0.8em">: {{classMarkedForAction.batch_name}} - {{studentAttList.length}}</span>
+    </h2>
 
     <hr>
 
@@ -487,9 +489,9 @@
 
       <div class="row">
         <aside class="tableSection">
-          <div class="row button-row">
+          <!-- <div class="row button-row">
             <button class="btn pull-right" (click)="getTopicsUpdate()">Update Topic/SubTopic</button>
-          </div>
+          </div> -->
 
           <div *ngIf="showTopicList">
             <!-- <h1>Hey There</h1> -->
@@ -601,6 +603,7 @@
         </aside>
 
         <aside class="detailsSection">
+
           <div style="margin-top: 0px">
             <h3 style="display: inline-flex;">Attendance Note</h3>
             <div class="questionInfo">
@@ -614,6 +617,7 @@
               </textarea>
             </div>
           </div>
+
           <div *ngIf="settingInfo.home_work_feature_enable==1">
             <h3 style="display: inline-flex;">Homework</h3>
             <div class="questionInfo">
@@ -627,16 +631,22 @@
                 </textarea>
             </div>
           </div>
+
           <div *ngIf="settingInfo.home_work_feature_enable==1">
-            <h3 style="display: inline-flex;">Yesterdays Homework</h3>
+            <h3 style="display: inline-flex;">Last Class Homework</h3>
             <!-- <div class="questionInfo">
                 <span class="qInfoIcon">?</span>
                 <div class="tooltip-box-field">
                   Details of any attendance related task 
                 </div>
             </div> -->
-            <span style="font-weight: 600">{{studentAttList[0].dateLi[0].previous_class_homework_assigned}}</span>
+            <div class="field-wrapper">
+              <textarea class="form-ctrl textBox" style="background: #efefef" value="" [(ngModel)]="homework">
+                <span>{{studentAttList[0].dateLi[0].previous_class_homework_assigned}}</span>
+              </textarea>
+            </div>
           </div>
+
           <div class="checkboxGroup">
             <div class="field-checkbox-wrapper" *ngIf="settingInfo.home_work_feature_enable==1">
               <input type="checkbox" value="" class="form-checkbox" id="EnableHomeWorkSms" [checked]="home_work_notifn==1 ? true: false"
@@ -653,16 +663,18 @@
               <label for="EnableSmsTopic">Enable SMS For Absentees</label>
             </div>
           </div>
-          <div style="margin: 0px;padding: 10px;" class="clearfix">
-            <aside class="pull-right popup-btn" style=" display: inline-flex; ">
-              <input type="button" value="Cancel" class="btn" (click)="closeAttendance()">
-              <input type="button" *ngIf="isProfessional && classMarkedForAction.is_attendance_marked != 'Y'" value="Mark Attendance" (click)="updateAttendance()"
-                class="fullBlue btn">
-              <input type="button" *ngIf="!isProfessional" value="Mark Attendance" (click)="updateAttendance()" class="fullBlue btn">
-            </aside>
-          </div>
+
         </aside>
       </div>
+    </div>
+
+    <div style="margin: 0px;padding: 10px;" class="clearfix" widget-footer>
+      <aside class="pull-right popup-btn" style=" display: inline-flex; ">
+        <input type="button" value="Cancel" class="btn" (click)="closeAttendance()">
+        <input type="button" *ngIf="isProfessional && classMarkedForAction.is_attendance_marked != 'Y'" value="Mark Attendance" (click)="updateAttendance()"
+          class="fullBlue btn">
+        <input type="button" *ngIf="!isProfessional" value="Mark Attendance" (click)="updateAttendance()" class="fullBlue btn">
+      </aside>
     </div>
 
   </proctur-widget>
@@ -871,7 +883,9 @@
         </g>
       </svg>
     </span>
-    <h2 widget-header>Mark Attendance Students -{{classMarkedForAction.master_course}}</h2>
+    <h2 widget-header>Mark Attendance Students
+      <span style="font-weight: normal"> -{{classMarkedForAction.master_course}}</span>
+    </h2>
 
     <div class="attendanceWrapperCourse" widget-content>
 

@@ -24,6 +24,8 @@ import { MenuItem } from 'primeng/primeng';
 })
 export class StudentEditComponent implements OnInit, OnDestroy {
 
+  userHasFees: boolean;
+  closeFee: boolean;
   private studentAddFormData: StudentForm = {
     student_name: "",
     student_sex: "",
@@ -608,21 +610,29 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   setStudentFeeDetail() {
-
+    debugger;
     this.totalFeeWithTax = 0;
     this.totalDicountAmount = 0;
     this.totalTaxAmount = 0;
     this.totalPaidAmount = 0;
     this.totalAmountPaid = 0;
     this.totalAmountDue = 0;
-
-    this.fetchService.fetchStudentFeeDetailById(this.student_id).subscribe(
-      res => {
-        this.totalFeePaid = 0;
-        if (!res.toCreate) {
+    /* Request from close popup */
+    if(this.closeFee){
+      /* user */
+      if(this.userHasFees){
+        this.totalFeePaid = 0;        
+        this.isConfigureFees = false;
+        this.instalmentTableData = [];
+        this.isDefineFees = false;
+        this.isFeeApplied = false;
+        this.isDiscountApplied = false;
+        this.discountReason = '';
+        let res = this.fetchService.getStoredFees();
+        if(res != null){
           this.totalAmountPaid = res.studentwise_total_fees_amount;
           this.totalDicountAmount = res.studentwise_total_fees_discount;
-
+          this.userHasFees = true;
           this.paymentStatusArr = [];
           this.convertCustomizedfee(res.customFeeSchedules);
           this.feeStructureForm.studentArray.push(this.student_id);
@@ -656,19 +666,89 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
           this.feeTemplateById = res;
         }
-        else {
+        else{
+          this.totalFeePaid = 0;        
           this.isConfigureFees = false;
           this.instalmentTableData = [];
+          this.userHasFees = false;
           this.otherFeeTableData = [];
           this.isPaymentDetailsValid = false;
+          this.isDefineFees = false;
+          this.isFeeApplied = false;
+          this.isDiscountApplied = false;
+          this.discountReason = '';
         }
+      }
+      else{
+        this.totalFeePaid = 0;        
+        this.isConfigureFees = false;
+        this.instalmentTableData = [];
+        this.userHasFees = false;
+        this.otherFeeTableData = [];
+        this.isPaymentDetailsValid = false;
         this.isDefineFees = false;
         this.isFeeApplied = false;
         this.isDiscountApplied = false;
         this.discountReason = '';
-      },
-      err => { }
-    )
+      }
+    }
+    else{
+      this.fetchService.fetchStudentFeeDetailById(this.student_id).subscribe(
+        res => {
+          this.totalFeePaid = 0;
+          if (!res.toCreate) {
+            this.totalAmountPaid = res.studentwise_total_fees_amount;
+            this.totalDicountAmount = res.studentwise_total_fees_discount;
+            this.userHasFees = true;
+            this.paymentStatusArr = [];
+            this.convertCustomizedfee(res.customFeeSchedules);
+            this.feeStructureForm.studentArray.push(this.student_id);
+            this.feeStructureForm.template_effective_date = res.template_effective_date;
+            this.userCustommizedFee = res.customFeeSchedules;
+            this.userCustommizedFee.forEach(el => {
+              el.due_date = moment(el.due_date).format("YYYY-MM-DD");
+              /* Taxes Here */
+              if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+                this.service_tax = res.registeredServiceTax;
+                let tax = el.fees_amount - el.initial_fee_amount;
+                this.totalTaxAmount += tax;
+              }
+              else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+                this.service_tax = 0;
+                this.totalTaxAmount = 0;
+              }
+              if (el.is_referenced == "N") {
+                this.totalAmountDue += el.fees_amount
+              }
+              else if (el.is_referenced == "Y") {
+                this.totalPaidAmount += el.amount_paid;
+              }
+              this.totalFeeWithTax += parseInt(el.fees_amount);
+              let obj = {
+                uiSelected: el.is_referenced == "Y" ? true : false,
+                isPaid: el.is_referenced == "Y" ? true : false
+              }
+              this.paymentStatusArr.push(obj);
+            });
+            this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
+            this.feeTemplateById = res;
+          }
+          else {
+            this.isConfigureFees = false;
+            this.instalmentTableData = [];
+            this.userHasFees = false;
+            this.otherFeeTableData = [];
+            this.isPaymentDetailsValid = false;
+          }
+          this.isDefineFees = false;
+          this.isFeeApplied = false;
+          this.isDiscountApplied = false;
+          this.discountReason = '';
+        },
+        err => { }
+      );
+    }
+
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -2222,6 +2302,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   closeAllFeePops() {
     if (confirm("All Changes made to fee template will be discarded!")) {
+      this.closeFee = true;
       this.setStudentFeeDetail();
     }
     else {
