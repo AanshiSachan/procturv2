@@ -23,6 +23,8 @@ import 'rxjs/add/operator/filter';
 })
 export class StudentAddComponent implements OnInit {
 
+  userHasFees: boolean;
+  closeFee: boolean;
   studentAddnMove: boolean;
   isPdcApply: boolean = false;
   pdcAddForm: any = {
@@ -285,7 +287,7 @@ export class StudentAddComponent implements OnInit {
   totalTaxAmount: number = 0;
   totalAmountPaid: number = 0;
   totalAmountDue: number = 0;
-  totalPaidAmount:number = 0;
+  totalPaidAmount: number = 0;
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(
@@ -430,7 +432,7 @@ export class StudentAddComponent implements OnInit {
       if (el.is_referenced == "N") {
         this.totalAmountDue += el.fees_amount
       }
-      else if(el.is_referenced == "Y") {
+      else if (el.is_referenced == "Y") {
         this.totalPaidAmount += el.amount_paid;
       }
       this.totalFeeWithTax += parseInt(el.fees_amount);
@@ -441,7 +443,7 @@ export class StudentAddComponent implements OnInit {
         this.otherFeeTableData.push(el);
       }
     });
-    this.totalFeeWithTax = this.totalFeeWithTax +this.totalDicountAmount;
+    this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
     this.updateTableInstallment();
     this.createCustomFeeSchedule();
     this.navigateTo('feeDetails');
@@ -1613,7 +1615,7 @@ export class StudentAddComponent implements OnInit {
             if (el.is_referenced == "N") {
               this.totalAmountDue += el.fees_amount
             }
-            else if(el.is_referenced == "Y") {
+            else if (el.is_referenced == "Y") {
               this.totalPaidAmount += el.amount_paid;
             }
             this.totalFeeWithTax += parseInt(el.fees_amount);
@@ -1624,7 +1626,7 @@ export class StudentAddComponent implements OnInit {
               this.otherFeeTableData.push(el);
             }
           });
-          this.totalFeeWithTax = this.totalFeeWithTax +this.totalDicountAmount;
+          this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
           this.updateTableInstallment();
           this.closeConfigureFees();
         },
@@ -2060,7 +2062,7 @@ export class StudentAddComponent implements OnInit {
         return 0;
       }
     }
-    else{
+    else {
       return 0;
     }
   }
@@ -2128,7 +2130,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   addNewOtherFee() {
-    let otherFeesArr:any[] = this.otherFeeTableData;
+    let otherFeesArr: any[] = this.otherFeeTableData;
 
     this.addFeeOther.due_date = moment(this.addFeeOther.due_date).format('YYYY-MM-DD');
     if (this.addFeeOther.fee_type == '' || this.addFeeOther.fee_type == null || this.addFeeOther.fee_type == undefined ||
@@ -2175,7 +2177,7 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
-  clearOtherFees(arr: any[]){
+  clearOtherFees(arr: any[]) {
     this.otherFeeTableData = arr;
     this.addFeeOther = {
       amount_paid: '',
@@ -2315,52 +2317,8 @@ export class StudentAddComponent implements OnInit {
 
   closeAllFeePops() {
     if (confirm("Any unsaved changes made to fee template will be discarded!")) {
+      this.closeFee = true;
       this.setStudentFeeDetail();
-      /* this.studentAddedGetFee(this.student_id);
-         this.isDefineFees = false;
-         this.totalFeePaid = 0;
-         this.isFeeApplied = false;
-         this.userCustommizedFee = [];
-         this.paymentStatusArr = [];
-         this.instalmentTableData = [];
-         this.otherFeeTableData = [];
-         this.feeTemplateById = {
-           feeTypeMap: "",
-           customFeeSchedules: [],
-           registeredServiceTax: "",
-           toCreate: "",
-           studentArray: "",
-           studentwise_total_fees_amount: "",
-           studentwise_total_fees_balance_amount: "",
-           studentwise_total_fees_amount_paid: "",
-           studentwise_total_fees_discount: "",
-           studentwise_fees_tax_applicable: "",
-           no_of_installments: "",
-           discount_fee_reason: "",
-           template_name: "",
-           template_id: "",
-           template_effective_date: "",
-           is_fee_schedule_created: "",
-           is_fee_tx_done: "",
-           is_undo: "",
-           is_fee_other_inst_created: "",
-           is_delete_other_fee_types: "",
-           chequeDetailsJson: "",
-           payment_mode: "",
-           remarks: "",
-           paid_date: "",
-           is_cheque_details_required: "",
-           reference_no: "",
-           invoice_no: "",
-           uiSelected: false
-         }
-         this.feeStructureForm = {
-           studentArray: ["-1"],
-           template_effective_date: moment().format('YYYY-MM-DD')
-         }
-         this.isDiscountApplied = false;
-         this.discountReason = ''; 
-      */
     }
     else {
 
@@ -2368,7 +2326,7 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  getTaxAmounted(fee){
+  getTaxAmounted(fee) {
     if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
       return this.precisionRound(((this.service_tax / 100) * fee), -1);
     }
@@ -2386,20 +2344,71 @@ export class StudentAddComponent implements OnInit {
     this.totalPaidAmount = 0;
     this.totalAmountPaid = 0;
     this.totalAmountDue = 0;
-    this.studentPrefillService.fetchStudentFeeDetailById(this.student_id).subscribe(res => {
-      if (res.customFeeSchedules != null) {
-        this.isRippleLoad = false;
-        this.allignStudentFeeView(res);
-      }
-      else if (res.customFeeSchedules == null) {
+
+    /* Request from close popup */
+    if (this.closeFee) {
+      if(this.userHasFees){
+        this.totalFeePaid = 0;        
         this.isConfigureFees = false;
         this.instalmentTableData = [];
+        this.isDefineFees = false;
+        this.isFeeApplied = false;
+        this.isDiscountApplied = false;
+        this.discountReason = '';
+        let res = this.studentPrefillService.getStoredFees();
+        if(res != null){
+          this.userHasFees = true;
+          this.isRippleLoad = false;
+          this.userHasFees = true;
+          this.allignStudentFeeView(res);
+        }
+        else{
+          this.totalFeePaid = 0;        
+          this.isConfigureFees = false;
+          this.instalmentTableData = [];
+          this.userHasFees = false;
+          this.otherFeeTableData = [];
+          this.isPaymentDetailsValid = false;
+          this.isDefineFees = false;
+          this.isFeeApplied = false;
+          this.isDiscountApplied = false;
+          this.discountReason = '';
+        }
+      }
+      else{
+        this.totalFeePaid = 0;        
+        this.isConfigureFees = false;
+        this.instalmentTableData = [];
+        this.userHasFees = false;
         this.otherFeeTableData = [];
         this.isPaymentDetailsValid = false;
+        this.isDefineFees = false;
+        this.isFeeApplied = false;
+        this.isDiscountApplied = false;
+        this.discountReason = '';
         this.isRippleLoad = false;
-        this.navigateTo('feeDetails');
+        this.navigateTo('feeDetails');        
       }
-    });
+    }
+    else {
+      this.studentPrefillService.fetchStudentFeeDetailById(this.student_id).subscribe(res => {
+        if (res.customFeeSchedules != null) {
+          this.isRippleLoad = false;
+          this.userHasFees = true;
+          this.allignStudentFeeView(res);
+        }
+        else if (res.customFeeSchedules == null) {
+          this.isConfigureFees = false;
+          this.instalmentTableData = [];
+          this.userHasFees = false;
+          this.otherFeeTableData = [];
+          this.isPaymentDetailsValid = false;
+          this.isRippleLoad = false;
+          this.navigateTo('feeDetails');
+        }
+      });
+    }
+
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -2778,11 +2787,11 @@ export class StudentAddComponent implements OnInit {
     }
   }
   /* ============================================================================================================================ */
-  deselectAllSelectedCheckbox(){
+  deselectAllSelectedCheckbox() {
     this.totalFeePaid = 0;
-    this.paymentStatusArr.forEach(e => {e.uiSelected = false;});
+    this.paymentStatusArr.forEach(e => { e.uiSelected = false; });
   }
-  /* ============================================================================================================================ */  
+  /* ============================================================================================================================ */
   applyDiscount() {
     this.deselectAllSelectedCheckbox();
     /* Form is correctly filled */
@@ -2800,7 +2809,7 @@ export class StudentAddComponent implements OnInit {
         }
         /* valid total discount amount < total due */
         else {
-          
+
           /* apply discount to all */
           if (this.discountApplyForm.state === 'all') {
             /* Stores the index of all unpaid installments */
@@ -2820,7 +2829,7 @@ export class StudentAddComponent implements OnInit {
               this.applyDiscountCustomFeeSchedule();
               this.totalDicountAmount = this.totalDicountAmount + this.discountApplyForm.value;
               this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-              this.totalAmountDue =  this.totalFeeWithTax -this.totalAmountPaid -this.totalDicountAmount;
+              this.totalAmountDue = this.totalFeeWithTax - this.totalAmountPaid - this.totalDicountAmount;
               this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
               this.closeDiscountApply();
             }/* discount is not applicable to any one condition or multiple */
@@ -2847,7 +2856,7 @@ export class StudentAddComponent implements OnInit {
               this.applyDiscountCustomFeeSchedule();
               this.totalDicountAmount = this.totalDicountAmount + this.discountApplyForm.value;
               this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-              this.totalAmountDue =  this.totalFeeWithTax -this.totalAmountPaid -this.totalDicountAmount;
+              this.totalAmountDue = this.totalFeeWithTax - this.totalAmountPaid - this.totalDicountAmount;
               this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
               this.closeDiscountApply();
             }
@@ -2896,7 +2905,7 @@ export class StudentAddComponent implements OnInit {
               this.applyDiscountCustomFeeSchedule();
               this.totalDicountAmount = this.totalDicountAmount + discountValue;
               this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-              this.totalAmountDue =  this.totalFeeWithTax -this.totalAmountPaid -this.totalDicountAmount;
+              this.totalAmountDue = this.totalFeeWithTax - this.totalAmountPaid - this.totalDicountAmount;
               this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
               this.closeDiscountApply();
             }/* discount is not applicable to any one condition or multiple */
@@ -2926,7 +2935,7 @@ export class StudentAddComponent implements OnInit {
               this.applyDiscountCustomFeeSchedule();
               this.totalDicountAmount = this.totalDicountAmount + discountValue;
               this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-              this.totalAmountDue =  this.totalFeeWithTax -this.totalAmountPaid -this.totalDicountAmount;
+              this.totalAmountDue = this.totalFeeWithTax - this.totalAmountPaid - this.totalDicountAmount;
               this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
               this.closeDiscountApply();
             }
