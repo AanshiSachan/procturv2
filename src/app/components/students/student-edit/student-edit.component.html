@@ -265,7 +265,7 @@
 
 
                 <div id="assignCoursesParent" class="field-wrapper" *ngIf="isAcad" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}">
-                  <textarea [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" readonly="true"></textarea>
+                  <textarea style="width: 80px;" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" readonly="true"></textarea>
                   <label (click)="openAssignBatch()" for="assignCourses">Assign Courses</label>
                 </div>
 
@@ -345,16 +345,16 @@
         <!-- Page 1 Footer -->
         <section class="middle-bottom clearFix">
           <div class="pull-left">
-            <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="quickadd" [(ngModel)]="quickAddStudent" class="form-checkbox" id="quickAddStudent">
-              <label for="quickAddStudent">Quick Add Student</label>
-              <div class="questionInfo pos-rel">
-                <span class="qInfoIcon">?</span>
-                <div class="tooltip-box-field">
-                  Student fees and inventory details can be added later.
+              <!-- <div class="field-checkbox-wrapper">
+                <input type="checkbox" value="" name="quickadd" [(ngModel)]="quickAddStudent" class="form-checkbox" id="quickAddStudent">
+                <label for="quickAddStudent">Quick Add Student</label>
+                <div class="questionInfo pos-rel">
+                  <span class="qInfoIcon">?</span>
+                  <div class="tooltip-box-field">
+                    Student fees and inventory details can be added later.
+                  </div>
                 </div>
-              </div>
-            </div>
+              </div> -->
           </div>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
@@ -454,7 +454,7 @@
         <section class="middle-bottom clearFix ">
           <aside class="pull-left">
             <input type="button" value="Back" class="btn" (click)="navigateTo('studentForm')">
-            <div class="field-checkbox-wrapper">
+            <!-- <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="quickadd" [(ngModel)]="quickAddStudent" class="form-checkbox" id="quickAddStudent">
               <label for="quickAddStudent">Quick Add Student</label>
               <div class="questionInfo pos-rel">
@@ -463,7 +463,7 @@
                   Student fees and inventory details can be added later.
                 </div>
               </div>
-            </div>
+            </div> -->
           </aside>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">

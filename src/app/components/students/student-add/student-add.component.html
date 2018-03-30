@@ -356,7 +356,7 @@
             </div>
           </div>
           <aside class="pull-right">
-            <div style="display: inline-block;" class="field-checkbox-wrapper">
+            <!-- <div style="display: inline-block;" class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="quickadd" [(ngModel)]="quickAddStudent" class="form-checkbox" id="quickAddStudent">
               <label for="quickAddStudent">Quick Add Student</label>
               <div class="questionInfo pos-rel">
@@ -365,7 +365,7 @@
                   Student fees and inventory details can be added later.
                 </div>
               </div>
-            </div>
+            </div> -->
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
             <input type="button" id="form-continue" [class.hide]="quickAddStudent" value="Continue" class="btn fullBlue" (click)="navigateTo('kyc')">
             <input type="button" id="form-submit" [disabled]="!values.form.valid" [class.hide]="!quickAddStudent" (click)="studentQuickAdder(values)"
@@ -464,7 +464,7 @@
             <input type="button" value="Back" class="btn" (click)="navigateTo('studentForm')">
           </aside>
           <aside class="pull-right">
-            <div style="display: inline-block;" class="field-checkbox-wrapper">
+            <!-- <div style="display: inline-block;" class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="quickadd" [(ngModel)]="quickAddStudent" class="form-checkbox" id="quickAddStudent">
               <label for="quickAddStudent">Quick Add Student</label>
               <div class="questionInfo pos-rel">
@@ -473,7 +473,7 @@
                   Student fees and inventory details can be added later.
                 </div>
               </div>
-            </div>
+            </div> -->
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
             <input type="button" id="form-kyc-continue" [disabled]="!values.form.valid" value="Save and Continue" class="btn fullBlue"
               [class.hide]="quickAddStudent" (click)="addStudentDataAndFetchFee(values)">

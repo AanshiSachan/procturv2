@@ -2639,17 +2639,27 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       temp.push(obj);
     });
-    this.postService.allocateStudentInventory(temp).subscribe(
-      res => {
-        if (this.isFeeApplied) {
-          this.asssignCustomizedFee(id);
-        }
-        else {
-          this.studentAddedNotifier();
-        }
-      },
-      err => { }
-    );
+    if(temp.length != 0){
+      this.postService.allocateStudentInventory(temp).subscribe(
+        res => {
+          if (this.isFeeApplied) {
+            this.asssignCustomizedFee(id);
+          }
+          else {
+            this.studentAddedNotifier();
+          }
+        },
+        err => { }
+      );
+    }
+    else{
+      if (this.isFeeApplied) {
+        this.asssignCustomizedFee(id);
+      }
+      else {
+        this.studentAddedNotifier();
+      }
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -3010,18 +3020,27 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       temp.push(obj);
     });
-    this.postService.allocateStudentInventory(temp).subscribe(
-      res => {
-        let msg = {
-          type: 'success',
-          title: 'Inventory Updated',
-          body: 'Inventory allocation details have been updated'
-        }
-        this.appC.popToast(msg);
-        this.router.navigate(['/student']);
-      },
-      err => { }
-    );
+    if(temp.length != 0){
+      this.postService.allocateStudentInventory(temp).subscribe(
+        res => {
+          if (this.isFeeApplied) {
+            this.asssignCustomizedFee(this.student_id);
+          }
+          else {
+            this.studentAddedNotifier();
+          }
+        },
+        err => { }
+      );
+    }
+    else{
+      if (this.isFeeApplied) {
+        this.asssignCustomizedFee(this.student_id);
+      }
+      else {
+        this.studentAddedNotifier();
+      }
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -3469,12 +3488,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     };
     this.isPartialPayment = false;
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   getPaidFullVal(i): string {
     //let v = parseInt(i.balance_amount) - parseInt(i.amount_paid_inRs);
     return "Y";
   }
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   payPartial() {
     /* Error */
     if (this.partialPayObj.paid_date == null && this.partialPayObj.paymentMode == null) {
@@ -3596,5 +3617,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     }
   }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
 
 }
