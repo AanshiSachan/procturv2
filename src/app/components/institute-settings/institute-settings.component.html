@@ -336,33 +336,23 @@
                             <span title="Enable to send Automatic Birthday SMS (If DOB is specified)">i</span>
                           </aside>
                           <aside class="c-sm-6">
-                            <div class="time-picker">
-                              <div class="field-wrapper has-value">
-                                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.birthday_daily_schedule.hour"
-                                  name="hour" style="background: transparent">
-                                  <option *ngFor="let hour of hourArr" [value]="hour">
-                                    {{hour}}
-                                  </option>
-                                </select>
-                                <label for="hour">Hour</label>
-                              </div>
-                              <div class="field-wrapper has-value">
-                                <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.birthday_daily_schedule.minute"
-                                  name="minute" style="background: transparent">
-                                  <option *ngFor="let minute of minArr" [value]="minute">
-                                    {{minute}}
-                                  </option>
-                                </select>
-                                <label for="minute">Minute</label>
-                              </div>
-                              <div class="field-wrapper has-value">
-                                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.birthday_daily_schedule.meridian"
-                                  name="meridian" style="background: transparent">
-                                  <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                                    {{meridian}}
-                                  </option>
-                                </select>
-                                <label for="meridian">Meridian</label>
+                            <div class="form-wrapper timepick">
+                              <label for="startTime">Start Time</label>
+                              <div class="tbox">
+                                <div class="times ">
+                                  <select id="" class="mins side-form-ctrl" [(ngModel)]="instituteSettingDet.birthday_daily_schedule.hour" name="startTime">
+                                    <option [value]="time" *ngFor="let time of times">
+                                      {{time}}
+                                    </option>
+                                  </select>
+                                </div>
+                                <div class="times">
+                                  <select id="" class="mers side-form-ctrl" [(ngModel)]="instituteSettingDet.birthday_daily_schedule.minute" name="minute">
+                                    <option *ngFor="let minute of minArr" [value]="minute">
+                                      {{minute}}
+                                    </option>
+                                  </select>
+                                </div>
                               </div>
                             </div>
                           </aside>
@@ -399,33 +389,23 @@
                           <span>i</span>
                         </aside>
                         <aside class="c-sm-6">
-                          <div class="time-picker">
-                            <div class="field-wrapper has-value">
-                              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.fee_dues_daily_schedule.hour"
-                                name="hour" style="background: transparent">
-                                <option *ngFor="let hour of hourArr" [value]="hour">
-                                  {{hour}}
-                                </option>
-                              </select>
-                              <label for="hour">Hour</label>
-                            </div>
-                            <div class="field-wrapper has-value">
-                              <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.fee_dues_daily_schedule.minute"
-                                name="minute" style="background: transparent">
-                                <option *ngFor="let minute of minArr" [value]="minute">
-                                  {{minute}}
-                                </option>
-                              </select>
-                              <label for="minute">Minute</label>
-                            </div>
-                            <div class="field-wrapper has-value">
-                              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.fee_dues_daily_schedule.meridian"
-                                name="meridian" style="background: transparent">
-                                <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                                  {{meridian}}
-                                </option>
-                              </select>
-                              <label for="meridian">Meridian</label>
+                          <div class="form-wrapper timepick">
+                            <label for="startTime">Start Time</label>
+                            <div class="tbox">
+                              <div class="times ">
+                                <select id="" class="mins side-form-ctrl" [(ngModel)]="instituteSettingDet.fee_dues_daily_schedule.hour" name="startTime">
+                                  <option [value]="time" *ngFor="let time of times">
+                                    {{time}}
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="times">
+                                <select id="" class="mers side-form-ctrl" [(ngModel)]="instituteSettingDet.fee_dues_daily_schedule.minute" name="minute">
+                                  <option *ngFor="let minute of minArr" [value]="minute">
+                                    {{minute}}
+                                  </option>
+                                </select>
+                              </div>
                             </div>
                           </div>
                         </aside>
@@ -464,33 +444,23 @@
                             <span>i</span>
                           </div>
                           <div class="c-sm-6">
-                            <div class="time-picker">
-                              <div class="field-wrapper has-value">
-                                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.fee_dues_interval_schedule.hour"
-                                  name="hour" style="background: transparent">
-                                  <option *ngFor="let hour of hourArr" [value]="hour">
-                                    {{hour}}
-                                  </option>
-                                </select>
-                                <label for="hour">Hour</label>
-                              </div>
-                              <div class="field-wrapper has-value">
-                                <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.fee_dues_interval_schedule.minute"
-                                  name="minute" style="background: transparent">
-                                  <option *ngFor="let minute of minArr" [value]="minute">
-                                    {{minute}}
-                                  </option>
-                                </select>
-                                <label for="minute">Minute</label>
-                              </div>
-                              <div class="field-wrapper has-value">
-                                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.fee_dues_interval_schedule.meridian"
-                                  name="meridian" style="background: transparent">
-                                  <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                                    {{meridian}}
-                                  </option>
-                                </select>
-                                <label for="meridian">Meridian</label>
+                            <div class="form-wrapper timepick">
+                              <label for="startTime">Start Time</label>
+                              <div class="tbox">
+                                <div class="times ">
+                                  <select id="" class="mins side-form-ctrl" [(ngModel)]="instituteSettingDet.fee_dues_interval_schedule.hour" name="startTime">
+                                    <option [value]="time" *ngFor="let time of times">
+                                      {{time}}
+                                    </option>
+                                  </select>
+                                </div>
+                                <div class="times">
+                                  <select id="" class="mers side-form-ctrl" [(ngModel)]="instituteSettingDet.fee_dues_interval_schedule.minute" name="minute">
+                                    <option *ngFor="let minute of minArr" [value]="minute">
+                                      {{minute}}
+                                    </option>
+                                  </select>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -536,33 +506,23 @@
                             <span>i</span>
                           </div>
                           <div class="c-sm-6">
-                            <div class="time-picker">
-                              <div class="field-wrapper has-value">
-                                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.pre_fee_dues_interval_schedule.hour"
-                                  name="hour" style="background: transparent">
-                                  <option *ngFor="let hour of hourArr" [value]="hour">
-                                    {{hour}}
-                                  </option>
-                                </select>
-                                <label for="hour">Hour</label>
-                              </div>
-                              <div class="field-wrapper has-value">
-                                <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.pre_fee_dues_interval_schedule.minute"
-                                  name="minute" style="background: transparent">
-                                  <option *ngFor="let minute of minArr" [value]="minute">
-                                    {{minute}}
-                                  </option>
-                                </select>
-                                <label for="minute">Minute</label>
-                              </div>
-                              <div class="field-wrapper has-value">
-                                <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.pre_fee_dues_interval_schedule.meridian"
-                                  name="meridian" style="background: transparent">
-                                  <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                                    {{meridian}}
-                                  </option>
-                                </select>
-                                <label for="meridian">Meridian</label>
+                            <div class="form-wrapper timepick">
+                              <label for="startTime">Start Time</label>
+                              <div class="tbox">
+                                <div class="times ">
+                                  <select id="" class="mins side-form-ctrl" [(ngModel)]="instituteSettingDet.pre_fee_dues_interval_schedule.hour" name="startTime">
+                                    <option [value]="time" *ngFor="let time of times">
+                                      {{time}}
+                                    </option>
+                                  </select>
+                                </div>
+                                <div class="times">
+                                  <select id="" class="mers side-form-ctrl" [(ngModel)]="instituteSettingDet.pre_fee_dues_interval_schedule.minute" name="minute">
+                                    <option *ngFor="let minute of minArr" [value]="minute">
+                                      {{minute}}
+                                    </option>
+                                  </select>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -693,33 +653,23 @@
                           <span title="Enable to send Automatic Birthday SMS to Alumni Students (If DOB is specified)">i</span>
                         </div>
                         <div class="c-sm-6">
-                          <div class="time-picker">
-                            <div class="field-wrapper has-value">
-                              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.hour"
-                                name="hour" style="background: transparent">
-                                <option *ngFor="let hour of hourArr" [value]="hour">
-                                  {{hour}}
-                                </option>
-                              </select>
-                              <label for="hour">Hour</label>
-                            </div>
-                            <div class="field-wrapper has-value">
-                              <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.minute"
-                                name="minute" style="background: transparent">
-                                <option *ngFor="let minute of minArr" [value]="minute">
-                                  {{minute}}
-                                </option>
-                              </select>
-                              <label for="minute">Minute</label>
-                            </div>
-                            <div class="field-wrapper has-value">
-                              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.meridian"
-                                name="meridian" style="background: transparent">
-                                <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                                  {{meridian}}
-                                </option>
-                              </select>
-                              <label for="meridian">Meridian</label>
+                          <div class="form-wrapper timepick">
+                            <label for="startTime">Start Time</label>
+                            <div class="tbox">
+                              <div class="times ">
+                                <select id="" class="mins side-form-ctrl" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.hour" name="startTime">
+                                  <option [value]="time" *ngFor="let time of times">
+                                    {{time}}
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="times">
+                                <select id="" class="mers side-form-ctrl" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.minute" name="minute">
+                                  <option *ngFor="let minute of minArr" [value]="minute">
+                                    {{minute}}
+                                  </option>
+                                </select>
+                              </div>
                             </div>
                           </div>
                         </div>
