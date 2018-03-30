@@ -23,6 +23,7 @@ import 'rxjs/add/operator/filter';
 })
 export class StudentAddComponent implements OnInit {
 
+  isPartialPayment: boolean;
   userHasFees: boolean;
   closeFee: boolean;
   studentAddnMove: boolean;
@@ -54,7 +55,7 @@ export class StudentAddComponent implements OnInit {
   pdcSelectedForm: any = {
     bank_name: '',
     cheque_amount: '',
-    cheque_date: '',
+    cheque_date: moment().format("YYYY-MM-DD"),
     cheque_no: '',
     pdc_cheque_id: ''
   }
@@ -1804,8 +1805,8 @@ export class StudentAddComponent implements OnInit {
               this.appC.popToast(msg);
               this.pdcSelectedForm = {
                 bank_name: '',
-                cheque_amount: '',
-                cheque_date: '',
+                cheque_amount: this.totalFeePaid,
+                cheque_date: moment().format("YYYY-MM-DD"),
                 cheque_no: '',
                 pdc_cheque_id: ''
               }
@@ -1875,8 +1876,8 @@ export class StudentAddComponent implements OnInit {
             this.appC.popToast(msg);
             this.pdcSelectedForm = {
               bank_name: '',
-              cheque_amount: '',
-              cheque_date: '',
+              cheque_amount: this.totalFeePaid,
+              cheque_date: moment().format("YYYY-MM-DD"),
               cheque_no: '',
               pdc_cheque_id: ''
             }
@@ -2765,6 +2766,13 @@ export class StudentAddComponent implements OnInit {
   paymentModeUpdate(e) {
     if (e === 'Cheque/PDC/DD No.') {
       this.isPaymentPdc = true;
+      this.pdcSelectedForm = {
+        bank_name: '',
+        cheque_amount: this.totalFeePaid,
+        cheque_date: moment().format("YYYY-MM-DD"),
+        cheque_no: '',
+        pdc_cheque_id: ''
+      }
     }
     else {
       this.isPaymentPdc = false;
@@ -3327,8 +3335,8 @@ export class StudentAddComponent implements OnInit {
       this.isPdcFeePaymentSelected = false;
       this.pdcSelectedForm = {
         bank_name: '',
-        cheque_amount: '',
-        cheque_date: '',
+        cheque_amount: this.totalFeePaid,
+        cheque_date: moment().format("YYYY-MM-DD"),
         cheque_no: '',
         pdc_cheque_id: ''
       }
@@ -3359,6 +3367,26 @@ export class StudentAddComponent implements OnInit {
       return true;
     }
   }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  downloadFeeReceipt(ins){
+    //this.studentPrefillService.getFeeReceiptById(ins.display_invoice_no)
+    console.log(ins);
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  emailFeeReceipt(ins){
+    //this.fetchService.emailReceiptById(ins.display_invoice_no)
+    console.log(ins);
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  openPartialPayment(ins){
+    console.log(ins);
+    this.isPartialPayment = true;
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
 
 
 }
