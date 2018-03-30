@@ -106,7 +106,6 @@ hr {
         padding: 15px;
         padding-left: 40px;
         padding-bottom: 300px;
-        
         .checkboxes {
             padding: 10px 0px;
             label {
@@ -144,9 +143,13 @@ hr {
                         td {
                             color: #a2a2a2;
                             font-weight: normal !important;
-                            &:nth-child(2), &:nth-child(3), &:nth-child(4), &:nth-child(5), &:nth-child(6) {
+                            &:nth-child(2),
+                            &:nth-child(3),
+                            &:nth-child(4),
+                            &:nth-child(5),
+                            &:nth-child(6) {
                                 padding: 5px;
-                            }  
+                            }
                         }
                     }
                     tr {
@@ -525,7 +528,6 @@ hr {
 //         }
 //     }
 // }
-
 @media only screen and (max-width:800px) {
     .setting-full {
         .setting-left {
@@ -565,7 +567,7 @@ hr {
                             height: 40px;
                             td {
                                 font-size: 0.8em;
-                            }  
+                            }
                         }
                     }
                 }
@@ -579,4 +581,60 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+//// Time picker changes
+/////////////////////////////////////////////////////
+.form-wrapper {
+    background: transparent;
+    margin: 5px 0px;
+    label {
+        color: #309bf8 !important;
+        font-size: 12px;
+        font-weight: 400; //font-family: -webkit-body;
+        color: rgba(0, 0, 0, 0.77);
+        padding-bottom: 2px;
+        text-decoration: none;
+        text-transform: uppercase;
+        -webkit-font-smoothing: antialiased;
+    }
+    .side-form-ctrl {
+        background: white;
+        border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+        width: 100%;
+        padding: 8px 5px;
+        font-weight: 600;
+        font-size: 14px;
+        color: black;
+        &.bsDatepicker {
+            padding: 5px;
+            width: 100%;
+        }
+    }
+    &.timepick {
+        display: inline !important;
+        width: 50%;
+        padding: 1px 0px;
+        .tbox {
+            width: 100%;
+            .times {
+                display: inline-block;
+            }
+            .side-form-ctrl {
+                background: white;
+                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                width: 100%;
+                padding: 8px 5px;
+                font-weight: 600;
+                font-size: 14px;
+                color: black;
+                &.mins {
+                    width: 80px;
+                }
+                &.mers {
+                    width: 50px;
+                }
+            }
+        }
+    }
 }

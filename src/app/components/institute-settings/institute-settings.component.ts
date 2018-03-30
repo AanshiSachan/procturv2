@@ -14,9 +14,9 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
 
   isRippleLoad: boolean = false;
   isLangInst: boolean = false;
-  hourArr: any[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   minArr: any[] = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '55'];
   meridianArr: any[] = ["AM", "PM"];
+  times: any[] = ['1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 AM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 PM'];
 
   instituteSettingDet: any = {
     sms_notification: '',
@@ -71,7 +71,6 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     birthday_daily_schedule: {
       hour: '',
       minute: '',
-      meridian: '',
     },
     fee_dues_daily_notification: {
       student: '',
@@ -81,7 +80,6 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     fee_dues_daily_schedule: {
       hour: '',
       minute: '',
-      meridian: '',
     },
     fee_dues_interval_notification: {
       student: '',
@@ -92,7 +90,6 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     fee_dues_interval_schedule: {
       hour: '',
       minute: '',
-      meridian: '',
     },
     pre_fee_dues_interval_notification: {
       student: '',
@@ -103,7 +100,6 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     pre_fee_dues_interval_schedule: {
       hour: '',
       minute: '',
-      meridian: '',
     },
     student_fee_dues_notification: {
       student: '',
@@ -129,7 +125,6 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     alumni_birthday_daily_schedule: {
       hour: '',
       minute: '',
-      meridian: '',
     },
     regular_class_notification: {
       student: '',
@@ -464,7 +459,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
   }
 
   convertTimeToSend(data) {
-    let time = data.hour + ':' + data.minute + ' ' + data.meridian;
+    let time = data.hour.split(' ')[0] + ':' + data.minute + ' ' + data.hour.split(' ')[1];
     return time;
   }
 
@@ -547,9 +542,9 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
 
 
   fillTimeInHrAndMinute(dataJson, res) {
-    dataJson.hour = res.split(':')[0];
-    dataJson.minute = res.split(':')[1].substring(0, 2);
-    dataJson.meridian = res.split(' ')[1];
+    let time = res.split(':');
+    dataJson.hour = time[0] + " " + time[1].split(' ')[1];
+    dataJson.minute = time[1].split(' ')[0];
   }
 
   checkDropDownSelection(data) {
