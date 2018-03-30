@@ -137,7 +137,7 @@
               </div>
               <div class="c-sm-3 c-md-3 c-lg-3">
                 <div class="field-checkbox-wrapper">
-                  <input type="checkbox" id="checkBoxtaxes" name="checkbx" class="form-checkbox" (click)="onApplyTaxChechbox()">
+                  <input type="checkbox" id="checkBoxtaxes" name="checkbx" class="form-checkbox" (click)="onApplyTaxChechbox($event)">
                   <label for="checkbx">Apply Tax({{feeStructure.registeredServiceTax}}%)</label>
                 </div>
               </div>
@@ -347,6 +347,11 @@
                         </td>
                         <td>
                           <a style="cursor: pointer" (click)="deleteAdditionalRow(row , i)">Delete</a>
+                        </td>
+                      </tr>
+                      <tr *ngIf="otherInstList.length == 0">
+                        <td colspan="7">
+                          No Additional Fee
                         </td>
                       </tr>
                     </tbody>
