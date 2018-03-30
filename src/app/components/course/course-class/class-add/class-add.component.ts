@@ -146,7 +146,7 @@ export class ClassAddComponent implements OnInit {
     end_meridian: '',
     desc: '',
   }
-  times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 AM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 PM']
+  times: any[] = ['1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 AM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 PM']
   /* ============================================================================================ */
   /* ============================================================================================ */
   /* ============================================================================================ */
@@ -257,11 +257,9 @@ export class ClassAddComponent implements OnInit {
   /* ============================================================================================ */
   /* ============================================================================================ */
   submitMasterCourse() {
-    console.log(this.fetchMasterCourseModule);
     if (this.fetchMasterCourseModule.master_course == '-1' || this.fetchMasterCourseModule.course_id == '-1' ||
       this.fetchMasterCourseModule.requested_date == '' || this.fetchMasterCourseModule.requested_date == 'Invalid date'
       || this.fetchMasterCourseModule.requested_date == null) {
-      console.log(this.fetchMasterCourseModule);
       this.messageToast('error', 'Error', 'Please provide all mandatory details');
       return;
     }
@@ -269,7 +267,6 @@ export class ClassAddComponent implements OnInit {
       if (moment(this.courseStartDate).format("YYYY-MM-DD") <= moment(this.fetchMasterCourseModule.requested_date).format("YYYY-MM-DD") && moment(this.fetchMasterCourseModule.requested_date).format("YYYY-MM-DD") <= moment(this.courseEndDate).format("YYYY-MM-DD")) {
         this.isClassFormFilled = true;
         this.fetchMasterCourseModule.requested_date = moment(this.fetchMasterCourseModule.requested_date).format("YYYY-MM-DD");
-        console.log(this.fetchMasterCourseModule);
         this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
         this.getCustomList();
         this.getTeacherList();
@@ -324,8 +321,6 @@ export class ClassAddComponent implements OnInit {
   /* ============================================================================================ */
   /* ============================================================================================ */
   submitMasterBatch() {
-    debugger
-    console.log(this.fetchMasterBatchModule);
     /* standard selected */
     if (this.fetchMasterBatchModule.standard_id != '-1' && this.fetchMasterBatchModule.standard_id != -1 && this.fetchMasterBatchModule.standard_id != undefined) {
 
@@ -421,7 +416,6 @@ export class ClassAddComponent implements OnInit {
           this.courseModelBatchList = res.batchLi;
         }
         else {
-          console.log(this.fetchMasterBatchModule);
         }
       },
       err => {
@@ -521,7 +515,6 @@ export class ClassAddComponent implements OnInit {
     this.isRippleLoad = true;
     this.classService.getBatchDetailsById(id).subscribe(
       res => {
-        console.log(res);
         this.isRippleLoad = false;
         this.isClassFormFilled = true;
         this.batchDetails = Object.assign({}, res);
@@ -554,11 +547,9 @@ export class ClassAddComponent implements OnInit {
   getAllSubjectListFromServer(data) {
     this.classService.getAllSubjectlist(this.fetchMasterCourseModule).subscribe(
       res => {
-        console.log('course list', res);
         this.fetchedCourseData = res;
         this.subjectListDataSource = this.getSubjectList(res);
         this.classScheduleArray = this.constructJSONForTable(res);
-        console.log('this.classScheduleArray', this.classScheduleArray);
       },
       err => {
         console.log(err);
@@ -612,7 +603,6 @@ export class ClassAddComponent implements OnInit {
   getCustomList() {
     this.classService.getCustomClassListFromServer().subscribe(
       res => {
-        console.log('custom list', res);
         this.customListDataSource = res;
       },
       err => {
@@ -625,7 +615,6 @@ export class ClassAddComponent implements OnInit {
   getTeacherList() {
     this.classService.getAllActiveTeachersList().subscribe(
       res => {
-        console.log('teacher list', res);
         this.teacherListDataSource = res;
       },
       err => {
@@ -744,7 +733,6 @@ export class ClassAddComponent implements OnInit {
       hr = Number(hr) + 12;
       result = hr + ':' + min;
     }
-    console.log(result);
     return result;
   }
 
@@ -770,7 +758,6 @@ export class ClassAddComponent implements OnInit {
   }
 
   onCourseListSelection(event) {
-    console.log(this.courseList);
     if (event != '-1') {
       for (let i = 0; i < this.courseList.length; i++) {
         if (this.courseList[i].course_id == event) {
@@ -795,7 +782,6 @@ export class ClassAddComponent implements OnInit {
     if (dataTosend != undefined) {
       this.classService.cancelClassSchedule(dataTosend).subscribe(
         res => {
-          console.log(res);
           this.messageToast('success', 'Success', 'Class Cancelled Successfull');
           this.showPopUpCancellation = false;
           this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
@@ -840,7 +826,6 @@ export class ClassAddComponent implements OnInit {
       obj.requested_date = this.fetchedCourseData.requested_date;
       this.classService.sendReminderToServer(obj).subscribe(
         res => {
-          console.log(res);
           this.messageToast('success', 'Successfully', 'Notification sent successfully');
         },
         err => {
@@ -860,7 +845,6 @@ export class ClassAddComponent implements OnInit {
     let obj = this.makeJsonForCourseSave();
     this.classService.saveDataOnServer(obj).subscribe(
       res => {
-        console.log(res);
         this.messageToast('success', 'Saved', 'Your class created successfully');
         this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
       },
@@ -1026,17 +1010,22 @@ export class ClassAddComponent implements OnInit {
 
 
   saveCustomRecurrences() {
-    debugger
     this.weekDaysSelected = this.getSelectedDaysOfWeek();
     if (this.weekDaysSelected.length == 0) {
       this.messageToast('error', 'Error', 'Please provide days of week.');
       return;
     }
+    if (this.selctedScheduledClass.startTime.hour == "" || this.selctedScheduledClass.startTime.minute == "") {
+      this.messageToast('error', 'Error', 'Please provide valid start time');
+      return false;
+    }
+    if (this.selctedScheduledClass.endTime.hour == "" || this.selctedScheduledClass.endTime.minute == "") {
+      this.messageToast('error', 'Error', 'Please provide valid end time');
+      return false;
+    }
     let JsonToSend = this.makeJsonForRecurrence();
-    console.log(JsonToSend);
     this.classService.saveCustomRecurrenceToServer(JsonToSend).subscribe(
       res => {
-        console.log(res);
         this.messageToast('success', 'Saved', 'Saved Successfull');
         this.showPopUpRecurence = false;
       },
@@ -1063,10 +1052,8 @@ export class ClassAddComponent implements OnInit {
       return;
     };
     let jsonToSend = this.makeJsonOFSelectedDate();
-    console.log(jsonToSend);
     this.classService.selectedDateScheduleToServer(jsonToSend).subscribe(
       res => {
-        console.log(res);
         this.checkDatesOverLapping(res);
       },
       err => {
@@ -1142,8 +1129,8 @@ export class ClassAddComponent implements OnInit {
   }
 
   makeJsonForRecurrence() {
-    let startTime = this.selctedScheduledClass.startTime.hour + ':' + this.selctedScheduledClass.startTime.minute + " " + this.selctedScheduledClass.startTime.meridian;
-    let endTime = this.selctedScheduledClass.endTime.hour + ':' + this.selctedScheduledClass.endTime.minute + " " + this.selctedScheduledClass.endTime.meridian;
+    let startTime = this.selctedScheduledClass.startTime.hour.split(' ')[0] + ':' + this.selctedScheduledClass.startTime.minute + ' ' + this.selctedScheduledClass.startTime.hour.split(' ')[1];
+    let endTime = this.selctedScheduledClass.endTime.hour.split(' ')[0] + ':' + this.selctedScheduledClass.endTime.minute + ' ' + this.selctedScheduledClass.endTime.hour.split(' ')[1];
     let duration = this.getDifference(startTime, endTime);
     let obj: any = {};
     obj.batch_id = this.selctedScheduledClass.batch_id;
@@ -1214,7 +1201,6 @@ export class ClassAddComponent implements OnInit {
   getWeekOfDaysFromServer() {
     this.classService.getWeekOfDays().subscribe(
       res => {
-        console.log(res);
         this.weekDays = this.addKeyInData(res);
       },
       err => {
@@ -1251,7 +1237,6 @@ export class ClassAddComponent implements OnInit {
         }
       }
     }
-    console.log(this.weekDaysTable);
   }
 
 
@@ -1286,7 +1271,6 @@ export class ClassAddComponent implements OnInit {
     let data = this.makeJSONToSendBatchDet();
     this.classService.cancelClassSchedule(data).subscribe(
       res => {
-        console.log(res);
         this.messageToast('success', 'Notified', 'Cancelled Successfully');
       },
       err => {
@@ -1333,11 +1317,9 @@ export class ClassAddComponent implements OnInit {
   }
 
   updateWeeklySchedule() {
-    debugger
     let data = this.prepareJSONDATA();
     this.classService.createWeeklyBatch(data).subscribe(
       res => {
-        console.log(res);
         this.messageToast('success', 'Updated', 'Details Updated Successfully');
         this.submitMasterBatch();
       },
@@ -1350,7 +1332,6 @@ export class ClassAddComponent implements OnInit {
   }
 
   prepareJSONDATA() {
-    debugger
     let obj: any = {};
     obj.batch_id = this.batchDetails.batch_id;
     obj.class_freq = "WEEK";
@@ -1378,7 +1359,6 @@ export class ClassAddComponent implements OnInit {
   }
 
   addNewExtraClass() {
-    debugger
     let obj: any = {};
     obj.class_date = moment(this.addExtraClass.date).format("YYYY-MM-DD");
     let startTime = moment(this.addExtraClass.start_hour + ':' + this.addExtraClass.start_minute + this.addExtraClass.start_meridian, 'h:mma');
@@ -1422,7 +1402,6 @@ export class ClassAddComponent implements OnInit {
     let data = this.makeJsonForExtraClass();
     this.classService.createWeeklyBatch(data).subscribe(
       res => {
-        console.log(res);
         this.messageToast('success', 'Updated', 'Details Updated Successfully');
         this.submitMasterBatch();
       },
@@ -1457,7 +1436,6 @@ export class ClassAddComponent implements OnInit {
   }
 
   cancelWeeklyScheduledClass() {
-    debugger
   }
 
   addNewCustomClass() {
@@ -1533,7 +1511,6 @@ export class ClassAddComponent implements OnInit {
     let obj = this.makeJsonForCustomClass();
     this.classService.createWeeklyBatchPost(obj).subscribe(
       res => {
-        console.log(res);
         this.messageToast('success', 'Updated', 'Details Updated Successfully');
 
       },
