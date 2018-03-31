@@ -454,7 +454,7 @@ export class TemplateHomeComponent implements OnInit {
 
   addAdditionalInst() {
     if (Number(this.additionalInstallment.initial_fee_amount) > 0 && this.additionalInstallment.days != null) {
-      this.additionalInstallment.fees_amount = this.additionalInstallment.initial_fee_amount;
+      // this.additionalInstallment.fees_amount = this.additionalInstallment.initial_fee_amount;
       this.otherInstList.push(this.additionalInstallment);
       this.additionalInstallment = {
         days: 0,
@@ -485,6 +485,7 @@ export class TemplateHomeComponent implements OnInit {
         return;
       }
     }
+    this.calculateTotalAmount();
   }
 
   onAdditionalFeeSelection(event) {

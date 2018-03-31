@@ -146,7 +146,7 @@ export class CourseCourseListComponent implements OnInit {
     }
     let data = {
       course_id: this.courseDetails.course_id,
-      standard_id: this.searchFilter.standard_id,
+      standard_id: Number(this.searchFilter.standard_id),
       isUnassignedStudent: unassign
     }
     this.isRippleLoad = true;
@@ -166,6 +166,16 @@ export class CourseCourseListComponent implements OnInit {
   }
 
   saveChanges() {
+    if (this.searchFilter.unassignFlag == false) {
+      if (confirm('If you unassign the student from course then corresponding fee instalments will be deleted.')) {
+        this.apiToAllocateAndDeallocate();
+      }
+    } else {
+      this.apiToAllocateAndDeallocate();
+    }
+  }
+
+  apiToAllocateAndDeallocate() {
     this.isRippleLoad = true;
     let data = this.getCheckedRows();
     let dataToSend = {
@@ -174,21 +184,21 @@ export class CourseCourseListComponent implements OnInit {
     this.apiService.saveUpdatedList(dataToSend, this.courseDetails.course_id).subscribe(
       res => {
         console.log(res);
-        // this.messageToast('success', 'Saved', 'Changes saved successfully.');
+        this.messageToast('success', 'Saved', 'Changes saved successfully.');
         this.studentList = [];
         this.addStudentPopUp = false;
         this.isRippleLoad = false;
+        this.showTable = false;
       },
       err => {
         this.isRippleLoad = false;
         console.log(err);
-        // this.messageToast('error', 'Error', err.error.message);
+        this.messageToast('error', 'Error', err.error.message);
       }
     )
   }
 
   getCheckedRows() {
-    debugger
     let test = {};
     for (let i = 0; i < this.studentListDataSource.length; i++) {
       for (let t = 0; t < this.studentList.length; t++) {
@@ -258,6 +268,15 @@ export class CourseCourseListComponent implements OnInit {
   toggleTbodyClass(i) {
     document.getElementById('tbodyItem' + i).classList.toggle("active");
     document.getElementById('tbodyView' + i).classList.toggle("hide");
+  }
+
+  messageToast(Errortype, Errortitle, message) {
+    let msg = {
+      type: Errortype,
+      title: Errortitle,
+      body: message
+    }
+    this.toastCtrl.popToast(msg);
   }
 
 }

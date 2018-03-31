@@ -824,7 +824,9 @@ export class EnquiryEditComponent implements OnInit {
       this.updateFormData.status = res.status;
       this.updateFormData.followUpDate = res.followUpDate;
       this.updateFormData.commentDate = moment().format('YYYY-MM-DD');
-      this.updateFormComments = res.comments;
+      if(res.comments != null){
+        this.updateFormComments = res.comments;
+      }
       this.updateFormCommentsOn = res.commentedOn;
       this.updateFormCommentsBy = res.commentedBy;
     });
