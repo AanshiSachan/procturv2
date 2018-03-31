@@ -119,7 +119,7 @@ export class StudentAddComponent implements OnInit {
   public studentImage: string = ''; private isPaymentDetailsValid: boolean = false; private student_id: any = 0;
   private service_tax: number = 0; private totalFeePaid: number = 0; private paymentStatusArr: any[] = [];
   private isFeePaymentUpdate: boolean = false; private isDefineFees: boolean = false; private isFeeApplied: boolean = false; private isNewInstallment: boolean = false; private isDiscountApply: boolean = false;
-  is_undo: string = "N"; isUpdateFeeAndExit: boolean = false;
+  is_undo: string = "N"; isUpdateFeeAndExit: boolean = false; total_amt_tobe_paid:any = "";
   private addFeeInstallment: any = {
     amount_paid: '',
     amount_paid_inRs: null,
@@ -430,6 +430,7 @@ export class StudentAddComponent implements OnInit {
     this.instalmentTableData = [];
     this.otherFeeTableData = [];
     this.totalFeePaid = 0;
+    this.total_amt_tobe_paid = this.totalFeePaid;
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
     this.isDefineFees = false;
     this.isFeeApplied = true;
@@ -1585,6 +1586,7 @@ export class StudentAddComponent implements OnInit {
       this.totalFeePaid -= value;
       if (this.totalFeePaid < 0) {
         this.totalFeePaid = 0;
+        this.total_amt_tobe_paid = this.totalFeePaid;
       }
     }
   }
@@ -2276,7 +2278,8 @@ export class StudentAddComponent implements OnInit {
     /* Request from close popup */
     if (this.closeFee) {
       if(this.userHasFees){
-        this.totalFeePaid = 0;        
+        this.totalFeePaid = 0;      
+        this.total_amt_tobe_paid = this.totalFeePaid;  
         this.isConfigureFees = false;
         this.instalmentTableData = [];
         this.isDefineFees = false;
@@ -2291,7 +2294,8 @@ export class StudentAddComponent implements OnInit {
           this.allignStudentFeeView(res);
         }
         else{
-          this.totalFeePaid = 0;        
+          this.totalFeePaid = 0;   
+          this.total_amt_tobe_paid = this.totalFeePaid;     
           this.isConfigureFees = false;
           this.instalmentTableData = [];
           this.userHasFees = false;
@@ -2304,7 +2308,8 @@ export class StudentAddComponent implements OnInit {
         }
       }
       else{
-        this.totalFeePaid = 0;        
+        this.totalFeePaid = 0;     
+        this.total_amt_tobe_paid = this.totalFeePaid;   
         this.isConfigureFees = false;
         this.instalmentTableData = [];
         this.userHasFees = false;
@@ -2724,6 +2729,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   deselectAllSelectedCheckbox() {
     this.totalFeePaid = 0;
+    this.total_amt_tobe_paid = this.totalFeePaid;
     this.paymentStatusArr.forEach(e => { e.uiSelected = false; });
   }
   /* ============================================================================================================================ */
@@ -3336,6 +3342,7 @@ export class StudentAddComponent implements OnInit {
   openPartialPayment(ins) {
     console.log(ins);
     this.totalFeePaid = ins.balance_amount;
+    this.total_amt_tobe_paid = this.totalFeePaid;
     this.studentFeeReportObj = {
       due_date: ins.due_date,
       fee_schedule_id: ins.schedule_id,
@@ -3350,6 +3357,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   closePartialPayment() {
     this.totalFeePaid = 0;
+    this.total_amt_tobe_paid = this.totalFeePaid;
     this.studentFeeReportObj = {
       due_date: null,
       fee_schedule_id: 0,

@@ -1431,8 +1431,8 @@
                   </div>
                 </li>
                 <li>
-                  <a *ngIf="fee.is_referenced == 'N'">
-                    <i (click)="deleteOtherFee(i)" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
+                  <a (click)="deleteOtherFee(i)" *ngIf="fee.is_referenced == 'N'">
+                    <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
                   </a>
                   <a *ngIf="fee.is_referenced == 'Y'" class="paid-fee">Paid</a>
                 </li>
@@ -1848,12 +1848,7 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- ======================================================== -->
-  <!-- ======================================================== -->
-  
-  <!-- ======================================================== -->
-  <!-- ======================================================== -->
-  <!-- ======================================================== -->
-  <!-- ======================================================== -->
+
   <student-pop-up *ngIf="isPartialPayment">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePartialPayment()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">

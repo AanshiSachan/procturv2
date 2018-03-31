@@ -946,11 +946,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let batch of batchList">
+            <tr *ngFor="let batch of batchList; let i = index">
               <td>
                 <div class="inst-no">
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox" value="" name="batch" [(ngModel)]="batch.isSelected" (ngModelChange)="batchChangeAlert($event, batch)"
+                    <input type="checkbox" id="batchcheck{{i}}" name="batch" [(ngModel)]="batch.isSelected" (ngModelChange)="batchChangeAlert($event, i)"
                       class="form-checkbox">
                     <label></label>
                   </div>
@@ -1118,6 +1118,11 @@
         </div>
 
         <div class="row">
+
+          <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
+            <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt"/>
+            <label for="payamt">Payment for</label>
+          </div>
 
           <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': feeTemplateById.paid_date != ''}">
             <input type="text" value="" id="pd" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="feeTemplateById.paid_date"
@@ -1426,8 +1431,8 @@
                   </div>
                 </li>
                 <li>
-                  <a *ngIf="fee.is_referenced == 'N'">
-                    <i (click)="deleteOtherFee(i)" style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
+                  <a (click)="deleteOtherFee(i)" *ngIf="fee.is_referenced == 'N'">
+                    <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
                   </a>
                   <a *ngIf="fee.is_referenced == 'Y'" class="paid-fee">Paid</a>
                 </li>
