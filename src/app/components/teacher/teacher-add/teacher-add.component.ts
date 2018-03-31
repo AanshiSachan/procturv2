@@ -91,7 +91,6 @@ export class TeacherAddComponent implements OnInit {
         this.route.navigateByUrl('teacher');
       },
       err => {
-        console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -145,7 +144,6 @@ export class TeacherAddComponent implements OnInit {
   }
 
   setImage(e) {
-    console.log(e);
     this.studentImage = e;
   }
 

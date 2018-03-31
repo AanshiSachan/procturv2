@@ -61,7 +61,6 @@ export class PictureCropComponent implements OnInit, OnChanges {
   }
 
   setReadOnly() {
-    //console.log(this.readonly);
   }
 
   setRemoveImg() {
@@ -72,7 +71,6 @@ export class PictureCropComponent implements OnInit, OnChanges {
       this.removeImage();
     }
     else {
-      //console.log(this.serverImg);
       const temp: any[] = [];
       temp[0] = this.imgPrefill;
       temp[1] = this.serverImg;
@@ -220,9 +218,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
   @HostListener("document:click", ['$event'])
   onWindowClick(event) {
     if(this.eRef.nativeElement.contains(event.target)) {
-      //console.log("inside");
     } else {
-      //console.log("outside");
       this.isMenuVisible = false;
     }
   }

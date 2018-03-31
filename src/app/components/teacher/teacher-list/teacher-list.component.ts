@@ -42,11 +42,9 @@ export class TeacherListComponent implements OnInit {
         this.totalRow = data.length;
         this.teacherListDataSource = data;
         this.fetchTableDataByPage(this.PageIndex);
-        console.log(data);
       },
       error => {
         this.dataStatus = 2;
-        console.log(error);
         this.isRippleLoad = false;
         let data = {
           type: "error",

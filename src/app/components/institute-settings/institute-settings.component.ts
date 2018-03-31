@@ -231,7 +231,6 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
 
   scrollListener() {
     window.onscroll = () => {
-      // console.log(window.pageYOffset);
 
       // For Large Desktop Screens
       if (window.innerWidth > 1370) {

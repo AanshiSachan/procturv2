@@ -42,7 +42,7 @@ export class CampaignAddComponent implements OnInit {
     this.fetchPrefillFormData();
 
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    //console.log(this.isProfessional);
+
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
 
     this.login.changeNameStatus(sessionStorage.getItem('name'));
@@ -97,7 +97,6 @@ export class CampaignAddComponent implements OnInit {
       // this.campaignAddFormData.phone = form.controls.cNumber.value;
       // this.campaignAddFormData.phone = form.controls.cNumber.value;
 
-      console.log(this.campaignAddFormData);
 
       this.prefill.addCampaignPostRequest(this.campaignAddFormData).subscribe(
         res => {
@@ -119,13 +118,15 @@ export class CampaignAddComponent implements OnInit {
 
         },
         err => {
-          console.log(err);
+          let msg = {
+            type: "error",
+            title: "",
+            body: "An Error Occured"
+          }
+          this.appC.popToast(msg);
         }
       );
     }
-
-    console.log(form.controls);
-    console.log("button working");
   }
 
 

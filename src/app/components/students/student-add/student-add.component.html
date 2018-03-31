@@ -551,37 +551,37 @@
               <li>
                 <label>Fees</label>
                 <div class="blue">
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{totalFeeWithTax | commaSeprator}}</span>
+                  <span *ngIf="userCustommizedFee.length == 0">NA</span>
+                  <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalFeeWithTax | commaSeprator}}</span>
                 </div>
               </li>
               <li>
                 <label>Discount</label>
                 <div class="purple">
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{totalDicountAmount | commaSeprator}}</span>
-                  <a *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0" (click)="openDiscountApply()">Add more</a>
+                  <span *ngIf="userCustommizedFee.length == 0">NA</span>
+                  <span *ngIf="userCustommizedFee.length != 0 ">&#8377; {{totalDicountAmount | commaSeprator}}</span>
+                  <a *ngIf="userCustommizedFee.length != 0" (click)="openDiscountApply()">Add more</a>
                 </div>
               </li>
               <li>
                 <label>Taxes</label>
                 <div class="yellow">
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{totalTaxAmount | commaSeprator}}</span>
+                  <span *ngIf="userCustommizedFee.length == 0">NA</span>
+                  <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalTaxAmount | commaSeprator}}</span>
                 </div>
               </li>
               <li>
                 <label>Amount Paid</label>
                 <div class="green">
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{totalPaidAmount | commaSeprator}}</span>
+                  <span *ngIf="userCustommizedFee.length == 0">NA</span>
+                  <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalPaidAmount | commaSeprator}}</span>
                 </div>
               </li>
               <li>
                 <label>Amount Due</label>
                 <div class="red">
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount == ''">NA</span>
-                  <span *ngIf="feeTemplateById.studentwise_total_fees_amount != '' && userCustommizedFee.length != 0 ">&#8377; {{totalAmountDue | commaSeprator}}</span>
+                  <span *ngIf="userCustommizedFee.length == 0">NA</span>
+                  <span *ngIf="userCustommizedFee.length != 0 ">&#8377; {{totalAmountDue | commaSeprator}}</span>
                 </div>
               </li>
               <li>
@@ -1119,13 +1119,9 @@
       </svg>
     </span>
 
-    <h2 popup-header style="padding: 10px 5px;">Student Fee Payment</h2>
+    <h2 popup-header style="padding: 10px 5px;">Student Fee Payment <span>(Payment Details for &#8377; {{totalFeePaid}})</span></h2>
 
     <div class="configureFee" popup-content>
-
-      <div class="row">
-        <h4>Payment Details for &#8377; {{totalFeePaid}}</h4>
-      </div>
 
       <div class="row">
 
@@ -1280,12 +1276,6 @@
           <!-- Installment Adding Here -->
           <div class="installment-adder">
             <ul>
-              <li>
-                <!-- <div class="form-wrapper">
-                      <label for="instt">Installment</label>
-                      <input type="text" class="form-ctrl" name="instt" readonly>
-                    </div> -->
-              </li>
               <li>
                 <div class="form-wrapper datePickerBox">
                   <label for="dddue_date">Due Date</label>

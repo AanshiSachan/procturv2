@@ -18,7 +18,6 @@ export class ImageUploadComponent implements OnChanges{
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log(this.removeImg);
         if(this.removeImg){
             this.removeImage();
         }

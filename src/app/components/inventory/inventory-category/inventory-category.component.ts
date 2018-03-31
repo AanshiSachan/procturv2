@@ -62,7 +62,12 @@ export class InventoryCategoryComponent implements OnInit {
         this.appC.popToast(msg);
       },
       error => {
-        console.log(error);
+        let msg = {
+          type: "error",
+          title: "",
+          body: "An Error Occured"
+        }
+        this.appC.popToast(msg);
       }
     );
   }
@@ -92,10 +97,8 @@ export class InventoryCategoryComponent implements OnInit {
     data.category_name = rowData.category_name;
     data.desc = rowData.desc;
     data.institution_id = rowData.institution_id;
-    console.log(data);
     this.categoryService.updateExisting(data).subscribe(
       data => {
-        console.log('Datatat', data);
         let msg = {
           type: 'success',
           title: "",
@@ -104,7 +107,12 @@ export class InventoryCategoryComponent implements OnInit {
         this.appC.popToast(msg);
       },
       error => {
-        console.log(error);
+        let msg = {
+          type: "error",
+          title: "",
+          body: "An Error Occured"
+        }
+        this.appC.popToast(msg);
       }
     );
   }
@@ -119,7 +127,12 @@ export class InventoryCategoryComponent implements OnInit {
         this.fetchTableDataByPage(this.PageIndex);
       },
       err => {
-        console.log(err, 'Error');
+        let msg = {
+          type: "error",
+          title: "",
+          body: "An Error Occured"
+        }
+        this.appC.popToast(msg);
       }
     )
   }

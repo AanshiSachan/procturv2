@@ -22,7 +22,6 @@ export class QuickFilterComponent implements OnChanges {
 
     ngOnChanges(): void {
         this.inputList;
-        //console.log(this.inputList);
         this.modelName;
         this.selectedOptions = [];
         this.inputList.forEach(e => {
@@ -35,7 +34,7 @@ export class QuickFilterComponent implements OnChanges {
 
 
     checkBoxUpdated(i) {
-        console.log(i);
+
         if (this.modelName === 'enqList') {
             this.updateEnqArray(i);
         }
@@ -55,13 +54,11 @@ export class QuickFilterComponent implements OnChanges {
     }
 
     updateEnqArray(i) {
-        debugger
         if (i.prop == "All") {
             this.selectedOptions = [];
             this.selectedOptionsString = '';
             if (i.checked) {
                 this.inputList.forEach(el => {
-                    console.log(el);
                     if (el.prop != "All") {
                         el.checked = false;
                     }
@@ -92,7 +89,6 @@ export class QuickFilterComponent implements OnChanges {
             }
         }
         else if (i.prop != "All" && i.prop != "pending") {
-            //console.log(this.selectedOptions);
             if(this.selectedOptions.indexOf("All") !== -1 || this.selectedOptions.indexOf("pending") !== -1){
                 if(this.selectedOptions.indexOf("All") !== -1){
                     let indexAll = this.selectedOptions.indexOf("All");

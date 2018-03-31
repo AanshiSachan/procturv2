@@ -44,21 +44,21 @@ export class InventoryCategoryService {
         return success;
       },
       err => {
-        console.log('error', err);
+        return err;
       }
     );
   }
 
   // to update the existing row
   updateExisting(data: any){
-    console.log(data);
+
     let url = this.baseUrl + '/api/v1/inventory/category';
     return this.http.put(url, data, { headers: this.headers }).map(
       success => {
         return success;
       },
       err => {
-        console.log('error', err);
+        return err;
       }
     );
   }

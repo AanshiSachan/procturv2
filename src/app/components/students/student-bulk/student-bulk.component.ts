@@ -50,7 +50,12 @@ export class StudentBulkComponent implements OnInit {
         dwldLink.click();
       },
       err => {
-        console.log(err.responseJSON.message);
+        let msg = {
+          type: "error",
+          title: "",
+          body: "An Error Occured"
+        }
+        this.appC.popToast(msg);
       }
     )
   }
@@ -85,7 +90,7 @@ export class StudentBulkComponent implements OnInit {
           this.uploader(fileString);
         }
         reader.onerror = function (error) {
-          console.log('Error: ', error);
+          
         }
       }
       else {
@@ -177,7 +182,6 @@ export class StudentBulkComponent implements OnInit {
             body: xhr.response.fileName
           }
           this.appC.popToast(data);
-          //console.log(xhr.response);
         }
       }
     }
@@ -206,7 +210,7 @@ export class StudentBulkComponent implements OnInit {
 
   /* download the xls status report for a particular file uploaded */
   downloadSuccess(el) {
-    //console.log(el);
+
     this.fetchData.fetchSuccess(el.list_id).subscribe(
       res => {
         let byteArr = this.convertBase64ToArray(res.document);

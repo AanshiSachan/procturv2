@@ -68,7 +68,13 @@ export class FeeTemplateAddComponent implements OnInit {
         this.fillFeeType(res.feeTypeMap);
       },
       err => {
-        console.log(err);
+        let msg = {
+          type: "error",
+          title: "",
+          body: "An Error Occured"
+        }
+        this.appC.popToast(msg);
+
       }
     )
   }
@@ -79,7 +85,12 @@ export class FeeTemplateAddComponent implements OnInit {
         this.masterCourseList = res;
       },
       err => {
-        console.log(err);
+        let msg = {
+          type: "error",
+          title: "",
+          body: "An Error Occured"
+        }
+        this.appC.popToast(msg);
       }
     )
   }
@@ -92,7 +103,12 @@ export class FeeTemplateAddComponent implements OnInit {
           this.CourseList = res;
         },
         err => {
-          console.log(err);
+          let msg = {
+            type: "error",
+            title: "",
+            body: "An Error Occured"
+          }
+          this.appC.popToast(msg);
         }
       )
     }
@@ -186,7 +202,12 @@ export class FeeTemplateAddComponent implements OnInit {
         this.additionalInstallment.fee_type_name = res.fee_type;
       },
       err => {
-        console.log(err);
+        let msg = {
+          type: "error",
+          title: "",
+          body: "An Error Occured"
+        }
+        this.appC.popToast(msg);
       }
     )
   }
@@ -275,7 +296,6 @@ export class FeeTemplateAddComponent implements OnInit {
         this.route.navigateByUrl('/fee');
       },
       err => {
-        console.log(err);
         let msg = {
           type: 'error',
           title: 'Error',

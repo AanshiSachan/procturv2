@@ -16,9 +16,7 @@ export class LoadInterceptor/*  implements HttpInterceptor  */{
  */
 /*       const duplicate = req.clone({ params: req.params.set('filter', 'completed') })       
       return next.handle(req).do(evt => {
-      console.log('---> status:', evt.type);
-      console.log('---> filter:', req.params.get('filter'));
-      console.log('yipee its working');
+
      }); 
     }*/
 }

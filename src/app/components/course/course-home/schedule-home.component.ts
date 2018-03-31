@@ -53,7 +53,6 @@ export class ScheduleHomeComponent implements OnInit {
     this.isRippleLoad = true;
     this.apiService.getAllStandardListFromServer().subscribe(
       (data: any) => {
-        //console.log(data); 3
         this.totalRow = data.length;
         data.sort(function (a, b) {
           return moment(a.created_date).unix() - moment(b.created_date).unix();
@@ -66,7 +65,6 @@ export class ScheduleHomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
         let data = {
           type: "error",
           title: "",
@@ -133,7 +131,6 @@ export class ScheduleHomeComponent implements OnInit {
             body: err.error.message
           }
           this.toastCtrl.popToast(data);
-          console.log(err);
         })
     }
   }
@@ -172,7 +169,6 @@ export class ScheduleHomeComponent implements OnInit {
     data.is_active = row.is_active;
     data.standard_name = row.standard_name;
     data.institution_id = row.institution_id;
-    console.log("data", data);
     this.isRippleLoad = true;
     this.apiService.updateStanadardRowData(data, row.standard_id).subscribe(
       data => {
@@ -182,7 +178,6 @@ export class ScheduleHomeComponent implements OnInit {
           body: "Standard Updated Successfully!"
         }
         this.toastCtrl.popToast(msg);
-        console.log(data);
         this.cancelRow(id);
         this.isRippleLoad = false;
       },
@@ -194,7 +189,7 @@ export class ScheduleHomeComponent implements OnInit {
           body: error.error.message
         }
         this.toastCtrl.popToast(data);
-        console.log(error);
+
       }
     )
   }
@@ -224,7 +219,7 @@ export class ScheduleHomeComponent implements OnInit {
           body: err.error.message
         }
         this.toastCtrl.popToast(data);
-        console.log(err);
+
       }
     )
   }

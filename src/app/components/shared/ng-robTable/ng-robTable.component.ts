@@ -59,7 +59,7 @@ export class RobTableComponent implements OnChanges {
                 return new ColumnMap({ primaryKey: key });
             });
         }
-        //console.log(this.records);
+
     }
 
     selectAllRows(ev) {
@@ -156,7 +156,7 @@ export class RobTableComponent implements OnChanges {
     requestSort(ev) {
         this.cd.markForCheck();
         this.caret = true;
-        //console.log(ev);
+
         this.headerSort=ev;
         (this.asc) ? (this.asc=false) : (this.asc=true);
         this.sortById.emit(ev);
@@ -181,7 +181,7 @@ export class RobTableComponent implements OnChanges {
         }
         /* else for left and right allignment */
         else {
-            //console.log(key);
+
             if (key == 'enquiry_no') {
                 return 'left';
             }
@@ -215,8 +215,6 @@ export class RobTableComponent implements OnChanges {
     isSorted(map):boolean{
         if (map.primaryKey != 'noOfBatchesAssigned') {
             this.cd.markForCheck();
-            //console.log(this.headerSort);
-            //console.log(this.defaultSort);  
             return  (map.primaryKey==this.headerSort && this.caret);
         }
         else{

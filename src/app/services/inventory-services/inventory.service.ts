@@ -141,7 +141,7 @@ export class InventoryService {
         return data.json();
       },
       err => {
-        console.log("error fetching template", err);
+        return err.json();
       }
     );
   }
@@ -153,7 +153,7 @@ export class InventoryService {
         return data.json();
       },
       err => {
-        console.log("error fetching template", err);
+        return err.json();
       }
     );
   }
@@ -165,21 +165,21 @@ export class InventoryService {
         return data.json();
       },
       err => {
-        console.log("error fetching template", err);
+        return err.json();
       }
     );
   }
 
   allocateItemToSubBranch(data) {
     data.institution_id = this.institute_id;
-    console.log(data);
+
     let url = this.baseUrl + '/api/v1/inventory/item/allocate/subBranch';
     return this.http.post( url, data, { headers: this.headers }).map(
       data => {
         return data.json();
       },
       err => {
-        console.log("error fetching template", err);
+        return err.json();
       }
     );
   }

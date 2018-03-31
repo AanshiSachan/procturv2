@@ -31,11 +31,15 @@ export class FeeTypesComponent implements OnInit {
   getListOfFeeType() {
     this.apiService.getAllFeeType().subscribe(
       res => {
-        console.log(res);
         this.feeTypeList = res;
       },
       err => {
-        console.log(err);
+        let msg = {
+          type: "error",
+          title: "",
+          body: "An Error Occured"
+        }
+        this.appC.popToast(msg);
       }
     )
   }
@@ -44,12 +48,10 @@ export class FeeTypesComponent implements OnInit {
     let data = this.makeDataJson();
     this.apiService.upadateFeeType(data).subscribe(
       res => {
-        console.log(res);
         this.messageToast('success', 'Updated', 'Details Updated Successfully');
         this.getListOfFeeType();
       },
       err => {
-        console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )

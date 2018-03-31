@@ -105,7 +105,6 @@ export class TemplateHomeComponent implements OnInit {
     this.isRippleLoad = true;
     this.fetchService.fetchFeeDetail(fee.template_id).subscribe(
       res => {
-        console.log(res);
         this.isRippleLoad = false;
         this.feeStructure = res;
         this.fillFeeType(res.feeTypeMap);
@@ -120,7 +119,6 @@ export class TemplateHomeComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
       }
     )
   }
@@ -192,7 +190,6 @@ export class TemplateHomeComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
         let msg = {
           type: 'error',
           title: 'Error',
@@ -505,7 +502,12 @@ export class TemplateHomeComponent implements OnInit {
         this.additionalInstallment.fee_type_name = res.fee_type;
       },
       err => {
-        console.log(err);
+        let msg = {
+          type: "error",
+          title: "",
+          body: "An Error Occured"
+        }
+        this.appC.popToast(msg);
       }
     )
   }

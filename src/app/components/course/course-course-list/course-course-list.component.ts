@@ -55,7 +55,6 @@ export class CourseCourseListComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
       }
     )
   }
@@ -66,7 +65,6 @@ export class CourseCourseListComponent implements OnInit {
         this.standardList = res;
       },
       err => {
-        console.log(err);
       }
     )
   }
@@ -132,7 +130,6 @@ export class CourseCourseListComponent implements OnInit {
         this.academicList = res;
       },
       err => {
-        console.log(err);
       }
     )
   }
@@ -160,7 +157,6 @@ export class CourseCourseListComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
       }
     )
   }
@@ -183,7 +179,6 @@ export class CourseCourseListComponent implements OnInit {
     };
     this.apiService.saveUpdatedList(dataToSend, this.courseDetails.course_id).subscribe(
       res => {
-        console.log(res);
         this.messageToast('success', 'Saved', 'Changes saved successfully.');
         this.studentList = [];
         this.addStudentPopUp = false;
@@ -192,7 +187,6 @@ export class CourseCourseListComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )

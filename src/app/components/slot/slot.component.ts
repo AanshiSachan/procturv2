@@ -36,13 +36,17 @@ export class SlotComponent implements OnInit {
   getAllSlotsFromServer() {
     this.apiService.getAllSlots().subscribe(
       (data: any) => {
-        console.log(data);
         this.slotsDataSource = data;
         this.totalRow = data.length;
         this.fetchTableDataByPage(this.PageIndex);
       },
       error => {
-        console.log(error);
+        let msg = {
+          type: "error",
+          title: "",
+          body: "An Error Occured"
+        }
+        this.appC.popToast(msg);
       }
     )
   }
@@ -57,12 +61,16 @@ export class SlotComponent implements OnInit {
             body: "Slot added successfully."
           }
           this.appC.popToast(msg);
-          console.log(data);
           element.value = "";
           this.getAllSlotsFromServer();
         },
         error => {
-          console.log(error);
+          let msg = {
+            type: "error",
+            title: "",
+            body: "An Error Occured"
+          }
+          this.appC.popToast(msg);
         }
       )
     } else {
@@ -85,12 +93,16 @@ export class SlotComponent implements OnInit {
     let data = { "slot_id": row.slot_id, "slot_name": row.slot_name }
     this.apiService.updateSlotName(data).subscribe(
       data => {
-        console.log(data);
         this.cancelEditRow(index);
         this.getAllSlotsFromServer();
       },
       error => {
-        console.log(error);
+        let msg = {
+          type: "error",
+          title: "",
+          body: "An Error Occured"
+        }
+        this.appC.popToast(msg);
       }
     )
   }

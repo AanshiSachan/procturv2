@@ -177,7 +177,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
         temp = el.data_value;
       }
     });
-    //console.log(temp);
+
     return temp;
   }
 
@@ -232,7 +232,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
         temp = el.data_key;
       }
     });
-    //console.log(temp);
+
     return temp;
   }
 
@@ -352,11 +352,10 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   }
 
   updateStatusForEnquiryUpdate(e) {
-    //console.log(e)
   }
 
   toggleAccordian(id) {
-    //console.log(id);
+
     if (id === 'one') {
       this.one.nativeElement.classList.toggle('liclosed');
       this.two.nativeElement.classList.add('liclosed');

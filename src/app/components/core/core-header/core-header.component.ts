@@ -30,7 +30,6 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   logout() {
-    //console.log("logging user out");
     if (this.log.logoutUser()) {
       this.router.navigate(['/authPage']);
       window.location.reload(true);

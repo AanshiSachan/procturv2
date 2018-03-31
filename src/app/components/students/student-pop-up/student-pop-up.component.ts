@@ -14,7 +14,6 @@ export class StudentPopUpComponent implements OnChanges{
   ngOnChanges(){
     this.isBig;
     if(this.isBig != ""){
-      console.log(this.isBig);
     }
   }
 }

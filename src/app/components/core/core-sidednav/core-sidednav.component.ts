@@ -58,8 +58,6 @@ export class CoreSidednavComponent implements OnInit {
           /* if (permissions.length <= 1) {
               let last = permissions.pop().slice(1, -1);
               permissions.push(last);
-              console.log('one perm');
-              console.log(permissions);
               this.hasEnquiry(permissions);
               this.hasStudent(permissions);
               this.hasCourse(permissions);

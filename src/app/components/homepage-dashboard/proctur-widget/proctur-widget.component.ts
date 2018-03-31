@@ -35,7 +35,6 @@ export class ProcturWidgetComponent implements OnInit {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.size = this.size || '80%';
     this.popup.nativeElement.style.maxWidth = this.size;
-    console.log(this.size);
   }
 
 }

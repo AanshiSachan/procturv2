@@ -53,7 +53,7 @@ export class CampaignService {
       return this.http.get(this.urlDownloadTemplate).map(
         data => { return data.json() },
         err => {
-          //  console.log("error fetching template");
+
         }
       );
     }
@@ -62,7 +62,7 @@ export class CampaignService {
       return this.http.get(this.urlDownloadTemplate).map(
         data => { return data.json() },
         err => {
-          //  console.log("error fetching template");
+
         }
       );
     }
@@ -76,7 +76,7 @@ export class CampaignService {
     return this.http.post(this.urlDownloadAllEnquiry, data, { headers: this.headers }).map(
       data => { return data.json() },
       err => {
-        //  console.log("error fetching template"); 
+
       }
     );
 
@@ -86,14 +86,14 @@ export class CampaignService {
   verifyUploadFileName(name) {
 
     let data = { campaign_list_name: name };
-    console.log(data);
+
 
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/campaign/list/" + this.institute_id + "/checkListName";
 
     return this.http.post(this.urlDownloadAllEnquiry, data, { headers: this.headers }).map(
       data => { return data.json() },
       err => {
-        //  console.log("error fetching template"); 
+        return err.json();
       }
     );
   }
@@ -103,14 +103,12 @@ export class CampaignService {
     values.institute_id = this.institute_id;
 
     let data = {};
-    console.log(data);
-
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/campaign/list/" + this.institute_id;
 
     return this.http.post(this.urlDownloadAllEnquiry, data, { headers: this.headers }).map(
       data => { return data.json() },
       err => {
-        //  console.log("error fetching template"); 
+        return err.json();
       }
     );
   }
@@ -129,14 +127,13 @@ export class CampaignService {
 
 
   saveSMSservice(data) {
-    console.log(data);
 
     this.urlDownloadAllEnquiry = this.baseUrl + "/api/v1/campaign/create/" + this.institute_id;
 
     return this.http.post(this.urlDownloadAllEnquiry, data, { headers: this.headers }).map(
       data => { return data.json() },
       err => {
-        //  console.log("error fetching template"); 
+        return err.json();
       }
     );
   }

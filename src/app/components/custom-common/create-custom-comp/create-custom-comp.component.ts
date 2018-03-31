@@ -59,7 +59,6 @@ export class CreateCustomCompComponent implements OnInit {
     this.prefill.fetchComponentGenerator().subscribe(
       res => {
         this.componentShell = res;
-        //console.log(res);
       }
     );
 
@@ -105,10 +104,10 @@ export class CreateCustomCompComponent implements OnInit {
     //Case 1 Label/Type is not empty and MaxLength and Sequence
     if (this.createCustomComponentForm.label != "" && this.createCustomComponentForm.label != " "
       && this.createCustomComponentForm.type != "") {
-      //console.log("label and type are non empty");
+
       //Case 2 if its a select or multiselect dropdown list cannot be empty or duplicate
       if (this.createCustomComponentForm.type == "3" || this.createCustomComponentForm.type == "4") {
-        //console.log("select or multiselect detected") /* Non  empty and non duplicate then procede */
+
           if (this.createCustomComponentForm.defaultValue != "" && this.createCustomComponentForm.prefilled_data != ""){ 
             if(this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
               if(this.validateDropdownDefvalue(this.createCustomComponentForm.prefilled_data, this.createCustomComponentForm.defaultValue)){

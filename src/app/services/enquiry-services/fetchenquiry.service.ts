@@ -48,7 +48,7 @@ export class FetchenquiryService {
   /* Function to fetch json data for all enquiry as per the input institute data  */
   getAllEnquiry(obj) {
     /* Admin has requested for enquiry */
-    //console.log(obj);
+
     if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
       obj.followUpDate = (obj.followUpDate == '' || obj.followUpDate == null) ? '' : moment(obj.followUpDate).format('YYYY-MM-DD');
       obj.enquiry_date = (obj.enquiry_date == '' || obj.enquiry_date == null) ? '' : moment(obj.enquiry_date).format('YYYY-MM-DD');
@@ -113,7 +113,7 @@ export class FetchenquiryService {
     return this.http.get(this.urlDownloadTemplate, { headers: this.headers }).map(
       data => { return data.json() },
       err => {
-        //  console.log("error fetching template");
+        return err.json();
       }
     );
   }
@@ -126,7 +126,7 @@ export class FetchenquiryService {
     return this.http.post(this.urlDownloadAllEnquiry, data, { headers: this.headers }).map(
       data => { return data.json() },
       err => {
-        //  console.log("error fetching template"); 
+        return err.json();
       }
     );
   }

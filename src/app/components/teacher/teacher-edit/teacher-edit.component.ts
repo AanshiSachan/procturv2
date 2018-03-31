@@ -43,7 +43,6 @@ export class TeacherEditComponent implements OnInit {
   getTeacherInfo() {
     this.ApiService.getSelectedTeacherInfo(this.selectedTeacherId).subscribe(
       (data: any) => {
-        console.log(data);
         this.selectedTeacherInfo = data;
         let setFormData = this.getFormFieldsdata(data);
         this.editTeacherForm.setValue(setFormData);
@@ -51,7 +50,7 @@ export class TeacherEditComponent implements OnInit {
         this.hasIdCard = data.hasIDCard;
       },
       error => {
-        console.log(error);
+        
       }
     );
   }
@@ -161,15 +160,14 @@ export class TeacherEditComponent implements OnInit {
       formData.id_fileType = "";
     }
     formData.attendance_device_id = "";
-    console.log(formData);
+
     this.ApiService.saveEditTeacherInformation(this.selectedTeacherInfo.teacher_id, formData).subscribe(
       data => {
         this.messageToast('success', 'Updated', 'Details Updated Successfully.');
         this.route.navigateByUrl('teacher');
       },
       err => {
-        console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
+         this.messageToast('error', 'Error', err.error.message);
       }
     )
   }
@@ -196,7 +194,6 @@ export class TeacherEditComponent implements OnInit {
         this.anchTag.nativeElement.click();
       },
       err => {
-        console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -250,7 +247,6 @@ export class TeacherEditComponent implements OnInit {
   }
 
   setImage(e) {
-    console.log(e);
     this.studentImage = e;
   }
 

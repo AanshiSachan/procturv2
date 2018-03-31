@@ -168,8 +168,10 @@ export class FetchprefilldataService {
 
     return this.http.get(this.urlSchool, { headers: this.headers })
       .map(res => {
-        //console.log(res.json());
         return res.json();
+      },
+      err => {
+        return err.json();
       })
   }
 
@@ -206,8 +208,10 @@ export class FetchprefilldataService {
     this.getCampaignsURL = this.baseUrl + "/api/v1/campaign/list/" +this.institute_id;
     return this.http.post(this.getCampaignsURL, {}, { headers: this.headers })
       .map(res => {
-        //console.log(res);
-        return res.json();
+         return res.json();
+      },
+      err =>{
+        return err.json();
       })
   }
 
@@ -420,7 +424,6 @@ export class FetchprefilldataService {
     return this.http.get(this.urlCustomComponent, {headers: this.headers})
     .map(
       data => {
-        //console.log(data['_body']);
         if(data['_body'] !=''){
           return data.json();
         }
@@ -429,6 +432,7 @@ export class FetchprefilldataService {
         }
       },
       err => { 
+        return err.json();
        }
     );
   }

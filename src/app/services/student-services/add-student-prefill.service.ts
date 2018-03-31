@@ -269,11 +269,11 @@ export class AddStudentPrefillService {
 
 
   getFeeStructureById(id, obj) : Observable<any> {
-
     let urlFeebyId = this.baseUrl + "/api/v1/student_wise/feeStructure/fetch/" + this.institute_id + "/" + id;
 
     return this.http.post(urlFeebyId, obj, { headers: this.headers }).map(
       res => {
+        this.studentFees = res.json();
         return res.json();
       },
       err => {
@@ -366,7 +366,7 @@ export class AddStudentPrefillService {
 
 
   getPdcList(id, obj): Observable<any>{
-    //console.log(obj);
+
     obj.cheque_date_from = obj.cheque_date_from == "Invalid date" ? '' : obj.cheque_date_from;
     obj.cheque_date_to = obj.cheque_date_to == "Invalid date" ? '' : obj.cheque_date_to;     
     let urlPdcList = this.baseUrl +"/api/v1/student_cheque/getAll/" +this.institute_id +"/" +id;

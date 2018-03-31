@@ -29,7 +29,7 @@ export class AcademicyearService {
     let url= this.baseUrl + "/api/v1/academicYear/all/" + this.institute_id; 
     return this.http.get(url, {headers: this.headers}).map(
       data => {
-        console.log(data);
+
         return data;
     },
     error => {
@@ -43,7 +43,7 @@ export class AcademicyearService {
     obj.start_date = moment(obj.start_date).format("YYYY-MM-DD");
     obj.end_date = moment(obj.end_date).format("YYYY-MM-DD");
     let url= this.baseUrl + "/api/v1/academicYear";
-    console.log(obj);
+
     return this.http.post(url, obj, {headers:this.headers}).map(
       data =>{
         return data;
@@ -59,7 +59,7 @@ export class AcademicyearService {
     obj.start_date = moment(obj.start_date).format("YYYY-MM-DD");
     obj.end_date = moment(obj.end_date).format("YYYY-MM-DD");
     let url=this.baseUrl + "/api/v1/academicYear/" +id;
-    console.log(obj);
+
     return this.http.put(url, obj, {headers:this.headers}).map(
       data =>{
         return data;

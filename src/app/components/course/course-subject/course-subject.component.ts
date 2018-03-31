@@ -48,7 +48,7 @@ export class CourseSubjectComponent implements OnInit {
     this.isRippleLoad = true;
     this.apiService.getAllSubjectListFromServer().subscribe(
       (data: any) => {
-        console.log(data);
+
         this.totalRow = data.length;
         data.sort(function (a, b) {
           return moment(b.created_date).unix() - moment(a.created_date).unix();
@@ -59,7 +59,7 @@ export class CourseSubjectComponent implements OnInit {
         this.dataStatus = 2;
       },
       error => {
-        console.log(error);
+        
       }
     )
   }
@@ -99,7 +99,7 @@ export class CourseSubjectComponent implements OnInit {
           body: "Standard Updated Successfully!"
         }
         this.toastCtrl.popToast(msg);
-        console.log(data);
+
         this.cancelRow(id);
       },
       error => {
@@ -109,7 +109,7 @@ export class CourseSubjectComponent implements OnInit {
           body: error.error.message
         }
         this.toastCtrl.popToast(data);
-        console.log(error);
+
       }
     )
   }
@@ -118,11 +118,11 @@ export class CourseSubjectComponent implements OnInit {
   getAllStandardSubjectList() {
     this.apiService.getAllStandardName().subscribe(
       res => {
-        console.log(res);
+
         this.standardList = res;
       },
       error => {
-        console.log(error);
+
       }
     )
   }
@@ -164,7 +164,6 @@ export class CourseSubjectComponent implements OnInit {
             body: err.error.message
           }
           this.toastCtrl.popToast(data);
-          console.log(err);
         })
     }
   }

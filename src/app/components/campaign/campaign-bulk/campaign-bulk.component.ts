@@ -46,7 +46,7 @@ export class CampaignBulkComponent implements OnInit {
     //filling drop downs
 
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    //console.log(this.isProfessional);
+
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
 
     this.login.changeNameStatus(sessionStorage.getItem('name'));
@@ -103,16 +103,11 @@ export class CampaignBulkComponent implements OnInit {
       let response;
       this.fetchData.verifyUploadFileName(this.campaignAddFormData.name).subscribe(
         res => {
-          response= res;
-          //console.log("hi");
-          //console.log(response);
-  
+          response= res;  
           if (response.statusCode >= 200 && response.statusCode < 300) {                
             for (let file of event.files) {
-              //console.log(file);
               if(file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
                 file.type == 'application/vnd.ms-excel' ){
-                // console.log(this.campaignAddFormData.name);
                 let formdata = new FormData();
     
                 formdata.append("campaign_list_file", file);
@@ -166,7 +161,6 @@ export class CampaignBulkComponent implements OnInit {
     
                       
                       this.bulkUploadStep2(xhr.response,form);
-                      //console.log(xhr.response);
                     } else {
                       this.isUploadingXls = false;
                       let data = {
@@ -175,7 +169,7 @@ export class CampaignBulkComponent implements OnInit {
                         body: xhr.response.fileName
                       }
                       this.appC.popToast(data);
-                      //console.log(xhr.response);
+
                     }
                   }
                 }
@@ -186,7 +180,7 @@ export class CampaignBulkComponent implements OnInit {
                 let data = {
                   type: 'error',
                   title: "Invalid File Type",
-                  // body: xhr.response.fileName
+
                 }
     
                 this.appC.popToast(data);  
@@ -218,7 +212,6 @@ export class CampaignBulkComponent implements OnInit {
       let data = {
         type: 'error',
         title: "Please provide mandatory information.",
-        // body: xhr.response.fileName
       }
       this.appC.popToast(data);  
     }
@@ -243,7 +236,6 @@ export class CampaignBulkComponent implements OnInit {
         response= res;
 
         if (response.statusCode >= 200 && response.statusCode < 300) {                
-          //console.log(xhr.response);
         } else {
           this.isUploadingXls = false;
           let data = {
@@ -272,8 +264,6 @@ export class CampaignBulkComponent implements OnInit {
           this.appC.popToast(data);
           this.clearFormAndMove();
           form.reset();     
-    
-          //console.log(xhr.response);
         } else {
           this.isUploadingXls = false;
           let data = {

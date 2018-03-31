@@ -57,7 +57,7 @@ export class EnquiryBulkaddComponent implements OnInit {
         dwldLink.click();
       },
       err => {
-        console.log(err.responseJSON.message);
+
       })
   }
 
@@ -128,7 +128,7 @@ export class EnquiryBulkaddComponent implements OnInit {
               body: xhr.response.fileName
             }
             this.appC.popToast(data);
-            //console.log(xhr.response);
+
           }
         }
       }

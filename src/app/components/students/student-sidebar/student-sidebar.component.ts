@@ -86,7 +86,6 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   }
 
   fetchStudentDetails(ev) {
-    // console.log(ev.photo);
     if (ev.photo != '' || ev.photo != null) {
       this.studentServerImage = ev.photo;
     }
@@ -112,7 +111,6 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   }
 
   toggleAccordian(id) {
-    //console.log(id);
     if (id === 'one') {
       this.one.nativeElement.classList.toggle('liclosed');
       this.two.nativeElement.classList.add('liclosed');

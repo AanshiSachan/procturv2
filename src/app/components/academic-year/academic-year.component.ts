@@ -59,7 +59,12 @@ export class AcademicYearComponent implements OnInit {
         this.fetchTableDataByPage(this.PageIndex);
       },
       error => {
-        console.log(error);
+        let msg = {
+          type: "error",
+          title: "",
+          body: "An Error Occured"
+        }
+        this.appC.popToast(msg);
       }
     )
   }
@@ -118,12 +123,8 @@ export class AcademicYearComponent implements OnInit {
       inst_id: row.inst_id,
       default_academic_year: row.default_academic_year
     }
-    console.log(data);
     this.academicyearservice.editAcademicYear(data, row.inst_acad_year_id).subscribe(
-
-      
       res => {
-        console.log(res);
         this.cancelEditRow(index);
         this.getAllAcademicFromServer();
         
