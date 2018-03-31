@@ -2265,7 +2265,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let o = number.toFixed(1);
     let num = parseInt(o.toString().split('.')[0]);
     let deci = parseInt(o.toString().split('.')[1]);
-    console.log("number = " +num +" And Decimal = " +deci);
+    //console.log("number = " +num +" And Decimal = " +deci);
     if (deci == 0) {
       return num;
     }
