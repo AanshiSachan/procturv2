@@ -1573,15 +1573,19 @@ div#enqChart {
 
 .btnGroup {
     display: inline-flex;
+    
     .btn {
-        padding: -10px -10px !important;
+        padding:5px 5px 15px 5px;
+      margin:5px 5px 5px 5px;
         color: black;
         width: 30%;
-        height: 1%;
+        height: 10px;
         font-size: 11px;
         border-radius: 3px;
     }
     .classLeaveBtn {
+        padding-bottom: -10px;
+        margin-bottom: 10px;
         background: #7a7a7a;
     }
     .classAbsentBtn {

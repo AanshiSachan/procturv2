@@ -68,7 +68,7 @@ export class AcademicYearComponent implements OnInit {
   addAcademicYearDetails() {
     if (this.addAcademicYearTemplate.inst_acad_year.trim() != "" && this.addAcademicYearTemplate.desc.trim() != ""
       && this.addAcademicYearTemplate.start_date != "" && this.addAcademicYearTemplate.end_date != "" && this.addAcademicYearTemplate.start_date != null && this.addAcademicYearTemplate.end_date != null) {
-      
+
       this.academicyearservice.addNewAcademicYear(this.addAcademicYearTemplate).subscribe(
         res => {
           let msg = {
@@ -90,6 +90,7 @@ export class AcademicYearComponent implements OnInit {
         err => { }
       )
     }
+
     else {
       let acad = {
         type: "error",
@@ -108,6 +109,7 @@ export class AcademicYearComponent implements OnInit {
   }
 
   saveAcademicYearInformation(row, index) {
+
     let data = {
       inst_acad_year: row.inst_acad_year,
       desc: row.desc,
@@ -118,13 +120,22 @@ export class AcademicYearComponent implements OnInit {
     }
     console.log(data);
     this.academicyearservice.editAcademicYear(data, row.inst_acad_year_id).subscribe(
+
+      
       res => {
         console.log(res);
         this.cancelEditRow(index);
         this.getAllAcademicFromServer();
+        
       },
       error => {
-        console.log(error);
+        let acad = {
+          type: "error",
+          title: "Incorrect Details",
+          body: error.error.message
+        }
+        this.appC.popToast(acad);
+        this.getAllAcademicFromServer();
       }
     )
   }

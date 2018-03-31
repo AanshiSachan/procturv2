@@ -85,7 +85,7 @@
     max-height: 400px;
     overflow: hidden;
     border-top: 2px solid rgba(119, 119, 119, 0.12);
-    ::-webkit-scrollbar {
+     ::-webkit-scrollbar {
         display: block;
     }
     .fee-container {
@@ -167,7 +167,7 @@
                 ul {
                     li {
                         display: inline-flex;
-                        &:first-child{
+                        &:first-child {
                             width: 5% !important;
                         }
                     }
@@ -322,7 +322,7 @@
     }
 }
 
-.table-row{
+.table-row {
     padding: 10px 5px;
 }
 
@@ -359,7 +359,6 @@
     }
 }
 
-
 .paid-fee {
     border-radius: 10px;
     padding: 5px;
@@ -368,7 +367,9 @@
     color: white;
 }
 
+
 /* ============================================================================================================= */
+
 .pdc-container {
     top: 80px;
     left: 180px;
@@ -540,7 +541,7 @@
                             margin-left: 10px;
                             text-transform: uppercase;
                             color: #777;
-                            &:first-child{
+                            &:first-child {
                                 width: 3%;
                             }
                             &.bigger {
@@ -580,8 +581,8 @@
                             }
                             .edit-comp {}
                         }
-                        &.actions{
-                            a{
+                        &.actions {
+                            a {
                                 margin-right: 15px;
                                 display: inline-flex;
                                 text-decoration: none;
@@ -593,6 +594,7 @@
         }
     }
 }
+
 
 /* ============================================================================================================= */
 
@@ -914,6 +916,122 @@
     }
 }
 
+.batch-wrapper {
+    max-height: 350px;
+    overflow: hidden;
+     ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
+    .table-responsive {
+        max-width: 100%;
+        max-height: 340px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        tr{
+            td{
+                .field-checkbox-wrapper{
+                
+                    background: transparent;
+                }
+            }
+        }
+    }
+    th {
+        text-align: left;
+        padding: 10px 5px;
+    }
+    td {
+        padding: 10px 5px;
+        text-align: left;
+        .field-wrapper {
+            position: relative;
+            padding-top: 0px;
+            &.datePickerBox {
+                .bsDatepicker {
+                    cursor: pointer;
+                    position: relative;
+                    z-index: 1;
+                    background: transparent;
+                    width: 120px;
+                }
+                &:after {
+                    content: '';
+                    background: url("../../../../assets/images/calendar.svg") no-repeat;
+                    position: absolute;
+                    left: 100px;
+                    top: 10px;
+                    width: 21px;
+                    height: 21px;
+                    z-index: 0;
+                }
+            }
+            .date-clear {
+                position: absolute;
+                right: 60%;
+                top: 50px;
+                cursor: pointer;
+                color: #0084f6;
+            }
+            
+            
+        }
+        .field-checkbox-wrapper .form-checkbox {
+            opacity: 0;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            z-index: 1;
+        }
+        .field-checkbox-wrapper .form-checkbox+label {
+            vertical-align: middle;
+            font-size: 14px;
+            display: inline-block;
+        }
+        .field-checkbox-wrapper .form-checkbox+label:after {
+            content: '';
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ccc;
+            border-radius: 2px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .field-checkbox-wrapper .form-checkbox:checked+label:after {
+            border: 2px solid $common-blue;
+        }
+        .field-checkbox-wrapper .form-checkbox+label:before {
+            width: 1px;
+            height: 1px;
+            left: 8px;
+            top: 9px;
+            position: absolute;
+            content: '';
+            border-top: 0;
+            border-right: 0;
+            border-left: 2px solid transparent;
+            border-bottom: 2px solid transparent;
+            transform: rotate(-45deg);
+        }
+        .field-checkbox-wrapper .form-checkbox:checked+label:before {
+            border-left: 2px solid $common-blue;
+            border-bottom: 2px solid $common-blue;
+            width: 12px;
+            height: 5px;
+            left: 2px;
+            top: 5px;
+        }
+        .field-checkbox-wrapper .form-checkbox:checked+label {
+            color: $common-blue;
+        }
+        
+    }
+}
+
 input[type='number'] {
     -moz-appearance: textfield;
 }
@@ -1147,6 +1265,7 @@ input[type=number]::-webkit-outer-spin-button {
                             background: transparent;
                             .form-checkbox {
                                 z-index: 2;
+                                background: transparent;
                             }
                             .form-checkbox+label {
                                 font-size: 16px;
@@ -1843,7 +1962,7 @@ input[type=number]::-webkit-outer-spin-button {
             width: 40%;
         }
     }
-    .pdcChequePayment{
+    .pdcChequePayment {
         margin-top: 15px;
     }
 }
