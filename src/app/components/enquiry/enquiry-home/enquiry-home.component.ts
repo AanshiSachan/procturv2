@@ -51,9 +51,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Variable Declaration */
   sourceEnquiry: any[] = []; smsSourceApproved: any[] = []; smsSourceOpen: any[] = []; busy: Subscription;
-  checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = []; campaignList:any[]=[];
-  enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = []; sources:any[] =[];
-  enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; schools:any[]=[]; commentFormData: any = {}; 
+  checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = []; campaignList: any[] = [];
+  enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = []; sources: any[] = [];
+  enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; schools: any[] = []; commentFormData: any = {};
   today: any = Date.now(); searchBarData: any = null; searchBarDate: any = moment().format('YYYY-MM-DD');
   displayBatchSize: number = 100; incrementFlag: boolean = true; updateFormComments: any = [];
   updateFormCommentsBy: any = []; updateFormCommentsOn: any = []; PageIndex: number = 1;
@@ -394,7 +394,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           this.updateFormData.follow_type = this.getFollowUp(res.follow_type);
           this.updateFormData.statusValue = this.selectedRow.statusValue;
           this.updateFormData.followUpDate = moment(this.selectedRow.followUpDate).format('YYYY-MM-DD');
-          if (this.selectedRow.followUpTime != '' && this.selectedRow.followUpTime != null) {
+          if (res.followUpTime != '' && res.followUpTime != null) {
             let timeObj = this.convertTimeToFormat(this.selectedRow.followUpTime);
             this.hour = timeObj.hour + " " + timeObj.meridian;
             this.minute = timeObj.minute;
@@ -627,12 +627,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
     /* Sources */
     this.prefill.getLeadSource().subscribe(
-      data=>{this.sources = data}
-    ); 
+      data => { this.sources = data }
+    );
 
     /* Schools */
     this.prefill.getSchoolDetails().subscribe(
-      data=>{this.schools = data}
+      data => { this.schools = data }
     );
 
     /* Standard */
@@ -1423,7 +1423,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         enqCustomLi: null
       };
       this.busy = this.loadTableDatatoSource(this.instituteData);
-      
+
     }
     /* date is filled */
     else if ((this.searchBarData === "" || this.searchBarData === " " || this.searchBarData === null) &&
@@ -1494,7 +1494,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          
+
           this.busy = this.loadTableDatatoSource(this.instituteData);
 
         }
@@ -1619,7 +1619,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           };
 
           this.busy = this.loadTableDatatoSource(this.instituteData);
-         
+
         }
         /* invalid string raise alert */
         else {
@@ -1699,7 +1699,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          
+
           this.busy = this.loadTableDatatoSource(this.instituteData);
 
         }
@@ -3212,8 +3212,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
-  clearfollowUpDate(){
-    this.advancedFilterForm.followUpDate= "";
+  clearfollowUpDate() {
+    this.advancedFilterForm.followUpDate = "";
   }
 
 
@@ -3373,7 +3373,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   openEnquiryFullDetails(id) {
     this.closeAdFilter();
     let mySidenavWidth = '29%';
-    if(window.innerWidth < 768)
+    if (window.innerWidth < 768)
       mySidenavWidth = '100%';
     this.mySidenav.nativeElement.style.width = mySidenavWidth;
     this.mySidenav.nativeElement.style.display = 'block';

@@ -81,7 +81,8 @@
                             <!-- Followup Date -->
                             <div class="form-wrapper datepicker ">
                                 <label for="followUPdateEdit">Follow Up Date</label>
-                                <input type="text" class="side-form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit" readonly="true" bsDatepicker/>
+                                <input type="text" class="side-form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate"
+                                    id="followUPdateEdit" readonly="true" bsDatepicker/>
                                 <span class="date-clear" name="followupdate" (click)="updateFormData.followUpDate = ''">X</span>
                             </div>
 
@@ -110,7 +111,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div >
+                                <div *ngIf="row.followUpDate !='' && row.followUpTime != ''">
                                     <div class="form-checkbox-wrapper">
                                         <div class="field-checkbox-wrapper">
                                             <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox" style="display:inline-block;">
@@ -159,39 +160,39 @@
 
 
                             <!-- Walkin Date  -->
-                        
+
                             <div class="form-wrapper datepicker">
                                 <label for="walkindate">Walkin Date</label>
                                 <input type="text" class="side-form-ctrl bsDatepicker" [(ngModel)]="updateFormData.walkin_followUpDate" value="" placeholder=""
                                     id="walkindate" readonly="true" bsDatepicker/>
                                 <span class="date-clear" name="walkindate" (click)="updateFormData.walkin_followUpDate =''">X</span>
                             </div>
-                        
+
 
                             <!-- Walkin Time -->
-                        <div class="wrapper-class">
-                            <div class="form-wrapper timepick">
-                                <label for="walkintime">Walkin Time</label>
-                                <div class="tbox">
-                                    <div class="times ">
-                                        <select id="walkintime" class="side-form-ctrl mins" [(ngModel)]="walkin_followUpTime" (ngModelChange)="timeChanges($event, 'walkin_followUpTime')"
-                                            name="walkintime">
-                                            <option [value]="time" *ngFor="let time of times">
-                                                {{time}}
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="times ">
-                                        <select id="minute" class="side-form-ctrl mers" [(ngModel)]="timeObj.wminute" name="minute">
-                                            <option *ngFor="let minute of minArr" [value]="minute">
-                                                {{minute}}
-                                            </option>
-                                        </select>
+                            <div class="wrapper-class">
+                                <div class="form-wrapper timepick">
+                                    <label for="walkintime">Walkin Time</label>
+                                    <div class="tbox">
+                                        <div class="times ">
+                                            <select id="walkintime" class="side-form-ctrl mins" [(ngModel)]="walkin_followUpTime" (ngModelChange)="timeChanges($event, 'walkin_followUpTime')"
+                                                name="walkintime">
+                                                <option [value]="time" *ngFor="let time of times">
+                                                    {{time}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="times ">
+                                            <select id="minute" class="side-form-ctrl mers" [(ngModel)]="timeObj.wminute" name="minute">
+                                                <option *ngFor="let minute of minArr" [value]="minute">
+                                                    {{minute}}
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
+
 
                             <!-- Branch -->
                             <!-- <div class="form-wrapper c-sm-6 c-xs-6">
@@ -208,7 +209,7 @@
                             <div class="form-wrapper c-xs-12" style="padding-left:10px;width:68%;">
                                 <div class="field-wrapper" style="padding-top: 25px;">
                                     <label style="top: 0px; padding-left:10px;" for="commies">Comments</label>
-                                        <textarea placeholder="Max 1000 characters" rows="1" cols="1" style="height: 85px;border: solid 2px rgba(53, 53, 53, 0.26);padding: 5px 5px 5px 0px;"
+                                    <textarea placeholder="Max 1000 characters" rows="1" cols="1" style="height: 85px;border: solid 2px rgba(53, 53, 53, 0.26);padding: 5px 5px 5px 0px;"
                                         id="addcommentEdit" class="form-ctrl" [(ngModel)]="updateFormData.comment">
                                     </textarea>
                                 </div>
