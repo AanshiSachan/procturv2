@@ -649,7 +649,7 @@
                             Tax amount
                           </label>
                           <span>
-                            &#8377; {{getTaxAmounted(installment.initial_fee_amount) | commaSeprator}}
+                            &#8377; {{getTaxAmounted(installment) | commaSeprator}}
                           </span>
                         </li>
                         <li>
@@ -665,7 +665,7 @@
                   </div>
                   <div class="clearFix add-edit" [ngClass]="{'hide': installment.is_referenced == 'N'}">
                       <a (click)="downloadFeeReceipt(installment)">Download receipt</a>
-                      <!-- <a (click)="emailFeeReceipt(installment)">E-mail receipt</a> -->
+                      <a (click)="emailFeeReceipt(installment)">E-mail receipt</a>
                       <a (click)="openPartialPayment(installment)" [ngClass]="{'hide': installment.is_partially_paid == '0'}">Pay Remaining Amount</a>
                   </div>
                 </li>
@@ -1374,7 +1374,7 @@
               </li>
               <li>
                 <div class="form-wrapper disable">
-                  <label for="taxamt">Service Tax</label>
+                  <label for="taxamt">Tax</label>
                   <input type="number" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax" name="taxamt">
                 </div>
               </li>
@@ -1468,7 +1468,7 @@
 
     <h2 popup-header style="padding: 10px 5px;">Add Discount</h2>
 
-    <div class="configureFee" popup-content>
+    <div class="discount-wrapper" popup-content>
 
       <div class="row">
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
