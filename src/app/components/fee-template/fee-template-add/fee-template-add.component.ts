@@ -353,4 +353,8 @@ export class FeeTemplateAddComponent implements OnInit {
     }
   }
 
+  deleteAdditionalRow(row, index) {
+    this.otherInstList.splice(index, 1);
+  }
+
 }
