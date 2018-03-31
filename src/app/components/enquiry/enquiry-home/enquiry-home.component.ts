@@ -410,6 +410,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           this.updateFormComments = res.comments;
           this.updateFormCommentsOn = res.commentedOn;
           this.updateFormCommentsBy = res.commentedBy;
+          this.updateFormData.assigned_to = res.assigned_to;
           this.cd.markForCheck();
         });
         this.message = message;
