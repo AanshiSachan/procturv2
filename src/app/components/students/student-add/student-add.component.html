@@ -1839,5 +1839,148 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <student-pop-up *ngIf="isPartialPayment">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePartialPayment()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+
+    <h2 popup-header style="padding: 10px 5px;">Student Fee Payment</h2>
+
+    <div class="paymentWrapper" popup-content>
+      <div class="paymentForm">
+
+        <div class="row">
+          <h4>Payment Details for &#8377; {{totalFeePaid}}</h4>
+        </div>
+
+        <div class="row">
+
+          <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': partialPayObj.paid_date != ''}">
+            <input type="text" value="" id="pd" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="partialPayObj.paid_date"
+              name="pd" bsDatepicker>
+            <label for="pd">Payment Date*</label>
+            <span id="paydayClear" class="date-clear" name="cpd" (click)="partialPayObj.paid_date = ''">clear</span>
+          </div>
+
+          <div class="field-wrapper" [ngClass]="{'has-value': partialPayObj.paymentMode != ''}">
+            <select id="pMode" name="pMode" [(ngModel)]="partialPayObj.paymentMode" (ngModelChange)="paymentModeUpdate($event)" class="form-ctrl">
+              <option value="Cash" selected>Cash</option>
+              <option value="Cheque/PDC/DD No.">Cheque/PDC/DD No.</option>
+              <option value="Credit/Debit Card">Credit/Debit Card</option>
+              <option value="Caution Deposit(Refundable)">Caution Deposit(Refundable)</option>
+              <option value="Other">Other</option>
+            </select>
+            <label for="pMode">Payment Mode*</label>
+          </div>
+
+          <div class="field-wrapper" [ngClass]="{'has-value': partialPayObj.reference_no != ''}">
+            <input type="text" value="" id="ref" class="form-ctrl" [(ngModel)]="partialPayObj.reference_no" name="ref" />
+            <label for="ref">Reference No.</label>
+          </div>
+
+          <div class="field-wrapper" [ngClass]="{'has-value': partialPayObj.remarks != ''}">
+            <input type="text" value="" id="rema" class="form-ctrl" [(ngModel)]="partialPayObj.remarks" name="rema" />
+            <label for="rema">Remarks</label>
+          </div>
+
+        </div>
+        <!-- Cheque Payment PDC updates -->
+        <div class="row pdcChequePayment" *ngIf="isPaymentPdc">
+          <fieldset>
+            <legend>
+              <h5>Cheque Details</h5>
+            </legend>
+
+            <div class="c-lg-12 c-md-12 c-sm-12">
+              <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForPayment != ''}">
+                <select id="pMode" name="pMode" [(ngModel)]="pdcSelectedForPayment" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
+                  <option value=""></option>
+                  <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList" [hidden]="opt.cheque_status_key != 1">
+                    {{opt.cheque_date| date:"dd-MMM-yyyy"}} ( &#8377; {{opt.cheque_amount}} )
+                  </option>
+                </select>
+                <label for="pMode">Select PDC Cheque</label>
+              </div>
+            </div>
+
+            <div class="c-lg-6 c-md-6 c-sm-6">
+              <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.bank_name != ''}">
+                <input [readonly]="isPdcFeePaymentSelected" type="text" value="" id="" class="form-ctrl" [(ngModel)]="pdcSelectedForm.bank_name"
+                  name="" />
+                <label for="">Bank Name*</label>
+              </div>
+            </div>
+
+            <div class="c-lg-6 c-md-6 c-sm-6">
+              <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': pdcSelectedForm.cheque_date != ''}">
+                <input *ngIf="isPdcFeePaymentSelected" type="text" value="" id="" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="pdcSelectedForm.cheque_date"
+                  name="">
+                <input *ngIf="!isPdcFeePaymentSelected" type="text" value="" id="" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="pdcSelectedForm.cheque_date"
+                  name="" bsDatepicker>
+                <label for="">Cheque Date*</label>
+                <span id="paydayClear" class="date-clear" (click)="pdcSelectedForm.cheque_date = ''" name="">clear</span>
+              </div>
+            </div>
+
+            <div class="c-lg-6 c-md-6 c-sm-6">
+              <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_no != ''}">
+                <input [readonly]="isPdcFeePaymentSelected" type="text" minlength="6" maxlength="6" OnlyNumber="true" class="form-ctrl" name=""
+                  [(ngModel)]="pdcSelectedForm.cheque_no" />
+                <label for="">Cheque No.*</label>
+              </div>
+            </div>
+
+            <div class="c-lg-6 c-md-6 c-sm-6">
+              <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_amount != ''}">
+                <input [readonly]="isPdcFeePaymentSelected" type="text" value="" id="" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
+                />
+                <label for="">Cheque Amount*</label>
+              </div>
+            </div>
+
+          </fieldset>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+          <div class="c-lg-6 c-md-6 c-sm-6">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
+              <label for="isGenPdc">Generate Acknowledgement</label>
+            </div>
+          </div>
+          <div class="c-lg-6 c-md-6 c-sm-6">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
+              <label for="emailPdc">Send Email Acknowledgement</label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="" popup-footer>
+      <div class="clearfix">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closePartialPayment()">
+          <input type="button" value="Update Payment" class="fullBlue btn" (click)="payPartial()">
+        </aside>
+      </div>
+    </div>
+
+  </student-pop-up>
 
 </section>

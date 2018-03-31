@@ -1957,12 +1957,34 @@ input[type=number]::-webkit-outer-spin-button {
 
 .configureFee {
     border-top: 1px solid rgba(97, 96, 96, 0.47843137254901963);
-    padding: 20px 10px;
     max-height: 400px;
     overflow-x: hidden;
     overflow-y: auto;
      ::-webkit-scrollbar {
         display: block;
+    }
+    .row {
+        margin: 0px 10px;
+        .field-wrapper {
+            width: 40%;
+        }
+    }
+}
+
+.paymentWrapper{
+    border-top: 1px solid rgba(97, 96, 96, 0.47843137254901963);
+    
+    max-height: 400px;
+    overflow: hidden;
+     ::-webkit-scrollbar {
+        display: block;
+    }
+    .paymentForm{
+        max-height: 400px;
+        overflow: auto;
+        ::-webkit-scrollbar {
+            display: block;
+        }
     }
     .row {
         margin: 0px 10px;
