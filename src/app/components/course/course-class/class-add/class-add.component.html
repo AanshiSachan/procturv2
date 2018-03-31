@@ -1056,10 +1056,10 @@
           </g>
         </svg>
       </span>
-      <div class="popup-content ">
+      <div class="popup-content popup-date-selection">
         <h2>Select Dates for Class</h2>
 
-        <div class="row extraMargin ">
+        <div class="row extraMargin table-warpper-custom">
           <div class="table-scroll-wrapper ">
             <div class="table table-responsive ">
               <table>
@@ -1078,18 +1078,16 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>
-                      <div class="field-wrapper datePickerBox " style="width:50% ">
-                        <input type="text " value=" " readonly="true " [(ngModel)]="addDates.selectedDate " class="form-ctrl
-                    bsDatepicker " name="endDate " bsDatepicker>
-                      </div>
+                    <td>                      
+                    <div class= "field-wrapper datePickerBox">
+                      <input type="textbox"  value="" readonly="true" 
+                    
+                    [(ngModel)]="addDates.selectedDate" class="form-ctrl bsDatepicker" name="endDate" bsDatepicker >
+                      </div> 
                     </td>
-                    <td>
+                  <td>
                       <i class="far fa fa-plus-square " (click)="addDateToArray() " style="font-size: 19px; font-family:
                     FontAwesome " alt="Add " title="Add "></i>
-                    </td>
-                    <td>
-
                     </td>
                   </tr>
                   <tr *ngFor="let row of selectedDateArray; let i=index ; trackBy : index ">
@@ -1109,12 +1107,68 @@
             </div>
           </div>
         </div>
-
-        <div class="row extraMargin ">
+      
+        <div class="row extraMargin">
           <h3>Edit Selected Schedule</h3>
         </div>
 
-        <div class="row extraMargin col-sm-12 ">
+        <div class="row extraMargin">
+          <div class="form-wrapper has-value c-sm-6 c-md-6 c-lg-6">
+            <label for="row.category_id ">Teacher Name</label>
+            <select id=" " class=" form-ctrl side-form-ctrl " name="row.category_id " [(ngModel)]="selctedScheduledClass.teacher_id ">
+              <option value="-1 "></option>
+              <option *ngFor="let opt of teacherListDataSource " [value]="opt.teacher_id ">
+                {{opt.teacher_name}}
+              </option>
+            </select>
+          </div>
+
+          <div class="c-sm-3 c-md-3 c-lg-3  dig1">
+            <div class="form-wrapper timepick ">
+              <label for="startTime">Start Time</label>
+              <div class="tbox">
+                <div class="times">
+                  <select id="" class="mins side-form-ctrl" [(ngModel)]="selctedScheduledClass.startTime.hour" name="startTime">
+                    <option [value]="time" *ngFor="let time of times">
+                      {{time}}
+                    </option>
+                  </select>
+                </div>
+                <div class="times">
+                  <select id="" class="mers side-form-ctrl" [(ngModel)]="selctedScheduledClass.startTime.minute" name="minute">
+                    <option *ngFor="let minute of minArr" [value]="minute">
+                      {{minute}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="c-sm-3 c-md-3 c-lg-3 dig1">
+            <div class="form-wrapper timepick">
+              <label for="startTime">End Time</label>
+              <div class="tbox">
+                <div class="times">
+                  <select id="" class="mins side-form-ctrl" [(ngModel)]="selctedScheduledClass.endTime.hour" name="startTime">
+                    <option [value]="time" *ngFor="let time of times">
+                      {{time}}
+                    </option>
+                  </select>
+                </div>
+                <div class="times">
+                  <select id="" class="mers side-form-ctrl" [(ngModel)]="selctedScheduledClass.endTime.minute" name="minute">
+                    <option *ngFor="let minute of minArr" [value]="minute">
+                      {{minute}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row extraMargin">
           <!-- <div class="field-wrapper has-value c-sm-2 c-md-2 c-lg-2">
               <select id="tsesesese " class="form-ctrl " name="row.subject_id " [(ngModel)]="selctedScheduledClass.subject_id">
                 <option value="-1 "> </option>
@@ -1125,90 +1179,31 @@
               <label for="row.subject_id ">Subject Name</label>
             </div> -->
 
-            <div class="form-wrapper has-value c-sm-1 c-md-1 c-lg-4">
-                <label for="row.category_id ">Teacher Name</label>
-                <select id=" " class="side-form-ctrl " name="row.category_id " [(ngModel)]="selctedScheduledClass.teacher_id ">
-                  <option value="-1 "></option>
-                  <option *ngFor="let opt of teacherListDataSource " [value]="opt.teacher_id ">
-                    {{opt.teacher_name}}
-                  </option>
-                </select>
-              </div>
-
-     <div class="c-sm-4 c-md-4 c-lg-4 dig">
-            <div class="c-sm-6  dig1">
-              <div class="form-wrapper timepick ">
-                <label for="startTime">Start Time</label>
-                <div class="tbox">
-                  <div class="times">
-                    <select id="" class="mins side-form-ctrl" [(ngModel)]="selctedScheduledClass.startTime.hour" name="startTime">
-                      <option [value]="time" *ngFor="let time of times">
-                        {{time}}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="times">
-                    <select id="" class="mers side-form-ctrl" [(ngModel)]="selctedScheduledClass.startTime.minute" name="minute">
-                      <option *ngFor="let minute of minArr" [value]="minute">
-                        {{minute}}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="c-sm-6 dig1">
-              <div class="form-wrapper timepick">
-                <label for="startTime">End Time</label>
-                <div class="tbox">
-                  <div class="times">
-                    <select id="" class="mins side-form-ctrl" [(ngModel)]="selctedScheduledClass.endTime.hour" name="startTime">
-                      <option [value]="time" *ngFor="let time of times">
-                        {{time}}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="times">
-                    <select id="" class="mers side-form-ctrl" [(ngModel)]="selctedScheduledClass.endTime.minute" name="minute">
-                      <option *ngFor="let minute of minArr" [value]="minute">
-                        {{minute}}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-              </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="form-wrapper has-value">
+              <label for="label ">Room No</label>
+              <input type="text " class=" side-form-ctrl" name="label " [(ngModel)]="selctedScheduledClass.room_no ">
             </div>
           </div>
-          
-           <div class="col-sm-6">
+
+          <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="form-wrapper has-value">
-                <label for="label ">Room No</label>
-              <input type="text " class="form-ctrl " name="label " [(ngModel)]="selctedScheduledClass.room_no ">
-             
-            
-            
-            <div class="col-sm-6"></div>
-            <div class="form-wrapper has-value">
-                <label for="row.category_id ">Class Type</label>
-              <select id=" " class="form-ctrl " name="row.category_id " style="background: transparent; " [(ngModel)]="selctedScheduledClass.custom_class_type ">
+              <label for="row.category_id ">Class Type</label>
+              <select id=" " class="form-ctrl side-form-ctrl" name="row.category_id " style="background: transparent; " [(ngModel)]="selctedScheduledClass.custom_class_type ">
                 <option *ngFor="let opt of customListDataSource ">
                   {{opt}}
                 </option>
               </select>
             </div>
-            
-           </div>
           </div>
+        </div>
 
-            <div class="col-sm-6">
-                <div class="form-wrapper has-value">
-                    <label for="label">Description</label>
-                  <input type="textbox" class="form-ctrl" name="label " [(ngModel)]="selctedScheduledClass.class_desc ">
-               
-                </div>
-    
-
+        <div class="row extraMargin">
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="form-wrapper has-value">
+              <label for="label">Description</label>
+              <input type="textbox" class="form-ctrl side-form-ctrl" name="label " [(ngModel)]="selctedScheduledClass.class_desc ">
+            </div>
           </div>
         </div>
 
