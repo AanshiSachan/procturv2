@@ -390,10 +390,12 @@ export class TemplateHomeComponent implements OnInit {
 
   deleteRow(row, i) {
     this.installmentList.splice(i, 1);
+    this.calculateTotalAmount();
   }
 
   deleteAdditionalRow(row, i) {
     this.otherInstList.splice(i, 1);
+    this.calculateTotalAmount();
   }
 
 

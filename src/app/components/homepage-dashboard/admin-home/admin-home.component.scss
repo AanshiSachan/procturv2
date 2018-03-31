@@ -982,10 +982,14 @@ div#enqChart {
             }
         }
         &.sche-head {
+            background: #e0eaec;
             li {
                 padding: 20px 24px 12px;
+                text-transform: capitalize;
                 text-transform: uppercase;
-                color: rgba(102, 102, 102, 0.6);
+                color: black;
+                background: transparent;
+                font-size: 12px;
                 font-size: 12px;
             }
         }

@@ -581,8 +581,7 @@
               <li>
                 <label>Fee Structure</label>
                 <div class="gray">
-                  <span *ngIf="feeTemplateById.template_name == ''">NA</span>
-                  <span class="feename" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">{{feeTemplateById.template_name}}</span>
+                  
                   <!-- <a (click)="reCreateFeeAgain()" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">Change</a> -->
                 </div>
               </li>
@@ -598,6 +597,8 @@
               <div class="row">
                 <div class="pull-left c-xs-8 c-sm-8">
                   <h2>Fee Details</h2>
+                  <span *ngIf="feeTemplateById.template_name == ''"></span>
+                  <span class="feename" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">{{feeTemplateById.template_name}}</span>
                 </div>
                 <div class="pull-right c-xs-4 c-sm-4">
                   <ul class="export-print align-right">
@@ -649,7 +650,7 @@
                             Tax amount
                           </label>
                           <span>
-                            &#8377; {{getTaxAmounted(installment.initial_fee_amount) | commaSeprator}}
+                            &#8377; {{getTaxAmounted(installment) | commaSeprator}}
                           </span>
                         </li>
                         <li>
@@ -657,15 +658,25 @@
                             Due Date
                           </label>
                           <span>
-                            {{installment.due_date}}
+                            {{installment.due_date | date: 'dd MMM yyyy'}}
                           </span>
                         </li>
+
+                        <li>
+                          <label>
+                            Course
+                          </label>
+                          <span>
+                            {{installment.course_subject_name}}
+                          </span>
+                        </li>
+
                       </ul>
                     </div>
                   </div>
                   <div class="clearFix add-edit" [ngClass]="{'hide': installment.is_referenced == 'N'}">
                       <a (click)="downloadFeeReceipt(installment)">Download receipt</a>
-                      <!-- <a (click)="emailFeeReceipt(installment)">E-mail receipt</a> -->
+                      <a (click)="emailFeeReceipt(installment)">E-mail receipt</a>
                       <a (click)="openPartialPayment(installment)" [ngClass]="{'hide': installment.is_partially_paid == '0'}">Pay Remaining Amount</a>
                   </div>
                 </li>
@@ -1309,8 +1320,7 @@
                       [(ngModel)]="fee.due_date" readonly="true" bsDatepicker>
                   </div>
                   <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'Y'">
-                    <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)"
-                      [(ngModel)]="fee.due_date" readonly="true">
+                      <label style="float: left;">{{fee.due_date | date: "dd-MMM-yyyy"}}</label>
                   </div>
                 </li>
                 <li [ngClass]="{'hide': taxEnableCheck == '0'}">
@@ -1374,7 +1384,7 @@
               </li>
               <li>
                 <div class="form-wrapper disable">
-                  <label for="taxamt">Service Tax</label>
+                  <label for="taxamt">Tax</label>
                   <input type="number" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax" name="taxamt">
                 </div>
               </li>
@@ -1468,7 +1478,7 @@
 
     <h2 popup-header style="padding: 10px 5px;">Add Discount</h2>
 
-    <div class="configureFee" popup-content>
+    <div class="discount-wrapper" popup-content>
 
       <div class="row">
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
@@ -1839,6 +1849,7 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- ======================================================== -->
+  
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- ======================================================== -->
