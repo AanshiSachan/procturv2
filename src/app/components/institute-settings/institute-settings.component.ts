@@ -376,7 +376,6 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
   }
 
   constructJsonToSend() {
-    debugger
     let obj: any = Object.assign({}, this.instituteSettingDet);
     obj.sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.sms_notification);
     obj.email_notification = this.convertBoolenToNumber(this.instituteSettingDet.email_notification);
@@ -412,7 +411,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     obj.exam_rank = this.convertBoolenToNumber(this.instituteSettingDet.exam_rank);
     obj.rank_to_send_for_marks_sms = this.convertBoolenToNumber(this.instituteSettingDet.rank_to_send_for_marks_sms);
     obj.is_exam_grad_feature = this.convertBoolenToNumber(this.instituteSettingDet.is_exam_grad_feature);
-    obj.absent_attendance_in_a_month_threshold = this.convertBoolenToNumber(this.instituteSettingDet.absent_attendance_in_a_month_threshold);
+    obj.absent_attendance_in_a_month_threshold = this.instituteSettingDet.absent_attendance_in_a_month_threshold;
     obj.gst_enabled = this.convertBoolenToNumber(this.instituteSettingDet.gst_enabled);
     obj.pdc_reminder_setting = this.convertBoolenToNumber(this.instituteSettingDet.pdc_reminder_setting);
     obj.pdc_reminder_setting = this.convertBoolenToNumber(this.instituteSettingDet.pdc_reminder_setting);
