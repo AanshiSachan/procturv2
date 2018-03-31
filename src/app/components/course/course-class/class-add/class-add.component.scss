@@ -1511,7 +1511,7 @@
             width: 100%;
             display: inline-block;
             .times {
-                display: inline-block;
+            display:inline-block;
             }
             .side-form-ctrl {
                 background: white;
@@ -1526,6 +1526,23 @@
                 }
                 &.mers {
                     width: 50px;
+                }
+            }
+        }
+    }
+}
+
+.dig{
+    padding: 0 !important;
+    .dig1{
+        padding: 0 !important;
+        .form-wrapper{
+            &.timepick{
+                width: 100%;
+                .tbox{
+                    .times{
+                        display: inline-block;
+                    }
                 }
             }
         }

@@ -488,7 +488,7 @@
     <div class="attendanceWrapper" widget-content>
 
       <div class="row">
-        <aside class="tableSection">
+        <aside class="tableSection" >
           <!-- <div class="row button-row">
             <button class="btn pull-right" (click)="getTopicsUpdate()">Update Topic/SubTopic</button>
           </div> -->
@@ -573,8 +573,9 @@
                           <label class="present" for="Present{{s.student_id}}">Present</label>
                         </div>
                       </div> -->
-                      <div class="btnGroup">
-                        <button id="leaveBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s , i)" class="btn"
+                      <div class="btnGroup  btns">
+                        <button id="leaveBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s , i)"  
+                        class="btn"
                           [ngClass]="getClassForLeave(s)">Leave</button>
                         <button id="absentBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s, i)" class="btn"
                           [ngClass]="getClassForAbsent(s)">Absent</button>
@@ -1087,7 +1088,7 @@
               <br>
             </div>
             <div class="c-sm-3 c-md-3 c-lg-3 btn-Group">
-              <button class="btn fullBlue" (click)="saveNewMessage()">Save</button>
+              <button class="btn fullBlue" (click)="saveNewMessage()" >Save</button>
               <button class="btn" (click)="closeNewMessageDiv()">Cancel</button>
             </div>
           </div>
