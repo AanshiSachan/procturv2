@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
-          <div class="field-wrapper">
+          <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.type != '' }">
             <select id="" class="form-ctrl" [(ngModel)]="createCustomComponentForm.type" name="opt.data_value" (focus)="inputClicked($event)">
               <option *ngFor="let opt of componentShell" [value]="opt.data_key">
                 {{opt.data_value}}
@@ -89,19 +89,36 @@
       <div class="row extraMargin">
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
           <div class="field-wrapper">
-            <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.sequence_number" name="sequencenumber" (focus)="inputClicked($event)">
+            <input type="text" class="form-ctrl" OnlyNumber="true" maxlength="3" [(ngModel)]="createCustomComponentForm.sequence_number" name="sequencenumber" (focus)="inputClicked($event)">
             <label for="sequencenumber">Sequence (Numerals Only)</label>
           </div>
         </div>
         <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
           <div class="field-wrapper">
-            <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.comp_length" name="complength" (focus)="inputClicked($event)">
+            <input type="text" class="form-ctrl" OnlyNumber="true" [(ngModel)]="createCustomComponentForm.comp_length" name="complength" (focus)="inputClicked($event)">
             <label for="complength">Max- Length (Numerals Only)</label>
           </div>
         </div>
 
       </div>
 
+      <div class="row extraMargin">
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+            <div class="field-wrapper">
+              <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.defaultValue" name="defVal" (focus)="inputClicked($event)">
+              <label for="defVal">Default Value</label>
+            </div>
+        </div>
+        <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
+            <div class="field-wrapper has-value">
+              <select id="isexternal" class="form-ctrl" name="isexternal" [(ngModel)]="createCustomComponentForm.is_external" (focus)="inputClicked($event)">
+                <option value="Y">Y</option>
+                <option value="N">N</option>
+              </select>
+              <label for="isexternal">Is External</label>
+            </div>
+          </div>
+      </div>
       <div class="row extraMargin">
         <div class="c-lg-12 c-md-12 c-sm-12 c-xs-12">
           <aside class="pull-left create-cancel-small">
@@ -199,14 +216,14 @@
               <td class="view-comp">{{comp.sequence_number}}</td>
               <td class="edit-comp ">
                 <div class="field-wrapper">
-                  <input type="text" class="form-ctrl" name="sequencenumber" [(ngModel)]="comp.sequence_number">
+                  <input type="text" class="form-ctrl" OnlyNumber="true" maxlength="3" name="sequencenumber" [(ngModel)]="comp.sequence_number">
                 </div>
               </td>
 
               <td class="view-comp">{{comp.comp_length}}</td>
               <td class="edit-comp ">
                 <div class="field-wrapper">
-                  <input type="text" class="form-ctrl" name="complength" [(ngModel)]="comp.comp_length">
+                  <input type="text" class="form-ctrl" OnlyNumber="true" name="complength" [(ngModel)]="comp.comp_length">
                 </div>
               </td>
 

@@ -10,6 +10,7 @@
 } */
 
 .courses-list-table {
+    
     max-height: 400px;
     overflow: auto;
     ::-webkit-scrollbar{
@@ -289,6 +290,7 @@ td{
     border-top: 1px solid #d8d8d8;
     .field-checkbox-wrapper {
         margin-top: 15px;
+        background: transparent;
         .form-checkbox {
             &+label {
                 font-size: 12px;
@@ -355,6 +357,7 @@ td{
     .evoc-box {
         padding: 10px;
         .field-checkbox-wrapper {
+            background: transparent;
             label {
                 span {
                     font-size: 13px;
@@ -1001,6 +1004,7 @@ td{
         }
         .field-checkbox-wrapper {
             float: left;
+            background: transparent;
             margin-right: 2%;
             margin-left: 2%;
             .form-checkbox+label:after {
@@ -1175,9 +1179,22 @@ td{
 }
 
 table {
+
+    thead {
+        tr {
+            th {
+                
+                font-size: 12px;
+                font-weight: 500;
+                padding:15px;
+            }
+        }
+    }
+
     tbody {
         tr {
             td {
+               padding:10px;
                 font-size: 14px;
 
                 .editOptions li {

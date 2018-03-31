@@ -9,32 +9,32 @@
 .classScheduleTable {
     table {
         &.table-main {
-            tr{
-                th{
+            tr {
+                th {
                     text-align: center;
                     padding: 10px;
                     width: 10%;
                 }
-                td{
+                td {
                     border-top: 2px solid rgba(211, 212, 213, 0.5);
                     border-bottom: 2px solid rgba(211, 212, 213, 0.5);
                     padding: 0px;
-                    font-size: 14px; 
+                    font-size: 14px;
                 }
             }
             table {
                 &.table-adder {
                     tr {
                         background: #efefef;
-                        td{
+                        td {
                             border-top: none;
                             border-bottom: none;
                             padding: 10px;
                             width: 10%;
-                            .field-wrapper{
+                            .field-wrapper {
                                 position: relative;
                                 padding-top: 0px;
-                                .form-ctrl{
+                                .form-ctrl {
                                     background: transparent;
                                     display: block;
                                     width: 100%;
@@ -51,8 +51,8 @@
                                     line-height: 24px;
                                 }
                             }
-                            &.timepick{
-                                .field-wrapper{
+                            &.timepick {
+                                .field-wrapper {
                                     width: 55px;
                                     display: inline-flex;
                                     padding: 7px 0px;
@@ -63,7 +63,7 @@
                 }
                 &.table-data {
                     tr {
-                        td{
+                        td {
                             padding: 10px;
                             width: 11%;
                         }
@@ -339,6 +339,7 @@
     border-top: 1px solid #d8d8d8;
     .field-checkbox-wrapper {
         margin-top: 15px;
+        background: transparent;
         .form-checkbox {
             &+label {
                 font-size: 12px;
@@ -400,6 +401,7 @@
     .evoc-box {
         padding: 10px;
         .field-checkbox-wrapper {
+            background: transparent;
             label {
                 span {
                     font-size: 13px;
@@ -533,7 +535,6 @@
             margin-right: 15px;
         }
     }
-    .fullBlue {}
 }
 
 .view-tab {
@@ -1020,6 +1021,7 @@
         .field-checkbox-wrapper {
             float: left;
             margin-right: 2%;
+            background: transparent;
             margin-left: 2%;
             .form-checkbox+label:after {
                 transform: scale(0.7);
@@ -1214,7 +1216,7 @@
     -o-transition: all 0.5s ease-in;
     transition: all 0.5s ease-in;
     .popup {
-        max-width: 50%; // max-height: 350px;
+        max-width: 65%; // max-height: 350px;
         width: 100%;
         height: auto;
         left: 0;
@@ -1472,4 +1474,60 @@
 
 .tableStyling {
     margin-top: 10px;
+}
+
+//// Time picker changes
+/////////////////////////////////////////////////////
+.form-wrapper {
+    background: transparent;
+    margin: 5px 0px;
+    label {
+        color: #309bf8 !important;
+        font-size: 12px;
+        font-weight: 400; //font-family: -webkit-body;
+        color: rgba(0, 0, 0, 0.77);
+        padding-bottom: 2px;
+        text-decoration: none;
+        text-transform: uppercase;
+        -webkit-font-smoothing: antialiased;
+    }
+    .side-form-ctrl {
+        background: white;
+        border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+        width: 100%;
+        padding: 8px 5px;
+        font-weight: 600;
+        font-size: 14px;
+        color: black;
+        &.bsDatepicker {
+            padding: 5px;
+            width: 100%;
+        }
+    }
+    &.timepick {
+        width: 50%;
+        padding: 1px 0px;
+        .tbox {
+            width: 100%;
+            display: inline-block;
+            .times {
+                display: inline-block;
+            }
+            .side-form-ctrl {
+                background: white;
+                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                width: 100%;
+                padding: 8px 5px;
+                font-weight: 600;
+                font-size: 14px;
+                color: black;
+                &.mins {
+                    width: 80px;
+                }
+                &.mers {
+                    width: 50px;
+                }
+            }
+        }
+    }
 }

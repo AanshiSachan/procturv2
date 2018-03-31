@@ -32,6 +32,7 @@ export class CourseCourseListComponent implements OnInit {
     unassignFlag: true,
     standard_id: -1,
   }
+  showTable: boolean = false;
 
   constructor(
     private apiService: CourseListService,
@@ -120,7 +121,7 @@ export class CourseCourseListComponent implements OnInit {
   addStudentToBatch(rowDetails) {
     this.addStudentPopUp = true;
     this.courseDetails = rowDetails;
-    this.getAllStudentList();
+    // this.getAllStudentList();
     this.getAcademicYearDetails();
   }
 
@@ -149,6 +150,7 @@ export class CourseCourseListComponent implements OnInit {
       isUnassignedStudent: unassign
     }
     this.isRippleLoad = true;
+    this.showTable = true;
     this.apiService.getStudentList(data).subscribe(
       res => {
         this.studentListDataSource = this.keepCloning(res);
@@ -218,8 +220,9 @@ export class CourseCourseListComponent implements OnInit {
     this.searchFilter = {
       unassignFlag: true,
       standard_id: -1,
-    },
-      this.studentList = [];
+    };
+    this.studentList = [];
+    this.showTable = false;
   }
 
   selectAllCheckBox(element) {

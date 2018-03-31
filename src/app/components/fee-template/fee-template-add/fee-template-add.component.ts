@@ -43,6 +43,7 @@ export class FeeTemplateAddComponent implements OnInit {
   totalAmount: any = 0;
   discountAmount: any = 0
   showDetails: boolean = false;
+  enableTaxOptions: any = 0;
 
   constructor(
     private apiService: FeeStrucService,
@@ -55,6 +56,7 @@ export class FeeTemplateAddComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.enableTaxOptions = sessionStorage.getItem('enable_tax_applicable_fee_installments');
     this.getAllMasterCourseList();
     this.getDetailOfFeeStructur()
   }
@@ -292,7 +294,7 @@ export class FeeTemplateAddComponent implements OnInit {
       test.fee_type = 0;
       test.initial_fee_amount = this.installMentTable[t].initial_fee_amount.toString();
       test.service_tax = this.feeStructure.registeredServiceTax;
-      test.fees_amount = this.installMentTable[t].initial_fee_amount + this.installMentTable[t].tax;
+      test.fees_amount = this.installMentTable[t].totalAmount;
       test.service_tax_applicable = this.installMentTable[t].service_tax_applicable;
       test.day_type = this.installMentTable[t].day_type.toString();
       test.days = this.installMentTable[t].days.toString();

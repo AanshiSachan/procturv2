@@ -10,11 +10,23 @@
 }
 
 table {
+    thead{
+        tr{
+            th{
+                padding:15px;
+            }
+        }
+    }
     tbody {
         tr {
             td {
+                padding: 10px;
                 .editOptions li {
                     display: inline-block;
+                    
+                }
+                th{
+                    padding:15px;
                 }
             }
             .field-wrapper {
@@ -37,6 +49,7 @@ table {
             }
         }
         .displayComp {
+           height: 0%;
             .view-comp {}
             .edit-comp {
                 display: none
@@ -119,6 +132,7 @@ table {
         color: #979797;
     }
 }
+
 
 .add-edit {
     margin-bottom: 0;

@@ -62,8 +62,8 @@
           <div class="field-wrapper has-value">
             <select id="" class="form-ctrl" name="taxType" [(ngModel)]="addNewTemplate.tax_type" (click)="onTaxTypeChanges()">
               <option value="1">Tax Out Of Scope</option>
-              <option value="2">Total Fee Including Tax</option>
-              <option value="3">Total Fee Excluding Tax</option>
+              <option *ngIf="enableTaxOptions == '1'" value="2">Total Fee Including Tax</option>
+              <option *ngIf="enableTaxOptions == '1'" value="3">Total Fee Excluding Tax</option>
             </select>
             <label for="taxType">Tax Type</label>
           </div>

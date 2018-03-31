@@ -123,7 +123,7 @@
             <div class="row" style="margin-top: 10px;margin-bottom: 10px">
               <div class="c-sm-3 c-md-3 c-lg-3">
                 <div class="field-wrapper has-value">
-                  <input type="number" min="0" readonly="true" class="form-ctrl" [ngModel]="calculateTotalAmount()" name="slotNew">
+                  <input type="number" min="0" readonly="true" class="form-ctrl" [(ngModel)]="totalAmountCal" name="slotNew">
                   <label for="slotNew">Total Amount (Rs)*
                   </label>
                 </div>
@@ -137,7 +137,7 @@
               </div>
               <div class="c-sm-3 c-md-3 c-lg-3">
                 <div class="field-checkbox-wrapper">
-                  <input type="checkbox" id="checkBoxtaxes" name="checkbx" class="form-checkbox" (click)="onApplyTaxChechbox()">
+                  <input type="checkbox" id="checkBoxtaxes" name="checkbx" class="form-checkbox" (click)="onApplyTaxChechbox($event)">
                   <label for="checkbx">Apply Tax({{feeStructure.registeredServiceTax}}%)</label>
                 </div>
               </div>
@@ -223,7 +223,7 @@
                         </td>
                         <td>
                           <div class="field-wrapper">
-                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.initial_fee_amount + row.tax" name="label">
+                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.fees_amount" name="label">
                           </div>
                         </td>
                         <td>
@@ -347,6 +347,11 @@
                         </td>
                         <td>
                           <a style="cursor: pointer" (click)="deleteAdditionalRow(row , i)">Delete</a>
+                        </td>
+                      </tr>
+                      <tr *ngIf="otherInstList.length == 0">
+                        <td colspan="7">
+                          No Additional Fee
                         </td>
                       </tr>
                     </tbody>

@@ -14,7 +14,7 @@ export class FeeTypesComponent implements OnInit {
     fee_type: '',
     fee_type_desc: '',
     fee_amount: '',
-    fee_type_tax: '',
+    fee_type_tax: 0,
     fee_type_id: 0,
   }
   feeTypeList: any = [];
@@ -63,6 +63,9 @@ export class FeeTypesComponent implements OnInit {
       obj.fee_type = this.feeTypeList[t].fee_type;
       obj.fee_type_desc = this.feeTypeList[t].fee_type_desc;
       obj.fee_type_id = this.feeTypeList[t].fee_type_id;
+      if (this.feeTypeList[t].fee_type_tax == "" || this.feeTypeList[t].fee_type_tax == null) {
+        this.feeTypeList[t].fee_type_tax = 0;
+      }
       obj.fee_type_tax = this.feeTypeList[t].fee_type_tax;
       data.push(obj);
     }
@@ -72,6 +75,13 @@ export class FeeTypesComponent implements OnInit {
   addNewFeeType() {
     if (this.addNewFee.fee_type.trim() != "") {
       this.feeTypeList.push(this.addNewFee);
+      this.addNewFee = {
+        fee_type: '',
+        fee_type_desc: '',
+        fee_amount: '',
+        fee_type_tax: 0,
+        fee_type_id: 0,
+      }
     } else {
       this.messageToast('error', 'Name Required', 'Please give name of Fee Type');
     }

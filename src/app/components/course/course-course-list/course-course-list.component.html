@@ -96,8 +96,8 @@
                         <td style="width:25%">{{row.standard_name}}</td>
                         <td style="width:20%">
                           <div class="action-box ">
-                            <a style="cursor:pointer" (click)="addStudentToBatch(sc)">
-                              <i class="far fa fa-plus-square" style="font-size: 25px" alt="Add Student" title="Add Student"></i>
+                            <a style="cursor:pointer" (click)="addStudentToBatch(sc)">Add Student
+                              <!-- <i class="far fa fa-plus-square" style="font-size: 25px" alt="Add Student" title="Add Student"></i> -->
                             </a>
                           </div>
                         </td>
@@ -164,13 +164,14 @@
         </div>
         <div class="row filter-section">
           <div class="c-sm-3 c-md-3 c-lg-3">
-            <div class="field-wrapper">
-              <select class="form-ctrl" [(ngModel)]="searchFilter.standard_id">
+            <div class="field-wrapper" [ngClass]="{'has-value' : searchFilter.standard_id != ''}">
+              <select class="form-ctrl" [(ngModel)]="searchFilter.standard_id" name="standard">
                 <option value="-1">Select</option>
                 <option *ngFor="let opt of standardList" [value]="opt.standard_id">
                   {{opt.standard_name}}
                 </option>
               </select>
+              <label for="standard">Standards</label>
             </div>
           </div>
           <div class="c-sm-3 c-md-3 c-lg-3 checkBoxWrapper">
@@ -190,86 +191,76 @@
           </div>
         </div>
 
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <th style="padding: 6px 0px 6px 20px;">
-                <div class="field-checkbox-wrapper">
-                  <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked" (click)="selectAllCheckBox(idSelectAll)">
-                  <label></label>
-                </div>
-              </th>
-              <th>
-                Student ID
-              </th>
-              <th>
-                Student Name
-              </th>
-              <th>
-                Contact No.
-              </th>
-              <th>
-                Joining Date
-              </th>
-              <th>
-                Institution Name
-              </th>
-              <th>
-                Standard Class
-              </th>
-              <th>
-                Academic Year
-              </th>
-            </thead>
-            <tbody>
-              <tr id="row{{i}}" *ngFor="let row of studentList; let i = index; trackBy: i;">
-                <td>
+        <div *ngIf="showTable">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <th style="padding: 6px 0px 6px 20px;">
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                    <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked" (click)="selectAllCheckBox(idSelectAll)">
                     <label></label>
                   </div>
-                </td>
-                <td>
-                  {{row.student_disp_id}}
-                </td>
-                <td>
-                  {{row.student_name}}
-                </td>
-                <td>
-                  {{row.student_phone}}
-                </td>
-                <td>
-                  {{row.doj}}
-                </td>
-                <td>
-                  {{row.school}}
-                </td>
-                <td>
-                  {{row.student_class}}
-                </td>
-                <td>
-                  <div class="field-wrapper">
-                    <select class="form-ctrl" [(ngModel)]="row.academic_year" style="background: transparent">
-                      <option value="-1">Select</option>
-                      <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
-                        {{opt.inst_acad_year}}
-                      </option>
-                    </select>
-                  </div>
-                </td>
-              </tr>
-              <tr *ngIf="(studentList.length == 0)">
-                <td colspan="9">
-                  No Data Found
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </th>
+                <th>
+                  Student ID
+                </th>
+                <th>
+                  Student Name
+                </th>
+                <th>
+                  Contact No.
+                </th>
+                <th>
+                  Standard Class
+                </th>
+                <th>
+                  Academic Year
+                </th>
+              </thead>
+              <tbody>
+                <tr id="row{{i}}" *ngFor="let row of studentList; let i = index; trackBy: i;">
+                  <td>
+                    <div class="field-checkbox-wrapper">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>
+                    {{row.student_disp_id}}
+                  </td>
+                  <td>
+                    {{row.student_name}}
+                  </td>
+                  <td>
+                    {{row.student_phone}}
+                  </td>
+                  <td>
+                    {{row.student_class}}
+                  </td>
+                  <td>
+                    <div class="field-wrapper">
+                      <select class="form-ctrl" [(ngModel)]="row.academic_year" style="background: transparent">
+                        <option value="-1">Select</option>
+                        <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+                          {{opt.inst_acad_year}}
+                        </option>
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="(studentList.length == 0)">
+                  <td colspan="9">
+                    No Student Details Found
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pull-right">
+            <button class="btn" (click)="saveChanges()">Save</button>
+          </div>
         </div>
 
-        <div class="pull-right">
-          <button class="btn" (click)="saveChanges()">Save</button>
-        </div>
       </div>
     </div>
   </div>

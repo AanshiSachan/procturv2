@@ -14,6 +14,7 @@ import { AuthenticatorService } from '../authenticator.service';
 @Injectable()
 export class FetchStudentService {
 
+  studentFees: any;
   url: string;
   baseUrl: string = '';
   authorization: string;
@@ -98,12 +99,16 @@ export class FetchStudentService {
 
     return this.http.get(urlFeeById, { headers: this.headers }).map(
       res => {
+        this.studentFees = res.json();
         return res.json();
       },
       err => {
         return err.json();
       })
+  }
 
+  getStoredFees(){
+    return this.studentFees;
   }
 
   fetchSuccess(id): Observable<any> {
@@ -162,5 +167,18 @@ export class FetchStudentService {
       }
     )
   }
+
+  getFeeReceiptById(id){
+    let url = this.baseUrl +"/api/v1/studentWise/fee/" +11791 +"/feeReceipt/" +id +"/download?fin_yr=17-18";
+    return this.http.get(url, {headers: this.headers}).map(
+      res => {
+        return res.json();
+      },
+      err => {
+        return err.json();
+      }
+    )
+  }
+
 
 }
