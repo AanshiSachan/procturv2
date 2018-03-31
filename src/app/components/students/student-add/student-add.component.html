@@ -581,8 +581,7 @@
               <li>
                 <label>Fee Structure</label>
                 <div class="gray">
-                  <span *ngIf="feeTemplateById.template_name == ''">NA</span>
-                  <span class="feename" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">{{feeTemplateById.template_name}}</span>
+                  
                   <!-- <a (click)="reCreateFeeAgain()" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">Change</a> -->
                 </div>
               </li>
@@ -598,6 +597,8 @@
               <div class="row">
                 <div class="pull-left c-xs-8 c-sm-8">
                   <h2>Fee Details</h2>
+                  <span *ngIf="feeTemplateById.template_name == ''"></span>
+                  <span class="feename" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">{{feeTemplateById.template_name}}</span>
                 </div>
                 <div class="pull-right c-xs-4 c-sm-4">
                   <ul class="export-print align-right">
@@ -657,9 +658,19 @@
                             Due Date
                           </label>
                           <span>
-                            {{installment.due_date}}
+                            {{installment.due_date | date: 'dd MMM yyyy'}}
                           </span>
                         </li>
+
+                        <li>
+                          <label>
+                            Course
+                          </label>
+                          <span>
+                            {{installment.course_subject_name}}
+                          </span>
+                        </li>
+
                       </ul>
                     </div>
                   </div>
@@ -1309,8 +1320,7 @@
                       [(ngModel)]="fee.due_date" readonly="true" bsDatepicker>
                   </div>
                   <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'Y'">
-                    <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)"
-                      [(ngModel)]="fee.due_date" readonly="true">
+                      <label style="float: left;">{{fee.due_date | date: "dd-MMM-yyyy"}}</label>
                   </div>
                 </li>
                 <li [ngClass]="{'hide': taxEnableCheck == '0'}">
@@ -1839,5 +1849,4 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- ======================================================== -->
-
 </section>

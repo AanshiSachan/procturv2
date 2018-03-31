@@ -631,7 +631,7 @@
                             Fee Amount
                           </label>
                           <span>
-                            {{installment.fees_amount | commaSeprator}}
+                            &#8377; {{installment.fees_amount | commaSeprator}}
                           </span>
                         </li>
 
@@ -658,7 +658,16 @@
                             Due Date
                           </label>
                           <span>
-                            {{installment.due_date}}
+                            {{installment.due_date | date: 'dd MMM yyyy'}}
+                          </span>
+                        </li>
+
+                        <li>
+                          <label>
+                            Course
+                          </label>
+                          <span>
+                            {{installment.course_subject_name}}
                           </span>
                         </li>
 
@@ -1261,12 +1270,6 @@
           <div class="installment-adder">
             <ul>
               <li>
-                <!-- <div class="form-wrapper">
-                  <label for="instt">Installment</label>
-                  <input type="text" class="form-ctrl" name="instt" readonly>
-                </div> -->
-              </li>
-              <li>
                 <div class="form-wrapper datePickerBox">
                   <label for="dddue_date">Due Date</label>
                   <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" readonly="true" name="dddue_date" [(ngModel)]="addFeeInstallment.due_date"
@@ -1308,8 +1311,7 @@
                       [(ngModel)]="fee.due_date" readonly="true" bsDatepicker>
                   </div>
                   <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'Y'">
-                    <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)"
-                      [(ngModel)]="fee.due_date" readonly="true">
+                    <label style="float: left;">{{fee.due_date | date: "dd-MMM-yyyy"}}</label>
                   </div>
                 </li>
                 <li [ngClass]="{'hide': taxEnableCheck == '0'}">
