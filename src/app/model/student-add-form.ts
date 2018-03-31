@@ -1,5 +1,5 @@
-export interface StudentForm{
-    student_name?: any, //"test 122",
+export interface StudentForm {
+	student_name?: any, //"test 122",
 	student_sex?: any, //"M",
 	student_email?: any, // "tester@gmail.com",
 	student_phone?: any, // "8844334455",

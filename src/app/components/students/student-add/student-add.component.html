@@ -104,6 +104,12 @@
                     </div>
                   </div>
 
+                  <div class="field-wrapper" *ngIf="enableBiometric == '1'" [ngClass]="{'has-value': studentAddFormData.attendance_device_id != ''}">
+                    <input type="text" value="" id="cardId" class="form-ctrl" [(ngModel)]="studentAddFormData.attendance_device_id" name="attCard"
+                      #cardId="ngModel" />
+                    <label for="attCard">Attendance Card ID</label>
+                  </div>
+
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_sex != ''}">
                     <select id="userGender" class="form-ctrl" [(ngModel)]="studentAddFormData.student_sex" name="userGender">
                       <option value=""></option>
@@ -664,9 +670,9 @@
                     </div>
                   </div>
                   <div class="clearFix add-edit" [ngClass]="{'hide': installment.is_referenced == 'N'}">
-                      <a (click)="downloadFeeReceipt(installment)">Download receipt</a>
-                      <!-- <a (click)="emailFeeReceipt(installment)">E-mail receipt</a> -->
-                      <a (click)="openPartialPayment(installment)" [ngClass]="{'hide': installment.is_partially_paid == '0'}">Pay Remaining Amount</a>
+                    <a (click)="downloadFeeReceipt(installment)">Download receipt</a>
+                    <!-- <a (click)="emailFeeReceipt(installment)">E-mail receipt</a> -->
+                    <a (click)="openPartialPayment(installment)" [ngClass]="{'hide': installment.is_partially_paid == '0'}">Pay Remaining Amount</a>
                   </div>
                 </li>
               </ul>

@@ -94,6 +94,12 @@
                     </div>
                   </div>
 
+                  <div class="field-wrapper" *ngIf="enableBiometric == '1'" [ngClass]="{'has-value': studentAddFormData.attendance_device_id != ''}">
+                    <input type="text" value="" id="cardId" class="form-ctrl" [(ngModel)]="studentAddFormData.attendance_device_id" name="attCard"
+                      #cardId="ngModel" />
+                    <label for="attCard">Attendance Card ID</label>
+                  </div>
+
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_email != ''}">
                     <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.student_email" name="sEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                       #sEmail="ngModel" />
@@ -345,7 +351,7 @@
         <!-- Page 1 Footer -->
         <section class="middle-bottom clearFix">
           <div class="pull-left">
-              <!-- <div class="field-checkbox-wrapper">
+            <!-- <div class="field-checkbox-wrapper">
                 <input type="checkbox" value="" name="quickadd" [(ngModel)]="quickAddStudent" class="form-checkbox" id="quickAddStudent">
                 <label for="quickAddStudent">Quick Add Student</label>
                 <div class="questionInfo pos-rel">

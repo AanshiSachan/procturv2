@@ -290,7 +290,7 @@ export class StudentAddComponent implements OnInit {
   totalAmountDue: number = 0;
   totalPaidAmount: number = 0;
 
-  
+
   partialPayObj: any = {
     chequeDetailsJson: {},
     paid_date: moment().format('YYYY-MM-DD'),
@@ -308,6 +308,7 @@ export class StudentAddComponent implements OnInit {
     previous_balance_amt: "",
     total_amt_paid: ""
   }
+  enableBiometric: any;
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(
@@ -324,6 +325,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   ngOnInit() {
+    this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.busyPrefill = this.fetchPrefillFormData();
@@ -862,10 +864,11 @@ export class StudentAddComponent implements OnInit {
       this.studentAddFormData.stuCustomLi = customArr;
       this.studentAddFormData.photo = this.studentImage;
       this.additionalBasicDetails = false;
-      if (this.studentAddFormData.assignedBatches == null) {
+      if (this.studentAddFormData.assignedBatches == null || this.studentAddFormData.assignedBatches.length == 0) {
+        this.studentAddFormData.assignedBatches = null
         this.studentAddFormData.assignedBatchescademicYearArray = null;
       }
-      if (this.studentAddFormData.assignedBatches != null) {
+      else if (this.studentAddFormData.assignedBatches != null && this.studentAddFormData.assignedBatches.length != 0) {
         this.studentAddFormData.assignedBatchescademicYearArray.reverse();
       }
       this.isRippleLoad = true;
@@ -902,7 +905,7 @@ export class StudentAddComponent implements OnInit {
           let alert = {
             type: 'error',
             title: 'Error Updating Student Details',
-            body: ''
+            body: JSON.parse(err._body).message
           }
           this.appC.popToast(alert);
         });
@@ -2256,8 +2259,8 @@ export class StudentAddComponent implements OnInit {
 
     /* Request from close popup */
     if (this.closeFee) {
-      if(this.userHasFees){
-        this.totalFeePaid = 0;        
+      if (this.userHasFees) {
+        this.totalFeePaid = 0;
         this.isConfigureFees = false;
         this.instalmentTableData = [];
         this.isDefineFees = false;
@@ -2265,14 +2268,14 @@ export class StudentAddComponent implements OnInit {
         this.isDiscountApplied = false;
         this.discountReason = '';
         let res = this.studentPrefillService.getStoredFees();
-        if(res != null){
+        if (res != null) {
           this.userHasFees = true;
           this.isRippleLoad = false;
           this.userHasFees = true;
           this.allignStudentFeeView(res);
         }
-        else{
-          this.totalFeePaid = 0;        
+        else {
+          this.totalFeePaid = 0;
           this.isConfigureFees = false;
           this.instalmentTableData = [];
           this.userHasFees = false;
@@ -2284,8 +2287,8 @@ export class StudentAddComponent implements OnInit {
           this.discountReason = '';
         }
       }
-      else{
-        this.totalFeePaid = 0;        
+      else {
+        this.totalFeePaid = 0;
         this.isConfigureFees = false;
         this.instalmentTableData = [];
         this.userHasFees = false;
@@ -2296,7 +2299,7 @@ export class StudentAddComponent implements OnInit {
         this.isDiscountApplied = false;
         this.discountReason = '';
         this.isRippleLoad = false;
-        this.navigateTo('feeDetails');        
+        this.navigateTo('feeDetails');
       }
     }
     else {
@@ -3277,7 +3280,7 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-    /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   downloadFeeReceipt(ins) {
     //this.fetchService.getFeeReceiptById(ins.display_invoice_no)
@@ -3367,7 +3370,7 @@ export class StudentAddComponent implements OnInit {
       if (this.partialPayObj.paymentMode == 'Cheque/PDC/DD No.') {
         if (this.validatePdcObject()) {
           let obj = {
-            chequeDetailsJson:{},
+            chequeDetailsJson: {},
             paid_date: '',
             paymentMode: '',
             reference_no: "",
@@ -3416,7 +3419,7 @@ export class StudentAddComponent implements OnInit {
       }
       else {
         let obj = {
-          chequeDetailsJson:{},
+          chequeDetailsJson: {},
           paid_date: '',
           paymentMode: '',
           reference_no: "",

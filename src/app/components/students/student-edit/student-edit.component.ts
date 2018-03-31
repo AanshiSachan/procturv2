@@ -302,7 +302,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     previous_balance_amt: "",
     total_amt_paid: ""
   }
-
+  enableBiometric: any = "";
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(private studentPrefillService: AddStudentPrefillService, private prefill: FetchprefilldataService, private postService: PostStudentDataService, private router: Router, private route: ActivatedRoute, private login: LoginService, private appC: AppComponent, private fetchService: FetchStudentService) {
@@ -314,6 +314,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   ngOnInit() {
+    this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     if (sessionStorage.getItem('editPdc') != "" && sessionStorage.getItem('editPdc') != null) {
@@ -1071,6 +1072,13 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.studentAddFormData.stuCustomLi = customArr;
       this.studentAddFormData.photo = this.studentServerImage;
       this.additionalBasicDetails = false;
+      if (this.studentAddFormData.assignedBatches == null || this.studentAddFormData.assignedBatches.length == 0) {
+        this.studentAddFormData.assignedBatches = null
+        this.studentAddFormData.assignedBatchescademicYearArray = null;
+      }
+      else if (this.studentAddFormData.assignedBatches != null && this.studentAddFormData.assignedBatches.length != 0) {
+        this.studentAddFormData.assignedBatchescademicYearArray.reverse();
+      }
       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         res => {
           let statusCode = res.statusCode;
@@ -2639,7 +2647,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       temp.push(obj);
     });
-    if(temp.length != 0){
+    if (temp.length != 0) {
       this.postService.allocateStudentInventory(temp).subscribe(
         res => {
           if (this.isFeeApplied) {
@@ -2652,7 +2660,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         err => { }
       );
     }
-    else{
+    else {
       if (this.isFeeApplied) {
         this.asssignCustomizedFee(id);
       }
@@ -3020,7 +3028,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       temp.push(obj);
     });
-    if(temp.length != 0){
+    if (temp.length != 0) {
       this.postService.allocateStudentInventory(temp).subscribe(
         res => {
           if (this.isFeeApplied) {
@@ -3033,7 +3041,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         err => { }
       );
     }
-    else{
+    else {
       if (this.isFeeApplied) {
         this.asssignCustomizedFee(this.student_id);
       }
@@ -3529,7 +3537,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       if (this.partialPayObj.paymentMode == 'Cheque/PDC/DD No.') {
         if (this.validatePdcObject()) {
           let obj = {
-            chequeDetailsJson:{},
+            chequeDetailsJson: {},
             paid_date: '',
             paymentMode: '',
             reference_no: "",
@@ -3578,7 +3586,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       else {
         let obj = {
-          chequeDetailsJson:{},
+          chequeDetailsJson: {},
           paid_date: '',
           paymentMode: '',
           reference_no: "",
