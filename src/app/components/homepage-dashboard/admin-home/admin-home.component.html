@@ -238,7 +238,6 @@
                         <li class="cls-type">Class type</li>
                         <li class="cls-name">Subject/Course</li>
                         <li>Faculty</li>
-
                       </ul>
                       <ul class="sche-head" *ngIf="!isProfessional && !isSubjectView">
                         <li class="batch">Master Course</li>
@@ -248,10 +247,7 @@
                         <li>Timings</li>
                         <li class="cls-type">Class type</li>
                         <li>Batch</li>
-
                         <li>Faculty</li>
-
-
                       </ul>
                       <div class="schedule-scroller" *ngIf="!isProfessional && isSubjectView">
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
@@ -399,14 +395,16 @@
                               </div>
                             </li> -->
                           </ul>
-                          <div class="che-action" [class.display]="i == selectedRow">
+                          <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}" [class.display]="i == selectedRow">
                             <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance(i, class)">
                               Mark Attendance</a>
                             <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance(i, class)">
                               View Attendance</a>
-                            <a class="fish-chips" *ngIf='isOptionVisible && class.is_attendance_marked !="Y"' style="cursor:pointer" (click)="initiateCancelClass()">Cancel</a>
-                            <a class="fish-chips" *ngIf='isOptionVisible' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</a>
-                            <a class="fish-chips" *ngIf="isOptionVisible && class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateRescheduleClass()">Reschedule</a>
+                            <a class="fish-chips" *ngIf='class.is_attendance_marked !="Y"' style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
+                              (click)="initiateCancelClass()">Cancel</a>
+                            <a class="fish-chips"  style="cursor:pointer" [ngClass]="getReminderAndCancel(class)" (click)="initiateRemiderClass(i, class)">Class Reminder</a>
+                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
+                              (click)="initiateRescheduleClass()">Reschedule</a>
                           </div>
 
                         </div>
@@ -488,7 +486,7 @@
     <div class="attendanceWrapper" widget-content>
 
       <div class="row">
-        <aside class="tableSection" >
+        <aside class="tableSection">
           <!-- <div class="row button-row">
             <button class="btn pull-right" (click)="getTopicsUpdate()">Update Topic/SubTopic</button>
           </div> -->
@@ -574,8 +572,7 @@
                         </div>
                       </div> -->
                       <div class="btnGroup  btns">
-                        <button id="leaveBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s , i)"  
-                        class="btn"
+                        <button id="leaveBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s , i)" class="btn"
                           [ngClass]="getClassForLeave(s)">Leave</button>
                         <button id="absentBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s, i)" class="btn"
                           [ngClass]="getClassForAbsent(s)">Absent</button>
@@ -1088,7 +1085,7 @@
               <br>
             </div>
             <div class="c-sm-3 c-md-3 c-lg-3 btn-Group">
-              <button class="btn fullBlue" (click)="saveNewMessage()" >Save</button>
+              <button class="btn fullBlue" (click)="saveNewMessage()">Save</button>
               <button class="btn" (click)="closeNewMessageDiv()">Cancel</button>
             </div>
           </div>

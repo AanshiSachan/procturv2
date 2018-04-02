@@ -582,17 +582,17 @@ export class AdminHomeComponent implements OnInit {
      }
    */
 
-  generateOption(i, o) {
-    let d = moment(o).format("YYYY-MM-DD");
+  // generateOption(i, o) {
+  //   let d = moment(o).format("YYYY-MM-DD");
 
-    //this.schedSelected = true;
-    if (d >= moment(new Date()).format("YYYY-MM-DD")) {
-      this.isOptionVisible = true;
-    }
-    else {
-      this.isOptionVisible = false;
-    }
-  }
+  //   //this.schedSelected = true;
+  //   if (d >= moment(new Date()).format("YYYY-MM-DD")) {
+  //     this.isOptionVisible = true;
+  //   }
+  //   else {
+  //     this.isOptionVisible = false;
+  //   }
+  // }
 
   getVisibility(c): boolean {
     let d = moment(c.class_date).format("YYYY-MM-DD");
