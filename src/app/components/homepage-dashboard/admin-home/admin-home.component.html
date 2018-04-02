@@ -546,11 +546,11 @@
                 <div class="ct-disable-wrapper pos-rel" *ngFor="let s of studentAttList;let i=index;" [ngClass]="{ homeWorkNotFoundClass: settingInfo.home_work_feature_enable !=1 }">
                   <ul class="ct-ongoing">
                     <li style="width: 20%; font-weight: 800">
-                      <div>{{s.student_disp_id}}</div>
+                      <div class="no-margin top5">{{s.student_disp_id}}</div>
                     </li>
 
-                    <li class="cls-type" style="width: 20% ; font-weight: 800">
-                      <div>
+                    <li class="" style="width: 20% ; font-weight: 800">
+                      <div class="no-margin top5">
                         {{s.student_name}}
                       </div>
                     </li>
@@ -573,7 +573,7 @@
                           <label class="present" for="Present{{s.student_id}}">Present</label>
                         </div>
                       </div> -->
-                      <div class="btnGroup  btns">
+                      <div class="btnGroup no-margin  btns">
                         <button id="leaveBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s , i)"  
                         class="btn"
                           [ngClass]="getClassForLeave(s)">Leave</button>
@@ -585,7 +585,7 @@
                     </li>
 
                     <li style="width: 20%;" *ngIf="settingInfo.home_work_feature_enable==1">
-                      <div class="customDropdown">
+                      <div class="customDropdown top5">
                         <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status_11755" class="" [(ngModel)]="s.dateLi[0].home_work_status"
                           (ngModelChange)="isHomeworkStatusChanged(i)">
                           <option value="Y" selected=" ">Completed</option>
