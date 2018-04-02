@@ -289,7 +289,7 @@
                             </li> -->
                           </ul>
                           <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' [ngClass]="getReminderAndCancel(class)" style="cursor:pointer"
                               (click)="initiateCancelClass(i, class)">Cancel</span>
@@ -396,13 +396,13 @@
                             </li> -->
                           </ul>
                           <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}" [class.display]="i == selectedRow">
-                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance(i, class)">
+                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">
                               Mark Attendance</a>
                             <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance(i, class)">
                               View Attendance</a>
                             <a class="fish-chips" *ngIf='class.is_attendance_marked !="Y"' style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
                               (click)="initiateCancelClass()">Cancel</a>
-                            <a class="fish-chips"  style="cursor:pointer" [ngClass]="getReminderAndCancel(class)" (click)="initiateRemiderClass(i, class)">Class Reminder</a>
+                            <a class="fish-chips" style="cursor:pointer" [ngClass]="getReminderAndCancel(class)" (click)="initiateRemiderClass(i, class)">Class Reminder</a>
                             <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
                               (click)="initiateRescheduleClass()">Reschedule</a>
                           </div>
@@ -639,8 +639,7 @@
                 </div>
             </div> -->
             <div class="field-wrapper">
-              <textarea class="form-ctrl textBox" style="background: #efefef" value="" [(ngModel)]="homework">
-                <span>{{studentAttList[0].dateLi[0].previous_class_homework_assigned}}</span>
+              <textarea disabled="true" class="form-ctrl textBox" style="background: #efefef" value="" [ngModel]="studentAttList[0].dateLi[0].homework_assigned">
               </textarea>
             </div>
           </div>
@@ -717,7 +716,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCancelClass()">
-          <input type="button" value="Cancel Class" (click)="cancelClass()" class="redBtn btn">
+          <input type="button" value="Cancel Class" (click)="cancelClass()" class="btn fullBlue">
         </aside>
       </div>
     </div>
@@ -1048,7 +1047,7 @@
       </svg>
     </span>
 
-    <h2 widget-header style="margin-bottom: 10px;">Notification Management</h2>
+    <h2 widget-header>Notification Management</h2>
 
     <div class="" widget-content>
       <div class="notification-content-wrapper">
@@ -1085,8 +1084,8 @@
               <br>
             </div>
             <div class="c-sm-3 c-md-3 c-lg-3 btn-Group">
-              <button class="btn fullBlue" (click)="saveNewMessage()">Save</button>
               <button class="btn" (click)="closeNewMessageDiv()">Cancel</button>
+              <button class="btn fullBlue" (click)="saveNewMessage()">Save</button>
             </div>
           </div>
         </div>
@@ -1384,7 +1383,8 @@
                 </div>
 
                 <div class="row" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'showTutor')">
-                  <a (click)="getAllSavedMessages()">See All Message</a>
+                  <span>Configured Notification Messages(showing last 30 days added messages):</span>
+                  <a class="pull-right" style="cursor: pointer;" (click)="getAllSavedMessages()">See All Message</a>
 
                   <div class="row message-table-wrapper">
                     <table class="message-table">
@@ -1419,6 +1419,11 @@
                             {{row.message}}
                           </td>
                         </tr>
+                        <tr *ngIf="messageList.length == 0">
+                          <td colspan="3">
+                            No Notification Available
+                          </td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
@@ -1435,7 +1440,7 @@
                   </div>
                 </div>
 
-                <div class="" *ngIf="studentSelected">
+                <div class="pull-right" *ngIf="studentSelected">
                   <button class="btn" (click)="sendNotificationMessage()">Send</button>
                   <button class="btn" *ngIf="selectedOption == 'showTable'" (click)="sendPushNotification()">Send Push Notification</button>
                 </div>

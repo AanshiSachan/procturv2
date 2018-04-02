@@ -518,7 +518,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getEnqStartDate() {
-    let date=moment().date(1).format("YYYY-MM-DD");
+    let date = moment().date(1).format("YYYY-MM-DD");
     return date;
     // return this.enquiryDate;
   }
@@ -1462,6 +1462,14 @@ export class AdminHomeComponent implements OnInit {
 
   }
 
+  markAttendaceHide(row) {
+    if (moment(row.class_date).format('DD-MM-YYYY') > moment().format('DD-MM-YYYY')) {
+      return "hide";
+    } else {
+      return "";
+    }
+  }
+
   getClassStatus(row) {
     if (moment(row.class_date).format('DD-MM-YYYY') == moment().format('DD-MM-YYYY')) {
       let currentTime: any = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
@@ -1572,6 +1580,7 @@ export class AdminHomeComponent implements OnInit {
   closeNotificationPopUp() {
     this.notificationPopUp = false;
     this.addNotification = false;
+    this.showTableFlag = false;
   }
 
   flushData() {
@@ -1678,6 +1687,7 @@ export class AdminHomeComponent implements OnInit {
           body: "Saved Successfully"
         };
         this.appC.popToast(msg);
+        this.getAllMessageFromServer();
       },
       err => {
         console.log(err);
@@ -1958,12 +1968,10 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.getMessageList(obj).subscribe(
       res => {
         this.isRippleLoad = false;
-        console.log(res);
         this.messageList = this.addKeys(res, false);
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
       }
     )
   }
@@ -2235,7 +2243,7 @@ export class AdminHomeComponent implements OnInit {
   //  Role Based Access
   checkIfUserHadAccess(id) {
     this.permissionArray = sessionStorage.getItem('permissions');
-    if (this.permissionArray == "") {
+    if (this.permissionArray == "" || this.permissionArray == null) {
       return false;
     } else {
       if (id != "" && id != null) {
