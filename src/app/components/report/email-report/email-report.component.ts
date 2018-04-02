@@ -58,8 +58,6 @@ export class EmailReportComponent implements OnInit {
     )
   }
 
-
-
 switchActiveView(id) {
     document.getElementById('home').classList.remove('active');
     document.getElementById('attendance').classList.remove('active');
