@@ -284,6 +284,7 @@ export class AdminHomeComponent implements OnInit {
         this.genralStats.expiry = this.instituteSetting.institute_expiry_date;
         this.genralStats.total = this.instituteSetting.total_students;
         this.genralStats.sms = this.instituteSetting.institute_sms_quota_available;
+        this.genralStats.student_limit = e.student_limit;
       }
     })
   }
