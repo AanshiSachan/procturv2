@@ -27,6 +27,8 @@ import { getSMSService } from '../../services/report-services/get-sms.service';
 import { postSMSService } from '../../services/report-services/post-sms.service';
 import { SharedModule } from '../shared/shared.module';
 
+import { AttendanceReportServiceService } from '../../services/attendance-report/attendance-report-service.service';
+
 
 @NgModule({
     imports: [
@@ -60,7 +62,8 @@ import { SharedModule } from '../shared/shared.module';
     ],
     providers: [
         getSMSService,
-        postSMSService
+        postSMSService,
+        AttendanceReportServiceService
     ]
 })
 export class ReportModule {
