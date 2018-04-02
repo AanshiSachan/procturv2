@@ -56,17 +56,19 @@ export class AcademicyearService {
   }
 
   editAcademicYear(obj, id){
+    
+    let url=this.baseUrl + "/api/v1/academicYear/" +id;
     obj.start_date = moment(obj.start_date).format("YYYY-MM-DD");
     obj.end_date = moment(obj.end_date).format("YYYY-MM-DD");
-    let url=this.baseUrl + "/api/v1/academicYear/" +id;
-
+    console.log(obj.start_date);
     return this.http.put(url, obj, {headers:this.headers}).map(
       data =>{
+       
         return data;
       },
       err =>{
         return err;
       })
-
+      
   }
 }
