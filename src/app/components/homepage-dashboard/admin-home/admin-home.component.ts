@@ -617,7 +617,6 @@ export class AdminHomeComponent implements OnInit {
 
   getDisability(s): boolean {
     if (s.dateLi[0].serverStatus == "L") {
-      console.log(s.dateLi[0].is_home_work_status_changed === "Y" && s.dateLi[0].status === "L");
       return true;
     }
     else {
@@ -815,7 +814,37 @@ export class AdminHomeComponent implements OnInit {
     this.getCountOfAbsentPresentLeave(this.studentAttList);
   }
 
+
+  checkIfStudentIsAbsent() {
+    for (let i = 0; i < this.studentAttList.length; i++) {
+      if (this.studentAttList[i].dateLi[0].status == "A") {
+        return true;
+      }
+    }
+  }
+
   updateAttendance() {
+    debugger
+    let sendSms = "N";
+    if (this.settingInfo.sms_absent_notification > 0) {
+      let check = this.checkIfStudentIsAbsent();
+      if (check) {
+        if (confirm("Do you want to send SMS Alert to Absent students?")) {
+          sendSms = "Y";
+          this.markAttendanceServerCall(sendSms);
+        } else {
+          sendSms = "N";
+          this.markAttendanceServerCall(sendSms);
+        }
+      } else {
+        this.markAttendanceServerCall(sendSms);
+      }
+    } else {
+      this.markAttendanceServerCall(sendSms);
+    }
+  }
+
+  markAttendanceServerCall(sendSms) {
     this.isRippleLoad = true;
     let arr = [];
     this.studentAttList.forEach(e => {
@@ -824,7 +853,7 @@ export class AdminHomeComponent implements OnInit {
         batch_id: this.classMarkedForAction.batch_id,
         dateLi: e.dateLi,
         home_work_notifn: e.home_work_notifn,
-        isNotify: e.isNotify,
+        isNotify: sendSms,
         is_home_work_enabled: e.is_home_work_enabled,
         student_id: e.student_id,
         topics_covered_notifn: e.topics_covered_notifn
