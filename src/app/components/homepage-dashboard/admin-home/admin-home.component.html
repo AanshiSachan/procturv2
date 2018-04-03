@@ -396,7 +396,8 @@
                             </li> -->
                           </ul>
                           <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}" [class.display]="i == selectedRow">
-                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">
+                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="markAttendaceHide(class)"
+                              (click)="initiateMarkAttendance(i, class)">
                               Mark Attendance</a>
                             <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance(i, class)">
                               View Attendance</a>
@@ -1408,14 +1409,14 @@
                         <tr *ngFor="let row of messageList; let i = index; trackBy: i;">
                           <td>
                             <div class="field-checkbox-wrapper">
-                              <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                              <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned" (ngModelChange)="onCheckBoxSelection(index , row)">
                               <label></label>
                             </div>
                           </td>
                           <td>
                             {{row.date}}
                           </td>
-                          <td>
+                          <td style="text-align: left">
                             {{row.message}}
                           </td>
                         </tr>

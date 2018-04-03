@@ -2241,6 +2241,16 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
+  onCheckBoxSelection(index, data) {
+    this.messageList.map(ele => {
+      if (ele.message_id == data.message_id) {
+        ele.assigned = true;
+      } else {
+        ele.assigned = false;
+      }
+    })
+  }
+
 
   //  Role Based Access
   checkIfUserHadAccess(id) {
