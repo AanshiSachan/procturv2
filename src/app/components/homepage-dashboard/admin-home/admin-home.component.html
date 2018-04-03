@@ -396,7 +396,8 @@
                             </li> -->
                           </ul>
                           <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}" [class.display]="i == selectedRow">
-                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">
+                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="markAttendaceHide(class)"
+                              (click)="initiateMarkAttendance(i, class)">
                               Mark Attendance</a>
                             <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance(i, class)">
                               View Attendance</a>
@@ -693,7 +694,9 @@
       </svg>
     </span>
 
-    <h2 widget-header>Cancel Schedule {{classMarkedForAction.batch_name}}</h2>
+    <h2 widget-header>Cancel Class
+      <span style="font-weight: 300">{{classMarkedForAction.batch_name}}</span>
+    </h2>
 
     <div class="CancelWrapper" widget-content>
       <div class="row cancelField">
@@ -1000,7 +1003,7 @@
     </span>
 
     <h2 widget-header>Cancel Schedule
-      <span style="font-weight: 600">{{classMarkedForAction.master_course}}</span> - {{classMarkedForAction.coursee_names}}
+      <span style="font-weight: 300">{{classMarkedForAction.master_course}}</span> - {{classMarkedForAction.coursee_names}}
     </h2>
 
     <div class="CancelWrapper" widget-content>
