@@ -1688,6 +1688,7 @@ export class AdminHomeComponent implements OnInit {
           body: "Saved Successfully"
         };
         this.appC.popToast(msg);
+        this.closeNewMessageDiv();
         this.getAllMessageFromServer();
       },
       err => {
