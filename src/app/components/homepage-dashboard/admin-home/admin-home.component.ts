@@ -139,15 +139,15 @@ export class AdminHomeComponent implements OnInit {
       meridian: ''
     },
   }
-  isSubjectView: boolean = true;
+  isSubjectView: boolean = false;
   types: SelectItem[] = [
     { label: 'Course', value: 'course' },
     { label: 'Subject', value: 'subject' }
   ];
 
-  selectedType: string = "subject";
+  selectedType: string = "course";
   courseLevelSchedDate: any = new Date();
-  courseLevelSchedule: any;
+  courseLevelSchedule: any = [];
   isCourseAttendance: boolean = false;
   isCourseCancel: boolean = false;
   isCourseReminder: boolean = false;
@@ -421,7 +421,19 @@ export class AdminHomeComponent implements OnInit {
 
   updateEnqChart() {
     if (this.chart.ref.series.length > 0) {
-      this.chart.ref.series[0].setData(this.generateEnqChartData())
+      // let data = this.generateEnqChartData();
+      // let dataFound = false;
+      // data.forEach(ele => {
+      //   if (ele[1] > 0) {
+      //     dataFound = true;
+      //   }
+      // })
+      // if (dataFound) {
+      //   this.chart.ref.series[0].setData(data);
+      // } else {
+
+      // }
+      this.chart.ref.series[0].setData(this.generateEnqChartData());
     }
     this.chart.ref.redraw();
   }
@@ -498,7 +510,11 @@ export class AdminHomeComponent implements OnInit {
     for (let key in this.enquiryStat.statusMap) {
       let temp: any[] = [];
       temp[0] = key;
-      temp[1] = Math.round(((this.enquiryStat.statusMap[key] / this.enquiryStat.totalcount) * 100));
+      if (this.enquiryStat.statusMap[key] == 0) {
+        temp[1] = 0;
+      } else {
+        temp[1] = Math.round(((this.enquiryStat.statusMap[key] / this.enquiryStat.totalcount) * 100));
+      }
       tempArr.push(temp);
     }
     return tempArr;
@@ -824,7 +840,6 @@ export class AdminHomeComponent implements OnInit {
   }
 
   updateAttendance() {
-    debugger
     let sendSms = "N";
     if (this.settingInfo.sms_absent_notification > 0) {
       let check = this.checkIfStudentIsAbsent();

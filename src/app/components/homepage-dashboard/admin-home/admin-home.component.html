@@ -258,7 +258,8 @@
                             </li>
                             <li class="cls-type">
                               <div>
-                                {{class.freq}}
+                                <span *ngIf="class.freq == 'WEEK' || class.freq == 'OTHER'">Regular</span>
+                                <span *ngIf="!(class.freq == 'WEEK' || class.freq == 'OTHER')">Extra</span>
                                 <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
                               </div>
                             </li>
@@ -364,7 +365,8 @@
                             </li>
                             <li class="cls-type">
                               <div>
-                                {{class.freq}}
+                                <span *ngIf="class.freq == 'WEEK' || class.freq == 'OTHER'">Regular</span>
+                                <span *ngIf="!(class.freq == 'WEEK' || class.freq == 'OTHER')">Extra</span>
                                 <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
                               </div>
                             </li>
