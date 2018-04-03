@@ -7,6 +7,42 @@
 
 /* ============================================================================================================= */
 
+@media only screen and (max-width: 767px){
+    .boxPadding15{
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .student-flow-wrapper{
+        padding: 0;
+    }
+    .middle-top {
+        aside{
+            float: left;
+        }
+        h1{
+            margin-top: 8px;
+            margin-bottom: 10px;
+            float: none;
+        }
+    }
+    .middle-left{
+        padding: 0;
+        width: 100%;
+    }
+    .middle-right{
+        padding: 0;
+        width: 100%;
+        margin-top: 30px;
+        box-sizing: border-box;
+    }
+    .student-flow-wrapper {
+        padding: 0px;
+        .row{
+            margin: 0;
+        }
+    }
+}
+
 
 /* ============================================================================================================= */
 
@@ -55,11 +91,11 @@
     }
     .field-radio-wrapper .form-radio:checked+label:before {
         content: '';
-        width: 10px;
-        height: 10px;
+        width: 9px;
+        height: 9px;
         background: $common-blue;
         border-radius: 50%;
-        left: 3px;
+        left: 4px;
         top: 3px;
     }
     .field-radio-wrapper .form-radio:checked+label {

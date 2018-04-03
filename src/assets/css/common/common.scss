@@ -85,14 +85,14 @@
 
 ::ng-deep .bs-datepicker-body table thead tr th {
     font-size: 14px;
-    color: #ffffff;
+    color: black;
     font-weight: 600;
     text-align: center;
 }
 
 :host /deep/ .bs-datepicker-body table thead tr th {
     font-size: 14px;
-    color: #ffffff;
+    color: black;
     font-weight: 600;
     text-align: center;
 }
@@ -749,7 +749,7 @@ table tr:nth-child(odd) {
     background: #f7f7f7;
 } */
 
-table tr:nth-child(even) {
+/* table tr:nth-child(even) {
     background: #ffffff;
     border-left: 1px solid hsla(210, 2%, 83%, .5);
     border-right: 1px solid hsla(210, 2%, 83%, .5);
@@ -771,6 +771,19 @@ table tr:nth-child(odd) {
         border-top: 2px solid hsla(210, 2%, 83%, .5);
         border-bottom: 2px solid hsla(210, 2%, 83%, .5);
         padding: 15px;
+        font-size: 14px;
+    }
+} */
+
+table tr {
+    background: #ffffff;
+    border-left: 1px solid hsla(210, 2%, 83%, .5);
+    border-right: 1px solid hsla(210, 2%, 83%, .5);
+    cursor: pointer;
+    td {
+        border-top: 2px solid hsla(210, 2%, 83%, .5);
+        border-bottom: 2px solid hsla(210, 2%, 83%, .5);
+        padding: 5px 15px;
         font-size: 14px;
     }
 }

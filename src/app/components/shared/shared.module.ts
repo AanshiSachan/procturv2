@@ -18,6 +18,8 @@ import { RobTableCellPipe } from './ng-robTable/ng-robTable-format-cell.pipe';
 import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive';
 import { CommaSeprationAmount } from './pipes/commaSepratorPipe';
 
+import { ProcturPopUpComponent } from './proctur-popup/proctur-popup.component';
+
 
 
 @NgModule({
@@ -38,7 +40,8 @@ import { CommaSeprationAmount } from './pipes/commaSepratorPipe';
         QuickFilterComponent,
         AppLoaderComponent,
         PictureCropComponent,
-        CommaSeprationAmount
+        CommaSeprationAmount,
+        ProcturPopUpComponent
     ],
     exports: [
         CommonModule,
@@ -50,7 +53,8 @@ import { CommaSeprationAmount } from './pipes/commaSepratorPipe';
         QuickFilterComponent,
         AppLoaderComponent,
         PictureCropComponent,
-        CommaSeprationAmount 
+        CommaSeprationAmount,
+        ProcturPopUpComponent
     ],
     providers: [CurrencyPipe]
 })
