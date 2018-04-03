@@ -77,7 +77,7 @@ export class FetchenquiryService {
         obj.updateDateFrom = (obj.updateDateFrom == '' || obj.updateDateFrom == null) ? '' : moment(obj.updateDateFrom).format('YYYY-MM-DD');
         obj.updateDateTo = (obj.updateDateTo == '' || obj.updateDateTo == null) ? '' : moment(obj.updateDateTo).format('YYYY-MM-DD');
         this.urlCampaign = this.baseUrl + '/api/v2/enquiry_manager/search/' + this.institute_id;
-        
+
         return this.http.post(this.urlCampaign, obj, { headers: this.headers })
           .map(res => {
             this.row = res.json();
@@ -190,7 +190,7 @@ export class FetchenquiryService {
   // Download Report Summary
 
   getSummaryReportOfThisMonth() {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/this_month";
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/this_month/NA";
     return this.http.post(
       url, {}, { headers: this.headers }
     ).map(
@@ -200,7 +200,7 @@ export class FetchenquiryService {
   }
 
   getPreviousMSummary() {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/prev_month";
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/prev_month/NA";
     return this.http.post(
       url, {}, { headers: this.headers }
     ).map(
@@ -211,7 +211,17 @@ export class FetchenquiryService {
 
 
   getSummaryReportOfLastTwoMonth() {
-    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/last_two_months";
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/last_two_months/NA";
+    return this.http.post(
+      url, {}, { headers: this.headers }
+    ).map(
+      res => { return res.json(); },
+      err => { return err.json(); }
+    )
+  }
+
+  getSummaryReportFromDates(obj) {
+    let url = this.baseUrl + "/api/v1/enquiry_manager/download_summary_report/" + this.institute_id + "/" + obj.from_date + "/" + obj.to_date;
     return this.http.post(
       url, {}, { headers: this.headers }
     ).map(

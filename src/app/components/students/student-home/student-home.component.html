@@ -512,6 +512,8 @@
                                                 <tr>
                                                     <th>Leave From</th>
                                                     <th>Leave To</th>
+                                                    <th>Reason</th>
+                                                    <th>Leave Days</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -522,6 +524,12 @@
                                                     </td>
                                                     <td>
                                                         {{row.end_date}}
+                                                    </td>
+                                                    <td>
+                                                        {{row.reason}}
+                                                    </td>
+                                                    <td>
+                                                        {{getLeaveNumber(row)}}
                                                     </td>
                                                     <td>
                                                         <a [ngClass]="{'hide' : showDeleteBtn(row)}" (click)="deletePerticularLeave(row)">Delete</a>

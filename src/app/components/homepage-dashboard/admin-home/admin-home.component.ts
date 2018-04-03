@@ -139,15 +139,15 @@ export class AdminHomeComponent implements OnInit {
       meridian: ''
     },
   }
-  isSubjectView: boolean = true;
+  isSubjectView: boolean = false;
   types: SelectItem[] = [
     { label: 'Course', value: 'course' },
     { label: 'Subject', value: 'subject' }
   ];
 
-  selectedType: string = "subject";
+  selectedType: string = "course";
   courseLevelSchedDate: any = new Date();
-  courseLevelSchedule: any;
+  courseLevelSchedule: any = [];
   isCourseAttendance: boolean = false;
   isCourseCancel: boolean = false;
   isCourseReminder: boolean = false;
@@ -421,7 +421,19 @@ export class AdminHomeComponent implements OnInit {
 
   updateEnqChart() {
     if (this.chart.ref.series.length > 0) {
-      this.chart.ref.series[0].setData(this.generateEnqChartData())
+      // let data = this.generateEnqChartData();
+      // let dataFound = false;
+      // data.forEach(ele => {
+      //   if (ele[1] > 0) {
+      //     dataFound = true;
+      //   }
+      // })
+      // if (dataFound) {
+      //   this.chart.ref.series[0].setData(data);
+      // } else {
+
+      // }
+      this.chart.ref.series[0].setData(this.generateEnqChartData());
     }
     this.chart.ref.redraw();
   }
@@ -498,7 +510,11 @@ export class AdminHomeComponent implements OnInit {
     for (let key in this.enquiryStat.statusMap) {
       let temp: any[] = [];
       temp[0] = key;
-      temp[1] = Math.round(((this.enquiryStat.statusMap[key] / this.enquiryStat.totalcount) * 100));
+      if (this.enquiryStat.statusMap[key] == 0) {
+        temp[1] = 0;
+      } else {
+        temp[1] = Math.round(((this.enquiryStat.statusMap[key] / this.enquiryStat.totalcount) * 100));
+      }
       tempArr.push(temp);
     }
     return tempArr;
@@ -617,7 +633,6 @@ export class AdminHomeComponent implements OnInit {
 
   getDisability(s): boolean {
     if (s.dateLi[0].serverStatus == "L") {
-      console.log(s.dateLi[0].is_home_work_status_changed === "Y" && s.dateLi[0].status === "L");
       return true;
     }
     else {
@@ -815,7 +830,36 @@ export class AdminHomeComponent implements OnInit {
     this.getCountOfAbsentPresentLeave(this.studentAttList);
   }
 
+
+  checkIfStudentIsAbsent() {
+    for (let i = 0; i < this.studentAttList.length; i++) {
+      if (this.studentAttList[i].dateLi[0].status == "A") {
+        return true;
+      }
+    }
+  }
+
   updateAttendance() {
+    let sendSms = "N";
+    if (this.settingInfo.sms_absent_notification > 0) {
+      let check = this.checkIfStudentIsAbsent();
+      if (check) {
+        if (confirm("Do you want to send SMS Alert to Absent students?")) {
+          sendSms = "Y";
+          this.markAttendanceServerCall(sendSms);
+        } else {
+          sendSms = "N";
+          this.markAttendanceServerCall(sendSms);
+        }
+      } else {
+        this.markAttendanceServerCall(sendSms);
+      }
+    } else {
+      this.markAttendanceServerCall(sendSms);
+    }
+  }
+
+  markAttendanceServerCall(sendSms) {
     this.isRippleLoad = true;
     let arr = [];
     this.studentAttList.forEach(e => {
@@ -824,7 +868,7 @@ export class AdminHomeComponent implements OnInit {
         batch_id: this.classMarkedForAction.batch_id,
         dateLi: e.dateLi,
         home_work_notifn: e.home_work_notifn,
-        isNotify: e.isNotify,
+        isNotify: sendSms,
         is_home_work_enabled: e.is_home_work_enabled,
         student_id: e.student_id,
         topics_covered_notifn: e.topics_covered_notifn
@@ -1688,6 +1732,7 @@ export class AdminHomeComponent implements OnInit {
           body: "Saved Successfully"
         };
         this.appC.popToast(msg);
+        this.closeNewMessageDiv();
         this.getAllMessageFromServer();
       },
       err => {
@@ -2238,6 +2283,16 @@ export class AdminHomeComponent implements OnInit {
       )
 
     }
+  }
+
+  onCheckBoxSelection(index, data) {
+    this.messageList.map(ele => {
+      if (ele.message_id == data.message_id) {
+        ele.assigned = true;
+      } else {
+        ele.assigned = false;
+      }
+    })
   }
 
 

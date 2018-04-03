@@ -139,9 +139,9 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     private widgetService: WidgetService,
     private postService: PostStudentDataService) {
 
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';  
+    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
 
-    if(this.isProfessional){
+    if (this.isProfessional) {
       this.StudentSettings = [
         { primaryKey: 'student_disp_id', header: 'Student Id.' },
         { primaryKey: 'student_name', header: 'Name.' },
@@ -150,7 +150,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
         { primaryKey: 'noOfBatchesAssigned', header: 'Batch Assigned' }
       ];
     }
-    else{
+    else {
       this.StudentSettings = [
         { primaryKey: 'student_disp_id', header: 'Student Id.' },
         { primaryKey: 'student_name', header: 'Name.' },
@@ -1415,6 +1415,10 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   getListOfIds(data) {
     return data.join(',');
+  }
+
+  getLeaveNumber(data) {
+    return moment(data.end_date).diff(moment(data.start_date), 'days') + 1
   }
 
 }
