@@ -171,7 +171,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /* Model for checkbox toggler to update data table */
   stats = {
     All: { value: 'All', prop: 'All', checked: false, disabled: false },
-    pending: { value: 'Pending Followup', prop: 'pending', checked: false, disabled: false },
+    Pending: { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
     Open: { value: 'Open', prop: 'Open', checked: true, disabled: false },
     Registered: { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
     Admitted: { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
@@ -180,7 +180,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   statFilter = [
     { value: 'All', prop: 'All', checked: false, disabled: false },
-    { value: 'Pending Followup', prop: 'pending', checked: false, disabled: false },
+    { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
     { value: 'Open', prop: 'Open', checked: true, disabled: false },
     { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
     { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
@@ -809,7 +809,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.stats.Inactive.checked = false;
         this.stats.Open.checked = false;
         this.stats.Registered.checked = false;
-        this.stats.pending.checked = false;
+        this.stats.Pending.checked = false;
         this.stats.All.checked = true;
         this.instituteData = {
           name: "",
@@ -843,12 +843,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       }
     }
 
-    else if (checkerObj.prop == "pending") {
+    else if (checkerObj.prop == "Pending") {
       this.stats.Admitted.checked = false;
       this.stats.Inactive.checked = false;
       this.stats.Open.checked = false;
       this.stats.Registered.checked = false;
-      this.stats.pending.checked = true;
+      this.stats.Pending.checked = true;
       this.stats.All.checked = false;
       this.instituteData = {
         name: "",
@@ -1384,7 +1384,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.statusString = [];
     this.statFilter = [
       { value: 'All', prop: 'All', checked: false, disabled: false },
-      { value: 'Pending Followup', prop: 'pending', checked: false, disabled: false },
+      { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
       { value: 'Open', prop: 'Open', checked: false, disabled: false },
       { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
       { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
@@ -2716,13 +2716,23 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
     this.customComponents.forEach(el => {
       if (el.is_searchable == 'Y' && el.value != "") {
-        //console.log(el);
-        let obj = {
-          component_id: el.id,
-          enq_custom_id: "0",
-          enq_custom_value: el.value
+
+        if (el.type == '5') {
+          let obj = {
+            component_id: el.id,
+            enq_custom_id: "0",
+            enq_custom_value: moment(el.value).format("YYYY-MM-DD")
+          }
+          tempCustomArr.push(obj);
         }
-        tempCustomArr.push(obj);
+        else if (el.type != '5') {
+          let obj = {
+            component_id: el.id,
+            enq_custom_id: "0",
+            enq_custom_value: el.value
+          }
+          tempCustomArr.push(obj);
+        }
       }
     });
 

@@ -460,6 +460,14 @@
                   </div>
                 </div>
 
+                <div class="row" *ngIf="component.type == 5" input-def>
+                    <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                        <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
+                            name="{{component.label}}" bsDatepicker/>
+                        <label for="component.label">{{component.label}} </label>
+                    </div>
+                </div>
+
               </custom-student>
             </div>
 

@@ -71,12 +71,12 @@ export class QuickFilterComponent implements OnChanges {
 
             }
         }
-        if (i.prop == "pending") {
+        if (i.prop == "Pending") {
             this.selectedOptions = [];
             this.selectedOptionsString = '';
             if (i.checked) {
                 this.inputList.forEach(el => {
-                    if (el.prop != "pending") {
+                    if (el.prop != "Pending") {
                         el.checked = false;
                     }
                 });
@@ -88,18 +88,18 @@ export class QuickFilterComponent implements OnChanges {
 
             }
         }
-        else if (i.prop != "All" && i.prop != "pending") {
-            if(this.selectedOptions.indexOf("All") !== -1 || this.selectedOptions.indexOf("pending") !== -1){
+        else if (i.prop != "All" && i.prop != "Pending") {
+            if(this.selectedOptions.indexOf("All") !== -1 || this.selectedOptions.indexOf("Pending") !== -1){
                 if(this.selectedOptions.indexOf("All") !== -1){
                     let indexAll = this.selectedOptions.indexOf("All");
                     this.selectedOptions.splice(indexAll, 1);                    
                 }
-                if(this.selectedOptions.indexOf("pending") !== -1){
-                    let indextod = this.selectedOptions.indexOf("pending");
+                if(this.selectedOptions.indexOf("Pending") !== -1){
+                    let indextod = this.selectedOptions.indexOf("Pending");
                     this.selectedOptions.splice(indextod, 1);   
                 }
                 this.inputList.forEach(el => {
-                    if (el.prop == "All" || el.prop == 'pending') {
+                    if (el.prop == "All" || el.prop == 'Pending') {
                         el.checked = false;
                     }
                 });
@@ -118,7 +118,7 @@ export class QuickFilterComponent implements OnChanges {
             }
             else{
                 this.inputList.forEach(el => {
-                    if (el.prop == "All" || el.prop == "pending") {
+                    if (el.prop == "All" || el.prop == "Pending") {
                         el.checked = false;
                     }
                 });

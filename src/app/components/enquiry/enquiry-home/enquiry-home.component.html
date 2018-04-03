@@ -288,8 +288,8 @@
             <custom-enquiry *ngFor="let component of customComponents">
 
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
-                <div class="field-wrapper">
-                  <input type="text" value="" id="component.id" [(ngModel)]="component.value" class="form-ctrl" name="component.label" />
+                <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                  <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}" />
                   <label for="component.label">{{component.label}} </label>
                 </div>
               </div>
@@ -297,14 +297,14 @@
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
                 <br>
                 <div class="field-checkbox-wrapper">
-                  <input class="form-checkbox" id="component.id" type="checkbox" [(ngModel)]="component.value" name="component.label" value="">
+                  <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}" value="">
                   <label for="component.label">{{component.label}} </label>
                 </div>
               </div>
 
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
-                <div class="field-wrapper">
-                  <select id="component.id" class="form-ctrl" [(ngModel)]="component.value" name="component.label">
+                <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                  <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="{{component.label}}">
                     <option value=""></option>
                     <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                   </select>
@@ -330,6 +330,13 @@
                       </li>
                     </ul>
                   </div>
+                </div>
+              </div>
+
+              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
+                <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                  <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker" name="{{component.label}}" bsDatepicker/>
+                  <label for="component.label">{{component.label}} </label>
                 </div>
               </div>
 

@@ -234,30 +234,44 @@ export class EnquiryEditComponent implements OnInit {
   getCustomComponents(): any[] {
     let tempArr: any[] = [];
     this.customComponents.forEach(e => {
-      if (e.hasOwnProperty('value')) {
-        if (typeof e.value == 'string') {
-          if (e.value.trim() != '') {
+      if (e.type == 5) {
+        if (e.hasOwnProperty('value')) {
+          let dd = moment(e.value).format("YYYY-MM-DD");
+          if (dd != '' && dd != "Invalid date" && dd != null) {
             let obj: any = {};
             obj.component_id = e.id;
             obj.enq_custom_id = 0;
-            obj.enq_custom_value = e.value;
+            obj.enq_custom_value = moment(e.value).format("YYYY-MM-DD");
             tempArr.push(obj);
           }
         }
-        else if (typeof e.value == 'boolean') {
-          if (e.value) {
-            let obj: any = {};
-            obj.component_id = e.id;
-            obj.enq_custom_id = 0;
-            obj.enq_custom_value = "Y";
-            tempArr.push(obj);
+      }
+      else {
+        if (e.hasOwnProperty('value')) {
+          if (typeof e.value == 'string') {
+            if (e.value.trim() != '') {
+              let obj: any = {};
+              obj.component_id = e.id;
+              obj.enq_custom_id = 0;
+              obj.enq_custom_value = e.value;
+              tempArr.push(obj);
+            }
           }
-          else {
-            let obj: any = {};
-            obj.component_id = e.id;
-            obj.enq_custom_id = 0;
-            obj.enq_custom_value = "N";
-            tempArr.push(obj);
+          else if (typeof e.value == 'boolean') {
+            if (e.value) {
+              let obj: any = {};
+              obj.component_id = e.id;
+              obj.enq_custom_id = 0;
+              obj.enq_custom_value = "Y";
+              tempArr.push(obj);
+            }
+            else {
+              let obj: any = {};
+              obj.component_id = e.id;
+              obj.enq_custom_id = 0;
+              obj.enq_custom_value = "N";
+              tempArr.push(obj);
+            }
           }
         }
       }
@@ -669,8 +683,6 @@ export class EnquiryEditComponent implements OnInit {
   }
 
 
-
-
   validateCustomComponent(): boolean {
 
     let temp: boolean = true;
@@ -683,22 +695,83 @@ export class EnquiryEditComponent implements OnInit {
         }
       }
     });
+
+    if(!temp){
+      let msg = {
+        type: 'error',
+        title: 'Required Details Not Filled On Academics Details',
+        body: ''
+      }
+      this.appC.popToast(msg);
+    }
+
     return temp;
   }
 
-
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
+    if (
+      this.editEnqData.name == null || this.editEnqData.name.trim() == "" ||
+      this.editEnqData.enquiry_date == null || this.editEnqData.enquiry_date == "" ||
+      this.editEnqData.source_id == "" || this.editEnqData.source_id == "-1") {
 
-    if ((this.editEnqData.name == null || this.editEnqData.name == "") || (this.editEnqData.enquiry_date == null || this.editEnqData.enquiry_date == "" || this.editEnqData.source_id == "" || this.editEnqData.source_id == "-1")) {
+      if (this.editEnqData.name == null || this.editEnqData.name.trim() == "") {
+        let msg = {
+          type: 'error',
+          title: 'Enquirer Name Is Mandatory',
+          body: ''
+        }
+        this.appC.popToast(msg);
+        return false;
+      }
+
+      else if (this.editEnqData.enquiry_date == null || this.editEnqData.enquiry_date == "") {
+        let msg = {
+          type: 'error',
+          title: 'Enquiry Date Is Mandatory',
+          body: ''
+        }
+        this.appC.popToast(msg);
+        return false;
+      }
+
+      else if (this.editEnqData.source_id == "" || this.editEnqData.source_id == "-1") {
+        let msg = {
+          type: 'error',
+          title: 'Enquiry Source Is Mandatory',
+          body: ''
+        }
+        this.appC.popToast(msg);
+        return false;
+      }
+    }
+    else {
+      if (this.validateEnquiryDate()) {
+        return true;
+      }
+      else {
+        let msg = {
+          type: 'error',
+          title: 'Cannot Set Future Enquiry Date',
+          body: ''
+        }
+        this.appC.popToast(msg);
+        return false;
+      }
+    }
+  }
+
+  validateEnquiryDate() {
+    let a = moment();
+    let b = moment(this.editEnqData.enquiry_date);
+    let d = a.diff(b);
+    if (d < 0) {
       return false;
     }
     else {
       return true;
     }
   }
-
-
 
   /* Function to store the data of Custom Component in to Base64 encoded array string */
   customComponentUpdated(val, data) {
@@ -824,7 +897,7 @@ export class EnquiryEditComponent implements OnInit {
       this.updateFormData.status = res.status;
       this.updateFormData.followUpDate = res.followUpDate;
       this.updateFormData.commentDate = moment().format('YYYY-MM-DD');
-      if(res.comments != null){
+      if (res.comments != null) {
         this.updateFormComments = res.comments;
       }
       this.updateFormCommentsOn = res.commentedOn;

@@ -99,7 +99,8 @@
                   <!-- Additonal details -->
                   <div class="more-detail">
                     <b>
-                      <a (click)="showAdditionDetails()" style="font-size: 14px;font-weight: 600;cursor:pointer">+ &nbsp; Add Additional Details</a>
+                      <a *ngIf="!additionDetails" (click)="showAdditionDetails()" style="font-size: 14px;font-weight: 600;cursor:pointer">+ &nbsp; Add Additional Details</a>
+                      <a *ngIf="additionDetails" (click)="showAdditionDetails()" style="font-size: 14px;font-weight: 600;cursor:pointer">- &nbsp; Add Additional Details</a>
                     </b>
                   </div>
 
@@ -246,8 +247,8 @@
                     <div class="" *ngIf="component.type == 2" input-def>
                       <br>
                       <div class="field-checkbox-wrapper" [class.has-value]="component.value != ''">
-                        <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value"  (ngModelChange)="fillCustomComponent($event, component)" name="a{{component.label}}"
-                          value="">
+                        <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" (ngModelChange)="fillCustomComponent($event, component)"
+                          name="a{{component.label}}" value="">
                         <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
                         <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
                       </div>
@@ -286,8 +287,17 @@
                       </div>
                     </div>
 
+                    <div class="" *ngIf="component.type == 5" input-def>
+                      <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                        <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
+                          name="{{component.label}}" bsDatepicker/>
+                        <label for="component.label">{{component.label}} </label>
+                      </div>
+                    </div>
+
+
                   </custom-enquiry>
-                  
+
                 </div>
               </div>
             </li>
@@ -380,7 +390,8 @@
           </div> -->
           <div class="time-picker">
             <div class="field-wrapper" id="hourpar" style="padding-right: 10px;" [ngClass]="{'has-value': hour != ''}">
-              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="followUpTime" name="hour" style="width: 60px;"  (ngModelChange)="timeChanges($event)">
+              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="followUpTime" name="hour" style="width: 60px;"
+                (ngModelChange)="timeChanges($event)">
                 <option *ngFor="let time of times" [value]="time">
                   {{time}}
                 </option>
@@ -395,8 +406,8 @@
               </select>
               <label for="minute">Minute</label>
             </div>
-            
-          </div> 
+
+          </div>
           <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.referred_by != ''}">
             <select id="refferedBy" class="form-ctrl" [(ngModel)]="editEnqData.referred_by" name="reffered">
               <option value="-1"></option>

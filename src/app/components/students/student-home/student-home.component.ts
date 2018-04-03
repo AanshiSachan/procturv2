@@ -425,11 +425,20 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.customComponents.forEach(el => {
       //console.log(el);
       if (el.is_searchable == 'Y' && el.value != "") {
-        let obj = {
-          component_id: el.id,
-          enq_custom_value: el.value
+        if(el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date"){
+          let obj = {
+            component_id: el.id,
+            enq_custom_value: moment(el.value).format("YYYY-MM-DD")
+          }
+          tempCustomArr.push(obj);
         }
-        tempCustomArr.push(obj);
+        else{
+          let obj = {
+            component_id: el.id,
+            enq_custom_value: el.value
+          }
+          tempCustomArr.push(obj);
+        }
       }
     });
 
