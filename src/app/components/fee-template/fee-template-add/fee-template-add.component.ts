@@ -129,7 +129,7 @@ export class FeeTemplateAddComponent implements OnInit {
   }
 
   calculateAmount(taxInclusive) {
-    this.addNewTemplate.tax_amount = Math.floor(Number(this.addNewTemplate.fee_amount) * 0.01 * this.feeStructure.registeredServiceTax);
+    this.addNewTemplate.tax_amount = Math.floor(Number(this.addNewTemplate.fee_amount)) - Math.floor(Number(this.addNewTemplate.fee_amount) * 100 / (100 + this.feeStructure.registeredServiceTax));
     if (taxInclusive == true) {
       this.addNewTemplate.total_fee = Number(this.addNewTemplate.fee_amount);
     } else {
