@@ -334,9 +334,10 @@
                 <div class="row" id="student-table">
                     <div class="table-scroll-wrapper">
                         <div class="table table-responsive student-table">
-                            <ng-robTable [records]="studentDataSource"  [defaultSort]="sortBy" [reset]="isSideBar" [tableName]="'student'" [settings]="StudentSettings" (userRowSelect)="userRowSelect($event)"
-                                (rowsSelected)="getRowCount($event)" [dataStatus]="loading_message" [key1]="'isActive'" [primaryKey]="'student_id'"
-                                (rowIdArr)="getSelected($event)" (rowUserIDArrayList)="getSelectedUserIDS($event)" (sortById)="sortTableById($event)">
+                            <ng-robTable [records]="studentDataSource" [defaultSort]="sortBy" [reset]="isSideBar" [tableName]="'student'" [settings]="StudentSettings"
+                                (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="loading_message"
+                                [key1]="'isActive'" [primaryKey]="'student_id'" (rowIdArr)="getSelected($event)" (rowUserIDArrayList)="getSelectedUserIDS($event)"
+                                (sortById)="sortTableById($event)">
                             </ng-robTable>
                             <!-- <proctur-checkbox-table [records]="studentDataSource" [tableName]="'student'" 
                                 [settings]="StudentSettings" [dataStatus]="loading_message"
@@ -503,6 +504,8 @@
                                                 <tr>
                                                     <th>Leave From</th>
                                                     <th>Leave To</th>
+                                                    <th>Reason</th>
+                                                    <th>Leave Days</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -513,6 +516,12 @@
                                                     </td>
                                                     <td>
                                                         {{row.end_date}}
+                                                    </td>
+                                                    <td>
+                                                        {{row.reason}}
+                                                    </td>
+                                                    <td>
+                                                        {{getLeaveNumber(row)}}
                                                     </td>
                                                     <td>
                                                         <a [ngClass]="{'hide' : showDeleteBtn(row)}" (click)="deletePerticularLeave(row)">Delete</a>
@@ -613,7 +622,7 @@
                             <div class="field-checkbox-wrapper">
                                 <input type="checkbox" value="" [(ngModel)]="sendNotification.loginMessageChkbx" name="loginMessage" class="form-checkbox"
                                     id="">
-                                <label for="loginMessage" >Send Login Message</label>
+                                <label for="loginMessage">Send Login Message</label>
                             </div>
                         </div>
 
@@ -642,7 +651,7 @@
                                     </div>
                                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
                                         <input type="checkbox" value="" name="guardian" [(ngModel)]="sendNotification.gaurdianChkbx" class="form-checkbox" id="">
-                                        <label for="guardian" >Guardian</label>
+                                        <label for="guardian">Guardian</label>
                                     </div>
                                 </div>
                             </div>
