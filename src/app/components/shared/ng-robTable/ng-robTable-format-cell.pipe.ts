@@ -20,7 +20,9 @@ export class RobTableCellPipe implements PipeTransform {
                 }
             }
             if ( typeof value === "object") {
-                return value.name
+                if(value != null){
+                    return value.name
+                }
             }
         }
         

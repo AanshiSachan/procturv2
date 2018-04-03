@@ -9,7 +9,7 @@
         <h1 class="pull-left">
           Email Report
         </h1>
-
+      
         <aside class="pull-right">
           <!-- <input type="button" value="Add Enquiry" class="btn" routerLink='/enquiry/add' />
             <input type="button" value="Upload Enquiry" routerLink='/enquiry/upload' class="btn"> -->
@@ -21,17 +21,17 @@
         <div class="row">
           <div class="c-lg-8 c-md-8 c-sm-8">
             <div class="field-wrapper datePickerBox has-value">
-              <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" readonly="true" name="fromDate" bsDatepicker/>
+              <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" [(ngModel)]="email_fromDate" readonly="false" name="fromDate" bsDatepicker/>
               <label for="fromDate">Sent From</label>
             </div>
             <div class="field-wrapper datePickerBox has-value">
-              <input type="text" value="" id="updateDate" readonly="true" class="form-ctrl bsDatepicker" name="toDate" bsDatepicker/>
+              <input type="text" value="" id="updateDate" readonly="false" class="form-ctrl bsDatepicker" [(ngModel)]="email_toDate"  name="toDate" bsDatepicker/>
               <label for="toDate">Sent To</label>
             </div>
           </div>
           <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
             <div class="btn-sms-search">
-              <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="fetchSmsByDate()" />
+              <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="fetchemailByDate()" />
             </div>
           </div>
         </div>
@@ -72,12 +72,11 @@
 
       <section class="sms-table-wrapper">
 
-        <!-- <div class="table table-responsive student-table">
+        <div class="table table-responsive student-table">
 
-          <proctur-table [records]="smsSource" [tableName]="'Email'" [settings]="projectSettings">
+          <proctur-table [records]="emailSource" [tableName]="'Email'" [settings]="projectSettings">
           </proctur-table>
-
-        </div> -->
+         </div>
 
 
         <!-- Paginator Here -->

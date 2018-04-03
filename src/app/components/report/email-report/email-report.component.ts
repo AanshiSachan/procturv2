@@ -13,28 +13,27 @@ import * as moment from 'moment';
 })
 export class EmailReportComponent implements OnInit {
   email_data: any;
+  email_fromDate:string= "";
+  email_toDate:string= "";
 
   isProfessional: boolean = false;
-  smsSource: any[] = [];
+  emailSource: any[] = [];
   
-
-
-
   projectSettings: ColumnSetting[] = [
-    { primaryKey: 'em_name', header: 'Name' },
-    { primaryKey: 'em_phone', header: 'Contact No.' },
-    { primaryKey: 'em_Email', header: 'Email' },
-    { primaryKey: 'em_sentDateTime', header: 'Sent Date' },
-    { primaryKey: 'em_Email_type', header: 'Type' },
-    { primaryKey: 'em_func_type', header: 'Event' },
-    { primaryKey: 'em_sentStatus', header: 'Name' }
+    { primaryKey: 'sentDateTime', header: 'Sent Date' },
+    { primaryKey: 'emailId', header: 'Email' },
+    { primaryKey: 'subject', header: 'Subject' },
+    { primaryKey: 'name', header: 'Name' },
+    { primaryKey: 'role', header: 'Role' },
+    { primaryKey: 'sms_type', header: 'Type' }
   ];
                   
-
-  emailFetchForm: any = {
+   
+    emailFetchForm: any = {
     institution_id: parseInt(sessionStorage.getItem('institute_id')),
-    from_date: moment().format('YYYY-MM-DD'),
-    to_date: moment().format('YYYY-MM-DD')
+    from_date: moment('01 March 2018').format('YYYY-MM-DD'),
+    to_date: moment('30 March 2018').format('YYYY-MM-DD')
+
   }
 
   constructor(
@@ -48,14 +47,28 @@ export class EmailReportComponent implements OnInit {
   }
 
   getAllEmailMessages() {
+    this.emailSource = [];
     this.fetchApiService.getEmailMessages(this.emailFetchForm).subscribe(
       res => {
+        this.emailSource = res;
         console.log(res);
       },
       err => {
         console.log(err);
       }
     )
+  }
+
+  fetchemailByDate(){
+    let email_Obj= {
+      institution_id: parseInt(sessionStorage.getItem('institute_id')),
+      from_date: moment(this.email_fromDate).format('YYYY-MM-DD'),
+      to_date: moment(this.email_toDate).format('YYYY-MM-DD')
+    
+    }
+    console.log(email_Obj);
+      this.fetchApiService.getEmailMessages(email_Obj).subscribe((chunk)=>console.log(chunk));
+
   }
 
 switchActiveView(id) {
