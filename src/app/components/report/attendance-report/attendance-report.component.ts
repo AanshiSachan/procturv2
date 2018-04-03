@@ -12,13 +12,9 @@ export class AttendanceReportComponent implements OnInit {
   masterCourses: any[] = [];
   courses: any[] = [];
   batchCourses: any[] = [];
-
-  attendanceReport = {
-    standard_id:"",
-    subject_id:"",
-    batch_id:""
- }
-    
+  masterData="";
+  courseData="";
+  batchesData="";
 
   constructor(
     private reportService: AttendanceReportServiceService,
@@ -28,32 +24,70 @@ export class AttendanceReportComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getPrefetchData();
-    console.log(this.attendanceReport);
-  }
-
-  getPrefetchData() {
-    this.reportService.getMasterCourse().subscribe(
-      (data: any) => {
-        this.attendanceDataSource = data;
-        console.log(data);
-        this.masterCourses = data.standardLi;
-        this.batchCourses = data.batchLi;
+    //this.getPrefetchData();
+    let obj={
+      subject_id:-1,
+      standard_id:-1,
+      assigned:"N"
+    }
+    this.reportService.getMasterCourse(obj).subscribe(
+      (data:any) =>{
+        //console.log(data);
+        this.masterCourses=data.standardLi;
+        //console.log(this.masterCourses);
+        this.batchCourses=data.batchLi;
+        //console.log(this.batchCourses);
+        this.courses=data.subjectLi;
       },
-      error => {
-        let msg = {
-          type: "error",
-          title: "",
-          body: "An Error Occured"
+        (error:any) =>{
+          return error;
         }
-        this.appc.popToast(msg);
+    )
+  }
+  changeValue(){
+
+    let obj={
+      subject_id:this.courseData,
+      standard_id:this.masterData,
+      assigned:"N"
+    }
+
+    this.reportService.getMasterCourse(obj).subscribe(
+      (data:any) =>{
+        console.log(data);
+        this.masterCourses=data.standardLi;
+        this.batchCourses=data.batchLi;
+        this.courses=data.subjectLi;
+      },
+      (error:any) =>{
+        return error;
+        
       }
     )
+  }
+
+  // getPrefetchData() {
+  //   // this.reportService.getMasterCourse().subscribe(
+  //   //   (data: any) => {
+  //   //     this.attendanceDataSource = data;
+  //   //     console.log(data);
+  //   //     this.masterCourses = data.standardLi;
+  //   //     this.batchCourses = data.batchLi;
+  //   //   },
+  //   //   error => {
+  //   //     let msg = {
+  //   //       type: "error",
+  //   //       title: "",
+  //   //       body: "An Error Occured"
+  //   //     }
+  //   //     this.appc.popToast(msg);
+  //   //   }
+  //   )
 
 
 
 
   }
 
-}
+
 
