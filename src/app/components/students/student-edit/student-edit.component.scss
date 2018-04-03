@@ -61,11 +61,11 @@
     
     .field-radio-wrapper .form-radio:checked+label:before {
         content: '';
-        width: 10px;
-        height: 10px;
+        width: 9px;
+        height: 9px;
         background: $common-blue;
         border-radius: 50%;
-        left: 3px;
+        left: 4px;
         top: 3px;
     }
     

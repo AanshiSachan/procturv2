@@ -818,7 +818,6 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <student-pop-up *ngIf="isNewInstituteEditor">
-
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeInstituteAdder()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -831,9 +830,7 @@
         </g>
       </svg>
     </span>
-
     <h2 popup-header>Institute Editor</h2>
-
     <div class="institute-editor" popup-content>
 
       <div class="row clearFix add-edit">
@@ -919,12 +916,11 @@
       </div>
 
     </div>
-
   </student-pop-up>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
-  <student-pop-up [hidden]="!isAssignBatch">
+  <student-pop-up  [isBig]="'y'" [hidden]="!isAssignBatch">
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeBatchAssign()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -1537,7 +1533,7 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- ===============Manage PDC ============================ -->
-  <student-pop-up *ngIf="isPdcApply">
+  <student-pop-up [isBig]="'y'" *ngIf="isPdcApply">
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isPdcApply = false" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">

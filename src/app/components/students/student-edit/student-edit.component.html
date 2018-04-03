@@ -1,7 +1,8 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
 <section class="middle-section clearFix" (click)="inputClicked($event)" (change)="inputClicked($event)" [ngBusy]="{busy: busyPrefill, message: 'Loading...', backdrop: false, delay: 100, maxDuration: 1000}">
-
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
   <section class="" id="studentFlow">
     <!-- ======================================================== -->
     <!-- =====================  Form Navigations================= -->
@@ -807,11 +808,7 @@
     <!-- ======================================================== -->
 
   </section>
-
   <!-- =============== Popup Declarations ===================== -->
-  <!-- ======================================================== -->
-  <!-- ======================================================== -->
-  <!-- ======================================================== -->
   <!-- ======================================================== -->
   <student-pop-up *ngIf="isNewInstituteEditor">
 
@@ -920,7 +917,7 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
-  <student-pop-up [hidden]="!isAssignBatch">
+  <student-pop-up [isBig]="'y'" [hidden]="!isAssignBatch">
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeBatchAssign()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -1543,7 +1540,7 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- ===============Manage PDC ============================ -->
-  <student-pop-up *ngIf="isPdcApply">
+  <student-pop-up [isBig]="'y'" *ngIf="isPdcApply">
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isPdcApply = false" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -1851,8 +1848,6 @@
   </student-pop-up>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
-  <!-- ======================================================== -->
-  <!-- ======================================================== -->
   <student-pop-up *ngIf="isPartialPayment">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePartialPayment()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -1992,5 +1987,6 @@
     </div>
 
   </student-pop-up>
-
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
 </section>

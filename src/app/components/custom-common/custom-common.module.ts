@@ -12,6 +12,7 @@ import { CreateCustomCompComponent } from './create-custom-comp/create-custom-co
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
 import { OnlyNumber } from './onlynumber.directive';
+import {SharedModule} from '../shared/shared.module'
 
 @NgModule({
     imports: [
@@ -20,7 +21,8 @@ import { OnlyNumber } from './onlynumber.directive';
         CommonModule,
         CustomCommonRoutingModule,
         BsDatepickerModule,
-        BusyModule
+        BusyModule,
+        SharedModule
     ],
     declarations: [
         CustomCommonComponent,
