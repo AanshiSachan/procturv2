@@ -1,7 +1,8 @@
 <div class="middle-section clearFix">
   <section class="middle-top mb0 clearFix" style="margin: 10px 0px;">
     <h1 class="pull-left">
-      <a routerLink="/course/courselist">Course</a> / Edit <u> {{selectedCourseDetails.master_course}}</u>
+      <a routerLink="/course/courselist">Course</a> / Edit
+      <u> {{selectedCourseDetails.master_course}}</u>
     </h1>
   </section>
 
@@ -35,17 +36,17 @@
         <table>
           <thead>
             <tr style="line-height: 25px;">
-              <th style="width: 100px;"></th>
-              <th style="width:25%">
+              <th></th>
+              <th>
                 Course Name
               </th>
-              <th style="width:25%">
+              <th>
                 Start Date
               </th>
-              <th style="width:25%">
+              <th>
                 End Date
               </th>
-              <th style="width:25%">
+              <th *ngIf="examGradeFeature == 1" style="width:25%">
                 Allow Exam Grades
               </th>
             </tr>
@@ -86,7 +87,7 @@
                                 name="endDate" bsDatepicker (focus)="inputClickedCheck($event)">
                             </div>
                           </td>
-                          <td>
+                          <td *ngIf="examGradeFeature == 1">
                             <div class="field-checkbox-wrapper" style="margin-top: 25px;">
                               <input type="checkbox" value="" style="background: transparent" [(ngModel)]="mainTableDataSource[i].is_exam_grad_feature"
                                 name="allow" class="form-checkbox">
@@ -149,7 +150,7 @@
       </div>
     </div>
 
-    <div style="margin-top: 10px">
+    <div class="pull-right">
       <button class="btn btnred" routerLink='/course/courselist'>Cancel</button>
       <button class="btn fullblue" (click)="updateEditedDetails()">Update Details</button>
       <button class="btn fullblue" (click)="addRowToMainTable()">Add More</button>

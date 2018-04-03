@@ -19,6 +19,7 @@ export class CourseEditComponent implements OnInit {
   nestedTableDataSource: any;
   subjectList: any;
   dummyArray: any = [];
+  examGradeFeature: any;
 
   constructor(
     private apiService: CourseListService,
@@ -38,6 +39,7 @@ export class CourseEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.examGradeFeature = JSON.parse(sessionStorage.getItem('institute_info')).is_exam_grad_feature;
     this.getSelectedCourse(this.courseName);
     this.getAllStandardNameList();
     this.getActiveTeacherList();
