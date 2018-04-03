@@ -318,6 +318,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   };
   summaryOptions: boolean = false;
   downloadReportOption: any = 1;
+  summaryReport = {
+    from_date: "",
+    to_date: "",
+  };
+  showDateRange: boolean = false;
 
   @ViewChild('skelton') skel: ElementRef;
   @ViewChild('mySidenav') mySidenav: ElementRef;
@@ -2878,6 +2883,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       is_follow_up_time_notification: 0,
     }
     this.summaryOptions = false;
+    this.summaryReport = {
+      from_date: "",
+      to_date: "",
+    };
+    this.showDateRange = false;
     this.cd.markForCheck();
   }
 
@@ -3013,8 +3023,21 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   ///// Download Summary Report
 
+  toggleDateSection() {
+    if (this.showDateRange == false) {
+      this.showDateRange = true;
+      document.getElementById('anchTagToggle').text = "Hide";
+    } else {
+      this.showDateRange = false;
+      document.getElementById('anchTagToggle').text = "Download By Date Range";
+    }
+  }
+
   downloadSummaryReport() {
     this.summaryOptions = true;
+    setTimeout(() => {
+      document.getElementById('anchTagToggle').text = "Download By Date Range";
+    }, 100);
   }
 
   downloadSummaryReportXl() {
@@ -3064,6 +3087,29 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+
+  downloadSummaryReportXlDateWise() {
+    if (this.summaryReport.to_date != "" && this.summaryReport.from_date != "") {
+      this.isRippleLoad = true;
+      this.enquire.getSummaryReportFromDates(this.summaryReport).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.performDownloadAction(res);
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+        }
+      )
+    } else {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: 'Please provide dates'
+      }
+      this.appC.popToast(msg);
+    }
+  }
 
   performDownloadAction(res) {
     let byteArr = this.convertBase64ToArray(res.document);
