@@ -36,6 +36,21 @@ export class CreateCustomCompComponent implements OnInit {
     defaultValue: "",
     is_external: "N"
   }
+  editCustomComponentForm: any = {
+    comp_length: "",
+    description: "",
+    institution_id: sessionStorage.getItem('institute_id'),
+    is_required: "N",
+    is_searchable: "N",
+    label: "",
+    page: 1,
+    prefilled_data: "",
+    sequence_number: "",
+    type: "",
+    on_both: "Y",
+    defaultValue: "",
+    is_external: "N"
+  }
   busy: Subscription;
 
   constructor(private prefill: FetchprefilldataService, private postdata: PostEnquiryDataService, private appC: AppComponent, private login: LoginService) {
@@ -50,11 +65,8 @@ export class CreateCustomCompComponent implements OnInit {
 
   }
 
-
-
   /* fetches list of user created component and the default type */
   fetchPrefillData() {
-
 
     this.prefill.fetchComponentGenerator().subscribe(
       res => {
@@ -96,73 +108,60 @@ export class CreateCustomCompComponent implements OnInit {
     }
   }
 
-
-
-
   addNewCustomComponent() {
-
     //Case 1 Label/Type is not empty and MaxLength and Sequence
     if (this.createCustomComponentForm.label != "" && this.createCustomComponentForm.label != " "
       && this.createCustomComponentForm.type != "") {
 
       //Case 2 if its a select or multiselect dropdown list cannot be empty or duplicate
       if (this.createCustomComponentForm.type == "3" || this.createCustomComponentForm.type == "4") {
-
-          if (this.createCustomComponentForm.defaultValue != "" && this.createCustomComponentForm.prefilled_data != ""){ 
-            if(this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
-              if(this.validateDropdownDefvalue(this.createCustomComponentForm.prefilled_data, this.createCustomComponentForm.defaultValue)){
-                this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
-                  res => {
-                    let alert = {
-                      type: 'success',
-                      title: 'Component Updated',
-                    }
-                    this.isNewComponent = false;
-                    document.getElementById('addComponent-icon').innerHTML = "+"
-                    this.clearComponentForm();
-                    this.appC.popToast(alert);
-                  },
-                  err => {
-                    let alert = {
-                      type: 'error',
-                      title: 'Failed To Add Component',
-                      body: 'There was an error processing your request' + err.message
-                    }
-                    this.appC.popToast(alert);
-                  }
-                );
-                this.fetchPrefillData();
-              }
-              else{
+        /* Validate Prefilled Data */
+        if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
+          if (this.validateDropdownDefvalue(this.createCustomComponentForm.prefilled_data, this.createCustomComponentForm.defaultValue)) {
+            this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+              res => {
+                let alert = {
+                  type: 'success',
+                  title: 'Component Updated',
+                }
+                this.isNewComponent = false;
+                document.getElementById('addComponent-icon').innerHTML = "+"
+                this.clearComponentForm();
+                this.appC.popToast(alert);
+              },
+              err => {
                 let alert = {
                   type: 'error',
-                  title: 'dropdown default value should be present in prefilled data',
-                  body: ''
+                  title: 'Failed To Add Component',
+                  body: 'There was an error processing your request' + err.message
                 }
-                this.appC.popToast(alert);  
+                this.appC.popToast(alert);
               }
-              
+            );
+            this.fetchPrefillData();
+          }
+          else {
+            let alert = {
+              type: 'error',
+              title: 'dropdown default value should be present in prefilled data',
+              body: ''
             }
-            else{
-              let alert = {
-                type: 'error',
-                title: 'Prefill data has to be unique and non-empty',
-                body: ''
-              }
-              this.appC.popToast(alert);
-            }
-          }                
+            this.appC.popToast(alert);
+          }
+        }
         else {
           let alert = {
             type: 'error',
-            title: 'Default Value & Prefill data cannot be empty',
+            title: 'Prefill data has to be unique and non-empty',
             body: ''
           }
           this.appC.popToast(alert);
         }
       }
+
       /* Date Custom Component */
       else if (this.createCustomComponentForm.type == "5") {
+        /* Date cannot be searchable and does not a default value */
         if (this.createCustomComponentForm.is_searchable == "N" && this.createCustomComponentForm.defaultValue.trim() == "") {
           if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
             this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
@@ -199,15 +198,17 @@ export class CreateCustomCompComponent implements OnInit {
         else {
           let obj = {
             type: 'error',
-            title: 'Date component cannot be searchable and cannot have default value',
+            title: 'Date Field Cannot Be Searchable Or have any default value',
             body: ''
           }
           this.appC.popToast(obj);
         }
       }
+
       /* Textbox and Checkbox */
-      else {
-        this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+      else if (this.createCustomComponentForm.type != "3" && this.createCustomComponentForm.type != "4" && this.createCustomComponentForm.type != "5") {
+        if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
+          this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
             res => {
               let alert = {
                 type: 'success',
@@ -229,6 +230,16 @@ export class CreateCustomCompComponent implements OnInit {
           );
           this.busy = this.fetchPrefillData();
         }
+        else {
+          let obj = {
+            type: 'error',
+            title: 'Date Field Cannot Be Searchable Or have any default value',
+            body: ''
+          }
+          this.appC.popToast(obj);
+        }
+      }
+
     }
     else {
       let alert = {
@@ -237,6 +248,12 @@ export class CreateCustomCompComponent implements OnInit {
         body: 'Please mention a Label/Type'
       }
       this.appC.popToast(alert);
+    }
+  }
+
+  isDefaultEmpty(obj): boolean {
+    if (obj.defaultValue) {
+      return true;
     }
   }
 
@@ -251,10 +268,10 @@ export class CreateCustomCompComponent implements OnInit {
     return test1
   }
 
-  validateDropdownDefvalue(tocheck, tomatch){
+  validateDropdownDefvalue(tocheck, tomatch) {
     let arr = tocheck.split(',');
-    for(let i = 0; i<arr.length;i++){
-      if(tomatch === arr[i].trim() ){
+    for (let i = 0; i < arr.length; i++) {
+      if (tomatch === arr[i].trim()) {
         return true;
       }
     }
@@ -272,6 +289,7 @@ export class CreateCustomCompComponent implements OnInit {
   }
 
   editRow(data) {
+    this.editCustomComponentForm = data;
     document.getElementById((data.label + data.component_id).toString()).classList.remove('displayComp');
     document.getElementById((data.label + data.component_id).toString()).classList.add('editComp');
   }
@@ -309,84 +327,57 @@ export class CreateCustomCompComponent implements OnInit {
   }
 
   updateRow(data) {
+    //Case 1 Label/Type is not empty and MaxLength and Sequence
+    if (data.label.trim() != "" && data.type != "") {
 
-    if(data.label != "" && data.label != " " && data.type != "" ){
-    if (data.type == '3' || data.type == '4') {
-      if(data.defaultValue != "" && data.prefilled_data != ""){
-        if (this.validateDropDownUpdate(data.prefilled_data)) {
-          let arr: any[] = data.prefilled_data.split(',');
-          data.prefilled_data = Array.from(new Set(arr)).join(',');
-          /*  */
-          if(this.validateDropdownDefvalue(data.prefilled_data, data.defaultValue)){
-            if (data.is_external == "N") {
-               this.postdata.updateCustomComponent(data).subscribe(
-                  res => {
-                    let alert = {
-                      type: 'success',
-                      title: 'Component Updated',
-                    }
-                    this.appC.popToast(alert);
-                    this.cancelEditRow(data);
-                  },
-                  err => {
-                    let alert = {
-                      type: 'error',
-                      title: 'Failed To Update Component',
-                      body: 'component cannot be update as already in use'
-                    }
-                    this.appC.popToast(alert);
-                  }
-                );
+      //Case 2 if its a select or multiselect dropdown list cannot be empty or duplicate
+      if (data.type == "3" || data.type == "4") {
+        /* Validate Prefilled Data */
+        if (this.validateDropDown(data.prefilled_data)) {
+          if (this.validateDropdownDefvalue(data.prefilled_data, data.defaultValue)) {
+            this.postdata.updateCustomComponent(data).subscribe(
+              res => {
+                let alert = {
+                  type: 'success',
+                  title: 'Component Updated',
+                }
+                this.appC.popToast(alert);
+                this.cancelEditRow(data);
+              },
+              err => {
+                let alert = {
+                  type: 'error',
+                  title: 'Failed To Update Component',
+                  body: 'component cannot be update as already in use'
+                }
+                this.appC.popToast(alert);
               }
-            else {
-              let msg = {
-                type: 'error',
-                title: 'cannot update label/prefilled data/type/external flag for component used in external website',
-                body: ''
-              }
-              this.appC.popToast(msg);      
-            }
+            );
           }
-          else{
-            let msg = {
+          else {
+            let alert = {
               type: 'error',
               title: 'dropdown default value should be present in prefilled data',
               body: ''
             }
-            this.appC.popToast(msg);    
+            this.appC.popToast(alert);
           }
         }
         else {
-          let msg = {
+          let alert = {
             type: 'error',
-            title: 'Invalid Input',
-            body: 'Prefilled data should be non-empty and unique'
+            title: 'Prefill data has to be unique and non-empty',
+            body: ''
           }
-          this.appC.popToast(msg);
+          this.appC.popToast(alert);
         }
       }
-      else{
-        let msg = {
-          type: 'error',
-          title: 'Default Value & Prefill data cannot be empty',
-          body: ''
-        }
-        this.appC.popToast(msg);
-      }
-    }
 
-    else if (data.type == '5') {
-      if (this.validateDropDown(data.prefilled_data)) {
-        if (data.is_required == "Y") {
-          if (data.is_searchable == "Y") {
-            let msg = {
-              type: 'error',
-              title: 'Invalid Input',
-              body: 'Input cannot be Searchable with Type "Date" '
-            }
-            this.appC.popToast(msg);
-          }
-          else {
+      /* Date Custom Component */
+      else if (data.type == "5") {
+        /* Date cannot be searchable and does not a default value */
+        if (data.is_searchable == "N" && data.defaultValue.trim() == "") {
+          if (this.validateDropDown(data.prefilled_data)) {
             this.postdata.updateCustomComponent(data).subscribe(
               res => {
                 let alert = {
@@ -395,7 +386,6 @@ export class CreateCustomCompComponent implements OnInit {
                 }
                 this.appC.popToast(alert);
                 this.cancelEditRow(data);
-
               },
               err => {
                 let alert = {
@@ -406,152 +396,68 @@ export class CreateCustomCompComponent implements OnInit {
                 this.appC.popToast(alert);
               }
             );
+          }
+          else {
+            let alert = {
+              type: 'error',
+              title: 'Invalid Input',
+              body: 'Prefill data has to be unique and non-empty'
+            }
+            this.appC.popToast(alert);
           }
         }
         else {
-          if (data.is_searchable == "Y") {
-            let msg = {
-              type: 'error',
-              title: 'Invalid Input',
-              body: 'Input cannot be Searchable with Type "Date" '
-            }
-            this.appC.popToast(msg);
+          let obj = {
+            type: 'error',
+            title: 'Date Field Cannot Be Searchable Or have any default value',
+            body: ''
           }
-          else {
-            this.postdata.updateCustomComponent(data).subscribe(
-              res => {
-                let alert = {
-                  type: 'success',
-                  title: 'Component Updated',
-                }
-                this.appC.popToast(alert);
-                this.cancelEditRow(data);
+          this.appC.popToast(obj);
+        }
+      }
 
-              },
-              err => {
-                let alert = {
-                  type: 'error',
-                  title: 'Failed To Update Component',
-                  body: 'component cannot be update as already in use'
-                }
-                this.appC.popToast(alert);
+      /* Textbox and Checkbox */
+      else if (data.type != "3" && data.type != "4" && data.type != "5") {
+        if (this.validateDropDown(data.prefilled_data)) {
+          this.postdata.updateCustomComponent(data).subscribe(
+            res => {
+              let alert = {
+                type: 'success',
+                title: 'Component Updated',
               }
-            );
+              this.appC.popToast(alert);
+              this.cancelEditRow(data);
+            },
+            err => {
+              let alert = {
+                type: 'error',
+                title: 'Failed To Update Component',
+                body: 'component cannot be update as already in use'
+              }
+              this.appC.popToast(alert);
+            }
+          );
+        }
+        else {
+          let obj = {
+            type: 'error',
+            title: 'Prefill data has to be unique and non-empty',
+            body: ''
           }
+          this.appC.popToast(obj);
         }
       }
-      else {
-        let msg = {
-          type: 'error',
-          title: 'Invalid Input',
-          body: 'Prefilled data should be non-empty and unique'
-        }
-        this.appC.popToast(msg);
-      }
-    }
 
+    }
     else {
-      if (data.is_required == "Y") {
-        if (data.is_searchable == "Y") {
-         /* this.busy = */ this.postdata.updateCustomComponent(data).subscribe(
-            res => {
-              let alert = {
-                type: 'success',
-                title: 'Component Updated',
-              }
-              this.appC.popToast(alert);
-              this.cancelEditRow(data);
-            },
-            err => {
-              let alert = {
-                type: 'error',
-                title: 'Failed To Update Component',
-                body: 'component cannot be update as already in use'
-              }
-              this.appC.popToast(alert);
-            }
-          );
-        }
-        else {
-          this.postdata.updateCustomComponent(data).subscribe(
-            res => {
-              let alert = {
-                type: 'success',
-                title: 'Component Updated',
-              }
-              this.appC.popToast(alert);
-              this.cancelEditRow(data);
-
-            },
-            err => {
-              let alert = {
-                type: 'error',
-                title: 'Failed To Update Component',
-                body: 'component cannot be update as already in use'
-              }
-              this.appC.popToast(alert);
-            }
-          );
-        }
+      let alert = {
+        type: 'error',
+        title: 'Invalid Input',
+        body: 'Please mention a Label/Type'
       }
-      else {
-        if (data.is_searchable == "Y") {
-          this.postdata.updateCustomComponent(data).subscribe(
-            res => {
-              let alert = {
-                type: 'success',
-                title: 'Component Updated',
-              }
-              this.appC.popToast(alert);
-              this.cancelEditRow(data);
-
-            },
-            err => {
-              let alert = {
-                type: 'error',
-                title: 'Failed To Update Component',
-                body: 'component cannot be update as already in use'
-              }
-              this.appC.popToast(alert);
-            }
-          );
-        }
-        else {
-          this.postdata.updateCustomComponent(data).subscribe(
-            res => {
-              let alert = {
-                type: 'success',
-                title: 'Component Updated',
-              }
-              this.appC.popToast(alert);
-              this.cancelEditRow(data);
-
-            },
-            err => {
-              let alert = {
-                type: 'error',
-                title: 'Failed To Update Component',
-                body: 'component cannot be update as already in use'
-              }
-              this.appC.popToast(alert);
-            }
-          );
-        }
-      }
+      this.appC.popToast(alert);
     }
   }
-  else{
-    let msg = {
-      type: 'error',
-      title: 'Invalid Input',
-      body: 'Please mention a Label/Type'
-    }
-    this.appC.popToast(msg);
-  }
-  }
-
-
-
 
   /* Customiized click detection strategy */
   inputClicked(ev) {
@@ -577,9 +483,6 @@ export class CreateCustomCompComponent implements OnInit {
     }
   }
 
-
-
-
   clearComponentForm() {
     this.createCustomComponentForm = {
       comp_length: "",
@@ -595,9 +498,6 @@ export class CreateCustomCompComponent implements OnInit {
       on_both: "Y"
     }
   }
-
-
-
 
 }
 
@@ -619,7 +519,6 @@ export class CheckBoxConverter implements PipeTransform {
     }
   }
 }
-
 
 /* Converts Boolean into Y or N depending on condition for user preview */
 @Pipe({ name: 'booleanConverter' })

@@ -326,8 +326,8 @@
                               </td>
                               <td>
                                 <div class="action-box">
-                                  <span class="mail-notification" title="Send Reminder" (click)="sendReminder()"></span>
-                                  <span class="reschedule-icon" title="Cancel Class" (click)="cancelCourseClicked(row)"></span>
+                                  <span *ngIf="(row.class_schedule_id != 0)" class="mail-notification" title="Send Reminder" (click)="sendReminder()"></span>
+                                  <span *ngIf="(row.class_schedule_id != 0)" class="reschedule-icon" title="Cancel Class" (click)="cancelCourseClicked(row)"></span>
                                   <span (click)="removeRowFromSchedule(i , row)" title="Delete" class="delete-btn">
                                     <i class="fa fa-trash-o" style="font-family: FontAwesome;" aria-hidden="true"></i>
                                   </span>
@@ -1078,14 +1078,13 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>                      
-                    <div class= "field-wrapper datePickerBox">
-                      <input type="textbox"  value="" readonly="true" 
-                    
-                    [(ngModel)]="addDates.selectedDate" class="form-ctrl bsDatepicker" name="endDate" bsDatepicker >
-                      </div> 
+                    <td>
+                      <div class="field-wrapper datePickerBox">
+                        <input type="textbox" value="" readonly="true" [(ngModel)]="addDates.selectedDate" class="form-ctrl bsDatepicker" name="endDate"
+                          bsDatepicker>
+                      </div>
                     </td>
-                  <td>
+                    <td>
                       <i class="far fa fa-plus-square " (click)="addDateToArray() " style="font-size: 19px; font-family:
                     FontAwesome " alt="Add " title="Add "></i>
                     </td>
@@ -1107,7 +1106,7 @@
             </div>
           </div>
         </div>
-      
+
         <div class="row extraMargin">
           <h3>Edit Selected Schedule</h3>
         </div>

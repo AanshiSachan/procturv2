@@ -9,6 +9,7 @@ import { instituteInfo } from '../../../model/instituteinfo';
 })
 export class StudentSidebarComponent implements OnInit, OnChanges {
 
+  isProfessional: boolean;
   @Input() rowData: any;
   @Input() customComponent: any;
   @Input() studentDetails: any;
@@ -47,7 +48,9 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
   };
 
 
-  constructor(private rend: Renderer2, private eRef: ElementRef) { }
+  constructor(private rend: Renderer2, private eRef: ElementRef) {
+    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+   }
 
   ngOnInit() {
   }

@@ -1164,35 +1164,111 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   registerDuplicateStudent(form: NgForm) {
-    this.postService.quickAddStudent(this.studentAddFormData).subscribe(
-      res => {
-        let statusCode = res.statusCode;
-        if (statusCode == 200) {
-          let alert = {
-            type: 'success',
-            title: 'Student Details Submitted Successfully',
-            body: ''
+    /* Both Form are Valid Else there seems to be an error on custom component */
+    let isCustomComponentValid: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
+    let formValid: boolean = this.formfullValidator();
+    //console.log(isCustomComponentValid);
+    if (isCustomComponentValid && formValid) {
+      //console.log("valid student generating Id Now");
+      let customArr = [];
+      this.customComponents.forEach(el => {
+        if (el.value != '' && (typeof el.value != 'boolean')) {
+          let obj = {
+            component_id: el.id,
+            enq_custom_id: "0",
+            enq_custom_value: el.value
           }
-          this.appC.popToast(alert);
+          customArr.push(obj);
+        }
+        else if (el.value != '' && (typeof el.value == 'boolean')) {
+          if (el.value) {
+            let obj = {
+              component_id: el.id,
+              enq_custom_id: "0",
+              enq_custom_value: "Y"
+            }
+            customArr.push(obj);
+          }
+          else {
+            let obj = {
+              component_id: el.id,
+              enq_custom_id: "0",
+              enq_custom_value: "N"
+            }
+            customArr.push(obj);
+          }
+        }
+        else if (el.value == '' && (el.type == 2)) {
+          let obj = {
+            component_id: el.id,
+            enq_custom_id: "0",
+            enq_custom_value: "N"
+          }
+          customArr.push(obj);
+        }
+      });
+      /* Get slot data and store on form */
+      this.studentAddFormData.slot_id = this.selectedSlotsID;
+      this.studentAddFormData.stuCustomLi = customArr;
+      this.studentAddFormData.photo = this.studentImage;
+      this.additionalBasicDetails = false;
+      this.busyPrefill = this.postService.quickAddStudent(this.studentAddFormData).subscribe(
+        res => {
+          let statusCode = res.statusCode;
+          if (statusCode == 200) {
 
-          form.reset();
-          this.clearFormAndMove();
-        }
-        else {
-          let alert = {
-            type: 'error',
-            title: 'Failed To Add Student',
-            body: ''
+            this.removeImage = true;
+            this.student_id = res.generated_id;
+
+            /* Inventory Allocated*/
+            if (this.allotInventoryArr.length > 0) {
+              this.allocateInventory(res.generated_id);
+            }
+            /* Inventory is not defined but fee is defined*/
+            else if (this.allotInventoryArr.length == 0 && this.isFeeApplied) {
+              this.asssignCustomizedFee(res.generated_id);
+            }
+            /* Inventory and fee both are not defined */
+            else if (this.allotInventoryArr.length == 0 && !this.isFeeApplied) {
+              this.studentAddedNotifier();
+            }
+
           }
-          this.appC.popToast(alert);
-          this.isDuplicateContactClose();
+          else if (statusCode == 2) {
+            let alert = {
+              type: 'error',
+              title: 'Contact Number In Use',
+              body: 'A student with the same contact number seems to exist'
+            }
+            this.removeImage = true;
+            this.appC.popToast(alert);
+            this.isDuplicateContactOpen();
+          }
+        },
+        err => {
+          // console.log(err);
+        });
+    }
+    else {
+      if (!isCustomComponentValid) {
+        //console.log("invalid custom component");
+        let alert = {
+          type: 'error',
+          title: 'Required Fields not filled',
+          body: 'Please fill all the required fields on other details tab'
         }
-      },
-      err => {
-        console.log(err);
+        this.appC.popToast(alert);
       }
-    );
-
+      else if (!formValid) {
+        //console.log("invalid name number");
+        let alert = {
+          type: 'error',
+          title: 'Personal Details Invalid/Incorrect',
+          body: 'Please provide valid name and contact number on personal details tab'
+        }
+        this.appC.popToast(alert);
+      }
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -2605,7 +2681,7 @@ export class StudentAddComponent implements OnInit {
             let alert = {
               type: 'error',
               title: 'Contact Number In Use',
-              body: 'An enquiry with the same contact number seems to exist'
+              body: 'A student with the same contact number seems to exist'
             }
             this.removeImage = true;
             this.appC.popToast(alert);

@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input } from '@angular/core';
+import { Component, OnChanges, Input, ViewChild,ElementRef } from '@angular/core';
 
 @Component({
   selector: 'student-pop-up',
@@ -8,12 +8,14 @@ import { Component, OnChanges, Input } from '@angular/core';
 export class StudentPopUpComponent implements OnChanges{
 
   @Input() isBig:any = "";
+  @Input() size:any = "80%"
 
-  constructor() { }
+  @ViewChild('studentPop') studentPop : ElementRef;
+
+  constructor() {
+   }
 
   ngOnChanges(){
     this.isBig;
-    if(this.isBig != ""){
-    }
   }
 }

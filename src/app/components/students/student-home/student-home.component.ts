@@ -81,15 +81,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     institution_id: sessionStorage.getItem('institute_id')
   }
 
-  StudentSettings: ColumnSetting[] = [
-    { primaryKey: 'student_disp_id', header: 'Student Id.' },
-    { primaryKey: 'student_name', header: 'Name.' },
-    { primaryKey: 'student_phone', header: 'Contact No.' },
-    //{ primaryKey: 'doj', header: 'Date of Joining' },
-    { primaryKey: 'student_class', header: 'Class' },
-    //{ primaryKey: 'student_email', header: 'Email ID' },
-    { primaryKey: 'noOfBatchesAssigned', header: 'Batch Assigned' }
-  ];
+  StudentSettings: ColumnSetting[];
 
   @ViewChild('studentPage') studentPage: ElementRef;
   @ViewChild('mySidenav') mySidenav: ElementRef;
@@ -139,19 +131,39 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     reason: ''
   }
 
-  sortBy:string = "student_name";
+  sortBy: string = "student_name";
 
   constructor(private prefill: FetchprefilldataService, private router: Router,
     private studentFetch: FetchStudentService, private login: LoginService,
     private appC: AppComponent, private studentPrefill: AddStudentPrefillService,
     private widgetService: WidgetService,
     private postService: PostStudentDataService) {
+
+    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';  
+
+    if(this.isProfessional){
+      this.StudentSettings = [
+        { primaryKey: 'student_disp_id', header: 'Student Id.' },
+        { primaryKey: 'student_name', header: 'Name.' },
+        { primaryKey: 'student_phone', header: 'Contact No.' },
+        { primaryKey: 'student_class', header: 'Class' },
+        { primaryKey: 'noOfBatchesAssigned', header: 'Batch Assigned' }
+      ];
+    }
+    else{
+      this.StudentSettings = [
+        { primaryKey: 'student_disp_id', header: 'Student Id.' },
+        { primaryKey: 'student_name', header: 'Name.' },
+        { primaryKey: 'student_phone', header: 'Contact No.' },
+        { primaryKey: 'student_class', header: 'Class' },
+        { primaryKey: 'noOfBatchesAssigned', header: 'Course Assigned' }
+      ];
+    }
   }
 
   /* OnInit function to set toggle default columns and load student data for table*/
   ngOnInit() {
     this.isRippleLoad = true;
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.busy = this.loadTableDataSource(this.instituteData);
