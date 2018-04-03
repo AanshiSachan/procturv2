@@ -35,6 +35,12 @@
                             <!-- Status -->
                             <div class="form-wrapper ">
                                 <label for="enquiryStatusEdit">Status</label>
+                                <div class="questionInfo">
+                                    <span class="qInfoIcon">?</span>
+                                    <div class="tooltip-box-field">
+                                        Status Regarding The Enquiry
+                                    </div>
+                                </div>
                                 <select id="enquiryStatusEdit" class="side-form-ctrl " [(ngModel)]="updateFormData.statusValue" (ngModelChange)="updateStatusForEnquiryUpdate($event)"
                                     name="statusValue" [disabled]="updateFormData.statusValue == 'Student Admitted' ? true : false">
                                     <option value="-1"></option>

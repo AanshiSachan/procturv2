@@ -683,6 +683,12 @@ export class AdminHomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
+          let obj = {
+            type: 'error',
+            title: 'No Student In Batch',
+            body: JSON.parse(err._body).message
+          }
+          this.appC.popToast(obj);
         }
       )
     }
@@ -1584,6 +1590,7 @@ export class AdminHomeComponent implements OnInit {
     } else {
       document.getElementById('presentBtn' + rowData.student_id).classList.add('classPresentBtn');
       this.studentAttList[index].dateLi[0].status = "P";
+      this.studentAttList[index].dateLi[0].home_work_status = "Y";
     }
     this.getCountOfAbsentPresentLeave(this.studentAttList);
   }

@@ -1,14 +1,14 @@
-<div class="middle-section clearFix">
-  <section class="middle-top mb0 clearFix" style="margin: 10px 0px;">
+<div class="middle-section clearFix head">
+  <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">
       <a routerLink="/course/courselist">Course</a> / Edit
       <u> {{selectedCourseDetails.master_course}}</u>
     </h1>
   </section>
 
-  <section style="padding: 5px;" class="middle-main clearFix">
+  <section class="middle-main clearFix">
 
-    <div class="row" style="margin: 10px 0px;">
+    <div class="search-wrapper row">
       <div class="c-lg-3 c-md-3 c-sm-3">
         <div class="field-wrapper has-value">
           <input type="text" id="idMasterCourse" [(ngModel)]="selectedCourseDetails.master_course
@@ -31,11 +31,11 @@
       </div>
     </div>
 
-    <div class="tableSection">
+    <div class="tableSection class-table-wrapper">
       <div>
-        <table>
+        <table class="table-courseEdit">
           <thead>
-            <tr style="line-height: 25px;">
+            <tr>
               <th></th>
               <th>
                 Course Name
@@ -46,23 +46,23 @@
               <th>
                 End Date
               </th>
-              <th *ngIf="examGradeFeature == 1" style="width:25%">
+              <th *ngIf="examGradeFeature == 1">
                 Allow Exam Grades
               </th>
             </tr>
           </thead>
           <tbody>
             <tr id="row{{i}}" *ngFor="let row of mainTableDataSource; let i= index ; trackBy:index">
-              <td style="padding: 0px;" colspan="5">
+              <td class="noborder" style="padding: 0px;" colspan="5">
                 <div id="show{{i}}" class="nestedTable nested-Table-Show-Wrapper">
-                  <div class="row" style="margin: 0px 0px;">
+                  <div class="">
                     <table>
                       <tbody>
-                        <tr>
-                          <td style="width: 100px;">
-                            <h4 class="clearFix" (click)="openSubjectTable(i)">
+                        <tr class="editable-wrapper">
+                          <td (click)="openSubjectTable(i)">
+                            <h4 class="clearFix">
                               <!-- <span class="close-accor">-</span> -->
-                              <span id="spani{{i}}" class="open-accor">+</span>
+                              <span id="spani{{i}}" style=color:blue;>+</span>
                             </h4>
                           </td>
                           <td>
@@ -101,7 +101,7 @@
                   <div id="sub{{i}}" class="tableWrapper hide subjectList-table-wrapper">
                     <table>
                       <thead>
-                        <tr>
+                        <tr class="teacher-list">
                           <th>
                             Allocate Subject
                           </th>
@@ -112,12 +112,11 @@
                             Allocate Teacher
                           </th>
                           <th>
-
                           </th>
                         </tr>
                       </thead>
                       <tbody class="subjectListTableTbody">
-                        <tr *ngFor="let row of mainTableDataSource[i].batchesList ; let y= index; trackBy: index">
+                        <tr class="teacher-list" *ngFor="let row of mainTableDataSource[i].batchesList ; let y= index; trackBy: index">
                           <td>
                             <div class="field-checkbox-wrapper">
                               <input id="{{row.subject_id}}" [(ngModel)]="row.uiSelected" type="checkbox" value="" class="form-checkbox">
@@ -128,12 +127,14 @@
                             {{row.subject_name}}
                           </td>
                           <td>
-                            <select class="form-ctrl" [(ngModel)]="row.selected_teacher">
-                              <option value="-1"></option>
-                              <option *ngFor="let opt of activeTeachers" [value]="opt.teacher_id">
-                                {{opt.teacher_name}}
-                              </option>
-                            </select>
+                            <div class="field-wrapper">
+                              <select class="form-ctrl" [(ngModel)]="row.selected_teacher">
+                                <option value="-1"></option>
+                                <option *ngFor="let opt of activeTeachers" [value]="opt.teacher_id">
+                                  {{opt.teacher_name}}
+                                </option>
+                              </select>
+                            </div>
                           </td>
                           <td>
                             <a *ngIf="(row.isAssigned == 'N')" (click)="deleteSubjectRow(row, i , y)">Delete</a>
@@ -150,10 +151,10 @@
       </div>
     </div>
 
-    <div class="pull-right">
-      <button class="btn btnred" routerLink='/course/courselist'>Cancel</button>
-      <button class="btn fullblue" (click)="updateEditedDetails()">Update Details</button>
-      <button class="btn fullblue" (click)="addRowToMainTable()">Add More</button>
+    <div class="row pull-right btn-group">
+      <button class="btn" routerLink='/course/courselist'>Cancel</button>
+      <button class="btn fullBlue" (click)="updateEditedDetails()">Update Details</button>
+      <button class="btn fullBlue" (click)="addRowToMainTable()">Add More</button>
     </div>
 
   </section>

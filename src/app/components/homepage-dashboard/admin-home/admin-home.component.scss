@@ -283,21 +283,21 @@ fieldset {
                     padding: 4px 12px;
                 }
                 .absent {
-                    color: white;
+                    color: white !important;
                     background: #fe552a;
                     border-radius: 2px;
                     font-size: 10px;
                     padding-top: 1px;
                 }
                 .present {
-                    color: white;
+                    color: white !important;
                     background: #4191da;
                     border-radius: 2px;
                     font-size: 10px;
                     padding-top: 1px;
                 }
                 .leave {
-                    color: white;
+                    color: white !important;
                     background: #7a7a7a;
                     border-radius: 2px;
                     font-size: 10px;
@@ -312,6 +312,20 @@ fieldset {
                     ul {
                         border-left: 2px solid hsla(210, 2%, 83%, .5);
                         border-right: 2px solid hsla(210, 2%, 83%, .5);
+                        li {
+                            width: 20%;
+                            text-align: center;
+                            float: left;
+                            font-weight: 800;
+                            div{
+                                &.no-margin{
+                                    margin-bottom: 0px;
+                                }
+                                &.top5{
+                                    margin-top: 5px;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -976,6 +990,12 @@ div#enqChart {
                 color: rgba(30, 35, 40, 0.7);
                 font-size: 14px;
                 margin-bottom: 8px;
+                &.no-margin{
+                    margin-bottom: 0px;
+                }
+                &.top5{
+                    margin-top: 5px;
+                }
             }
             p {
                 font-size: 12px;
@@ -1587,22 +1607,28 @@ div#enqChart {
         padding: 5px 5px 15px 5px;
         margin: 5px 5px 5px 5px;
         color: black;
-        width: 30%;
-        height: 10px;
+        width: 29%;
+        height: 19px;
         font-size: 11px;
-        border-radius: 3px;
+        border-radius: 5px;
     }
     .classLeaveBtn {
+        color: white;
+        text-align: center;
         padding-bottom: -10px;
         margin-bottom: 10px;
         background: #7a7a7a;
     }
     .classAbsentBtn {
+        color: white;
+        text-align: center;
         background: #fe552a;
     }
     .classPresentBtn {
+        color: white;
         background: #4191da;
         color: white;
+        text-align: center;
     }
 }
 
@@ -1917,6 +1943,20 @@ div#enqChart {
                 &.mers {
                     width: 50px;
                 }
+            }
+        }
+    }
+}
+
+.schedule-scroller {
+    .ct-disable-wrapper pos-rel {
+        ul {
+            li {
+                padding-top: 15px;
+                padding-bottom: 1px;
+                text-align: center;
+                float: left;
+                font-weight: 800;
             }
         }
     }
