@@ -12,37 +12,59 @@
     background: #0084f6;
     box-shadow: 0px 1px 1px 0.5px #777;
 }
-
-.tooltip-box-field {
+.tooltip-box-field{
     position: absolute;
-    width: 130px;
-    min-height: 120px;
-    background: #e0e0e0;
-    border: 1px solid #ccc;
-    left: 80%;
-    z-index: 1;
-    top: 100px;
-    visibility: hidden;
-    opacity: 0; //transition: all 0.1s linear 0.1s;
-    font-size: 11px;
-    border-radius: 4px;
-    padding: 3px 5px;
-    box-shadow: 0px 0px 4px #ccc;
+    left:0px;
+    right:0px;
+    width:100px;
+    height:45px;
 }
+
+// .tooltip-box-field {
+//     position: absolute;
+   
+//     width: 130px;
+//     min-height: 120px;
+//     background: #e0e0e0;
+//     border: 1px solid #ccc;
+//     left: 80%;
+//     z-index: 1;
+//     top: 100px;
+//     visibility: hidden;
+//     opacity: 0; //transition: all 0.1s linear 0.1s;
+//     font-size: 11px;
+//     border-radius: 4px;
+//     padding: 3px 5px;
+//     box-shadow: 0px 0px 4px #ccc;
+//     .tooltip-new{
+//         position:relative;
+//         top:20px;
+//     }
+// }
 
 .questionInfo {
     display: inline-flex;
     padding: 0px 5px;
+    border:none;
     cursor: pointer;
     border: 1px solid #777;
     border-radius: 50%;
+    
     &:hover {
         .tooltip-box-field {
             visibility: visible;
             opacity: 1;
             right: 0px;
             top: 100px;
-            left: 90%;
+            left:83%;
+            
+        }
+        .tooltip-new {
+            visibility: visible;
+            opacity: 1;
+            right: 0px;
+            left:83%;
+            
         }
     }
 }
@@ -344,6 +366,9 @@ fieldset {
                 padding: 5px 0px;
                 &.questionInfo {
                     padding: 0px 5px !important;
+                    &.qInfoIcon{
+                        border:none;
+                    }
                 }
                 &.checkboxGroup {
                     padding: 0px;
@@ -440,9 +465,14 @@ fieldset {
                     }
                 }
                 div {
-                    padding: 5px 0px;
-                    &.questionInfo {
-                        padding: 0px 5px !important;
+                    border: none;
+                    //padding: 5px 0px;
+                    .questionInfo {
+                        //padding: 0px 5px !important;
+                        border: none;
+                        .qInfoIcon{
+                            border: none;
+                        }
                     }
                     &.checkboxGroup {
                         padding: 0px;

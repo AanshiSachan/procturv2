@@ -403,13 +403,17 @@
 }
 
 .questionInfo {
-    position: absolute;
-    right: 0px;
-    bottom: 5px;
+    position:relative;
+     left:100%; 
+     top:-17px;
     height: 20px;
     width: 20px;
     z-index: 2;
+    .tooltip-box-field{
+        color: black;
+    }
     .qInfoIcon {
+        margin-left:5px;
         width: 20px;
         height: 20px;
         border: 1px solid #ccc;
@@ -427,7 +431,8 @@
         &:hover {
             border-color: $header-bg;
             box-shadow: 0px 0px 1px 0px $header-bg inset;
-            color: $header-bg;
+           
+            
         }
     }
 }
