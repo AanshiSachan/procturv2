@@ -620,7 +620,7 @@
 
           <div *ngIf="settingInfo.home_work_feature_enable==1">
             <h3 style="display: inline-flex;">Homework</h3>
-            <div class="questionInfo" style="border:none;">
+            <div class="questionInfo" style="position:relative; left:25%;">
               <span class="qInfoIcon">?</span>
               <span class="tooltip-box-field">
                   
@@ -659,7 +659,7 @@
                 (change)="updateTopicCovered($event)">
               <label for="EnableSmsTopic">Enable SMS For Topic Covered</label>
             </div>
-            <div class="field-checkbox-wrapper hide">
+            <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" class="form-checkbox" id="EnableSmsAbsentees">
               <label for="EnableSmsTopic">Enable SMS For Absentees</label>
             </div>

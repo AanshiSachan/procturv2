@@ -12,7 +12,43 @@
     background: #0084f6;
     box-shadow: 0px 1px 1px 0.5px #777;
 }
-.tooltip-box-field{
+.questionInfo {
+    position:relative;
+     left:40%; 
+     top:-20px;
+    height: 20px;
+    width: 20px;
+    z-index: 2;
+    .tooltip-box-field{
+        color: black;
+        min-height:22px;
+        width:140px;
+    }
+    .qInfoIcon {
+        margin-left:5px;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        display: block;
+        text-align: center;
+        box-sizing: border-box;
+        line-height: 20px;
+        font-weight: 600;
+        font-size: 12px;
+        cursor: pointer;
+        box-shadow: 0px 0px 1px 0px #ccc inset;
+        color: #888;
+        transition: all 0.2s linear;
+        &:hover {
+            border-color: $header-bg;
+            box-shadow: 0px 0px 1px 0px $header-bg inset;
+           
+            
+        }
+    }
+}
+/*.tooltip-box-field{
     position: absolute;
     left:0px;
     right:0px;
@@ -67,7 +103,7 @@
             
         }
     }
-}
+}*/
 
 fieldset {
     margin: 10px 0px;
