@@ -1199,6 +1199,13 @@ select.form-new-field {
     }
 }
 
+.questionInfo{
+    &.inline-relative{
+        display: inline-block;
+        position: relative;
+    }
+}
+
 .tooltip-table {
     &:hover .tooltip-box {
         visibility: visible;

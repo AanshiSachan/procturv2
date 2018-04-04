@@ -47,7 +47,7 @@
           <h3 style="color: #585858; font-size: 1.5em">NOTIFICATION SETTING</h3>
         </div>
         <div class="row extraMarginTen checkboxes">
-          <div class="c-sm-4 c-lg-3 c-md-4">
+          <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.sms_notification"
                 id="idEnableSMS">
@@ -57,16 +57,7 @@
               </label>
             </div>
           </div>
-          <div class="c-sm-4 c-lg-3 c-md-4">
-            <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="enableEmail" [(ngModel)]="instituteSettingDet.email_notification" class="form-checkbox"
-                id="idEnableEmail">
-              <label for="enableEmail">Enable Email Notification
-                <p>(If not enabled, no Email will be sent)</p>
-              </label>
-            </div>
-          </div>
-          <div class="c-sm-4 c-lg-3 c-md-4">
+          <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="smsReporting" [(ngModel)]="instituteSettingDet.sms_status_report" class="form-checkbox"
                 id="idSmsReport">
@@ -110,198 +101,6 @@
                     </tr>
                     <tr>
                       <td>
-                        Student Registration
-                        <span title="Enable Student Registration SMS">i</span>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="regStudent" name="regStudent" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_reg_notification.student">
-                          <label for="regStudent"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="regParent" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_reg_notification.parent">
-                          <label for="regParent"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="regG" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_reg_notification.gaurdian">
-                          <label for="regG"></label>
-                        </div>
-                      </td>
-                      <td>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="regG" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_reg_notification.admin">
-                          <label for="regG"></label>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Teacher Registration
-                        <span title="Enable Teacher Registration SMS">i</span>
-                      </td>
-                      <td>
-                      </td>
-                      <td>
-                      </td>
-                      <td>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.sms_teacher_registration.teacher">
-                          <label></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.sms_teacher_registration.admin">
-                          <label></label>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Exam Schedule Reminder
-                        <span title="Enable to send Exam Schedule Reminder">i</span>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_schedule_notification.student">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_schedule_notification.parent">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_schedule_notification.gaurdian">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_schedule_notification.teacher">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_schedule_notification.admin">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Extra Class Schedule Reminder
-                        <span title="Enable to send Extra Class Schedule Reminder">i</span>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.extra_class_schedule_notification.student">
-                          <label></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.extra_class_schedule_notification.parent">
-                          <label></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.extra_class_schedule_notification.gaurdian">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.extra_class_schedule_notification.teacher">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.extra_class_schedule_notification.admin">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Student Exam Marks
-                        <span title="Enable to send Exam Marks SMS">i</span>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_exam_marks_notification.student">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_exam_marks_notification.parent">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_exam_marks_notification.gaurdian">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                      </td>
-                      <td>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Cancel Class/Exam Reminder
-                        <span title="Enable to send Cancel Class / Exam SMS">i</span>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.cancel_class_schedule_notification.student">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.cancel_class_schedule_notification.parent">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.cancel_class_schedule_notification.gaurdian">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.cancel_class_schedule_notification.teacher">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.cancel_class_schedule_notification.admin">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
                         Absent Students
                         <span title="Enable to send Absent SMS">i</span>
                       </td>
@@ -321,6 +120,34 @@
                         <div class="field-checkbox-wrapper">
                           <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.sms_absent_notification.gaurdian">
                           <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Topics Covered Notification
+                        <span title="Enable to send Topics Covered SMS">i</span>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.topics_covered_notification.student">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.topics_covered_notification.parent">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input name="topGr" type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.topics_covered_notification.gaurdian">
+                          <label for="topGr"></label>
                         </div>
                       </td>
                       <td>
@@ -381,7 +208,274 @@
                       <td>
                       </td>
                     </tr>
+                    <tr>
+                      <td>
+                        <div class="c-sm-4" style="margin-left: -15px;line-height: 5;">
+                          Alumni Student Birthday
+                          <span title="Enable to send Automatic Birthday SMS to Alumni Students (If DOB is specified)">i</span>
+                        </div>
+                        <div class="c-sm-6">
+                          <div class="form-wrapper timepick">
+                            <label for="startTime">Start Time</label>
+                            <div class="tbox">
+                              <div class="times ">
+                                <select id="" class="mins side-form-ctrl" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.hour" name="startTime">
+                                  <option [value]="time" *ngFor="let time of times">
+                                    {{time}}
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="times">
+                                <select id="" class="mers side-form-ctrl" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.minute" name="minute">
+                                  <option *ngFor="let minute of minArr" [value]="minute">
+                                    {{minute}}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
 
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.alumni_birthday_sms.student">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.alumni_birthday_sms.parent">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.alumni_birthday_sms.gaurdian">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Extra Class Schedule Reminder
+                        <span title="Enable to send Extra Class Schedule Reminder">i</span>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.extra_class_schedule_notification.student">
+                          <label></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.extra_class_schedule_notification.parent">
+                          <label></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.extra_class_schedule_notification.gaurdian">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.extra_class_schedule_notification.teacher">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.extra_class_schedule_notification.admin">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Cancel Class/Exam Reminder
+                        <span title="Enable to send Cancel Class / Exam SMS">i</span>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.cancel_class_schedule_notification.student">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.cancel_class_schedule_notification.parent">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.cancel_class_schedule_notification.gaurdian">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.cancel_class_schedule_notification.teacher">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.cancel_class_schedule_notification.admin">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Regular Class Schedule Reminder
+                        <span title="Enable to send Regular Class Schedule Reminder">i</span>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.regular_class_notification.student">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.regular_class_notification.parent">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.regular_class_notification.gaurdian">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.regular_class_notification.teacher">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.regular_class_notification.admin">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        File Sharing Notification
+                        <span title="Enable to send File Sharing Notification SMS to Students">i</span>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_file_share_notifn.student">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Enquiry
+                        <span title="Enable to send SMS to enquirer for newly added enquiry">i</span>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enquiry_notification.student">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enquiry_notification.admin">
+                          <label></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Exam Schedule Reminder
+                        <span title="Enable to send Exam Schedule Reminder">i</span>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_schedule_notification.student">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_schedule_notification.parent">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_schedule_notification.gaurdian">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_schedule_notification.teacher">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.exam_schedule_notification.admin">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Student Exam Marks
+                        <span title="Enable to send Exam Marks SMS">i</span>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_exam_marks_notification.student">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_exam_marks_notification.parent">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_exam_marks_notification.gaurdian">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
                     <tr>
                       <td>
                         <aside class="c-sm-4" style="margin-left: -15px;line-height: 5;">
@@ -435,7 +529,6 @@
                       <td>
                       </td>
                     </tr>
-
                     <tr>
                       <td>
                         <div class="row">
@@ -497,7 +590,6 @@
                       <td>
                       </td>
                     </tr>
-
                     <tr>
                       <td>
                         <div class="row">
@@ -560,7 +652,6 @@
                       <td>
                       </td>
                     </tr>
-
                     <tr>
                       <td>
                         Fee Reminder - To selected Students
@@ -587,31 +678,6 @@
                       <td>
                       </td>
                       <td>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        Enquiry
-                        <span title="Enable to send SMS to enquirer for newly added enquiry">i</span>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enquiry_notification.student">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                      </td>
-                      <td>
-                      </td>
-                      <td>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.enquiry_notification.admin">
-                          <label></label>
-                        </div>
                       </td>
                     </tr>
                     <tr>
@@ -644,174 +710,6 @@
                           <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.fee_payment_notification.admin">
                           <label for="checkbx"></label>
                         </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="c-sm-4" style="margin-left: -15px;line-height: 5;">
-                          Alumni Student Birthday
-                          <span title="Enable to send Automatic Birthday SMS to Alumni Students (If DOB is specified)">i</span>
-                        </div>
-                        <div class="c-sm-6">
-                          <div class="form-wrapper timepick">
-                            <label for="startTime">Start Time</label>
-                            <div class="tbox">
-                              <div class="times ">
-                                <select id="" class="mins side-form-ctrl" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.hour" name="startTime">
-                                  <option [value]="time" *ngFor="let time of times">
-                                    {{time}}
-                                  </option>
-                                </select>
-                              </div>
-                              <div class="times">
-                                <select id="" class="mers side-form-ctrl" [(ngModel)]="instituteSettingDet.alumni_birthday_daily_schedule.minute" name="minute">
-                                  <option *ngFor="let minute of minArr" [value]="minute">
-                                    {{minute}}
-                                  </option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.alumni_birthday_sms.student">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.alumni_birthday_sms.parent">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.alumni_birthday_sms.gaurdian">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                      </td>
-                      <td>
-                        <!-- <div class="field-checkbox-wrapper">
-                      <input type="checkbox"  name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.alumni_birthday_sms.student">
-                      <label></label>
-                    </div> -->
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Regular Class Schedule Reminder
-                        <span title="Enable to send Regular Class Schedule Reminder">i</span>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.regular_class_notification.student">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.regular_class_notification.parent">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.regular_class_notification.gaurdian">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.regular_class_notification.teacher">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.regular_class_notification.admin">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        PTM Notification
-                        <span title="Enable to send PTM Notification SMS">i</span>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.ptm_notification.student">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.ptm_notification.parent">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.ptm_notification.gaurdian">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                      </td>
-                      <td>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Student(s) Homework Reminder
-                        <span>i</span>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.home_work_status_notification.student">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.home_work_status_notification.parent">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.home_work_status_notification.gaurdian">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                      </td>
-                      <td>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        File Sharing Notification
-                        <span title="Enable to send File Sharing Notification SMS to Students">i</span>
-                      </td>
-                      <td>
-                        <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_file_share_notifn.student">
-                          <label for="checkbx"></label>
-                        </div>
-                      </td>
-                      <td>
-                      </td>
-                      <td>
-                      </td>
-                      <td>
-                      </td>
-                      <td>
                       </td>
                     </tr>
                     <tr>
@@ -876,25 +774,109 @@
                     </tr>
                     <tr>
                       <td>
-                        Topics Covered Notification
-                        <span title="Enable to send Topics Covered SMS">i</span>
+                        PTM Notification
+                        <span title="Enable to send PTM Notification SMS">i</span>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.topics_covered_notification.student">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.ptm_notification.student">
                           <label for="checkbx"></label>
                         </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.topics_covered_notification.parent">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.ptm_notification.parent">
                           <label for="checkbx"></label>
                         </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input name="topGr" type="checkbox" class="form-checkbox" [(ngModel)]="instituteSettingDet.topics_covered_notification.gaurdian">
-                          <label for="topGr"></label>
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.ptm_notification.gaurdian">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Student Registration
+                        <span title="Enable Student Registration SMS">i</span>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="regStudent" name="regStudent" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_reg_notification.student">
+                          <label for="regStudent"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="regParent" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_reg_notification.parent">
+                          <label for="regParent"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="regG" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_reg_notification.gaurdian">
+                          <label for="regG"></label>
+                        </div>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="regG" class="form-checkbox" [(ngModel)]="instituteSettingDet.student_reg_notification.admin">
+                          <label for="regG"></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Teacher Registration
+                        <span title="Enable Teacher Registration SMS">i</span>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.sms_teacher_registration.teacher">
+                          <label></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.sms_teacher_registration.admin">
+                          <label></label>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Student(s) Homework Reminder
+                        <span>i</span>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.home_work_status_notification.student">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.home_work_status_notification.parent">
+                          <label for="checkbx"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="field-checkbox-wrapper">
+                          <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.home_work_status_notification.gaurdian">
+                          <label for="checkbx"></label>
                         </div>
                       </td>
                       <td>
@@ -1056,6 +1038,17 @@
                           </div>
                         </div>
                         <div class="row">
+                          <div class="c-sm-7 c-md-7 c-lg-7">
+                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.phone_no_fee_receipt >= ''}">
+                              <input type="text" [(ngModel)]="instituteSettingDet.phone_no_fee_receipt" class="form-ctrl" name="slotNew">
+                              <label for="slotNew">Institute Contact No(s) For Fee Receipt
+                                <span title="Specify Contact Numbers here to be displayed on Fee Receipts">i</span>
+                              </label>
+                              <p>You can provide multiple number seprated by comma's</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
                           <div class="c-sm-6 c-md-6 c-lg-6">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_service_tax_no >= '0'}">
                               <input type="number" min="0" [(ngModel)]="instituteSettingDet.inst_service_tax_no" class="form-ctrl" name="slotNew">
@@ -1070,17 +1063,6 @@
                               <label for="slotNew">Pan Card No.
                                 <span title="Used in Fee Receipt Generation">i</span>
                               </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="c-sm-7 c-md-7 c-lg-7">
-                            <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.phone_no_fee_receipt >= ''}">
-                              <input type="text" [(ngModel)]="instituteSettingDet.phone_no_fee_receipt" class="form-ctrl" name="slotNew">
-                              <label for="slotNew">Institute Contact No(s) For Fee Receipt
-                                <span title="Specify Contact Numbers here to be displayed on Fee Receipts">i</span>
-                              </label>
-                              <p>You can provide multiple number seprated by comma's</p>
                             </div>
                           </div>
                         </div>
@@ -1153,7 +1135,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                       <td>
                         <div class="row">
                           <div class="c-sm-6 c-md-6 c-lg-6">
@@ -1172,7 +1154,7 @@
                           </div>
                         </div>
                       </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                       <td>
                         <div class="row">
@@ -1445,6 +1427,17 @@
                               <label for="slotNew">Contact No.(s)
                               </label>
                               <p> For Online Payment Notification</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="c-sm-6 c-md-6 c-lg-6" style="margin-left:-15px">
+                            <div class="field-checkbox-wrapper" style="width: 100%">
+                              <input type="checkbox" value="" name="enableEmail" [(ngModel)]="instituteSettingDet.email_notification" class="form-checkbox"
+                                id="idEnableEmail">
+                              <label for="enableEmail">Enable Email Notification
+                                <p>(If not enabled, no Email will be sent)</p>
+                              </label>
                             </div>
                           </div>
                         </div>
