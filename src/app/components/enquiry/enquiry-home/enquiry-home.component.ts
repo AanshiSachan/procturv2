@@ -171,7 +171,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /* Model for checkbox toggler to update data table */
   stats = {
     All: { value: 'All', prop: 'All', checked: false, disabled: false },
-    pending: { value: 'Pending Followup', prop: 'pending', checked: false, disabled: false },
+    Pending: { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
     Open: { value: 'Open', prop: 'Open', checked: true, disabled: false },
     Registered: { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
     Admitted: { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
@@ -180,7 +180,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   statFilter = [
     { value: 'All', prop: 'All', checked: false, disabled: false },
-    { value: 'Pending Followup', prop: 'pending', checked: false, disabled: false },
+    { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
     { value: 'Open', prop: 'Open', checked: true, disabled: false },
     { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
     { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
@@ -318,6 +318,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   };
   summaryOptions: boolean = false;
   downloadReportOption: any = 1;
+  summaryReport = {
+    from_date: "",
+    to_date: "",
+  };
+  showDateRange: boolean = false;
 
   @ViewChild('skelton') skel: ElementRef;
   @ViewChild('mySidenav') mySidenav: ElementRef;
@@ -809,7 +814,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.stats.Inactive.checked = false;
         this.stats.Open.checked = false;
         this.stats.Registered.checked = false;
-        this.stats.pending.checked = false;
+        this.stats.Pending.checked = false;
         this.stats.All.checked = true;
         this.instituteData = {
           name: "",
@@ -843,12 +848,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       }
     }
 
-    else if (checkerObj.prop == "pending") {
+    else if (checkerObj.prop == "Pending") {
       this.stats.Admitted.checked = false;
       this.stats.Inactive.checked = false;
       this.stats.Open.checked = false;
       this.stats.Registered.checked = false;
-      this.stats.pending.checked = true;
+      this.stats.Pending.checked = true;
       this.stats.All.checked = false;
       this.instituteData = {
         name: "",
@@ -1384,7 +1389,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.statusString = [];
     this.statFilter = [
       { value: 'All', prop: 'All', checked: false, disabled: false },
-      { value: 'Pending Followup', prop: 'pending', checked: false, disabled: false },
+      { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
       { value: 'Open', prop: 'Open', checked: false, disabled: false },
       { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
       { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
@@ -2716,13 +2721,23 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
     this.customComponents.forEach(el => {
       if (el.is_searchable == 'Y' && el.value != "") {
-        //console.log(el);
-        let obj = {
-          component_id: el.id,
-          enq_custom_id: "0",
-          enq_custom_value: el.value
+
+        if (el.type == '5') {
+          let obj = {
+            component_id: el.id,
+            enq_custom_id: "0",
+            enq_custom_value: moment(el.value).format("YYYY-MM-DD")
+          }
+          tempCustomArr.push(obj);
         }
-        tempCustomArr.push(obj);
+        else if (el.type != '5') {
+          let obj = {
+            component_id: el.id,
+            enq_custom_id: "0",
+            enq_custom_value: el.value
+          }
+          tempCustomArr.push(obj);
+        }
       }
     });
 
@@ -2878,6 +2893,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       is_follow_up_time_notification: 0,
     }
     this.summaryOptions = false;
+    this.summaryReport = {
+      from_date: "",
+      to_date: "",
+    };
+    this.showDateRange = false;
     this.cd.markForCheck();
   }
 
@@ -3013,8 +3033,21 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   ///// Download Summary Report
 
+  toggleDateSection() {
+    if (this.showDateRange == false) {
+      this.showDateRange = true;
+      document.getElementById('anchTagToggle').text = "Hide";
+    } else {
+      this.showDateRange = false;
+      document.getElementById('anchTagToggle').text = "Download By Date Range";
+    }
+  }
+
   downloadSummaryReport() {
     this.summaryOptions = true;
+    setTimeout(() => {
+      document.getElementById('anchTagToggle').text = "Download By Date Range";
+    }, 100);
   }
 
   downloadSummaryReportXl() {
@@ -3064,6 +3097,29 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+
+  downloadSummaryReportXlDateWise() {
+    if (this.summaryReport.to_date != "" && this.summaryReport.from_date != "") {
+      this.isRippleLoad = true;
+      this.enquire.getSummaryReportFromDates(this.summaryReport).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.performDownloadAction(res);
+        },
+        err => {
+          this.isRippleLoad = false;
+          console.log(err);
+        }
+      )
+    } else {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: 'Please provide dates'
+      }
+      this.appC.popToast(msg);
+    }
+  }
 
   performDownloadAction(res) {
     let byteArr = this.convertBase64ToArray(res.document);

@@ -159,9 +159,9 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
       if (res.walkin_followUpTime != '' && res.walkin_followUpTime != null) {
         let walkinfollowUpTime = res.walkin_followUpDate + " " + res.walkin_followUpTime;
         this.timeObj.fhour = moment(walkinfollowUpTime).format('h');
-        this.timeObj.fminute = moment(walkinfollowUpTime).format('mm');
+        this.timeObj.wminute = moment(walkinfollowUpTime).format('mm');
         this.timeObj.fmeridian = moment(walkinfollowUpTime).format('a').toString().toUpperCase();
-        this.walkin_followUpTime = this.timeObj.whour + " " + this.timeObj.wmeridian;
+        this.walkin_followUpTime = this.timeObj.fhour + " " + this.timeObj.fmeridian;
       }
       this.updateFormComments = res.comments;
       this.updateFormCommentsOn = res.commentedOn;

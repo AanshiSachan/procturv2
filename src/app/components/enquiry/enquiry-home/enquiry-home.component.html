@@ -288,8 +288,8 @@
             <custom-enquiry *ngFor="let component of customComponents">
 
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
-                <div class="field-wrapper">
-                  <input type="text" value="" id="component.id" [(ngModel)]="component.value" class="form-ctrl" name="component.label" />
+                <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                  <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}" />
                   <label for="component.label">{{component.label}} </label>
                 </div>
               </div>
@@ -297,14 +297,14 @@
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
                 <br>
                 <div class="field-checkbox-wrapper">
-                  <input class="form-checkbox" id="component.id" type="checkbox" [(ngModel)]="component.value" name="component.label" value="">
+                  <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}" value="">
                   <label for="component.label">{{component.label}} </label>
                 </div>
               </div>
 
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
-                <div class="field-wrapper">
-                  <select id="component.id" class="form-ctrl" [(ngModel)]="component.value" name="component.label">
+                <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                  <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="{{component.label}}">
                     <option value=""></option>
                     <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                   </select>
@@ -330,6 +330,13 @@
                       </li>
                     </ul>
                   </div>
+                </div>
+              </div>
+
+              <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
+                <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                  <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker" name="{{component.label}}" bsDatepicker/>
+                  <label for="component.label">{{component.label}} </label>
                 </div>
               </div>
 
@@ -479,7 +486,7 @@
                     </div>
                   </div>
                 </div>
-              </div>  
+              </div>
               <div class="row" *ngIf="updateFormData.followUpDateTime != '' &&  updateFormData.followUpDate != ''">
                 <div class="c-lg-6 c-md-6 c-sm-6" style="margin-top: 10px">
                   <div class="form-checkbox-wrapper">
@@ -1369,9 +1376,8 @@
         <div class="popup-content">
           <h2>Download Summary Report</h2>
           <div class="content-section">
-            <div class="row">
+            <div id="divDropDownSection" *ngIf="!showDateRange" class="row dropDownSection">
               <div class="c-sm-6 c-lg-6 c-lg-6">
-
                 <div class="field-wrapper has-value">
                   <select id="" class="form-ctrl" [(ngModel)]="downloadReportOption" name="priority">
                     <option value="1">Select Month</option>
@@ -1383,9 +1389,29 @@
                 </div>
               </div>
               <div class="c-sm-4 c-lg-4 c-lg-4">
-                <button class="btn" (click)="downloadSummaryReportXl()">Download</button>
+                <button class="btn fullBlue" (click)="downloadSummaryReportXl()">Download</button>
               </div>
             </div>
+            <div id="divRangeSelection" *ngIf="showDateRange" class="row select-dates">
+              <div class="c-sm-4 c-lg-4 c-lg-4">
+                <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':summaryReport.from_date != ''}">
+                  <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="summaryReport.from_date" name="fromDate" readonly="true"
+                    bsDatepicker/>
+                  <label for="fromDate">From Date</label>
+                </div>
+              </div>
+              <div class="c-sm-4 c-lg-4 c-lg-4">
+                <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':summaryReport.to_date != ''}">
+                  <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="summaryReport.to_date" name="toDate" readonly="true"
+                    bsDatepicker/>
+                  <label for="toDate">To Date</label>
+                </div>
+              </div>
+              <div class="c-sm-4 c-lg-4 c-lg-4">
+                <button class="btn fullBlue" (click)="downloadSummaryReportXlDateWise()">Download</button>
+              </div>
+            </div>
+            <a id="anchTagToggle" class="pull-right" (click)="toggleDateSection()" style="cursor: pointer;margin-top: 10px;">Download By Date Range</a>
             <a id="downloadSummaryReport121" class="hide"></a>
           </div>
         </div>

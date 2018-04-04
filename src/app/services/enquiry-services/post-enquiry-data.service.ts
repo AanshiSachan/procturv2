@@ -302,7 +302,8 @@ export class PostEnquiryDataService {
     let urlCreateCustomComponent = this.baseUrl + "/api/v1/instCustomComp/create";
 
     return this.http.post(urlCreateCustomComponent, req, { headers: this.headers }).map(
-      res => { return res.json() }
+      res => { return res.json() },
+      err => { return err.json() }
     )
 
   }
@@ -316,7 +317,8 @@ export class PostEnquiryDataService {
     let urlDeleteCustomComponent = this.baseUrl + "/api/v1/instCustomComp/delete/" + this.institute_id + "/" + id;
 
     return this.http.delete(urlDeleteCustomComponent, { headers: this.headers }).map(
-      res => { return res.json() }
+      res => { return res.json() },
+      err => { return err.json() }
     );
   }
 
@@ -324,27 +326,14 @@ export class PostEnquiryDataService {
 
 
   updateCustomComponent(req) {
-
-    let data = {
-      comp_length: req.comp_length,
-      component_id: req.component_id,
-      description: req.description,
-      institution_id: this.institute_id,
-      is_required: req.is_required,
-      is_searchable: req.is_searchable,
-      label: req.label,
-      page: req.page,
-      prefilled_data: req.prefilled_data,
-      sequence_number: req.sequence_number,
-      type: req.type,
-    }
-
+    req.institution_id = this.institute_id;
     let urlUpdateCustomComponent = this.baseUrl + "/api/v1/instCustomComp/update";
 
-    return this.http.put(urlUpdateCustomComponent, data, { headers: this.headers }).map(
+    return this.http.put(urlUpdateCustomComponent, req, { headers: this.headers }).map(
       res => {
         return res.json();
-      }
+      },
+      err => { return err.json(); }
     );
 
   }

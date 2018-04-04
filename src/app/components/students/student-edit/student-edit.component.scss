@@ -408,7 +408,7 @@
     }
     th {
         text-align: left;
-        padding: 10px 5px;
+        padding: 15px;
     }
     td {
         padding: 10px 5px;
@@ -442,8 +442,10 @@
                 cursor: pointer;
                 color: #0084f6;
             }
-            
-            
+            .form-ctrl{
+                background: transparent;
+                border-bottom: 1px solid $common-blue;
+            }
         }
         .field-checkbox-wrapper .form-checkbox {
             opacity: 0;

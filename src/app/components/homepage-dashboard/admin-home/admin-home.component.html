@@ -258,7 +258,8 @@
                             </li>
                             <li class="cls-type">
                               <div>
-                                {{class.freq}}
+                                <span *ngIf="class.freq == 'WEEK' || class.freq == 'OTHER'">Regular</span>
+                                <span *ngIf="!(class.freq == 'WEEK' || class.freq == 'OTHER')">Extra</span>
                                 <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
                               </div>
                             </li>
@@ -364,7 +365,8 @@
                             </li>
                             <li class="cls-type">
                               <div>
-                                {{class.freq}}
+                                <span *ngIf="class.freq == 'WEEK' || class.freq == 'OTHER'">Regular</span>
+                                <span *ngIf="!(class.freq == 'WEEK' || class.freq == 'OTHER')">Extra</span>
                                 <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
                               </div>
                             </li>
@@ -396,7 +398,8 @@
                             </li> -->
                           </ul>
                           <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}" [class.display]="i == selectedRow">
-                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">
+                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="markAttendaceHide(class)"
+                              (click)="initiateMarkAttendance(i, class)">
                               Mark Attendance</a>
                             <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance(i, class)">
                               View Attendance</a>
@@ -544,11 +547,11 @@
                 <div class="ct-disable-wrapper pos-rel" *ngFor="let s of studentAttList;let i=index;" [ngClass]="{ homeWorkNotFoundClass: settingInfo.home_work_feature_enable !=1 }">
                   <ul class="ct-ongoing">
                     <li style="width: 20%; font-weight: 800">
-                      <div>{{s.student_disp_id}}</div>
+                      <div class="no-margin top5">{{s.student_disp_id}}</div>
                     </li>
 
-                    <li class="cls-type" style="width: 20% ; font-weight: 800">
-                      <div>
+                    <li class="" style="width: 20% ; font-weight: 800">
+                      <div class="no-margin top5">
                         {{s.student_name}}
                       </div>
                     </li>
@@ -582,7 +585,7 @@
                     </li>
 
                     <li style="width: 20%;" *ngIf="settingInfo.home_work_feature_enable==1">
-                      <div class="customDropdown">
+                      <div class="customDropdown top5">
                         <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status_11755" class="" [(ngModel)]="s.dateLi[0].home_work_status"
                           (ngModelChange)="isHomeworkStatusChanged(i)">
                           <option value="Y" selected=" ">Completed</option>
@@ -697,7 +700,9 @@
       </svg>
     </span>
 
-    <h2 widget-header>Cancel Schedule {{classMarkedForAction.batch_name}}</h2>
+    <h2 widget-header>Cancel Class
+      <span style="font-weight: 300">{{classMarkedForAction.batch_name}}</span>
+    </h2>
 
     <div class="CancelWrapper" widget-content>
       <div class="row cancelField">
@@ -1004,7 +1009,7 @@
     </span>
 
     <h2 widget-header>Cancel Schedule
-      <span style="font-weight: 600">{{classMarkedForAction.master_course}}</span> - {{classMarkedForAction.coursee_names}}
+      <span style="font-weight: 300">{{classMarkedForAction.master_course}}</span> - {{classMarkedForAction.coursee_names}}
     </h2>
 
     <div class="CancelWrapper" widget-content>
@@ -1412,14 +1417,14 @@
                         <tr *ngFor="let row of messageList; let i = index; trackBy: i;">
                           <td>
                             <div class="field-checkbox-wrapper">
-                              <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                              <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned" (ngModelChange)="onCheckBoxSelection(index , row)">
                               <label></label>
                             </div>
                           </td>
                           <td>
                             {{row.date}}
                           </td>
-                          <td>
+                          <td style="text-align: left">
                             {{row.message}}
                           </td>
                         </tr>

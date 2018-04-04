@@ -117,12 +117,12 @@ export class EnquiryAddComponent implements OnInit {
   meridianArr: any[] = ['', "AM", "PM"];
   hour: string = ''; minute: string = ''; meridian: string = '';*/
 
-  hourArr:any[]=['','1','2','3','4','5','6','7','8','9','10','11','12'];
-  minArr:any[]=['','00','15','30','45'];
-  meridianArr:any[]=['',"AM","PM"];
-  hour:string = '';
-  minute:string='';
-  meridian:string=''
+  hourArr: any[] = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  minArr: any[] = ['', '00', '15', '30', '45'];
+  meridianArr: any[] = ['', "AM", "PM"];
+  hour: string = '';
+  minute: string = '';
+  meridian: string = ''
 
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM']
   timeObj: any = {
@@ -133,7 +133,7 @@ export class EnquiryAddComponent implements OnInit {
     wminute: '',
     wmeridian: '',
   };
-  followUpTime: any="";
+  followUpTime: any = "";
 
 
   /* Model for Creating Institute */
@@ -164,21 +164,21 @@ export class EnquiryAddComponent implements OnInit {
 
   timeChange(ev, id) {
     if (id === 'followUpTime') {
-      if(ev.split(' ')[0] != ''){
+      if (ev.split(' ')[0] != '') {
         this.timeObj.fhour = ev.split(' ')[0];
         this.timeObj.fmeridian = ev.split(' ')[1];
       }
-      else{
+      else {
         this.timeObj.fhour = '';
         this.timeObj.fmeridian = '';
       }
     }
     else {
-      if(ev.split(' ')[0] != ''){
+      if (ev.split(' ')[0] != '') {
         this.timeObj.whour = ev.split(' ')[0];
         this.timeObj.wmeridian = ev.split(' ')[1];
       }
-      else{
+      else {
         this.timeObj.whour = '';
         this.timeObj.wmeridian = '';
       }
@@ -673,37 +673,50 @@ export class EnquiryAddComponent implements OnInit {
   getCustomComponents(): any[] {
     let tempArr: any[] = [];
     this.customComponents.forEach(e => {
-      if (e.hasOwnProperty('value')) {
-        if (typeof e.value == 'string') {
-          if (e.value.trim() != '') {
+      if (e.type == 5) {
+        if (e.hasOwnProperty('value')) {
+          let dd = moment(e.value).format("YYYY-MM-DD");
+          if (dd != '' && dd != "Invalid date" && dd != null) {
             let obj: any = {};
             obj.component_id = e.id;
             obj.enq_custom_id = 0;
-            obj.enq_custom_value = e.value;
+            obj.enq_custom_value = moment(e.value).format("YYYY-MM-DD");
             tempArr.push(obj);
           }
         }
-        else if (typeof e.value == 'boolean') {
-          if(e.value){
-            let obj: any = {};
-            obj.component_id = e.id;
-            obj.enq_custom_id = 0;
-            obj.enq_custom_value = "Y";
-            tempArr.push(obj);
+      }
+      else {
+        if (e.hasOwnProperty('value')) {
+          if (typeof e.value == 'string') {
+            if (e.value.trim() != '') {
+              let obj: any = {};
+              obj.component_id = e.id;
+              obj.enq_custom_id = 0;
+              obj.enq_custom_value = e.value;
+              tempArr.push(obj);
+            }
           }
-          /* else{
-            let obj: any = {};
-            obj.component_id = e.id;
-            obj.enq_custom_id = 0;
-            obj.enq_custom_value = "N";
-            tempArr.push(obj);
-          } */
+          else if (typeof e.value == 'boolean') {
+            if (e.value) {
+              let obj: any = {};
+              obj.component_id = e.id;
+              obj.enq_custom_id = 0;
+              obj.enq_custom_value = "Y";
+              tempArr.push(obj);
+            }
+            else {
+              let obj: any = {};
+              obj.component_id = e.id;
+              obj.enq_custom_id = 0;
+              obj.enq_custom_value = "N";
+              tempArr.push(obj);
+            }
+          }
         }
       }
     });
     return tempArr;
   }
-
 
   /* Function to submit validated form data */
   submitForm(form: NgForm) {
@@ -767,12 +780,6 @@ export class EnquiryAddComponent implements OnInit {
       }
     }
     else {
-      let msg = {
-        type: 'error',
-        title: 'Academic Data Incomplete',
-        body: 'Please fill the mandatory required field'
-      }
-      this.appC.popToast(msg);
       this.submitError = true;
     }
   }
@@ -798,13 +805,22 @@ export class EnquiryAddComponent implements OnInit {
     let temp: boolean = true;
 
     this.customComponents.forEach(el => {
-      //console.log(el);
       if (el.is_required == 'Y' && el.value == '') {
         if (temp) {
           temp = false;
         }
       }
     });
+
+    if(!temp){
+      let msg = {
+        type: 'error',
+        title: 'Required Details Not Filled On Academics Details',
+        body: ''
+      }
+      this.appC.popToast(msg);
+    }
+
     return temp;
   }
 
@@ -813,16 +829,79 @@ export class EnquiryAddComponent implements OnInit {
 
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
+    if (
+      this.newEnqData.phone == null || this.newEnqData.phone == "" ||
+      this.newEnqData.name == null || this.newEnqData.name.trim() == "" ||
+      this.newEnqData.enquiry_date == null || this.newEnqData.enquiry_date == "" ||
+      this.newEnqData.source_id == "" || this.newEnqData.source_id == "-1") {
 
-    if ((this.newEnqData.name == null || this.newEnqData.name == "") || (this.newEnqData.enquiry_date == null || this.newEnqData.enquiry_date == "" || this.newEnqData.source_id == "" || this.newEnqData.source_id == "-1")) {
-      return false;
+      if (this.newEnqData.phone == null || this.newEnqData.phone == "") {
+        let msg = {
+          type: 'error',
+          title: 'Phone Number Is Mandatory',
+          body: ''
+        }
+        this.appC.popToast(msg);
+        return false;
+      }
+
+      else if (this.newEnqData.name == null || this.newEnqData.name.trim() == "") {
+        let msg = {
+          type: 'error',
+          title: 'Enquirer Name Is Mandatory',
+          body: ''
+        }
+        this.appC.popToast(msg);
+        return false;
+      }
+
+      else if (this.newEnqData.enquiry_date == null || this.newEnqData.enquiry_date == "") {
+        let msg = {
+          type: 'error',
+          title: 'Enquiry Date Is Mandatory',
+          body: ''
+        }
+        this.appC.popToast(msg);
+        return false;
+      }
+
+      else if (this.newEnqData.source_id == "" || this.newEnqData.source_id == "-1") {
+        let msg = {
+          type: 'error',
+          title: 'Enquiry Source Is Mandatory',
+          body: ''
+        }
+        this.appC.popToast(msg);
+        return false;
+      }
     }
     else {
-      return true;
+      if(this.validateEnquiryDate()){
+        return true;
+      }
+      else{
+        let msg = {
+          type: 'error',
+          title: 'Cannot Set Future Enquiry Date',
+          body: ''
+        }
+        this.appC.popToast(msg);
+        return false;
+      }
     }
   }
 
-
+  validateEnquiryDate(){
+    let a = moment();
+    let b = moment(this.newEnqData.enquiry_date);
+    let d = a.diff(b);
+    if(d < 0){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
 
 
 
@@ -1396,19 +1475,19 @@ export class EnquiryAddComponent implements OnInit {
   }
 
   timeChanges(ev, id) {
-     // debugger
-      if(ev.split(' ')[0] != ''){
-        this.hour = ev.split(' ')[0];
-        this.meridian = ev.split(' ')[1];
+    // debugger
+    if (ev.split(' ')[0] != '') {
+      this.hour = ev.split(' ')[0];
+      this.meridian = ev.split(' ')[1];
 
-        //console.log(this.hour + "" +this.meridian)
-      }
-      else{
-        this.hour = '';
-        this.meridian = '';
-      }
-    
-    
+      //console.log(this.hour + "" +this.meridian)
+    }
+    else {
+      this.hour = '';
+      this.meridian = '';
+    }
+
+
   }
 
   /* Source delete*/

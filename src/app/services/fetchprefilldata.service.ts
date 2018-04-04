@@ -58,6 +58,15 @@ export class FetchprefilldataService {
 
 
 
+  getAllFinancialYear(){
+    let url = this.baseUrl +"/api/v1/academicYear/all/" +this.institute_id;
+
+    return this.http.get(url, {headers: this.headers}).map(
+      res => { return res.json(); },
+      err => { return err.json(); }
+    )
+  }
+
 
 
   /* fetch prefill data assigned to */

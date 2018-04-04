@@ -305,6 +305,14 @@
                                     </div>
                                 </div>
 
+                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
+                                    <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                                        <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
+                                            name="{{component.label}}" bsDatepicker/>
+                                        <label for="component.label">{{component.label}} </label>
+                                    </div>
+                                </div>
+
                             </custom-student>
 
                             <div class="row adfilter-submitter">
@@ -337,7 +345,6 @@
                             <ng-robTable [records]="studentDataSource"  [defaultSort]="sortBy" [reset]="isSideBar" [tableName]="'student'" [settings]="StudentSettings" (userRowSelect)="userRowSelect($event)"
                                 (rowsSelected)="getRowCount($event)" [dataStatus]="loading_message" [key1]="'isActive'" [primaryKey]="'student_id'"
                                 (rowIdArr)="getSelected($event)" (rowUserIDArrayList)="getSelectedUserIDS($event)" (sortById)="sortTableById($event)" (sortDirection)="getDirection($event)">
-                            </ng-robTable>
                             <!-- <proctur-checkbox-table [records]="studentDataSource" [tableName]="'student'" 
                                 [settings]="StudentSettings" [dataStatus]="loading_message"
                                 [key1]="'isActive'" [primaryKey]="'student_id'" (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)"
@@ -503,6 +510,8 @@
                                                 <tr>
                                                     <th>Leave From</th>
                                                     <th>Leave To</th>
+                                                    <th>Reason</th>
+                                                    <th>Leave Days</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -513,6 +522,12 @@
                                                     </td>
                                                     <td>
                                                         {{row.end_date}}
+                                                    </td>
+                                                    <td>
+                                                        {{row.reason}}
+                                                    </td>
+                                                    <td>
+                                                        {{getLeaveNumber(row)}}
                                                     </td>
                                                     <td>
                                                         <a [ngClass]="{'hide' : showDeleteBtn(row)}" (click)="deletePerticularLeave(row)">Delete</a>
@@ -613,7 +628,7 @@
                             <div class="field-checkbox-wrapper">
                                 <input type="checkbox" value="" [(ngModel)]="sendNotification.loginMessageChkbx" name="loginMessage" class="form-checkbox"
                                     id="">
-                                <label for="loginMessage" >Send Login Message</label>
+                                <label for="loginMessage">Send Login Message</label>
                             </div>
                         </div>
 
@@ -642,7 +657,7 @@
                                     </div>
                                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
                                         <input type="checkbox" value="" name="guardian" [(ngModel)]="sendNotification.gaurdianChkbx" class="form-checkbox" id="">
-                                        <label for="guardian" >Guardian</label>
+                                        <label for="guardian">Guardian</label>
                                     </div>
                                 </div>
                             </div>

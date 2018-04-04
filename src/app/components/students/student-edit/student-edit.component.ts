@@ -47,6 +47,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     institution_id: sessionStorage.getItem('institute_id'),
     assignedBatches: [],
     assignedBatchescademicYearArray: [""],
+    assignedCourse_Subject_FeeTemplateArray: [""],
     fee_type: 0,
     fee_due_day: 0,
     batchJoiningDates: [],
@@ -285,7 +286,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   totalPaidAmount: number = 0;
   totalAmountPaid: number = 0;
   totalAmountDue: number = 0;
-
+  defaultAcadYear:any;
   partialPayObj: any = {
     chequeDetailsJson: {},
     paid_date: moment().format('YYYY-MM-DD'),
@@ -304,6 +305,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     total_amt_paid: ""
   }
   enableBiometric: any = "";
+  academicYear:any[] = [];
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(private studentPrefillService: AddStudentPrefillService, private prefill: FetchprefilldataService, private postService: PostStudentDataService, private router: Router, private route: ActivatedRoute, private login: LoginService, private appC: AppComponent, private fetchService: FetchStudentService) {
@@ -495,6 +497,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.studentAddFormData.school_name = data.school_name;
       if (this.studentAddFormData.assignedBatchescademicYearArray == null) {
         this.studentAddFormData.assignedBatchescademicYearArray = [""];
+        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [""];
       }
       this.studentServerImage = data.photo;
       /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
@@ -525,6 +528,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentPrefillService.fetchStudentCourseDetails(id, this.studentAddFormData.standard_id).subscribe(
           res => {
             res.coursesList.forEach(el => {
+              if(el.academic_year_id == '-1'){
+                el.academic_year_id = this.defaultAcadYear;
+              }
+              
               let obj = {
                 isSelected: el.isAssigned == "Y" ? true : false,
                 data: el,
@@ -535,7 +542,12 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.updateAssignedBatches(this.batchList);
           },
           err => {
-
+            let obj = {
+              type: "error",
+              titie: "Error Fetching Data",
+              body: ""
+            }
+            this.appC.popToast(obj);
           })
       }
     });
@@ -558,7 +570,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         for (let i = 0; i < len; i++) {
           this.studentAddFormData.assignedBatches.forEach(e => {
             if (this.batchList[i].data.course_id == e) {
-              console.log(this.batchList[i].data.course_id);
+              //console.log(this.batchList[i].data.course_id);
               ind = i;
             }
           });
@@ -613,7 +625,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           temp.push(el.data.course_id.toString());
           tempDate.push(moment(el.assignDate).format('YYYY-MM-DD'));
           batchString.push(el.data.course_name);
-          this.studentAddFormData.assignedBatchescademicYearArray.push("-1");
+          this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
+          this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
         }
       }
     });
@@ -923,6 +936,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* Fetch and store the prefill data to be displayed on dropdown menu */
   fetchPrefillFormData() {
+  
     let inventory = this.studentPrefillService.fetchInventoryListById(this.student_id).subscribe(
       data => {
         this.inventoryItemsArr = data;
@@ -956,9 +970,27 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.standardList = data;
     });
 
+    this.prefill.getAllFinancialYear().subscribe(
+      data => {
+        this.academicYear = data;
+        this.academicYear.forEach(e => {
+          if(e.default_academic_year == 1){
+            this.defaultAcadYear = e.inst_acad_year_id;
+          }
+        });
+      },
+      err => {
+        let obj = {
+          type: "error",
+          title: "Error Fetching Data",
+          body: "Please refresh or check internet connectivity"
+        }
+        this.appC.popToast(obj);
+      }
+    )
+
     if (inventory != null && institute != null && standard != null) {
       let customComp = this.studentPrefillService.fetchCustomComponentById(this.student_id).subscribe(data => {
-        //console.log(data);
         data.forEach(el => {
           let obj = {
             data: el,
@@ -1090,19 +1122,22 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.studentAddFormData.assignedBatches = [];
     this.studentAddFormData.batchJoiningDates = [];
     this.studentAddFormData.assignedBatchescademicYearArray = [""];
+    this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [""]
     this.batchList.forEach(el => {
       if (el.isSelected) {
         if (el.assignDate != "" && el.assignDate != null && el.assignDate != "Invalid date") {
           if (this.isProfessional) {
             this.studentAddFormData.assignedBatches.push(el.data.batch_id.toString());
             this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
-            this.studentAddFormData.assignedBatchescademicYearArray.push("-1");
+            this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
+            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
             batchString.push(el.data.batch_name);
           }
           else {
             this.studentAddFormData.assignedBatches.push(el.data.course_id.toString());
             this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
-            this.studentAddFormData.assignedBatchescademicYearArray.push("-1");
+            this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
+            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
             batchString.push(el.data.course_name);
           }
         }
@@ -1140,13 +1175,17 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   studentQuickAdder(form: NgForm) {
+
+    let isCustomComponentValid: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
+
     /* Both Form are Valid Else there seems to 
         be an error on custom component */
-    if (form.valid && this.customComponentValid() && this.formValidator()) {
+    if (form.valid && isCustomComponentValid && this.formValidator()) {
       let customArr = [];
       this.customComponents.forEach(el => {
+        
         /* Not Checkbox and value not empty */
-        if (el.value != '' && el.type != 2) {
+        if (el.value != '' && el.type != 2 && el.type != 5) {
           let obj = {
             component_id: el.id,
             enq_custom_id: "0",
@@ -1173,6 +1212,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             customArr.push(obj);
           }
         }
+        /* Date Type Custom Component */
+        else if(el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date") {
+          let obj = {
+            component_id: el.id,
+            enq_custom_id: "0",
+            enq_custom_value: moment(el.value).format("YYYY-MM-DD")
+          }
+          customArr.push(obj);
+        }
+
       });
       /* Get slot data and store on form */
       this.studentAddFormData.slot_id = this.selectedSlotsID;
@@ -1182,9 +1231,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       if (this.studentAddFormData.assignedBatches == null || this.studentAddFormData.assignedBatches.length == 0) {
         this.studentAddFormData.assignedBatches = null
         this.studentAddFormData.assignedBatchescademicYearArray = null;
+        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = null;
       }
       else if (this.studentAddFormData.assignedBatches != null && this.studentAddFormData.assignedBatches.length != 0) {
         this.studentAddFormData.assignedBatchescademicYearArray.reverse();
+        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.reverse();
       }
       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         res => {
@@ -2436,7 +2487,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       let customArr = [];
       this.customComponents.forEach(el => {
         /* Not Checkbox and value not empty */
-        if (el.value != '' && el.type != 2) {
+        if (el.value != '' && el.type != 2 && el.type != 5) {
           let obj = {
             component_id: el.id,
             enq_custom_id: "0",
@@ -2463,6 +2514,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             customArr.push(obj);
           }
         }
+        /* Date Type Custom Component */
+        else if(el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date") {
+          let obj = {
+            component_id: el.id,
+            enq_custom_id: "0",
+            enq_custom_value: moment(el.value).format("YYYY-MM-DD")
+          }
+          customArr.push(obj);
+        }        
       });
       /* Get slot data and store on form */
       this.studentAddFormData.slot_id = this.selectedSlotsID;
@@ -2471,9 +2531,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.additionalBasicDetails = false;
       if (this.studentAddFormData.assignedBatches == null) {
         this.studentAddFormData.assignedBatchescademicYearArray = null;
+        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = null;
       }
       if (this.studentAddFormData.assignedBatches != null) {
         this.studentAddFormData.assignedBatchescademicYearArray.reverse();
+        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.reverse();
       }
       this.isRippleLoad = true;
       this.busyPrefill = this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
@@ -2563,18 +2625,22 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   getCustomValid(element): boolean {
     if (element.is_required == "Y" && element.value != "") {
-      //console.log(element.is_required +" " +element.value);
-      //console.log(element.is_required == "Y" && element.value != "");
-      return true;
+      if(element.type == 5){
+        if(element.value != "" && element.value != null && element.value != "Invalid date"){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }
+      else{
+        return true;
+      }
     }
     else if (element.is_required == "Y" && element.value == "") {
-      //console.log(element.is_required +" " +element.value);
-      //console.log(element.is_required == "Y" && element.value == "");
       return false;
     }
     else if (element.is_required == "N") {
-      //console.log(element.is_required +" " +element.value)
-      //console.log(element.is_required == "N");
       return true;
     }
   }

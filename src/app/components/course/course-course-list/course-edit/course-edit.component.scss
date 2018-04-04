@@ -1,10 +1,27 @@
-.open-accor{
+@import "./src/assets/css/style.scss";
+@import "./src/assets/css/wrapper.scss";
+@import "./src/assets/css/common/common.scss";
+@import "./src/assets/css/common/grid.scss";
+@import "./src/assets/css/common/variables.scss";
+.search-wrapper {
+    margin: 10px 15px;
+    background: #efefef;
+    .field-wrapper {
+        margin-bottom: 5px;
+        .form-ctrl {
+            border-bottom: solid 1px #0084f6;
+            background: transparent;
+        }
+    }
+}
+
+.open-accor {
     float: left;
     width: 24px;
     font-size: 24px;
     height: 24px;
     text-align: center;
-    border: 1px solid #0084f6;
+    border: none;
     border-radius: 50%;
     line-height: 22px;
     margin-left: 20px;
@@ -12,20 +29,9 @@
     cursor: pointer;
     color: #0084f6;
 }
-.close-accor{
+
+.close-accor {
     line-height: 17px;
-}
-.nestedTable{
-    .field-wrapper{
-        max-width: 150px;
-        padding-top: 0px;
-        .form-ctrl{
-            border-bottom: 1px solid #0084f6;
-            &.disableDatePicker{
-                border-bottom: none;
-            }
-        }        
-    }
 }
 
 .middle-section {
@@ -47,17 +53,136 @@
 }
 
 .nested-Table-Show-Wrapper {
-    .field-wrapper{
+    .field-wrapper {
         background: transparent;
-        .form-ctrl{
+        .form-ctrl {
             background: transparent;
         }
     }
-    .subjectList-table-wrapper {
-    }
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
+    }
+}
+
+.btn-group {
+    margin-top: 15px !important; 
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    .btn{
+        margin: 0px 0px 0px 5px !important;
+        border-radius: 5px !important;
+    }
+}
+
+.tableSection {
+    .table-courseEdit {
+        tr {
+            th {
+                background: #e0eaec;
+                font-size: 14px !important;
+                color: #000000;
+                font-weight: normal;
+                height: 20px;
+                padding-top: 13px;
+                padding-bottom: 15px;
+                border-top: 2px solid rgba(119, 119, 119, 0.11);
+                text-align: left;
+                width: 22%;
+                &:first-child {
+                    width: 4%;
+                }
+            }
+            td {
+                &.noborder {
+                    border-top: none;
+                    border-bottom: none;
+                }
+            }
+            &.editable-wrapper {
+                line-height: 5px;
+                td {
+                    padding: 0px 12px;
+                    width: 22%;
+                    border-bottom: 1px solid #efefef;
+                    text-align: left;
+                    &:first-child {
+                        width: 4%;
+                    }
+                }
+                .field-wrapper {
+                    max-width: 85%;
+                    padding-top: 0px;
+                    margin-top: 0px;
+                    .form-ctrl {
+                        border-bottom: 1px solid #0084f6;
+                        &.disableDatePicker {
+                            border-bottom: none;
+                        }
+                    }
+                }
+            }
+            &.teacher-list{
+                th {
+                    background: #e0eaec;
+                    font-size: 14px !important;
+                    color: #000000;
+                    font-weight: normal;
+                    height: 20px;
+                    padding-top: 13px;
+                    padding-bottom: 15px;
+                    border-top: 2px solid rgba(119, 119, 119, 0.11);
+                    text-align: center;
+                    width: 22%;
+                    &:first-child {
+                        width: 22%;
+                    }
+                }
+                td{
+                    padding: 2px 5px;
+                    .field-wrapper{
+                        padding-top: 0px;
+                        border-bottom: solid 1px #0084f6;
+                    }      
+                }
+            }
+        }
+    }
+}
+
+.nestedTable {
+    &.nested-Table-Show-Wrapper {
+        .row {
+            table {
+                padding-top: 12px !important;
+                padding-bottom: 14px !important;
+                border-top: 2px solid rgba(119, 119, 119, 0.11);
+                text-align: center;
+                position: relative;
+            }
+        }
+    }
+}
+
+.middle-main {
+    .row {
+        .field-wrapper {
+            .has-value {
+                .form-ctrl {
+                    margin-top: 2px;
+                    color: #0084f6;
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}
+
+.middle-section {
+    .middle-top {
+        h1 {
+            margin-top: 10px;
+        }
     }
 }

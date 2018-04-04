@@ -18,6 +18,8 @@ import 'rxjs/Rx';
 export class CreateCustomCompComponent implements OnInit {
 
 
+  isDelete: boolean;
+  isEdit: boolean;
   componentShell: any[] = [];
   userCreatedComponent: any[] = [];
   isNewComponent: boolean = false;
@@ -133,7 +135,7 @@ export class CreateCustomCompComponent implements OnInit {
                 let alert = {
                   type: 'error',
                   title: 'Failed To Add Component',
-                  body: 'There was an error processing your request' + err.message
+                  body: 'There was an error processing your request' + JSON.parse(err._body).message
                 }
                 this.appC.popToast(alert);
               }
@@ -179,7 +181,7 @@ export class CreateCustomCompComponent implements OnInit {
                 let alert = {
                   type: 'error',
                   title: 'Failed To Add Component',
-                  body: 'There was an error processing your request' + err.message
+                  body: 'There was an error processing your request' + JSON.parse(err._body).message
                 }
                 this.appC.popToast(alert);
               }
@@ -207,28 +209,28 @@ export class CreateCustomCompComponent implements OnInit {
 
       /* Textbox and Checkbox */
       else if (this.createCustomComponentForm.type != "3" && this.createCustomComponentForm.type != "4" && this.createCustomComponentForm.type != "5") {
-        if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
-          this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
-            res => {
-              let alert = {
-                type: 'success',
-                title: 'Component Updated',
-              }
-              this.isNewComponent = false;
-              document.getElementById('addComponent-icon').innerHTML = "+"
-              this.clearComponentForm();
-              this.appC.popToast(alert);
-            },
-            err => {
-              let alert = {
-                type: 'error',
-                title: 'Failed To Add Component',
-                body: 'There was an error processing your request' + err.message
-              }
-              this.appC.popToast(alert);
+        this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+          res => {
+            let alert = {
+              type: 'success',
+              title: 'Component Updated',
             }
-          );
-          this.busy = this.fetchPrefillData();
+            this.isNewComponent = false;
+            document.getElementById('addComponent-icon').innerHTML = "+"
+            this.clearComponentForm();
+            this.appC.popToast(alert);
+          },
+          err => {
+            let alert = {
+              type: 'error',
+              title: 'Failed To Add Component',
+              body: 'There was an error processing your request' + JSON.parse(err._body).message
+            }
+            this.appC.popToast(alert);
+          }
+        );
+        this.busy = this.fetchPrefillData();
+        /* if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
         }
         else {
           let obj = {
@@ -237,7 +239,7 @@ export class CreateCustomCompComponent implements OnInit {
             body: ''
           }
           this.appC.popToast(obj);
-        }
+        } */
       }
 
     }
@@ -290,43 +292,35 @@ export class CreateCustomCompComponent implements OnInit {
 
   editRow(data) {
     this.editCustomComponentForm = data;
-    document.getElementById((data.label + data.component_id).toString()).classList.remove('displayComp');
-    document.getElementById((data.label + data.component_id).toString()).classList.add('editComp');
+    this.isEdit = true;
+    /* document.getElementById((data.label + data.component_id).toString()).classList.remove('displayComp');
+    document.getElementById((data.label + data.component_id).toString()).classList.add('editComp'); */
   }
 
-  deleteRow(data) {
-
-    if (confirm("Do you really wish to delete this component")) {
-      this.postdata.deleteCustomComponent(data.component_id).subscribe(
-        res => {
-          let alert = {
-            type: 'success',
-            title: 'Component Deleted',
-            body: 'requested component deleted'
-          }
-          this.appC.popToast(alert);
-          this.cancelEditRow(data);
-        },
-        err => {
-          let alert = {
-            type: 'error',
-            title: 'Failed To Delete Component',
-            body: 'The requested component is already in use'
-          }
-          this.appC.popToast(alert);
-        }
-      );
+  cancelEditRow() {
+    /* document.getElementById((data.label + data.component_id).toString()).classList.add('displayComp');
+    document.getElementById((data.label + data.component_id).toString()).classList.remove('editComp'); */
+    this.editCustomComponentForm = {
+      comp_length: "",
+      description: "",
+      institution_id: sessionStorage.getItem('institute_id'),
+      is_required: "N",
+      is_searchable: "N",
+      label: "",
+      page: 1,
+      prefilled_data: "",
+      sequence_number: "",
+      type: "",
+      on_both: "Y",
+      defaultValue: "",
+      is_external: "N"
     }
-
-  }
-
-  cancelEditRow(data) {
-    document.getElementById((data.label + data.component_id).toString()).classList.add('displayComp');
-    document.getElementById((data.label + data.component_id).toString()).classList.remove('editComp');
     this.fetchPrefillData();
+    this.isEdit = false;
   }
 
-  updateRow(data) {
+  updateRow() {
+    let data = this.editCustomComponentForm;
     //Case 1 Label/Type is not empty and MaxLength and Sequence
     if (data.label.trim() != "" && data.type != "") {
 
@@ -342,13 +336,13 @@ export class CreateCustomCompComponent implements OnInit {
                   title: 'Component Updated',
                 }
                 this.appC.popToast(alert);
-                this.cancelEditRow(data);
+                this.cancelEditRow();
               },
               err => {
                 let alert = {
                   type: 'error',
                   title: 'Failed To Update Component',
-                  body: 'component cannot be update as already in use'
+                  body: JSON.parse(err._body).message
                 }
                 this.appC.popToast(alert);
               }
@@ -385,13 +379,13 @@ export class CreateCustomCompComponent implements OnInit {
                   title: 'Component Updated',
                 }
                 this.appC.popToast(alert);
-                this.cancelEditRow(data);
+                this.cancelEditRow();
               },
               err => {
                 let alert = {
                   type: 'error',
                   title: 'Failed To Update Component',
-                  body: 'component cannot be update as already in use'
+                  body: JSON.parse(err._body).message
                 }
                 this.appC.popToast(alert);
               }
@@ -418,25 +412,25 @@ export class CreateCustomCompComponent implements OnInit {
 
       /* Textbox and Checkbox */
       else if (data.type != "3" && data.type != "4" && data.type != "5") {
-        if (this.validateDropDown(data.prefilled_data)) {
-          this.postdata.updateCustomComponent(data).subscribe(
-            res => {
-              let alert = {
-                type: 'success',
-                title: 'Component Updated',
-              }
-              this.appC.popToast(alert);
-              this.cancelEditRow(data);
-            },
-            err => {
-              let alert = {
-                type: 'error',
-                title: 'Failed To Update Component',
-                body: 'component cannot be update as already in use'
-              }
-              this.appC.popToast(alert);
+        this.postdata.updateCustomComponent(data).subscribe(
+          res => {
+            let alert = {
+              type: 'success',
+              title: 'Component Updated',
             }
-          );
+            this.appC.popToast(alert);
+            this.cancelEditRow();
+          },
+          err => {
+            let alert = {
+              type: 'error',
+              title: 'Failed To Update Component',
+              body: JSON.parse(err._body).message
+            }
+            this.appC.popToast(alert);
+          }
+        );
+        /* if (this.validateDropDown(data.prefilled_data)) {
         }
         else {
           let obj = {
@@ -445,7 +439,7 @@ export class CreateCustomCompComponent implements OnInit {
             body: ''
           }
           this.appC.popToast(obj);
-        }
+        } */
       }
 
     }
@@ -456,30 +450,6 @@ export class CreateCustomCompComponent implements OnInit {
         body: 'Please mention a Label/Type'
       }
       this.appC.popToast(alert);
-    }
-  }
-
-  /* Customiized click detection strategy */
-  inputClicked(ev) {
-    if (ev.target.classList.contains('form-ctrl')) {
-      if (ev.target.classList.contains('bsDatepicker')) {
-        var nodelist = document.querySelectorAll('.bsDatepicker');
-        [].forEach.call(nodelist, (elm) => {
-          elm.addEventListener('focusout', function (event) {
-            event.target.parentNode.classList.add('has-value');
-          });
-        });
-      }
-      else if ((ev.target.classList.contains('form-ctrl')) && !(ev.target.classList.contains('bsDatepicker'))) {
-        //document.getElementById(ev.target.id).click();
-        ev.target.addEventListener('blur', function (event) {
-          if (event.target.value != '') {
-            event.target.parentNode.classList.add('has-value');
-          } else {
-            event.target.parentNode.classList.remove('has-value');
-          }
-        });
-      }
     }
   }
 
@@ -497,6 +467,84 @@ export class CreateCustomCompComponent implements OnInit {
       type: "",
       on_both: "Y"
     }
+  }
+
+  deleteRow(data) {
+    this.editCustomComponentForm = data;
+    this.isDelete = true;
+  }
+
+  cancelDeleteRow() {
+    this.isDelete = false;
+    this.editCustomComponentForm = {
+      comp_length: "",
+      description: "",
+      institution_id: sessionStorage.getItem('institute_id'),
+      is_required: "N",
+      is_searchable: "N",
+      label: "",
+      page: 1,
+      prefilled_data: "",
+      sequence_number: "",
+      type: "",
+      on_both: "Y",
+      defaultValue: "",
+      is_external: "N"
+    }
+  }
+
+  DeleteRowConfirmed() {
+    let data = this.editCustomComponentForm;
+    this.postdata.deleteCustomComponent(data.component_id).subscribe(
+      res => {
+        this.isDelete = false;
+        let alert = {
+          type: 'success',
+          title: 'Component Deleted',
+          body: 'requested component deleted'
+        }
+        this.appC.popToast(alert);
+        this.editCustomComponentForm = {
+          comp_length: "",
+          description: "",
+          institution_id: sessionStorage.getItem('institute_id'),
+          is_required: "N",
+          is_searchable: "N",
+          label: "",
+          page: 1,
+          prefilled_data: "",
+          sequence_number: "",
+          type: "",
+          on_both: "Y",
+          defaultValue: "",
+          is_external: "N"
+        }
+      },
+      err => {
+        let alert = {
+          type: 'error',
+          title: 'Failed To Delete Component',
+          body: JSON.parse(err._body).message
+        }
+        this.appC.popToast(alert);
+        this.isDelete = false;
+        this.editCustomComponentForm = {
+          comp_length: "",
+          description: "",
+          institution_id: sessionStorage.getItem('institute_id'),
+          is_required: "N",
+          is_searchable: "N",
+          label: "",
+          page: 1,
+          prefilled_data: "",
+          sequence_number: "",
+          type: "",
+          on_both: "Y",
+          defaultValue: "",
+          is_external: "N"
+        }
+      }
+    );
   }
 
 }
