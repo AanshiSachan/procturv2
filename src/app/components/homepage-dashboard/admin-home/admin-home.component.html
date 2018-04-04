@@ -505,6 +505,7 @@
 
             <div class="c-sm-3 c-md-3 c-lg-3">
               <span class="leave">{{leaveCount}}</span>
+              
               <span class="absent">{{absentCount}}</span>
               <span class="present">{{presentCount}}</span>
             </div>
@@ -901,9 +902,15 @@
         </div>
 
         <div class="c-sm-3 c-md-3 c-lg-3">
+          
           <span class="leave">{{leaveCount}}</span>
+          <h5 >Leave</h5>
+
           <span class="absent">{{absentCount}}</span>
+          <h5 >Absent</h5>
+          
           <span class="present">{{presentCount}}</span>
+          <h5 >Present</h5>
         </div>
 
       </div>
@@ -954,11 +961,11 @@
 
                     <div class="btnGroup">
                       <button id="leaveBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s , i)"
-                        class="btn" [ngClass]="getClassForLeave(s)">Leave</button>
+                        class="btn" [ngClass]="getClassForLeave(s)">L</button>
                       <button id="absentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
-                        class="btn" [ngClass]="getClassForAbsent(s)">Absent</button>
+                        class="btn" [ngClass]="getClassForAbsent(s)">A</button>
                       <button id="presentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
-                        class="btn" [ngClass]="getClassForPresent(s)">Present</button>
+                        class="btn" [ngClass]="getClassForPresent(s)">P</button>
                     </div>
 
 
