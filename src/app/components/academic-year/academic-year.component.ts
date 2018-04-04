@@ -113,17 +113,17 @@ export class AcademicYearComponent implements OnInit {
     document.getElementById(("row" + index).toString()).classList.add('editComp');
   }
 
-  saveAcademicYearInformation(row, index) {
+  saveAcademicYearInformation(row2, index) {
 
     let data = {
-      inst_acad_year: row.inst_acad_year,
-      desc: row.desc,
-      start_date: row.start_date,
-      end_date: row.end_date,
-      inst_id: row.inst_id,
-      default_academic_year: row.default_academic_year
+      inst_acad_year: row2.inst_acad_year,
+      desc: row2.desc,
+      start_date: row2.start_date,
+      end_date: row2.end_date,
+      inst_id: row2.inst_id,
+      default_academic_year: row2.default_academic_year
     }
-    this.academicyearservice.editAcademicYear(data, row.inst_acad_year_id).subscribe(
+    this.academicyearservice.editAcademicYear(data, row2.inst_acad_year_id).subscribe(
       res => {
         this.cancelEditRow(index);
         this.getAllAcademicFromServer();
@@ -139,6 +139,7 @@ export class AcademicYearComponent implements OnInit {
         this.getAllAcademicFromServer();
       }
     )
+    console.log(data);
   }
 
   cancelEditRow(index) {
@@ -164,6 +165,7 @@ export class AcademicYearComponent implements OnInit {
     this.PageIndex = index;
     let startindex = this.studentdisplaysize * (index - 1);
     this.academicTableList = this.getDataFromDataSource(startindex);
+    console.log(this.academicTableList);
   }
 
   fetchNext() {

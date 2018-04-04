@@ -342,16 +342,10 @@
                 <div class="row" id="student-table">
                     <div class="table-scroll-wrapper">
                         <div class="table table-responsive student-table">
-                            <ng-robTable [records]="studentDataSource" [defaultSort]="sortBy" [reset]="isSideBar" [tableName]="'student'" [settings]="StudentSettings"
-                                (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="loading_message"
-                                [key1]="'isActive'" [primaryKey]="'student_id'" (rowIdArr)="getSelected($event)" (rowUserIDArrayList)="getSelectedUserIDS($event)"
-                                (sortById)="sortTableById($event)">
+                            <ng-robTable [records]="studentDataSource"  [defaultSort]="sortBy" [reset]="isSideBar" [tableName]="'student'" [settings]="StudentSettings" (userRowSelect)="userRowSelect($event)"
+                                (rowsSelected)="getRowCount($event)" [dataStatus]="loading_message" [key1]="'isActive'" [primaryKey]="'student_id'"
+                                (rowIdArr)="getSelected($event)" (rowUserIDArrayList)="getSelectedUserIDS($event)" (sortById)="sortTableById($event)" (sortDirection)="getDirection($event)">
                             </ng-robTable>
-                            <!-- <proctur-checkbox-table [records]="studentDataSource" [tableName]="'student'" 
-                                [settings]="StudentSettings" [dataStatus]="loading_message"
-                                [key1]="'isActive'" [primaryKey]="'student_id'" (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)"
-                                (rowIdArr)="getSelected($event)" (sortById)="sortTableById($event)">
-                            </proctur-checkbox-table> -->
                         </div>
                     </div>
                 </div>

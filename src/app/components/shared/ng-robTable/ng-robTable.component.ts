@@ -26,7 +26,7 @@ export class RobTableComponent implements OnChanges {
     @Output() rowIdArr = new EventEmitter<any[]>();
     @Output() sortById = new EventEmitter<string>();
     @Output() rowUserId = new EventEmitter<string>();
-
+    @Output() sortDirection=new EventEmitter<boolean>();
 
     isAllSelected: boolean = false;
     columnMaps: ColumnMap[];
@@ -36,7 +36,7 @@ export class RobTableComponent implements OnChanges {
     rowSelectedId: any[] = [];
     dummyArr: any[] = [0, 1, 2, 3, 4,];
     userIdArray: any = [];
-    asc: boolean = true;
+    asc: boolean = false;
     caret = true;
 
     @ViewChild('headerCheckbox') hc: ElementRef;
@@ -160,6 +160,7 @@ export class RobTableComponent implements OnChanges {
         this.headerSort=ev;
         (this.asc) ? (this.asc=false) : (this.asc=true);
         this.sortById.emit(ev);
+        this.sortDirection.emit(this.asc);
     }
 
     getStyle(key, value): any {

@@ -271,17 +271,18 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   }
 
-  getDirection(): string {
+  getDirection(e){
     //console.log(this.currentDirection);
-    if (this.currentDirection == "desc") {
+    if (e) {
       this.currentDirection = 'asc';
-      return 'asc';
+      
     }
-    else if (this.currentDirection == 'asc') {
+    else  {
       this.currentDirection = 'desc';
-      return 'desc';
+      
     }
   }
+  
 
   /* fetch the data from server based on specific page number by converting the index into start_index */
   fectchTableDataByPage(index) {
@@ -968,7 +969,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     //console.log(id);
     if (id != 'noOfBatchesAssigned') {
       this.instituteData.sorted_by = id;
-      this.instituteData.order_by = this.getDirection();
+      this.instituteData.order_by = this.currentDirection;
       this.busy = this.loadTableDataSource(this.instituteData);
     }
   }
