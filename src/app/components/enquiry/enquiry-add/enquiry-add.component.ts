@@ -226,7 +226,7 @@ export class EnquiryAddComponent implements OnInit {
       closedReason: "",
       demo_by_id: "",
       status: "0",
-      assigned_to: "-1",
+      assigned_to: sessionStorage.getItem('userid'),
       followUpTime: "",
       lead_id: -1,
       enqCustomLi: []
@@ -812,7 +812,7 @@ export class EnquiryAddComponent implements OnInit {
       }
     });
 
-    if(!temp){
+    if (!temp) {
       let msg = {
         type: 'error',
         title: 'Required Details Not Filled On Academics Details',
@@ -876,10 +876,10 @@ export class EnquiryAddComponent implements OnInit {
       }
     }
     else {
-      if(this.validateEnquiryDate()){
+      if (this.validateEnquiryDate()) {
         return true;
       }
-      else{
+      else {
         let msg = {
           type: 'error',
           title: 'Cannot Set Future Enquiry Date',
@@ -891,14 +891,14 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
-  validateEnquiryDate(){
+  validateEnquiryDate() {
     let a = moment();
     let b = moment(this.newEnqData.enquiry_date);
     let d = a.diff(b);
-    if(d < 0){
+    if (d < 0) {
       return false;
     }
-    else{
+    else {
       return true;
     }
   }
