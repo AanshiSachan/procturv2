@@ -45,7 +45,7 @@ hr {
     display: flex;
     margin-top: -15px;
     overflow: hidden;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
     }
     .row {
@@ -157,6 +157,11 @@ hr {
                         border-bottom: 2px solid rgba(220, 220, 220, 0.2196078431372549);
                         height: 45px;
                         td {
+                            &.label-box {
+                                width: 100%;
+                                position: relative;
+                                top: 0px;
+                            }
                             &:first-child {
                                 font-size: 0.9em;
                                 padding-left: 15px;
@@ -247,6 +252,7 @@ hr {
                         width: 40%;
                         height: auto;
                         margin-top: 10px;
+                        overflow: visible;
                     }
                     .field-wrapper {
                         height: auto;
@@ -571,6 +577,17 @@ hr {
                         }
                     }
                 }
+                .table-responsive {
+                    tr {
+                        td {
+                            &:first-child {
+                                .field-checkbox-wrapper {
+                                    overflow: visible;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -637,4 +654,90 @@ input[type=number]::-webkit-outer-spin-button {
             }
         }
     }
+}
+
+.qInfoIcon {
+    width: 20px;
+    margin-left: 5px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;
+    line-height: 20px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0px 0px 1px 0px #ccc inset;
+    color: #888;
+    transition: all 0.2s linear;
+    &:hover {
+        border-color: $header-bg;
+        box-shadow: 0px 0px 1px 0px $header-bg inset;
+        color: $header-bg;
+    }
+}
+
+.tooltip-box-field {
+    width: 150px;
+    white-space: nowrap;
+    min-height: 30px;
+    line-height: 20px;
+    padding: 5px 5px;
+    overflow: visible;
+    color: black;
+    font-weight: bold;
+
+
+    &.lg {
+        width: 200px;
+        white-space: nowrap;
+        min-height: 50px;
+        line-height: 20px;
+        padding: 5px 5px;
+    }
+    &.sm {
+        width: 100px;
+        white-space: nowrap;
+        min-height: 40px;
+        padding: 5px 5px;
+    }
+}
+
+#tool1 {
+    float: left;
+    display: inline;
+    position: relative;
+    left: 62px;
+    margin-top: -16px;
+}
+
+#tool2 {
+    float: left;
+    display: inline;
+    position: relative;
+    margin-left: 27px;
+    margin-top: -16px;
+}
+
+#tool3 {
+    width: 250px;
+    padding: 5px 15px;
+}
+
+tr {
+    td {
+        .margin-line {
+            margin-left: -15px;
+            line-height: 25px;
+        }
+    }
+}
+.line-break{
+    
+    opacity: 1;
+    left: 28px;
+    top: -30px;
+    white-space: nowrap;
 }
