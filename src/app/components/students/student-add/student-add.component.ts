@@ -23,6 +23,7 @@ import 'rxjs/add/operator/filter';
 })
 export class StudentAddComponent implements OnInit {
 
+  defaultAcadYear: any;
   isPartialPayment: boolean;
   userHasFees: boolean;
   closeFee: boolean;
@@ -83,6 +84,7 @@ export class StudentAddComponent implements OnInit {
     institution_id: sessionStorage.getItem('institute_id'),
     assignedBatches: [],
     assignedBatchescademicYearArray: [""],
+    assignedCourse_Subject_FeeTemplateArray: [""],
     fee_type: 0,
     fee_due_day: 0,
     batchJoiningDates: [],
@@ -308,6 +310,7 @@ export class StudentAddComponent implements OnInit {
     total_amt_paid: ""
   }
   enableBiometric: any;
+  academicYear: any[] = [];
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(
@@ -648,7 +651,8 @@ export class StudentAddComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-      });
+      }
+    );
 
     //this.isRippleLoad = true;
     let institute = this.prefill.getSchoolDetails().subscribe(
@@ -657,7 +661,8 @@ export class StudentAddComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-      });
+      }
+    );
 
     this.getFeeStructue();
 
@@ -669,12 +674,30 @@ export class StudentAddComponent implements OnInit {
       data => {
         this.pdcStatus = data;
       }
+    );
+
+    this.prefill.getAllFinancialYear().subscribe(
+      data => {
+        this.academicYear = data;
+        this.academicYear.forEach(e => {
+          if (e.default_academic_year == 1) {
+            this.defaultAcadYear = e.inst_acad_year_id;
+          }
+        });
+      },
+      err => {
+        let obj = {
+          type: "error",
+          title: "Error Fetching Data",
+          body: "Please refresh or check internet connectivity"
+        }
+        this.appC.popToast(obj);
+      }
     )
 
     if (inventory != null && institute != null && standard != null) {
       let customComp = this.studentPrefillService.fetchCustomComponent().subscribe(
         data => {
-          console.log(data);
           data.forEach(el => {
             let obj = {
               data: el,
@@ -797,19 +820,32 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.assignedBatches = [];
     this.studentAddFormData.batchJoiningDates = [];
     this.studentAddFormData.assignedBatchescademicYearArray = [""];
+    this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [""]
     this.batchList.forEach(el => {
       if (el.isSelected) {
-        if (this.isProfessional) {
-          this.studentAddFormData.assignedBatches.push(el.data.batch_id.toString());
-          this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
-          this.studentAddFormData.assignedBatchescademicYearArray.push("-1");
-          batchString.push(el.data.batch_name);
+        if (el.assignDate != "" && el.assignDate != null && el.assignDate != "Invalid date") {
+          if (this.isProfessional) {
+            this.studentAddFormData.assignedBatches.push(el.data.batch_id.toString());
+            this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
+            this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
+            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
+            batchString.push(el.data.batch_name);
+          }
+          else {
+            this.studentAddFormData.assignedBatches.push(el.data.course_id.toString());
+            this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
+            this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
+            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
+            batchString.push(el.data.course_name);
+          }
         }
         else {
-          this.studentAddFormData.assignedBatches.push(el.data.course_id.toString());
-          this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
-          this.studentAddFormData.assignedBatchescademicYearArray.push("-1");
-          batchString.push(el.data.course_name);
+          let alert = {
+            type: 'error',
+            title: 'Assign Date Required',
+            body: 'Please select a joining date for selected option'
+          }
+          this.appC.popToast(alert);
         }
       }
     });
@@ -890,9 +926,11 @@ export class StudentAddComponent implements OnInit {
       if (this.studentAddFormData.assignedBatches == null || this.studentAddFormData.assignedBatches.length == 0) {
         this.studentAddFormData.assignedBatches = null
         this.studentAddFormData.assignedBatchescademicYearArray = null;
+        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = null;
       }
       else if (this.studentAddFormData.assignedBatches != null && this.studentAddFormData.assignedBatches.length != 0) {
         this.studentAddFormData.assignedBatchescademicYearArray.reverse();
+        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.reverse();
       }
       this.isRippleLoad = true;
       this.busyPrefill = this.postService.quickAddStudent(this.studentAddFormData).subscribe(

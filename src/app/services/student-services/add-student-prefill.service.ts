@@ -344,7 +344,7 @@ export class AddStudentPrefillService {
 
   fetchCourseMasterById(stndrid) {
     stndrid = stndrid == 0 ? -1 : stndrid;
-    let urlCourseMaster = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/complete?standard_id=" + stndrid;
+    let urlCourseMaster = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/complete?standard_id=" + stndrid +"&isFeeTemplates=Y";
     return this.http.get(urlCourseMaster, { headers: this.headers }).map(
       res => {
         return res.json();
