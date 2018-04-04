@@ -11,11 +11,12 @@
                     <a *ngIf="(isLangInstitue)" routerLink="/course/subject">Course</a>
                     <a *ngIf="(!isLangInstitue)" routerLink="/course/subject">Subject</a>
                 </li>
-                <li *ngIf="(!isLangInstitue)" id="liCourses" (click)="switchActiveView('liCourses')" class="">
+                <!-- <li id="liCourses" (click)="switchActiveView('liCourses')" class="">
                     <a routerLink="/course/courselist">Courses</a>
-                </li>
-                <li *ngIf="(isLangInstitue)" id="liManageBatch" (click)="switchActiveView('liManageBatch')" class="">
-                    <a routerLink="/course/managebatch">Batch</a>
+                </li> -->
+                <li id="liManageBatch" (click)="switchActiveView('liManageBatch')" class="">
+                    <a *ngIf="(isLangInstitue)" routerLink="/course/managebatch">Batch</a>
+                    <a *ngIf="(!isLangInstitue)" routerLink="/course/courselist">Courses</a>
                 </li>
                 <!-- <li id="liExam" (click)="switchActiveView('liExam')" class="">
                     <a routerLink="/course/exam">Exam</a>

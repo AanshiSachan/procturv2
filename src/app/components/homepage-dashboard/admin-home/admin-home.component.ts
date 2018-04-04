@@ -2318,8 +2318,8 @@ export class AdminHomeComponent implements OnInit {
     if (this.permissionArray == "" || this.permissionArray == null) {
       return false;
     } else {
-      if (id != "" && id != null) {
-        let data = JSON.parse(this.permissionArray);
+      let data = JSON.parse(this.permissionArray);
+      if (id != "" && data != null && data != "") {
         if (data.indexOf(id) == "-1") {
           return true;
         } else {

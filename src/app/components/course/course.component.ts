@@ -17,11 +17,14 @@ export class CourseComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.checkInstituteType();
+    this.removeSelectionFromSideNav();
     this.removeFullscreen();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-    this.checkWhichTabIsOpen();
+    this.checkInstituteType();
+  }
+
+  removeSelectionFromSideNav() {
     document.getElementById('lione').classList.remove('active');
     document.getElementById('litwo').classList.remove('active');
     document.getElementById('lithree').classList.add('active');
@@ -38,8 +41,10 @@ export class CourseComponent implements OnInit {
     let type: any = sessionStorage.getItem('institute_type');
     if (type == "LANG") {
       this.isLangInstitue = true;
+      this.checkUserAcessForLang();
     } else {
       this.isLangInstitue = false;
+      this.checkUserAcessForNotLang();
     }
   }
 
@@ -50,7 +55,7 @@ export class CourseComponent implements OnInit {
     } else if (this.router.url.includes('subject')) {
       this.switchActiveView('liSubject');
     } else if (this.router.url.includes('courselist')) {
-      this.switchActiveView('liCourses');
+      this.switchActiveView('liManageBatch');
     } /* else if (this.router.url.includes('exam')) {
       this.switchActiveView('liExam');
     } */ else if (this.router.url.includes('class')) {
@@ -66,13 +71,10 @@ export class CourseComponent implements OnInit {
       document.getElementById('liSubject').classList.remove('active');
       //document.getElementById('liExam').classList.remove('active');
       document.getElementById('liClass').classList.remove('active');
-      if (this.isLangInstitue) {
-        document.getElementById('liManageBatch').classList.remove('active');
-      } else {
-        document.getElementById('liCourses').classList.remove('active');
-      }
+      document.getElementById('liManageBatch').classList.remove('active');
+      // document.getElementById('liCourses').classList.remove('active');
       document.getElementById(showId).classList.add('active');
-    }, 200)
+    }, 100)
   }
 
   removeFullscreen() {
@@ -85,6 +87,105 @@ export class CourseComponent implements OnInit {
     [].forEach.call(sidebar, function (el) {
       el.classList.remove('hide');
     });
+  }
+
+
+  checkUserAcessForNotLang() {
+    const permissionArray = sessionStorage.getItem('permissions');
+    if (permissionArray == "" || permissionArray == null) {
+      this.showAllTabs();
+    } else {
+      this.hideAllTabs();
+      if (permissionArray != null && permissionArray != "") {
+        if (permissionArray.indexOf('501') != -1) {
+          document.getElementById('liStandard').classList.remove('hide');
+        }
+        if (permissionArray.indexOf('502') != -1) {
+          document.getElementById('liSubject').classList.remove('hide');
+        }
+        if (permissionArray.indexOf('505') != -1) {
+          document.getElementById('liManageBatch').classList.remove('hide');
+        }
+        if (permissionArray.indexOf('701') >= 0 || permissionArray.indexOf('704') >= 0) {
+          document.getElementById('liClass').classList.remove('hide');
+        }
+        this.routeToSubTabs(permissionArray);
+      }
+    }
+  }
+
+  routeToSubTabs(data) {
+    if (data.indexOf('501') != -1) {
+      this.router.navigateByUrl('course/course');
+      this.switchActiveView('liStandard');
+    } else if (data.indexOf('502') != -1) {
+      this.router.navigateByUrl('course/subject');
+      this.switchActiveView('liSubject');
+    } else if (data.indexOf('505') != -1) {
+      this.router.navigateByUrl('course/courselist');
+      this.switchActiveView('liManageBatch');
+    } else if (data.indexOf('701') >= 0 || data.indexOf('704') >= 0) {
+      this.router.navigateByUrl('course/class');
+      this.switchActiveView('liClass');
+    }
+  }
+
+  checkUserAcessForLang() {
+    const permissionArray = sessionStorage.getItem('permissions');
+    if (permissionArray == "" || permissionArray == null) {
+      this.showAllTabs();
+    } else {
+      this.hideAllTabs();
+      if (permissionArray != null && permissionArray != "") {
+        if (permissionArray.indexOf('501') != -1) {
+          document.getElementById('liStandard').classList.remove('hide');
+        }
+        if (permissionArray.indexOf('502')) {
+          document.getElementById('liSubject').classList.remove('hide');
+        }
+        if (permissionArray.indexOf('401') != -1) {
+          document.getElementById('liManageBatch').classList.remove('hide');
+        }
+        if (permissionArray.indexOf('402') >= 0 || permissionArray.indexOf('704') >= 0) {
+          document.getElementById('liClass').classList.remove('hide');
+        }
+        this.routeToSubTabsForLang(permissionArray);
+      }
+    }
+  }
+
+  routeToSubTabsForLang(data) {
+    if (data.indexOf('501') != -1) {
+      this.router.navigateByUrl('course/course');
+      this.switchActiveView('liStandard');
+    } else if (data.indexOf('502') != -1) {
+      this.router.navigateByUrl('course/subject');
+      this.switchActiveView('liSubject');
+    } else if (data.indexOf('401') != -1) {
+      this.router.navigateByUrl('course/managebatch');
+      this.switchActiveView('liManageBatch');
+    } else if (data.indexOf('402') >= 0 || data.indexOf('704') >= 0) {
+      this.router.navigateByUrl('course/class');
+      this.switchActiveView('liClass');
+    }
+  }
+
+  showAllTabs() {
+    document.getElementById('liStandard').classList.remove('hide');
+    document.getElementById('liSubject').classList.remove('hide');
+    document.getElementById('liManageBatch').classList.remove('hide');
+    // document.getElementById('liCourses').classList.remove('hide');
+    // document.getElementById('liExam').classList.remove('hide');
+    document.getElementById('liClass').classList.remove('hide');
+  }
+
+  hideAllTabs() {
+    document.getElementById('liStandard').classList.add('hide');
+    document.getElementById('liSubject').classList.add('hide');
+    document.getElementById('liManageBatch').classList.add('hide');
+    // document.getElementById('liCourses').classList.add('hide');
+    // document.getElementById('liExam').classList.add('hide');
+    document.getElementById('liClass').classList.add('hide');
   }
 
 }

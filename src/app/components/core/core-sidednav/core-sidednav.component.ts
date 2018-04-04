@@ -109,7 +109,7 @@ export class CoreSidednavComponent implements OnInit {
 
 
   hasCourse(permissions) {
-    if (permissions.includes('401') || permissions.includes('402') || permissions.includes('403') || permissions.includes('404') || permissions.includes('405') || permissions.includes('406')) {
+    if (permissions.includes('401') || permissions.includes('402') || permissions.includes('403') || permissions.includes('404') || permissions.includes('405') || permissions.includes('406') || permissions.includes('501') || permissions.includes('502') || permissions.includes('505') || permissions.includes('701') ||  permissions.includes('704')) {
       document.getElementById('lithree').classList.remove('hide');
     }
   }
@@ -139,7 +139,7 @@ export class CoreSidednavComponent implements OnInit {
   }
 
 
-  
+
   hasInventory(permissions) {
     if (permissions.includes('301')) {
       document.getElementById('liseven').classList.remove('hide');
