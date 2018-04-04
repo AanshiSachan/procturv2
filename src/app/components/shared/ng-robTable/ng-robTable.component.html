@@ -19,12 +19,13 @@
 
                                         <div *ngIf="isSorted(map)" style="display: inline-block">
                                             <div *ngIf="asc;then ascending else descending">
+                                                
                                             </div>
                                             <ng-template #ascending>
-                                                <div class="fa fa-caret-up"></div>
+                                                <div class="fa fa-caret-down"></div>
                                             </ng-template>
                                             <ng-template #descending>
-                                                <div class="fa fa-caret-down"></div>
+                                                <div class="fa fa-caret-up"></div>
                                             </ng-template>
                                         </div>
                                         {{ map.header }}

@@ -3181,7 +3181,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     //console.log(id);
     if (id == 'followUpDateTime') { id = 'followUpDate' }
     this.instituteData.sorted_by = id;
-    this.currentDirection = this.currentDirection == 'desc' ? 'asc' : 'desc';
+    //this.currentDirection = this.currentDirection == 'desc' ? 'asc' : 'desc';
     this.instituteData.order_by = this.currentDirection;
     this.instituteData.filtered_statuses = this.statusString.join(',');
     this.cd.markForCheck();
@@ -3514,7 +3514,14 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* =========================================================================== */
   /* =========================================================================== */
-
+  getDirection(e){
+    if(e){
+      this.currentDirection= "asc";
+    }
+    else{
+      this.currentDirection="desc";
+    }
+  }
 }
 
 
