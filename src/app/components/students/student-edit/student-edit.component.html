@@ -9,34 +9,31 @@
     <section class="student-tab">
       <ul class="nav-tab">
         <li id="li-one" class="active">
-          <div class="navigator" id="studentForm-icon" (click)="switchToView($event.target.id)">
+          <div class="navigator" id="studentForm-icon">
             <span id="studentForm-icon">1</span>
             <p id="studentForm-icon">Personal Details</p>
           </div>
         </li>
         <li class="" id="li-two">
-          <div class="navigator" id="kyc-icon" (click)="switchToView($event.target.id)">
+          <div class="navigator" id="kyc-icon">
             <span id="kyc-icon">2</span>
             <p id="kyc-icon">Other Details</p>
           </div>
         </li>
         <li class="" id="li-three" [class.hide]="quickAddStudent">
-          <div class="navigator" id="feeDetails-icon" (click)="switchToView($event.target.id)">
+          <div class="navigator" id="feeDetails-icon">
             <span id="feeDetails-icon">3</span>
             <p id="feeDetails-icon">Fee Details</p>
           </div>
         </li>
         <li class="" id="li-four" [class.hide]="quickAddStudent">
-          <div class="navigator" id="inventory-icon" (click)="switchToView($event.target.id)">
+          <div class="navigator" id="inventory-icon">
             <span id="inventory-icon">4</span>
             <p id="inventory-icon">Inventory</p>
           </div>
         </li>
       </ul>
     </section>
-    <!-- ======================================================== -->
-    <!-- ======================================================== -->
-
     <!-- ======================================================== -->
     <!-- ======================================================== -->
     <!-- ========Student Main Enquiry Form ====================== -->
@@ -114,8 +111,7 @@
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_sex != ''}">
                     <select id="userGender" class="form-ctrl" [(ngModel)]="studentAddFormData.student_sex" name="userGender">
-                      <option value=""></option>
-                      <option value="M">Male</option>
+                      <option value="M" selected>Male</option>
                       <option value="F">Female</option>
                       <option value="Na">NA</option>
                     </select>
@@ -151,7 +147,8 @@
                   </div>
 
                   <div class="more-detail">
-                    <a style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+ &nbsp; Add Additional Details</a>
+                    <a *ngIf="!additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+ &nbsp; Add Additional Details</a>
+                    <a *ngIf="additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">- &nbsp; Hide Additional Details</a>
                   </div>
 
                 </div>
@@ -703,11 +700,17 @@
         </section>
         <!--====================================middle Bottom section==========================-->
         <section class="middle-bottom fd-btm clearFix">
+
           <aside class="pull-left">
             <div class="fd-btm-label" *ngIf="!isPaymentDetailsValid && userCustommizedFee.length != 0">
               Payment for &#8377; {{totalFeePaid | commaSeprator}} to be updated
             </div>
           </aside>
+
+          <div class="pull-right">
+            <input type="button" style="width: 85px;" (click)="navigateTo('kyc')" value="Back" class="btn">
+          </div>
+
           <aside class="pull-right">
             <div class="" *ngIf="!isPaymentDetailsValid">
               <input type="button" *ngIf="totalFeePaid != 0" value="Update Payment" (click)="openPaymentDetails($event)" class="btn fullBlue">
@@ -719,6 +722,7 @@
               <input type="button" value="Skip and Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
             </div>
           </aside>
+
         </section>
 
       </section>
@@ -1489,6 +1493,7 @@
         </aside>
       </div>
     </div>
+
   </student-pop-up>
   <!-- ======================================================== -->
   <!-- ======================================================== -->

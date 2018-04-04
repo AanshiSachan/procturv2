@@ -149,7 +149,8 @@
                   </div>
 
                   <div class="more-detail" style="font-size: 14px;">
-                    <a style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+ &nbsp; Add Additional Details</a>
+                    <a *ngIf="!additionalBasicDetails"  style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">+ &nbsp; Add Additional Details</a>
+                    <a *ngIf="additionalBasicDetails" style="cursor:pointer" (click)="toggleAdditionalBasicDetails()">- &nbsp; Hide Additional Details</a>                    
                   </div>
 
                 </div>
