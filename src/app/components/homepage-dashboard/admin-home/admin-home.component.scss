@@ -339,7 +339,15 @@ fieldset {
                 background-color: #efefef;
                 span {
                     padding: 4px 12px;
+                    margin-left:-4px;
                 }
+                h5{
+                    display: inline;  
+                    margin-left:-2px;
+                    margin-right:2px;
+                    font-size:10px;  
+                }
+                
                 .absent {
                     color: white !important;
                     background: #fe552a;
@@ -550,6 +558,13 @@ fieldset {
         background-color: #efefef;
         span {
             padding: 4px 12px;
+            margin-left:4px;
+        }
+        h5{
+            margin-left:4px;
+            display: inline-block;
+            font-weight: 200;
+            font-size: 13px;
         }
         .absent {
             color: white;
@@ -1670,13 +1685,12 @@ div#enqChart {
 .btnGroup {
     display: inline-flex;
     .btn {
-        padding: 5px 5px 15px 5px;
-        margin: 5px 5px 5px 5px;
-        color: black;
+        padding: 1px 12px 5px 12px;
+         margin: 5px 5px 5px 5px;
         width: 29%;
-        height: 19px;
-        font-size: 11px;
-        border-radius: 5px;
+        height: 24px;
+        font-size: 14px;
+        border-radius: 6px;
     }
     .classLeaveBtn {
         color: white;

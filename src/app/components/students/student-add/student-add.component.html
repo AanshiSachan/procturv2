@@ -241,7 +241,7 @@
                 <div class="field-wrapper datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}">
                   <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" readonly="true" [(ngModel)]="studentAddFormData.doj"
                   />
-                  <label for="doj">Date of Joining</label>
+                  <label for="doj">Date of Admission</label>
                   <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span>
                 </div>
 
@@ -525,7 +525,7 @@
                   <path fill="#0084F6" fill-rule="nonzero" d="M21.7 14.254V9.803h1v4.45z" />
                 </g>
               </svg>
-              <span>Add PDC</span>
+              <span>Manage PDC</span>
             </button>
             <button class="btn" *ngIf="feeTemplateById.template_name == ''" (click)="configureFees($event)">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">

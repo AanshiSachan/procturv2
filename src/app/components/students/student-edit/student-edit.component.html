@@ -239,7 +239,7 @@
                 <div class="field-wrapper datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}">
                   <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" readonly="true" bsDatepicker name="doj" [(ngModel)]="studentAddFormData.doj"
                   />
-                  <label for="doj">Date of Joining</label>
+                  <label for="doj">Date of Admission</label>
                   <span class="date-clear" name="doj" (click)="clearDateoJoining()">clear</span>
                 </div>
 
@@ -514,7 +514,7 @@
                   <path fill="#0084F6" fill-rule="nonzero" d="M21.7 14.254V9.803h1v4.45z" />
                 </g>
               </svg>
-              <span>Add PDC</span>
+              <span>Manage PDC</span>
             </button>
             <button class="btn" *ngIf="userCustommizedFee.length == 0" (click)="configureFees($event)">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
@@ -1708,18 +1708,18 @@
 
         </div>
 
-        <div class="pdc-data-shell">
-          <!-- Header Installment -->
-          <div class="pdc-header">
+         <div class="pdc-data-shell">
+          
+          <!-- <div class="pdc-header">
             <div class="pull-left">
               Search and Edit
-              <!-- <span class="installment-count">4</span> -->
+              
             </div>
             <div class="pull-right">
             </div>
           </div>
-          <!-- Installment Adding Here -->
-          <div class="pdc-search">
+          -->
+          <!-- <div class="pdc-search">
             <ul>
               <li>
                 <div class="form-wrapper">
@@ -1762,8 +1762,8 @@
               <li></li>
 
             </ul>
-          </div>
-          <!-- Installment Table Configure -->
+          </div> 
+           -->
           <div class="pdc-table">
             <ul class="table-header">
               <li></li>
@@ -1783,7 +1783,7 @@
                     <label for=""></label>
                   </div>
                 </li>
-                <!-- Bank Name -->
+                
                 <li class="view-comp">
                   {{ch.bank_name}}
                 </li>
@@ -1866,7 +1866,7 @@
               <h3 style="text-align: center;padding: 20px 0px;border-bottom: 1px solid rgba(119, 119, 119, 0.32);border-left: 1px solid rgba(119, 119, 119, 0.32);border-right: 1px solid rgba(119, 119, 119, 0.32);">No Cheque Saved</h3>
             </div>
           </div>
-        </div>
+        </div>  
 
       </div>
     </div>

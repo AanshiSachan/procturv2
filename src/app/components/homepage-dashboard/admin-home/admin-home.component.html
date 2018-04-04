@@ -427,14 +427,21 @@
           </div>
 
           <div class="row filterSection">
-            <div class="c-sm-3 c-md-3 c-lg-3">
+            <div class="c-sm-2 c-md-2 c-lg-2">
               <h3>Total Students : {{studentAttList.length}} </h3>
             </div>
 
-            <div class="c-sm-3 c-md-3 c-lg-3">
+            <div class="c-sm-4 c-md-4 c-lg-4">
+              
               <span class="leave">{{leaveCount}}</span>
+              <h5>Leave</h5>
+              
               <span class="absent">{{absentCount}}</span>
+              <h5>Absent</h5>
+              
               <span class="present">{{presentCount}}</span>
+              <h5>Present</h5>
+              
             </div>
 
             <div class="c-sm-3 c-md-3 c-lg-3">
@@ -504,11 +511,11 @@
                       </div> -->
                       <div class="btnGroup  btns">
                         <button id="leaveBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s , i)" class="btn"
-                          [ngClass]="getClassForLeave(s)">Leave</button>
+                          [ngClass]="getClassForLeave(s)">L</button>
                         <button id="absentBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s, i)" class="btn"
-                          [ngClass]="getClassForAbsent(s)">Absent</button>
+                          [ngClass]="getClassForAbsent(s)">A</button>
                         <button id="presentBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s, i)" class="btn"
-                          [ngClass]="getClassForPresent(s)">Present</button>
+                          [ngClass]="getClassForPresent(s)">P</button>
                       </div>
                     </li>
 
@@ -591,7 +598,7 @@
               <label for="EnableSmsTopic">Enable SMS For Topic Covered</label>
             </div>
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" class="form-checkbox" id="EnableSmsAbsentees">
+              <input type="checkbox" *ngIf="(settingInfo.sms_absent_notification > 0)" value="" class="form-checkbox" id="EnableSmsAbsentees">
               <label for="EnableSmsTopic">Enable SMS For Absentees</label>
             </div>
           </div>
@@ -829,9 +836,15 @@
         </div>
 
         <div class="c-sm-3 c-md-3 c-lg-3">
+          
           <span class="leave">{{leaveCount}}</span>
+          <h5 >Leave</h5>
+
           <span class="absent">{{absentCount}}</span>
+          <h5 >Absent</h5>
+          
           <span class="present">{{presentCount}}</span>
+          <h5 >Present</h5>
         </div>
 
       </div>
@@ -882,11 +895,11 @@
 
                     <div class="btnGroup">
                       <button id="leaveBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s , i)"
-                        class="btn" [ngClass]="getClassForLeave(s)">Leave</button>
+                        class="btn" [ngClass]="getClassForLeave(s)">L</button>
                       <button id="absentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
-                        class="btn" [ngClass]="getClassForAbsent(s)">Absent</button>
+                        class="btn" [ngClass]="getClassForAbsent(s)">A</button>
                       <button id="presentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
-                        class="btn" [ngClass]="getClassForPresent(s)">Present</button>
+                        class="btn" [ngClass]="getClassForPresent(s)">P</button>
                     </div>
 
 
