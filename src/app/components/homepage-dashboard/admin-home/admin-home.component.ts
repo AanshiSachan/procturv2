@@ -847,10 +847,10 @@ export class AdminHomeComponent implements OnInit {
 
   updateAttendance() {
     let sendSms = "N";
-    if (this.settingInfo.sms_absent_notification > 0) {
       let check = this.checkIfStudentIsAbsent();
       if (check) {
-        if (confirm("Do you want to send SMS Alert to Absent students?")) {
+        let checkboxAbsentees=document.getElementById("EnableSmsAbsentees").checked;
+        if (checkboxAbsentees) {
           sendSms = "Y";
           this.markAttendanceServerCall(sendSms);
         } else {
@@ -860,9 +860,7 @@ export class AdminHomeComponent implements OnInit {
       } else {
         this.markAttendanceServerCall(sendSms);
       }
-    } else {
-      this.markAttendanceServerCall(sendSms);
-    }
+    
   }
 
   markAttendanceServerCall(sendSms) {

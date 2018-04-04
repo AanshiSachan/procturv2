@@ -499,11 +499,11 @@
           </div>
 
           <div class="row filterSection">
-            <div class="c-sm-3 c-md-3 c-lg-3">
+            <div class="c-sm-2 c-md-2 c-lg-2">
               <h3>Total Students : {{studentAttList.length}} </h3>
             </div>
 
-            <div class="c-sm-3 c-md-3 c-lg-3">
+            <div class="c-sm-4 c-md-4 c-lg-4">
               
               <span class="leave">{{leaveCount}}</span>
               <h5>Leave</h5>
@@ -513,6 +513,7 @@
               
               <span class="present">{{presentCount}}</span>
               <h5>Present</h5>
+              
             </div>
 
             <div class="c-sm-3 c-md-3 c-lg-3">
@@ -669,7 +670,7 @@
               <label for="EnableSmsTopic">Enable SMS For Topic Covered</label>
             </div>
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" class="form-checkbox" id="EnableSmsAbsentees">
+              <input type="checkbox" *ngIf="(settingInfo.sms_absent_notification > 0)" value="" class="form-checkbox" id="EnableSmsAbsentees">
               <label for="EnableSmsTopic">Enable SMS For Absentees</label>
             </div>
           </div>
