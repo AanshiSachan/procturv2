@@ -13,7 +13,7 @@ import { EnquiryInput, EnquiryDateInput } from './enquiry-directives/enquiry-inp
 import { UserEnquiryComponent } from './enquiry-custom/user-enquiry.component';
 import { EnquirySidebarComponent } from './enquiry-home/enquiry-sidebar/enquiry-sidebar.component';
 /* Modules */
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule,FormBuilder,Validators,FormControl } from "@angular/forms";
 import 'moment';
 import 'hammerjs';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
