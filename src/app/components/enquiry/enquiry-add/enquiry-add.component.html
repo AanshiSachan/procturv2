@@ -396,7 +396,14 @@
                 {{followUp.data_value}}
               </option>
             </select>
-            <label for="followUpType">Follow Up Type</label>
+            <label for="followUpType">Follow Up Type  
+              <div class="questionInfo">
+                <span class="qInfoIcon">?</span>
+                <span class="tooltip-box-field">Information regarding follow up</span>
+              </div>
+              
+            </label>
+           
           </div>
           <div class="field-wrapper datePickerBox " [ngClass]="{'has-value': newEnqData.followUpDate != 'Invalid date'}">
             <input type="text" value="" id="followUpDate" class="form-ctrl bsDatepicker" name="followUpDate" [(ngModel)]="newEnqData.followUpDate"

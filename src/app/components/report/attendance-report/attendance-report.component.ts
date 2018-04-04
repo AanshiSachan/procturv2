@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { AttendanceReportServiceService } from '../../../services/attendance-report/attendance-report-service.service';
+import { AppComponent } from '../../../app.component';
 @Component({
   selector: 'app-attendance-report',
   templateUrl: './attendance-report.component.html',
@@ -7,34 +8,86 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AttendanceReportComponent implements OnInit {
 
-  constructor() {
-    this.switchActiveView('attendance');
-   }
+  attendanceDataSource: any;
+  masterCourses: any[] = [];
+  courses: any[] = [];
+  batchCourses: any[] = [];
+  masterData="";
+  courseData="";
+  batchesData="";
+
+  constructor(
+    private reportService: AttendanceReportServiceService,
+    private appc: AppComponent
+  ) {
+  }
+
 
   ngOnInit() {
-  }
-
-  switchActiveView(id){
-    document.getElementById('home').classList.remove('active');
-    document.getElementById('attendance').classList.remove('active');
-    document.getElementById('sms').classList.remove('active');
-    document.getElementById('fee').classList.remove('active');
-    document.getElementById('exam').classList.remove('active');
-    document.getElementById('report').classList.remove('active');
-    document.getElementById('time').classList.remove('active');
-    document.getElementById('email').classList.remove('active');
-    document.getElementById('profit').classList.remove('active');
-    switch(id){
-      case 'home': { document.getElementById('home').classList.add('active'); break; }
-      case 'attendance': { document.getElementById('attendance').classList.add('active'); break; }
-      case 'sms': { document.getElementById('sms').classList.add('active'); break; }
-      case 'fee': { document.getElementById('fee').classList.add('active'); break; }
-      case 'exam': { document.getElementById('exam').classList.add('active'); break; }
-      case 'report': { document.getElementById('report').classList.add('active'); break; }
-      case 'time': { document.getElementById('time').classList.add('active'); break; }
-      case 'email': { document.getElementById('email').classList.add('active');  break; }
-      case 'profit': { document.getElementById('profit').classList.add('active'); break; }
+    //this.getPrefetchData();
+    let obj={
+      subject_id:-1,
+      standard_id:-1,
+      assigned:"N"
     }
+    this.reportService.getMasterCourse(obj).subscribe(
+      (data:any) =>{
+        //console.log(data);
+        this.masterCourses=data.standardLi;
+        //console.log(this.masterCourses);
+        this.batchCourses=data.batchLi;
+        //console.log(this.batchCourses);
+        this.courses=data.subjectLi;
+      },
+        (error:any) =>{
+          return error;
+        }
+    )
+  }
+  changeValue(){
+
+    let obj={
+      subject_id:this.courseData,
+      standard_id:this.masterData,
+      assigned:"N"
+    }
+
+    this.reportService.getMasterCourse(obj).subscribe(
+      (data:any) =>{
+        console.log(data);
+        this.masterCourses=data.standardLi;
+        this.batchCourses=data.batchLi;
+        this.courses=data.subjectLi;
+      },
+      (error:any) =>{
+        return error;
+        
+      }
+    )
   }
 
-}
+  // getPrefetchData() {
+  //   // this.reportService.getMasterCourse().subscribe(
+  //   //   (data: any) => {
+  //   //     this.attendanceDataSource = data;
+  //   //     console.log(data);
+  //   //     this.masterCourses = data.standardLi;
+  //   //     this.batchCourses = data.batchLi;
+  //   //   },
+  //   //   error => {
+  //   //     let msg = {
+  //   //       type: "error",
+  //   //       title: "",
+  //   //       body: "An Error Occured"
+  //   //     }
+  //   //     this.appc.popToast(msg);
+  //   //   }
+  //   )
+
+
+
+
+  }
+
+
+

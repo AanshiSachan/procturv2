@@ -607,11 +607,13 @@
 
           <div style="margin-top: 0px">
             <h3 style="display: inline-flex;">Attendance Note</h3>
-            <div class="questionInfo">
+            <div class="questionInfo" style="border:none;">
               <span class="qInfoIcon">?</span>
-              <div class="tooltip-box-field">
+              <span class="tooltip-box-field">
+                
                 Details of any attendance related note.
-              </div>
+               
+              </span>
             </div>
             <div class="field-wrapper">
               <textarea style="width: 92%;" class="form-ctrl textBox" value="" [(ngModel)]="attendanceNote">
@@ -621,11 +623,13 @@
 
           <div *ngIf="settingInfo.home_work_feature_enable==1">
             <h3 style="display: inline-flex;">Homework</h3>
-            <div class="questionInfo">
+            <div class="questionInfo" style="position:relative; left:25%;">
               <span class="qInfoIcon">?</span>
-              <div class="tooltip-box-field">
+              <span class="tooltip-box-field">
+                  
                 Details of homework given to student.
-              </div>
+                  
+              </span>
             </div>
             <div class="field-wrapper" [ngClass]="{ 'has-value': homework !='' }">
               <textarea class="form-ctrl textBox" value="" [(ngModel)]="homework">
@@ -658,7 +662,7 @@
                 (change)="updateTopicCovered($event)">
               <label for="EnableSmsTopic">Enable SMS For Topic Covered</label>
             </div>
-            <div class="field-checkbox-wrapper hide">
+            <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" class="form-checkbox" id="EnableSmsAbsentees">
               <label for="EnableSmsTopic">Enable SMS For Absentees</label>
             </div>

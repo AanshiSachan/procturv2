@@ -4,6 +4,8 @@
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
 
+
+
 table {
     thead {
         tr {
@@ -135,4 +137,16 @@ screen and (max-height: 768px) {
 .editCellInput {
     margin: auto;
     display: block;
+}
+.middle-section{
+    .middle-main{
+        .row{
+                .field-wrapper{
+                    span{
+                        color:red;
+                        display: inline-block;
+                    }
+                }
+        }
+    }
 }
