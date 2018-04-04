@@ -813,24 +813,33 @@ export class AdminHomeComponent implements OnInit {
   }
 
   markAllPresent(e) {
-
     if (e.target.checked) {
       this.studentAttList.forEach(e => {
-        document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
-        document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
-        document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
-        document.getElementById('presentBtn' + e.student_id).classList.add('classPresentBtn');
-        e.dateLi[0].status = "P";
-        e.dateLi[0].home_work_status = "Y"
+        if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
+          //Do Nothing
+        } else {
+          document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
+          document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
+          document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
+          document.getElementById('presentBtn' + e.student_id).classList.add('classPresentBtn');
+          e.dateLi[0].status = "P";
+          e.dateLi[0].home_work_status = "Y"
+          e.dateLi[0].isStatusModified = "Y"
+        }
       });
     }
     else {
       this.studentAttList.forEach(e => {
-        document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
-        document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
-        document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
-        e.dateLi[0].status = "A";
-        e.dateLi[0].home_work_status = "N"
+        if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
+          //Do Nothing
+        } else {
+          document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
+          document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
+          document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
+          e.dateLi[0].status = "A";
+          e.dateLi[0].home_work_status = "N"
+          e.dateLi[0].isStatusModified = "Y"
+        }
       });
     }
     this.getCountOfAbsentPresentLeave(this.studentAttList);
@@ -1581,16 +1590,16 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('presentBtn' + rowData.student_id).classList.remove('classPresentBtn');
     if (event.target.innerText == "Leave") {
       document.getElementById('leaveBtn' + rowData.student_id).classList.add('classLeaveBtn');
-      this.studentAttList[index].dateLi[0].status = "L";
-      this.studentAttList[index].dateLi[0].home_work_status = "N";
+      rowData.dateLi[0].status = "L";
+      rowData.dateLi[0].home_work_status = "N";
     } else if (event.target.innerText == "Absent") {
       document.getElementById('absentBtn' + rowData.student_id).classList.add('classAbsentBtn');
-      this.studentAttList[index].dateLi[0].status = "A";
-      this.studentAttList[index].dateLi[0].home_work_status = "N";
+      rowData.dateLi[0].status = "A";
+      rowData.dateLi[0].home_work_status = "N";
     } else {
       document.getElementById('presentBtn' + rowData.student_id).classList.add('classPresentBtn');
-      this.studentAttList[index].dateLi[0].status = "P";
-      this.studentAttList[index].dateLi[0].home_work_status = "Y";
+      rowData.dateLi[0].status = "P";
+      rowData.dateLi[0].home_work_status = "Y";
     }
     this.getCountOfAbsentPresentLeave(this.studentAttList);
   }
@@ -2309,8 +2318,8 @@ export class AdminHomeComponent implements OnInit {
     if (this.permissionArray == "" || this.permissionArray == null) {
       return false;
     } else {
-      if (id != "" && id != null) {
-        let data = JSON.parse(this.permissionArray);
+      let data = JSON.parse(this.permissionArray);
+      if (id != "" && data != null && data != "") {
         if (data.indexOf(id) == "-1") {
           return true;
         } else {
