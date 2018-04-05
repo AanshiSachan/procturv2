@@ -15,7 +15,6 @@ export class ReportComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger
     this.removeFullscreen();
     this.removeSideNavSelection();
     this.checkUserAccess();
