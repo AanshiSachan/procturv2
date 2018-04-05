@@ -87,8 +87,8 @@
                             <!-- Followup Date -->
                             <div class="form-wrapper datepicker ">
                                 <label for="followUPdateEdit">Follow Up Date</label>
-                                <input type="text" class="side-form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" [(ngModel)]="FollowUpNewDate"
-                                    id="followUPdateEdit" readonly="true" bsDatepicker/>
+                                <input type="text" class="side-form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate"
+                                    [(ngModel)]="FollowUpNewDate" id="followUPdateEdit" readonly="true" bsDatepicker/>
                                 <span class="date-clear" name="followupdate" (click)="updateFormData.followUpDate = ''">X</span>
                             </div>
 
@@ -129,7 +129,7 @@
                             </div>
 
 
-             
+
 
                             <!-- Walkin Date  -->
 
@@ -242,6 +242,12 @@
                             <label for="Email">Email</label>
                             <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.email" type="text" name="Email">
                         </div>
+
+                        <div class="form-wrapper ">
+                            <label for="Email">DOB</label>
+                            <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.dob" type="text" name="dob">
+                        </div>
+                        
                         <div class="form-wrapper ">
                             <label for="ParentName">Parent Name</label>
                             <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.parent_name" type="text" name="ParentName">
