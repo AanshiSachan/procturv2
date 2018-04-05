@@ -706,19 +706,14 @@
             </div>
           </aside>
 
-          <div class="pull-right">
-            <input type="button" style="width: 85px;" (click)="navigateTo('kyc')" value="Back" class="btn">
-          </div>
-
           <aside class="pull-right">
+            <div class="pull-right">
+              <input type="button" style="width: 85px;" (click)="navigateTo('kyc')" value="Back" class="btn">
+            </div>
             <div class="" *ngIf="!isPaymentDetailsValid">
               <input type="button" *ngIf="totalFeePaid != 0" value="Update Payment" (click)="openPaymentDetails($event)" class="btn fullBlue">
               <!-- <input type="button" *ngIf="totalFeePaid != 0" value="Update and Exit" (click)="openPaymentDetailsAndExit($event)" class="btn fullBlue"> -->
-              <input type="button" value="Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
-            </div>
-
-            <div class="" *ngIf="isPaymentDetailsValid">
-              <input type="button" value="Skip and Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
+              <input *ngIf="totalFeePaid == 0" type="button" value="Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
             </div>
           </aside>
 
@@ -1158,7 +1153,8 @@
         <div class="row">
 
           <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
-            <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" />
+            <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'pay')"
+            />
             <label for="payamt">Payment for</label>
           </div>
 
@@ -1238,7 +1234,7 @@
 
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_amount != ''}">
-                <input [readonly]="isPdcFeePaymentSelected" type="text" value="" id="" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
+                <input [readonly]="isPdcFeePaymentSelected" type="text" readonly="true" value="" id="" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
                 />
                 <label for="">Cheque Amount*</label>
               </div>
@@ -1915,7 +1911,8 @@
         <div class="row">
 
           <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
-            <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" />
+            <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'payone')"
+            />
             <label for="payamt">Pay Amount</label>
           </div>
 
@@ -1996,7 +1993,7 @@
 
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_amount != ''}">
-                <input [readonly]="isPdcFeePaymentSelected" type="text" value="" id="" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
+                <input [readonly]="isPdcFeePaymentSelected" readonly="true" type="text" value="" id="" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
                 />
                 <label for="">Cheque Amount*</label>
               </div>
