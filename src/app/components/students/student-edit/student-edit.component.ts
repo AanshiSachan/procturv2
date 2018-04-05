@@ -1925,6 +1925,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   closePaymentDetails() {
     this.isFeePaymentUpdate = false;
+    this.feeTemplateById.payment_mode = "Cash";
+    this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -2925,7 +2927,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let temp: any[] = [];
 
     fee.forEach(el => {
-      //console.log(el);
+      if(el.due_date == null){
+        el.due_date = moment().format("YYYY-MM-DD");
+      }
       let obj = {
         fee_date: moment(el.due_date).format("YYYY-MM-DD"),
         fee_type: el.fee_type_name === "INSTALLMENT" ? 0 : el.fee_type,
@@ -3894,8 +3898,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     this.userCustommizedFee = [];
     this.userCustommizedFee = this.instalmentTableData.concat(this.otherFeeTableData);
-    let totalFee: number = 0;
-    let feePaid: number = 0;
     this.totalTaxAmount = 0;
     this.totalFeeWithTax = 0;
     this.totalAmountDue = 0;
@@ -3926,9 +3928,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
       this.paymentStatusArr.push(obj);
     });
-    this.feeTemplateById.studentwise_total_fees_amount = totalFee;
-    this.feeTemplateById.studentwise_total_fees_amount_paid = feePaid
-    this.feeTemplateById.studentwise_total_fees_balance_amount = totalFee - feePaid;
+    this.feeTemplateById.studentwise_total_fees_amount = this.totalFeeWithTax;
+    this.feeTemplateById.studentwise_total_fees_amount_paid = this.totalPaidAmount;
+    this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalFeeWithTax - this.totalPaidAmount;
     this.feeTemplateById.customFeeSchedules = this.userCustommizedFee;
     let obj = {
       customFeeSchedules: this.getCustomizedFee(this.userCustommizedFee),
