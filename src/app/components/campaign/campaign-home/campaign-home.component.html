@@ -287,9 +287,9 @@
               <div class="clearfix">
                 <aside class="pull-right popup-btn" style="margin-top: 0px;">
                   <input type="button" value="Cancel" class="btn" *ngIf="smsBtnToggle" (click)="closePopup()">
-                  <input type="button" value="Save" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="saveEditedSms()">
+                  <input type="button" value="Save" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="saveEditedSms()">
                   <!-- <input type="button" value="Cancel" class="btn" *ngIf="!smsBtnToggle" (click)="closePopup()"> -->
-                  <input type="button" value="Send Test SMS" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
+                  <input type="button" value="Send Test SMS" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="sendSmsTemplate()">
                 </aside>
               </div>
             </div>
@@ -382,8 +382,8 @@
                     <div class="">
                       <div class="clearfix">
                         <aside class="pull-right popup-btn">
-                          <input type="button" value="Close" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="closePopupTest()">
-                          <input type="button" value="Send" class="redBtn btn" *ngIf="!smsBtnToggle" (click)="sendTestSMS(values)">
+                          <input type="button" value="Close" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="closePopupTest()">
+                          <input type="button" value="Send" class="fullBlue btn" *ngIf="!smsBtnToggle" (click)="sendTestSMS(values)">
                         </aside>
                       </div>
                     </div>

@@ -227,7 +227,7 @@
         overflow-x: hidden;
         overflow-y: scroll
     }
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -257,7 +257,6 @@
         float: left;
     }
 }
-
 
 /*=======================filter type==============*/
 
@@ -316,9 +315,7 @@
     margin-top: 20px;
 }
 
-
 /*===========================================action tooltip of table===================*/
-
 
 /**===============================search data=========================*/
 
@@ -346,9 +343,7 @@
     }
 }
 
-
 /*=====================================mobile head menu css===========================*/
-
 
 /* popUp Scss */
 
@@ -504,22 +499,14 @@
     bottom: 0;
 }
 
-
 /*=========================================registration popup form css==================*/
-
 
 /*=======================================confirmation =========================*/
 
 .popup-btn {
     margin-top: 20px;
     .btn {
-        font-size: 16px;
-        height: 40px;
-        color: #333;
-        &.redBtn {
-            color: $bg-white;
-            min-width: 160px;
-        }
+        margin-top: -3px;
     }
 }
 
@@ -540,7 +527,7 @@
     display: flex !important;
     overflow-x: hidden;
     overflow-y: auto;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
     }
 }
@@ -764,7 +751,7 @@
 
 .sms-popup-content-wrapper {
     height: 450px;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
     }
 }
@@ -780,15 +767,14 @@
     overflow-y: auto;
 }
 
-
-    table {
-        &.camp-table{
-            tr {
-                td {
-                    padding: 15px;
-                    font-size: 14px;
-                    border-bottom: none;
-                }
+table {
+    &.camp-table {
+        tr {
+            td {
+                padding: 15px;
+                font-size: 14px;
+                border-bottom: none;
             }
         }
     }
+}
