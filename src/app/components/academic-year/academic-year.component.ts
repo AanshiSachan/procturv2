@@ -92,7 +92,15 @@ export class AcademicYearComponent implements OnInit {
           }
           this.getAllAcademicFromServer();
         },
-        err => { }
+        err => { 
+            let msg={
+              type:"error",
+              title:"error",
+              body:err.error.message
+              
+            }
+              this.appC.popToast(msg);
+        }
       )
     }
 
