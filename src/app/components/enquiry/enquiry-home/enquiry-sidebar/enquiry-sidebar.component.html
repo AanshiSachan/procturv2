@@ -36,7 +36,7 @@
                             <div class="form-wrapper ">
                                 <label for="enquiryStatusEdit">Status</label>
                                 <div class="questionInfo">
-                                    <span class="qInfoIcon">?</span>
+                                    <span class="qInfoIcon notify-div">?</span>
                                     <div class="tooltip-box-field">
                                         Status Regarding The Enquiry
                                     </div>
@@ -87,8 +87,8 @@
                             <!-- Followup Date -->
                             <div class="form-wrapper datepicker ">
                                 <label for="followUPdateEdit">Follow Up Date</label>
-                                <input type="text" class="side-form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" [(ngModel)]="FollowUpNewDate"
-                                    id="followUPdateEdit" readonly="true" bsDatepicker/>
+                                <input type="text" class="side-form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate"
+                                    [(ngModel)]="FollowUpNewDate" id="followUPdateEdit" readonly="true" bsDatepicker/>
                                 <span class="date-clear" name="followupdate" (click)="updateFormData.followUpDate = ''">X</span>
                             </div>
 
@@ -121,7 +121,19 @@
                                     <div class="form-checkbox-wrapper">
                                         <div class="field-checkbox-wrapper">
                                             <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox" style="display:inline-block;">
+
                                             <label for="notifyme">Notify Me</label>
+
+                                            <div class="questionInfo">
+                                                <span class="qInfoIcon">!</span>
+                                                <div class="tooltip-box-field">
+
+                                                    Follow up Time
+                                                    and Follow <br>up
+                                                    Date is Mandatory
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -129,7 +141,7 @@
                             </div>
 
 
-             
+
 
                             <!-- Walkin Date  -->
 
@@ -242,6 +254,12 @@
                             <label for="Email">Email</label>
                             <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.email" type="text" name="Email">
                         </div>
+
+                        <div class="form-wrapper ">
+                            <label for="Email">DOB</label>
+                            <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.dob" type="text" name="dob">
+                        </div>
+
                         <div class="form-wrapper ">
                             <label for="ParentName">Parent Name</label>
                             <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.parent_name" type="text" name="ParentName">
