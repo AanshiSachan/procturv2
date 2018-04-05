@@ -13,6 +13,8 @@
                 Student List
             </h1>
             <aside class="headEnq pull-right">
+                <!-- /// For Download of report -->
+                <a id="student_download" class="hide"></a>
                 <div style="display: inline-flex;
                 position: relative;
                 top: -12px;">
@@ -45,7 +47,6 @@
                         <div class="enq-dropdown-content" *ngIf="isOptions" (mouseleave)="isOptions = false">
                             <ul>
                                 <li class="export-icon" (click)="downloadAllStudent()">
-                                    <a id="student_download"></a>
                                     Export
                                 </li>
                                 <li class="upload-icon">
@@ -342,9 +343,10 @@
                 <div class="row" id="student-table">
                     <div class="table-scroll-wrapper">
                         <div class="table table-responsive student-table">
-                            <ng-robTable [records]="studentDataSource"  [defaultSort]="sortBy" [reset]="isSideBar" [tableName]="'student'" [settings]="StudentSettings" (userRowSelect)="userRowSelect($event)"
-                                (rowsSelected)="getRowCount($event)" [dataStatus]="loading_message" [key1]="'isActive'" [primaryKey]="'student_id'"
-                                (rowIdArr)="getSelected($event)" (rowUserIDArrayList)="getSelectedUserIDS($event)" (sortById)="sortTableById($event)" (sortDirection)="getDirection($event)">
+                            <ng-robTable [records]="studentDataSource" [defaultSort]="sortBy" [reset]="isSideBar" [tableName]="'student'" [settings]="StudentSettings"
+                                (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="loading_message"
+                                [key1]="'isActive'" [primaryKey]="'student_id'" (rowIdArr)="getSelected($event)" (rowUserIDArrayList)="getSelectedUserIDS($event)"
+                                (sortById)="sortTableById($event)" (sortDirection)="getDirection($event)">
                             </ng-robTable>
                         </div>
                     </div>
