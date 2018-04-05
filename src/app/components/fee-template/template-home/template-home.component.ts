@@ -107,6 +107,11 @@ export class TemplateHomeComponent implements OnInit {
       res => {
         this.isRippleLoad = false;
         this.feeStructure = res;
+        if (res.is_default == "1") {
+          this.feeStructure.is_default = true;
+        } else {
+          this.feeStructure.is_default = false;
+        }
         this.fillFeeType(res.feeTypeMap);
         this.fillDataInYTable(res.customFeeSchedules);
         if (res.studentwise_fees_tax_applicable == "Y") {
@@ -168,7 +173,13 @@ export class TemplateHomeComponent implements OnInit {
     } else {
       taxApplicable = "N";
     }
+    if (this.feeStructure.is_default == '1' || this.feeStructure.is_default == true) {
+      this.feeStructure.is_default = '1';
+    } else {
+      this.feeStructure.is_default = '0';
+    }
     let data: any = {
+      is_default: this.feeStructure.is_default,
       customFeeSchedules: this.makeJSONForCustomFee(),
       studentwise_total_fees_amount: this.totalAmount.toString(),
       studentwise_total_fees_discount: this.discountAmount,

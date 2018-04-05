@@ -4,12 +4,13 @@
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
 .feeManager {
+    width: 100%;
     min-height: 400px;
     max-height: 400px;
     overflow-x: hidden;
     overflow-y: auto;
     padding-top: 20px;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -340,7 +341,6 @@ input[type='number'] {
     -moz-appearance: textfield;
 }
 
-
 /* Webkit browsers like Safari and Chrome */
 
 input[type=number]::-webkit-inner-spin-button,
@@ -348,7 +348,6 @@ input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-
 
 /* =================================================================================== */
 
@@ -360,7 +359,6 @@ input[type=number]::-webkit-outer-spin-button {
         }
     }
 }
-
 
 /* =================================================================================== */
 
@@ -457,7 +455,6 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
-
 /* =================================================================================== */
 
 .table-head-menu {
@@ -549,15 +546,11 @@ input[type=number]::-webkit-outer-spin-button {
     cursor: pointer;
 }
 
+/* =================================================================================== */
 
 /* =================================================================================== */
 
-
 /* =================================================================================== */
-
-
-/* =================================================================================== */
-
 
 /* =================================================================================== */
 
@@ -592,12 +585,9 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
-
 /* =================================================================================== */
 
-
 /* =================================================================================== */
-
 
 /* =================================================================================== */
 
@@ -608,7 +598,7 @@ input[type=number]::-webkit-outer-spin-button {
     max-height: 400px;
     overflow: hidden;
     width: 100%;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -627,7 +617,7 @@ screen and (max-height: 768px) {
         .table-scroll-wrapper {
             max-height: 400px;
         }
-         ::-webkit-scrollbar {
+        ::-webkit-scrollbar {
             display: block;
             width: 7px;
             height: 7px;
@@ -639,7 +629,7 @@ screen and (max-height: 768px) {
     max-height: 400px;
     overflow-y: scroll;
     overflow-x: auto;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -727,12 +717,9 @@ screen and (max-height: 768px) {
     }
 }
 
-
 /* =================================================================================== */
 
-
 /* =================================================================================== */
-
 
 /* =================================================================================== */
 
@@ -746,12 +733,9 @@ screen and (max-height: 768px) {
     }
 }
 
-
 /* =================================================================================== */
 
-
 /* =================================================================================== */
-
 
 /* =================================================================================== */
 
@@ -770,15 +754,11 @@ screen and (max-height: 768px) {
     }
 }
 
+/* =================================================================================== */
 
 /* =================================================================================== */
 
-
 /* =================================================================================== */
-
-
-/* =================================================================================== */
-
 
 /* Data table Settings */
 
@@ -1211,7 +1191,6 @@ screen and (max-height: 768px) {
     }
 }
 
-
 /*=======================filter type==============*/
 
 .search-enquiry-type-filter {
@@ -1370,7 +1349,6 @@ screen and (max-height: 768px) {
     margin-top: 20px;
 }
 
-
 /*===========================================action tooltip of table===================*/
 
 .enquiry-action {
@@ -1499,7 +1477,6 @@ screen and (max-height: 768px) {
     width: 28px;
 }
 
-
 /**===============================search data=========================*/
 
 .search-data {
@@ -1526,7 +1503,6 @@ screen and (max-height: 768px) {
         }
     }
 }
-
 
 /*=====================================mobile head menu css===========================*/
 
@@ -1580,7 +1556,6 @@ ul.customDropdown.visibleDropdown {
 ul.customDropdown li:hover {
     background: #f5f5f5;
 }
-
 
 /* popUp Scss */
 
@@ -1736,7 +1711,6 @@ ul.customDropdown li:hover {
     bottom: 0;
 }
 
-
 /*=========================================registration popup form css==================*/
 
 .registration-fee-form {
@@ -1799,7 +1773,6 @@ ul.customDropdown li:hover {
     }
 }
 
-
 /*=======================================confirmation =========================*/
 
 .confirmation-popup-content {
@@ -1846,6 +1819,7 @@ ul.customDropdown li:hover {
 }
 
 .update-enquiry-form {
+    width: 100%;
     max-height: 400px;
     .form-wrapper {
         width: 40%;
@@ -1871,7 +1845,7 @@ ul.customDropdown li:hover {
             max-height: 400px;
             overflow-y: scroll;
             overflow-x: hidden;
-             ::-webkit-scrollbar {
+            ::-webkit-scrollbar {
                 display: block;
                 width: 7px;
                 height: 7px;
@@ -2096,9 +2070,7 @@ ul.customDropdown li:hover {
     }
 }
 
-
 /* ======================== DropDown Menu ================================= */
-
 
 /* Dropdown Button */
 
@@ -2114,7 +2086,6 @@ ul.customDropdown li:hover {
     height: 35px;
     cursor: pointer;
 }
-
 
 /* The container <div> - needed to position the dropdown content */
 
@@ -2213,7 +2184,7 @@ ul.customDropdown li:hover {
     overflow-y: scroll;
     overflow-x: hidden;
     transition: 0.1s;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: none;
         width: 7px;
         height: 7px;
@@ -2248,6 +2219,14 @@ ul.customDropdown li:hover {
     padding: 16px;
 }
 
+.checkBoxAllignMent {
+    margin-right: 20px;
+    margin-top: 5px;
+    &.field-checkbox-wrapper {
+        margin-bottom: 0px;
+    }
+}
+
 @media screen and (max-height: 450px) {
     .sidenav {
         padding-top: 15px;
@@ -2279,7 +2258,6 @@ ul.customDropdown li:hover {
 .editCellInput {
     width: 50px !important;
     border: 1px solid rgba(119, 119, 119, 0.34);
-    border-radius: 5px;
-    // background: #dddddd;
+    border-radius: 5px; // background: #dddddd;
     text-align: center;
 }
