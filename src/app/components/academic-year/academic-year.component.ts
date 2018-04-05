@@ -86,15 +86,7 @@ export class AcademicYearComponent implements OnInit {
       this.appC.popToast(acad);
 
     }
-    else if (this.addAcademicYearTemplate.inst_acad_year < moment(start_date_new).get('year') || this.addAcademicYearTemplate.inst_acad_year > moment(end_date_new).get('year')) {
-      let acad = {
-        type: "error",
-        title: "Incorrect Details",
-        body: "Academic year should be according to start date and end date"
-      }
-
-      this.appC.popToast(acad);
-    }
+   
 
     else if (this.addAcademicYearTemplate.start_date.toString() === this.addAcademicYearTemplate.end_date.toString()) {
       {
