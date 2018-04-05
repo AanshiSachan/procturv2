@@ -40,9 +40,11 @@ import { ErrorComponent } from './components/error/error.component';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
 import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.component';
 import { PostStudentDataService } from './services/student-services/post-student-data.service';
-import { Ng2OrderModule } from 'ng2-order-pipe'; 
+import { Ng2OrderModule } from 'ng2-order-pipe';
 import { SharedModule } from './components/shared/shared.module';
 import { SlotApiService } from './services/slot-service/slot.service';
+import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
+import { CityAreaService } from './services/area-city-service/area-city.service';
 
 
 @NgModule({
@@ -68,7 +70,8 @@ import { SlotApiService } from './services/slot-service/slot.service';
     ErrorComponent,
     ComingSoonComponent,
     OverlayMenuComponent,
-    SlotComponent
+    SlotComponent,
+    CityAreaMapComponent
   ],
   entryComponents: [
   ],
@@ -85,7 +88,8 @@ import { SlotApiService } from './services/slot-service/slot.service';
     PostStudentDataService,
     CampaignService,
     InventoryService,
-    SlotApiService
+    SlotApiService,
+    CityAreaService
   ],
   bootstrap: [AppComponent]
 })

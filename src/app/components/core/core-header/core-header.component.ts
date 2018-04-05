@@ -103,6 +103,7 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divSettingTag').classList.remove('hide');
     document.getElementById('divGeneralSettingTag').classList.remove('hide');
     document.getElementById('divManageFormTag').classList.remove('hide');
+    document.getElementById('divAreaAndMap').classList.remove('hide');
   }
 
   hideAllFields() {
