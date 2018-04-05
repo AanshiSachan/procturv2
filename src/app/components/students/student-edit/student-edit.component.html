@@ -363,10 +363,9 @@
           </div>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
-            <input type="button" id="form-continue" [class.hide]="quickAddStudent" value="Continue" class="btn fullBlue"
-              (click)="navigateTo('kyc')">
-            <input type="button" id="form-submit" [class.hide]="!quickAddStudent" (click)="studentQuickAdder(values)"
-              value="Submit" class="btn hide fullBlue">
+            <input type="button" id="form-continue" [class.hide]="quickAddStudent" value="Continue" class="btn fullBlue" (click)="navigateTo('kyc')">
+            <input type="button" id="form-submit" [class.hide]="!quickAddStudent" (click)="studentQuickAdder(values)" value="Submit"
+              class="btn hide fullBlue">
           </aside>
         </section>
 
@@ -480,10 +479,10 @@
           </aside>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
-            <input type="button" id="form-kyc-continue" value="Save and Continue" class="btn fullBlue"
-              [class.hide]="quickAddStudent" (click)="addStudentDataAndFetchFee(values)">
-            <input type="button" id="form-kyc-submit" (click)="studentQuickAdder(values)" value="Submit"
-              [class.hide]="!quickAddStudent" class="btn hide fullBlue">
+            <input type="button" id="form-kyc-continue" value="Save and Continue" class="btn fullBlue" [class.hide]="quickAddStudent"
+              (click)="addStudentDataAndFetchFee(values)">
+            <input type="button" id="form-kyc-submit" (click)="studentQuickAdder(values)" value="Submit" [class.hide]="!quickAddStudent"
+              class="btn hide fullBlue">
           </aside>
         </section>
       </section>
@@ -1020,7 +1019,7 @@
     </div>
 
   </student-pop-up>
- 
+
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Duplicate Student =============================== -->
@@ -1159,7 +1158,7 @@
         <div class="row">
 
           <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
-            <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt"/>
+            <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" />
             <label for="payamt">Payment for</label>
           </div>
 
@@ -1577,7 +1576,7 @@
     </div>
 
   </student-pop-up>
-  
+
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- ===============Manage PDC ============================ -->
@@ -1714,8 +1713,8 @@
 
         </div>
 
-         <div class="pdc-data-shell">
-          
+        <div class="pdc-data-shell">
+
           <!-- <div class="pdc-header">
             <div class="pull-left">
               Search and Edit
@@ -1789,7 +1788,7 @@
                     <label for=""></label>
                   </div>
                 </li>
-                
+
                 <li class="view-comp">
                   {{ch.bank_name}}
                 </li>
@@ -1872,7 +1871,7 @@
               <h3 style="text-align: center;padding: 20px 0px;border-bottom: 1px solid rgba(119, 119, 119, 0.32);border-left: 1px solid rgba(119, 119, 119, 0.32);border-right: 1px solid rgba(119, 119, 119, 0.32);">No Cheque Saved</h3>
             </div>
           </div>
-        </div>  
+        </div>
 
       </div>
     </div>
@@ -1887,7 +1886,7 @@
     </div>
 
   </student-pop-up>
-  
+
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <student-pop-up *ngIf="isPartialPayment">
@@ -1914,6 +1913,11 @@
         </div>
 
         <div class="row">
+
+          <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
+            <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" />
+            <label for="payamt">Pay Amount</label>
+          </div>
 
           <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': partialPayObj.paid_date != ''}">
             <input type="text" value="" id="pd" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="partialPayObj.paid_date"
@@ -2023,7 +2027,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closePartialPayment()">
-          <input type="button" value="Update Payment" class="fullBlue btn" (click)="payPartial()">
+          <input type="button" value="Update Payment" class="fullBlue btn" (click)="payOnePartial()">
         </aside>
       </div>
     </div>
