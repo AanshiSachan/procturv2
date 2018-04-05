@@ -71,8 +71,51 @@ export class AcademicYearComponent implements OnInit {
 
 
   addAcademicYearDetails() {
-    if (this.addAcademicYearTemplate.inst_acad_year.trim() != "" && this.addAcademicYearTemplate.desc.trim() != ""
-      && this.addAcademicYearTemplate.start_date != "" && this.addAcademicYearTemplate.end_date != "" && this.addAcademicYearTemplate.start_date != null && this.addAcademicYearTemplate.end_date != null) {
+    let start_date_new = this.addAcademicYearTemplate.start_date;
+    let end_date_new = this.addAcademicYearTemplate.end_date;
+    let academic_year_new = this.addAcademicYearTemplate.inst_acad_year.toString().split("-");
+
+    if (this.addAcademicYearTemplate.inst_acad_year.trim() == "" || this.addAcademicYearTemplate.desc.trim() == ""
+      || this.addAcademicYearTemplate.start_date == "" || this.addAcademicYearTemplate.end_date === "" || this.addAcademicYearTemplate.start_date == null || this.addAcademicYearTemplate.end_date == null) {
+
+      let acad = {
+        type: "error",
+        title: "Incorrect Details",
+        body: "Please fill All The Required Details"
+      }
+      this.appC.popToast(acad);
+
+    }
+   
+
+    else if (this.addAcademicYearTemplate.start_date.toString() === this.addAcademicYearTemplate.end_date.toString()) {
+      {
+        let acad = {
+          type: "error",
+          title: "Incorrect Details",
+          body: "Start date and end date cannot be same"
+        }
+
+        this.appC.popToast(acad);
+      }
+    }
+    else if (moment(start_date_new).get('year') > moment(end_date_new).get('year')) {
+      let acad = {
+        type: "error",
+        title: "Incorrect Details",
+        body: "Start year should be greater than end year"
+      }
+      this.appC.popToast(acad);
+    }
+    else if (academic_year_new[0] == academic_year_new[1]) {
+      let acad = {
+        type: "error",
+        title: "Incorrect Details",
+        body: "Start year and end year cannot be same"
+      }
+      this.appC.popToast(acad);
+    }
+    else {
 
       this.academicyearservice.addNewAcademicYear(this.addAcademicYearTemplate).subscribe(
         res => {
@@ -90,30 +133,23 @@ export class AcademicYearComponent implements OnInit {
             inst_id: this.auth.getInstituteId(),
             default_academic_year: 0
           }
+          this.toggleCreateNewAcademicYear();
           this.getAllAcademicFromServer();
         },
-        err => { 
-            let msg={
-              type:"error",
-              title:"error",
-              body:err.error.message
-              
-            }
-              this.appC.popToast(msg);
+        err => {
+          let msg = {
+            type: "error",
+            title: "error",
+            body: err.error.message
+
+          }
+          this.appC.popToast(msg);
         }
       )
     }
 
-    else {
-      let acad = {
-        type: "error",
-        title: "Incorrect Details",
-        body: "Please fill All The Required Details"
-      }
-      this.appC.popToast(acad);
-    }
-
   }
+
 
 
   editRowTable(row, index) {
@@ -122,32 +158,71 @@ export class AcademicYearComponent implements OnInit {
   }
 
   saveAcademicYearInformation(row2, index) {
+    let start_date_new = row2.start_date
+    let end_date_new = row2.end_date
+    let academic_year_new = row2.inst_acad_year.toString().split("-");
+    if (row2.start_date.toString() === row2.end_date.toString()) {
 
-    let data = {
-      inst_acad_year: row2.inst_acad_year,
-      desc: row2.desc,
-      start_date: row2.start_date,
-      end_date: row2.end_date,
-      inst_id: row2.inst_id,
-      default_academic_year: row2.default_academic_year
-    }
-    this.academicyearservice.editAcademicYear(data, row2.inst_acad_year_id).subscribe(
-      res => {
-        this.cancelEditRow(index);
-        this.getAllAcademicFromServer();
-        
-      },
-      error => {
-        let acad = {
-          type: "error",
-          title: "Incorrect Details",
-          body: error.error.message
-        }
-        this.appC.popToast(acad);
-        this.getAllAcademicFromServer();
+      let msg = {
+        type: "error",
+        title: "Incorrect Details",
+        body: "Start Date and End date should not be same"
       }
-    )
-    console.log(data);
+      this.appC.popToast(msg);
+
+    }
+    else if (row2.academicyear == "" || row2.desc == "") {
+      let msg = {
+        type: "error",
+        title: "Incorrect Details",
+        body: "Fields cannot be empty"
+      }
+      this.appC.popToast(msg);
+
+    }
+
+    else if (moment(start_date_new).get('year') > moment(end_date_new).get('year')) {
+      let acad = {
+        type: "error",
+        title: "Incorrect Details",
+        body: "Start year should be greater than end year"
+      }
+      this.appC.popToast(acad);
+    }
+    else if (academic_year_new[0] == academic_year_new[1]) {
+      let acad = {
+        type: "error",
+        title: "Incorrect Details",
+        body: "Start year and end year cannot be same"
+      }
+      this.appC.popToast(acad);
+    }
+    else {
+
+      let data = {
+        inst_acad_year: row2.inst_acad_year,
+        desc: row2.desc,
+        start_date: row2.start_date,
+        end_date: row2.end_date,
+        inst_id: row2.inst_id,
+        default_academic_year: row2.default_academic_year
+      }
+      this.academicyearservice.editAcademicYear(data, row2.inst_acad_year_id).subscribe(
+        res => {
+          this.cancelEditRow(index);
+          this.getAllAcademicFromServer();
+        },
+        error => {
+          let acad = {
+            type: "error",
+            title: "Incorrect Details",
+            body: error.error.message
+          }
+          this.appC.popToast(acad);
+          this.getAllAcademicFromServer();
+        })
+
+    }
   }
 
   cancelEditRow(index) {

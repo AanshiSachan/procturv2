@@ -3,9 +3,6 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-
-
-
 table {
     thead {
         tr {
@@ -16,8 +13,19 @@ table {
         }
     }
     tbody {
+        td {
+            .col-new {
+                text-align: center;
+            }
+        }
         tr {
             td {
+                .edit {
+                    cursor: pointer;
+                }
+                .anchorTag {
+                    margin-left: 10px;
+                }
                 padding-bottom: 10px;
                 padding-top: 10px;
                 .editOptions li {
@@ -42,6 +50,10 @@ table {
                     border-bottom: 1px solid #ccc;
                 }
             }
+            .datePickerBox {
+                padding-right: 10px;
+                padding-bottom: 10px;
+            }
         }
         .displayComp {
             .view-comp {}
@@ -61,9 +73,11 @@ table {
 .anchorTagCursor {
     cursor: pointer;
 }
-.pagination{
+
+.pagination {
     padding-top: 25px;
 }
+
 @media screen and (max-width: 995px),
 screen and (max-height: 768px) {
     #divSlotTable {
@@ -76,7 +90,7 @@ screen and (max-height: 768px) {
         .table-scroll-wrapper {
             max-height: 430px;
         }
-         ::-webkit-scrollbar {
+        ::-webkit-scrollbar {
             display: block;
             width: 7px;
             height: 7px;
@@ -133,20 +147,39 @@ screen and (max-height: 768px) {
 .closeBtnClass {
     line-height: 11px !important;
 }
- 
+
 .editCellInput {
     margin: auto;
     display: block;
 }
-.middle-section{
-    .middle-main{
-        .row{
-                .field-wrapper{
-                    span{
-                        color:red;
-                        display: inline-block;
-                    }
+
+.middle-section {
+    .middle-top {
+        margin-bottom: 10px;
+    }
+    .middle-main {
+        .addBtnClass {
+            border: none;
+        }
+        .closeBtnClass {
+            border: none;
+        }
+        .row {
+            .btn {
+                margin-left: 0px;
+                margin-top: 10px;
+            }
+            .field-wrapper {
+                display: inline-block;
+                margin-left: 5px;
+                label {
+                    font-size: 12px;
                 }
+                span {
+                    color: red;
+                    display: inline-block;
+                }
+            }
         }
     }
 }
