@@ -363,9 +363,9 @@
           </div>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
-            <input type="button" id="form-continue" [disabled]="!values.form.valid" [class.hide]="quickAddStudent" value="Continue" class="btn fullBlue"
+            <input type="button" id="form-continue" [class.hide]="quickAddStudent" value="Continue" class="btn fullBlue"
               (click)="navigateTo('kyc')">
-            <input type="button" id="form-submit" [disabled]="!values.form.valid" [class.hide]="!quickAddStudent" (click)="studentQuickAdder(values)"
+            <input type="button" id="form-submit" [class.hide]="!quickAddStudent" (click)="studentQuickAdder(values)"
               value="Submit" class="btn hide fullBlue">
           </aside>
         </section>
@@ -480,9 +480,9 @@
           </aside>
           <aside class="pull-right">
             <input type="button" value="Cancel" class="btn cancle" (click)="clearFormAndRoute(values)">
-            <input type="button" id="form-kyc-continue" [disabled]="!values.form.valid" value="Save and Continue" class="btn fullBlue"
+            <input type="button" id="form-kyc-continue" value="Save and Continue" class="btn fullBlue"
               [class.hide]="quickAddStudent" (click)="addStudentDataAndFetchFee(values)">
-            <input type="button" id="form-kyc-submit" [disabled]="!values.form.valid" (click)="studentQuickAdder(values)" value="Submit"
+            <input type="button" id="form-kyc-submit" (click)="studentQuickAdder(values)" value="Submit"
               [class.hide]="!quickAddStudent" class="btn hide fullBlue">
           </aside>
         </section>
@@ -818,8 +818,8 @@
     </section>
     <!-- ======================================================== -->
     <!-- ======================================================== -->
-
   </section>
+
   <!-- =============== Popup Declarations ===================== -->
   <!-- ======================================================== -->
   <student-pop-up *ngIf="isNewInstituteEditor">
@@ -926,6 +926,7 @@
     </div>
 
   </student-pop-up>
+
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Assign Batch =============================== -->
@@ -1019,6 +1020,7 @@
     </div>
 
   </student-pop-up>
+ 
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Duplicate Student =============================== -->
@@ -1072,6 +1074,7 @@
       </div>
     </div>
   </student-pop-up>
+
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Configure Fees =============================== -->
@@ -1127,6 +1130,7 @@
     </div>
 
   </student-pop-up>
+
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Fees Payment Manager=============================== -->
@@ -1154,10 +1158,10 @@
 
         <div class="row">
 
-          <!-- <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
+          <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
             <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt"/>
             <label for="payamt">Payment for</label>
-          </div> -->
+          </div>
 
           <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': feeTemplateById.paid_date != ''}">
             <input type="text" value="" id="pd" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="feeTemplateById.paid_date"
@@ -1270,12 +1274,13 @@
         </aside>
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closePaymentDetails()">
-          <input type="button" value="Update" (click)="validatePaymentDetails($event)" class="fullBlue btn">
+          <input type="button" value="Update" (click)="payPartial($event)" class="fullBlue btn">
         </aside>
       </div>
     </div>
 
   </student-pop-up>
+
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== assign fees =============================== -->
@@ -1572,6 +1577,7 @@
     </div>
 
   </student-pop-up>
+  
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- ===============Manage PDC ============================ -->
@@ -1881,6 +1887,7 @@
     </div>
 
   </student-pop-up>
+  
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <student-pop-up *ngIf="isPartialPayment">
@@ -2024,4 +2031,5 @@
   </student-pop-up>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
+
 </section>
