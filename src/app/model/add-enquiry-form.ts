@@ -1,4 +1,4 @@
-export interface addEnquiryForm{
+export interface addEnquiryForm {
 	name?: any,
 	phone?: any,
 	email?: any,
@@ -11,6 +11,7 @@ export interface addEnquiryForm{
 	parent_phone?: any,
 	parent_email?: any,
 	city?: any,
+	area?: any,
 	occupation_id?: any,
 	school_id?: any,
 	qualification?: any,

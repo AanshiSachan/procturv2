@@ -53,7 +53,8 @@ export class EnquiryAddComponent implements OnInit {
     parent_name: "",
     parent_phone: "",
     parent_email: "",
-    city: "",
+    city: -1,
+    area: -1,
     occupation_id: "-1",
     school_id: "-1",
     qualification: "",
@@ -154,6 +155,11 @@ export class EnquiryAddComponent implements OnInit {
     inst_id: sessionStorage.getItem('institute_id')
   }
 
+  // City And Area Changes
+  isCityMandatory: any;
+  cityListDataSource: any = [];
+  areaListDataSource: any = [];
+
   constructor(private prefill: FetchprefilldataService, private router: Router,
     private logger: Logger, private appC: AppComponent, private poster: PostEnquiryDataService, private login: LoginService) {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
@@ -186,6 +192,7 @@ export class EnquiryAddComponent implements OnInit {
   }
   /* OnInit Initialized */
   ngOnInit() {
+    this.isCityMandatory = JSON.parse(sessionStorage.getItem('institute_info')).enable_routing;
     this.isEnquiryAdministrator();
     this.busy = this.FetchEnquiryPrefilledData();
 
@@ -204,7 +211,8 @@ export class EnquiryAddComponent implements OnInit {
       parent_name: "",
       parent_phone: "",
       parent_email: "",
-      city: "",
+      city: -1,
+      area: -1,
       occupation_id: "-1",
       school_id: "-1",
       qualification: "",
@@ -389,6 +397,15 @@ export class EnquiryAddComponent implements OnInit {
       }
     );
 
+
+    this.prefill.getCityList().subscribe(
+      data => {
+        this.cityListDataSource = data;
+      },
+      err => {
+        console.log(err);
+      }
+    )
 
 
     return this.prefill.fetchCustomComponentEmpty()
@@ -726,6 +743,12 @@ export class EnquiryAddComponent implements OnInit {
     /* Validate the predefine required fields of the form */
     this.isFormValid = this.ValidateFormDataBeforeSubmit();
 
+    // Validate If Area And City Settings is enable
+    let validate = this.validateAreaAndCityFields();
+    if (validate == false) {
+      return;
+    }
+
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
       if (this.validateTime()) {
@@ -784,7 +807,23 @@ export class EnquiryAddComponent implements OnInit {
     }
   }
 
-
+  validateAreaAndCityFields() {
+    if (this.isCityMandatory == 1) {
+      if (this.newEnqData.city == '-1') {
+        let msg = {
+          type: 'error',
+          title: 'City Is Mandatory',
+          body: 'Please provide city details.'
+        }
+        this.appC.popToast(msg);
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  }
 
 
 
@@ -1596,5 +1635,22 @@ export class EnquiryAddComponent implements OnInit {
     this.meridian = '';
   }
 
+
+  onCitySelctionChanges(event) {
+    this.areaListDataSource = [];
+    if (event != -1) {
+      let obj = {
+        city: event
+      }
+      this.prefill.getAreaList(obj).subscribe(
+        res => {
+          this.areaListDataSource = res;
+        },
+        err => {
+          console.log(err);
+        }
+      )
+    }
+  }
 
 }

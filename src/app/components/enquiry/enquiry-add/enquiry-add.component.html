@@ -93,6 +93,27 @@
                     <span style="top: 20px;right: -50px;" class="date-clear" name="dob" (click)="newEnqData.dob = ''">clear</span>
                   </div>
 
+                  <!-- city -->
+                  <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.city != -1}">
+                    <select id="cityDdn" class="form-ctrl" [(ngModel)]="newEnqData.city" (ngModelChange)="onCitySelctionChanges($event)" name="city">
+                      <option value="-1"></option>
+                      <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
+                    </select>
+                    <label for="city">City
+                      <span *ngIf="isCityMandatory == 1">*</span>
+                    </label>
+                  </div>
+
+                  <!-- area -->
+                  <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.area != -1}">
+                    <select id="areaDdn" class="form-ctrl" [(ngModel)]="newEnqData.area" name="area">
+                      <option value="-1"></option>
+                      <option *ngFor="let area of areaListDataSource" [value]="area.area">{{area.area}}</option>
+                    </select>
+                    <label for="area">Area
+                    </label>
+                  </div>
+
                   <!-- Source -->
                   <div class="field-wrapper " [ngClass]="{'has-value': newEnqData.source_id != '-1'}">
                     <select id="source" class="form-ctrl" [(ngModel)]="newEnqData.source_id" name="source">
@@ -214,11 +235,6 @@
                     </select>
                     <label for="institutionName">Institution Name</label>
                     <a (click)="openAddInstitute()" class="create-institution" style="cursor:pointer">+ Create Institution</a>
-                  </div>
-                  <!-- city -->
-                  <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.city != ''}">
-                    <input type="text" value="" id="userCity" class="form-ctrl" [(ngModel)]="newEnqData.city" name="city" />
-                    <label for="userCity">City</label>
                   </div>
                   <!-- standard -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.standard_id != '-1'}">
@@ -396,14 +412,14 @@
                 {{followUp.data_value}}
               </option>
             </select>
-            <label for="followUpType">Follow Up Type  
+            <label for="followUpType">Follow Up Type
               <div class="questionInfo">
                 <span class="qInfoIcon">?</span>
                 <span class="tooltip-box-field">Information regarding follow up</span>
               </div>
-              
+
             </label>
-           
+
           </div>
           <div class="field-wrapper datePickerBox " [ngClass]="{'has-value': newEnqData.followUpDate != 'Invalid date'}">
             <input type="text" value="" id="followUpDate" class="form-ctrl bsDatepicker" name="followUpDate" [(ngModel)]="newEnqData.followUpDate"
