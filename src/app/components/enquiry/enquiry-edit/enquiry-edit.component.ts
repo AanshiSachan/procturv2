@@ -55,7 +55,8 @@ export class EnquiryEditComponent implements OnInit {
     parent_name: "",
     parent_phone: "",
     parent_email: "",
-    city: "",
+    city: -1,
+    area: -1,
     occupation_id: "-1",
     school_id: "-1",
     qualification: "",
@@ -156,9 +157,10 @@ export class EnquiryEditComponent implements OnInit {
   };
   followUpTime: any = "";
 
-
-
-
+  // City And Area Changes
+  isCityMandatory: any;
+  cityListDataSource: any = [];
+  areaListDataSource: any = [];
 
 
 
@@ -184,6 +186,7 @@ export class EnquiryEditComponent implements OnInit {
 
   /* OnInit Initialized */
   ngOnInit() {
+    this.isCityMandatory = JSON.parse(sessionStorage.getItem('institute_info')).enable_routing;
     this.isEnquiryAdministrator();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
@@ -228,6 +231,9 @@ export class EnquiryEditComponent implements OnInit {
         }
         this.updateCustomComponent(id);
         this.fetchSubject(this.editEnqData.standard_id);
+        if (data.city != "" && data.city != null) {
+          this.onCitySelctionChanges(data.city);
+        }
       });
   }
 
@@ -455,7 +461,14 @@ export class EnquiryEditComponent implements OnInit {
       }
     );
 
-
+    this.prefill.getCityList().subscribe(
+      data => {
+        this.cityListDataSource = data;
+      },
+      err => {
+        console.log(err);
+      }
+    )
 
     return this.prefill.fetchCustomComponentById(this.institute_enquiry_id)
       .subscribe(
@@ -600,6 +613,24 @@ export class EnquiryEditComponent implements OnInit {
   }
 
 
+  validateAreaAndCityFields() {
+    if (this.isCityMandatory == 1) {
+      if (this.editEnqData.city == '-1') {
+        let msg = {
+          type: 'error',
+          title: 'City Is Mandatory',
+          body: 'Please provide city details.'
+        }
+        this.appC.popToast(msg);
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  }
+
 
 
   /* Function to submit validated form data */
@@ -610,6 +641,13 @@ export class EnquiryEditComponent implements OnInit {
 
     /* Validate the predefine required fields of the form */
     this.isFormValid = this.ValidateFormDataBeforeSubmit();
+
+    // Validate If Area And City Settings is enable
+    let validate = this.validateAreaAndCityFields();
+    if (validate == false) {
+      return;
+    }
+
     /* Upload Data if the formData is valid */
     if (this.isFormValid && customComponentValidator) {
 
@@ -696,7 +734,7 @@ export class EnquiryEditComponent implements OnInit {
       }
     });
 
-    if(!temp){
+    if (!temp) {
       let msg = {
         type: 'error',
         title: 'Required Details Not Filled On Academics Details',
@@ -794,7 +832,8 @@ export class EnquiryEditComponent implements OnInit {
       parent_name: "",
       parent_phone: "",
       parent_email: "",
-      city: "",
+      city: -1,
+      area: -1,
       occupation_id: "-1",
       school_id: "-1",
       qualification: "",
@@ -963,6 +1002,23 @@ export class EnquiryEditComponent implements OnInit {
     this.hour = '';
     this.minute = '';
     this.meridian = '';
+  }
+
+  onCitySelctionChanges(event) {
+    this.areaListDataSource = [];
+    if (event != -1) {
+      let obj = {
+        city: event
+      }
+      this.prefill.getAreaList(obj).subscribe(
+        res => {
+          this.areaListDataSource = res;
+        },
+        err => {
+          console.log(err);
+        }
+      )
+    }
   }
 
 }

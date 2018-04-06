@@ -149,7 +149,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
       this.updateFormData.followUpDate = res.followUpDate;
       this.cd.markForCheck();
       this.updateFormData.assigned_to = res.assigned_to;
-
+      this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
       if (res.followUpTime != '' && res.followUpTime != null) {
         let followDateTime = res.followUpDate + " " + res.followUpTime;
         this.timeObj.fhour = moment(followDateTime).format('h');
@@ -256,7 +256,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   }
 
   createUpdateForm() {
-    
+
     if (this.validateTime()) {
       console.log(this.updateFormData);
       if (this.updateFormData.follow_type == "Walkin") {
@@ -269,7 +269,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
           this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('YYYY-MM-DD');
           this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
           this.pushUpdatedEnquiry(this.updateFormData);
-        } 
+        }
         else {
           let obj = {
             type: 'error',
@@ -287,10 +287,17 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
         this.updateFormData.followUpTime = this.timeObj.fhour + ":" + this.timeObj.fminute + " " + this.timeObj.fmeridian;
         this.updateFormData.walkin_followUpTime = this.timeObj.whour + ":" + this.timeObj.wminute + " " + this.timeObj.wmeridian;
         this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('YYYY-MM-DD');
-        this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+        if (this.updateFormData.walkin_followUpDate != "Invalid date") {
+          this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+        } else {
+          this.updateFormData.walkin_followUpDate = "";
+        }
+        if (this.updateFormData.walkin_followUpTime.includes('Invalid')) {
+          this.updateFormData.walkin_followUpTime = "";
+        }
         this.pushUpdatedEnquiry(this.updateFormData);
       }
-    } 
+    }
     else {
       let obj = {
         type: 'error',
@@ -311,7 +318,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     if (d == "" || d == null || d == "Invalid date" || t.trim() == "" || t.trim() == ":") {
       return false;
     }
-    else{
+    else {
       return true;
     }
   }

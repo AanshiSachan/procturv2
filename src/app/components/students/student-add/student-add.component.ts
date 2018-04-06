@@ -938,6 +938,9 @@ export class StudentAddComponent implements OnInit {
         this.studentAddFormData.assignedBatchescademicYearArray.reverse();
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.reverse();
       }
+      if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
+        this.studentAddFormData.student_sex = "M";
+      }
       this.isRippleLoad = true;
       this.busyPrefill = this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
@@ -1270,6 +1273,15 @@ export class StudentAddComponent implements OnInit {
       this.studentAddFormData.stuCustomLi = customArr;
       this.studentAddFormData.photo = this.studentImage;
       this.additionalBasicDetails = false;
+
+      if (this.studentAddFormData.assignedBatches == null) {
+        this.studentAddFormData.assignedBatchescademicYearArray = null;
+        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = null;
+        this.studentAddFormData.batchJoiningDates = null;
+      }
+      if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
+        this.studentAddFormData.student_sex = "M";
+      }
 
       this.busyPrefill = this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
@@ -2857,6 +2869,14 @@ export class StudentAddComponent implements OnInit {
       this.studentAddFormData.stuCustomLi = customArr;
       this.studentAddFormData.photo = this.studentImage;
       this.additionalBasicDetails = false;
+      if (this.studentAddFormData.assignedBatches == null) {
+        this.studentAddFormData.assignedBatchescademicYearArray = null;
+        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = null;
+        this.studentAddFormData.batchJoiningDates = null;
+      }
+      if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
+        this.studentAddFormData.student_sex = "M";
+      }
       this.busyPrefill = this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
           let statusCode = res.statusCode;

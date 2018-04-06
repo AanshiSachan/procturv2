@@ -646,6 +646,17 @@ export class ClassAddComponent implements OnInit {
   }
 
 
+  onSubjectSelection(event) {
+    this.subjectListDataSource.forEach(
+      ele => {
+        if (ele.subject_id == event) {
+          this.addClassDetails.teacher_id = ele.teacher_id;
+          return;
+        }
+      }
+    )
+  }
+
   addClassSchedule() {
     let obj: any = {};
     if (this.addClassDetails.subject_id == '' || this.addClassDetails.subject_id == null || this.addClassDetails.subject_id == '-1') {
