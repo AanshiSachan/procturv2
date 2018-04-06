@@ -388,7 +388,7 @@ export class StudentAddComponent implements OnInit {
   /* GEt Student Fee Details */
   studentAddedGetFee(id) {
     this.isRippleLoad = true;
-    debugger;
+    
     this.fetchService.fetchStudentFeeDetailById(id).subscribe(res => {
       if (res.customFeeSchedules != null) {
         this.isRippleLoad = false;
@@ -463,12 +463,12 @@ export class StudentAddComponent implements OnInit {
       /* Taxes Here */
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         this.service_tax = data.registeredServiceTax;
-        let tax = el.fees_amount - el.initial_fee_amount;
+        let tax = el.initial_fee_amount * (this.service_tax / 100);
         this.totalTaxAmount += tax;
       }
       else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
         this.service_tax = 0;
-        //let tax = el.fees_amount - el.initial_fee_amount;
+        //let tax = el.initial_fee_amount *(this.service_tax/100);
         this.totalTaxAmount = 0;
       }
       if (el.is_referenced == "N") {
@@ -1127,7 +1127,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateMultiSelect(data, id) {
-    //debugger;
+    //
     this.customComponents.forEach(el => {
       if (el.id == id && el.type == 4) {
         el.prefilled_data.forEach(com => {
@@ -1270,6 +1270,7 @@ export class StudentAddComponent implements OnInit {
       this.studentAddFormData.stuCustomLi = customArr;
       this.studentAddFormData.photo = this.studentImage;
       this.additionalBasicDetails = false;
+
       this.busyPrefill = this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
           let statusCode = res.statusCode;
@@ -1607,8 +1608,6 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   applyConfiguredFees($event) {
-    //debugger
-    $event.preventDefault();
     this.isPaymentDetailsValid = false;
     this.feeTemplateById = {
       feeTypeMap: "",
@@ -1655,19 +1654,21 @@ export class StudentAddComponent implements OnInit {
           this.feeTemplateById.template_id = this.feeTempSelected;
           this.isDefineFees = true;
           this.isFeeApplied = true;
+          
           res.customFeeSchedules.forEach(el => {
-            el.due_date = moment(el.due_date).format("YYYY-MM-DD");
+            //el.due_date = moment(el.due_date).format("YYYY-MM-DD");
             /* Taxes Here */
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
-              let tax = el.fees_amount - el.initial_fee_amount;
+              let tax = el.initial_fee_amount * (this.service_tax / 100);
               this.totalTaxAmount += tax;
             }
             else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
               this.service_tax = 0;
-              //let tax = el.fees_amount - el.initial_fee_amount;
+              //let tax = el.initial_fee_amount *(this.service_tax/100);
               this.totalTaxAmount = 0;
             }
+
             if (el.is_referenced == "N") {
               this.totalAmountDue += el.fees_amount
             }
@@ -1675,7 +1676,7 @@ export class StudentAddComponent implements OnInit {
               this.totalPaidAmount += el.amount_paid;
             }
             this.totalFeeWithTax += parseInt(el.fees_amount);
-          
+
             if (el.fee_type_name === "INSTALLMENT") {
               this.instalmentTableData.push(el);
             }
@@ -1781,11 +1782,15 @@ export class StudentAddComponent implements OnInit {
   openPaymentDetails($event) {
     $event.preventDefault();
     this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
+    this.total_amt_tobe_paid = this.totalFeePaid;
     this.isFeePaymentUpdate = true;
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   closePaymentDetails() {
+    this.isPaymentPdc = false;
+    this.feeTemplateById.payment_mode ="Cash";
+    this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
     this.isFeePaymentUpdate = false;
   }
   /* ============================================================================================================================ */
@@ -1989,127 +1994,73 @@ export class StudentAddComponent implements OnInit {
     else if (this.addFeeInstallment.due_date != "" && !isNaN(this.addFeeInstallment.initial_fee_amount)) {
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         this.addFeeInstallment.service_tax = this.feeTemplateById.registeredServiceTax;
-        this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
-        this.addFeeInstallment.fees_amount = parseInt(this.addFeeInstallment.initial_fee_amount) + (this.precisionRound(((this.addFeeInstallment.service_tax / 100) * parseInt(this.addFeeInstallment.initial_fee_amount)), -1));
-        this.instalmentTableData.push(this.addFeeInstallment);
-        this.addFeeInstallment = {
-          amount_paid: '',
-          amount_paid_inRs: null,
-          balance_amount: 0,
-          batch_id: 0,
-          created_by: null,
-          created_date: null,
-          day_type: 0,
-          days: 0,
-          discount: 0,
-          due_date: moment().format("YYYY-MM-DD"),
-          enquiry_counsellor_name: "",
-          enquiry_id: 0,
-          feeTypes: null,
-          fee_date: null,
-          fee_payment_edit_history: null,
-          fee_type: null,
-          fee_type_name: "",
-          fee_type_tax_configured: 0,
-          fees_amount: 0,
-          fineAmount: 0,
-          fine_type: null,
-          initial_fee_amount: 0,
-          installment_no: null,
-          installment_nos: "",
-          invoice_no: 0,
-          is_fee_receipt_generate: 0,
-          is_paid: 0,
-          is_referenced: "N",
-          latest_due_date: "",
-          onlinePaymentJson: null,
-          paid_date: null,
-          paid_full: "N",
-          paymentDate: null,
-          paymentMode: null,
-          paymentModeAmountMap: null,
-          payment_creation_date: null,
-          payment_reference_id: 0,
-          payment_status: 0,
-          payment_tx_id: 0,
-          pdc_cheque_id: -1,
-          reference_no: null,
-          remarks: null,
-          scheduleType: null,
-          schedule_id: 0,
-          service_tax: null,
-          service_tax_applicable: "",
-          student_category: "",
-          student_disp_id: null,
-          student_id: 0,
-          student_name: null,
-          student_phone: "",
-          tax: 0,
-          update_date: null,
-          updated_by: null
-        }
       }
       else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
         this.addFeeInstallment.service_tax = 0;
-        this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
-        this.addFeeInstallment.fees_amount = parseInt(this.addFeeInstallment.initial_fee_amount) + (this.precisionRound(((this.addFeeInstallment.service_tax / 100) * parseInt(this.addFeeInstallment.initial_fee_amount)), -1));
-        this.instalmentTableData.push(this.addFeeInstallment);
-        this.addFeeInstallment = {
-          amount_paid: '',
-          amount_paid_inRs: null,
-          balance_amount: 0,
-          batch_id: 0,
-          created_by: null,
-          created_date: null,
-          day_type: 0,
-          days: 0,
-          discount: 0,
-          due_date: moment().format("YYYY-MM-DD"),
-          enquiry_counsellor_name: "",
-          enquiry_id: 0,
-          feeTypes: null,
-          fee_date: null,
-          fee_payment_edit_history: null,
-          fee_type: null,
-          fee_type_name: "",
-          fee_type_tax_configured: 0,
-          fees_amount: 0,
-          fineAmount: 0,
-          fine_type: null,
-          initial_fee_amount: 0,
-          installment_no: null,
-          installment_nos: "",
-          invoice_no: 0,
-          is_fee_receipt_generate: 0,
-          is_paid: 0,
-          is_referenced: "N",
-          latest_due_date: "",
-          onlinePaymentJson: null,
-          paid_date: null,
-          paid_full: "N",
-          paymentDate: null,
-          paymentMode: null,
-          paymentModeAmountMap: null,
-          payment_creation_date: null,
-          payment_reference_id: 0,
-          payment_status: 0,
-          payment_tx_id: 0,
-          pdc_cheque_id: -1,
-          reference_no: null,
-          remarks: null,
-          scheduleType: null,
-          schedule_id: 0,
-          service_tax: null,
-          service_tax_applicable: "",
-          student_category: "",
-          student_disp_id: null,
-          student_id: 0,
-          student_name: null,
-          student_phone: "",
-          tax: 0,
-          update_date: null,
-          updated_by: null
-        }
+      }
+      this.addFeeInstallment.due_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
+      this.addFeeInstallment.fee_date = moment(this.addFeeInstallment.due_date).format("YYYY-MM-DD");
+      this.addFeeInstallment.fee_type = 0;
+      this.addFeeInstallment.fees_amount = parseInt(this.addFeeInstallment.initial_fee_amount) + (this.precisionRound(((this.addFeeInstallment.service_tax / 100) * parseInt(this.addFeeInstallment.initial_fee_amount)), -1));
+      this.addFeeInstallment.amount_paid = 0;
+      this.addFeeInstallment.balance_amount = 0;
+      this.instalmentTableData.push(this.addFeeInstallment);
+      
+      this.addFeeInstallment = {
+        amount_paid: '',
+        amount_paid_inRs: null,
+        balance_amount: 0,
+        batch_id: 0,
+        created_by: null,
+        created_date: null,
+        day_type: 0,
+        days: 0,
+        discount: 0,
+        due_date: moment().format("YYYY-MM-DD"),
+        enquiry_counsellor_name: "",
+        enquiry_id: 0,
+        feeTypes: null,
+        fee_date: null,
+        fee_payment_edit_history: null,
+        fee_type: null,
+        fee_type_name: "",
+        fee_type_tax_configured: 0,
+        fees_amount: 0,
+        fineAmount: 0,
+        fine_type: null,
+        initial_fee_amount: 0,
+        installment_no: null,
+        installment_nos: "",
+        invoice_no: 0,
+        is_fee_receipt_generate: 0,
+        is_paid: 0,
+        is_referenced: "N",
+        latest_due_date: "",
+        onlinePaymentJson: null,
+        paid_date: null,
+        paid_full: "N",
+        paymentDate: null,
+        paymentMode: null,
+        paymentModeAmountMap: null,
+        payment_creation_date: null,
+        payment_reference_id: 0,
+        payment_status: 0,
+        payment_tx_id: 0,
+        pdc_cheque_id: -1,
+        reference_no: null,
+        remarks: null,
+        scheduleType: null,
+        schedule_id: 0,
+        service_tax: null,
+        service_tax_applicable: "",
+        student_category: "",
+        student_disp_id: null,
+        student_id: 0,
+        student_name: null,
+        student_phone: "",
+        tax: 0,
+        update_date: null,
+        updated_by: null
       }
     }
   }
@@ -2341,7 +2292,7 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  splitCustomizedFee(){
+  splitCustomizedFee() {
     this.instalmentTableData = [];
     this.otherFeeTableData = [];
     this.feeTemplateById.customFeeSchedules.forEach(el => {
@@ -2357,6 +2308,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   createCustomFeeSchedule() {
     this.isRippleLoad = true;
+
     this.instalmentTableData.sort(function (d1, d2) {
       return moment(d1.due_date).unix() - moment(d2.due_date).unix();
     });
@@ -2378,7 +2330,7 @@ export class StudentAddComponent implements OnInit {
       el.due_date = moment(el.due_date).format("YYYY-MM-DD");
       /* Taxes Here */
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-        let tax = el.fees_amount - el.initial_fee_amount;
+        let tax = el.initial_fee_amount * (this.service_tax / 100);
         this.totalTaxAmount += tax;
       }
       else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
@@ -2403,25 +2355,26 @@ export class StudentAddComponent implements OnInit {
     this.feeTemplateById.studentwise_total_fees_amount_paid = this.totalPaidAmount;
     this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalFeeWithTax - this.totalPaidAmount;
     this.feeTemplateById.customFeeSchedules = this.userCustommizedFee;
-    
+
     let obj = {
       customFeeSchedules: this.getCustomizedFee(this.userCustommizedFee),
-      discount_fee_reason: "",
+      discount_fee_reason: this.discountReason,
       is_delete_other_fee_types: 0,
       is_undo: this.is_undo,
       studentArray: [],
       studentwise_fees_tax_applicable: "Y",
       studentwise_total_fees_amount: this.totalFeeWithTax,
-      studentwise_total_fees_discount: "",
+      studentwise_total_fees_discount: this.totalDicountAmount,
       template_effective_date: moment(this.feeTemplateById.template_effective_date).format("YYYY-MM-DD"),
       template_id: this.feeTemplateById.template_id,
     };
 
     obj.studentArray.push(this.student_id);
-    
+
     this.postService.allocateStudentFees(obj).subscribe(
       res => {
         this.splitCustomizedFee();
+        this.setStudentFeeDetail();
         this.userHasFees = true;
         this.isRippleLoad = false;
         this.isDefineFees = false;
@@ -2516,15 +2469,17 @@ export class StudentAddComponent implements OnInit {
         this.isFeeApplied = false;
         this.isDiscountApplied = false;
         this.discountReason = '';
-
         let res = this.fetchService.getStoredFees();
         if (res.customFeeSchedules != null) {
           this.totalAmountPaid = res.studentwise_total_fees_amount;
-          this.totalDicountAmount = res.studentwise_total_fees_discount;
+          if (res.studentwise_total_fees_discount != null) {
+            this.totalDicountAmount = res.studentwise_total_fees_discount;
+          }
           this.userHasFees = true;
           this.paymentStatusArr = [];
           this.convertCustomizedfee(res.customFeeSchedules);
           this.feeStructureForm.studentArray.push(this.student_id);
+          this.discountReason = res.discount_fee_reason;
           this.feeStructureForm.template_effective_date = res.template_effective_date;
           this.userCustommizedFee = res.customFeeSchedules;
           this.userCustommizedFee.forEach(el => {
@@ -2532,7 +2487,7 @@ export class StudentAddComponent implements OnInit {
             /* Taxes Here */
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
-              let tax = el.fees_amount - el.initial_fee_amount;
+              let tax = el.initial_fee_amount * (this.service_tax / 100);
               this.totalTaxAmount += tax;
             }
             else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
@@ -2567,6 +2522,7 @@ export class StudentAddComponent implements OnInit {
                 this.paymentStatusArr = [];
                 this.convertCustomizedfee(res.customFeeSchedules);
                 this.feeStructureForm.studentArray.push(this.student_id);
+                this.discountReason = res.discount_fee_reason;
                 this.feeStructureForm.template_effective_date = res.template_effective_date;
                 this.userCustommizedFee = res.customFeeSchedules;
                 this.userCustommizedFee.forEach(el => {
@@ -2574,7 +2530,7 @@ export class StudentAddComponent implements OnInit {
                   /* Taxes Here */
                   if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
                     this.service_tax = res.registeredServiceTax;
-                    let tax = el.fees_amount - el.initial_fee_amount;
+                    let tax = el.initial_fee_amount * (this.service_tax / 100);
                     this.totalTaxAmount += tax;
                   }
                   else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
@@ -2607,9 +2563,15 @@ export class StudentAddComponent implements OnInit {
               this.isDefineFees = false;
               this.isFeeApplied = false;
               this.isDiscountApplied = false;
-              this.discountReason = '';
             },
-            err => { }
+            err => {
+              let obj = {
+                type: "error",
+                title: "An Error Occured",
+                body: ""
+              }
+              this.appC.popToast(obj);
+            }
           );
         }
       }
@@ -2690,7 +2652,7 @@ export class StudentAddComponent implements OnInit {
               /* Taxes Here */
               if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
                 this.service_tax = res.registeredServiceTax;
-                let tax = el.fees_amount - el.initial_fee_amount;
+                let tax = el.initial_fee_amount * (this.service_tax / 100);
                 this.totalTaxAmount += tax;
               }
               else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
@@ -2725,7 +2687,14 @@ export class StudentAddComponent implements OnInit {
           this.isFeeApplied = false;
           this.isDiscountApplied = false;
         },
-        err => { }
+        err => {
+          let obj = {
+            type: "error",
+            title: "An Error Occured",
+            body: ""
+          }
+          this.appC.popToast(obj);
+        }
       );
     }
   }
@@ -3097,7 +3066,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   paymentModeUpdate(e) {
-    //debugger
+    //
     if (e === 'Cheque/PDC/DD No.') {
       this.isPaymentPdc = true;
       this.pdcSelectedForm = {
@@ -3254,8 +3223,6 @@ export class StudentAddComponent implements OnInit {
     //console.log(e);
     this.studentImage = e;
   }
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   addNewPDCState() {
@@ -3522,7 +3489,6 @@ export class StudentAddComponent implements OnInit {
       });
     }
   }
-
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   validatePdcObject(): boolean {
@@ -3533,8 +3499,6 @@ export class StudentAddComponent implements OnInit {
       return true;
     }
   }
-  /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   downloadFeeReceipt(ins) {
@@ -3807,7 +3771,7 @@ export class StudentAddComponent implements OnInit {
     let total = this.total_amt_tobe_paid;
     let remaining = 0;
     this.installmentMarkedForPayment.forEach(e => {
-      debugger;
+      
       let paid = 0;
       let previous = 0;
       let full = "N";
@@ -3882,6 +3846,11 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   closePartialPayment() {
+    this.isPaymentPdc = false;
+    this.feeTemplateById.payment_mode ="Cash";
+    this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
+    this.isFeePaymentUpdate = false;
+    this.partialPayObj.paymentMode ="Cash";
     this.totalFeePaid = 0;
     this.partialPaySelected = null;
     this.total_amt_tobe_paid = this.totalFeePaid;
@@ -3906,7 +3875,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getPaidFullVal(): string {
-    debugger;
+    
     if (this.partialPaySelected.balance_amount > this.total_amt_tobe_paid) {
       return "N"
     } else {
