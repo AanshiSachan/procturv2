@@ -694,7 +694,7 @@
                         }
                         border: 1px solid #efefef;
                         &.displayComp {
-                            .view-comp {}
+                            
                             .edit-comp {
                                 display: none
                             }
@@ -718,7 +718,15 @@
         }
     }
 }
-
+.field-view{
+    border: none;
+    margin-top: 10px;
+    height:30px;
+    a{
+        font-size:13px;
+        margin-left:-4px;
+    }
+}
 
 /* ============================================================================================================= */
 
@@ -864,6 +872,7 @@
             }
         }
     }
+   
     .additional {
         margin-top: 40px;
         border: 1px solid #777;
