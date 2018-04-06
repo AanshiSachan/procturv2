@@ -32,9 +32,9 @@ export class AttendanceReportComponent implements OnInit {
     }
     this.reportService.getMasterCourse(obj).subscribe(
       (data:any) =>{
-        //console.log(data);
+        console.log(data);
         this.masterCourses=data.standardLi;
-        //console.log(this.masterCourses);
+        console.log(this.masterCourses);
         this.batchCourses=data.batchLi;
         //console.log(this.batchCourses);
         this.courses=data.subjectLi;
@@ -51,13 +51,15 @@ export class AttendanceReportComponent implements OnInit {
       standard_id:this.masterData,
       assigned:"N"
     }
-
     this.reportService.getMasterCourse(obj).subscribe(
       (data:any) =>{
         console.log(data);
         this.masterCourses=data.standardLi;
+        console.log(this.masterCourses);
         this.batchCourses=data.batchLi;
+        console.log(this.batchCourses);
         this.courses=data.subjectLi;
+        console.log(this.courses);
       },
       (error:any) =>{
         return error;

@@ -268,10 +268,10 @@
                 </div>
 
 
-                <div id="assignCoursesParent" class="field-wrapper" *ngIf="isAcad" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}">
-
+                <div id="assignCoursesParent" class="form-wrapper field-view" *ngIf="isAcad" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}">
+                    <label (click)="openAssignBatch()" for="assignCourses"><a>Assign Courses</a></label>
                   <textarea style="height: 80px;" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" readonly="true"></textarea>
-                  <label (click)="openAssignBatch()" for="assignCourses">Assign Courses</label>
+                  
                 </div>
 
                 <!-- ================================================================= -->
