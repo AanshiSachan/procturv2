@@ -70,7 +70,8 @@
 }
 
 .field-checkbox-wrapper{
-    #check0{
+    .form-checkbox{
+        .gud{
         opacity: 0;
         position: relative;
         left: 0;
@@ -81,6 +82,26 @@
         height: 20px;
         z-index: 1;
     }}
+}
 
 
-    
+.middle-section clearFix{
+
+    .color_change{
+        overflow: auto;
+        opacity: 1;
+        visibility: visible;
+     
+   position: fixed;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    top: 60px;
+    right: 0;
+    left: 0px;
+    background: white;
+    z-index: 100;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.5s ease-in;
+}}
