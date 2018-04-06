@@ -258,6 +258,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   createUpdateForm() {
     
     if (this.validateTime()) {
+      console.log(this.updateFormData);
       if (this.updateFormData.follow_type == "Walkin") {
         if (this.validatewalkindatetime()) {
           this.updateFormData.comment = this.updateFormData.comment;

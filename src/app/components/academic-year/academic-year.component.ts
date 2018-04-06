@@ -87,8 +87,17 @@ export class AcademicYearComponent implements OnInit {
 
     }
    
+    else if(moment(start_date_new).date() > moment(end_date_new).date()){
+      let msg = {
+        type: "error",
+        title: "Incorrect Details",
+        body: "Start date cannot be less than end date"
+      }
+      this.appC.popToast(msg);
 
-    else if (this.addAcademicYearTemplate.start_date.toString() === this.addAcademicYearTemplate.end_date.toString()) {
+    }
+
+    else if (moment(start_date_new).date() === moment(end_date_new).date() ){
       {
         let acad = {
           type: "error",
@@ -161,12 +170,22 @@ export class AcademicYearComponent implements OnInit {
     let start_date_new = row2.start_date
     let end_date_new = row2.end_date
     let academic_year_new = row2.inst_acad_year.toString().split("-");
-    if (row2.start_date.toString() === row2.end_date.toString()) {
+
+    if (moment(start_date_new).date() === moment(end_date_new).date()){
 
       let msg = {
         type: "error",
         title: "Incorrect Details",
         body: "Start Date and End date should not be same"
+      }
+      this.appC.popToast(msg);
+
+    }
+    else if(moment(start_date_new).date() > moment(end_date_new).date()){
+      let msg = {
+        type: "error",
+        title: "Incorrect Details",
+        body: "Start date cannot be less than end date"
       }
       this.appC.popToast(msg);
 

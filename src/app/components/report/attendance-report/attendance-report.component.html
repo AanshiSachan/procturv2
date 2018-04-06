@@ -25,7 +25,7 @@
                 </div>
                 <div class="c-sm-4 c-xs-4 c-lg-4 c-md-4 form-wrapper">
                     <label>Batch Name</label>
-                    <select class="side-form-ctrl" [(ngModel)]="batchesData" (change)="changeValue()">
+                    <select class="side-form-ctrl" [(ngModel)]="batchesData" (ngModelchange)="changeValue()">
                         <option value="" selected>Batch Course</option>
                         <option *ngFor="let i of masterCourses" [value]="i.batch_id" name="batchCourse">{{i.batch_name}}</option>
                     </select>
