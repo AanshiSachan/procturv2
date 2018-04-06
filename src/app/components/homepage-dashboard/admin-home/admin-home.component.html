@@ -120,7 +120,7 @@
                 </div>
               </li>
 
-              <li class="fees-state item" data-id="3">
+              <li [ngClass]="{hide : (permissionArray != '' && permissionArray != null)}" class="fees-state item" data-id="3">
                 <div class="item-content">
                   <div class="actb-top-header clearfix">
                     <span class="heading">
@@ -345,7 +345,8 @@
                 </div>
               </li>
 
-              <li class="general-state item" style="height: 150px;" data-id="4">
+              <li [ngClass]="{hide : (permissionArray != '' && permissionArray != null)}" class="general-state item" style="height: 150px;"
+                data-id="4">
                 <div class="item-content">
                   <div class="actb-top-header clearfix">
                     <span class="heading">
