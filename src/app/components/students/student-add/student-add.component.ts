@@ -938,6 +938,9 @@ export class StudentAddComponent implements OnInit {
         this.studentAddFormData.assignedBatchescademicYearArray.reverse();
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.reverse();
       }
+      if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
+        this.studentAddFormData.student_sex = "M";
+      }
       this.isRippleLoad = true;
       this.busyPrefill = this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
@@ -1270,6 +1273,14 @@ export class StudentAddComponent implements OnInit {
       this.studentAddFormData.stuCustomLi = customArr;
       this.studentAddFormData.photo = this.studentImage;
       this.additionalBasicDetails = false;
+      if (this.studentAddFormData.assignedBatches == null) {
+        this.studentAddFormData.assignedBatchescademicYearArray = null;
+        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = null;
+        this.studentAddFormData.batchJoiningDates = null;
+      }
+      if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
+        this.studentAddFormData.student_sex = "M";
+      }
       this.busyPrefill = this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
           let statusCode = res.statusCode;
@@ -1675,7 +1686,7 @@ export class StudentAddComponent implements OnInit {
               this.totalPaidAmount += el.amount_paid;
             }
             this.totalFeeWithTax += parseInt(el.fees_amount);
-          
+
             if (el.fee_type_name === "INSTALLMENT") {
               this.instalmentTableData.push(el);
             }
@@ -2341,7 +2352,7 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  splitCustomizedFee(){
+  splitCustomizedFee() {
     this.instalmentTableData = [];
     this.otherFeeTableData = [];
     this.feeTemplateById.customFeeSchedules.forEach(el => {
@@ -2403,7 +2414,7 @@ export class StudentAddComponent implements OnInit {
     this.feeTemplateById.studentwise_total_fees_amount_paid = this.totalPaidAmount;
     this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalFeeWithTax - this.totalPaidAmount;
     this.feeTemplateById.customFeeSchedules = this.userCustommizedFee;
-    
+
     let obj = {
       customFeeSchedules: this.getCustomizedFee(this.userCustommizedFee),
       discount_fee_reason: "",
@@ -2418,7 +2429,7 @@ export class StudentAddComponent implements OnInit {
     };
 
     obj.studentArray.push(this.student_id);
-    
+
     this.postService.allocateStudentFees(obj).subscribe(
       res => {
         this.splitCustomizedFee();
@@ -2888,6 +2899,14 @@ export class StudentAddComponent implements OnInit {
       this.studentAddFormData.stuCustomLi = customArr;
       this.studentAddFormData.photo = this.studentImage;
       this.additionalBasicDetails = false;
+      if (this.studentAddFormData.assignedBatches == null) {
+        this.studentAddFormData.assignedBatchescademicYearArray = null;
+        this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = null;
+        this.studentAddFormData.batchJoiningDates = null;
+      }
+      if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
+        this.studentAddFormData.student_sex = "M";
+      }
       this.busyPrefill = this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
           let statusCode = res.statusCode;

@@ -286,7 +286,14 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
         this.updateFormData.followUpTime = this.timeObj.fhour + ":" + this.timeObj.fminute + " " + this.timeObj.fmeridian;
         this.updateFormData.walkin_followUpTime = this.timeObj.whour + ":" + this.timeObj.wminute + " " + this.timeObj.wmeridian;
         this.updateFormData.followUpDate = moment(this.updateFormData.followUpDate).format('YYYY-MM-DD');
-        this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+        if (this.updateFormData.walkin_followUpDate != "Invalid date") {
+          this.updateFormData.walkin_followUpDate = moment(this.updateFormData.walkin_followUpDate).format('YYYY-MM-DD');
+        } else {
+          this.updateFormData.walkin_followUpDate = "";
+        }
+        if (this.updateFormData.walkin_followUpTime.includes('Invalid')) {
+          this.updateFormData.walkin_followUpTime = "";
+        }
         this.pushUpdatedEnquiry(this.updateFormData);
       }
     }
