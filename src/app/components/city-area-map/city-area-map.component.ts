@@ -19,7 +19,7 @@ export class CityAreaMapComponent implements OnInit {
   newCity = {
     city: '',
     area: '',
-    branch: ''
+    branch: '-1'
   }
   isMultiBranch: any;
   branchesList: any = [];
@@ -118,7 +118,7 @@ export class CityAreaMapComponent implements OnInit {
     this.newCity = {
       city: '',
       area: '',
-      branch: ''
+      branch: '-1'
     }
   }
 
