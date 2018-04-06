@@ -1,0 +1,109 @@
+<div class="middle-section clearFix">
+  <section class="middle-top mb0 clearFix">
+    <h1 class="pull-left">
+      Area And City
+    </h1>
+  </section>
+
+  <section class="middle-main clearFix">
+
+    <div class="clearFix add-edit">
+      <a (click)="toggleCreateNewSlot()">
+        <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
+        <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
+        <span>Add Area And City</span>
+      </a>
+    </div>
+    <section class="clearFix create-standard-form" *ngIf="createNew">
+      <div class="row create-standard-field">
+        <div class="c-lg-3 c-md-3 c-sm-3">
+          <div class="field-wrapper">
+            <input type="text" class="form-ctrl" name="city" [(ngModel)]="newCity.city">
+            <label for="slotNew">City
+              <span style="color: red">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="c-lg-3 c-md-3 c-sm-3">
+          <div class="field-wrapper">
+            <input type="text" class="form-ctrl" name="area" [(ngModel)]="newCity.area">
+            <label for="area">Area</label>
+          </div>
+        </div>
+        <div *ngIf="isMultiBranch" class="c-lg-3 c-md-3 c-sm-3">
+
+          <div class="field-wrapper has-value" [(ngModel)]="newCity.branch">
+            <select id="" class="form-ctrl">
+              <option *ngFor="let opt of branchesList" [value]="opt.institute_id">
+                {{opt.institute_name}}
+              </option>
+            </select>
+            <label for="item">Sub Branch
+            </label>
+          </div>
+
+
+          <div class="field-wrapper">
+            <input type="text" class="form-ctrl" name="branch" [(ngModel)]="newCity.branch">
+            <label for="branch">Branch</label>
+          </div>
+        </div>
+        <div class="c-lg-3 c-md-3 c-sm-3">
+          <button class="btn" (click)="addNewCity()">Save</button>
+        </div>
+      </div>
+
+    </section>
+    <div id="divSlotTable">
+      <div class="table-scroll-wrapper">
+        <div class="table table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  S No.
+                </th>
+                <th>
+                  City
+                </th>
+                <th>
+                  Area
+                </th>
+              </tr>
+            </thead>
+            <tbody *ngIf="cityAreaList.length !=0">
+              <tr id="row{{i}}" *ngFor="let row of cityAreaList; let i = index; trackBy: i;">
+                <td>
+                  {{row.id}}
+                </td>
+
+                <td>
+                  {{row.city}}
+                </td>
+
+                <td>
+                  {{row.area}}
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="cityAreaList.length ==0">
+              <td colspan="3" style="text-align: center">
+                No City Area List Available
+              </td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paginator Here -->
+    <div class="row filter-res pagination" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+        </pagination>
+      </div>
+    </div>
+  </section>
+
+</div>

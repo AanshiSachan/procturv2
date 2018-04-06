@@ -22,7 +22,8 @@ export class FeeTemplateAddComponent implements OnInit {
     apply_tax: false,
     tax_amount: 0,
     total_fee: 0,
-    installmentCount: ''
+    installmentCount: '',
+    is_default_template: false
   }
   additionalInstallment = {
     days: 0,
@@ -222,8 +223,14 @@ export class FeeTemplateAddComponent implements OnInit {
       return false;
     }
     if (this.addNewTemplate.installmentCount == "" || 0) {
-      this.messageNotifier('error', 'Error', 'Installment Count Can not be zero');
+      this.messageNotifier('error', 'Error', 'Installment Count can not be zero');
       return false;
+    }
+    if (this.addNewTemplate.is_default_template) {
+      if (this.addNewTemplate.master_course_name == "" || this.addNewTemplate.course_id == -1) {
+        this.messageNotifier('error', 'Error', 'Please provide Master Course and Course to use is default template.');
+        return false;
+      }
     }
     return true;
   }
@@ -267,6 +274,12 @@ export class FeeTemplateAddComponent implements OnInit {
 
   createFeeTemplate() {
     let tax: any;
+    let defaultValue: any;
+    if (this.addNewTemplate.is_default_template) {
+      defaultValue = '1';
+    } else {
+      defaultValue = '0';
+    }
     if (this.addNewTemplate.apply_tax) {
       tax = "Y";
     } else {
@@ -278,6 +291,7 @@ export class FeeTemplateAddComponent implements OnInit {
     }
     let data: any = {
       course_id: this.addNewTemplate.course_id,
+      is_default: defaultValue,
       customFeeSchedules: feeSch,
       studentwise_total_fees_amount: this.totalAmount.toString(),
       studentwise_total_fees_discount: 0,

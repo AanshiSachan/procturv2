@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-report',
@@ -7,12 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportComponent implements OnInit {
 
-  constructor() { 
-    
+  constructor(
+    private route: Router
+  ) {
+
   }
 
   ngOnInit() {
     this.removeFullscreen();
+    this.removeSideNavSelection();
+    this.checkUserAccess();
+  }
+
+  removeSideNavSelection() {
     document.getElementById('lione').classList.remove('active');
     document.getElementById('litwo').classList.remove('active');
     document.getElementById('lithree').classList.remove('active');
@@ -38,7 +46,7 @@ export class ReportComponent implements OnInit {
     });
   }
 
-  switchActiveView(id){
+  switchActiveView(id) {
     document.getElementById('home').classList.remove('active');
     document.getElementById('attendance').classList.remove('active');
     document.getElementById('sms').classList.remove('active');
@@ -48,7 +56,7 @@ export class ReportComponent implements OnInit {
     document.getElementById('time').classList.remove('active');
     document.getElementById('email').classList.remove('active');
     document.getElementById('profit').classList.remove('active');
-    switch(id){
+    switch (id) {
       case 'home': { document.getElementById('home').classList.add('active'); break; }
       case 'attendance': { document.getElementById('attendance').classList.add('active'); break; }
       case 'sms': { document.getElementById('sms').classList.add('active'); break; }
@@ -56,9 +64,13 @@ export class ReportComponent implements OnInit {
       case 'exam': { document.getElementById('exam').classList.add('active'); break; }
       case 'report': { document.getElementById('report').classList.add('active'); break; }
       case 'time': { document.getElementById('time').classList.add('active'); break; }
-      case 'email': { document.getElementById('email').classList.add('active');  break; }
+      case 'email': { document.getElementById('email').classList.add('active'); break; }
       case 'profit': { document.getElementById('profit').classList.add('active'); break; }
     }
   }
-  
+
+  checkUserAccess() {
+    this.route.navigateByUrl('/reports/sms');
+  }
+
 }

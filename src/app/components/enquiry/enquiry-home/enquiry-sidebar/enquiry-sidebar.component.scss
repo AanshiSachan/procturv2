@@ -706,7 +706,8 @@
     z-index: 2;
     .qInfoIcon {
         width: 20px;
-        margin-left:5px;
+        margin-left:22px;
+        margin-top: 4px;
         height: 20px;
         border: 1px solid #ccc;
         border-radius: 50%;
@@ -720,7 +721,11 @@
         box-shadow: 0px 0px 1px 0px #ccc inset;
         color: #888;
         transition: all 0.2s linear;
-        
+
+        &.notify-div{
+         margin-left:11px;
+             
+        }
         &:hover {
             border-color: $header-bg;
             box-shadow: 0px 0px 1px 0px $header-bg inset;
@@ -730,10 +735,16 @@
 }
 
 .tooltip-box-field{
-    width: 193px;
+    width: 190px;
     min-height: 0px;
     white-space: nowrap;
     padding: 0px;
-    padding-left: 4px;
+    padding-left: 3px;
 }
+.field-checkbox-wrapper{
 
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: -20px;
+
+ }

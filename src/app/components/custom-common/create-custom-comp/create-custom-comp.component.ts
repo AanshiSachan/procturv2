@@ -130,6 +130,7 @@ export class CreateCustomCompComponent implements OnInit {
                 document.getElementById('addComponent-icon').innerHTML = "+"
                 this.clearComponentForm();
                 this.appC.popToast(alert);
+                this.fetchPrefillData();
               },
               err => {
                 let alert = {
@@ -176,6 +177,7 @@ export class CreateCustomCompComponent implements OnInit {
                 document.getElementById('addComponent-icon').innerHTML = "+"
                 this.clearComponentForm();
                 this.appC.popToast(alert);
+                this.fetchPrefillData();
               },
               err => {
                 let alert = {
@@ -219,6 +221,7 @@ export class CreateCustomCompComponent implements OnInit {
             document.getElementById('addComponent-icon').innerHTML = "+"
             this.clearComponentForm();
             this.appC.popToast(alert);
+            this.fetchPrefillData();
           },
           err => {
             let alert = {
@@ -504,6 +507,7 @@ export class CreateCustomCompComponent implements OnInit {
           body: 'requested form-field deleted'
         }
         this.appC.popToast(alert);
+        this.fetchPrefillData();
         this.editCustomComponentForm = {
           comp_length: "",
           description: "",
