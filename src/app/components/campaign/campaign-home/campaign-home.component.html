@@ -266,7 +266,7 @@
                           <div class="field-checkbox-wrapper">
                             <input type="checkbox" (click)="rowCheckBoxClick($event.target.checked, i, message.message_id ,message.message)" id="check{{i}}"
                               value="" name="enquirycheck" class="form-checkbox">
-                            <label>{{message.message}}</label>
+                            <label for="check{{i}}">{{message.message}}</label>
                           </div>
                         </td>
                         <td style="text-align: left">

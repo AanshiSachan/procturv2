@@ -355,7 +355,7 @@
     top: 60px;
     right: 0;
     left: 0px;
-    background: rgba(78, 26, 26, 0.5);
+    background: rgba(230, 230, 230, 0.5);
     z-index: 100; // display: none;  
     visibility: hidden;
     opacity: 0;
@@ -375,7 +375,7 @@
         margin: auto; // transform: translateY(-50%);
     }
 }
-
+ 
 .popup-wrapper {
     padding: 20px 20px; // height: 100%;
     box-sizing: border-box;
@@ -518,7 +518,7 @@
 
 .popup-body-container {
     max-width: 85% !important;
-    top: 10% !important;
+    top: 18% !important;
     left: 5% !important;
 }
 
