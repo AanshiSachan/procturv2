@@ -127,7 +127,6 @@ export class PostStudentDataService {
         if(obj.hasOwnProperty('paid_date')){
             obj.paid_date = moment(obj.paid_date).format("YYYY-MM-DD");
         }
-        debugger;
         let urlFeeUpdate = this.baseUrl + "/api/v1/studentWise/fee/schedule/students/save/" + this.institute_id;
 
         return this.http.post(urlFeeUpdate, obj, { headers: this.headers }).map(

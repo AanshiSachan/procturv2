@@ -305,7 +305,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     { primaryKey: 'statusValue', header: 'Status' },
     { primaryKey: 'priority', header: 'Priority' },
     //{ primaryKey: 'follow_type', header: 'Follow up Type' },
-    { primaryKey: 'followUpDateTime', header: 'Follow up Date', format: this.currentDirection },
+    { primaryKey: 'followUpDate', header: 'Follow up Date', format: this.currentDirection },
     { primaryKey: 'updateDate', header: 'Update Date' },
     //{ primaryKey: 'assigned_name', header: 'Assigned To' }
   ];

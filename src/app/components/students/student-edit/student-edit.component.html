@@ -268,10 +268,10 @@
                 </div>
 
 
-                <div id="assignCoursesParent" class="field-wrapper" *ngIf="isAcad" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}">
-
+                <div id="assignCoursesParent" class="form-wrapper field-view" *ngIf="isAcad" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}">
+                    <label (click)="openAssignBatch()" for="assignCourses"><a>Assign Courses</a></label>
                   <textarea style="height: 80px;" [ngModel]="assignedBatchString" name="assignCourses" class="form-ctrl" readonly="true"></textarea>
-                  <label (click)="openAssignBatch()" for="assignCourses">Assign Courses</label>
+                  
                 </div>
 
                 <!-- ================================================================= -->
@@ -513,7 +513,7 @@
                   <path fill="#0084F6" fill-rule="nonzero" d="M21.7 14.254V9.803h1v4.45z" />
                 </g>
               </svg>
-              <span>Manage PDC</span>
+              <span>Manage Cheques</span>
             </button>
             <button class="btn" *ngIf="userCustommizedFee.length == 0" (click)="configureFees($event)">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
@@ -547,13 +547,15 @@
 
             <!-- Header Tabs Here -->
             <ul *ngIf="userCustommizedFee.length != 0">
+
               <li>
-                <label>Fees</label>
+                <label>Total Fee With Taxes</label>
                 <div class="blue">
                   <span *ngIf="userCustommizedFee.length == 0">NA</span>
                   <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalFeeWithTax | commaSeprator}}</span>
                 </div>
               </li>
+
               <li>
                 <label>Discount</label>
                 <div class="purple">
@@ -562,6 +564,7 @@
                   <a *ngIf="!feeTemplateById.toCreate" (click)="openDiscountApply()">Add more</a>
                 </div>
               </li>
+
               <li>
                 <label>Taxes</label>
                 <div class="yellow">
@@ -569,6 +572,15 @@
                   <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalTaxAmount | commaSeprator}}</span>
                 </div>
               </li>
+
+              <li>
+                <label>Fee Amount</label>
+                <div class="gray">
+                    <span *ngIf="userCustommizedFee.length == 0">NA</span>
+                    <span *ngIf="userCustommizedFee.length != 0">&#8377; {{(totalFeeWithTax-totalDicountAmount) | commaSeprator}}</span>
+                </div>
+              </li>
+
               <li>
                 <label>Amount Paid</label>
                 <div class="green">
@@ -576,6 +588,7 @@
                   <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalPaidAmount | commaSeprator}}</span>
                 </div>
               </li>
+
               <li>
                 <label>Amount Due</label>
                 <div class="red">
@@ -583,14 +596,7 @@
                   <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalAmountDue | commaSeprator}}</span>
                 </div>
               </li>
-              <li>
-                <label>Fee Structure</label>
-                <div class="gray">
-                  <span *ngIf="userCustommizedFee.length == 0">NA</span>
-                  <span class="feename" *ngIf="userCustommizedFee.length != 0">{{getTemplateName(feeTemplateById.template_id)}}</span>
-                  <!-- <a (click)="reCreateFeeAgain()" *ngIf="!feeTemplateById.toCreate">Change</a> -->
-                </div>
-              </li>
+
             </ul>
             <!-- In case No Fee Template Selected -->
             <h1 *ngIf="userCustommizedFee.length == 0" style="text-align: center;">
@@ -606,6 +612,7 @@
               <div class="row">
                 <div class="pull-left c-xs-8 c-sm-8">
                   <h2>Fee Details</h2>
+                  <span class="feename" *ngIf="userCustommizedFee.length != 0">{{getTemplateName(feeTemplateById.template_id)}}</span>
                 </div>
                 <div class="pull-right c-xs-4 c-sm-4">
                   <ul style="width: 60px;float: right;" class="export-print align-right">
@@ -1440,7 +1447,7 @@
       </svg>
     </span>
 
-    <h2 popup-header style="padding: 10px 5px;">Manage PDC Cheques for {{studentAddFormData.student_name}}</h2>
+    <h2 popup-header style="padding: 10px 5px;">Manage Cheques for {{studentAddFormData.student_name}}</h2>
 
     <div class="pdc-container" popup-content>
       <div class="pdc-wrapper">
@@ -1758,7 +1765,7 @@
 
         <div class="row">
 
-          <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
+          <div *ngIf="!isPaymentPdc" class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
             <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'pay')"
             />
             <label for="payamt">Payment for</label>
@@ -1909,7 +1916,7 @@
 
         <div class="row">
 
-          <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
+          <div *ngIf="!isPaymentPdc" class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
             <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'payone')"
             />
             <label for="payamt">Pay Amount</label>
@@ -1992,7 +1999,7 @@
 
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_amount != ''}">
-                <input [readonly]="isPdcFeePaymentSelected" readonly="true" type="text" value="" id="" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
+                <input readonly="true" type="text" value="" id="" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
                 />
                 <label for="">Cheque Amount*</label>
               </div>
