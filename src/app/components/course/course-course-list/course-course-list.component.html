@@ -165,7 +165,7 @@
         <div class="row filter-section">
           <div class="c-sm-3 c-md-3 c-lg-3">
             <div class="field-wrapper" [ngClass]="{'has-value' : searchFilter.standard_id != ''}">
-              <select class="form-ctrl" [(ngModel)]="searchFilter.standard_id" name="standard">
+              <select class="form-ctrl" [(ngModel)]="searchFilter.standard_id" name="standard" id="standard">
                 <option value="-1">Select</option>
                 <option *ngFor="let opt of standardList" [value]="opt.standard_id">
                   {{opt.standard_name}}
@@ -176,7 +176,7 @@
           </div>
           <div class="c-sm-3 c-md-3 c-lg-3 checkBoxWrapper">
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" [(ngModel)]="searchFilter.unassignFlag" name="assignList" class="form-checkbox">
+              <input type="checkbox" id="assignList" value="" [(ngModel)]="searchFilter.unassignFlag" name="assignList" class="form-checkbox">
               <label for="assignList">UnAssigned Students</label>
             </div>
           </div>

@@ -13,7 +13,7 @@
         <div class="field-wrapper has-value">
           <input type="text" id="idMasterCourse" [(ngModel)]="selectedCourseDetails.master_course
           " name="masterCourse" class="form-ctrl" />
-          <label for="masterCourse">Master Course
+          <label for="idMasterCourse">Master Course
             <span style="color:red">*</span>
           </label>
         </div>
@@ -25,7 +25,7 @@
               {{opt.standard_name}}
             </option>
           </select>
-          <label for="item">Standard Name
+          <label for="idStanadardName">Standard Name
           </label>
         </div>
       </div>
@@ -90,7 +90,7 @@
                           <td *ngIf="examGradeFeature == 1">
                             <div class="field-checkbox-wrapper" style="margin-top: 25px;">
                               <input type="checkbox" value="" style="background: transparent" [(ngModel)]="mainTableDataSource[i].is_exam_grad_feature"
-                                name="allow" class="form-checkbox">
+                                name="allow" class="form-checkbox" id="allow">
                               <label for="allow">Allow Exam Grades</label>
                             </div>
                           </td>

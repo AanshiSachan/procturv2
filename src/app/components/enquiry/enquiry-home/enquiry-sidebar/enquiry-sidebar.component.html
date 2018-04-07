@@ -120,7 +120,7 @@
                                 <div *ngIf="row.followUpDate !='' && row.followUpTime != ''">
                                     <div class="form-checkbox-wrapper">
                                         <div class="field-checkbox-wrapper">
-                                            <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox" style="display:inline-block;">
+                                            <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox" style="display:inline-block;" id="notifyMe">
 
                                             <label for="notifyme">Notify Me</label>
 
@@ -252,25 +252,25 @@
                     <div class="basic-wrapper">
                         <div class="form-wrapper ">
                             <label for="Email">Email</label>
-                            <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.email" type="text" name="Email">
+                            <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.email" type="text" name="Email" id="Email">
                         </div>
 
                         <div class="form-wrapper ">
                             <label for="Email">DOB</label>
-                            <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.dob" type="text" name="dob">
+                            <input readonly="true" id="Email" class="side-form-ctrl blocked" [(ngModel)]="rowData.dob" type="text" name="dob">
                         </div>
 
                         <div class="form-wrapper ">
                             <label for="ParentName">Parent Name</label>
-                            <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.parent_name" type="text" name="ParentName">
+                            <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.parent_name" type="text" name="ParentName" id="ParentName">
                         </div>
                         <div class="form-wrapper ">
                             <label for="Standard">Standard</label>
-                            <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.standard" type="text" name="Standard">
+                            <input readonly="true" id="Standard" class="side-form-ctrl blocked" [(ngModel)]="rowData.standard" type="text" name="Standard">
                         </div>
                         <div class="form-wrapper ">
                             <label for="Subject">Subject</label>
-                            <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.subjects" type="text" name="Subject">
+                            <input readonly="true" id="Subject" class="side-form-ctrl blocked" [(ngModel)]="rowData.subjects" type="text" name="Subject">
                         </div>
                     </div>
                 </section>
@@ -285,7 +285,7 @@
                         <div *ngFor="let cus of customComp">
                             <div class="form-wrapper">
                                 <label for="{{cus.label}}">{{cus.label}}</label>
-                                <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="cus.enq_custom_value" type="text" name="{{cus.label}}">
+                                <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="cus.enq_custom_value" type="text" name="{{cus.label}}" id="{{cus.label}}">
                             </div>
                         </div>
                     </div>

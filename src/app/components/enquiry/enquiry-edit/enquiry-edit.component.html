@@ -91,9 +91,9 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.city != -1}">
                     <select id="cityDdn" class="form-ctrl" [(ngModel)]="editEnqData.city" (ngModelChange)="onCitySelctionChanges($event)" name="city">
                       <option value="-1"></option>
-                      <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
+                      <option *ngFor="let city of cityListDataSource" [value]="city.id">{{city.city}}</option>
                     </select>
-                    <label for="city">City
+                    <label for="cityDdn">City
                       <span *ngIf="isCityMandatory == 1">*</span>
                     </label>
                   </div>
@@ -102,9 +102,9 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.area != -1}">
                     <select id="areaDdn" class="form-ctrl" [(ngModel)]="editEnqData.area" name="area">
                       <option value="-1"></option>
-                      <option *ngFor="let area of areaListDataSource" [value]="area.area">{{area.area}}</option>
+                      <option *ngFor="let area of areaListDataSource" [value]="area.id">{{area.area}}</option>
                     </select>
-                    <label for="area">Area
+                    <label for="areaDdn">Area
                     </label>
                   </div>
 
@@ -146,7 +146,7 @@
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.phone2 != ''}">
                     <input type="text" value="" id="phone2" class="form-ctrl" [(ngModel)]="editEnqData.phone2" name="phone2" maxlength="10" minlength="10"
                       OnlyNumber="true" />
-                    <label for="altContact">Alternate Contact</label>
+                    <label for="phone2">Alternate Contact</label>
                   </div>
 
                   <!-- Email -->
@@ -242,8 +242,8 @@
                       <option value="-1"></option>
                       <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
                     </select>
-                    <label *ngIf="!isProfessional" for="standard">Standard</label>
-                    <label *ngIf="isProfessional" for="standard">Master Course</label>
+                    <label *ngIf="!isProfessional" for="editstandard">Standard</label>
+                    <label *ngIf="isProfessional" for="editstandard">Master Course</label>
                   </div>
 
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.subject_id != '-1'}">
@@ -251,8 +251,8 @@
                       <option value="-1"></option>
                       <option *ngFor="let subject of enqSub" [value]="subject.subject_id">{{subject.subject_name}}</option>
                     </select>
-                    <label *ngIf="!isProfessional" for="selectSub">Subject</label>
-                    <label *ngIf="isProfessional" for="selectSub">Course</label>
+                    <label *ngIf="!isProfessional" for="forSubject">Subject</label>
+                    <label *ngIf="isProfessional" for="forSubject">Course</label>
                   </div>
 
                   <custom-enquiry *ngFor="let component of customComponents">
@@ -260,8 +260,8 @@
                       <div class="field-wrapper" [class.has-value]="component.value != ''">
                         <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="a{{component.label}}"
                         />
-                        <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
-                        <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                       </div>
                     </div>
 
@@ -270,8 +270,8 @@
                       <div class="field-checkbox-wrapper" [class.has-value]="component.value != ''">
                         <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" (ngModelChange)="fillCustomComponent($event, component)"
                           name="a{{component.label}}" value="">
-                        <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
-                        <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                       </div>
                     </div>
 
@@ -281,8 +281,8 @@
                           <option value=""></option>
                           <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                         </select>
-                        <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
-                        <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                       </div>
                     </div>
 
@@ -290,8 +290,8 @@
                       <div id="{{component.id}}wrapper" class="field-wrapper" [class.has-value]="component.value != ''" (click)="multiselectVisible($event.target.id)">
                         <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" autocomplete="off" name="a{{component.label}}"
                           readonly="true" class="form-ctrl" />
-                        <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
-                        <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
+                        <label *ngIf="component.is_required == 'Y'" for="component.id">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'N'" for="component.id">{{component.label}} </label>
                       </div>
                       <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
                         <div class="multiselect-wrapper-inner">
@@ -312,7 +312,7 @@
                       <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
                         <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
                           name="{{component.label}}" bsDatepicker/>
-                        <label for="component.label">{{component.label}} </label>
+                        <label for="component.id">{{component.label}} </label>
                       </div>
                     </div>
 

@@ -21,17 +21,42 @@ export class AttendanceReportServiceService {
       { "Content-Type": "application/json", "Authorization": this.Authorization });
 
   }
-  getMasterCourse(obj){
-    let url=this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" +this.institute_id +"?standard_id="+obj.standard_id+"&subject_id="+obj.subject_id+"&assigned="+obj.assigned;
+  getMasterCourse(){
+    let url=this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all" 
     return this.http.get(url , {headers:this.headers}).map(
       data =>{
-        //console.log(data)
         return data;
       },
       error=>{
         return error;
       }
     )
+  }
+  getCourses(obj){
+    let url=this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + obj
+    return this.http.get(url, {headers:this.headers}).map(
+      data=>{
+        return data;
+      },
+      error=>{
+        return error;
+      }
+      
+    )
+  }
+  getSubject(obj){
+
+    let url=this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + obj
+    return this.http.get(url, {headers:this.headers}).map(
+      data =>{
+        return data;
+      },
+      error=>{
+        return error;
+      }
+      
+    )
+
   }
 
 }
