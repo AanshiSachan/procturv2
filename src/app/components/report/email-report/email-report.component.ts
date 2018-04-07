@@ -11,7 +11,7 @@ import * as moment from 'moment';
   templateUrl: './email-report.component.html',
   styleUrls: ['./email-report.component.scss']
 })
-export class EmailReportComponent implements OnInit {
+export class EmailReportComponent {
   email_data: any;
   email_fromDate:string= "";
   email_toDate:string= "";
@@ -37,8 +37,8 @@ export class EmailReportComponent implements OnInit {
   }
 
   constructor(
-    private fetchApiService: getEmailService,
-    private login: LoginService) {
+    private fetchApiService: getEmailService, 
+    private login: LoginService ,private appC :AppComponent) {
     this.switchActiveView('email');
   }
 
@@ -59,16 +59,39 @@ export class EmailReportComponent implements OnInit {
     )
   }
 
-  fetchemailByDate(){
-    let email_Obj= {
-      institution_id: parseInt(sessionStorage.getItem('institute_id')),
-      from_date: moment(this.email_fromDate).format('YYYY-MM-DD'),
-      to_date: moment(this.email_toDate).format('YYYY-MM-DD')
-    
+  isTimeValid():boolean{
+   let v= moment(this.email_fromDate).diff(moment(this.email_toDate))
+   
+    if(v<=0){
+      return true;
     }
-    console.log(email_Obj);
-      this.fetchApiService.getEmailMessages(email_Obj).subscribe((chunk)=>console.log(chunk));
+  else{
+    return false;
+  }
+  }
 
+
+  fetchemailByDate(){
+    if(this.isTimeValid()){
+      let email_value={
+       institution_id : parseInt(sessionStorage.getItem('institute_id')),
+       from_date: moment(this.email_fromDate).format('YYYY-MM-DD'),
+       to_date: moment(this.email_toDate).format('YYYY-MM-DD')
+
+      }
+       this.fetchApiService.getEmailMessages(email_value)
+       .subscribe((store)=>console.log(store));
+ 
+    }
+    else{
+      let obj={
+        type:"error",
+        title:"Invalid Date Range Selected",
+        Body: "From date cannot be greater than To date"
+       }
+   this.appC.popToast(obj);
+
+    }
   }
 
 switchActiveView(id) {
