@@ -7,7 +7,7 @@
 
   <section class="middle-main clearFix">
 
-    <div class="note-wrapper">
+    <!-- <div class="note-wrapper">
       <h3>Note</h3>
       <ul>
         <li>
@@ -20,7 +20,7 @@
           <span>3. Create Batch Fee Schedule if required.</span>
         </li>
       </ul>
-    </div>
+    </div> -->
 
     <div class="clearFix add-edit">
       <a (click)="toggleCreate()">
@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
-          <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type_tax != '' }">
+          <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type_tax >= 0 }">
             <input type="number" max="99" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type_tax" name="slotNew">
             <label for="slotNew">Tax(%)
             </label>
