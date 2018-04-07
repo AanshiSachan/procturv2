@@ -190,7 +190,7 @@ export class EnquiryEditComponent implements OnInit {
     this.isEnquiryAdministrator();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-    this.busy = this.FetchEnquiryPrefilledData();
+    this.FetchEnquiryPrefilledData();
     this.updateEnquiryData();
   }
 
@@ -301,34 +301,6 @@ export class EnquiryEditComponent implements OnInit {
       })
     }
   }
-
-  updateCustomComponent(id) {
-    this.prefill.fetchCustomComponentById(id)
-      .subscribe(
-        data => {
-          //debugger
-          this.customComponents = [];
-          data.forEach(el => {
-            let obj = {
-              data: el,
-              id: el.component_id,
-              is_required: el.is_required,
-              is_searchable: el.is_searchable,
-              label: el.label,
-              prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
-              selected: [],
-              selectedString: '',
-              type: el.type,
-              value: el.enq_custom_value
-            }
-            this.customComponents.push(obj);
-          });
-          this.emptyCustomComponent = this.componentListObject;
-        },
-        err => {
-        });
-  }
-
 
   /* Function for Toggling Form Visibility */
   toggleForm(event) {
@@ -470,9 +442,14 @@ export class EnquiryEditComponent implements OnInit {
       }
     )
 
-    return this.prefill.fetchCustomComponentById(this.institute_enquiry_id)
+  }
+
+
+  updateCustomComponent(id) {
+    this.prefill.fetchCustomComponentById(id)
       .subscribe(
         data => {
+          this.customComponents = [];
           data.forEach(el => {
             let obj = {
               data: el,
@@ -486,16 +463,90 @@ export class EnquiryEditComponent implements OnInit {
               type: el.type,
               value: el.enq_custom_value
             }
+            if (el.type == 4) {
+              obj = {
+                data: el,
+                id: el.component_id,
+                is_required: el.is_required,
+                is_searchable: el.is_searchable,
+                label: el.label,
+                prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue),
+                selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
+                selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
+                type: el.type,
+                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+              }
+            }
+            if (el.type == 2) {
+              obj = {
+                data: el,
+                id: el.component_id,
+                is_required: el.is_required,
+                is_searchable: el.is_searchable,
+                label: el.label,
+                prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                selected: [],
+                selectedString: '',
+                type: el.type,
+                value: el.enq_custom_value == "N" ? false : true,
+              }
+            }
+            else if (el.type != 2 && el.type != 4) {
+              obj = {
+                data: el,
+                id: el.component_id,
+                is_required: el.is_required,
+                is_searchable: el.is_searchable,
+                label: el.label,
+                prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                selected: [],
+                selectedString: '',
+                type: el.type,
+                value: el.enq_custom_value
+              }
+            }
             this.customComponents.push(obj);
-            //console.log(obj);
           });
           this.emptyCustomComponent = this.componentListObject;
+          //this.fillDefultDataInMultiSelect();
         },
         err => {
         });
   }
-
-
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  getDefaultArr(d):any[]{
+    let a:any[] = [];
+    a.push(d);
+    return a;
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  createPrefilledDataType4(dataArr: any[], selected: any[], def: string): any[] {
+    let customPrefilled: any[] = [];
+    debugger;
+    if (selected.length != 0 && selected[0] != "") {
+      dataArr.forEach(el => {
+        let obj = {
+          data: el,
+          checked: selected.includes(el)
+        }
+        customPrefilled.push(obj);
+      });
+    }
+    else {
+      dataArr.forEach(el => {
+        let obj = {
+          data: el,
+          checked: el == def
+        }
+        customPrefilled.push(obj);
+      });
+    }
+    return customPrefilled;
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
 
 
   /* Custom Compoenent array creater */
