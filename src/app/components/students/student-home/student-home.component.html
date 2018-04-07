@@ -262,26 +262,26 @@
 
                                 <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
                                     <div class="field-wrapper">
-                                        <input type="text" value="" id="component.id" [(ngModel)]="component.value" class="form-ctrl" name="component.label" />
-                                        <label for="component.label">{{component.label}} </label>
+                                        <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="component.label" />
+                                        <label for="{{component.id}}">{{component.label}} </label>
                                     </div>
                                 </div>
 
                                 <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
                                     <br>
                                     <div class="field-checkbox-wrapper">
-                                        <input class="form-checkbox" id="component.id" type="checkbox" [(ngModel)]="component.value" name="component.label" value="">
-                                        <label for="component.label">{{component.label}} </label>
+                                        <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="component.label" value="">
+                                        <label for="{{component.id}}">{{component.label}} </label>
                                     </div>
                                 </div>
 
                                 <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
                                     <div class="field-wrapper">
-                                        <select id="component.id" class="form-ctrl" [(ngModel)]="component.value" name="component.label">
+                                        <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="component.label">
                                             <option value=""></option>
                                             <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                                         </select>
-                                        <label for="component.label">{{component.label}} </label>
+                                        <label for="{{component.id}}">{{component.label}} </label>
                                     </div>
                                 </div>
 
@@ -289,7 +289,7 @@
                                     <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                                         <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
                                         />
-                                        <label for="{{component.label}}">{{component.label}} </label>
+                                        <label for="{{component.id}}">{{component.label}} </label>
                                     </div>
                                     <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
                                         <div class="multiselect-wrapper-inner">
@@ -298,7 +298,7 @@
                                                     <div class="field-checkbox-wrapper">
                                                         <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
                                                             class="form-checkbox">
-                                                        <label for="opt.data">{{opt.data}}</label>
+                                                        <label for="{{component.id}}">{{component.data}}</label>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -310,7 +310,7 @@
                                     <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
                                         <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
                                             name="{{component.label}}" bsDatepicker/>
-                                        <label for="component.label">{{component.label}} </label>
+                                        <label for="component.id">{{component.label}} </label>
                                     </div>
                                 </div>
 
@@ -640,7 +640,7 @@
                                         <label for="sms">SMS</label>
                                     </div>
                                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
-                                        <input type="checkbox" value="" [(ngModel)]="sendNotification.emailChkbx" name="mail" class="form-checkbox" id="">
+              <input type="checkbox" value="" [(ngModel)]="sendNotification.emailChkbx" name="mail" class="form-checkbox" id="">
                                         <label for="mail">Mail</label>
                                     </div>
                                 </div>

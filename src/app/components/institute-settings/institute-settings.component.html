@@ -44,7 +44,7 @@
       <section id="divSMSContent">
 
         <div class="row extraMarginTen" style="padding:5px 0px">
-          <h3 style="color: #585858; font-size: 1.5em">NOTIFICATION SETTING</h3>
+          <h3>NOTIFICATION SETTING</h3>
         </div>
         <div class="row extraMarginTen checkboxes">
           <div class="c-sm-6 c-md-6 c-lg-6">
@@ -52,15 +52,15 @@
               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.sms_notification"
                 id="idEnableSMS">
               <label for="enableSMS">SMS Notifications for Institute
-                  <div class="questionInfo inline-relative">
-                      <span class="qInfoIcon">!</span>
-                      <div class="tooltip-box-field">
-                
-                (Enable this to
-                <br> start sending SMS)
-                      </div>
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+
+                    Enable this to
+                    <br> start sending SMS
                   </div>
-                <p>(If not enabled, no SMS will be sent)</p>
+                </div>
+                <p>If not enabled, no SMS will be sent</p>
               </label>
             </div>
           </div>
@@ -69,14 +69,15 @@
               <input type="checkbox" value="" name="smsReporting" [(ngModel)]="instituteSettingDet.sms_status_report" class="form-checkbox"
                 id="idSmsReport">
               <label for="smsReporting">Failed SMS reporting
-                  <div class="questionInfo inline-relative">
-                      <span class="qInfoIcon">!</span>
-                      <div class="tooltip-box-field">
-                
-                (Enable this to
-                <br> received failed 
-                <br>SMS Reporting)
-                      </div></div>
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field">
+
+                    Enable this to
+                    <br> received failed
+                    <br>SMS Reporting
+                  </div>
+                </div>
 
                 <p>(Extra, Exam and Cancel Class Only)</p>
               </label>
@@ -90,7 +91,7 @@
                 <table>
                   <tbody>
                     <tr style="height: 45px; background-color: #efefef">
-                      <td colspan="6" style="font-size: 1.3em; font-weight: normal">
+                      <td colspan="6" class="tableHeader">
                         SMS NOTIFICATION SETTINGS
                       </td>
                     </tr>
@@ -115,18 +116,18 @@
                       </td>
                     </tr>
                     <tr>
-                        <td>
+                      <td>
 
-                            Absent Students
-                            <div class="questionInfo inline-relative">
-                              <span class="qInfoIcon">!</span>
-                              <div class="tooltip-box-field ">
-                                (Enable to sent
-                                <br> absent SMS)
-                              </div>
-                            </div>
-    
-                          </td>
+                        Absent Students
+                        <div class="questionInfo inline-relative">
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field ">
+                            Enable to sent
+                            <br> absent SMS
+                          </div>
+                        </div>
+
+                      </td>
                       <td>
                         <div class="field-checkbox-wrapper">
                           <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.sms_absent_notification.parent">
@@ -143,21 +144,23 @@
                       </td>
                       <td>
                       </td>
+                      <td>
+                      </td>
                     </tr>
                     <tr>
-                        <td>
+                      <td>
 
-                            Topics Covered Notification
-                            <div class="questionInfo inline-relative">
-                              <span class="qInfoIcon">!</span>
-                              <div class="tooltip-box-field ">
-                                (Enable to sent 
-                                <br>Topics covered SMS)
-                              </div>
-                            </div>
-    
-                          </td>
-                         <td>
+                        Topics Covered Notification
+                        <div class="questionInfo inline-relative">
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field ">
+                            Enable to sent
+                            <br>Topics covered SMS
+                          </div>
+                        </div>
+
+                      </td>
+                      <td>
                         <div class="field-checkbox-wrapper">
                           <input type="checkbox" name="checkbx" class="form-checkbox" [(ngModel)]="instituteSettingDet.topics_covered_notification.parent">
                           <label for="checkbx"></label>
@@ -180,12 +183,13 @@
                           <aside class="c-sm-4 margin-line">
                             Student Birthday
                             <div class="questionInfo inline-relative">
-                                <span class="qInfoIcon">!</span>
-                                <div class="tooltip-box-field lg">
-                            (Enable to send 
-                            <br>Automatic Birthday 
-                            <br>SMS (If DOB is specified))
-                                </div></div>
+                              <span class="qInfoIcon i-class">i</span>
+                              <div class="tooltip-box-field md">
+                                Enable to send
+                                <br>Automatic Birthday
+                                <br>SMS If DOB is specified
+                              </div>
+                            </div>
                           </aside>
                           <aside class="c-sm-6">
                             <div class="form-wrapper timepick">
@@ -238,14 +242,14 @@
                         <div class="c-sm-4 margin-line">
                           Alumni Student Birthday
                           <div class="questionInfo inline-relative">
-                              <span class="qInfoIcon">!</span>
-                              <div class="tooltip-box-field lg">
-                          (Enable to send 
-                          Automatic
-                          <br> Birthday SMS to
-                           Alumni<br> Students
-                           (If DOB is specified)
-                              </div></div>
+                            <span class="qInfoIcon i-class">i</span>
+                            <div class="tooltip-box-field md">
+                              Enable to send Automatic
+                              <br> Birthday SMS to Alumni
+                              <br> Students If DOB is
+                              <br>specified
+                            </div>
+                          </div>
                         </div>
                         <div class="c-sm-6">
                           <div class="form-wrapper timepick">
@@ -297,13 +301,13 @@
                       <td>
                         Extra Class Schedule Reminder
                         <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon lg">!</span>
-                            <div class="tooltip-box-field">
-                          
-                        (Enable to send 
-                        <br>Extra Class 
-                        <br>Schedule Reminder)
-                      </div>
+                          <span class="qInfoIcon i-class lg">i</span>
+                          <div class="tooltip-box-field">
+
+                            Enable to send
+                            <br>Extra Class
+                            <br>Schedule Reminder
+                          </div>
                         </div>
                       </td>
                       <td>
@@ -341,12 +345,12 @@
                       <td>
                         Cancel Class/Exam Reminder
                         <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon">!</span>
-                            <div class="tooltip-box-field lg">
-                          
-                        (Enable to send 
-                        <br>Cancel Class / Exam SMS)
-                            </div>
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+
+                            Enable to send
+                            <br>Cancel Class / Exam SMS
+                          </div>
                         </div>
                       </td>
                       <td>
@@ -384,15 +388,13 @@
                       <td>
                         Regular Class Schedule Reminder
                         <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon">!</span>
-                            <div class="tooltip-box-field lg">
-                          
-                        (Enable to send Regular 
-                        
-                        <br>
-                        
-                        Class Schedule Reminder)
-                            </div>
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+
+                            Enable to send Regular
+
+                            <br> Class Schedule Reminder
+                          </div>
                         </div>
                       </td>
                       <td>
@@ -430,16 +432,15 @@
                       <td>
                         File Sharing Notification
                         <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon">!</span>
-                            <div class="tooltip-box-field lg">
-                          
-                        (Enable to send File 
-                        <br>Sharing
-                        
-                         Notification SMS <br>
-                         to Students)
-                            </div></div>
-                            
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+
+                            Enable to send File
+                            <br>Sharing Notification SMS
+                            <br> to Students
+                          </div>
+                        </div>
+
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
@@ -460,14 +461,13 @@
                       <td>
                         Enquiry
                         <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon">!</span>
-                            <div class="tooltip-box-field lg">
-                          
-                        (Enable to send SMS 
-                        <br>to enquirer
-                        
-                         for newly <br>added enquiry)
-                            </div>
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+
+                            Enable to send SMS
+                            <br>to enquirer for newly
+                            <br>added enquiry
+                          </div>
                         </div>
                       </td>
                       <td>
@@ -493,12 +493,13 @@
                       <td>
                         Exam Schedule Reminder
                         <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon">!</span>
-                            <div class="tooltip-box-field lg">
-                          
-                        (Enable to send Exam
-                        <br> Schedule Reminder)
-                            </div></div>
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+
+                            Enable to send Exam
+                            <br> Schedule Reminder
+                          </div>
+                        </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
@@ -535,13 +536,13 @@
                       <td>
                         Student Exam Marks
                         <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon">!</span>
-                            <div class="tooltip-box-field">
-                          
-                        (Enable to send
-                        <br>
-                         Exam Marks SMS)
-                            </div></div>
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field">
+
+                            Enable to send
+                            <br> Exam Marks SMS
+                          </div>
+                        </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
@@ -570,7 +571,9 @@
                       <td>
                         <aside class="c-sm-4 margin-line">
                           Fee Reminder - On Due Date
-                          <span>i</span>
+                          <div class="questionInfo inline-relative">
+
+                          </div>
                         </aside>
                         <aside class="c-sm-6">
                           <div class="form-wrapper timepick">
@@ -623,8 +626,9 @@
                       <td>
                         <div class="row">
                           <div class="c-sm-4 margin-line">
-                            Fee Reminder - Post Due Date
-                            <span>i</span>
+                            <div class="questionInfo inline-relative">
+                              Fee Reminder - Post Due Date
+                            </div>
                           </div>
                           <div class="c-sm-6">
                             <div class="form-wrapper timepick">
@@ -684,8 +688,11 @@
                       <td>
                         <div class="row">
                           <div class="c-sm-4 margin-line">
+
                             Fee Reminder - Pre Due Date
-                            <span>i</span>
+                            <div class="questionInfo inline-relative">
+                              <span class="qInfoIcon i-class">i</span>
+                            </div>
                           </div>
                           <div class="c-sm-6">
                             <div class="form-wrapper timepick">
@@ -746,17 +753,14 @@
                       <td>
                         Fee Reminder - To selected Students
                         <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon">!</span>
-                            <div class="tooltip-box-field lg">
-                          
-                        (Enable to send Fee 
-                        <br>Reminder to 
-                        
-                        students 
-                        <br>selected in 
-                        
-                        Fee Report)
-                            </div></div>
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+
+                            Enable to send Fee
+                            <br>Reminder to students
+                            <br>selected in Fee Report
+                          </div>
+                        </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
@@ -785,15 +789,14 @@
                       <td>
                         Fee Payment Confirmation
                         <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon">!</span>
-                            <div class="tooltip-box-field lg">
-                          
-                        (Enable to send Fee 
-                        <br>
-                        Payment Confirmation 
-                        <br>
-                        SMS)
-                            </div></div>
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+
+                            Enable to send Fee
+                            <br> Payment Confirmation
+                            <br> SMS
+                          </div>
+                        </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
@@ -826,12 +829,13 @@
                       <td>
                         Cheque Dishonoured Notification
                         <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon">!</span>
-                            <div class="tooltip-box-field lg">
-                          
-                        (Enable to send Cheque
-                        <br> dishonoured SMS)
-                            </div></div>
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+
+                            Enable to send Cheque
+                            <br> dishonoured SMS
+                          </div>
+                        </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
@@ -864,14 +868,14 @@
                       <td>
                         Assignment Homework Notification
                         <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon">!</span>
-                            <div class="tooltip-box-field lg">
-                          
-                        (Enable to send Homework
-                        <br>
-                         Assignment Notification
-                         <br> SMS)
-                            </div></div>
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field lg">
+
+                            Enable to send Homework
+                            <br> Assignment Notification
+                            <br> SMS
+                          </div>
+                        </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
@@ -900,13 +904,13 @@
                       <td>
                         PTM Notification
                         <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon">!</span>
-                            <div class="tooltip-box-field">
-                          
-                        (Enable to send PTM 
-                        <br>
-                        Notification SMS)
-                            </div></div>
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field">
+
+                            Enable to send PTM
+                            <br> Notification SMS
+                          </div>
+                        </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
@@ -935,12 +939,13 @@
                       <td>
                         Student Registration
                         <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon">!</span>
-                            <div class="tooltip-box-field">
-                          
-                        (Enable Student
-                        <br> Registration SMS)
-                            </div></div>
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field">
+
+                            Enable Student
+                            <br> Registration SMS
+                          </div>
+                        </div>
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
@@ -973,12 +978,13 @@
                       <td>
                         Teacher Registration
                         <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon">!</span>
-                            <div class="tooltip-box-field">
-                          
-                        (Enable Teacher 
-                        <br>Registration SMS)
-                            </div></div>
+                          <span class="qInfoIcon i-class">i</span>
+                          <div class="tooltip-box-field">
+
+                            Enable Teacher
+                            <br>Registration SMS
+                          </div>
+                        </div>
                       </td>
                       <td>
                       </td>
@@ -1003,10 +1009,8 @@
                       <td>
                         Student(s) Homework Reminder
                         <div class="questionInfo inline-relative">
-                            <span class="qInfoIcon">!</span>
-                            <div class="tooltip-box-field">
-                            </div></div>    
-                      
+                        </div>
+
                       </td>
                       <td>
                         <div class="field-checkbox-wrapper">
@@ -1056,7 +1060,7 @@
                 <table>
                   <tbody>
                     <tr style="height: 45px; background-color: #efefef">
-                      <td colspan="6" style="font-size: 1.3em; font-weight: normal">
+                      <td class="tableHeader" colspan="6">
                         EXAM REPORT SETTING
                       </td>
                     </tr>
@@ -1092,36 +1096,35 @@
                         <div class="row">
                           <h3>Exam Rank Notification Setting</h3>
                           <div class="row rank-wrapper">
-                            <div class="c-sm-5 c-md-5 c-lg-5" style="margin-left:-20px;margin-top: 10px;">
+                            <div class="c-md-12" style="margin-left:-20px;margin-top: 10px;">
                               <div class="field-checkbox-wrapper" style="width: 100%">
                                 <input type="checkbox" id="enableRank" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.rank_to_send_for_marks_sms"
                                   (click)="enableRankSpecifier()">
-                                <label for="enableSMS">Specify Rank in Exam Mark Notification<br><br>
-                                    <div class="questionInfo inline-relative">
-                                        <span class="qInfoIcon">!</span>
-                                        <div class="tooltip-box-field line-break">
-                                      
-                                  (Enable to send Rank 
-                                  <br>
-                                  in Exam Marks SMS)
-                                        </div></div>
+                                <label for="enableSMS">Specify Rank in Exam Mark Notification
+                                  <div class="questionInfo inline-relative">
+                                    <span class="qInfoIcon i-class">i</span>
+                                    <div class="tooltip-box-field line-break">
+                                      Enable to send Rank
+                                      <br> in Exam Marks SMS
+                                    </div>
+                                  </div>
                                 </label>
                               </div>
                             </div>
-                            <div class="c-sm-6 c-md-6 c-lg-6">
+                            <div class="c-md-12">
                               <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.rank_no_for_marks_sms >= '0'}">
                                 <input type="number" min="0" max="99999" id="inputSpecifyRank" [(ngModel)]="instituteSettingDet.rank_no_for_marks_sms" class="form-ctrl"
                                   name="slotNew">
                                 <label for="slotNew">Total Rank(upto) to be Declared in SMS :
-                                    <div class="questionInfo inline-relative">
-                                        <span class="qInfoIcon">!</span>
-                                        <div class="tooltip-box-field lg">
-                                      
-                                  (If above setting is 
-                                  <br>enabled,specify upto
-                                  <br> which rank to send
-                                  <br> in SMS)
-                                        </div></div>
+                                  <div class="questionInfo inline-relative">
+                                    <span class="qInfoIcon i-class">i</span>
+                                    <div class="tooltip-box-field lg">
+
+                                      If above setting is enabled,
+                                      <br>specify upto which rank to
+                                      <br> send in SMS
+                                    </div>
+                                  </div>
                                 </label>
                               </div>
                             </div>
@@ -1183,7 +1186,7 @@
                 <table>
                   <tbody>
                     <tr style="height: 45px; background-color: #efefef">
-                      <td colspan="6" style="font-size: 1.3em; font-weight: normal">
+                      <td class="tableHeader" colspan="6">
                         FEE SETTING
                       </td>
                     </tr>
@@ -1194,12 +1197,14 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.fee_receipt_invoice_pattern >= '0'}">
                               <input type="number" min="0" [(ngModel)]="instituteSettingDet.fee_receipt_invoice_pattern" class="form-ctrl" name="slotNew">
                               <label for="slotNew">Fee Receipt No. (Starting Number)
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field">
-                                    
-                                (Starting Number for Fee Receipts)
-                                      </div></div>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field">
+
+                                    Starting Number for
+                                    <br>Fee Receipts
+                                  </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1209,16 +1214,17 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.phone_no_fee_receipt >= ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.phone_no_fee_receipt" class="form-ctrl" name="slotNew">
                               <label for="slotNew">Institute Contact No(s) For Fee Receipt
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field lg">
-                                    
-                                (Specify Contact Numbers 
-                                <br>here to be displayed
-                                <br> on Fee Receipts)
-                                      </div></div>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field lg">
+
+                                    Specify Contact Numbers
+                                    <br>here to be displayed
+                                    <br> on Fee Receipts
+                                  </div>
+                                </div>
                               </label>
-                              <p>You can provide multiple 
+                              <p>You can provide multiple
                                 <br>number seprated by comma's</p>
                             </div>
                           </div>
@@ -1228,13 +1234,14 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_service_tax_no >= '0'}">
                               <input type="number" min="0" [(ngModel)]="instituteSettingDet.inst_service_tax_no" class="form-ctrl" name="slotNew">
                               <label for="slotNew">Service Tax No.
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field">
-                                    
-                                (Used in Fee 
-                                <br>Receipt Generation)
-                                      </div></div>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field md">
+
+                                    Used in Fee Receipt
+                                    <br>Generation
+                                  </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1242,13 +1249,14 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_pan_no >= '0'}">
                               <input type="number" min="0" [(ngModel)]="instituteSettingDet.inst_pan_no" class="form-ctrl" name="slotNew">
                               <label for="slotNew">Pan Card No.
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field">
-                                    
-                                (Used in Fee
-                                <br> Receipt Generation)
-                                      </div></div>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field md">
+
+                                    Used in Fee Receipt
+                                    <br> Generation
+                                  </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1262,16 +1270,15 @@
                             <div class="field-checkbox-wrapper tooltip-box-field" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.gst_enabled" id="">
                               <label for="enableSMS">Enable GST
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field lg">
-                                    
-                                (Enable this if GST 
-                                <br>to 
-                                
-                                be applied in
-                                <br> Fee Receipts)
-                                      </div></div>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field lg">
+
+                                    Enable this if GST
+                                    <br>to be applied in Fee
+                                    <br> Receipts
+                                  </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1279,13 +1286,14 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.gst_no != ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.gst_no" class="form-ctrl" name="slotNew">
                               <label for="slotNew">GST No:
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field lg">
-                                    
-                                (Used in Fee Receipt
-                                <br> Generation)
-                                      </div></div>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field md">
+
+                                    Used in Fee Receipt
+                                    <br> Generation
+                                  </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1364,14 +1372,15 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.service_tax_percentage >= '0'}">
                               <input type="number" [(ngModel)]="instituteSettingDet.service_tax_percentage" class="form-ctrl" name="slotNew" style="width: 200px">
                               <label for="slotNew">Total Service Tax (%):
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field">
-                                    
-                                (Used in Fee 
-                                <br>Receipt Generation)
-                                      </div></div>
-                                      
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field">
+
+                                    Used in Fee
+                                    <br>Receipt Generation
+                                  </div>
+                                </div>
+
                               </label>
                             </div>
                           </div>
@@ -1379,13 +1388,14 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.sbc_tax >= '0'}">
                               <input type="number" [(ngModel)]="instituteSettingDet.sbc_tax" class="form-ctrl" name="slotNew" style="width: 200px">
                               <label for="slotNew">SBC Tax Component (%):
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field">
-                                    
-                                (Used in Fee 
-                                <br>Receipt Generation)
-                                      </div></div>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field">
+
+                                    Used in Fee
+                                    <br>Receipt Generation
+                                  </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1393,13 +1403,14 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.kkc_tax >= '0'}">
                               <input type="number" [(ngModel)]="instituteSettingDet.kkc_tax" class="form-ctrl" name="slotNew" style="width: 200px">
                               <label for="slotNew">KKC Tax Component (%):
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field">
-                                    
-                                (Used in Fee 
-                                <br>Receipt Generation)
-                                      </div></div>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field">
+
+                                    Used in Fee
+                                    <br>Receipt Generation
+                                  </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1409,14 +1420,15 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.cin != ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.cin" class="form-ctrl" name="slotNew">
                               <label for="slotNew">CIN(Customer Identification Number)
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field">
-                                    
-                                (Used in Fee 
-                                <br>Receipt Generation)
-                                      </div></div>
-                                      
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field md">
+
+                                    Used in Fee Receipt
+                                    <br> Generation
+                                  </div>
+                                </div>
+
                               </label>
                             </div>
                           </div>
@@ -1424,13 +1436,14 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.service_code != ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.service_code" class="form-ctrl" name="slotNew">
                               <label for="slotNew">Service Code:
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field">
-                                    
-                                (Used in Fee 
-                                <br>Receipt Generation)
-                                      </div></div>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field">
+
+                                    Used in Fee
+                                    <br>Receipt Generation
+                                  </div>
+                                </div>
 
                               </label>
                             </div>
@@ -1446,15 +1459,16 @@
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.tax_payable_on_reverse_charge_basis"
                                 id="">
                               <label for="enableSMS">Tax payable on reverse charge basis
-                                
-                                
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field">
-                                
-                                (Used in Fee
-                                <br> Receipt Generation)
-                                      </div></div>
+
+
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field">
+
+                                    Used in Fee
+                                    <br> Receipt Generation
+                                  </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1462,11 +1476,13 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.state_code != ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.state_code" class="form-ctrl" name="slotNew">
                               <label for="slotNew">State Code
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field">
-                                (Used in Fee <br>Receipt Generation)
-                                      </div></div>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field">
+                                    Used in Fee
+                                    <br>Receipt Generation
+                                  </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1476,11 +1492,13 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.accounting_code != ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.accounting_code" class="form-ctrl" name="slotNew">
                               <label for="slotNew">Accounting Code
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field">
-                                (Used in Fee <br>Receipt Generation)
-                                      </div></div>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field">
+                                    Used in Fee
+                                    <br>Receipt Generation
+                                  </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1507,7 +1525,7 @@
                 <table>
                   <tbody>
                     <tr style="height: 45px; background-color: #efefef">
-                      <td colspan="6" style="font-size: 1.3em; font-weight: normal">
+                      <td colspan="6" class="tableHeader">
                         REPORT SETTING
                       </td>
                     </tr>
@@ -1520,16 +1538,15 @@
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.home_work_feature_enable"
                                 id="idEnableSMS">
                               <label for="enableSMS">Enable Home work Feature
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field lg">
-                                (Enable this to maintain 
-                                <br>Student Homework
-                                
-                                 Feature 
-                                 <br>while marking attendance
-                                 <br> and reporting)
-                                      </div></div>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field md">
+                                    Enable this to maintain
+                                    <br>Student Homework <br>Feature
+                                    while marking <br>attendance
+                                    and reporting
+                                  </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1545,14 +1562,15 @@
                               <input type="number" min="0" max="9999999999" id="inputSpecifyRank" [(ngModel)]="instituteSettingDet.inst_enquiry_handler_no"
                                 class="form-ctrl" name="slotNew">
                               <label for="slotNew">Contact No. for handling Enquiries:
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field lg">
-                                (This no. is to
-                                <br> be used in SMS 
-                                <br>sent to Enquirer when 
-                                <br>new enquiry is added)
-                                      </div></div>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field lg">
+                                    This no. is to
+                                    <br> be used in SMS
+                                    <br>sent to Enquirer when
+                                    <br>new enquiry is added
+                                  </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1575,14 +1593,15 @@
                                 <option value="24:00">1 day before</option>
                               </select>
                               <label>Enquiry Follow up Reminder Notification ?
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field lg">
-                                (Enable this to send
-                                <br> SMS for Enquiry 
-                                <br>Follow Up Reminder)
-                                      </div></div>
-                                      
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field lg">
+                                    Enable this to send
+                                    <br> SMS for Enquiry
+                                    <br>Follow Up Reminder
+                                  </div>
+                                </div>
+
                               </label>
                             </div>
                           </div>
@@ -1609,16 +1628,16 @@
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.daily_account_summary"
                                 id="">
                               <label for="enableSMS">Daily Account Summary
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field">
-                                
-                                (Enable this to 
-                                <br>receive Daily Summary 
-                                <br>Report via Email
-                                <br> at End of Day)
-                                      </div>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field md">
+
+                                    Enable this to receive
+                                    <br>Daily Summary
+                                    <br>Report via Email at
+                                    <br>End of Day
                                   </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1626,14 +1645,15 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.emailids_for_report != ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.emailids_for_report" class="form-ctrl" name="slotNew">
                               <label for="slotNew">Point Of Contact(s)(Email IDs) for Reports
-                                  <div class="questionInfo inline-relative">
-                                      <span class="qInfoIcon">!</span>
-                                      <div class="tooltip-box-field lg">
-                                (Specify Emails 
-                                <br>Id's on which you 
-                                <br>want to receive 
-                                <br>daily summary report)
-                                      </div></div>
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field md">
+                                    Specify Emails
+                                    <br>Id's on which you
+                                    <br>want to receive
+                                    <br>daily summary report
+                                  </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1659,7 +1679,7 @@
                 <table>
                   <tbody>
                     <tr style="height: 45px; background-color: #efefef">
-                      <td colspan="6" style="font-size: 1.3em; font-weight: normal">
+                      <td colspan="6" class="tableHeader">
                         MISCELLANEOUS SETTING
                       </td>
                     </tr>
@@ -1726,7 +1746,7 @@
                               <input type="checkbox" value="" name="enableEmail" [(ngModel)]="instituteSettingDet.email_notification" class="form-checkbox"
                                 id="idEnableEmail">
                               <label for="enableEmail">Enable Email Notification
-                                <p>(If not enabled, no Email will be sent)</p>
+                                <p>If not enabled, no Email will be sent</p>
                               </label>
                             </div>
                           </div>

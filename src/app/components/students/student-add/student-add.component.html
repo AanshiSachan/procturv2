@@ -131,7 +131,7 @@
                     </div>
                   </div>
 
-                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_phone != ''}">
+           <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_phone != ''}">
                     <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
                       maxlength="10" minlength="10" OnlyNumber="true" #parentContactNo="ngModel" />
                     <label for="parentContactNo">Parent Contact Number</label>
@@ -259,8 +259,10 @@
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
-                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class_key != ''}">
-                  <select id="standard" (ngModelChange)="updateMasterCourseList($event)" [(ngModel)]="studentAddFormData.student_class_key"
+                <div class="field-wrapper" *ngIf="isAcad" [ngClass]
+                ="{'has-value': studentAddFormData.student_class_key != ''}">
+                  <select id="standard" (ngModelChange)="updateMasterCourseList($event)"
+                  [(ngModel)]="studentAddFormData.student_class_key"
                     name="standard" class="form-ctrl">
                     <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
@@ -423,8 +425,8 @@
                   <div class="field-checkbox-wrapper">
                     <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}"
                       value="{{component.value}}">
-                    <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
-                    <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                    <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                   </div>
                 </div>
 
@@ -434,8 +436,8 @@
                       <option value=""></option>
                       <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                     </select>
-                    <label *ngIf="component.is_required == 'Y'" for="component.label">{{component.label}}*</label>
-                    <label *ngIf="component.is_required == 'N'" for="component.label">{{component.label}} </label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                    <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                   </div>
                 </div>
 
@@ -443,15 +445,16 @@
                   <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.value != ''}">
                     <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
                       readonly="true" />
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.label}}">{{component.label}}*</label>
-                    <label *ngIf="component.is_required == 'N'" for="{{component.label}}">{{component.label}} </label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                    <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                   </div>
                   <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
                     <div class="multiselect-wrapper-inner">
                       <ul class="">
                         <li *ngFor="let opt of component.prefilled_data">
                           <div class="field-checkbox-wrapper">
-                            <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
+                            <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked"
+                             (ngModelChange)="updateMultiSelect(opt, component.id)"
                               class="form-checkbox">
                             <label for="opt.data">{{opt.data}}</label>
                           </div>
@@ -465,7 +468,7 @@
                   <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
                     <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
                       name="{{component.label}}" bsDatepicker/>
-                    <label for="component.label">{{component.label}} </label>
+                    <label for="{{component.id}}">{{component.label}} </label>
                   </div>
                 </div>
 

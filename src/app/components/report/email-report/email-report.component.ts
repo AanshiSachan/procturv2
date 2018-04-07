@@ -69,9 +69,7 @@ export class EmailReportComponent {
     return false;
   }
   }
-
-
-  fetchemailByDate(){
+ fetchemailByDate(){
     if(this.isTimeValid()){
       let email_value={
        institution_id : parseInt(sessionStorage.getItem('institute_id')),
@@ -80,7 +78,7 @@ export class EmailReportComponent {
 
       }
        this.fetchApiService.getEmailMessages(email_value)
-       .subscribe((store)=>console.log(store));
+       .subscribe(store=>{this.emailSource=store;console.log(store)},err=>{console.log(err)})
  
     }
     else{

@@ -3,6 +3,19 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
+
+
+.table-responsive {
+    tr {
+        td {
+            &:first-child {
+                .field-checkbox-wrapper {
+                    overflow: visible;
+                }
+            }
+        }
+    }
+}
 hr {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -41,7 +54,6 @@ hr {
 }
 
 .setting-full {
-    // height: 100vh;
     display: flex;
     margin-top: -15px;
     overflow: hidden;
@@ -105,6 +117,30 @@ hr {
         margin-bottom: 10px;
         padding: 15px;
         padding-left: 40px;
+        tr {
+            td {
+                &.tableHeader {
+                    background-color: #f8f5f5 !important;
+                    padding: 5px 15px !important;
+                    font-size: 14px !important;
+                    font-weight: 400 !important;
+                }
+                span {
+                    &.i-class {
+                        width: 15px !important;
+                        height: 15px !important;
+                        color: #0084f6 !important;
+                        border: 1px solid #0084f6 !important;
+                        border-radius: 50% !important;
+                        padding: 0px 1px !important;
+                        margin-left: 3px !important;
+                        font-size: 12px !important;
+                        line-height: 14px !important;
+                        font-weight: bolder !important;
+                    }
+                }
+            }
+        }
         padding-bottom: 300px;
         .checkboxes {
             padding: 10px 0px;
@@ -121,6 +157,18 @@ hr {
                     font-size: 0.95em;
                     line-height: 20px;
                     font-weight: bolder;
+                    &.i-class {
+                        width: 15px !important;
+                        height: 15px !important;
+                        color: #0084f6 !important;
+                        border: 1px solid #0084f6 !important;
+                        border-radius: 50% !important;
+                        padding: 0px 1px !important;
+                        margin-left: 3px !important;
+                        font-size: 12px !important;
+                        line-height: 14px !important;
+                        font-weight: bolder !important;
+                    }
                 }
                 p {
                     color: #a2a2a2;
@@ -163,9 +211,10 @@ hr {
                                 top: 0px;
                             }
                             &:first-child {
-                                font-size: 0.9em;
+                                font-size: 12px;
                                 padding-left: 15px;
                                 font-weight: bold;
+                                color: #1e2328;
                                 span {
                                     color: #0084f6;
                                     border: 1px solid #0084f6;
@@ -408,132 +457,6 @@ hr {
     margin-bottom: 10px;
 }
 
-// @media only screen and (max-width:1200px) {
-//     .setting-left {
-//         padding: 15px;
-//         max-height: 500px;
-//         overflow-x: hidden;
-//         overflow-y: auto;
-//         ul {
-//             padding: 15px 10px;
-//             li {
-//                 line-height: 50px !important;
-//                 border-radius: 5px;
-//                 font-size: 18px !important;
-//                 font-weight: 600;
-//                 background: white;
-//                 span {
-//                     margin-left: 10px !important;
-//                     a {
-//                         color: #0084f6;
-//                     }
-//                 }
-//                 &.active {
-//                     background: #0084f6;
-//                     span {
-//                         margin-left: 20px;
-//                         a {
-//                             color: white;
-//                         }
-//                     }
-//                 }
-//                 &:hover {
-//                     background: #0084f6;
-//                     span {
-//                         margin-left: 20px;
-//                         a {
-//                             color: white;
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
-// @media only screen and (max-width:1050px) {
-//     .setting-left {
-//         padding: 15px;
-//         max-height: 500px;
-//         overflow-x: hidden;
-//         overflow-y: auto;
-//         ul {
-//             padding: 15px 10px;
-//             li {
-//                 line-height: 40px;
-//                 border-radius: 5px;
-//                 font-size: 14px !important;
-//                 font-weight: 600;
-//                 background: white;
-//                 span {
-//                     margin-left: 5px;
-//                     a {
-//                         color: #0084f6;
-//                     }
-//                 }
-//                 &.active {
-//                     background: #0084f6;
-//                     span {
-//                         margin-left: 20px;
-//                         a {
-//                             color: white;
-//                         }
-//                     }
-//                 }
-//                 &:hover {
-//                     background: #0084f6;
-//                     span {
-//                         margin-left: 20px;
-//                         a {
-//                             color: white;
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
-// @media only screen and (max-width:645px) {
-//     .setting-left {
-//         padding: 15px;
-//         max-height: 500px;
-//         overflow-x: hidden;
-//         overflow-y: auto;
-//         ul {
-//             padding: 15px 10px;
-//             li {
-//                 line-height: 30px;
-//                 border-radius: 5px;
-//                 font-size: 12px !important;
-//                 font-weight: 400;
-//                 background: white;
-//                 span {
-//                     margin-left: 2px;
-//                     a {
-//                         color: #0084f6;
-//                     }
-//                 }
-//                 &.active {
-//                     background: #0084f6;
-//                     span {
-//                         margin-left: 20px;
-//                         a {
-//                             color: white;
-//                         }
-//                     }
-//                 }
-//                 &:hover {
-//                     background: #0084f6;
-//                     span {
-//                         margin-left: 20px;
-//                         a {
-//                             color: white;
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
 @media only screen and (max-width:800px) {
     .setting-full {
         .setting-left {
@@ -682,14 +605,12 @@ input[type=number]::-webkit-outer-spin-button {
 .tooltip-box-field {
     width: 150px;
     white-space: nowrap;
-    min-height: 30px;
-    line-height: 20px;
+    min-height: 41px;
+    line-height: 18px;
     padding: 5px 5px;
     overflow: visible;
     color: black;
     font-weight: bold;
-
-
     &.lg {
         width: 200px;
         white-space: nowrap;
@@ -734,8 +655,8 @@ tr {
         }
     }
 }
-.line-break{
-    
+
+.line-break {
     opacity: 1;
     left: 28px;
     top: -30px;
