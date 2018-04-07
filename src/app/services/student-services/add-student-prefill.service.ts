@@ -114,9 +114,26 @@ export class AddStudentPrefillService {
           return err.json();
         }
       );
-
   }
 
+  /* return the list of custom component for the selected institute ID */
+  fetchEnquiryCustomComponentById(id): Observable<any> {
+    let url = this.baseUrl +"/api/v1/enquiry/fetchCustomEnquiryComponents/" +this.institute_id +"?id=" +id +"&isSearhable=undefined&page=1";
+    return this.http.get(this.urlCustomComponent, { headers: this.headers })
+      .map(
+        data => {
+          if (data['_body'] != '') {
+            return data.json();
+          }
+          else {
+            return [];
+          }
+        },
+        err => {
+          return err.json();
+        }
+      );
+  }
 
 
   /* return the list of batch for students  */
@@ -344,7 +361,7 @@ export class AddStudentPrefillService {
 
   fetchCourseMasterById(stndrid) {
     stndrid = stndrid == 0 ? -1 : stndrid;
-    let urlCourseMaster = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/complete?standard_id=" + stndrid +"&isFeeTemplates=Y";
+    let urlCourseMaster = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/complete?standard_id=" + stndrid + "&isFeeTemplates=Y";
     return this.http.get(urlCourseMaster, { headers: this.headers }).map(
       res => {
         return res.json();

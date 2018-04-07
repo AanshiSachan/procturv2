@@ -314,6 +314,7 @@ export class StudentAddComponent implements OnInit {
   }
   enableBiometric: any;
   academicYear: any[] = [];
+  enquiryCustomComp: any[] = [];
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   constructor(
@@ -388,7 +389,7 @@ export class StudentAddComponent implements OnInit {
   /* GEt Student Fee Details */
   studentAddedGetFee(id) {
     this.isRippleLoad = true;
-    
+
     this.fetchService.fetchStudentFeeDetailById(id).subscribe(res => {
       if (res.customFeeSchedules != null) {
         this.isRippleLoad = false;
@@ -1391,10 +1392,12 @@ export class StudentAddComponent implements OnInit {
   convertToStudentDetected() {
     this.isConvertEnquiry = true;
     let tempData = JSON.parse(localStorage.getItem('studentPrefill'));
+    this.fetchEnquiryCustomComponentDetails(tempData.institute_enquiry_id);
     this.studentAddFormData.student_name = tempData.name;
     this.studentAddFormData.student_phone = tempData.phone;
     this.studentAddFormData.student_email = tempData.email;
     this.studentAddFormData.student_sex = tempData.gender;
+    this.studentAddFormData.dob = tempData.dob;
     this.studentAddFormData.parent_name = tempData.parent_email;
     this.studentAddFormData.parent_phone = tempData.parent_name;
     this.studentAddFormData.parent_email = tempData.parent_phone;
@@ -1403,8 +1406,30 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  clearFormAndRoute(form: NgForm) {
+  fetchEnquiryCustomComponentDetails(id){
+    this.studentPrefillService.fetchEnquiryCustomComponentById(id).subscribe(
+      res => {
+        this.enquiryCustomComp = res;
+        this.updateStudentCustomComp();
+      },
+      err => {
+        let obj = {
+          type: "error",
+          title: 'An error occured, Please check your internet connection',
+          body: ""
+        } 
+        this.appC.popToast(obj);
+      }
+    )
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */  
+  updateStudentCustomComp(){
 
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */    
+  clearFormAndRoute(form: NgForm) {
     let previousUrl: string = '';
     this.studentAddFormData = {
       student_name: "",
@@ -1666,7 +1691,7 @@ export class StudentAddComponent implements OnInit {
           this.feeTemplateById.template_id = this.feeTempSelected;
           this.isDefineFees = true;
           this.isFeeApplied = true;
-          
+
           res.customFeeSchedules.forEach(el => {
             //el.due_date = moment(el.due_date).format("YYYY-MM-DD");
             /* Taxes Here */
@@ -1801,7 +1826,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   closePaymentDetails() {
     this.isPaymentPdc = false;
-    this.feeTemplateById.payment_mode ="Cash";
+    this.feeTemplateById.payment_mode = "Cash";
     this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
     this.isFeePaymentUpdate = false;
   }
@@ -2017,7 +2042,7 @@ export class StudentAddComponent implements OnInit {
       this.addFeeInstallment.amount_paid = 0;
       this.addFeeInstallment.balance_amount = 0;
       this.instalmentTableData.push(this.addFeeInstallment);
-      
+
       this.addFeeInstallment = {
         amount_paid: '',
         amount_paid_inRs: null,
@@ -3791,7 +3816,7 @@ export class StudentAddComponent implements OnInit {
     let total = this.total_amt_tobe_paid;
     let remaining = 0;
     this.installmentMarkedForPayment.forEach(e => {
-      
+
       let paid = 0;
       let previous = 0;
       let full = "N";
@@ -3867,10 +3892,10 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   closePartialPayment() {
     this.isPaymentPdc = false;
-    this.feeTemplateById.payment_mode ="Cash";
+    this.feeTemplateById.payment_mode = "Cash";
     this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
     this.isFeePaymentUpdate = false;
-    this.partialPayObj.paymentMode ="Cash";
+    this.partialPayObj.paymentMode = "Cash";
     this.totalFeePaid = 0;
     this.partialPaySelected = null;
     this.total_amt_tobe_paid = this.totalFeePaid;
@@ -3895,7 +3920,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getPaidFullVal(): string {
-    
+
     if (this.partialPaySelected.balance_amount > this.total_amt_tobe_paid) {
       return "N"
     } else {
