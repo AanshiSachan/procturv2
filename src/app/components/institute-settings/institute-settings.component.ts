@@ -231,80 +231,97 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
 
   scrollListener() {
     window.onscroll = () => {
+      let divSMSContent = document.getElementById('divSMSContent').offsetTop;
+      let divExamReport = document.getElementById('divExamReport').offsetTop;
+      let divFeeContent = document.getElementById('divFeeContent').offsetTop;
+      let divReportContent = document.getElementById('divReportContent').offsetTop;
+      let divMiscContent = document.getElementById('divMiscContent').offsetTop;
+      let offset = window.pageYOffset + 110;
+
+      if (offset < divExamReport) {
+        this.changeView('liSMS', 'stay');
+      } else if (offset <= divFeeContent) {
+        this.changeView('liExamRep', 'stay');
+      } else if (offset <= divReportContent) {
+        this.changeView('liFee', 'stay');
+      } else if (offset <= divMiscContent) {
+        this.changeView('liReport', 'stay');
+      } else {
+        this.changeView('liMisc', 'stay');
+      }
 
       // For Large Desktop Screens
-      if (window.innerWidth > 1370) {
+      // if (window.innerWidth > 1370) {
 
-        if (window.pageYOffset < 1600) {
-          this.changeView('liSMS', 'stay');
-        } else if (window.pageYOffset < 2300) {
-          this.changeView('liExamRep', 'stay');
-        } else if (window.pageYOffset < 3300) {
-          this.changeView('liFee', 'stay');
-        } else if (window.pageYOffset < 3800) {
-          this.changeView('liReport', 'stay');
-        } else {
-          this.changeView('liMisc', 'stay');
-        }
+      //   if (window.pageYOffset < 1600) {
+      //     this.changeView('liSMS', 'stay');
+      //   } else if (window.pageYOffset < 2300) {
+      //     this.changeView('liExamRep', 'stay');
+      //   } else if (window.pageYOffset < 3300) {
+      //     this.changeView('liFee', 'stay');
+      //   } else if (window.pageYOffset < 3800) {
+      //     this.changeView('liReport', 'stay');
+      //   } else {
+      //     this.changeView('liMisc', 'stay');
+      //   }
 
-      }
+      // }
 
       // For width 1366
-      else if (window.innerWidth > 1050) {
+      // else if (window.innerWidth > 1050) {
 
-        if (window.pageYOffset < 1800) {
-          this.changeView('liSMS', 'stay');
-        } else if (window.pageYOffset < 2500) {
-          this.changeView('liExamRep', 'stay');
-        } else if (window.pageYOffset < 3500) {
-          this.changeView('liFee', 'stay');
-        } else if (window.pageYOffset < 4000) {
-          this.changeView('liReport', 'stay');
-        } else {
-          this.changeView('liMisc', 'stay');
-        }
+      //   if (window.pageYOffset < 1800) {
+      //     this.changeView('liSMS', 'stay');
+      //   } else if (window.pageYOffset < 2500) {
+      //     this.changeView('liExamRep', 'stay');
+      //   } else if (window.pageYOffset < 3500) {
+      //     this.changeView('liFee', 'stay');
+      //   } else if (window.pageYOffset < 4000) {
+      //     this.changeView('liReport', 'stay');
+      //   } else {
+      //     this.changeView('liMisc', 'stay');
+      //   }
 
-      }
+      // }
 
       // For width 1280
-      else if (window.innerWidth > 1250) {
+      // else if (window.innerWidth > 1250) {
 
-        if (window.pageYOffset < 2300) {
-          this.changeView('liSMS', 'stay');
-        } else if (window.pageYOffset < 3000) {
-          this.changeView('liExamRep', 'stay');
-        } else if (window.pageYOffset < 4000) {
-          this.changeView('liFee', 'stay');
-        } else if (window.pageYOffset < 4500) {
-          this.changeView('liReport', 'stay');
-        } else {
-          this.changeView('liMisc', 'stay');
-        }
+      //   if (window.pageYOffset < 2300) {
+      //     this.changeView('liSMS', 'stay');
+      //   } else if (window.pageYOffset < 3000) {
+      //     this.changeView('liExamRep', 'stay');
+      //   } else if (window.pageYOffset < 4000) {
+      //     this.changeView('liFee', 'stay');
+      //   } else if (window.pageYOffset < 4500) {
+      //     this.changeView('liReport', 'stay');
+      //   } else {
+      //     this.changeView('liMisc', 'stay');
+      //   }
 
-      }
+      // }
 
       // For Width 1024
-      else {
+      // else {
 
-        if (window.pageYOffset < 2450) {
-          this.changeView('liSMS', 'stay');
-        } else if (window.pageYOffset < 3200) {
-          this.changeView('liExamRep', 'stay');
-        } else if (window.pageYOffset < 4400) {
-          this.changeView('liFee', 'stay');
-        } else if (window.pageYOffset < 5000) {
-          this.changeView('liReport', 'stay');
-        } else {
-          this.changeView('liMisc', 'stay');
-        }
+      //   if (window.pageYOffset < 2450) {
+      //     this.changeView('liSMS', 'stay');
+      //   } else if (window.pageYOffset < 3200) {
+      //     this.changeView('liExamRep', 'stay');
+      //   } else if (window.pageYOffset < 4400) {
+      //     this.changeView('liFee', 'stay');
+      //   } else if (window.pageYOffset < 5000) {
+      //     this.changeView('liReport', 'stay');
+      //   } else {
+      //     this.changeView('liMisc', 'stay');
+      //   }
 
 
-      }
+      // }
     }
   }
 
   changeView(lidiv, showView) {
-    // console.log(lidiv + ' ' + showView);
     if (showView !== 'stay') {
       document.getElementById(showView).scrollIntoView(true);
       if (showView !== 'divMiscContent') {
