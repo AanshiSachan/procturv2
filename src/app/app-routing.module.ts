@@ -5,6 +5,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { ErrorComponent } from './components/error/error.component';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
 import { SlotComponent } from './components/slot/slot.component';
+import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
 
 @NgModule({
     imports: [
@@ -106,6 +107,11 @@ import { SlotComponent } from './components/slot/slot.component';
                 {
                     path: 'account',
                     loadChildren: 'app/components/institute-details/institute-details.module#InstituteDetailsModule',
+                },
+                {
+                    path: 'areaCity',
+                    component: CityAreaMapComponent,
+                    // canLoad: [AuthGuard]
                 },
                 { path: 'comingsoon', component: ComingSoonComponent },
                 { path: '**', component: ErrorComponent },

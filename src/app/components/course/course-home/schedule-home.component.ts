@@ -5,6 +5,7 @@ import { AppComponent } from '../../../app.component';
 import { StandardServices } from '../../../services/course-services/standard.service';
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -38,7 +39,8 @@ export class ScheduleHomeComponent implements OnInit {
 
   constructor(
     private apiService: StandardServices,
-    private toastCtrl: AppComponent
+    private toastCtrl: AppComponent,
+    private route: Router
   ) {
 
   }
@@ -311,11 +313,38 @@ export class ScheduleHomeComponent implements OnInit {
   }
 
   checkInstituteType() {
+    const permissionArray = sessionStorage.getItem('permissions');
     let type: any = sessionStorage.getItem('institute_type');
     if (type == "LANG") {
       this.isLangInstitue = true;
+      this.routeToSubTabsForLang(permissionArray);
     } else {
       this.isLangInstitue = false;
+      this.routeToSubTabsForNotLang(permissionArray);
+    }
+  }
+
+  routeToSubTabsForLang(data) {
+    if (data.indexOf('501') != -1) {
+      this.route.navigateByUrl('course/course');
+    } else if (data.indexOf('502') != -1) {
+      this.route.navigateByUrl('course/subject');
+    } else if (data.indexOf('401') != -1) {
+      this.route.navigateByUrl('course/managebatch');
+    } else if (data.indexOf('402') >= 0 || data.indexOf('704') >= 0) {
+      this.route.navigateByUrl('course/class');
+    }
+  }
+
+  routeToSubTabsForNotLang(data) {
+    if (data.indexOf('501') != -1) {
+      this.route.navigateByUrl('course/course');
+    } else if (data.indexOf('502') != -1) {
+      this.route.navigateByUrl('course/subject');
+    } else if (data.indexOf('505') != -1) {
+      this.route.navigateByUrl('course/courselist');
+    } else if (data.indexOf('701') >= 0 || data.indexOf('704') >= 0) {
+      this.route.navigateByUrl('course/class');
     }
   }
 

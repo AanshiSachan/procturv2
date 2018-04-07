@@ -31,16 +31,14 @@ export class FetchStudentService {
   }
 
   fetchAllStudentDetails(instituteData: instituteInfo): any {
-
     let instituteFormData = JSON.parse(JSON.stringify(instituteData));
-    let urlStudentList = this.baseUrl + "/api/v1/students/manage/" + this.institute_id;
-
+    //let urlStudentList = this.baseUrl + "/api/v1/students/manage/" + this.institute_id;
+    let urlStudentList = this.baseUrl + "/api/v1/students/manage/v2/" + this.institute_id;
     return this.http.post(urlStudentList, instituteData, { headers: this.headers })
       .map(res => {
         return res.json();
       });
   }
-
 
   downloadStudentTableasXls(form) {
     let urlDownloadXlsStudent = this.baseUrl + "/api/v1/students/all/download/" + this.institute_id;
@@ -56,7 +54,6 @@ export class FetchStudentService {
 
   }
 
-
   getStudentById(id) {
 
     let urlStudentId = this.baseUrl + "/api/v1/students/" + id;
@@ -68,8 +65,6 @@ export class FetchStudentService {
     )
   }
 
-
-
   fetchBulkUpdateStatusReport() {
     let urlstudentReport = this.baseUrl + "/api/v1/bulkUpload/" + this.institute_id;
 
@@ -79,7 +74,6 @@ export class FetchStudentService {
       res => { return res.json() }
     )
   }
-
 
   fetchDownloadTemplate(): Observable<any> {
 
@@ -107,7 +101,7 @@ export class FetchStudentService {
       })
   }
 
-  getStoredFees(){
+  getStoredFees() {
     return this.studentFees;
   }
 
@@ -168,9 +162,9 @@ export class FetchStudentService {
     )
   }
 
-  getFeeReceiptById(id){
-    let url = this.baseUrl +"/api/v1/studentWise/fee/" +11791 +"/feeReceipt/" +id +"/download?fin_yr=17-18";
-    return this.http.get(url, {headers: this.headers}).map(
+  getFeeReceiptById(id) {
+    let url = this.baseUrl + "/api/v1/studentWise/fee/" + 11791 + "/feeReceipt/" + id + "/download?fin_yr=17-18";
+    return this.http.get(url, { headers: this.headers }).map(
       res => {
         return res.json();
       },

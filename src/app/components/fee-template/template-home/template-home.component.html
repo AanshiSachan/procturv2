@@ -39,6 +39,8 @@
                 <thead>
                   <tr>
                     <th>Fee Structure Name</th>
+                    <th>Master Course Name</th>
+                    <th>Course</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -48,6 +50,12 @@
                       <label>
                         {{fee.template_name}}
                       </label>
+                    </td>
+                    <td>
+                      {{fee.master_course_standard_name}}
+                    </td>
+                    <td>
+                      {{fee.course_subject_name}}
                     </td>
                     <td class="feeactions">
                       <ul>
@@ -107,6 +115,12 @@
         <a *ngIf="isHeaderEdit" (click)="updateTemplateName()">
           <img src="./assets/images/plus.png" alt="feeName">
         </a>
+
+
+        <div *ngIf="(feeStructure.course_id != -1)" class="field-checkbox-wrapper pull-right checkBoxAllignMent">
+          <input type="checkbox" id="" name="checkbx" [(ngModel)]="feeStructure.is_default" class="form-checkbox">
+          <label for="checkbx">Is Default Template</label>
+        </div>
       </div>
 
       <div class="feeManager" popup-content>
@@ -131,7 +145,7 @@
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper has-value">
                   <input type="number" min="0" readonly="true" #idSlot [value]="installmentList.length" class="form-ctrl" name="slotNew">
-                  <label for="slotNew">Total AmountNo of Installments*
+                  <label for="slotNew">Total No of Installments*
                   </label>
                 </div>
               </div>

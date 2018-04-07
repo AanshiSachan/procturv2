@@ -124,18 +124,19 @@ export class CreateCustomCompComponent implements OnInit {
               res => {
                 let alert = {
                   type: 'success',
-                  title: 'Component Updated',
+                  title: 'Form-Field Updated',
                 }
                 this.isNewComponent = false;
                 document.getElementById('addComponent-icon').innerHTML = "+"
                 this.clearComponentForm();
                 this.appC.popToast(alert);
+                this.fetchPrefillData();
               },
               err => {
                 let alert = {
                   type: 'error',
-                  title: 'Failed To Add Component',
-                  body: 'There was an error processing your request' + JSON.parse(err._body).message
+                  title: 'Failed To Add Form-Field',
+                  body: 'Label name is already created with the same name'
                 }
                 this.appC.popToast(alert);
               }
@@ -170,17 +171,18 @@ export class CreateCustomCompComponent implements OnInit {
               res => {
                 let alert = {
                   type: 'success',
-                  title: 'Component Updated',
+                  title: 'Form-Field Updated',
                 }
                 this.isNewComponent = false;
                 document.getElementById('addComponent-icon').innerHTML = "+"
                 this.clearComponentForm();
                 this.appC.popToast(alert);
+                this.fetchPrefillData();
               },
               err => {
                 let alert = {
                   type: 'error',
-                  title: 'Failed To Add Component',
+                  title: 'Failed To Add Form-Field',
                   body: 'There was an error processing your request' + JSON.parse(err._body).message
                 }
                 this.appC.popToast(alert);
@@ -213,18 +215,19 @@ export class CreateCustomCompComponent implements OnInit {
           res => {
             let alert = {
               type: 'success',
-              title: 'Component Updated',
+              title: 'Form-Field Updated',
             }
             this.isNewComponent = false;
             document.getElementById('addComponent-icon').innerHTML = "+"
             this.clearComponentForm();
             this.appC.popToast(alert);
+            this.fetchPrefillData();
           },
           err => {
             let alert = {
               type: 'error',
-              title: 'Failed To Add Component',
-              body: 'There was an error processing your request' + JSON.parse(err._body).message
+              title: 'Failed To Add Form-Field',
+              body: 'Label name is already created with the same name'
             }
             this.appC.popToast(alert);
           }
@@ -333,7 +336,7 @@ export class CreateCustomCompComponent implements OnInit {
               res => {
                 let alert = {
                   type: 'success',
-                  title: 'Component Updated',
+                  title: 'Form-Field Updated',
                 }
                 this.appC.popToast(alert);
                 this.cancelEditRow();
@@ -341,7 +344,7 @@ export class CreateCustomCompComponent implements OnInit {
               err => {
                 let alert = {
                   type: 'error',
-                  title: 'Failed To Update Component',
+                  title: 'Failed To Update Form-Field',
                   body: JSON.parse(err._body).message
                 }
                 this.appC.popToast(alert);
@@ -376,7 +379,7 @@ export class CreateCustomCompComponent implements OnInit {
               res => {
                 let alert = {
                   type: 'success',
-                  title: 'Component Updated',
+                  title: 'Form-Field Updated',
                 }
                 this.appC.popToast(alert);
                 this.cancelEditRow();
@@ -416,7 +419,7 @@ export class CreateCustomCompComponent implements OnInit {
           res => {
             let alert = {
               type: 'success',
-              title: 'Component Updated',
+              title: 'Form-Field Updated',
             }
             this.appC.popToast(alert);
             this.cancelEditRow();
@@ -424,7 +427,7 @@ export class CreateCustomCompComponent implements OnInit {
           err => {
             let alert = {
               type: 'error',
-              title: 'Failed To Update Component',
+              title: 'Failed To Update Form-Field',
               body: JSON.parse(err._body).message
             }
             this.appC.popToast(alert);
@@ -500,10 +503,11 @@ export class CreateCustomCompComponent implements OnInit {
         this.isDelete = false;
         let alert = {
           type: 'success',
-          title: 'Component Deleted',
-          body: 'requested component deleted'
+          title: 'Form-field Deleted',
+          body: 'requested form-field deleted'
         }
         this.appC.popToast(alert);
+        this.fetchPrefillData();
         this.editCustomComponentForm = {
           comp_length: "",
           description: "",
@@ -523,7 +527,7 @@ export class CreateCustomCompComponent implements OnInit {
       err => {
         let alert = {
           type: 'error',
-          title: 'Failed To Delete Component',
+          title: 'Failed To Delete Form-Field',
           body: JSON.parse(err._body).message
         }
         this.appC.popToast(alert);

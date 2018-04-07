@@ -204,6 +204,7 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   ngOnInit() {
+    this.permissionArray = sessionStorage.getItem('permissions');
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.fetchWidgetPrefill();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
@@ -856,20 +857,20 @@ export class AdminHomeComponent implements OnInit {
 
   updateAttendance() {
     let sendSms = "N";
-      let check = this.checkIfStudentIsAbsent();
-      if (check) {
-        let checkboxAbsentees=document.getElementById("EnableSmsAbsentees").checked;
-        if (checkboxAbsentees) {
-          sendSms = "Y";
-          this.markAttendanceServerCall(sendSms);
-        } else {
-          sendSms = "N";
-          this.markAttendanceServerCall(sendSms);
-        }
+    let check = this.checkIfStudentIsAbsent();
+    if (check) {
+      let checkboxAbsentees = document.getElementById("EnableSmsAbsentees").checked;
+      if (checkboxAbsentees) {
+        sendSms = "Y";
+        this.markAttendanceServerCall(sendSms);
       } else {
+        sendSms = "N";
         this.markAttendanceServerCall(sendSms);
       }
-    
+    } else {
+      this.markAttendanceServerCall(sendSms);
+    }
+
   }
 
   markAttendanceServerCall(sendSms) {

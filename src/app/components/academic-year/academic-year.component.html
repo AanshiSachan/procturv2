@@ -1,5 +1,5 @@
 <div class="middle-section clearFix">
-  <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
+  <section class="middle-top mb0 clearFix" >
     <h1 class="pull-left">
       Academic Year List
     </h1>
@@ -9,24 +9,25 @@
 
     <div class="clearFix add-edit">
       <a (click)="toggleCreateNewAcademicYear()">
-        <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
-        <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
+        <i id="showAddBtn" class="addBtnClass" >+</i>
+        <i id="showCloseBtn"  class="closeBtnClass" style="display:none;">-</i>
         <span>Add Academic Year</span>
       </a>
     </div>
-    <section class="clearFix create-standard-form" *ngIf="createNewAcademicYear" style="align:center;">
+    <section class="clearFix create-standard-form" *ngIf="createNewAcademicYear" >
       <div class="row create-standard-field">
-      
+
         <div class="c-lg-2 c-md-2 c-sm-2">
-          <div class="field-wrapper has-value" style="display:inline-block;">
+          <div class="field-wrapper"  [ngClass]="{'has-value': addAcademicYearTemplate.inst_acad_year!=''}">
             <input type="text" class="form-ctrl" name="academicYear" [(ngModel)]="addAcademicYearTemplate.inst_acad_year">
             <label>Academic Year
+
               <span>*</span>
             </label>
           </div>
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
-          <div class="field-wrapper has-value" style="display:inline-block; margin-left:5px;">
+          <div class="field-wrapper"  [ngClass]="{'has-value':addAcademicYearTemplate.desc!=''}">
             <input type="text" class="form-ctrl" name="academicYearDescription" [(ngModel)]="addAcademicYearTemplate.desc">
             <label>Academic Year Description
               <span>*</span>
@@ -34,24 +35,24 @@
           </div>
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
-          <div class="field-wrapper has-value date" style="display:inline-block;margin-left:5px;">
+          <div class="field-wrapper  datePickerBox"  [ngClass]="{'has-value':addAcademicYearTemplate.start_date!=''}">
+
             <input type="text" class="form-ctrl" readonly="true" name="startDate" [(ngModel)]="addAcademicYearTemplate.start_date" bsDatepicker/>
-            <label >Start Date
-                <span >*</span>
+            <label>Start Date
+              <span>*</span>
             </label>
-           
           </div>
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
-          <div class="field-wrapper has-value" style="display:inline-block; margin-left:3px;">
+          <div class="field-wrapper datePickerBox"  [ngClass]="{'has-value':addAcademicYearTemplate.end_date!=''}">
             <input type="text" class="form-ctrl" readonly="true" name="academicYear" [(ngModel)]="addAcademicYearTemplate.end_date" bsDatepicker/>
             <label>End Date
-                <span style="display:inline; color:red;">*</span>
+              <span>*</span>
             </label>
           </div>
         </div>
         <div class="c-lg-3 c-md-3 c-sm-3">
-          <div class="pull-left create-cancel-small" style="display:inline-block; margin-top:10px;">
+          <div class="pull-left create-cancel-small">
             <aside class="pull-left create-cancel-small">
               <button class="btn" (click)="addAcademicYearDetails()">Add</button>
             </aside>
@@ -115,25 +116,25 @@
                 </td>
 
                 <td class="view-comp">
-                  {{row.start_date | date:'yyyy-MMM-dd'}}
+                  {{row.start_date | date:'dd-MMM-yyyy'}}
                 </td>
-                <td class="edit-comp">
-                  <div class="field-wrapper">
-                    <input type="text" value="" class="form-ctrl editCellInput" style="cursor: pointer;" name="createdDate" readonly="true" [(ngModel)]="row.start_date"
+                <td class="edit-comp edit">
+                  <div class="field-wrapper has-Value">
+                    <input type="text" value="" class="form-ctrl editCellInput"  name="createdDate" readonly="true" [(ngModel)]="row.start_date"
+                      bsDatepicker/>
+                  </div>
+                </td>
+                <td class="view-comp edit">
+                  {{row.end_date | date:'dd-MMM-yyyy'}}
+                </td>
+                <td class="edit-comp ">
+                  <div class="field-wrapper has-value">
+                    <input type="text" value="" class="form-ctrl editCellInput"  name="endDate" readonly="true" [(ngModel)]="row.end_date"
                       bsDatepicker/>
                   </div>
                 </td>
                 <td class="view-comp">
-                  {{row.end_date | date:'yyyy-MMM-dd'}}
-                </td>
-                <td class="edit-comp">
-                  <div class="field-wrapper">
-                    <input type="text" value="" class="form-ctrl editCellInput" style="cursor: pointer;" name="endDate" readonly="true" [(ngModel)]="row.end_date"
-                      bsDatepicker/>
-                  </div>
-                </td>
-                <td class="view-comp">
-                  {{row.created_date}}
+                  {{row.created_date | date:'dd-MMM-yyyy'}}
                 </td>
                 <td class="edit-comp">
                   <div class="field-wrapper">
@@ -159,12 +160,12 @@
                 </td>
                 <td class="edit-comp">
                   <a class="anchorTagCursor" (click)="saveAcademicYearInformation(row , i)"> Save </a>
-                  <a class="anchorTagCursor" (click)="cancelEditRow(i)" style="margin-left:10px;"> Cancel </a>
+                  <a class="anchorTagCursor anchorTag" (click)="cancelEditRow(i)" > Cancel </a>
                 </td>
               </tr>
             </tbody>
             <tbody *ngIf="academicTableList.length ==0">
-              <td colspan="7" style="text-align: center">
+              <td class="col-new" colspan="7" >
                 No Academic Year List Available
               </td>
             </tbody>
