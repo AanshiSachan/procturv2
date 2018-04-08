@@ -18,7 +18,8 @@
       <div class="row" style="margin-left:20px">
         <div class="c-lg-3 c-md-3 c-sm-3">
           <div class="field-wrapper" [ngClass]="{'has-value' : newCourseAdd.master_course_name != ''}">
-            <input type="text" id="idMasterCourse" name="masterCourse" [(ngModel)]="newCourseAdd.master_course_name" class="form-ctrl"/>
+            <input type="text" id="idMasterCourse" name="masterCourse" [(ngModel)]="newCourseAdd.master_course_name" class="form-ctrl"
+            />
             <label for="masterCourse">Master Course
               <span style="color:red">*</span>
             </label>
@@ -50,7 +51,7 @@
               <span style="color:red">*</span>
             </label>
           </div>
-          <div class="field-wrapper" [ngClass]="{'has-value': courseDetails.start_Date != ''}" style="width:80%">
+          <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': courseDetails.start_Date != ''}" style="width:80%">
             <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="courseDetails.start_Date" name="startDate"
               bsDatepicker>
             <label for="startDate">Start Date
@@ -58,7 +59,7 @@
             </label>
             <!-- <span class="date-clear" name="followupdate" (click)="clearAddEnquiryDate('startDatePicker')">clear</span> -->
           </div>
-          <div class="field-wrapper" [ngClass]="{'has-value': courseDetails.end_Date != ''}" style="width:80%">
+          <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': courseDetails.end_Date != ''}" style="width:80%">
             <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="courseDetails.end_Date" name="endDate"
               bsDatepicker>
             <label for="endDate">End Date

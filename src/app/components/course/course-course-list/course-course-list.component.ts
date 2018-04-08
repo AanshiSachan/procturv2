@@ -33,6 +33,8 @@ export class CourseCourseListComponent implements OnInit {
     standard_id: -1,
   }
   showTable: boolean = false;
+  feeTemplateDataSource: any = [];
+  deafultTemplate: any;
 
   constructor(
     private apiService: CourseListService,
@@ -121,6 +123,7 @@ export class CourseCourseListComponent implements OnInit {
     this.courseDetails = rowDetails;
     // this.getAllStudentList();
     this.getAcademicYearDetails();
+    this.getAllFeeTemplate();
   }
 
   getAcademicYearDetails() {
@@ -149,7 +152,12 @@ export class CourseCourseListComponent implements OnInit {
     this.isRippleLoad = true;
     this.showTable = true;
     this.apiService.getStudentList(data).subscribe(
-      res => {
+      (res: any) => {
+        res.forEach(element => {
+          if (element.assigned_fee_template_id == -1) {
+            element.assigned_fee_template_id = this.deafultTemplate.template_id;
+          }
+        });
         this.studentListDataSource = this.keepCloning(res);
         this.studentList = res;
         this.getHeaderCheckBoxValue();
@@ -157,6 +165,26 @@ export class CourseCourseListComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
+      }
+    )
+  }
+
+  defaultTemplateDet(data) {
+    data.forEach(element => {
+      if (element.is_default == 1) {
+        this.deafultTemplate = element;
+      }
+    });
+  }
+
+  getAllFeeTemplate() {
+    this.apiService.getFeeTemplate(this.courseDetails.course_id).subscribe(
+      res => {
+        this.feeTemplateDataSource = res;
+        this.defaultTemplateDet(res);
+      },
+      err => {
+        console.log(err);
       }
     )
   }
@@ -198,7 +226,7 @@ export class CourseCourseListComponent implements OnInit {
       for (let t = 0; t < this.studentList.length; t++) {
         if (this.studentList[t].student_id == this.studentListDataSource[i].student_id) {
           if (this.studentList[t].assigned != this.studentListDataSource[i].assigned) {
-            test[this.studentList[t].student_id] = [this.studentList[t].assigned.toString(), this.studentList[t].academic_year.toString()];
+            test[this.studentList[t].student_id] = [this.studentList[t].assigned.toString(), this.studentList[t].academic_year.toString(), this.studentList[i].assigned_fee_template_id.toString()];
           }
         }
       }
