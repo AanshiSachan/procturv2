@@ -11,7 +11,7 @@
       <div class="c-sm-3">
         <div class="field-wrapper">
           <input id="ctgryName" type="text" #categoryName class="form-ctrl" name="label" (focus)="inputClickedCheck($event)">
-          <label for="label">Category Name
+          <label for="ctgryName">Category Name
             <span style="color:red">*</span>
           </label>
         </div>
@@ -19,7 +19,7 @@
       <div class="c-sm-3">
         <div class="field-wrapper">
           <input id="ctgrydesc" type="text" #categoryDesc class="form-ctrl" name="label" (focus)="inputClickedCheck($event)">
-          <label for="label">Category Description
+          <label for="ctgrydesc">Category Description
           </label>
         </div>
         <div>
@@ -52,7 +52,8 @@
               </tr>
             </thead>
             <tbody id="tbodyCategory">
-              <tr id="row{{i}}" class="displayComp" *ngFor="let row of categoryList; let i = index; trackBy: i;">
+              <tr id="row{{i}}" class="displayComp" *ngFor="let row of categoryList; 
+              let i = index; trackBy: i;">
                 <td class="view-comp">
                   {{row.category_name}}
                 </td>
@@ -98,7 +99,8 @@
     <!-- Paginator Here -->
     <div class="row filter-res pagination" style="width:100%">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+          <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()"
+          (goPrev)="fetchPrevious()" [pagesToShow]="10"
             [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
           </pagination>
         </div>
