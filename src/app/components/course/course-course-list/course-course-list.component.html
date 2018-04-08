@@ -160,7 +160,9 @@
       </span>
       <div class="popup-content student-assign-popup">
         <div class="row popup-title">
-          <h2>Course Name : <span>{{courseDetails.course_name}}</span></h2>
+          <h2>Course Name :
+            <span>{{courseDetails.course_name}}</span>
+          </h2>
         </div>
         <div class="row filter-section">
           <div class="c-sm-3 c-md-3 c-lg-3">
@@ -216,6 +218,9 @@
                 <th>
                   Academic Year
                 </th>
+                <th>
+                  Fee Template
+                </th>
               </thead>
               <tbody>
                 <tr id="row{{i}}" *ngFor="let row of studentList; let i = index; trackBy: i;">
@@ -243,6 +248,16 @@
                         <option value="-1">Select</option>
                         <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
                           {{opt.inst_acad_year}}
+                        </option>
+                      </select>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="field-wrapper">
+                      <select class="form-ctrl" [(ngModel)]="row.assigned_fee_template_id" style="background: transparent">
+                        <option value="-1">Select</option>
+                        <option *ngFor="let opt of feeTemplateDataSource" [value]="opt.template_id">
+                          {{opt.template_name}}
                         </option>
                       </select>
                     </div>
