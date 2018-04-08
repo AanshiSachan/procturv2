@@ -120,6 +120,7 @@ export class ManageBatchComponent implements OnInit {
   }
 
   togglecreateNewBatch() {
+    this.selectedRow = null;
     if (this.createNewBatch == false) {
       this.createNewBatch = true;
       document.getElementById('showCloseBtn').style.display = '';
@@ -491,7 +492,7 @@ export class ManageBatchComponent implements OnInit {
     return data;
   }
 
-  rowSelectEvent(i){
+  rowSelectEvent(i) {
     this.selectedRow = i;
   }
 

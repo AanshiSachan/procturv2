@@ -97,6 +97,19 @@ export class CourseListService {
         )
     }
 
+    getFeeTemplate(course_id) {
+        let url = this.baseURL + "/api/v1/student_wise/feeStructure/" + this.institute_id + "/course/" + course_id + "/fetch";
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            error => {
+                return error;
+            }
+        )
+    }
+
+
     /////// Edit Couse //////
 
     getSeletedMasterCourseEdit(course_name) {

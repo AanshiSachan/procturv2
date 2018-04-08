@@ -442,7 +442,7 @@
                 </div>
 
                 <div class="row" *ngIf="component.type == 4" input-def>
-                  <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.value != ''}">
+                  <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.selectedString != ''}">
                     <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
                       readonly="true" />
                     <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>

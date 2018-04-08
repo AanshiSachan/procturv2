@@ -432,7 +432,7 @@
                         {{meridian}}
                       </option>
                     </select>
-                    <label for="meridian">Meridian</label>
+                    <label for="hour">Meridian</label>
                   </div>
                 </div>
               </fieldset>
@@ -467,7 +467,7 @@
                       <tr *ngFor="let row of weekDaysTable; let i=index ; trackBy : index ">
                         <td>
                           <div class="field-checkbox-wrapper">
-                            <input type="checkbox" name="chk" name="checkbx" [(ngModel)]="row.uiSelected" class="form-checkbox">
+                            <input type="checkbox" name="chk" name="checkbx" id="checkbx" [(ngModel)]="row.uiSelected" class="form-checkbox">
                             <label for="checkbx"></label>
                           </div>
                           {{row.data_value}}
@@ -491,7 +491,7 @@
                               <label for="minute">Minute</label>
                             </div>
                             <div class="field-wrapper has-value">
-                              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="row.start_time.meridian" name="meridian" style="background: transparent">
+                              <select id="meridian" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="row.start_time.meridian" name="meridian" style="background: transparent">
                                 <option *ngFor="let meridian of meridianArr" [value]="meridian">
                                   {{meridian}}
                                 </option>
@@ -585,7 +585,7 @@
                             {{meridian}}
                           </option>
                         </select>
-                        <label for="meridian">Meridian</label>
+                        <label for="hour">Meridian</label>
                       </div>
                     </div>
                   </fieldset>
@@ -596,29 +596,29 @@
                     <legend>End Time</legend>
                     <div class="time-picker">
                       <div class="field-wrapper has-value">
-                        <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.end_hour" name="hour" style="background: transparent">
+                        <select id="endTime_hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.end_hour" name="hour" style="background: transparent">
                           <option *ngFor="let hour of hourArr" [value]="hour">
                             {{hour}}
                           </option>
                         </select>
-                        <label for="hour">Hour</label>
+                        <label for="endTime_hour">Hour</label>
                       </div>
                       <div class="field-wrapper has-value">
-                        <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.end_minute" name="minute" style="background: transparent">
+                        <select id="endTime_minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.end_minute" name="minute" style="background: transparent">
                           <option *ngFor="let minute of minArr" [value]="minute">
                             {{minute}}
                           </option>
                         </select>
-                        <label for="minute">Minute</label>
+                        <label for="endTime_minute">Minute</label>
                       </div>
                       <div class="field-wrapper has-value">
-                        <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.end_meridian" name="meridian"
+                        <select id="endTime_meridian" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.end_meridian" name="meridian"
                           style="background: transparent">
                           <option *ngFor="let meridian of meridianArr" [value]="meridian">
                             {{meridian}}
                           </option>
                         </select>
-                        <label for="meridian">Meridian</label>
+                        <label for="endTime_meridian">Meridian</label>
                       </div>
                     </div>
                   </fieldset>
@@ -766,15 +766,15 @@
                   <legend style="color: #0084f6;">Start Time</legend>
                   <div class="time-picker">
                     <div class="field-wrapper has-value">
-                      <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.start_hour" name="hour" style="background: transparent">
+                      <select id="startTime_hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.start_hour" name="hour" style="background: transparent">
                         <option *ngFor="let hour of hourArr" [value]="hour">
                           {{hour}}
                         </option>
                       </select>
-                      <label for="hour">Hour</label>
+                      <label for="startTime_hour">Hour</label>
                     </div>
                     <div class="field-wrapper has-value">
-                      <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.start_minute" name="minute" style="background: transparent">
+                      <select id="startTime_minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.start_minute" name="minute" style="background: transparent">
                         <option *ngFor="let minute of minArr" [value]="minute">
                           {{minute}}
                         </option>
@@ -782,12 +782,12 @@
                       <label for="minute">Minute</label>
                     </div>
                     <div class="field-wrapper has-value">
-                      <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.start_meridian" name="meridian" style="background: transparent">
+                      <select id="startTime_meridian" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.start_meridian" name="meridian" style="background: transparent">
                         <option *ngFor="let meridian of meridianArr" [value]="meridian">
                           {{meridian}}
                         </option>
                       </select>
-                      <label for="meridian">Meridian</label>
+                      <label for="startTime_meridian">Meridian</label>
                     </div>
                   </div>
                 </fieldset>
@@ -797,28 +797,28 @@
                   <legend style="color: #0084f6;">End Time</legend>
                   <div class="time-picker">
                     <div class="field-wrapper has-value">
-                      <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.end_hour" name="hour" style="background: transparent">
+                      <select id="endTimehour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.end_hour" name="hour" style="background: transparent">
                         <option *ngFor="let hour of hourArr" [value]="hour">
                           {{hour}}
                         </option>
                       </select>
-                      <label for="hour">Hour</label>
+                      <label for="endTimehour">Hour</label>
                     </div>
                     <div class="field-wrapper has-value">
-                      <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.end_minute" name="minute" style="background: transparent">
+                      <select id="endTimeminute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.end_minute" name="minute" style="background: transparent">
                         <option *ngFor="let minute of minArr" [value]="minute">
                           {{minute}}
                         </option>
                       </select>
-                      <label for="minute">Minute</label>
+                      <label for="endTimeminute">Minute</label>
                     </div>
                     <div class="field-wrapper has-value">
-                      <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.end_meridian" name="meridian" style="background: transparent">
+                      <select id="endTimeMeridian" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.end_meridian" name="meridian" style="background: transparent">
                         <option *ngFor="let meridian of meridianArr" [value]="meridian">
                           {{meridian}}
                         </option>
                       </select>
-                      <label for="meridian">Meridian</label>
+                      <label for="endTimeMeridian">Meridian</label>
                     </div>
                   </div>
                 </fieldset>
@@ -1186,15 +1186,15 @@
 
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="form-wrapper has-value">
-              <label for="label ">Room No</label>
-              <input type="text " class=" side-form-ctrl" name="label " [(ngModel)]="selctedScheduledClass.room_no ">
+              <label for="label">Room No</label>
+              <input type="text "  id="label" class=" side-form-ctrl" name="label " [(ngModel)]="selctedScheduledClass.room_no ">
             </div>
           </div>
 
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="form-wrapper has-value">
               <label for="row.category_id ">Class Type</label>
-              <select id=" " class="form-ctrl side-form-ctrl" name="row.category_id " style="background: transparent; " [(ngModel)]="selctedScheduledClass.custom_class_type ">
+              <select id="row.category_id" class="form-ctrl side-form-ctrl" name="row.category_id " style="background: transparent; " [(ngModel)]="selctedScheduledClass.custom_class_type ">
                 <option *ngFor="let opt of customListDataSource ">
                   {{opt}}
                 </option>
@@ -1253,7 +1253,7 @@
 
           <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6" style="margin-top: 50px;">
             <input type="checkbox" checked name="enableSMS" class="form-checkbox" id="idChkbxEnable">
-            <label for="enableSMS">Notify course students for class cancellation</label>
+            <label for="idChkbxEnable">Notify course students for class cancellation</label>
           </div>
         </div>
 
