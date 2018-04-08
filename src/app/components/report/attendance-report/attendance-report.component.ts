@@ -24,69 +24,46 @@ export class AttendanceReportComponent implements OnInit {
 
 
   ngOnInit() {
-    //this.getPrefetchData();
-    let obj={
-      subject_id:-1,
-      standard_id:-1,
-      assigned:"N"
-    }
-    this.reportService.getMasterCourse(obj).subscribe(
-      (data:any) =>{
-        console.log(data);
-        this.masterCourses=data.standardLi;
-        console.log(this.masterCourses);
-        this.batchCourses=data.batchLi;
-        //console.log(this.batchCourses);
-        this.courses=data.subjectLi;
-      },
-        (error:any) =>{
-          return error;
-        }
-    )
+  this.getMasterCourseData();
+  
   }
-  changeValue(){
-
-    let obj={
-      subject_id:this.courseData,
-      standard_id:this.masterData,
-      assigned:"N"
-    }
-    this.reportService.getMasterCourse(obj).subscribe(
-      (data:any) =>{
+  getMasterCourseData(){
+    
+    this.reportService.getMasterCourse().subscribe(
+      (data:any)=>{
         console.log(data);
-        this.masterCourses=data.standardLi;
-        console.log(this.masterCourses);
-        this.batchCourses=data.batchLi;
-        console.log(this.batchCourses);
-        this.courses=data.subjectLi;
-        console.log(this.courses);
+        this.masterCourses=data;
       },
-      (error:any) =>{
+      (error:any)=>{
         return error;
-        
+      }
+    )
+
+  }
+
+  getCourseData(i){
+    
+    this.reportService.getCourses(i).subscribe(
+      (data:any)=>{
+        console.log(data);
+        this.courseData=data.coursesList;
+        console.log(this.courseData);
+      },
+      (error:any)=>{
+        return error;
+      }
+    )
+      
+  }
+    
+  getSubjectData(i){
+
+    this.reportService.getSubject(i).subscribe(
+      (data:any)=>{
+        console.log(data);
       }
     )
   }
-
-  // getPrefetchData() {
-  //   // this.reportService.getMasterCourse().subscribe(
-  //   //   (data: any) => {
-  //   //     this.attendanceDataSource = data;
-  //   //     console.log(data);
-  //   //     this.masterCourses = data.standardLi;
-  //   //     this.batchCourses = data.batchLi;
-  //   //   },
-  //   //   error => {
-  //   //     let msg = {
-  //   //       type: "error",
-  //   //       title: "",
-  //   //       body: "An Error Occured"
-  //   //     }
-  //   //     this.appc.popToast(msg);
-  //   //   }
-  //   )
-
-
 
 
   }

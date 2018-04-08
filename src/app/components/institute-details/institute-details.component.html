@@ -54,8 +54,8 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_name != ''}">
-                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_name">
-                  <label for="slotNew">Name
+                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" id="ch1" [(ngModel)]="instDetails.institute_name">
+                  <label for="ch1">Name
                     <span style="color:red">*</span>
                   </label>
                 </div>
@@ -65,8 +65,8 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_phone != ''}">
-                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_primary_phone">
-                  <label for="slotNew">Institution Contact No.
+                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_primary_phone" id="ch2">
+                  <label for="ch2">Institution Contact No.
                     <span style="color:red">*</span>
                   </label>
                 </div>
@@ -76,8 +76,8 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_addr != ''}">
-                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_primary_addr">
-                  <label for="slotNew">Address
+                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_primary_addr" id="ch3">
+                  <label for="ch3">Address
                     <span style="color:red">*</span>
                   </label>
                 </div>
@@ -87,8 +87,8 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" readonly="true" [ngClass]="{'has-value':instDetails.institute_primary_email != ''}">
-                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_primary_email">
-                  <label for="slotNew">Email ID
+                  <input type="text" id="ch4" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_primary_email">
+                  <label for="ch4">Email ID
                     <span style="color:red">*</span>
                   </label>
                 </div>
@@ -112,8 +112,8 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_name != ''}">
-                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_name">
-                  <label for="slotNew">Owner Name(s)
+                  <input type="text" id="ch5" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_name">
+                  <label for="ch5">Owner Name(s)
                   </label>
                 </div>
               </div>
@@ -122,8 +122,8 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_primary_phone != ''}">
-                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_primary_phone">
-                  <label for="slotNew">
+                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_primary_phone" id="ch6">
+                  <label for="ch6">
                     Owner Contact No(s)
                   </label>
                 </div>
@@ -133,8 +133,8 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_primary_email != ''}">
-                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_primary_email">
-                  <label for="slotNew">Owner Primary Email ID
+                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_primary_email" id="ch7">
+                  <label for="ch7">Owner Primary Email ID
                   </label>
                 </div>
               </div>
@@ -143,8 +143,8 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_secondary_email != ''}">
-                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_secondary_email">
-                  <label for="slotNew">Owner Secondary Email ID
+                  <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.owner_secondary_email" id="ch8">
+                  <label for="ch8">Owner Secondary Email ID
                   </label>
                 </div>
               </div>
@@ -167,8 +167,8 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_name != ''}">
-                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.admin_name">
-                  <label for="slotNew">Admin Name
+                  <input type="text" class="form-ctrl" id="ch9" name="slotNew" [(ngModel)]="instDetails.admin_name">
+                  <label for="ch9">Admin Name
                   </label>
                 </div>
               </div>
@@ -177,8 +177,8 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_primary_phone != ''}">
-                  <input type="text" maxlength="10" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.admin_primary_phone">
-                  <label for="slotNew">Admin Contact No.
+                  <input type="text" maxlength="10" id="ch10" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.admin_primary_phone">
+                  <label for="ch10">Admin Contact No.
                   </label>
                 </div>
               </div>
@@ -187,8 +187,8 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_primary_email != ''}">
-                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.admin_primary_email">
-                  <label for="slotNew">Admin Email ID
+                  <input type="text" id="ch11" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.admin_primary_email">
+                  <label for="ch11">Admin Email ID
                   </label>
                 </div>
               </div>
@@ -233,8 +233,8 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.fb_page_url != ''}">
-                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.fb_page_url">
-                  <label for="slotNew">FB Page Url
+                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.fb_page_url" id="ch12">
+                  <label for="ch12">FB Page Url
                   </label>
                 </div>
               </div>
@@ -243,8 +243,8 @@
             <div class="row">
               <div class="c-sm-4 c-md-4 c-lg-4">
                 <div class="field-wrapper" [ngClass]="{'has-value':instDetails.website_url != ''}">
-                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.website_url">
-                  <label for="slotNew">Website Url
+                  <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.website_url" id="ch13">
+                  <label for="ch13">Website Url
                   </label>
                 </div>
               </div>
@@ -385,8 +385,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.total_price_based_on_chosen_plan_and_option >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.total_price_based_on_chosen_plan_and_option">
-              <label for="slotNew">Total Price (Rs.)
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.total_price_based_on_chosen_plan_and_option" id="ch14">
+              <label for="ch14">Total Price (Rs.)
               </label>
             </div>
           </div>
@@ -403,8 +403,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.active_student_allocation != ''}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.active_student_allocation">
-              <label for="slotNew">
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.active_student_allocation" id="ch15">
+              <label for="ch15">
                 Students Quota
                 <span style="color:red">*</span>
               </label>
@@ -417,7 +417,7 @@
             <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':instDetails.institute_expiry_date != ''}">
               <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="instDetails.institute_expiry_date" style="cursor: pointer;"
                 name="createdDate" readonly="true" bsDatepicker/>
-              <label>Expiry Date</label>
+              <label for="followupdate">Expiry Date</label>
             </div>
           </div>
         </div>
@@ -433,8 +433,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_short_code != ''}">
-              <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_short_code">
-              <label for="slotNew">Institute Short Code
+              <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_short_code" id="ch19">
+              <label for="ch19">Institute Short Code
                 <span style="color:red">*
                 </span>
               </label>
@@ -463,8 +463,8 @@
 
             <div class="c-sm-4 c-md-4 c-lg-4" *ngIf="(showPrefix == true)">
               <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_id_prefix != ''}">
-                <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.student_id_prefix">
-                <label for="slotNew">
+                <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.student_id_prefix" id="ch20">
+                <label for="ch20">
                   Student ID Prefix
                 </label>
               </div>
@@ -485,8 +485,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.tag_line != ''}">
-              <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.tag_line">
-              <label for="slotNew">Tag Line
+              <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.tag_line" id="ch21">
+              <label for="ch21">Tag Line
               </label>
             </div>
           </div>
@@ -505,8 +505,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.sms_shortcode != ''}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.sms_shortcode">
-              <label for="slotNew">SMS Sender ID
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.sms_shortcode" id="ch90">
+              <label for="ch90">SMS Sender ID
               </label>
             </div>
           </div>
@@ -515,8 +515,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_sms_quota >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_sms_quota">
-              <label for="slotNew">Transactional SMS Quota Allocated
+              <input type="text" id="ch22" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_sms_quota">
+              <label for="ch22">Transactional SMS Quota Allocated
               </label>
             </div>
           </div>
@@ -525,8 +525,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_sms_quota_used >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_sms_quota_used">
-              <label for="slotNew">Transactional SMS Quota Used
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_sms_quota_used" id="ch23">
+              <label for="ch23">Transactional SMS Quota Used
               </label>
             </div>
           </div>
@@ -535,8 +535,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_sms_quota_available >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_sms_quota_available">
-              <label for="slotNew">Transactional SMS Quota Available
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_sms_quota_available" id="ch24">
+              <label for="ch24">Transactional SMS Quota Available
               </label>
             </div>
           </div>
@@ -545,8 +545,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_campaign_sms_quota >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota">
-              <label for="slotNew">Promotional SMS Quota Allocated
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota" id="ch25">
+              <label for="ch25">Promotional SMS Quota Allocated
               </label>
             </div>
           </div>
@@ -555,8 +555,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_campaign_sms_quota_used >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota_used">
-              <label for="slotNew">Promotional SMS Quota Used
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota_used" id="ch26">
+              <label for="ch26">Promotional SMS Quota Used
               </label>
             </div>
           </div>
@@ -565,8 +565,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_campaign_sms_quota_available >= '0'}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota_available">
-              <label for="slotNew">Promotional SMS Available
+              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.institute_campaign_sms_quota_available" id="ch27">
+              <label for="ch27">Promotional SMS Available
               </label>
             </div>
           </div>
@@ -583,8 +583,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.email_sender_id != ''}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.email_sender_id">
-              <label for="slotNew">
+              <input type="text" readonly="true" class="form-ctrl" id="ch28" name="slotNew" [(ngModel)]="instDetails.email_sender_id">
+              <label for="ch28">
                 Email Sender ID
               </label>
             </div>
@@ -602,8 +602,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.gst_in != null }">
-              <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.gst_in">
-              <label for="slotNew">
+              <input type="text" id="ch29" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.gst_in">
+              <label for="ch29">
                 GSTIN
               </label>
             </div>
@@ -622,8 +622,8 @@
         <div class="row" *ngIf="(storageInfo != '')">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value': (storageInfo.limit_allocated != '') }">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="storageInfo.storage_allocated">
-              <label for="slotNew">Total Storage (GB)
+              <input type="text" readonly="true" id="ch30" class="form-ctrl" name="slotNew" [(ngModel)]="storageInfo.storage_allocated">
+              <label for="ch30">Total Storage (GB)
               </label>
             </div>
           </div>
@@ -632,8 +632,8 @@
         <div class="row" *ngIf="(storageInfo != '')">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.sms_shortcode != ''}">
-              <input type="text" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="storageInfo.limit_allocated">
-              <label for="slotNew">Used Upload/Download (GB)
+              <input type="text" id="ch31" readonly="true" class="form-ctrl" name="slotNew" [(ngModel)]="storageInfo.limit_allocated">
+              <label for="ch31">Used Upload/Download (GB)
               </label>
             </div>
           </div>
@@ -646,8 +646,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.announcement != ''}">
-              <input type="textbox" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.announcement">
-              <label for="slotNew">Announcement
+              <input type="textbox" id="ch32" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.announcement">
+              <label for="ch32">Announcement
               </label>
             </div>
           </div>
@@ -656,8 +656,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.about_us_text != ''}">
-              <input type="textbox" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.about_us_text">
-              <label for="slotNew">
+              <input type="textbox" id="ch33" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.about_us_text">
+              <label for="ch33">
                 About Us Text
               </label>
             </div>
@@ -667,8 +667,8 @@
         <div class="row">
           <div class="c-sm-4 c-md-4 c-lg-4">
             <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_app_url != ''}">
-              <input type="textbox" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.student_app_url">
-              <label for="slotNew">Student APP Url
+              <input type="textbox" id="ch34" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.student_app_url">
+              <label for="ch34">Student APP Url
               </label>
             </div>
           </div>

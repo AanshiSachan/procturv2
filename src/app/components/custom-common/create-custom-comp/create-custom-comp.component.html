@@ -29,33 +29,33 @@
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.label != ''}">
-          <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.label" name="label">
+          <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.label" name="label" id="label">
           <label for="label">Label*</label>
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.type != '' }">
-          <select id="" class="form-ctrl" [(ngModel)]="createCustomComponentForm.type" name="opt.data_value">
+          <select id="type" class="form-ctrl" [(ngModel)]="createCustomComponentForm.type" name="opt.data_value">
             <option value=""></option>
             <option *ngFor="let opt of componentShell" [value]="opt.data_key">
               {{opt.data_value}}
             </option>
           </select>
-          <label for="">Type*</label>
+          <label for="type">Type*</label>
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.prefilled_data != ''}">
-          <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.prefilled_data" name="prefilledData">
+          <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.prefilled_data" name="prefilledData" id="prefilledData">
           <label for="prefilledData">Prefilled Data (Non-Empty And Separated By ,)</label>
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.description != ''}">
-          <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.description" name="description">
+          <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.description" name="description" id="description">
           <label for="description">Description</label>
         </div>
       </div>
@@ -92,7 +92,7 @@
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.sequence_number != ''}">
-          <input type="text" class="form-ctrl" OnlyNumber="true" maxlength="3" [(ngModel)]="createCustomComponentForm.sequence_number"
+          <input type="text" id="sequencenumber"class="form-ctrl" OnlyNumber="true" maxlength="3" [(ngModel)]="createCustomComponentForm.sequence_number"
             name="sequencenumber">
           <label for="sequencenumber">Sequence (Numerals Only)</label>
         </div>
@@ -100,14 +100,14 @@
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.comp_length != ''}">
-          <input type="text" class="form-ctrl" OnlyNumber="true" [(ngModel)]="createCustomComponentForm.comp_length" name="complength">
+          <input type="text" class="form-ctrl" id="complength" OnlyNumber="true" [(ngModel)]="createCustomComponentForm.comp_length" name="complength">
           <label for="complength">Max- Length (Numerals Only)</label>
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.defaultValue != ''}">
-          <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.defaultValue" name="defVal">
+          <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.defaultValue" name="defVal"id="defVal">
           <label for="defVal">Default Value</label>
         </div>
       </div>
@@ -230,26 +230,26 @@
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.type != '' }">
-          <select id="" class="form-ctrl" [(ngModel)]="editCustomComponentForm.type" name="opt.data_value">
+          <select id="opt.data_value" class="form-ctrl" [(ngModel)]="editCustomComponentForm.type" name="opt.data_value">
             <option value=""></option>
             <option *ngFor="let opt of componentShell" [value]="opt.data_key">
               {{opt.data_value}}
             </option>
           </select>
-          <label for="">Type*</label>
+          <label for="opt.data_value">Type*</label>
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.prefilled_data != ''}">
-          <input type="text" class="form-ctrl" [(ngModel)]="editCustomComponentForm.prefilled_data" name="prefilledData">
+          <input type="text" class="form-ctrl" [(ngModel)]="editCustomComponentForm.prefilled_data" id="prefilledData" name="prefilledData">
           <label for="prefilledData">Prefilled Data (Non-Empty And Separated By ,)</label>
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.description != ''}">
-          <input type="text" class="form-ctrl" [(ngModel)]="editCustomComponentForm.description" name="description">
+          <input type="text" class="form-ctrl" [(ngModel)]="editCustomComponentForm.description" name="description" id="description">
           <label for="description">Description</label>
         </div>
       </div>
@@ -287,21 +287,21 @@
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.sequence_number != ''}">
           <input type="text" class="form-ctrl" OnlyNumber="true" maxlength="3" [(ngModel)]="editCustomComponentForm.sequence_number"
-            name="sequencenumber">
+            name="sequencenumber" id="sequencenumber">
           <label for="sequencenumber">Sequence (Numerals Only)</label>
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.comp_length != null}">
-          <input type="text" class="form-ctrl" OnlyNumber="true" [(ngModel)]="editCustomComponentForm.comp_length" name="complength">
+          <input type="text" class="form-ctrl" OnlyNumber="true" [(ngModel)]="editCustomComponentForm.comp_length" name="complength" id="complength">
           <label for="complength">Max- Length (Numerals Only)</label>
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.defaultValue != ''}">
-          <input type="text" class="form-ctrl" [(ngModel)]="editCustomComponentForm.defaultValue" name="defVal">
+          <input type="text" class="form-ctrl" [(ngModel)]="editCustomComponentForm.defaultValue" name="defVal" id="defVal">
           <label for="defVal">Default Value</label>
         </div>
       </div>
