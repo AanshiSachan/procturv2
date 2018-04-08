@@ -196,7 +196,7 @@ export class EnquiryEditComponent implements OnInit {
 
 
   timeChanges(ev, id) {
-    // debugger
+    // 
     if (ev.split(' ')[0] != '') {
       this.hour = ev.split(' ')[0];
       this.meridian = ev.split(' ')[1];
@@ -212,7 +212,7 @@ export class EnquiryEditComponent implements OnInit {
   }
   /* set the enquiry feilds for Form */
   updateEnquiryData() {
-    //debugger;
+    //
     this.institute_enquiry_id = this.route.snapshot.paramMap.get('id');
     this.fetchCommentData(this.route.snapshot.paramMap.get('id'));
     let id = this.institute_enquiry_id;
@@ -451,6 +451,7 @@ export class EnquiryEditComponent implements OnInit {
         data => {
           this.customComponents = [];
           data.forEach(el => {
+            
             let obj = {
               data: el,
               id: el.component_id,
@@ -477,6 +478,20 @@ export class EnquiryEditComponent implements OnInit {
                 value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
               }
             }
+            if (el.type == 3) {
+              obj = {
+                data: el,
+                id: el.component_id,
+                is_required: el.is_required,
+                is_searchable: el.is_searchable,
+                label: el.label,
+                prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                selected: [],
+                selectedString: "",
+                type: el.type,
+                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+              }
+            }              
             if (el.type == 2) {
               obj = {
                 data: el,
@@ -488,10 +503,10 @@ export class EnquiryEditComponent implements OnInit {
                 selected: [],
                 selectedString: '',
                 type: el.type,
-                value: el.enq_custom_value == "N" ? false : true,
+                value: el.enq_custom_value == "" ? false : true,
               }
             }
-            else if (el.type != 2 && el.type != 4) {
+            else if (el.type != 2 && el.type != 4 && el.type != 3) {
               obj = {
                 data: el,
                 id: el.component_id,
@@ -505,6 +520,7 @@ export class EnquiryEditComponent implements OnInit {
                 value: el.enq_custom_value
               }
             }
+            
             this.customComponents.push(obj);
           });
           this.emptyCustomComponent = this.componentListObject;
@@ -524,7 +540,6 @@ export class EnquiryEditComponent implements OnInit {
   /* ============================================================================================================================ */
   createPrefilledDataType4(dataArr: any[], selected: any[], def: string): any[] {
     let customPrefilled: any[] = [];
-    debugger;
     if (selected.length != 0 && selected[0] != "") {
       dataArr.forEach(el => {
         let obj = {

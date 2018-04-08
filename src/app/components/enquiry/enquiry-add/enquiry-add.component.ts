@@ -412,7 +412,7 @@ export class EnquiryAddComponent implements OnInit {
       .subscribe(
         data => {
           data.forEach(el => {
-
+            
             let obj = {
               data: el,
               id: el.component_id,
@@ -425,8 +425,64 @@ export class EnquiryAddComponent implements OnInit {
               type: el.type,
               value: el.enq_custom_value
             }
+            if (el.type == 4) {
+              obj = {
+                data: el,
+                id: el.component_id,
+                is_required: el.is_required,
+                is_searchable: el.is_searchable,
+                label: el.label,
+                prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue),
+                selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
+                selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
+                type: el.type,
+                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+              }
+            }
+            if (el.type == 3) {
+              obj = {
+                data: el,
+                id: el.component_id,
+                is_required: el.is_required,
+                is_searchable: el.is_searchable,
+                label: el.label,
+                prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                selected: [],
+                selectedString: "",
+                type: el.type,
+                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+              }
+            }              
+            if (el.type == 2) {
+              obj = {
+                data: el,
+                id: el.component_id,
+                is_required: el.is_required,
+                is_searchable: el.is_searchable,
+                label: el.label,
+                prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                selected: [],
+                selectedString: '',
+                type: el.type,
+                value: el.enq_custom_value == "" ? false : true,
+              }
+            }
+            else if (el.type != 2 && el.type != 4 && el.type != 3) {
+              obj = {
+                data: el,
+                id: el.component_id,
+                is_required: el.is_required,
+                is_searchable: el.is_searchable,
+                label: el.label,
+                prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                selected: [],
+                selectedString: '',
+                type: el.type,
+                value: el.enq_custom_value
+              }
+            }
+            
             this.customComponents.push(obj);
-
           });
           this.emptyCustomComponent = this.componentListObject;
         }
@@ -435,6 +491,39 @@ export class EnquiryAddComponent implements OnInit {
 
 
 
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  getDefaultArr(d):any[]{
+    let a:any[] = [];
+    a.push(d);
+    return a;
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  createPrefilledDataType4(dataArr: any[], selected: any[], def: string): any[] {
+    let customPrefilled: any[] = [];
+    if (selected.length != 0 && selected[0] != "") {
+      dataArr.forEach(el => {
+        let obj = {
+          data: el,
+          checked: selected.includes(el)
+        }
+        customPrefilled.push(obj);
+      });
+    }
+    else {
+      dataArr.forEach(el => {
+        let obj = {
+          data: el,
+          checked: el == def
+        }
+        customPrefilled.push(obj);
+      });
+    }
+    return customPrefilled;
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
 
 
 
@@ -738,8 +827,10 @@ export class EnquiryAddComponent implements OnInit {
   /* Function to submit validated form data */
   submitForm(form: NgForm) {
     //Validates if the custom component required fields are selected or not
-    let customComponentValidator = this.validateCustomComponent();
-
+    //let customComponentValidator = this.validateCustomComponent();
+    
+    let customComponentValidator: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
+    
     /* Validate the predefine required fields of the form */
     this.isFormValid = this.ValidateFormDataBeforeSubmit();
 
@@ -838,33 +929,42 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-
-  validateCustomComponent(): boolean {
-
-    let temp: boolean = true;
-
-    this.customComponents.forEach(el => {
-      if (el.is_required == 'Y' && el.value == '') {
-        if (temp) {
-          temp = false;
+   /* ============================================================================================================================ */
+   getCustomValid(element): boolean {
+     
+    if (element.is_required == "Y" && element.value != "") {
+      if (element.type == 5) {
+        if (element.value != "" && element.value != null && element.value != "Invalid date") {
+          return true;
+        }
+        else {
+          let msg = {
+            type: 'error',
+            title: 'Required Details Not Filled On Academics Details',
+            body: ''
+          }
+          this.appC.popToast(msg);
+          return false;
         }
       }
-    });
-
-    if (!temp) {
+      else {
+        return true;
+      }
+    }
+    else if (element.is_required == "Y" && element.value == "") {
       let msg = {
         type: 'error',
         title: 'Required Details Not Filled On Academics Details',
         body: ''
       }
       this.appC.popToast(msg);
+      return false;
     }
-
-    return temp;
+    else if (element.is_required == "N") {
+      return true;
+    }
   }
-
-
-
+  /* ============================================================================================================================ */
 
   /* Validate the Entire FormData Once Before Uploading= */
   ValidateFormDataBeforeSubmit(): boolean {
@@ -1514,7 +1614,7 @@ export class EnquiryAddComponent implements OnInit {
   }
 
   timeChanges(ev, id) {
-    // debugger
+    // 
     if (ev.split(' ')[0] != '') {
       this.hour = ev.split(' ')[0];
       this.meridian = ev.split(' ')[1];

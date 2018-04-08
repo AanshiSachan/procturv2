@@ -123,7 +123,7 @@ export class StudentAddComponent implements OnInit {
   public studentImage: string = ''; private isPaymentDetailsValid: boolean = false; private student_id: any = 0;
   private service_tax: number = 0; private totalFeePaid: number = 0; private paymentStatusArr: any[] = [];
   private isFeePaymentUpdate: boolean = false; private isDefineFees: boolean = false; private isFeeApplied: boolean = false; private isNewInstallment: boolean = false; private isDiscountApply: boolean = false;
-  is_undo: string = "N"; isUpdateFeeAndExit: boolean = false; total_amt_tobe_paid: any = "";
+  is_undo: string = "N"; isUpdateFeeAndExit: boolean = false; total_amt_tobe_paid: any = ""; enquiryData: any = [];
   private addFeeInstallment: any = {
     amount_paid: '',
     amount_paid_inRs: null,
@@ -465,7 +465,7 @@ export class StudentAddComponent implements OnInit {
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         this.service_tax = data.registeredServiceTax;
         let tax = el.initial_fee_amount * (this.service_tax / 100);
-        this.totalTaxAmount += tax;
+        this.totalTaxAmount += this.precisionRound(tax, -1);
       }
       else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
         this.service_tax = 0;
@@ -706,6 +706,7 @@ export class StudentAddComponent implements OnInit {
       let customComp = this.studentPrefillService.fetchCustomComponent().subscribe(
         data => {
           data.forEach(el => {
+              
             let obj = {
               data: el,
               id: el.component_id,
@@ -725,13 +726,27 @@ export class StudentAddComponent implements OnInit {
                 is_required: el.is_required,
                 is_searchable: el.is_searchable,
                 label: el.label,
-                prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(',')),
-                selected: el.enq_custom_value.split(','),
-                selectedString: el.enq_custom_value,
+                prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue),
+                selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
+                selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
                 type: el.type,
-                value: el.enq_custom_value
+                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
               }
             }
+            if (el.type == 3) {
+              obj = {
+                data: el,
+                id: el.component_id,
+                is_required: el.is_required,
+                is_searchable: el.is_searchable,
+                label: el.label,
+                prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+                selected: [],
+                selectedString: "",
+                type: el.type,
+                value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+              }
+            }              
             if (el.type == 2) {
               obj = {
                 data: el,
@@ -746,7 +761,7 @@ export class StudentAddComponent implements OnInit {
                 value: el.enq_custom_value == "" ? false : true,
               }
             }
-            else if (el.type != 2 && el.type != 4) {
+            else if (el.type != 2 && el.type != 4 && el.type != 3) {
               obj = {
                 data: el,
                 id: el.component_id,
@@ -760,7 +775,8 @@ export class StudentAddComponent implements OnInit {
                 value: el.enq_custom_value
               }
             }
-            this.customComponents.push(obj);
+            
+              this.customComponents.push(obj);
           });
           this.isRippleLoad = false;
         },
@@ -774,17 +790,37 @@ export class StudentAddComponent implements OnInit {
     }
 
   }
+
+  /* ============================================================================================================================ */
+  getDefaultArr(d): any[] {
+    let a: any[] = [];
+    a.push(d);
+    return a;
+  }
+  /* ============================================================================================================================ */
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  createPrefilledDataType4(dataArr: any[], selected: any[]): any[] {
+  createPrefilledDataType4(dataArr: any[], selected: any[], def: string): any[] {
     let customPrefilled: any[] = [];
-    dataArr.forEach(el => {
-      let obj = {
-        data: el,
-        checked: selected.includes(el)
-      }
-      customPrefilled.push(obj);
-    });
+    if (selected.length != 0 && selected[0] != "") {
+      dataArr.forEach(el => {
+        let obj = {
+          data: el,
+          checked: selected.includes(el)
+        }
+        customPrefilled.push(obj);
+      });
+    }
+    else {
+      dataArr.forEach(el => {
+        let obj = {
+          data: el,
+          checked: el == def
+        }
+        customPrefilled.push(obj);
+      });
+    }
     return customPrefilled;
   }
   /* ============================================================================================================================ */
@@ -1318,7 +1354,7 @@ export class StudentAddComponent implements OnInit {
           }
         },
         err => {
-          // console.log(err);
+
         });
     }
     else {
@@ -1391,44 +1427,104 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   convertToStudentDetected() {
     this.isConvertEnquiry = true;
-    let tempData = JSON.parse(localStorage.getItem('studentPrefill'));
-    this.fetchEnquiryCustomComponentDetails(tempData.institute_enquiry_id);
-    this.studentAddFormData.student_name = tempData.name;
-    this.studentAddFormData.student_phone = tempData.phone;
-    this.studentAddFormData.student_email = tempData.email;
-    this.studentAddFormData.student_sex = tempData.gender;
-    this.studentAddFormData.dob = tempData.dob;
-    this.studentAddFormData.parent_name = tempData.parent_email;
-    this.studentAddFormData.parent_phone = tempData.parent_name;
-    this.studentAddFormData.parent_email = tempData.parent_phone;
-    this.studentAddFormData.enquiry_id = tempData.enquiry_id;
+    this.enquiryData = JSON.parse(localStorage.getItem('studentPrefill'));
+    this.studentAddFormData.student_name = this.enquiryData.name;
+    this.studentAddFormData.student_phone = this.enquiryData.phone;
+    this.studentAddFormData.student_email = this.enquiryData.email;
+    this.studentAddFormData.student_sex = this.enquiryData.gender;
+    this.studentAddFormData.dob = this.enquiryData.dob;
+    this.studentAddFormData.parent_name = this.enquiryData.parent_email;
+    this.studentAddFormData.parent_phone = this.enquiryData.parent_name;
+    this.studentAddFormData.parent_email = this.enquiryData.parent_phone;
+    this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
+    this.fetchEnquiryCustomComponentDetails();
     localStorage.removeItem('studentPrefill');
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  fetchEnquiryCustomComponentDetails(id){
-    this.studentPrefillService.fetchEnquiryCustomComponentById(id).subscribe(
+  fetchEnquiryCustomComponentDetails() {
+    let id = this.enquiryData.institute_enquiry_id;
+    this.studentPrefillService.fetchEnquiryCC(id).subscribe(
       res => {
         this.enquiryCustomComp = res;
-        this.updateStudentCustomComp();
+        this.filterStudentCustomComp();
       },
       err => {
         let obj = {
           type: "error",
           title: 'An error occured, Please check your internet connection',
           body: ""
-        } 
+        }
         this.appC.popToast(obj);
       }
     )
   }
   /* ============================================================================================================================ */
-  /* ============================================================================================================================ */  
-  updateStudentCustomComp(){
-
+  /* ============================================================================================================================ */
+  filterStudentCustomComp() {
+    this.customComponents.forEach(c => {
+      if (c.data.on_both == "Y") {
+        c = this.updateEnquiryComponent(c.id);
+      }
+    });
   }
   /* ============================================================================================================================ */
-  /* ============================================================================================================================ */    
+  /* ============================================================================================================================ */
+  /* arg1::studentComp arg2:: enquiryComp */
+  updateEnquiryComponent(id): any {
+    
+    this.enquiryCustomComp.forEach(el => {
+
+      if (el.component_id == id && el.type == 4) {
+        let obj = {
+          data: el,
+          id: el.component_id,
+          is_required: el.is_required,
+          is_searchable: el.is_searchable,
+          label: el.label,
+          prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue),
+          selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
+          selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
+          type: el.type,
+          value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+        }
+        return obj;
+      }
+      if (el.component_id == id && el.type == 2) {
+        let obj = {
+          data: el,
+          id: el.component_id,
+          is_required: el.is_required,
+          is_searchable: el.is_searchable,
+          label: el.label,
+          prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+          selected: [],
+          selectedString: '',
+          type: el.type,
+          value: el.enq_custom_value == "Y" ? true : false,
+        }
+        return obj;
+      }
+      else if (el.component_id == id && el.type != 2 && el.type != 4) {
+        let obj = {
+          data: el,
+          id: el.component_id,
+          is_required: el.is_required,
+          is_searchable: el.is_searchable,
+          label: el.label,
+          prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+          selected: [],
+          selectedString: '',
+          type: el.type,
+          value: el.enq_custom_value
+        }
+        return obj;
+      }
+    });
+  }
+
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   clearFormAndRoute(form: NgForm) {
     let previousUrl: string = '';
     this.studentAddFormData = {
@@ -1698,7 +1794,7 @@ export class StudentAddComponent implements OnInit {
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
               let tax = el.initial_fee_amount * (this.service_tax / 100);
-              this.totalTaxAmount += tax;
+              this.totalTaxAmount += this.precisionRound(tax, -1);
             }
             else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
               this.service_tax = 0;
@@ -1819,8 +1915,10 @@ export class StudentAddComponent implements OnInit {
   openPaymentDetails($event) {
     $event.preventDefault();
     this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
+    this.feeTemplateById.payment_mode = "Cash";
     this.total_amt_tobe_paid = this.totalFeePaid;
     this.isFeePaymentUpdate = true;
+    //this.deselectAllSelectedCheckbox();
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -2368,7 +2466,7 @@ export class StudentAddComponent implements OnInit {
       /* Taxes Here */
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         let tax = el.initial_fee_amount * (this.service_tax / 100);
-        this.totalTaxAmount += tax;
+        this.totalTaxAmount += this.precisionRound(tax, -1);
       }
       else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
         this.service_tax = 0;
@@ -2525,7 +2623,7 @@ export class StudentAddComponent implements OnInit {
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
               let tax = el.initial_fee_amount * (this.service_tax / 100);
-              this.totalTaxAmount += tax;
+              this.totalTaxAmount += this.precisionRound(tax, -1);
             }
             else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
               this.service_tax = 0;
@@ -2568,7 +2666,7 @@ export class StudentAddComponent implements OnInit {
                   if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
                     this.service_tax = res.registeredServiceTax;
                     let tax = el.initial_fee_amount * (this.service_tax / 100);
-                    this.totalTaxAmount += tax;
+                    this.totalTaxAmount += this.precisionRound(tax, -1);
                   }
                   else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
                     this.service_tax = 0;
@@ -2659,6 +2757,7 @@ export class StudentAddComponent implements OnInit {
       }
     }
     else {
+      this.isRippleLoad = true;
       this.totalFeeWithTax = 0;
       this.totalDicountAmount = 0;
       this.totalTaxAmount = 0;
@@ -2667,6 +2766,7 @@ export class StudentAddComponent implements OnInit {
       this.totalAmountDue = 0;
       this.fetchService.fetchStudentFeeDetailById(this.student_id).subscribe(
         res => {
+          this.isRippleLoad = false;
           this.totalFeePaid = 0;
           this.total_amt_tobe_paid = this.totalFeePaid;
           if (!res.toCreate) {
@@ -2690,7 +2790,7 @@ export class StudentAddComponent implements OnInit {
               if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
                 this.service_tax = res.registeredServiceTax;
                 let tax = el.initial_fee_amount * (this.service_tax / 100);
-                this.totalTaxAmount += tax;
+                this.totalTaxAmount += this.precisionRound(tax, -1);
               }
               else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
                 this.service_tax = 0;
@@ -2725,6 +2825,7 @@ export class StudentAddComponent implements OnInit {
           this.isDiscountApplied = false;
         },
         err => {
+          this.isRippleLoad = false;
           let obj = {
             type: "error",
             title: "An Error Occured",
@@ -3129,6 +3230,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   openDiscountApply() {
+    this.deselectAllSelectedCheckbox();
     this.isDiscountApply = true;
   }
   /* ============================================================================================================================ */
@@ -3146,6 +3248,7 @@ export class StudentAddComponent implements OnInit {
   deselectAllSelectedCheckbox() {
     this.totalFeePaid = 0;
     this.total_amt_tobe_paid = this.totalFeePaid;
+    this.installmentMarkedForPayment = [];
     this.paymentStatusArr.forEach(e => { e.uiSelected = false; });
   }
   /* ============================================================================================================================ */
@@ -3816,7 +3919,6 @@ export class StudentAddComponent implements OnInit {
     let total = this.total_amt_tobe_paid;
     let remaining = 0;
     this.installmentMarkedForPayment.forEach(e => {
-
       let paid = 0;
       let previous = 0;
       let full = "N";
@@ -3845,7 +3947,7 @@ export class StudentAddComponent implements OnInit {
           full = "N";
         }
       }
-      else {
+      else if (this.feeTemplateById.customFeeSchedules[e].is_referenced == "N") {
         previous = this.feeTemplateById.customFeeSchedules[e].fees_amount;
         /*  amount less than total */
         if (this.feeTemplateById.customFeeSchedules[e].fees_amount < total) {
@@ -3869,6 +3971,7 @@ export class StudentAddComponent implements OnInit {
           full = "N";
         }
       }
+
       let obj = {
         due_date: moment(this.feeTemplateById.customFeeSchedules[e].due_date).format("YYYY-MM-DD"),
         fee_schedule_id: this.feeTemplateById.customFeeSchedules[e].schedule_id,
@@ -3876,7 +3979,10 @@ export class StudentAddComponent implements OnInit {
         previous_balance_amt: previous,
         total_amt_paid: paid,
       }
-      temp.push(obj);
+      
+      if(obj.total_amt_paid != 0){
+        temp.push(obj);
+      }
     })
     return temp;
   }
@@ -3887,6 +3993,7 @@ export class StudentAddComponent implements OnInit {
     this.totalFeePaid = ins.balance_amount;
     this.total_amt_tobe_paid = this.totalFeePaid;
     this.isPartialPayment = true;
+    //this.deselectAllSelectedCheckbox();
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -4042,7 +4149,6 @@ export class StudentAddComponent implements OnInit {
         this.isRippleLoad = true;
         this.postService.payPartialFeeAmount(obj).subscribe(
           res => {
-            this.setStudentFeeDetail();
             this.isRippleLoad = false;
             let msg = {
               type: 'success',
@@ -4060,6 +4166,7 @@ export class StudentAddComponent implements OnInit {
             this.isFeeApplied = false;
             this.pdcSelectedForPayment = "";
             this.closePaymentDetails();
+            this.setStudentFeeDetail();
           },
           err => {
             this.isRippleLoad = false;

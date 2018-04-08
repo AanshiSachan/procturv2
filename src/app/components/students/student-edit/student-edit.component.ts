@@ -480,6 +480,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.isInventoryActive = false;
     }
     else if (text === "inventory") {
+      this.deselectAllSelectedCheckbox();
       document.getElementById('li-one').classList.remove('active');
       document.getElementById('li-two').classList.remove('active');
       document.getElementById('li-three').classList.remove('active');
@@ -695,6 +696,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.totalPaidAmount = 0;
       this.totalAmountPaid = 0;
       this.totalAmountDue = 0;
+      this.installmentMarkedForPayment = [];
       /* user */
       if (this.userHasFees) {
         this.totalFeePaid = 0;
@@ -722,7 +724,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
               let tax = el.fees_amount - el.initial_fee_amount;
-              this.totalTaxAmount += tax;
+              this.totalTaxAmount += this.precisionRound(tax, -1);
             }
             else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
               this.service_tax = 0;
@@ -764,7 +766,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                   if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
                     this.service_tax = res.registeredServiceTax;
                     let tax = el.fees_amount - el.initial_fee_amount;
-                    this.totalTaxAmount += tax;
+                    this.totalTaxAmount += this.precisionRound(tax, -1);
                   }
                   else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
                     this.service_tax = 0;
@@ -849,6 +851,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
     }
     else {
+      this.isRippleLoad = true;
       this.totalFeeWithTax = 0;
       this.totalDicountAmount = 0;
       this.totalTaxAmount = 0;
@@ -857,6 +860,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.totalAmountDue = 0;
       this.fetchService.fetchStudentFeeDetailById(this.student_id).subscribe(
         res => {
+          this.isRippleLoad = false;
           this.totalFeePaid = 0;
           this.total_amt_tobe_paid = this.totalFeePaid;
           if (!res.toCreate) {
@@ -880,7 +884,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
                 this.service_tax = res.registeredServiceTax;
                 let tax = el.fees_amount - el.initial_fee_amount;
-                this.totalTaxAmount += tax;
+                this.totalTaxAmount += this.precisionRound(tax, -1);
               }
               else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
                 this.service_tax = 0;
@@ -914,7 +918,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.isFeeApplied = false;
           this.isDiscountApplied = false;
         },
-        err => { }
+        err => { 
+          this.isRippleLoad = false;
+        }
       );
     }
   }
@@ -1021,6 +1027,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (inventory != null && institute != null && standard != null) {
       let customComp = this.studentPrefillService.fetchCustomComponentById(this.student_id).subscribe(data => {
         data.forEach(el => {
+          
           let obj = {
             data: el,
             id: el.component_id,
@@ -1040,13 +1047,27 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               is_required: el.is_required,
               is_searchable: el.is_searchable,
               label: el.label,
-              prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(',')),
-              selected: el.enq_custom_value.split(','),
-              selectedString: el.enq_custom_value,
+              prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue),
+              selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
+              selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
               type: el.type,
-              value: el.enq_custom_value
+              value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
             }
           }
+          if (el.type == 3) {
+            obj = {
+              data: el,
+              id: el.component_id,
+              is_required: el.is_required,
+              is_searchable: el.is_searchable,
+              label: el.label,
+              prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
+              selected: [],
+              selectedString: "",
+              type: el.type,
+              value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+            }
+          }              
           if (el.type == 2) {
             obj = {
               data: el,
@@ -1058,10 +1079,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               selected: [],
               selectedString: '',
               type: el.type,
-              value: el.enq_custom_value == "N" ? false : true,
+              value: el.enq_custom_value == "" ? false : true,
             }
           }
-          else if (el.type != 2 && el.type != 4) {
+          else if (el.type != 2 && el.type != 4 && el.type != 3) {
             obj = {
               data: el,
               id: el.component_id,
@@ -1075,6 +1096,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               value: el.enq_custom_value
             }
           }
+          
           this.customComponents.push(obj);
         });
       });
@@ -1099,17 +1121,36 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  createPrefilledDataType4(dataArr: any[], selected: any[]): any[] {
+  getDefaultArr(d):any[]{
+    let a:any[] = [];
+    a.push(d);
+    return a;
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  createPrefilledDataType4(dataArr: any[], selected: any[], def: string): any[] {
     let customPrefilled: any[] = [];
-    dataArr.forEach(el => {
-      let obj = {
-        data: el,
-        checked: selected.includes(el)
-      }
-      customPrefilled.push(obj);
-    });
+    if (selected.length != 0 && selected[0] != "") {
+      dataArr.forEach(el => {
+        let obj = {
+          data: el,
+          checked: selected.includes(el)
+        }
+        customPrefilled.push(obj);
+      });
+    }
+    else {
+      dataArr.forEach(el => {
+        let obj = {
+          data: el,
+          checked: el == def
+        }
+        customPrefilled.push(obj);
+      });
+    }
     return customPrefilled;
   }
+  /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   createPrefilledData(dataArr: any[]): any[] {
@@ -1908,14 +1949,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   openPaymentDetails($event) {
     $event.preventDefault();
     this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
+    this.feeTemplateById.payment_mode = "Cash";
     this.total_amt_tobe_paid = this.totalFeePaid;
     this.isFeePaymentUpdate = true;
+    //this.deselectAllSelectedCheckbox();
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   openPaymentDetailsAndExit($event) {
     $event.preventDefault();
-
     this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
     this.isFeePaymentUpdate = true;
     this.isUpdateFeeAndExit = true;
@@ -2530,7 +2572,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   paymentModeUpdate(e) {
-    //debugger
+    //
     if (e === 'Cheque/PDC/DD No.') {
       this.isPaymentPdc = true;
       this.pdcSelectedForm = {
@@ -2715,6 +2757,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   openDiscountApply() {
+    this.deselectAllSelectedCheckbox();
     this.isDiscountApply = true;
   }
   /* ============================================================================================================================ */
@@ -2733,6 +2776,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   deselectAllSelectedCheckbox() {
     this.totalFeePaid = 0;
     this.total_amt_tobe_paid = this.totalFeePaid;
+    this.installmentMarkedForPayment = [];
     this.paymentStatusArr.forEach(e => { e.uiSelected = false; });
   }
   /* ============================================================================================================================ */
@@ -3286,6 +3330,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.totalFeePaid = ins.balance_amount;
     this.total_amt_tobe_paid = this.totalFeePaid;
     this.isPartialPayment = true;
+    //this.deselectAllSelectedCheckbox();
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -3319,7 +3364,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getPaidFullVal(): string {
-    debugger;
+    
     if (this.partialPaySelected.balance_amount > this.total_amt_tobe_paid) {
       return "N"
     } else {
@@ -3858,7 +3903,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       /* Taxes Here */
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         let tax = el.fees_amount - el.initial_fee_amount;
-        this.totalTaxAmount += tax;
+        this.totalTaxAmount += this.precisionRound(tax, -1);
       }
       else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
         this.service_tax = 0;
@@ -4190,7 +4235,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let total = this.total_amt_tobe_paid;
     let remaining = 0;
     this.installmentMarkedForPayment.forEach(e => {
-      debugger;
+      
       let paid = 0;
       let previous = 0;
       let full = "N";
@@ -4219,7 +4264,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           full = "N";
         }
       }
-      else {
+      else if (this.feeTemplateById.customFeeSchedules[e].is_referenced == "N") {
         previous = this.feeTemplateById.customFeeSchedules[e].fees_amount;
         /*  amount less than total */
         if (this.feeTemplateById.customFeeSchedules[e].fees_amount < total) {
@@ -4250,7 +4295,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         previous_balance_amt: previous,
         total_amt_paid: paid,
       }
-      temp.push(obj);
+      if(obj.total_amt_paid != 0){
+        temp.push(obj);
+      }
     })
     return temp;
   }
