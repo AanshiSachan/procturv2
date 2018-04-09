@@ -58,5 +58,12 @@ export class AuthenticatorService {
         return this.baseUrl;
     }
 
+    clearStoredData(){
+        this.token = null;
+        this.institute_id = null;
+        this.standard_id = null;
+        this.institute_type = null;
+        this.institution_type = null;    
+    }
 
 }
