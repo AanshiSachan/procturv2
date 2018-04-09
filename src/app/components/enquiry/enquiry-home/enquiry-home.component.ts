@@ -1380,6 +1380,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Function to search data on smart table */
   searchDatabase() {
+    this.clearFilterAdvanced();
     this.stats.All.checked = true;
     this.stats.Open.checked = false;
     this.stats.Registered.checked = false;
@@ -3007,7 +3008,38 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   downloadAllEnquiries() {
     this.cd.markForCheck();
     this.isRippleLoad = true;
-    this.busy = this.enquire.fetchAllEnquiryAsXls(this.instituteData).subscribe(
+    let obj = {
+      name: this.instituteData.name,
+      phone: this.instituteData.phone,
+      email: this.instituteData.email,
+      enquiry_no: this.instituteData.enquiry_no,
+      priority: this.advancedFilterForm.priority,
+      status: -1,
+      filtered_statuses: "",
+      follow_type: this.advancedFilterForm.follow_type,
+      followUpDate: this.advancedFilterForm.followUpDate,
+      enquiry_date: this.instituteData.enquiry_date,
+      assigned_to: this.advancedFilterForm.assigned_to,
+      standard_id: this.advancedFilterForm.standard_id,
+      subject_id: this.advancedFilterForm.subject_id,
+      is_recent: "Y",
+      slot_id: this.advancedFilterForm.slot_id,
+      filtered_slots: this.advancedFilterForm.filtered_slots,
+      isDashbord: this.instituteData.isDashbord,
+      enquireDateFrom: this.advancedFilterForm.enquireDateFrom,
+      enquireDateTo: this.advancedFilterForm.enquireDateTo,
+      updateDate: this.advancedFilterForm.updateDate,
+      updateDateFrom: this.advancedFilterForm.updateDateFrom,
+      updateDateTo: this.advancedFilterForm.updateDateTo,
+      start_index: 0,
+      batch_size: this.displayBatchSize,
+      closedReason: "",
+      enqCustomLi: this.advancedFilterForm.enqCustomLi,
+      sorted_by: "",
+      order_by: "",
+      commentShow: 'false'
+    };
+    this.busy = this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
       res => {
         this.isRippleLoad = false;
         let byteArr = this.convertBase64ToArray(res.document);

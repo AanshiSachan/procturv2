@@ -32,8 +32,7 @@ export class CoreHeaderComponent implements OnInit {
 
   logout() {
     if (this.log.logoutUser()) {
-      this.router.navigate(['/authPage']);
-      window.location.reload(true);
+      this.router.navigateByUrl('/authPage');
     }
   }
 

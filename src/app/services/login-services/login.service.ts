@@ -52,7 +52,7 @@ export class LoginService {
     this.urlLogin = this.baseUrl + "/api/v1/alternateLogin";
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
-  }
+  } 
 
 
   postLoginDetails(data): any {
@@ -85,6 +85,7 @@ export class LoginService {
 
   logoutUser(): boolean {
     // remove user from local storage to log user out
+    this.auth.clearStoredData();
     sessionStorage.clear();
     localStorage.clear();
     return true;

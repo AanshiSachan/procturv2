@@ -1052,7 +1052,7 @@ div#enqChart {
             }
         } // justify-content: space-between;
         li {
-            padding: 5px 10px 0px;
+            padding: 5px 24px 0px;
             &.cls-type {
                 width: 15%;
             }
@@ -1064,7 +1064,7 @@ div#enqChart {
             }
             &:last-child {
                 width: 15%;
-            }
+                }
             div {
                 color: rgba(30, 35, 40, 0.7);
                 font-size: 14px;
