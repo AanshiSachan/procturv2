@@ -1587,11 +1587,11 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('leaveBtn' + rowData.student_id).classList.remove('classLeaveBtn');
     document.getElementById('absentBtn' + rowData.student_id).classList.remove('classAbsentBtn');
     document.getElementById('presentBtn' + rowData.student_id).classList.remove('classPresentBtn');
-    if (event.target.innerText == "Leave") {
+    if (event.target.innerText == "L") {
       document.getElementById('leaveBtn' + rowData.student_id).classList.add('classLeaveBtn');
       rowData.dateLi[0].status = "L";
       rowData.dateLi[0].home_work_status = "N";
-    } else if (event.target.innerText == "Absent") {
+    } else if (event.target.innerText == "A") {
       document.getElementById('absentBtn' + rowData.student_id).classList.add('classAbsentBtn');
       rowData.dateLi[0].status = "A";
       rowData.dateLi[0].home_work_status = "N";
@@ -2335,12 +2335,12 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('leaveBtnCourse' + rowData.student_id).classList.remove('classLeaveBtn');
     document.getElementById('absentBtnCourse' + rowData.student_id).classList.remove('classAbsentBtn');
     document.getElementById('presentBtnCourse' + rowData.student_id).classList.remove('classPresentBtn');
-    if (event.target.innerText == "Leave") {
+    if (event.target.innerText == "L") {
       document.getElementById('leaveBtnCourse' + rowData.student_id).classList.add('classLeaveBtn');
       this.courseLevelStudentAtt[index].dateLi[0].status = "L";
       this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
       this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
-    } else if (event.target.innerText == "Absent") {
+    } else if (event.target.innerText == "A") {
       document.getElementById('absentBtnCourse' + rowData.student_id).classList.add('classAbsentBtn');
       this.courseLevelStudentAtt[index].dateLi[0].status = "A";
       this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
@@ -2349,7 +2349,7 @@ export class AdminHomeComponent implements OnInit {
       document.getElementById('presentBtnCourse' + rowData.student_id).classList.add('classPresentBtn');
       this.courseLevelStudentAtt[index].dateLi[0].status = "P";
       this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
-
+      this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "Y";
     }
     this.getTotalCountForCourse(this.courseLevelStudentAtt);
   }
