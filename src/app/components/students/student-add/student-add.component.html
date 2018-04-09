@@ -695,8 +695,8 @@
                   </div>
                   <div class="clearFix add-edit" [ngClass]="{'hide': installment.is_referenced == 'N'}">
 
-                    <a (click)="downloadFeeReceipt(installment)">Download receipt</a>
-                    <a (click)="emailFeeReceipt(installment)">E-mail receipt</a>
+                    <!-- <a (click)="downloadFeeReceipt(installment)">Download receipt</a>
+                    <a (click)="emailFeeReceipt(installment)">E-mail receipt</a> -->
                     <a (click)="openPartialPayment(installment)" [ngClass]="{'hide': installment.is_partially_paid == '0'}">Pay Remaining Amount</a>
 
                   </div>
