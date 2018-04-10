@@ -838,6 +838,41 @@ div#enqChart {
     }
 }
 
+.actb-top-header {
+    padding: 10px 12px;
+    background: #fafafa;
+    border-bottom: 1px solid #dedddd;
+    span.heading {
+        font-weight: 400;
+        font-size: 16px;
+        color: #414141;
+        text-transform: uppercase;
+        padding-top: 4px;
+        display: inline-block;
+    }
+    button {
+        background: transparent;
+        &.drag-button {
+            cursor: all-scroll;
+            margin-left: 16px;
+        }
+    }
+    .enquiry-state-date {
+        font-size: 14px;
+        color: #666;
+        margin-right: 10px;
+        padding-top: 4px;
+        display: inline-block;
+    }
+    .schedSwitcher {
+        display: inline-flex;
+        width: 200px;
+        margin: 0px 25px;
+        padding-top: 4px;
+        height: 25px;
+    }
+}
+
 .enq-state-bottom {
     &>div {
         width: 50%;

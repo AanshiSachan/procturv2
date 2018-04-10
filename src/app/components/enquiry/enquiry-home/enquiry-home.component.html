@@ -366,13 +366,9 @@
         <div class="" id="table-main" #tablemain>
           <div class="table-scroll-wrapper">
             <div class="table table-responsive enquiry-table">
-              <!-- <proctur-checkbox-table [records]="sourceEnquiry" [tableName]="'enquiry'" [settings]="EnquirySettings" (userRowSelect)="userRowSelect($event)"
-                (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage" [key1]="'followUpDateTime'" [primaryKey]="'institute_enquiry_id'"
-                (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)">
-              </proctur-checkbox-table> -->
               <ng-robTable [records]="sourceEnquiry" [reset]="isSideBar" [defaultSort]="sortBy" [tableName]="'enquiry'" [settings]="EnquirySettings"
                 (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage"
-                [key1]="'followUpDateTime'" [primaryKey]="'institute_enquiry_id'" (rowIdArr)="getSelectedEnquiries($event)"
+                [key1]="'followUpDate'" [primaryKey]="'institute_enquiry_id'" (rowIdArr)="getSelectedEnquiries($event)"
                 (sortById)="sortTableById($event)" (sortDirection)="getDirection($event)">
               </ng-robTable>
             </div>

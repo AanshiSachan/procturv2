@@ -17,7 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { ChartModule } from 'angular-highcharts';
 import { WidgetService } from '../../services/widget.service';
-
+import { EnquiryWidgetComponent } from "./enquiry-widget/enquiry-widget.component";
 
 
 @NgModule({
@@ -41,10 +41,12 @@ import { WidgetService } from '../../services/widget.service';
         HomepageDashboardComponent,
         HomeComponent,
         AdminHomeComponent,
-        ProcturWidgetComponent
+        ProcturWidgetComponent,
+        EnquiryWidgetComponent
     ],
     entryComponents: [
-        ProcturWidgetComponent
+        ProcturWidgetComponent,
+        EnquiryWidgetComponent
     ],
     providers: [
         WidgetService

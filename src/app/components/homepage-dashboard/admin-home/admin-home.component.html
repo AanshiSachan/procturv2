@@ -35,7 +35,7 @@
 
               <li class="enquiry-state item" data-id="2">
                 <div class="item-content">
-                  <div class="actb-top-header clearfix">
+                  <!-- <div class="actb-top-header clearfix">
                     <span class="heading">
                       Enquiry Stats
                     </span>
@@ -116,7 +116,8 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
+                  <enquiry-widget></enquiry-widget>
                 </div>
               </li>
 
@@ -1337,7 +1338,7 @@
 
                 </div>
 
-                <div class="row" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'showTutor')">
+                <div class="row" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor')">
                   <span>Configured Notification Messages(showing last 30 days added messages):</span>
                   <a class="pull-right" style="cursor: pointer;" (click)="getAllSavedMessages()">See All Message</a>
 

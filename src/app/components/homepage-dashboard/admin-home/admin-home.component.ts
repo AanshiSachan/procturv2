@@ -15,7 +15,6 @@ import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import { } from '../../../model/enquirycampaign'
 import * as Muuri from 'muuri/muuri';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service'
 import { Chart } from 'angular-highcharts';
@@ -254,7 +253,7 @@ export class AdminHomeComponent implements OnInit {
         this.settingInfo = res;
       },
       err => {
-        console.log(err);
+        
       }
     )
 
@@ -267,7 +266,7 @@ export class AdminHomeComponent implements OnInit {
       }
     )
 
-    this.fetchEnqWidgetData();
+    //this.fetchEnqWidgetData();
     this.fetchFeeWidgetData();
 
     if (this.isProfessional) {
@@ -422,18 +421,6 @@ export class AdminHomeComponent implements OnInit {
 
   updateEnqChart() {
     if (this.chart.ref.series.length > 0) {
-      // let data = this.generateEnqChartData();
-      // let dataFound = false;
-      // data.forEach(ele => {
-      //   if (ele[1] > 0) {
-      //     dataFound = true;
-      //   }
-      // })
-      // if (dataFound) {
-      //   this.chart.ref.series[0].setData(data);
-      // } else {
-
-      // }
       this.chart.ref.series[0].setData(this.generateEnqChartData());
     }
     this.chart.ref.redraw();
@@ -595,7 +582,7 @@ export class AdminHomeComponent implements OnInit {
 
 
   /* deselectSelected() {
-    console.log('fired');
+    //console.log('fired');
     this.selectedRow = null;
      }
    */
@@ -1331,8 +1318,8 @@ export class AdminHomeComponent implements OnInit {
         }
       );
     } else {
-      alert('This scenario is not being replicated please specify set of steps to replicate');
-      console.log(this.classMarkedForAction);
+      //alert('This scenario is not being replicated please specify set of steps to replicate');
+      //console.log(this.classMarkedForAction);
     }
   }
 
@@ -1655,12 +1642,12 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.getAllMasterCourse().subscribe(
       res => {
         this.isRippleLoad = false;
-        console.log(res);
+        //console.log(res);
         this.masterCourseList = res;
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -1681,7 +1668,7 @@ export class AdminHomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -1698,11 +1685,12 @@ export class AdminHomeComponent implements OnInit {
         res => {
           this.isRippleLoad = false;
           this.showTableFlag = true;
+          this.selectedOption = "filter";
           this.studentList = this.addKeys(res, true);
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -1727,7 +1715,7 @@ export class AdminHomeComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -1740,7 +1728,7 @@ export class AdminHomeComponent implements OnInit {
     let obj = { message: this.newMessageText };
     this.widgetService.saveMessageTOServer(obj).subscribe(
       res => {
-        console.log(res);
+        //console.log(res);
         let msg = {
           type: 'success',
           title: 'Message',
@@ -1751,7 +1739,7 @@ export class AdminHomeComponent implements OnInit {
         this.getAllMessageFromServer();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         let msg = {
           type: 'error',
           title: 'Failed To Save Message',
@@ -1785,7 +1773,9 @@ export class AdminHomeComponent implements OnInit {
       } else {
         document.getElementById('divParentOrGaurdian').classList.remove('hide');
       }
-      this.whichCheckBoxSelected();
+      if(this.selectedOption != "filter"){
+        this.whichCheckBoxSelected();  
+      }
     }
   }
 
@@ -1856,11 +1846,11 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.fetchStudentListData(this.sendNotification.batch_id).subscribe(
       res => {
         this.showTableFlag = true;
-        console.log(res);
+        //console.log(res);
         this.studentList = this.addKeys(res, true);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -1914,7 +1904,7 @@ export class AdminHomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     } else {
@@ -1937,7 +1927,7 @@ export class AdminHomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     } else {
@@ -1961,7 +1951,7 @@ export class AdminHomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     } else {
@@ -1985,7 +1975,7 @@ export class AdminHomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     } else {
@@ -2041,11 +2031,11 @@ export class AdminHomeComponent implements OnInit {
     this.messageList = [];
     this.widgetService.getMessageList({ status: 1 }).subscribe(
       res => {
-        console.log(res);
+        //console.log(res);
         this.messageList = this.addKeys(res, false);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -2215,7 +2205,7 @@ export class AdminHomeComponent implements OnInit {
 
     this.widgetService.sendNotification(obj).subscribe(
       res => {
-        console.log(res);
+        //console.log(res);
         let msg = {
           type: 'success',
           title: 'Message',
@@ -2224,7 +2214,7 @@ export class AdminHomeComponent implements OnInit {
         this.appC.popToast(msg);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -2246,7 +2236,7 @@ export class AdminHomeComponent implements OnInit {
     }
     this.widgetService.sendPushNotificationToServer(obj).subscribe(
       res => {
-        console.log(res);
+        //console.log(res);
         let msg = {
           type: 'success',
           title: 'Message',
@@ -2255,7 +2245,7 @@ export class AdminHomeComponent implements OnInit {
         this.appC.popToast(msg);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -2281,10 +2271,11 @@ export class AdminHomeComponent implements OnInit {
         studentArray: this.getListOfIds('student_id'),
         userArray: this.getListOfIds('user_id'),
         user_role: this.loginField.checkBox
-      }
+      };
+      obj.studentArray = obj.studentArray.split(",");
+      obj.userArray = obj.userArray.split(",");
       this.widgetService.smsForAddDownload(obj).subscribe(
         res => {
-          console.log(res);
           let msg = {
             type: 'success',
             title: 'Message',
@@ -2293,7 +2284,7 @@ export class AdminHomeComponent implements OnInit {
           this.appC.popToast(msg);
         },
         err => {
-          console.log(err);
+          //console.log(err);
         }
       )
 
