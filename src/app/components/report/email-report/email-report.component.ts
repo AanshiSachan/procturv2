@@ -24,7 +24,7 @@ export class EmailReportComponent {
     { primaryKey: 'message', header: 'Subject' },
     { primaryKey: 'name', header: 'Name' },
     { primaryKey: 'role', header: 'Role' },
-    { primaryKey: 'sms_type', header: 'Type' }
+    { primaryKey: 'func_type', header: 'Type' }
   ];
 
 
@@ -41,12 +41,8 @@ export class EmailReportComponent {
   ) {
     this.switchActiveView('email');
   }
-
+   
   ngOnInit() {
-    this.getAllEmailMessages();
-  }
-
-  getAllEmailMessages() {
     this.pageIndex = 1;
     this.emailSource = [];
     this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
@@ -55,12 +51,33 @@ export class EmailReportComponent {
         this.totalRecords = res.length;
         this.fetchTableDataByPage(this.pageIndex);
         console.log(res);
+       
       },
       err => {
         console.log(err);
+        
       }
-    )
+    ) 
+    // this.getAllEmailMessages();
   }
+
+  // getAllEmailMessages() {
+  //   this.pageIndex = 1;
+  //   this.emailSource = [];
+  //   this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
+  //     res => {
+  //       this.emailDataSource = res;
+  //       this.totalRecords = res.length;
+  //       this.fetchTableDataByPage(this.pageIndex);
+  //       console.log(res);
+       
+  //     },
+  //     err => {
+  //       console.log(err);
+        
+  //     }
+  //   )
+  // }
 
 
   isTimeValid(): boolean {
@@ -72,11 +89,10 @@ export class EmailReportComponent {
       return false;
     }
   }
-
-
-  fetchemailByDate() {
+   fetchemailByDate() {
     if (this.isTimeValid()) {
-      this.getAllEmailMessages();
+      //this.getAllEmailMessages();
+      this.ngOnInit();
     }
     else {
       let obj = {
@@ -85,7 +101,7 @@ export class EmailReportComponent {
         Body: "From date cannot be greater than To date"
       }
       this.appC.popToast(obj);
-
+      
     }
   }
 
@@ -106,7 +122,7 @@ export class EmailReportComponent {
   //     )
 
   //   }
-
+  
   //   else {
   //     return this.apiService.getEmailMessages(obj).subscribe(
   //       res => {
