@@ -516,6 +516,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentPrefillService.fetchStudentBatchDetails(id).subscribe(
           res => {
             res.forEach(el => {
+              if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+                el.feeTemplateList.forEach(e => {
+                  if (e.is_default == 1) {
+                    el.selected_fee_template_id = e.template_id;
+                  }
+                })
+              }
+              if (el.academic_year_id == '-1') {
+                el.academic_year_id = this.defaultAcadYear;
+              }
               let obj = {
                 isSelected: el.isAssigned == "Y" ? true : false,
                 data: el,
@@ -534,10 +544,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentPrefillService.fetchStudentCourseDetails(id, this.studentAddFormData.standard_id).subscribe(
           res => {
             res.coursesList.forEach(el => {
+              if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+                el.feeTemplateList.forEach(e => {
+                  if (e.is_default == 1) {
+                    el.selected_fee_template_id = e.template_id;
+                  }
+                })
+              }
               if (el.academic_year_id == '-1') {
                 el.academic_year_id = this.defaultAcadYear;
               }
-
               let obj = {
                 isSelected: el.isAssigned == "Y" ? true : false,
                 data: el,
@@ -1346,6 +1362,40 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+  updateMasterCourseList(id) {
+    this.batchList = [];
+    this.studentPrefillService.fetchCourseMasterById(id).subscribe(
+      data => {
+        data.coursesList.forEach(el => {
+          if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+            el.feeTemplateList.forEach(e => {
+              if (e.is_default == 1) {
+                el.selected_fee_template_id = e.template_id;
+              }
+            })
+          }
+          if (el.academic_year_id == '-1') {
+            el.academic_year_id = this.defaultAcadYear;
+          }
+          let obj = {
+            isSelected: false,
+            data: el,
+            assignDate: moment().format('YYYY-MM-DD')
+          }
+          this.batchList.push(obj);
+        });
+      },
+      err => {
+        let msg = {
+          type: 'info',
+          title: 'No Course Assigned For Standard',
+          body: ''
+        }
+        this.appC.popToast(msg);
+      });
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   /* Open batch assign popup */
   openAssignBatch() {
     this.isAssignBatch = true;
@@ -1756,6 +1806,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentPrefillService.fetchStudentCourseDetails(this.student_id, id).subscribe(
           res => {
             res.coursesList.forEach(el => {
+              if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+                el.feeTemplateList.forEach(e => {
+                  if (e.is_default == 1) {
+                    el.selected_fee_template_id = e.template_id;
+                  }
+                })
+              }
+              if (el.academic_year_id == '-1') {
+                el.academic_year_id = this.defaultAcadYear;
+              }
               let obj = {
                 isSelected: el.isAssigned == "Y" ? true : false,
                 data: el,

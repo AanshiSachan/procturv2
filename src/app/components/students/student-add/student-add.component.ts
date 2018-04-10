@@ -350,6 +350,16 @@ export class StudentAddComponent implements OnInit {
       this.studentPrefillService.fetchBatchDetails().subscribe(data => {
         this.batchList = [];
         data.forEach(el => {
+          if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+            el.feeTemplateList.forEach(e => {
+              if (e.is_default == 1) {
+                el.selected_fee_template_id = e.template_id;
+              }
+            })
+          }
+          if (el.academic_year_id == '-1') {
+            el.academic_year_id = this.defaultAcadYear;
+          }
           let obj = {
             isSelected: false,
             data: el,
@@ -369,6 +379,16 @@ export class StudentAddComponent implements OnInit {
       this.studentPrefillService.fetchCourseMasterById(this.studentAddFormData.standard_id).subscribe(data => {
         this.batchList = [];
         data.coursesList.forEach(el => {
+          if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+            el.feeTemplateList.forEach(e => {
+              if (e.is_default == 1) {
+                el.selected_fee_template_id = e.template_id;
+              }
+            })
+          }
+          if (el.academic_year_id == '-1') {
+            el.academic_year_id = this.defaultAcadYear;
+          }
           let obj = {
             isSelected: false,
             data: el,
@@ -510,12 +530,22 @@ export class StudentAddComponent implements OnInit {
     this.studentPrefillService.fetchCourseMasterById(id).subscribe(
       data => {
         data.coursesList.forEach(el => {
+          if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+            el.feeTemplateList.forEach(e => {
+              if (e.is_default == 1) {
+                el.selected_fee_template_id = e.template_id;
+              }
+            })
+          }
+          if (el.academic_year_id == '-1') {
+            el.academic_year_id = this.defaultAcadYear;
+          }
           let obj = {
             isSelected: false,
             data: el,
             assignDate: moment().format('YYYY-MM-DD')
           }
-
+          this.batchList.push(obj);
         });
       },
       err => {
@@ -3867,8 +3897,11 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   downloadFeeReceipt(ins) {
-    //this.fetchService.getFeeReceiptById(ins.display_invoice_no)
-    console.log(ins);
+    this.fetchService.getFeeReceiptById(ins.invoice_no).subscribe( res => {
+    },
+    err => {
+      console.log(err);
+    });
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
