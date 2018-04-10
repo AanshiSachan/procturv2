@@ -1536,7 +1536,7 @@ ul.customDropdown li:hover {
         width: 60%;
         max-height: 360px;
         overflow: auto;
-        .table-wrapper {
+        &.table-wrapper {
             h4 {
                 margin: 0px 0 15px;
                 font-weight: 600;
