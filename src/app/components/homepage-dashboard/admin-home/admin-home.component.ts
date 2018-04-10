@@ -28,9 +28,15 @@ import { WidgetService } from '../../../services/widget.service';
 })
 export class AdminHomeComponent implements OnInit {
 
+  storageData: any = {
+    storage_allocated: 0
+  };
   public isProfessional: boolean = false;
   public grid: any;
-  public instituteSetting: any;
+  public instituteSetting: any = {
+    institute_campaign_sms_quota_available: 0,
+    institute_sms_quota_available: 0
+  };
   public planListArr: any[] = [];
   public enquiryStat: any = {
     totalcount: null,
@@ -268,6 +274,7 @@ export class AdminHomeComponent implements OnInit {
 
     //this.fetchEnqWidgetData();
     this.fetchFeeWidgetData();
+    this.getStorageData();
 
     if (this.isProfessional) {
       this.fetchBatchWidgetData();
@@ -276,6 +283,19 @@ export class AdminHomeComponent implements OnInit {
       this.fetchScheduleWidgetData();
     }
   }
+
+  getStorageData() {
+    this.widgetService.getAllocatedStorageDetails().subscribe(
+      res => {
+        this.storageData= res;
+        //console.log(res);
+      },
+      err => {
+        //console.log(err);
+      }
+    )
+  }
+
 
   generatePlan() {
     this.planListArr.forEach(e => {
@@ -1723,7 +1743,6 @@ export class AdminHomeComponent implements OnInit {
   addNewNotification() {
     this.addNotification = true;
   }
-
   saveNewMessage() {
     let obj = { message: this.newMessageText };
     this.widgetService.saveMessageTOServer(obj).subscribe(
@@ -1731,8 +1750,8 @@ export class AdminHomeComponent implements OnInit {
         //console.log(res);
         let msg = {
           type: 'success',
-          title: 'Message',
-          body: "Saved Successfully"
+          title: 'Message created Successfully',
+          body: " Your request is in queue and process shortly"
         };
         this.appC.popToast(msg);
         this.closeNewMessageDiv();
