@@ -2,6 +2,7 @@ import { Injectable ,} from '@angular/core';
 import {HttpClient,  HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
 import {Observable} from 'rxjs/observable';
+import { error } from 'protractor';
 @Injectable()
 export class AttendanceReportServiceService {
   baseUrl: string = '';
@@ -21,10 +22,14 @@ export class AttendanceReportServiceService {
       { "Content-Type": "application/json", "Authorization": this.Authorization });
 
   }
+  ngOnInit(){
+    this.getMasterCourse();
+  }
   getMasterCourse(){
     let url=this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all" 
     return this.http.get(url , {headers:this.headers}).map(
       data =>{
+        console.log(data);
         return data;
       },
       error=>{
@@ -45,8 +50,7 @@ export class AttendanceReportServiceService {
     )
   }
   getSubject(obj){
-
-    let url=this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + obj
+    let url=this.baseUrl + "/api/v1/courseMaster/fetch/courses/" + this.institute_id + "/" + obj
     return this.http.get(url, {headers:this.headers}).map(
       data =>{
         return data;
@@ -57,6 +61,17 @@ export class AttendanceReportServiceService {
       
     )
 
+  }
+  postDataToTable(obj){
+    let url=this.baseUrl + "/api/v1/reports/attendance";
+    return this.http.post(url ,obj, {headers:this.headers}).map(
+      data =>{
+        return data;
+      },
+      error =>{
+        return error;
+      }
+    )
   }
 
 }
