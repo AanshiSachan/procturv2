@@ -105,6 +105,8 @@ export class StudentAddComponent implements OnInit {
     stuCustomLi: []
   };
 
+  savedAssignedBatch: any[] = [];
+
   formIsActive: boolean = true;
   isRippleLoad: boolean = false;
   private quickAddStudent: boolean = false; private additionalBasicDetails: boolean = false; private isAssignBatch: boolean = false; private isAcad: boolean = false;
@@ -327,8 +329,8 @@ export class StudentAddComponent implements OnInit {
     this.isRippleLoad = true
     this.getInstType();
     this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
-    //console.log(this.taxEnableCheck);
   }
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   ngOnInit() {
@@ -354,8 +356,7 @@ export class StudentAddComponent implements OnInit {
             assignDate: moment().format('YYYY-MM-DD')
           }
           this.batchList.push(obj);
-
-        })
+        });
       });
     }
     else if (!this.isProfessional) {
@@ -514,7 +515,7 @@ export class StudentAddComponent implements OnInit {
             data: el,
             assignDate: moment().format('YYYY-MM-DD')
           }
-          this.batchList.push(obj);
+
         });
       },
       err => {
@@ -706,7 +707,7 @@ export class StudentAddComponent implements OnInit {
       let customComp = this.studentPrefillService.fetchCustomComponent().subscribe(
         data => {
           data.forEach(el => {
-              
+
             let obj = {
               data: el,
               id: el.component_id,
@@ -746,7 +747,7 @@ export class StudentAddComponent implements OnInit {
                 type: el.type,
                 value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
               }
-            }              
+            }
             if (el.type == 2) {
               obj = {
                 data: el,
@@ -775,8 +776,8 @@ export class StudentAddComponent implements OnInit {
                 value: el.enq_custom_value
               }
             }
-            
-              this.customComponents.push(obj);
+
+            this.customComponents.push(obj);
           });
           this.isRippleLoad = false;
         },
@@ -853,7 +854,36 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* close batch assign popup */
   closeBatchAssign() {
-    this.isAssignBatch = false;
+    /* batch has been already selected */
+    if (this.studentAddFormData.assignedBatches != null && this.studentAddFormData.assignedBatches.length != 0) {
+      for (let i in this.batchList) {
+        if (this.isProfessional) {
+          /* course has been assigned */
+          if (this.studentAddFormData.assignedBatches.includes(this.batchList[i].data.batch_id.toString())) {
+            this.batchList[i].isSelected = true;
+          }
+          else {
+            this.batchList[i].isSelected = false;
+          }
+        }
+        else {
+          /* course has been assigned */
+          if (this.studentAddFormData.assignedBatches.includes(this.batchList[i].data.course_id.toString())) {
+            this.batchList[i].isSelected = true;
+          }
+          else {
+            this.batchList[i].isSelected = false;
+          }
+        }
+      }
+      this.isAssignBatch = false;
+    }
+    else if (this.studentAddFormData.assignedBatches == null || this.studentAddFormData.assignedBatches.length == 0) {
+      for (let i in this.batchList) {
+        this.batchList[i].isSelected = false;
+      }
+      this.isAssignBatch = false;
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -863,23 +893,23 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.assignedBatches = [];
     this.studentAddFormData.batchJoiningDates = [];
     this.studentAddFormData.assignedBatchescademicYearArray = [""];
-    this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [""]
-    this.batchList.forEach(el => {
-      if (el.isSelected) {
-        if (el.assignDate != "" && el.assignDate != null && el.assignDate != "Invalid date") {
+    this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [""];
+    for (let i in this.batchList) {
+      if (this.batchList[i].isSelected) {
+        if (this.batchList[i].assignDate != "" && this.batchList[i].assignDate != null && this.batchList[i].assignDate != "Invalid date") {
           if (this.isProfessional) {
-            this.studentAddFormData.assignedBatches.push(el.data.batch_id.toString());
-            this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
-            this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
-            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
-            batchString.push(el.data.batch_name);
+            this.studentAddFormData.assignedBatches.push(this.batchList[i].data.batch_id.toString());
+            this.studentAddFormData.batchJoiningDates.push(moment(this.batchList[i].assignDate).format('YYYY-MM-DD'));
+            this.studentAddFormData.assignedBatchescademicYearArray.push(this.batchList[i].data.academic_year_id);
+            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(this.batchList[i].data.selected_fee_template_id);
+            batchString.push(this.batchList[i].data.batch_name);
           }
           else {
-            this.studentAddFormData.assignedBatches.push(el.data.course_id.toString());
-            this.studentAddFormData.batchJoiningDates.push(moment(el.assignDate).format('YYYY-MM-DD'));
-            this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
-            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
-            batchString.push(el.data.course_name);
+            this.studentAddFormData.assignedBatches.push(this.batchList[i].data.course_id.toString());
+            this.studentAddFormData.batchJoiningDates.push(moment(this.batchList[i].assignDate).format('YYYY-MM-DD'));
+            this.studentAddFormData.assignedBatchescademicYearArray.push(this.batchList[i].data.academic_year_id);
+            this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(this.batchList[i].data.selected_fee_template_id);
+            batchString.push(this.batchList[i].data.course_name);
           }
         }
         else {
@@ -891,14 +921,17 @@ export class StudentAddComponent implements OnInit {
           this.appC.popToast(alert);
         }
       }
-    });
+    }
+
     if (batchString.length != 0) {
       document.getElementById('assignCoursesParent').classList.add('has-value');
       this.assignedBatchString = batchString.join(',');
-      this.closeBatchAssign();
+      this.isAssignBatch = false;
+      //this.closeBatchAssign();
     }
     else {
-      this.closeBatchAssign();
+      this.isAssignBatch = false;
+      //this.closeBatchAssign();
     }
   }
   /* ============================================================================================================================ */
@@ -1472,7 +1505,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* arg1::studentComp arg2:: enquiryComp */
   updateEnquiryComponent(id): any {
-    
+
     this.enquiryCustomComp.forEach(el => {
 
       if (el.component_id == id && el.type == 4) {
@@ -2463,7 +2496,7 @@ export class StudentAddComponent implements OnInit {
 
     this.userCustommizedFee.forEach(el => {
       el.due_date = moment(el.due_date).format("YYYY-MM-DD");
- 
+
       /* Taxes Here */
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         let tax = el.initial_fee_amount * (this.service_tax / 100);
@@ -2473,32 +2506,32 @@ export class StudentAddComponent implements OnInit {
         this.service_tax = 0;
         this.totalTaxAmount = 0;
       }
- 
+
       if (el.is_referenced == "N") {
         this.totalAmountDue += el.fees_amount
       }
- 
-       /* AMount Paid */
-       else if (el.is_referenced == "Y") {
+
+      /* AMount Paid */
+      else if (el.is_referenced == "Y") {
         /* Partial Paid */
-        if(el.is_partially_paid == 1){
+        if (el.is_partially_paid == 1) {
           this.totalPaidAmount += el.amount_paid;
           this.totalAmountDue += el.balance_amount
         }
         /* Fully Paid */
-        else if(el.is_partially_paid == 0){
+        else if (el.is_partially_paid == 0) {
           this.totalPaidAmount += el.amount_paid;
         }
       }
-     
+
 
       this.totalFeeWithTax += parseInt(el.fees_amount);
-     
+
       let obj = {
         uiSelected: el.is_referenced == "Y" ? true : false,
         isPaid: el.is_referenced == "Y" ? true : false
       }
-      
+
       this.paymentStatusArr.push(obj);
 
     });
@@ -2522,7 +2555,7 @@ export class StudentAddComponent implements OnInit {
       template_effective_date: "",
       template_id: ""
     }
-   
+
     this.isFeeApplied = true;
     this.isPaymentPdc = false;
     obj.customFeeSchedules = this.getFeeStructure(this.userCustommizedFee);
@@ -2554,7 +2587,7 @@ export class StudentAddComponent implements OnInit {
       }
     );
   }
- 
+
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getCustomizedFee(arr: any[]): any[] {
@@ -2615,7 +2648,7 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  updateStudentFeeDetails(){
+  updateStudentFeeDetails() {
     this.deselectAllSelectedCheckbox();
     this.installmentMarkedForPayment = [];
     this.isRippleLoad = true;
@@ -2638,7 +2671,7 @@ export class StudentAddComponent implements OnInit {
 
     this.fetchService.fetchStudentFeeDetailById(this.student_id).subscribe(
       res => {
-        this.paymentStatusArr=[];
+        this.paymentStatusArr = [];
         this.isRippleLoad = false;
         if (res.customFeeSchedules != null) {
           this.totalAmountPaid = res.studentwise_total_fees_amount;
@@ -2659,44 +2692,44 @@ export class StudentAddComponent implements OnInit {
           this.discountReason = res.discount_fee_reason;
           this.userCustommizedFee.forEach(el => {
             el.due_date = moment(el.due_date).format("YYYY-MM-DD");
-       
+
             /* Taxes Here */
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
               let tax = el.fees_amount - el.initial_fee_amount;
               this.totalTaxAmount += this.precisionRound(tax, -1);
             }
-       
+
             else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
               this.service_tax = 0;
               this.totalTaxAmount = 0;
             }
-       
+
             if (el.is_referenced == "N") {
               this.totalAmountDue += el.fees_amount
             }
-       
-             /* AMount Paid */
-             else if (el.is_referenced == "Y") {
+
+            /* AMount Paid */
+            else if (el.is_referenced == "Y") {
               /* Partial Paid */
-              if(el.is_partially_paid == 1){
+              if (el.is_partially_paid == 1) {
                 this.totalPaidAmount += el.amount_paid;
                 this.totalAmountDue += el.balance_amount
               }
               /* Fully Paid */
-              else if(el.is_partially_paid == 0){
+              else if (el.is_partially_paid == 0) {
                 this.totalPaidAmount += el.amount_paid;
               }
             }
-           
+
 
             this.totalFeeWithTax += parseInt(el.fees_amount);
-           
+
             let obj = {
               uiSelected: el.is_referenced == "Y" ? true : false,
               isPaid: el.is_referenced == "Y" ? true : false
             }
-            
+
             this.paymentStatusArr.push(obj);
 
           });
@@ -2753,7 +2786,7 @@ export class StudentAddComponent implements OnInit {
         }
 
       },
-      err => { 
+      err => {
         this.isRippleLoad = false;
         let obj = {
           type: "error",
@@ -3430,8 +3463,8 @@ export class StudentAddComponent implements OnInit {
     this.installmentMarkedForPayment = [];
     this.paymentStatusArr.forEach(e => { e.uiSelected = false; });
     this.feeTemplateById.customFeeSchedules.forEach(e => {
-      if(e.is_referenced == "N"){
-        e.is_paid = 0;     
+      if (e.is_referenced == "N") {
+        e.is_paid = 0;
       }
     });
   }
@@ -4163,8 +4196,8 @@ export class StudentAddComponent implements OnInit {
         previous_balance_amt: previous,
         total_amt_paid: paid,
       }
-      
-      if(obj.total_amt_paid != 0){
+
+      if (obj.total_amt_paid != 0) {
         temp.push(obj);
       }
     })

@@ -271,9 +271,7 @@
                 </div>
 
                 <div id="assignCoursesParent" class="field-wrapper field-view" 
-                 style="height:auto"*ngIf="isAcad" (click)="openAssignBatch()">
-
-
+                 style="height:auto" *ngIf="isAcad" (click)="openAssignBatch()">
                   <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" [ngModel]="assignedBatchString" name="assignCourses"
                     class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
                   <label (click)="openAssignBatch()" for="assignCourses">
@@ -288,7 +286,7 @@
                 <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.standard_id != ''}">
                   <select id="masterCourse" name="masterCourse" [(ngModel)]="studentAddFormData.standard_id" (ngModelChange)="fetchCourseFromMaster($event)"
                     class="form-ctrl">
-                    <option></option>
+                    <option value="-1"></option>
                     <option *ngFor="let course of standardList" [value]="course.standard_id">
                       {{course.standard_name}}
                     </option>
@@ -333,8 +331,8 @@
                   <label for="status">Status</label>
                 </div>
 
-                <div id="assignCoursesParent" class="field-wrapper" *ngIf="isProfessional" (click)="openAssignBatch()">
-                  <textarea style="height: 100px;padding: 5px;" name="assignCoursesParent" cols="1" rows="1" [ngModel]="assignedBatchString"
+                <div id="assignCoursesParent" class="field-wrapper" style="height:auto" *ngIf="isProfessional" (click)="openAssignBatch()">
+                  <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" cols="1" rows="1" [ngModel]="assignedBatchString"
                     name="assignCourses" class="form-ctrl" readonly="true"></textarea>
                   <label (click)="openAssignBatch()" for="assignCourses">Assign Batch</label>
                 </div>
