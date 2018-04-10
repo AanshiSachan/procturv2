@@ -3895,13 +3895,51 @@ export class StudentAddComponent implements OnInit {
     }
   }
   /* ============================================================================================================================ */
+  /* convert base64 string to byte array */
+  convertBase64ToArray(val) {
+
+    var binary_string = window.atob(val);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+
+  }
   /* ============================================================================================================================ */
   downloadFeeReceipt(ins) {
-    this.fetchService.getFeeReceiptById(ins.invoice_no).subscribe( res => {
-    },
-    err => {
-      console.log(err);
+    let yr: any;
+    if (ins.financial_year == null) {
+      ins.financial_year = this.defaultAcadYear
+    }
+    this.academicYear.forEach(e => {
+     if(ins.financial_year == e.inst_acad_year_id){
+       yr = e.inst_acad_year
+     } 
     });
+    this.fetchService.getFeeReceiptById(this.student_id,ins.invoice_no, yr).subscribe(
+      res => {
+        console.log(res);
+        console.log(JSON.parse(res.json()._body))
+        /* 
+        let byteArr = this.convertBase64ToArray(res.document);
+        let format = res.format;
+        let fileName = res.docTitle;
+        let fileId: string = el.list_id.toString();
+        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(file);
+        let dwldLink = document.getElementById(fileId);
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", fileName);
+        dwldLink.innerText = 'Download Report';
+        */
+      },
+      err => {
+
+      }
+    )
+
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
