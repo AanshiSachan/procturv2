@@ -367,15 +367,19 @@
                     <ul>
                       <li>
                         <label>Total active students</label>
-                        <a>{{genralStats.total}} Students of {{genralStats.student_limit}}</a>
+                        <a>{{genralStats.total}}/{{genralStats.student_limit}}</a>
                       </li>
                       <li>
-                        <label>Sms balance</label>
-                        <a>{{genralStats.sms}}</a>
+                        <label> Transactional Sms balance</label>
+                        <a>{{instituteSetting.institute_sms_quota_available}}</a>
                       </li>
+                      <li>
+                          <label>Promotional Sms balance</label>
+                          <a>{{instituteSetting.institute_campaign_sms_quota_available}}</a>
+                        </li>
                       <li>
                         <label>Download limit</label>
-                        <a>{{genralStats.download}} GB</a>
+                        <a>{{storageData.storage_allocated}} MB</a>
                       </li>
                       <li>
                         <label>Expiry date</label>

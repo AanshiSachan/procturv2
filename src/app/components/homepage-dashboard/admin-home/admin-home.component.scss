@@ -1760,6 +1760,9 @@ div#enqChart {
 
 .notification-content-wrapper {
     padding: 0px 10px 0px 15px;
+    max-height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
     .row {
         margin: 10px 0px 10px 0px;
     }
