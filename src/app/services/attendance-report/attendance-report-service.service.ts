@@ -73,5 +73,17 @@ export class AttendanceReportServiceService {
       }
     )
   }
+  postDetailedData(obj){
+    let url=this.baseUrl + "/api/v1/reports/attendance/monthlyAttendanceReport";
+    return this.http.post(url, obj, {headers:this.headers}).map(
+      data =>{
+        return data;
+      },
+      error=>{
+        return error;
+      }
 
+    )
+  }
+  
 }

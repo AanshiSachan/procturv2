@@ -41,7 +41,7 @@
                     </div>
                     <div class="c-sm-4 c-md-4 c-xs-4 c-lg-4 form-wrapper datePickerBox has-value">
                         <button class="btn" (click)="getPostData()">Summary Report</button>
-                        <button class="btn">Detail Report</button>
+                        <button class="btn" (click)="postDetails()">Detail Report</button>
                     </div>
                 </div>
             </div>
@@ -109,6 +109,92 @@
                     </tr>
                 </tbody>
             </table>
+            <!--popup here-->
+            <section id="popup" class="popupWrapper fadeIn" *ngIf="addReportPopUp">
+                <div class="popup pos-abs popup-body-container">
+                  <div class="popup-wrapper pos-rel">
+                    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeReportPopup()">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                          </g>
+                          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                          />
+                        </g>
+                      </svg>
+                    </span>
+                    <div class="popup-content student-assign-popup">
+                      <h2 >Date Wise Attendance Report</h2>
+                      <h5 >({{attendanceIndex0.class_date}} to {{attendanceIndexiOf.class_date}})</h5>
+
+                     <table>
+                         <thead>
+                             <tr>
+                                 <th>
+                                     Student Id
+                                 </th>
+                                 <th>
+                                    Student Name
+                                </th>
+                                <th>
+                                    Total Present
+                                </th>
+                                <th>
+                                    Total absent
+                                </th>
+                                <th>
+                                    Total leave
+                                </th>
+                                <th *ngFor="let k of typeAttendance">
+                                    {{k.class_date}}<br>
+                                    ({{k.start_time}}) to ({{k.end_time}})
+                                </th>
+                                <th>
+                                    Percentage
+                                </th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr *ngFor="let i of pageDetailedData; let j=index">
+                                 <td>
+                                        {{i.student_id}}
+                                 </td>
+                                 <td>
+                                     {{i.student_name}}
+                                 </td>
+                                 <td>
+                                     {{i.total_attended}}
+                                 </td>
+                                 <td>
+                                     {{i.total_absent}}
+                                 </td>
+                                 <td>
+                                     {{i.total_leave}}
+                                 </td>
+                                <td *ngFor="let k of typeAttendance">
+                                    {{k.status}}
+                                </td>
+                                <td>
+                                    {{i.spent_percentage}}%
+                                </td>
+                             </tr>
+                         </tbody>
+                     </table>
+                     <div class="row filter-res pagination" style="width: 100%;">
+                        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                            <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
+                                [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+                            </pagination>
+                        </div>
+                    </div>
+                         
+                    </div>
+                  </div>
+                </div>
+              </section>
+              
             <!-- Paginator Here -->
             <div class="row filter-res pagination" style="width: 100%;">
                 <div class="c-lg-12 c-md-12 c-sm-12 align-right">
