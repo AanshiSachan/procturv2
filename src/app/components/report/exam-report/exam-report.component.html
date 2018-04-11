@@ -11,45 +11,53 @@
             <div class="row">
                 <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
                     <label>Master Course</label>
-                    <select class="side-form-ctrl" [(ngModel)]="masterData" (ngModelChange)="getCourseData($event)" name="masterCourse">
+                    <select class="side-form-ctrl" [(ngModel)]="masterData" (ngModelChange)="getCourseData($event)"  name="masterCourse">
                         <option value="" selected>Master Course</option>
-                        <option *ngFor="let i of masterCourses" [value]="i.standard_name">{{i.standard_name}}</option>
+                        <option *ngFor="let i of masterCourses" [value]="i.master_course">{{i.master_course}}</option>
                     </select>
                 </div>
                 <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper" >
                     <label> Course</label>
-                    <select class="side-form-ctrl" [(ngModel)]="courseData" (ngModelChange)="getSubjectData($event)">
+                    <select class="side-form-ctrl" [(ngModel)]="CourseData" (ngModelChange)="getSubData($event)">
                         <option value="" selected>Course</option>
-                        <option *ngFor="let i of courseData" [value]="i.course_id" name="subjectCourse">{{i.course_name}}</option>
+                        <option *ngFor="let i of courseData" [value]="i.course_id" name="Course">{{i.course_name}}</option>
                     </select>
                 </div>
                 <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
                     <label>Subject</label>
-                    <select class="side-form-ctrl" [(ngModel)]="batchesData" >
-                        <option value="" selected>Batch Course</option>
-                        <option *ngFor="let i of batchesData" [value]="i.batch_id" name="batchCourse">{{i.batch_name}}</option>
+                    <select class="side-form-ctrl" [(ngModel)]="Subjectdata" (ngModelChange)="getExamScheduleData($event)">
+                        <option value="" selected>Subject</option>
+                        <option *ngFor="let i of SubjectData" [value]="i.batch_id" name="Subject">{{i.subject_name}}</option>
                     </select>
                 </div>
                 <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
-                    <label>Subject</label>
-                    <select class="side-form-ctrl" [(ngModel)]="batchesData" >
+                    <label>Exam Schedule</label>
+                    <select class="side-form-ctrl" [(ngModel)]="Exam_sche_Data">
                         <option value="" selected>Exam Schedule</option>
-                        <option *ngFor="let i of batchesData" [value]="i.batch_id" name="batchCourse">{{i.batch_name}}</option>
+                        <option *ngFor="let i of Exam_Sch_Data" [value]="i.schd_id" name="Exam Schedule">{{i.exam_date}}({{i.start_time}}-{{i.end_time}})</option>
                     </select>
                 </div>
                 <div class="c-lg-4 c-md-4 c-sm-4 pull-Right">
                     <div class="btn-sms-search">
                       <input type="button" class="normal-btn fullBlue btn" value="View" 
-                      (click)="fetchSmsByDate()"/>
+                      (click)="fetchExamReport()"/>
                       <input type="button" class="normal-btn fullBlue btn" value="DetailReport" 
                       (click)="fetchSmsByDate()"/>
                       
                     </div>
-                  
-                
-                
-                </div>
+            </div>
             </div>
         </section>
     </aside>   
 </div>
+
+<section class="sms-table-wrapper" *ngIf= "Tdata">
+
+        <div class="table table-responsive student-table">
+
+
+
+          <proctur-table [records]="ExamSource" [tableName]="'Exam'" [settings]="projectSettings">
+          </proctur-table>
+        </div>
+</section>
