@@ -1,6 +1,6 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
- 
+
 <section class="mainHomePage">
 
   <section class="activity-page">
@@ -233,7 +233,7 @@
                         </li>
                       </ul>
                     </div>
-                    <div class="schedule-bottom"> 
+                    <div class="schedule-bottom">
                       <ul class="sche-head" *ngIf="!isProfessional && isSubjectView">
                         <li>Timings</li>
                         <li class="cls-type">Class type</li>
@@ -247,6 +247,7 @@
                       <ul class="sche-head" *ngIf="isProfessional">
                         <li>Timings</li>
                         <li class="cls-type">Class type</li>
+                        <li>Class Room</li>
                         <li>Batch</li>
                         <li>Faculty</li>
                       </ul>
@@ -375,9 +376,9 @@
                         <a>{{instituteSetting.institute_sms_quota_available}}</a>
                       </li>
                       <li>
-                          <label>Promotional Sms balance</label>
-                          <a>{{instituteSetting.institute_campaign_sms_quota_available}}</a>
-                        </li>
+                        <label>Promotional Sms balance</label>
+                        <a>{{instituteSetting.institute_campaign_sms_quota_available}}</a>
+                      </li>
                       <li>
                         <label>Download limit</label>
                         <a>{{storageData.storage_allocated}} MB</a>
@@ -415,7 +416,7 @@
     </span>
 
     <h2 widget-header>Mark / Update Attendance
-      <span style="font-weight: normal; font-size: 0.8em">: {{classMarkedForAction.batch_name}} - {{studentAttList.length}}</span>
+      <span style="font-weight: normal; font-size: 0.8em">: {{classMarkedForAction.batch_name}}</span>
     </h2>
 
     <hr>
@@ -706,7 +707,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeRemiderClass()">
-          <input type="button" value="Continue" (click)="sendReminder()" class="redBtn btn">
+          <input type="button" value="Continue" (click)="sendReminder()" class="btn fullBlue">
         </aside>
       </div>
     </div>
@@ -807,7 +808,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeRescheduleClass()">
-          <input type="button" value="Reschedule Class" (click)="rescheduleClass()" class="redBtn btn">
+          <input type="button" value="Reschedule Class" (click)="rescheduleClass()" class="fullBlue btn">
         </aside>
       </div>
     </div>
@@ -933,7 +934,7 @@
       <div class="clearfix" style="padding-top: 15px">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCourseLevelAttendance()">
-          <input type="button" value="Update" (click)="updateCourseAttendance()" class="redBtn btn">
+          <input type="button" value="Update" (click)="updateCourseAttendance()" class="fullBlue btn">
         </aside>
       </div>
     </div>
@@ -980,7 +981,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCourseCancelClass()">
-          <input type="button" value="Update Schedule" (click)="cancelCourseClass()" class="redBtn btn">
+          <input type="button" value="Update Schedule" (click)="cancelCourseClass()" class="fullBlue btn">
         </aside>
       </div>
     </div>
@@ -1143,7 +1144,7 @@
                 </div>
 
                 <div class="c-sm-3 c-md-3 c-lg-3">
-                  <button class="btn" style=" margin-top: 15px;" (click)="fetchDataFromFields()">Go</button>
+                  <button class="btn fullBlue" style=" margin-top: 15px;" (click)="fetchDataFromFields()">Go</button>
                 </div>
 
               </div>
@@ -1166,7 +1167,7 @@
 
                 <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
                   <input type="checkbox" value="" name="aluminiStudent" (click)="chkBoxAllAluminiStudent($event)" class="form-checkbox" id="chkBoxAluminiSelection">
-                  <label for="aluminiStudent" style=" margin-left: 10px;">All Alumini Students</label>
+                  <label for="aluminiStudent" style=" margin-left: 10px;">All Alumni Students</label>
                 </div>
               </div>
 
@@ -1176,7 +1177,7 @@
                     <tr>
                       <th>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus(studentList)" (click)="checkAllChechboxes($event , studentList)">
+                          <input type="checkbox" class="form-checkbox" [checked]="allChecked" (click)="checkAllChechboxes($event , studentList)">
                           <label></label>
                         </div>
                       </th>
@@ -1204,7 +1205,7 @@
                     <tr *ngFor="let row of studentList; let i = index; trackBy: i;">
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                          <input type="checkbox" class="form-checkbox" (ngModelChange)="onCheckBoxEvent($event , row)" [(ngModel)]="row.assigned">
                           <label></label>
                         </div>
                       </td>
@@ -1241,7 +1242,7 @@
                     <tr>
                       <th>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus(studentList)" (click)="checkAllChechboxes($event , studentList)">
+                          <input type="checkbox" class="form-checkbox" [checked]="allChecked" (click)="checkAllChechboxes($event , studentList)">
                           <label></label>
                         </div>
                       </th>
@@ -1263,7 +1264,7 @@
                     <tr *ngFor="let row of studentList; let i = index; trackBy: i;">
                       <td>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                          <input type="checkbox" class="form-checkbox" (ngModelChange)="onCheckBoxEvent($event , row)" [(ngModel)]="row.assigned">
                           <label></label>
                         </div>
                       </td>
@@ -1280,7 +1281,7 @@
                         {{row.is_active}}
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="studentList.length == 0">
                       <td colspan="5">
                         No Faculty Data Found
                       </td>
@@ -1298,8 +1299,8 @@
             <div id="divSendMessage" class="hide">
               <div class="row">
                 <div class="field-checkbox-wrapper">
-                  <input type="checkbox" (click)="changeCurrentView($event)" value="" name="loginMessage" class="form-checkbox" id="">
-                  <label for="loginMessage" style=" margin-left: 10px;">Send Login Message</label>
+                  <input type="checkbox" (click)="changeCurrentView($event)" value="" name="loginMessage" class="form-checkbox" id="sendLoginChkbx">
+                  <label for="sendLoginChkbx" style=" margin-left: 10px;">Send Login Message</label>
                 </div>
               </div>
 
@@ -1402,7 +1403,7 @@
 
                 <div class="pull-right" *ngIf="studentSelected">
                   <button class="btn" (click)="sendNotificationMessage()">Send</button>
-                  <button class="btn" *ngIf="selectedOption == 'showTable'" (click)="sendPushNotification()">Send Push Notification</button>
+                  <button class="btn" *ngIf="selectedOption == 'showTable' || selectedOption == 'filter'" (click)="sendPushNotification()">Send Push Notification</button>
                 </div>
 
               </div>
@@ -1426,7 +1427,7 @@
                   </div>
                 </div>
 
-                <div class="" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'showTutor')">
+                <div class="" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor')">
                   <button class="btn" (click)="sendSmsForApp('1')">Send SMS For App Download</button>
                   <button class="btn" (click)="sendSmsForApp('2')">Send SMS For App Upgradation</button>
                   <button class="btn" (click)="sendSmsForApp('3')">Send SMS For Alternate Login Registration</button>

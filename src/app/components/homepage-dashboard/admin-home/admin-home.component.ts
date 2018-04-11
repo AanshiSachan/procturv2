@@ -259,7 +259,7 @@ export class AdminHomeComponent implements OnInit {
         this.settingInfo = res;
       },
       err => {
-        
+
       }
     )
 
@@ -287,7 +287,7 @@ export class AdminHomeComponent implements OnInit {
   getStorageData() {
     this.widgetService.getAllocatedStorageDetails().subscribe(
       res => {
-        this.storageData= res;
+        this.storageData = res;
         //console.log(res);
       },
       err => {
@@ -1703,6 +1703,7 @@ export class AdminHomeComponent implements OnInit {
       }
       this.widgetService.getStudentListOfCourse(obj).subscribe(
         res => {
+          this.allChecked = true;
           this.isRippleLoad = false;
           this.showTableFlag = true;
           this.selectedOption = "filter";
@@ -1783,6 +1784,10 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById(id).classList.add('active');
     document.getElementById(div).classList.remove('hide');
     document.getElementById('divParentOrGaurdian').classList.remove('hide');
+    document.getElementById('chkbxEmailSend').checked = false;
+    document.getElementById('sendLoginChkbx').checked = false;
+    document.getElementById('divMessageTextbox').value = "";
+    document.getElementById('divSubjectMessage').value = "";
     if (div == "divSendMessage") {
       this.showViewContent();
       this.getAllMessageFromServer();
@@ -1792,8 +1797,8 @@ export class AdminHomeComponent implements OnInit {
       } else {
         document.getElementById('divParentOrGaurdian').classList.remove('hide');
       }
-      if(this.selectedOption != "filter"){
-        this.whichCheckBoxSelected();  
+      if (this.selectedOption != "filter") {
+        this.whichCheckBoxSelected();
       }
     }
   }
@@ -1874,12 +1879,18 @@ export class AdminHomeComponent implements OnInit {
     )
   }
 
-  checkCheckAllChkboxStatus(data) {
-    data.forEach(element => {
-      if (element.assigned == false) {
+  allChecked: boolean = true;
+  onCheckBoxEvent(event, row) {
+    row.assigned = event;
+    this.allChecked = this.checkCheckAllChkboxStatus();
+  }
+
+  checkCheckAllChkboxStatus() {
+    for (let i = 0; i < this.studentList.length; i++) {
+      if (this.studentList[i].assigned == false) {
         return false;
       }
-    });
+    }
     return true;
   }
 
@@ -1912,6 +1923,7 @@ export class AdminHomeComponent implements OnInit {
   chkBoxAllActiveStudent(event) {
     this.clearDropDownBinding();
     if (event.target.checked) {
+      this.allChecked = true;
       this.clearCheckBoxSelction(event.target.id);
       this.isRippleLoad = true;
       this.studentList = [];
@@ -1935,6 +1947,7 @@ export class AdminHomeComponent implements OnInit {
   chkBoxAllTeacher(event) {
     this.clearDropDownBinding();
     if (event.target.checked) {
+      this.allChecked = true;
       this.clearCheckBoxSelction(event.target.id);
       this.isRippleLoad = true;
       this.studentList = [];
@@ -1959,6 +1972,7 @@ export class AdminHomeComponent implements OnInit {
   chkBoxAllInActiveStudent(event) {
     this.clearDropDownBinding();
     if (event.target.checked) {
+      this.allChecked = true;
       this.clearCheckBoxSelction(event.target.id);
       this.isRippleLoad = true;
       this.studentList = [];
@@ -1983,6 +1997,7 @@ export class AdminHomeComponent implements OnInit {
   chkBoxAllAluminiStudent(event) {
     this.clearDropDownBinding();
     if (event.target.checked) {
+      this.allChecked = true;
       this.clearCheckBoxSelction(event.target.id);
       this.isRippleLoad = true;
       this.studentList = [];
@@ -2069,35 +2084,43 @@ export class AdminHomeComponent implements OnInit {
     return id.join(',');
   }
 
+  getSubject() {
+    let text = document.getElementById('divSubjectMessage').value;
+    if (text.trim() == "" && text.trim() == null) {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: "Please enter subject for email"
+      };
+      this.appC.popToast(msg);
+      return false;
+    } else {
+      return text;
+    }
+  }
+
+  getMessageText() {
+    let text = document.getElementById('divMessageTextbox').value;
+    if (text.trim() == "" && text.trim() == null) {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: "Please enter subject for email"
+      };
+      this.appC.popToast(msg);
+      return false;
+    } else {
+      return text;
+    }
+  }
+
   validateAllFields() {
     if (this.showEmailSubject) {
-      let text = document.getElementById('divSubjectMessage').value;
-      if (text.trim() == "" && text.trim() == null) {
-        let msg = {
-          type: 'error',
-          title: 'Error',
-          body: "Please enter subject for email"
-        };
-        this.appC.popToast(msg);
-        return false;
-      } else {
-        return text;
-      }
+      return this.getSubject();
     }
 
     if (this.selectedOption == "showTextBox") {
-      let text = document.getElementById('divMessageTextbox').value;
-      if (text.trim() == "" && text.trim() == null) {
-        let msg = {
-          type: 'error',
-          title: 'Error',
-          body: "Please enter subject for email"
-        };
-        this.appC.popToast(msg);
-        return false;
-      } else {
-        return text;
-      }
+      return this.getMessageText();
     }
     return "";
   }
@@ -2153,7 +2176,7 @@ export class AdminHomeComponent implements OnInit {
       return 0;
     } else if (student == false && parent == true && gaurdian == false) {
       return 1;
-    } else if (student = false && parent == false && gaurdian == true) {
+    } else if (student == false && parent == false && gaurdian == true) {
       return 3;
     } else if (student && parent && gaurdian == false) {
       return 2;
@@ -2178,19 +2201,20 @@ export class AdminHomeComponent implements OnInit {
   sendNotificationMessage() {
     let messageSelected: any;
     let configuredMessage: boolean = false;
+    let check = this.validateAllFields();
+    if (check === false) {
+      return;
+    }
     if (this.selectedOption == "showTextBox") {
-      messageSelected = { message: '', messageId: '' };
+      messageSelected = { message: this.getMessageText(), messageId: -1 };
       configuredMessage = false;
+      check = this.getSubject();
     } else {
       messageSelected = this.getNotificationMessage();
       configuredMessage = true;
     }
     if (messageSelected === false) {
       return
-    }
-    let check = this.validateAllFields();
-    if (check === false) {
-      return;
     }
     let delivery_mode = this.getDeliveryModeValue();
     if (delivery_mode === false) {
@@ -2207,30 +2231,38 @@ export class AdminHomeComponent implements OnInit {
     } else {
       batch_id = this.sendNotificationCourse.course_id;
     }
+    let studentID: any;
+    let isTeacherSMS: number = 0;
+    if (this.selectedOption == "showTutor") {
+      studentID = this.getListOfIds('teacher_id');
+      isTeacherSMS = 1;
+      destination = 0;
+    } else {
+      studentID = this.getListOfIds('student_id');
+    }
     let obj = {
       delivery_mode: Number(delivery_mode),
       notifn_message: messageSelected.message,
       notifn_subject: check,
       destination: Number(destination),
-      student_ids: this.getListOfIds('student_id'),
-      batch_id: batch_id,
+      student_ids: studentID,
       cancel_date: '',
       isEnquiry_notifn: 0,
       isAlumniSMS: 0,
-      isTeacherSMS: 0,
+      isTeacherSMS: isTeacherSMS,
       configuredMessage: configuredMessage,
       message_id: messageSelected.messageId
     }
 
     this.widgetService.sendNotification(obj).subscribe(
       res => {
-        //console.log(res);
         let msg = {
           type: 'success',
           title: 'Message',
           body: "Send Successfully"
         };
         this.appC.popToast(msg);
+        this.closeNotificationPopUp();
       },
       err => {
         //console.log(err);

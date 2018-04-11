@@ -155,7 +155,9 @@ export class CourseCourseListComponent implements OnInit {
       (res: any) => {
         res.forEach(element => {
           if (element.assigned_fee_template_id == -1) {
-            element.assigned_fee_template_id = this.deafultTemplate.template_id;
+            if (this.deafultTemplate != null && this.deafultTemplate != "" && this.deafultTemplate.length > 0) {
+              element.assigned_fee_template_id = this.deafultTemplate.template_id;
+            }
           }
         });
         this.studentListDataSource = this.keepCloning(res);
