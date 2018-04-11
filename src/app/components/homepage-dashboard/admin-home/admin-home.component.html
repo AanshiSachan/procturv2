@@ -247,6 +247,7 @@
                       <ul class="sche-head" *ngIf="isProfessional">
                         <li>Timings</li>
                         <li class="cls-type">Class type</li>
+                        <li>Class Room</li>
                         <li>Batch</li>
                         <li>Faculty</li>
                       </ul>
@@ -415,7 +416,7 @@
     </span>
 
     <h2 widget-header>Mark / Update Attendance
-      <span style="font-weight: normal; font-size: 0.8em">: {{classMarkedForAction.batch_name}} - {{studentAttList.length}}</span>
+      <span style="font-weight: normal; font-size: 0.8em">: {{classMarkedForAction.batch_name}}</span>
     </h2>
 
     <hr>
@@ -706,7 +707,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeRemiderClass()">
-          <input type="button" value="Continue" (click)="sendReminder()" class="redBtn btn">
+          <input type="button" value="Continue" (click)="sendReminder()" class="btn fullBlue">
         </aside>
       </div>
     </div>
@@ -807,7 +808,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeRescheduleClass()">
-          <input type="button" value="Reschedule Class" (click)="rescheduleClass()" class="redBtn btn">
+          <input type="button" value="Reschedule Class" (click)="rescheduleClass()" class="fullBlue btn">
         </aside>
       </div>
     </div>
@@ -933,7 +934,7 @@
       <div class="clearfix" style="padding-top: 15px">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCourseLevelAttendance()">
-          <input type="button" value="Update" (click)="updateCourseAttendance()" class="redBtn btn">
+          <input type="button" value="Update" (click)="updateCourseAttendance()" class="fullBlue btn">
         </aside>
       </div>
     </div>
@@ -980,7 +981,7 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCourseCancelClass()">
-          <input type="button" value="Update Schedule" (click)="cancelCourseClass()" class="redBtn btn">
+          <input type="button" value="Update Schedule" (click)="cancelCourseClass()" class="fullBlue btn">
         </aside>
       </div>
     </div>
