@@ -3,7 +3,7 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-.fish-chips { 
+.fish-chips {
     color: #fff;
     padding: 3px;
     margin: 0px 10px 0px 10px;
@@ -998,7 +998,7 @@ div#enqChart {
             padding: 5px 24px 0px;
             &.cls-type {
                 width: 15%;
-                &.batch{
+                &.batch {
                     width: 45% !important;
                 }
             }
@@ -1010,7 +1010,7 @@ div#enqChart {
             }
             &:last-child {
                 width: 15%;
-                }
+            }
             div {
                 color: rgba(30, 35, 40, 0.7);
                 font-size: 14px;
@@ -1774,7 +1774,6 @@ div#enqChart {
                     label {
                         font-size: 12px;
                         font-weight: 400;
-                        font-family: -webkit-body;
                         color: black;
                         text-decoration: none;
                         text-shadow: none;
@@ -1821,6 +1820,10 @@ div#enqChart {
                             tr {
                                 th {
                                     padding: 5px 5px !important;
+                                    .field-checkbox-wrapper {
+                                        display: inline-block;
+                                        margin-bottom: 0px
+                                    }
                                 }
                             }
                         }
@@ -1829,6 +1832,10 @@ div#enqChart {
                                 padding: 0px 0px !important;
                                 td {
                                     padding: 5px 5px !important;
+                                    .field-checkbox-wrapper {
+                                        display: inline-block;
+                                        margin-bottom: 0px
+                                    }
                                 }
                             }
                         }
@@ -1917,7 +1924,7 @@ div#enqChart {
         }
     }
     label {
-        color: #309bf8 !important;
+        // color: #309bf8 !important;
         font-size: 12px;
         font-weight: 400; //font-family: -webkit-body;
         color: rgba(0, 0, 0, 0.77);
