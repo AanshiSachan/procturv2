@@ -9,7 +9,7 @@
         <h1 class="pull-left">
           Email Report
         </h1>
-      
+
         <aside class="pull-right">
           <!-- <input type="button" value="Add Enquiry" class="btn" routerLink='/enquiry/add' />
             <input type="button" value="Upload Enquiry" routerLink='/enquiry/upload' class="btn"> -->
@@ -21,11 +21,13 @@
         <div class="row">
           <div class="c-lg-8 c-md-8 c-sm-8">
             <div class="field-wrapper datePickerBox has-value">
-              <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" [(ngModel)]="email_fromDate" readonly="false" name="fromDate" bsDatepicker/>
+              <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.from_date" readonly="false"
+                name="fromDate" bsDatepicker/>
               <label for="fromDate">Sent From</label>
             </div>
             <div class="field-wrapper datePickerBox has-value">
-              <input type="text" value="" id="updateDate" readonly="false" class="form-ctrl bsDatepicker" [(ngModel)]="email_toDate"  name="toDate" bsDatepicker/>
+              <input type="text" value="" id="updateDate" readonly="false" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.to_date"
+                name="toDate" bsDatepicker/>
               <label for="toDate">Sent To</label>
             </div>
           </div>
@@ -76,13 +78,38 @@
 
           <proctur-table [records]="emailSource" [tableName]="'Email'" [settings]="projectSettings">
           </proctur-table>
-         </div>
+        </div>
+
+
+        <!--
+         <div class="sms-table-controller">
+            
+            <ul class="record-list">
+            
+              <li>
+                <label>
+                  Showing {{ getMin() }} to {{ getMax() }} of {{ count }} Records
+                </label>
+              </li>
+            </ul>
+          </div>-->
 
 
         <!-- Paginator Here -->
-        <!-- <div class="filter-res pagination" style="width: 100%;">
+
+
+        <div class="row filter-res pagination" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+              [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
+            </pagination>
+          </div>
+        </div>
+
+
+        <!-- <div class="filter-res pagination" style="width: 100%;float:left">
+          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
               [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
             </pagination>
           </div>

@@ -193,7 +193,7 @@
                                             {{std.standard_name}}
                                         </option>
                                     </select>
-                                    <label for="standard">Mater Course</label>
+                                    <label for="standard">Standard</label>
                                 </div>
                             </div>
 
@@ -206,7 +206,7 @@
                                             {{mc.master_course}}
                                         </option>
                                     </select>
-                                    <label for="masterCourse">Courses</label>
+                                    <label for="masterCourse">Master Courses</label>
                                 </div>
                             </div>
 
@@ -218,7 +218,7 @@
                                             {{course.course_name}}
                                         </option>
                                     </select>
-                                    <label for="course">Subject</label>
+                                    <label for="course">Course</label>
                                 </div>
                             </div>
 
@@ -306,12 +306,12 @@
                                     </div>
                                 </div>
 
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
-                                    <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
-                                        <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
-                                            name="{{component.label}}" bsDatepicker/>
-                                        <label for="component.id">{{component.label}} </label>
-                                    </div>
+                                    <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
+                                        <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
+                                            <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
+                                                name="{{component.label}}" bsDatepicker/>
+                                            <label for="component.id">{{component.label}} </label>
+                                        </div>
                                 </div>
 
                             </custom-student>
@@ -319,7 +319,7 @@
                             <div class="row adfilter-submitter">
                                 <div class="c-lg-12 c-md-12 c-sm-12">
                                     <div style="margin: 15px 5px;" l class="field-wrapper pull-left cancel">
-                                        <input style="font-size: 16px;" type="button" class="btn filterSearchBtn" value="Clear Advance Filter" (click)='clearAdvancedFilterForm()'>
+                                        <input style="font-size: 16px;" type="button" class="btn filterSearchBtn" value="Clear Filter" (click)='clearAdvancedFilterForm()'>
                                     </div>
                                     <div class="field-wrapper pull-left submit">
                                         <input type="button" class="btn filterSearchBtn fullBlue" value="Search" (click)='advancedSearch()'>

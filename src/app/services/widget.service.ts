@@ -13,6 +13,7 @@ export class WidgetService {
 
 
 
+
     baseUrl: string = '';
     Authorization: any;
     headers;
@@ -68,6 +69,22 @@ export class WidgetService {
             res => { return res; },
             err => { return err; }
         );
+    }
+
+    getAllocatedStorageDetails(): any {
+        let url =this.baseUrl +"/api/v1/instFileSystem/getUsedSpace/" +this.institute_id;
+        return this.http.get(url,{headers: this.headers}).
+        map(
+            res => {
+                return res;
+                },
+            err=>{ 
+                return err;
+            }
+        
+       );
+       
+
     }
 
     getAttendance(obj): any {

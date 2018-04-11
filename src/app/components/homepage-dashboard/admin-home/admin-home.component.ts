@@ -15,7 +15,6 @@ import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import { } from '../../../model/enquirycampaign'
 import * as Muuri from 'muuri/muuri';
 import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service'
 import { Chart } from 'angular-highcharts';
@@ -29,9 +28,15 @@ import { WidgetService } from '../../../services/widget.service';
 })
 export class AdminHomeComponent implements OnInit {
 
+  storageData: any = {
+    storage_allocated: 0
+  };
   public isProfessional: boolean = false;
   public grid: any;
-  public instituteSetting: any;
+  public instituteSetting: any = {
+    institute_campaign_sms_quota_available: 0,
+    institute_sms_quota_available: 0
+  };
   public planListArr: any[] = [];
   public enquiryStat: any = {
     totalcount: null,
@@ -254,7 +259,7 @@ export class AdminHomeComponent implements OnInit {
         this.settingInfo = res;
       },
       err => {
-        console.log(err);
+        
       }
     )
 
@@ -267,8 +272,9 @@ export class AdminHomeComponent implements OnInit {
       }
     )
 
-    this.fetchEnqWidgetData();
+    //this.fetchEnqWidgetData();
     this.fetchFeeWidgetData();
+    this.getStorageData();
 
     if (this.isProfessional) {
       this.fetchBatchWidgetData();
@@ -277,6 +283,19 @@ export class AdminHomeComponent implements OnInit {
       this.fetchScheduleWidgetData();
     }
   }
+
+  getStorageData() {
+    this.widgetService.getAllocatedStorageDetails().subscribe(
+      res => {
+        this.storageData= res;
+        //console.log(res);
+      },
+      err => {
+        //console.log(err);
+      }
+    )
+  }
+
 
   generatePlan() {
     this.planListArr.forEach(e => {
@@ -422,18 +441,6 @@ export class AdminHomeComponent implements OnInit {
 
   updateEnqChart() {
     if (this.chart.ref.series.length > 0) {
-      // let data = this.generateEnqChartData();
-      // let dataFound = false;
-      // data.forEach(ele => {
-      //   if (ele[1] > 0) {
-      //     dataFound = true;
-      //   }
-      // })
-      // if (dataFound) {
-      //   this.chart.ref.series[0].setData(data);
-      // } else {
-
-      // }
       this.chart.ref.series[0].setData(this.generateEnqChartData());
     }
     this.chart.ref.redraw();
@@ -595,7 +602,7 @@ export class AdminHomeComponent implements OnInit {
 
 
   /* deselectSelected() {
-    console.log('fired');
+    //console.log('fired');
     this.selectedRow = null;
      }
    */
@@ -1331,8 +1338,8 @@ export class AdminHomeComponent implements OnInit {
         }
       );
     } else {
-      alert('This scenario is not being replicated please specify set of steps to replicate');
-      console.log(this.classMarkedForAction);
+      //alert('This scenario is not being replicated please specify set of steps to replicate');
+      //console.log(this.classMarkedForAction);
     }
   }
 
@@ -1587,11 +1594,11 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('leaveBtn' + rowData.student_id).classList.remove('classLeaveBtn');
     document.getElementById('absentBtn' + rowData.student_id).classList.remove('classAbsentBtn');
     document.getElementById('presentBtn' + rowData.student_id).classList.remove('classPresentBtn');
-    if (event.target.innerText == "Leave") {
+    if (event.target.innerText == "L") {
       document.getElementById('leaveBtn' + rowData.student_id).classList.add('classLeaveBtn');
       rowData.dateLi[0].status = "L";
       rowData.dateLi[0].home_work_status = "N";
-    } else if (event.target.innerText == "Absent") {
+    } else if (event.target.innerText == "A") {
       document.getElementById('absentBtn' + rowData.student_id).classList.add('classAbsentBtn');
       rowData.dateLi[0].status = "A";
       rowData.dateLi[0].home_work_status = "N";
@@ -1655,12 +1662,12 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.getAllMasterCourse().subscribe(
       res => {
         this.isRippleLoad = false;
-        console.log(res);
+        //console.log(res);
         this.masterCourseList = res;
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -1681,7 +1688,7 @@ export class AdminHomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -1698,11 +1705,12 @@ export class AdminHomeComponent implements OnInit {
         res => {
           this.isRippleLoad = false;
           this.showTableFlag = true;
+          this.selectedOption = "filter";
           this.studentList = this.addKeys(res, true);
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -1727,7 +1735,7 @@ export class AdminHomeComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -1735,23 +1743,22 @@ export class AdminHomeComponent implements OnInit {
   addNewNotification() {
     this.addNotification = true;
   }
-
   saveNewMessage() {
     let obj = { message: this.newMessageText };
     this.widgetService.saveMessageTOServer(obj).subscribe(
       res => {
-        console.log(res);
+        //console.log(res);
         let msg = {
           type: 'success',
-          title: 'Message',
-          body: "Saved Successfully"
+          title: 'Message created Successfully',
+          body: " Your request is in queue and process shortly"
         };
         this.appC.popToast(msg);
         this.closeNewMessageDiv();
         this.getAllMessageFromServer();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         let msg = {
           type: 'error',
           title: 'Failed To Save Message',
@@ -1785,7 +1792,9 @@ export class AdminHomeComponent implements OnInit {
       } else {
         document.getElementById('divParentOrGaurdian').classList.remove('hide');
       }
-      this.whichCheckBoxSelected();
+      if(this.selectedOption != "filter"){
+        this.whichCheckBoxSelected();  
+      }
     }
   }
 
@@ -1856,11 +1865,11 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.fetchStudentListData(this.sendNotification.batch_id).subscribe(
       res => {
         this.showTableFlag = true;
-        console.log(res);
+        //console.log(res);
         this.studentList = this.addKeys(res, true);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -1914,7 +1923,7 @@ export class AdminHomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     } else {
@@ -1937,7 +1946,7 @@ export class AdminHomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     } else {
@@ -1961,7 +1970,7 @@ export class AdminHomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     } else {
@@ -1985,7 +1994,7 @@ export class AdminHomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     } else {
@@ -2041,11 +2050,11 @@ export class AdminHomeComponent implements OnInit {
     this.messageList = [];
     this.widgetService.getMessageList({ status: 1 }).subscribe(
       res => {
-        console.log(res);
+        //console.log(res);
         this.messageList = this.addKeys(res, false);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -2215,7 +2224,7 @@ export class AdminHomeComponent implements OnInit {
 
     this.widgetService.sendNotification(obj).subscribe(
       res => {
-        console.log(res);
+        //console.log(res);
         let msg = {
           type: 'success',
           title: 'Message',
@@ -2224,7 +2233,7 @@ export class AdminHomeComponent implements OnInit {
         this.appC.popToast(msg);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -2246,7 +2255,7 @@ export class AdminHomeComponent implements OnInit {
     }
     this.widgetService.sendPushNotificationToServer(obj).subscribe(
       res => {
-        console.log(res);
+        //console.log(res);
         let msg = {
           type: 'success',
           title: 'Message',
@@ -2255,7 +2264,7 @@ export class AdminHomeComponent implements OnInit {
         this.appC.popToast(msg);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -2281,10 +2290,11 @@ export class AdminHomeComponent implements OnInit {
         studentArray: this.getListOfIds('student_id'),
         userArray: this.getListOfIds('user_id'),
         user_role: this.loginField.checkBox
-      }
+      };
+      obj.studentArray = obj.studentArray.split(",");
+      obj.userArray = obj.userArray.split(",");
       this.widgetService.smsForAddDownload(obj).subscribe(
         res => {
-          console.log(res);
           let msg = {
             type: 'success',
             title: 'Message',
@@ -2293,7 +2303,7 @@ export class AdminHomeComponent implements OnInit {
           this.appC.popToast(msg);
         },
         err => {
-          console.log(err);
+          //console.log(err);
         }
       )
 
@@ -2335,12 +2345,12 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('leaveBtnCourse' + rowData.student_id).classList.remove('classLeaveBtn');
     document.getElementById('absentBtnCourse' + rowData.student_id).classList.remove('classAbsentBtn');
     document.getElementById('presentBtnCourse' + rowData.student_id).classList.remove('classPresentBtn');
-    if (event.target.innerText == "Leave") {
+    if (event.target.innerText == "L") {
       document.getElementById('leaveBtnCourse' + rowData.student_id).classList.add('classLeaveBtn');
       this.courseLevelStudentAtt[index].dateLi[0].status = "L";
       this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
       this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
-    } else if (event.target.innerText == "Absent") {
+    } else if (event.target.innerText == "A") {
       document.getElementById('absentBtnCourse' + rowData.student_id).classList.add('classAbsentBtn');
       this.courseLevelStudentAtt[index].dateLi[0].status = "A";
       this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "N";
@@ -2349,7 +2359,7 @@ export class AdminHomeComponent implements OnInit {
       document.getElementById('presentBtnCourse' + rowData.student_id).classList.add('classPresentBtn');
       this.courseLevelStudentAtt[index].dateLi[0].status = "P";
       this.courseLevelStudentAtt[index].dateLi[0].isStatusModified = "Y";
-
+      this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "Y";
     }
     this.getTotalCountForCourse(this.courseLevelStudentAtt);
   }

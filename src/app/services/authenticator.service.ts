@@ -13,8 +13,8 @@ export class AuthenticatorService {
     public institute_type: any = null;
     public institution_type: any = null;
 
-    public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
-    //   public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
+    //public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
+    public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
 
     constructor() {
     }
@@ -58,5 +58,12 @@ export class AuthenticatorService {
         return this.baseUrl;
     }
 
+    clearStoredData(){
+        this.token = null;
+        this.institute_id = null;
+        this.standard_id = null;
+        this.institute_type = null;
+        this.institution_type = null;    
+    }
 
 }

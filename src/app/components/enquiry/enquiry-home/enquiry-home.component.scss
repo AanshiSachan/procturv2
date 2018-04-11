@@ -657,12 +657,12 @@ screen and (max-height: 768px) {
     cursor: pointer;
     color: #0084f6;
     padding: 0px;
-    font-family: 'Open Sans', Arial, sans-serif;
+    
     font-size: 14px;
     .ui-button {
         background: #fff;
         color: #0084f6 !important;
-        font-family: 'Open Sans', Arial, sans-serif;
+
         font-size: 14px;
         height: 30px !important;
         font-weight: 600;
@@ -690,14 +690,14 @@ screen and (max-height: 768px) {
         left: 0px !important;
         outline: none;
         box-shadow: none;
-        font-family: 'Open Sans', Arial, sans-serif;
+
         font-size: 14px;
         text-align: left;
         .ui-menu-list {
-            font-family: 'Open Sans', Arial, sans-serif;
+
             font-size: 14px;
             .ui-menuitem {
-                font-family: 'Open Sans', Arial, sans-serif;
+
                 font-size: 14px;
                 width: 100%;
                 max-width: 200px;
@@ -715,7 +715,7 @@ screen and (max-height: 768px) {
                     color: white !important;
                     a {
                         color: white !important;
-                        font-family: 'Open Sans', Arial, sans-serif !important;
+
                         font-size: 14px !important;
                     }
                 }
@@ -724,7 +724,7 @@ screen and (max-height: 768px) {
                     color: white !important;
                     a {
                         color: white !important;
-                        font-family: 'Open Sans', Arial, sans-serif !important;
+
                         font-size: 14px !important;
                     }
                 }
@@ -733,7 +733,7 @@ screen and (max-height: 768px) {
                     color: white !important;
                     a {
                         color: white !important;
-                        font-family: 'Open Sans', Arial, sans-serif !important;
+
                         font-size: 14px !important;
                     }
                 }
@@ -742,7 +742,6 @@ screen and (max-height: 768px) {
                 }
                 a {
                     color: #0084f6 !important;
-                    font-family: 'Open Sans', Arial, sans-serif !important;
                     font-size: 14px !important;
                     height: 35px;
                     &:hover {
@@ -1537,7 +1536,7 @@ ul.customDropdown li:hover {
         width: 60%;
         max-height: 360px;
         overflow: auto;
-        .table-wrapper {
+        &.table-wrapper {
             h4 {
                 margin: 0px 0 15px;
                 font-weight: 600;
@@ -1960,7 +1959,7 @@ ul.customDropdown li:hover {
     }
     label {
         font-size: 12px;
-        font-weight: 400; //font-family: -webkit-body;
+        font-weight: 400; 
         color: rgba(0, 0, 0, 0.77);
         padding-bottom: 2px;
         text-decoration: none;
@@ -2035,7 +2034,7 @@ ul.customDropdown li:hover {
     }
     label {
         font-size: 12px;
-        font-weight: 400; //font-family: -webkit-body;
+        font-weight: 400;
         color: rgba(0, 0, 0, 0.77);
         padding-bottom: 2px;
         text-decoration: none;

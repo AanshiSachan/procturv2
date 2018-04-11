@@ -161,7 +161,6 @@ export class EnquiryBulkaddComponent implements OnInit {
 
   /* download the xls status report for a particular file uploaded */
   downloadBulkStatusReport(el) {
-
     this.fetchData.fetchBulkReport(el.list_id).subscribe(
       res => {
         let byteArr = this.convertBase64ToArray(res.document);
@@ -175,7 +174,14 @@ export class EnquiryBulkaddComponent implements OnInit {
         dwldLink.setAttribute("download", fileName);
         dwldLink.innerText = 'Download Report';
       },
-       err => { }
+       err => { 
+         let obj ={
+           type: "error",
+           title: "error downloading file",
+           body: ""
+         }
+         this.appC.popToast(obj);
+       }
     )
   }
 

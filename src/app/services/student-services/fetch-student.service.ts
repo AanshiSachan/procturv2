@@ -162,11 +162,12 @@ export class FetchStudentService {
     )
   }
 
-  getFeeReceiptById(id) {
-    let url = this.baseUrl + "/api/v1/studentWise/fee/" + 11791 + "/feeReceipt/" + id + "/download?fin_yr=17-18";
+  getFeeReceiptById(sid,id, yr) {
+    let url = this.baseUrl + "/api/v1/studentWise/fee/" +sid + "/feeReceipt/" + id + "/download"
+    //?fin_yr=17-18;
     return this.http.get(url, { headers: this.headers }).map(
       res => {
-        return res.json();
+        return res;
       },
       err => {
         return err.json();

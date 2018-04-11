@@ -131,7 +131,7 @@
                     </div>
                   </div>
 
-           <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_phone != ''}">
+                  <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_phone != ''}">
                     <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
                       maxlength="10" minlength="10" OnlyNumber="true" #parentContactNo="ngModel" />
                     <label for="parentContactNo">Parent Contact Number</label>
@@ -259,10 +259,8 @@
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
-                <div class="field-wrapper" *ngIf="isAcad" [ngClass]
-                ="{'has-value': studentAddFormData.student_class_key != ''}">
-                  <select id="standard" (ngModelChange)="updateMasterCourseList($event)"
-                  [(ngModel)]="studentAddFormData.student_class_key"
+                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class_key != ''}">
+                  <select id="standard" (ngModelChange)="updateMasterCourseList($event)" [(ngModel)]="studentAddFormData.student_class_key"
                     name="standard" class="form-ctrl">
                     <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
@@ -272,11 +270,13 @@
                   <label for="standard">Standard</label>
                 </div>
 
-
-                <div id="assignCoursesParent" class="form-wrapper field-view" *ngIf="isAcad" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}">
-                    <label (click)="openAssignBatch()" for="assignCourses"><a >Assign Courses</a></label>
-                  <textarea style="height: 100px;padding: 5px;" name="assignCoursesParent" [ngModel]="assignedBatchString" name="assignCourses"
-                    class="form-ctrl" readonly="true" id="" cols="1" rows="1"></textarea>
+                <div id="assignCoursesParent" class="field-wrapper field-view" 
+                 style="height:auto" *ngIf="isAcad" (click)="openAssignBatch()">
+                  <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" [ngModel]="assignedBatchString" name="assignCourses"
+                    class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
+                  <label (click)="openAssignBatch()" for="assignCourses">
+                    <a>Assign Courses</a>
+                  </label>
                 </div>
 
                 <!-- ================================================================= -->
@@ -286,7 +286,7 @@
                 <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.standard_id != ''}">
                   <select id="masterCourse" name="masterCourse" [(ngModel)]="studentAddFormData.standard_id" (ngModelChange)="fetchCourseFromMaster($event)"
                     class="form-ctrl">
-                    <option></option>
+                    <option value="-1"></option>
                     <option *ngFor="let course of standardList" [value]="course.standard_id">
                       {{course.standard_name}}
                     </option>
@@ -331,8 +331,8 @@
                   <label for="status">Status</label>
                 </div>
 
-                <div id="assignCoursesParent" class="field-wrapper" *ngIf="isProfessional" (click)="openAssignBatch()">
-                  <textarea style="height: 100px;padding: 5px;" name="assignCoursesParent" cols="1" rows="1" [ngModel]="assignedBatchString"
+                <div id="assignCoursesParent" class="field-wrapper" style="height:auto" *ngIf="isProfessional" (click)="openAssignBatch()">
+                  <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" cols="1" rows="1" [ngModel]="assignedBatchString"
                     name="assignCourses" class="form-ctrl" readonly="true"></textarea>
                   <label (click)="openAssignBatch()" for="assignCourses">Assign Batch</label>
                 </div>
@@ -453,8 +453,7 @@
                       <ul class="">
                         <li *ngFor="let opt of component.prefilled_data">
                           <div class="field-checkbox-wrapper">
-                            <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked"
-                             (ngModelChange)="updateMultiSelect(opt, component.id)"
+                            <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
                               class="form-checkbox">
                             <label for="opt.data">{{opt.data}}</label>
                           </div>
@@ -694,11 +693,9 @@
                     </div>
                   </div>
                   <div class="clearFix add-edit" [ngClass]="{'hide': installment.is_referenced == 'N'}">
-
-                    <a (click)="downloadFeeReceipt(installment)">Download receipt</a>
-                    <a (click)="emailFeeReceipt(installment)">E-mail receipt</a>
+                    <!-- <a (click)="downloadFeeReceipt(installment)">Download receipt</a>
+                    <a (click)="emailFeeReceipt(installment)">E-mail receipt</a> -->
                     <a (click)="openPartialPayment(installment)" [ngClass]="{'hide': installment.is_partially_paid == '0'}">Pay Remaining Amount</a>
-
                   </div>
                 </li>
               </ul>
@@ -999,11 +996,10 @@
               <td>
                 <div class="field-wrapper">
                   <select name="feetm" id="feetm" [(ngModel)]="batch.data.selected_fee_template_id" class="form-ctrl">
-                    <option [value]="fee.template_id" [selected]="fee.template_id == batch.data.selected_fee_template_id" *ngFor="let fee of batch.data.feeTemplateList">{{fee.template_name}}</option>
+                    <option [value]="fee.template_id" [selected]="batch.data.selected_fee_template_id == fee.template_id" *ngFor="let fee of batch.data.feeTemplateList">{{fee.template_name}}</option>
                   </select>
                 </div>
               </td>
-
             </tr>
           </tbody>
         </table>
@@ -1991,8 +1987,7 @@
 
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_amount != ''}">
-                <input readonly="true" type="text" value="" id="" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
-                />
+                <input readonly="true" type="text" value="" id="" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount" />
                 <label for="">Cheque Amount*</label>
               </div>
             </div>

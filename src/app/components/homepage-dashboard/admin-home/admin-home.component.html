@@ -1,6 +1,6 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
-
+ 
 <section class="mainHomePage">
 
   <section class="activity-page">
@@ -35,11 +35,11 @@
 
               <li class="enquiry-state item" data-id="2">
                 <div class="item-content">
-                  <div class="actb-top-header clearfix">
+                  <!-- <div class="actb-top-header clearfix">
                     <span class="heading">
                       Enquiry Stats
                     </span>
-                    <button class="pull-right drag-button">
+                    <button class="pull-right drag-button hide">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
                         />
@@ -116,7 +116,8 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
+                  <enquiry-widget></enquiry-widget>
                 </div>
               </li>
 
@@ -126,7 +127,7 @@
                     <span class="heading">
                       Fees stats
                     </span>
-                    <button class="pull-right drag-button">
+                    <button class="pull-right drag-button hide">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
                         />
@@ -204,7 +205,7 @@
                           </div>
                         </li>
                         <li>
-                          <button class="pull-right drag-button">
+                          <button class="pull-right drag-button hide">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                               <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
                               />
@@ -232,7 +233,7 @@
                         </li>
                       </ul>
                     </div>
-                    <div class="schedule-bottom">
+                    <div class="schedule-bottom"> 
                       <ul class="sche-head" *ngIf="!isProfessional && isSubjectView">
                         <li>Timings</li>
                         <li class="cls-type">Class type</li>
@@ -352,7 +353,7 @@
                     <span class="heading">
                       Account Details
                     </span>
-                    <button class="pull-right drag-button">
+                    <button class="pull-right drag-button hide">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493
                               0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85
@@ -367,15 +368,19 @@
                     <ul>
                       <li>
                         <label>Total active students</label>
-                        <a>{{genralStats.total}} Students of {{genralStats.student_limit}}</a>
+                        <a>{{genralStats.total}}/{{genralStats.student_limit}}</a>
                       </li>
                       <li>
-                        <label>Sms balance</label>
-                        <a>{{genralStats.sms}}</a>
+                        <label> Transactional Sms balance</label>
+                        <a>{{instituteSetting.institute_sms_quota_available}}</a>
                       </li>
+                      <li>
+                          <label>Promotional Sms balance</label>
+                          <a>{{instituteSetting.institute_campaign_sms_quota_available}}</a>
+                        </li>
                       <li>
                         <label>Download limit</label>
-                        <a>{{genralStats.download}} GB</a>
+                        <a>{{storageData.storage_allocated}} MB</a>
                       </li>
                       <li>
                         <label>Expiry date</label>
@@ -543,7 +548,7 @@
 
           <div style="margin-top: 0px">
             <h3 style="display: inline-flex;">Attendance Note</h3>
-            <div class="questionInfo" style="border:none;">
+            <div class="questionInfo" style="border:none;margin-left: 25px;">
               <span class="qInfoIcon">?</span>
               <span class="tooltip-box-field">
 
@@ -559,7 +564,7 @@
 
           <div *ngIf="settingInfo.home_work_feature_enable==1">
             <h3 style="display: inline-flex;">Homework</h3>
-            <div class="questionInfo" style="position:relative; left:25%;">
+            <div class="questionInfo" style="position:relative; left:25%;margin-left: 25px;">
               <span class="qInfoIcon">?</span>
               <span class="tooltip-box-field">
 
@@ -836,7 +841,7 @@
           <h3>Total Students : {{courseLevelStudentAtt.length}} </h3>
         </div>
 
-        <div class="c-sm-3 c-md-3 c-lg-3">
+        <div class="c-sm-6 c-md-6 c-lg-6">
 
           <span class="leave">{{leaveCount}}</span>
           <h5>Leave</h5>
@@ -1337,7 +1342,7 @@
 
                 </div>
 
-                <div class="row" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'showTutor')">
+                <div class="row" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor')">
                   <span>Configured Notification Messages(showing last 30 days added messages):</span>
                   <a class="pull-right" style="cursor: pointer;" (click)="getAllSavedMessages()">See All Message</a>
 

@@ -18,7 +18,9 @@ export class LoginService {
   regenerateOTPurl: string;
   forgotPasswordURL: string;
   baseUrl: string = '';
-  public instituteList: string[] = ['100057','100058','100123', '100180', '100126', '100127', '100174', '100118', '100321'];
+  public instituteList: string[] = ['100057','100058','100123', '100180', '100126', '100127', '100174', '100118', '100321', '100423'];
+
+  /* 100533 100423 for divya video purpose */
 
   /* institute name and username subscriber */
   private instituteNameSource = new BehaviorSubject<string>('');
@@ -52,7 +54,7 @@ export class LoginService {
     this.urlLogin = this.baseUrl + "/api/v1/alternateLogin";
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
-  }
+  } 
 
 
   postLoginDetails(data): any {
@@ -85,6 +87,7 @@ export class LoginService {
 
   logoutUser(): boolean {
     // remove user from local storage to log user out
+    this.auth.clearStoredData();
     sessionStorage.clear();
     localStorage.clear();
     return true;

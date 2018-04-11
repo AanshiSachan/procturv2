@@ -290,7 +290,7 @@
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
                 <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
                   <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}" />
-                  <label for="component.label">{{component.label}} </label>
+                  <label for="{{component.id}}">{{component.label}} </label>
                 </div>
               </div>
 
@@ -298,7 +298,7 @@
                 <br>
                 <div class="field-checkbox-wrapper">
                   <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}" value="">
-                  <label for="component.label">{{component.label}} </label>
+                  <label for="{{component.id}}">{{component.label}} </label>
                 </div>
               </div>
 
@@ -308,7 +308,7 @@
                     <option value=""></option>
                     <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                   </select>
-                  <label for="component.label">{{component.label}} </label>
+                  <label for="{{component.id}}">{{component.label}} </label>
                 </div>
               </div>
 
@@ -316,7 +316,7 @@
                 <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                   <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
                     readonly="true" />
-                  <label for="{{component.label}}">{{component.label}} </label>
+                  <label for="{{component.id}}">{{component.label}} </label>
                 </div>
                 <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
                   <div class="multiselect-wrapper-inner">
@@ -336,7 +336,7 @@
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
                 <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
                   <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker" name="{{component.label}}" bsDatepicker/>
-                  <label for="component.label">{{component.label}} </label>
+                  <label for="{{component.id}}">{{component.label}} </label>
                 </div>
               </div>
 
@@ -346,7 +346,7 @@
             <div class="row">
               <div class="c-lg-12 c-md-12 c-sm-12">
                 <div class="field-wrapper pull-left">
-                  <input type="button" class="btn filterSearchBtn" value="Clear Advance Filter" (click)="clearFilterAdvanced()" />
+                  <input type="button" class="btn filterSearchBtn" value="Clear Filter" (click)="clearFilterAdvanced()" />
                 </div>
                 <div class="field-wrapper pull-left">
                   <input type="button" class="btn filterSearchBtn fullBlue" value="Search Now" (click)="filterAdvanced()" />
@@ -366,13 +366,9 @@
         <div class="" id="table-main" #tablemain>
           <div class="table-scroll-wrapper">
             <div class="table table-responsive enquiry-table">
-              <!-- <proctur-checkbox-table [records]="sourceEnquiry" [tableName]="'enquiry'" [settings]="EnquirySettings" (userRowSelect)="userRowSelect($event)"
-                (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage" [key1]="'followUpDateTime'" [primaryKey]="'institute_enquiry_id'"
-                (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)">
-              </proctur-checkbox-table> -->
               <ng-robTable [records]="sourceEnquiry" [reset]="isSideBar" [defaultSort]="sortBy" [tableName]="'enquiry'" [settings]="EnquirySettings"
                 (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage"
-                [key1]="'followUpDateTime'" [primaryKey]="'institute_enquiry_id'" (rowIdArr)="getSelectedEnquiries($event)"
+                [key1]="'followUpDate'" [primaryKey]="'institute_enquiry_id'" (rowIdArr)="getSelectedEnquiries($event)"
                 (sortById)="sortTableById($event)" (sortDirection)="getDirection($event)">
               </ng-robTable>
             </div>
