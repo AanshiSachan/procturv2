@@ -456,7 +456,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     //   } */
 
     // }
-
+ 
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
         this.isRippleLoad = false;
