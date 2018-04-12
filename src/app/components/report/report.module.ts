@@ -29,6 +29,7 @@ import {getEmailService} from '../../services/report-services/get-email.service'
 import { postSMSService } from '../../services/report-services/post-sms.service';
 import { SharedModule } from '../shared/shared.module';
 import { postEmailService } from '../../services/report-services/post-email.service';
+import{searchPipe} from '../shared/pipes/searchBarPipe';
 
 import { AttendanceReportServiceService } from '../../services/attendance-report/attendance-report-service.service';
 
@@ -59,7 +60,8 @@ import { AttendanceReportServiceService } from '../../services/attendance-report
         ReportCardComponent,
         TimeTableComponent,
         EmailReportComponent,
-        ProfitLossComponent
+        ProfitLossComponent,
+        searchPipe
     ],
     entryComponents: [
     ],

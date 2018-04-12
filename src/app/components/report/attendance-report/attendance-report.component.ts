@@ -3,6 +3,9 @@ import { AttendanceReportServiceService } from '../../../services/attendance-rep
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from "../../../services/authenticator.service";
 import * as moment from 'moment';
+import { error } from 'util';
+import { ColumnSetting } from '../../shared/custom-table/layout.model';
+import{searchPipe} from '../../shared/pipes/searchBarPipe';
 @Component({
   selector: 'app-attendance-report',
   templateUrl: './attendance-report.component.html',
@@ -16,13 +19,13 @@ export class AttendanceReportComponent implements OnInit {
   pagedPostData: any[] = [];
   courses: any[] = [];
   batchCourses: any[] = [];
-  masterData = "";
-  courseData = "";
-  batchesData = "";
   SummaryReports: boolean = false;
   PageIndex: number = 1;
-  studentdisplaysize: number = 10;
+  PageIndexPopup:number = 1;
+  pagedisplaysize: number = 10;
+  pagedisplaysizePopup:number = 10;
   totalRow: number;
+  totalRowPopup:number;
   addReportPopUp:boolean=false;
   dateWiseAttendance:any[]=[];
   pageDetailedData:any[]=[];
@@ -31,27 +34,28 @@ export class AttendanceReportComponent implements OnInit {
   attendanceIndex0:any[]=[];
   attendanceIndexi:number;
   attendanceIndexiOf:any[]=[];
+  projectSettings: ColumnSetting[] = [
+    { primaryKey: 'student_id', header: 'Student id' },
+    { primaryKey: 'student_name', header: 'Student name' },
+    { primaryKey: 'student_phone', header: 'Contact no' },
+    { primaryKey: 'doj', header: 'Joining date' },
+    { primaryKey: 'total_classes', header: 'Total classes' },
+    { primaryKey: 'total_attended', header: 'Present' },
+    { primaryKey: 'total_absent', header: 'Absent' },
+    { primaryKey: 'total_leave', header: 'Leave' },
+    { primaryKey: 'spent_percentage', header: 'Attendance' }
+  ];
   getData = {
-    standard_id: -1,
-    subject_id: -1,
+    standard_id: "",
+    subject_id: "",
     institution_id: parseInt(this.institute_id.getInstituteId()),
-    course_id: -1,
-    batch_id: -1,
+    course_id: "",
+    batch_id: "",
     master_course_name:"",
-    from_date:moment().format('YYYY-MM-DD'),
-    to_date: moment().format('YYYY-MM-DD')
+    from_date:"",
+    to_date:""
   }
-  postedData = {
-    standard_id: -1,
-    subject_id: -1,
-    institution_id: parseInt(this.institute_id.getInstituteId()),
-    course_id: -1,
-    batch_id: -1,
-    from_date:moment().format('YYYY-MM-DD'),
-    to_date: moment().format('YYYY-MM-DD')
-  }
-  
-  
+
   constructor(
     private reportService: AttendanceReportServiceService,
     private appc: AppComponent,
@@ -60,8 +64,7 @@ export class AttendanceReportComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getMasterCourseData();
-    
+    this.getMasterCourseData();  
   }
   getMasterCourseData() {
     this.reportService.getMasterCourse().subscribe(
@@ -76,26 +79,32 @@ export class AttendanceReportComponent implements OnInit {
 
   }
   getCourseData(i) {
-    this.getData.batch_id = -1;
-    this.getData.course_id = -1;
+    this.getData.batch_id = "";
+    this.getData.course_id = "";
     this.reportService.getCourses(i).subscribe(
+      
+      
       (data: any) => {
         this.courses = data.coursesList;
         // this.getPostData();
-      },
+      }
+      ,
       (error: any) => {
         return error;
       }
     )
+    this.courses=[];
+    this.batchCourses=[];
   }
   getSubjectData(i) {
-    this.getData.batch_id = -1;
+    this.getData.batch_id = "";
     this.reportService.getSubject(i).subscribe(
       (data: any) => {
         this.batchCourses = data.batchesList;
         // this.getPostData();
       }
     )
+    this.batchCourses=[];
   }
   getBatchData(i) {
     this.reportService.postDataToTable(this.getData).subscribe(
@@ -109,12 +118,7 @@ export class AttendanceReportComponent implements OnInit {
     this.SummaryReports = true;
     this.reportService.postDataToTable(this.getData).subscribe(
       (data: any) => {
-        console.log(data);
         this.postData = data;
-        console.log(this.postData);
-        this.getData.master_course_name = "";
-        this.batchCourses = [];
-        this.courses = [];
          this.totalRow = data.length;
          this.PageIndex = 1;
          this.fetchTableDataByPage(this.PageIndex);
@@ -127,23 +131,41 @@ export class AttendanceReportComponent implements OnInit {
 
   }
   postDetails(){
-    this.addReportPopUp=true;   
-    this.reportService.postDetailedData(this.postedData).subscribe(
-      (data:any)=>{
-        
-        this.dateWiseAttendance=data;
-        this.dataTypeAttendance=data.map((ele)=>{
-          this.typeAttendance=(ele.attendanceDateType);
-          console.log(this.typeAttendance);
-        });
-      this.attendanceIndex0=this.typeAttendance[0];
-      console.log(this.attendanceIndex0);
-      this.attendanceIndexi=this.typeAttendance.length;
-      this.attendanceIndexiOf=this.typeAttendance[this.attendanceIndexi-1];
-      this.totalRow = data.length;
-        this.PageIndex = 1;
-        this.fetchTableDataByPagePopup(this.PageIndex);
+    if(this.getData.master_course_name == "" && this.getData.course_id == "" && this.getData.batch_id == "" && this.getData.from_date == "" && this.getData.to_date == ""){
+
+        let msg={
+          type:"error",
+          title:"Incorrect Details",
+          body:"All fields Are required"
+        }
+        this.appc.popToast(msg);
+    } 
+    else if(this.getData.from_date > this.getData.to_date){
+      let msg={
+        type:"error",
+        title:"Incorrect Details",
+        body:"From Date Must Be less than to date"
+      }
+      this.appc.popToast(msg);
+    }
+    else{
       
+    this.addReportPopUp=true;   
+    this.reportService.postDetailedData(this.getData).subscribe(
+      (data:any)=>{  
+        this.dateWiseAttendance=data;
+        console.log(this.dateWiseAttendance);
+        this.dataTypeAttendance=data.map((ele)=>{
+        this.typeAttendance=(ele.attendanceDateType); 
+        });
+        
+        this.attendanceIndex0=this.typeAttendance[0];
+        this.attendanceIndexi=this.typeAttendance.length;
+        this.attendanceIndexiOf=this.typeAttendance[this.attendanceIndexi-1];
+        
+        this.totalRowPopup = data.length;
+        this.PageIndexPopup = 1;
+        this.fetchTableDataByPagePopup(this.PageIndexPopup);
      ;
       },
       (error:any)=>{
@@ -152,14 +174,15 @@ export class AttendanceReportComponent implements OnInit {
       }
     )
   }
+}
   closeReportPopup(){
     this.addReportPopUp=false;
   }
   // pagination functions 
-
+  //for summary report
   fetchTableDataByPage(index) {
     this.PageIndex = index;
-    let startindex = this.studentdisplaysize * (index - 1);
+    let startindex = this.pagedisplaysize * (index - 1);
     this.pagedPostData = this.getDataFromDataSource(startindex);
     
   }
@@ -177,35 +200,35 @@ export class AttendanceReportComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
-    let t = this.postData.slice(startindex, startindex + this.studentdisplaysize);
-    let d=this.dateWiseAttendance.slice(startindex, startindex + this.studentdisplaysize);
-
+    let t = this.postData.slice(startindex, startindex + this.pagedisplaysize);
     return t;
   }
-  
+
+  //for detailed report
+
   fetchTableDataByPagePopup(index) {
-    this.PageIndex = index;
-    let startindex = this.studentdisplaysize * (index - 1);
-  
-    this.pageDetailedData=this.getDataFromDataSource(startindex);
+    this.PageIndexPopup = index;
+    let startindex = this.pagedisplaysizePopup * (index - 1);
+    this.pageDetailedData=this.getDataFromDataSourcePopup(startindex);
+   
   }
 
   fetchNextPopup() {
-    this.PageIndex++;
-    this.fetchTableDataByPage(this.PageIndex);
+    this.PageIndexPopup++;
+    this.fetchTableDataByPage(this.PageIndexPopup);
   }
 
   fetchPreviousPopup() {
-    if (this.PageIndex != 1) {
-      this.PageIndex--;
-      this.fetchTableDataByPage(this.PageIndex);
+    if (this.PageIndexPopup != 1) {
+      this.PageIndexPopup--;
+      this.fetchTableDataByPage(this.PageIndexPopup);
     }
   }
 
   getDataFromDataSourcePopup(startindex) {
     
-    let d=this.dateWiseAttendance.slice(startindex, startindex + this.studentdisplaysize);
-    console.log(d);
+    let d=this.dateWiseAttendance.slice(startindex, startindex + this.pagedisplaysizePopup);
+    return d;
     
   }
 

@@ -28,12 +28,51 @@ p {
         text-align: center;
     }
 }
+.main-student-table{
+    ::-webkit-scrollbar{
+        display: block;
+    }
+    
+    .student-table{
+        overflow-x: scroll;
+        height:400px; 
+    }
+}
+.filter-box {
+    padding: 10px 0px;
+    margin-bottom: 5px;
+    background: #efefef;
+}
+.search-filter-wrapper {
+    .normal-field {
+        padding: 7px 10px;
+        width: 20%;
+        box-sizing: border-box;
+        margin-right: 10px;
+        float: right;
+        height: 35px;
+        font-size: 14px;
+    }
+}
 .form-wrapper{
     .datePickerBox{
             padding-right: 10px;
             padding-bottom: 10px;
             width:10%;
         }
+}
+.popup-header-content
+{
+    h2{
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    h5{
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }
 .middle-section {
     padding: 5px 15px;
