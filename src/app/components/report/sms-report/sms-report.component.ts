@@ -44,7 +44,7 @@ export class SmsReportComponent implements OnInit {
     { primaryKey: 'sentDateTime', header: 'Sent Date' },
     { primaryKey: 'sms_type', header: 'Type' },
     { primaryKey: 'func_type', header: 'Event' },
-    { primaryKey: 'sentStatus', header: 'Name' }
+    { primaryKey: 'sentStatus', header: 'Status' }
   ];
 
   smsFetchForm: any = {

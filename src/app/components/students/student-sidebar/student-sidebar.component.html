@@ -12,7 +12,7 @@
                 <li style="border-top: none;text-overflow: ellipsis;cursor:pointer;" (click)="emitNotes($evnent)">
                     <h5>
                         <i style="font-family: FontAwesome;" class="fa fa-sticky-note" aria-hidden="true"></i>
-                        {{rowData.comments}}
+                        {{studentDetails.comments}}
                     </h5>
                 </li>
             </ul>
@@ -87,55 +87,59 @@
                             <div class="field-wrapper" style="padding-top: 25px;">
                                 <label *ngIf="isProfessional" style="top: 0px;" for="Batches">Batches</label>
                                 <label *ngIf="!isProfessional" style="top: 0px;" for="Batches">Courses</label>
-                                <textarea rows="1" cols="1" style="height: 85px;border: solid 2px rgba(53, 53, 53, 0.26);padding: 5px; background: #efefef" readonly="true" id="Batches"
-                                    name="Batches" class="form-ctrl" [(ngModel)]="rowData.batchesAssigned">
+                                <textarea rows="1" cols="1" style="height: 85px;border: solid 2px rgba(53, 53, 53, 0.26);padding: 5px; background: #efefef"
+                                    readonly="true" id="Batches" name="Batches" class="form-ctrl" [(ngModel)]="rowData.batchesAssigned">
                                 </textarea>
                             </div>
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="dob">Date Of Birth</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.dob" type="text" name="dob">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.dob" type="text" name="dob">
                         </div>
                         <div class="form-wrapper c-xs-12">
-                            <label for="doj">Date Of Joining</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.doj" type="text" name="doj">
+                            <label for="doj">Date Of Admission</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.doj" type="text" name="doj">
+                        </div>
+                        <div class="form-wrapper c-xs-12">
+                            <label for="doj">Student Email</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.student_email" type="text" name="email">
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="ParentName">Parent Name</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.parent_name" type="text" name="ParentName">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.parent_name" type="text" name="ParentName">
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="ParentPhone">Parent Phone</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.parent_phone" type="text" name="ParentPhone">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.parent_phone" type="text" name="ParentPhone">
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="ParentEmail">Parent Email</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.parent_email" type="text" name="ParentEmail">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.parent_email" type="text" name="ParentEmail">
                         </div>
 
-                        <div class="form-wrapper c-xs-12">
+                        <!-- <div class="form-wrapper c-xs-12">
                             <label for="GuardianName">Guardian Name</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.guardian_name" type="text" name="Guardian Name">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.guardian_name" type="text" name="Guardian Name">
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="GuardianPhone">Guardian Phone</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.guardian_phone" type="text" name="GuardianPhone">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.guardian_phone" type="text" name="GuardianPhone">
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="Guardian Email"></label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.guardian_email" type="text" name="Guardian Email">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.guardian_email" type="text" name="Guardian Email">
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="SchoolName">School Name</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.school_name" type="text" name="SchoolName">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.school_name" type="text" name="SchoolName">
                         </div>
                         <div class="form-wrapper c-xs-12">
                             <label for="student_class">Student Class</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.student_class" type="text" name="student_class">
-                        </div>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.student_class" type="text" name="student_class">
+                        </div> -->
                         <div class="form-wrapper c-xs-12">
                             <label for="Address">Address</label>
-                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="rowData.student_curr_addr" type="text" name="Address">
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.student_curr_addr" type="text" name="Address">
                         </div>
                     </div>
                 </section>

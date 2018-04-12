@@ -166,9 +166,11 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.isRippleLoad = true;
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-    this.busy = this.loadTableDataSource(this.instituteData);
-    this.busy = this.fetchStudentPrefill();
-
+    //this.busy = this.loadTableDataSource(this.instituteData);
+    this.fetchStudentPrefill();
+    this.loading_message = 3;            
+    this.studentDataSource = [];
+    this.totalRow = this.studentDataSource.length;
     this.bulkActionItems = [
       // {
       //   label: 'Mark Leave', icon: 'fas fa-exclamation', command: () => {
@@ -212,8 +214,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
               title: 'No Records Found',
               body: 'We did not find any enquiry for the specified query'
             }
-            this.loading_message = 2;
             this.appC.popToast(alert);
+            this.loading_message = 2;            
             this.studentDataSource = [];
             this.totalRow = this.studentDataSource.length;
           }

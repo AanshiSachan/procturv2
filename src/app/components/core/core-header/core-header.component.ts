@@ -13,6 +13,9 @@ export class CoreHeaderComponent implements OnInit {
   instituteName: string;
   userName: string;
   menuToggler: boolean = false;
+  hasEnquiry: boolean = false;
+  hasStudent: boolean = false;
+  hasClass: boolean = false;
 
   ngOnInit() {
 
@@ -22,6 +25,7 @@ export class CoreHeaderComponent implements OnInit {
 
     this.log.currentUsername.subscribe(res => {
       this.userName = res;
+      this.updatePermissions();
     });
 
     this.checkUserHadAccess();
@@ -118,4 +122,53 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divManageFormTag').classList.add('hide');
   }
 
+
+  hasEnquiryAccess(): boolean {
+    if (sessionStorage.getItem('permissions') == '') {
+      return true;
+    }
+    else {
+      if (JSON.parse(sessionStorage.getItem('permissions')).includes('110') || JSON.parse(sessionStorage.getItem('permissions')).includes('115')) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+  }
+
+
+  hasStudentAccess(): boolean {
+    if (sessionStorage.getItem('permissions') == '') {
+      return true;
+    }
+    else {
+      if (JSON.parse(sessionStorage.getItem('permissions')).includes('301') || JSON.parse(sessionStorage.getItem('permissions')).includes('302') || JSON.parse(sessionStorage.getItem('permissions')).includes('303')) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+  }
+
+  hasCourseAccess(): boolean {
+    if (sessionStorage.getItem('permissions') == '') {
+      return true;
+    }
+    else {
+      if (JSON.parse(sessionStorage.getItem('permissions')).includes('402')) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+  }
+
+  updatePermissions() {
+    this.hasEnquiry = this.hasEnquiryAccess();
+    this.hasStudent = this.hasStudentAccess();
+    this.hasClass = this.hasCourseAccess();
+  }
 }

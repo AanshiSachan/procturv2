@@ -24,6 +24,7 @@ import 'rxjs/add/operator/filter';
 })
 export class StudentAddComponent implements OnInit {
 
+  selectedCheque: any;
   defaultAcadYear: any;
   isPartialPayment: boolean;
   userHasFees: boolean;
@@ -459,7 +460,14 @@ export class StudentAddComponent implements OnInit {
       }
     },
       err => {
-        alert("error fetching student fees");
+        let msg = JSON.parse(err._body).message;;
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
       });
   }
 
@@ -688,7 +696,14 @@ export class StudentAddComponent implements OnInit {
         this.inventoryItemsArr = data;
       },
       err => {
-        this.isRippleLoad = false;
+        let msg = JSON.parse(err._body).message;;
+              this.isRippleLoad = false;
+              let obj = {
+                type: 'error',
+                title: msg,
+                body: ""
+              }
+              this.appC.popToast(obj);
       }
     );
 
@@ -698,7 +713,15 @@ export class StudentAddComponent implements OnInit {
         this.instituteList = data;
       },
       err => {
+        let msg = JSON.parse(err._body).message;;
         this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
+
       }
     );
 
@@ -706,11 +729,33 @@ export class StudentAddComponent implements OnInit {
 
     let standard = this.prefill.getEnqStardards().subscribe(data => {
       this.standardList = data;
+    },
+    err => {
+      let msg = JSON.parse(err._body).message;;
+              this.isRippleLoad = false;
+              let obj = {
+                type: 'error',
+                title: msg,
+                body: ""
+              }
+              this.appC.popToast(obj);
+
     });
 
     this.studentPrefillService.getChequeStatus().subscribe(
       data => {
         this.pdcStatus = data;
+      },
+      err => {
+        let msg = JSON.parse(err._body).message;;
+              this.isRippleLoad = false;
+              let obj = {
+                type: 'error',
+                title: msg,
+                body: ""
+              }
+              this.appC.popToast(obj);
+
       }
     );
 
@@ -724,12 +769,15 @@ export class StudentAddComponent implements OnInit {
         });
       },
       err => {
-        let obj = {
-          type: "error",
-          title: "Error Fetching Data",
-          body: "Please refresh or check internet connectivity"
-        }
-        this.appC.popToast(obj);
+        let msg = JSON.parse(err._body).message;;
+              this.isRippleLoad = false;
+              let obj = {
+                type: 'error',
+                title: msg,
+                body: ""
+              }
+              this.appC.popToast(obj);
+
       }
     )
 
@@ -812,7 +860,14 @@ export class StudentAddComponent implements OnInit {
           this.isRippleLoad = false;
         },
         err => {
-          this.isRippleLoad = false;
+          let msg = JSON.parse(err._body).message;;
+              this.isRippleLoad = false;
+              let obj = {
+                type: 'error',
+                title: msg,
+                body: ""
+              }
+              this.appC.popToast(obj);
         }
       );
 
@@ -1074,13 +1129,14 @@ export class StudentAddComponent implements OnInit {
           }
         },
         err => {
-          this.isRippleLoad = false;
-          let alert = {
-            type: 'error',
-            title: 'Error Updating Student Details',
-            body: JSON.parse(err._body).message
-          }
-          this.appC.popToast(alert);
+          let msg = JSON.parse(err._body).message;;
+              this.isRippleLoad = false;
+              let obj = {
+                type: 'error',
+                title: msg,
+                body: ""
+              }
+              this.appC.popToast(obj);
         });
     }
     else {
@@ -1163,7 +1219,17 @@ export class StudentAddComponent implements OnInit {
         });
         // console.log(this.slots);
       },
-      err => { }
+      err => { 
+        let msg = JSON.parse(err._body).message;;
+              this.isRippleLoad = false;
+              let obj = {
+                type: 'error',
+                title: msg,
+                body: ""
+              }
+              this.appC.popToast(obj);
+
+      }
     )
   }
   /* ============================================================================================================================ */
@@ -1173,7 +1239,16 @@ export class StudentAddComponent implements OnInit {
       res => {
         this.langStatus = res;
       },
-      err => { }
+      err => { 
+        let msg = JSON.parse(err._body).message;;
+              this.isRippleLoad = false;
+              let obj = {
+                type: 'error',
+                title: msg,
+                body: ""
+              }
+              this.appC.popToast(obj);
+      }
     )
   }
   /* ============================================================================================================================ */
@@ -1417,6 +1492,14 @@ export class StudentAddComponent implements OnInit {
           }
         },
         err => {
+          let msg = JSON.parse(err._body).message;;
+          this.isRippleLoad = false;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
 
         });
     }
@@ -1513,12 +1596,15 @@ export class StudentAddComponent implements OnInit {
         this.filterStudentCustomComp();
       },
       err => {
+        let msg = JSON.parse(err._body).message;;
+        this.isRippleLoad = false;
         let obj = {
-          type: "error",
-          title: 'An error occured, Please check your internet connection',
+          type: 'error',
+          title: msg,
           body: ""
         }
         this.appC.popToast(obj);
+
       }
     )
   }
@@ -3636,37 +3722,18 @@ export class StudentAddComponent implements OnInit {
     }
     if (this.validPdc(obj)) {
       this.newPdcArr.push(obj);
-      this.pdcAddForm = {
-        bank_name: '',
-        cheque_amount: '',
-        cheque_date: '',
-        cheque_id: 0,
-        cheque_no: '',
-        cheque_status: '',
-        cheque_status_key: 0,
-        clearing_date: '',
-        institution_id: sessionStorage.getItem('institute_id'),
-        student_id: 0
-      }
+      this.addPdcDataToServer();
     }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   validPdc(obj): boolean {
-    if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '' || obj.clearing_date == 'Invalid date' || obj.clearing_date == '' || obj.cheque_no.toString().length != 6 || obj.cheque_amount <= 0) {
+    if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '' || obj.cheque_no.toString().length != 6 || obj.cheque_amount <= 0) {
       if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '') {
         let msg = {
           type: 'error',
           title: 'Invalid Cheque Details',
           body: 'Please enter a valid cheque date'
-        }
-        this.appC.popToast(msg);
-      }
-      if (obj.clearing_date == 'Invalid date' || obj.clearing_date == '') {
-        let msg = {
-          type: 'error',
-          title: 'Invalid Cheque Details',
-          body: 'Please enter a valid cheque clearing date'
         }
         this.appC.popToast(msg);
       }
@@ -3761,6 +3828,19 @@ export class StudentAddComponent implements OnInit {
     this.postService.addChequePdc(temp).subscribe(
       res => {
         this.chequePdcList = [];
+        this.newPdcArr = [];
+        this.pdcAddForm = {
+          bank_name: '',
+          cheque_amount: '',
+          cheque_date: '',
+          cheque_id: 0,
+          cheque_no: '',
+          cheque_status: '',
+          cheque_status_key: 0,
+          clearing_date: '',
+          institution_id: sessionStorage.getItem('institute_id'),
+          student_id: 0
+        }
         this.getPdcChequeList();
       },
       err => {
@@ -3771,6 +3851,9 @@ export class StudentAddComponent implements OnInit {
 
   }
   /* ============================================================================================================================ */
+  chequeSelectedForAction(i) {
+    this.selectedCheque = i;
+  }
   /* ============================================================================================================================ */
   editPDC(data) {
     document.getElementById((data.student_id + data.cheque_id).toString()).classList.remove('displayComp');
@@ -3842,16 +3925,43 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   generateAck() {
-    this.postService.generateAcknowledge(this.pdcSelectedArr, this.student_id, "undefined").subscribe(
-      res => {
-      }
-    )
+    if (this.selectedCheque != null && this.selectedCheque != undefined) {
+      this.isRippleLoad = true;
+      this.postService.generateAcknowledge(this.chequePdcList[this.selectedCheque].cheque_id, this.student_id, "undefined").subscribe(
+        res => {
+          this.isRippleLoad = false;
+          let byteArr = this.convertBase64ToArray(res.document);
+          let format = res.format;
+          let fileName = res.docTitle;
+          let file = new Blob([byteArr], { type: 'data/pdf' });
+          let url = URL.createObjectURL(file);
+          let dwldLink = document.getElementById('hiddenAnchorAck');
+          dwldLink.setAttribute("href", url);
+          dwldLink.setAttribute("download", fileName);
+          document.body.appendChild(dwldLink);
+          dwldLink.click();
+        },
+        err => {
+          let msg = JSON.parse(err._body).message;;
+          this.isRippleLoad = false;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
+        }
+      )
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   sendAck() {
     this.postService.sendAcknowledge(this.pdcSelectedArr, this.student_id).subscribe(
       res => {
+      },
+      err => {
+
       }
     )
   }
@@ -3910,42 +4020,60 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   downloadFeeReceipt(ins) {
     let yr: any;
+    let link = document.getElementById("downloadEditFeeReciept" + ins.invoice_no);
+
     if (ins.financial_year == null) {
       ins.financial_year = this.defaultAcadYear
     }
     this.academicYear.forEach(e => {
-     if(ins.financial_year == e.inst_acad_year_id){
-       yr = e.inst_acad_year
-     } 
+      if (ins.financial_year == e.inst_acad_year_id) {
+        yr = e.inst_acad_year
+      }
     });
-    this.fetchService.getFeeReceiptById(this.student_id,ins.invoice_no, yr).subscribe(
+
+    this.fetchService.getFeeReceiptById(this.student_id, ins.invoice_no, yr).subscribe(
       res => {
-        console.log(res);
-        console.log(JSON.parse(res.json()._body))
-        /* 
-        let byteArr = this.convertBase64ToArray(res.document);
-        let format = res.format;
-        let fileName = res.docTitle;
-        let fileId: string = el.list_id.toString();
-        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let body = JSON.parse(res['_body']);
+        let byteArr = this.convertBase64ToArray(body.document);
+        let format = body.format;
+        let fileName = body.docTitle;
+        let file = new Blob([byteArr], { type: 'application/pdf' });
         let url = URL.createObjectURL(file);
-        let dwldLink = document.getElementById(fileId);
-        dwldLink.setAttribute("href", url);
-        dwldLink.setAttribute("download", fileName);
-        dwldLink.innerText = 'Download Report';
-        */
+        if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+          link.setAttribute("href", url);
+          link.setAttribute("download", fileName);
+          link.click();
+        }
       },
       err => {
 
       }
     )
-
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   emailFeeReceipt(ins) {
-    //this.fetchService.emailReceiptById(ins.display_invoice_no)
-    console.log(ins);
+    let yr: any;
+
+    if (ins.financial_year == null) {
+      ins.financial_year = this.defaultAcadYear
+    }
+    this.academicYear.forEach(e => {
+      if (ins.financial_year == e.inst_acad_year_id) {
+        yr = e.inst_acad_year
+      }
+    });
+
+    this.fetchService.emailReceiptById(this.student_id, ins.invoice_no, yr).subscribe(
+      res => {
+        let obj = {
+          type: "success",
+          title: "Reciept Sent",
+          body: "Receipt has been sent to student/parent email ID"
+        }
+        this.appC.popToast(obj);
+      }
+    )
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -4398,12 +4526,26 @@ export class StudentAddComponent implements OnInit {
             },
             err => {
               this.isRippleLoad = false;
+              let msg = JSON.parse(err._body).message;;
+              this.isRippleLoad = false;
               let obj = {
                 type: 'error',
-                title: "An Error Occured",
+                title: msg,
                 body: ""
               }
               this.appC.popToast(obj);
+              this.pdcSelectedForm = {
+                bank_name: '',
+                cheque_amount: this.totalFeePaid,
+                cheque_date: moment().format("YYYY-MM-DD"),
+                cheque_no: '',
+                pdc_cheque_id: ''
+              }
+              this.isFeeApplied = false;
+              this.pdcSelectedForPayment = "";
+              this.isFeePaymentUpdate = false;
+              this.feeTemplateById.payment_mode = "Cash";
+              this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
             }
           );
 
@@ -4552,13 +4694,26 @@ export class StudentAddComponent implements OnInit {
               this.closePartialPayment();
             },
             err => {
+              let msg = JSON.parse(err._body).message;;
               this.isRippleLoad = false;
               let obj = {
                 type: 'error',
-                title: "An Error Occured",
+                title: msg,
                 body: ""
               }
               this.appC.popToast(obj);
+              this.pdcSelectedForm = {
+                bank_name: '',
+                cheque_amount: this.totalFeePaid,
+                cheque_date: moment().format("YYYY-MM-DD"),
+                cheque_no: '',
+                pdc_cheque_id: ''
+              }
+              this.isFeeApplied = false;
+              this.pdcSelectedForPayment = "";
+              this.isFeePaymentUpdate = false;
+              this.feeTemplateById.payment_mode = "Cash";
+              this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
             }
           );
         }
