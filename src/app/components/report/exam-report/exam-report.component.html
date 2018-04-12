@@ -3,61 +3,64 @@
         <section class="middle-main clearFix">
             <section class="middle-top mb0 clearFix sms-header">
                 <h2 class="pull-left">
-                      Exam Report
+                    Exam Report
                 </h2>
-                    <aside class="pull-right">
-                    </aside>
+                <aside class="pull-right">
+                </aside>
             </section>
             <div class="row">
                 <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
                     <label>Master Course</label>
-                    <select class="side-form-ctrl" [(ngModel)]="masterData" (ngModelChange)="getCourseData($event)"  name="masterCourse">
+                    <select class="side-form-ctrl" [(ngModel)]="fetchFieldData.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
                         <option value="" selected>Master Course</option>
                         <option *ngFor="let i of masterCourses" [value]="i.master_course">{{i.master_course}}</option>
                     </select>
                 </div>
-                <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper" >
+                <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
                     <label> Course</label>
-                    <select class="side-form-ctrl" [(ngModel)]="CourseData" (ngModelChange)="getSubData($event)">
-                        <option value="" selected>Course</option>
+                    <select class="side-form-ctrl" [(ngModel)]="fetchFieldData.subject_id" (ngModelChange)="getSubData($event)">
+                        <option value="" selected></option>
                         <option *ngFor="let i of courseData" [value]="i.course_id" name="Course">{{i.course_name}}</option>
                     </select>
                 </div>
                 <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
                     <label>Subject</label>
-                    <select class="side-form-ctrl" [(ngModel)]="Subjectdata" (ngModelChange)="getExamScheduleData($event)">
-                        <option value="" selected>Subject</option>
+                    <select class="side-form-ctrl" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
+                        <option value="" selected></option>
                         <option *ngFor="let i of SubjectData" [value]="i.batch_id" name="Subject">{{i.subject_name}}</option>
                     </select>
                 </div>
                 <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
                     <label>Exam Schedule</label>
-                    <select class="side-form-ctrl" [(ngModel)]="Exam_sche_Data">
-                        <option value="" selected>Exam Schedule</option>
+                    <select class="side-form-ctrl" [(ngModel)]=" fetchFieldData.exam_schd_id">
+                        <option value="" selected></option>
                         <option *ngFor="let i of Exam_Sch_Data" [value]="i.schd_id" name="Exam Schedule">{{i.exam_date}}({{i.start_time}}-{{i.end_time}})</option>
                     </select>
                 </div>
                 <div class="c-lg-4 c-md-4 c-sm-4 pull-Right">
                     <div class="btn-sms-search">
-                      <input type="button" class="normal-btn fullBlue btn" value="View" 
-                      (click)="fetchExamReport()"/>
-                      <input type="button" class="normal-btn fullBlue btn" value="DetailReport" 
-                      (click)="fetchSmsByDate()"/>
-                      
+                        <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
+                        <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchExamByDate()" />
+
                     </div>
-            </div>
+                </div>
             </div>
         </section>
-    </aside>   
+    </aside>
 </div>
 
-<section class="sms-table-wrapper" *ngIf= "Tdata">
+<section class="sms-table-wrapper" *ngIf="Tdata">
+    <div class="table table-responsive student-table">
+        <proctur-table [records]="pagedExamSource" [tableName]="'Exam'" [settings]="projectSettings">
+        </proctur-table>
+    </div>
+    
 
-        <div class="table table-responsive student-table">
-
-
-
-          <proctur-table [records]="ExamSource" [tableName]="'Exam'" [settings]="projectSettings">
-          </proctur-table>
+    <div class="row filter-res pagination" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+    <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+            [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
+          </pagination>
         </div>
+      </div>
 </section>

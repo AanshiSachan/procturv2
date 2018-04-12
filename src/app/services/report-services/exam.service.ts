@@ -5,6 +5,7 @@ import { Observer } from 'rxjs/Observer';
 import * as moment from 'moment';
 import { AuthenticatorService } from "../authenticator.service";
 
+
 @Injectable()
 export class ExamService {
     baseUrl: string = '';
@@ -78,5 +79,22 @@ getCourses(obj): Observable<any> {
     )
 
   }
+
+ viewExamData(obj){
+ 
+  let url = this.baseUrl + "/api/v1/reports/StdExam"
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+
+
+
+}
+
 
 }
