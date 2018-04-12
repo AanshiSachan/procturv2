@@ -78,7 +78,7 @@
                 <span class="notify-value">3</span>
               </div>
             </li> -->
-            <!-- <li class="pos-rel">
+            <li class="pos-rel">
               <i class="icons">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="1128 2 24 24">
                   <g id="Group_1197" data-name="Group 1197" transform="translate(-46 -16)">
@@ -91,9 +91,21 @@
                     <rect id="Rectangle_680" data-name="Rectangle 680" class="cls-2" width="24" height="24" transform="translate(1174 18)" />
                   </g>
                 </svg>
-
               </i>
-            </li> -->
+              <div class="dropdown">
+                <ul class="user-detail">
+                  <li *ngIf="hasEnquiry">
+                    <a routerLink="/enquiry/add">Add Enquiry</a>
+                  </li>
+                  <li *ngIf="hasStudent">
+                    <a routerLink="/student/add">Add Student</a>
+                  </li>
+                  <li *ngIf="hasClass">
+                    <a routerLink="/course/class/add">Add Class</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
             <!-- <li class="pos-rel">
               <i style="font-family: FontAwesome;font-size: 30px;" class="fas fa-home" (click)="goToHome()">
               </i>
