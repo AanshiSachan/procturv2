@@ -75,14 +75,14 @@
                             </div>
                           </td>
                           <td>
-                            <div class="field-wrapper">
+                            <div class="field-wrapper datePickerBox">
                               <input type="text" value="" readonly="true" style="background: transparent" [ngClass]="{disableDatePicker : addEnableDisableClass(mainTableDataSource[i]) }"
                                 [(ngModel)]="mainTableDataSource[i].start_date" class="form-ctrl bsDatepicker" name="startDate"
                                 bsDatepicker (focus)="inputClickedCheck($event)">
                             </div>
                           </td>
                           <td>
-                            <div class="field-wrapper has-value">
+                            <div class="field-wrapper has-value datePickerBox">
                               <input type="text" value="" readonly="true" style="background: transparent" class="form-ctrl bsDatepicker" [(ngModel)]="mainTableDataSource[i].end_date"
                                 name="endDate" bsDatepicker (focus)="inputClickedCheck($event)">
                             </div>
@@ -151,10 +151,13 @@
       </div>
     </div>
 
+    <div class="pull-left btn-group">
+      <button class="btn fullBlue" (click)="addRowToMainTable()">Add Course</button>
+    </div>
+
     <div class="row pull-right btn-group">
       <button class="btn" routerLink='/course/courselist'>Cancel</button>
-      <button class="btn fullBlue" (click)="updateEditedDetails()">Update Details</button>
-      <button class="btn fullBlue" (click)="addRowToMainTable()">Add More</button>
+      <button class="btn fullBlue" (click)="updateEditedDetails()">Save</button>
     </div>
 
   </section>

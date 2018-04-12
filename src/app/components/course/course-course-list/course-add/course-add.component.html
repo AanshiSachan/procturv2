@@ -18,7 +18,8 @@
       <div class="row" style="margin-left:20px">
         <div class="c-lg-3 c-md-3 c-sm-3">
           <div class="field-wrapper" [ngClass]="{'has-value' : newCourseAdd.master_course_name != ''}">
-            <input type="text" id="idMasterCourse" name="masterCourse" [(ngModel)]="newCourseAdd.master_course_name" class="form-ctrl"/>
+            <input type="text" id="idMasterCourse" name="masterCourse" [(ngModel)]="newCourseAdd.master_course_name" class="form-ctrl"
+            />
             <label for="idMasterCourse">Master Course
               <span style="color:red">*</span>
             </label>
@@ -37,8 +38,8 @@
             </label>
           </div>
         </div>
-        <div class="pull-left create-cancel-small">
-          <input type="button" value="Go" class="btn" (click)="btnGoClickCreateCourse()">
+        <div class="c-lg-3 c-md-3 c-sm-3">
+          <input type="button" value="Go" class="btn fullBlue" style="margin-top: 10px" (click)="btnGoClickCreateCourse()">
         </div>
       </div>
 
@@ -51,9 +52,9 @@
             </label>
           </div>
 
-          <div class="field-wrapper" [ngClass]="{'has-value': courseDetails.start_Date != ''}" style="width:80%">
-            <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="courseDetails.start_Date" name="startDate" id="startDate"
-              bsDatepicker>
+          <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': courseDetails.start_Date != ''}" style="width:80%">
+            <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="courseDetails.start_Date" name="startDate"
+              id="startDate" bsDatepicker>
             <label for="startDate">Start Date
               <span style="color:red">*</span>
             </label>
@@ -189,8 +190,8 @@
                 <aside style="width:20%" class="pull-left leftform">
                   <div style="padding: 20px 10px 10px 10px;">
                     <div class="field-wrapper" style="background: transparent" [ngClass]="{'has-value': nestedTableForm.course_name != ''}">
-                      <input type="text" style="background: transparent" name="masterCourse" [(ngModel)]="nestedTableForm.course_name" id="masterCourse" class="form-ctrl"
-                        (focus)="inputClickedCheck($event)" / >
+                      <input type="text" style="background: transparent" name="masterCourse" [(ngModel)]="nestedTableForm.course_name" id="masterCourse"
+                        class="form-ctrl" (focus)="inputClickedCheck($event)" />
                       <label for="masterCourse">Course Name
                         <span style="color:red">*</span>
                       </label>
@@ -267,9 +268,11 @@
         </tbody>
       </table>
     </div>
-    <div *ngIf="(mainArrayForTable.length>0)" style="padding-right: 20px;">
-      <button id="btnSave" class="btn pull-right" (click)="submitCourseDetails()">Submit</button>
-    </div>
   </section>
+
+  <div class="pull-right" style="margin-top: 10px;">
+    <button class="btn" routerLink="course/courselist">Cancel</button>
+    <button id="btnSave" *ngIf="(mainArrayForTable.length>0)" class="btn fullBlue" (click)="submitCourseDetails()">Submit</button>
+  </div>
 
 </div>
