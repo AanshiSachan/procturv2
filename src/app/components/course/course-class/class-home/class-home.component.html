@@ -7,12 +7,15 @@
       <!-- ==================================================================================== -->
       <!-- ========================== Header Section ========================================== -->
       <section class="middle-top clearFix">
-        <h1 class="pull-left">
-          Class Schedule
-        </h1>
-        <aside class="pull-right">
-          <input *ngIf="showManageClass" type="button" [routerLink]="['../add']" value="Manage Class" class="btn">
-        </aside>
+        <div class="row" style="margin-left: 0px;">
+          <h1 class="pull-left">
+            Class Schedule
+          </h1>
+          <aside class="pull-right" style="margin-right: 15px">
+            <input *ngIf="showManageClass" type="button" [routerLink]="['../add']" value="Manage Class" class="btn">
+          </aside>
+        </div>
+        <h4>Choose filter to view class schedule</h4>
       </section>
       <!-- ==================================================================================== -->
       <!-- ==================================================================================== -->
@@ -146,7 +149,7 @@
                       </div>
                     </div>
                     <div class="">
-                      <input type="button" class="fullBlue btn" value="Submit" (click)="submitMasterCourse()">
+                      <input type="button" class="fullBlue btn" value="Go" (click)="submitMasterCourse()">
                     </div>
 
                   </div>
@@ -290,55 +293,58 @@
       </span>
       <div class="popup-content" style="padding-left: 15px;">
 
-        <h2 widget-header>Reschedule {{rescheduleDet.batch_name}}</h2>
+        <h2 widget-header>Reschedule -- {{rescheduleDet.batchName}}</h2>
 
         <div class="rescheduleWrapper" widget-content>
           <div class="row">
-            <div class="field-wrapper datePickerBox" style="width: 50%;" [ngClass]="{'has-value': reschedDate != ''}">
-              <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
-                bsDatepicker>
-              <label for="reschDate">Reschedule Date</label>
+            <div class="c-sm-4 c-md-4 c-lg-4">
+              <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': reschedDate != ''}">
+                <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
+                  bsDatepicker>
+                <label for="reschDate">Reschedule Date</label>
+              </div>
             </div>
-          </div>
 
-          <div class="row">
-
-            <div class="form-wrapper c-xs-6 timepick">
-              <label for="startTime">Start Time</label>
-              <div class="tbox">
-                <div class="times">
-                  <select class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.hour" name="startTime">
-                    <option [value]="time" *ngFor="let time of times">
-                      {{time}}
-                    </option>
-                  </select>
-                </div>
-                <div class="times">
-                  <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.minute" name="minute">
-                    <option *ngFor="let minute of minArr" [value]="minute">
-                      {{minute}}
-                    </option>
-                  </select>
+            <div class="c-sm-4 c-md-4 c-lg-4">
+              <div class="form-wrapper timepick rescheduleTime">
+                <label for="startTime">Start Time</label>
+                <div class="tbox">
+                  <div class="times">
+                    <select class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.hour" name="startTime">
+                      <option [value]="time" *ngFor="let time of times">
+                        {{time}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="times">
+                    <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.minute" name="minute">
+                      <option *ngFor="let minute of minArr" [value]="minute">
+                        {{minute}}
+                      </option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="form-wrapper c-xs-6 timepick">
-              <label for="endtime">End Time</label>
-              <div class="tbox">
-                <div class="times ">
-                  <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.hour" name="endtime">
-                    <option [value]="time" *ngFor="let time of times">
-                      {{time}}
-                    </option>
-                  </select>
-                </div>
-                <div class="times">
-                  <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.minute" name="minute">
-                    <option *ngFor="let minute of minArr" [value]="minute">
-                      {{minute}}
-                    </option>
-                  </select>
+            <div class="c-sm-4 c-md-4 c-lg-4">
+              <div class="form-wrapper timepick rescheduleTime">
+                <label for="endtime">End Time</label>
+                <div class="tbox">
+                  <div class="times ">
+                    <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.hour" name="endtime">
+                      <option [value]="time" *ngFor="let time of times">
+                        {{time}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="times">
+                    <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.minute" name="minute">
+                      <option *ngFor="let minute of minArr" [value]="minute">
+                        {{minute}}
+                      </option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
@@ -410,16 +416,16 @@
           </div> -->
           <div class="row">
             <div class="field-wrapper" style="width: 50%;">
-              <textarea type="text" style="height:50px;" id="reschreason" name="reschreason" [(ngModel)]="reschedReason" value="" placeholder="Reshedule Reason"
+              <textarea type="text" style="height:50px;" id="reschreason" name="reschreason" [(ngModel)]="reschedReason" value="" placeholder="Reschedule Reason"
                 class="form-ctrl textbox">
                 </textarea>
             </div>
           </div>
-          <div class="row">
+          <div class="row notifyChkbx">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus('resheduleNotified')"
                 (change)="notifyRescheduleUpdate($event)">
-              <label for="is_reshedule_notified">Notify Students For Class Reschedule</label>
+              <label for="is_reshedule_notified">Notify Students</label>
             </div>
           </div>
         </div>
@@ -428,7 +434,7 @@
           <div class="clearfix">
             <aside class="pull-right popup-btn">
               <input type="button" value="Cancel" class="btn" (click)="closeRescheduleClass()">
-              <input type="button" value="Reschedule Class" (click)="rescheduleClass()" class="redBtn btn">
+              <input type="button" value="Reschedule Class" (click)="rescheduleClass()" class="fullBlue btn">
             </aside>
           </div>
         </div>
@@ -462,7 +468,7 @@
       </span>
       <div class="popup-content">
 
-        <h2 widget-header>Cancel Schedule {{classMarkedForAction.batch_name}}</h2>
+        <h2 widget-header>Cancel Class -- {{classMarkedForAction.batch_name}}</h2>
 
         <div class="CancelWrapper" widget-content>
           <div class="row cancelField">
@@ -472,10 +478,12 @@
             </textarea>
               </div>
             </div>
+          </div>
+          <div class="row notifyChkbx">
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-checkbox-wrapper">
                 <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
-                <label for="notifyCancel">Notify Batch Students For Class Cancellation</label>
+                <label for="notifyCancel">Notify Students</label>
               </div>
             </div>
           </div>
@@ -485,7 +493,7 @@
           <div class="clearfix">
             <aside class="pull-right popup-btn">
               <input type="button" value="Cancel" class="btn" (click)="closeCourseCancelClass()">
-              <input type="button" value="Update Schedule" (click)="cancelClass()" class="redBtn btn">
+              <input type="button" value="Save" (click)="cancelClass()" class="btn fullBlue">
             </aside>
           </div>
         </div>
