@@ -399,7 +399,7 @@
     </section>
   </section>
 
-  <proctur-widget *ngIf="isAttendancePop">
+  <proctur-widget *ngIf="isAttendancePop" [size]="'85%'">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAttendance()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -435,19 +435,25 @@
 
           <div class="row filterSection">
             <div class="c-sm-2 c-md-2 c-lg-2">
-              <h3>Total Students : {{studentAttList.length}} </h3>
+              <h3>Total : {{studentAttList.length}} </h3>
             </div>
 
-            <div class="c-sm-4 c-md-4 c-lg-4">
+            <div class="c-sm-4 c-md-4 c-lg-4 legendSection">
+              <div class="divSection">
+                <span class="leave">{{leaveCount}}</span>
+                <span class="legendSpan">Leave</span>
+              </div>
 
-              <span class="leave">{{leaveCount}}</span>
-              <h5>Leave</h5>
+              <div class="divSection">
+                <span class="absent">{{absentCount}}</span>
+                <span class="legendSpan">Absent</span>
+              </div>
 
-              <span class="absent">{{absentCount}}</span>
-              <h5>Absent</h5>
+              <div class="divSection">
+                <span class="present">{{presentCount}}</span>
+                <span class="legendSpan">Present</span>
+              </div>
 
-              <span class="present">{{presentCount}}</span>
-              <h5>Present</h5>
 
             </div>
 
@@ -532,7 +538,7 @@
                           (ngModelChange)="isHomeworkStatusChanged(i)">
                           <option value="Y" selected=" ">Completed</option>
                           <option value="N">Not Done</option>
-                          <option value="NC">InComplete</option>
+                          <option value="NC">Incomplete</option>
                         </select>
                       </div>
                     </li>
@@ -548,13 +554,12 @@
         <aside class="detailsSection">
 
           <div style="margin-top: 0px">
-            <h3 style="display: inline-flex;">Attendance Note</h3>
-            <div class="questionInfo" style="border:none;margin-left: 25px;">
+            <h3 style="display: inline-flex;">Attendance Note
+            </h3>
+            <div class="questionInfo" style="border:none;margin-left: 30px;">
               <span class="qInfoIcon">?</span>
               <span class="tooltip-box-field">
-
                 Details of any attendance related note.
-
               </span>
             </div>
             <div class="field-wrapper">
@@ -918,7 +923,7 @@
                         (ngModelChange)="isCourseHomeworkStatusChanged($event,i)">
                         <option value="Y" selected>Completed</option>
                         <option value="N">Not Done</option>
-                        <option value="NC">InComplete</option>
+                        <option value="NC">Incomplete</option>
                       </select>
                     </div>
                   </td>
@@ -1004,22 +1009,10 @@
       </svg>
     </span>
 
-    <h2 widget-header>Notification Management</h2>
+    <h2 widget-header>Send Notification</h2>
 
     <div class="notificationCOntent" widget-content>
       <div class="notification-content-wrapper">
-        <!-- <div class="row">
-          <div class="btnWrapper">
-            <button class="btn" (click)="addNewNotification()">
-              <div class="option-wrap">
-                <img src="assets/images/plus.png" alt="Add Item" style="vertical-align: -webkit-baseline-middle;">
-                <span class="tooltip tooltipSpan">
-                  Add Notification Message
-                </span>
-              </div>
-            </button>
-          </div>
-        </div> -->
 
         <div class="add-notificaton-wrapper" *ngIf="addNotification">
           <div class="row">

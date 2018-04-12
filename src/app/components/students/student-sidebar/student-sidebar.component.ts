@@ -59,6 +59,7 @@ export class StudentSidebarComponent implements OnInit, OnChanges {
     this.rowData;
     this.studentDetails;
     this.customComponent;
+    console.log(this.studentDetails);
     this.fetchStudentDetails(this.studentDetails);
   }
 

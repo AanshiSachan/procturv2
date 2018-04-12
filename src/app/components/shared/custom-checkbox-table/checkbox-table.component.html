@@ -50,4 +50,10 @@
             </td>
         </tr>
     </tbody>
+    <tbody *ngIf="records.length == 0 && dataStatus === 3">
+            <tr>
+                <td colspan='11'>
+                </td>
+            </tr>
+        </tbody>
 </table>
