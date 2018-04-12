@@ -13,9 +13,9 @@ export class CoreHeaderComponent implements OnInit {
   instituteName: string;
   userName: string;
   menuToggler: boolean = false;
-  hasEnquiry: boolean = false;
-  hasStudent: boolean = false;
-  hasClass: boolean = false;
+  hasEnquiry: boolean = true;
+  hasStudent: boolean = true;
+  hasClass: boolean = true;
 
   ngOnInit() {
 
@@ -25,7 +25,7 @@ export class CoreHeaderComponent implements OnInit {
 
     this.log.currentUsername.subscribe(res => {
       this.userName = res;
-      this.updatePermissions();
+      //this.updatePermissions();
     });
 
     this.checkUserHadAccess();
@@ -167,8 +167,8 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   updatePermissions() {
-    this.hasEnquiry = this.hasEnquiryAccess();
+    /* this.hasEnquiry = this.hasEnquiryAccess();
     this.hasStudent = this.hasStudentAccess();
-    this.hasClass = this.hasCourseAccess();
+    this.hasClass = this.hasCourseAccess(); */
   }
 }
