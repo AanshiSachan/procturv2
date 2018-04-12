@@ -21,6 +21,7 @@ export class TeacherEditComponent implements OnInit {
   @ViewChild('idCardUpload') idCardTeacher;
   @ViewChild('uploadedImage') idCardImg;
   @ViewChild('uploadImageAnchor') anchTag;
+  enableBiometric: any = 0;
 
   constructor(
     private route: Router,
@@ -38,6 +39,7 @@ export class TeacherEditComponent implements OnInit {
   ngOnInit() {
     this.createEditTeacherForm();
     this.getTeacherInfo();
+    this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
   }
 
   getTeacherInfo() {
@@ -50,7 +52,7 @@ export class TeacherEditComponent implements OnInit {
         this.hasIdCard = data.hasIDCard;
       },
       error => {
-        
+
       }
     );
   }
@@ -65,6 +67,7 @@ export class TeacherEditComponent implements OnInit {
       teacher_email: [''],
       teacher_subjects: [''],
       hour_rate: [''],
+      attendance_device_id: [''],
       is_active: [true],
       is_allow_teacher_to_only_mark_attendance: [false],
       is_student_mgmt_flag: [true]
@@ -106,6 +109,7 @@ export class TeacherEditComponent implements OnInit {
     else {
       dataToBind.is_student_mgmt_flag = false;
     }
+    dataToBind.attendance_device_id = data.attendance_device_id;
     return dataToBind
   }
 
@@ -159,7 +163,6 @@ export class TeacherEditComponent implements OnInit {
       formData.id_file = null;
       formData.id_fileType = "";
     }
-    formData.attendance_device_id = "";
 
     this.ApiService.saveEditTeacherInformation(this.selectedTeacherInfo.teacher_id, formData).subscribe(
       data => {
@@ -167,7 +170,7 @@ export class TeacherEditComponent implements OnInit {
         this.route.navigateByUrl('teacher');
       },
       err => {
-         this.messageToast('error', 'Error', err.error.message);
+        this.messageToast('error', 'Error', err.error.message);
       }
     )
   }

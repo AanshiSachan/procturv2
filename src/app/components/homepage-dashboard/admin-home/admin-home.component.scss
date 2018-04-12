@@ -20,10 +20,20 @@
     height: 20px;
     width: 20px;
     z-index: 2;
-    .tooltip-box-field {
-        color: black;
-        min-height: 22px;
-        width: 140px;
+    &.lefts {
+        left: 80%;
+        .tooltip-box-field {
+            color: black;
+            min-height: 22px;
+            width: 140px !important;
+            left: -135px !important;
+            z-index: 1;
+            padding: 5px 10px !important;
+            top: -12px !important;
+            &:after {
+                display: none;
+            }
+        }
     }
     .qInfoIcon {
         margin-left: 5px;
@@ -44,6 +54,23 @@
         &:hover {
             border-color: $header-bg;
             box-shadow: 0px 0px 1px 0px $header-bg inset;
+        }
+    }
+    &.hover {
+        &.lefts {
+            left: 80%;
+            .tooltip-box-field {
+                color: black;
+                min-height: 22px;
+                width: 140px !important;
+                left: -135px !important;
+                z-index: 1;
+                padding: 5px 10px !important;
+                top: -12px !important;
+                &:after {
+                    display: none;
+                }
+            }
         }
     }
 }
@@ -391,7 +418,7 @@ fieldset {
             div {
                 padding: 5px 0px;
                 &.questionInfo {
-                    padding: 0px 5px !important;
+                    padding: 0px !important;
                     &.qInfoIcon {
                         border: none;
                     }
@@ -556,6 +583,16 @@ fieldset {
         }
         ::-webkit-scrollbar {
             display: block;
+        }
+    }
+    tr {
+        td {
+            padding: 0px 20px !important;
+        }
+    }
+    .form-wrapper {
+        .form-ctrl {
+            border: 2px solid #efefef;
         }
     }
 }
@@ -993,7 +1030,7 @@ div#enqChart {
         min-height: 300px;
         max-height: 300px;
         overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
     ul {
         border-bottom: 2px solid rgba(211, 212, 213, 0.5);
@@ -1127,6 +1164,12 @@ div#enqChart {
                     background: rgba(27, 96, 163, 0.16);
                     li {
                         padding: 10px 10px 10px;
+                    }
+                    &.subject {
+                        background: rgba(27, 96, 163, 0.16);
+                        li {
+                            padding: 5px 24px 0px !important;
+                        }
                     }
                 }
             }
@@ -1629,30 +1672,31 @@ div#enqChart {
 }
 
 .customDropdown {
-    font-weight: 500;
+    margin-top: 0px;
     border: 1px solid rgba(0, 0, 0, 0.23);
     padding: 1px 1px;
     select {
         width: 100%;
+        padding: 0px;
+        font-size: 12px;
         background: transparent;
     }
 }
 
 .btnGroup {
     display: inline-flex;
+    margin-bottom: 4px !important;
     .btn {
-        padding: 1px 12px 5px 12px;
-        margin: 5px 5px 5px 5px;
+        padding: 0px 8px 0px 8px;
+        margin: 0px 5px;
         width: 29%;
-        height: 24px;
+        height: 22px;
         font-size: 14px;
         border-radius: 6px;
     }
     .classLeaveBtn {
         color: white;
         text-align: center;
-        padding-bottom: -10px;
-        margin-bottom: 10px;
         background: #7a7a7a;
     }
     .classAbsentBtn {
@@ -1717,8 +1761,8 @@ div#enqChart {
 }
 
 .notification-content-wrapper {
-    padding: 0px 10px 0px 15px;
-    max-height: 400px;
+    padding: 0px 0px 0px 15px;
+    max-height: 415px;
     overflow-x: hidden;
     overflow-y: auto;
     .row {
@@ -1786,6 +1830,7 @@ div#enqChart {
         }
         .main-content-wrapper {
             .filter-section {
+                margin-left: -15px;
                 .form-wrapper {
                     background: transparent;
                     margin: 0px;
@@ -1811,7 +1856,7 @@ div#enqChart {
                         background: transparent;
                         border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
                         width: 100%;
-                        padding: 8px 5px;
+                        padding: 5px 5px;
                         font-weight: 600;
                         font-size: 14px;
                         color: black;
@@ -1838,7 +1883,7 @@ div#enqChart {
                 margin-bottom: 10px;
             }
             .table-content-wrapper {
-                max-height: 200px;
+                max-height: 175px;
                 overflow-x: hidden;
                 overflow-y: scroll;
                 table {
@@ -1879,8 +1924,11 @@ div#enqChart {
                 .row {
                     margin: 10px 0px;
                 }
+                .deliverModeSection {
+                    margin-left: -15px;
+                }
                 .message-table-wrapper {
-                    max-height: 210px;
+                    max-height: 160px;
                     overflow-x: hidden;
                     overflow-y: scroll;
                     table {
@@ -1975,9 +2023,9 @@ div#enqChart {
         }
     }
     &.timepick {
-        width: 50%;
         padding: 1px 0px;
         .tbox {
+            display: inline-block;
             width: 100%;
             .times {
                 display: inline-block;
@@ -1991,7 +2039,7 @@ div#enqChart {
                 font-size: 14px;
                 color: black;
                 &.mins {
-                    width: 80px;
+                    width: 70px;
                 }
                 &.mers {
                     width: 50px;
@@ -2017,4 +2065,40 @@ div#enqChart {
 
 #next_tab {
     margin-top: 10px;
+}
+
+.rescheduleTime {
+    label {
+        text-transform: none;
+    }
+    .tbox {
+        padding: 0px 0px;
+        .times {
+            .side-form-ctrl {
+                &.mins {
+                    padding: 0px 0px;
+                }
+                &.mers {
+                    padding: 0px 0px;
+                }
+            }
+        }
+    }
+}
+
+.borderWithText {
+    display: block;
+    margin: 10px 0px;
+    h2 {
+        font-size: 15px;
+        text-align: center;
+        border-bottom: 2px solid #f1f1f1;
+        position: relative;
+        span {
+            background-color: white;
+            position: relative;
+            top: 10px;
+            padding: 0 10px;
+        }
+    }
 }

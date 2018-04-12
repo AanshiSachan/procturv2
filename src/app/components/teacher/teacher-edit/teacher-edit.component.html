@@ -1,7 +1,7 @@
 <div class="middle-section clearFix">
     <section class="middle-top mb0 clearFix" style="margin-bottom: 10px;">
         <h1 class="pull-left">
-            Edit Teacher
+            Edit Faculty
         </h1>
     </section>
 
@@ -12,13 +12,13 @@
                 <form [formGroup]="editTeacherForm" novalidate (ngSubmit)="saveTeacherInfo()">
                     <div class="row field-wrapper" [ngClass]="{'has-value': teacher_name != ''}">
                         <input type="text" class="form-ctrl" formControlName="teacher_name" name="name" (focus)="inputClickedCheck($event)">
-                        <label for="name">Teacher Name
+                        <label for="name">Faculty Name
                             <span style="color:red">*</span>
                         </label>
                         <div *ngIf="editTeacherForm.controls['teacher_name'].invalid && (editTeacherForm.controls['teacher_name'].dirty || editTeacherForm.controls['teacher_name'].touched)"
                             class="alert alert-danger">
                             <div *ngIf="editTeacherForm.controls['teacher_name'].hasError('required')">
-                                Teacher Name is required.
+                                Faculty Name is required.
                             </div>
                         </div>
                     </div>
@@ -70,6 +70,11 @@
                         <label for="salary">Salary (Per Hour)
                         </label>
                     </div>
+                    <div class="row field-wrapper" *ngIf="enableBiometric == '1'" [ngClass]="{'has-value' : attendance_device_id !=''}">
+                        <input type="text" class="form-ctrl" name="biometric" formControlName="attendance_device_id">
+                        <label for="biometric">Attendance Card ID
+                        </label>
+                    </div>
                     <div class="extra-margin" style="margin-top: 15px;">
 
                         <div class="field-checkbox-wrapper" style="margin-left: -40px;">
@@ -90,13 +95,13 @@
                         <div class="field-checkbox-wrapper" style="margin-left: -40px;">
                             <div class="field-checkbox-wrapper">
                                 <input type="checkbox" value="" name="markAttendance" formControlName="is_student_mgmt_flag" class="form-checkbox">
-                                <label for="markAttendance">Allow teacher to view Contact details of student</label>
+                                <label for="markAttendance">Allow Faculty to view Contact details of student</label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="pull-right">
-                            <button routerLink="/teacher" class="btn redBtn">Cancel</button>
+                            <button routerLink="/teacher" class="btn">Cancel</button>
                             <button [disabled]='!editTeacherForm.valid' class="btn fullBlue" style="font-size: 16px;height: 40px;" type="submit">Save</button>
                         </div>
                     </div>

@@ -288,7 +288,7 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.getAllocatedStorageDetails().subscribe(
       res => {
         this.storageData = res;
-        //console.log(res);
+        this.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(3);
       },
       err => {
         //console.log(err);
@@ -1275,10 +1275,12 @@ export class AdminHomeComponent implements OnInit {
             let length = temp.length;
             let nameArr = res[o].coursee_names.split(',');
             let idArr = res[o].course_ids.split(',');
+            let is_attendance_marked = res[o].is_attendance_marked.split(',');
             for (let i = 0; i < length; i++) {
               let tobj = {
                 cancel_reason: res[o].cancel_reason,
                 course_id: res[o].course_id,
+                is_attendance_marked: '',
                 course_ids: "",
                 coursee_names: "",
                 coursesList: res[o].coursesList,
@@ -1291,6 +1293,7 @@ export class AdminHomeComponent implements OnInit {
                 standard_name: res[o].standard_name,
                 start_date: res[o].start_date,
               }
+              tobj.is_attendance_marked = is_attendance_marked[i];
               tobj.course_ids = idArr[i];
               tobj.coursee_names = nameArr[i];
               tempArr.push(tobj);
@@ -1432,20 +1435,6 @@ export class AdminHomeComponent implements OnInit {
     this.isCourseAttendance = false;
   }
 
-  //   {
-  //   "student_id": "11919",
-  //     "course_id": "79",
-  //       "dateLi": [{
-  //         "date": "2018-03-14",
-  //         "status": "P",
-  //         "isStatusModified": "N",
-  //         "home_work_status": "Y",
-  //         "is_home_work_status_changed": "N"
-  //       }],
-  //         "isNotify": "Y",
-  //           "is_home_work_enabled": "Y"
-  // },
-
   updateCourseAttendance() {
     let arr = [];
     this.courseLevelStudentAtt.forEach(element => {
@@ -1473,6 +1462,7 @@ export class AdminHomeComponent implements OnInit {
         }
         this.appC.popToast(msg);
         this.closeCourseLevelAttendance();
+        this.generateCourseLevelWidget();
       },
       err => {
         let msg = {
@@ -1644,10 +1634,16 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
+  messageSubject: any = "";
+  messageArea: any = "";
+
   closeNotificationPopUp() {
     this.notificationPopUp = false;
     this.addNotification = false;
     this.showTableFlag = false;
+    this.showEmailSubject = false;
+    this.messageSubject = "";
+    this.messageArea = "";
   }
 
   flushData() {
@@ -1786,12 +1782,16 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('divParentOrGaurdian').classList.remove('hide');
     document.getElementById('chkbxEmailSend').checked = false;
     document.getElementById('sendLoginChkbx').checked = false;
-    document.getElementById('divMessageTextbox').value = "";
-    document.getElementById('divSubjectMessage').value = "";
+    this.showEmailSubject = false;
     if (div == "divSendMessage") {
       this.showViewContent();
       this.getAllMessageFromServer();
+      document.getElementById('divDeliveryMode').classList.remove('remove');
+      document.getElementById('divDeliveryMode').classList.add('show');
+      document.getElementById('divLoginMode').classList.remove('show');
+      document.getElementById('divLoginMode').classList.add('hide');
       document.getElementById('liAdd').classList.remove('hide');
+      document.getElementById('chkbxEmailSend').checked = false;
       if (document.getElementById('chkBoxTutorSelection').checked) {
         document.getElementById('divParentOrGaurdian').classList.add('hide');
       } else {
@@ -2085,7 +2085,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getSubject() {
-    let text = document.getElementById('divSubjectMessage').value;
+    let text = this.messageSubject;
     if (text.trim() == "" && text.trim() == null) {
       let msg = {
         type: 'error',
@@ -2100,7 +2100,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getMessageText() {
-    let text = document.getElementById('divMessageTextbox').value;
+    let text = this.messageArea;
     if (text.trim() == "" && text.trim() == null) {
       let msg = {
         type: 'error',
@@ -2240,6 +2240,11 @@ export class AdminHomeComponent implements OnInit {
     } else {
       studentID = this.getListOfIds('student_id');
     }
+    let isAlumini = 0;
+    if (document.getElementById('chkBoxAluminiSelection').checked) {
+      isAlumini = 1;
+    }
+
     let obj = {
       delivery_mode: Number(delivery_mode),
       notifn_message: messageSelected.message,
@@ -2248,7 +2253,7 @@ export class AdminHomeComponent implements OnInit {
       student_ids: studentID,
       cancel_date: '',
       isEnquiry_notifn: 0,
-      isAlumniSMS: 0,
+      isAlumniSMS: isAlumini,
       isTeacherSMS: isTeacherSMS,
       configuredMessage: configuredMessage,
       message_id: messageSelected.messageId
@@ -2265,7 +2270,13 @@ export class AdminHomeComponent implements OnInit {
         this.closeNotificationPopUp();
       },
       err => {
-        //console.log(err);
+        console.log(err);
+        let msg = {
+          type: 'error',
+          title: 'Error',
+          body: err.error.message
+        };
+        this.appC.popToast(msg);
       }
     )
   }
@@ -2296,7 +2307,13 @@ export class AdminHomeComponent implements OnInit {
         this.appC.popToast(msg);
       },
       err => {
-        //console.log(err);
+        console.log(err);
+        let msg = {
+          type: 'error',
+          title: 'Error',
+          body: err.error.message
+        };
+        this.appC.popToast(msg);
       }
     )
   }
@@ -2335,7 +2352,13 @@ export class AdminHomeComponent implements OnInit {
           this.appC.popToast(msg);
         },
         err => {
-          //console.log(err);
+          console.log(err);
+          let msg = {
+            type: 'error',
+            title: 'Error',
+            body: err.error.message
+          };
+          this.appC.popToast(msg);
         }
       )
 
