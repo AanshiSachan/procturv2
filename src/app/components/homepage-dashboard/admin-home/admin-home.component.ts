@@ -1644,10 +1644,16 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
+  messageSubject: any = "";
+  messageArea: any = "";
+
   closeNotificationPopUp() {
     this.notificationPopUp = false;
     this.addNotification = false;
     this.showTableFlag = false;
+    this.showEmailSubject = false;
+    this.messageSubject = "";
+    this.messageArea = "";
   }
 
   flushData() {
@@ -1786,12 +1792,16 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('divParentOrGaurdian').classList.remove('hide');
     document.getElementById('chkbxEmailSend').checked = false;
     document.getElementById('sendLoginChkbx').checked = false;
-    document.getElementById('divMessageTextbox').value = "";
-    document.getElementById('divSubjectMessage').value = "";
+    this.showEmailSubject = false;
     if (div == "divSendMessage") {
       this.showViewContent();
       this.getAllMessageFromServer();
+      document.getElementById('divDeliveryMode').classList.remove('remove');
+      document.getElementById('divDeliveryMode').classList.add('show');
+      document.getElementById('divLoginMode').classList.remove('show');
+      document.getElementById('divLoginMode').classList.add('hide');
       document.getElementById('liAdd').classList.remove('hide');
+      document.getElementById('chkbxEmailSend').checked = false;
       if (document.getElementById('chkBoxTutorSelection').checked) {
         document.getElementById('divParentOrGaurdian').classList.add('hide');
       } else {
@@ -2085,7 +2095,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getSubject() {
-    let text = document.getElementById('divSubjectMessage').value;
+    let text = this.messageSubject;
     if (text.trim() == "" && text.trim() == null) {
       let msg = {
         type: 'error',
@@ -2100,7 +2110,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getMessageText() {
-    let text = document.getElementById('divMessageTextbox').value;
+    let text = this.messageArea;
     if (text.trim() == "" && text.trim() == null) {
       let msg = {
         type: 'error',
@@ -2240,6 +2250,11 @@ export class AdminHomeComponent implements OnInit {
     } else {
       studentID = this.getListOfIds('student_id');
     }
+    let isAlumini = 0;
+    if (document.getElementById('chkBoxAluminiSelection').checked) {
+      isAlumini = 1;
+    }
+
     let obj = {
       delivery_mode: Number(delivery_mode),
       notifn_message: messageSelected.message,
@@ -2248,7 +2263,7 @@ export class AdminHomeComponent implements OnInit {
       student_ids: studentID,
       cancel_date: '',
       isEnquiry_notifn: 0,
-      isAlumniSMS: 0,
+      isAlumniSMS: isAlumini,
       isTeacherSMS: isTeacherSMS,
       configuredMessage: configuredMessage,
       message_id: messageSelected.messageId
@@ -2265,7 +2280,13 @@ export class AdminHomeComponent implements OnInit {
         this.closeNotificationPopUp();
       },
       err => {
-        //console.log(err);
+        console.log(err);
+        let msg = {
+          type: 'error',
+          title: 'Error',
+          body: err.error.message
+        };
+        this.appC.popToast(msg);
       }
     )
   }
@@ -2296,7 +2317,13 @@ export class AdminHomeComponent implements OnInit {
         this.appC.popToast(msg);
       },
       err => {
-        //console.log(err);
+        console.log(err);
+        let msg = {
+          type: 'error',
+          title: 'Error',
+          body: err.error.message
+        };
+        this.appC.popToast(msg);
       }
     )
   }
@@ -2335,7 +2362,13 @@ export class AdminHomeComponent implements OnInit {
           this.appC.popToast(msg);
         },
         err => {
-          //console.log(err);
+          console.log(err);
+          let msg = {
+            type: 'error',
+            title: 'Error',
+            body: err.error.message
+          };
+          this.appC.popToast(msg);
         }
       )
 

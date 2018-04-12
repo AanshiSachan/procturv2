@@ -1337,7 +1337,7 @@
 
                   <div class="form-wrapper datepicker c-sm-6 c-xs-6">
                     <label for="subject" style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Subject</label>
-                    <input type="text" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
+                    <input type="text" [(ngModel)]="messageSubject" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
                       id="divSubjectMessage" />
                   </div>
 
@@ -1396,7 +1396,7 @@
                     <label for="subject" style=" font-size: 14px; font-weight: 400; font-family: inherit; color: rgba(0, 0, 0, 0.73); padding-bottom: 10px; text-transform:uppercase; ">Message
                       <span style="color:red">*</span>
                     </label>
-                    <input type="text" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
+                    <input type="text" [(ngModel)]="messageArea" name="subject" class="side-form-ctrl" value="" placeholder="" style=" background: #fff; border: 2px solid #77777770; width: 100%; padding: 8px 5px;"
                       id="divMessageTextbox" />
                   </div>
                 </div>
