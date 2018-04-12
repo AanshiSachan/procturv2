@@ -68,7 +68,7 @@
             </label>
             <!-- <span class="date-clear" name="followupdate" (click)="clearAddEnquiryDate('endDatePicker')">clear</span> -->
           </div>
-          <div class="field-checkbox-wrapper" style="margin-top: 25px;">
+          <div [ngClass]="{'hideVisibility' : examGradeFeature == 0}" class="field-checkbox-wrapper" style="margin-top: 25px;">
             <input type="checkbox" id="allow" value="" [(ngModel)]="courseDetails.allow_exam_grades" name="allow" class="form-checkbox">
             <label for="allow">Allow Exam Grades</label>
           </div>
@@ -137,7 +137,7 @@
             <th style="width:20%">
               End Date
             </th>
-            <th style="width:20%">
+            <th *ngIf="examGradeFeature == '1'" style="width:20%">
               Grade
             </th>
             <th style="width:20%">
@@ -167,7 +167,7 @@
                           {{row.end_Date}}
                         </span>
                       </td>
-                      <td style="width:20%">
+                      <td *ngIf="examGradeFeature == '1'" style="width:20%">
                         <span *ngIf='(row.allow_exam_grades == true)'>Yes</span>
                         <span *ngIf='(row.allow_exam_grades != true)'>No</span>
                       </td>
@@ -271,8 +271,8 @@
   </section>
 
   <div class="pull-right" style="margin-top: 10px;">
-    <button class="btn" routerLink="course/courselist">Cancel</button>
-    <button id="btnSave" *ngIf="(mainArrayForTable.length>0)" class="btn fullBlue" (click)="submitCourseDetails()">Submit</button>
+    <button class="btn" routerLink="/course/courselist">Cancel</button>
+    <button id="btnSave" *ngIf="(mainArrayForTable.length>0)" class="btn fullBlue" (click)="submitCourseDetails()">Save Course</button>
   </div>
 
 </div>
