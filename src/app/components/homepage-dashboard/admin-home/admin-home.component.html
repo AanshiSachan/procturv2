@@ -383,7 +383,7 @@
                       </li>
                       <li>
                         <label>Download limit</label>
-                        <a>{{storageData.storage_allocated}} MB</a>
+                        <a>{{storageData.storage_allocated}} GB</a>
                       </li>
                       <li>
                         <label>Expiry date</label>
@@ -489,7 +489,7 @@
               </ul>
               <div class="schedule-scroller" style="max-height: 250px;min-height: 250px;">
                 <div class="ct-disable-wrapper pos-rel" *ngFor="let s of studentAttList;let i=index;" [ngClass]="{ homeWorkNotFoundClass: settingInfo.home_work_feature_enable !=1 }">
-                  <ul class="ct-ongoing">
+                  <ul class="ct-ongoing subject">
                     <li style="width: 20%; font-weight: 800">
                       <div class="no-margin top5">{{s.student_disp_id}}</div>
                     </li>
@@ -501,23 +501,6 @@
                     </li>
 
                     <li style="width: 35%">
-                      <!-- <div class="radio-options attendanceGroup">
-                        <div class="field-radio-wrapper">
-                          <input [disabled]="getDisability(s)" type="radio" value="L" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
-                            (ngModelChange)="updateRadioAttendance($event, i, s)" id="Leave{{s.student_id}}">
-                          <label class="leave" for="Leave{{s.student_id}}">Leave</label>
-                        </div>
-                        <div class="field-radio-wrapper">
-                          <input [disabled]="getDisability(s)" type="radio" value="A" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
-                            (ngModelChange)="updateRadioAttendance($event, i, s)" id="Absent{{s.student_id}}">
-                          <label class="absent" for="Absent{{s.student_id}}">Absent</label>
-                        </div>
-                        <div class="field-radio-wrapper">
-                          <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
-                            (ngModelChange)="updateRadioAttendance($event, i, s)" id="Present{{s.student_id}}">
-                          <label class="present" for="Present{{s.student_id}}">Present</label>
-                        </div>
-                      </div> -->
                       <div class="btnGroup  btns">
                         <button id="leaveBtn{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClick($event , s , i)" class="btn"
                           [ngClass]="getClassForLeave(s)">L</button>
@@ -529,7 +512,7 @@
                     </li>
 
                     <li style="width: 20%;" *ngIf="settingInfo.home_work_feature_enable==1">
-                      <div class="customDropdown top5">
+                      <div style="margin: 0px;" class="customDropdown top5">
                         <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status_11755" class="" [(ngModel)]="s.dateLi[0].home_work_status"
                           (ngModelChange)="isHomeworkStatusChanged(i)">
                           <option value="Y" selected=" ">Completed</option>
@@ -551,14 +534,14 @@
 
           <div style="margin-top: 0px">
             <h3 style="display: inline-flex;">Attendance Note</h3>
-            <div class="questionInfo" style="border:none;margin-left: 25px;">
+            <!-- <div class="questionInfo" style="border:none;margin-left: 25px;">
               <span class="qInfoIcon">?</span>
               <span class="tooltip-box-field">
 
                 Details of any attendance related note.
 
               </span>
-            </div>
+            </div> -->
             <div class="field-wrapper">
               <textarea style="width: 92%;" class="form-ctrl textBox" value="" [(ngModel)]="attendanceNote">
               </textarea>
@@ -567,14 +550,14 @@
 
           <div *ngIf="settingInfo.home_work_feature_enable==1">
             <h3 style="display: inline-flex;">Homework</h3>
-            <div class="questionInfo" style="position:relative; left:25%;margin-left: 25px;">
+            <!-- <div class="questionInfo" style="position:relative; left:25%;margin-left: 25px;">
               <span class="qInfoIcon">?</span>
               <span class="tooltip-box-field">
 
                 Details of homework given to student.
 
               </span>
-            </div>
+            </div> -->
             <div class="field-wrapper" [ngClass]="{ 'has-value': homework !='' }">
               <textarea class="form-ctrl textBox" value="" [(ngModel)]="homework">
                 </textarea>
@@ -583,12 +566,12 @@
 
           <div *ngIf="settingInfo.home_work_feature_enable==1">
             <h3 style="display: inline-flex;">Last Class Homework</h3>
-            <!-- <div class="questionInfo">
-                <span class="qInfoIcon">?</span>
-                <div class="tooltip-box-field">
-                  Details of any attendance related task 
-                </div>
-            </div> -->
+            <div class="questionInfo lefts">
+              <span class="qInfoIcon">?</span>
+              <div class="tooltip-box-field">
+                Details of homework given in last class
+              </div>
+            </div>
             <div class="field-wrapper">
               <textarea disabled="true" class="form-ctrl textBox" style="background: #efefef" value="" [ngModel]="studentAttList[0].dateLi[0].homework_assigned">
               </textarea>
@@ -599,7 +582,14 @@
             <div class="field-checkbox-wrapper" *ngIf="settingInfo.home_work_feature_enable==1">
               <input type="checkbox" value="" class="form-checkbox" id="EnableHomeWorkSms" [checked]="home_work_notifn==1 ? true: false"
                 (change)="updateHomework($event)">
-              <label for="EnableHomeWorkSms">Enable Homework SMS</label>
+              <label for="EnableHomeWorkSms">Send Homework SMS
+                <div class="questionInfo lefts" style="margin-left: 30px;">
+                  <span class="qInfoIcon">?</span>
+                  <div class="tooltip-box-field">
+                    Send message for todays homework OR If Last class Homework is Not Done/Incomplete
+                  </div>
+                </div>
+              </label>
             </div>
             <div class="field-checkbox-wrapper hide">
               <input type="checkbox" value="" class="form-checkbox" id="EnableSmsTopic" [checked]="topics_covered_notifn==1 ? true: false"
@@ -608,7 +598,14 @@
             </div>
             <div class="field-checkbox-wrapper">
               <input type="checkbox" *ngIf="(settingInfo.sms_absent_notification > 0)" value="" class="form-checkbox" id="EnableSmsAbsentees">
-              <label for="EnableSmsTopic">Enable SMS For Absentees</label>
+              <label for="EnableSmsTopic">Send SMS for Absentees
+                <div class="questionInfo lefts" style="margin-left: 30px;">
+                  <span class="qInfoIcon">?</span>
+                  <div class="tooltip-box-field">
+                    Send message if Absent is marked
+                  </div>
+                </div>
+              </label>
             </div>
           </div>
 
@@ -717,7 +714,7 @@
 
   </proctur-widget>
 
-  <proctur-widget *ngIf="isReschedulePop" [size]="'40%'">
+  <proctur-widget *ngIf="isReschedulePop" [size]="'50%'">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeRescheduleClass()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -733,59 +730,61 @@
       </svg>
     </span>
 
-    <h2 widget-header>Reschedule {{classMarkedForAction.batch_name}}</h2>
+    <h2 widget-header>{{classMarkedForAction.batch_name}}</h2>
 
     <div class="rescheduleWrapper" style="padding-left: 1%" widget-content>
 
       <div class="row">
-        <div class="field-wrapper datePickerBox" style="width: 30%;" [ngClass]="{ 'has-value': reschedDate
-                  !='' }">
+
+        <div class="field-wrapper datePickerBox c-sm-4 c-md-4 c-lg-4" [ngClass]="{ 'has-value': reschedDate !='' }">
           <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
             bsDatepicker>
           <label for="reschDate">Reschedule Date</label>
         </div>
-      </div>
 
-      <div class="row">
-
-        <div class="form-wrapper c-xs-6 timepick">
-          <label for="startTime">Start Time</label>
-          <div class="tbox">
-            <div class="times ">
-              <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.hour" name="startTime">
-                <option [value]="time" *ngFor="let time of times">
-                  {{time}}
-                </option>
-              </select>
-            </div>
-            <div class="times">
-              <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.minute" name="minute">
-                <option *ngFor="let minute of minArr" [value]="minute">
-                  {{minute}}
-                </option>
-              </select>
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="form-wrapper timepick rescheduleTime" style="padding-left: 15px;">
+            <label for="startTime">Start Time</label>
+            <div class="tbox">
+              <div class="times ">
+                <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.hour" name="startTime">
+                  <option [value]="time" *ngFor="let time of times">
+                    {{time}}
+                  </option>
+                </select>
+              </div>
+              <div class="times">
+                <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedStartTime.minute" name="minute">
+                  <option *ngFor="let minute of minArr" [value]="minute">
+                    {{minute}}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="form-wrapper c-xs-6 timepick">
-          <label for="endtime">End Time</label>
-          <div class="tbox">
-            <div class="times ">
-              <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.hour" name="endtime">
-                <option [value]="time" *ngFor="let time of times">
-                  {{time}}
-                </option>
-              </select>
-            </div>
-            <div class="times">
-              <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.minute" name="minute">
-                <option *ngFor="let minute of minArr" [value]="minute">
-                  {{minute}}
-                </option>
-              </select>
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="form-wrapper timepick rescheduleTime">
+            <label for="endtime">End Time</label>
+            <div class="tbox">
+              <div class="times">
+                <select id="" class="mins side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.hour" name="endtime">
+                  <option [value]="time" *ngFor="let time of times">
+                    {{time}}
+                  </option>
+                </select>
+              </div>
+              <div class="times">
+                <select id="" class="mers side-form-ctrl" [(ngModel)]="timepicker.reschedEndTime.minute" name="minute">
+                  <option *ngFor="let minute of minArr" [value]="minute">
+                    {{minute}}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
+
         </div>
 
       </div>
@@ -801,7 +800,7 @@
         <div class="field-checkbox-wrapper">
           <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus( 'resheduleNotified')"
             (change)="notifyRescheduleUpdate($event)">
-          <label for="is_reshedule_notified">Notify Students For Class Reschedule</label>
+          <label for="is_reshedule_notified">Notify Students</label>
         </div>
       </div>
     </div>
@@ -833,8 +832,8 @@
         </g>
       </svg>
     </span>
-    <h2 widget-header>Mark Attendance Students
-      <span style="font-weight: normal"> -{{classMarkedForAction.master_course}}</span>
+    <h2 widget-header>Mark Attendance
+      <span style="font-weight: normal"> - {{classMarkedForAction.master_course}}</span>
     </h2>
 
     <div class="attendanceWrapperCourse" widget-content>
@@ -866,7 +865,7 @@
                 <tr style="height: 35px;">
                   <th style="font-size: 14px;font-weight: 600;">Student Id</th>
                   <th style="font-size: 14px;font-weight: 600;">Student Name</th>
-                  <th style="font-size: 14px;font-weight: 600;">Joining Date</th>
+                  <!-- <th style="font-size: 14px;font-weight: 600;">Joining Date</th> -->
                   <th style="font-size: 14px;font-weight: 600;">Attendance</th>
                   <th style="font-size: 14px;font-weight: 600;" *ngIf="settingInfo.home_work_feature_enable==1">Home Work Status</th>
                 </tr>
@@ -879,9 +878,9 @@
                   <td>
                     {{s.student_name}}
                   </td>
-                  <td>
+                  <!-- <td>
                     {{s.doj}}
-                  </td>
+                  </td> -->
                   <td>
                     <div class="btnGroup">
                       <button id="leaveBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s , i)"
@@ -893,7 +892,7 @@
                     </div>
                   </td>
                   <td *ngIf="settingInfo.home_work_feature_enable==1">
-                    <div class="field-wrapper">
+                    <div class="form-wrapper">
                       <select [disabled]="s.dateLi[0].status=='L' || s.dateLi[0].status=='A'" id="hw_status" class="form-ctrl" [ngModel]="getCourseHomeworkData(i)"
                         (ngModelChange)="isCourseHomeworkStatusChanged($event,i)">
                         <option value="Y" selected>Completed</option>
@@ -902,6 +901,7 @@
                       </select>
                     </div>
                   </td>
+
                 </tr>
               </tbody>
             </table>
@@ -914,7 +914,7 @@
       <div class="clearfix" style="padding-top: 15px">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCourseLevelAttendance()">
-          <input type="button" value="Update" (click)="updateCourseAttendance()" class="fullBlue btn">
+          <input type="button" value="Mark Attendance" (click)="updateCourseAttendance()" class="fullBlue btn">
         </aside>
       </div>
     </div>
@@ -984,7 +984,7 @@
       </svg>
     </span>
 
-    <h2 widget-header>Notification Management</h2>
+    <h2 widget-header style="margin-left: 15px;margin-bottom: 5px;">Notification Management</h2>
 
     <div class="notificationCOntent" widget-content>
       <div class="notification-content-wrapper">
@@ -1033,10 +1033,10 @@
           <div class="common-tab">
             <ul>
               <li id="idAudience" (click)="selectTabMenu('idAudience','divAudience')" class="active" style="width:150px">
-                <a>1 Select Audience</a>
+                <a>Select Audience</a>
               </li>
               <li id="idSendMessage" (click)="selectTabMenu('idSendMessage','divSendMessage')" style="width:150px">
-                <a>2 Send Message</a>
+                <a>Send Message</a>
               </li>
               <li id="liAdd" class="pull-right hide" (click)="addNewNotification()">
                 <a>Add</a>
@@ -1128,6 +1128,12 @@
                 </div>
 
               </div>
+
+              <span class="borderWithText">
+                <h2>
+                  <span>OR</span>
+                </h2>
+              </span>
 
               <div class="row checkbox-Group">
                 <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
@@ -1286,7 +1292,7 @@
 
               <div id="divDeliveryMode" class="show">
                 <h3>Delivery Mode</h3>
-                <div class="row">
+                <div class="row deliverModeSection">
                   <div id="divSendOption" class="c-sm-4 c-md-4 c-lg-4">
                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
                       <input type="checkbox" checked="true" value="" name="sms" class="form-checkbox" id="chkbxSmsSend">

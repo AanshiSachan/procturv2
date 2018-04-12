@@ -288,7 +288,7 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.getAllocatedStorageDetails().subscribe(
       res => {
         this.storageData = res;
-        //console.log(res);
+        this.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(3);
       },
       err => {
         //console.log(err);
