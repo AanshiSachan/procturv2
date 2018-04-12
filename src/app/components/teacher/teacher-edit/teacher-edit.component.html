@@ -70,6 +70,11 @@
                         <label for="salary">Salary (Per Hour)
                         </label>
                     </div>
+                    <div class="row field-wrapper" *ngIf="enableBiometric == '1'" [ngClass]="{'has-value' : attendance_device_id !=''}">
+                        <input type="text" class="form-ctrl" name="biometric" formControlName="attendance_device_id">
+                        <label for="biometric">Attendance Card ID
+                        </label>
+                    </div>
                     <div class="extra-margin" style="margin-top: 15px;">
 
                         <div class="field-checkbox-wrapper" style="margin-left: -40px;">

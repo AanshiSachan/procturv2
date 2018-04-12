@@ -14,6 +14,7 @@ export class TeacherAddComponent implements OnInit {
   addTeacherForm: FormGroup;
   studentImage: string = '';
   containerWidth: any = "200px"
+  enableBiometric: any = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -24,6 +25,7 @@ export class TeacherAddComponent implements OnInit {
 
   ngOnInit() {
     this.createAddTeacherForm();
+    this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
   }
 
 
@@ -37,6 +39,7 @@ export class TeacherAddComponent implements OnInit {
       teacher_email: [''],
       teacher_subjects: [''],
       hour_rate: [''],
+      attendance_device_id: [''],
       is_active: [true],
       is_allow_teacher_to_only_mark_attendance: [false],
       is_student_mgmt_flag: [true]
@@ -83,7 +86,6 @@ export class TeacherAddComponent implements OnInit {
     } else {
       formData.is_allow_teacher_to_only_mark_attendance = "N";
     }
-    formData.attendance_device_id = "";
     formData.is_employee_to_be_create = "N";
     this.teacherAPIService.addNewTeacherDetails(formData).subscribe(
       data => {
