@@ -672,7 +672,6 @@ export class ClassHomeComponent implements OnInit {
   }
 
   CancelClass(rowData) {
-    debugger
     this.isCourseCancel = true;
     this.classMarkedForAction = rowData;
   }
