@@ -146,6 +146,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     this.followUpTime = '';
     this.walkin_followUpTime = '';
     this.prefill.fetchAllDataEnquiry(id).subscribe(res => {
+      this.rowData.dob = res.dob;
       this.updateFormData.followUpDate = res.followUpDate;
       this.cd.markForCheck();
       this.updateFormData.assigned_to = res.assigned_to;
