@@ -1275,10 +1275,12 @@ export class AdminHomeComponent implements OnInit {
             let length = temp.length;
             let nameArr = res[o].coursee_names.split(',');
             let idArr = res[o].course_ids.split(',');
+            let is_attendance_marked = res[o].is_attendance_marked.split(',');
             for (let i = 0; i < length; i++) {
               let tobj = {
                 cancel_reason: res[o].cancel_reason,
                 course_id: res[o].course_id,
+                is_attendance_marked: '',
                 course_ids: "",
                 coursee_names: "",
                 coursesList: res[o].coursesList,
@@ -1291,6 +1293,7 @@ export class AdminHomeComponent implements OnInit {
                 standard_name: res[o].standard_name,
                 start_date: res[o].start_date,
               }
+              tobj.is_attendance_marked = is_attendance_marked[i];
               tobj.course_ids = idArr[i];
               tobj.coursee_names = nameArr[i];
               tempArr.push(tobj);
@@ -1432,20 +1435,6 @@ export class AdminHomeComponent implements OnInit {
     this.isCourseAttendance = false;
   }
 
-  //   {
-  //   "student_id": "11919",
-  //     "course_id": "79",
-  //       "dateLi": [{
-  //         "date": "2018-03-14",
-  //         "status": "P",
-  //         "isStatusModified": "N",
-  //         "home_work_status": "Y",
-  //         "is_home_work_status_changed": "N"
-  //       }],
-  //         "isNotify": "Y",
-  //           "is_home_work_enabled": "Y"
-  // },
-
   updateCourseAttendance() {
     let arr = [];
     this.courseLevelStudentAtt.forEach(element => {
@@ -1473,6 +1462,7 @@ export class AdminHomeComponent implements OnInit {
         }
         this.appC.popToast(msg);
         this.closeCourseLevelAttendance();
+        this.generateCourseLevelWidget();
       },
       err => {
         let msg = {

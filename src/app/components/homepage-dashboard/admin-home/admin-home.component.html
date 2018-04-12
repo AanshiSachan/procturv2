@@ -300,7 +300,7 @@
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
-                            <span class="" *ngIf='getVisibility(class)' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
+                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
 
                           </div>
 
@@ -881,25 +881,6 @@
                     {{s.doj}}
                   </td>
                   <td>
-                    <!-- <div class="radio-options">
-                      <div class="field-radio-wrapper">
-                        <input [disabled]="getDisability(s)" type="radio" value="P" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
-                          (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Present{{s.student_id}}">
-                        <label class="present" for="Present{{s.student_id}}">Present</label>
-                      </div>
-                      <div class="field-radio-wrapper">
-                        <input [disabled]="getDisability(s)" type="radio" value="L" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
-                          (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Leave{{s.student_id}}">
-                        <label class="leave" for="Leave{{s.student_id}}">Leave</label>
-                      </div>
-                      <div class="field-radio-wrapper">
-                        <input [disabled]="getDisability(s)" type="radio" value="A" name="{{s.student_id}}" [(ngModel)]="s.dateLi[0].status" class="form-radio"
-                          (ngModelChange)="updateCourseRadioAttendance($event, i, s)" id="Absent{{s.student_id}}">
-                        <label class="absent" for="Absent{{s.student_id}}">Absent</label>
-                      </div>
-                    </div> -->
-
-
                     <div class="btnGroup">
                       <button id="leaveBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s , i)"
                         class="btn" [ngClass]="getClassForLeave(s)">L</button>
@@ -908,9 +889,6 @@
                       <button id="presentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
                         class="btn" [ngClass]="getClassForPresent(s)">P</button>
                     </div>
-
-
-
                   </td>
                   <td *ngIf="settingInfo.home_work_feature_enable==1">
                     <div class="field-wrapper">
