@@ -447,14 +447,16 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     obj.enable_online_payment_email_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_email_notification);
     obj.enable_online_payment_sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_sms_notification);
 
-    if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
-      if (isNaN(obj.phone_no_fee_receipt) || obj.phone_no_fee_receipt.length != 10) {
-        this.isRippleLoad = false;
-        this.messageToast('error', 'Error', 'Please check the number you have provided');
-        return;
-      }
-    }
+    // if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
+    //   this.isRippleLoad = false;
+    //   /* if (isNaN(obj.phone_no_fee_receipt) || obj.phone_no_fee_receipt.length != 10) {
+    //     this.isRippleLoad = false;
+    //     this.messageToast('error', 'Error', 'Please check the number you have provided');
+    //     return;
+    //   } */
 
+    // }
+ 
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
         this.isRippleLoad = false;
