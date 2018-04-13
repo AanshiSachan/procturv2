@@ -1890,7 +1890,6 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   applyConfiguredFees($event) {
-
     this.isPaymentDetailsValid = false;
     this.feeTemplateById = {
       feeTypeMap: "",
@@ -1942,6 +1941,8 @@ export class StudentAddComponent implements OnInit {
           this.isFeeApplied = true;
           this.discountReason = "";
           res.customFeeSchedules.forEach(el => {
+            console.log(el.due_date);
+            el.due_date = new Date(el.due_date);
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
               let tax = el.initial_fee_amount * (this.service_tax / 100);
@@ -1960,14 +1961,8 @@ export class StudentAddComponent implements OnInit {
               this.totalPaidAmount += el.amount_paid;
             }
             this.totalFeeWithTax += parseInt(el.fees_amount);
-
-            if (el.fee_type_name === "INSTALLMENT") {
-              this.instalmentTableData.push(el);
-            }
-            else if (el.fee_type_name != "INSTALLMENT") {
-              this.otherFeeTableData.push(el);
-            }
           });
+          this.splitCustomizedFee();
           this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
           this.updateTableInstallment();
           this.closeConfigureFees();
@@ -2040,13 +2035,13 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   closeConfigureFees() {
-    //$event.preventDefault();
     this.isConfigureFees = false;
     this.feeStructureForm = {
       studentArray: ["-1"],
       template_effective_date: ""
     }
     this.feeTempSelected = "";
+
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -2594,7 +2589,6 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   createCustomFeeSchedule() {
     this.isRippleLoad = true;
-
     this.instalmentTableData.sort(function (d1, d2) {
       return moment(d1.due_date).unix() - moment(d2.due_date).unix();
     });
@@ -2613,8 +2607,13 @@ export class StudentAddComponent implements OnInit {
     this.totalFeePaid = 0;
 
     this.userCustommizedFee.forEach(el => {
-      el.due_date = moment(el.due_date).format("YYYY-MM-DD");
-
+      console.log(el.due_date);      
+      if(el.due_date == "Invalid date" || el.due_date == "null"){
+        el.due_date = moment(new Date(el.due_date)).format("YYYY-MM-DD");
+      }
+      else if(el.due_date != "Invalid date" && el.due_date != "null"){
+        el.due_date = moment(el.due_date).format("YYYY-MM-DD");
+      }
       /* Taxes Here */
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         let tax = el.initial_fee_amount * (this.service_tax / 100);

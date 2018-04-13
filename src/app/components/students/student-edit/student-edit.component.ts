@@ -2195,7 +2195,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.isDefineFees = true;
           this.isFeeApplied = true;
           res.customFeeSchedules.forEach(el => {
-            //el.due_date = moment(el.due_date).format("YYYY-MM-DD");
+            el.due_date = new Date(el.due_date);
             /* Taxes Here */
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
@@ -2215,15 +2215,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.totalPaidAmount += el.amount_paid;
             }
             this.totalFeeWithTax += parseInt(el.fees_amount);
-
-            if (el.fee_type_name === "INSTALLMENT") {
-              this.instalmentTableData.push(el);
-            }
-            else if (el.fee_type_name != "INSTALLMENT") {
-              this.otherFeeTableData.push(el);
-            }
           });
-
+          this.splitCustomizedFee();
           this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
           this.updateTableInstallment();
           this.closeConfigureFees();
