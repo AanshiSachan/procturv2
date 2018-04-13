@@ -33,14 +33,14 @@
                 <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
                     <label>Exam Schedule</label>
                     <select class="side-form-ctrl" [(ngModel)]=" fetchFieldData.exam_schd_id">
-                        <option value="" selected></option>
+                  <option value="" selected></option>
                         <option *ngFor="let i of Exam_Sch_Data" [value]="i.schd_id" name="Exam Schedule">{{i.exam_date}}({{i.start_time}}-{{i.end_time}})</option>
                     </select>
                 </div>
                 <div class="c-lg-4 c-md-4 c-sm-4 pull-Right">
                     <div class="btn-sms-search">
                         <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
-                        <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchExamByDate()" />
+                        <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
 
                     </div>
                 </div>
@@ -51,7 +51,10 @@
 
 <section class="sms-table-wrapper" *ngIf="Tdata">
     <div class="table table-responsive student-table">
-        <proctur-table [records]="pagedExamSource" [tableName]="'Exam'" [settings]="projectSettings">
+        <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name:pagedExamSource.student_id:pagedExamSource.doj:
+        pagedExamSource.student_phone" [tableName]="'Exam'" [settings]="projectSettings">
+<input [(ngModel)]="pagedExamSource.student_name" placeholder="Serach here">
+
         </proctur-table>
     </div>
     

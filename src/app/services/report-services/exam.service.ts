@@ -91,10 +91,20 @@ getCourses(obj): Observable<any> {
                 return err;
             }
         )
-
-
-
 }
 
 
+
+viewDetailData(obj){
+
+  let url = this.baseUrl + "/api/v1/reports/StdExam/" +obj
+        return this.http.get(url,{ headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+}
 }

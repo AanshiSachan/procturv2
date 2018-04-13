@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { ExamService } from '../../../services/report-services/exam.service';
 import { AppComponent } from '../../../app.component';
+import {FilterPipe} from './filter.pipe';
 @Component({
   selector: 'app-exam-report',
   templateUrl: './exam-report.component.html',
@@ -21,8 +22,12 @@ export class ExamReportComponent implements OnInit {
   Exam_sche_Data = "";
   Exam_Sch_Data: any[] = [];
   ExamSource: any = [];
+  DetailSource :any=[];
   pagedExamSource: any = [];
   FetchApiData: any = [];
+ 
+
+
   projectSettings: ColumnSetting[] = [
 
     { primaryKey: 'student_id', header: 'Student Name' },
@@ -54,10 +59,7 @@ export class ExamReportComponent implements OnInit {
 
 
   }
-
-
-
-  fetchExamData() {
+fetchExamData() {
 
     this.examdata.ExamReport().subscribe(
       (data: any) => {
@@ -106,10 +108,20 @@ export class ExamReportComponent implements OnInit {
   }
 
 
+  fetchDetailReport(id){
+  this.examdata.viewDetailData(id).subscribe(
+    res=>{
+      this.DetailSource=res;
+      console.log(res);
+    },
+    err=>{
+      console.log(err);
+    }
+  )
+};
 
   /*  
-
-    else{
+  else{
     this.examdata.viewExamData(o).subscribe(
       res => {
         this.ExamSource=res;

@@ -7,7 +7,7 @@ import { ReportRoutingModule } from './report-routing.module';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import 'moment';
 import 'hammerjs';
-
+import {FilterPipe} from './exam-report/filter.pipe';
 import { MultiselectDropdownModule } from '../../../assets/imported_modules/multiselect-dropdown';
 import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
 import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
@@ -38,7 +38,7 @@ import { AttendanceReportServiceService } from '../../services/attendance-report
         FormsModule,
         ReactiveFormsModule,
         MultiselectDropdownModule,
-        BusyModule,
+        BusyModule,FilterPipe,
         NgLoggerModule.forRoot(Level.LOG),
         CommonModule,
         ReportRoutingModule,
@@ -53,7 +53,7 @@ import { AttendanceReportServiceService } from '../../services/attendance-report
         ReportComponent,
         ReportHomeComponent,
         SmsReportComponent,
-        AttendanceReportComponent,
+        AttendanceReportComponent,FilterPipe,
         FeeReportComponent,
         ExamReportComponent,
         ReportCardComponent,
