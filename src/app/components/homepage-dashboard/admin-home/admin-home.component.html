@@ -1264,7 +1264,7 @@
                 </table>
               </div>
 
-              <div>
+              <div *ngIf="showTableFlag">
                 <input type="button" value="Next" class="btn fullBlue pull-right" (click)="selectTabMenu('idSendMessage','divSendMessage')"
                   id="next_tab">
               </div>
@@ -1331,7 +1331,7 @@
                               <label></label>
                             </div> -->
                           </th>
-                          <th>
+                          <th class="dateSection">
                             Date
                           </th>
                           <th>
@@ -1347,7 +1347,7 @@
                               <label></label>
                             </div>
                           </td>
-                          <td>
+                          <td class="dateSection">
                             {{row.date}}
                           </td>
                           <td style="text-align: left">

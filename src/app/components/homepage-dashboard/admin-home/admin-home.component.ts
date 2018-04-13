@@ -134,13 +134,13 @@ export class AdminHomeComponent implements OnInit {
   reschedReason: any = "";
   timepicker: any = {
     reschedStartTime: {
-      hour: '',
-      minute: '',
+      hour: '12 PM',
+      minute: '00',
       meridian: ''
     },
     reschedEndTime: {
-      hour: '',
-      minute: '',
+      hour: '1 PM',
+      minute: '00',
       meridian: ''
     },
   }
@@ -1232,15 +1232,15 @@ export class AdminHomeComponent implements OnInit {
     this.reschedReason = "";
     this.timepicker = {
       reschedStartTime: {
-        hour: '',
-        minute: '',
+        hour: '12 PM',
+        minute: '00',
         meridian: ''
       },
       reschedEndTime: {
-        hour: '',
-        minute: '',
+        hour: '1 PM',
+        minute: '00',
         meridian: ''
-      }
+      },
     }
   }
 
@@ -1588,6 +1588,7 @@ export class AdminHomeComponent implements OnInit {
       document.getElementById('leaveBtn' + rowData.student_id).classList.add('classLeaveBtn');
       rowData.dateLi[0].status = "L";
       rowData.dateLi[0].home_work_status = "N";
+      rowData.dateLi[0].isStatusModified = "Y";
     } else if (event.target.innerText == "A") {
       document.getElementById('absentBtn' + rowData.student_id).classList.add('classAbsentBtn');
       rowData.dateLi[0].status = "A";
@@ -1929,9 +1930,11 @@ export class AdminHomeComponent implements OnInit {
       this.studentList = [];
       this.widgetService.getAllActiveStudentList().subscribe(
         res => {
-          this.showTableFlag = true;
           this.isRippleLoad = false;
-          this.studentList = this.addKeys(res, true);
+          if (document.getElementById('chkBoxActiveSelection').checked) {
+            this.showTableFlag = true;
+            this.studentList = this.addKeys(res, true);
+          }
         },
         err => {
           this.isRippleLoad = false;
@@ -1953,9 +1956,11 @@ export class AdminHomeComponent implements OnInit {
       this.studentList = [];
       this.widgetService.getAllTeacherList().subscribe(
         res => {
-          this.showTableFlag = true;
           this.isRippleLoad = false;
-          this.studentList = this.addKeys(res, true);
+          if (document.getElementById('chkBoxTutorSelection').checked) {
+            this.showTableFlag = true;
+            this.studentList = this.addKeys(res, true);
+          }
         },
         err => {
           this.isRippleLoad = false;
@@ -1979,8 +1984,10 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.getAllInActiveList().subscribe(
         res => {
           this.isRippleLoad = false;
-          this.showTableFlag = true;
-          this.studentList = this.addKeys(res, true);
+          if (document.getElementById('chkBoxInActiveSelection').checked) {
+            this.showTableFlag = true;
+            this.studentList = this.addKeys(res, true);
+          }
         },
         err => {
           this.isRippleLoad = false;
@@ -2003,9 +2010,11 @@ export class AdminHomeComponent implements OnInit {
       this.studentList = [];
       this.widgetService.getAllAluminiList().subscribe(
         res => {
-          this.showTableFlag = true;
           this.isRippleLoad = false;
-          this.studentList = this.addKeys(res, true);
+          if (document.getElementById('chkBoxAluminiSelection').checked) {
+            this.showTableFlag = true;
+            this.studentList = this.addKeys(res, true);
+          }
         },
         err => {
           this.isRippleLoad = false;
