@@ -1341,10 +1341,11 @@
                     <tr>
                       <td>
 
-                        <div class="c-lg-6">
-                          <div class="field-checkbox-wrapper tooltip-box-field" style="width: 100%">
-                            <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.gst_enabled" id="">
-                            <label for="enableSMS">Enable GST
+                        <div class="c-lg-6" style="margin-top: 10px">
+                          <div class="field-checkbox-wrapper" style="width: 100%">
+                            <input type="checkbox" value="" disabled name="enablegst" class="form-checkbox" [(ngModel)]="instituteSettingDet.gst_enabled"
+                              id="enablegst">
+                            <label for="enablegst">Enable GST
                               <div class="questionInfo inline-relative">
                                 <span class="qInfoIcon i-class">i</span>
                                 <div class="tooltip-box-field lg">
@@ -1582,13 +1583,13 @@
                 <table>
                   <tbody>
 
-                     <tr style="height: 45px; background-color: #efefef">
+                    <tr style="height: 45px; background-color: #efefef">
                       <td colspan="6" class="tableHeader">
                         REPORT SETTING
                       </td>
                     </tr>
 
-                    <tr> 
+                    <tr>
                       <td>
                         <h3>Report Setting</h3>
                         <div class="row">
