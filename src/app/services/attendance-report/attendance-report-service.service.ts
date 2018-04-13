@@ -85,5 +85,22 @@ export class AttendanceReportServiceService {
 
     )
   }
+  /* =========================================================================== */
+  /* =========================================================================== */
+/*for professional*/
+
+  masterCoursePro(obj){
+
+    let url=this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id +  "?standard_id=" + obj.standard_id +"&subject_id=" + obj.subject_id + "&assigned=" +obj.assigned;
+    return this.http.get(url, {headers:this.headers}).map(
+      data=>{
+        return data;
+      },
+      error=>{
+        return error;
+      }
+    )
+
+  }
   
 }

@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { error } from 'util';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import{searchPipe} from '../../shared/pipes/searchBarPipe';
+import{arraySortPipe} from '../../shared/pipes/sortBarPipe';
 @Component({
   selector: 'app-attendance-report',
   templateUrl: './attendance-report.component.html',
@@ -34,6 +35,10 @@ export class AttendanceReportComponent implements OnInit {
   attendanceIndex0:any[]=[];
   attendanceIndexi:number;
   attendanceIndexiOf:any[]=[];
+  isProfessional:boolean=true;
+  masterCoursePro:any[]=[];
+  subjectPro:any[]=[];
+  batchPro:any[]=[];
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'student_id', header: 'Student id' },
     { primaryKey: 'student_name', header: 'Student name' },
@@ -55,7 +60,12 @@ export class AttendanceReportComponent implements OnInit {
     from_date:"",
     to_date:""
   }
-
+  /*for professional*/
+  queryParams={
+    standard_id:-1,
+    subject_id:-1,
+    assigned:"N"
+  }
   constructor(
     private reportService: AttendanceReportServiceService,
     private appc: AppComponent,
@@ -64,25 +74,59 @@ export class AttendanceReportComponent implements OnInit {
 
 
   ngOnInit() {
+  
+    
+    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.getMasterCourseData();  
   }
   getMasterCourseData() {
+    if(this.isProfessional){
+
+      this.reportService.masterCoursePro(this.queryParams).subscribe(
+        (data:any)=>{
+          this.masterCoursePro=data.standardLi;
+          this.subjectPro=data.batchLi;
+          console.log(this.masterCoursePro);
+        },
+        (error:any)=>{
+          return error;
+        }
+      )
+    }
+    else {
     this.reportService.getMasterCourse().subscribe(
       (data: any) => {
         this.masterCourses = data;
-
+        console.log(this.masterCourses);
       },
       (error: any) => {
         return error;
       }
     )
-
+  }
   }
   getCourseData(i) {
+     this.queryParams={
+      subject_id:-1,
+      standard_id:i,
+      assigned:"N"
+    }
+    if(this.isProfessional){
+      
+      this.reportService.masterCoursePro(this.queryParams).subscribe(
+        (data:any)=>{
+          this.subjectPro=data.subjectLi;
+        },
+        (error:any)=>{
+          return error;
+        }
+      )
+      
+    }
+    else{
     this.getData.batch_id = "";
     this.getData.course_id = "";
     this.reportService.getCourses(i).subscribe(
-      
       
       (data: any) => {
         this.courses = data.coursesList;
@@ -95,8 +139,30 @@ export class AttendanceReportComponent implements OnInit {
     )
     this.courses=[];
     this.batchCourses=[];
+    
   }
+  
+}
   getSubjectData(i) {
+    
+    this.queryParams={
+      subject_id:i,
+      standard_id:this.queryParams.standard_id,
+      assigned:"N"
+    }
+    if(this.isProfessional){
+    
+      this.reportService.masterCoursePro(this.queryParams).subscribe(
+        (data:any)=>{
+          this.batchPro=data.batchLi;
+        },
+        (error:any)=>{
+          return error;
+        }
+      )
+      
+      }
+    else{
     this.getData.batch_id = "";
     this.reportService.getSubject(i).subscribe(
       (data: any) => {
@@ -106,13 +172,16 @@ export class AttendanceReportComponent implements OnInit {
     )
     this.batchCourses=[];
   }
-  getBatchData(i) {
+}
+
+  getBatchData(i) { 
     this.reportService.postDataToTable(this.getData).subscribe(
       (data: any) => {
         // this.getPostData();
       }
     )
   }
+  
 
   getPostData() {
     this.SummaryReports = true;
@@ -128,7 +197,6 @@ export class AttendanceReportComponent implements OnInit {
         return error;
       }
     )
-
   }
   postDetails(){
     if(this.getData.master_course_name == "" && this.getData.course_id == "" && this.getData.batch_id == "" && this.getData.from_date == "" && this.getData.to_date == ""){

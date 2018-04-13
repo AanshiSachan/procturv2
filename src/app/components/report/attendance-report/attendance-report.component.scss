@@ -38,6 +38,15 @@ p {
         height:400px; 
     }
 }
+.table-content{
+    ::-webkit-scrollbar{
+        display: block;
+    }
+    .table-heading{
+        overflow-x: scroll;
+        height:400px;
+    }
+}
 .filter-box {
     padding: 10px 0px;
     margin-bottom: 5px;
