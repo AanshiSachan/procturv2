@@ -212,7 +212,7 @@
                       </label>
                       <!-- <span class="date-clear" name="followupdate" (click)="clearAddEnquiryDate('endDatePicker')">clear</span> -->
                     </div>
-                    <div class="field-checkbox-wrapper" style="background: transparent;margin-top: 25px;width: 100%;text-align: left;">
+                    <div [ngClass]="{'hideVisibility' : examGradeFeature == 0}" class="field-checkbox-wrapper" style="background: transparent;margin-top: 25px;width: 100%;text-align: left;">
                       <input type="checkbox" value="" [(ngModel)]="nestedTableForm.allow_exam_grades" name="allow" class="form-checkbox" id="allow">
                       <label for="allow">Allow Exam Grades</label>
                     </div>

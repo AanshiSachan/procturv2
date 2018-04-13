@@ -72,18 +72,18 @@ export class WidgetService {
     }
 
     getAllocatedStorageDetails(): any {
-        let url =this.baseUrl +"/api/v1/instFileSystem/getUsedSpace/" +this.institute_id;
-        return this.http.get(url,{headers: this.headers}).
-        map(
-            res => {
-                return res;
+        let url = this.baseUrl + "/api/v1/instFileSystem/getUsedSpace/" + this.institute_id;
+        return this.http.get(url, { headers: this.headers }).
+            map(
+                res => {
+                    return res;
                 },
-            err=>{ 
-                return err;
-            }
-        
-       );
-       
+                err => {
+                    return err;
+                }
+
+            );
+
 
     }
 
@@ -407,6 +407,20 @@ export class WidgetService {
     getStudentListOfCourse(obje) {
         let url = this.baseUrl + "/api/v1/studentBatchMap/manageBatchStudent/" + this.institute_id;
         return this.http.post(url, obje, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+
+    getMasterCourseDetails(obj) {
+        obj.inst_id = this.institute_id;
+        let url = this.baseUrl + "/api/v1/courseClassSchedule/fetch";
+        return this.http.post(url, obj, { headers: this.headers }).map(
             res => {
                 return res;
             },

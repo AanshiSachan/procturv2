@@ -134,13 +134,13 @@ export class AdminHomeComponent implements OnInit {
   reschedReason: any = "";
   timepicker: any = {
     reschedStartTime: {
-      hour: '',
-      minute: '',
+      hour: '12 PM',
+      minute: '00',
       meridian: ''
     },
     reschedEndTime: {
-      hour: '',
-      minute: '',
+      hour: '1 PM',
+      minute: '00',
       meridian: ''
     },
   }
@@ -190,6 +190,10 @@ export class AdminHomeComponent implements OnInit {
   permissionArray = sessionStorage.getItem('permissions');
   settingInfo: any = [];
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
+  viewDetailsPopUp: boolean = false;
+  selectedViewDet: any;
+  viewDetTable: any = [];
+
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -1232,15 +1236,15 @@ export class AdminHomeComponent implements OnInit {
     this.reschedReason = "";
     this.timepicker = {
       reschedStartTime: {
-        hour: '',
-        minute: '',
+        hour: '12 PM',
+        minute: '00',
         meridian: ''
       },
       reschedEndTime: {
-        hour: '',
-        minute: '',
+        hour: '1 PM',
+        minute: '00',
         meridian: ''
-      }
+      },
     }
   }
 
@@ -1588,6 +1592,7 @@ export class AdminHomeComponent implements OnInit {
       document.getElementById('leaveBtn' + rowData.student_id).classList.add('classLeaveBtn');
       rowData.dateLi[0].status = "L";
       rowData.dateLi[0].home_work_status = "N";
+      rowData.dateLi[0].isStatusModified = "Y";
     } else if (event.target.innerText == "A") {
       document.getElementById('absentBtn' + rowData.student_id).classList.add('classAbsentBtn');
       rowData.dateLi[0].status = "A";
@@ -1929,9 +1934,11 @@ export class AdminHomeComponent implements OnInit {
       this.studentList = [];
       this.widgetService.getAllActiveStudentList().subscribe(
         res => {
-          this.showTableFlag = true;
           this.isRippleLoad = false;
-          this.studentList = this.addKeys(res, true);
+          if (document.getElementById('chkBoxActiveSelection').checked) {
+            this.showTableFlag = true;
+            this.studentList = this.addKeys(res, true);
+          }
         },
         err => {
           this.isRippleLoad = false;
@@ -1953,9 +1960,11 @@ export class AdminHomeComponent implements OnInit {
       this.studentList = [];
       this.widgetService.getAllTeacherList().subscribe(
         res => {
-          this.showTableFlag = true;
           this.isRippleLoad = false;
-          this.studentList = this.addKeys(res, true);
+          if (document.getElementById('chkBoxTutorSelection').checked) {
+            this.showTableFlag = true;
+            this.studentList = this.addKeys(res, true);
+          }
         },
         err => {
           this.isRippleLoad = false;
@@ -1979,8 +1988,10 @@ export class AdminHomeComponent implements OnInit {
       this.widgetService.getAllInActiveList().subscribe(
         res => {
           this.isRippleLoad = false;
-          this.showTableFlag = true;
-          this.studentList = this.addKeys(res, true);
+          if (document.getElementById('chkBoxInActiveSelection').checked) {
+            this.showTableFlag = true;
+            this.studentList = this.addKeys(res, true);
+          }
         },
         err => {
           this.isRippleLoad = false;
@@ -2003,9 +2014,11 @@ export class AdminHomeComponent implements OnInit {
       this.studentList = [];
       this.widgetService.getAllAluminiList().subscribe(
         res => {
-          this.showTableFlag = true;
           this.isRippleLoad = false;
-          this.studentList = this.addKeys(res, true);
+          if (document.getElementById('chkBoxAluminiSelection').checked) {
+            this.showTableFlag = true;
+            this.studentList = this.addKeys(res, true);
+          }
         },
         err => {
           this.isRippleLoad = false;
@@ -2375,6 +2388,83 @@ export class AdminHomeComponent implements OnInit {
     })
   }
 
+
+  /// View Details PopUp
+
+  viewClassDetails(index, data) {
+    this.selectedViewDet = data;
+    this.viewDetailsPopUp = true;
+    this.getDetailOfMasterCourse(data);
+  }
+
+  closeViewDetailsPopUp() {
+    this.viewDetailsPopUp = false;
+    this.viewDetTable = [];
+  }
+
+  getDetailOfMasterCourse(data) {
+    this.viewDetTable = [];
+    let obj = {
+      course_id: data.course_ids,
+      master_course: data.master_course,
+      requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
+    }
+    this.widgetService.getMasterCourseDetails(obj).subscribe(
+      (res: any) => {
+        if (res.coursesList[0].courseClassSchdList.length > 0) {
+          let arr = this.constructJSONForTable(res);
+          this.viewDetTable = this.makeJsonTable(arr);
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  makeJsonTable(data) {
+    for (let i = 0; i < data.length; i++) {
+      for (let t = 0; t < this.teacherListArr.length; t++) {
+        if (data[i].teacher_id == this.teacherListArr[t].teacher_id) {
+          data[i].teacher_name = this.teacherListArr[t].teacher_name;
+        }
+      }
+    }
+    return data;
+  }
+
+
+  constructJSONForTable(data) {
+    let courseScheduleList = [];
+    let batchesList = [];
+    let arr: any = [];
+    batchesList = data.coursesList[0].batchesList;
+    if (data.coursesList[0].courseClassSchdList != null) {
+      courseScheduleList = data.coursesList[0].courseClassSchdList;
+      for (let i = 0; i < courseScheduleList.length; i++) {
+        for (let j = 0; j < batchesList.length; j++) {
+          if (courseScheduleList[i].batch_id == batchesList[j].batch_id) {
+            let obj: any = {};
+            obj.class_schedule_id = courseScheduleList[i].class_schedule_id;
+            obj.custom_class_type = courseScheduleList[i].custom_class_type;
+            obj.start_time = courseScheduleList[i].start_time;
+            obj.end_time = courseScheduleList[i].end_time;
+            obj.subject_name = courseScheduleList[i].subject_name;
+            obj.subject_id = courseScheduleList[i].subject_id;
+            obj.teacher_id = courseScheduleList[i].alloted_teacher_id;
+            obj.batch_id = courseScheduleList[i].batch_id;
+            obj.class_desc = courseScheduleList[i].class_desc;
+            obj.room_no = courseScheduleList[i].room_no;
+            obj.course_id = data.coursesList[0].course_id;
+            obj.start_date = data.coursesList[0].start_date;
+            obj.end_date = data.coursesList[0].end_date;
+            arr.push(obj);
+          }
+        }
+      }
+    }
+    return arr;
+  }
 
   //  Role Based Access
   checkIfUserHadAccess(id) {

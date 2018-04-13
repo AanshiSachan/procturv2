@@ -67,10 +67,10 @@
 }
 
 .btn-group {
-    margin-top: 15px !important; 
+    margin-top: 15px !important;
     margin-left: 0px !important;
     margin-right: 0px !important;
-    .btn{
+    .btn {
         margin: 0px 0px 0px 5px !important;
         border-radius: 5px !important;
     }
@@ -123,7 +123,7 @@
                     }
                 }
             }
-            &.teacher-list{
+            &.teacher-list {
                 th {
                     background: #e0eaec;
                     font-size: 14px !important;
@@ -139,12 +139,12 @@
                         width: 22%;
                     }
                 }
-                td{
+                td {
                     padding: 2px 5px;
-                    .field-wrapper{
+                    .field-wrapper {
                         padding-top: 0px;
                         border-bottom: solid 1px #0084f6;
-                    }      
+                    }
                 }
             }
         }
@@ -184,5 +184,26 @@
         h1 {
             margin-top: 10px;
         }
+    }
+}
+
+.field-wrapper {
+    &.datePickerBox:after {
+        top: 10px;
+    }
+}
+
+.editCourseWrapper {
+    max-height: 500px;
+    overflow: hidden;
+    .middle-main {
+        max-height: 400px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
     }
 }
