@@ -2112,3 +2112,12 @@ div#enqChart {
         }
     }
 }
+
+.viewDeatail-wrapper {
+    .table-details-wrapper {
+        margin: 10px 0px;
+        max-height: 300px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}
