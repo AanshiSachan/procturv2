@@ -772,7 +772,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             /* Taxes Here */
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
-              let tax = el.fees_amount - el.initial_fee_amount;
+              let tax = el.initial_fee_amount * (this.service_tax / 100);
               this.totalTaxAmount += this.precisionRound(tax, -1);
             }
 
@@ -913,7 +913,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             /* Taxes Here */
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
-              let tax = el.fees_amount - el.initial_fee_amount;
+              let tax = el.initial_fee_amount * (this.service_tax / 100);
               this.totalTaxAmount += this.precisionRound(tax, -1);
             }
 
@@ -974,7 +974,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                   /* Taxes Here */
                   if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
                     this.service_tax = res.registeredServiceTax;
-                    let tax = el.fees_amount - el.initial_fee_amount;
+                    let tax = el.initial_fee_amount * (this.service_tax / 100);
                     this.totalTaxAmount += this.precisionRound(tax, -1);
                   }
                   else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
@@ -1101,7 +1101,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               /* Taxes Here */
               if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
                 this.service_tax = res.registeredServiceTax;
-                let tax = el.fees_amount - el.initial_fee_amount;
+                let tax = el.initial_fee_amount * (this.service_tax / 100);
                 this.totalTaxAmount += this.precisionRound(tax, -1);
               }
               else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
@@ -2180,6 +2180,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
     this.instalmentTableData = [];
     this.otherFeeTableData = [];
+    this.totalDicountAmount = 0;
+    this.discountReason = "";
     let dd = moment(this.feeStructureForm.template_effective_date).format('YYYY-MM-DD');
     /* success */
     if ((this.feeTempSelected != "" && this.feeTempSelected != null) && (dd != "" && dd != null && dd != "Invalid date")) {
@@ -2192,21 +2194,37 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.feeTemplateById.template_id = this.feeTempSelected;
           this.isDefineFees = true;
           this.isFeeApplied = true;
-          this.totalDicountAmount = 0;
-          if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-            this.service_tax = res.registeredServiceTax;
-          }
-          else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-            this.service_tax = 0;
-          }
           res.customFeeSchedules.forEach(el => {
+            //el.due_date = moment(el.due_date).format("YYYY-MM-DD");
+            /* Taxes Here */
+            if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+              this.service_tax = res.registeredServiceTax;
+              let tax = el.initial_fee_amount * (this.service_tax / 100);
+              this.totalTaxAmount += this.precisionRound(tax, -1);
+            }
+            else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+              this.service_tax = 0;
+              //let tax = el.initial_fee_amount *(this.service_tax/100);
+              this.totalTaxAmount = 0;
+            }
+
+            if (el.is_referenced == "N") {
+              this.totalAmountDue += el.fees_amount
+            }
+            else if (el.is_referenced == "Y") {
+              this.totalPaidAmount += el.amount_paid;
+            }
+            this.totalFeeWithTax += parseInt(el.fees_amount);
+
             if (el.fee_type_name === "INSTALLMENT") {
               this.instalmentTableData.push(el);
             }
-            else {
+            else if (el.fee_type_name != "INSTALLMENT") {
               this.otherFeeTableData.push(el);
             }
           });
+
+          this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
           this.updateTableInstallment();
           this.closeConfigureFees();
         },
