@@ -722,4 +722,14 @@ export class ClassHomeComponent implements OnInit {
   }
 
 
+  editClass(data) {
+    let obj = {
+      course_id: this.fetchMasterCourseModule.course_id,
+      master_course: this.fetchMasterCourseModule.master_course,
+      date: data.id.split('(')[0]
+    }
+    sessionStorage.setItem('editClass', JSON.stringify(obj));
+    this.router.navigateByUrl('course/class/add');
+  }
+
 }

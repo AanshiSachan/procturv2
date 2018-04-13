@@ -166,10 +166,38 @@ export class ClassAddComponent implements OnInit {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     /* fetching prefilled data */
-    this.busy = this.fetchPrefillData();
-
+    this.fetchPrefillData();
+    if (!this.isProfessional) {
+      this.checkForEditMode();
+    }
   }
   /* ============================================================================================ */
+
+
+  checkForEditMode() {
+    let str = sessionStorage.getItem('editClass');
+    if (str == "" || str == null || str == undefined) {
+      return;
+    }
+    let data = JSON.parse(str);
+    if (data == "" || data == null || data == undefined) {
+      return false;
+    } else {
+      this.fetchMasterCourseModule = {
+        master_course: data.master_course,
+        requested_date: moment(data.id).format("YYYY-MM-DD"),
+        inst_id: sessionStorage.getItem('institute_id'),
+        course_id: data.course_id
+      }
+      this.getCustomList();
+      this.getTeacherList();
+      this.updateCourseList(this.fetchMasterCourseModule.master_course);
+      setTimeout(() => {
+        this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
+      }, 300);
+      sessionStorage.setItem('editClass', '');
+    }
+  }
   /* ============================================================================================ */
   /* ============================================================================================ */
   fetchPrefillData() {
@@ -545,6 +573,7 @@ export class ClassAddComponent implements OnInit {
   /* ============================================================================================ */
 
   getAllSubjectListFromServer(data) {
+    this.isClassFormFilled = true;
     this.classService.getAllSubjectlist(this.fetchMasterCourseModule).subscribe(
       res => {
         this.fetchedCourseData = res;
