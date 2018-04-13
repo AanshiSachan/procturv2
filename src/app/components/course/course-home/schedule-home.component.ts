@@ -46,6 +46,7 @@ export class ScheduleHomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkWhichTabIsOpen();
     this.checkInstituteType();
     this.getAllStandardList();
   }
@@ -356,6 +357,22 @@ export class ScheduleHomeComponent implements OnInit {
     else {
       this.newStandardDetails.is_active = "N";
     }
+  }
+
+  checkWhichTabIsOpen() {
+    setTimeout(() => {
+      this.hideAllTabs();
+      document.getElementById('liStandard').classList.add('active');
+    }, 200)
+  }
+
+  hideAllTabs() {
+    document.getElementById('liStandard').classList.remove('active');
+    document.getElementById('liSubject').classList.remove('active');
+    document.getElementById('liManageBatch').classList.remove('active');
+    // document.getElementById('liCourses').classList.add('hide');
+    // document.getElementById('liExam').classList.add('hide');
+    document.getElementById('liClass').classList.remove('active');
   }
 
 }
