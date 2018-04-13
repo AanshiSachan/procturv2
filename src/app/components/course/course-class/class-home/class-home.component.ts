@@ -433,8 +433,7 @@ export class ClassHomeComponent implements OnInit {
       obj.is_exam_schedule = "N";
       this.classService.sendReminderToServerSubject(obj).subscribe(
         res => {
-          console.log(res);
-          this.messageToast('success', 'Successfully', 'Notification sent successfully');
+          this.messageToast('success', 'Success', 'Reminder Notification sent successfully');
         },
         err => {
           console.log(err);
