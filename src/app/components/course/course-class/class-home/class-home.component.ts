@@ -49,13 +49,13 @@ export class ClassHomeComponent implements OnInit {
   reschedDate: any = new Date();
   timepicker: any = {
     reschedStartTime: {
-      hour: '',
-      minute: '',
+      hour: '12 PM',
+      minute: '00',
       meridian: ''
     },
     reschedEndTime: {
-      hour: '',
-      minute: '',
+      hour: '1 PM',
+      minute: '00',
       meridian: ''
     },
   }
@@ -465,13 +465,13 @@ export class ClassHomeComponent implements OnInit {
     this.reschedReason = "";
     this.timepicker = {
       reschedStartTime: {
-        hour: '',
-        minute: '',
+        hour: '12 PM',
+        minute: '00',
         meridian: ''
       },
       reschedEndTime: {
-        hour: '',
-        minute: '',
+        hour: '1 PM',
+        minute: '00',
         meridian: ''
       }
     }

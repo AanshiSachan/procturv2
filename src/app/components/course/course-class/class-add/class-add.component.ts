@@ -630,11 +630,11 @@ export class ClassAddComponent implements OnInit {
       batch_id: '',
       subject_id: '',
       subject_name: '',
-      start_hour: '',
-      start_minute: '',
+      start_hour: '12 PM',
+      start_minute: '00',
       start_meridian: '',
-      end_hour: '',
-      end_minute: '',
+      end_hour: '1 PM',
+      end_minute: '00',
       end_meridian: '',
       teacher_id: '',
       teacher_name: '',
@@ -837,7 +837,7 @@ export class ClassAddComponent implements OnInit {
       obj.requested_date = this.fetchedCourseData.requested_date;
       this.classService.sendReminderToServer(obj).subscribe(
         res => {
-          this.messageToast('success', 'Successfully', 'Notification sent successfully');
+          this.messageToast('success', 'Success', 'Reminder Notification sent successfully');
         },
         err => {
           console.log(err);
@@ -850,13 +850,13 @@ export class ClassAddComponent implements OnInit {
 
   saveCourseSchedule() {
     if (this.classScheduleArray.length == 0) {
-      this.messageToast('error', 'Error', 'Please provide information');
+      this.messageToast('error', 'Error', 'No Schedule to create/update');
       return;
     }
     let obj = this.makeJsonForCourseSave();
     this.classService.saveDataOnServer(obj).subscribe(
       res => {
-        this.messageToast('success', 'Saved', 'Your class created successfully');
+        this.messageToast('success', 'Saved', 'Your class added successfully');
         this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
       },
       err => {
