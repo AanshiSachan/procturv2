@@ -1497,7 +1497,6 @@
                 background: transparent;
                 margin: 5px 0px;
                 label {
-                    color: #309bf8 !important;
                     font-size: 12px;
                     font-weight: 400;
                     color: rgba(0, 0, 0, 0.77);
@@ -1532,7 +1531,7 @@
                             background: white;
                             border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
                             width: 100%;
-                            padding: 8px 5px;
+                            padding: 4px 5px;
                             font-weight: 600;
                             font-size: 14px;
                             color: black;
@@ -1548,9 +1547,54 @@
             }
 
             .popup-date-selection {
-                .table-warpper-custom {
+                .row {
+                    margin: 0px 2px;
+                }
+                .table-selectdate-wrapper {
                     max-height: 215px;
-                    overflow: auto;
+                    overflow: hidden;
+                    ::-webkit-scrollbar{
+                        display: block;
+                    }
+                    .table-warpper-custom {
+                        max-height: 200px;
+                        overflow: auto;
+
+                        tr{
+                            th{
+                                text-align: left;
+                                padding: 15px 10px;
+                            }
+                            td{
+                                text-align: left;
+                                padding: 15px 10px;
+                                .field-wrapper{
+                                    padding: 0px;
+                                    border: 1px solid #c6c6c6;
+                                    width: 225px;
+                                    height: 28px;
+                                    .form-ctrl{
+                                        display: block;
+                                        width: 100%;
+                                        box-sizing: border-box;
+                                        padding: 0px 6px 8px;
+                                        outline: none;
+                                        border: 0;
+                                        border-bottom: none;
+                                        height: 36px;
+                                        z-index: 10;
+                                        box-shadow: none;
+                                        border-radius: 0;
+                                        line-height: 24px;
+                                    }
+                                    &.datePickerBox:after {
+                                        top: 2px;
+                                    }
+                                }
+                            }
+                        }
+
+                    }
                 }
             }
 

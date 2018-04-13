@@ -697,13 +697,13 @@ export class StudentAddComponent implements OnInit {
       },
       err => {
         let msg = JSON.parse(err._body).message;;
-              this.isRippleLoad = false;
-              let obj = {
-                type: 'error',
-                title: msg,
-                body: ""
-              }
-              this.appC.popToast(obj);
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
       }
     );
 
@@ -730,17 +730,17 @@ export class StudentAddComponent implements OnInit {
     let standard = this.prefill.getEnqStardards().subscribe(data => {
       this.standardList = data;
     },
-    err => {
-      let msg = JSON.parse(err._body).message;;
-              this.isRippleLoad = false;
-              let obj = {
-                type: 'error',
-                title: msg,
-                body: ""
-              }
-              this.appC.popToast(obj);
+      err => {
+        let msg = JSON.parse(err._body).message;;
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
 
-    });
+      });
 
     this.studentPrefillService.getChequeStatus().subscribe(
       data => {
@@ -748,13 +748,13 @@ export class StudentAddComponent implements OnInit {
       },
       err => {
         let msg = JSON.parse(err._body).message;;
-              this.isRippleLoad = false;
-              let obj = {
-                type: 'error',
-                title: msg,
-                body: ""
-              }
-              this.appC.popToast(obj);
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
 
       }
     );
@@ -770,13 +770,13 @@ export class StudentAddComponent implements OnInit {
       },
       err => {
         let msg = JSON.parse(err._body).message;;
-              this.isRippleLoad = false;
-              let obj = {
-                type: 'error',
-                title: msg,
-                body: ""
-              }
-              this.appC.popToast(obj);
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
 
       }
     )
@@ -861,13 +861,13 @@ export class StudentAddComponent implements OnInit {
         },
         err => {
           let msg = JSON.parse(err._body).message;;
-              this.isRippleLoad = false;
-              let obj = {
-                type: 'error',
-                title: msg,
-                body: ""
-              }
-              this.appC.popToast(obj);
+          this.isRippleLoad = false;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
         }
       );
 
@@ -1130,13 +1130,13 @@ export class StudentAddComponent implements OnInit {
         },
         err => {
           let msg = JSON.parse(err._body).message;;
-              this.isRippleLoad = false;
-              let obj = {
-                type: 'error',
-                title: msg,
-                body: ""
-              }
-              this.appC.popToast(obj);
+          this.isRippleLoad = false;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
         });
     }
     else {
@@ -1219,15 +1219,15 @@ export class StudentAddComponent implements OnInit {
         });
         // console.log(this.slots);
       },
-      err => { 
+      err => {
         let msg = JSON.parse(err._body).message;;
-              this.isRippleLoad = false;
-              let obj = {
-                type: 'error',
-                title: msg,
-                body: ""
-              }
-              this.appC.popToast(obj);
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
 
       }
     )
@@ -1239,15 +1239,15 @@ export class StudentAddComponent implements OnInit {
       res => {
         this.langStatus = res;
       },
-      err => { 
+      err => {
         let msg = JSON.parse(err._body).message;;
-              this.isRippleLoad = false;
-              let obj = {
-                type: 'error',
-                title: msg,
-                body: ""
-              }
-              this.appC.popToast(obj);
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
       }
     )
   }
@@ -1890,6 +1890,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   applyConfiguredFees($event) {
+
     this.isPaymentDetailsValid = false;
     this.feeTemplateById = {
       feeTypeMap: "",
@@ -1923,7 +1924,10 @@ export class StudentAddComponent implements OnInit {
     }
     this.instalmentTableData = [];
     this.otherFeeTableData = [];
+    this.totalDicountAmount = 0;    
+
     let dd = moment(this.feeStructureForm.template_effective_date).format('YYYY-MM-DD');
+
     /* success */
     if ((this.feeTempSelected != "" && this.feeTempSelected != null) && (dd != "" && dd != null && dd != "Invalid date")) {
       this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
@@ -1936,10 +1940,8 @@ export class StudentAddComponent implements OnInit {
           this.feeTemplateById.template_id = this.feeTempSelected;
           this.isDefineFees = true;
           this.isFeeApplied = true;
-
+          this.discountReason = "";
           res.customFeeSchedules.forEach(el => {
-            //el.due_date = moment(el.due_date).format("YYYY-MM-DD");
-            /* Taxes Here */
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
               let tax = el.initial_fee_amount * (this.service_tax / 100);
@@ -2357,7 +2359,7 @@ export class StudentAddComponent implements OnInit {
         let tax: number = 0;
         tax = this.precisionRound(((this.service_tax / 100) * amt), -1);
         this.instalmentTableData[i].tax = tax;
-        return Math.floor(tax);
+        return tax;
       }
       else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
         return 0;
@@ -2811,11 +2813,9 @@ export class StudentAddComponent implements OnInit {
 
             /* Taxes Here */
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-              this.service_tax = res.registeredServiceTax;
-              let tax = el.fees_amount - el.initial_fee_amount;
+              let tax = el.initial_fee_amount * (this.service_tax / 100);
               this.totalTaxAmount += this.precisionRound(tax, -1);
             }
-
             else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
               this.service_tax = 0;
               this.totalTaxAmount = 0;
