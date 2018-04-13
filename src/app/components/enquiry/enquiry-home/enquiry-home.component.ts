@@ -3133,7 +3133,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   downloadSummaryReportXlDateWise() {
     if (this.summaryReport.to_date != "" && this.summaryReport.from_date != "") {
       this.isRippleLoad = true;
-      this.enquire.getSummaryReportFromDates(this.summaryReport).subscribe(
+      let obj = {
+        to_date: moment(this.summaryReport.to_date).format('YYYY-MM-DD'),
+        from_date: moment(this.summaryReport.from_date).format('YYYY-MM-DD')
+      }
+      this.enquire.getSummaryReportFromDates(obj).subscribe(
         res => {
           this.isRippleLoad = false;
           this.performDownloadAction(res);
@@ -3602,12 +3606,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* =========================================================================== */
   /* =========================================================================== */
-  getDirection(e){
-    if(e){
-      this.currentDirection= "asc";
+  getDirection(e) {
+    if (e) {
+      this.currentDirection = "asc";
     }
-    else{
-      this.currentDirection="desc";
+    else {
+      this.currentDirection = "desc";
     }
   }
 }

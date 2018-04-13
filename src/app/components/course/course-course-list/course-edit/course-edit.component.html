@@ -1,4 +1,4 @@
-<div class="middle-section clearFix head">
+<div class="middle-section clearFix head editCourseWrapper">
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left">
       <a routerLink="/course/courselist">Course</a> / Edit
@@ -49,6 +49,9 @@
               <th *ngIf="examGradeFeature == 1">
                 Allow Exam Grades
               </th>
+              <th>
+
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -62,7 +65,7 @@
                           <td (click)="openSubjectTable(i)">
                             <h4 class="clearFix">
                               <!-- <span class="close-accor">-</span> -->
-                              <span id="spani{{i}}" style=color:blue;>+</span>
+                              <span id="spani{{i}}" style="color:blue; font-size: 20px;">+</span>
                             </h4>
                           </td>
                           <td>
@@ -93,6 +96,9 @@
                                 name="allow" class="form-checkbox" id="allow">
                               <label for="allow">Allow Exam Grades</label>
                             </div>
+                          </td>
+                          <td>
+                            <a style="cursor:pointer" (click)="removeRowFromTable(row , i)">Delete</a>
                           </td>
                         </tr>
                       </tbody>
@@ -151,15 +157,17 @@
       </div>
     </div>
 
+  </section>
+
+  <div>
     <div class="pull-left btn-group">
       <button class="btn fullBlue" (click)="addRowToMainTable()">Add Course</button>
     </div>
 
     <div class="row pull-right btn-group">
       <button class="btn" routerLink='/course/courselist'>Cancel</button>
-      <button class="btn fullBlue" (click)="updateEditedDetails()">Save</button>
+      <button class="btn fullBlue" *ngIf="mainTableDataSource.length >0" (click)="updateEditedDetails()">Save</button>
     </div>
-
-  </section>
+  </div>
 
 </div>
