@@ -289,7 +289,8 @@
 
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
                 <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                  <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}" />
+                  <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
+                  />
                   <label for="{{component.id}}">{{component.label}} </label>
                 </div>
               </div>
@@ -297,7 +298,8 @@
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
                 <br>
                 <div class="field-checkbox-wrapper">
-                  <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}" value="">
+                  <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}"
+                    value="">
                   <label for="{{component.id}}">{{component.label}} </label>
                 </div>
               </div>
@@ -335,7 +337,8 @@
 
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
                 <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
-                  <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker" name="{{component.label}}" bsDatepicker/>
+                  <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
+                    name="{{component.label}}" bsDatepicker/>
                   <label for="{{component.id}}">{{component.label}} </label>
                 </div>
               </div>
@@ -368,8 +371,8 @@
             <div class="table table-responsive enquiry-table">
               <ng-robTable [records]="sourceEnquiry" [reset]="isSideBar" [defaultSort]="sortBy" [tableName]="'enquiry'" [settings]="EnquirySettings"
                 (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="fetchingDataMessage"
-                [key1]="'followUpDate'" [primaryKey]="'institute_enquiry_id'" (rowIdArr)="getSelectedEnquiries($event)"
-                (sortById)="sortTableById($event)" (sortDirection)="getDirection($event)">
+                [key1]="'followUpDate'" [primaryKey]="'institute_enquiry_id'" (rowIdArr)="getSelectedEnquiries($event)" (sortById)="sortTableById($event)"
+                (sortDirection)="getDirection($event)">
               </ng-robTable>
             </div>
           </div>
@@ -401,7 +404,7 @@
       </a>
       <!-- <div class="skeleton" #skelton *ngIf="!isSideBar"></div> -->
       <enquiry-sidebar *ngIf="isSideBar" [enqAssignTo]="enqAssignTo" [enquiryRow]="enquiryFullDetail" [row]="selectedRow" [priorityArr]="enqPriority"
-        [statusArr]="enqstatus" [customComp]="customCompid" [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)"
+        [sourceList]="sources" [statusArr]="enqstatus" [customComp]="customCompid" [followupArr]="enqFollowType" (updateEnq)="virtualUpdateEnquiry($event)"
         (cancelUpdate)="closeEnquiryFullDetails($event); false; $event.stopPropagation()">
       </enquiry-sidebar>
     </div>
