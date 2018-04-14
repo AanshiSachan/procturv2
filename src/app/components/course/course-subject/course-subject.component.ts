@@ -32,6 +32,7 @@ export class CourseSubjectComponent implements OnInit {
   columnMaps: any[] = [0, 1, 2, 3, 4, 5];
   selectedRow: number;
   isLangInstitue: boolean = false;
+  sortingDir: string = "asc";
 
   constructor(
     private apiService: SubjectApiService,
@@ -59,7 +60,7 @@ export class CourseSubjectComponent implements OnInit {
         this.dataStatus = 2;
       },
       error => {
-        
+
       }
     )
   }
@@ -263,7 +264,7 @@ export class CourseSubjectComponent implements OnInit {
 
   sortTable(str) {
     if (str == "standard_name" || str == "subject_name" || str == "is_active") {
-      this.subjectList.sort(function (a, b) {
+      this.subjectListDataSource.sort(function (a, b) {
         var nameA = a[str].toUpperCase(); // ignore upper and lowercase
         var nameB = b[str].toUpperCase(); // ignore upper and lowercase
         if (nameA < nameB) {
@@ -278,15 +279,22 @@ export class CourseSubjectComponent implements OnInit {
       })
     }
     else if (str == "subject_id") {
-      this.subjectList.sort(function (a, b) {
+      this.subjectListDataSource.sort(function (a, b) {
         return a[str] - b[str];
       })
     }
     else if (str == "created_date") {
-      this.subjectList.sort(function (a, b) {
+      this.subjectListDataSource.sort(function (a, b) {
         return moment(a[str]).unix() - moment(b[str]).unix();
       })
     }
+    if (this.sortingDir == "asc") {
+      this.sortingDir = "dec";
+    } else {
+      this.sortingDir = "asc";
+      this.subjectListDataSource = this.subjectListDataSource.reverse();
+    }
+    this.fetchTableDataByPage(this.PageIndex);
   }
 
   rowSelectEvent(i) {

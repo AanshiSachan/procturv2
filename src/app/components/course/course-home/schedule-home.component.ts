@@ -34,6 +34,7 @@ export class ScheduleHomeComponent implements OnInit {
   dataStatus: number = 1;
   selectedRow: number;
   isLangInstitue: boolean = false;
+  sortingDir: string = "asc";
 
   @ViewChild('#StdName') standard_name_label: ElementRef
 
@@ -263,7 +264,7 @@ export class ScheduleHomeComponent implements OnInit {
 
   sortTable(str) {
     if (str == "standard_name" || str == "is_active") {
-      this.standardList.sort(function (a, b) {
+      this.standardListDataSource.sort(function (a, b) {
         var nameA = a[str].toUpperCase(); // ignore upper and lowercase
         var nameB = b[str].toUpperCase(); // ignore upper and lowercase
         if (nameA < nameB) {
@@ -278,15 +279,22 @@ export class ScheduleHomeComponent implements OnInit {
       })
     }
     else if (str == "standard_id") {
-      this.standardList.sort(function (a, b) {
+      this.standardListDataSource.sort(function (a, b) {
         return a[str] - b[str];
       })
     }
     else if (str == "created_date") {
-      this.standardList.sort(function (a, b) {
+      this.standardListDataSource.sort(function (a, b) {
         return moment(a[str]).unix() - moment(b[str]).unix();
       })
     }
+    if (this.sortingDir == "asc") {
+      this.sortingDir = "dec";
+    } else {
+      this.sortingDir = "asc";
+      this.standardListDataSource = this.standardListDataSource.reverse();
+    }
+    this.fetchTableDataByPage(this.PageIndex);
   }
 
   /* Customiized click detection strategy */

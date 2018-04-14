@@ -67,7 +67,7 @@
     <div class="c-lg-4 c-sm-4 c-md-4 pull-right">
       <aside class="pull-left create-cancel-small">
         <input type="button" value="Cancel" class="btn" style="font-size: 16px;height: 40px;" (click)="toggleCreateNewSubject()">
-        <input type="button" value="Create" class="btn redBtn" (click)="addNewSubject()">
+        <input type="button" value="Create" class="btn fullBlue" (click)="addNewSubject()">
       </aside>
     </div>
   </section>
@@ -91,6 +91,8 @@
               <label style="cursor:pointer;" (click)="sortTable('is_active')">Is Active</label>
             </th>
             <th>
+                <i *ngIf="sortingDir == 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-up" style="font-family: FontAwesome;"></i>
+                <i *ngIf="sortingDir != 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-down" style="font-family: FontAwesome;"></i>
               <label style="cursor:pointer;" (click)="sortTable('created_date')">Added Date</label>
             </th>
             <th>

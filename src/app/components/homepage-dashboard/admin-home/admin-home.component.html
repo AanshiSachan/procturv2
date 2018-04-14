@@ -800,17 +800,17 @@
           </textarea>
         </div>
       </div>
-      <div class="row" style="margin: 10px 0px;">
-        <div class="field-checkbox-wrapper">
-          <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus( 'resheduleNotified')"
-            (change)="notifyRescheduleUpdate($event)">
-          <label for="is_reshedule_notified">Notify Students</label>
-        </div>
-      </div>
     </div>
 
     <div class="" widget-footer>
       <div class="clearfix">
+        <aside class="pull-left">
+          <div class="field-checkbox-wrapper" style="margin-top: 5px">
+            <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus( 'resheduleNotified')"
+              (change)="notifyRescheduleUpdate($event)">
+            <label for="is_reshedule_notified">Notify Students</label>
+          </div>
+        </aside>
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeRescheduleClass()">
           <input type="button" value="Reschedule Class" (click)="rescheduleClass()" class="fullBlue btn">

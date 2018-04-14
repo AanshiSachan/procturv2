@@ -71,6 +71,8 @@
                                     <label style="cursor:pointer;" (click)="sortTable('is_active')">Is Active</label>
                                 </th>
                                 <th>
+                                    <i *ngIf="sortingDir == 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-up" style="font-family: FontAwesome;"></i>
+                                    <i *ngIf="sortingDir != 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-down" style="font-family: FontAwesome;"></i>
                                     <label style="cursor:pointer;" (click)="sortTable('created_date')">Added Date</label>
                                 </th>
                                 <th>
