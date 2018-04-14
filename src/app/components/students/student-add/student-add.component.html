@@ -671,7 +671,7 @@
                             {{installment.due_date | date: 'dd MMM yyyy'}}
                           </span>
                         </li>
-
+ 
                         <li>
                           <label>
                             Course
@@ -682,22 +682,22 @@
                         </li>
 
                         <li *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '1')">
-                          <label>
-                            Balance Amount
-                          </label>
-                          <span>
-                            {{installment.balance_amount}}
-                          </span>
-                        </li>
-
-                        <li *ngIf="installment.is_referenced == 'Y'">
-                          <label>
-                            Paid Date
-                          </label>
-                          <span>
-                            {{installment.paid_date}}
-                          </span>
-                        </li>
+                            <label>
+                              Balance Amount
+                            </label>
+                            <span>
+                              {{installment.balance_amount}}
+                            </span>
+                          </li>
+  
+                          <li *ngIf="installment.is_referenced == 'Y'">
+                            <label>
+                              Paid Date
+                            </label>
+                            <span>
+                              {{installment.paid_date}}
+                            </span>
+                          </li>
 
                       </ul>
                     </div>
@@ -716,19 +716,19 @@
 
         <!--====================================middle Bottom section==========================-->
         <section class="middle-bottom fd-btm clearFix">
-          <aside class="pull-left">
-            <input type="button" style="width: 85px;" (click)="navigateTo('kyc')" value="Back" class="btn">
-          </aside>
-
-          <aside class="pull-right">
-            <div style="display: inline-block;" class="fd-btm-label" *ngIf="totalFeePaid != 0">
-              Payment for &#8377; {{totalFeePaid | commaSeprator}} to be updated
-            </div>
-            <div style="display: inline-block;" class="">
-              <input type="button" *ngIf="totalFeePaid != 0" value="Update Payment" (click)="openPaymentDetails($event)" class="btn fullBlue">
-              <input *ngIf="totalFeePaid == 0" type="button" value="Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
-            </div>
-          </aside>
+            <aside class="pull-left">
+                <input type="button" style="width: 85px;" (click)="navigateTo('kyc')" value="Back" class="btn">
+            </aside>
+  
+            <aside class="pull-right">
+              <div style="display: inline-block;" class="fd-btm-label" *ngIf="totalFeePaid != 0">
+                Payment for &#8377; {{totalFeePaid | commaSeprator}} to be updated
+              </div>
+              <div style="display: inline-block;" class="">
+                <input type="button" *ngIf="totalFeePaid != 0" value="Update Payment" (click)="openPaymentDetails($event)" class="btn fullBlue">
+                <input *ngIf="totalFeePaid == 0" type="button" value="Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
+              </div>
+            </aside>
         </section>
 
       </section>
@@ -1138,7 +1138,7 @@
   <!-- =====================Define Fee Table Here=================================== -->
   <!-- =============== assign fees =============================== -->
   <student-pop-up [isBig]="'y'" *ngIf="isDefineFees">
-
+ 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAllFeePops()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">

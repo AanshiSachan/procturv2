@@ -2378,17 +2378,18 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateInitialAmount(amt, i) {
-
+    
     if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-      let i: number = 0;
-      i = this.precisionRound((amt / ((this.service_tax / 100) + 1)), -1);
-      this.instalmentTableData[i].initial_fee_amount = i;
-      return i;
+      let value: number = 0;
+      value = this.precisionRound((amt / ((this.service_tax / 100) + 1)), -1);
+      this.instalmentTableData[i].initial_fee_amount = value;
+      return value;
     }
     else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
       this.instalmentTableData[i].initial_fee_amount = parseInt(amt);
       return amt;
     }
+
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
