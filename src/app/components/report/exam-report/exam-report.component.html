@@ -48,29 +48,16 @@
         </section>
     </aside>
 </div>
-
-<!--
-<div class="search-filter-wrapper" id="adFilterExitVisible">
-                <input #search type="text" class="normal-field" placeholder="Search Name/Contact/Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;"
-                  [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
-              
-
- <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
-
--->
-
-<div class="search-filter-wrapper" id="adFilterExitVisible">
-    
-    <input #search type="text"  class="normal-field" [(ngModel)]="studentName" style="font-size:12px; margin: 0px 5px 0px -5px;" placeholder="Serach here">
-    
-</div>
-
 <section class="sms-table-wrapper" *ngIf="Tdata">
     <div class="table table-responsive student-table">
-        <proctur-table [records]="pagedExamSource | filter:studentName" [tableName]="'Exam'" 
-        [settings]="projectSettings">
-
         
+<div class="search-filter-wrapper" id="adFilterExitVisible">
+    
+    <input #search type="text"  class="normal-field" [(ngModel)]="pagedExamSource.student_name" style="font-size:12px" placeholder="Serach here">
+            </div>
+     <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name :pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj" [tableName]="'Exam'" 
+        [settings]="projectSettings">
+          
         </proctur-table>
     </div>
     
@@ -83,3 +70,44 @@
         </div>
       </div>
 </section>
+
+
+<proctur-popup [sizeWidth]="'large'" *ngIf="addReportPopup">
+
+        <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                    <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                        <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                        <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                    </g>
+                    <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                    />
+                </g>
+            </svg>
+        </span>
+        <div popup-header class="popup-header-content">
+
+           <h2>DataWise Exam Report</h2>
+           <!--<h3>{{dataExamIndex0}}to{{dataExamIndexi of.}}</h3>-->
+            
+        </div>
+        <div class="table table-responsive student-table">
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Student Name
+                        </th>
+                        <th>
+                            Student Id
+                        </th>
+
+                    </tr>
+                </thead>
+            </table>     
+                    </div>
+           
+
+</proctur-popup>
