@@ -71,7 +71,7 @@ export class CityAreaMapComponent implements OnInit {
     if (this.newCity.city.trim() != "" && this.newCity.city != null) {
       let obj: any = {
         area: this.newCity.area,
-        city: this.newCity.area,
+        city: this.newCity.city,
         sub_branch_instId: this.newCity.branch
       }
       this.apiService.saveNewCity(obj).subscribe(
