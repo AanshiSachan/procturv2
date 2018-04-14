@@ -1,5 +1,5 @@
 @import "./src/assets/css/common/variables.scss";
-.courseAdd{
+.courseAdd {
     table {
         tr {
             background: white;
@@ -14,12 +14,12 @@
                 padding: 5px 10px;
             }
         }
-        &.adderTable{
-            tr{
-                td{
-                    .field-wrapper{
+        &.adderTable {
+            tr {
+                td {
+                    .field-wrapper {
                         padding-top: 0px;
-                        .form-ctrl{
+                        .form-ctrl {
                             padding: 5px 0 0px;
                             height: 30px;
                         }
@@ -27,10 +27,10 @@
                 }
             }
         }
-    }   
+    }
 }
 
-.asideWrapperNested{
+.asideWrapperNested {
     table {
         tr {
             background: white;
@@ -45,7 +45,7 @@
                 padding: 0px 10px;
             }
         }
-    }   
+    }
 }
 
 .middle-section {
@@ -87,7 +87,7 @@
     margin-bottom: 15px;
     margin-top: 15px;
     i {
-        border: 1px solid $common-blue;
+        // border: 1px solid $common-blue;
         display: inline-block;
         width: 17px;
         height: 17px;
@@ -116,7 +116,7 @@
     background: #efefef;
     max-height: 220px;
     overflow: hidden;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -129,7 +129,7 @@
     overflow-x: hidden;
     overflow-y: scroll;
     margin-top: 20px; // .tableDiv {}
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -162,7 +162,7 @@
 .asideWrapperNested {
     max-height: 180px;
     overflow-x: hidden;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -170,7 +170,7 @@
 }
 
 .asideMainWrapper {
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -180,4 +180,23 @@
 .nestedTableAsideWrapper {
     border-bottom: 1px solid #d8d8d8; //border-left: 1px solid #d8d8d8;
     margin-top: 10px;
+}
+
+.hideVisibility {
+    visibility: hidden;
+}
+
+.editCourseWrapper {
+    max-height: 500px;
+    overflow: hidden;
+    .middle-main {
+        max-height: 400px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
 }

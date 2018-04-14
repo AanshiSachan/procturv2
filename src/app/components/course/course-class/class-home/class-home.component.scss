@@ -3,9 +3,7 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-
 /* ========================================================================================= */
-
 
 /* ========================================================================================= */
 
@@ -24,9 +22,7 @@
     }
 }
 
-
 /* ========================================================================================= */
-
 
 /* ========================================================================================= */
 
@@ -69,33 +65,23 @@
     }
 }
 
+/* ========================================================================================= */
 
 /* ========================================================================================= */
 
+/* ========================================================================================= */
 
 /* ========================================================================================= */
 
+/* ========================================================================================= */
 
 /* ========================================================================================= */
 
+/* ========================================================================================= */
 
 /* ========================================================================================= */
 
-
 /* ========================================================================================= */
-
-
-/* ========================================================================================= */
-
-
-/* ========================================================================================= */
-
-
-/* ========================================================================================= */
-
-
-/* ========================================================================================= */
-
 
 /* ========================================================================================= */
 
@@ -1162,7 +1148,6 @@
     height: auto;
 }
 
-
 /* popUp Scss */
 
 .popupWrapper {
@@ -1360,13 +1345,11 @@
         }
     }
     label {
-        color: #309bf8 !important;
         font-size: 12px;
         font-weight: 400;
         color: rgba(0, 0, 0, 0.77);
         padding-bottom: 2px;
         text-decoration: none;
-        text-transform: uppercase;
         -webkit-font-smoothing: antialiased;
     }
     .side-form-ctrl {
@@ -1414,5 +1397,94 @@
     .row {
         margin-top: 5px;
         margin-bottom: 5px;
+    }
+    .notifyChkbx {
+        margin-top: 10px !important;
+    }
+}
+
+.notifyChkbx {
+    margin-top: 15px;
+}
+
+.rescheduleTime {
+    display: inline;
+    label {
+        text-transform: none;
+    }
+    .tbox {
+        padding: 0px 0px;
+        .times {
+            .side-form-ctrl {
+                &.mins {
+                    padding: 0px 0px;
+                }
+                &.mers {
+                    padding: 0px 0px;
+                }
+            }
+        }
+    }
+}
+
+.questionInfo {
+    position: relative;
+    left: 40%;
+    top: -20px;
+    height: 20px;
+    width: 20px;
+    z-index: 2;
+    &.lefts {
+        left: 80%;
+        .tooltip-box-field {
+            color: black;
+            min-height: 22px;
+            width: 140px !important;
+            left: 30px !important;
+            z-index: 1;
+            padding: 5px 10px !important;
+            top: -10px !important;
+            &:after {
+                display: none;
+            }
+        }
+    }
+    .qInfoIcon {
+        margin-left: 5px;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        display: block;
+        text-align: center;
+        box-sizing: border-box;
+        line-height: 20px;
+        font-weight: 600;
+        font-size: 12px;
+        cursor: pointer;
+        box-shadow: 0px 0px 1px 0px #ccc inset;
+        color: #888;
+        transition: all 0.2s linear;
+        &:hover {
+            border-color: $header-bg;
+            box-shadow: 0px 0px 1px 0px $header-bg inset;
+        }
+    }
+    &.hover {
+        &.lefts {
+            left: 80%;
+            .tooltip-box-field {
+                color: black;
+                min-height: 22px;
+                width: 140px !important;
+                left: -35px !important;
+                z-index: 1;
+                padding: 5px 10px !important;
+                top: -30px !important;
+                &:after {
+                    display: none;
+                }
+            }
+        }
     }
 }

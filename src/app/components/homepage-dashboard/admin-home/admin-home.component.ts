@@ -134,13 +134,13 @@ export class AdminHomeComponent implements OnInit {
   reschedReason: any = "";
   timepicker: any = {
     reschedStartTime: {
-      hour: '',
-      minute: '',
+      hour: '12 PM',
+      minute: '00',
       meridian: ''
     },
     reschedEndTime: {
-      hour: '',
-      minute: '',
+      hour: '1 PM',
+      minute: '00',
       meridian: ''
     },
   }
@@ -190,6 +190,10 @@ export class AdminHomeComponent implements OnInit {
   permissionArray = sessionStorage.getItem('permissions');
   settingInfo: any = [];
   times: any[] = ['', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM', '12 AM'];
+  viewDetailsPopUp: boolean = false;
+  selectedViewDet: any;
+  viewDetTable: any = [];
+
   /* ===================================================================================== */
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -259,7 +263,7 @@ export class AdminHomeComponent implements OnInit {
         this.settingInfo = res;
       },
       err => {
-        
+
       }
     )
 
@@ -287,8 +291,8 @@ export class AdminHomeComponent implements OnInit {
   getStorageData() {
     this.widgetService.getAllocatedStorageDetails().subscribe(
       res => {
-        this.storageData= res;
-        //console.log(res);
+        this.storageData = res;
+        this.storageData.storage_allocated = (Number(res.storage_allocated) / 1024).toFixed(3);
       },
       err => {
         //console.log(err);
@@ -1232,15 +1236,15 @@ export class AdminHomeComponent implements OnInit {
     this.reschedReason = "";
     this.timepicker = {
       reschedStartTime: {
-        hour: '',
-        minute: '',
+        hour: '12 PM',
+        minute: '00',
         meridian: ''
       },
       reschedEndTime: {
-        hour: '',
-        minute: '',
+        hour: '1 PM',
+        minute: '00',
         meridian: ''
-      }
+      },
     }
   }
 
@@ -1275,10 +1279,12 @@ export class AdminHomeComponent implements OnInit {
             let length = temp.length;
             let nameArr = res[o].coursee_names.split(',');
             let idArr = res[o].course_ids.split(',');
+            let is_attendance_marked = res[o].is_attendance_marked.split(',');
             for (let i = 0; i < length; i++) {
               let tobj = {
                 cancel_reason: res[o].cancel_reason,
                 course_id: res[o].course_id,
+                is_attendance_marked: '',
                 course_ids: "",
                 coursee_names: "",
                 coursesList: res[o].coursesList,
@@ -1291,6 +1297,7 @@ export class AdminHomeComponent implements OnInit {
                 standard_name: res[o].standard_name,
                 start_date: res[o].start_date,
               }
+              tobj.is_attendance_marked = is_attendance_marked[i];
               tobj.course_ids = idArr[i];
               tobj.coursee_names = nameArr[i];
               tempArr.push(tobj);
@@ -1432,20 +1439,6 @@ export class AdminHomeComponent implements OnInit {
     this.isCourseAttendance = false;
   }
 
-  //   {
-  //   "student_id": "11919",
-  //     "course_id": "79",
-  //       "dateLi": [{
-  //         "date": "2018-03-14",
-  //         "status": "P",
-  //         "isStatusModified": "N",
-  //         "home_work_status": "Y",
-  //         "is_home_work_status_changed": "N"
-  //       }],
-  //         "isNotify": "Y",
-  //           "is_home_work_enabled": "Y"
-  // },
-
   updateCourseAttendance() {
     let arr = [];
     this.courseLevelStudentAtt.forEach(element => {
@@ -1473,6 +1466,7 @@ export class AdminHomeComponent implements OnInit {
         }
         this.appC.popToast(msg);
         this.closeCourseLevelAttendance();
+        this.generateCourseLevelWidget();
       },
       err => {
         let msg = {
@@ -1598,6 +1592,7 @@ export class AdminHomeComponent implements OnInit {
       document.getElementById('leaveBtn' + rowData.student_id).classList.add('classLeaveBtn');
       rowData.dateLi[0].status = "L";
       rowData.dateLi[0].home_work_status = "N";
+      rowData.dateLi[0].isStatusModified = "Y";
     } else if (event.target.innerText == "A") {
       document.getElementById('absentBtn' + rowData.student_id).classList.add('classAbsentBtn');
       rowData.dateLi[0].status = "A";
@@ -1644,10 +1639,16 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
+  messageSubject: any = "";
+  messageArea: any = "";
+
   closeNotificationPopUp() {
     this.notificationPopUp = false;
     this.addNotification = false;
     this.showTableFlag = false;
+    this.showEmailSubject = false;
+    this.messageSubject = "";
+    this.messageArea = "";
   }
 
   flushData() {
@@ -1703,6 +1704,7 @@ export class AdminHomeComponent implements OnInit {
       }
       this.widgetService.getStudentListOfCourse(obj).subscribe(
         res => {
+          this.allChecked = true;
           this.isRippleLoad = false;
           this.showTableFlag = true;
           this.selectedOption = "filter";
@@ -1783,17 +1785,25 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById(id).classList.add('active');
     document.getElementById(div).classList.remove('hide');
     document.getElementById('divParentOrGaurdian').classList.remove('hide');
+    document.getElementById('chkbxEmailSend').checked = false;
+    document.getElementById('sendLoginChkbx').checked = false;
+    this.showEmailSubject = false;
     if (div == "divSendMessage") {
       this.showViewContent();
       this.getAllMessageFromServer();
+      document.getElementById('divDeliveryMode').classList.remove('remove');
+      document.getElementById('divDeliveryMode').classList.add('show');
+      document.getElementById('divLoginMode').classList.remove('show');
+      document.getElementById('divLoginMode').classList.add('hide');
       document.getElementById('liAdd').classList.remove('hide');
+      document.getElementById('chkbxEmailSend').checked = false;
       if (document.getElementById('chkBoxTutorSelection').checked) {
         document.getElementById('divParentOrGaurdian').classList.add('hide');
       } else {
         document.getElementById('divParentOrGaurdian').classList.remove('hide');
       }
-      if(this.selectedOption != "filter"){
-        this.whichCheckBoxSelected();  
+      if (this.selectedOption != "filter") {
+        this.whichCheckBoxSelected();
       }
     }
   }
@@ -1874,12 +1884,18 @@ export class AdminHomeComponent implements OnInit {
     )
   }
 
-  checkCheckAllChkboxStatus(data) {
-    data.forEach(element => {
-      if (element.assigned == false) {
+  allChecked: boolean = true;
+  onCheckBoxEvent(event, row) {
+    row.assigned = event;
+    this.allChecked = this.checkCheckAllChkboxStatus();
+  }
+
+  checkCheckAllChkboxStatus() {
+    for (let i = 0; i < this.studentList.length; i++) {
+      if (this.studentList[i].assigned == false) {
         return false;
       }
-    });
+    }
     return true;
   }
 
@@ -1912,14 +1928,17 @@ export class AdminHomeComponent implements OnInit {
   chkBoxAllActiveStudent(event) {
     this.clearDropDownBinding();
     if (event.target.checked) {
+      this.allChecked = true;
       this.clearCheckBoxSelction(event.target.id);
       this.isRippleLoad = true;
       this.studentList = [];
       this.widgetService.getAllActiveStudentList().subscribe(
         res => {
-          this.showTableFlag = true;
           this.isRippleLoad = false;
-          this.studentList = this.addKeys(res, true);
+          if (document.getElementById('chkBoxActiveSelection').checked) {
+            this.showTableFlag = true;
+            this.studentList = this.addKeys(res, true);
+          }
         },
         err => {
           this.isRippleLoad = false;
@@ -1935,14 +1954,17 @@ export class AdminHomeComponent implements OnInit {
   chkBoxAllTeacher(event) {
     this.clearDropDownBinding();
     if (event.target.checked) {
+      this.allChecked = true;
       this.clearCheckBoxSelction(event.target.id);
       this.isRippleLoad = true;
       this.studentList = [];
       this.widgetService.getAllTeacherList().subscribe(
         res => {
-          this.showTableFlag = true;
           this.isRippleLoad = false;
-          this.studentList = this.addKeys(res, true);
+          if (document.getElementById('chkBoxTutorSelection').checked) {
+            this.showTableFlag = true;
+            this.studentList = this.addKeys(res, true);
+          }
         },
         err => {
           this.isRippleLoad = false;
@@ -1959,14 +1981,17 @@ export class AdminHomeComponent implements OnInit {
   chkBoxAllInActiveStudent(event) {
     this.clearDropDownBinding();
     if (event.target.checked) {
+      this.allChecked = true;
       this.clearCheckBoxSelction(event.target.id);
       this.isRippleLoad = true;
       this.studentList = [];
       this.widgetService.getAllInActiveList().subscribe(
         res => {
           this.isRippleLoad = false;
-          this.showTableFlag = true;
-          this.studentList = this.addKeys(res, true);
+          if (document.getElementById('chkBoxInActiveSelection').checked) {
+            this.showTableFlag = true;
+            this.studentList = this.addKeys(res, true);
+          }
         },
         err => {
           this.isRippleLoad = false;
@@ -1983,14 +2008,17 @@ export class AdminHomeComponent implements OnInit {
   chkBoxAllAluminiStudent(event) {
     this.clearDropDownBinding();
     if (event.target.checked) {
+      this.allChecked = true;
       this.clearCheckBoxSelction(event.target.id);
       this.isRippleLoad = true;
       this.studentList = [];
       this.widgetService.getAllAluminiList().subscribe(
         res => {
-          this.showTableFlag = true;
           this.isRippleLoad = false;
-          this.studentList = this.addKeys(res, true);
+          if (document.getElementById('chkBoxAluminiSelection').checked) {
+            this.showTableFlag = true;
+            this.studentList = this.addKeys(res, true);
+          }
         },
         err => {
           this.isRippleLoad = false;
@@ -2069,35 +2097,43 @@ export class AdminHomeComponent implements OnInit {
     return id.join(',');
   }
 
+  getSubject() {
+    let text = this.messageSubject;
+    if (text.trim() == "" && text.trim() == null) {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: "Please enter subject for email"
+      };
+      this.appC.popToast(msg);
+      return false;
+    } else {
+      return text;
+    }
+  }
+
+  getMessageText() {
+    let text = this.messageArea;
+    if (text.trim() == "" && text.trim() == null) {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: "Please enter subject for email"
+      };
+      this.appC.popToast(msg);
+      return false;
+    } else {
+      return text;
+    }
+  }
+
   validateAllFields() {
     if (this.showEmailSubject) {
-      let text = document.getElementById('divSubjectMessage').value;
-      if (text.trim() == "" && text.trim() == null) {
-        let msg = {
-          type: 'error',
-          title: 'Error',
-          body: "Please enter subject for email"
-        };
-        this.appC.popToast(msg);
-        return false;
-      } else {
-        return text;
-      }
+      return this.getSubject();
     }
 
     if (this.selectedOption == "showTextBox") {
-      let text = document.getElementById('divMessageTextbox').value;
-      if (text.trim() == "" && text.trim() == null) {
-        let msg = {
-          type: 'error',
-          title: 'Error',
-          body: "Please enter subject for email"
-        };
-        this.appC.popToast(msg);
-        return false;
-      } else {
-        return text;
-      }
+      return this.getMessageText();
     }
     return "";
   }
@@ -2153,7 +2189,7 @@ export class AdminHomeComponent implements OnInit {
       return 0;
     } else if (student == false && parent == true && gaurdian == false) {
       return 1;
-    } else if (student = false && parent == false && gaurdian == true) {
+    } else if (student == false && parent == false && gaurdian == true) {
       return 3;
     } else if (student && parent && gaurdian == false) {
       return 2;
@@ -2178,19 +2214,20 @@ export class AdminHomeComponent implements OnInit {
   sendNotificationMessage() {
     let messageSelected: any;
     let configuredMessage: boolean = false;
+    let check = this.validateAllFields();
+    if (check === false) {
+      return;
+    }
     if (this.selectedOption == "showTextBox") {
-      messageSelected = { message: '', messageId: '' };
+      messageSelected = { message: this.getMessageText(), messageId: -1 };
       configuredMessage = false;
+      check = this.getSubject();
     } else {
       messageSelected = this.getNotificationMessage();
       configuredMessage = true;
     }
     if (messageSelected === false) {
       return
-    }
-    let check = this.validateAllFields();
-    if (check === false) {
-      return;
     }
     let delivery_mode = this.getDeliveryModeValue();
     if (delivery_mode === false) {
@@ -2207,33 +2244,52 @@ export class AdminHomeComponent implements OnInit {
     } else {
       batch_id = this.sendNotificationCourse.course_id;
     }
+    let studentID: any;
+    let isTeacherSMS: number = 0;
+    if (this.selectedOption == "showTutor") {
+      studentID = this.getListOfIds('teacher_id');
+      isTeacherSMS = 1;
+      destination = 0;
+    } else {
+      studentID = this.getListOfIds('student_id');
+    }
+    let isAlumini = 0;
+    if (document.getElementById('chkBoxAluminiSelection').checked) {
+      isAlumini = 1;
+    }
+
     let obj = {
       delivery_mode: Number(delivery_mode),
       notifn_message: messageSelected.message,
       notifn_subject: check,
       destination: Number(destination),
-      student_ids: this.getListOfIds('student_id'),
-      batch_id: batch_id,
+      student_ids: studentID,
       cancel_date: '',
       isEnquiry_notifn: 0,
-      isAlumniSMS: 0,
-      isTeacherSMS: 0,
+      isAlumniSMS: isAlumini,
+      isTeacherSMS: isTeacherSMS,
       configuredMessage: configuredMessage,
       message_id: messageSelected.messageId
     }
 
     this.widgetService.sendNotification(obj).subscribe(
       res => {
-        //console.log(res);
         let msg = {
           type: 'success',
           title: 'Message',
           body: "Send Successfully"
         };
         this.appC.popToast(msg);
+        this.closeNotificationPopUp();
       },
       err => {
-        //console.log(err);
+        console.log(err);
+        let msg = {
+          type: 'error',
+          title: 'Error',
+          body: err.error.message
+        };
+        this.appC.popToast(msg);
       }
     )
   }
@@ -2264,7 +2320,13 @@ export class AdminHomeComponent implements OnInit {
         this.appC.popToast(msg);
       },
       err => {
-        //console.log(err);
+        console.log(err);
+        let msg = {
+          type: 'error',
+          title: 'Error',
+          body: err.error.message
+        };
+        this.appC.popToast(msg);
       }
     )
   }
@@ -2303,7 +2365,13 @@ export class AdminHomeComponent implements OnInit {
           this.appC.popToast(msg);
         },
         err => {
-          //console.log(err);
+          console.log(err);
+          let msg = {
+            type: 'error',
+            title: 'Error',
+            body: err.error.message
+          };
+          this.appC.popToast(msg);
         }
       )
 
@@ -2320,6 +2388,83 @@ export class AdminHomeComponent implements OnInit {
     })
   }
 
+
+  /// View Details PopUp
+
+  viewClassDetails(index, data) {
+    this.selectedViewDet = data;
+    this.viewDetailsPopUp = true;
+    this.getDetailOfMasterCourse(data);
+  }
+
+  closeViewDetailsPopUp() {
+    this.viewDetailsPopUp = false;
+    this.viewDetTable = [];
+  }
+
+  getDetailOfMasterCourse(data) {
+    this.viewDetTable = [];
+    let obj = {
+      course_id: data.course_ids,
+      master_course: data.master_course,
+      requested_date: moment(this.courseLevelSchedDate).format("YYYY-MM-DD"),
+    }
+    this.widgetService.getMasterCourseDetails(obj).subscribe(
+      (res: any) => {
+        if (res.coursesList[0].courseClassSchdList.length > 0) {
+          let arr = this.constructJSONForTable(res);
+          this.viewDetTable = this.makeJsonTable(arr);
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  makeJsonTable(data) {
+    for (let i = 0; i < data.length; i++) {
+      for (let t = 0; t < this.teacherListArr.length; t++) {
+        if (data[i].teacher_id == this.teacherListArr[t].teacher_id) {
+          data[i].teacher_name = this.teacherListArr[t].teacher_name;
+        }
+      }
+    }
+    return data;
+  }
+
+
+  constructJSONForTable(data) {
+    let courseScheduleList = [];
+    let batchesList = [];
+    let arr: any = [];
+    batchesList = data.coursesList[0].batchesList;
+    if (data.coursesList[0].courseClassSchdList != null) {
+      courseScheduleList = data.coursesList[0].courseClassSchdList;
+      for (let i = 0; i < courseScheduleList.length; i++) {
+        for (let j = 0; j < batchesList.length; j++) {
+          if (courseScheduleList[i].batch_id == batchesList[j].batch_id) {
+            let obj: any = {};
+            obj.class_schedule_id = courseScheduleList[i].class_schedule_id;
+            obj.custom_class_type = courseScheduleList[i].custom_class_type;
+            obj.start_time = courseScheduleList[i].start_time;
+            obj.end_time = courseScheduleList[i].end_time;
+            obj.subject_name = courseScheduleList[i].subject_name;
+            obj.subject_id = courseScheduleList[i].subject_id;
+            obj.teacher_id = courseScheduleList[i].alloted_teacher_id;
+            obj.batch_id = courseScheduleList[i].batch_id;
+            obj.class_desc = courseScheduleList[i].class_desc;
+            obj.room_no = courseScheduleList[i].room_no;
+            obj.course_id = data.coursesList[0].course_id;
+            obj.start_date = data.coursesList[0].start_date;
+            obj.end_date = data.coursesList[0].end_date;
+            arr.push(obj);
+          }
+        }
+      }
+    }
+    return arr;
+  }
 
   //  Role Based Access
   checkIfUserHadAccess(id) {

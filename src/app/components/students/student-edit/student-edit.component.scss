@@ -87,6 +87,13 @@
         max-height: 400px;
         overflow-x: hidden;
         overflow-y: auto;
+        ul{
+            li{
+                a{
+                    cursor: pointer;
+                }
+            }
+        }
         .installment-container {
             box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
             .installment-header {
@@ -103,13 +110,44 @@
                 ul {
                     li {
                         display: inline-flex;
-                        width: 12%;
+                        width: 20%;
                         margin: 0px 10px;
                         .form-wrapper {
+                            position: relative;
                             background: transparent;
                             margin: 0px;
                             border: none;
                             padding: 0;
+                            &.datePickerBox {
+                                .bsDatepicker {
+                                    cursor: pointer;
+                                    position: relative;
+                                    z-index: 1;
+                                    background: transparent;
+                                    width: 95%;
+                                }
+                                &:after {
+                                    content: '';
+                                    background: url("../../../../assets/images/calendar.svg") no-repeat;
+                                    position: absolute;
+                                    right: 13px;
+                                    top: 15px;
+                                    width: 21px;
+                                    height: 21px;
+                                    z-index: 0;
+                                }
+                            }
+                            .date-clear {
+                                position: absolute;
+                                right: 60%;
+                                top: 50px;
+                                cursor: pointer;
+                                color: #0084f6;
+                            }
+                            .form-ctrl{
+                                background: transparent;
+
+                            }
                             &.datepicker {
                                 span {
                                     position: absolute;
@@ -123,7 +161,8 @@
                             label {
                                 font-size: 12px;
                                 font-weight: 400;
-                                font-family: -webkit-body;
+                                width: 100%;
+                                display: block;
                                 color: black;
                                 text-decoration: none;
                                 text-shadow: none;
@@ -132,14 +171,16 @@
                             .form-ctrl {
                                 background: transparent;
                                 border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                                border-radius: 5px;
                                 width: 100%;
-                                padding: 8px 5px;
+                                display: block;
+                                padding: 0px 5px;
                                 font-weight: 600;
-                                font-size: 14px;
+                                font-size: 12px;
                                 color: black;
-                                height: 35px;
+                                height: 25px;
                                 &.bsDatepicker {
-                                    padding: 8px 5px;
+                                    padding: 0px 5px;
                                 }
                             }
                             &.timepick {
@@ -163,6 +204,92 @@
                         display: inline-flex;
                         &:first-child{
                             width: 5% !important;
+                        }
+                        &.date{
+                            width: 20% !important; 
+                        }
+                    }
+                    .form-wrapper {
+                        position: relative;
+                        background: transparent;
+                        margin: 0px;
+                        border: none;
+                        padding: 0;
+                        &.datePickerBox {
+                            .bsDatepicker {
+                                cursor: pointer;
+                                position: relative;
+                                z-index: 1;
+                                background: transparent;
+                                width: 95%;
+                            }
+                            &:after {
+                                content: '';
+                                background: url("../../../../assets/images/calendar.svg") no-repeat;
+                                position: absolute;
+                                right: 9px;
+                                top: 1px;
+                                width: 21px;
+                                height: 21px;
+                                z-index: 0;
+                            }
+                        }
+                        .date-clear {
+                            position: absolute;
+                            right: 60%;
+                            top: 50px;
+                            cursor: pointer;
+                            color: #0084f6;
+                        }
+                        .form-ctrl{
+                            background: transparent;
+
+                        }
+                        &.datepicker {
+                            span {
+                                position: absolute;
+                                top: 30px;
+                                right: 20px;
+                                font-weight: 300;
+                                color: red;
+                                cursor: pointer;
+                            }
+                        }
+                        label {
+                            font-size: 12px;
+                            font-weight: 400;
+                            width: 100%;
+                            display: block;
+                            color: black;
+                            text-decoration: none;
+                            text-shadow: none;
+                            -webkit-font-smoothing: antialiased;
+                        }
+                        .form-ctrl {
+                            background: transparent;
+                            border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                            border-radius: 5px;
+                            width: 100%;
+                            display: block;
+                            padding: 0px 5px;
+                            font-weight: 600;
+                            font-size: 12px;
+                            color: black;
+                            height: 25px;
+                            &.bsDatepicker {
+                                padding: 0px 5px;
+                            }
+                        }
+                        &.timepick {
+                            .form-ctrl {
+                                background: transparent;
+                                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                                width: 100%;
+                                padding: 8px 5px;
+                                font-weight: 600;
+                                font-size: 14px;
+                                color: black;
+                            }
                         }
                     }
                     &.table-header {
@@ -221,10 +348,41 @@
                         width: 15%;
                         margin: 0px 5px;
                         .form-wrapper {
+                            position: relative;
                             background: transparent;
                             margin: 0px;
                             border: none;
                             padding: 0;
+                            &.datePickerBox {
+                                .bsDatepicker {
+                                    cursor: pointer;
+                                    position: relative;
+                                    z-index: 1;
+                                    background: transparent;
+                                    width: 95%;
+                                }
+                                &:after {
+                                    content: '';
+                                    background: url("../../../../assets/images/calendar.svg") no-repeat;
+                                    position: absolute;
+                                    right: 13px;
+                                    top: 15px;
+                                    width: 21px;
+                                    height: 21px;
+                                    z-index: 0;
+                                }
+                            }
+                            .date-clear {
+                                position: absolute;
+                                right: 60%;
+                                top: 50px;
+                                cursor: pointer;
+                                color: #0084f6;
+                            }
+                            .form-ctrl{
+                                background: transparent;
+
+                            }
                             &.datepicker {
                                 span {
                                     position: absolute;
@@ -238,7 +396,8 @@
                             label {
                                 font-size: 12px;
                                 font-weight: 400;
-                                font-family: -webkit-body;
+                                width: 100%;
+                                display: block;
                                 color: black;
                                 text-decoration: none;
                                 text-shadow: none;
@@ -247,14 +406,16 @@
                             .form-ctrl {
                                 background: transparent;
                                 border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                                border-radius: 5px;
                                 width: 100%;
-                                padding: 8px 5px;
+                                display: block;
+                                padding: 0px 5px;
                                 font-weight: 600;
-                                font-size: 14px;
+                                font-size: 12px;
                                 color: black;
-                                height: 35px;
+                                height: 25px;
                                 &.bsDatepicker {
-                                    padding: 8px 5px;
+                                    padding: 0px 5px;
                                 }
                             }
                             &.timepick {
@@ -292,6 +453,89 @@
                             }
                         }
                     }
+                    .form-wrapper {
+                        position: relative;
+                        background: transparent;
+                        margin: 0px;
+                        border: none;
+                        padding: 0;
+                        &.datePickerBox {
+                            .bsDatepicker {
+                                cursor: pointer;
+                                position: relative;
+                                z-index: 1;
+                                background: transparent;
+                                width: 95%;
+                            }
+                            &:after {
+                                content: '';
+                                background: url("../../../../assets/images/calendar.svg") no-repeat;
+                                position: absolute;
+                                right: 9px;
+                                top: 1px;
+                                width: 21px;
+                                height: 21px;
+                                z-index: 0;
+                            }
+                        }
+                        .date-clear {
+                            position: absolute;
+                            right: 60%;
+                            top: 50px;
+                            cursor: pointer;
+                            color: #0084f6;
+                        }
+                        .form-ctrl{
+                            background: transparent;
+
+                        }
+                        &.datepicker {
+                            span {
+                                position: absolute;
+                                top: 30px;
+                                right: 20px;
+                                font-weight: 300;
+                                color: red;
+                                cursor: pointer;
+                            }
+                        }
+                        label {
+                            font-size: 12px;
+                            font-weight: 400;
+                            width: 100%;
+                            display: block;
+                            color: black;
+                            text-decoration: none;
+                            text-shadow: none;
+                            -webkit-font-smoothing: antialiased;
+                        }
+                        .form-ctrl {
+                            background: transparent;
+                            border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                            border-radius: 5px;
+                            width: 100%;
+                            display: block;
+                            padding: 0px 5px;
+                            font-weight: 600;
+                            font-size: 12px;
+                            color: black;
+                            height: 25px;
+                            &.bsDatepicker {
+                                padding: 0px 5px;
+                            }
+                        }
+                        &.timepick {
+                            .form-ctrl {
+                                background: transparent;
+                                border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+                                width: 100%;
+                                padding: 8px 5px;
+                                font-weight: 600;
+                                font-size: 14px;
+                                color: black;
+                            }
+                        }
+                    }
                 }
                 .table-data {
                     ul {
@@ -308,6 +552,12 @@
                                     margin-left: 40px;
                                 }
                             }
+                            &.tax{
+                                width: 10% !important;
+                            }
+                            &.date{
+                                width: 20% !important;
+                            }
                         }
                     }
                 }
@@ -317,7 +567,7 @@
 }
 
 .table-row {
-    padding: 10px 5px;
+    padding: 3px 5px;
 }
 
 .bigger {
@@ -328,7 +578,9 @@
     background: #0084f6 !important;
     color: white !important;
     position: relative;
-    top: 25px;
+    top: 21px !important;
+    height: 30px !important;
+    padding: 3px 12px 7px 12px !important;
     i {
         display: inline-flex;
         &::before {
@@ -635,7 +887,6 @@
                             label {
                                 font-size: 12px;
                                 font-weight: 400;
-                                font-family: -webkit-body;
                                 color: black;
                                 text-decoration: none;
                                 text-shadow: none;

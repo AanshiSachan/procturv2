@@ -766,7 +766,7 @@ export class EnquiryEditComponent implements OnInit {
     else {
       let msg = {
         type: 'error',
-        title: 'Academic Details Imcomplete',
+        title: 'Academic Details Incomplete',
         body: 'Please fill all the required fields'
       }
       this.appC.popToast(msg);

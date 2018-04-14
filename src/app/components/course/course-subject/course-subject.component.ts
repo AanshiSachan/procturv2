@@ -77,7 +77,6 @@ export class CourseSubjectComponent implements OnInit {
   }
 
   updateRow(row, id) {
-    debugger
     let data: any = {};
     data.is_active = row.is_active;
     data.subject_name = row.subject_name;
