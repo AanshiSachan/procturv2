@@ -83,7 +83,7 @@ export class EnquiryWidgetComponent implements OnInit {
         }]
     });
 
-    enquiryZero:boolean = true;
+    enquiryZero: boolean = true;
 
     constructor(private router: Router, private cd: ChangeDetectorRef, private appC: AppComponent, private rd: Renderer2, private enquiryService: FetchenquiryService, private widgetService: WidgetService) {
         this.enquiryDate[0] = new Date(moment().date(1).format("YYYY-MM-DD"));
@@ -107,10 +107,10 @@ export class EnquiryWidgetComponent implements OnInit {
         this.enquiryService.fetchEnquiryWidgetView(obj).subscribe(
             res => {
                 this.enquiryStat = res;
-                if(res.totalcount == 0){
+                if (res.totalcount == 0) {
                     this.enquiryZero = true;
                 }
-                else if(res.totalcount != 0){
+                else if (res.totalcount != 0) {
                     this.enquiryZero = false;
                 }
                 this.updateEnqChart();
@@ -138,10 +138,10 @@ export class EnquiryWidgetComponent implements OnInit {
             res => {
                 this.cd.markForCheck();
                 this.enquiryStat = res;
-                if(res.totalcount == 0){
+                if (res.totalcount == 0) {
                     this.enquiryZero = true;
                 }
-                else if(res.totalcount != 0){
+                else if (res.totalcount != 0) {
                     this.enquiryZero = false;
                 }
                 this.updateEnqChart();
@@ -220,25 +220,30 @@ export class EnquiryWidgetComponent implements OnInit {
         }
     }
 
-    convertEnquiryStats(res): any{
+    convertEnquiryStats(res): any {
 
-        let obj:any = res;
+        let obj: any = res;
         let s = res.statusMap;
         let conv = 0;
 
-        for(let k in s){
-            if(k == "Converted"){
+        for (let k in s) {
+            if (k == "Converted") {
                 console.log(k);
                 conv = s[k];
                 s[k] = 0;
             }
         }
 
-        if(conv != 0){
+        if (conv != 0) {
             obj.statusMap['Open'] += conv;
         }
         console.log(obj);
         return obj;
+    }
+
+    navigateToEnquiry(data) {
+        sessionStorage.setItem('dashBoardParam', data);
+        this.router.navigateByUrl('/enquiry');
     }
 
 }
