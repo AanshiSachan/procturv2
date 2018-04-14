@@ -120,7 +120,8 @@
                                 <div *ngIf="row.followUpDate !='' && row.followUpTime != ''">
                                     <div class="form-checkbox-wrapper">
                                         <div class="field-checkbox-wrapper">
-                                            <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox" style="display:inline-block;" id="notifyMe">
+                                            <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox" style="display:inline-block;"
+                                                id="notifyMe">
 
                                             <label for="notifyme">Notify Me</label>
 
@@ -128,9 +129,8 @@
                                                 <span class="qInfoIcon">!</span>
                                                 <div class="tooltip-box-field">
 
-                                                    Follow up Time
-                                                    and Follow <br>up
-                                                    Date is Mandatory
+                                                    Follow up Time and Follow
+                                                    <br>up Date is Mandatory
                                                 </div>
                                             </div>
 
@@ -272,6 +272,10 @@
                             <label for="Subject">Subject</label>
                             <input readonly="true" id="Subject" class="side-form-ctrl blocked" [(ngModel)]="rowData.subjects" type="text" name="Subject">
                         </div>
+                        <div class="form-wrapper ">
+                            <label for="Subject">Source</label>
+                            <input readonly="true" id="idSource" class="side-form-ctrl blocked" [(ngModel)]="sourceName" type="text" name="Subject">
+                        </div>
                     </div>
                 </section>
             </li>
@@ -285,7 +289,8 @@
                         <div *ngFor="let cus of customComp">
                             <div class="form-wrapper">
                                 <label for="{{cus.label}}">{{cus.label}}</label>
-                                <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="cus.enq_custom_value" type="text" name="{{cus.label}}" id="{{cus.label}}">
+                                <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="cus.enq_custom_value" type="text" name="{{cus.label}}"
+                                    id="{{cus.label}}">
                             </div>
                         </div>
                     </div>

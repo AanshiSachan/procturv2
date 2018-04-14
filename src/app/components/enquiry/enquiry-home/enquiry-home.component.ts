@@ -379,7 +379,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       }
     ];
     /* Load paginated enquiry data from server */
-    this.busy = this.loadTableDatatoSource(this.instituteData);
+    let params = sessionStorage.getItem('dashBoardParam');
+    if (params != "" && params != null && params != undefined) {
+      this.checkIfRoutedFromEnquiry();
+      sessionStorage.setItem('dashBoardParam', '');
+    } else {
+      this.loadTableDatatoSource(this.instituteData);
+    }
     this.cd.markForCheck();
     /* Fetch the status of message from  popup handler service */
     this.pops.currentMessage.subscribe(message => {
@@ -438,7 +444,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     sessionStorage.setItem('displayBatchSize', this.displayBatchSize.toString());
-
   }
 
   convertTimeToFormat(data) {
@@ -1371,9 +1376,130 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
 
   }
-
-
   /* =========================================================================== */
+  checkIfRoutedFromEnquiry() {
+    let filter = sessionStorage.getItem('dashBoardParam');
+
+    if (filter == "" || filter == null || filter == undefined) {
+      return;
+    }
+    else {
+      this.searchBarData = '';
+      if (filter == "Admitted") {
+        this.statusString = [];
+        this.statusString.push('12');
+
+        let stat = this.statusString.join(',');
+        this.instituteData = {
+          name: "",
+          phone: "",
+          email: "",
+          commentShow: 'false',
+          enquiry_no: "",
+          priority: "",
+          status: -1,
+          filtered_statuses: stat,
+          follow_type: "",
+          followUpDate: "",
+          enquiry_date: "",
+          assigned_to: -1,
+          standard_id: -1,
+          subject_id: -1,
+          is_recent: "Y",
+          slot_id: -1,
+          filtered_slots: "",
+          isDashbord: "N",
+          enquireDateFrom: "",
+          enquireDateTo: "",
+          updateDate: "",
+          updateDateFrom: "",
+          updateDateTo: "",
+          start_index: 0,
+          batch_size: this.displayBatchSize,
+          closedReason: "",
+          enqCustomLi: null
+        };
+        this.busy = this.loadTableDatatoSource(this.instituteData);
+      }
+
+      if (filter == "Closed") {
+        this.statusString = [];
+        this.statusString.push('1');
+
+        let stat = this.statusString.join(',');
+
+        this.instituteData = {
+          name: "",
+          phone: "",
+          email: "",
+          enquiry_no: "",
+          commentShow: 'false',
+          priority: "",
+          status: -1,
+          filtered_statuses: stat,
+          follow_type: "",
+          followUpDate: this.searchBarDate,
+          enquiry_date: "",
+          assigned_to: -1,
+          standard_id: -1,
+          subject_id: -1,
+          is_recent: "Y",
+          slot_id: -1,
+          filtered_slots: "",
+          isDashbord: "N",
+          enquireDateFrom: "",
+          enquireDateTo: "",
+          updateDate: "",
+          updateDateFrom: "",
+          updateDateTo: "",
+          start_index: 0,
+          batch_size: this.displayBatchSize,
+          closedReason: "",
+          enqCustomLi: null
+        };
+
+        this.busy = this.loadTableDatatoSource(this.instituteData);
+      }
+
+      if (filter == "InProgress" || filter == "Open") {
+        this.statusString.push('0');
+        this.statusString.push('3');
+
+        let stat = this.statusString.join(',');
+        this.instituteData = {
+          name: "",
+          phone: "",
+          email: "",
+          enquiry_no: "",
+          commentShow: 'false',
+          priority: "",
+          status: -1,
+          filtered_statuses: stat,
+          follow_type: "",
+          followUpDate: this.searchBarDate,
+          enquiry_date: "",
+          assigned_to: -1,
+          standard_id: -1,
+          subject_id: -1,
+          is_recent: "Y",
+          slot_id: -1,
+          filtered_slots: "",
+          isDashbord: "N",
+          enquireDateFrom: "",
+          enquireDateTo: "",
+          updateDate: "",
+          updateDateFrom: "",
+          updateDateTo: "",
+          start_index: 0,
+          batch_size: this.displayBatchSize,
+          closedReason: "",
+          enqCustomLi: null
+        };
+        this.busy = this.loadTableDatatoSource(this.instituteData);
+      }
+    }
+  }
+
   /* =========================================================================== */
 
 
