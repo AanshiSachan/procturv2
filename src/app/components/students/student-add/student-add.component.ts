@@ -499,7 +499,7 @@ export class StudentAddComponent implements OnInit {
         this.service_tax = data.registeredServiceTax;
         let tax = el.initial_fee_amount * (this.service_tax / 100);
         this.totalTaxAmount += this.precisionRound(tax, -1);
-        if(parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)){
+        if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
           el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
         }
       }
@@ -1931,7 +1931,7 @@ export class StudentAddComponent implements OnInit {
     }
     this.instalmentTableData = [];
     this.otherFeeTableData = [];
-    this.totalDicountAmount = 0;    
+    this.totalDicountAmount = 0;
 
     let dd = moment(this.feeStructureForm.template_effective_date).format('YYYY-MM-DD');
 
@@ -1954,7 +1954,7 @@ export class StudentAddComponent implements OnInit {
               this.service_tax = res.registeredServiceTax;
               let tax = el.initial_fee_amount * (this.service_tax / 100);
               this.totalTaxAmount += this.precisionRound(tax, -1);
-              if(parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)){
+              if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
                 el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
               }
             }
@@ -2378,11 +2378,16 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateInitialAmount(amt, i) {
-    if (this.instalmentTableData[i].service_tax_applicable === "Y" || this.instalmentTableData[i].service_tax_applicable === "") {
-      this.instalmentTableData[i].initial_fee_amount = this.precisionRound(((100 * parseInt(amt)) / (100 + this.service_tax)), -1);
+
+    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      let i: number = 0;
+      i = this.precisionRound((amt / ((this.service_tax / 100) + 1)), -1);
+      this.instalmentTableData[i].initial_fee_amount = i;
+      return i;
     }
-    else if (this.instalmentTableData[i].service_tax_applicable === "N") {
+    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
       this.instalmentTableData[i].initial_fee_amount = parseInt(amt);
+      return amt;
     }
   }
   /* ============================================================================================================================ */
@@ -2620,17 +2625,17 @@ export class StudentAddComponent implements OnInit {
 
     this.userCustommizedFee.forEach(el => {
 
-      if(el.due_date == "Invalid date" || el.due_date == "null"){
+      if (el.due_date == "Invalid date" || el.due_date == "null") {
         el.due_date = moment(new Date(el.due_date)).format("YYYY-MM-DD");
       }
-      else if(el.due_date != "Invalid date" && el.due_date != "null"){
+      else if (el.due_date != "Invalid date" && el.due_date != "null") {
         el.due_date = moment(el.due_date).format("YYYY-MM-DD");
       }
       /* Taxes Here */
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         let tax = el.initial_fee_amount * (this.service_tax / 100);
         this.totalTaxAmount += this.precisionRound(tax, -1);
-        if(parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)){
+        if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
           el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
         }
       }
@@ -2793,7 +2798,7 @@ export class StudentAddComponent implements OnInit {
     return distinct;
   }
   /* ============================================================================================================================ */
-  
+
   /* ============================================================================================================================ */
   updateStudentFeeDetails() {
     this.deselectAllSelectedCheckbox();
@@ -2846,7 +2851,7 @@ export class StudentAddComponent implements OnInit {
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               let tax = el.initial_fee_amount * (this.service_tax / 100);
               this.totalTaxAmount += this.precisionRound(tax, -1);
-              if(parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)){
+              if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
                 el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
               }
             }

@@ -794,7 +794,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.service_tax = res.registeredServiceTax;
               let tax = el.initial_fee_amount * (this.service_tax / 100);
               this.totalTaxAmount += this.precisionRound(tax, -1);
-              if(parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)){
+              if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
                 el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
               }
             }
@@ -823,8 +823,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.totalInitalAmount += parseInt(el.initial_fee_amount);
             /* Total Fee Amount with Taxes */
             this.totalFeeWithTax += parseInt(el.fees_amount);
-          
-            
+
+
             let obj = {
               uiSelected: el.is_referenced == "Y" ? true : false,
               isPaid: el.is_referenced == "Y" ? true : false
@@ -897,7 +897,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.appC.popToast(obj);
       }
 
-    ); 
+    );
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -1953,7 +1953,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.service_tax = res.registeredServiceTax;
               let tax = el.initial_fee_amount * (this.service_tax / 100);
               this.totalTaxAmount += this.precisionRound(tax, -1);
-              if(parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)){
+              if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
                 el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
               }
             }
@@ -2218,11 +2218,16 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateInitialAmount(amt, i) {
-    if (this.instalmentTableData[i].service_tax_applicable === "Y" || this.instalmentTableData[i].service_tax_applicable === "") {
-      this.instalmentTableData[i].initial_fee_amount = this.precisionRound(((100 * parseInt(amt)) / (100 + this.service_tax)), -1);
+
+    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      let i: number = 0;
+      i = this.precisionRound((amt / ((this.service_tax / 100) + 1)), -1);
+      this.instalmentTableData[i].initial_fee_amount = i;
+      return i;
     }
-    else if (this.instalmentTableData[i].service_tax_applicable === "N") {
+    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
       this.instalmentTableData[i].initial_fee_amount = parseInt(amt);
+      return amt;
     }
   }
   /* ============================================================================================================================ */
@@ -4200,7 +4205,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         let tax = el.initial_fee_amount * (this.service_tax / 100);
         this.totalTaxAmount += this.precisionRound(tax, -1);
-        if(parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)){
+        if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
           el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
         }
       }

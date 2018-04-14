@@ -824,7 +824,7 @@
     </section>
     <!-- ======================================================== -->
     <!-- ======================================================== -->
-  </section> 
+  </section>
 
   <!-- =============== Popup Declarations ===================== -->
   <!-- ======================================================== -->
@@ -1218,7 +1218,7 @@
                 </li>
                 <li [ngClass]="{'hide': taxEnableCheck == '0'}">
                   <div class="form-wrapper disable">
-                    <input type="number" class="form-ctrl" readonly="true" name="amt" [(ngModel)]="fee.initial_fee_amount">
+                    <input type="number" class="form-ctrl" readonly="true" name="amt" [ngModel]="updateInitialAmount(fee.fees_amount, i)">
                   </div>
                 </li>
                 <li [ngClass]="{'hide': taxEnableCheck == '0'}">
@@ -1714,7 +1714,7 @@
 
         <div class="row">
 
-          <div *ngIf="!isPaymentPdc" class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
+          <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
             <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'pay')"
             />
             <label for="payamt">Payment for</label>
@@ -1867,7 +1867,7 @@
 
         <div class="row">
 
-          <div *ngIf="!isPaymentPdc" class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
+          <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
             <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'payone')"
             />
             <label for="payamt">Pay Amount</label>
