@@ -407,8 +407,8 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
                     <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
                     />
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}} {{component.id}}">{{component.label}}*</label>
-                    <label *ngIf="component.is_required == 'N'" for="{{component.id}} {{component.id}}">{{component.label}} </label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                    <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                   </div>
                 </div>
 
