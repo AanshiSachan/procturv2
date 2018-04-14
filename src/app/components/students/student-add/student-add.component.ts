@@ -1949,7 +1949,6 @@ export class StudentAddComponent implements OnInit {
           this.isFeeApplied = true;
           this.discountReason = "";
           res.customFeeSchedules.forEach(el => {
-            console.log(el.due_date);
             el.due_date = new Date(el.due_date);
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
