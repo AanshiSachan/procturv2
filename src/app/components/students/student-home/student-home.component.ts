@@ -1076,7 +1076,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       student_id: this.applyLeave.student_id,
       start_date: moment(this.applyLeave.start_date).format("YYYY-MM-DD"),
       end_date: moment(this.applyLeave.end_date).format("YYYY-MM-DD"),
-      reason: ''
+      reason: this.applyLeave.reason
     }
     this.isRippleLoad = true;
     this.studentFetch.markLeaveForDays(obj).subscribe(
