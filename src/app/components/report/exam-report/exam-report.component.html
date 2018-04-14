@@ -49,12 +49,28 @@
     </aside>
 </div>
 
+<!--
+<div class="search-filter-wrapper" id="adFilterExitVisible">
+                <input #search type="text" class="normal-field" placeholder="Search Name/Contact/Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;"
+                  [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
+              
+
+ <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
+
+-->
+
+<div class="search-filter-wrapper" id="adFilterExitVisible">
+    
+    <input #search type="text"  class="normal-field" [(ngModel)]="studentName" style="font-size:12px; margin: 0px 5px 0px -5px;" placeholder="Serach here">
+    
+</div>
+
 <section class="sms-table-wrapper" *ngIf="Tdata">
     <div class="table table-responsive student-table">
-        <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name:pagedExamSource.student_id:pagedExamSource.doj:
-        pagedExamSource.student_phone" [tableName]="'Exam'" [settings]="projectSettings">
-<input [(ngModel)]="pagedExamSource.student_name" placeholder="Serach here">
+        <proctur-table [records]="pagedExamSource | filter:studentName" [tableName]="'Exam'" 
+        [settings]="projectSettings">
 
+        
         </proctur-table>
     </div>
     

@@ -24,6 +24,7 @@ export class ExamReportComponent implements OnInit {
   ExamSource: any = [];
   DetailSource :any=[];
   pagedExamSource: any = [];
+  studentName="";
   FetchApiData: any = [];
  
 
