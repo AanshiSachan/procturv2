@@ -223,7 +223,7 @@ export class EnquiryEditComponent implements OnInit {
         if (data.followUpTime != '') {
           let followUpDateTime = moment(data.followUpDate).format('YYYY-MM-DD') + " " + data.followUpTime;
           this.hour = moment(followUpDateTime).format('h');
-
+          this.followUpTime = moment(followUpDateTime).format('h') + " " + moment(followUpDateTime).format('a').toString().toUpperCase();
           this.minute = moment(followUpDateTime).format('mm');
 
           this.meridian = moment(followUpDateTime).format('a').toString().toUpperCase();
@@ -451,7 +451,7 @@ export class EnquiryEditComponent implements OnInit {
         data => {
           this.customComponents = [];
           data.forEach(el => {
-            
+
             let obj = {
               data: el,
               id: el.component_id,
@@ -491,7 +491,7 @@ export class EnquiryEditComponent implements OnInit {
                 type: el.type,
                 value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
               }
-            }              
+            }
             if (el.type == 2) {
               obj = {
                 data: el,
@@ -520,7 +520,7 @@ export class EnquiryEditComponent implements OnInit {
                 value: el.enq_custom_value
               }
             }
-            
+
             this.customComponents.push(obj);
           });
           this.emptyCustomComponent = this.componentListObject;
@@ -531,8 +531,8 @@ export class EnquiryEditComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  getDefaultArr(d):any[]{
-    let a:any[] = [];
+  getDefaultArr(d): any[] {
+    let a: any[] = [];
     a.push(d);
     return a;
   }
