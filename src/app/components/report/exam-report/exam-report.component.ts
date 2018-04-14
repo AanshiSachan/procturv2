@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ColumnSetting } from '../../shared/custom-table/layout.model';
+import { ExamService } from '../../../services/report-services/exam.service';
+import { AppComponent } from '../../../app.component';
+import {FilterPipe} from './filter.pipe';
 @Component({
   selector: 'app-exam-report',
   templateUrl: './exam-report.component.html',
@@ -7,37 +10,200 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExamReportComponent implements OnInit {
 
-  constructor() {
-    this.switchActiveView('exam');
-   }
+  pageIndex: number = 1;
+  totalRecords: number = 0;
+  displayBatchSize: number = 10;
+  Tdata: boolean = false;
+  courseData: any[] = [];
+  subData = "";
+  SubjectData: any[] = [];
+  masterCourses: any[] = [];
+  masterData = "";
+  Exam_sche_Data = "";
+  Exam_Sch_Data: any[] = [];
+  ExamSource: any = [];
+  DetailSource :any=[];
+  pagedExamSource: any = [];
+  studentName="";
+  FetchApiData: any = [];
+ 
 
-  ngOnInit() {
+
+  projectSettings: ColumnSetting[] = [
+
+    { primaryKey: 'student_id', header: 'Student Name' },
+    { primaryKey: 'student_name', header: 'Student Id' },
+    { primaryKey: 'total_marks', header: 'Total Marks' },
+    { primaryKey: 'marks_obtained', header: 'Marks Obtained' },
+    { primaryKey: 'student_phone', header: 'Contact No.' },
+    { primaryKey: 'rank', header: 'Rank' },
+    { primaryKey: 'doj', header: 'Joining Date' }
+  ]
+
+  constructor(private examdata: ExamService,private appC: AppComponent) {
+    this.switchActiveView('exam');
+  }
+
+  fetchFieldData = {
+    institution_id: parseInt(sessionStorage.getItem('institute_id')),
+    standard_id: '',
+    subject_id: '',
+    batch_id: '',
+    exam_schd_id: ''
   }
 
 
-  switchActiveView(id){
-    document.getElementById('home').classList.remove('active');
-    document.getElementById('attendance').classList.remove('active');
-    document.getElementById('sms').classList.remove('active');
-    document.getElementById('fee').classList.remove('active');
-    document.getElementById('exam').classList.remove('active');
-    document.getElementById('report').classList.remove('active');
-    document.getElementById('time').classList.remove('active');
-    document.getElementById('email').classList.remove('active');
-    document.getElementById('profit').classList.remove('active');
-    switch(id){
-      case 'home': { document.getElementById('home').classList.add('active'); break; }
-      case 'attendance': { document.getElementById('attendance').classList.add('active'); break; }
-      case 'sms': { document.getElementById('sms').classList.add('active'); break; }
-      case 'fee': { document.getElementById('fee').classList.add('active'); break; }
-      case 'exam': { document.getElementById('exam').classList.add('active'); break; }
-      case 'report': { document.getElementById('report').classList.add('active'); break; }
-      case 'time': { document.getElementById('time').classList.add('active'); break; }
-      case 'email': { document.getElementById('email').classList.add('active');  break; }
-      case 'profit': { document.getElementById('profit').classList.add('active'); break; }
+
+  ngOnInit() {
+    this.fetchExamData();
+    this.pageIndex = 1;
+
+
+  }
+fetchExamData() {
+
+    this.examdata.ExamReport().subscribe(
+      (data: any) => {
+        this.masterCourses = data;
+        console.log(this.masterCourses);
+      }
+    )
+
+  }
+
+  fetchExamReport() {
+
+    console.log(this.fetchFieldData);
+
+    if (this.fetchFieldData.subject_id == "" || this.fetchFieldData.standard_id == "" || this.fetchFieldData.batch_id == "" ||
+      this.fetchFieldData.exam_schd_id == "") {
+
+      let msg = {
+        type: "error",
+        title: "Invalid Date Range Selected",
+        Body: "From date cannot be greater than To date"
+      }
+      this.appC.popToast(msg);
+    }
+    else {
+      let o = {
+        batch_id: this.fetchFieldData.batch_id,
+        exam_schd_id: this.fetchFieldData.exam_schd_id,
+        institution_id: this.fetchFieldData.institution_id,
+        standard_id: '',
+        subject_id: ''
+      }
+      this.examdata.viewExamData(o).subscribe(
+        res => {
+          this.ExamSource = res;
+          this.Tdata = true;
+          this.totalRecords = this.ExamSource.length;
+          this.fetchTableDataByPage(this.pageIndex);
+          console.log(res);
+        },
+        err => {
+          console.log(err);
+        }
+      );
     }
   }
 
 
+  fetchDetailReport(id){
+  this.examdata.viewDetailData(id).subscribe(
+    res=>{
+      this.DetailSource=res;
+      console.log(res);
+    },
+    err=>{
+      console.log(err);
+    }
+  )
+};
+
+  /*  
+  else{
+    this.examdata.viewExamData(o).subscribe(
+      res => {
+        this.ExamSource=res;
+        this.Tdata = true;
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+    }
+  */
+
+
+  getCourseData(i) {
+    this.fetchFieldData.exam_schd_id = "";
+    this.fetchFieldData.batch_id = "";
+    this.fetchFieldData.subject_id = "";
+
+    this.examdata.getCourses(i).subscribe(
+      (data: any) => {
+        console.log(data);
+        this.courseData = data.coursesList;
+        console.log(this.courseData);
+      },
+      (error: any) => {
+        return error;
+      }
+    )
+  }
+
+  getSubData(i) {
+    console.log(i);
+    this.fetchFieldData.exam_schd_id = "";
+    this.fetchFieldData.batch_id = "";
+    this.examdata.getSubject(i).subscribe((data: any) => {
+      console.log(data);
+      this.SubjectData = data.batchesList;
+      console.log(this.SubjectData);
+    })
+  }
+
+  getExamScheduleData(i) {
+    console.log(this.SubjectData);
+
+    this.fetchFieldData.exam_schd_id = "";
+    console.log(i);
+    this.examdata.getExamSchedule(i).subscribe((data: any) => {
+      console.log(data);
+      this.Exam_Sch_Data = data.otherSchd;
+      console.log(this.Exam_Sch_Data);
+    })
+  }
+
+
+  fetchTableDataByPage(index) {
+    this.pageIndex = index;
+    let startindex = this.displayBatchSize * (index - 1);
+    this.pagedExamSource = this.getDataFromDataSource(startindex);
+  }
+
+  fetchNext() {
+    this.pageIndex++;
+    this.fetchTableDataByPage(this.pageIndex);
+  }
+
+  fetchPrevious() {
+    if (this.pageIndex != 1) {
+      this.pageIndex--;
+      this.fetchTableDataByPage(this.pageIndex);
+    }
+  }
+
+  getDataFromDataSource(startindex) {
+    let t = this.ExamSource.slice(startindex, startindex + this.displayBatchSize);
+    return t;
+  }
+
+
+  switchActiveView(id) {
+    document.getElementById('email').classList.remove('active');
+  }
 
 }

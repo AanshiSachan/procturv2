@@ -3,53 +3,83 @@
         <section class="middle-main clearFix">
             <section class="middle-top mb0 clearFix sms-header">
                 <h2 class="pull-left">
-                      Exam Report
+                    Exam Report
                 </h2>
-                    <aside class="pull-right">
-                    </aside>
+                <aside class="pull-right">
+                </aside>
             </section>
             <div class="row">
                 <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
                     <label>Master Course</label>
-                    <select class="side-form-ctrl" [(ngModel)]="masterData" (ngModelChange)="getCourseData($event)" name="masterCourse">
+                    <select class="side-form-ctrl" [(ngModel)]="fetchFieldData.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
                         <option value="" selected>Master Course</option>
-                        <option *ngFor="let i of masterCourses" [value]="i.standard_name">{{i.standard_name}}</option>
+                        <option *ngFor="let i of masterCourses" [value]="i.master_course">{{i.master_course}}</option>
                     </select>
                 </div>
-                <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper" >
+                <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
                     <label> Course</label>
-                    <select class="side-form-ctrl" [(ngModel)]="courseData" (ngModelChange)="getSubjectData($event)">
-                        <option value="" selected>Course</option>
-                        <option *ngFor="let i of courseData" [value]="i.course_id" name="subjectCourse">{{i.course_name}}</option>
+                    <select class="side-form-ctrl" [(ngModel)]="fetchFieldData.subject_id" (ngModelChange)="getSubData($event)">
+                        <option value="" selected></option>
+                        <option *ngFor="let i of courseData" [value]="i.course_id" name="Course">{{i.course_name}}</option>
                     </select>
                 </div>
                 <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
                     <label>Subject</label>
-                    <select class="side-form-ctrl" [(ngModel)]="batchesData" >
-                        <option value="" selected>Batch Course</option>
-                        <option *ngFor="let i of batchesData" [value]="i.batch_id" name="batchCourse">{{i.batch_name}}</option>
+                    <select class="side-form-ctrl" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
+                        <option value="" selected></option>
+                        <option *ngFor="let i of SubjectData" [value]="i.batch_id" name="Subject">{{i.subject_name}}</option>
                     </select>
                 </div>
                 <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
-                    <label>Subject</label>
-                    <select class="side-form-ctrl" [(ngModel)]="batchesData" >
-                        <option value="" selected>Exam Schedule</option>
-                        <option *ngFor="let i of batchesData" [value]="i.batch_id" name="batchCourse">{{i.batch_name}}</option>
+                    <label>Exam Schedule</label>
+                    <select class="side-form-ctrl" [(ngModel)]=" fetchFieldData.exam_schd_id">
+                  <option value="" selected></option>
+                        <option *ngFor="let i of Exam_Sch_Data" [value]="i.schd_id" name="Exam Schedule">{{i.exam_date}}({{i.start_time}}-{{i.end_time}})</option>
                     </select>
                 </div>
                 <div class="c-lg-4 c-md-4 c-sm-4 pull-Right">
                     <div class="btn-sms-search">
-                      <input type="button" class="normal-btn fullBlue btn" value="View" 
-                      (click)="fetchSmsByDate()"/>
-                      <input type="button" class="normal-btn fullBlue btn" value="DetailReport" 
-                      (click)="fetchSmsByDate()"/>
-                      
+                        <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
+                        <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
+
                     </div>
-                  
-                
-                
                 </div>
             </div>
         </section>
-    </aside>   
+    </aside>
 </div>
+
+<!--
+<div class="search-filter-wrapper" id="adFilterExitVisible">
+                <input #search type="text" class="normal-field" placeholder="Search Name/Contact/Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;"
+                  [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
+              
+
+ <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
+
+-->
+
+<div class="search-filter-wrapper" id="adFilterExitVisible">
+    
+    <input #search type="text"  class="normal-field" [(ngModel)]="studentName" style="font-size:12px; margin: 0px 5px 0px -5px;" placeholder="Serach here">
+    
+</div>
+
+<section class="sms-table-wrapper" *ngIf="Tdata">
+    <div class="table table-responsive student-table">
+        <proctur-table [records]="pagedExamSource | filter:studentName" [tableName]="'Exam'" 
+        [settings]="projectSettings">
+
+        
+        </proctur-table>
+    </div>
+    
+
+    <div class="row filter-res pagination" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+    <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+            [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
+          </pagination>
+        </div>
+      </div>
+</section>
