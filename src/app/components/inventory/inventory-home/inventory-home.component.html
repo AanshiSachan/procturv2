@@ -190,7 +190,7 @@
                     <div class="field-wrapper edit-addItem">
                       <input type="number" class="form-ctrl addQuantityInput" style="display: inline-block" [(ngModel)]="row.units_added" name="label">
                       <a style="cursor:pointer ; margin-right:10px; display: inline-block" (click)="addItemsQuantity(row)">
-                        <i class="far fa fa-save" style="font-family: FontAwesome ;font-size: 19px; display: inline-block;" title="Update"></i>
+                        <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px; display: inline-block;" title="Update"></i>
                       </a>
                       <a style="cursor:pointer" (click)="cancelItem(i)">
                         <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;  display: inline-block;" title="Cancel"></i>
@@ -207,7 +207,7 @@
                 </td>
                 <td class="table-action edit-comp">
                   <a style="cursor:pointer" (click)="updateRow(row , i)">
-                    <i class="far fa fa-save" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i>
+                    <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i>
                   </a>
                   <a style="cursor:pointer" (click)="cancelRow(i)">
                     <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
@@ -353,8 +353,7 @@
             <div class="row extraMargin">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6" style="margin-top: 25px;">
                 <div class="field-wrapper">
-                  <input type="text" class="form-ctrl" formControlName="item_name"
-                   name="item" (focus)="inputClickedCheck($event)">
+                  <input type="text" class="form-ctrl" formControlName="item_name" name="item" (focus)="inputClickedCheck($event)">
                   <label for="item">Item Name
                     <span style="color:red">*</span>
                   </label>
@@ -665,7 +664,7 @@
             <tbody>
               <tr id="row{{i}}" *ngFor="let row of allocationHistoryList; let i = index; trackBy: i;">
                 <td>
-                  {{i}}
+                  {{i + 1}
                 </td>
                 <td>
                   {{row.created_date}}

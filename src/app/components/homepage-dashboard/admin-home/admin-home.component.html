@@ -530,6 +530,11 @@
 
                   </ul>
                 </div>
+                <div class="ct-disable-wrapper pos-rel" *ngIf="studentAttList.length == 0">
+                  <ul class="ct-ongoing subject">
+                    <li style="width: 100%; font-weight: 800">No Students Record</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -901,6 +906,11 @@
                     </div>
                   </td>
 
+                </tr>
+                <tr *ngIf="courseLevelStudentAtt.length == 0">
+                  <td colspan="3">
+                    No Students Record
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -1439,7 +1449,7 @@
   </proctur-widget>
 
 
-  ///////////////View Details POP up ////////////////////////////////////
+  <!-- ///////////////View Details POP up //////////////////////////////////// -->
 
   <proctur-widget *ngIf="viewDetailsPopUp">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeViewDetailsPopUp()" close-button>

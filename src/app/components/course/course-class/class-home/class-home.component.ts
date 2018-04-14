@@ -49,13 +49,13 @@ export class ClassHomeComponent implements OnInit {
   reschedDate: any = new Date();
   timepicker: any = {
     reschedStartTime: {
-      hour: '',
-      minute: '',
+      hour: '12 PM',
+      minute: '00',
       meridian: ''
     },
     reschedEndTime: {
-      hour: '',
-      minute: '',
+      hour: '1 PM',
+      minute: '00',
       meridian: ''
     },
   }
@@ -433,8 +433,7 @@ export class ClassHomeComponent implements OnInit {
       obj.is_exam_schedule = "N";
       this.classService.sendReminderToServerSubject(obj).subscribe(
         res => {
-          console.log(res);
-          this.messageToast('success', 'Successfully', 'Notification sent successfully');
+          this.messageToast('success', 'Success', 'Reminder Notification sent successfully');
         },
         err => {
           console.log(err);
@@ -465,13 +464,13 @@ export class ClassHomeComponent implements OnInit {
     this.reschedReason = "";
     this.timepicker = {
       reschedStartTime: {
-        hour: '',
-        minute: '',
+        hour: '12 PM',
+        minute: '00',
         meridian: ''
       },
       reschedEndTime: {
-        hour: '',
-        minute: '',
+        hour: '1 PM',
+        minute: '00',
         meridian: ''
       }
     }
@@ -722,5 +721,15 @@ export class ClassHomeComponent implements OnInit {
     }
   }
 
+
+  editClass(data) {
+    let obj = {
+      course_id: this.fetchMasterCourseModule.course_id,
+      master_course: this.fetchMasterCourseModule.master_course,
+      date: data.id.split('(')[0]
+    }
+    sessionStorage.setItem('editClass', JSON.stringify(obj));
+    this.router.navigateByUrl('course/class/add');
+  }
 
 }

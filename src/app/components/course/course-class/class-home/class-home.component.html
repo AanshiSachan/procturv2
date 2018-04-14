@@ -12,7 +12,7 @@
             Class Schedule
           </h1>
           <aside class="pull-right" style="margin-right: 15px">
-            <input *ngIf="showManageClass" type="button" [routerLink]="['../add']" value="Manage Class" class="btn">
+            <input *ngIf="showManageClass" type="button" [routerLink]="['../add']" value="Add/Edit Class" class="btn">
           </aside>
         </div>
         <h4>Choose filter to view class schedule</h4>
@@ -210,7 +210,12 @@
                         <!-- <span class="pull-right delete-icon" style="font-family: FontAwesome;" (click)="delete('course', i, null)">
                           <i class="fa fa-trash-o " aria-hidden="true"></i>
                         </span> -->
-                        <span class="pull-right mail-notification" (click)="notify(class)" title="Send Reminder"></span>
+                        <span class="pull-right">
+                          <span class="" (click)="editClass(class)" title="Edit">
+                            <i class="fas fa-edit" style="font-family: FontAwesome;font-size: 20px;color: rgba(0, 0, 255, 0.49019607843137253);"></i>
+                          </span>
+                          <span class="mail-notification" (click)="notify(class)" title="Send Reminder"></span>
+                        </span>
                       </h4>
                     </div>
                   </td>
@@ -228,11 +233,11 @@
                           <td style="width:15%">{{sc.topics_covered}}</td>
                           <td style="width:15%">
                             <div class="action-box ">
+                              <span class="mail-notification" (click)="notifySubjectLevel(sc ,class )" title="Send Reminder"></span>
+                              <span class="reschedule-icon" (click)="rescheduleClassData(sc)" title="Reschedule"></span>
                               <span class="delete-btn" style="font-family: FontAwesome;" (click)="CancelClass(sc)" title="Cancel Class">
                                 <i class="fa fa-trash-o " aria-hidden="true "></i>
                               </span>
-                              <span class="reschedule-icon" (click)="rescheduleClassData(sc)" title="Reschedule"></span>
-                              <span class="mail-notification" (click)="notifySubjectLevel(sc ,class )" title="Send Reminder"></span>
                               <!-- <span class="edit-icon "></span> -->
                             </div>
                           </td>
@@ -293,7 +298,7 @@
       </span>
       <div class="popup-content" style="padding-left: 15px;">
 
-        <h2 widget-header>Reschedule -- {{rescheduleDet.batchName}}</h2>
+        <h2 widget-header>Reschedule - {{rescheduleDet.batchName}}</h2>
 
         <div class="rescheduleWrapper" widget-content>
           <div class="row">
@@ -301,7 +306,7 @@
               <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': reschedDate != ''}">
                 <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
                   bsDatepicker>
-                <label for="reschDate">Reschedule Date</label>
+                <label for="reschDate" style="color: black">Reschedule Date</label>
               </div>
             </div>
 
@@ -350,70 +355,6 @@
             </div>
 
           </div>
-          <!-- <div class="">
-            <fieldset>
-              <legend>Start Time</legend>
-              <div class="time-picker">
-                <div class="field-wrapper hour" [ngClass]="{'has-value': timepicker.reschedStartTime.hour != ''}">
-                  <select id="uniStartHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedStartTime.hour" name="uniStartHour">
-                    <option *ngFor="let hour of hourArr" [value]="hour">
-                      {{hour}}
-                    </option>
-                  </select>
-                  <label for="uniStartHour">Hour</label>
-                </div>
-                <div class="field-wrapper minute" [ngClass]="{'has-value': timepicker.reschedStartTime.minute != ''}">
-                  <select id="uniStartMinute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedStartTime.minute"
-                    name="uniStartMinute">
-                    <option *ngFor="let minute of minArr" [value]="minute">
-                      {{minute}}
-                    </option>
-                  </select>
-                  <label for="uniStartMinute">Minute</label>
-                </div>
-                <div class="field-wrapper meridian" [ngClass]="{'has-value': timepicker.reschedStartTime.meridian != ''}">
-                  <select id="uniStartHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedStartTime.meridian"
-                    name="uniStartHour">
-                    <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                      {{meridian}}
-                    </option>
-                  </select>
-                  <label for="uniStartHour">Meridian</label>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend>
-                End Time
-              </legend>
-              <div class="time-picker">
-                <div class="field-wrapper hour" [ngClass]="{'has-value': timepicker.reschedEndTime.hour != ''}">
-                  <select id="uniEndHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.hour" name="uniEndHour">
-                    <option *ngFor="let hour of hourArr" [value]="hour">
-                      {{hour}}
-                    </option>
-                  </select>
-                  <label for="uniEndHour">Hour</label>
-                </div>
-                <div class="field-wrapper minute" [ngClass]="{'has-value': timepicker.reschedEndTime.minute != ''}">
-                  <select id="uniEndMinute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.minute" name="uniEndMinute">
-                    <option *ngFor="let minute of minArr" [value]="minute">
-                      {{minute}}
-                    </option>
-                  </select>
-                  <label for="uniEndMinute">Minute</label>
-                </div>
-                <div class="field-wrapper meridian" [ngClass]="{'has-value': timepicker.reschedEndTime.meridian != ''}">
-                  <select id="uniEndHour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="timepicker.reschedEndTime.meridian" name="uniEndHour">
-                    <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                      {{meridian}}
-                    </option>
-                  </select>
-                  <label for="uniEndHour">Meridian</label>
-                </div>
-              </div>
-            </fieldset>
-          </div> -->
           <div class="row">
             <div class="field-wrapper" style="width: 50%;">
               <textarea type="text" style="height:50px;" id="reschreason" name="reschreason" [(ngModel)]="reschedReason" value="" placeholder="Reschedule Reason"
@@ -421,17 +362,24 @@
                 </textarea>
             </div>
           </div>
-          <div class="row notifyChkbx">
-            <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus('resheduleNotified')"
-                (change)="notifyRescheduleUpdate($event)">
-              <label for="is_reshedule_notified">Notify Students</label>
-            </div>
-          </div>
         </div>
 
         <div class="" widget-footer>
           <div class="clearfix">
+            <aside class="pull-left" style="margin-top: 10px;">
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus('resheduleNotified')"
+                  (change)="notifyRescheduleUpdate($event)">
+                <label for="is_reshedule_notified">Notify Students
+                  <div class="questionInfo lefts" style="margin-left: 30px;">
+                    <span class="qInfoIcon">?</span>
+                    <div class="tooltip-box-field">
+                      Reschedule SMS will be sent to student.
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </aside>
             <aside class="pull-right popup-btn">
               <input type="button" value="Cancel" class="btn" (click)="closeRescheduleClass()">
               <input type="button" value="Reschedule Class" (click)="rescheduleClass()" class="fullBlue btn">
@@ -480,17 +428,17 @@
             </div>
           </div>
           <div class="row notifyChkbx">
-            <div class="c-lg-6 c-md-6 c-sm-6">
-              <div class="field-checkbox-wrapper">
-                <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
-                <label for="notifyCancel">Notify Students</label>
-              </div>
-            </div>
           </div>
         </div>
 
         <div class="" widget-footer>
           <div class="clearfix">
+            <aside class="pull-left">
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
+                <label for="notifyCancel">Notify Students</label>
+              </div>
+            </aside>
             <aside class="pull-right popup-btn">
               <input type="button" value="Cancel" class="btn" (click)="closeCourseCancelClass()">
               <input type="button" value="Save" (click)="cancelClass()" class="btn fullBlue">

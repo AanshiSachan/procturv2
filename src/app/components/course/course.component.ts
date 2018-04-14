@@ -94,6 +94,7 @@ export class CourseComponent implements OnInit {
     const permissionArray = sessionStorage.getItem('permissions');
     if (permissionArray == "" || permissionArray == null) {
       this.showAllTabs();
+      this.checkWhichTabIsOpen();
     } else {
       this.hideAllTabs();
       if (permissionArray != null && permissionArray != "") {
@@ -134,6 +135,7 @@ export class CourseComponent implements OnInit {
     const permissionArray = sessionStorage.getItem('permissions');
     if (permissionArray == "" || permissionArray == null) {
       this.showAllTabs();
+      this.checkWhichTabIsOpen();
     } else {
       this.hideAllTabs();
       if (permissionArray != null && permissionArray != "") {

@@ -347,8 +347,9 @@
             </div>
           </div>
 
-          <div class="extraMargin row">
-            <button class="btn fullBlue pull-right" style="margin-right:15px" (click)="saveCourseSchedule()">Save</button>
+          <div class="extraMargin row  pull-right" style="margin-right: 15px">
+            <button class="btn" routerLink="/course/class/home">Cancel</button>
+            <button class="btn fullBlue" (click)="saveCourseSchedule()">Save</button>
           </div>
         </section>
 
@@ -927,7 +928,7 @@
         </svg>
       </span>
       <div class="popup-content">
-        <h2 style="margin-left: 10px">Custom Recurrence</h2>
+        <h2 style="margin-left: 10px">Custom Recurrence for class {{selctedScheduledClass.subject_name}}</h2>
 
         <div class="row extraMargin">
           <div class=" c-sm-6 c-md-6 c-lg-6">
@@ -974,18 +975,18 @@
           </div>
         </div>
 
-        <div class="row extraMargin ">
+        <div class="row extraMargin">
           <h3>Repeat On</h3>
         </div>
 
-        <div id="divWeekDays " class="row extraMargin side-circles ">
-          <span id="idSunday-7 " class="l-circle l-text " (click)="onWeekDaysSelection($event) " title="Sunday ">S</span>
-          <span id="idMonday-1 " class="l-circle l-text " (click)="onWeekDaysSelection($event) " title="Monday ">M</span>
-          <span id="idTuesday-2 " class="l-circle l-text " (click)="onWeekDaysSelection($event) " title="Tuesday ">T</span>
-          <span id="idWednesday-3 " class="l-circle l-text " (click)="onWeekDaysSelection($event) " title="Wednesday ">W</span>
-          <span id="idThursday-4 " class="l-circle l-text " (click)="onWeekDaysSelection($event) " title="Thursday ">T</span>
-          <span id="idFriday-5 " class="l-circle l-text " (click)="onWeekDaysSelection($event) " title="Friday ">F</span>
-          <span id="idSaturday-6 " class="l-circle l-text " (click)="onWeekDaysSelection($event) " title="Saturday ">S</span>
+        <div id="divWeekDays" class="row extraMargin side-circles">
+          <span id="idSunday-7" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Sunday ">S</span>
+          <span id="idMonday-1" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Monday ">M</span>
+          <span id="idTuesday-2" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Tuesday ">T</span>
+          <span id="idWednesday-3" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Wednesday ">W</span>
+          <span id="idThursday-4" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Thursday ">T</span>
+          <span id="idFriday-5" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Friday ">F</span>
+          <span id="idSaturday-6" class="l-circle l-text" (click)="onWeekDaysSelection($event)" title="Saturday ">S</span>
         </div>
 
         <!-- <div class="row extraMargin ">
@@ -1034,8 +1035,14 @@
           </div>
         </div> -->
 
-        <div>
-          <button class="btn pull-right " (click)="saveCustomRecurrences() ">Save</button>
+        <div class="row extraMargin">
+          <aside class="pull-left">
+            <span style="font-weight: 600">This selection will add future classes till course and date.</span>
+          </aside>
+          <aside class="pull-right" style="margin-right: 15px">
+            <button class="btn" (click)="closePopup()">Cancel</button>
+            <button class="btn fullBlue" (click)="saveCustomRecurrences() ">Save</button>
+          </aside>
         </div>
 
       </div>
@@ -1070,10 +1077,10 @@
       </span>
 
       <div class="popup-content popup-date-selection">
-  
+
         <h2>Select Dates for Class</h2>
 
-        <div class="row extraMargin">
+        <div class="">
           <label>Edit Selected Schedule</label>
         </div>
 
@@ -1088,7 +1095,7 @@
             </select>
           </div>
 
-          <div class="c-sm-3 c-md-3 c-lg-3">
+          <div class="c-sm-3 c-md-3 c-lg-3 paddingFive">
             <div class="form-wrapper timepick">
               <label for="startTime">Start Time</label>
               <div class="tbox">
@@ -1110,7 +1117,7 @@
             </div>
           </div>
 
-          <div class="c-sm-3 c-md-3 c-lg-3 dig1">
+          <div class="c-sm-3 c-md-3 c-lg-3 dig1 paddingFive">
             <div class="form-wrapper timepick">
               <label for="startTime">End Time</label>
               <div class="tbox">
@@ -1134,7 +1141,7 @@
         </div>
 
         <div class="row">
-        
+
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="form-wrapper has-value">
               <label for="label">Room No</label>
@@ -1154,7 +1161,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row desc">
           <div class="c-sm-6 c-md-6 c-lg-6">
             <div class="form-wrapper has-value">
               <label for="label">Description</label>
@@ -1211,7 +1218,7 @@
                 </table>
               </div>
             </div>
-          </div>  
+          </div>
         </div>
 
 
@@ -1257,21 +1264,21 @@
           <div class="field-wrapper c-sm-6 c-md-6 c-lg-6">
             <textarea class="textBox" id="idTexboxReason" placeholder="Cancellation Reason"></textarea>
           </div>
+        </div>
 
-          <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6" style="margin-top: 50px;">
+        <div class="row extraMargin">
+          <div class="field-checkbox-wrapper pull-left">
             <input type="checkbox" checked name="enableSMS" class="form-checkbox" id="idChkbxEnable">
-            <label for="idChkbxEnable">Notify course students for class cancellation</label>
+            <label for="idChkbxEnable">Notify students</label>
           </div>
-        </div>
-
-        <div class="pull-right" *ngIf="!isProfessional">
-          <button class="btn" (click)="cancelCourseSchedule()">Cancel Class</button>
-          <button class="btn" (click)="closePopup()">Close</button>
-        </div>
-
-        <div class="pull-right" *ngIf="isProfessional">
-          <button class="btn" (click)="cancelBatchSchedule()">Cancel Class</button>
-          <button class="btn" (click)="closePopup()">Close</button>
+          <div class="pull-right" *ngIf="!isProfessional" style="margin-right: 15px">
+            <button class="btn" (click)="closePopup()">Close</button>
+            <button class="btn fullBlue" (click)="cancelCourseSchedule()">Cancel</button>
+          </div>
+          <div class="pull-right" *ngIf="isProfessional" style="margin-right: 15px">
+            <button class="btn" (click)="closePopup()">Close</button>
+            <button class="btn fullBlue" (click)="cancelBatchSchedule()">Cancel Class</button>
+          </div>
         </div>
 
       </div>
