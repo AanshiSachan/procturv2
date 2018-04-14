@@ -552,7 +552,7 @@
           <div class="fee-summary">
             <ul *ngIf="userCustommizedFee.length != 0">
               <li>
-                <label>Total Fee With Taxes</label>
+                <label>Fee Amount</label>
                 <div class="blue">
                   <span *ngIf="userCustommizedFee.length == 0">NA</span>
                   <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalFeeWithTax | commaSeprator}}</span>
@@ -574,7 +574,7 @@
                 </div>
               </li>
               <li>
-                <label>Fee Amount</label>
+                <label>Fee Amt Incl Taxes</label>
                 <div class="gray">
                   <span *ngIf="userCustommizedFee.length == 0">NA</span>
                   <span *ngIf="userCustommizedFee.length != 0">&#8377; {{(totalFeeWithTax-totalDicountAmount) | commaSeprator}}</span>
@@ -681,6 +681,24 @@
                           </span>
                         </li>
 
+                        <li *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '1')">
+                            <label>
+                              Balance Amount
+                            </label>
+                            <span>
+                              {{installment.balance_amount}}
+                            </span>
+                          </li>
+  
+                          <li *ngIf="installment.is_referenced == 'Y'">
+                            <label>
+                              Paid Date
+                            </label>
+                            <span>
+                              {{installment.paid_date}}
+                            </span>
+                          </li>
+
                       </ul>
                     </div>
                   </div>
@@ -782,7 +800,6 @@
 
                           <input type="number" class="form-ctrl" placeholder="Add unit" min="0" max="{{item.available_units}}" [(ngModel)]="item.units_added"
                             (blur)="inventoryItemUpdated(item.units_added, i, item.available_units)" name="amt">
-
                         </div>
                       </td>
                     </tr>
@@ -1121,6 +1138,7 @@
   <!-- =====================Define Fee Table Here=================================== -->
   <!-- =============== assign fees =============================== -->
   <student-pop-up [isBig]="'y'" *ngIf="isDefineFees">
+ 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAllFeePops()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -1195,7 +1213,7 @@
                       [(ngModel)]="fee.due_date" readonly="true" bsDatepicker>
                   </div>
                   <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'Y'">
-                    <label style="float: left;">{{fee.due_date | date: "dd-MMM-yyyy"}}</label>
+                    <label style="padding: 5px;float: left;">{{fee.due_date | date: "dd-MMM-yyyy"}}</label>
                   </div>
                 </li>
                 <li [ngClass]="{'hide': taxEnableCheck == '0'}">
@@ -1332,6 +1350,7 @@
         </aside>
       </div>
     </div>
+
   </student-pop-up>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
@@ -1791,13 +1810,13 @@
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
-              <label for="isGenPdc">Generate Acknowledgement</label>
+              <label for="isGenPdc">Generate Fee Receipt</label>
             </div>
           </div>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
-              <label for="emailPdc">Send Email Acknowledgement</label>
+              <label for="emailPdc">Email Receipt </label>
             </div>
           </div>
         </div>
@@ -1942,13 +1961,13 @@
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
-              <label for="isGenPdc">Generate Acknowledgement</label>
+              <label for="isGenPdc">Generate Fee Receipt</label>
             </div>
           </div>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
-              <label for="emailPdc">Send Email Acknowledgement</label>
+              <label for="emailPdc">Email Receipt</label>
             </div>
           </div>
         </div>

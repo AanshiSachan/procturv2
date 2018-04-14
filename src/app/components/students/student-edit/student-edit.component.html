@@ -540,13 +540,12 @@
             <ul *ngIf="userCustommizedFee.length != 0">
 
               <li>
-                <label>Total Fee With Taxes</label>
+                <label>Fee Amount</label>
                 <div class="blue">
                   <span *ngIf="userCustommizedFee.length == 0">NA</span>
-                  <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalFeeWithTax | commaSeprator}}</span>
+                  <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalInitalAmount | commaSeprator}}</span>
                 </div>
               </li>
-
               <li>
                 <label>Discount</label>
                 <div class="purple">
@@ -565,7 +564,7 @@
               </li>
 
               <li>
-                <label>Fee Amount</label>
+                <label>Fee Amt Incl Taxes</label>
                 <div class="gray">
                   <span *ngIf="userCustommizedFee.length == 0">NA</span>
                   <span *ngIf="userCustommizedFee.length != 0">&#8377; {{(totalFeeWithTax-totalDicountAmount) | commaSeprator}}</span>
@@ -681,6 +680,24 @@
                           </span>
                         </li>
 
+                        <li *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '1')">
+                          <label>
+                            Balance Amount
+                          </label>
+                          <span>
+                            {{installment.balance_amount}}
+                          </span>
+                        </li>
+
+                        <li *ngIf="installment.is_referenced == 'Y'">
+                          <label>
+                            Paid Date
+                          </label>
+                          <span>
+                            {{installment.paid_date}}
+                          </span>
+                        </li>
+
                       </ul>
                     </div>
                   </div>
@@ -699,7 +716,7 @@
         <section class="middle-bottom fd-btm clearFix">
 
           <aside class="pull-left">
-              <input type="button" style="width: 85px;" (click)="navigateTo('kyc')" value="Back" class="btn">
+            <input type="button" style="width: 85px;" (click)="navigateTo('kyc')" value="Back" class="btn">
           </aside>
 
           <aside class="pull-right">
@@ -1292,7 +1309,7 @@
                     <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="fee.due_date" bsDatepicker readonly="true">
                   </div>
                 </li>
-                <li >
+                <li>
                   <div class="form-wrapper">
                     <input type="number" class="form-ctrl" name="amt" [(ngModel)]="fee.initial_fee_amount">
                   </div>
