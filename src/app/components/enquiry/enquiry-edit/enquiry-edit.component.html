@@ -242,8 +242,8 @@
                       <option value="-1"></option>
                       <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
                     </select>
-                    <label *ngIf="!isProfessional" for="editstandard">Standard</label>
-                    <label *ngIf="isProfessional" for="editstandard">Master Course</label>
+                    <label *ngIf="!isProfessional" for="editStandard">Standard</label>
+                    <label *ngIf="isProfessional" for="editStandard">Master Course</label>
                   </div>
 
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.subject_id != '-1'}">
