@@ -2380,7 +2380,6 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateInitialAmount(amt, i) {
-
     if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
       let value: number = 0;
       value = this.precisionRound((amt / ((this.service_tax / 100) + 1)), -1);
@@ -2391,7 +2390,6 @@ export class StudentAddComponent implements OnInit {
       this.instalmentTableData[i].initial_fee_amount = parseInt(amt);
       return amt;
     }
-
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -2777,7 +2775,6 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getTaxAmounted(fee) {
-
     let amount = fee.initial_fee_amount;
     if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
       return this.precisionRound(((this.service_tax / 100) * amount), -1);
@@ -2830,6 +2827,7 @@ export class StudentAddComponent implements OnInit {
         this.paymentStatusArr = [];
         this.isRippleLoad = false;
         if (res.customFeeSchedules != null) {
+          this.service_tax = res.registeredServiceTax;
           res.customFeeSchedules = this.uniqueConvertFeeJson(res.customFeeSchedules);
           this.totalAmountPaid = res.studentwise_total_fees_amount;
           this.discountReason = res.discount_fee_reason;
