@@ -2081,6 +2081,8 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   closePaymentDetails() {
     this.isPaymentPdc = false;
+    this.genPdcAck = false;
+    this.sendPdcAck= false;
     this.feeTemplateById.payment_mode = "Cash";
     this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
     this.isFeePaymentUpdate = false;
@@ -2378,7 +2380,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateInitialAmount(amt, i) {
-    
+
     if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
       let value: number = 0;
       value = this.precisionRound((amt / ((this.service_tax / 100) + 1)), -1);
@@ -3310,14 +3312,51 @@ export class StudentAddComponent implements OnInit {
     this.postService.allocateStudentFees(obj).subscribe(
       res => {
         if (this.genPdcAck || this.sendPdcAck) {
-          let feeid = res.generated_id;
-
-          this.postService.generateFeeReceipt(id, feeid).subscribe(
-            res => {
-              this.studentAddedNotifier();
-            },
-            err => { }
-          );
+          if (this.genPdcAck) {
+            let doc = res;
+            let yr = doc.otherDetails.financial_year;
+            let id = doc.other;
+            let link = document.getElementById("payMultiReciept");
+            this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+              r => {
+                let body = JSON.parse(r['_body']);
+                let byteArr = this.convertBase64ToArray(body.document);
+                let format = body.format;
+                let fileName = body.docTitle;
+                let file = new Blob([byteArr], { type: 'application/pdf' });
+                let url = URL.createObjectURL(file);
+                if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                  link.setAttribute("href", url);
+                  link.setAttribute("download", fileName);
+                  link.click();
+                }
+              },
+              e => {
+                let msg = JSON.parse(e._body).message;
+                this.isRippleLoad = false;
+                let obj = {
+                  type: 'error',
+                  title: msg,
+                  body: ""
+                }
+                this.appC.popToast(obj);
+              });
+          }
+          if (this.sendPdcAck) {
+            let doc = res;
+            let yr = doc.otherDetails.financial_year;
+            let id = doc.other;
+            this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+              res => {
+                let obj = {
+                  type: "success",
+                  title: "Reciept Sent",
+                  body: "Receipt has been sent to student/parent email ID"
+                }
+                this.appC.popToast(obj);
+              }
+            )
+          }
         }
         else {
           this.studentAddedNotifier();
@@ -3594,6 +3633,10 @@ export class StudentAddComponent implements OnInit {
 
   }
   /* ============================================================================================================================ */
+  closePDCPop(){
+    this.selectedCheque = null;
+    this.isPdcApply = false
+  }
   /* ============================================================================================================================ */
   addPdcDataToServer() {
     let temp: any[] = [];
@@ -3639,6 +3682,7 @@ export class StudentAddComponent implements OnInit {
     )
 
   }
+  
   /* ============================================================================================================================ */
   chequeSelectedForAction(i) {
     this.selectedCheque = i;
@@ -3716,7 +3760,7 @@ export class StudentAddComponent implements OnInit {
   generateAck() {
     if (this.selectedCheque != null && this.selectedCheque != undefined) {
       this.isRippleLoad = true;
-      this.postService.generateAcknowledge(this.chequePdcList[this.selectedCheque].cheque_id, this.student_id, "undefined").subscribe(
+      this.postService.generateAcknowledge(this.selectedCheque.cheque_id, this.student_id, "undefined").subscribe(
         res => {
           this.isRippleLoad = false;
           let byteArr = this.convertBase64ToArray(res.document);
@@ -3731,8 +3775,8 @@ export class StudentAddComponent implements OnInit {
           dwldLink.click();
         },
         err => {
-          let msg = JSON.parse(err._body).message;;
           this.isRippleLoad = false;
+          let msg = JSON.parse(err._body).message;
           let obj = {
             type: 'error',
             title: msg,
@@ -3742,20 +3786,53 @@ export class StudentAddComponent implements OnInit {
         }
       )
     }
+    else{
+      let obj = {
+        type: "error",
+        title: "No PDC Selected",
+        body: ""
+      }
+      this.appC.popToast(obj);
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   sendAck() {
-    this.postService.sendAcknowledge(this.pdcSelectedArr, this.student_id).subscribe(
-      res => {
-      },
-      err => {
-
+    if (this.selectedCheque != null && this.selectedCheque != undefined) {
+      this.isRippleLoad = true;
+      this.postService.generateAcknowledge(this.selectedCheque.cheque_id, this.student_id, "Y").subscribe(
+        res => {
+          this.isRippleLoad = false;
+          let msg = {
+            type: 'success',
+            title: 'Success',
+            body: 'Send Successfullly'
+          }
+          this.appC.popToast(msg);
+        },
+        err => {
+          this.isRippleLoad = false;
+          let msg = JSON.parse(err._body).message;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
+        }
+      )
+    }
+    else{
+      let obj = {
+        type: "error",
+        title: "No PDC Selected",
+        body: ""
       }
-    )
+      this.appC.popToast(obj);
+    }
   }
   /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+   /* ============================================================================================================================ */
   feePdcSelected(obj) {
     //console.log(obj);
     if (obj === '') {
@@ -4294,6 +4371,53 @@ export class StudentAddComponent implements OnInit {
           this.isRippleLoad = true;
           this.postService.payPartialFeeAmount(obj).subscribe(
             res => {
+              if (this.genPdcAck || this.sendPdcAck) {
+                if (this.genPdcAck) {
+                  let doc = res;
+                  let yr = doc.otherDetails.financial_year;
+                  let id = doc.other;
+                  let link = document.getElementById("payMultiReciept");
+                  this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+                    r => {
+                      let body = JSON.parse(r['_body']);
+                      let byteArr = this.convertBase64ToArray(body.document);
+                      let format = body.format;
+                      let fileName = body.docTitle;
+                      let file = new Blob([byteArr], { type: 'application/pdf' });
+                      let url = URL.createObjectURL(file);
+                      if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                        link.setAttribute("href", url);
+                        link.setAttribute("download", fileName);
+                        link.click();
+                      }
+                    },
+                    e => {
+                      let msg = JSON.parse(e._body).message;
+                      this.isRippleLoad = false;
+                      let obj = {
+                        type: 'error',
+                        title: msg,
+                        body: ""
+                      }
+                      this.appC.popToast(obj);
+                    });
+                }
+                if (this.sendPdcAck) {
+                  let doc = res;
+                  let yr = doc.otherDetails.financial_year;
+                  let id = doc.other;
+                  this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+                    res => {
+                      let obj = {
+                        type: "success",
+                        title: "Reciept Sent",
+                        body: "Receipt has been sent to student/parent email ID"
+                      }
+                      this.appC.popToast(obj);
+                    }
+                  )
+                }
+              }
               this.updateStudentFeeDetails();
               this.isRippleLoad = false;
               let msg = {
@@ -4368,6 +4492,53 @@ export class StudentAddComponent implements OnInit {
         this.isRippleLoad = true;
         this.postService.payPartialFeeAmount(obj).subscribe(
           res => {
+            if (this.genPdcAck || this.sendPdcAck) {  
+              if (this.genPdcAck) {
+                let doc = res;
+                let yr = doc.otherDetails.financial_year;
+                let id = doc.other;
+                let link = document.getElementById("payMultiReciept");
+                this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+                  r => {
+                    let body = JSON.parse(r['_body']);
+                    let byteArr = this.convertBase64ToArray(body.document);
+                    let format = body.format;
+                    let fileName = body.docTitle;
+                    let file = new Blob([byteArr], { type: 'application/pdf' });
+                    let url = URL.createObjectURL(file);
+                    if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                      link.setAttribute("href", url);
+                      link.setAttribute("download", fileName);
+                      link.click();
+                    }
+                  },
+                  e => {
+                    let msg = JSON.parse(e._body).message;
+                    this.isRippleLoad = false;
+                    let obj = {
+                      type: 'error',
+                      title: msg,
+                      body: ""
+                    }
+                    this.appC.popToast(obj);
+                  });
+              }
+              if (this.sendPdcAck) {
+                let doc = res;
+                let yr = doc.otherDetails.financial_year;
+                let id = doc.other;
+                this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+                  res => {
+                    let obj = {
+                      type: "success",
+                      title: "Reciept Sent",
+                      body: "Receipt has been sent to student/parent email ID"
+                    }
+                    this.appC.popToast(obj);
+                  }
+                )
+              }
+            }
             this.isRippleLoad = false;
             let msg = {
               type: 'success',
@@ -4463,6 +4634,53 @@ export class StudentAddComponent implements OnInit {
           this.isRippleLoad = true;
           this.postService.payPartialFeeAmount(obj).subscribe(
             res => {
+              if (this.genPdcAck || this.sendPdcAck) {
+                if (this.genPdcAck) {
+                  let doc = res;
+                  let yr = doc.otherDetails.financial_year;
+                  let id = doc.other;
+                  let link = document.getElementById("payMultiReciept");
+                  this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+                    r => {
+                      let body = JSON.parse(r['_body']);
+                      let byteArr = this.convertBase64ToArray(body.document);
+                      let format = body.format;
+                      let fileName = body.docTitle;
+                      let file = new Blob([byteArr], { type: 'application/pdf' });
+                      let url = URL.createObjectURL(file);
+                      if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                        link.setAttribute("href", url);
+                        link.setAttribute("download", fileName);
+                        link.click();
+                      }
+                    },
+                    e => {
+                      let msg = JSON.parse(e._body).message;
+                      this.isRippleLoad = false;
+                      let obj = {
+                        type: 'error',
+                        title: msg,
+                        body: ""
+                      }
+                      this.appC.popToast(obj);
+                    });
+                }
+                if (this.sendPdcAck) {
+                  let doc = res;
+                  let yr = doc.otherDetails.financial_year;
+                  let id = doc.other;
+                  this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+                    res => {
+                      let obj = {
+                        type: "success",
+                        title: "Reciept Sent",
+                        body: "Receipt has been sent to student/parent email ID"
+                      }
+                      this.appC.popToast(obj);
+                    }
+                  )
+                }
+              }
               this.updateStudentFeeDetails();
               this.isRippleLoad = false;
               let msg = {
@@ -4544,6 +4762,53 @@ export class StudentAddComponent implements OnInit {
         this.isRippleLoad = true;
         this.postService.payPartialFeeAmount(obj).subscribe(
           res => {
+            if (this.genPdcAck || this.sendPdcAck) {
+              if (this.genPdcAck) {
+                let doc = res;
+                let yr = doc.otherDetails.financial_year;
+                let id = doc.other;
+                let link = document.getElementById("payMultiReciept");
+                this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+                  r => {
+                    let body = JSON.parse(r['_body']);
+                    let byteArr = this.convertBase64ToArray(body.document);
+                    let format = body.format;
+                    let fileName = body.docTitle;
+                    let file = new Blob([byteArr], { type: 'application/pdf' });
+                    let url = URL.createObjectURL(file);
+                    if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                      link.setAttribute("href", url);
+                      link.setAttribute("download", fileName);
+                      link.click();
+                    }
+                  },
+                  e => {
+                    let msg = JSON.parse(e._body).message;
+                    this.isRippleLoad = false;
+                    let obj = {
+                      type: 'error',
+                      title: msg,
+                      body: ""
+                    }
+                    this.appC.popToast(obj);
+                  });
+              }
+              if (this.sendPdcAck) {
+                let doc = res;
+                let yr = doc.otherDetails.financial_year;
+                let id = doc.other;
+                this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+                  res => {
+                    let obj = {
+                      type: "success",
+                      title: "Reciept Sent",
+                      body: "Receipt has been sent to student/parent email ID"
+                    }
+                    this.appC.popToast(obj);
+                  }
+                )
+              }
+            }
             this.updateStudentFeeDetails();
             this.isRippleLoad = false;
             let msg = {
@@ -4588,6 +4853,10 @@ export class StudentAddComponent implements OnInit {
         }
         this.appC.popToast(obj);
         this.total_amt_tobe_paid = this.totalFeePaid;
+        this.pdcSelectedForm.cheque_amount = this.totalFeePaid;
+      }
+      else {
+        this.pdcSelectedForm.cheque_amount = this.total_amt_tobe_paid;
       }
     }
     else if (v == "pay") {
@@ -4599,9 +4868,17 @@ export class StudentAddComponent implements OnInit {
         }
         this.appC.popToast(obj);
         this.total_amt_tobe_paid = this.totalFeePaid;
+        this.pdcSelectedForm.cheque_amount = this.totalFeePaid;
       }
+      else {
+        this.pdcSelectedForm.cheque_amount = this.total_amt_tobe_paid;
+      }
+
     }
   }
+
+
+  
 }
 
 
@@ -4626,7 +4903,3 @@ export class SortPipe {
 
 
 
-/* 
-
-
-*/

@@ -399,7 +399,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = JSON.parse(err._body).message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -545,7 +545,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.updateAssignedBatches(this.batchList);
           },
           err => {
-            let msg = JSON.parse(err._body).message;;
+            let msg = JSON.parse(err._body).message;
             this.isRippleLoad = false;
             let obj = {
               type: 'error',
@@ -581,7 +581,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.updateAssignedBatches(this.batchList);
           },
           err => {
-            let msg = JSON.parse(err._body).message;;
+            let msg = JSON.parse(err._body).message;
             this.isRippleLoad = false;
             let obj = {
               type: 'error',
@@ -887,7 +887,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       },
 
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = JSON.parse(err._body).message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -954,7 +954,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.inventoryItemsArr = data;
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = JSON.parse(err._body).message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -999,7 +999,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         });
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = JSON.parse(err._body).message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -1387,7 +1387,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
         },
         err => {
-          let msg = JSON.parse(err._body).message;;
+          let msg = JSON.parse(err._body).message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -1466,7 +1466,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         // console.log(this.slots);
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = JSON.parse(err._body).message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -1486,7 +1486,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.updateSlotsByStudent();
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = JSON.parse(err._body).message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -1650,7 +1650,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             });
           },
           err => {
-            let msg = JSON.parse(err._body).message;;
+            let msg = JSON.parse(err._body).message;
             this.isRippleLoad = false;
             let obj = {
               type: 'error',
@@ -1701,7 +1701,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = JSON.parse(err._body).message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -1978,7 +1978,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.closeConfigureFees();
         },
         err => {
-          let msg = JSON.parse(err._body).message;;
+          let msg = JSON.parse(err._body).message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -2087,6 +2087,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   closePaymentDetails() {
     this.isFeePaymentUpdate = false;
     this.isPaymentPdc = false;
+    this.genPdcAck = false;
+    this.sendPdcAck= false;
     this.feeTemplateById.payment_mode = "Cash";
     this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
   }
@@ -2166,7 +2168,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         fees_amount: 0,
         fineAmount: 0,
         fine_type: null,
-        initial_fee_amount: 0,
+        initial_fee_amount: null,
         installment_no: null,
         installment_nos: "",
         invoice_no: 0,
@@ -2218,7 +2220,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateInitialAmount(amt, i) {
-    
+
     if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
       let value: number = 0;
       value = this.precisionRound((amt / ((this.service_tax / 100) + 1)), -1);
@@ -2400,7 +2402,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.addFeeOther.service_tax = el.fee_type_tax;
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = JSON.parse(err._body).message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -2802,7 +2804,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
         },
         err => {
-          let msg = JSON.parse(err._body).message;;
+          let msg = JSON.parse(err._body).message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -2861,29 +2863,58 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.postService.allocateStudentFees(obj).subscribe(
         res => {
           if (this.genPdcAck || this.sendPdcAck) {
-            let feeid = res.generated_id;
-            this.postService.generateFeeReceipt(id, feeid).subscribe(
-              res => {
-                this.studentAddedNotifier();
-              },
-              err => {
-                let msg = JSON.parse(err._body).message;;
-                this.isRippleLoad = false;
-                let obj = {
-                  type: 'error',
-                  title: msg,
-                  body: ""
+            if (this.genPdcAck) {
+              let doc = res;
+              let yr = doc.otherDetails.financial_year;
+              let id = doc.other;
+              let link = document.getElementById("payMultiReciept");
+              this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+                r => {
+                  let body = JSON.parse(r['_body']);
+                  let byteArr = this.convertBase64ToArray(body.document);
+                  let format = body.format;
+                  let fileName = body.docTitle;
+                  let file = new Blob([byteArr], { type: 'application/pdf' });
+                  let url = URL.createObjectURL(file);
+                  if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                    link.setAttribute("href", url);
+                    link.setAttribute("download", fileName);
+                    link.click();
+                  }
+                },
+                e => {
+                  let msg = JSON.parse(e._body).message;
+                  this.isRippleLoad = false;
+                  let obj = {
+                    type: 'error',
+                    title: msg,
+                    body: ""
+                  }
+                  this.appC.popToast(obj);
+                });
+            }
+            if (this.sendPdcAck) {
+              let doc = res;
+              let yr = doc.otherDetails.financial_year;
+              let id = doc.other;
+              this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+                res => {
+                  let obj = {
+                    type: "success",
+                    title: "Reciept Sent",
+                    body: "Receipt has been sent to student/parent email ID"
+                  }
+                  this.appC.popToast(obj);
                 }
-                this.appC.popToast(obj);
-              }
-            );
+              )
+            }
           }
           else {
             this.studentAddedNotifier();
           }
         },
         err => {
-          let msg = JSON.parse(err._body).message;;
+          let msg = JSON.parse(err._body).message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -2911,7 +2942,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.studentAddedNotifier();
         },
         err => {
-          let msg = JSON.parse(err._body).message;;
+          let msg = JSON.parse(err._body).message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -3054,7 +3085,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
         },
         err => {
-          let msg = JSON.parse(err._body).message;;
+          let msg = JSON.parse(err._body).message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -3286,9 +3317,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   }
   /* ============================================================================================================================ */
-  chequeSelectedForAction(i) {
-    this.selectedCheque = i;
-  }
   /* ============================================================================================================================ */
   editPDC(data) {
     document.getElementById((data.student_id + data.cheque_id).toString()).classList.remove('displayComp');
@@ -3317,7 +3345,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.remove('editComp');
         },
         err => {
-          let msg = JSON.parse(err._body).message;;
+          let msg = JSON.parse(err._body).message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -3339,7 +3367,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.chequePdcList.splice(i, 1);
         },
         err => {
-          let msg = JSON.parse(err._body).message;;
+          let msg = JSON.parse(err._body).message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -3372,11 +3400,19 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
   /* ============================================================================================================================ */
+  chequeSelectedForAction(i) {
+    this.selectedCheque = i;
+  }
+  /* ============================================================================================================================ */
+  closePDCPop(){
+    this.selectedCheque = null;
+    this.isPdcApply = false
+  }
   /* ============================================================================================================================ */
   generateAck() {
     if (this.selectedCheque != null && this.selectedCheque != undefined) {
       this.isRippleLoad = true;
-      this.postService.generateAcknowledge(this.chequePdcList[this.selectedCheque].cheque_id, this.student_id, "undefined").subscribe(
+      this.postService.generateAcknowledge(this.selectedCheque.cheque_id, this.student_id, "undefined").subscribe(
         res => {
           this.isRippleLoad = false;
           let byteArr = this.convertBase64ToArray(res.document);
@@ -3391,8 +3427,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           dwldLink.click();
         },
         err => {
-          let msg = JSON.parse(err._body).message;;
           this.isRippleLoad = false;
+          let msg = JSON.parse(err._body).message;
           let obj = {
             type: 'error',
             title: msg,
@@ -3402,42 +3438,50 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       )
     }
+    else{
+      let obj = {
+        type: "error",
+        title: "No PDC Selected",
+        body: ""
+      }
+      this.appC.popToast(obj);
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   sendAck() {
-    let check = this.checkIfRowSelcted(this.chequePdcList);
-    if (check.length == 0) {
-      let msg = {
-        type: 'error',
-        title: 'Select',
-        body: 'Please select from cheque list'
-      }
-      this.appC.popToast(msg);
-      return false;
+    if (this.selectedCheque != null && this.selectedCheque != undefined) {
+      this.isRippleLoad = true;
+      this.postService.generateAcknowledge(this.selectedCheque.cheque_id, this.student_id, "Y").subscribe(
+        res => {
+          this.isRippleLoad = false;
+          let msg = {
+            type: 'success',
+            title: 'Success',
+            body: 'Send Successfullly'
+          }
+          this.appC.popToast(msg);
+        },
+        err => {
+          this.isRippleLoad = false;
+          let msg = JSON.parse(err._body).message;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
+        }
+      )
     }
-    let checque_id = check.join(',');
-    this.isRippleLoad = true;
-    this.postService.generateAcknowledge(checque_id, this.student_id, "Y").subscribe(
-      res => {
-        this.isRippleLoad = false;
-        let msg = {
-          type: 'success',
-          title: 'Success',
-          body: 'Send Successfullly'
-        }
-        this.appC.popToast(msg);
-      },
-      err => {
-        this.isRippleLoad = false;
-        let msg = {
-          type: 'error',
-          title: 'Error',
-          body: JSON.parse(err._body).message
-        }
-        this.appC.popToast(msg);
+    else{
+      let obj = {
+        type: "error",
+        title: "No PDC Selected",
+        body: ""
       }
-    )
+      this.appC.popToast(obj);
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -3533,7 +3577,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = JSON.parse(err._body).message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -3650,7 +3694,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       this.appC.popToast(msg);
     }
-
     else {
       /* PDC data to be verified */
       if (this.feeTemplateById.payment_mode == 'Cheque/PDC/DD No.') {
@@ -3676,6 +3719,53 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.isRippleLoad = true;
           this.postService.payPartialFeeAmount(obj).subscribe(
             res => {
+              if (this.genPdcAck || this.sendPdcAck) {
+                if (this.genPdcAck) {
+                  let doc = res;
+                  let yr = doc.otherDetails.financial_year;
+                  let id = doc.other;
+                  let link = document.getElementById("payMultiReciept");
+                  this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+                    r => {
+                      let body = JSON.parse(r['_body']);
+                      let byteArr = this.convertBase64ToArray(body.document);
+                      let format = body.format;
+                      let fileName = body.docTitle;
+                      let file = new Blob([byteArr], { type: 'application/pdf' });
+                      let url = URL.createObjectURL(file);
+                      if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                        link.setAttribute("href", url);
+                        link.setAttribute("download", fileName);
+                        link.click();
+                      }
+                    },
+                    e => {
+                      let msg = JSON.parse(e._body).message;
+                      this.isRippleLoad = false;
+                      let obj = {
+                        type: 'error',
+                        title: msg,
+                        body: ""
+                      }
+                      this.appC.popToast(obj);
+                    });
+                }
+                if (this.sendPdcAck) {
+                  let doc = res;
+                  let yr = doc.otherDetails.financial_year;
+                  let id = doc.other;
+                  this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+                    res => {
+                      let obj = {
+                        type: "success",
+                        title: "Reciept Sent",
+                        body: "Receipt has been sent to student/parent email ID"
+                      }
+                      this.appC.popToast(obj);
+                    }
+                  )
+                }
+              }
               this.updateStudentFeeDetails();
               this.isRippleLoad = false;
               let msg = {
@@ -3696,7 +3786,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.closePaymentDetails();
             },
             err => {
-              let msg = JSON.parse(err._body).message;;
+              let msg = JSON.parse(err._body).message;
               this.isRippleLoad = false;
               let obj = {
                 type: 'error',
@@ -3730,6 +3820,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       }
       else {
+
         let obj = {
           chequeDetailsJson: {},
           paid_date: "",
@@ -3745,11 +3836,57 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         obj.remarks = this.feeTemplateById.remarks;
         this.isFeeApplied = true;
         this.isPaymentPdc = false;
-        debugger;
         obj.studentFeeReportJsonList = this.getStudentFeeReportJsonList();
         this.isRippleLoad = true;
         this.postService.payPartialFeeAmount(obj).subscribe(
           res => {
+            if (this.genPdcAck || this.sendPdcAck) {
+              if (this.genPdcAck) {
+                let doc = res;
+                let yr = doc.otherDetails.financial_year;
+                let id = doc.other;
+                let link = document.getElementById("payMultiReciept");
+                this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+                  r => {
+                    let body = JSON.parse(r['_body']);
+                    let byteArr = this.convertBase64ToArray(body.document);
+                    let format = body.format;
+                    let fileName = body.docTitle;
+                    let file = new Blob([byteArr], { type: 'application/pdf' });
+                    let url = URL.createObjectURL(file);
+                    if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                      link.setAttribute("href", url);
+                      link.setAttribute("download", fileName);
+                      link.click();
+                    }
+                  },
+                  e => {
+                    let msg = JSON.parse(e._body).message;
+                    this.isRippleLoad = false;
+                    let obj = {
+                      type: 'error',
+                      title: msg,
+                      body: ""
+                    }
+                    this.appC.popToast(obj);
+                  });
+              }
+              if (this.sendPdcAck) {
+                let doc = res;
+                let yr = doc.otherDetails.financial_year;
+                let id = doc.other;
+                this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+                  res => {
+                    let obj = {
+                      type: "success",
+                      title: "Reciept Sent",
+                      body: "Receipt has been sent to student/parent email ID"
+                    }
+                    this.appC.popToast(obj);
+                  }
+                )
+              }
+            }
             this.updateStudentFeeDetails();
             this.isRippleLoad = false;
             let msg = {
@@ -3770,7 +3907,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.closePaymentDetails();
           },
           err => {
-            let msg = JSON.parse(err._body).message;;
+            let msg = JSON.parse(err._body).message;
             this.isRippleLoad = false;
             let obj = {
               type: 'error',
@@ -3846,6 +3983,53 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.isRippleLoad = true;
           this.postService.payPartialFeeAmount(obj).subscribe(
             res => {
+              if (this.genPdcAck || this.sendPdcAck) {
+                if (this.genPdcAck) {
+                  let doc = res;
+                  let yr = doc.otherDetails.financial_year;
+                  let id = doc.other;
+                  let link = document.getElementById("payMultiReciept");
+                  this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+                    r => {
+                      let body = JSON.parse(r['_body']);
+                      let byteArr = this.convertBase64ToArray(body.document);
+                      let format = body.format;
+                      let fileName = body.docTitle;
+                      let file = new Blob([byteArr], { type: 'application/pdf' });
+                      let url = URL.createObjectURL(file);
+                      if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                        link.setAttribute("href", url);
+                        link.setAttribute("download", fileName);
+                        link.click();
+                      }
+                    },
+                    e => {
+                      let msg = JSON.parse(e._body).message;
+                      this.isRippleLoad = false;
+                      let obj = {
+                        type: 'error',
+                        title: msg,
+                        body: ""
+                      }
+                      this.appC.popToast(obj);
+                    });
+                }
+                if (this.sendPdcAck) {
+                  let doc = res;
+                  let yr = doc.otherDetails.financial_year;
+                  let id = doc.other;
+                  this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+                    res => {
+                      let obj = {
+                        type: "success",
+                        title: "Reciept Sent",
+                        body: "Receipt has been sent to student/parent email ID"
+                      }
+                      this.appC.popToast(obj);
+                    }
+                  )
+                }
+              }
               this.updateStudentFeeDetails();
               this.isRippleLoad = false;
               let msg = {
@@ -3867,7 +4051,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             },
             err => {
               this.isRippleLoad = false;
-              let msg = JSON.parse(err._body).message;;
+              let msg = JSON.parse(err._body).message;
               this.isRippleLoad = false;
               let obj = {
                 type: 'error',
@@ -3928,6 +4112,53 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.isRippleLoad = true;
         this.postService.payPartialFeeAmount(obj).subscribe(
           res => {
+            if (this.genPdcAck || this.sendPdcAck) {
+              if (this.genPdcAck) {
+                let doc = res;
+                let yr = doc.otherDetails.financial_year;
+                let id = doc.other;
+                let link = document.getElementById("payMultiReciept");
+                this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+                  r => {
+                    let body = JSON.parse(r['_body']);
+                    let byteArr = this.convertBase64ToArray(body.document);
+                    let format = body.format;
+                    let fileName = body.docTitle;
+                    let file = new Blob([byteArr], { type: 'application/pdf' });
+                    let url = URL.createObjectURL(file);
+                    if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                      link.setAttribute("href", url);
+                      link.setAttribute("download", fileName);
+                      link.click();
+                    }
+                  },
+                  e => {
+                    let msg = JSON.parse(e._body).message;
+                    this.isRippleLoad = false;
+                    let obj = {
+                      type: 'error',
+                      title: msg,
+                      body: ""
+                    }
+                    this.appC.popToast(obj);
+                  });
+              }
+              if (this.sendPdcAck) {
+                let doc = res;
+                let yr = doc.otherDetails.financial_year;
+                let id = doc.other;
+                this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+                  res => {
+                    let obj = {
+                      type: "success",
+                      title: "Reciept Sent",
+                      body: "Receipt has been sent to student/parent email ID"
+                    }
+                    this.appC.popToast(obj);
+                  }
+                )
+              }
+            }
             this.updateStudentFeeDetails();
             this.isRippleLoad = false;
             let msg = {
@@ -3948,7 +4179,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.closePartialPayment();
           },
           err => {
-            let msg = JSON.parse(err._body).message;;
+            let msg = JSON.parse(err._body).message;
             this.isRippleLoad = false;
             let obj = {
               type: 'error',
@@ -3973,6 +4204,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
         this.appC.popToast(obj);
         this.total_amt_tobe_paid = this.totalFeePaid;
+        this.pdcSelectedForm.cheque_amount = this.totalFeePaid;
+      }
+      else {
+        this.pdcSelectedForm.cheque_amount = this.total_amt_tobe_paid;
       }
     }
     else if (v == "pay") {
@@ -3984,6 +4219,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
         this.appC.popToast(obj);
         this.total_amt_tobe_paid = this.totalFeePaid;
+        this.pdcSelectedForm.cheque_amount = this.totalFeePaid;
+      }
+      else {
+        this.pdcSelectedForm.cheque_amount = this.total_amt_tobe_paid;
       }
     }
   }
@@ -4285,7 +4524,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.isDefineFees = false;
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = JSON.parse(err._body).message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',

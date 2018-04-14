@@ -1181,7 +1181,7 @@
               <li>
                 <div class="form-wrapper">
                   <label for="amountinst">Amount</label>
-                  <input type="number" class="form-ctrl" id="amountinst" [(ngModel)]="addFeeInstallment.initial_fee_amount" name="amountinst">
+                  <input type="text" OnlyNumber="true" class="form-ctrl" id="amountinst" [(ngModel)]="addFeeInstallment.initial_fee_amount" name="amountinst">
                 </div>
               </li>
               <li>
@@ -1435,7 +1435,7 @@
   <!-- ===============Manage PDC ============================ -->
   <student-pop-up [isBig]="'y'" *ngIf="isPdcApply">
 
-    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isPdcApply = false" close-button>
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePDCPop()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
           <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
@@ -1487,13 +1487,6 @@
                 </div>
               </li>
 
-              <!-- <li>
-                  <div class="form-wrapper">
-                    <input type="text" value="" id="clearDate" class="form-ctrl bsDatepicker" name="clearDate" [(ngModel)]="pdcAddForm.clearing_date"
-                      placeholder="Clear Date" readonly="true" #clearDate="ngModel" bsDatepicker>
-                  </div>
-                </li> -->
-
               <li>
                 <div class="form-wrapper">
                   <input type="text" OnlyNumber="true" value="" id="chequeamount" class="form-ctrl" name="chequeamount" [(ngModel)]="pdcAddForm.cheque_amount"
@@ -1509,65 +1502,10 @@
 
             </ul>
           </div>
-          <!-- Installment Table Configure -->
-          <!-- <div class="pdc-table">
-              <ul class="table-header">
-                <li>Bank*</li>
-                <li>Cheque Number*</li>
-                <li>Cheque Date*</li>
-                <li>Clearing Date*</li>
-                <li>Cheque Amount*</li>
-                <li>Action</li>
-              </ul>
-              <div class="table-data" *ngIf="newPdcArr.length != 0">
-                <ul class="table-row" *ngFor="let c of newPdcArr; let i = index;">
-                  <li>
-                    {{c.bank_name}}
-                  </li>
-                  <li>
-                    {{c.cheque_no}}
-                  </li>
-                  <li>
-                    {{c.cheque_date}}
-                  </li>
-                  <li>
-                    {{c.clearing_date}}
-                  </li>
-                  <li>
-                    {{c.cheque_amount}}
-                  </li>
-                  <li (click)="deleteUnsavedPdc(i)">
-                    <i style="font-family: FontAwesome; cursor: pointer;" class="fa fa-trash-o" aria-hidden="true"></i>
-                  </li>
-                </ul>
-              </div>
-              <div class="table-data" *ngIf="newPdcArr.length == 0">
-                <h3 style="text-align: center;padding: 20px 0px;border-bottom: 1px solid rgba(119, 119, 119, 0.32);border-left: 1px solid rgba(119, 119, 119, 0.32);border-right: 1px solid rgba(119, 119, 119, 0.32);">No PDC Available</h3>
-              </div>
-            </div> -->
-          <!-- Save Added -->
-          <!-- <div class="row save-pdf">
-              <div class="clearfix">
-                <aside class="pull-left popup-btn">
-                  <div class="field-checkbox-wrapper">
-                    <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
-                    <label for="isGenPdc">Generate Acknowledgement</label>
-                  </div>
-                  <div class="field-checkbox-wrapper">
-                    <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
-                    <label for="emailPdc">Send Email Acknowledgement</label>
-                  </div>
-                </aside>
-                <aside class="pull-right popup-btn">
-                  <input type="button" value="Save" (click)="addPdcDataToServer()" class="fullBlue btn">
-                </aside>
-              </div>
-            </div> -->
-
         </div>
 
         <div class="pdc-data-shell">
-
+          <a id="hiddenAnchorAck"></a>
           <div class="pdc-table">
             <ul class="table-header">
               <li></li>
@@ -1807,6 +1745,7 @@
         </div>
 
         <div class="row" style="margin-top: 10px;">
+          <a id="payMultiReciept"></a>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
@@ -1958,6 +1897,7 @@
         </div>
 
         <div class="row" style="margin-top: 10px;">
+            <a id="payOneReciept"></a>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">

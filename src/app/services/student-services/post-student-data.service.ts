@@ -169,17 +169,16 @@ export class PostStudentDataService {
     }
 
 
-    generateAcknowledge(arr, id, email): Observable<any> {
-        let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" + id + "?ChequeIds=" + arr + "&sendEmail=" + email;
-
+    generateAcknowledge(chid, id, email): Observable<any> {
+        let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" +id +"?ChequeIds=" +chid + "&sendEmail=" +email;
         return this.http.post(urlsend, null, { headers: this.headers }).map(
             res => { return res.json(); },
             err => { return err.json(); }
         )
     }
 
-    sendAcknowledge(arr: any[], id): Observable<any> {
-        let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" + id + "?ChequeIds=" + arr.join(',') + "&sendEmail=Y";
+    sendAcknowledge(chid, id): Observable<any> {
+        let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" + id + "?ChequeIds=" +chid + "&sendEmail=Y";
 
         return this.http.post(urlsend, null, { headers: this.headers }).map(
             res => { return res.json(); },
@@ -208,11 +207,11 @@ export class PostStudentDataService {
         )
     }
 
-    payPartialFeeAmount(obj){
+    payPartialFeeAmount(obj): any{
         let url = this.baseUrl +"/api/v1/studentWise/fee/students/" +this.institute_id +"/save";
         return this.http.post(url, obj, {headers: this.headers}).map(
             res => {
-                return res;
+                return res.json();
             },
             err => {
                 return err;
