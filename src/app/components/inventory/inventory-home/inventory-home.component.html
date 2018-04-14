@@ -353,8 +353,8 @@
             <div class="row extraMargin">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6" style="margin-top: 25px;">
                 <div class="field-wrapper">
-                  <input type="text" class="form-ctrl" formControlName="item_name" name="item" (focus)="inputClickedCheck($event)">
-                  <label for="item">Item Name
+                  <input type="text" class="form-ctrl" formControlName="item_name" id="In" name="item" (focus)="inputClickedCheck($event)">
+                  <label for="In">Item Name
                     <span style="color:red">*</span>
                   </label>
                   <div *ngIf="addItemForm.controls['item_name'].invalid && (addItemForm.controls['item_name'].dirty || addItemForm.controls['item_name'].touched)"
@@ -367,7 +367,7 @@
               </div>
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
-                  <input type="text" class="form-ctrl" formControlName="desc" name="label" (focus)="inputClickedCheck($event)">
+                  <input type="text" class="form-ctrl" formControlName="desc" id="label" name="label" (focus)="inputClickedCheck($event)">
                   <label for="label">Item Description
                   </label>
                 </div>
@@ -377,12 +377,12 @@
             <div class="row extraMargin">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
-                  <select id="" class="form-ctrl" formControlName="categoryDet" (focus)="inputClickedCheck($event)">
+                  <select id="cat" class="form-ctrl" formControlName="categoryDet" (focus)="inputClickedCheck($event)">
                     <option *ngFor="let opt of categoryList" [value]="opt.category_id">
                       {{opt.category_name}}
                     </option>
                   </select>
-                  <label for="">Category
+                  <label for="cat">Category
                     <span style="color:red">*</span>
                   </label>
                   <div *ngIf="addItemForm.controls['categoryDet'].invalid && (addItemForm.controls['categoryDet'].dirty || addItemForm.controls['categoryDet'].touched)"
@@ -395,7 +395,7 @@
               </div>
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
-                  <input type="number" class="form-ctrl" formControlName="alloted_units" name="Unit" (focus)="inputClickedCheck($event)">
+                  <input type="number" class="form-ctrl" formControlName="alloted_units" id="Unit" name="Unit" (focus)="inputClickedCheck($event)">
                   <label for="Unit">Unit
                     <span style="color:red">*</span>
                   </label>
@@ -412,24 +412,24 @@
             <div class="row extraMargin">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
-                  <select id="" class="form-ctrl" formControlName="standardDet" (focus)="inputClickedCheck($event)" (change)="masterCourseSelected()">
+                  <select id="master" class="form-ctrl" formControlName="standardDet" (focus)="inputClickedCheck($event)" (change)="masterCourseSelected()">
                     <option *ngFor="let opt of masterCategoryList" [value]="opt.standard_id">
                       {{opt.standard_name}}
                     </option>
                   </select>
-                  <label for="masterCourse">Mater Course
+                  <label for="master">Master Course
                   </label>
                 </div>
               </div>
 
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
-                  <select id="" class="form-ctrl" formControlName="subjectDet" (focus)="inputClickedCheck($event)">
+                  <select id="course" class="form-ctrl" formControlName="subjectDet" (focus)="inputClickedCheck($event)">
                     <option *ngFor="let opt of courseList" [value]="opt.subject_id">
                       {{opt.subject_name}}
                     </option>
                   </select>
-                  <label for="Course">Course
+                  <label for="course">Course
                   </label>
                 </div>
               </div>
@@ -438,7 +438,7 @@
             <div class="row extraMargin">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
-                  <input type="number" class="form-ctrl" min="0" formControlName="unit_cost" name="UnitCost" (focus)="inputClickedCheck($event)">
+                  <input type="number" class="form-ctrl" min="0" id="UnitCost" formControlName="unit_cost" name="UnitCost" (focus)="inputClickedCheck($event)">
                   <label for="UnitCost">Unit Cost
                   </label>
                 </div>
@@ -456,7 +456,7 @@
             <div class="row extraMargin">
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
-                  <input type="number" class="form-ctrl" formControlName="out_of_stock_indicator_units" name="lowUnit" (focus)="inputClickedCheck($event)">
+                  <input type="number" class="form-ctrl" formControlName="out_of_stock_indicator_units" id="lowUnit" name="lowUnit" (focus)="inputClickedCheck($event)">
                   <label for="lowUnit">Low Stock Indicator Units
                   </label>
                 </div>

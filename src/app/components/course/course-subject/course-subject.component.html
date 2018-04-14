@@ -30,13 +30,13 @@
       <div class="row create-standard-field">
 
         <div class="field-wrapper c-lg-4 c-sm-4 c-md-4" [ngClass]="{'has-value' : newSubjectDetails.standard_id != '-1'}">
-          <select id="" class="form-ctrl" [(ngModel)]="newSubjectDetails.standard_id">
+          <select id="masterCourse" class="form-ctrl" [(ngModel)]="newSubjectDetails.standard_id">
             <option value="-1"> </option>
             <option *ngFor="let opt of standardList" [value]="opt.standard_id">
               {{opt.standard_name}}
             </option>
           </select>
-          <label *ngIf="(isLangInstitue != true )" for="masterCourse">Standard Name
+          <label *ngIf="(isLangInstitue != true )" for="masterCourse">Class  Name
             <span style="color:red">*</span>
           </label>
           <label *ngIf="(isLangInstitue == true )" for="masterCourse">Master Course Name
@@ -46,8 +46,8 @@
         </div>
 
         <div class="field-wrapper c-lg-4 c-sm-4 c-md-4" [ngClass]="{'has-value' : newSubjectDetails.subject_name != ''}">
-          <input type="text" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_name" name="label">
-          <label *ngIf="(isLangInstitue != true )">
+          <input type="text" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_name" id="subname" name="label">
+          <label *ngIf="(isLangInstitue != true )" for="subname">
             Subject Name
           </label>
           <label *ngIf="(isLangInstitue == true )">
@@ -144,16 +144,16 @@
               </a>
             </td>
             <td class="edit-comp">
-              <a style="cursor: pointer; margin-right: 10px;" (click)="updateRow(row,i)">
+              <a style="cursor: pointer; margin-right: 10px;" (click)="updateRow(row,i)" >
 
-                <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i>
+                <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px;" title="Update" ></i>
               </a>
-              <label>Save</label>
+              <label (click)="updateRow(row,i)" >Save</label>
               <a style="cursor: pointer;" (click)="cancelRow(i)">
 
                 <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
               </a>
-              <label>Cancel</label>
+              <label (click)="cancelRow(i)">Cancel</label>
             </td>
           </tr>
         </tbody>
