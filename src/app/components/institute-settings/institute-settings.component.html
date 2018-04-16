@@ -1213,7 +1213,7 @@
                             <label for="ch78">Enable Exam Grading System</label>
                           </div>
                         </div>
-                        <div class="row" *ngIf="(isLangInst == false)">
+                        <div class="row" *ngIf="(isLangInst == false && test_series_feature == '1')">
                           <h3>Online Test Setting</h3>
                           <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.test_buffer_duration >= '0'}">
                             <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew"
@@ -1701,7 +1701,17 @@
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.allow_simple_registration"
                                 id="ch103">
-                              <label for="ch103">Allow Simple Registration</label>
+                              <label for="ch103">Allow Simple Registration
+                                <div class="questionInfo inline-relative">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field md">
+                                    When enabled then App 
+                                    <br>Download/Login details 
+                                    <br>are not send in
+                                    <br>registration SMS.
+                                  </div>
+                                </div>
+                              </label>
                             </div>
                           </div>
                           <div class="c-sm-6 c-md-6 c-lg-6">
@@ -1764,7 +1774,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="onlinePayment == '1'">
                       <td>
                         <h3>Online Payment Setting</h3>
                         <div class="row">
@@ -1800,6 +1810,10 @@
                             </div>
                           </div>
                         </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
                         <div class="row">
                           <div class="c-sm-6 c-md-6 c-lg-6" style="margin-left:-15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">

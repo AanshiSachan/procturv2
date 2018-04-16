@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { CourseListService } from '../../../../services/course-services/course-list.service';
 import { AppComponent } from '../../../../app.component';
 import { document } from '../../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
@@ -44,7 +44,8 @@ export class CourseAddComponent implements OnInit {
 
   nestedTableDataSource: any;
   examGradeFeature: any;
-
+  @ViewChild('standardName') StandardName: ElementRef;
+  @ViewChild('masterCourse') MasterCourseDDn: ElementRef;
 
   constructor(
     private apiService: CourseListService,
@@ -73,8 +74,10 @@ export class CourseAddComponent implements OnInit {
           } else {
             this.subjectListDataSource = data;
             let rawData = this.addKeyInData(data);
-            document.getElementById("idMasterCourse").setAttribute("readonly", true);
-            document.getElementById("idStanadardName").disabled = true;
+            // document.getElementById("idMasterCourse").setAttribute("readonly", true);
+            // document.getElementById("idStanadardName").disabled = true;
+            this.MasterCourseDDn.nativeElement.setAttribute('readonly', true);
+            this.StandardName.nativeElement.disabled = true;
             this.subjectList = rawData;
             this.getActiveTeacherList();
           }
@@ -238,7 +241,6 @@ export class CourseAddComponent implements OnInit {
     let dataToSend = this.constructJsonToSend();
     this.apiService.saveCourseDetails(dataToSend).subscribe(
       res => {
-        console.log(res);
         let msg = {
           type: "success",
           title: "Course Creation",

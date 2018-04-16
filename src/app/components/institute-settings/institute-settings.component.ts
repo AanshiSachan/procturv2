@@ -206,6 +206,8 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     online_payment_notify_emailIds: '',
     online_payment_notify_mobiles: ''
   };
+  onlinePayment: any = '0';
+  test_series_feature: any = '0';
 
   constructor(
     private appC: AppComponent,
@@ -219,6 +221,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.onlinePayment = JSON.parse(sessionStorage.getItem('institute_info')).enable_online_payment_feature;
     this.changeView('liSMS', 'divSMSContent');
     this.checkInstitutionType();
     this.getSettingFromServer();
@@ -282,6 +285,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     this.apiService.getInstituteSettingFromServer().subscribe(
       res => {
         this.isRippleLoad = false;
+        this.test_series_feature = res.test_series_feature;
         this.fillJSONData(res);
       },
       err => {
@@ -384,7 +388,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     //   } */
 
     // }
- 
+
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {
         this.isRippleLoad = false;

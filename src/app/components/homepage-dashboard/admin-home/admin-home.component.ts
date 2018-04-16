@@ -193,6 +193,7 @@ export class AdminHomeComponent implements OnInit {
   viewDetailsPopUp: boolean = false;
   selectedViewDet: any;
   viewDetTable: any = [];
+  searchData: string = "";
 
   /* ===================================================================================== */
   /* ===================================================================================== */
