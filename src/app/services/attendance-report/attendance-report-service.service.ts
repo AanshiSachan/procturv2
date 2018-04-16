@@ -73,6 +73,17 @@ export class AttendanceReportServiceService {
       }
     )
   }
+  postDataToTablePro(obj){
+    let url=this.baseUrl + "/api/v1/reports/attendance";
+    return this.http.post(url ,obj, {headers:this.headers}).map(
+      data =>{
+        return data;
+      },
+      error =>{
+        return error;
+      }
+    )
+  }
   postDetailedData(obj){
     let url=this.baseUrl + "/api/v1/reports/attendance/monthlyAttendanceReport";
     return this.http.post(url, obj, {headers:this.headers}).map(
@@ -91,7 +102,7 @@ export class AttendanceReportServiceService {
 
   masterCoursePro(obj){
 
-    let url=this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id +  "?standard_id=" + obj.standard_id +"&subject_id=" + obj.subject_id + "&assigned=" +obj.assigned;
+    let url=this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id +  "?standard_id=" + obj.standard_id +"&subject_id=" + obj.subject_id + "&assigned=N" ;
     return this.http.get(url, {headers:this.headers}).map(
       data=>{
         return data;

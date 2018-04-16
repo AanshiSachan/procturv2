@@ -38,13 +38,63 @@ p {
         height:400px; 
     }
 }
+.btn{
+    display: inline-block;
+}
+
+.inner-main{
+    display: inline;
+    padding: 12px 0px;
+    .inner-btn{
+        display: inline-block;
+    }
+    .outer-btn{
+        display: inline-block;
+    }
+}
+
+.main{
+    margin-top:-25px;
+    .form-wrapper{
+        position: relative;
+        &.datePickerBox {
+            .side-form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url('../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 0;
+                top: 20px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
+
+.form-field{
+
+    display: inline-block;
+   width:80%;
+}
+.form-date{
+    display: inline-block;
+    width:40%;
+}
 .table-content{
+    height: 350px;
     ::-webkit-scrollbar{
         display: block;
     }
     .table-heading{
         overflow-x: scroll;
-        height:400px;
+        height:350px;
     }
 }
 .filter-box {
@@ -61,8 +111,10 @@ p {
         float: right;
         height: 35px;
         font-size: 14px;
+        
     }
 }
+
 .form-wrapper{
     .datePickerBox{
             padding-right: 10px;
@@ -98,13 +150,13 @@ p {
     .form-wrapper {
         background: transparent;
         margin: 25px 0px;
-       
+       align-content: center;
         .btn{
-                margin-top:10px;
-                width:30%;
+                margin-top:-3px;
+                width:70%;
         }
         label {
-            padding-left:25px;
+            padding-left:10px;
             font-size: 12px;
             font-weight: 400; //font-family: -webkit-body;
             color: 0084f6;
@@ -116,7 +168,7 @@ p {
         .side-form-ctrl {
             background: white;
             border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
-            width: 60%;
+            width: 100%;
             padding-left:10px;
             margin-left: 10px;
             height: 30px;
@@ -128,8 +180,8 @@ p {
             &.bsDatepicker {
                 
                 padding-left:10px;
-                margin-left: 20px;
-                width: 60%;
+                margin-left: 10px;
+                width: 100%;
             }
         }
        
