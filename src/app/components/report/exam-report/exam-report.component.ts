@@ -23,6 +23,7 @@ export class ExamReportComponent implements OnInit {
   SubjectData: any[] = [];
   masterCourses: any[] = [];
   masterData = "";
+<<<<<<< HEAD
   addReportPopup: boolean = false;
   examTypeEntry: any[] = [];
   Exam_sche_Data = "";
@@ -35,12 +36,30 @@ export class ExamReportComponent implements OnInit {
   dataExamIndex: any[] = [];
   typeDataForm: any[] = [];
 
+=======
+  addReportPopup:boolean= false;
+  examTypeEntry:any[]=[];
+  Exam_sche_Data = "";
+  Exam_Sch_Data: any[] = [];
+  ExamSource: any = [];
+  DetailSource :any=[];
+  pagedExamSource:any[] = [];
+  studentName="";
+  FetchApiData: any = [];
+  dataExamIndex :any[]=[];
+  typeDataForm :any[]=[];
+  
+>>>>>>> b791418c1931a2e12e1796bddef966b006f03f7f
 
 
 
   projectSettings: ColumnSetting[] = [
 
+<<<<<<< HEAD
 
+=======
+   
+>>>>>>> b791418c1931a2e12e1796bddef966b006f03f7f
     { primaryKey: 'student_id', header: 'Student Id' },
     { primaryKey: 'student_name', header: 'Student Name' },
     { primaryKey: 'total_marks', header: 'Total Marks' },
@@ -75,6 +94,7 @@ assigned :"N",
     this.fetchExamData();
     this.pageIndex = 1;
   }
+<<<<<<< HEAD
   closeReportPopup() {
 
     this.addReportPopup = false;
@@ -88,6 +108,13 @@ assigned :"N",
     console.log(res);
     
   })
+=======
+  closeReportPopup(){
+
+    this.addReportPopup=false;
+  }
+fetchExamData() {
+>>>>>>> b791418c1931a2e12e1796bddef966b006f03f7f
 
   }
   else{
@@ -137,6 +164,7 @@ assigned :"N",
     }
   }
 
+<<<<<<< HEAD
   fetchDetailReport() {
     this.addReportPopup= true;
     if (this.fetchFieldData.standard_id == "" || this.fetchFieldData.subject_id == "" || this.fetchFieldData.batch_id == "" ||
@@ -168,6 +196,21 @@ assigned :"N",
             console.log(err);
           }
         )
+=======
+
+  fetchDetailReport(){
+
+  this.examdata.viewDetailData(this.fetchFieldData.batch_id)
+   
+  .subscribe(
+    res=>{
+      this.DetailSource=res;
+      console.log(res);
+      this.addReportPopup=true;
+    },
+    err=>{
+      console.log(err);
+>>>>>>> b791418c1931a2e12e1796bddef966b006f03f7f
     }
   };
 
@@ -203,7 +246,7 @@ assigned :"N",
       }
     )
   }
-
+  
   getSubData(i) {
     console.log(i);
     this.fetchFieldData.exam_schd_id = "";
@@ -217,7 +260,7 @@ assigned :"N",
 
   getExamScheduleData(i) {
     console.log(this.SubjectData);
-
+           
     this.fetchFieldData.exam_schd_id = "";
     console.log(i);
     this.examdata.getExamSchedule(i).subscribe((data: any) => {

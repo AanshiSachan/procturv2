@@ -41,7 +41,8 @@ import { ProcturPopUpComponent } from './proctur-popup/proctur-popup.component';
         AppLoaderComponent,
         PictureCropComponent,
         CommaSeprationAmount,
-        ProcturPopUpComponent
+        ProcturPopUpComponent,
+        
     ],
     exports: [
         CommonModule,
