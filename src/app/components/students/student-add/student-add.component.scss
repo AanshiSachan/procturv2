@@ -4,32 +4,31 @@
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
 @import "./src/app/components/enquiry/enquiry-add/enquiry-add.component.scss";
-
 /* ============================================================================================================= */
 
-@media only screen and (max-width: 767px){
-    .boxPadding15{
+@media only screen and (max-width: 767px) {
+    .boxPadding15 {
         padding: 0;
         box-sizing: border-box;
     }
-    .student-flow-wrapper{
+    .student-flow-wrapper {
         padding: 0;
     }
     .middle-top {
-        aside{
+        aside {
             float: left;
         }
-        h1{
+        h1 {
             margin-top: 8px;
             margin-bottom: 10px;
             float: none;
         }
     }
-    .middle-left{
+    .middle-left {
         padding: 0;
         width: 100%;
     }
-    .middle-right{
+    .middle-right {
         padding: 0;
         width: 100%;
         margin-top: 30px;
@@ -37,23 +36,22 @@
     }
     .student-flow-wrapper {
         padding: 0px;
-        .row{
+        .row {
             margin: 0;
         }
     }
 }
 
-
 /* ============================================================================================================= */
-.paymentWrapper{
+
+.paymentWrapper {
     border-top: 1px solid rgba(97, 96, 96, 0.47843137254901963);
-    
     max-height: 400px;
     overflow: hidden;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
     }
-    .paymentForm{
+    .paymentForm {
         max-height: 400px;
         overflow: auto;
         ::-webkit-scrollbar {
@@ -68,16 +66,13 @@
     }
 }
 
-
-
-.discount-wrapper{
+.discount-wrapper {
     .field-checkbox-wrapper,
     .field-radio-wrapper {
         position: relative;
         padding-left: 25px;
         margin-bottom: 10px;
     }
-    
     .field-radio-wrapper .form-radio {
         opacity: 0;
         position: absolute;
@@ -87,12 +82,10 @@
         height: 20px;
         z-index: 1;
     }
-    
     .field-radio-wrapper .form-radio+label {
         vertical-align: middle;
         transition: all 0.1s;
     }
-    
     .field-radio-wrapper .form-radio+label:after {
         content: '';
         width: 16px;
@@ -104,11 +97,9 @@
         top: 0;
         transition: all 0.1s;
     }
-    
     .field-radio-wrapper .form-radio:checked+label:after {
         border: 2px solid $common-blue;
     }
-    
     .field-radio-wrapper .form-radio+label:before {
         transition: all 0.1s;
         width: 1px;
@@ -118,7 +109,6 @@
         position: absolute;
         content: '';
     }
-    
     .field-radio-wrapper .form-radio:checked+label:before {
         content: '';
         width: 8px;
@@ -128,7 +118,6 @@
         left: 4px;
         top: 4px;
     }
-    
     .field-radio-wrapper .form-radio:checked+label {
         color: $common-blue;
     }
@@ -160,7 +149,6 @@
         color: white;
     }
 }
-
 
 /* ============================================================================================================= */
 
@@ -201,7 +189,6 @@
     }
 }
 
-
 /* ============================================================================================================= */
 
 .fee-definations {
@@ -209,7 +196,7 @@
     max-height: 400px;
     overflow: hidden;
     border-top: 2px solid rgba(119, 119, 119, 0.12);
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
     }
     .fee-container {
@@ -217,9 +204,9 @@
         max-height: 400px;
         overflow-x: hidden;
         overflow-y: auto;
-        ul{
-            li{
-                a{
+        ul {
+            li {
+                a {
                     cursor: pointer;
                 }
             }
@@ -274,9 +261,8 @@
                                 cursor: pointer;
                                 color: #0084f6;
                             }
-                            .form-ctrl{
+                            .form-ctrl {
                                 background: transparent;
-
                             }
                             &.datepicker {
                                 span {
@@ -332,11 +318,11 @@
                 ul {
                     li {
                         display: inline-flex;
-                        &:first-child{
+                        &:first-child {
                             width: 5% !important;
                         }
-                        &.date{
-                            width: 20% !important; 
+                        &.date {
+                            width: 20% !important;
                         }
                     }
                     .form-wrapper {
@@ -371,9 +357,8 @@
                             cursor: pointer;
                             color: #0084f6;
                         }
-                        .form-ctrl{
+                        .form-ctrl {
                             background: transparent;
-
                         }
                         &.datepicker {
                             span {
@@ -509,9 +494,8 @@
                                 cursor: pointer;
                                 color: #0084f6;
                             }
-                            .form-ctrl{
+                            .form-ctrl {
                                 background: transparent;
-
                             }
                             &.datepicker {
                                 span {
@@ -615,9 +599,8 @@
                             cursor: pointer;
                             color: #0084f6;
                         }
-                        .form-ctrl{
+                        .form-ctrl {
                             background: transparent;
-
                         }
                         &.datepicker {
                             span {
@@ -682,10 +665,10 @@
                                     margin-left: 40px;
                                 }
                             }
-                            &.tax{
+                            &.tax {
                                 width: 10% !important;
                             }
-                            &.date{
+                            &.date {
                                 width: 20% !important;
                             }
                         }
@@ -741,7 +724,6 @@
     color: white;
 }
 
-
 /* ============================================================================================================= */
 
 .pdc-container {
@@ -752,11 +734,11 @@
     max-height: 460px;
     overflow: hidden;
     border-top: 2px solid rgba(119, 119, 119, 0.12);
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
     }
     .pdc-wrapper {
-         ::-webkit-scrollbar {
+        ::-webkit-scrollbar {
             display: block;
             width: 7px;
             height: 7px;
@@ -833,6 +815,60 @@
         .pdc-data-shell {
             margin-top: 20px;
             box-shadow: 0px 1px 3px 0px rgba(38, 0, 0, 0.2);
+            .field-checkbox-wrapper,
+            .field-radio-wrapper {
+                position: relative;
+                padding-left: 25px;
+                margin-bottom: 10px;
+            }
+            .field-radio-wrapper .form-radio {
+                opacity: 0;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 20px;
+                height: 20px;
+                z-index: 1;
+            }
+            .field-radio-wrapper .form-radio+label {
+                vertical-align: middle;
+                transition: all 0.1s;
+            }
+            .field-radio-wrapper .form-radio+label:after {
+                content: '';
+                width: 16px;
+                height: 16px;
+                border: 2px solid #ccc;
+                border-radius: 50%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                transition: all 0.1s;
+            }
+            .field-radio-wrapper .form-radio:checked+label:after {
+                border: 2px solid $common-blue;
+            }
+            .field-radio-wrapper .form-radio+label:before {
+                transition: all 0.1s;
+                width: 1px;
+                height: 1px;
+                left: 9px;
+                top: 9px;
+                position: absolute;
+                content: '';
+            }
+            .field-radio-wrapper .form-radio:checked+label:before {
+                content: '';
+                width: 10px;
+                height: 10px;
+                background: $common-blue;
+                border-radius: 50%;
+                left: 3px;
+                top: 3px;
+            }
+            .field-radio-wrapper .form-radio:checked+label {
+                color: $common-blue;
+            }
             .pdc-header {
                 background: #efefef;
                 padding: 10px;
@@ -867,7 +903,6 @@
                             label {
                                 font-size: 12px;
                                 font-weight: 400;
-                                
                                 color: black;
                                 text-decoration: none;
                                 text-shadow: none;
@@ -944,7 +979,6 @@
                         }
                         border: 1px solid #efefef;
                         &.displayComp {
-                            
                             .edit-comp {
                                 display: none
                             }
@@ -968,13 +1002,14 @@
         }
     }
 }
-.field-view{
+
+.field-view {
     border: none;
     margin-top: 10px;
-    height:30px;
-    a{
-        font-size:13px;
-        margin-left:-4px;
+    height: 30px;
+    a {
+        font-size: 13px;
+        margin-left: -4px;
     }
 }
 
@@ -985,7 +1020,7 @@
     max-height: 400px;
     overflow-x: hidden;
     overflow-y: auto;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -1122,7 +1157,6 @@
             }
         }
     }
-   
     .additional {
         margin-top: 40px;
         border: 1px solid #777;
@@ -1248,7 +1282,7 @@
 .fee-install-table {
     max-height: 350px;
     overflow: hidden;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -1302,7 +1336,7 @@
 .batch-wrapper {
     max-height: 350px;
     overflow: hidden;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -1312,10 +1346,9 @@
         max-height: 340px;
         overflow-x: hidden;
         overflow-y: scroll;
-        tr{
-            td{
-                .field-checkbox-wrapper{
-                
+        tr {
+            td {
+                .field-checkbox-wrapper {
                     background: transparent;
                 }
             }
@@ -1357,7 +1390,7 @@
                 cursor: pointer;
                 color: #0084f6;
             }
-            .form-ctrl{
+            .form-ctrl {
                 background: transparent;
                 border-bottom: 1px solid $common-blue;
             }
@@ -1413,14 +1446,12 @@
         .field-checkbox-wrapper .form-checkbox:checked+label {
             color: $common-blue;
         }
-        
     }
 }
 
 input[type='number'] {
     -moz-appearance: textfield;
 }
-
 
 /* Webkit browsers like Safari and Chrome */
 
@@ -1819,7 +1850,6 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
-
 /*=====================================middle top section css===================*/
 
 .middle-top {
@@ -1866,7 +1896,6 @@ input[type=number]::-webkit-outer-spin-button {
     font-size: 16px;
     height: 40px;
 }
-
 
 /*==================================middle bottom css=========================*/
 
@@ -1941,9 +1970,7 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
-
 /* import accordian css*/
-
 
 /*==========================Middle Enquiry CSS=================================*/
 
@@ -1960,7 +1987,6 @@ input[type=number]::-webkit-outer-spin-button {
     stroke: $common-blue;
     stroke-miterlimit: 10;
 }
-
 
 /* ======================= Right Side bar CSS =================================== */
 
@@ -2003,7 +2029,6 @@ input[type=number]::-webkit-outer-spin-button {
         margin-top: 4px;
     }
 }
-
 
 /*=======================Right bottom lite shadow box======================*/
 
@@ -2061,7 +2086,6 @@ input[type=number]::-webkit-outer-spin-button {
 .unstyled-calendar::-webkit-calendar-picker-indicator {
     -webkit-appearance: none;
 }
-
 
 /* ======================== Responsive Data ================================== */
 
@@ -2338,7 +2362,7 @@ input[type=number]::-webkit-outer-spin-button {
     overflow-y: scroll;
     border-top: 1px solid rgba(97, 96, 96, 0.47843137254901963);
     padding: 20px 10px;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
     }
     .row {

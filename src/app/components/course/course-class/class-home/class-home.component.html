@@ -126,24 +126,24 @@
                         </div>
                         <div class="c-lg-3 c-md-3 c-sm-3">
                           <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.subject_id != '-1'}">
-                            <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.subject_id">
+                            <select id="selectsub" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.subject_id">
                               <option value="-1"></option>
                               <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
                                 {{subject.subject_name}}
                               </option>
                             </select>
-                            <label for="sc">Select Subject</label>
+                            <label for="selectsub">Select Subject</label>
                           </div>
                         </div>
                         <div class="c-lg-3 c-md-3 c-sm-3">
                           <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.teacher_id != '-1'}">
-                            <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.teacher_id">
+                            <select id="selectteacher" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.teacher_id">
                               <option value="-1"></option>
                               <option [value]="subject.teacher_id" *ngFor="let subject of teacherList">
                                 {{subject.teacher_name}}
                               </option>
                             </select>
-                            <label for="sc">Select Teacher</label>
+                            <label for="selectteacher">Select Teacher</label>
                           </div>
                         </div>
                       </div>

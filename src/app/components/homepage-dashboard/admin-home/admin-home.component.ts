@@ -699,7 +699,7 @@ export class AdminHomeComponent implements OnInit {
           let obj = {
             type: 'error',
             title: 'No Student In Batch',
-            body: JSON.parse(err._body).message
+            body: err.error.message
           }
           this.appC.popToast(obj);
         }

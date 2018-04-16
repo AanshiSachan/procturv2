@@ -44,8 +44,8 @@ export class CourseAddComponent implements OnInit {
 
   nestedTableDataSource: any;
   examGradeFeature: any;
-  @ViewChild('standardName') StandardName: ElementRef;
-  @ViewChild('masterCourse') MasterCourseDDn: ElementRef;
+  @ViewChild('standardNameDDn') StandardName: ElementRef;
+  @ViewChild('masterCourseInput') MasterCourseDDn: ElementRef;
 
   constructor(
     private apiService: CourseListService,
