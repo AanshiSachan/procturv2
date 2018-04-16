@@ -18,7 +18,7 @@
       <div class="row" style="margin-left:20px">
         <div class="c-lg-3 c-md-3 c-sm-3">
           <div class="field-wrapper" [ngClass]="{'has-value' : newCourseAdd.master_course_name != ''}">
-            <input type="text" id="idMasterCourse" name="masterCourse" [(ngModel)]="newCourseAdd.master_course_name" class="form-ctrl"
+            <input type="text" id="idMasterCourse" #masterCourseInput name="masterCourse" [(ngModel)]="newCourseAdd.master_course_name" class="form-ctrl"
             />
             <label for="idMasterCourse">Master Course
               <span style="color:red">*</span>
@@ -27,7 +27,7 @@
         </div>
         <div class="c-lg-3 c-md-3 c-sm-3">
           <div class="field-wrapper" [ngClass]="{'has-value' : newCourseAdd.standard_id != '-1'}">
-            <select id="idStandardName" class="form-ctrl" [(ngModel)]="newCourseAdd.standard_id">
+            <select id="idStanadardName" #standardNameDDn class="form-ctrl" [(ngModel)]="newCourseAdd.standard_id">
               <option value="-1"></option>
               <option *ngFor="let opt of standardNameList" [value]="opt.standard_id">
                 {{opt.standard_name}}

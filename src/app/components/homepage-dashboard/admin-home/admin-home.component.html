@@ -1125,6 +1125,12 @@
                   <button class="btn fullBlue" style=" margin-top: 15px;" (click)="fetchDataFromFields()">Go</button>
                 </div>
 
+                <div *ngIf="studentList.length > 0" class="pull-right" style="margin-top: 15px">
+                  <div class="search-filter">
+                    <input type="text" [(ngModel)]="searchData" class="normal-field" placeholder="Search" name="searchData" #searchVal>
+                  </div>
+                </div>
+
               </div>
 
               <span class="borderWithText">
@@ -1186,7 +1192,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let row of studentList; let i = index; trackBy: i;">
+                    <tr *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i; ">
                       <td>
                         <div class="field-checkbox-wrapper">
                           <input type="checkbox" class="form-checkbox" (ngModelChange)="onCheckBoxEvent($event , row)" [(ngModel)]="row.assigned">
@@ -1245,7 +1251,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let row of studentList; let i = index; trackBy: i;">
+                    <tr *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
                       <td>
                         <div class="field-checkbox-wrapper">
                           <input type="checkbox" class="form-checkbox" (ngModelChange)="onCheckBoxEvent($event , row)" [(ngModel)]="row.assigned">

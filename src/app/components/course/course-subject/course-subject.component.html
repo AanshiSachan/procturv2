@@ -36,7 +36,7 @@
               {{opt.standard_name}}
             </option>
           </select>
-          <label *ngIf="(isLangInstitue != true )" for="masterCourse">Class  Name
+          <label *ngIf="(isLangInstitue != true )" for="masterCourse">Standard Name
             <span style="color:red">*</span>
           </label>
           <label *ngIf="(isLangInstitue == true )" for="masterCourse">Master Course Name
@@ -50,7 +50,7 @@
           <label *ngIf="(isLangInstitue != true )" for="subname">
             Subject Name
           </label>
-          <label *ngIf="(isLangInstitue == true )">
+          <label *ngIf="(isLangInstitue == true )" for="subname">
             Course Name
             <span style="color:red">*</span>
           </label>
@@ -91,8 +91,8 @@
               <label style="cursor:pointer;" (click)="sortTable('is_active')">Is Active</label>
             </th>
             <th>
-                <i *ngIf="sortingDir == 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-up" style="font-family: FontAwesome;"></i>
-                <i *ngIf="sortingDir != 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-down" style="font-family: FontAwesome;"></i>
+              <i *ngIf="sortingDir == 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-up" style="font-family: FontAwesome;"></i>
+              <i *ngIf="sortingDir != 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-down" style="font-family: FontAwesome;"></i>
               <label style="cursor:pointer;" (click)="sortTable('created_date')">Added Date</label>
             </th>
             <th>
@@ -144,16 +144,14 @@
               </a>
             </td>
             <td class="edit-comp">
-              <a style="cursor: pointer; margin-right: 10px;" (click)="updateRow(row,i)" >
-
-                <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px;" title="Update" ></i>
+              <a style="cursor: pointer; margin-right: 10px;" (click)="updateRow(row,i)">
+                <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i>
               </a>
-              <label (click)="updateRow(row,i)" >Save</label>
+              <label (click)="updateRow(row,i)">Save</label>
               <a style="cursor: pointer;" (click)="cancelRow(i)">
-
                 <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
+                Cancel
               </a>
-              <label (click)="cancelRow(i)">Cancel</label>
             </td>
           </tr>
         </tbody>
