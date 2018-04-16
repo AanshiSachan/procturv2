@@ -1210,7 +1210,19 @@
                           <div class="field-checkbox-wrapper checkbox-bundle-wrapper" style="width: 100%">
                             <input type="checkbox" disabled="true" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.is_exam_grad_feature"
                               id="ch78">
-                            <label for="ch78">Enable Exam Grading System</label>
+                            <label for="ch78">Enable Exam Grading System
+                              <div class="questionInfo inline-relative examGrade">
+                                <span class="qInfoIcon i-class">i</span>
+                                <div class="tooltip-box-field">
+
+                                  Allow to use Exam Grades instead
+                                  <br>of Marks. Useful in institutes where
+                                  <br>grading is used for exams.
+                                  <br>Note that exam grades are allowed
+                                  <br>to be enabled/disabled at course Level
+                                </div>
+                              </div>
+                            </label>
                           </div>
                         </div>
                         <div class="row" *ngIf="(isLangInst == false && test_series_feature == '1')">
@@ -1232,6 +1244,17 @@
                             <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.absent_attendance_in_a_month_threshold" class="form-ctrl"
                               name="slotNew" id="ch80">
                             <label for="ch80">Absent Attendance Threshold: (In 15 Days)
+
+                              <div class="questionInfo inline-relative absentThreshold">
+                                <span class="qInfoIcon i-class">i</span>
+                                <div class="tooltip-box-field">
+
+                                  Email with student attendance absent details are sent to Admin
+                                  <br>on every 15th and 30th day of the month, based on below criteria:
+                                  <br>Student is absent in a batch for more than the threshold value (e.g 3).
+                                </div>
+                              </div>
+
                             </label>
                           </div>
                         </div>
@@ -1483,7 +1506,15 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_fee_activity_email_recipients != ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.inst_fee_activity_email_recipients" class="form-ctrl" name="slotNew"
                                 id="ch89">
-                              <label for="ch89">Point Of Contact(s)(Email IDs) for Fee Activities
+                              <label for="ch89">Email IDs for Fee Activites
+                                <div class="questionInfo inline-relative pointOfComtact">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field">
+                                    All Fee level reporting / activity
+                                    <br>details are shared
+                                    <br>to these Email contacts
+                                  </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1701,13 +1732,14 @@
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.allow_simple_registration"
                                 id="ch103">
                               <label for="ch103">Allow Simple Registration
-                                <div class="questionInfo inline-relative">
+                                <div class="questionInfo inline-relative allowRegistration">
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field md">
-                                    When enabled then App
-                                    <br>Download/Login details
-                                    <br>are not send in
-                                    <br>registration SMS.
+                                    When enabled, Simple student registration message is sent without any app URLs.
+                                    <br>Student Registratoin SMS Format: Dear, Student Name, Your registration is complete.
+                                    <br>Please verify your details ID: Student Details. Please contact for any changes.
+                                    <br>Best Wishes,
+                                    <br>{{instituteName}}
                                   </div>
                                 </div>
                               </label>
