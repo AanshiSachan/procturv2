@@ -4,7 +4,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SearchPipe implements PipeTransform {
     public transform(value, term: string) {
-        debugger
         if (!term) return value;
         if (value.length > 0) {
             let data = value.filter(item =>

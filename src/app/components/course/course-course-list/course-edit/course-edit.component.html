@@ -36,7 +36,8 @@
         <table class="table-courseEdit">
           <thead>
             <tr>
-              <th></th>
+              <th>
+              </th>
               <th>
                 Course Name
               </th>
@@ -56,7 +57,7 @@
           </thead>
           <tbody>
             <tr id="row{{i}}" *ngFor="let row of mainTableDataSource; let i= index ; trackBy:index">
-              <td class="noborder" style="padding: 0px;" colspan="5">
+              <td class="noborder" style="padding: 0px;" colspan="6">
                 <div id="show{{i}}" class="nestedTable nested-Table-Show-Wrapper">
                   <div class="">
                     <table>
@@ -92,7 +93,7 @@
                           </td>
                           <td *ngIf="examGradeFeature == 1">
                             <div class="field-checkbox-wrapper" style="margin-top: 25px;">
-                              <input type="checkbox" value="" style="background: transparent" [(ngModel)]="mainTableDataSource[i].is_exam_grad_feature"
+                              <input type="checkbox" value="" style="background: transparent" [disabled]="mainTableDataSource[i].course_id > '0'" [(ngModel)]="mainTableDataSource[i].is_exam_grad_feature"
                                 name="allow" class="form-checkbox" id="allow">
                               <label for="allow">Allow Exam Grades</label>
                             </div>
