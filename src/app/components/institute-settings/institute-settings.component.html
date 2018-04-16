@@ -81,7 +81,7 @@
                   </div>
                 </div>
 
-                <p>(Extra, Exam and Cancel Class Only)</p>
+                <p>(Extra class, Exam class and Cancel Class Only)</p>
               </label>
             </div>
           </div>
@@ -1181,7 +1181,7 @@
                                 </label>
                               </div>
                             </div>
-                            <div class="c-md-12">
+                            <div class="c-md-12" *ngIf="instituteSettingDet.rank_to_send_for_marks_sms != 0 && instituteSettingDet.rank_to_send_for_marks_sms != false">
                               <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.rank_no_for_marks_sms >= '0'}">
                                 <input type="number" min="0" max="99999" id="inputSpecifyRank" [(ngModel)]="instituteSettingDet.rank_no_for_marks_sms" class="form-ctrl"
                                   name="slotNew">
@@ -1705,8 +1705,8 @@
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field md">
-                                    When enabled then App 
-                                    <br>Download/Login details 
+                                    When enabled then App
+                                    <br>Download/Login details
                                     <br>are not send in
                                     <br>registration SMS.
                                   </div>
