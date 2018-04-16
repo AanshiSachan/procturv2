@@ -2,16 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { ExamService } from '../../../services/report-services/exam.service';
 import { AppComponent } from '../../../app.component';
-import {FilterPipe} from './filter.pipe';
+import { FilterPipe } from './filter.pipe';
+import { lang } from 'moment';
 @Component({
   selector: 'app-exam-report',
   templateUrl: './exam-report.component.html',
   styleUrls: ['./exam-report.component.scss']
 })
 export class ExamReportComponent implements OnInit {
-
+  isProfessional: boolean = true;
   pageIndex: number = 1;
+  batchExamRepo:any[]=[];
   totalRecords: number = 0;
+  dateSource :any[]=[];
+  dateStore :any[]=[];
   displayBatchSize: number = 10;
   Tdata: boolean = false;
   courseData: any[] = [];
@@ -19,31 +23,44 @@ export class ExamReportComponent implements OnInit {
   SubjectData: any[] = [];
   masterCourses: any[] = [];
   masterData = "";
+  addReportPopup: boolean = false;
+  examTypeEntry: any[] = [];
   Exam_sche_Data = "";
   Exam_Sch_Data: any[] = [];
   ExamSource: any = [];
-  DetailSource :any=[];
-  pagedExamSource: any = [];
-  studentName="";
+  detailSource: any = [];
+  pagedExamSource: any[] = [];
+  studentName = "";
   FetchApiData: any = [];
- 
+  dataExamIndex: any[] = [];
+  typeDataForm: any[] = [];
+
+
 
 
   projectSettings: ColumnSetting[] = [
 
-    { primaryKey: 'student_id', header: 'Student Name' },
-    { primaryKey: 'student_name', header: 'Student Id' },
+
+    { primaryKey: 'student_id', header: 'Student Id' },
+    { primaryKey: 'student_name', header: 'Student Name' },
     { primaryKey: 'total_marks', header: 'Total Marks' },
     { primaryKey: 'marks_obtained', header: 'Marks Obtained' },
     { primaryKey: 'student_phone', header: 'Contact No.' },
     { primaryKey: 'rank', header: 'Rank' },
     { primaryKey: 'doj', header: 'Joining Date' }
-  ]
+  ];
 
-  constructor(private examdata: ExamService,private appC: AppComponent) {
+  constructor(private examdata: ExamService, private appC: AppComponent) {
     this.switchActiveView('exam');
   }
 
+  queryParam={
+
+standard_id:-1,
+subject_id:-1,
+assigned :"N",
+
+  }
   fetchFieldData = {
     institution_id: parseInt(sessionStorage.getItem('institute_id')),
     standard_id: '',
@@ -52,16 +69,28 @@ export class ExamReportComponent implements OnInit {
     exam_schd_id: ''
   }
 
-
-
   ngOnInit() {
+    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+
     this.fetchExamData();
     this.pageIndex = 1;
+  }
+  closeReportPopup() {
 
+    this.addReportPopup = false;
+  };
+
+  fetchExamData() {
+  if(this.isProfessional){
+    this.examdata.batchExamReport(this.queryParam).subscribe((res)=>
+  {
+    this.batchExamRepo=res;
+    console.log(res);
+    
+  })
 
   }
-fetchExamData() {
-
+  else{
     this.examdata.ExamReport().subscribe(
       (data: any) => {
         this.masterCourses = data;
@@ -69,7 +98,7 @@ fetchExamData() {
       }
     )
 
-  }
+  }};
 
   fetchExamReport() {
 
@@ -108,18 +137,39 @@ fetchExamData() {
     }
   }
 
-
-  fetchDetailReport(id){
-  this.examdata.viewDetailData(id).subscribe(
-    res=>{
-      this.DetailSource=res;
-      console.log(res);
-    },
-    err=>{
-      console.log(err);
+  fetchDetailReport() {
+    this.addReportPopup= true;
+    if (this.fetchFieldData.standard_id == "" || this.fetchFieldData.subject_id == "" || this.fetchFieldData.batch_id == "" ||
+      this.fetchFieldData.exam_schd_id == "") {
+      let msg = {
+        type: "error",
+        title: "Invalid Date Range Selected",
+        Body: "From date cannot be greater than To date"
+      }
+      this.appC.popToast(msg);
     }
-  )
-};
+    else {
+     
+      this.examdata.viewDetailData(this.fetchFieldData.batch_id)
+        .subscribe(
+          res => {
+            
+
+            this.detailSource = res;
+            this.dateSource=this.detailSource.map((store)=>{
+            this.dateStore=store.detailExamReportList; 
+            });
+
+            console.log(this.detailSource);
+            console.log(res);
+            this.addReportPopup = true;
+          },
+          err => {
+            console.log(err);
+          }
+        )
+    }
+  };
 
   /*  
   else{
