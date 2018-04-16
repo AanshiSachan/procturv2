@@ -1595,8 +1595,7 @@
                         <div class="row">
                           <div class="c-lg-6">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.pre_enquiry_follow_up_reminder_time != ''}">
-                              <select id="" class="form-ctrl" name="instituteSettingDet.pre_enquiry_follow_up_reminder_time" (focus)="inputClickedCheck($event)"
-                                [(ngModel)]="instituteSettingDet.pre_enquiry_follow_up_reminder_time">
+                              <select id="pre_enquiry_follow_up_reminder_time" class="form-ctrl" name="pre_enquiry_follow_up_reminder_time" [(ngModel)]="instituteSettingDet.pre_enquiry_follow_up_reminder_time">
                                 <option value="-1">---select---</option>
                                 <option value="00:15">15 minutes before</option>
                                 <option value="00:30">30 minutes before</option>
@@ -1604,7 +1603,7 @@
                                 <option value="02:00">2 hour before</option>
                                 <option value="24:00">1 day before</option>
                               </select>
-                              <label>Enquiry Follow up Reminder Notification ?
+                              <label for="pre_enquiry_follow_up_reminder_time">Enquiry Follow up Reminder Notification
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field lg">
@@ -1619,7 +1618,7 @@
                           </div>
                           <div class="c-lg-6">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.post_enquiry_follow_up_reminder_time != ''}">
-                              <select id="" class="form-ctrl" name="instituteSettingDet.post_enquiry_follow_up_reminder_time" (focus)="inputClickedCheck($event)"
+                              <select id="post_enquiry_follow_up_reminder_time" class="form-ctrl" name="instituteSettingDet.post_enquiry_follow_up_reminder_time"
                                 [(ngModel)]="instituteSettingDet.post_enquiry_follow_up_reminder_time">
                                 <option value="-1">---select---</option>
                                 <option value="00:15">After 15 minutes</option>
@@ -1628,14 +1627,14 @@
                                 <option value="02:00">After 2 hour</option>
                                 <option value="24:00">After 1 day</option>
                               </select>
-                              <label>Enquiry Follow up Reminder Notification Past due date/time ? </label>
+                              <label for="post_enquiry_follow_up_reminder_time">Enquiry Follow up Reminder Notification Past due date/time</label>
                             </div>
                           </div>
                           <div class="c-lg-6" style="margin-left:-15px;margin-top:15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.daily_account_summary"
-                                id="">
-                              <label for="enableSMS">Daily Account Summary
+                                id="daily_account_summary">
+                              <label for="daily_account_summary">Daily Account Summary
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field md">
@@ -1649,10 +1648,10 @@
                               </label>
                             </div>
                           </div>
-                          <div class="c-lg-6">
+                          <div class="c-lg-6" style="margin-left: 15px;" *ngIf="instituteSettingDet.daily_account_summary == '1' || instituteSettingDet.daily_account_summary == true">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.emailids_for_report != ''}">
-                              <input type="text" [(ngModel)]="instituteSettingDet.emailids_for_report" class="form-ctrl" name="slotNew">
-                              <label for="slotNew">Point Of Contact(s)(Email IDs) for Reports
+                              <input type="text" [(ngModel)]="instituteSettingDet.emailids_for_report" class="form-ctrl" name="daily_account_summary" id="dailyConatctID">
+                              <label for="dailyConatctID">Point Of Contact(s)(Email IDs) for Reports
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field md">
