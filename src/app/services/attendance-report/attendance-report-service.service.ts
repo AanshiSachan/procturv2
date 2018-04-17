@@ -3,6 +3,7 @@ import {HttpClient,  HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
 import {Observable} from 'rxjs/observable';
 import { error } from 'protractor';
+import{ResponseContentType} from '@angular/http';
 @Injectable()
 export class AttendanceReportServiceService {
   baseUrl: string = '';
@@ -15,12 +16,13 @@ export class AttendanceReportServiceService {
   constructor(private http:HttpClient , private auth: AuthenticatorService) { 
 
     this.institute_id = this.auth.getInstituteId();
+
     this.Authorization = this.auth.getAuthToken();
     //console.log(this.institute_id);
     this.baseUrl = this.auth.getBaseUrl();
     this.headers = new HttpHeaders(
       { "Content-Type": "application/json", "Authorization": this.Authorization });
-
+      
   }
   ngOnInit(){
     this.getMasterCourse();
@@ -113,5 +115,10 @@ export class AttendanceReportServiceService {
     )
 
   }
-  
+  excelTableDownload(body){
+
+    let user_token:string = this.Authorization.getToken();
+    
+
+  }
 }

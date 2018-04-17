@@ -141,7 +141,7 @@
         </section>
     </aside>
 
-    
+
 
     <proctur-popup [sizeWidth]="'large'" *ngIf="addReportPopUp">
 
@@ -296,12 +296,12 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="row filter-res pagination" style="width: 100%;">
-            <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
-                    [page]="PageIndexPopup" [perPage]="pagedisplaysizePopup" [count]="totalRowPopup">
-                </pagination>
+
+            <div class="row filter-res pagination" style="width: 100%;">
+                <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                    <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
+                        [page]="PageIndexPopup" [perPage]="pagedisplaysizePopup" [count]="totalRowPopup">
+                    </pagination>
+                </div>
             </div>
         </div>
-</div>
