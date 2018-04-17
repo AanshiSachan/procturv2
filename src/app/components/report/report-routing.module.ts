@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { ReportComponent } from './report.component';
 import { ReportHomeComponent } from './report-home/report-home.component'
 import { SmsReportComponent } from './sms-report/sms-report.component'
-import { AttendanceReportComponent } from './attendance-report/attendance-report.component';
+import { AttendanceReportComponent } from './attendance-report/attendanceReport.component';
 import { EmailReportComponent } from './email-report/email-report.component';
 import { ExamReportComponent } from './exam-report/exam-report.component';
 import { FeeReportComponent } from './fee-report/fee-report.component';

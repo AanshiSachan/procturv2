@@ -16,7 +16,7 @@ import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import { ReportHomeComponent } from './report-home/report-home.component';
 import { SmsReportComponent } from './sms-report/sms-report.component';
-import { AttendanceReportComponent } from './attendance-report/attendance-report.component';
+import { AttendanceReportComponent } from './attendance-report/attendanceReport.component';
 import { FeeReportComponent } from './fee-report/fee-report.component';
 import { ExamReportComponent } from './exam-report/exam-report.component';
 import { ReportCardComponent } from './report-card/report-card.component';
