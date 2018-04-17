@@ -15,6 +15,7 @@ import { CampaignAddComponent } from './campaign-add/campaign-add.component';
 import { CampaignBulkComponent } from './campaign-bulk/campaign-bulk.component';
 import { CampaignPopUpComponent } from './campaign-pop-up/campaign-pop-up.component';
 import { SharedModule } from '../shared/shared.module';
+import { CampaignService } from '../../services/campaign-services/campaign.service';
 
 @NgModule({
     imports: [
@@ -41,6 +42,7 @@ import { SharedModule } from '../shared/shared.module';
     entryComponents: [        
     ],
     providers: [
+        CampaignService,
     ]
 })
 export class CampaignModule {
