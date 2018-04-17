@@ -20,6 +20,9 @@ export class PostStudentDataService {
     constructor(private http: Http, private auth: AuthenticatorService) {
         this.auth.currentAuthKey.subscribe(key => {
             this.authorization = key;
+            this.headers = new Headers();
+            this.headers.append("Content-Type", "application/json");
+            this.headers.append("Authorization", this.authorization);
         })
         this.auth.currentInstituteId.subscribe(id => {
             this.institute_id = id;
@@ -27,9 +30,7 @@ export class PostStudentDataService {
         // this.authorization = this.auth.getAuthToken();
         // this.institute_id = this.auth.getInstituteId();
         this.baseUrl = this.auth.getBaseUrl();
-        this.headers = new Headers();
-        this.headers.append("Content-Type", "application/json");
-        this.headers.append("Authorization", this.authorization);
+
     }
 
     quickAddStudent(form) {

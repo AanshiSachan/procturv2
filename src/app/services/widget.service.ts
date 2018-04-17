@@ -23,17 +23,14 @@ export class WidgetService {
     constructor(private http: HttpClient, private auth: AuthenticatorService) {
         this.auth.currentAuthKey.subscribe(key => {
             this.Authorization = key;
-            console.log(this.Authorization);
+            this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
         })
         this.auth.currentInstituteId.subscribe(id => {
             this.institute_id = id;
-            console.log(this.institute_id);    
         });
         // this.institute_id = this.auth.getInstituteId();
         // this.Authorization = this.auth.getAuthToken();
         this.baseUrl = this.auth.getBaseUrl();
-        this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
-
     }
 
 

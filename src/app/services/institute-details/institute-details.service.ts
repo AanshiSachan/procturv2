@@ -14,6 +14,8 @@ export class InstituteDetailService {
     constructor(private http: HttpClient, private auth: AuthenticatorService) {
         this.auth.currentAuthKey.subscribe(key => {
             this.Authorization = key;
+            this.headers = new HttpHeaders(
+                { "Content-Type": "application/json", "Authorization": this.Authorization });
         })
         this.auth.currentInstituteId.subscribe(id => {
             this.institute_id = id;
@@ -21,8 +23,7 @@ export class InstituteDetailService {
         // this.institute_id = this.auth.getInstituteId();
         // this.Authorization = this.auth.getAuthToken();
         this.baseURL = this.auth.getBaseUrl();
-        this.headers = new HttpHeaders(
-            { "Content-Type": "application/json", "Authorization": this.Authorization });
+
     }
 
     successCallback(res) {

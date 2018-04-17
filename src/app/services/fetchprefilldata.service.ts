@@ -48,18 +48,19 @@ export class FetchprefilldataService {
   constructor(private http: Http, private auth: AuthenticatorService) {
     this.auth.currentAuthKey.subscribe( key => {
       this.Authorization = key;
+      this.headers = new Headers();
+      this.headers.append("Content-Type", "application/json");
+      this.headers.append("Authorization", this.Authorization);
+      this.baseUrl = this.auth.getBaseUrl();
+      this.headersPost = new Headers();
+      this.headersPost.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
     }) 
     this.auth.currentInstituteId.subscribe( id => {
       this.institute_id = id;
     });
     // this.Authorization = this.auth.getAuthToken();
     // this.institute_id = this.auth.getInstituteId();
-    this.headers = new Headers();
-    this.headers.append("Content-Type", "application/json");
-    this.headers.append("Authorization", this.Authorization);
-    this.baseUrl = this.auth.getBaseUrl();
-    this.headersPost = new Headers();
-    this.headersPost.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+
   }
 
 
