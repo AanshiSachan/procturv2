@@ -198,4 +198,21 @@ export class CampaignService {
     );
   }
 
+  fetchAllSms() {
+
+
+    this.urlFetchAllSms = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id + "/all";
+
+    let data = {
+      feature_type: 2,
+      sms_type: "Transactional"
+    }
+
+
+    return this.http.post(this.urlFetchAllSms, data, { headers: this.headers }).map(
+      res => { return res.json() }
+    );
+
+  }
+
 }
