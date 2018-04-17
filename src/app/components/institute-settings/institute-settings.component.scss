@@ -3,8 +3,6 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-
-
 .table-responsive {
     tr {
         td {
@@ -16,6 +14,7 @@
         }
     }
 }
+
 hr {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -547,7 +546,7 @@ input[type=number]::-webkit-outer-spin-button {
         font-size: 14px;
         color: black;
         &.bsDatepicker {
-            padding: 5px; 
+            padding: 5px;
             width: 100%;
         }
     }
@@ -661,4 +660,38 @@ tr {
     left: 28px;
     top: -30px;
     white-space: nowrap;
+}
+
+.examGrade {
+    .tooltip-box-field {
+        width: 225px;
+        top: -38px;
+    }
+    & ::after {
+        top: 35px;
+    }
+}
+
+.pointOfComtact {
+    .tooltip-box-field {
+        width: 180px;
+        top: -30px;
+    }
+    & ::after {
+        top: 30px;
+    }
+}
+
+.absentThreshold {
+    .tooltip-box-field {
+        width: 400px;
+        top: -5px;
+    }
+}
+
+.allowRegistration {
+    .tooltip-box-field {
+        width: 480px;
+        // top: -5px;
+    }
 }

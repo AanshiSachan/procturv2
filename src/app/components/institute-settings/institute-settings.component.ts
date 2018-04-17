@@ -208,6 +208,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
   };
   onlinePayment: any = '0';
   test_series_feature: any = '0';
+  instituteName: any = '';
 
   constructor(
     private appC: AppComponent,
@@ -221,6 +222,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.instituteName = sessionStorage.getItem('institute_name');
     this.onlinePayment = JSON.parse(sessionStorage.getItem('institute_info')).enable_online_payment_feature;
     this.changeView('liSMS', 'divSMSContent');
     this.checkInstitutionType();
