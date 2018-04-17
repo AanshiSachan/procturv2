@@ -31,8 +31,14 @@ export class InventoryService {
   baseUrl: string = "";
 
   constructor(private http: Http, private auth: AuthenticatorService) {
-    this.Authorization = this.auth.getAuthToken();
-    this.institute_id = this.auth.getInstituteId();
+    this.auth.currentAuthKey.subscribe(key => {
+      this.Authorization = key;
+    })
+    this.auth.currentInstituteId.subscribe(id => {
+      this.institute_id = id;
+    });
+    // this.Authorization = this.auth.getAuthToken();
+    // this.institute_id = this.auth.getInstituteId();
     this.baseUrl = this.auth.getBaseUrl();
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
@@ -100,7 +106,7 @@ export class InventoryService {
 
   getCourseOnBasisOfMasterCourse(data_id) {
     let url = this.baseUrl + "/api/v1/subjects/standards/" + data_id;
-    return this.http.get( url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).map(
       data => {
         return data.json();
       },
@@ -112,7 +118,7 @@ export class InventoryService {
   addItemDetailsInCategory(data: AddCategoryInInventory) {
     data.institution_id = this.institute_id;
     let url = this.baseUrl + "/api/v1/inventory/item";
-    return this.http.post( url, data, { headers: this.headers }).map(
+    return this.http.post(url, data, { headers: this.headers }).map(
       data => {
         return data.json();
       },
@@ -125,7 +131,7 @@ export class InventoryService {
   addQuantityInStock(data) {
     data.institution_id = this.institute_id;
     let url = this.baseUrl + "/api/v1/inventory/item/stockUpdate/";
-    return this.http.put( url, data, { headers: this.headers }).map(
+    return this.http.put(url, data, { headers: this.headers }).map(
       data => {
         return data.json();
       },
@@ -136,7 +142,7 @@ export class InventoryService {
 
   getItemDetailsForSubBranches(item_id) {
     let url = this.baseUrl + "/api/v1/inventory/item/" + this.institute_id + "/" + item_id;
-    return this.http.get( url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).map(
       data => {
         return data.json();
       },
@@ -148,7 +154,7 @@ export class InventoryService {
 
   getAllSubBranchesInfo() {
     let url = this.baseUrl + '/api/v1/institutes/all/subBranches/' + this.institute_id;
-    return this.http.get( url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).map(
       data => {
         return data.json();
       },
@@ -160,7 +166,7 @@ export class InventoryService {
 
   getSubBranchItemInfo(dataId) {
     let url = this.baseUrl + '/api/v1/inventory/item/all/' + dataId;
-    return this.http.get( url, { headers: this.headers }).map(
+    return this.http.get(url, { headers: this.headers }).map(
       data => {
         return data.json();
       },
@@ -174,7 +180,7 @@ export class InventoryService {
     data.institution_id = this.institute_id;
 
     let url = this.baseUrl + '/api/v1/inventory/item/allocate/subBranch';
-    return this.http.post( url, data, { headers: this.headers }).map(
+    return this.http.post(url, data, { headers: this.headers }).map(
       data => {
         return data.json();
       },
@@ -186,7 +192,7 @@ export class InventoryService {
 
   getInventoryItemHistory(item_id) {
     let url = this.baseUrl + "/api/v1/inventory/item/txHistory/" + item_id;
-    return this.http.get(url , {headers : this.headers}).map(
+    return this.http.get(url, { headers: this.headers }).map(
       res => {
         return res.json();
       },

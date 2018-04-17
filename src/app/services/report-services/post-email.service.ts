@@ -21,8 +21,14 @@ export class postEmailService {
 
     /* set default value for each url, header and autherization on service creation */
     constructor(private http: Http, private auth: AuthenticatorService,) {
-        this.Authorization = sessionStorage.getItem('Authorization');
-        this.institute_id = sessionStorage.getItem('institute_id');
+        this.auth.currentAuthKey.subscribe( key => {
+            this.Authorization = key;
+          }) 
+          this.auth.currentInstituteId.subscribe( id => {
+            this.institute_id = id;
+          });
+        // this.Authorization = sessionStorage.getItem('Authorization');
+        // this.institute_id = sessionStorage.getItem('institute_id');
         this.baseUrl = this.auth.getBaseUrl();
         this.headers = new Headers();
         this.headers.append("Content-Type", "application/json");

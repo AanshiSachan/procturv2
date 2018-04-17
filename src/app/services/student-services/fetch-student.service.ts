@@ -23,8 +23,14 @@ export class FetchStudentService {
   headers: Headers;
 
   constructor(private http: Http, private auth: AuthenticatorService) {
-    this.authorization = this.auth.getAuthToken();
-    this.institute_id = this.auth.getInstituteId();
+    this.auth.currentAuthKey.subscribe( key => {
+      this.authorization = key;
+    }) 
+    this.auth.currentInstituteId.subscribe( id => {
+      this.institute_id = id;
+    });
+    // this.authorization = this.auth.getAuthToken();
+    // this.institute_id = this.auth.getInstituteId();
     this.baseUrl = this.auth.getBaseUrl();
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");

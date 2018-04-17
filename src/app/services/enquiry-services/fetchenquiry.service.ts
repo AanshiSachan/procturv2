@@ -31,8 +31,12 @@ export class FetchenquiryService {
 
   /* initialize the value of variables on service call */
   constructor(private http: Http, private auth: AuthenticatorService) {
-    this.Authorization = this.auth.getAuthToken();
-    this.institute_id = this.auth.getInstituteId();
+    this.auth.currentAuthKey.subscribe( key => {
+      this.Authorization = key;
+    }) 
+    this.auth.currentInstituteId.subscribe( id => {
+      this.institute_id = id;
+    }); 
     this.baseUrl = this.auth.getBaseUrl();
     this.url = this.baseUrl + "/api/v1/enquiry/dashboard/" + this.institute_id;
     this.headers = new Headers();
@@ -41,7 +45,6 @@ export class FetchenquiryService {
 
     this.headersEncoded = new Headers();
     this.headersEncoded.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-
   }
 
 

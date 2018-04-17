@@ -9,13 +9,20 @@ export class InventoryCategoryService {
 
   baseUrl = '';
   Authorization: any;
+  institute_id:string;
   headers;
 
   constructor(
     private http: HttpClient,
     private auth: AuthenticatorService
   ) {
-    this.Authorization = this.auth.getAuthToken();
+    this.auth.currentAuthKey.subscribe( key => {
+      this.Authorization = key;
+    }) 
+    this.auth.currentInstituteId.subscribe( id => {
+      this.institute_id = id;
+    });
+    // this.Authorization = this.auth.getAuthToken();
     this.baseUrl = this.auth.getBaseUrl();
     this.headers = new HttpHeaders(
       { "Content-Type": "application/json", "Authorization": this.Authorization });
@@ -23,7 +30,7 @@ export class InventoryCategoryService {
 
   // Getting all category list from server
   getCategoryList() {
-    let institution_id = this.auth.getInstituteId();
+    let institution_id = parseInt(this.institute_id);
     let url = this.baseUrl + '/api/v1/inventory/category/all/' + institution_id;
     return this.http.get(url , { headers: this.headers }).map(
       success => {
@@ -37,7 +44,7 @@ export class InventoryCategoryService {
 
   // Add new category to the category list
   setNewCategory(data: AddCategory) {
-    data.institution_id = this.auth.getInstituteId();
+    data.institution_id = parseInt(this.institute_id);
     let url = this.baseUrl + '/api/v1/inventory/category';
     return this.http.post(url, data, { headers: this.headers }).map(
       success => {

@@ -20,8 +20,14 @@ export class FeeStrucService {
 
 
     constructor(private http: HttpClient, private auth: AuthenticatorService) {
-        this.institute_id = this.auth.getInstituteId();
-        this.Authorization = this.auth.getAuthToken();
+        this.auth.currentAuthKey.subscribe(key => {
+            this.Authorization = key;
+        })
+        this.auth.currentInstituteId.subscribe(id => {
+            this.institute_id = id;
+        });
+        // this.institute_id = this.auth.getInstituteId();
+        // this.Authorization = this.auth.getAuthToken();
         this.baseUrl = this.auth.getBaseUrl();
         this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
     }

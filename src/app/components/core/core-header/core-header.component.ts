@@ -25,7 +25,6 @@ export class CoreHeaderComponent implements OnInit {
 
     this.log.currentUsername.subscribe(res => {
       this.userName = res;
-      //this.updatePermissions();
     });
 
     this.checkUserHadAccess();
