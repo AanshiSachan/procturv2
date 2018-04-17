@@ -89,8 +89,6 @@ export class AttendanceReportComponent implements OnInit {
 
 
   ngOnInit() {
-
-
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.getMasterCourseData();
   }
