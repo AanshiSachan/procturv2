@@ -168,7 +168,7 @@
                   </td>
                   <td>
                     <div class="form-wrapper">
-                      <input type="number" min="0" [readonly]="addNewTemplate.tax_type == '3'" class="editCellInput" (ngModelChange)="userChangedAmountTotalAmount(row ,$event)"
+                      <input type="number" min="0" [readonly]="addNewTemplate.tax_type == '3'" class="editCellInput" (keyup)="userChangedAmountTotalAmount(row ,$event)"
                         [(ngModel)]="row.totalAmount" name="label" class="side-form-ctrl">
                     </div>
                   </td>
@@ -286,7 +286,7 @@
                   </td>
                   <td>
                     <div class="form-wrapper">
-                      <input type="number" min="0" class="editCellInput" (ngModelChange)="userChangeAdditionalFeeAmount(row , $event)" [(ngModel)]="row.fees_amount"
+                      <input type="number" min="0" class="editCellInput" (keyup)="userChangeAdditionalFeeAmount(row , $event)" [(ngModel)]="row.fees_amount"
                         name="label" class="side-form-ctrl">
                     </div>
                   </td>

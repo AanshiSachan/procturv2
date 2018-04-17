@@ -546,6 +546,28 @@ export class TemplateHomeComponent implements OnInit {
     this.selectedTemplate.template_name = this.templateName;
   }
 
+  feeTypesAmountChnge(data) {
+    if (data.service_tax == 0) {
+      data.initial_fee_amount = data.fees_amount;
+    } else {
+      data.initial_fee_amount = Number(data.fees_amount) - Number((data.fees_amount * data.service_tax) / 100);
+      data.initial_fee_amount = Math.floor(data.initial_fee_amount);
+    }
+    this.calculateTotalAmount();
+  }
+
+  feeInstallmentChnge(data) {
+    debugger
+    if (data.service_tax_applicable == "N") {
+      data.initial_fee_amount = data.fees_amount;
+    } else {
+      data.tax = Number((data.fees_amount * data.service_tax) / 100);
+      data.taxAmount = data.tax;
+      data.initial_fee_amount = data.fees_amount - data.tax;
+    }
+    this.calculateTotalAmount();
+  }
+
 }
 
 
