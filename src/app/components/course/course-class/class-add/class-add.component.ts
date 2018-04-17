@@ -166,10 +166,38 @@ export class ClassAddComponent implements OnInit {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     /* fetching prefilled data */
-    this.busy = this.fetchPrefillData();
-
+    this.fetchPrefillData();
+    if (!this.isProfessional) {
+      this.checkForEditMode();
+    }
   }
   /* ============================================================================================ */
+
+
+  checkForEditMode() {
+    let str = sessionStorage.getItem('editClass');
+    if (str == "" || str == null || str == undefined) {
+      return;
+    }
+    let data = JSON.parse(str);
+    if (data == "" || data == null || data == undefined) {
+      return false;
+    } else {
+      this.fetchMasterCourseModule = {
+        master_course: data.master_course,
+        requested_date: moment(data.id).format("YYYY-MM-DD"),
+        inst_id: sessionStorage.getItem('institute_id'),
+        course_id: data.course_id
+      }
+      this.getCustomList();
+      this.getTeacherList();
+      this.updateCourseList(this.fetchMasterCourseModule.master_course);
+      setTimeout(() => {
+        this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
+      }, 300);
+      sessionStorage.setItem('editClass', '');
+    }
+  }
   /* ============================================================================================ */
   /* ============================================================================================ */
   fetchPrefillData() {
@@ -545,6 +573,7 @@ export class ClassAddComponent implements OnInit {
   /* ============================================================================================ */
 
   getAllSubjectListFromServer(data) {
+    this.isClassFormFilled = true;
     this.classService.getAllSubjectlist(this.fetchMasterCourseModule).subscribe(
       res => {
         this.fetchedCourseData = res;
@@ -630,11 +659,11 @@ export class ClassAddComponent implements OnInit {
       batch_id: '',
       subject_id: '',
       subject_name: '',
-      start_hour: '',
-      start_minute: '',
+      start_hour: '12 PM',
+      start_minute: '00',
       start_meridian: '',
-      end_hour: '',
-      end_minute: '',
+      end_hour: '1 PM',
+      end_minute: '00',
       end_meridian: '',
       teacher_id: '',
       teacher_name: '',
@@ -837,7 +866,7 @@ export class ClassAddComponent implements OnInit {
       obj.requested_date = this.fetchedCourseData.requested_date;
       this.classService.sendReminderToServer(obj).subscribe(
         res => {
-          this.messageToast('success', 'Successfully', 'Notification sent successfully');
+          this.messageToast('success', 'Success', 'Reminder Notification sent successfully');
         },
         err => {
           console.log(err);
@@ -850,13 +879,13 @@ export class ClassAddComponent implements OnInit {
 
   saveCourseSchedule() {
     if (this.classScheduleArray.length == 0) {
-      this.messageToast('error', 'Error', 'Please provide information');
+      this.messageToast('error', 'Error', 'No Schedule to create/update');
       return;
     }
     let obj = this.makeJsonForCourseSave();
     this.classService.saveDataOnServer(obj).subscribe(
       res => {
-        this.messageToast('success', 'Saved', 'Your class created successfully');
+        this.messageToast('success', 'Saved', 'Your class added successfully');
         this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
       },
       err => {

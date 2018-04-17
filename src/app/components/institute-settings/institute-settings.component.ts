@@ -206,6 +206,8 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     online_payment_notify_emailIds: '',
     online_payment_notify_mobiles: ''
   };
+  onlinePayment: any = '0';
+  test_series_feature: any = '0';
 
   constructor(
     private appC: AppComponent,
@@ -219,6 +221,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.onlinePayment = JSON.parse(sessionStorage.getItem('institute_info')).enable_online_payment_feature;
     this.changeView('liSMS', 'divSMSContent');
     this.checkInstitutionType();
     this.getSettingFromServer();
@@ -249,75 +252,6 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
       } else {
         this.changeView('liMisc', 'stay');
       }
-
-      // For Large Desktop Screens
-      // if (window.innerWidth > 1370) {
-
-      //   if (window.pageYOffset < 1600) {
-      //     this.changeView('liSMS', 'stay');
-      //   } else if (window.pageYOffset < 2300) {
-      //     this.changeView('liExamRep', 'stay');
-      //   } else if (window.pageYOffset < 3300) {
-      //     this.changeView('liFee', 'stay');
-      //   } else if (window.pageYOffset < 3800) {
-      //     this.changeView('liReport', 'stay');
-      //   } else {
-      //     this.changeView('liMisc', 'stay');
-      //   }
-
-      // }
-
-      // For width 1366
-      // else if (window.innerWidth > 1050) {
-
-      //   if (window.pageYOffset < 1800) {
-      //     this.changeView('liSMS', 'stay');
-      //   } else if (window.pageYOffset < 2500) {
-      //     this.changeView('liExamRep', 'stay');
-      //   } else if (window.pageYOffset < 3500) {
-      //     this.changeView('liFee', 'stay');
-      //   } else if (window.pageYOffset < 4000) {
-      //     this.changeView('liReport', 'stay');
-      //   } else {
-      //     this.changeView('liMisc', 'stay');
-      //   }
-
-      // }
-
-      // For width 1280
-      // else if (window.innerWidth > 1250) {
-
-      //   if (window.pageYOffset < 2300) {
-      //     this.changeView('liSMS', 'stay');
-      //   } else if (window.pageYOffset < 3000) {
-      //     this.changeView('liExamRep', 'stay');
-      //   } else if (window.pageYOffset < 4000) {
-      //     this.changeView('liFee', 'stay');
-      //   } else if (window.pageYOffset < 4500) {
-      //     this.changeView('liReport', 'stay');
-      //   } else {
-      //     this.changeView('liMisc', 'stay');
-      //   }
-
-      // }
-
-      // For Width 1024
-      // else {
-
-      //   if (window.pageYOffset < 2450) {
-      //     this.changeView('liSMS', 'stay');
-      //   } else if (window.pageYOffset < 3200) {
-      //     this.changeView('liExamRep', 'stay');
-      //   } else if (window.pageYOffset < 4400) {
-      //     this.changeView('liFee', 'stay');
-      //   } else if (window.pageYOffset < 5000) {
-      //     this.changeView('liReport', 'stay');
-      //   } else {
-      //     this.changeView('liMisc', 'stay');
-      //   }
-
-
-      // }
     }
   }
 
@@ -351,7 +285,7 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     this.apiService.getInstituteSettingFromServer().subscribe(
       res => {
         this.isRippleLoad = false;
-        console.log(res);
+        this.test_series_feature = res.test_series_feature;
         this.fillJSONData(res);
       },
       err => {
@@ -371,12 +305,10 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
       }
     }
     dataToSend = this.constructJsonToSend();
-    console.log(dataToSend);
     this.isRippleLoad = true;
     this.apiService.saveSettingsToServer(dataToSend).subscribe(
       res => {
         this.isRippleLoad = false;
-        console.log(res);
         this.messageToast('success', 'Saved', "All your setting saved successfully");
       },
       err => {
@@ -447,13 +379,15 @@ export class InstituteSettingsComponent implements OnInit, OnDestroy {
     obj.enable_online_payment_email_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_email_notification);
     obj.enable_online_payment_sms_notification = this.convertBoolenToNumber(this.instituteSettingDet.enable_online_payment_sms_notification);
 
-    if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
-      if (isNaN(obj.phone_no_fee_receipt) || obj.phone_no_fee_receipt.length != 10) {
-        this.isRippleLoad = false;
-        this.messageToast('error', 'Error', 'Please check the number you have provided');
-        return;
-      }
-    }
+    // if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
+    //   this.isRippleLoad = false;
+    //   /* if (isNaN(obj.phone_no_fee_receipt) || obj.phone_no_fee_receipt.length != 10) {
+    //     this.isRippleLoad = false;
+    //     this.messageToast('error', 'Error', 'Please check the number you have provided');
+    //     return;
+    //   } */
+
+    // }
 
     if (obj.phone_no_fee_receipt != "" && obj.phone_no_fee_receipt != null) {
       if (this.validatePhoneNumber(obj.phone_no_fee_receipt)) {

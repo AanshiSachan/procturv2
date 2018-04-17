@@ -62,7 +62,6 @@ export class CourseEditComponent implements OnInit {
   getSelectedCourse(data) {
     this.apiService.getSeletedMasterCourseEdit(data).subscribe(
       (res: any) => {
-        console.log("Selected Course", res);
         this.selectedCourseDetails = res;
         this.getSubjectList(res.standard_id);
         this.getMetaDataForTable(this.selectedCourseDetails);
@@ -91,7 +90,6 @@ export class CourseEditComponent implements OnInit {
   getActiveTeacherList() {
     this.apiService.getTeacherListFromServer().subscribe(
       data => {
-        console.log('Active Teacher', data);
         this.activeTeachers = data;
       },
       error => {
@@ -104,7 +102,6 @@ export class CourseEditComponent implements OnInit {
   getSubjectList(standardID) {
     this.apiService.getSubjectListOfStandard(standardID).subscribe(
       res => {
-        console.log('Subject List', res);
         this.dummyArray.push("Subject List");
         this.subjectList = this.addKeyInData(res);
         this.nestedTableDataSource = this.addKeyInData(res);
@@ -121,7 +118,6 @@ export class CourseEditComponent implements OnInit {
     let dataToSend: any = this.constructJsonToSend();
     this.apiService.updateDetailsInEdit(dataToSend).subscribe(
       res => {
-        console.log(res);
         this.router.navigateByUrl('course/courselist');
         this.messageToast('success', 'Course Updated', 'Course updated sucessfully.')
       },
@@ -132,18 +128,20 @@ export class CourseEditComponent implements OnInit {
     )
   }
 
+  removeRowFromTable(row, i) {
+    this.mainTableDataSource.splice(i, 1);
+  }
+
   deleteSubjectRow(row, mainTableIndex, nestedTableIndex) {
     if (confirm("Are you sure you want to delete?")) {
       if (row.hasOwnProperty('otherDetails')) {
         this.apiService.deleteSubjectFromServer(row.otherDetails.batch_id).subscribe(
           data => {
-            console.log(data);
             this.mainTableDataSource[mainTableIndex].batchesList.splice(nestedTableIndex, 1);
             this.checkIfAnySelectedRowExist(this.mainTableDataSource[mainTableIndex], mainTableIndex);
             this.messageToast('success', 'Deleted', 'Sucessfully deleted from the list.');
           },
           error => {
-            console.log(error);
             this.messageToast('error', 'Error', error.error.message);
           }
         )
@@ -152,7 +150,6 @@ export class CourseEditComponent implements OnInit {
   }
 
   addEnableDisableClass(data) {
-
     let test = this.checkIfAnySubjectSelected(data.batchesList);
     if (test.length > 0) {
       if (data.batch_id != '0') {
@@ -189,7 +186,6 @@ export class CourseEditComponent implements OnInit {
   }
 
   constructJsonToSend() {
-    console.log(this.mainTableDataSource);
     let obj: any = {};
     obj.master_course = this.selectedCourseDetails.master_course;
     obj.standard_id = this.selectedCourseDetails.standard_id;
@@ -229,7 +225,6 @@ export class CourseEditComponent implements OnInit {
       }
       obj.coursesList.push(test);
     }
-    console.log(obj);
     return obj;
   }
 

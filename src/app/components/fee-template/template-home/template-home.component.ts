@@ -463,6 +463,17 @@ export class TemplateHomeComponent implements OnInit {
   addAdditionalInst() {
     if (Number(this.additionalInstallment.initial_fee_amount) > 0 && this.additionalInstallment.days != null) {
       // this.additionalInstallment.fees_amount = this.additionalInstallment.initial_fee_amount;
+      if (this.additionalInstallment.fees_amount == 0) {
+        if (this.additionalInstallment.service_tax == 0) {
+          this.additionalInstallment.fees_amount = this.additionalInstallment.initial_fee_amount;
+        }
+      } else {
+        if (this.additionalInstallment.service_tax == 0) {
+          this.additionalInstallment.fees_amount = this.additionalInstallment.initial_fee_amount;
+        } else {
+          this.additionalInstallment.fees_amount = Math.round(Number(this.additionalInstallment.initial_fee_amount) + Number((this.additionalInstallment.initial_fee_amount * this.additionalInstallment.service_tax) / 100));
+        }
+      }
       this.otherInstList.push(this.additionalInstallment);
       this.additionalInstallment = {
         days: 0,

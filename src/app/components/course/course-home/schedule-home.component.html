@@ -28,15 +28,15 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : newStandardDetails.standard_name != ''}">
                                 <input type="text" class="form-ctrl" [(ngModel)]="newStandardDetails.standard_name" name="standard_name" id="StdName" #standard_name="ngModel"
                                     required courseInput>
+                                    <label (click)="clickSN()" *ngIf="(isLangInstitue != true)" for="StdName">Standard Name</label>
+                                    <label (click)="clickSN()" *ngIf="(isLangInstitue == true)" for="StdName">Master Course Name</label>
+    
                                 <div *ngIf="standard_name.invalid && (standard_name.dirty || standard_name.touched || no_standard_name)" class="alert invalid-alert">
                                     <div *ngIf="standard_name.errors.required">
                                         <span *ngIf="(isLangInstitue != true)">Please enter valid Standard Name</span>
                                         <span *ngIf="(isLangInstitue == true)">Please enter valid Master Course</span>
                                     </div>
                                 </div>
-                                <label (click)="clickSN()" *ngIf="(isLangInstitue != true)">Standard Name</label>
-                                <label (click)="clickSN()" *ngIf="(isLangInstitue == true)">Master Course Name</label>
-
                             </div>
                             <p>* Example X XII, B.Com</p>
                         </div>
@@ -51,7 +51,7 @@
                 <div class="c-lg-3 c-sm-4 c-md-4 pull-right">
                     <aside class="pull-left create-cancel-small">
                         <input type="button" value="Cancel" class="btn" (click)="toggleCreateNewStandard()">
-                        <input type="button" value="Create" class="btn redBtn" (click)="addNewStandard()">
+                        <input type="button" value="Create" class="btn fullBlue" (click)="addNewStandard()">
                     </aside>
                 </div>
             </section>
@@ -71,6 +71,8 @@
                                     <label style="cursor:pointer;" (click)="sortTable('is_active')">Is Active</label>
                                 </th>
                                 <th>
+                                    <i *ngIf="sortingDir == 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-up" style="font-family: FontAwesome;"></i>
+                                    <i *ngIf="sortingDir != 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-down" style="font-family: FontAwesome;"></i>
                                     <label style="cursor:pointer;" (click)="sortTable('created_date')">Added Date</label>
                                 </th>
                                 <th>
@@ -120,7 +122,7 @@
                                 </td>
                                 <td class="edit-comp">
                                     <a style="cursor: pointer;margin-right: 10px;" (click)="updateRow(row,i)">
-                                        <i class="far fa fa-save" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i> Update
+                                        <i class="fas fa-check" style="font-family: FontAwesome ;font-size: 19px;" title="Update"></i> Update
                                     </a>
                                     <a style="cursor: pointer;" (click)="cancelRow(i)">
                                         <i class="fas fa fa-times" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i> Cancel

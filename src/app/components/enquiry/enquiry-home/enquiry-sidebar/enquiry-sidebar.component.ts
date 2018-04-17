@@ -42,6 +42,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   @Input() followupArr: any;
   @Input() row: any;
   @Input() customComp: any[];
+  @Input() sourceList: any[];
 
   @Output() updateEnq = new EventEmitter<any>();
   @Output() cancelUpdate = new EventEmitter<any>();
@@ -99,7 +100,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   updateFormComments: any[] = [];
   updateFormCommentsBy: any[] = [];
   updateFormCommentsOn: any[] = [];
-
+  sourceName: any = "";
 
 
   constructor(private prefill: FetchprefilldataService, private cd: ChangeDetectorRef, private appC: AppComponent) {
@@ -146,6 +147,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     this.followUpTime = '';
     this.walkin_followUpTime = '';
     this.prefill.fetchAllDataEnquiry(id).subscribe(res => {
+      this.rowData.dob = res.dob;
       this.updateFormData.followUpDate = res.followUpDate;
       this.cd.markForCheck();
       this.updateFormData.assigned_to = res.assigned_to;
@@ -167,6 +169,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
       this.updateFormComments = res.comments;
       this.updateFormCommentsOn = res.commentedOn;
       this.updateFormCommentsBy = res.commentedBy;
+      this.getSourceName(res.source_id);
     });
   }
 
@@ -467,4 +470,14 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     }
   }
 
+  // get source name
+
+  getSourceName(data) {
+    for (let i = 0; i < this.sourceList.length; i++) {
+      if (this.sourceList[i].id == data) {
+        this.sourceName = this.sourceList[i].name;
+        break;
+      }
+    }
+  }
 }

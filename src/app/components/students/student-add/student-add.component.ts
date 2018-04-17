@@ -24,6 +24,7 @@ import 'rxjs/add/operator/filter';
 })
 export class StudentAddComponent implements OnInit {
 
+  selectedCheque: any;
   defaultAcadYear: any;
   isPartialPayment: boolean;
   userHasFees: boolean;
@@ -294,6 +295,7 @@ export class StudentAddComponent implements OnInit {
   totalDicountAmount: number = 0;
   totalTaxAmount: number = 0;
   totalAmountPaid: number = 0;
+  totalInitalAmount: number = 0;
   totalAmountDue: number = 0;
   totalPaidAmount: number = 0;
 
@@ -413,6 +415,7 @@ export class StudentAddComponent implements OnInit {
 
     this.fetchService.fetchStudentFeeDetailById(id).subscribe(res => {
       if (res.customFeeSchedules != null) {
+        res.customFeeSchedules = this.uniqueConvertFeeJson(res.customFeeSchedules);
         this.isRippleLoad = false;
         this.allignStudentFeeView(res);
       }
@@ -421,6 +424,7 @@ export class StudentAddComponent implements OnInit {
         this.totalFeeWithTax = 0;
         this.totalDicountAmount = 0;
         this.totalTaxAmount = 0;
+        this.totalInitalAmount = 0;
         this.totalPaidAmount = 0;
         this.totalAmountPaid = 0;
         this.totalAmountDue = 0;
@@ -459,7 +463,14 @@ export class StudentAddComponent implements OnInit {
       }
     },
       err => {
-        alert("error fetching student fees");
+        let msg = JSON.parse(err._body).message;;
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
       });
   }
 
@@ -467,6 +478,7 @@ export class StudentAddComponent implements OnInit {
     this.totalFeeWithTax = 0;
     this.totalDicountAmount = 0;
     this.totalTaxAmount = 0;
+    this.totalInitalAmount = 0;
     this.totalPaidAmount = 0;
     this.totalAmountPaid = 0;
     this.totalAmountDue = 0;
@@ -487,6 +499,9 @@ export class StudentAddComponent implements OnInit {
         this.service_tax = data.registeredServiceTax;
         let tax = el.initial_fee_amount * (this.service_tax / 100);
         this.totalTaxAmount += this.precisionRound(tax, -1);
+        if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
+          el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+        }
       }
       else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
         this.service_tax = 0;
@@ -499,6 +514,7 @@ export class StudentAddComponent implements OnInit {
       else if (el.is_referenced == "Y") {
         this.totalPaidAmount += el.amount_paid;
       }
+      this.totalInitalAmount += parseInt(el.initial_fee_amount);
       this.totalFeeWithTax += parseInt(el.fees_amount);
       if (el.fee_type_name === "INSTALLMENT") {
         this.instalmentTableData.push(el);
@@ -688,7 +704,14 @@ export class StudentAddComponent implements OnInit {
         this.inventoryItemsArr = data;
       },
       err => {
+        let msg = JSON.parse(err._body).message;;
         this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
       }
     );
 
@@ -698,7 +721,15 @@ export class StudentAddComponent implements OnInit {
         this.instituteList = data;
       },
       err => {
+        let msg = JSON.parse(err._body).message;;
         this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
+
       }
     );
 
@@ -706,11 +737,33 @@ export class StudentAddComponent implements OnInit {
 
     let standard = this.prefill.getEnqStardards().subscribe(data => {
       this.standardList = data;
-    });
+    },
+      err => {
+        let msg = JSON.parse(err._body).message;;
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
+
+      });
 
     this.studentPrefillService.getChequeStatus().subscribe(
       data => {
         this.pdcStatus = data;
+      },
+      err => {
+        let msg = JSON.parse(err._body).message;;
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
+
       }
     );
 
@@ -724,12 +777,15 @@ export class StudentAddComponent implements OnInit {
         });
       },
       err => {
+        let msg = JSON.parse(err._body).message;;
+        this.isRippleLoad = false;
         let obj = {
-          type: "error",
-          title: "Error Fetching Data",
-          body: "Please refresh or check internet connectivity"
+          type: 'error',
+          title: msg,
+          body: ""
         }
         this.appC.popToast(obj);
+
       }
     )
 
@@ -812,7 +868,14 @@ export class StudentAddComponent implements OnInit {
           this.isRippleLoad = false;
         },
         err => {
+          let msg = JSON.parse(err._body).message;;
           this.isRippleLoad = false;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
         }
       );
 
@@ -1074,13 +1137,14 @@ export class StudentAddComponent implements OnInit {
           }
         },
         err => {
+          let msg = JSON.parse(err._body).message;;
           this.isRippleLoad = false;
-          let alert = {
+          let obj = {
             type: 'error',
-            title: 'Error Updating Student Details',
-            body: JSON.parse(err._body).message
+            title: msg,
+            body: ""
           }
-          this.appC.popToast(alert);
+          this.appC.popToast(obj);
         });
     }
     else {
@@ -1163,7 +1227,17 @@ export class StudentAddComponent implements OnInit {
         });
         // console.log(this.slots);
       },
-      err => { }
+      err => {
+        let msg = JSON.parse(err._body).message;;
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
+
+      }
     )
   }
   /* ============================================================================================================================ */
@@ -1173,7 +1247,16 @@ export class StudentAddComponent implements OnInit {
       res => {
         this.langStatus = res;
       },
-      err => { }
+      err => {
+        let msg = JSON.parse(err._body).message;;
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
+      }
     )
   }
   /* ============================================================================================================================ */
@@ -1417,6 +1500,14 @@ export class StudentAddComponent implements OnInit {
           }
         },
         err => {
+          let msg = JSON.parse(err._body).message;;
+          this.isRippleLoad = false;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
 
         });
     }
@@ -1513,12 +1604,15 @@ export class StudentAddComponent implements OnInit {
         this.filterStudentCustomComp();
       },
       err => {
+        let msg = JSON.parse(err._body).message;;
+        this.isRippleLoad = false;
         let obj = {
-          type: "error",
-          title: 'An error occured, Please check your internet connection',
+          type: 'error',
+          title: msg,
           body: ""
         }
         this.appC.popToast(obj);
+
       }
     )
   }
@@ -1837,7 +1931,10 @@ export class StudentAddComponent implements OnInit {
     }
     this.instalmentTableData = [];
     this.otherFeeTableData = [];
+    this.totalDicountAmount = 0;
+
     let dd = moment(this.feeStructureForm.template_effective_date).format('YYYY-MM-DD');
+
     /* success */
     if ((this.feeTempSelected != "" && this.feeTempSelected != null) && (dd != "" && dd != null && dd != "Invalid date")) {
       this.taxEnableCheck = sessionStorage.getItem('enable_tax_applicable_fee_installments');
@@ -1850,14 +1947,16 @@ export class StudentAddComponent implements OnInit {
           this.feeTemplateById.template_id = this.feeTempSelected;
           this.isDefineFees = true;
           this.isFeeApplied = true;
-
+          this.discountReason = "";
           res.customFeeSchedules.forEach(el => {
-            //el.due_date = moment(el.due_date).format("YYYY-MM-DD");
-            /* Taxes Here */
+            el.due_date = new Date(el.due_date);
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
               let tax = el.initial_fee_amount * (this.service_tax / 100);
               this.totalTaxAmount += this.precisionRound(tax, -1);
+              if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
+                el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+              }
             }
             else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
               this.service_tax = 0;
@@ -1871,15 +1970,10 @@ export class StudentAddComponent implements OnInit {
             else if (el.is_referenced == "Y") {
               this.totalPaidAmount += el.amount_paid;
             }
+            this.totalInitalAmount += parseInt(el.initial_fee_amount);
             this.totalFeeWithTax += parseInt(el.fees_amount);
-
-            if (el.fee_type_name === "INSTALLMENT") {
-              this.instalmentTableData.push(el);
-            }
-            else if (el.fee_type_name != "INSTALLMENT") {
-              this.otherFeeTableData.push(el);
-            }
           });
+          this.splitCustomizedFee();
           this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
           this.updateTableInstallment();
           this.closeConfigureFees();
@@ -1952,13 +2046,13 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   closeConfigureFees() {
-    //$event.preventDefault();
     this.isConfigureFees = false;
     this.feeStructureForm = {
       studentArray: ["-1"],
       template_effective_date: ""
     }
     this.feeTempSelected = "";
+
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -1987,6 +2081,8 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   closePaymentDetails() {
     this.isPaymentPdc = false;
+    this.genPdcAck = false;
+    this.sendPdcAck= false;
     this.feeTemplateById.payment_mode = "Cash";
     this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
     this.isFeePaymentUpdate = false;
@@ -2271,7 +2367,7 @@ export class StudentAddComponent implements OnInit {
         let tax: number = 0;
         tax = this.precisionRound(((this.service_tax / 100) * amt), -1);
         this.instalmentTableData[i].tax = tax;
-        return Math.floor(tax);
+        return tax;
       }
       else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
         return 0;
@@ -2284,11 +2380,15 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   updateInitialAmount(amt, i) {
-    if (this.instalmentTableData[i].service_tax_applicable === "Y" || this.instalmentTableData[i].service_tax_applicable === "") {
-      this.instalmentTableData[i].initial_fee_amount = this.precisionRound(((100 * parseInt(amt)) / (100 + this.service_tax)), -1);
+    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+      let value: number = 0;
+      value = this.precisionRound((amt / ((this.service_tax / 100) + 1)), -1);
+      this.instalmentTableData[i].initial_fee_amount = value;
+      return value;
     }
-    else if (this.instalmentTableData[i].service_tax_applicable === "N") {
+    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
       this.instalmentTableData[i].initial_fee_amount = parseInt(amt);
+      return amt;
     }
   }
   /* ============================================================================================================================ */
@@ -2506,7 +2606,6 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   createCustomFeeSchedule() {
     this.isRippleLoad = true;
-
     this.instalmentTableData.sort(function (d1, d2) {
       return moment(d1.due_date).unix() - moment(d2.due_date).unix();
     });
@@ -2519,18 +2618,27 @@ export class StudentAddComponent implements OnInit {
     this.userCustommizedFee = [];
     this.userCustommizedFee = this.instalmentTableData.concat(this.otherFeeTableData);
     this.totalTaxAmount = 0;
+    this.totalInitalAmount = 0;
     this.totalFeeWithTax = 0;
     this.totalAmountDue = 0;
     this.totalPaidAmount = 0;
     this.totalFeePaid = 0;
 
     this.userCustommizedFee.forEach(el => {
-      el.due_date = moment(el.due_date).format("YYYY-MM-DD");
 
+      if (el.due_date == "Invalid date" || el.due_date == "null") {
+        el.due_date = moment(new Date(el.due_date)).format("YYYY-MM-DD");
+      }
+      else if (el.due_date != "Invalid date" && el.due_date != "null") {
+        el.due_date = moment(el.due_date).format("YYYY-MM-DD");
+      }
       /* Taxes Here */
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         let tax = el.initial_fee_amount * (this.service_tax / 100);
         this.totalTaxAmount += this.precisionRound(tax, -1);
+        if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
+          el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+        }
       }
       else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
         this.service_tax = 0;
@@ -2554,7 +2662,7 @@ export class StudentAddComponent implements OnInit {
         }
       }
 
-
+      this.totalInitalAmount += parseInt(el.initial_fee_amount);
       this.totalFeeWithTax += parseInt(el.fees_amount);
 
       let obj = {
@@ -2667,7 +2775,6 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getTaxAmounted(fee) {
-
     let amount = fee.initial_fee_amount;
     if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
       return this.precisionRound(((this.service_tax / 100) * amount), -1);
@@ -2678,6 +2785,21 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+  /* provieds unique JSON list of data */
+  uniqueConvertFeeJson(res: any[]): any[] {
+    let unique = {};
+    let distinct = [];
+    for (let i in res) {
+      if (typeof (unique[res[i].schedule_id]) == "undefined") {
+        distinct.push(res[i]);
+      }
+      unique[res[i].schedule_id] = 0;
+    }
+    return distinct;
+  }
+  /* ============================================================================================================================ */
+
+  /* ============================================================================================================================ */
   updateStudentFeeDetails() {
     this.deselectAllSelectedCheckbox();
     this.installmentMarkedForPayment = [];
@@ -2685,6 +2807,7 @@ export class StudentAddComponent implements OnInit {
     this.totalFeeWithTax = 0;
     this.totalDicountAmount = 0;
     this.totalTaxAmount = 0;
+    this.totalInitalAmount = 0;
     this.totalPaidAmount = 0;
     this.totalAmountPaid = 0;
     this.totalAmountDue = 0;
@@ -2704,6 +2827,8 @@ export class StudentAddComponent implements OnInit {
         this.paymentStatusArr = [];
         this.isRippleLoad = false;
         if (res.customFeeSchedules != null) {
+          this.service_tax = res.registeredServiceTax;
+          res.customFeeSchedules = this.uniqueConvertFeeJson(res.customFeeSchedules);
           this.totalAmountPaid = res.studentwise_total_fees_amount;
           this.discountReason = res.discount_fee_reason;
           if (res.studentwise_total_fees_discount == null) {
@@ -2725,11 +2850,12 @@ export class StudentAddComponent implements OnInit {
 
             /* Taxes Here */
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-              this.service_tax = res.registeredServiceTax;
-              let tax = el.fees_amount - el.initial_fee_amount;
+              let tax = el.initial_fee_amount * (this.service_tax / 100);
               this.totalTaxAmount += this.precisionRound(tax, -1);
+              if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
+                el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+              }
             }
-
             else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
               this.service_tax = 0;
               this.totalTaxAmount = 0;
@@ -2752,7 +2878,7 @@ export class StudentAddComponent implements OnInit {
               }
             }
 
-
+            this.totalInitalAmount += parseInt(el.initial_fee_amount);
             this.totalFeeWithTax += parseInt(el.fees_amount);
 
             let obj = {
@@ -2827,257 +2953,6 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  setStudentFeeDetail() {
-    /* Request from close popup */
-    if (this.closeFee) {
-      this.totalFeeWithTax = 0;
-      this.totalDicountAmount = 0;
-      this.totalTaxAmount = 0;
-      this.totalPaidAmount = 0;
-      this.totalAmountPaid = 0;
-      this.totalAmountDue = 0;
-      /* user */
-      if (this.userHasFees) {
-        this.totalFeePaid = 0;
-        this.total_amt_tobe_paid = this.totalFeePaid;
-        this.isConfigureFees = false;
-        this.instalmentTableData = [];
-        this.isDefineFees = false;
-        this.isFeeApplied = false;
-        this.isDiscountApplied = false;
-        this.discountReason = '';
-        let res = this.fetchService.getStoredFees();
-        if (res.customFeeSchedules != null) {
-          this.totalAmountPaid = res.studentwise_total_fees_amount;
-          if (res.studentwise_total_fees_discount != null) {
-            this.totalDicountAmount = res.studentwise_total_fees_discount;
-          }
-          this.userHasFees = true;
-          this.paymentStatusArr = [];
-          this.convertCustomizedfee(res.customFeeSchedules);
-          this.feeStructureForm.studentArray.push(this.student_id);
-          this.discountReason = res.discount_fee_reason;
-          this.feeStructureForm.template_effective_date = res.template_effective_date;
-          this.userCustommizedFee = res.customFeeSchedules;
-          this.userCustommizedFee.forEach(el => {
-            el.due_date = moment(el.due_date).format("YYYY-MM-DD");
-            /* Taxes Here */
-            if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-              this.service_tax = res.registeredServiceTax;
-              let tax = el.initial_fee_amount * (this.service_tax / 100);
-              this.totalTaxAmount += this.precisionRound(tax, -1);
-            }
-            else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-              this.service_tax = 0;
-              this.totalTaxAmount = 0;
-            }
-            if (el.is_referenced == "N") {
-              this.totalAmountDue += el.fees_amount
-            }
-            else if (el.is_referenced == "Y") {
-              this.totalPaidAmount += el.amount_paid;
-            }
-            this.totalFeeWithTax += parseInt(el.fees_amount);
-            let obj = {
-              uiSelected: el.is_referenced == "Y" ? true : false,
-              isPaid: el.is_referenced == "Y" ? true : false
-            }
-            this.paymentStatusArr.push(obj);
-          });
-          this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
-          this.feeTemplateById = res;
-        }
-        else {
-          this.fetchService.fetchStudentFeeDetailById(this.student_id).subscribe(
-            res => {
-              this.totalFeePaid = 0;
-              this.total_amt_tobe_paid = this.totalFeePaid;
-              if (!res.toCreate) {
-                this.totalAmountPaid = res.studentwise_total_fees_amount;
-                this.totalDicountAmount = res.studentwise_total_fees_discount;
-                this.userHasFees = true;
-                this.paymentStatusArr = [];
-                this.convertCustomizedfee(res.customFeeSchedules);
-                this.feeStructureForm.studentArray.push(this.student_id);
-                this.discountReason = res.discount_fee_reason;
-                this.feeStructureForm.template_effective_date = res.template_effective_date;
-                this.userCustommizedFee = res.customFeeSchedules;
-                this.userCustommizedFee.forEach(el => {
-                  el.due_date = moment(el.due_date).format("YYYY-MM-DD");
-                  /* Taxes Here */
-                  if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-                    this.service_tax = res.registeredServiceTax;
-                    let tax = el.initial_fee_amount * (this.service_tax / 100);
-                    this.totalTaxAmount += this.precisionRound(tax, -1);
-                  }
-                  else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-                    this.service_tax = 0;
-                    this.totalTaxAmount = 0;
-                  }
-                  if (el.is_referenced == "N") {
-                    this.totalAmountDue += el.fees_amount
-                  }
-                  else if (el.is_referenced == "Y") {
-                    this.totalPaidAmount += el.amount_paid;
-                  }
-                  this.totalFeeWithTax += parseInt(el.fees_amount);
-                  let obj = {
-                    uiSelected: el.is_referenced == "Y" ? true : false,
-                    isPaid: el.is_referenced == "Y" ? true : false
-                  }
-                  this.paymentStatusArr.push(obj);
-                });
-                this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
-                this.feeTemplateById = res;
-              }
-              else {
-                this.isConfigureFees = false;
-                this.instalmentTableData = [];
-                this.userHasFees = false;
-                this.otherFeeTableData = [];
-                this.isPaymentDetailsValid = false;
-              }
-              this.isDefineFees = false;
-              this.isFeeApplied = false;
-              this.isDiscountApplied = false;
-            },
-            err => {
-              let obj = {
-                type: "error",
-                title: "An Error Occured",
-                body: ""
-              }
-              this.appC.popToast(obj);
-            }
-          );
-        }
-      }
-      else {
-        this.totalFeePaid = 0;
-        this.total_amt_tobe_paid = this.totalFeePaid;
-        this.isConfigureFees = false;
-        this.instalmentTableData = [];
-        this.userHasFees = false;
-        this.instalmentTableData = [];
-        this.userCustommizedFee = [];
-        this.otherFeeTableData = [];
-        this.isPaymentDetailsValid = false;
-        this.isDefineFees = false;
-        this.isFeeApplied = false;
-        this.isDiscountApplied = false;
-        this.discountReason = '';
-        this.feeTemplateById = {
-          feeTypeMap: "",
-          customFeeSchedules: [],
-          registeredServiceTax: "",
-          toCreate: "",
-          studentArray: "",
-          studentwise_total_fees_amount: "",
-          studentwise_total_fees_balance_amount: "",
-          studentwise_total_fees_amount_paid: "",
-          studentwise_total_fees_discount: "",
-          studentwise_fees_tax_applicable: "",
-          no_of_installments: "",
-          discount_fee_reason: "",
-          template_name: "",
-          template_id: "",
-          template_effective_date: "",
-          is_fee_schedule_created: "",
-          is_fee_tx_done: "",
-          is_undo: this.is_undo,
-          is_fee_other_inst_created: "",
-          is_delete_other_fee_types: "",
-          chequeDetailsJson: "",
-          payment_mode: "",
-          remarks: "",
-          paid_date: "",
-          is_cheque_details_required: "",
-          reference_no: "",
-          invoice_no: "",
-          uiSelected: false
-        }
-      }
-    }
-    else {
-      this.isRippleLoad = true;
-      this.totalFeeWithTax = 0;
-      this.totalDicountAmount = 0;
-      this.totalTaxAmount = 0;
-      this.totalPaidAmount = 0;
-      this.totalAmountPaid = 0;
-      this.totalAmountDue = 0;
-      this.fetchService.fetchStudentFeeDetailById(this.student_id).subscribe(
-        res => {
-          this.isRippleLoad = false;
-          this.totalFeePaid = 0;
-          this.total_amt_tobe_paid = this.totalFeePaid;
-          if (!res.toCreate) {
-            this.totalAmountPaid = res.studentwise_total_fees_amount;
-            if (res.studentwise_total_fees_discount == null) {
-              this.totalDicountAmount = 0;
-            }
-            else if (res.studentwise_total_fees_discount != null) {
-              this.totalDicountAmount = res.studentwise_total_fees_discount;
-            }
-            this.userHasFees = true;
-            this.paymentStatusArr = [];
-            this.convertCustomizedfee(res.customFeeSchedules);
-            this.feeStructureForm.studentArray.push(this.student_id);
-            this.feeStructureForm.template_effective_date = res.template_effective_date;
-            this.userCustommizedFee = res.customFeeSchedules;
-            this.discountReason = res.discount_fee_reason;
-            this.userCustommizedFee.forEach(el => {
-              el.due_date = moment(el.due_date).format("YYYY-MM-DD");
-              /* Taxes Here */
-              if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-                this.service_tax = res.registeredServiceTax;
-                let tax = el.initial_fee_amount * (this.service_tax / 100);
-                this.totalTaxAmount += this.precisionRound(tax, -1);
-              }
-              else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-                this.service_tax = 0;
-                this.totalTaxAmount = 0;
-              }
-              if (el.is_referenced == "N") {
-                this.totalAmountDue += el.fees_amount
-              }
-              else if (el.is_referenced == "Y") {
-                this.totalPaidAmount += el.amount_paid;
-              }
-              this.totalFeeWithTax += parseInt(el.fees_amount);
-              let obj = {
-                uiSelected: el.is_referenced == "Y" ? true : false,
-                isPaid: el.is_referenced == "Y" ? true : false
-              }
-              this.paymentStatusArr.push(obj);
-            });
-            this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
-            this.feeTemplateById = res;
-          }
-          else {
-            this.isConfigureFees = false;
-            this.instalmentTableData = [];
-            this.userHasFees = false;
-            this.otherFeeTableData = [];
-            this.isPaymentDetailsValid = false;
-            this.discountReason = '';
-          }
-          this.isDefineFees = false;
-          this.isFeeApplied = false;
-          this.isDiscountApplied = false;
-        },
-        err => {
-          this.isRippleLoad = false;
-          let obj = {
-            type: "error",
-            title: "An Error Occured",
-            body: ""
-          }
-          this.appC.popToast(obj);
-        }
-      );
-    }
-  }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   convertCustomizedfee(arr: any[]) {
@@ -3435,14 +3310,51 @@ export class StudentAddComponent implements OnInit {
     this.postService.allocateStudentFees(obj).subscribe(
       res => {
         if (this.genPdcAck || this.sendPdcAck) {
-          let feeid = res.generated_id;
-
-          this.postService.generateFeeReceipt(id, feeid).subscribe(
-            res => {
-              this.studentAddedNotifier();
-            },
-            err => { }
-          );
+          if (this.genPdcAck) {
+            let doc = res;
+            let yr = doc.otherDetails.financial_year;
+            let id = doc.other;
+            let link = document.getElementById("payMultiReciept");
+            this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+              r => {
+                let body = JSON.parse(r['_body']);
+                let byteArr = this.convertBase64ToArray(body.document);
+                let format = body.format;
+                let fileName = body.docTitle;
+                let file = new Blob([byteArr], { type: 'application/pdf' });
+                let url = URL.createObjectURL(file);
+                if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                  link.setAttribute("href", url);
+                  link.setAttribute("download", fileName);
+                  link.click();
+                }
+              },
+              e => {
+                let msg = JSON.parse(e._body).message;
+                this.isRippleLoad = false;
+                let obj = {
+                  type: 'error',
+                  title: msg,
+                  body: ""
+                }
+                this.appC.popToast(obj);
+              });
+          }
+          if (this.sendPdcAck) {
+            let doc = res;
+            let yr = doc.otherDetails.financial_year;
+            let id = doc.other;
+            this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+              res => {
+                let obj = {
+                  type: "success",
+                  title: "Reciept Sent",
+                  body: "Receipt has been sent to student/parent email ID"
+                }
+                this.appC.popToast(obj);
+              }
+            )
+          }
         }
         else {
           this.studentAddedNotifier();
@@ -3636,37 +3548,18 @@ export class StudentAddComponent implements OnInit {
     }
     if (this.validPdc(obj)) {
       this.newPdcArr.push(obj);
-      this.pdcAddForm = {
-        bank_name: '',
-        cheque_amount: '',
-        cheque_date: '',
-        cheque_id: 0,
-        cheque_no: '',
-        cheque_status: '',
-        cheque_status_key: 0,
-        clearing_date: '',
-        institution_id: sessionStorage.getItem('institute_id'),
-        student_id: 0
-      }
+      this.addPdcDataToServer();
     }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   validPdc(obj): boolean {
-    if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '' || obj.clearing_date == 'Invalid date' || obj.clearing_date == '' || obj.cheque_no.toString().length != 6 || obj.cheque_amount <= 0) {
+    if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '' || obj.cheque_no.toString().length != 6 || obj.cheque_amount <= 0) {
       if (obj.cheque_date == 'Invalid date' || obj.cheque_date == '') {
         let msg = {
           type: 'error',
           title: 'Invalid Cheque Details',
           body: 'Please enter a valid cheque date'
-        }
-        this.appC.popToast(msg);
-      }
-      if (obj.clearing_date == 'Invalid date' || obj.clearing_date == '') {
-        let msg = {
-          type: 'error',
-          title: 'Invalid Cheque Details',
-          body: 'Please enter a valid cheque clearing date'
         }
         this.appC.popToast(msg);
       }
@@ -3738,6 +3631,10 @@ export class StudentAddComponent implements OnInit {
 
   }
   /* ============================================================================================================================ */
+  closePDCPop(){
+    this.selectedCheque = null;
+    this.isPdcApply = false
+  }
   /* ============================================================================================================================ */
   addPdcDataToServer() {
     let temp: any[] = [];
@@ -3761,6 +3658,19 @@ export class StudentAddComponent implements OnInit {
     this.postService.addChequePdc(temp).subscribe(
       res => {
         this.chequePdcList = [];
+        this.newPdcArr = [];
+        this.pdcAddForm = {
+          bank_name: '',
+          cheque_amount: '',
+          cheque_date: '',
+          cheque_id: 0,
+          cheque_no: '',
+          cheque_status: '',
+          cheque_status_key: 0,
+          clearing_date: '',
+          institution_id: sessionStorage.getItem('institute_id'),
+          student_id: 0
+        }
         this.getPdcChequeList();
       },
       err => {
@@ -3770,7 +3680,11 @@ export class StudentAddComponent implements OnInit {
     )
 
   }
+  
   /* ============================================================================================================================ */
+  chequeSelectedForAction(i) {
+    this.selectedCheque = i;
+  }
   /* ============================================================================================================================ */
   editPDC(data) {
     document.getElementById((data.student_id + data.cheque_id).toString()).classList.remove('displayComp');
@@ -3842,21 +3756,81 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   generateAck() {
-    this.postService.generateAcknowledge(this.pdcSelectedArr, this.student_id, "undefined").subscribe(
-      res => {
+    if (this.selectedCheque != null && this.selectedCheque != undefined) {
+      this.isRippleLoad = true;
+      this.postService.generateAcknowledge(this.selectedCheque.cheque_id, this.student_id, "undefined").subscribe(
+        res => {
+          this.isRippleLoad = false;
+          let byteArr = this.convertBase64ToArray(res.document);
+          let format = res.format;
+          let fileName = res.docTitle;
+          let file = new Blob([byteArr], { type: 'data/pdf' });
+          let url = URL.createObjectURL(file);
+          let dwldLink = document.getElementById('hiddenAnchorAck');
+          dwldLink.setAttribute("href", url);
+          dwldLink.setAttribute("download", fileName);
+          document.body.appendChild(dwldLink);
+          dwldLink.click();
+        },
+        err => {
+          this.isRippleLoad = false;
+          let msg = JSON.parse(err._body).message;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
+        }
+      )
+    }
+    else{
+      let obj = {
+        type: "error",
+        title: "No PDC Selected",
+        body: ""
       }
-    )
+      this.appC.popToast(obj);
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   sendAck() {
-    this.postService.sendAcknowledge(this.pdcSelectedArr, this.student_id).subscribe(
-      res => {
+    if (this.selectedCheque != null && this.selectedCheque != undefined) {
+      this.isRippleLoad = true;
+      this.postService.generateAcknowledge(this.selectedCheque.cheque_id, this.student_id, "Y").subscribe(
+        res => {
+          this.isRippleLoad = false;
+          let msg = {
+            type: 'success',
+            title: 'Success',
+            body: 'Send Successfullly'
+          }
+          this.appC.popToast(msg);
+        },
+        err => {
+          this.isRippleLoad = false;
+          let msg = JSON.parse(err._body).message;
+          let obj = {
+            type: 'error',
+            title: msg,
+            body: ""
+          }
+          this.appC.popToast(obj);
+        }
+      )
+    }
+    else{
+      let obj = {
+        type: "error",
+        title: "No PDC Selected",
+        body: ""
       }
-    )
+      this.appC.popToast(obj);
+    }
   }
   /* ============================================================================================================================ */
-  /* ============================================================================================================================ */
+   /* ============================================================================================================================ */
   feePdcSelected(obj) {
     //console.log(obj);
     if (obj === '') {
@@ -3910,42 +3884,60 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   downloadFeeReceipt(ins) {
     let yr: any;
+    let link = document.getElementById("downloadEditFeeReciept" + ins.invoice_no);
+
     if (ins.financial_year == null) {
       ins.financial_year = this.defaultAcadYear
     }
     this.academicYear.forEach(e => {
-     if(ins.financial_year == e.inst_acad_year_id){
-       yr = e.inst_acad_year
-     } 
+      if (ins.financial_year == e.inst_acad_year_id) {
+        yr = e.inst_acad_year
+      }
     });
-    this.fetchService.getFeeReceiptById(this.student_id,ins.invoice_no, yr).subscribe(
+
+    this.fetchService.getFeeReceiptById(this.student_id, ins.invoice_no, yr).subscribe(
       res => {
-        console.log(res);
-        console.log(JSON.parse(res.json()._body))
-        /* 
-        let byteArr = this.convertBase64ToArray(res.document);
-        let format = res.format;
-        let fileName = res.docTitle;
-        let fileId: string = el.list_id.toString();
-        let file = new Blob([byteArr], { type: 'text/csv;charset=utf-8;' });
+        let body = JSON.parse(res['_body']);
+        let byteArr = this.convertBase64ToArray(body.document);
+        let format = body.format;
+        let fileName = body.docTitle;
+        let file = new Blob([byteArr], { type: 'application/pdf' });
         let url = URL.createObjectURL(file);
-        let dwldLink = document.getElementById(fileId);
-        dwldLink.setAttribute("href", url);
-        dwldLink.setAttribute("download", fileName);
-        dwldLink.innerText = 'Download Report';
-        */
+        if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+          link.setAttribute("href", url);
+          link.setAttribute("download", fileName);
+          link.click();
+        }
       },
       err => {
 
       }
     )
-
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   emailFeeReceipt(ins) {
-    //this.fetchService.emailReceiptById(ins.display_invoice_no)
-    console.log(ins);
+    let yr: any;
+
+    if (ins.financial_year == null) {
+      ins.financial_year = this.defaultAcadYear
+    }
+    this.academicYear.forEach(e => {
+      if (ins.financial_year == e.inst_acad_year_id) {
+        yr = e.inst_acad_year
+      }
+    });
+
+    this.fetchService.emailReceiptById(this.student_id, ins.invoice_no, yr).subscribe(
+      res => {
+        let obj = {
+          type: "success",
+          title: "Reciept Sent",
+          body: "Receipt has been sent to student/parent email ID"
+        }
+        this.appC.popToast(obj);
+      }
+    )
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -4377,6 +4369,53 @@ export class StudentAddComponent implements OnInit {
           this.isRippleLoad = true;
           this.postService.payPartialFeeAmount(obj).subscribe(
             res => {
+              if (this.genPdcAck || this.sendPdcAck) {
+                if (this.genPdcAck) {
+                  let doc = res;
+                  let yr = doc.otherDetails.financial_year;
+                  let id = doc.other;
+                  let link = document.getElementById("payMultiReciept");
+                  this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+                    r => {
+                      let body = JSON.parse(r['_body']);
+                      let byteArr = this.convertBase64ToArray(body.document);
+                      let format = body.format;
+                      let fileName = body.docTitle;
+                      let file = new Blob([byteArr], { type: 'application/pdf' });
+                      let url = URL.createObjectURL(file);
+                      if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                        link.setAttribute("href", url);
+                        link.setAttribute("download", fileName);
+                        link.click();
+                      }
+                    },
+                    e => {
+                      let msg = JSON.parse(e._body).message;
+                      this.isRippleLoad = false;
+                      let obj = {
+                        type: 'error',
+                        title: msg,
+                        body: ""
+                      }
+                      this.appC.popToast(obj);
+                    });
+                }
+                if (this.sendPdcAck) {
+                  let doc = res;
+                  let yr = doc.otherDetails.financial_year;
+                  let id = doc.other;
+                  this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+                    res => {
+                      let obj = {
+                        type: "success",
+                        title: "Reciept Sent",
+                        body: "Receipt has been sent to student/parent email ID"
+                      }
+                      this.appC.popToast(obj);
+                    }
+                  )
+                }
+              }
               this.updateStudentFeeDetails();
               this.isRippleLoad = false;
               let msg = {
@@ -4398,12 +4437,26 @@ export class StudentAddComponent implements OnInit {
             },
             err => {
               this.isRippleLoad = false;
+              let msg = JSON.parse(err._body).message;;
+              this.isRippleLoad = false;
               let obj = {
                 type: 'error',
-                title: "An Error Occured",
+                title: msg,
                 body: ""
               }
               this.appC.popToast(obj);
+              this.pdcSelectedForm = {
+                bank_name: '',
+                cheque_amount: this.totalFeePaid,
+                cheque_date: moment().format("YYYY-MM-DD"),
+                cheque_no: '',
+                pdc_cheque_id: ''
+              }
+              this.isFeeApplied = false;
+              this.pdcSelectedForPayment = "";
+              this.isFeePaymentUpdate = false;
+              this.feeTemplateById.payment_mode = "Cash";
+              this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
             }
           );
 
@@ -4437,6 +4490,53 @@ export class StudentAddComponent implements OnInit {
         this.isRippleLoad = true;
         this.postService.payPartialFeeAmount(obj).subscribe(
           res => {
+            if (this.genPdcAck || this.sendPdcAck) {  
+              if (this.genPdcAck) {
+                let doc = res;
+                let yr = doc.otherDetails.financial_year;
+                let id = doc.other;
+                let link = document.getElementById("payMultiReciept");
+                this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+                  r => {
+                    let body = JSON.parse(r['_body']);
+                    let byteArr = this.convertBase64ToArray(body.document);
+                    let format = body.format;
+                    let fileName = body.docTitle;
+                    let file = new Blob([byteArr], { type: 'application/pdf' });
+                    let url = URL.createObjectURL(file);
+                    if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                      link.setAttribute("href", url);
+                      link.setAttribute("download", fileName);
+                      link.click();
+                    }
+                  },
+                  e => {
+                    let msg = JSON.parse(e._body).message;
+                    this.isRippleLoad = false;
+                    let obj = {
+                      type: 'error',
+                      title: msg,
+                      body: ""
+                    }
+                    this.appC.popToast(obj);
+                  });
+              }
+              if (this.sendPdcAck) {
+                let doc = res;
+                let yr = doc.otherDetails.financial_year;
+                let id = doc.other;
+                this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+                  res => {
+                    let obj = {
+                      type: "success",
+                      title: "Reciept Sent",
+                      body: "Receipt has been sent to student/parent email ID"
+                    }
+                    this.appC.popToast(obj);
+                  }
+                )
+              }
+            }
             this.isRippleLoad = false;
             let msg = {
               type: 'success',
@@ -4532,6 +4632,53 @@ export class StudentAddComponent implements OnInit {
           this.isRippleLoad = true;
           this.postService.payPartialFeeAmount(obj).subscribe(
             res => {
+              if (this.genPdcAck || this.sendPdcAck) {
+                if (this.genPdcAck) {
+                  let doc = res;
+                  let yr = doc.otherDetails.financial_year;
+                  let id = doc.other;
+                  let link = document.getElementById("payMultiReciept");
+                  this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+                    r => {
+                      let body = JSON.parse(r['_body']);
+                      let byteArr = this.convertBase64ToArray(body.document);
+                      let format = body.format;
+                      let fileName = body.docTitle;
+                      let file = new Blob([byteArr], { type: 'application/pdf' });
+                      let url = URL.createObjectURL(file);
+                      if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                        link.setAttribute("href", url);
+                        link.setAttribute("download", fileName);
+                        link.click();
+                      }
+                    },
+                    e => {
+                      let msg = JSON.parse(e._body).message;
+                      this.isRippleLoad = false;
+                      let obj = {
+                        type: 'error',
+                        title: msg,
+                        body: ""
+                      }
+                      this.appC.popToast(obj);
+                    });
+                }
+                if (this.sendPdcAck) {
+                  let doc = res;
+                  let yr = doc.otherDetails.financial_year;
+                  let id = doc.other;
+                  this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+                    res => {
+                      let obj = {
+                        type: "success",
+                        title: "Reciept Sent",
+                        body: "Receipt has been sent to student/parent email ID"
+                      }
+                      this.appC.popToast(obj);
+                    }
+                  )
+                }
+              }
               this.updateStudentFeeDetails();
               this.isRippleLoad = false;
               let msg = {
@@ -4552,13 +4699,26 @@ export class StudentAddComponent implements OnInit {
               this.closePartialPayment();
             },
             err => {
+              let msg = JSON.parse(err._body).message;;
               this.isRippleLoad = false;
               let obj = {
                 type: 'error',
-                title: "An Error Occured",
+                title: msg,
                 body: ""
               }
               this.appC.popToast(obj);
+              this.pdcSelectedForm = {
+                bank_name: '',
+                cheque_amount: this.totalFeePaid,
+                cheque_date: moment().format("YYYY-MM-DD"),
+                cheque_no: '',
+                pdc_cheque_id: ''
+              }
+              this.isFeeApplied = false;
+              this.pdcSelectedForPayment = "";
+              this.isFeePaymentUpdate = false;
+              this.feeTemplateById.payment_mode = "Cash";
+              this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
             }
           );
         }
@@ -4600,6 +4760,53 @@ export class StudentAddComponent implements OnInit {
         this.isRippleLoad = true;
         this.postService.payPartialFeeAmount(obj).subscribe(
           res => {
+            if (this.genPdcAck || this.sendPdcAck) {
+              if (this.genPdcAck) {
+                let doc = res;
+                let yr = doc.otherDetails.financial_year;
+                let id = doc.other;
+                let link = document.getElementById("payMultiReciept");
+                this.fetchService.getFeeReceiptById(this.student_id, id, yr).subscribe(
+                  r => {
+                    let body = JSON.parse(r['_body']);
+                    let byteArr = this.convertBase64ToArray(body.document);
+                    let format = body.format;
+                    let fileName = body.docTitle;
+                    let file = new Blob([byteArr], { type: 'application/pdf' });
+                    let url = URL.createObjectURL(file);
+                    if (link.getAttribute('href') == "" || link.getAttribute('href') == null) {
+                      link.setAttribute("href", url);
+                      link.setAttribute("download", fileName);
+                      link.click();
+                    }
+                  },
+                  e => {
+                    let msg = JSON.parse(e._body).message;
+                    this.isRippleLoad = false;
+                    let obj = {
+                      type: 'error',
+                      title: msg,
+                      body: ""
+                    }
+                    this.appC.popToast(obj);
+                  });
+              }
+              if (this.sendPdcAck) {
+                let doc = res;
+                let yr = doc.otherDetails.financial_year;
+                let id = doc.other;
+                this.fetchService.emailReceiptById(this.student_id, id, yr).subscribe(
+                  res => {
+                    let obj = {
+                      type: "success",
+                      title: "Reciept Sent",
+                      body: "Receipt has been sent to student/parent email ID"
+                    }
+                    this.appC.popToast(obj);
+                  }
+                )
+              }
+            }
             this.updateStudentFeeDetails();
             this.isRippleLoad = false;
             let msg = {
@@ -4644,6 +4851,10 @@ export class StudentAddComponent implements OnInit {
         }
         this.appC.popToast(obj);
         this.total_amt_tobe_paid = this.totalFeePaid;
+        this.pdcSelectedForm.cheque_amount = this.totalFeePaid;
+      }
+      else {
+        this.pdcSelectedForm.cheque_amount = this.total_amt_tobe_paid;
       }
     }
     else if (v == "pay") {
@@ -4655,9 +4866,17 @@ export class StudentAddComponent implements OnInit {
         }
         this.appC.popToast(obj);
         this.total_amt_tobe_paid = this.totalFeePaid;
+        this.pdcSelectedForm.cheque_amount = this.totalFeePaid;
       }
+      else {
+        this.pdcSelectedForm.cheque_amount = this.total_amt_tobe_paid;
+      }
+
     }
   }
+
+
+  
 }
 
 
@@ -4682,7 +4901,3 @@ export class SortPipe {
 
 
 
-/* 
-
-
-*/

@@ -107,7 +107,7 @@
                   <div class="field-wrapper" *ngIf="enableBiometric == '1'" [ngClass]="{'has-value': studentAddFormData.attendance_device_id != ''}">
                     <input type="text" value="" id="cardId" class="form-ctrl" [(ngModel)]="studentAddFormData.attendance_device_id" name="attCard"
                       #cardId="ngModel" />
-                    <label for="attCard">Attendance Card ID</label>
+                    <label for="cardId">Attendance Card ID</label>
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_sex != ''}">
@@ -184,13 +184,6 @@
                     <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianName.errors.pattern">
                         Name cannot have number / special characters except '.'
-                      </div>
-                    </div>
-
-                    <div class="questionInfo pos-rel">
-                      <span class="qInfoIcon">?</span>
-                      <div class="tooltip-box-field">
-                        Details of guardian, in case parents are not reachable
                       </div>
                     </div>
                   </div>
@@ -270,10 +263,9 @@
                   <label for="standard">Standard</label>
                 </div>
 
-                <div id="assignCoursesParent" class="field-wrapper field-view" 
-                 style="height:auto" *ngIf="isAcad" (click)="openAssignBatch()">
-                  <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" [ngModel]="assignedBatchString" name="assignCourses"
-                    class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
+                <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto" *ngIf="isAcad" (click)="openAssignBatch()">
+                  <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" [ngModel]="assignedBatchString"
+                    id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
                   <label (click)="openAssignBatch()" for="assignCourses">
                     <a>Assign Courses</a>
                   </label>
@@ -306,7 +298,7 @@
 
                 <div id="slotwrapper" class="field-wrapper" *ngIf="isProfessional" (click)="multiselectVisible($event.target.id)">
                   <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
-                  <label for="assignCourses">Slots</label>
+                  <label for="slot">Slots</label>
                 </div>
                 <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
                   <div class="multiselect-wrapper-inner">
@@ -314,7 +306,7 @@
                       <li *ngFor="let slot of slots">
                         <div class="field-checkbox-wrapper">
                           <input type="checkbox" value="" name="slot.label" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox">
-                          <label for="slot.label">{{slot.label}}</label>
+                          <label for="slot.id">{{slot.label}}</label>
                         </div>
                       </li>
                     </ul>
@@ -332,8 +324,8 @@
                 </div>
 
                 <div id="assignCoursesParent" class="field-wrapper" style="height:auto" *ngIf="isProfessional" (click)="openAssignBatch()">
-                  <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" cols="1" rows="1" [ngModel]="assignedBatchString"
-                    name="assignCourses" class="form-ctrl" readonly="true"></textarea>
+                  <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" cols="1" rows="1"
+                    [ngModel]="assignedBatchString" id="assignCourses" class="form-ctrl" readonly="true"></textarea>
                   <label (click)="openAssignBatch()" for="assignCourses">Assign Batch</label>
                 </div>
 
@@ -361,7 +353,7 @@
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive" (ngModelChange)="updateFormIsActive($event)"
                 class="form-checkbox" id="isStudentActive">
-              <label for="quickAddStudent">Is Active Student</label>
+              <label for="isStudentActive">Is Active Student</label>
             </div>
           </div>
           <aside class="pull-right">
@@ -397,12 +389,12 @@
               Other Details
             </h1>
             <aside class="pull-right">
-              <div class="need-help">
+              <!-- <div class="need-help">
                 <div class="questionInfo">
                   <span class="qInfoIcon">?</span>
                 </div>
                 <a>Need help?</a>
-              </div>
+              </div> -->
             </aside>
           </section>
         </section>
@@ -415,8 +407,8 @@
                   <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
                     <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
                     />
-                    <label *ngIf="component.is_required == 'Y'" for="{{component.label}} {{component.id}}">{{component.label}}*</label>
-                    <label *ngIf="component.is_required == 'N'" for="{{component.label}} {{component.id}}">{{component.label}} </label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                    <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                   </div>
                 </div>
 
@@ -560,10 +552,10 @@
           <div class="fee-summary">
             <ul *ngIf="userCustommizedFee.length != 0">
               <li>
-                <label>Total Fee With Taxes</label>
+                <label>Fee Amount</label>
                 <div class="blue">
                   <span *ngIf="userCustommizedFee.length == 0">NA</span>
-                  <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalFeeWithTax | commaSeprator}}</span>
+                  <span *ngIf="userCustommizedFee.length != 0">&#8377; {{totalInitalAmount | commaSeprator}}</span>
                 </div>
               </li>
               <li>
@@ -582,7 +574,7 @@
                 </div>
               </li>
               <li>
-                <label>Fee Amount</label>
+                <label>Fee Amt Incl Taxes</label>
                 <div class="gray">
                   <span *ngIf="userCustommizedFee.length == 0">NA</span>
                   <span *ngIf="userCustommizedFee.length != 0">&#8377; {{(totalFeeWithTax-totalDicountAmount) | commaSeprator}}</span>
@@ -615,14 +607,14 @@
               <div class="row">
                 <div class="pull-left c-xs-8 c-sm-8">
                   <h2>Fee Details</h2>
-                  <span *ngIf="feeTemplateById.template_name == ''"></span>
-                  <span class="feename" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">{{feeTemplateById.template_name}}</span>
+                  <!-- <span *ngIf="feeTemplateById.template_name == ''"></span>
+                  <span class="feename" *ngIf="feeTemplateById.template_name != '' && userCustommizedFee.length != 0 ">{{feeTemplateById.template_name}}</span> -->
                 </div>
                 <div class="pull-right c-xs-4 c-sm-4">
                   <ul class="export-print align-right">
-                    <li style="cursor: pointer" (click)="window.print()" class="print-icon">
+                    <!-- <li style="cursor: pointer" (click)="window.print()" class="print-icon">
                       Print
-                    </li>
+                    </li> -->
                   </ul>
                 </div>
               </div>
@@ -679,7 +671,7 @@
                             {{installment.due_date | date: 'dd MMM yyyy'}}
                           </span>
                         </li>
-
+ 
                         <li>
                           <label>
                             Course
@@ -689,12 +681,30 @@
                           </span>
                         </li>
 
+                        <li *ngIf="(installment.is_referenced == 'Y' && installment.is_partially_paid == '1')">
+                            <label>
+                              Balance Amount
+                            </label>
+                            <span>
+                              {{installment.balance_amount}}
+                            </span>
+                          </li>
+  
+                          <li *ngIf="installment.is_referenced == 'Y'">
+                            <label>
+                              Paid Date
+                            </label>
+                            <span>
+                              {{installment.paid_date}}
+                            </span>
+                          </li>
+
                       </ul>
                     </div>
                   </div>
                   <div class="clearFix add-edit" [ngClass]="{'hide': installment.is_referenced == 'N'}">
-                    <!-- <a (click)="downloadFeeReceipt(installment)">Download receipt</a>
-                    <a (click)="emailFeeReceipt(installment)">E-mail receipt</a> -->
+                    <a id="downloadAddFeeReciept{{installment.invoice_no}}" (click)="downloadFeeReceipt(installment)">Download receipt</a>
+                    <a (click)="emailFeeReceipt(installment)">E-mail receipt</a>
                     <a (click)="openPartialPayment(installment)" [ngClass]="{'hide': installment.is_partially_paid == '0'}">Pay Remaining Amount</a>
                   </div>
                 </li>
@@ -706,18 +716,19 @@
 
         <!--====================================middle Bottom section==========================-->
         <section class="middle-bottom fd-btm clearFix">
-
-          <aside class="pull-left">
-            <div class="fd-btm-label" *ngIf="totalFeePaid != 0">
-              Payment for &#8377; {{totalFeePaid | commaSeprator}} to be updated
-            </div>
-          </aside>
-          <aside class="pull-right">
-            <div class="" *ngIf="!isPaymentDetailsValid">
-              <input type="button" *ngIf="totalFeePaid != 0" value="Update Payment" (click)="openPaymentDetails($event)" class="btn fullBlue">
-              <input type="button" *ngIf="totalFeePaid == 0" value="Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
-            </div>
-          </aside>
+            <aside class="pull-left">
+                <input type="button" style="width: 85px;" (click)="navigateTo('kyc')" value="Back" class="btn">
+            </aside>
+  
+            <aside class="pull-right">
+              <div style="display: inline-block;" class="fd-btm-label" *ngIf="totalFeePaid != 0">
+                Payment for &#8377; {{totalFeePaid | commaSeprator}} to be updated
+              </div>
+              <div style="display: inline-block;" class="">
+                <input type="button" *ngIf="totalFeePaid != 0" value="Update Payment" (click)="openPaymentDetails($event)" class="btn fullBlue">
+                <input *ngIf="totalFeePaid == 0" type="button" value="Continue" (click)="navigateTo('inventory')" class="btn fullBlue">
+              </div>
+            </aside>
         </section>
 
       </section>
@@ -739,12 +750,12 @@
               Inventory
             </h1>
             <aside class="pull-right">
-              <div class="need-help">
+              <!-- <div class="need-help">
                 <div class="questionInfo">
                   <span class="qInfoIcon">?</span>
                 </div>
                 <a>Need help?</a>
-              </div>
+              </div> -->
             </aside>
           </section>
           <div class="allocation-table">
@@ -789,7 +800,6 @@
 
                           <input type="number" class="form-ctrl" placeholder="Add unit" min="0" max="{{item.available_units}}" [(ngModel)]="item.units_added"
                             (blur)="inventoryItemUpdated(item.units_added, i, item.available_units)" name="amt">
-
                         </div>
                       </td>
                     </tr>
@@ -1128,218 +1138,219 @@
   <!-- =====================Define Fee Table Here=================================== -->
   <!-- =============== assign fees =============================== -->
   <student-pop-up [isBig]="'y'" *ngIf="isDefineFees">
-    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAllFeePops()" close-button>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeAllFeePops()" close-button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+            />
           </g>
-          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-          />
-        </g>
-      </svg>
-    </span>
-    <h2 popup-header style="padding: 10px 5px;">Define Fee Schedule</h2>
-
-    <div class="fee-definations" popup-content>
-      <div class="fee-container">
-
-        <div class="installment-container">
-          <!-- Header Installment -->
-          <div class="installment-header">
-            <div class="pull-left">
-              EDIT FEE INSTALLMENTS
-              <!-- (COURSE NAME) -->
-              <span class="installment-count"></span>
+        </svg>
+      </span>
+      <h2 popup-header style="padding: 10px 5px;">Define Fee Schedule</h2>
+  
+      <div class="fee-definations" popup-content>
+        <div class="fee-container">
+  
+          <div class="installment-container">
+            <!-- Header Installment -->
+            <div class="installment-header">
+              <div class="pull-left">
+                EDIT FEE INSTALLMENTS
+                <!-- (COURSE NAME) -->
+                <span class="installment-count"></span>
+              </div>
+              <div class="pull-right">
+                <!-- TOTAL FEES : Rs 9XXXX -->
+              </div>
             </div>
-            <div class="pull-right">
-              <!-- TOTAL FEES : Rs 9XXXX -->
-            </div>
-          </div>
-          <!-- Installment Adding Here -->
-          <div class="installment-adder">
-            <ul>
-              <li>
-                <div class="form-wrapper datePickerBox">
-                  <label for="dddue_date">Due Date</label>
-                  <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" readonly="true" name="dddue_date" [(ngModel)]="addFeeInstallment.due_date"
-                    bsDatepicker>
-                </div>
-              </li>
-              <li>
-                <div class="form-wrapper">
-                  <label for="amountinst">Amount</label>
-                  <input type="number" class="form-ctrl" [(ngModel)]="addFeeInstallment.initial_fee_amount" name="amountinst">
-                </div>
-              </li>
-              <li>
-                <button type="submit" class="btn fee-adder" (click)="addNewInstallmentFee()">
-                  <i></i>
-                  Add
-                </button>
-              </li>
-              <li></li>
-              <li></li>
-            </ul>
-          </div>
-          <!-- Installment Table Configure -->
-          <div class="installment-table">
-            <ul class="table-header">
-              <li [ngClass]="{'bigger': taxEnableCheck == '0'}">#</li>
-              <li [ngClass]="{'bigger': taxEnableCheck == '0'}" (click)="sort('due_date')">Due Date</li>
-              <li [ngClass]="{'hide': taxEnableCheck == '0'}">Amount</li>
-              <li [ngClass]="{'hide': taxEnableCheck == '0'}">Tax</li>
-              <li [ngClass]="{'bigger': taxEnableCheck == '0'}">Fee Incl Tax</li>
-              <li [ngClass]="{'bigger': taxEnableCheck == '0'}">Action</li>
-            </ul>
-            <div class="table-data">
-              <ul class="table-row" *ngFor="let fee of instalmentTableData| orderBy: key : reverse; let i = index;">
-                <li [ngClass]="{'bigger': taxEnableCheck == '0'}">{{i+1}}</li>
-                <li>
-                  <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'N'">
-                    <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)"
-                      [(ngModel)]="fee.due_date" readonly="true" bsDatepicker>
-                  </div>
-                  <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'Y'">
-                    <label style="float: left;">{{fee.due_date | date: "dd-MMM-yyyy"}}</label>
-                  </div>
-                </li>
-                <li [ngClass]="{'hide': taxEnableCheck == '0'}">
-                  <div class="form-wrapper disable">
-                    <input type="number" class="form-ctrl" readonly="true" name="amt" [(ngModel)]="fee.initial_fee_amount">
-                  </div>
-                </li>
-                <li [ngClass]="{'hide': taxEnableCheck == '0'}">
-                  <div class="form-wrapper disable">
-                    <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getTaxedAmount(fee.initial_fee_amount, fee.service_tax_applicable, i)">
-                  </div>
-                </li>
-                <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
-                  <div class="form-wrapper" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
-                    <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
-                  </div>
-                </li>
-                <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
-                  <a *ngIf="fee.is_referenced == 'N'" (click)="deleteInstallment(i)">
-                    <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
-                  </a>
-                  <a *ngIf="fee.is_referenced == 'Y'" class="paid-fee">Paid</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="additional-container">
-          <!-- Header Additional -->
-          <div class="additional-header">
-            <div class="pull-left">
-              EDIT ADDITIONAL FEES
-            </div>
-            <div class="pull-right">
-            </div>
-          </div>
-          <!-- Additional Adding Here -->
-          <div class="additional-adder">
-            <ul>
-              <li>
-                <div class="form-wrapper">
-                  <label for="feetype">Fee Type</label>
-                  <select id="feetype" class="form-ctrl" [(ngModel)]="addFeeOther.fee_type" (ngModelChange)="updateOtherFeeData($event)" name="feetype">
-                    <option value="" selected>Select Fee Type</option>
-                    <option [value]="type.id" *ngFor="let type of getOtherFeesArray()">{{type.value}}</option>
-                  </select>
-                </div>
-              </li>
-              <li>
-                <div class="form-wrapper datePickerBox">
-                  <label for="dd">Due Date</label>
-                  <input type="text" value="" class="form-ctrl bsDatepicker" readonly="true" name="dd" [(ngModel)]="addFeeOther.due_date" bsDatepicker>
-                </div>
-              </li>
-              <li>
-                <div class="form-wrapper">
-                  <label for="amt">Amount</label>
-                  <input type="number" class="form-ctrl" [(ngModel)]="addFeeOther.initial_fee_amount" name="amt">
-                </div>
-              </li>
-              <li>
-                <div class="form-wrapper disable">
-                  <label for="taxamt">Tax</label>
-                  <input type="number" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax" name="taxamt">
-                </div>
-              </li>
-              <li>
-                <button type="submit" class="btn fee-adder" (click)="addNewOtherFee()">
-                  <i></i>
-                  Add
-                </button>
-              </li>
-              <li></li>
-            </ul>
-          </div>
-          <!-- Additional Fees Table Configure -->
-          <div class="additional-table">
-            <ul class="table-header">
-              <li>Fee Type</li>
-              <li>Due Date</li>
-              <li>Amount</li>
-              <li>Tax</li>
-              <li>Fee Incl Tax</li>
-              <li>Action</li>
-            </ul>
-            <div class="table-data" *ngIf="otherFeeTableData.length !=0">
-              <ul class="table-row" *ngFor="let fee of otherFeeTableData; let i = index">
-                <li>{{fee.fee_type_name}}</li>
+            <!-- Installment Adding Here -->
+            <div class="installment-adder">
+              <ul>
                 <li>
                   <div class="form-wrapper datePickerBox">
-                    <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="fee.due_date" bsDatepicker readonly="true">
+                    <label for="dddue_date">Due Date</label>
+                    <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" readonly="true" name="dddue_date" [(ngModel)]="addFeeInstallment.due_date"
+                      bsDatepicker>
                   </div>
                 </li>
                 <li>
                   <div class="form-wrapper">
-                    <input type="number" class="form-ctrl" name="amt" [(ngModel)]="fee.initial_fee_amount">
+                    <label for="amountinst">Amount</label>
+                    <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="addFeeInstallment.initial_fee_amount" name="amountinst">
                   </div>
                 </li>
                 <li>
-                  <div class="form-wrapper">
-                    <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getOtherTaxes(fee.initial_fee_amount, fee.service_tax_applicable, i)">
-                  </div>
-                </li>
-                <li>
-                  <div class="form-wrapper">
-                    <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, i)">
-                  </div>
-                </li>
-                <li>
-                  <a (click)="deleteOtherFee(i)" *ngIf="fee.is_referenced == 'N'">
-                    <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
-                  </a>
-                  <a *ngIf="fee.is_referenced == 'Y'" class="paid-fee">Paid</a>
+                  <button type="submit" class="btn fee-adder" (click)="addNewInstallmentFee()">
+                    <i></i>
+                    Add
+                  </button>
                 </li>
               </ul>
             </div>
-
-            <div class="table-data" *ngIf="otherFeeTableData.length ==0">
-              <h3>No Additional Fees Applied</h3>
+            <!-- Installment Table Configure -->
+            <div class="installment-table">
+              <ul class="table-header">
+                <li [ngClass]="{'bigger': taxEnableCheck == '0'}">#</li>
+                <li class="date" [ngClass]="{'bigger': taxEnableCheck == '0'}" (click)="sort('due_date')">Due Date</li>
+                <li [ngClass]="{'hide': taxEnableCheck == '0'}">Amount</li>
+                <li [ngClass]="{'hide': taxEnableCheck == '0'}">Tax</li>
+                <li [ngClass]="{'bigger': taxEnableCheck == '0'}">Fee Incl Tax</li>
+                <li [ngClass]="{'bigger': taxEnableCheck == '0'}">Action</li>
+              </ul>
+              <div class="table-data">
+                <ul class="table-row" *ngFor="let fee of instalmentTableData| orderBy: key : reverse; let i = index;">
+                  <li [ngClass]="{'bigger': taxEnableCheck == '0'}">{{i+1}}</li>
+                  <li class="date">
+                    <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'N'">
+                      <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)"
+                        [(ngModel)]="fee.due_date" readonly="true" bsDatepicker>
+                    </div>
+                    <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'Y'">
+                      <label style="padding: 5px;float: left;text-align: left;">{{fee.due_date | date: "dd-MMM-yyyy"}}</label>
+                    </div>
+                  </li>
+                  <li [ngClass]="{'hide': taxEnableCheck == '0'}">
+                    <div class="form-wrapper disable">
+                      <input type="number" class="form-ctrl" readonly="true" name="amt" [ngModel]="updateInitialAmount(fee.fees_amount, i)">
+                    </div>
+                  </li>
+                  <li [ngClass]="{'hide': taxEnableCheck == '0'}">
+                    <div class="form-wrapper disable">
+                      <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getTaxedAmount(fee.initial_fee_amount, fee.service_tax_applicable, i)">
+                    </div>
+                  </li>
+                  <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
+                    <div class="form-wrapper" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
+                      <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
+                    </div>
+                  </li>
+                  <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
+                    <a *ngIf="fee.is_referenced == 'N'" (click)="deleteInstallment(i)">
+                      <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
+                    </a>
+                    <a *ngIf="fee.is_referenced == 'Y'" class="paid-fee">Paid</a>
+                  </li>
+                </ul>
+              </div>
             </div>
-
           </div>
+  
+          <div class="additional-container">
+            <!-- Header Additional -->
+            <div class="additional-header">
+              <div class="pull-left">
+                EDIT ADDITIONAL FEES
+              </div>
+              <div class="pull-right">
+              </div>
+            </div>
+            <!-- Additional Adding Here -->
+            <div class="additional-adder">
+              <ul>
+                <li>
+                  <div class="form-wrapper">
+                    <label for="feetype">Fee Type</label>
+                    <select id="feetype" class="form-ctrl" [(ngModel)]="addFeeOther.fee_type" (ngModelChange)="updateOtherFeeData($event)" name="feetype">
+                      <option value="" selected>Select Fee Type</option>
+                      <option [value]="type.id" *ngFor="let type of getOtherFeesArray()">{{type.value}}</option>
+                    </select>
+                  </div>
+                </li>
+                <li>
+                  <div class="form-wrapper datePickerBox">
+                    <label for="dd">Due Date</label>
+                    <input type="text" value="" class="form-ctrl bsDatepicker" readonly="true" name="dd" [(ngModel)]="addFeeOther.due_date" bsDatepicker>
+                  </div>
+                </li>
+                <li>
+                  <div class="form-wrapper">
+                    <label for="amt">Amount</label>
+                    <input type="number" class="form-ctrl" [(ngModel)]="addFeeOther.initial_fee_amount" name="amt">
+                  </div>
+                </li>
+                <li>
+                  <div class="form-wrapper">
+                    <label for="taxamt">Tax</label>
+                    <input style="background: #dddddd;" type="number" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax" name="taxamt">
+                  </div>
+                </li>
+                <li>
+                  <button type="submit" class="btn fee-adder" (click)="addNewOtherFee()">
+                    <i></i>
+                    Add
+                  </button>
+                </li>
+                <li></li>
+              </ul>
+            </div>
+            <!-- Additional Fees Table Configure -->
+            <div class="additional-table">
+              <ul class="table-header">
+                <li>Fee Type</li>
+                <li class="date">Due Date</li>
+                <li>Amount</li>
+                <li class="tax">Tax</li>
+                <li>Fee Incl Tax</li>
+                <li>Action</li>
+              </ul>
+  
+              <div class="table-data" *ngIf="otherFeeTableData.length !=0">
+                <ul class="table-row" *ngFor="let fee of otherFeeTableData; let i = index">
+                  <li>{{fee.fee_type_name}}</li>
+                  <li class="date">
+                    <div class="form-wrapper datePickerBox">
+                      <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="fee.due_date" bsDatepicker readonly="true">
+                    </div>
+                  </li>
+                  <li>
+                    <div class="form-wrapper">
+                      <input type="number" class="form-ctrl" name="amt" [(ngModel)]="fee.initial_fee_amount">
+                    </div>
+                  </li>
+                  <li class="tax">
+                    <div class="form-wrapper">
+                      <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getOtherTaxes(fee.initial_fee_amount, fee.service_tax_applicable, i)">
+                    </div>
+                  </li>
+                  <li>
+                    <div class="form-wrapper">
+                      <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, i)">
+                    </div>
+                  </li>
+                  <li>
+                    <a (click)="deleteOtherFee(i)" *ngIf="fee.is_referenced == 'N'">
+                      <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
+                    </a>
+                    <a *ngIf="fee.is_referenced == 'Y'" class="paid-fee">Paid</a>
+                  </li>
+                </ul>
+              </div>
+  
+              <div class="table-data" *ngIf="otherFeeTableData.length ==0">
+                <h3>No Additional Fees Applied</h3>
+              </div>
+  
+            </div>
+  
+          </div>
+  
         </div>
-
       </div>
-    </div>
-
-    <div class="" popup-footer>
-      <div class="clearfix">
-        <aside class="pull-right popup-btn">
-          <input type="button" value="Cancel" class="btn" (click)="closeAllFeePops()">
-          <input type="button" value="Apply" (click)="createCustomFeeSchedule()" class="fullBlue btn">
-        </aside>
+  
+      <div class="" popup-footer>
+        <div class="clearfix">
+          <aside class="pull-right popup-btn">
+            <input type="button" value="Cancel" class="btn" (click)="closeAllFeePops()">
+            <input type="button" value="Apply" (click)="createCustomFeeSchedule()" class="fullBlue btn">
+          </aside>
+        </div>
       </div>
-    </div>
-  </student-pop-up>
+  
+    </student-pop-up>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Apply Discounts ============================ -->
@@ -1423,7 +1434,7 @@
   <!-- ===============Manage PDC ============================ -->
   <student-pop-up [isBig]="'y'" *ngIf="isPdcApply">
 
-    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="isPdcApply = false" close-button>
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePDCPop()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
           <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
@@ -1477,13 +1488,6 @@
 
               <li>
                 <div class="form-wrapper">
-                  <input type="text" value="" id="clearDate" class="form-ctrl bsDatepicker" name="clearDate" [(ngModel)]="pdcAddForm.clearing_date"
-                    placeholder="Clear Date" readonly="true" #clearDate="ngModel" bsDatepicker>
-                </div>
-              </li>
-
-              <li>
-                <div class="form-wrapper">
                   <input type="text" OnlyNumber="true" value="" id="chequeamount" class="form-ctrl" name="chequeamount" [(ngModel)]="pdcAddForm.cheque_amount"
                     max="6" placeholder="Amount">
                 </div>
@@ -1497,118 +1501,10 @@
 
             </ul>
           </div>
-          <!-- Installment Table Configure -->
-          <div class="pdc-table">
-            <ul class="table-header">
-              <li>Bank*</li>
-              <li>Cheque Number*</li>
-              <li>Cheque Date*</li>
-              <li>Clearing Date*</li>
-              <li>Cheque Amount*</li>
-              <li>Action</li>
-            </ul>
-            <div class="table-data" *ngIf="newPdcArr.length != 0">
-              <ul class="table-row" *ngFor="let c of newPdcArr; let i = index;">
-                <li>
-                  {{c.bank_name}}
-                </li>
-                <li>
-                  {{c.cheque_no}}
-                </li>
-                <li>
-                  {{c.cheque_date}}
-                </li>
-                <li>
-                  {{c.clearing_date}}
-                </li>
-                <li>
-                  {{c.cheque_amount}}
-                </li>
-                <li (click)="deleteUnsavedPdc(i)">
-                  <i style="font-family: FontAwesome; cursor: pointer;" class="fa fa-trash-o" aria-hidden="true"></i>
-                </li>
-              </ul>
-            </div>
-            <div class="table-data" *ngIf="newPdcArr.length == 0">
-              <h3 style="text-align: center;padding: 20px 0px;border-bottom: 1px solid rgba(119, 119, 119, 0.32);border-left: 1px solid rgba(119, 119, 119, 0.32);border-right: 1px solid rgba(119, 119, 119, 0.32);">No PDC Available</h3>
-            </div>
-          </div>
-          <!-- Save Added -->
-          <div class="row save-pdf">
-            <div class="clearfix">
-              <aside class="pull-left popup-btn">
-                <div class="field-checkbox-wrapper">
-                  <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
-                  <label for="isGenPdc">Generate Acknowledgement</label>
-                </div>
-                <div class="field-checkbox-wrapper">
-                  <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
-                  <label for="emailPdc">Send Email Acknowledgement</label>
-                </div>
-              </aside>
-              <aside class="pull-right popup-btn">
-                <input type="button" value="Save" (click)="addPdcDataToServer()" class="fullBlue btn">
-              </aside>
-            </div>
-          </div>
-
         </div>
 
         <div class="pdc-data-shell">
-          <!-- Header Installment -->
-          <!-- <div class="pdc-header">
-            <div class="pull-left">
-              Search and Edit
-            </div>
-            <div class="pull-right">
-            </div>
-          </div> -->
-          <!-- Installment Adding Here -->
-          <!-- <div class="pdc-search">
-            <ul>
-              <li>
-                <div class="form-wrapper">
-                  <label for="pdcstatus">PDC Status</label>
-                  <select id="pdcstatus" name="pdcstatus" [(ngModel)]="pdcSearchObj.cheque_status" class="form-ctrl">
-                    <option value=""></option>
-                    <option [value]="opt.data_key" *ngFor="let opt of pdcStatus">
-                      {{opt.data_value}}
-                    </option>
-                  </select>
-                </div>
-              </li>
-
-              <li>
-                <div class="form-wrapper">
-                  <label for="pdfrom">Cheque Date From</label>
-                  <span id="pdfrom" class="date-clear" name="cpd" (click)="pdcSearchObj.cheque_date_from = ''">clear</span>
-                  <input type="text" value="" id="pdfrom" class="form-ctrl bsDatepicker" [(ngModel)]="pdcSearchObj.cheque_date_from" name="pdfrom"
-                    readonly="true" bsDatepicker>
-                </div>
-              </li>
-
-              <li>
-                <div class="form-wrapper">
-                  <label for="pdto">Cheque Date To</label>
-                  <span class="date-clear" name="cpd" (click)="pdcSearchObj.cheque_date_to = ''">clear</span>
-                  <input type="text" value="" id="pdto" class="form-ctrl bsDatepicker" [(ngModel)]="pdcSearchObj.cheque_date_to" name="pdto"
-                    readonly="true" bsDatepicker>
-                </div>
-              </li>
-
-              <li>
-                <div class="submitter">
-                  <input style="position: relative;bottom: -25px;" type="button" value="Search" (click)="getPdcChequeList()" class="fullBlue btn">
-                </div>
-              </li>
-
-              <li></li>
-
-              <li></li>
-
-            </ul>
-          </div> -->
-          <!-- Installment Table Configure -->
+          <a id="hiddenAnchorAck"></a>
           <div class="pdc-table">
             <ul class="table-header">
               <li></li>
@@ -1622,13 +1518,13 @@
             </ul>
             <div class="table-data" *ngIf="chequePdcList.length != 0">
               <ul class="table-row displayComp" [id]='ch.student_id +ch.cheque_id' *ngFor="let ch of chequePdcList; let i = index;">
-                <li>
-                  <div class="field-checkbox-wrapper">
-                    <input type="checkbox" class="form-checkbox" name="" id="">
-                    <label for=""></label>
+                <li (click)="chequeSelectedForAction(i)">
+                  <div class="field-radio-wrapper">
+                    <input type="radio" name="pdcGen" class="form-radio" id="pdcAddlist{{i}}">
+                    <label for="pdcAddlist{{i}}"></label>
                   </div>
                 </li>
-                <!-- Bank Name -->
+
                 <li class="view-comp">
                   {{ch.bank_name}}
                 </li>
@@ -1726,6 +1622,7 @@
     </div>
 
   </student-pop-up>
+
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Fees Payment Manager=============================== -->
@@ -1753,7 +1650,7 @@
 
         <div class="row">
 
-          <div *ngIf="!isPaymentPdc" class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
+          <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
             <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'pay')"
             />
             <label for="payamt">Payment for</label>
@@ -1810,18 +1707,20 @@
 
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.bank_name != ''}">
-                <input [readonly]="isPdcFeePaymentSelected" type="text" value="" id="" class="form-ctrl" [(ngModel)]="pdcSelectedForm.bank_name"
+                <input [readonly]="isPdcFeePaymentSelected" type="text" value="" id="Pdcf" class="form-ctrl" [(ngModel)]="pdcSelectedForm.bank_name"
                   name="" />
-                <label for="">Bank Name*</label>
+                <label for="Pdcf">Bank Name*</label>
               </div>
             </div>
 
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': pdcSelectedForm.cheque_date != ''}">
-                <input readonly="true" type="text" value="" id="" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="pdcSelectedForm.cheque_date"
+                <input *ngIf="isPdcFeePaymentSelected" type="text" value="" id="pdcDateCheq" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="pdcSelectedForm.cheque_date"
+                  name="">
+                <input *ngIf="!isPdcFeePaymentSelected" type="text" value="" id="pdcDateCheq" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="pdcSelectedForm.cheque_date"
                   name="" bsDatepicker>
-                <label for="">Cheque Date*</label>
-                <span id="paydayClear" class="date-clear" (click)="pdcSelectedForm.cheque_date = ''" name="">clear</span>
+                <label for="pdcDateCheq">Cheque Date*</label>
+                <span *ngIf="!isPdcFeePaymentSelected" id="paydayClear" class="date-clear" (click)="pdcSelectedForm.cheque_date = ''" name="">clear</span>
               </div>
             </div>
 
@@ -1835,9 +1734,9 @@
 
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_amount != ''}">
-                <input [readonly]="isPdcFeePaymentSelected" type="text" readonly="true" value="" id="" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
+                <input [readonly]="isPdcFeePaymentSelected" type="text" readonly="true" value="" id="idChequAmount" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
                 />
-                <label for="">Cheque Amount*</label>
+                <label for="idChequAmount">Cheque Amount*</label>
               </div>
             </div>
 
@@ -1845,16 +1744,17 @@
         </div>
 
         <div class="row" style="margin-top: 10px;">
+          <a id="payMultiReciept"></a>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
-              <label for="isGenPdc">Generate Acknowledgement</label>
+              <label for="isGenPdc">Generate Fee Receipt</label>
             </div>
           </div>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
-              <label for="emailPdc">Send Email Acknowledgement</label>
+              <label for="emailPdc">Email Receipt </label>
             </div>
           </div>
         </div>
@@ -1904,10 +1804,10 @@
 
         <div class="row">
 
-          <div *ngIf="!isPaymentPdc" class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
+          <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
             <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'payone')"
             />
-            <label for="payamt">Pay Amount</label>
+            <label for="payamount">Pay Amount</label>
           </div>
 
           <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': partialPayObj.paid_date != ''}">
@@ -1960,35 +1860,35 @@
 
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.bank_name != ''}">
-                <input [readonly]="isPdcFeePaymentSelected" type="text" value="" id="" class="form-ctrl" [(ngModel)]="pdcSelectedForm.bank_name"
+                <input [readonly]="isPdcFeePaymentSelected" type="text" value="" id="idbankname" class="form-ctrl" [(ngModel)]="pdcSelectedForm.bank_name"
                   name="" />
-                <label for="">Bank Name*</label>
+                <label for="idbankname">Bank Name*</label>
               </div>
             </div>
 
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': pdcSelectedForm.cheque_date != ''}">
-                <input *ngIf="isPdcFeePaymentSelected" type="text" value="" id="" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="pdcSelectedForm.cheque_date"
+                <input *ngIf="isPdcFeePaymentSelected" type="text" value="" id="chequEDate" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="pdcSelectedForm.cheque_date"
                   name="">
-                <input *ngIf="!isPdcFeePaymentSelected" type="text" value="" id="" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="pdcSelectedForm.cheque_date"
+                <input *ngIf="!isPdcFeePaymentSelected" type="text" value="" id="chequEDate" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="pdcSelectedForm.cheque_date"
                   name="" bsDatepicker>
-                <label for="">Cheque Date*</label>
-                <span id="paydayClear" class="date-clear" (click)="pdcSelectedForm.cheque_date = ''" name="">clear</span>
+                <label for="chequEDate">Cheque Date*</label>
+                <span *ngIf="!isPdcFeePaymentSelected" id="paydayClear" class="date-clear" (click)="pdcSelectedForm.cheque_date = ''" name="">clear</span>
               </div>
             </div>
 
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_no != ''}">
-                <input [readonly]="isPdcFeePaymentSelected" type="text" minlength="6" maxlength="6" OnlyNumber="true" class="form-ctrl" name=""
+                <input [readonly]="isPdcFeePaymentSelected" type="text" id="cnub" minlength="6" maxlength="6" OnlyNumber="true" class="form-ctrl" name=""
                   [(ngModel)]="pdcSelectedForm.cheque_no" />
-                <label for="">Cheque No.*</label>
+                <label for="cnub">Cheque No.*</label>
               </div>
             </div>
 
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_amount != ''}">
-                <input readonly="true" type="text" value="" id="" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount" />
-                <label for="">Cheque Amount*</label>
+                <input readonly="true" type="text" value="" id="camt" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount" />
+                <label for="camt">Cheque Amount*</label>
               </div>
             </div>
 
@@ -1996,16 +1896,17 @@
         </div>
 
         <div class="row" style="margin-top: 10px;">
+            <a id="payOneReciept"></a>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
-              <label for="isGenPdc">Generate Acknowledgement</label>
+              <label for="isGenPdc">Generate Fee Receipt</label>
             </div>
           </div>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
               <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
-              <label for="emailPdc">Send Email Acknowledgement</label>
+              <label for="emailPdc">Email Receipt</label>
             </div>
           </div>
         </div>

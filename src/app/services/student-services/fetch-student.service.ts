@@ -14,6 +14,7 @@ import { AuthenticatorService } from '../authenticator.service';
 @Injectable()
 export class FetchStudentService {
 
+
   studentFees: any;
   url: string;
   baseUrl: string = '';
@@ -175,5 +176,17 @@ export class FetchStudentService {
     )
   }
 
+  emailReceiptById(sid,id, yr): any {
+    let url =this.baseUrl +"/api/v1/studentWise/fee/"+sid +"/feeReceipt/" +id +"/download?emailSent=Y";
+    //fin_yr=18-19& 
+    return this.http.get(url, {headers: this.headers}).map(
+      res => {
+        return res;
+      },
+      err => {
+        return err.json();
+      }
+    )
+  }
 
 }

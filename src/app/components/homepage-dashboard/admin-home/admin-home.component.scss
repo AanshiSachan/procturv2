@@ -3,7 +3,7 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-.fish-chips { 
+.fish-chips {
     color: #fff;
     padding: 3px;
     margin: 0px 10px 0px 10px;
@@ -20,10 +20,20 @@
     height: 20px;
     width: 20px;
     z-index: 2;
-    .tooltip-box-field {
-        color: black;
-        min-height: 22px;
-        width: 140px;
+    &.lefts {
+        left: 80%;
+        .tooltip-box-field {
+            color: black;
+            min-height: 22px;
+            width: 140px !important;
+            left: -135px !important;
+            z-index: 1;
+            padding: 5px 10px !important;
+            top: -12px !important;
+            &:after {
+                display: none;
+            }
+        }
     }
     .qInfoIcon {
         margin-left: 5px;
@@ -44,6 +54,23 @@
         &:hover {
             border-color: $header-bg;
             box-shadow: 0px 0px 1px 0px $header-bg inset;
+        }
+    }
+    &.hover {
+        &.lefts {
+            left: 80%;
+            .tooltip-box-field {
+                color: black;
+                min-height: 22px;
+                width: 140px !important;
+                left: -135px !important;
+                z-index: 1;
+                padding: 5px 10px !important;
+                top: -12px !important;
+                &:after {
+                    display: none;
+                }
+            }
         }
     }
 }
@@ -280,36 +307,62 @@ fieldset {
                 padding: 20px 0px 10px 0px !important;
                 margin: 0px !important;
                 background-color: #efefef;
-                span {
-                    padding: 4px 12px;
-                    margin-left: -4px;
-                }
-                h5 {
-                    display: inline;
-                    margin-left: -2px;
-                    margin-right: 2px;
-                    font-size: 10px;
-                }
-                .absent {
-                    color: white !important;
-                    background: #fe552a;
-                    border-radius: 2px;
-                    font-size: 10px;
-                    padding-top: 1px;
-                }
-                .present {
-                    color: white !important;
-                    background: #4191da;
-                    border-radius: 2px;
-                    font-size: 10px;
-                    padding-top: 1px;
-                }
-                .leave {
-                    color: white !important;
-                    background: #7a7a7a;
-                    border-radius: 2px;
-                    font-size: 10px;
-                    padding-top: 1px;
+                .legendSection {
+                    display: inline-block;
+                    padding-left: 0px;
+                    .divSection {
+                        display: inline-block;
+                        margin: 0px 5px;
+                        width: 40px;
+                        height: auto;
+                        span {
+                            padding: 4px 10px;
+                            padding: 3px 10px;
+                            max-width: 40px;
+                            height: 20px;
+                            display: block;
+                            text-align: center;
+                        }
+                        h5 {
+                            display: inline;
+                            margin-left: -2px;
+                            margin-right: 2px;
+                            font-size: 10px;
+                        }
+                        .absent {
+                            color: white !important;
+                            background: #fe552a;
+                            border-radius: 2px;
+                            font-size: 10px;
+                            padding: 3px 12px 0px 8px;
+                            margin-left: 5px;
+                        }
+                        .present {
+                            color: white !important;
+                            background: #4191da;
+                            border-radius: 2px;
+                            font-size: 10px;
+                            padding: 3px 12px 0px 8px;
+                            margin-left: 5px;
+                        }
+                        .leave {
+                            color: white !important;
+                            background: #7a7a7a;
+                            border-radius: 2px;
+                            font-size: 10px;
+                            padding: 3px 12px 0px 8px;
+                            margin-left: 5px;
+                        }
+                        .legendSpan {
+                            padding-left: 0px;
+                            font-weight: 600;
+                            padding-right: 1px;
+                            padding-left: 1px;
+                            font-size: 12px;
+                            width: 100%;
+                            display: block;
+                        }
+                    }
                 }
             }
             .studentTableWrapper {
@@ -365,7 +418,7 @@ fieldset {
             div {
                 padding: 5px 0px;
                 &.questionInfo {
-                    padding: 0px 5px !important;
+                    padding: 0px !important;
                     &.qInfoIcon {
                         border: none;
                     }
@@ -530,6 +583,16 @@ fieldset {
         }
         ::-webkit-scrollbar {
             display: block;
+        }
+    }
+    tr {
+        td {
+            padding: 0px 20px !important;
+        }
+    }
+    .form-wrapper {
+        .form-ctrl {
+            border: 2px solid #efefef;
         }
     }
 }
@@ -967,7 +1030,7 @@ div#enqChart {
         min-height: 300px;
         max-height: 300px;
         overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
     ul {
         border-bottom: 2px solid rgba(211, 212, 213, 0.5);
@@ -998,7 +1061,7 @@ div#enqChart {
             padding: 5px 24px 0px;
             &.cls-type {
                 width: 15%;
-                &.batch{
+                &.batch {
                     width: 45% !important;
                 }
             }
@@ -1010,7 +1073,7 @@ div#enqChart {
             }
             &:last-child {
                 width: 15%;
-                }
+            }
             div {
                 color: rgba(30, 35, 40, 0.7);
                 font-size: 14px;
@@ -1083,6 +1146,7 @@ div#enqChart {
             bottom: 2px;
             right: 0px;
             text-align: right;
+            margin-right: 30px;
             &.display {
                 //height: 100%;
                 display: block !important;
@@ -1101,6 +1165,12 @@ div#enqChart {
                     li {
                         padding: 10px 10px 10px;
                     }
+                    &.subject {
+                        background: rgba(27, 96, 163, 0.16);
+                        li {
+                            padding: 5px 24px 0px !important;
+                        }
+                    }
                 }
             }
             .che-action {
@@ -1110,6 +1180,7 @@ div#enqChart {
                 bottom: 2px;
                 right: 0px;
                 text-align: right;
+                margin-right: 30px;
                 &.display {
                     //height: 100%;
                     display: block !important;
@@ -1601,30 +1672,31 @@ div#enqChart {
 }
 
 .customDropdown {
-    font-weight: 500;
+    margin-top: 0px;
     border: 1px solid rgba(0, 0, 0, 0.23);
     padding: 1px 1px;
     select {
         width: 100%;
+        padding: 0px;
+        font-size: 12px;
         background: transparent;
     }
 }
 
 .btnGroup {
     display: inline-flex;
+    margin-bottom: 4px !important;
     .btn {
-        padding: 1px 12px 5px 12px;
-        margin: 5px 5px 5px 5px;
+        padding: 0px 8px 0px 8px;
+        margin: 0px 5px;
         width: 29%;
-        height: 24px;
+        height: 22px;
         font-size: 14px;
         border-radius: 6px;
     }
     .classLeaveBtn {
         color: white;
         text-align: center;
-        padding-bottom: -10px;
-        margin-bottom: 10px;
         background: #7a7a7a;
     }
     .classAbsentBtn {
@@ -1689,8 +1761,8 @@ div#enqChart {
 }
 
 .notification-content-wrapper {
-    padding: 0px 10px 0px 15px;
-    max-height: 400px;
+    padding: 0px 0px 0px 15px;
+    max-height: 415px;
     overflow-x: hidden;
     overflow-y: auto;
     .row {
@@ -1758,6 +1830,7 @@ div#enqChart {
         }
         .main-content-wrapper {
             .filter-section {
+                margin-left: -15px;
                 .form-wrapper {
                     background: transparent;
                     margin: 0px;
@@ -1774,7 +1847,6 @@ div#enqChart {
                     label {
                         font-size: 12px;
                         font-weight: 400;
-                        font-family: -webkit-body;
                         color: black;
                         text-decoration: none;
                         text-shadow: none;
@@ -1784,7 +1856,7 @@ div#enqChart {
                         background: transparent;
                         border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
                         width: 100%;
-                        padding: 8px 5px;
+                        padding: 5px 5px;
                         font-weight: 600;
                         font-size: 14px;
                         color: black;
@@ -1811,7 +1883,7 @@ div#enqChart {
                 margin-bottom: 10px;
             }
             .table-content-wrapper {
-                max-height: 200px;
+                max-height: 175px;
                 overflow-x: hidden;
                 overflow-y: scroll;
                 table {
@@ -1821,6 +1893,10 @@ div#enqChart {
                             tr {
                                 th {
                                     padding: 5px 5px !important;
+                                    .field-checkbox-wrapper {
+                                        display: inline-block;
+                                        margin-bottom: 0px
+                                    }
                                 }
                             }
                         }
@@ -1829,6 +1905,10 @@ div#enqChart {
                                 padding: 0px 0px !important;
                                 td {
                                     padding: 5px 5px !important;
+                                    .field-checkbox-wrapper {
+                                        display: inline-block;
+                                        margin-bottom: 0px
+                                    }
                                 }
                             }
                         }
@@ -1844,18 +1924,31 @@ div#enqChart {
                 .row {
                     margin: 10px 0px;
                 }
+                .deliverModeSection {
+                    margin-left: -15px;
+                }
                 .message-table-wrapper {
-                    max-height: 210px;
+                    max-height: 160px;
                     overflow-x: hidden;
                     overflow-y: scroll;
                     table {
                         &.message-table {
                             max-height: 200px;
+                            thead {
+                                tr {
+                                    .dateSection {
+                                        width: 100px;
+                                    }
+                                }
+                            }
                             tbody {
                                 tr {
                                     padding: 0px 0px !important;
                                     td {
                                         padding: 5px 5px !important;
+                                        &.dateSection {
+                                            width: 100px;
+                                        }
                                     }
                                 }
                             }
@@ -1917,9 +2010,9 @@ div#enqChart {
         }
     }
     label {
-        color: #309bf8 !important;
+        // color: #309bf8 !important;
         font-size: 12px;
-        font-weight: 400; //font-family: -webkit-body;
+        font-weight: 400;
         color: rgba(0, 0, 0, 0.77);
         padding-bottom: 2px;
         text-decoration: none;
@@ -1940,9 +2033,9 @@ div#enqChart {
         }
     }
     &.timepick {
-        width: 50%;
         padding: 1px 0px;
         .tbox {
+            display: inline-block;
             width: 100%;
             .times {
                 display: inline-block;
@@ -1956,7 +2049,7 @@ div#enqChart {
                 font-size: 14px;
                 color: black;
                 &.mins {
-                    width: 80px;
+                    width: 70px;
                 }
                 &.mers {
                     width: 50px;
@@ -1982,4 +2075,82 @@ div#enqChart {
 
 #next_tab {
     margin-top: 10px;
+}
+
+.rescheduleTime {
+    label {
+        text-transform: none;
+    }
+    .tbox {
+        padding: 0px 0px;
+        .times {
+            .side-form-ctrl {
+                &.mins {
+                    padding: 0px 0px;
+                }
+                &.mers {
+                    padding: 0px 0px;
+                }
+            }
+        }
+    }
+}
+
+.borderWithText {
+    display: block;
+    margin: 10px 0px;
+    h2 {
+        font-size: 15px;
+        text-align: center;
+        border-bottom: 2px solid #f1f1f1;
+        position: relative;
+        span {
+            background-color: white;
+            position: relative;
+            top: 10px;
+            padding: 0 10px;
+        }
+    }
+}
+
+.viewDeatail-wrapper {
+    .table-details-wrapper {
+        margin: 10px 0px;
+        max-height: 300px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}
+
+.search-filter {
+    .normal-field {
+        padding: 7px 10px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        margin: 0;
+        float: left;
+        height: 35px;
+        font-size: 14px;
+    }
+    .field-wrapper {
+        position: relative;
+        padding-top: 0px !important;
+        width: 30%;
+        float: left !important;
+        .form-ctrl {
+            font: 400 13.3333px Arial;
+            border-top: none !important;
+            border-right: none !important;
+            border-left: none !important;
+        }
+    }
+    .field-wrapper label {
+        position: absolute !important;
+        left: 10% !important;
+        top: 1% !important;
+        &:after {
+            left: 85% !important;
+            top: 10px !important;
+        }
+    }
 }

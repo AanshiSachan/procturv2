@@ -65,6 +65,11 @@
           <label for="salary">Salary (Per Hour)
           </label>
         </div>
+        <div class="row field-wrapper" *ngIf="enableBiometric == '1'">
+          <input type="text" class="form-ctrl" name="biometric" formControlName="attendance_device_id" (focus)="inputClickedCheck($event)">
+          <label for="biometric">Attendance Card ID
+          </label>
+        </div>
         <div class="extra-margin" style="margin-top: 15px;">
 
           <div class="field-checkbox-wrapper" style="margin-left: -40px;">
@@ -91,7 +96,7 @@
         </div>
         <div class="row">
           <div class="pull-right">
-            <button routerLink="/teacher" class="btn redBtn">Cancel</button>
+            <button routerLink="/teacher" class="btn">Cancel</button>
             <button [disabled]='!addTeacherForm.valid' class="btn fullBlue" style="font-size: 16px;height: 40px;" type="submit">Save</button>
           </div>
         </div>
