@@ -81,7 +81,7 @@
                   </div>
                 </div>
 
-                <p>(Extra, Exam and Cancel Class Only)</p>
+                <p>(Extra class, Exam class and Cancel Class Only)</p>
               </label>
             </div>
           </div>
@@ -1181,7 +1181,7 @@
                                 </label>
                               </div>
                             </div>
-                            <div class="c-md-12">
+                            <div class="c-md-12" *ngIf="instituteSettingDet.rank_to_send_for_marks_sms != 0 && instituteSettingDet.rank_to_send_for_marks_sms != false">
                               <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.rank_no_for_marks_sms >= '0'}">
                                 <input type="number" min="0" max="99999" id="inputSpecifyRank" [(ngModel)]="instituteSettingDet.rank_no_for_marks_sms" class="form-ctrl"
                                   name="slotNew">
@@ -1210,10 +1210,22 @@
                           <div class="field-checkbox-wrapper checkbox-bundle-wrapper" style="width: 100%">
                             <input type="checkbox" disabled="true" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.is_exam_grad_feature"
                               id="ch78">
-                            <label for="ch78">Enable Exam Grading System</label>
+                            <label for="ch78">Enable Exam Grading System
+                              <div class="questionInfo inline-relative examGrade">
+                                <span class="qInfoIcon i-class">i</span>
+                                <div class="tooltip-box-field">
+
+                                  Allow to use Exam Grades instead
+                                  <br>of Marks. Useful in institutes where
+                                  <br>grading is used for exams.
+                                  <br>Note that exam grades are allowed
+                                  <br>to be enabled/disabled at course Level
+                                </div>
+                              </div>
+                            </label>
                           </div>
                         </div>
-                        <div class="row" *ngIf="(isLangInst == false)">
+                        <div class="row" *ngIf="(isLangInst == false && test_series_feature == '1')">
                           <h3>Online Test Setting</h3>
                           <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.test_buffer_duration >= '0'}">
                             <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.test_buffer_duration" class="form-ctrl" name="slotNew"
@@ -1232,6 +1244,17 @@
                             <input type="number" min="0" max="99999" [(ngModel)]="instituteSettingDet.absent_attendance_in_a_month_threshold" class="form-ctrl"
                               name="slotNew" id="ch80">
                             <label for="ch80">Absent Attendance Threshold: (In 15 Days)
+
+                              <div class="questionInfo inline-relative absentThreshold">
+                                <span class="qInfoIcon i-class">i</span>
+                                <div class="tooltip-box-field">
+
+                                  Email with student attendance absent details are sent to Admin
+                                  <br>on every 15th and 30th day of the month, based on below criteria:
+                                  <br>Student is absent in a batch for more than the threshold value (e.g 3).
+                                </div>
+                              </div>
+
                             </label>
                           </div>
                         </div>
@@ -1483,7 +1506,15 @@
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.inst_fee_activity_email_recipients != ''}">
                               <input type="text" [(ngModel)]="instituteSettingDet.inst_fee_activity_email_recipients" class="form-ctrl" name="slotNew"
                                 id="ch89">
-                              <label for="ch89">Point Of Contact(s)(Email IDs) for Fee Activities
+                              <label for="ch89">Email IDs for Fee Activites
+                                <div class="questionInfo inline-relative pointOfComtact">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field">
+                                    All Fee level reporting / activity
+                                    <br>details are shared
+                                    <br>to these Email contacts
+                                  </div>
+                                </div>
                               </label>
                             </div>
                           </div>
@@ -1595,8 +1626,7 @@
                         <div class="row">
                           <div class="c-lg-6">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.pre_enquiry_follow_up_reminder_time != ''}">
-                              <select id="" class="form-ctrl" name="instituteSettingDet.pre_enquiry_follow_up_reminder_time" (focus)="inputClickedCheck($event)"
-                                [(ngModel)]="instituteSettingDet.pre_enquiry_follow_up_reminder_time">
+                              <select id="pre_enquiry_follow_up_reminder_time" class="form-ctrl" name="pre_enquiry_follow_up_reminder_time" [(ngModel)]="instituteSettingDet.pre_enquiry_follow_up_reminder_time">
                                 <option value="-1">---select---</option>
                                 <option value="00:15">15 minutes before</option>
                                 <option value="00:30">30 minutes before</option>
@@ -1604,7 +1634,7 @@
                                 <option value="02:00">2 hour before</option>
                                 <option value="24:00">1 day before</option>
                               </select>
-                              <label>Enquiry Follow up Reminder Notification ?
+                              <label for="pre_enquiry_follow_up_reminder_time">Enquiry Follow up Reminder Notification
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field lg">
@@ -1619,7 +1649,7 @@
                           </div>
                           <div class="c-lg-6">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.post_enquiry_follow_up_reminder_time != ''}">
-                              <select id="" class="form-ctrl" name="instituteSettingDet.post_enquiry_follow_up_reminder_time" (focus)="inputClickedCheck($event)"
+                              <select id="post_enquiry_follow_up_reminder_time" class="form-ctrl" name="instituteSettingDet.post_enquiry_follow_up_reminder_time"
                                 [(ngModel)]="instituteSettingDet.post_enquiry_follow_up_reminder_time">
                                 <option value="-1">---select---</option>
                                 <option value="00:15">After 15 minutes</option>
@@ -1628,14 +1658,14 @@
                                 <option value="02:00">After 2 hour</option>
                                 <option value="24:00">After 1 day</option>
                               </select>
-                              <label>Enquiry Follow up Reminder Notification Past due date/time ? </label>
+                              <label for="post_enquiry_follow_up_reminder_time">Enquiry Follow up Reminder Notification Past due date/time</label>
                             </div>
                           </div>
                           <div class="c-lg-6" style="margin-left:-15px;margin-top:15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.daily_account_summary"
-                                id="">
-                              <label for="enableSMS">Daily Account Summary
+                                id="daily_account_summary">
+                              <label for="daily_account_summary">Daily Account Summary
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field md">
@@ -1649,10 +1679,10 @@
                               </label>
                             </div>
                           </div>
-                          <div class="c-lg-6">
+                          <div class="c-lg-6" style="margin-left: 15px;" *ngIf="instituteSettingDet.daily_account_summary == '1' || instituteSettingDet.daily_account_summary == true">
                             <div class="field-wrapper" [ngClass]="{'has-value' : instituteSettingDet.emailids_for_report != ''}">
-                              <input type="text" [(ngModel)]="instituteSettingDet.emailids_for_report" class="form-ctrl" name="slotNew">
-                              <label for="slotNew">Point Of Contact(s)(Email IDs) for Reports
+                              <input type="text" [(ngModel)]="instituteSettingDet.emailids_for_report" class="form-ctrl" name="daily_account_summary" id="dailyConatctID">
+                              <label for="dailyConatctID">Point Of Contact(s)(Email IDs) for Reports
                                 <div class="questionInfo inline-relative">
                                   <span class="qInfoIcon i-class">i</span>
                                   <div class="tooltip-box-field md">
@@ -1701,7 +1731,18 @@
                             <div class="field-checkbox-wrapper" style="width: 100%">
                               <input type="checkbox" value="" name="enableSMS" class="form-checkbox" [(ngModel)]="instituteSettingDet.allow_simple_registration"
                                 id="ch103">
-                              <label for="ch103">Allow Simple Registration</label>
+                              <label for="ch103">Allow Simple Registration
+                                <div class="questionInfo inline-relative allowRegistration">
+                                  <span class="qInfoIcon i-class">i</span>
+                                  <div class="tooltip-box-field md">
+                                    When enabled, Simple student registration message is sent without any app URLs.
+                                    <br>Student Registratoin SMS Format: Dear, Student Name, Your registration is complete.
+                                    <br>Please verify your details ID: Student Details. Please contact for any changes.
+                                    <br>Best Wishes,
+                                    <br>{{instituteName}}
+                                  </div>
+                                </div>
+                              </label>
                             </div>
                           </div>
                           <div class="c-sm-6 c-md-6 c-lg-6">
@@ -1764,7 +1805,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr *ngIf="onlinePayment == '1'">
                       <td>
                         <h3>Online Payment Setting</h3>
                         <div class="row">
@@ -1800,6 +1841,10 @@
                             </div>
                           </div>
                         </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
                         <div class="row">
                           <div class="c-sm-6 c-md-6 c-lg-6" style="margin-left:-15px">
                             <div class="field-checkbox-wrapper" style="width: 100%">

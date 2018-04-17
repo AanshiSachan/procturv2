@@ -50,7 +50,6 @@ batchExamReport(obj):Observable <any>{
     )
 }
 
-
 getCourses(obj): Observable<any> {
     let url=this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + obj
     return this.http.get(url, {headers:this.headers}).map(
@@ -63,24 +62,7 @@ getCourses(obj): Observable<any> {
       
     )
   }
- batchGetcourses(obj){
- let url=this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id + "/" 
-  + "?standard_id=" + obj.standard.id+ "&subject_id=" +obj.subject_id +"&assigned=N";
-    return this.http.get(url, {headers:this.headers}).map(
-      data=>{
-        return data;
-      },
-      error=>{
-        return error;
-      }
-      
-    )
-  }
  
-
-
-
-
   getSubject(obj){
 
     let url=this.baseUrl + "/api/v1/courseMaster/fetch/courses/" + this.institute_id + "/" + obj
@@ -92,9 +74,10 @@ getCourses(obj): Observable<any> {
         return error;
       }
       
-    )
+    )}
 
-  }
+
+
 
   getExamSchedule(obj){
 
@@ -106,8 +89,7 @@ getCourses(obj): Observable<any> {
       error=>{
         return error;
       }
-      
-    )
+)
 
   }
 

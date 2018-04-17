@@ -7,7 +7,7 @@
     <section class="clearFix row">
       <div class="activity-left pull-left">
         <div class="act-top clearfix">
-          <h1 class="pull-left">Activity Page</h1>
+          <h1 class="pull-left">Activity Dashboard</h1>
           <div class="pull-right act-right-sec">
             <button class="btn hide" [ngClass]="{hide : checkIfUserHadAccess('105')}" (click)="addSendNotification()">
               <svg height="32" viewBox="0 0 32 32" width="32" xmlns="http://www.w3.org/2000/svg">
@@ -1125,6 +1125,12 @@
                   <button class="btn fullBlue" style=" margin-top: 15px;" (click)="fetchDataFromFields()">Go</button>
                 </div>
 
+                <div *ngIf="studentList.length > 0" class="pull-right" style="margin-top: 15px">
+                  <div class="search-filter">
+                    <input type="text" [(ngModel)]="searchData" class="normal-field" placeholder="Search" name="searchData" #searchVal>
+                  </div>
+                </div>
+
               </div>
 
               <span class="borderWithText">
@@ -1186,7 +1192,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let row of studentList; let i = index; trackBy: i;">
+                    <tr *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i; ">
                       <td>
                         <div class="field-checkbox-wrapper">
                           <input type="checkbox" class="form-checkbox" (ngModelChange)="onCheckBoxEvent($event , row)" [(ngModel)]="row.assigned">
@@ -1245,7 +1251,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let row of studentList; let i = index; trackBy: i;">
+                    <tr *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
                       <td>
                         <div class="field-checkbox-wrapper">
                           <input type="checkbox" class="form-checkbox" (ngModelChange)="onCheckBoxEvent($event , row)" [(ngModel)]="row.assigned">

@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, Output, ElementRef, 
-    Renderer2, ViewChild, OnChanges, SimpleChanges, HostListener } from '@angular/core';
+import {
+    Component, EventEmitter, Input, Output, ElementRef,
+    Renderer2, ViewChild, OnChanges, SimpleChanges, HostListener
+} from '@angular/core';
 
 @Component({
     selector: 'quick-filter',
@@ -12,12 +14,16 @@ export class QuickFilterComponent implements OnChanges {
     selectedOptions: any[] = [];
     selectedOptionsString: string = "";
     dataMap: any[] = [];
-
+    isProfessional: boolean = false;
     @Input() inputList: any[] = [];
     @Input() modelName: any;
 
     @Output() selectedValue = new EventEmitter<any>();
 
+
+    constructor() {
+        this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    }
 
 
     ngOnChanges(): void {
@@ -25,7 +31,7 @@ export class QuickFilterComponent implements OnChanges {
         this.modelName;
         this.selectedOptions = [];
         this.inputList.forEach(e => {
-            if(e.checked){
+            if (e.checked) {
                 this.selectedOptions.push(e.prop);
                 this.selectedOptionsString = this.selectedOptions.join(",");
             }
@@ -33,8 +39,21 @@ export class QuickFilterComponent implements OnChanges {
     }
 
 
-    checkBoxUpdated(i) {
+    isProReg(item) {
+        if (item.value == "Registered") {
+            if (this.isProfessional) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 
+    checkBoxUpdated(i) {
         if (this.modelName === 'enqList') {
             this.updateEnqArray(i);
         }
@@ -42,12 +61,12 @@ export class QuickFilterComponent implements OnChanges {
 
     @HostListener('document:click', ['$event', '$event.target'])
     onClick(event: MouseEvent, targetElement: HTMLElement): void {
-      if (!targetElement.classList.contains('procturqf')) {
-        this.isDropdown = false;
-      }
+        if (!targetElement.classList.contains('procturqf')) {
+            this.isDropdown = false;
+        }
     }
-  
-    toggleD($event){
+
+    toggleD($event) {
         $event.preventDefault();
         $event.stopPropagation();
         this.isDropdown = !this.isDropdown;
@@ -67,7 +86,7 @@ export class QuickFilterComponent implements OnChanges {
                 this.selectedOptionsString = this.selectedOptions.join(",");
                 this.selectedValue.emit(i);
             }
-            else{
+            else {
 
             }
         }
@@ -84,19 +103,19 @@ export class QuickFilterComponent implements OnChanges {
                 this.selectedOptionsString = this.selectedOptions.join(",");
                 this.selectedValue.emit(i);
             }
-            else{
+            else {
 
             }
         }
         else if (i.prop != "All" && i.prop != "Pending") {
-            if(this.selectedOptions.indexOf("All") !== -1 || this.selectedOptions.indexOf("Pending") !== -1){
-                if(this.selectedOptions.indexOf("All") !== -1){
+            if (this.selectedOptions.indexOf("All") !== -1 || this.selectedOptions.indexOf("Pending") !== -1) {
+                if (this.selectedOptions.indexOf("All") !== -1) {
                     let indexAll = this.selectedOptions.indexOf("All");
-                    this.selectedOptions.splice(indexAll, 1);                    
+                    this.selectedOptions.splice(indexAll, 1);
                 }
-                if(this.selectedOptions.indexOf("Pending") !== -1){
+                if (this.selectedOptions.indexOf("Pending") !== -1) {
                     let indextod = this.selectedOptions.indexOf("Pending");
-                    this.selectedOptions.splice(indextod, 1);   
+                    this.selectedOptions.splice(indextod, 1);
                 }
                 this.inputList.forEach(el => {
                     if (el.prop == "All" || el.prop == 'Pending') {
@@ -116,7 +135,7 @@ export class QuickFilterComponent implements OnChanges {
                     this.selectedOptionsString = this.selectedOptions.join(",");
                 }
             }
-            else{
+            else {
                 this.inputList.forEach(el => {
                     if (el.prop == "All" || el.prop == "Pending") {
                         el.checked = false;
@@ -151,4 +170,6 @@ export class QuickFilterComponent implements OnChanges {
             this.selectedOptionsString = this.selectedOptions.join(",");
         }
     }
+
+    
 }

@@ -18,8 +18,8 @@
       <div class="row" style="margin-left:20px">
         <div class="c-lg-3 c-md-3 c-sm-3">
           <div class="field-wrapper" [ngClass]="{'has-value' : newCourseAdd.master_course_name != ''}">
-            <input type="text" id="idMasterCourse" name="masterCourse" [(ngModel)]="newCourseAdd.master_course_name" class="form-ctrl"
-            />
+            <input type="text" id="idMasterCourse" #masterCourseInput name="masterCourse" [(ngModel)]="newCourseAdd.master_course_name"
+              class="form-ctrl" />
             <label for="idMasterCourse">Master Course
               <span style="color:red">*</span>
             </label>
@@ -27,7 +27,7 @@
         </div>
         <div class="c-lg-3 c-md-3 c-sm-3">
           <div class="field-wrapper" [ngClass]="{'has-value' : newCourseAdd.standard_id != '-1'}">
-            <select id="idStandardName" class="form-ctrl" [(ngModel)]="newCourseAdd.standard_id">
+            <select id="idStandardName" #standardNameDDn class="form-ctrl" [(ngModel)]="newCourseAdd.standard_id">
               <option value="-1"></option>
               <option *ngFor="let opt of standardNameList" [value]="opt.standard_id">
                 {{opt.standard_name}}
@@ -212,7 +212,7 @@
                       </label>
                       <!-- <span class="date-clear" name="followupdate" (click)="clearAddEnquiryDate('endDatePicker')">clear</span> -->
                     </div>
-                    <div [ngClass]="{'hideVisibility' : examGradeFeature == 0}" class="field-checkbox-wrapper" style="background: transparent;margin-top: 25px;width: 100%;text-align: left;">
+                    <div *ngIf="examGradeFeature == 0" class="field-checkbox-wrapper" style="background: transparent;margin-top: 25px;width: 100%;text-align: left;">
                       <input type="checkbox" value="" [(ngModel)]="nestedTableForm.allow_exam_grades" name="allow" class="form-checkbox" id="allow">
                       <label for="allow">Allow Exam Grades</label>
                     </div>
@@ -276,4 +276,3 @@
   </div>
 
 </div>
-

@@ -12,6 +12,7 @@ import { lang } from 'moment';
 export class ExamReportComponent implements OnInit {
   isProfessional: boolean = true;
   pageIndex: number = 1;
+  getSubjectData:any[]=[];
   batchExamRepo:any[]=[];
   totalRecords: number = 0;
   dateSource :any[]=[];
@@ -19,11 +20,11 @@ export class ExamReportComponent implements OnInit {
   displayBatchSize: number = 10;
   Tdata: boolean = false;
   courseData: any[] = [];
+  batchCourseData:any=[];
   subData = "";
   SubjectData: any[] = [];
   masterCourses: any[] = [];
   masterData = "";
-<<<<<<< HEAD
   addReportPopup: boolean = false;
   examTypeEntry: any[] = [];
   Exam_sche_Data = "";
@@ -36,30 +37,9 @@ export class ExamReportComponent implements OnInit {
   dataExamIndex: any[] = [];
   typeDataForm: any[] = [];
 
-=======
-  addReportPopup:boolean= false;
-  examTypeEntry:any[]=[];
-  Exam_sche_Data = "";
-  Exam_Sch_Data: any[] = [];
-  ExamSource: any = [];
-  DetailSource :any=[];
-  pagedExamSource:any[] = [];
-  studentName="";
-  FetchApiData: any = [];
-  dataExamIndex :any[]=[];
-  typeDataForm :any[]=[];
-  
->>>>>>> b791418c1931a2e12e1796bddef966b006f03f7f
-
-
 
   projectSettings: ColumnSetting[] = [
 
-<<<<<<< HEAD
-
-=======
-   
->>>>>>> b791418c1931a2e12e1796bddef966b006f03f7f
     { primaryKey: 'student_id', header: 'Student Id' },
     { primaryKey: 'student_name', header: 'Student Name' },
     { primaryKey: 'total_marks', header: 'Total Marks' },
@@ -94,29 +74,20 @@ assigned :"N",
     this.fetchExamData();
     this.pageIndex = 1;
   }
-<<<<<<< HEAD
   closeReportPopup() {
 
     this.addReportPopup = false;
   };
-
+/*1111*/
   fetchExamData() {
   if(this.isProfessional){
     this.examdata.batchExamReport(this.queryParam).subscribe((res)=>
-  {
+  {  
     this.batchExamRepo=res;
+
     console.log(res);
-    
   })
-=======
-  closeReportPopup(){
-
-    this.addReportPopup=false;
-  }
-fetchExamData() {
->>>>>>> b791418c1931a2e12e1796bddef966b006f03f7f
-
-  }
+    }
   else{
     this.examdata.ExamReport().subscribe(
       (data: any) => {
@@ -124,15 +95,17 @@ fetchExamData() {
         console.log(this.masterCourses);
       }
     )
+}};
 
-  }};
 
+
+/*view btn*/
   fetchExamReport() {
 
     console.log(this.fetchFieldData);
 
     if (this.fetchFieldData.subject_id == "" || this.fetchFieldData.standard_id == "" || this.fetchFieldData.batch_id == "" ||
-      this.fetchFieldData.exam_schd_id == "") {
+    this.fetchFieldData.exam_schd_id == "") {
 
       let msg = {
         type: "error",
@@ -163,8 +136,7 @@ fetchExamData() {
       );
     }
   }
-
-<<<<<<< HEAD
+/*detailbtn*/
   fetchDetailReport() {
     this.addReportPopup= true;
     if (this.fetchFieldData.standard_id == "" || this.fetchFieldData.subject_id == "" || this.fetchFieldData.batch_id == "" ||
@@ -177,12 +149,9 @@ fetchExamData() {
       this.appC.popToast(msg);
     }
     else {
-     
-      this.examdata.viewDetailData(this.fetchFieldData.batch_id)
+     this.examdata.viewDetailData(this.fetchFieldData.batch_id)
         .subscribe(
           res => {
-            
-
             this.detailSource = res;
             this.dateSource=this.detailSource.map((store)=>{
             this.dateStore=store.detailExamReportList; 
@@ -196,41 +165,36 @@ fetchExamData() {
             console.log(err);
           }
         )
-=======
-
-  fetchDetailReport(){
-
-  this.examdata.viewDetailData(this.fetchFieldData.batch_id)
-   
-  .subscribe(
-    res=>{
-      this.DetailSource=res;
-      console.log(res);
-      this.addReportPopup=true;
-    },
-    err=>{
-      console.log(err);
->>>>>>> b791418c1931a2e12e1796bddef966b006f03f7f
     }
   };
 
-  /*  
-  else{
-    this.examdata.viewExamData(o).subscribe(
-      res => {
-        this.ExamSource=res;
-        this.Tdata = true;
-        console.log(res);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-    }
-  */
-
 
   getCourseData(i) {
+     
+    if(this.isProfessional){
+
+      this.examdata.batchExamReport(this.queryParam).subscribe((res)=>
+      {
+        console.log(res);
+        this.getSubjectData=res;
+        console.log(this.SubjectData);
+      }
+
+      )
+   this.examdata.batchExamReport(this.queryParam).subscribe(
+     (res)=>
+    
+   {
+     console.log(res);
+    this.batchCourseData=res;
+
+  console.log(this.batchCourseData);
+   })
+  }
+  
+
+else{
+
     this.fetchFieldData.exam_schd_id = "";
     this.fetchFieldData.batch_id = "";
     this.fetchFieldData.subject_id = "";
@@ -246,7 +210,7 @@ fetchExamData() {
       }
     )
   }
-  
+  }
   getSubData(i) {
     console.log(i);
     this.fetchFieldData.exam_schd_id = "";

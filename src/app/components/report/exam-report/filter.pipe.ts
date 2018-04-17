@@ -14,12 +14,9 @@ export class FilterPipe implements PipeTransform{
         });
     }
 }
-<<<<<<< HEAD
 
 
 
 
 
-=======
->>>>>>> b791418c1931a2e12e1796bddef966b006f03f7f
 

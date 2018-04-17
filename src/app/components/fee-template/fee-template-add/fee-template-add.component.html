@@ -11,6 +11,43 @@
 
       <div class="row">
         <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="form-wrapper has-value">
+            <label for="masterCourse">Master Course
+              <span style="color: red">*</span>
+            </label>
+            <select id="masterCourseDdn" class="side-form-ctrl" [(ngModel)]="addNewTemplate.master_course_name" name="masterCourse" (ngModelChange)="onMasterCourseSelection()">
+              <option value="-1"></option>
+              <option *ngFor="let opt of masterCourseList" [value]="opt.master_course">
+                {{opt.master_course}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="c-sm-4 c-md-4 c-lg-4">
+          <div class="form-wrapper has-value">
+            <label for="CourseDdn">Course
+              <span style="color: red">*</span>
+            </label>
+            <select id="CourseDdn" class="side-form-ctrl" name="CourseDdn" [(ngModel)]="addNewTemplate.course_id">
+              <option value="-1"></option>
+              <option *ngFor="let opt of CourseList.coursesList" [value]="opt.course_id">
+                {{opt.course_name}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="c-sm-4 c-md-4 c-lg-4 checkBoxAllignment">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" id="defTemplate" name="checkbx" [(ngModel)]="addNewTemplate.is_default_template" class="form-checkbox">
+            <label for="defTemplate">Is Default Template</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="form-wrapper  has-value">
             <label for="templateName">Template Name
               <span style="color: red">*</span>
@@ -29,45 +66,12 @@
       </div>
 
       <div class="row">
-        <div class="c-sm-4 c-md-4 c-lg-4">
-          <div class="form-wrapper has-value">
-            <label for="masterCourse">Master Course</label>
-            <select id="masterCourseDdn" class="side-form-ctrl" [(ngModel)]="addNewTemplate.master_course_name" name="masterCourse" (ngModelChange)="onMasterCourseSelection()">
-              <option value="-1"></option>
-              <option *ngFor="let opt of masterCourseList" [value]="opt.master_course">
-                {{opt.master_course}}
-              </option>
-            </select>
-          </div>
-        </div>
-
-        <div class="c-sm-4 c-md-4 c-lg-4">
-          <div class="form-wrapper has-value">
-            <label for="CourseDdn">Course</label>
-            <select id="CourseDdn" class="side-form-ctrl" name="CourseDdn" [(ngModel)]="addNewTemplate.course_id">
-              <option value="-1"></option>
-              <option *ngFor="let opt of CourseList.coursesList" [value]="opt.course_id">
-                {{opt.course_name}}
-              </option>
-            </select>
-          </div>
-        </div>
-
-        <div class="c-sm-4 c-md-4 c-lg-4 checkBoxAllignment">
-          <div class="field-checkbox-wrapper">
-            <input type="checkbox" id="" name="checkbx" [(ngModel)]="feeStructure.is_default_template" class="form-checkbox">
-            <label for="checkbx">Is Default Template</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
 
         <div class="c-sm-4 c-md-4 c-lg-4">
           <div class="form-wrapper has-value">
             <label for="taxType">Tax Type</label>
             <select id="" class="side-form-ctrl" name="taxType" [(ngModel)]="addNewTemplate.tax_type" (click)="onTaxTypeChanges()">
-              <option value="1">Tax Out Of Scope</option>
+              <option *ngIf="enableTaxOptions != '1'" value="1">Tax Out Of Scope</option>
               <option *ngIf="enableTaxOptions == '1'" value="2">Total Fee Including Tax</option>
               <option *ngIf="enableTaxOptions == '1'" value="3">Total Fee Excluding Tax</option>
             </select>
@@ -75,13 +79,13 @@
           </div>
         </div>
 
-        <div class="c-sm-4 c-md-4 c-lg-4 checkBoxAllignment">
+        <!-- <div class="c-sm-4 c-md-4 c-lg-4 checkBoxAllignment" *ngIf="enableTaxOptions == '1'">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" id="" name="checkbx" [disabled]="addNewTemplate.apply_tax == true && addNewTemplate.tax_type != 1"
               [(ngModel)]="addNewTemplate.apply_tax" class="form-checkbox">
             <label for="checkbx">Apply Tax ({{feeStructure.registeredServiceTax}}%)</label>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="row spanSection">
@@ -108,7 +112,7 @@
       </div>
 
       <div class="row">
-        <button class="btn" (click)="createInstallment()">Create Installment</button>
+        <button class="btn fullBlue" (click)="createInstallment()">Create Installment</button>
       </div>
 
     </section>
@@ -303,8 +307,8 @@
       </section>
 
       <section class="btnGroup pull-right">
-        <button (click)="createFeeTemplate()" class="btn">Create</button>
-        <button routerLink="/fee" class="btn">Back</button>
+          <button routerLink="/fee" class="btn">Back</button>
+        <button (click)="createFeeTemplate()" class="btn fullBlue">Create</button>
       </section>
 
     </section>

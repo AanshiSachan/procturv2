@@ -630,7 +630,7 @@
                       <span class="fee-status paid" *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'Y'))">Paid</span>
                       <span class="fee-status due" *ngIf="((installment.is_referenced == 'N')&&(installment.paid_full == 'N'))">Due</span>
                       <!-- <span class="fee-status upcoming">Upcoming</span> -->
-                      <span class="fee-status partial" *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'N'))">Partial</span>
+                      <span class="fee-status partial" *ngIf="((installment.is_referenced == 'Y')&&(installment.paid_full == 'N'))">Paid Partially</span>
                     </div>
                     <div class="instl-info">
                       <ul>
@@ -1228,7 +1228,8 @@
                 </li>
                 <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
                   <div class="form-wrapper" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
-                    <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
+                      <input *ngIf="fee.is_referenced == 'Y'" readonly="true" type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount">
+                      <input *ngIf="fee.is_referenced == 'N'" type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
                   </div>
                 </li>
                 <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
@@ -1305,23 +1306,28 @@
               <ul class="table-row" *ngFor="let fee of otherFeeTableData; let i = index">
                 <li>{{fee.fee_type_name}}</li>
                 <li class="date">
-                  <div class="form-wrapper datePickerBox">
-                    <input type="text" value="" class="form-ctrl bsDatepicker" name="dd" [(ngModel)]="fee.due_date" bsDatepicker readonly="true">
+                  <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'N'">
+                    <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)"
+                      [(ngModel)]="fee.due_date" readonly="true" bsDatepicker>
+                  </div>
+                  <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'Y'">
+                    <label style="padding: 5px;float: left;text-align: left;">{{fee.due_date | date: "dd-MMM-yyyy"}}</label>
                   </div>
                 </li>
                 <li>
-                  <div class="form-wrapper">
-                    <input type="number" class="form-ctrl" name="amt" [(ngModel)]="fee.initial_fee_amount">
+                  <div class="form-wrapper disable">
+                    <input type="number" readonly="true" class="form-ctrl" name="amt" [(ngModel)]="fee.initial_fee_amount">
                   </div>
                 </li>
                 <li class="tax">
-                  <div class="form-wrapper">
-                    <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getOtherTaxes(fee.initial_fee_amount, fee.service_tax_applicable, i)">
+                  <div class="form-wrapper disable">
+                    <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getOtherTaxes(fee.initial_fee_amount, fee.service_tax, i)">
                   </div>
                 </li>
                 <li>
-                  <div class="form-wrapper">
-                    <input type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, i)">
+                  <div class="form-wrapper" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
+                      <input *ngIf="fee.is_referenced == 'Y'" readonly="true" type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount">
+                      <input *ngIf="fee.is_referenced == 'N'" type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, fee.service_tax,i)">
                   </div>
                 </li>
                 <li>
@@ -1690,20 +1696,25 @@
 
         <!-- Cheque Payment PDC updates -->
         <div class="row pdcChequePayment" *ngIf="isPaymentPdc">
-          <fieldset>
-            <legend>
-              <h5>Cheque Details</h5>
-            </legend>
+          <h5>Cheque Details</h5>
 
-            <div class="c-lg-12 c-md-12 c-sm-12">
-              <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForPayment != ''}">
-                <select id="pMode" name="pMode" [(ngModel)]="pdcSelectedForPayment" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
-                  <option value=""></option>
-                  <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList" [hidden]="opt.cheque_status_key != 1">
-                    {{opt.cheque_date| date:"dd-MMM-yyyy"}} ( &#8377; {{opt.cheque_amount}} )
-                  </option>
-                </select>
-                <label for="pMode">Select PDC Cheque</label>
+            <div [ngClass]="{'hide': chequePdcList.length == 0}" class="">
+              <div class="c-lg-6">
+                  <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForPayment != ''}">
+                      <select id="pMode" name="pMode" [(ngModel)]="pdcSelectedForPayment" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
+                        <option value=""></option>
+                        <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList" [hidden]="opt.cheque_status_key != 1">
+                          {{opt.cheque_date| date:"dd-MMM-yyyy"}} ( &#8377; {{opt.cheque_amount}} )
+                        </option>
+                      </select>
+                      <label for="pMode">Select PDC Cheque</label>
+                    </div>
+                    <div class="questionInfo pos-rel">
+                        <span class="qInfoIcon">?</span>
+                        <div class="tooltip-box-field">
+                            Choose Post Dated Cheque for which the payment is to be made. This is applicable if Cheques are added using Manage Cheques
+                        </div>
+                    </div>
               </div>
             </div>
 
@@ -1741,8 +1752,6 @@
                 <label for="pdctrue">Cheque Amount*</label>
               </div>
             </div>
-
-          </fieldset>
         </div>
 
         <div class="row" style="margin-top: 10px;">
@@ -1844,21 +1853,25 @@
         </div>
         <!-- Cheque Payment PDC updates -->
         <div class="row pdcChequePayment" *ngIf="isPaymentPdc">
-          <fieldset>
+            <h5>Cheque Details</h5>
 
-            <legend>
-              <h5>Cheque Details</h5>
-            </legend>
-
-            <div class="c-lg-12 c-md-12 c-sm-12">
-              <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForPayment != ''}">
-                <select id="pMode" name="pMode" [(ngModel)]="pdcSelectedForPayment" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
-                  <option value=""></option>
-                  <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList" [hidden]="opt.cheque_status_key != 1">
-                    {{opt.cheque_date| date:"dd-MMM-yyyy"}} ( &#8377; {{opt.cheque_amount}} )
-                  </option>
-                </select>
-                <label for="pMode">Select PDC Cheque</label>
+            <div class="" [ngClass]="{'hide': chequePdcList.length == 0}">
+              <div class="c-lg-6">
+                  <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForPayment != ''}">
+                      <select id="pMode" name="pMode" [(ngModel)]="pdcSelectedForPayment" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
+                        <option value=""></option>
+                        <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList" [hidden]="opt.cheque_status_key != 1">
+                          {{opt.cheque_date| date:"dd-MMM-yyyy"}} ( &#8377; {{opt.cheque_amount}} )
+                        </option>
+                      </select>
+                      <label for="pMode">Select PDC Cheque</label>
+                    </div>
+                    <div class="questionInfo pos-rel">
+                        <span class="qInfoIcon">?</span>
+                        <div class="tooltip-box-field">
+                            Choose Post Dated Cheque for which the payment is to be made. This is applicable if Cheques are added using Manage Cheques
+                        </div>
+                    </div>
               </div>
             </div>
 
@@ -1897,8 +1910,6 @@
 
               </div>
             </div>
-
-          </fieldset>
         </div>
 
         <div class="row" style="margin-top: 10px;">

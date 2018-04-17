@@ -8,22 +8,12 @@
         Manage Fee Structures
       </h1>
 
-      <aside class="headEnq pull-right">
-        <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 8px;" class="btn" routerLink='/fee/add'>
-          <div class="option-wrap">
-            <img src="./assets/images/plus.png" alt="feeStructure">
-            <span class="tooltip">
-              New Structure
-            </span>
-          </div>
+      <aside class="pull-right">
+        <button class="btn" routerLink='/fee/add'>
+          New Structure
         </button>
-        <button style="margin:0px 10px 7px 30px;padding: 5px 0px 0px 9px;" class="btn" routerLink='/fee/feetype'>
-          <div class="option-wrap">
-            <img src="./assets/images/fork.png" alt="feeType" style="height: 80%;">
-            <span class="tooltip">
-              Fee Types
-            </span>
-          </div>
+        <button class="btn" routerLink='/fee/feetype'>
+          Manage Fee Types
         </button>
       </aside>
     </section>
@@ -105,15 +95,16 @@
         <h2 *ngIf="!isHeaderEdit">Edit Template ::
           <i>{{selectedTemplate.template_name}}</i>
         </h2>
-        <a *ngIf="!isHeaderEdit" (click)="isHeaderEdit = true">
-          <img src="./assets/images/edit_details.svg" alt="feeName">
+        <a *ngIf="!isHeaderEdit" (click)="editTemplateName()">
+          <img src="./assets/images/edit_details.svg" alt="">
         </a>
         <h2 *ngIf="isHeaderEdit">Edit Template</h2>
         <div *ngIf="isHeaderEdit" class="headitor field-wrapper">
           <input type="text" class="form-ctrl" autofocus [(ngModel)]="selectedTemplate.template_name">
         </div>
-        <a *ngIf="isHeaderEdit" (click)="updateTemplateName()">
-          <img src="./assets/images/plus.png" alt="feeName">
+        <a *ngIf="isHeaderEdit">
+          <i class="fas fa-check" (click)="updateTemplateName()" style="font-family: FontAwesome ;font-size: 19px;" title="feeName"></i>
+          <i class="fas fa fa-times" (click)="cancelTemplateName()" style="font-family: FontAwesome ;font-size: 19px;" title="Cancel"></i>
         </a>
 
 
@@ -149,7 +140,7 @@
                   </label>
                 </div>
               </div>
-              <div class="c-sm-3 c-md-3 c-lg-3">
+              <div class="c-sm-3 c-md-3 c-lg-3 hide">
                 <div class="field-checkbox-wrapper">
                   <input type="checkbox" id="checkBoxtaxes" name="checkbx" class="form-checkbox" (click)="onApplyTaxChechbox($event)">
                   <label for="checkbx">Apply Tax({{feeStructure.registeredServiceTax}}%)</label>
@@ -379,9 +370,9 @@
 
       <div class="" popup-footer>
         <div class="clearfix">
-          <aside class="pull-right popup-btn">
+          <aside class="pull-right">
             <input type="button" value="Cancel" class="btn" (click)="closeFeeEditor()">
-            <input type="button" value="Apply" (click)="updateFeeTemplate()" class="redBtn btn">
+            <input type="button" value="Apply" (click)="updateFeeTemplate()" class="fullBlue btn">
           </aside>
         </div>
       </div>

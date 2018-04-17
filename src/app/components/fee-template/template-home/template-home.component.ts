@@ -63,7 +63,8 @@ export class TemplateHomeComponent implements OnInit {
   isRippleLoad: boolean = false;
   feeTyeDetails: any = [];
   enableTax: any;
-  totalAmountCal: number = 0
+  totalAmountCal: number = 0;
+  templateName: any = "";
 
   constructor(private router: Router, private appC: AppComponent, private login: LoginService, private fetchService: FeeStrucService) {
     if (sessionStorage.getItem('Authorization') == null) {
@@ -99,6 +100,7 @@ export class TemplateHomeComponent implements OnInit {
   }
 
   editFee(fee) {
+    this.templateName = fee.template_name;
     this.selectedTemplate = fee;
     this.feeStructure = [];
     this.isEditFee = true;
@@ -164,6 +166,7 @@ export class TemplateHomeComponent implements OnInit {
     this.getFeeStructures();
     this.isHeaderEdit = false;
     this.isEditFee = false;
+    this.templateName = "";
   }
 
   updateFeeTemplate() {
@@ -185,7 +188,7 @@ export class TemplateHomeComponent implements OnInit {
       studentwise_total_fees_discount: this.discountAmount,
       studentwise_fees_tax_applicable: taxApplicable,
       template_id: this.selectedTemplate.template_id.toString(),
-      template_name: this.feeStructure.template_name
+      template_name: this.selectedTemplate.template_name
     };
     this.isRippleLoad = true;
     this.fetchService.updateFeeTemplate(data).subscribe(
@@ -463,6 +466,17 @@ export class TemplateHomeComponent implements OnInit {
   addAdditionalInst() {
     if (Number(this.additionalInstallment.initial_fee_amount) > 0 && this.additionalInstallment.days != null) {
       // this.additionalInstallment.fees_amount = this.additionalInstallment.initial_fee_amount;
+      if (this.additionalInstallment.fees_amount == 0) {
+        if (this.additionalInstallment.service_tax == 0) {
+          this.additionalInstallment.fees_amount = this.additionalInstallment.initial_fee_amount;
+        }
+      } else {
+        if (this.additionalInstallment.service_tax == 0) {
+          this.additionalInstallment.fees_amount = this.additionalInstallment.initial_fee_amount;
+        } else {
+          this.additionalInstallment.fees_amount = Math.round(Number(this.additionalInstallment.initial_fee_amount) + Number((this.additionalInstallment.initial_fee_amount * this.additionalInstallment.service_tax) / 100));
+        }
+      }
       this.otherInstList.push(this.additionalInstallment);
       this.additionalInstallment = {
         days: 0,
@@ -523,6 +537,14 @@ export class TemplateHomeComponent implements OnInit {
     )
   }
 
+  editTemplateName() {
+    this.isHeaderEdit = true;
+  }
+
+  cancelTemplateName() {
+    this.isHeaderEdit = false;
+    this.selectedTemplate.template_name = this.templateName;
+  }
 
 }
 

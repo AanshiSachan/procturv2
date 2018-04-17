@@ -193,6 +193,8 @@ export class AdminHomeComponent implements OnInit {
   viewDetailsPopUp: boolean = false;
   selectedViewDet: any;
   viewDetTable: any = [];
+  searchData: string = "";
+  allChecked: boolean = true;
 
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -1884,7 +1886,7 @@ export class AdminHomeComponent implements OnInit {
     )
   }
 
-  allChecked: boolean = true;
+
   onCheckBoxEvent(event, row) {
     row.assigned = event;
     this.allChecked = this.checkCheckAllChkboxStatus();
@@ -1917,6 +1919,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   clearCheckBoxSelction(id) {
+    this.searchData = "";
     document.getElementById('chkBoxActiveSelection').checked = false;
     document.getElementById('chkBoxTutorSelection').checked = false;
     document.getElementById('chkBoxInActiveSelection').checked = false;

@@ -19,6 +19,7 @@ import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive'
 import { CommaSeprationAmount } from './pipes/commaSepratorPipe';
 
 import { ProcturPopUpComponent } from './proctur-popup/proctur-popup.component';
+import { SearchPipe } from './pipes/tablesSearchPipe';
 
 
 
@@ -40,7 +41,7 @@ import { ProcturPopUpComponent } from './proctur-popup/proctur-popup.component';
         QuickFilterComponent,
         AppLoaderComponent,
         PictureCropComponent,
-        CommaSeprationAmount,
+        CommaSeprationAmount,SearchPipe,
         ProcturPopUpComponent,
         
     ],
@@ -55,7 +56,8 @@ import { ProcturPopUpComponent } from './proctur-popup/proctur-popup.component';
         AppLoaderComponent,
         PictureCropComponent,
         CommaSeprationAmount,
-        ProcturPopUpComponent
+        ProcturPopUpComponent,
+        SearchPipe
     ],
     providers: [CurrencyPipe]
 })
