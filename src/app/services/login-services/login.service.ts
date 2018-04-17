@@ -88,6 +88,8 @@ export class LoginService {
   logoutUser(): boolean {
     // remove user from local storage to log user out
     this.auth.clearStoredData();
+    this.auth.changeAuthenticationKey(null);
+    this.auth.changeInstituteId(null);
     sessionStorage.clear();
     localStorage.clear();
     return true;

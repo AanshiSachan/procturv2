@@ -13,8 +13,8 @@ export class AttendanceReportServiceService {
   assigned;
   constructor(private http:HttpClient , private auth: AuthenticatorService) { 
 
-    this.institute_id = this.auth.getInstituteId();
-    this.Authorization = this.auth.getAuthToken();
+    // this.institute_id = this.auth.getInstituteId();
+    // this.Authorization = this.auth.getAuthToken();
     //console.log(this.institute_id);
     this.baseUrl = this.auth.getBaseUrl();
     this.headers = new HttpHeaders(

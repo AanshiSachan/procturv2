@@ -11,16 +11,22 @@ import { AuthenticatorService } from "../authenticator.service";
 @Injectable()
 export class getSMSService {
 
-    baseUrl:string = '';
+    baseUrl: string = '';
     institute_id: string;
     Authorization: string;
     headers: Headers;
 
 
     /* set default value for each url, header and autherization on service creation */
-    constructor(private http: Http, private auth: AuthenticatorService,) {
-        this.Authorization = sessionStorage.getItem('Authorization');
-        this.institute_id = sessionStorage.getItem('institute_id');
+    constructor(private http: Http, private auth: AuthenticatorService, ) {
+        this.auth.currentAuthKey.subscribe(key => {
+            this.Authorization = key;
+        })
+        this.auth.currentInstituteId.subscribe(id => {
+            this.institute_id = id;
+        });
+        // this.Authorization = sessionStorage.getItem('Authorization');
+        // this.institute_id = sessionStorage.getItem('institute_id');
         this.baseUrl = this.auth.getBaseUrl();
         this.headers = new Headers();
         this.headers.append("Content-Type", "application/json");
