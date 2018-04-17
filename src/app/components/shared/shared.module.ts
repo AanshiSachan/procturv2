@@ -43,11 +43,7 @@ import { SearchPipe } from './pipes/tablesSearchPipe';
         PictureCropComponent,
         CommaSeprationAmount,
         ProcturPopUpComponent,
-<<<<<<< HEAD
-        
-=======
         SearchPipe
->>>>>>> f2acc3e768add19d00120c9f3edc6b0ecf6af061
     ],
     exports: [
         CommonModule,

@@ -13,13 +13,8 @@ export class AuthenticatorService {
     public institute_type: any = null;
     public institution_type: any = null;
 
-<<<<<<< HEAD
     public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
-   //public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
-=======
-    //public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
-    public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
->>>>>>> f2acc3e768add19d00120c9f3edc6b0ecf6af061
+    // public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
 
     constructor() {
 
