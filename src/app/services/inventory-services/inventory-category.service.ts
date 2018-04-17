@@ -18,14 +18,15 @@ export class InventoryCategoryService {
   ) {
     this.auth.currentAuthKey.subscribe( key => {
       this.Authorization = key;
+      this.headers = new HttpHeaders(
+        { "Content-Type": "application/json", "Authorization": this.Authorization });
     }) 
     this.auth.currentInstituteId.subscribe( id => {
       this.institute_id = id;
     });
     // this.Authorization = this.auth.getAuthToken();
     this.baseUrl = this.auth.getBaseUrl();
-    this.headers = new HttpHeaders(
-      { "Content-Type": "application/json", "Authorization": this.Authorization });
+
   } 
 
   // Getting all category list from server

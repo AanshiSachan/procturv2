@@ -23,6 +23,9 @@ export class postEmailService {
     constructor(private http: Http, private auth: AuthenticatorService,) {
         this.auth.currentAuthKey.subscribe( key => {
             this.Authorization = key;
+            this.headers = new Headers();
+            this.headers.append("Content-Type", "application/json");
+            this.headers.append("Authorization", this.Authorization);
           }) 
           this.auth.currentInstituteId.subscribe( id => {
             this.institute_id = id;
@@ -30,9 +33,7 @@ export class postEmailService {
         // this.Authorization = sessionStorage.getItem('Authorization');
         // this.institute_id = sessionStorage.getItem('institute_id');
         this.baseUrl = this.auth.getBaseUrl();
-        this.headers = new Headers();
-        this.headers.append("Content-Type", "application/json");
-        this.headers.append("Authorization", this.Authorization);
+
     }
 
 

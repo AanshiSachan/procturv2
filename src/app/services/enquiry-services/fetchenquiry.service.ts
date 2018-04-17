@@ -33,18 +33,19 @@ export class FetchenquiryService {
   constructor(private http: Http, private auth: AuthenticatorService) {
     this.auth.currentAuthKey.subscribe( key => {
       this.Authorization = key;
+      this.headers = new Headers();
+      this.headers.append("Content-Type", "application/json");
+      this.headers.append("Authorization", this.Authorization);
+  
+      this.headersEncoded = new Headers();
+      this.headersEncoded.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
     }) 
     this.auth.currentInstituteId.subscribe( id => {
       this.institute_id = id;
     }); 
     this.baseUrl = this.auth.getBaseUrl();
     this.url = this.baseUrl + "/api/v1/enquiry/dashboard/" + this.institute_id;
-    this.headers = new Headers();
-    this.headers.append("Content-Type", "application/json");
-    this.headers.append("Authorization", this.Authorization);
 
-    this.headersEncoded = new Headers();
-    this.headersEncoded.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
   }
 
 
