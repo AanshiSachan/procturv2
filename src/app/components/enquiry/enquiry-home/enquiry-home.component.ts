@@ -1474,6 +1474,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
 
   }
+
   /* =========================================================================== */
   checkIfRoutedFromEnquiry() {
 
@@ -1639,7 +1640,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.busy = this.loadTableDatatoSource(this.instituteData);
       }
 
-      if (filter == "Registered")  {
+      if (filter == "Registered") {
         this.instituteData = {
           name: "",
           phone: "",
@@ -1676,9 +1677,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   /* =========================================================================== */
-
-
-
   /* Function to search data on smart table */
   searchDatabase() {
     this.clearFilterAdvanced();
@@ -3053,10 +3051,16 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.closeEnquiryFullDetails();
     this.isSideBar = false;
     this.isRippleLoad = true;
+    if (this.advancedFilterForm.followUpDate != null && this.advancedFilterForm.followUpDate != '' && this.advancedFilterForm.followUpDate != 'Invalid date') {
+      this.advancedFilterForm.is_recent = "N";
+    }
+    else if (this.advancedFilterForm.followUpDate == null || this.advancedFilterForm.followUpDate != '' || this.advancedFilterForm.followUpDate != 'Invalid date') {
+      this.advancedFilterForm.is_recent = "Y";
+    }
     this.busy = this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
       data => {
         this.isRippleLoad = false;
-        this.sourceEnquiry = data
+        this.sourceEnquiry = data;
         /* pagination defination here */
         if (this.sourceEnquiry.length != 0) {
           this.totalEnquiry = data[0].totalcount;
