@@ -22,14 +22,13 @@
     }
     .filler-setcion {
         .checkBoxAllignment {
-            padding-top: 15px;
-            padding-left:25px;
+            margin-left: 10px;
         }
         .spanSection {
             margin-top: 10px;
             span {
                 font-weight: 600;
-                margin-left:5px;
+                margin-left: 5px;
                 padding-left: 8px;
             }
         }
@@ -54,26 +53,27 @@
         }
     }
 }
-.row{
-    .btn{
-        float:right;
+
+.row {
+    .btn {
+        float: right;
         margin-right: 20px;
-    
-       
     }
 }
-.code-wrapper{
+
+.code-wrapper {
     background-color: #efefef;
     border-radius: 6px;
     max-height: 900px;
-    overflow:scroll;
+    overflow: scroll;
 }
 
-.field-wrapper{
-    .form-ctrl{
+.field-wrapper {
+    .form-ctrl {
         background: transparent;
     }
 }
+
 ////// Turn off spinner
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
@@ -81,44 +81,39 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 
-.table-scroll-wrapper{
-    table{
-            thead{
-                tr{
-                    th{
-                        
-                        padding: 10px 10px;
-                        margin:0px 0px;
-                    }
-                    
-                }
-
-            }
-            tbody{
-                tr{
-                    td{
-                       
-                        margin:0px 0px;
-                        text-align: center;
-                        padding: 10px 10px;
-                    }
+.table-scroll-wrapper {
+    table {
+        thead {
+            tr {
+                th {
+                    padding: 10px 10px;
+                    margin: 0px 0px;
                 }
             }
+        }
+        tbody {
+            tr {
+                td {
+                    margin: 0px 0px;
+                    text-align: center;
+                    padding: 10px 10px;
+                }
+            }
+        }
     }
 }
+
 ///////////////////////////////////////////
-
-
 .form-wrapper {
     background: transparent;
     margin: 5px 0px;
-    width:100%;
+    width: 100%;
     &.datepicker {
         padding-top: 3px;
         span {
             // 
-            position:relative;
-            right:25px;
+            position: relative;
+            right: 25px;
             font-weight: 600;
             font-size: 16px;
             color: red;
@@ -138,20 +133,20 @@ input[type=number]::-webkit-outer-spin-button {
         }
     }
     label {
-        padding-left:10px;
+        padding-left: 10px;
         font-size: 12px;
         font-weight: 400;
         color: 0084f6;
         text-decoration: none;
         text-transform: uppercase;
         -webkit-font-smoothing: antialiased;
-        width:100%;
+        width: 100%;
     }
     .side-form-ctrl {
         background: white;
         border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
         width: 60%;
-        padding-left:10px;
+        padding-left: 10px;
         margin-left: 10px;
         height: 30px;
         padding: 0px 5px;
@@ -187,9 +182,9 @@ input[type=number]::-webkit-outer-spin-button {
             }
         }
     }
-   
 }
-hr { 
+
+hr {
     display: block;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
