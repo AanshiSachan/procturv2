@@ -245,11 +245,11 @@
                         <li class="batch">Courses</li>
                       </ul>
                       <ul class="sche-head" *ngIf="isProfessional">
-                        <li>Timings</li>
+                        <li class="timings">Timings</li>
                         <li class="cls-type">Class type</li>
-                        <li>Class Room</li>
-                        <li>Batch</li>
-                        <li>Faculty</li>
+                        <li class="class_room">Class Room</li>
+                        <li class="batch">Batch</li>
+                        <li class="faculty">Faculty</li>
                       </ul>
                       <div class="schedule-scroller" *ngIf="!isProfessional && isSubjectView">
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
@@ -310,9 +310,8 @@
                       <div class="schedule-scroller" *ngIf="isProfessional">
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
-                            <li>
+                            <li class="timings">
                               <div>{{class.start_time}} - {{class.end_time}}</div>
-                              <p>{{class.class_room_name}}</p>
                             </li>
                             <li class="cls-type">
                               <div>
@@ -321,27 +320,23 @@
                                 <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
                               </div>
                             </li>
-                            <li>
+                            <li class="class_room">
+                              {{class.class_room_name}}                              
+                            </li>
+                            <li class="batch">
                               <div>{{class.batch_name}}</div>
                             </li>
-                            <li>
+                            <li class="faculty">
                               <div>{{class.teacher_name}}</div>
                             </li>
                           </ul>
                           <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
-                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="markAttendaceHide(class)"
-                              (click)="initiateMarkAttendance(i, class)">
-                              Mark Attendance</a>
-                            <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance(i, class)">
-                              View Attendance</a>
-                            <a class="fish-chips" *ngIf='class.is_attendance_marked !="Y"' style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
-                              (click)="initiateCancelClass()">Cancel</a>
-                            <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="getReminderAndCancel(class)"
-                              (click)="initiateRemiderClass(i, class)">Class Reminder</a>
-                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
-                              (click)="initiateRescheduleClass()">Reschedule</a>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance</span>
+                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
+                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
+                            <span class="" style="cursor:pointer" (click)="viewClassDetails(i, class)">View Details</span>
                           </div>
-
                         </div>
                       </div>
                     </div>
