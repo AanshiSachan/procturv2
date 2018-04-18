@@ -119,7 +119,7 @@
                     <div class="table-heading">
                         <div *ngIf=!isProfessional>
                             <proctur-table [records]="pagedPostData | lockFilter : pagedPostData.student_name : pagedPostData.student_id :pagedPostData.student_phone : pagedPostData.doj : spent_percentage | sortPipe : pagedPostData.student_name | sortPipe : pagedPostData.student_id"
-                                (sortData)="sortedData($event)" [tableName]="'sms'" [settings]="projectSettings">
+                                (sortData)="sortedData($event)"   [tableName]="'sms'" [settings]="projectSettings"> 
                             </proctur-table>
                         </div>
                         <div *ngIf=isProfessional>
@@ -203,32 +203,40 @@
                             <td>
                                 {{i.student_id}}
                             </td>
-                            <td>
+                            <td >
                                 {{i.student_name}}
                             </td>
-                            <td>
+                            <td style="color:blue;">
                                 {{i.total_attended}}
-                            </td>
-                            <td>
+                            </td >
+                            <td style="color:red;">
                                 {{i.total_absent}}
                             </td>
                             <td>
                                 {{i.total_leave}}
                             </td>
-                            <td *ngFor="let k of i.attendanceDateType">
+                            <td *ngFor="let k of i.attendanceDateType" 
+                            [style.color]="getColor(k.status)">
                                 {{k.status}}
                             </td>
-                            <td>
+                            <td style="color:blue;">
                                 {{i.spent_percentage}}%
                             </td>
                         </tr>
-                        <tr *ngIf="pageDetailedData.length == 0">
+                        <tr *ngIf="pageDetailedData.length == 0" >
                             <td>
                                 No Records Found
                             </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="row filter-res pagination" style="width: 100%;" *ngIf=!isProfessional>
+                <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                    <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
+                        [page]="PageIndexPopup" [perPage]="pagedisplaysizePopup" [count]="totalRowPopup">
+                    </pagination>
+                </div>
             </div>
         </div>
 
@@ -289,19 +297,19 @@
                             </td>
                         </tr>
                         <tr *ngIf="pageDetailedDataPro.length == 0">
-                            <td>
+                            <td style="align:center; font-style:bold;">
                                 No Records Found
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
-            <div class="row filter-res pagination" style="width: 100%;">
+            <div class="row filter-res pagination" style="width: 100%;" *ngIf=isProfessional>
                 <div class="c-lg-12 c-md-12 c-sm-12 align-right">
                     <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
                         [page]="PageIndexPopup" [perPage]="pagedisplaysizePopup" [count]="totalRowPopup">
                     </pagination>
                 </div>
             </div>
+            
         </div>

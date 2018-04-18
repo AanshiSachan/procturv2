@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, style } from '@angular/core';
 import { AttendanceReportServiceService } from '../../../services/attendance-report/attendance-report-service.service';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from "../../../services/authenticator.service";
@@ -284,12 +284,16 @@ export class AttendanceReportComponent implements OnInit {
         this.addReportPopUp = true;
         this.reportService.postDetailedData(this.queryParams).subscribe(
           (data: any) => {
+            
             this.dateWiseAttendancePro = data;
             console.log(this.dateWiseAttendancePro);
             this.dataTypeAttendancePro = data.map((ele) => {
               this.typeAttendancePro = ele.attendanceDateType;
+              if(ele.attendanceDateType.status=="P"){
+                document.getElementById('status').style.color='red';
+              }
             });
-            console.log(this.typeAttendancePro);
+            
             this.attendanceIndex0Pro = this.typeAttendancePro[0];
             this.attendanceIndexiPro = this.typeAttendancePro.length;
             this.attendanceIndexiOfPro = this.typeAttendancePro[this.attendanceIndexiPro - 1];
@@ -366,8 +370,9 @@ export class AttendanceReportComponent implements OnInit {
     if (this.isProfessional) {
       this.pagedPostDataPro = this.getDataFromDataSource(startindex);
     }
+    else{
     this.pagedPostData = this.getDataFromDataSource(startindex);
-
+    }
   }
 
   fetchNext() {
@@ -432,5 +437,10 @@ export class AttendanceReportComponent implements OnInit {
   sortedData(ev) {
     console.log(ev);
   }
-
+  getColor(status){
+    switch(status){
+      case 'A': return 'red';
+      case 'L': return 'blue';
+    }
+  }
 }

@@ -115,10 +115,10 @@ export class AttendanceReportServiceService {
     )
 
   }
-  excelTableDownload(body){
+  // excelTableDownload(body){
 
-    let user_token:string = this.Authorization.getToken();
-    
-
-  }
+  //   let user_token:string = this.Authorization.getToken();
+  //   this.headers.append('Authorization', 'Bearer' + user_token);  
+  //   return this.http.post(this.excelTableDownload(body),  {headers:this.headers, responseType:ResponseContentType.Blob} ,body ).map((res)=>new Blob([res._body],{ type: 'application/vnd.ms-excel' })) 
+  // }
 }
