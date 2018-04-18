@@ -35,11 +35,8 @@ export class ExamService {
         )
     }
 
-batchExamReport(obj):Observable <any>{
-
-    let url = this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/"+ this.institute_id + "?standard_id=" + obj.standard.id+ 
-    "&subject_id=" +obj.subject_id +"&assigned=N";
-    
+batchExamReport(obj):Observable<any>{
+    let url = this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/"+ this.institute_id+"?standard_id="+obj.standard_id+"&subject_id="+obj.subject_id+"&assigned=N";
     return this.http.get(url,{ headers: this.headers }).map(
         res => {
             return res;
@@ -47,6 +44,7 @@ batchExamReport(obj):Observable <any>{
         err => {
             return err;
         }
+    
     )
 }
 

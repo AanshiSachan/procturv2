@@ -12,15 +12,15 @@ import { lang } from 'moment';
 export class ExamReportComponent implements OnInit {
   isProfessional: boolean = true;
   pageIndex: number = 1;
-  getSubjectData:any[]=[];
-  batchExamRepo:any[]=[];
+  getSubjectData: any[] = [];
+  batchExamRepo: any[] = [];
   totalRecords: number = 0;
-  dateSource :any[]=[];
-  dateStore :any[]=[];
+  dateSource: any[] = [];
+  dateStore: any[] = [];
   displayBatchSize: number = 10;
   Tdata: boolean = false;
   courseData: any[] = [];
-  batchCourseData:any=[];
+  batchCourseData: any = [];
   subData = "";
   SubjectData: any[] = [];
   masterCourses: any[] = [];
@@ -53,11 +53,13 @@ export class ExamReportComponent implements OnInit {
     this.switchActiveView('exam');
   }
 
-  queryParam={
+  queryParam = {
 
-standard_id:-1,
-subject_id:-1,
-assigned :"N",
+    standard_id: -1,
+    subject_id: -1,
+    assigned: "N",
+   // batch_id:"",
+    //exam_schd_id:""
 
   }
   fetchFieldData = {
@@ -70,48 +72,86 @@ assigned :"N",
 
   ngOnInit() {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-
     this.fetchExamData();
     this.pageIndex = 1;
   }
+
   closeReportPopup() {
-
     this.addReportPopup = false;
-  };
-/*1111*/
+  }
+  /*1111*/
   fetchExamData() {
-  if(this.isProfessional){
-    this.examdata.batchExamReport(this.queryParam).subscribe((res)=>
-  {  
-    this.batchExamRepo=res;
+    if (this.isProfessional) {
+      this.examdata.batchExamReport(this.queryParam).subscribe((res) => {
+if(res!=""){
 
-    console.log(res);
-  })
+
+        this.batchExamRepo = res.standardLi;
+        console.log(res);
+        console.log(this.batchExamRepo);
+      }})
     }
-  else{
-    this.examdata.ExamReport().subscribe(
-      (data: any) => {
-        this.masterCourses = data;
-        console.log(this.masterCourses);
-      }
-    )
-}};
+    else {
+      this.examdata.ExamReport().subscribe(
+        (data: any) => {
+          if(data!="")
+          this.masterCourses = data;
+          console.log(this.masterCourses);
+        }
+      )
+    }
+  }
 
 
 
-/*view btn*/
+  /*view btn*/
   fetchExamReport() {
 
     console.log(this.fetchFieldData);
+    if(this.isProfessional){
+      if (this.queryParam.standard_id == -1 || this.queryParam.subject_id == -1||this.fetchFieldData.batch_id==""||this.fetchFieldData
+    .exam_schd_id=="") {
 
-    if (this.fetchFieldData.subject_id == "" || this.fetchFieldData.standard_id == "" || this.fetchFieldData.batch_id == "" ||
-    this.fetchFieldData.exam_schd_id == "") {
-
-      let msg = {
-        type: "error",
-        title: "Invalid Date Range Selected",
-        Body: "From date cannot be greater than To date"
+        let msg = {
+          type: "error",
+          title: "Invalid Data Range Selected",
+          Body: "All field must be filled"
+        }
+      this.appC.popToast(msg);
+      
+    }
+    else {
+      let o = {
+        batch_id: this.fetchFieldData.batch_id,
+        exam_schd_id: this.fetchFieldData.exam_schd_id,
+        institution_id: this.fetchFieldData.institution_id,
+        standard_id: '',
+        subject_id: ''
       }
+      this.examdata.viewExamData(o).subscribe(
+        res => {
+          this.ExamSource = res;
+          this.Tdata = true;
+          this.totalRecords = this.ExamSource.length;
+          this.fetchTableDataByPage(this.pageIndex);
+          console.log(res);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
+    }
+    else{
+      if (this.fetchFieldData.subject_id == "" || this.fetchFieldData.standard_id == "" || this.fetchFieldData.batch_id == "" ||
+      this.fetchFieldData.exam_schd_id == "") {
+
+        let msg = {
+          type: "error",
+          title: "Invalid Data Range Selected",
+          Body: "All fields must be filled"
+        }
+        //this.appC.popToast(msg);
       this.appC.popToast(msg);
     }
     else {
@@ -135,26 +175,59 @@ assigned :"N",
         }
       );
     }
-  }
-/*detailbtn*/
+    }}
+
+  /*detailbtn*/
   fetchDetailReport() {
-    this.addReportPopup= true;
-    if (this.fetchFieldData.standard_id == "" || this.fetchFieldData.subject_id == "" || this.fetchFieldData.batch_id == "" ||
-      this.fetchFieldData.exam_schd_id == "") {
-      let msg = {
+    if(this.isProfessional){
+      if (this.queryParam.standard_id == -1 || this.queryParam.subject_id == -1||this.fetchFieldData.batch_id==""
+      ||this.fetchFieldData.exam_schd_id=="") {
+    
+ 
+
+      let msg ={
         type: "error",
-        title: "Invalid Date Range Selected",
-        Body: "From date cannot be greater than To date"
+        title:"Invalid Data Range Selected",
+        Body :"All field must be filled"
       }
       this.appC.popToast(msg);
     }
     else {
-     this.examdata.viewDetailData(this.fetchFieldData.batch_id)
+      this.examdata.viewDetailData(this.fetchFieldData.batch_id)
         .subscribe(
           res => {
             this.detailSource = res;
-            this.dateSource=this.detailSource.map((store)=>{
-            this.dateStore=store.detailExamReportList; 
+            this.dateSource = this.detailSource.map((store) => {
+              this.dateStore = store.detailExamReportList;
+            });
+
+            console.log(this.detailSource);
+            console.log(res);
+            this.addReportPopup = true;
+          },
+          err => {
+            console.log(err);
+          }
+        )
+    }   
+    }
+    else{
+      if (this.fetchFieldData.standard_id == "" || this.fetchFieldData.subject_id == "" || this.fetchFieldData.batch_id == "" ||
+      this.fetchFieldData.exam_schd_id == "") {
+      let msg = {
+        type: "error",
+        title: "Invalid Data Range Selected",
+        Body: "All Field must be filled"
+      }
+      this.appC.popToast(msg);
+    }
+    else {
+      this.examdata.viewDetailData(this.fetchFieldData.batch_id)
+        .subscribe(
+          res => {
+            this.detailSource = res;
+            this.dateSource = this.detailSource.map((store) => {
+              this.dateStore = store.detailExamReportList;
             });
 
             console.log(this.detailSource);
@@ -166,65 +239,71 @@ assigned :"N",
           }
         )
     }
-  };
+    }
+    
+  }
 
 
   getCourseData(i) {
-     
-    if(this.isProfessional){
 
-      this.examdata.batchExamReport(this.queryParam).subscribe((res)=>
-      {
-        console.log(res);
-        this.getSubjectData=res;
-        console.log(this.SubjectData);
-      }
+    if (this.isProfessional) {
+        // this.fetchFieldData.exam_schd_id="",
+         //this.fetchFieldData.batch_id="",
+         //this.queryParam.subject_id="",
 
+      this.examdata.batchExamReport(this.queryParam).subscribe(
+        (res) => {
+          console.log(res);
+          this.batchCourseData = res.subjectLi;
+          console.log(this.batchCourseData);
+        })
+    }
+
+
+    else {
+
+      this.fetchFieldData.exam_schd_id = "";
+      this.fetchFieldData.batch_id = "";
+      this.fetchFieldData.subject_id = "";
+
+      this.examdata.getCourses(i).subscribe(
+        (data: any) => {
+          console.log(data);
+          this.courseData = data.coursesList;
+          console.log(this.courseData);
+        },
+        (error: any) => {
+          return error;
+        }
       )
-   this.examdata.batchExamReport(this.queryParam).subscribe(
-     (res)=>
-    
-   {
-     console.log(res);
-    this.batchCourseData=res;
-
-  console.log(this.batchCourseData);
-   })
-  }
-  
-
-else{
-
-    this.fetchFieldData.exam_schd_id = "";
-    this.fetchFieldData.batch_id = "";
-    this.fetchFieldData.subject_id = "";
-
-    this.examdata.getCourses(i).subscribe(
-      (data: any) => {
-        console.log(data);
-        this.courseData = data.coursesList;
-        console.log(this.courseData);
-      },
-      (error: any) => {
-        return error;
-      }
-    )
-  }
+    }
   }
   getSubData(i) {
+    
     console.log(i);
-    this.fetchFieldData.exam_schd_id = "";
-    this.fetchFieldData.batch_id = "";
-    this.examdata.getSubject(i).subscribe((data: any) => {
-      console.log(data);
-      this.SubjectData = data.batchesList;
-      console.log(this.SubjectData);
-    })
+   
+    if(this.isProfessional){
+      this.examdata.batchExamReport(this.queryParam).subscribe(
+        (res) => {
+          console.log(res);
+          this.getSubjectData = res.batchLi;
+          console.log(this.getSubjectData);
+        })
+    }
+    else{
+      this.fetchFieldData.exam_schd_id = "";
+      this.fetchFieldData.batch_id = "";
+      this.examdata.getSubject(i).subscribe((data: any) => {
+        console.log(data);
+        this.SubjectData = data.batchesList;
+        console.log(this.SubjectData);
+      })
+    }
+    
   }
 
   getExamScheduleData(i) {
-    console.log(this.SubjectData);
-           
+    //console.log(this.SubjectData);
     this.fetchFieldData.exam_schd_id = "";
     console.log(i);
     this.examdata.getExamSchedule(i).subscribe((data: any) => {
@@ -260,7 +339,26 @@ else{
 
 
   switchActiveView(id) {
+    document.getElementById('home').classList.remove('active');
+    document.getElementById('attendance').classList.remove('active');
+    document.getElementById('sms').classList.remove('active');
+    document.getElementById('fee').classList.remove('active');
+    document.getElementById('exam').classList.remove('active');
+    document.getElementById('report').classList.remove('active');
+    document.getElementById('time').classList.remove('active');
     document.getElementById('email').classList.remove('active');
+    document.getElementById('profit').classList.remove('active');
+    switch (id) {
+      case 'home': { document.getElementById('home').classList.add('active'); break; }
+      case 'attendance': { document.getElementById('attendance').classList.add('active'); break; }
+      case 'sms': { document.getElementById('sms').classList.add('active'); break; }
+      case 'fee': { document.getElementById('fee').classList.add('active'); break; }
+      case 'exam': { document.getElementById('exam').classList.add('active'); break; }
+      case 'report': { document.getElementById('report').classList.add('active'); break; }
+      case 'time': { document.getElementById('time').classList.add('active'); break; }
+      case 'email': { document.getElementById('email').classList.add('active'); break; }
+      case 'profit': { document.getElementById('profit').classList.add('active'); break; }
+    }
   }
 
 }
