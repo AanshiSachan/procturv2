@@ -557,11 +557,10 @@ export class TemplateHomeComponent implements OnInit {
   }
 
   feeInstallmentChnge(data) {
-    debugger
     if (data.service_tax_applicable == "N") {
       data.initial_fee_amount = data.fees_amount;
     } else {
-      data.tax = Number((data.fees_amount * data.service_tax) / 100);
+      data.tax = data.fees_amount - Math.floor(Number(data.fees_amount) * 100 / (100 + data.service_tax));
       data.taxAmount = data.tax;
       data.initial_fee_amount = data.fees_amount - data.tax;
     }

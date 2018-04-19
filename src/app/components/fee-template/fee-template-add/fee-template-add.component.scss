@@ -24,12 +24,15 @@
         .checkBoxAllignment {
             margin-left: 10px;
         }
+        .question-wrapper {
+            margin-left: 10px;
+        }
         .spanSection {
-            margin-top: 10px;
             span {
                 font-weight: 600;
                 margin-left: 5px;
                 padding-left: 8px;
+                margin: 10px 0px;
             }
         }
     }
@@ -138,7 +141,7 @@ input[type=number]::-webkit-outer-spin-button {
         font-weight: 400;
         color: 0084f6;
         text-decoration: none;
-        text-transform: uppercase;
+        // text-transform: uppercase;
         -webkit-font-smoothing: antialiased;
         width: 100%;
     }
@@ -192,4 +195,60 @@ hr {
     margin-right: auto;
     border-style: inset;
     border-width: 1px;
+}
+
+.question-wrapper {
+    .field-radio-wrapper {
+        .form-radio:checked+label:before {
+            left: 3px;
+            top: 3px;
+        }
+    }
+}
+
+.qInfoIcon {
+    width: 20px;
+    margin-left: 5px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;
+    line-height: 20px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0px 0px 1px 0px #ccc inset;
+    color: #888;
+    transition: all 0.2s linear;
+    &:hover {
+        border-color: $header-bg;
+        box-shadow: 0px 0px 1px 0px $header-bg inset;
+        color: $header-bg;
+    }
+}
+
+.tooltip-box-field {
+    width: 170px;
+    white-space: nowrap;
+    min-height: 41px;
+    line-height: 18px;
+    padding: 5px 5px;
+    overflow: visible;
+    color: black;
+    font-weight: bold;
+    &.lg {
+        width: 200px;
+        white-space: nowrap;
+        min-height: 50px;
+        line-height: 20px;
+        padding: 5px 5px;
+    }
+    &.sm {
+        width: 100px;
+        white-space: nowrap;
+        min-height: 40px;
+        padding: 5px 5px;
+    }
 }

@@ -2,6 +2,15 @@
   <section class="middle-top mb0 clearFix">
     <h1 class="pull-left" style="padding-left:7px;">
       Add Fee Template
+      <div class="questionInfo inline-relative">
+        <span class="qInfoIcon i-class">i</span>
+        <div class="tooltip-box-field md">
+          Define Fee structure
+          <br>for a course Fee.
+          <br>For e.g Single Installment
+          <br>or 2 installments or multiples
+        </div>
+      </div>
     </h1>
   </section>
 
@@ -38,7 +47,15 @@
 
           <div class="field-checkbox-wrapper checkBoxAllignment">
             <input type="checkbox" id="defTemplate" name="checkbx" [(ngModel)]="addNewTemplate.is_default_template" class="form-checkbox">
-            <label for="defTemplate">Is Default Template</label>
+            <label for="defTemplate">Is Default Template
+              <div class="questionInfo inline-relative">
+                <span class="qInfoIcon i-class">i</span>
+                <div class="tooltip-box-field md">
+                  Make this a default template
+                  <br>for the course
+                </div>
+              </div>
+            </label>
           </div>
 
           <div class="form-wrapper  has-value">
@@ -51,28 +68,58 @@
           <div class="form-wrapper has-value">
             <label for="feeAmount">Fee Amount
               <span style="color: red">*</span>
+              <div class="questionInfo inline-relative">
+                <span class="qInfoIcon i-class">i</span>
+                <div class="tooltip-box-field md">
+                  Total fee amount defined
+                  <br> for the course
+                </div>
+              </div>
             </label>
-            <input type="number" min="0" class="side-form-ctrl" [(ngModel)]="addNewTemplate.fee_amount" name="feeAmount">
+            <input type="number" min="0" class="side-form-ctrl" [(ngModel)]="addNewTemplate.fee_amount" (keyup)="onAmountKeyUp()" name="feeAmount">
           </div>
 
-          <div class="form-wrapper has-value">
+
+          <div class="question-wrapper" *ngIf="enableTaxOptions == '1'">
+            <fieldset>
+              <legend>
+                <div class="question">
+                  <h3>Is Fee Amount</h3>
+                </div>
+              </legend>
+              <div class="field-radio-wrapper">
+                <input type="radio" name="inclusive" class="form-radio" [(ngModel)]="addNewTemplate.tax_type" (ngModelChange)="onTaxTypeChanges($event)"
+                  value="inclusive" id="idInclusive">
+                <label for="idInclusive">Inclusive Of Tax</label>
+              </div>
+              <div class="field-radio-wrapper">
+                <input type="radio" name="exclusive" class="form-radio" [(ngModel)]="addNewTemplate.tax_type" (ngModelChange)="onTaxTypeChanges($event)"
+                  value="exclusive" id="idExclusive">
+                <label for="idExclusive">Exclusive Of Tax</label>
+              </div>
+            </fieldset>
+          </div>
+
+          <!-- <div class="form-wrapper has-value">
             <label for="taxType">Tax Type</label>
             <select id="" class="side-form-ctrl" name="taxType" [(ngModel)]="addNewTemplate.tax_type" (click)="onTaxTypeChanges()">
               <option *ngIf="enableTaxOptions != '1'" value="1">Tax Out Of Scope</option>
               <option *ngIf="enableTaxOptions == '1'" value="2">Total Fee Including Tax</option>
               <option *ngIf="enableTaxOptions == '1'" value="3">Total Fee Excluding Tax</option>
             </select>
-          </div>
+          </div> -->
 
-          <div class="field-checkbox-wrapper checkBoxAllignment">
+          <!-- <div class="field-checkbox-wrapper checkBoxAllignment">
             <input type="checkbox" id="" name="checkbx" [disabled]="addNewTemplate.apply_tax == true && addNewTemplate.tax_type != 1"
               [(ngModel)]="addNewTemplate.apply_tax" class="form-checkbox">
             <label for="checkbx">Apply Tax ({{feeStructure.registeredServiceTax}}%)</label>
+          </div> -->
+
+          <div class="spanSection">
+            <span *ngIf="enableTaxOptions == '1'" class="">Tax Amount (Rs) : {{addNewTemplate.tax_amount}}</span>
+            <br>
+            <span class="">Total Fees (Rs) : {{addNewTemplate.total_fee}}</span>
           </div>
-
-          <span class="checkBoxAllignment">Tax Amount (Rs) : {{addNewTemplate.tax_amount}}</span>
-
-          <span class="checkBoxAllignment">Total Fees (Rs) : {{addNewTemplate.total_fee}}</span>
 
           <div class="form-wrapper has-value">
             <label for="installment">Total Number of Installment
