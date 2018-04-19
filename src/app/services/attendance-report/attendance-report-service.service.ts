@@ -56,7 +56,7 @@ export class AttendanceReportServiceService {
   }
   getSubject(obj) {
 
-    let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + obj
+    let url = this.baseUrl + "/api/v1/courseMaster/fetch/courses/" + this.institute_id + "/" + obj
     return this.http.get(url, { headers: this.headers }).map(
       data => {
         return data;

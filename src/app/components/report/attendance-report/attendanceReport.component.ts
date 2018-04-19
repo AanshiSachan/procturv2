@@ -63,7 +63,7 @@ export class AttendanceReportComponent implements OnInit {
   getData = {
     standard_id: "",
     subject_id: "",
-    institution_id: parseInt(this.institute_id.getInstituteId()),
+    institution_id:sessionStorage.getItem('institute_id'),
     course_id: "",
     batch_id: "",
     master_course_name: "",
@@ -74,7 +74,7 @@ export class AttendanceReportComponent implements OnInit {
   queryParams = {
     standard_id: -1,
     subject_id: -1,
-    institution_id: parseInt(this.institute_id.getInstituteId()),
+    institution_id:this.institute_id.currentInstituteId,
     course_id: -1,
     batch_id: -1,
     master_course_name: "",
@@ -124,7 +124,7 @@ export class AttendanceReportComponent implements OnInit {
     this.queryParams = {
       subject_id: -1,
       standard_id: i,
-      institution_id: parseInt(this.institute_id.getInstituteId()),
+      institution_id:this.institute_id.currentInstituteId,
       course_id: -1,
       batch_id: -1,
       master_course_name: "",
@@ -169,7 +169,7 @@ export class AttendanceReportComponent implements OnInit {
     this.queryParams = {
       subject_id: i,
       standard_id: this.queryParams.standard_id,
-      institution_id: parseInt(this.institute_id.getInstituteId()),
+      institution_id: this.institute_id.currentInstituteId,
       course_id: -1,
       batch_id: -1,
       master_course_name: "",
@@ -204,7 +204,7 @@ export class AttendanceReportComponent implements OnInit {
     this.queryParams = {
       subject_id: i,
       standard_id: this.queryParams.standard_id,
-      institution_id: parseInt(this.institute_id.getInstituteId()),
+      institution_id:this.institute_id.currentInstituteId,
       course_id: -1,
       batch_id: this.queryParams.batch_id,
       master_course_name: "",

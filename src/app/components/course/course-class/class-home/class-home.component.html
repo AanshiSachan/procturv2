@@ -27,137 +27,141 @@
         <section class="common-search-filter">
           <div class="filter-search">
             <div class="filter-box clearFix">
-              <div class="row">
-                <div class="c-lg-12 c-md-12 c-sm-12">
-                  <!-- Batch Module -->
-                  <div class="search-filter-wrapper" *ngIf="isLangInstitute">
-                    <div class="row" style="padding: 15px;">
-                      <div class="radio-options c-lg-6 c-md-6 c-sm-6">
-                        <div class="field-radio-wrapper c-lg-2 c-md-2 c-sm-2">
-                          <input type="radio" checked (click)="checkInputType($event)" name="sFilter" class="form-radio" value="Automatic" id="idAll">
-                          <label for="active">All</label>
-                        </div>
-                        <div class="field-radio-wrapper c-lg-2 c-md-2 c-sm-2">
-                          <input type="radio" (click)="checkInputType($event)" name="sFilter" value="Manual" class="form-radio" id="idTeacher">
-                          <label for="Inactive">Teacher</label>
-                        </div>
-                        <div class="field-radio-wrapper c-lg-2 c-md-2 c-sm-2">
-                          <input type="radio" (click)="checkInputType($event)" name="sFilter" value="Manual" class="form-radio" id="idBatch">
-                          <label for="Inactive">Batch</label>
-                        </div>
-                      </div>
-                      <div *ngIf="selectedRadioButton == 'Teacher'" class="c-lg-3 c-md-3 c-sm-3">
-                        <div class="field-wrapper" [ngClass]="{'has-value': fetchBatchModule.teacher_id != '-1'}">
-                          <select id="sc" class="form-ctrl" [(ngModel)]="fetchBatchModule.teacher_id">
-                            <option value="-1"></option>
-                            <option [value]="subject.teacher_id" *ngFor="let subject of teacherList">
-                              {{subject.teacher_name}}
-                            </option>
-                          </select>
-                          <label for="sc">Select Teacher</label>
-                        </div>
-                      </div>
+
+
+              <!-- Batch Module -->
+              <div class="search-filter-wrapper main" *ngIf="isLangInstitute">
+
+                <div class="radio-options">
+                  <div class="radio-main">
+                    <div class="field-radio-wrapper">
+                      <input type="radio" checked (click)="checkInputType($event)" name="sFilter" class="form-radio" value="Automatic" id="idAll">
+                      <label for="active">All</label>
                     </div>
-                    <div class="row" *ngIf="selectedRadioButton == 'Batch'" style="padding: 15px;">
-                      <div class="c-lg-3 c-md-3 c-sm-3">
-                        <div class="field-wrapper" [ngClass]="{'has-value': batchData.standard_id != '0' && batchData.standard_id != '-1'}">
-                          <select id="smc" class="form-ctrl" [(ngModel)]="batchData.standard_id" (ngModelChange)="onBatchMasterCourseSelection($event)">
-                            <option value="0"></option>
-                            <option [value]="master.standard_id" *ngFor="let  master of batchMasterCourse">
-                              {{master.standard_name}}
-                            </option>
-                          </select>
-                          <label for="smc">Select Master Course</label>
-                        </div>
-                      </div>
-                      <div class="c-lg-3 c-md-3 c-sm-3">
-                        <div class="field-wrapper" [ngClass]="{'has-value': batchData.subject_id != '0' && batchData.subject_id != '-1'}">
-                          <select id="sc" class="form-ctrl" [(ngModel)]="batchData.subject_id" (ngModelChange)="onSubjectSelection($event)">
-                            <option value="0"></option>
-                            <option [value]="course.subject_id" *ngFor="let course of subjectListBatch">
-                              {{course.subject_name}}
-                            </option>
-                          </select>
-                          <label for="sc">Select Course</label>
-                        </div>
-                      </div>
-                      <div class="c-lg-3 c-md-3 c-sm-3">
-                        <div class="field-wrapper" [ngClass]="{'has-value': batchData.batch_id != '0' && batchData.batch_id != '-1'}">
-                          <select id="sc" class="form-ctrl" [(ngModel)]="batchData.batch_id">
-                            <option value="0"></option>
-                            <option [value]="subject.batch_id" *ngFor="let subject of batchList">
-                              {{subject.batch_name}}
-                            </option>
-                          </select>
-                          <label for="sc">Batch</label>
-                        </div>
-                      </div>
+                    <div class="field-radio-wrapper">
+                      <input type="radio" (click)="checkInputType($event)" name="sFilter" value="Manual" class="form-radio" id="idTeacher">
+                      <label for="Inactive">Teacher</label>
                     </div>
-                    <div class="row">
-                      <input type="button" class="fullBlue btn" value="View" (click)="submitMasterCourse()">
+                    <div class="field-radio-wrapper">
+                      <input type="radio" (click)="checkInputType($event)" name="sFilter" value="Manual" class="form-radio" id="idBatch">
+                      <label for="Inactive">Batch</label>
                     </div>
                   </div>
-                  <!-- Course Module -->
-                  <div class="search-filter-wrapper" *ngIf="!isLangInstitute">
-                    <div class="c-lg-10 c-md-10 c-sm-10">
-                      <div class="row">
-                        <div class="c-lg-3 c-md-3 c-sm-3">
-                          <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.master_course != '-1'}">
-                            <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course" (ngModelChange)="updateCourseList($event)">
-                              <option value="-1"></option>
-                              <option [value]="master.master_course" *ngFor="let  master of masterCourse">
-                                {{master.master_course}}
-                              </option>
-                            </select>
-                            <label for="smc">Select Master Course</label>
-                          </div>
-                        </div>
-                        <div class="c-lg-3 c-md-3 c-sm-3">
-                          <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.course_id != '-1'}">
-                            <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id" (ngModelChange)="updateSubjectList($event)">
-                              <option value="-1"></option>
-                              <option [value]="course.course_id" *ngFor="let course of courseList.coursesList
-                                                                        ">
-                                {{course.course_name}}
-                              </option>
-                            </select>
-                            <label for="sc">Select Course</label>
-                          </div>
-                        </div>
-                        <div class="c-lg-3 c-md-3 c-sm-3">
-                          <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.subject_id != '-1'}">
-                            <select id="selectsub" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.subject_id">
-                              <option value="-1"></option>
-                              <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
-                                {{subject.subject_name}}
-                              </option>
-                            </select>
-                            <label for="selectsub">Select Subject</label>
-                          </div>
-                        </div>
-                        <div class="c-lg-3 c-md-3 c-sm-3">
-                          <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.teacher_id != '-1'}">
-                            <select id="selectteacher" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.teacher_id">
-                              <option value="-1"></option>
-                              <option [value]="subject.teacher_id" *ngFor="let subject of teacherList">
-                                {{subject.teacher_name}}
-                              </option>
-                            </select>
-                            <label for="selectteacher">Select Teacher</label>
-                          </div>
-                        </div>
+                  <div class="field-main">
+                    <div *ngIf="selectedRadioButton == 'Teacher'">
+                      <div class="field-wrapper fieldPro" [ngClass]="{'has-value': fetchBatchModule.teacher_id != '-1'}">
+                        <select id="sc" class="form-ctrl" [(ngModel)]="fetchBatchModule.teacher_id">
+                          <option value="-1"></option>
+                          <option [value]="subject.teacher_id" *ngFor="let subject of teacherList">
+                            {{subject.teacher_name}}
+                          </option>
+                        </select>
+                        <label for="sc">Select Teacher</label>
                       </div>
                     </div>
-                    <div class="">
-                      <input type="button" class="fullBlue btn" value="Go" (click)="submitMasterCourse()">
+
+                    <div *ngIf="selectedRadioButton == 'Batch'" class="field-main">
+
+                      <div class="field-wrapper" [ngClass]="{'has-value': batchData.standard_id != '0' && batchData.standard_id != '-1'}">
+                        <select id="smc" class="form-ctrl" [(ngModel)]="batchData.standard_id" (ngModelChange)="onBatchMasterCourseSelection($event)">
+                          <option value="0"></option>
+                          <option [value]="master.standard_id" *ngFor="let  master of batchMasterCourse">
+                            {{master.standard_name}}
+                          </option>
+                        </select>
+                        <label for="smc">Select Master Course</label>
+                      </div>
+
+
+                      <div class="field-wrapper" [ngClass]="{'has-value': batchData.subject_id != '0' && batchData.subject_id != '-1'}">
+                        <select id="sc" class="form-ctrl" [(ngModel)]="batchData.subject_id" (ngModelChange)="onSubjectSelection($event)">
+                          <option value="0"></option>
+                          <option [value]="course.subject_id" *ngFor="let course of subjectListBatch">
+                            {{course.subject_name}}
+                          </option>
+                        </select>
+                        <label for="sc">Select Course</label>
+                      </div>
+
+
+                      <div class="field-wrapper" [ngClass]="{'has-value': batchData.batch_id != '0' && batchData.batch_id != '-1'}">
+                        <select id="sc" class="form-ctrl" [(ngModel)]="batchData.batch_id">
+                          <option value="0"></option>
+                          <option [value]="subject.batch_id" *ngFor="let subject of batchList">
+                            {{subject.batch_name}}
+                          </option>
+                        </select>
+                        <label for="sc">Batch</label>
+                      </div>
                     </div>
-
                   </div>
-
+                </div>
+                <div>
+                  <input type="button" class="fullBlue btn btn-new" value="View" (click)="submitMasterCourse()">
                 </div>
               </div>
+
+              <!-- Course Module -->
+              <div class="search-filter-wrapper" *ngIf="!isLangInstitute">
+                <div class="c-lg-10 c-md-10 c-sm-10">
+                  <div class="row">
+                    <div class="c-lg-3 c-md-3 c-sm-3">
+                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.master_course != '-1'}">
+                        <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course" (ngModelChange)="updateCourseList($event)">
+                          <option value="-1"></option>
+                          <option [value]="master.master_course" *ngFor="let  master of masterCourse">
+                            {{master.master_course}}
+                          </option>
+                        </select>
+                        <label for="smc">Select Master Course</label>
+                      </div>
+                    </div>
+                    <div class="c-lg-3 c-md-3 c-sm-3">
+                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.course_id != '-1'}">
+                        <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id" (ngModelChange)="updateSubjectList($event)">
+                          <option value="-1"></option>
+                          <option [value]="course.course_id" *ngFor="let course of courseList.coursesList
+                                                                        ">
+                            {{course.course_name}}
+                          </option>
+                        </select>
+                        <label for="sc">Select Course</label>
+                      </div>
+                    </div>
+                    <div class="c-lg-3 c-md-3 c-sm-3">
+                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.subject_id != '-1'}">
+                        <select id="selectsub" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.subject_id">
+                          <option value="-1"></option>
+                          <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
+                            {{subject.subject_name}}
+                          </option>
+                        </select>
+                        <label for="selectsub">Select Subject</label>
+                      </div>
+                    </div>
+                    <div class="c-lg-3 c-md-3 c-sm-3">
+                      <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.teacher_id != '-1'}">
+                        <select id="selectteacher" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.teacher_id">
+                          <option value="-1"></option>
+                          <option [value]="subject.teacher_id" *ngFor="let subject of teacherList">
+                            {{subject.teacher_name}}
+                          </option>
+                        </select>
+                        <label for="selectteacher">Select Teacher</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                  <input type="button" class="fullBlue btn" value="Go" (click)="submitMasterCourse()">
+                
+
+              </div>
+
+
             </div>
           </div>
+
         </section>
         <!-- ==================================================================================== -->
         <!-- ==================================================================================== -->
