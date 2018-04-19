@@ -11,16 +11,16 @@
       <div class="row">
         <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper" *ngIf="!isProfessional">
           <label>Master Course</label>
-          <select class="side-form-ctrl" [(ngModel)]="fetchFieldData.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
-            <option value="" selected>Master Course</option>
-            <option *ngFor="let i of masterCourses" [value]="i.master_course">{{i.master_course}}</option>
+          <select class="side-form-ctrl" id="one" [(ngModel)]="fetchFieldData.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
+            <option></option>
+            <option *ngFor="let i of masterCourses"  [value]="i.master_course">{{i.master_course}}</option>
           </select>
         </div>
 
         <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper" *ngIf="isProfessional">
           <label>Master Course</label>
-          <select class="side-form-ctrl" [(ngModel)]="queryParam.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
-            <option value="" selected>Master Course</option>
+          <select class="side-form-ctrl" id="one"[(ngModel)]="queryParam.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
+            <option></option>
             <option *ngFor="let i of batchExamRepo" [value]="i.standard_id">{{i.standard_name}}</option>
           </select>
         </div>
@@ -29,16 +29,16 @@
 
         <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper" *ngIf="!isProfessional">
           <label> Course</label>
-          <select class="side-form-ctrl" [(ngModel)]="fetchFieldData.subject_id" (ngModelChange)="getSubData($event)">
-            <option value="" selected></option>
+          <select class="side-form-ctrl" id="two" [(ngModel)]="fetchFieldData.subject_id" (ngModelChange)="getSubData($event)">
+            <option></option>
             <option *ngFor="let i of courseData" [value]="i.course_id" name="Course">{{i.course_name}}</option>
           </select>
         </div>
 
         <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper" *ngIf="isProfessional">
           <label> Course</label>
-          <select class="side-form-ctrl" [(ngModel)]="queryParam.subject_id" (ngModelChange)="getSubData($event)">
-            <option value="" selected></option>
+          <select class="side-form-ctrl" id="two"[(ngModel)]="queryParam.subject_id" (ngModelChange)="getSubData($event)">
+            <option></option>
             <option *ngFor="let i of batchCourseData" [value]="i.subject_id" name="Course">{{i.subject_name}}</option>
           </select>
         </div>
@@ -46,53 +46,48 @@
 
         <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper" *ngIf="!isProfessional">
           <label>Subject</label>
-          <select class="side-form-ctrl" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
-            <option value="" selected></option>
+          <select class="side-form-ctrl" id="three" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
+            <option></option>
             <option *ngFor="let i of SubjectData" [value]="i.batch_id" name="Subject">{{i.subject_name}}</option>
           </select>
         </div>
 
         <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper" *ngIf="isProfessional">
-          <label>Subject</label>
-          <select class="side-form-ctrl" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
-            <option value="" selected></option>
+          <label>Batch</label>
+          <select class="side-form-ctrl"id="three" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
+            <option></option>
             <option *ngFor="let i of getSubjectData" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
           </select>
         </div>
 
         <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
           <label>Exam Schedule</label>
-          <select class="side-form-ctrl" [(ngModel)]=" fetchFieldData.exam_schd_id">
-            <option value="" selected></option>
+          <select class="side-form-ctrl" id="four"[(ngModel)]=" fetchFieldData.exam_schd_id">
+            <option></option>
             <option *ngFor="let i of Exam_Sch_Data" [value]="i.schd_id" name="Exam Schedule">{{i.exam_date}}({{i.start_time}}-{{i.end_time}})</option>
           </select>
         </div>
-        <div class="c-lg-4 c-md-4 c-sm-4 pull-Right"  *ngIf="!isProfessional">
-          <div class="btn-sms-search">
-            <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
-            <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
-
-          </div>
+        <div class="pull-right" *ngIf="!isProfessional">
+          <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
+          <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
         </div>
-        <div class="c-lg-4 c-md-4 c-sm-4 pull-Right"  *ngIf="isProfessional">
-          <div class="btn-sms-search">
-            <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
-            <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
-
-          </div>
+        <div class="pull-right" *ngIf="isProfessional">
+          <input type="button" class="normal-btn fullBlue btn" value="View" (click)="fetchExamReport()" />
+          <input type="button" class="normal-btn fullBlue btn" value="DetailReport" (click)="fetchDetailReport()" />
         </div>
-      
+
       </div>
     </section>
   </aside>
 </div>
 <section class="sms-table-wrapper" *ngIf="Tdata">
-  <div class="table table-responsive student-table" *ngIf="!isProfessional">
+  <div class="table table-responsive student-table stu-table" *ngIf="!isProfessional">
 
     <div class="search-filter-wrapper" id="adFilterExitVisible">
 
-      <input #search type="text" class="normal-field" [(ngModel)]="pagedExamSource.student_name" style="font-size:12px" placeholder="Serach here">
+      <input #search type="text" class="normal-field" [(ngModel)]="pagedExamSource.student_name" style="font-size:12px" placeholder="Search">
     </div>
+
     <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name :pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
       [tableName]="'Exam'" [settings]="projectSettings">
 
@@ -100,12 +95,14 @@
   </div>
 
 
-   <div class="table table-responsive student-table" *ngIf="isProfessional">
+  <div class="table table-responsive student-table stu-table" *ngIf="isProfessional">
 
     <div class="search-filter-wrapper" id="adFilterExitVisible">
 
-      <input #search type="text" class="normal-field" [(ngModel)]="pagedExamSource.student_name" style="font-size:12px" placeholder="Serach here">
+      <input #search type="text" class="normal-field" [(ngModel)]="pagedExamSource.student_name" style="font-size:12px" placeholder="Search">
     </div>
+
+
     <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name :pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
       [tableName]="'Exam'" [settings]="projectSettings">
 
@@ -122,7 +119,7 @@
   </div>
 
 
-  <div class="row filter-res pagination" style="width: 100%;"*ngIf="isProfessional">
+  <div class="row filter-res pagination" style="width: 100%;" *ngIf="isProfessional">
     <div class="c-lg-12 c-md-12 c-sm-12 align-right">
       <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
         [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
@@ -130,6 +127,8 @@
     </div>
   </div>
 </section>
+
+
 
 <proctur-popup [sizeWidth]="'large'" *ngIf="addReportPopup">
 
@@ -144,91 +143,89 @@
         />
       </g>
     </svg>
-  </span>
+  </span> 
 
-  <h2 popup-header class="pop-header">DataWise Exam Report</h2>
+  <h2 popup-header>DataWise Exam Report</h2>
 
-  <div class="details-wrapper"  *ngIf="!isProfessional" popup-content>
-    <div class="table table-responsive student-table">
-
-      <table>
-        <thead>
-          <tr>
-            <th>
-              Student Id
-            </th>
-            <th>
-              Student Name
-            </th>
-            <th class="marks" *ngFor="let date of dateStore">
-              {{date.exam_date}}&nbsp;{{date.start_time}}
-            </th>
-
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor='let det of detailSource'>
-            <td>{{det.student_display_id}}</td>
-            <td>{{det.student_name}}</td>
-
-            <td class="marks" *ngFor="let marks of det.detailExamReportList">
-              <label *ngIf="marks.marks_obtained != null">{{marks.marks_obtained}} / {{marks.total_marks}} ({{marks.student_rank}})</label>
-              <label *ngIf="marks.marks_obtained == null"></label>
-            </td>
-
-          </tr>
-        </tbody>
-
-      </table>
+  <div class="" popup-content>
+    <div class="details-wrapper" *ngIf="!isProfessional">
+      <div class="table table-responsive student-table stu-table">
+  
+        <table>
+          <thead>
+            <tr>
+              <th>
+                Student Id
+              </th>
+              <th>
+                Student Name
+              </th>
+              <th class="marks" *ngFor="let date of dateStore">
+                {{date.exam_date}}&nbsp;{{date.start_time}}
+              </th>
+  
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor='let det of detailSource'>
+              <td>{{det.student_display_id}}</td>
+              <td>{{det.student_name}}</td>
+  
+              <td class="marks" *ngFor="let marks of det.detailExamReportList">
+                <label *ngIf="marks.marks_obtained != null">{{marks.marks_obtained}} / {{marks.total_marks}} ({{marks.student_rank}})</label>
+                <label *ngIf="marks.marks_obtained == null"></label>
+              </td>
+  
+            </tr>
+          </tbody>
+  
+        </table>
+      </div>
     </div>
-
-  </div>
-
-
-  <div class="btn-sms-search">
-    <input type="button" class="normal-btn fullBlue btn" value="Close" (click)="closeExamReport()" />
-  </div>
-
-  <div class="details-wrapper"  *ngIf="isProfessional" popup-content>
-    <div class="table table-responsive student-table">
-
-      <table>
-        <thead>
-          <tr>
-            <th>
-              Student Id
-            </th>
-            <th>
-              Student Name
-            </th>
-            <th class="marks" *ngFor="let date of dateStore">
-              {{date.exam_date}}&nbsp;{{date.start_time}}
-            </th>
-
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor='let det of detailSource'>
-            <td>{{det.student_display_id}}</td>
-            <td>{{det.student_name}}</td>
-
-            <td class="marks" *ngFor="let marks of det.detailExamReportList">
-              <label *ngIf="marks.marks_obtained != null">{{marks.marks_obtained}} / {{marks.total_marks}} ({{marks.student_rank}})</label>
-              <label *ngIf="marks.marks_obtained == null"></label>
-            </td>
-
-          </tr>
-        </tbody>
-
-      </table>
+  
+    <div class="details-wrapper" *ngIf="isProfessional">
+      <div class="table table-responsive student-table stu-table">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                Student Id
+              </th>
+              <th>
+                Student Name
+              </th>
+              <th class="marks" *ngFor="let date of dateStore">
+                {{date.exam_date}}&nbsp;{{date.start_time}}
+              </th>
+  
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor='let det of detailSource'>
+              <td>{{det.student_display_id}}</td>
+              <td>{{det.student_name}}</td>
+  
+              <td class="marks" *ngFor="let marks of det.detailExamReportList">
+                <label *ngIf="marks.marks_obtained != null">{{marks.marks_obtained}} / {{marks.total_marks}} ({{marks.student_rank}})</label>
+                <label *ngIf="marks.marks_obtained == null"></label>
+              </td>
+  
+            </tr>
+            <tr *ngIf='detailSource.length==0'>No Students Founds</tr>
+          </tbody>
+  
+        </table>
+      </div>
+  
     </div>
-
   </div>
 
-
-  <div class="btn-sms-search">
-    <input type="button" class="normal-btn fullBlue btn" value="Close" (click)="closeExamReport()" />
+  <div class="" popup-footer>
+    <div class="clearfix">
+      <aside class="pull-right popup-btn">
+        <input type="button" value="Close" class="btn" (click)="closeReportPopup()">
+      </aside>
+    </div>
   </div>
-
 
 </proctur-popup>

@@ -58,7 +58,7 @@ export class ExamReportComponent implements OnInit {
     standard_id: -1,
     subject_id: -1,
     assigned: "N",
-   // batch_id:"",
+    // batch_id:"",
     //exam_schd_id:""
 
   }
@@ -83,18 +83,19 @@ export class ExamReportComponent implements OnInit {
   fetchExamData() {
     if (this.isProfessional) {
       this.examdata.batchExamReport(this.queryParam).subscribe((res) => {
-if(res!=""){
+        {
+          
+          this.batchExamRepo = res.standardLi;
+                               
+          this.getSubjectData = res.batchLi;
 
 
-        this.batchExamRepo = res.standardLi;
-        console.log(res);
-        console.log(this.batchExamRepo);
-      }})
+        }
+      })
     }
     else {
       this.examdata.ExamReport().subscribe(
         (data: any) => {
-          if(data!="")
           this.masterCourses = data;
           console.log(this.masterCourses);
         }
@@ -102,49 +103,47 @@ if(res!=""){
     }
   }
 
-
-
   /*view btn*/
   fetchExamReport() {
 
     console.log(this.fetchFieldData);
-    if(this.isProfessional){
-      if (this.queryParam.standard_id == -1 || this.queryParam.subject_id == -1||this.fetchFieldData.batch_id==""||this.fetchFieldData
-    .exam_schd_id=="") {
+    if (this.isProfessional) {
+      if (this.queryParam.standard_id == -1 || this.queryParam.subject_id == -1 || this.fetchFieldData.batch_id == "" || this.fetchFieldData
+        .exam_schd_id == "") {
 
         let msg = {
           type: "error",
           title: "Invalid Data Range Selected",
           Body: "All field must be filled"
         }
-      this.appC.popToast(msg);
-      
+        this.appC.popToast(msg);
+
+      }
+      else {
+        let o = {
+          batch_id: this.fetchFieldData.batch_id,
+          exam_schd_id: this.fetchFieldData.exam_schd_id,
+          institution_id: this.fetchFieldData.institution_id,
+          standard_id: '',
+          subject_id: ''
+        }
+        this.examdata.viewExamData(o).subscribe(
+          res => {
+            this.ExamSource = res;
+            this.Tdata = true;
+            this.totalRecords = this.ExamSource.length;
+            this.fetchTableDataByPage(this.pageIndex);
+            console.log(res);
+          },
+          err => {
+            console.log(err);
+          }
+        );
+      }
     }
     else {
-      let o = {
-        batch_id: this.fetchFieldData.batch_id,
-        exam_schd_id: this.fetchFieldData.exam_schd_id,
-        institution_id: this.fetchFieldData.institution_id,
-        standard_id: '',
-        subject_id: ''
-      }
-      this.examdata.viewExamData(o).subscribe(
-        res => {
-          this.ExamSource = res;
-          this.Tdata = true;
-          this.totalRecords = this.ExamSource.length;
-          this.fetchTableDataByPage(this.pageIndex);
-          console.log(res);
-        },
-        err => {
-          console.log(err);
-        }
-      );
-    }
-    }
-    else{
       if (this.fetchFieldData.subject_id == "" || this.fetchFieldData.standard_id == "" || this.fetchFieldData.batch_id == "" ||
-      this.fetchFieldData.exam_schd_id == "") {
+        this.fetchFieldData.exam_schd_id == "") {
 
         let msg = {
           type: "error",
@@ -152,113 +151,116 @@ if(res!=""){
           Body: "All fields must be filled"
         }
         //this.appC.popToast(msg);
-      this.appC.popToast(msg);
-    }
-    else {
-      let o = {
-        batch_id: this.fetchFieldData.batch_id,
-        exam_schd_id: this.fetchFieldData.exam_schd_id,
-        institution_id: this.fetchFieldData.institution_id,
-        standard_id: '',
-        subject_id: ''
+        this.appC.popToast(msg);
       }
-      this.examdata.viewExamData(o).subscribe(
-        res => {
-          this.ExamSource = res;
-          this.Tdata = true;
-          this.totalRecords = this.ExamSource.length;
-          this.fetchTableDataByPage(this.pageIndex);
-          console.log(res);
-        },
-        err => {
-          console.log(err);
+      else {
+        let o = {
+          batch_id: this.fetchFieldData.batch_id,
+          exam_schd_id: this.fetchFieldData.exam_schd_id,
+          institution_id: this.fetchFieldData.institution_id,
+          standard_id: '',
+          subject_id: ''
         }
-      );
+        this.examdata.viewExamData(o).subscribe(
+          res => {
+            this.ExamSource = res;
+            this.Tdata = true;
+            this.totalRecords = this.ExamSource.length;
+            this.fetchTableDataByPage(this.pageIndex);
+            console.log(res);
+          },
+          err => {
+            console.log(err);
+          }
+        );
+      }
     }
-    }}
+  }
 
   /*detailbtn*/
   fetchDetailReport() {
-    if(this.isProfessional){
-      if (this.queryParam.standard_id == -1 || this.queryParam.subject_id == -1||this.fetchFieldData.batch_id==""
-      ||this.fetchFieldData.exam_schd_id=="") {
-    
- 
+    if (this.isProfessional) {
+      if (this.queryParam.standard_id == -1 || this.queryParam.subject_id == -1 || this.fetchFieldData.batch_id == ""
+        || this.fetchFieldData.exam_schd_id == "") {
 
-      let msg ={
-        type: "error",
-        title:"Invalid Data Range Selected",
-        Body :"All field must be filled"
+
+
+        let msg = {
+          type: "error",
+          title: "Invalid Data Range Selected",
+          Body: "All field must be filled"
+        }
+        this.appC.popToast(msg);
       }
-      this.appC.popToast(msg);
+      else {
+        this.examdata.viewDetailData(this.fetchFieldData.batch_id)
+          .subscribe(
+            res => {
+              this.detailSource = res;
+              this.dateSource = this.detailSource.map((store) => {
+                this.dateStore = store.detailExamReportList;
+              });
+
+              console.log(this.detailSource);
+              console.log(res);
+              this.addReportPopup = true;
+            },
+            err => {
+              console.log(err);
+            }
+          )
+      }
     }
     else {
-      this.examdata.viewDetailData(this.fetchFieldData.batch_id)
-        .subscribe(
-          res => {
-            this.detailSource = res;
-            this.dateSource = this.detailSource.map((store) => {
-              this.dateStore = store.detailExamReportList;
-            });
-
-            console.log(this.detailSource);
-            console.log(res);
-            this.addReportPopup = true;
-          },
-          err => {
-            console.log(err);
-          }
-        )
-    }   
-    }
-    else{
       if (this.fetchFieldData.standard_id == "" || this.fetchFieldData.subject_id == "" || this.fetchFieldData.batch_id == "" ||
-      this.fetchFieldData.exam_schd_id == "") {
-      let msg = {
-        type: "error",
-        title: "Invalid Data Range Selected",
-        Body: "All Field must be filled"
+        this.fetchFieldData.exam_schd_id == "") {
+        let msg = {
+          type: "error",
+          title: "Invalid Data Range Selected",
+          Body: "All Field must be filled"
+        }
+        this.appC.popToast(msg);
       }
-      this.appC.popToast(msg);
-    }
-    else {
-      this.examdata.viewDetailData(this.fetchFieldData.batch_id)
-        .subscribe(
-          res => {
-            this.detailSource = res;
-            this.dateSource = this.detailSource.map((store) => {
-              this.dateStore = store.detailExamReportList;
-            });
+      else {
+        this.examdata.viewDetailData(this.fetchFieldData.batch_id)
+          .subscribe(
+            res => {
+              this.detailSource = res;
+              this.dateSource = this.detailSource.map((store) => {
+                this.dateStore = store.detailExamReportList;
+              });
 
-            console.log(this.detailSource);
-            console.log(res);
-            this.addReportPopup = true;
-          },
-          err => {
-            console.log(err);
-          }
-        )
+              console.log(this.detailSource);
+              console.log(res);
+              this.addReportPopup = true;
+            },
+            err => {
+              console.log(err);
+            }
+          )
+      }
     }
-    }
-    
+
   }
-
-
-  getCourseData(i) {
+getCourseData(i) {
 
     if (this.isProfessional) {
-        // this.fetchFieldData.exam_schd_id="",
-         //this.fetchFieldData.batch_id="",
-         //this.queryParam.subject_id="",
+      // this.fetchFieldData.exam_schd_id="",
+      //this.fetchFieldData.batch_id="",
+      //this.queryParam.subject_id="",
+      this.fetchFieldData.exam_schd_id = "";
 
+      this.fetchFieldData.subject_id = "";
       this.examdata.batchExamReport(this.queryParam).subscribe(
         (res) => {
           console.log(res);
           this.batchCourseData = res.subjectLi;
+       /*update*/   
+          this.getSubjectData= res.batchLi;
+          
           console.log(this.batchCourseData);
         })
     }
-
 
     else {
 
@@ -279,18 +281,21 @@ if(res!=""){
     }
   }
   getSubData(i) {
-    
+
     console.log(i);
-   
-    if(this.isProfessional){
+
+    if (this.isProfessional) {
+      this.fetchFieldData.exam_schd_id = "";
+
       this.examdata.batchExamReport(this.queryParam).subscribe(
         (res) => {
           console.log(res);
           this.getSubjectData = res.batchLi;
+          
           console.log(this.getSubjectData);
         })
     }
-    else{
+    else {
       this.fetchFieldData.exam_schd_id = "";
       this.fetchFieldData.batch_id = "";
       this.examdata.getSubject(i).subscribe((data: any) => {
@@ -299,7 +304,7 @@ if(res!=""){
         console.log(this.SubjectData);
       })
     }
-    
+
   }
 
   getExamScheduleData(i) {
@@ -337,8 +342,13 @@ if(res!=""){
     return t;
   }
 
+  closeExamReport() {
+    this.addReportPopup = false;
+
+  }
 
   switchActiveView(id) {
+
     document.getElementById('home').classList.remove('active');
     document.getElementById('attendance').classList.remove('active');
     document.getElementById('sms').classList.remove('active');
