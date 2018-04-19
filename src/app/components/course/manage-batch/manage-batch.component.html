@@ -252,7 +252,8 @@
                 </td>
                 <td class="edit-comp">
                   <div class="field-wrapper">
-                    <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="row.end_date" name="endDate" bsDatepicker id="endDate">
+                    <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="row.end_date" name="endDate" bsDatepicker
+                      id="endDate">
                     <label for="endDate">
                     </label>
                   </div>
@@ -283,7 +284,7 @@
                 </td>
 
                 <td>
-                  {{row.total_students}}
+                  <span *ngIf="row.is_active == 'Y'">{{row.total_students}}</span>
                 </td>
 
                 <td class="view-comp">
@@ -397,20 +398,23 @@
                 Contact No.
               </th>
               <th>
-                Joining Date
-              </th>
-              <th>
                 Institution Name
               </th>
               <th>
                 Standard Class
+              </th>
+              <th>
+                Academic Year
+              </th>
+              <th>
+                Fee Template
               </th>
             </thead>
             <tbody>
               <tr id="row{{i}}" *ngFor="let row of studentList; let i = index; trackBy: i;">
                 <td>
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                    <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned" (ngModelChange)="onCheckBoxClicked(row , $event , i)">
                     <label></label>
                   </div>
                 </td>
@@ -424,13 +428,30 @@
                   {{row.student_phone}}
                 </td>
                 <td>
-                  {{row.doj}}
-                </td>
-                <td>
                   {{row.school}}
                 </td>
                 <td>
                   {{row.student_class}}
+                </td>
+                <td>
+                  <div class="field-wrapper">
+                    <select class="form-ctrl" [(ngModel)]="row.academic_year" style="background: transparent">
+                      <option value="-1">Select</option>
+                      <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+                        {{opt.inst_acad_year}}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="field-wrapper">
+                    <select class="form-ctrl" [(ngModel)]="row.assigned_fee_template_id" style="background: transparent">
+                      <option value="-1">Select</option>
+                      <option *ngFor="let opt of feeTemplateDataSource" [value]="opt.template_id">
+                        {{opt.template_name}}
+                      </option>
+                    </select>
+                  </div>
                 </td>
               </tr>
               <tr *ngIf="(studentList.length == 0)">
@@ -443,7 +464,7 @@
         </div>
 
         <div class="pull-right">
-          <button class="btn" (click)="saveChanges()">Save</button>
+          <button class="btn fullBlue" (click)="saveChanges()">Save</button>
         </div>
       </div>
     </div>
