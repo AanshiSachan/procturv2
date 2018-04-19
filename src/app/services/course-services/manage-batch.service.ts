@@ -16,11 +16,17 @@ export class ManageBatchService {
         private http: HttpClient,
         private auth: AuthenticatorService,
     ) {
-        this.institute_id = this.auth.getInstituteId();
-        this.Authorization = this.auth.getAuthToken();
+        this.auth.currentAuthKey.subscribe(key => {
+            this.Authorization = key;
+            this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
+        })
+        this.auth.currentInstituteId.subscribe(id => {
+            this.institute_id = id;
+        });
+        // this.institute_id = this.auth.getInstituteId();
+        // this.Authorization = this.auth.getAuthToken();
         this.baseURL = this.auth.getBaseUrl();
-        this.headers = new HttpHeaders(
-            { "Content-Type": "application/json", "Authorization": this.Authorization });
+
     }
 
     successCallback(res) {
@@ -106,7 +112,7 @@ export class ManageBatchService {
 
     saveUpdatedList(data, batch_id) {
         data.institute_id = this.institute_id;
-        let url = this.baseURL + "/api/v1/allStdAsgnment/" +  batch_id;
+        let url = this.baseURL + "/api/v1/allStdAsgnment/" + batch_id;
         return this.http.post(url, data, { headers: this.headers }).map(
             this.successCallback,
             this.errorCallBack

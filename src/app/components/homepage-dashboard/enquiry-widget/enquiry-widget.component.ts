@@ -242,7 +242,12 @@ export class EnquiryWidgetComponent implements OnInit {
     }
 
     navigateToEnquiry(data) {
-        sessionStorage.setItem('dashBoardParam', data);
+        let obj = {
+            type: data,
+            dateR: this.enquiryDate
+        }
+
+        sessionStorage.setItem('dashBoardParam', JSON.stringify(obj));
         this.router.navigateByUrl('/enquiry');
     }
 

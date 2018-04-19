@@ -1074,6 +1074,18 @@ div#enqChart {
             &:last-child {
                 width: 15%;
             }
+            &.timings{
+                width: 20% !important;
+            }
+            &.class_room{
+                width: 15% !important;
+            }
+            &.batch{
+                width: 20% !important;
+            }
+            &.faculty{
+                width: 25% !important;
+            }
             div {
                 color: rgba(30, 35, 40, 0.7);
                 font-size: 14px;
@@ -1106,6 +1118,18 @@ div#enqChart {
                 background: transparent;
                 font-size: 12px;
                 font-size: 12px;
+                &.timings{
+                    width: 20% !important;
+                }
+                &.class_room{
+                    width: 15% !important;
+                }
+                &.batch{
+                    width: 20% !important;
+                }
+                &.faculty{
+                    width: 25% !important;
+                }
             }
         }
         .class-type-status {

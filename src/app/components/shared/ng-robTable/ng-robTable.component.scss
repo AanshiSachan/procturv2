@@ -3,7 +3,7 @@ $color-highlight: lighten($color-base, 7%);
 .skeleton {
     position: relative;
     overflow: hidden;
-    width: 80%;
+    width: 100%;
     height: 12px;
     background: $color-base;
     border-radius: 2px;
@@ -213,6 +213,21 @@ $color-highlight: lighten($color-base, 7%);
                 &:first-child{
                     width: 5%;
                 }
+                &.enquiry_no{
+                    width: 9%;
+                }
+                &.updateDate{
+                    width: 22%;
+                }
+                &.student_disp_id{
+                    width: 8%
+                }
+                &.student_name{
+                    width: 25%;                    
+                }
+                &.noOfBatchesAssigned{
+                    width: 25%;
+                }
             }
         }
         .class-type-status {
@@ -241,6 +256,21 @@ $color-highlight: lighten($color-base, 7%);
                 font-size: 12px;
                 &:first-child{
                     width: 5%;
+                }
+                &.enquiry_no{
+                    width: 9%;
+                }
+                &.updateDate{
+                    width: 22%;
+                }
+                &.student_disp_id{
+                    width: 8%
+                }
+                &.student_name{
+                    width: 25%;                    
+                }
+                &.noOfBatchesAssigned{
+                    width: 25%;
                 }
             }   
         }

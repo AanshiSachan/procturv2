@@ -15,17 +15,24 @@ export class ExamService {
 
 
     /* set default value for each url, header and autherization on service creation */
-    constructor(private http: HttpClient, private auth1: AuthenticatorService, ) {
-        this.Authorization = sessionStorage.getItem('Authorization');
-        this.institute_id = sessionStorage.getItem('institute_id');
-        this.baseUrl = this.auth1.getBaseUrl();
-        this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
+    constructor(private http: HttpClient, private auth: AuthenticatorService, ) {
+        this.auth.currentAuthKey.subscribe(key => {
+            this.Authorization = key;
+            this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
+        })
+        this.auth.currentInstituteId.subscribe(id => {
+            this.institute_id = id;
+        });
+        // this.Authorization = sessionStorage.getItem('Authorization');
+        // this.institute_id = sessionStorage.getItem('institute_id');
+        this.baseUrl = this.auth.getBaseUrl();
+        
     }
 
     ExamReport(): Observable<any> {
-        let url = this.baseUrl + "/api/v1/courseMaster/fetch/"+ this.institute_id + "/all";
-    
-        return this.http.get(url,{ headers: this.headers }).map(
+        let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all";
+
+        return this.http.get(url, { headers: this.headers }).map(
             res => {
                 return res;
             },
@@ -36,53 +43,53 @@ export class ExamService {
     }
 
 
-getCourses(obj): Observable<any> {
-    let url=this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + obj
-    return this.http.get(url, {headers:this.headers}).map(
-      data=>{
-        return data;
-      },
-      error=>{
-        return error;
-      }
-      
-    )
-  }
+    getCourses(obj): Observable<any> {
+        let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + obj
+        return this.http.get(url, { headers: this.headers }).map(
+            data => {
+                return data;
+            },
+            error => {
+                return error;
+            }
+
+        )
+    }
 
 
-  getSubject(obj){
+    getSubject(obj) {
 
-    let url=this.baseUrl + "/api/v1/courseMaster/fetch/courses/" + this.institute_id + "/" + obj
-    return this.http.get(url, {headers:this.headers}).map(
-      data =>{
-        return data;
-      },
-      error=>{
-        return error;
-      }
-      
-    )
+        let url = this.baseUrl + "/api/v1/courseMaster/fetch/courses/" + this.institute_id + "/" + obj
+        return this.http.get(url, { headers: this.headers }).map(
+            data => {
+                return data;
+            },
+            error => {
+                return error;
+            }
 
-  }
+        )
 
-  getExamSchedule(obj){
+    }
 
-    let url=this.baseUrl + "/api/v1/batchExamSched/"  + obj
-    return this.http.get(url, {headers:this.headers}).map(
-      data =>{
-        return data;
-      },
-      error=>{
-        return error;
-      }
-      
-    )
+    getExamSchedule(obj) {
 
-  }
+        let url = this.baseUrl + "/api/v1/batchExamSched/" + obj
+        return this.http.get(url, { headers: this.headers }).map(
+            data => {
+                return data;
+            },
+            error => {
+                return error;
+            }
 
- viewExamData(obj){
- 
-  let url = this.baseUrl + "/api/v1/reports/StdExam"
+        )
+
+    }
+
+    viewExamData(obj) {
+
+        let url = this.baseUrl + "/api/v1/reports/StdExam"
         return this.http.post(url, obj, { headers: this.headers }).map(
             res => {
                 return res;
@@ -91,12 +98,14 @@ getCourses(obj): Observable<any> {
                 return err;
             }
         )
-}
+    }
 
-viewDetailData(obj){
-console.log(obj);
-  let url = this.baseUrl + "/api/v1/reports/StdExam/" +obj
-        return this.http.get(url,{ headers: this.headers }).map(
+
+
+    viewDetailData(obj) {
+
+        let url = this.baseUrl + "/api/v1/reports/StdExam/" + obj
+        return this.http.get(url, { headers: this.headers }).map(
             res => {
                 return res;
             },
@@ -104,5 +113,5 @@ console.log(obj);
                 return err;
             }
         )
-}
+    }
 }

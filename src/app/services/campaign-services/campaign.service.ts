@@ -32,17 +32,22 @@ export class CampaignService {
 
   /* initialize the value of variables on service call */
   constructor(private http: Http, private auth: AuthenticatorService) {
-    this.Authorization = this.auth.getAuthToken();
-    this.institute_id = this.auth.getInstituteId();
+    this.auth.currentAuthKey.subscribe( key => {
+      this.Authorization = key;
+      this.headers = new Headers();
+      this.headers.append("Content-Type", "application/json");
+      this.headers.append("Authorization", this.Authorization);
+  
+      this.headersEncoded = new Headers();
+      this.headersEncoded.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+    }) 
+    this.auth.currentInstituteId.subscribe( id => {
+      this.institute_id = id;
+    });
+    // this.Authorization = this.auth.getAuthToken();
+    // this.institute_id = this.auth.getInstituteId();
     this.baseUrl = this.auth.getBaseUrl();
     this.url = this.baseUrl + "/api/v1/enquiry/dashboard/" + this.institute_id;
-    this.headers = new Headers();
-    this.headers.append("Content-Type", "application/json");
-    this.headers.append("Authorization", this.Authorization);
-
-    this.headersEncoded = new Headers();
-    this.headersEncoded.append("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-
   }
 
 
@@ -196,6 +201,23 @@ export class CampaignService {
       data => { return data.json() },
       err => { }
     );
+  }
+
+  fetchAllSms() {
+
+
+    this.urlFetchAllSms = this.baseUrl + "/api/v1/campaign/message/" + this.institute_id + "/all";
+
+    let data = {
+      feature_type: 2,
+      sms_type: "Transactional"
+    }
+
+
+    return this.http.post(this.urlFetchAllSms, data, { headers: this.headers }).map(
+      res => { return res.json() }
+    );
+
   }
 
 }

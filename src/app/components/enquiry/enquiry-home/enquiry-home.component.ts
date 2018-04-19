@@ -54,7 +54,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = []; campaignList: any[] = [];
   enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = []; sources: any[] = [];
   enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; schools: any[] = []; commentFormData: any = {};
-  today: any = Date.now(); searchBarData: any = null; searchBarDate: any = moment().format('YYYY-MM-DD');
+  today: any = Date.now(); searchBarData: any = null; searchBarDate: any = "";
   displayBatchSize: number = 100; incrementFlag: boolean = true; updateFormComments: any = [];
   updateFormCommentsBy: any = []; updateFormCommentsOn: any = []; PageIndex: number = 1;
   maxPageSize: number = 0; totalEnquiry: number = 0; isProfessional: boolean = false;
@@ -1474,9 +1474,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
 
   }
+
   /* =========================================================================== */
   checkIfRoutedFromEnquiry() {
-    let filter = sessionStorage.getItem('dashBoardParam');
+
     this.stats = {
       All: { value: 'All', prop: 'All', checked: false, disabled: false },
       Pending: { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false },
@@ -1497,11 +1498,16 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
     ];
 
-    if (filter == "" || filter == null || filter == undefined) {
+    if (sessionStorage.getItem('dashBoardParam') == "" || sessionStorage.getItem('dashBoardParam') == null || sessionStorage.getItem('dashBoardParam') == undefined) {
       return;
     }
     else {
+      let obj = JSON.parse(sessionStorage.getItem('dashBoardParam'));
+      let filter = obj.type;
+      let fromDate = obj.dateR[0];
+      let toDate = obj.dateR[1];
       this.searchBarData = '';
+
       if (filter == "Admitted") {
         this.instituteData = {
           name: "",
@@ -1522,8 +1528,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           slot_id: -1,
           filtered_slots: "",
           isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
+          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
+          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
           updateDate: "",
           updateDateFrom: "",
           updateDateTo: "",
@@ -1546,7 +1552,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           status: -1,
           filtered_statuses: "1",
           follow_type: "",
-          followUpDate: this.searchBarDate,
+          followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
           standard_id: -1,
@@ -1555,8 +1561,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           slot_id: -1,
           filtered_slots: "",
           isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
+          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
+          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
           updateDate: "",
           updateDateFrom: "",
           updateDateTo: "",
@@ -1565,7 +1571,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-
         this.busy = this.loadTableDatatoSource(this.instituteData);
       }
 
@@ -1580,7 +1585,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           status: -1,
           filtered_statuses: "0",
           follow_type: "",
-          followUpDate: this.searchBarDate,
+          followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
           standard_id: -1,
@@ -1589,8 +1594,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           slot_id: -1,
           filtered_slots: "",
           isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
+          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
+          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
           updateDate: "",
           updateDateFrom: "",
           updateDateTo: "",
@@ -1613,7 +1618,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           status: -1,
           filtered_statuses: "3",
           follow_type: "",
-          followUpDate: this.searchBarDate,
+          followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
           standard_id: -1,
@@ -1622,8 +1627,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           slot_id: -1,
           filtered_slots: "",
           isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
+          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
+          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
           updateDate: "",
           updateDateFrom: "",
           updateDateTo: "",
@@ -1635,7 +1640,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.busy = this.loadTableDatatoSource(this.instituteData);
       }
 
-      if (filter == "Registered")  {
+      if (filter == "Registered") {
         this.instituteData = {
           name: "",
           phone: "",
@@ -1646,7 +1651,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           status: -1,
           filtered_statuses: "11",
           follow_type: "",
-          followUpDate: this.searchBarDate,
+          followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
           standard_id: -1,
@@ -1655,8 +1660,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           slot_id: -1,
           filtered_slots: "",
           isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
+          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
+          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
           updateDate: "",
           updateDateFrom: "",
           updateDateTo: "",
@@ -1672,9 +1677,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   /* =========================================================================== */
-
-
-
   /* Function to search data on smart table */
   searchDatabase() {
     this.clearFilterAdvanced();
@@ -3049,10 +3051,16 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.closeEnquiryFullDetails();
     this.isSideBar = false;
     this.isRippleLoad = true;
+    if (this.advancedFilterForm.followUpDate != null && this.advancedFilterForm.followUpDate != '' && this.advancedFilterForm.followUpDate != 'Invalid date') {
+      this.advancedFilterForm.is_recent = "N";
+    }
+    else if (this.advancedFilterForm.followUpDate == null || this.advancedFilterForm.followUpDate != '' || this.advancedFilterForm.followUpDate != 'Invalid date') {
+      this.advancedFilterForm.is_recent = "Y";
+    }
     this.busy = this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
       data => {
         this.isRippleLoad = false;
-        this.sourceEnquiry = data
+        this.sourceEnquiry = data;
         /* pagination defination here */
         if (this.sourceEnquiry.length != 0) {
           this.totalEnquiry = data[0].totalcount;

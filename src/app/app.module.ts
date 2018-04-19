@@ -15,11 +15,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 /* Services */
 import { FetchenquiryService } from './services/enquiry-services/fetchenquiry.service';
-import { CampaignService } from './services/campaign-services/campaign.service';
-import { InventoryService } from './services/inventory-services/inventory.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
 import { PopupHandlerService } from './services/enquiry-services/popup-handler.service';
-import { FetchStudentService } from './services/student-services/fetch-student.service';
 import { PostEnquiryDataService } from './services/enquiry-services/post-enquiry-data.service';
 import { AuthenticatorService } from './services/authenticator.service';
 import { LoginService } from './services/login-services/login.service';
@@ -39,7 +36,6 @@ import { TimepickerModule } from '../assets/imported_modules/ngx-bootstrap/timep
 import { ErrorComponent } from './components/error/error.component';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
 import { OverlayMenuComponent } from './components/overlay-menu/overlay-menu.component';
-import { PostStudentDataService } from './services/student-services/post-student-data.service';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { SharedModule } from './components/shared/shared.module';
 import { SlotApiService } from './services/slot-service/slot.service';
@@ -81,15 +77,11 @@ import { CityAreaService } from './services/area-city-service/area-city.service'
     FetchenquiryService,
     FetchprefilldataService,
     PopupHandlerService,
-    FetchStudentService,
     PostEnquiryDataService,
     AuthenticatorService,
     LoginService,
     AuthGuard,
     LoaderHandlingService,
-    PostStudentDataService,
-    CampaignService,
-    InventoryService,
     SlotApiService,
     CityAreaService
   ],
