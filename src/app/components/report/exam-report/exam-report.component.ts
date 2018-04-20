@@ -21,19 +21,20 @@ export class ExamReportComponent implements OnInit {
   Tdata: boolean = false;
   courseData: any[] = [];
   batchCourseData: any = [];
-  subData = "";
-  SubjectData: any[] = [];
+  /*  */
+
+  subjectData: any[] = [];
   masterCourses: any[] = [];
-  masterData = "";
+
   addReportPopup: boolean = false;
   examTypeEntry: any[] = [];
-  Exam_sche_Data = "";
-  Exam_Sch_Data: any[] = [];
-  ExamSource: any = [];
+
+  exam_Sch_Data: any[] = [];
+  examSource: any = [];
   detailSource: any = [];
   pagedExamSource: any[] = [];
-  studentName = "";
-  FetchApiData: any = [];
+
+  fetchApiData: any = [];
   dataExamIndex: any[] = [];
   typeDataForm: any[] = [];
 
@@ -54,14 +55,12 @@ export class ExamReportComponent implements OnInit {
   }
 
   queryParam = {
-
     standard_id: -1,
     subject_id: -1,
     assigned: "N",
-    // batch_id:"",
-    //exam_schd_id:""
-
   }
+
+
   fetchFieldData = {
     institution_id: parseInt(sessionStorage.getItem('institute_id')),
     standard_id: '',
@@ -79,17 +78,16 @@ export class ExamReportComponent implements OnInit {
   closeReportPopup() {
     this.addReportPopup = false;
   }
-  /*1111*/
+
+
   fetchExamData() {
     if (this.isProfessional) {
       this.examdata.batchExamReport(this.queryParam).subscribe((res) => {
         {
-          
+
           this.batchExamRepo = res.standardLi;
-                               
+
           this.getSubjectData = res.batchLi;
-
-
         }
       })
     }
@@ -129,9 +127,9 @@ export class ExamReportComponent implements OnInit {
         }
         this.examdata.viewExamData(o).subscribe(
           res => {
-            this.ExamSource = res;
+            this.examSource = res;
             this.Tdata = true;
-            this.totalRecords = this.ExamSource.length;
+            this.totalRecords = this.examSource.length;
             this.fetchTableDataByPage(this.pageIndex);
             console.log(res);
           },
@@ -150,7 +148,7 @@ export class ExamReportComponent implements OnInit {
           title: "Invalid Data Range Selected",
           Body: "All fields must be filled"
         }
-        //this.appC.popToast(msg);
+
         this.appC.popToast(msg);
       }
       else {
@@ -163,9 +161,9 @@ export class ExamReportComponent implements OnInit {
         }
         this.examdata.viewExamData(o).subscribe(
           res => {
-            this.ExamSource = res;
+            this.examSource = res;
             this.Tdata = true;
-            this.totalRecords = this.ExamSource.length;
+            this.totalRecords = this.examSource.length;
             this.fetchTableDataByPage(this.pageIndex);
             console.log(res);
           },
@@ -180,6 +178,7 @@ export class ExamReportComponent implements OnInit {
   /*detailbtn*/
   fetchDetailReport() {
     if (this.isProfessional) {
+
       if (this.queryParam.standard_id == -1 || this.queryParam.subject_id == -1 || this.fetchFieldData.batch_id == ""
         || this.fetchFieldData.exam_schd_id == "") {
 
@@ -203,6 +202,7 @@ export class ExamReportComponent implements OnInit {
 
               console.log(this.detailSource);
               console.log(res);
+
               this.addReportPopup = true;
             },
             err => {
@@ -232,6 +232,7 @@ export class ExamReportComponent implements OnInit {
 
               console.log(this.detailSource);
               console.log(res);
+              this.fetchTableDataByPage(this.pageIndex);
               this.addReportPopup = true;
             },
             err => {
@@ -242,22 +243,22 @@ export class ExamReportComponent implements OnInit {
     }
 
   }
-getCourseData(i) {
+
+  getCourseData(i) {
 
     if (this.isProfessional) {
-      // this.fetchFieldData.exam_schd_id="",
-      //this.fetchFieldData.batch_id="",
-      //this.queryParam.subject_id="",
+
       this.fetchFieldData.exam_schd_id = "";
 
       this.fetchFieldData.subject_id = "";
       this.examdata.batchExamReport(this.queryParam).subscribe(
         (res) => {
           console.log(res);
+
           this.batchCourseData = res.subjectLi;
-       /*update*/   
-          this.getSubjectData= res.batchLi;
-          
+          /*update*/
+          this.getSubjectData = res.batchLi;
+
           console.log(this.batchCourseData);
         })
     }
@@ -275,10 +276,16 @@ getCourseData(i) {
           console.log(this.courseData);
         },
         (error: any) => {
-          return error;
+         
+          let obj= {
+            type:"error",
+            title:"Unable to Fetch Report",
+            body:""
+
+          }
         }
       )
-    }
+      }
   }
   getSubData(i) {
 
@@ -291,7 +298,7 @@ getCourseData(i) {
         (res) => {
           console.log(res);
           this.getSubjectData = res.batchLi;
-          
+
           console.log(this.getSubjectData);
         })
     }
@@ -300,21 +307,21 @@ getCourseData(i) {
       this.fetchFieldData.batch_id = "";
       this.examdata.getSubject(i).subscribe((data: any) => {
         console.log(data);
-        this.SubjectData = data.batchesList;
-        console.log(this.SubjectData);
+        this.subjectData = data.batchesList;
+        console.log(this.subjectData);
       })
     }
 
   }
 
   getExamScheduleData(i) {
-    //console.log(this.SubjectData);
+  
     this.fetchFieldData.exam_schd_id = "";
     console.log(i);
-    this.examdata.getExamSchedule(i).subscribe((data: any) => {
+      this.examdata.getExamSchedule(i).subscribe((data: any) => {
       console.log(data);
-      this.Exam_Sch_Data = data.otherSchd;
-      console.log(this.Exam_Sch_Data);
+      this.exam_Sch_Data = data.otherSchd;
+      console.log(this.exam_Sch_Data);
     })
   }
 
@@ -338,7 +345,7 @@ getCourseData(i) {
   }
 
   getDataFromDataSource(startindex) {
-    let t = this.ExamSource.slice(startindex, startindex + this.displayBatchSize);
+    let t = this.examSource.slice(startindex, startindex + this.displayBatchSize);
     return t;
   }
 

@@ -48,7 +48,7 @@
           <label>Subject</label>
           <select class="side-form-ctrl" id="three" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
             <option></option>
-            <option *ngFor="let i of SubjectData" [value]="i.batch_id" name="Subject">{{i.subject_name}}</option>
+            <option *ngFor="let i of subjectData" [value]="i.batch_id" name="Subject">{{i.subject_name}}</option>
           </select>
         </div>
 
@@ -56,7 +56,7 @@
           <label>Batch</label>
           <select class="side-form-ctrl"id="three" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
             <option></option>
-            <option *ngFor="let i of getSubjectData" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
+            <option *ngFor="let i of getsubjectData" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
           </select>
         </div>
 
@@ -64,7 +64,7 @@
           <label>Exam Schedule</label>
           <select class="side-form-ctrl" id="four"[(ngModel)]=" fetchFieldData.exam_schd_id">
             <option></option>
-            <option *ngFor="let i of Exam_Sch_Data" [value]="i.schd_id" name="Exam Schedule">{{i.exam_date}}({{i.start_time}}-{{i.end_time}})</option>
+            <option *ngFor="let i of exam_Sch_Data" [value]="i.schd_id" name="Exam Schedule">{{i.exam_date}}({{i.start_time}}-{{i.end_time}})</option>
           </select>
         </div>
         <div class="pull-right" *ngIf="!isProfessional">
@@ -103,7 +103,7 @@
     </div>
 
 
-    <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name :pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
+    <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name:pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
       [tableName]="'Exam'" [settings]="projectSettings">
 
     </proctur-table>
@@ -181,6 +181,7 @@
   
         </table>
       </div>
+
     </div>
   
     <div class="details-wrapper" *ngIf="isProfessional">
@@ -218,6 +219,8 @@
       </div>
   
     </div>
+  
+
   </div>
 
   <div class="" popup-footer>
