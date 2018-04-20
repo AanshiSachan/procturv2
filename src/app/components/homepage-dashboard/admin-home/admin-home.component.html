@@ -35,136 +35,13 @@
 
               <li class="enquiry-state item" data-id="2">
                 <div class="item-content">
-                  <!-- <div class="actb-top-header clearfix">
-                    <span class="heading">
-                      Enquiry Stats
-                    </span>
-                    <button class="pull-right drag-button hide">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
-                        />
-                      </svg>
-                    </button>
-                    <button class="pull-right" (click)="openCalendar('enqWidDate')">
-
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <g fill="#0084F6" fill-rule="nonzero">
-                          <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
-                          />
-                          <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
-                          />
-                        </g>
-                      </svg>
-                    </button>
-                    <input type="text" value="" id="enqWidDate" class="widgetDatepicker bsDatepicker" name="enqWidDate" [(ngModel)]="enquiryDate"
-                      (ngModelChange)="updateEnqChartByDate($event)" readonly="true" bsDaterangepicker/>
-                    <span class="enquiry-state-date pull-right">
-                      {{getEnqStartDate()| date: 'dd MMM yyyy'}} To {{getEnqEndDate()| date: 'dd MMM yyyy'}}
-                    </span>
-                  </div>
-                  <div class="enq-state-bottom">
-                    <div class="enq-left">
-                      <div id="enqChart" [chart]="chart">
-                      </div>
-                    </div>
-                    <div class="enq-right">
-                      <div class="enq-state-details">
-                        <div class="enq">
-                          <div class="enqs-label">
-                            <span class=""></span>
-                            <label>Total Enquiries</label>
-                          </div>
-                          <div class="enqs-value">
-                            {{getDetails('total')}}
-                          </div>
-                        </div>
-                        <div class="enq">
-                          <div class="enqs-label">
-                            <span class="open"></span>
-                            <label>Open</label>
-                          </div>
-                          <div class="enqs-value">
-                            {{getDetails('open')}}
-                          </div>
-                        </div>
-                        <div class="enq">
-                          <div class="enqs-label">
-                            <span class="inprogress"></span>
-                            <label>In Progress</label>
-                          </div>
-                          <div class="enqs-value">
-                            {{getDetails('ip')}}
-                          </div>
-                        </div>
-                        <div class="enq">
-                          <div class="enqs-label">
-                            <span class="admmited"></span>
-                            <label>Admitted</label>
-                          </div>
-                          <div class="enqs-value">
-                            {{getDetails('admitted')}}
-                          </div>
-                        </div>
-                        <div class="enq">
-                          <div class="enqs-label">
-                            <span class="closed"></span>
-                            <label>Closed</label>
-                          </div>
-                          <div class="enqs-value">
-                            {{getDetails('closed')}}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div> -->
                   <enquiry-widget></enquiry-widget>
                 </div>
               </li>
 
               <li [ngClass]="{hide : (permissionArray != '' && permissionArray != null)}" class="fees-state item" data-id="3">
                 <div class="item-content">
-                  <div class="actb-top-header clearfix">
-                    <span class="heading">
-                      Fees stats
-                    </span>
-                    <button class="pull-right drag-button hide">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
-                        />
-                      </svg>
-                    </button>
-                    <button class="pull-right" (click)="openCalendar('feeWidDate')">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <g fill="#0084F6" fill-rule="nonzero">
-                          <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
-                          />
-                          <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
-                          />
-                        </g>
-                      </svg>
-                    </button>
-                    <input type="text" value="" id="feeWidDate" class="widgetDatepicker bsDatepicker" name="enqWidDate" [(ngModel)]="feeDate"
-                      (ngModelChange)="updateFeeByDate()" readonly="true" bsDaterangepicker/>
-                    <span class="enquiry-state-date pull-right">
-                      {{getFeeStartDate()| date: 'dd MMM yyyy'}} To {{getFeeEndDate()| date: 'dd MMM yyyy'}}
-                    </span>
-                  </div>
-                  <div class="fees-state-bottom">
-                    <ul>
-                      <li>
-                        <label>Total Fees Collection</label>
-                        <div>Rs. {{getFeeAmount('total') | commaSeprator}}</div>
-                      </li>
-                      <li>
-                        <label>Total Fees Collection(others)</label>
-                        <div>Rs. {{getFeeAmount('pending') | commaSeprator}} </div>
-                      </li>
-                      <li>
-                        <label>Total Dues</label>
-                        <div>Rs. {{getFeeAmount('past') | commaSeprator}}</div>
-                      </li>
-                    </ul>
-                  </div>
+                  <fee-widget></fee-widget>
                 </div>
               </li>
 
@@ -347,45 +224,7 @@
               <li [ngClass]="{hide : (permissionArray != '' && permissionArray != null)}" class="general-state item" style="height: 150px;"
                 data-id="4">
                 <div class="item-content">
-                  <div class="actb-top-header clearfix">
-                    <span class="heading">
-                      Account Details
-                    </span>
-                    <button class="pull-right drag-button hide">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493
-                              0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85
-                              6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683
-                              1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494
-                              0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494
-                              0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z" />
-                      </svg>
-                    </button>
-                  </div>
-                  <div class="general-s-bottom">
-                    <ul>
-                      <li>
-                        <label>Total active students</label>
-                        <a>{{genralStats.total}}/{{genralStats.student_limit}}</a>
-                      </li>
-                      <li>
-                        <label> Transactional Sms balance</label>
-                        <a>{{instituteSetting.institute_sms_quota_available}}</a>
-                      </li>
-                      <li>
-                        <label>Promotional Sms balance</label>
-                        <a>{{instituteSetting.institute_campaign_sms_quota_available}}</a>
-                      </li>
-                      <li>
-                        <label>Allocated Storage/Download Limit</label>
-                        <a>{{storageData.storage_allocated}} GB</a>
-                      </li>
-                      <li>
-                        <label>Expiry date</label>
-                        <div>{{genralStats.expiry}}</div>
-                      </li>
-                    </ul>
-                  </div>
+                  <general-widget></general-widget>
                 </div>
               </li>
 
@@ -1448,7 +1287,6 @@
       </div>
     </div> -->
   </proctur-widget>
-
 
   <!-- ///////////////View Details POP up //////////////////////////////////// -->
 
