@@ -1501,8 +1501,7 @@
                     font-weight: 400;
                     color: rgba(0, 0, 0, 0.77);
                     padding-bottom: 2px;
-                    text-decoration: none;
-                    text-transform: uppercase;
+                    text-decoration: none; // text-transform: uppercase;
                     -webkit-font-smoothing: antialiased;
                 }
                 .side-form-ctrl {
@@ -1651,6 +1650,55 @@
                 &.field-wrapper {
                     &.datePickerBox:after {
                         top: 2px;
+                    }
+                }
+            }
+
+            .batch-schedule {
+                .filter-Section {
+                    margin: 0px 0px 5px 0px;
+                }
+                .weekly-Schedule {
+                    .btnGroup {
+                        padding-top: 10px;
+                        margin-right: 15px;
+                    }
+                    .btn-table {
+                        margin-right: 0px;
+                    }
+                    .weeklyDiv {
+                        margin: 10px 0px;
+                        .weeklyAdd {
+                            margin-bottom: 10px;
+                        }
+                        .weekTable {
+                            margin-bottom: 10px;
+                        }
+                    }
+                }
+                .custom-Schedule {
+                    .adderCustom {
+                        margin: 10px 0px;
+                    }
+                    .customTable {
+                        margin-bottom: 10px;
+                    }
+                }
+                .common-section {
+                    .divExtraClass {
+                        margin-bottom: 10px;
+                        .adder-Row {
+                            margin: 10px 0px;
+                        }
+                        .extraClass {
+                            margin-bottom: 10px;
+                        }
+                    }
+                    .divCancelClass {
+                        margin: 10px 0px;
+                        .cancelTable {
+                            margin: 10px 0px;
+                        }
                     }
                 }
             }
