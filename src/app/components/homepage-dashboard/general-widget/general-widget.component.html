@@ -1,0 +1,39 @@
+<div class="actb-top-header clearfix">
+    <span class="heading">
+      Account Details
+    </span>
+    <button class="pull-right drag-button hide">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493
+              0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85
+              6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683
+              1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494
+              0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494
+              0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z" />
+      </svg>
+    </button>
+  </div>
+  <div class="general-s-bottom">
+    <ul>
+      <li>
+        <label>Total active students</label>
+        <a>{{genralStats.total}}/{{genralStats.student_limit}}</a>
+      </li>
+      <li>
+        <label> Transactional Sms balance</label>
+        <a>{{instituteSetting.institute_sms_quota_available}}</a>
+      </li>
+      <li>
+        <label>Promotional Sms balance</label>
+        <a>{{instituteSetting.institute_campaign_sms_quota_available}}</a>
+      </li>
+      <li>
+        <label>Allocated Storage/Download Limit</label>
+        <a>{{storageData.storage_allocated}} GB</a>
+      </li>
+      <li>
+        <label>Expiry date</label>
+        <div>{{genralStats.expiry}}</div>
+      </li>
+    </ul>
+  </div>

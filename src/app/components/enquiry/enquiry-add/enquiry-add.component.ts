@@ -23,6 +23,7 @@ import * as moment from 'moment';
 })
 export class EnquiryAddComponent implements OnInit {
 
+  isRegisterStudent: boolean;
   /* Variable Declarations */
   enqstatus: any = [];
   enqPriority: any = [];
@@ -412,7 +413,7 @@ export class EnquiryAddComponent implements OnInit {
       .subscribe(
         data => {
           data.forEach(el => {
-            
+
             let obj = {
               data: el,
               id: el.component_id,
@@ -452,7 +453,7 @@ export class EnquiryAddComponent implements OnInit {
                 type: el.type,
                 value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
               }
-            }              
+            }
             if (el.type == 2) {
               obj = {
                 data: el,
@@ -481,7 +482,7 @@ export class EnquiryAddComponent implements OnInit {
                 value: el.enq_custom_value
               }
             }
-            
+
             this.customComponents.push(obj);
           });
           this.emptyCustomComponent = this.componentListObject;
@@ -493,8 +494,8 @@ export class EnquiryAddComponent implements OnInit {
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  getDefaultArr(d):any[]{
-    let a:any[] = [];
+  getDefaultArr(d): any[] {
+    let a: any[] = [];
     a.push(d);
     return a;
   }
@@ -824,13 +825,18 @@ export class EnquiryAddComponent implements OnInit {
     return tempArr;
   }
 
+  submitRegisterForm(form: NgForm) {
+    this.isRegisterStudent = true;
+    this.submitForm(form);
+  }
+
   /* Function to submit validated form data */
   submitForm(form: NgForm) {
     //Validates if the custom component required fields are selected or not
     //let customComponentValidator = this.validateCustomComponent();
-    
+
     let customComponentValidator: boolean = this.customComponents.every(el => { return this.getCustomValid(el); });
-    
+
     /* Validate the predefine required fields of the form */
     this.isFormValid = this.ValidateFormDataBeforeSubmit();
 
@@ -844,30 +850,48 @@ export class EnquiryAddComponent implements OnInit {
     if (this.isFormValid && customComponentValidator) {
       if (this.validateTime()) {
         this.newEnqData.enqCustomLi = this.getCustomComponents();
-        console.log(this.newEnqData.enqCustomLi);
+        //console.log(this.newEnqData.enqCustomLi);
         if (this.hour != '') {
           this.newEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         }
         this.poster.postNewEnquiry(this.newEnqData).subscribe(
           data => {
             this.enquiryConfirm = data;
+            let instituteEnqId = data.generated_id;
             this.prefill.fetchLastDetail().subscribe(data => {
               this.lastDetail = data;
-              if (this.addNextCheck) {
-                let msg = {
-                  type: "success",
-                  title: "New Enquiry Added",
-                  body: "Your enquiry has been submitted"
+              if (this.isRegisterStudent) {
+                let obj = {
+                  name: this.newEnqData.name,
+                  phone: this.newEnqData.phone,
+                  email: this.newEnqData.email,
+                  gender: this.newEnqData.gender,
+                  dob: moment(this.newEnqData.dob).format("YYYY-MM-DD"),
+                  parent_email: this.newEnqData.parent_email,
+                  parent_name: this.newEnqData.parent_name,
+                  parent_phone: this.newEnqData.parent_phone,
+                  enquiry_id: instituteEnqId
                 }
-
-                //form.reset();
-                this.appC.popToast(msg);
-                this.clearFormData();
+                localStorage.setItem('studentPrefill', JSON.stringify(obj));
+                this.router.navigate(['student/add']);
               }
               else {
-                this.openConfirmationPopup();
-                //form.reset();
-                this.clearFormData();
+                if (this.addNextCheck) {
+                  let msg = {
+                    type: "success",
+                    title: "New Enquiry Added",
+                    body: "Your enquiry has been submitted"
+                  }
+
+                  //form.reset();
+                  this.appC.popToast(msg);
+                  this.clearFormData();
+                }
+                else {
+                  this.openConfirmationPopup();
+                  this.clearFormData();
+                }
+
               }
             },
               err => {
@@ -929,9 +953,9 @@ export class EnquiryAddComponent implements OnInit {
   }
 
 
-   /* ============================================================================================================================ */
-   getCustomValid(element): boolean {
-     
+  /* ============================================================================================================================ */
+  getCustomValid(element): boolean {
+
     if (element.is_required == "Y" && element.value != "") {
       if (element.type == 5) {
         if (element.value != "" && element.value != null && element.value != "Invalid date") {

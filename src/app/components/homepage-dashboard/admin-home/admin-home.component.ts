@@ -28,7 +28,7 @@ import { WidgetService } from '../../../services/widget.service';
 })
 export class AdminHomeComponent implements OnInit {
 
-  storageData: any = {
+  public storageData: any = {
     storage_allocated: 0
   };
   public isProfessional: boolean = false;
@@ -54,7 +54,7 @@ export class AdminHomeComponent implements OnInit {
   public AllPresent: boolean = true;
   public teacher_id: number = -1;
   public schedStat: any = {};
-  public feeStat: any = null;
+
   is_notified: any = 'Y';
   public genralStats: any = {
     sms: 0,
@@ -67,7 +67,7 @@ export class AdminHomeComponent implements OnInit {
   public schedSelected: boolean = false;
   public isOptionVisible: boolean = false;
   public enquiryDate: any[] = [];
-  public feeDate: any[] = [];
+
   public schedDate: any[] = [];
   public currentPlan: any = null;
   public classMarkedForAction: any;
@@ -203,13 +203,8 @@ export class AdminHomeComponent implements OnInit {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
-    this.enquiryDate[0] = new Date();
-    this.enquiryDate[1] = new Date();
-    this.feeDate[0] = new Date();
-    this.feeDate[1] = new Date();
     this.schedDate[0] = new Date();
     this.schedDate[1] = new Date();
-
   }
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -279,7 +274,7 @@ export class AdminHomeComponent implements OnInit {
     )
 
     //this.fetchEnqWidgetData();
-    this.fetchFeeWidgetData();
+    //this.fetchFeeWidgetData();
     this.getStorageData();
 
     if (this.isProfessional) {
@@ -344,7 +339,7 @@ export class AdminHomeComponent implements OnInit {
     );
   }
 
-  fetchFeeWidgetData() {
+  /* fetchFeeWidgetData() {
     let obj = {
       standard_id: -1,
       batch_id: -1,
@@ -364,10 +359,9 @@ export class AdminHomeComponent implements OnInit {
       },
       err => { }
     );
-  }
+  } */
 
   fetchBatchWidgetData() {
-
   }
 
   getOrder() {
@@ -467,7 +461,7 @@ export class AdminHomeComponent implements OnInit {
     )
   }
 
-  updateFeeByDate(e) {
+  /* updateFeeByDate(e) {
     let obj = {
       standard_id: -1,
       batch_id: -1,
@@ -489,7 +483,7 @@ export class AdminHomeComponent implements OnInit {
       },
       err => { }
     )
-  }
+  } */
 
   updateschedByDate(e) {
     let obj = {
@@ -558,13 +552,7 @@ export class AdminHomeComponent implements OnInit {
     return this.enquiryDate[1];
   }
 
-  getFeeStartDate() {
-    return this.feeDate[0];
-  }
 
-  getFeeEndDate() {
-    return this.feeDate[1];
-  }
 
   getSchedStartDate() {
     return this.schedDate[0];
@@ -583,23 +571,7 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  getFeeAmount(id: String): number {
 
-    if (this.feeStat != null && this.feeStat != undefined && this.feeStat.length != 0) {
-      if (id === 'total') {
-        return this.feeStat[0].total_fees_collected;
-      }
-      else if (id === 'pending') {
-        return this.feeStat[0].total_fees_collected_other;
-      }
-      else if (id === 'past') {
-        return this.feeStat[0].total_dues_pending;
-      }
-    }
-    else {
-      return 0
-    }
-  }
 
   userScheduleSelected(i, selected) {
     this.selectedRow = i;
