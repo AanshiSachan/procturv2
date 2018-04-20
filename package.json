@@ -33,6 +33,7 @@
     "angular2-loaders-css": "^2.0.0",
     "core-js": "^2.4.1",
     "croppie": "^2.6.1",
+    "file-saver": "^1.3.8",
     "hammerjs": "^2.0.8",
     "highcharts": "^6.0.6",
     "js-base64": "^2.3.2",
@@ -46,6 +47,7 @@
     "ngx-bootstrap": "^2.0.0-beta.8",
     "primeng": "^4.3.0",
     "rxjs": "^5.1.0",
+    "xlsx": "^0.12.10",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {

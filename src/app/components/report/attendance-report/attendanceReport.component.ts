@@ -1,4 +1,4 @@
-import { Component, OnInit, style } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AttendanceReportServiceService } from '../../../services/attendance-report/attendance-report-service.service';
 import { AppComponent } from '../../../app.component';
 import { AuthenticatorService } from "../../../services/authenticator.service";
@@ -8,6 +8,9 @@ import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { searchPipe } from '../../shared/pipes/searchBarPipe';
 import { arraySortPipe } from '../../shared/pipes/sortBarPipe';
 import { start } from 'repl';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+
 @Component({
   selector: 'app-attendance-report',
   templateUrl: './attendanceReport.component.html',
@@ -81,6 +84,12 @@ export class AttendanceReportComponent implements OnInit {
     from_date: "",
     to_date: ""
   }
+
+
+  @ViewChild('attendanceTable') attenTable: ElementRef;
+  @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
+  
+
   constructor(
     private reportService: AttendanceReportServiceService,
     private appc: AppComponent,
@@ -260,6 +269,9 @@ export class AttendanceReportComponent implements OnInit {
       )
     }
   }
+
+
+ 
   postDetails() {
     if (this.isProfessional) {
       if (this.queryParams.from_date == "" || this.queryParams.to_date == "" || this.queryParams.batch_id == -1 || this.queryParams.subject_id==-1 || this.queryParams.standard_id==-1) {
@@ -289,9 +301,7 @@ export class AttendanceReportComponent implements OnInit {
             console.log(this.dateWiseAttendancePro);
             this.dataTypeAttendancePro = data.map((ele) => {
               this.typeAttendancePro = ele.attendanceDateType;
-              if(ele.attendanceDateType.status=="P"){
-                document.getElementById('status').style.color='red';
-              }
+              
             });
             
             this.attendanceIndex0Pro = this.typeAttendancePro[0];
@@ -337,8 +347,7 @@ export class AttendanceReportComponent implements OnInit {
             this.dataTypeAttendance = this.dateWiseAttendance.map((ele) => {
               this.typeAttendance = ele.attendanceDateType;
             })
-
-            console.log(this.typeAttendance);
+            
             this.attendanceIndex0 = this.typeAttendance[0];
             this.attendanceIndexi = this.typeAttendance.length;
             this.attendanceIndexiOf = this.typeAttendance[this.attendanceIndexi - 1];
@@ -356,6 +365,7 @@ export class AttendanceReportComponent implements OnInit {
       }
     }
   }
+ 
   closeReportPopup() {
     if(this.pagedPostData.length==0){
       this.addReportPopUp = false;
@@ -443,4 +453,26 @@ export class AttendanceReportComponent implements OnInit {
       case 'L': return 'blue';
     }
   }
+  DownloadJsonToCsv(getData){
+    console.log(this.attenTable);
+    
+    
+    var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function (s) { return window.btoa((encodeURIComponent(s))) }
+    , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+    return function (table, name, filename) {
+        if (!table.nodeType) table = this.attenTable.nativeElement;
+        let ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+
+        let xl = this.xlsDownloader.nativeElement;
+        
+        xl.setAttribute("href", 'ctx');
+        xl.setAttribute("download", name);
+        xl.click();
+        
+    }
+  }
+
+
 }

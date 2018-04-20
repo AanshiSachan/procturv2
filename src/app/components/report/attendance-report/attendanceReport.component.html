@@ -119,7 +119,7 @@
                     <div class="table-heading">
                         <div *ngIf=!isProfessional>
                             <proctur-table [records]="pagedPostData | lockFilter : pagedPostData.student_name : pagedPostData.student_id :pagedPostData.student_phone : pagedPostData.doj : spent_percentage | sortPipe : pagedPostData.student_name | sortPipe : pagedPostData.student_id"
-                                (sortData)="sortedData($event)"   [tableName]="'sms'" [settings]="projectSettings"> 
+                                (sortData)="sortedData($event)" [tableName]="'sms'" [settings]="projectSettings">
                             </proctur-table>
                         </div>
                         <div *ngIf=isProfessional>
@@ -167,9 +167,10 @@
             <h5>({{attendanceIndex0Pro.class_date}} to {{attendanceIndexiOfPro.class_date}})</h5>
         </div>
         <div popup-content class="main-student-table" *ngIf=!isProfessional>
-
+            <button (click)="DownloadJsonToCsv(dateWiseAttendance)">excel</button>
+            <a id="xlsDownloader" #xlsDownloader>oo</a>
             <div class="table table-responsive student-table">
-                <table>
+                <table #attendanceTable>
                     <thead>
                         <tr>
                             <th>
@@ -178,10 +179,11 @@
                             <th>
                                 Student Name
                             </th>
-                            <th *ngFor="let k of typeAttendance">
-                                {{k.class_date}}
-                                <br> ({{k.start_time}}) to ({{k.end_time}})
-                            </th>
+                                <th *ngFor="let k of i.typeAttendance">
+                                    {{k.class_date}}
+                                    <br> ({{k.start_time}}) to ({{k.end_time}})
+                                </th>
+                            
                             <th>
                                 Total Present
                             </th>
@@ -192,7 +194,7 @@
                             <th>
                                 Total leave
                             </th>
-                            
+
                             <th>
                                 Percentage
                             </th>
@@ -204,17 +206,16 @@
                             <td>
                                 {{i.student_id}}
                             </td>
-                            <td >
+                            <td>
                                 {{i.student_name}}
                             </td>
-                           
-                            <td *ngFor="let k of i.attendanceDateType" 
-                            [style.color]="getColor(k.status)">
+
+                            <td *ngFor="let k of i.attendanceDateType" [style.color]="getColor(k.status)">
                                 {{k.status}}
                             </td>
-                            <td >
+                            <td>
                                 {{i.total_attended}}
-                            </td >
+                            </td>
                             <td style="color:red;">
                                 {{i.total_absent}}
                             </td>
@@ -225,7 +226,7 @@
                                 {{i.spent_percentage}}%
                             </td>
                         </tr>
-                        <tr *ngIf="pageDetailedData.length == 0" >
+                        <tr *ngIf="pageDetailedData.length == 0">
                             <td>
                                 No Records Found
                             </td>
@@ -268,7 +269,7 @@
                             <th>
                                 Total leave
                             </th>
-                            
+
                             <th>
                                 Percentage
                             </th>
@@ -295,7 +296,7 @@
                             <td style="color:blue;">
                                 {{i.total_leave}}
                             </td>
-                            
+
                             <td style="color:blue;">
                                 {{i.spent_percentage}}%
                             </td>
@@ -315,5 +316,5 @@
                     </pagination>
                 </div>
             </div>
-            
+
         </div>
