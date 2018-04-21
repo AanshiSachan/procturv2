@@ -321,7 +321,7 @@ export class ClassScheduleService {
     }
 
     getCombinedDataFromServer(standard_id, subject_id) {
-        let url = this.baseURL + "/api/v1/batches/fetchCombinedBatchData/100057?standard_id=" + standard_id + "&subject_id=" + subject_id + "&assigned=N";
+        let url = this.baseURL + "/api/v1/batches/fetchCombinedBatchData/"+this.institute_id +"?standard_id=" + standard_id + "&subject_id=" + subject_id + "&assigned=N";
         return this.http.get(url, { headers: this.headers }).map(
             this.successCallback,
             this.errorCallBack
