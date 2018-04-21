@@ -1765,7 +1765,8 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* function to add institute data to server */
   addInstituteData() {
-    this.prefill.createNewInstitute(this.createInstitute).subscribe(el => {
+    this.prefill.createNewInstitute(this.createInstitute).subscribe(
+      el => {
       if (el.message === "OK") {
         this.prefill.getSchoolDetails().subscribe(
           data => {
@@ -1786,11 +1787,25 @@ export class StudentAddComponent implements OnInit {
             this.appC.popToast(alert);
           }
         );
-        // console.log("institute Added");
       }
       else {
-        // console.log("Institute Name already exist!");
+        err => {
+          let alert = {
+            type: 'error',
+            title: 'Failed To Add Institute',
+            body: 'There was an error processing your request'
+          }
+          this.appC.popToast(alert);
+        }
       }
+    },
+    err => {
+      let alert = {
+        type: 'error',
+        title: 'Failed To Add Institute',
+        body: 'There was an error processing your request'
+      }
+      this.appC.popToast(alert);
     });
   }
   /* ============================================================================================================================ */
