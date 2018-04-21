@@ -717,7 +717,7 @@
         <!--====================================middle Bottom section==========================-->
         <section class="middle-bottom fd-btm clearFix">
           <aside class="pull-left">
-            <input type="button" style="width: 85px;" (click)="navigateTo('kyc')" value="Back" class="btn">
+            <!-- <input type="button" style="width: 85px;" (click)="navigateTo('kyc')" value="Back" class="btn"> -->
           </aside>
 
           <aside class="pull-right">
@@ -1741,8 +1741,7 @@
 
             <div class="c-lg-6 c-md-6 c-sm-6">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_amount != ''}">
-                <input [readonly]="isPdcFeePaymentSelected" type="text" readonly="true" value="" id="idChequAmount" class="form-ctrl" name=""
-                  [(ngModel)]="pdcSelectedForm.cheque_amount" />
+                <input type="text" readonly="true" value="" id="idChequAmount" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount" />
                 <label for="idChequAmount">Cheque Amount*</label>
               </div>
             </div>

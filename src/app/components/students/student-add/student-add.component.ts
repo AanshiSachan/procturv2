@@ -463,7 +463,7 @@ export class StudentAddComponent implements OnInit {
       }
     },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = err.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -495,19 +495,26 @@ export class StudentAddComponent implements OnInit {
     this.totalDicountAmount = data.studentwise_total_fees_discount;
     data.customFeeSchedules.forEach(el => {
       /* Taxes Here */
+      
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-        this.service_tax = data.registeredServiceTax;
-        let tax = el.initial_fee_amount * (this.service_tax / 100);
-        this.totalTaxAmount += this.precisionRound(tax, -1);
-        if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
-          el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+        if (el.fee_type_name == "INSTALLMENT"){
+          let tax = el.initial_fee_amount * (this.service_tax / 100);
+          this.totalTaxAmount += this.precisionRound(tax, -1);
+          if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
+            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+          }
+        }
+        else{
+          let tax = el.initial_fee_amount * (el.service_tax / 100);
+          this.totalTaxAmount += this.precisionRound(tax, -1);
         }
       }
       else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-        this.service_tax = 0;
-        //let tax = el.initial_fee_amount *(this.service_tax/100);
+        //this.service_tax = 0;
         this.totalTaxAmount = 0;
       }
+
+
       if (el.is_referenced == "N") {
         this.totalAmountDue += el.fees_amount
       }
@@ -704,7 +711,7 @@ export class StudentAddComponent implements OnInit {
         this.inventoryItemsArr = data;
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = err.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -721,7 +728,7 @@ export class StudentAddComponent implements OnInit {
         this.instituteList = data;
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = err.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -739,7 +746,7 @@ export class StudentAddComponent implements OnInit {
       this.standardList = data;
     },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = err.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -755,7 +762,7 @@ export class StudentAddComponent implements OnInit {
         this.pdcStatus = data;
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = err.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -777,7 +784,7 @@ export class StudentAddComponent implements OnInit {
         });
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = err.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -868,7 +875,7 @@ export class StudentAddComponent implements OnInit {
           this.isRippleLoad = false;
         },
         err => {
-          let msg = JSON.parse(err._body).message;;
+          let msg = err.message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -1137,7 +1144,7 @@ export class StudentAddComponent implements OnInit {
           }
         },
         err => {
-          let msg = JSON.parse(err._body).message;;
+          let msg = err.message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -1228,7 +1235,7 @@ export class StudentAddComponent implements OnInit {
         // console.log(this.slots);
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = err.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -1248,7 +1255,7 @@ export class StudentAddComponent implements OnInit {
         this.langStatus = res;
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = err.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -1500,7 +1507,7 @@ export class StudentAddComponent implements OnInit {
           }
         },
         err => {
-          let msg = JSON.parse(err._body).message;;
+          let msg = err.message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -1604,7 +1611,7 @@ export class StudentAddComponent implements OnInit {
         this.filterStudentCustomComp();
       },
       err => {
-        let msg = JSON.parse(err._body).message;;
+        let msg = err.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -1952,15 +1959,20 @@ export class StudentAddComponent implements OnInit {
             el.due_date = new Date(el.due_date);
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
-              let tax = el.initial_fee_amount * (this.service_tax / 100);
-              this.totalTaxAmount += this.precisionRound(tax, -1);
-              if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
-                el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+              if (el.fee_type_name == "INSTALLMENT") {
+                let tax = el.initial_fee_amount * (this.service_tax / 100);
+                this.totalTaxAmount += this.precisionRound(tax, -1);
+                if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
+                  el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+                }
+              }
+              else {
+                let tax = el.initial_fee_amount * (el.service_tax / 100);
+                this.totalTaxAmount += this.precisionRound(tax, -1);
               }
             }
             else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
               this.service_tax = 0;
-              //let tax = el.initial_fee_amount *(this.service_tax/100);
               this.totalTaxAmount = 0;
             }
 
@@ -2636,12 +2648,22 @@ export class StudentAddComponent implements OnInit {
       else if (el.due_date != "Invalid date" && el.due_date != "null") {
         el.due_date = moment(el.due_date).format("YYYY-MM-DD");
       }
+
       /* Taxes Here */
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-        let tax = el.initial_fee_amount * (this.service_tax / 100);
-        this.totalTaxAmount += this.precisionRound(tax, -1);
-        if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
-          el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+        if (el.fee_type_name == "INSTALLMENT"){
+          let tax = el.initial_fee_amount * (this.service_tax / 100);
+          this.totalTaxAmount += this.precisionRound(tax, -1);
+          if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
+            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+          }
+        }
+        else{
+          let tax = el.initial_fee_amount * (el.service_tax / 100);
+          this.totalTaxAmount += this.precisionRound(tax, -1);
+          if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
+            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+          }
         }
       }
       else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
@@ -2779,12 +2801,23 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getTaxAmounted(fee) {
-    let amount = fee.initial_fee_amount;
-    if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-      return this.precisionRound(((this.service_tax / 100) * amount), -1);
+    if (fee.fee_type_name == "INSTALLMENT"){
+      let amount = fee.initial_fee_amount;
+      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+        return this.precisionRound(((this.service_tax / 100) * amount), -1);
+      }
+      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+        return 0;
+      }
     }
-    else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-      return 0;
+    else{
+      let amount = fee.initial_fee_amount;
+      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+        return this.precisionRound(((fee.tax / 100) * amount), -1);
+      }
+      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+        return 0;
+      }
     }
   }
   /* ============================================================================================================================ */
@@ -2854,10 +2887,16 @@ export class StudentAddComponent implements OnInit {
 
             /* Taxes Here */
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-              let tax = el.initial_fee_amount * (this.service_tax / 100);
-              this.totalTaxAmount += this.precisionRound(tax, -1);
-              if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
-                el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+              if (el.fee_type_name == "INSTALLMENT"){
+                let tax = el.initial_fee_amount * (this.service_tax / 100);
+                this.totalTaxAmount += this.precisionRound(tax, -1);
+                if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
+                  el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+                }
+              }
+              else{
+                let tax = el.initial_fee_amount * (el.service_tax / 100);
+                this.totalTaxAmount += this.precisionRound(tax, -1);
               }
             }
             else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
@@ -3914,7 +3953,14 @@ export class StudentAddComponent implements OnInit {
         }
       },
       err => {
-
+        this.isRippleLoad = false;
+        let msg = JSON.parse(err._body).message;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
       }
     )
   }
@@ -3938,6 +3984,16 @@ export class StudentAddComponent implements OnInit {
           type: "success",
           title: "Reciept Sent",
           body: "Receipt has been sent to student/parent email ID"
+        }
+        this.appC.popToast(obj);
+      },
+      err => {
+        this.isRippleLoad = false;
+        let msg = JSON.parse(err._body).message;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
         }
         this.appC.popToast(obj);
       }
@@ -4494,7 +4550,7 @@ export class StudentAddComponent implements OnInit {
             },
             err => {
               this.isRippleLoad = false;
-              let msg = JSON.parse(err._body).message;;
+              let msg = err.message;
               this.isRippleLoad = false;
               let obj = {
                 type: 'error',
@@ -4756,7 +4812,7 @@ export class StudentAddComponent implements OnInit {
               this.closePartialPayment();
             },
             err => {
-              let msg = JSON.parse(err._body).message;;
+              let msg = err.message;
               this.isRippleLoad = false;
               let obj = {
                 type: 'error',
