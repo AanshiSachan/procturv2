@@ -144,10 +144,16 @@ export class CourseSubjectComponent implements OnInit {
       }
       this.apiService.createNewSubject(this.newSubjectDetails).subscribe(
         res => {
+          let msg = "";
+          if (this.isLangInstitue) {
+            msg = "Course added Successfull!!";
+          } else {
+            msg = "New Subject added Successfull!";
+          }
           let data = {
             type: "success",
             title: "Subject Added",
-            body: "New Subject added Successfull!"
+            body: msg
           }
           this.toastCtrl.popToast(data);
           this.getAllSubjectList();

@@ -112,10 +112,16 @@ export class ScheduleHomeComponent implements OnInit {
       }
       this.apiService.createNewStandard(this.newStandardDetails).subscribe(
         res => {
+          let msg = "";
+          if (this.isLangInstitue) {
+            msg = "Master Course added Successfull!!";
+          } else {
+            msg = "New Standard added Successfull!";
+          }
           let data = {
             type: "success",
             title: "Standard Added",
-            body: "New Standard added Successfull!"
+            body: msg
           }
           this.toastCtrl.popToast(data);
           this.newStandardDetails = {
