@@ -21,7 +21,7 @@ export class ExamReportComponent implements OnInit {
   Tdata: boolean = false;
   courseData: any[] = [];
   batchCourseData: any = [];
-  /*  */
+  
 
   subjectData: any[] = [];
   masterCourses: any[] = [];
@@ -50,9 +50,6 @@ export class ExamReportComponent implements OnInit {
     { primaryKey: 'doj', header: 'Joining Date' }
   ];
 
-  constructor(private examdata: ExamService, private appC: AppComponent) {
-    this.switchActiveView('exam');
-  }
 
   queryParam = {
     standard_id: -1,
@@ -69,6 +66,10 @@ export class ExamReportComponent implements OnInit {
     exam_schd_id: ''
   }
 
+  constructor(private examdata: ExamService, private appC: AppComponent) {
+    this.switchActiveView('exam');
+  }
+
   ngOnInit() {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.fetchExamData();
@@ -79,14 +80,13 @@ export class ExamReportComponent implements OnInit {
     this.addReportPopup = false;
   }
 
-
+/* select exam repo fill master courses==================================================================================
+================================================================================== */
   fetchExamData() {
     if (this.isProfessional) {
       this.examdata.batchExamReport(this.queryParam).subscribe((res) => {
         {
-
           this.batchExamRepo = res.standardLi;
-
           this.getSubjectData = res.batchLi;
         }
       })
@@ -100,8 +100,137 @@ export class ExamReportComponent implements OnInit {
       )
     }
   }
+  /*======================================================================================================
+======================================================================================================== */
+ 
+  getCourseData(i) {
 
-  /*view btn*/
+    if (this.isProfessional) {
+
+      this.fetchFieldData.exam_schd_id = "";
+
+      this.fetchFieldData.subject_id = "";
+
+      this.examdata.batchExamReport(this.queryParam).subscribe(
+        (res) => {
+          console.log(res.subjectLi);
+
+          this.batchCourseData = res.subjectLi;
+          /*update*/
+          this.getSubjectData = res.batchLi;
+        
+          if (this.batchCourseData == null) {
+            let obj = {
+              type: "info",
+              title: "There is no Record in this  Field",
+              Body: "Don't go in next field"
+            }
+            this.appC.popToast(obj);
+          }
+
+
+        })
+    }
+
+    else {
+
+      this.fetchFieldData.exam_schd_id = "";
+      this.fetchFieldData.batch_id = "";
+      this.fetchFieldData.subject_id = "";
+
+      this.examdata.getCourses(i).subscribe(
+        (data: any) => {
+          console.log(data);
+          this.courseData = data.coursesList;
+          console.log(this.courseData);
+          if(this.courseData==null){
+            let obj = {
+              type: "info",
+              title: "There is no Record in this  Field",
+              Body: "Don't go in next field"
+            } 
+            this.appC.popToast(obj);
+          }
+           },
+        (error: any) => {
+
+          let obj = {
+            type: "error",
+            title: "Unable to Fetch Report",
+            body: ""
+
+          }
+        }
+      )
+    }
+  }
+  /*==================================================================================================
+  ===================================================================================================== */
+  getSubData(i) {
+
+    console.log(i);
+
+    if (this.isProfessional) {
+      this.fetchFieldData.exam_schd_id = "";
+
+      this.examdata.batchExamReport(this.queryParam).subscribe(
+        (res) => {
+          console.log(res);
+          this.getSubjectData = res.batchLi;
+
+          console.log(this.getSubjectData);
+        
+          if (this.getSubjectData==null) {
+            let obj = {
+              type: "info",
+              title: "There is no Record in this Field",
+              Body: "Don't go in next field"
+            }
+            this.appC.popToast(obj);
+          }
+         })
+    }
+    else {
+      this.fetchFieldData.exam_schd_id = "";
+      this.fetchFieldData.batch_id = "";
+      this.examdata.getSubject(i).subscribe((data: any) => {
+        console.log(data);
+        this.subjectData = data.batchesList;
+        console.log(this.subjectData);
+        if(this.subjectData==null){
+          let obj = {
+            type: "info",
+            title: "There is no Record in this  Field",
+            Body: "Don't go in next field"
+          }
+          this.appC.popToast(obj);
+        }
+      })
+    } }
+
+ 
+
+/*=======================================================================================
+========================================================================================== */
+  getExamScheduleData(i) {
+
+    this.fetchFieldData.exam_schd_id = "";
+    console.log(i);
+    this.examdata.getExamSchedule(i).subscribe((data: any) => {
+      console.log(data);
+       this.exam_Sch_Data = data.otherSchd;
+        console.log(this.exam_Sch_Data);
+        if(this.exam_Sch_Data==null){
+          let obj = {
+            type: "info",
+            title: "There is no Record in this  Field",
+            Body: "Don't go in next field"
+          }
+          this.appC.popToast(obj);
+        }
+        })
+  }
+    /*view btn*/
   fetchExamReport() {
 
     console.log(this.fetchFieldData);
@@ -244,88 +373,10 @@ export class ExamReportComponent implements OnInit {
 
   }
 
-  getCourseData(i) {
-
-    if (this.isProfessional) {
-
-      this.fetchFieldData.exam_schd_id = "";
-
-      this.fetchFieldData.subject_id = "";
-      this.examdata.batchExamReport(this.queryParam).subscribe(
-        (res) => {
-          console.log(res);
-
-          this.batchCourseData = res.subjectLi;
-          /*update*/
-          this.getSubjectData = res.batchLi;
-
-          console.log(this.batchCourseData);
-        })
-    }
-
-    else {
-
-      this.fetchFieldData.exam_schd_id = "";
-      this.fetchFieldData.batch_id = "";
-      this.fetchFieldData.subject_id = "";
-
-      this.examdata.getCourses(i).subscribe(
-        (data: any) => {
-          console.log(data);
-          this.courseData = data.coursesList;
-          console.log(this.courseData);
-        },
-        (error: any) => {
-         
-          let obj= {
-            type:"error",
-            title:"Unable to Fetch Report",
-            body:""
-
-          }
-        }
-      )
-      }
-  }
-  getSubData(i) {
-
-    console.log(i);
-
-    if (this.isProfessional) {
-      this.fetchFieldData.exam_schd_id = "";
-
-      this.examdata.batchExamReport(this.queryParam).subscribe(
-        (res) => {
-          console.log(res);
-          this.getSubjectData = res.batchLi;
-
-          console.log(this.getSubjectData);
-        })
-    }
-    else {
-      this.fetchFieldData.exam_schd_id = "";
-      this.fetchFieldData.batch_id = "";
-      this.examdata.getSubject(i).subscribe((data: any) => {
-        console.log(data);
-        this.subjectData = data.batchesList;
-        console.log(this.subjectData);
-      })
-    }
-
-  }
-
-  getExamScheduleData(i) {
-  
-    this.fetchFieldData.exam_schd_id = "";
-    console.log(i);
-      this.examdata.getExamSchedule(i).subscribe((data: any) => {
-      console.log(data);
-      this.exam_Sch_Data = data.otherSchd;
-      console.log(this.exam_Sch_Data);
-    })
-  }
 
 
+/*=========================================================================================
+========================================================================================== */
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);

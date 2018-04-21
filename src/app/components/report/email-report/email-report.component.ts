@@ -63,7 +63,7 @@ export class EmailReportComponent {
         this.appC.popToast(obj);
       }
     )
-    // this.getAllEmailMessages();
+    
   }
 
   isTimeValid(): boolean {
@@ -77,9 +77,9 @@ export class EmailReportComponent {
   }
 
   /* fetching email info by date */
-  fetchemailByDate() {
+    fetchemailByDate() {
     if (this.isTimeValid()) {
-      //this.getAllEmailMessages();
+    
       this.ngOnInit();
     }
     else {
@@ -92,7 +92,6 @@ export class EmailReportComponent {
 
     }
   }
-
 
 
   // pagination functions 

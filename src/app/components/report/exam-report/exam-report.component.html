@@ -56,7 +56,7 @@
           <label>Batch</label>
           <select class="side-form-ctrl"id="three" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
             <option></option>
-            <option *ngFor="let i of getsubjectData" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
+            <option *ngFor="let i of getSubjectData" [value]="i.batch_id" name="Subject">{{i.batch_name}}</option>
           </select>
         </div>
 
@@ -232,3 +232,4 @@
   </div>
 
 </proctur-popup>
+<!--there is no record in this queryinfo-->
