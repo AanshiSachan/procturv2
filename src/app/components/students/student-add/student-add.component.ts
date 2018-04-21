@@ -24,6 +24,7 @@ import 'rxjs/add/operator/filter';
 })
 export class StudentAddComponent implements OnInit {
 
+  institute_enquiry_id: any;
   selectedCheque: any;
   defaultAcadYear: any;
   isPartialPayment: boolean;
@@ -402,6 +403,8 @@ export class StudentAddComponent implements OnInit {
       });
     }
   }
+
+
 
   /* Navigate or check for submission */
   addStudentDataAndFetchFee(values: NgForm) {
@@ -1112,7 +1115,9 @@ export class StudentAddComponent implements OnInit {
         this.studentAddFormData.student_sex = "M";
       }
       this.isRippleLoad = true;
-      this.busyPrefill = this.postService.quickAddStudent(this.studentAddFormData).subscribe(
+      
+      this.studentAddFormData.enquiry_id = this.institute_enquiry_id;
+      this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
           this.isRippleLoad = false;
           let statusCode = res.statusCode;
@@ -1597,6 +1602,7 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.parent_name = this.enquiryData.parent_email;
     this.studentAddFormData.parent_phone = this.enquiryData.parent_name;
     this.studentAddFormData.parent_email = this.enquiryData.parent_phone;
+    this.institute_enquiry_id = this.enquiryData.enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
     this.fetchEnquiryCustomComponentDetails();
     localStorage.removeItem('studentPrefill');
