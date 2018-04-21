@@ -565,6 +565,12 @@
                             &.bigger {
                                 width: 20%;
                             }
+                            &.tax {
+                                width: 10% !important;
+                            }
+                            &.date {
+                                width: 20% !important;
+                            }
                         }
                     }
                     .form-wrapper {

@@ -10,7 +10,7 @@ import { arraySortPipe } from '../../shared/pipes/sortBarPipe';
 import { start } from 'repl';
 // import * as FileSaver from 'file-saver';
 // import * as XLSX from 'xlsx';
-
+ 
 @Component({
   selector: 'app-attendance-report',
   templateUrl: './attendanceReport.component.html',
