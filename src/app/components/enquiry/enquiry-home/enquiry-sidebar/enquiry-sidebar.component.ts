@@ -169,6 +169,11 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
       this.updateFormComments = res.comments;
       this.updateFormCommentsOn = res.commentedOn;
       this.updateFormCommentsBy = res.commentedBy;
+      if (res.followUpDate != "" && res.followUpDate != null && res.followUpTime != "" && res.followUpTime != null) {
+        this.notifyme = true;
+      }else{
+        this.notifyme = false;
+      }
       this.getSourceName(res.source_id);
     });
   }
