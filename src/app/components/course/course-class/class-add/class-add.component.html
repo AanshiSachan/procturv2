@@ -441,10 +441,11 @@
                       <tr *ngFor="let row of weekDaysTable; let i=index ; trackBy : index ">
                         <td>
                           <div class="field-checkbox-wrapper">
-                            <input type="checkbox" name="chk" name="checkbx" id="checkbx" [(ngModel)]="row.uiSelected" class="form-checkbox">
-                            <label for="checkbx"></label>
+                            <input type="checkbox" name="chk" name="checkbx" id="checkbx{{i}}" [(ngModel)]="row.uiSelected" class="form-checkbox">
+                            <label for="checkbx{{i}}">
+                              {{row.data_value}}
+                            </label>
                           </div>
-                          {{row.data_value}}
                         </td>
                         <td>
                           <div class="form-wrapper timepick">
@@ -497,7 +498,7 @@
                 </div>
               </div>
 
-              <div class="row btn-table">
+              <div class="row btn-table" style="margin-top: 5px;">
                 <button class="btn fullBlue pull-right" (click)="updateWeeklySchedule()">Update</button>
               </div>
 
