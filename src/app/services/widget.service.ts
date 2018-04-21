@@ -11,9 +11,6 @@ import * as moment from 'moment';
 @Injectable()
 export class WidgetService {
 
-
-
-
     baseUrl: string = '';
     Authorization: any;
     headers;
@@ -160,6 +157,19 @@ export class WidgetService {
         )
     }
 
+
+    cancelBatchSchedule(obj) {
+        let url = this.baseUrl +"/api/v1/batchClsSched/cancel";
+
+        return this.http.put(url, obj, {headers: this.headers}).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
 
     notifyStudentSchedule(obj) {
         let url = this.baseUrl + "/api/v1/coursePlanner/notify";

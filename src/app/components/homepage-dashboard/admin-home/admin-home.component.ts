@@ -1340,8 +1340,9 @@ export class AdminHomeComponent implements OnInit {
   }
 
   initiateCourseCancelClass(i, selected) {
-    this.selectedRow = i;
+    this.selectedRow = i; 
     this.classMarkedForAction = selected;
+
     this.isCourseCancel = true;
   }
 
@@ -1379,6 +1380,44 @@ export class AdminHomeComponent implements OnInit {
         this.appC.popToast(msg);
       }
     )
+  }
+
+  cancelBatchClass() {
+    let obj = {
+      batch_id: this.classMarkedForAction.batch_id,
+      cancelSchd: this.getCancelReason()
+      }
+    this.widgetService.cancelBatchSchedule(obj).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: 'Course Schedule Cancelled',
+          body: 'The requested scheduled has been cancelled'
+        }
+        this.appC.popToast(msg);
+        this.closeCourseCancelClass();
+        this.fetchScheduleWidgetData();
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: 'Failed To Cancel Schedule',
+          body: err.cancelResponseMessage
+        }
+        this.appC.popToast(msg);
+      }
+    )
+  }
+  
+  getCancelReason(): any[]{
+    let temp = [];
+    let obj = {
+      cancel_note: this.cancellationReason,
+      is_notified: this.is_notified,
+      schd_id: this.classMarkedForAction.schd_id
+    }
+    temp.push(obj);
+    return temp;
   }
 
   initiateCourseRemiderClass() {

@@ -780,7 +780,8 @@
     </span>
 
     <h2 widget-header>Cancel Schedule
-      <span style="font-weight: 300">{{classMarkedForAction.master_course}}</span> - {{classMarkedForAction.coursee_names}}
+      <span *ngIf="!isProfessional" style="font-weight: 300">{{classMarkedForAction.master_course}}</span> - {{classMarkedForAction.coursee_names}}
+      <span *ngIf="isProfessional" style="font-weight: 300">{{classMarkedForAction.batch_name}}</span>
     </h2>
 
     <div class="CancelWrapper" widget-content>
@@ -804,7 +805,8 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCourseCancelClass()">
-          <input type="button" value="Update Schedule" (click)="cancelCourseClass()" class="fullBlue btn">
+          <input *ngIf="!isProfessional" type="button" value="Update Schedule" (click)="cancelCourseClass()" class="fullBlue btn">
+          <input *ngIf="isProfessional" type="button" value="Update Schedule" (click)="cancelBatchClass()" class="fullBlue btn">
         </aside>
       </div>
     </div>
