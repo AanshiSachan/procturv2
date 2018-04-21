@@ -544,7 +544,7 @@ export class ClassAddComponent implements OnInit {
       res => {
         this.isRippleLoad = false;
         this.isClassFormFilled = true;
-        this.batchDetails = Object.assign({}, res);
+        this.batchDetails = this.keepCloning(res);
         this.calculateFieldForTables(res);
       },
       err => {
@@ -767,9 +767,16 @@ export class ClassAddComponent implements OnInit {
   convertIntoFullClock(hr, min, meridian) {
     let result: any = '';
     if (meridian == "AM") {
+      if (hr == "12") {
+        hr = "00";
+      }
       result = hr + ':' + min;
     } else {
-      hr = Number(hr) + 12;
+      if (hr == "12") {
+        hr = "12";
+      } else {
+        hr = Number(hr) + 12;
+      }
       result = hr + ':' + min;
     }
     return result;
@@ -996,7 +1003,9 @@ export class ClassAddComponent implements OnInit {
     this.showPopUpRecurence = false;
     this.showPopUp = false;
     this.showPopUpCancellation = false;
-    this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
+    if (!this.isProfessional) {
+      this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
+    }
   }
 
   onWeekDaysSelection(event) {
@@ -1233,6 +1242,13 @@ export class ClassAddComponent implements OnInit {
     minute: '00',
   }
   showWarningPopup: boolean = false;
+  cancelWeeklySchedulePop: boolean = false;
+
+  weeklyScheduleCan = {
+    date: moment().format("YYYY-MM-DD"),
+    cancel_note: '',
+    is_notified: true
+  }
 
   getWeekOfDaysFromServer() {
     this.classService.getWeekOfDays().subscribe(
@@ -1246,7 +1262,10 @@ export class ClassAddComponent implements OnInit {
   }
 
   calculateFieldForTables(data) {
-    debugger
+    this.customTable = [];
+    this.weekDaysTable = [];
+    this.extraClassTable = [];
+    this.canceLClassTable = [];
     this.batchFrequency = "1";
     if (data.cancelSchd != null) {
       this.canceLClassTable = data.cancelSchd;
@@ -1255,16 +1274,34 @@ export class ClassAddComponent implements OnInit {
       this.extraClassTable = data.extraSchd;
     }
     if (data.weekSchd != null) {
-      this.makeJsonForWeekTable(data.weekSchd);
+      if (data.weekSchd.length > 0) {
+        this.makeJsonForWeekTable(data.weekSchd);
+      } else {
+        this.weekDays.forEach(element => {
+          element.uiSelected = false;
+        });
+        this.weekDaysTable = this.weekDays;
+      }
     } else {
+      this.weekDays.forEach(element => {
+        element.uiSelected = false;
+      });
       this.weekDaysTable = this.weekDays;
     }
     if (data.otherSchd != null) {
-      this.customTable = data.otherSchd;
-      this.batchFrequency = "2";
+      if (data.otherSchd.length > 0) {
+        this.customTable = data.otherSchd;
+        this.batchFrequency = "2";
+      }
     }
   }
 
+  scheduleSelection(event) {
+    this.batchFrequency = event;
+  }
+
+
+  /// Week Section////
 
   makeJsonForWeekTable(data) {
     this.showCancelWeeklyBtn = false;
@@ -1285,136 +1322,44 @@ export class ClassAddComponent implements OnInit {
     }
   }
 
-
-  notifyOfCancelClass(row) {
-    if (confirm("Are you sure, You want to notify?")) {
-      let is_exam_schedule: any = '';
-      if (row.hasOwnProperty('is_exam_schedule')) {
-        is_exam_schedule = row.is_exam_schedule;
-      } else {
-        is_exam_schedule = "N";
-      }
-      let data = {
-        batch_id: row.batch_id,
-        class_schedule_id: row.schd_id,
-        is_exam_schedule: is_exam_schedule
-      };
-      this.classService.notifyCancelledClassSchedule(data).subscribe(
-        res => {
-          console.log(res);
-          this.messageToast('success', 'Notified', 'Notification Sent');
-        },
-        err => {
-          console.log(err);
-          this.messageToast('error', 'Error', err.error.message);
-        }
-      )
-    }
-  }
-
-
-  cancelExtraClassSchedule(row) {
-    this.showPopUpCancellation = true;
-    this.cancelRowSelected = row;
-  }
-
-  cancelBatchSchedule() {
-    let data = this.makeJSONToSendBatchDet();
-    this.classService.cancelClassSchedule(data).subscribe(
-      res => {
-        this.messageToast('success', 'Notified', 'Cancelled Successfully');
-        this.showPopUpCancellation = false;
-      },
-      err => {
-        console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
-      }
-    )
-  }
-
-
-  makeJSONToSendBatchDet() {
-    let text = document.getElementById('idTexboxReason').value;
-    if (text == "" || text == null || text == undefined) {
-      this.messageToast('error', 'Error', 'Please provide cancellation reason');
-      return
-    }
-    let chkbxValue = document.getElementById('idChkbxEnable').checked;
-    if (chkbxValue == true) {
-      chkbxValue = "Y";
-    } else {
-      chkbxValue = "N";
-    }
-    let obj: any = {};
-    obj.batch_id = this.cancelRowSelected.batch_id;
-    obj.class_freq = this.cancelRowSelected.freq;
-    obj.cancelSchd = [
-      {
-        cancel_note: text,
-        is_notified: chkbxValue,
-        schd_id: this.cancelRowSelected.schd_id,
-      }
-    ];
-    return obj;
-  }
-
-  notifyExtraClassSchedule(row) {
-    if (confirm("Are you sure you want to send Extra Class Schedule SMS to the batch?")) {
-      this.notifyExtraClassCancel(row, "week");
-    }
-  }
-
-  notifyExtraClassCancel(row, type) {
-    this.classService.sendNotification(row.schd_id, type).subscribe(
-      res => {
-        console.log(res);
-        this.messageToast('success', 'Notified', 'Notification Sent');
-      },
-      err => {
-        console.log(err);
-        this.messageToast('error', 'Error', err.error.message);
-      }
-    )
-  }
-
-  deleteExtraClassSchedule(row, index) {
-    if (confirm("Are you sure you want to delete?")) {
-      this.extraClassTable.splice(index, 1);
-    }
-  }
-
-  createWeeklySchedule() {
-    let data = this.prepareJSONDATA();
-    this.isRippleLoad = true;
-    this.classService.createWeeklyBatch(data).subscribe(
-      res => {
-        this.isRippleLoad = false;
-        this.messageToast('success', 'Updated', 'Details Updated Successfully');
-        this.showWarningPopup = false;
-      },
-      err => {
-        this.isRippleLoad = false;
-        this.messageToast('error', 'Error', err.error.message);
-        console.log(err);
-      }
-    )
-  }
-
   updateWeeklySchedule() {
     if (this.batchDetails.otherSchd != null) {
-      this.showWarningPopup = true;
+      if (this.batchDetails.otherSchd.length > 0) {
+        this.showWarningPopup = true;
+      } else {
+        this.createWeeklySchedule();
+      }
     } else {
       this.createWeeklySchedule();
     }
   }
 
+  createWeeklySchedule() {
+    let data = this.prepareJSONDATA();
+    if (data == false) {
+      this.messageToast('error', 'Error', 'Please specify at least one day to create a schedule');
+      return;
+    }
+    if (this.batchDetails.weekSchd != null) {
+      if (this.batchDetails.weekSchd.length > 0) {
+        this.serverCallPUT(data);
+      } else {
+        this.serverCallPOST(data);
+      }
+    } else {
+      this.serverCallPOST(data);
+    }
+  }
+
   prepareJSONDATA() {
     let obj: any = {};
+    let seletected = false;
     obj.batch_id = this.batchDetails.batch_id;
     obj.class_freq = "WEEK";
     obj.weekSchd = [];
     for (let i = 0; i < this.weekDaysTable.length; i++) {
       if (this.weekDaysTable[i].uiSelected == true) {
+        seletected = true;
         let test: any = {};
         test.day_of_week = this.weekDaysTable[i].data_key;
         let startTime = moment(this.createTimeInFormat(this.weekDaysTable[i].start_time.hour, this.weekDaysTable[i].start_time.minute, 'comp'), 'h:mma');
@@ -1432,37 +1377,11 @@ export class ClassAddComponent implements OnInit {
         obj.weekSchd.push(test);
       }
     }
-    return obj;
-  }
-
-  addNewExtraClass() {
-    let obj: any = {};
-    obj.class_date = moment(this.addExtraClass.date).format("YYYY-MM-DD");
-    let startTime = moment(this.createTimeInFormat(this.addExtraClass.start_hour, this.addExtraClass.start_minute, 'comp'), 'h:mma');
-    let endTime = moment(this.createTimeInFormat(this.addExtraClass.end_hour, this.addExtraClass.end_minute, 'comp'), 'h:mma');
-    if (!(startTime.isBefore(endTime))) {
-      this.messageToast('error', 'Error', 'Please provide correct start time and end time');
-      return
+    if (seletected == false) {
+      return false;
     } else {
-      obj.start_time = this.createTimeInFormat(this.addExtraClass.start_hour, this.addExtraClass.start_minute, '');
-      obj.end_time = this.createTimeInFormat(this.addExtraClass.end_hour, this.addExtraClass.end_minute, '');
+      return obj;
     }
-    obj.note = this.addExtraClass.desc;
-    obj.batch_id = this.batchDetails.batch_id;
-    obj.schd_id = 0;
-    this.extraClassTable.push(obj);
-    this.addExtraClass = {
-      date: moment().format("YYYY-MM-DD"),
-      start_hour: '12 PM',
-      start_minute: '00',
-      end_hour: '1 PM',
-      end_minute: '00',
-      desc: '',
-    }
-  }
-
-  scheduleSelection(event) {
-    this.batchFrequency = event;
   }
 
   applyButtonClick() {
@@ -1481,14 +1400,36 @@ export class ClassAddComponent implements OnInit {
     }
   }
 
+  cancelWeeklyScheduledClass() {
+    this.cancelWeeklySchedulePop = true;
+  }
 
+  closeWeeklySchedulePopup() {
+    this.cancelWeeklySchedulePop = false;
+  }
 
-  updateExtraClass() {
-    let data = this.makeJsonForExtraClass();
-    this.classService.createWeeklyBatch(data).subscribe(
+  cancelWeeklySchedule() {
+    let notify: any = "";
+    if (this.weeklyScheduleCan.is_notified == true) {
+      notify = "Y";
+    } else {
+      notify = "N";
+    }
+    let ob = {
+      batch_id: this.batchDetails.batch_id,
+      class_freq: 'WEEK',
+      cancelSchd: [{
+        cancel_note: this.weeklyScheduleCan.cancel_note,
+        class_date: this.weeklyScheduleCan.date,
+        schd_id: 0,
+        is_notified: notify,
+      }]
+    }
+    this.classService.cancelClassSchedule(ob).subscribe(
       res => {
-        this.messageToast('success', 'Updated', 'Details Updated Successfully');
-        this.submitMasterBatch();
+        this.messageToast('success', 'Cancelled', 'Class schedule cancelled successfully');
+        this.cancelWeeklySchedulePop = false;
+        this.updateTableDataAgain();
       },
       err => {
         this.messageToast('error', 'Error', err.error.message);
@@ -1497,47 +1438,8 @@ export class ClassAddComponent implements OnInit {
     )
   }
 
+  /// Custom Section////
 
-  makeJsonForExtraClass() {
-    let obj: any = {};
-    obj.batch_id = this.batchDetails.batch_id;
-    obj.class_freq = "EXTRA";
-    obj.extraSchd = [];
-    for (let i = 0; i < this.extraClassTable.length; i++) {
-      let t: any = {};
-      t.class_date = this.extraClassTable[i].class_date;
-      t.start_time = this.extraClassTable[i].start_time;
-      t.end_time = this.extraClassTable[i].end_time;
-      t.note = this.extraClassTable[i].note;
-      t.schd_id = this.extraClassTable[i].schd_id;
-      let testStart: any = this.convertTimeToHourMinMeridian(t.start_time);
-      let testStart1: any = this.convertTimeToHourMinMeridian(t.end_time);
-      let start = this.convertIntoFullClock(testStart.hour, testStart.minute, testStart.meridian);
-      let end = this.convertIntoFullClock(testStart1.hour, testStart1.minute, testStart1.meridian);
-      t.duration = this.getDifference(start, end);
-      obj.extraSchd.push(t);
-    }
-    return obj;
-  }
-
-  cancelWeeklyScheduledClass() {
-
-  }
-
-  notifyOfCustomClass(data, index) {
-    if (confirm('Are you sure u want to send Regular(Custom) Class Schedule SMS to the batch?')) {
-      this.notifyExtraClassCancel(data, "OTHER");
-    }
-  }
-
-  cancelClassOfCustomClass(row, index) {
-    this.showPopUpCancellation = true;
-    this.cancelRowSelected = row;
-  }
-
-  closeWarningPopUp() {
-    this.showWarningPopup = false;
-  }
 
   addNewCustomClass() {
     let obj: any = {};
@@ -1578,39 +1480,61 @@ export class ClassAddComponent implements OnInit {
     }
   }
 
+  updateCustomClass() {
+    if (this.batchDetails.weekSchd != null) {
+      if (this.batchDetails.weekSchd.length > 0) {
+        this.showWarningPopup = true;
+      } else {
+        this.createCustomClasses();
+      }
+    } else {
+      this.createCustomClasses();
+    }
+  }
 
   makeJsonForCustomClass() {
     let obj: any = {};
-    obj.batch_id = this.batchDetails.batch_id;
+    obj.batch_id = this.batchDetails.batch_id.toString();
     obj.class_freq = "OTHER";
     obj.otherSchd = [];
-    for (let i = 0; i < this.customTable.length; i++) {
-      let t: any = {};
-      t.class_date = this.customTable[i].class_date;
-      t.start_time = this.customTable[i].start_time;
-      t.end_time = this.customTable[i].end_time;
-      t.note = this.customTable[i].note;
-      t.schd_id = this.customTable[i].schd_id;
-      let testStart: any = this.convertTimeToHourMinMeridian(t.start_time);
-      let testStart1: any = this.convertTimeToHourMinMeridian(t.end_time);
-      let start = this.convertIntoFullClock(testStart.hour, testStart.minute, testStart.meridian);
-      let end = this.convertIntoFullClock(testStart1.hour, testStart1.minute, testStart1.meridian);
-      t.duration = this.getDifference(start, end);
-      obj.extraSchd.push(t);
+    if (this.customTable.length > 0) {
+      for (let i = 0; i < this.customTable.length; i++) {
+        let t: any = {};
+        t.class_date = this.customTable[i].class_date;
+        t.start_time = this.customTable[i].start_time;
+        t.end_time = this.customTable[i].end_time;
+        t.note = this.customTable[i].note;
+        t.schd_id = this.customTable[i].schd_id;
+        let testStart: any = this.convertTimeToHourMinMeridian(t.start_time);
+        let testStart1: any = this.convertTimeToHourMinMeridian(t.end_time);
+        let start = this.convertIntoFullClock(testStart.hour, testStart.minute, testStart.meridian);
+        let end = this.convertIntoFullClock(testStart1.hour, testStart1.minute, testStart1.meridian);
+        t.duration = this.getDifference(start, end);
+        obj.otherSchd.push(t);
+      }
     }
     return obj;
   }
 
   createCustomClasses() {
-    if (this.customTable.length == 0) {
-      this.messageToast('error', 'Error', 'Please provide dates');
-      return;
-    }
     let obj = this.makeJsonForCustomClass();
-    this.classService.createWeeklyBatchPost(obj).subscribe(
+    if (this.batchDetails.otherSchd != null) {
+      if (this.batchDetails.otherSchd.length > 0) {
+        this.serverCallPUT(obj);
+      } else {
+        this.serverCallPOST(obj);
+      }
+    } else {
+      this.serverCallPOST(obj);
+    }
+  }
+
+  serverCallPUT(data) {
+    this.classService.createCustomBatchPUT(data).subscribe(
       res => {
         this.messageToast('success', 'Updated', 'Details Updated Successfully');
         this.showWarningPopup = false;
+        this.updateTableDataAgain();
       },
       err => {
         this.messageToast('error', 'Error', err.error.message);
@@ -1619,12 +1543,239 @@ export class ClassAddComponent implements OnInit {
     )
   }
 
-  updateCustomClass() {
-    if (this.batchDetails.weekSchd != null) {
-      this.showWarningPopup = true;
-    } else {
-      this.createCustomClasses();
+  serverCallPOST(data) {
+    this.classService.createWeeklyBatchPost(data).subscribe(
+      res => {
+        this.messageToast('success', 'Updated', 'Details Updated Successfully');
+        this.showWarningPopup = false;
+        this.updateTableDataAgain();
+      },
+      err => {
+        this.messageToast('error', 'Error', err.error.message);
+        console.log(err);
+      }
+    )
+  }
+
+  notifyOfCustomClass(data, index) {
+    if (confirm('Are you sure u want to send Regular(Custom) Class Schedule SMS to the batch?')) {
+      this.notifyExtraClassCancel(data, "OTHER");
     }
+  }
+
+  cancelClassOfCustomClass(row, index) {
+    this.showPopUpCancellation = true;
+    this.cancelRowSelected = row;
+  }
+
+  ///// Extra Class Section //////////////
+
+
+  addNewExtraClass() {
+    let obj: any = {};
+    obj.class_date = moment(this.addExtraClass.date).format("YYYY-MM-DD");
+    let startTime = moment(this.createTimeInFormat(this.addExtraClass.start_hour, this.addExtraClass.start_minute, 'comp'), 'h:mma');
+    let endTime = moment(this.createTimeInFormat(this.addExtraClass.end_hour, this.addExtraClass.end_minute, 'comp'), 'h:mma');
+    if (!(startTime.isBefore(endTime))) {
+      this.messageToast('error', 'Error', 'Please provide correct start time and end time');
+      return
+    } else {
+      obj.start_time = this.createTimeInFormat(this.addExtraClass.start_hour, this.addExtraClass.start_minute, '');
+      obj.end_time = this.createTimeInFormat(this.addExtraClass.end_hour, this.addExtraClass.end_minute, '');
+    }
+    obj.note = this.addExtraClass.desc;
+    obj.batch_id = this.batchDetails.batch_id;
+    obj.schd_id = 0;
+    this.extraClassTable.push(obj);
+    this.addExtraClass = {
+      date: moment().format("YYYY-MM-DD"),
+      start_hour: '12 PM',
+      start_minute: '00',
+      end_hour: '1 PM',
+      end_minute: '00',
+      desc: '',
+    }
+  }
+
+  updateExtraClass() {
+    let data = this.makeJsonForExtraClass();
+
+
+    if (this.batchDetails.extraSchd != null) {
+      if (this.batchDetails.extraSchd.length > 0) {
+        this.serverCallPUT(data);
+      } else {
+        this.serverCallPOST(data);
+      }
+    } else {
+      this.serverCallPOST(data);
+    }
+  }
+
+  makeJsonForExtraClass() {
+    let obj: any = {};
+    obj.batch_id = this.batchDetails.batch_id;
+    obj.class_freq = "EXTRA";
+    obj.extraSchd = [];
+    if (this.extraClassTable.length > 0) {
+      for (let i = 0; i < this.extraClassTable.length; i++) {
+        let t: any = {};
+        t.class_date = this.extraClassTable[i].class_date;
+        t.start_time = this.extraClassTable[i].start_time;
+        t.end_time = this.extraClassTable[i].end_time;
+        t.note = this.extraClassTable[i].note;
+        t.schd_id = this.extraClassTable[i].schd_id;
+        let testStart: any = this.convertTimeToHourMinMeridian(t.start_time);
+        let testStart1: any = this.convertTimeToHourMinMeridian(t.end_time);
+        let start = this.convertIntoFullClock(testStart.hour, testStart.minute, testStart.meridian);
+        let end = this.convertIntoFullClock(testStart1.hour, testStart1.minute, testStart1.meridian);
+        t.duration = this.getDifference(start, end);
+        obj.extraSchd.push(t);
+      }
+    }
+    return obj;
+  }
+
+  cancelExtraClassSchedule(row) {
+    this.showPopUpCancellation = true;
+    this.cancelRowSelected = row;
+  }
+
+  notifyExtraClassSchedule(row) {
+    if (confirm("Are you sure you want to send Extra Class Schedule SMS to the batch?")) {
+      this.notifyExtraClassCancel(row, "week");
+    }
+  }
+
+  deleteExtraClassSchedule(row, index) {
+    if (confirm("Are you sure you want to delete?")) {
+      this.extraClassTable.splice(index, 1);
+    }
+  }
+
+
+  /// Cancel Class /////
+
+
+  notifyOfCancelClass(row) {
+    if (confirm("Are you sure, You want to notify?")) {
+      let is_exam_schedule: any = '';
+      if (row.hasOwnProperty('is_exam_schedule')) {
+        is_exam_schedule = row.is_exam_schedule;
+      } else {
+        is_exam_schedule = "N";
+      }
+      let data = {
+        batch_id: row.batch_id,
+        class_schedule_id: row.schd_id,
+        is_exam_schedule: is_exam_schedule
+      };
+      this.classService.notifyCancelledClassSchedule(data).subscribe(
+        res => {
+          this.updateTableDataAgain();
+          this.messageToast('success', 'Notified', 'Notification Sent');
+        },
+        err => {
+          console.log(err);
+          this.messageToast('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+  /////////////////////////
+
+
+  /// Cancellation POpup /////////
+
+  cancelBatchSchedule() {
+    let data = this.makeJSONToSendBatchDet();
+    this.classService.cancelClassSchedule(data).subscribe(
+      res => {
+        this.messageToast('success', 'Notified', 'Cancelled Successfully');
+        this.showPopUpCancellation = false;
+        this.updateTableDataAgain();
+      },
+      err => {
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+
+  makeJSONToSendBatchDet() {
+    let text = document.getElementById('idTexboxReason').value;
+    if (text == "" || text == null || text == undefined) {
+      this.messageToast('error', 'Error', 'Please provide cancellation reason');
+      return
+    }
+    let chkbxValue = document.getElementById('idChkbxEnable').checked;
+    if (chkbxValue == true) {
+      chkbxValue = "Y";
+    } else {
+      chkbxValue = "N";
+    }
+    let obj: any = {};
+    obj.batch_id = this.cancelRowSelected.batch_id;
+    obj.class_freq = this.cancelRowSelected.freq;
+    obj.cancelSchd = [
+      {
+        cancel_note: text,
+        is_notified: chkbxValue,
+        schd_id: this.cancelRowSelected.schd_id,
+      }
+    ];
+    return obj;
+  }
+
+
+  //////////////////////////
+
+
+  // Common function for notification///
+  notifyExtraClassCancel(row, type) {
+    this.classService.sendNotification(row.schd_id, type).subscribe(
+      res => {
+        console.log(res);
+        this.messageToast('success', 'Notified', 'Notification Sent');
+      },
+      err => {
+        console.log(err);
+        this.messageToast('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  ////////////////////////////
+
+  showHideCommonSection() {
+    if (this.batchFrequency == "1") {
+      if (this.batchDetails.weekSchd != null) {
+        if (this.batchDetails.weekSchd.length > 0) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } else {
+      if (this.batchDetails.otherSchd != null) {
+        if (this.batchDetails.otherSchd.length > 0) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }
+  }
+
+
+  closeWarningPopUp() {
+    this.showWarningPopup = false;
   }
 
   addKeyInData(data) {
@@ -1686,6 +1837,20 @@ export class ClassAddComponent implements OnInit {
     }
   }
 
+  updateTableDataAgain() {
+    this.batchDetected(this.fetchMasterBatchModule.batch_id);
+  }
+
+  keepCloning(objectpassed) {
+    if (objectpassed === null || typeof objectpassed !== 'object') {
+      return objectpassed;
+    }
+    let temporaryStorage = objectpassed.constructor();
+    for (var key in objectpassed) {
+      temporaryStorage[key] = this.keepCloning(objectpassed[key]);
+    }
+    return temporaryStorage;
+  }
 
   /* ============================================================================================ */
   /* ============================================================================================ */

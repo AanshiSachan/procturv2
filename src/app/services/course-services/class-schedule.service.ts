@@ -259,14 +259,6 @@ export class ClassScheduleService {
         )
     }
 
-    createWeeklyBatch(data) {
-        let url = this.baseURL + "/api/v1/batchClsSched";
-        return this.http.put(url, data, { headers: this.headers }).map(
-            this.successCallback,
-            this.errorCallBack
-        )
-    }
-
     createWeeklyBatchPost(data) {
         let url = this.baseURL + "/api/v1/batchClsSched";
         return this.http.post(url, data, { headers: this.headers }).map(
@@ -275,7 +267,15 @@ export class ClassScheduleService {
         )
     }
 
-    sendNotification(schID , type) {
+    createCustomBatchPUT(data) {
+        let url = this.baseURL + "/api/v1/batchClsSched";
+        return this.http.put(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    sendNotification(schID, type) {
         let url = this.baseURL + "/api/v1/batchClsSched/notify/" + this.institute_id + "/" + schID + "/" + type;
         return this.http.get(url, { headers: this.headers }).map(
             this.successCallback,
