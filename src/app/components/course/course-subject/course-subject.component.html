@@ -81,7 +81,8 @@
               <label style="cursor:pointer;" (click)="sortTable('subject_id')">ID</label>
             </th>
             <th>
-              <label style="cursor:pointer;" (click)="sortTable('standard_name')">Standard</label>
+              <label *ngIf="isLangInstitue" style="cursor:pointer;" (click)="sortTable('standard_name')">Master Course</label>
+              <label *ngIf="!isLangInstitue" style="cursor:pointer;" (click)="sortTable('standard_name')">Standard</label>
             </th>
             <th>
               <label *ngIf="(isLangInstitue != true )" style="cursor:pointer;" (click)="sortTable('subject_name')">Subject</label>
