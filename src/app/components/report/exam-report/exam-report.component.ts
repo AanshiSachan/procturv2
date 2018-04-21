@@ -19,20 +19,26 @@ export class ExamReportComponent implements OnInit {
   SubjectData: any[] = [];
   masterCourses: any[] = [];
   masterData = "";
+  addReportPopup:boolean= false;
+  examTypeEntry:any[]=[];
   Exam_sche_Data = "";
   Exam_Sch_Data: any[] = [];
   ExamSource: any = [];
   DetailSource :any=[];
-  pagedExamSource: any = [];
+  pagedExamSource:any[] = [];
   studentName="";
   FetchApiData: any = [];
- 
+  dataExamIndex :any[]=[];
+  typeDataForm :any[]=[];
+  
+
 
 
   projectSettings: ColumnSetting[] = [
 
-    { primaryKey: 'student_id', header: 'Student Name' },
-    { primaryKey: 'student_name', header: 'Student Id' },
+   
+    { primaryKey: 'student_id', header: 'Student Id' },
+    { primaryKey: 'student_name', header: 'Student Name' },
     { primaryKey: 'total_marks', header: 'Total Marks' },
     { primaryKey: 'marks_obtained', header: 'Marks Obtained' },
     { primaryKey: 'student_phone', header: 'Contact No.' },
@@ -57,8 +63,10 @@ export class ExamReportComponent implements OnInit {
   ngOnInit() {
     this.fetchExamData();
     this.pageIndex = 1;
+  }
+  closeReportPopup(){
 
-
+    this.addReportPopup=false;
   }
 fetchExamData() {
 
@@ -109,11 +117,15 @@ fetchExamData() {
   }
 
 
-  fetchDetailReport(id){
-  this.examdata.viewDetailData(id).subscribe(
+  fetchDetailReport(){
+
+  this.examdata.viewDetailData(this.fetchFieldData.batch_id)
+   
+  .subscribe(
     res=>{
       this.DetailSource=res;
       console.log(res);
+      this.addReportPopup=true;
     },
     err=>{
       console.log(err);
@@ -153,7 +165,7 @@ fetchExamData() {
       }
     )
   }
-
+  
   getSubData(i) {
     console.log(i);
     this.fetchFieldData.exam_schd_id = "";
@@ -167,7 +179,7 @@ fetchExamData() {
 
   getExamScheduleData(i) {
     console.log(this.SubjectData);
-
+           
     this.fetchFieldData.exam_schd_id = "";
     console.log(i);
     this.examdata.getExamSchedule(i).subscribe((data: any) => {

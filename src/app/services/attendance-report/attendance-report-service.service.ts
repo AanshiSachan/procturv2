@@ -56,7 +56,7 @@ export class AttendanceReportServiceService {
   }
   getSubject(obj) {
 
-    let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + obj
+    let url = this.baseUrl + "/api/v1/courseMaster/fetch/courses/" + this.institute_id + "/" + obj
     return this.http.get(url, { headers: this.headers }).map(
       data => {
         return data;
@@ -68,5 +68,61 @@ export class AttendanceReportServiceService {
     )
 
   }
+  postDataToTable(obj){
+    let url=this.baseUrl + "/api/v1/reports/attendance";
+    return this.http.post(url ,obj, {headers:this.headers}).map(
+      data =>{
+        return data;
+      },
+      error =>{
+        return error;
+      }
+    )
+  }
+  postDataToTablePro(obj){
+    let url=this.baseUrl + "/api/v1/reports/attendance";
+    return this.http.post(url ,obj, {headers:this.headers}).map(
+      data =>{
+        return data;
+      },
+      error =>{
+        return error;
+      }
+    )
+  }
+  postDetailedData(obj){
+    let url=this.baseUrl + "/api/v1/reports/attendance/monthlyAttendanceReport";
+    return this.http.post(url, obj, {headers:this.headers}).map(
+      data =>{
+        return data;
+      },
+      error=>{
+        return error;
+      }
 
+    )
+  }
+  /* =========================================================================== */
+  /* =========================================================================== */
+/*for professional*/
+
+  masterCoursePro(obj){
+
+    let url=this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id +  "?standard_id=" + obj.standard_id +"&subject_id=" + obj.subject_id + "&assigned=N" ;
+    return this.http.get(url, {headers:this.headers}).map(
+      data=>{
+        return data;
+      },
+      error=>{
+        return error;
+      }
+    )
+
+  }
+  // excelTableDownload(body){
+
+  //   let user_token:string = this.Authorization.getToken();
+  //   this.headers.append('Authorization', 'Bearer' + user_token);  
+  //   return this.http.post(this.excelTableDownload(body),  {headers:this.headers, responseType:ResponseContentType.Blob} ,body ).map((res)=>new Blob([res._body],{ type: 'application/vnd.ms-excel' })) 
+  // }
 }

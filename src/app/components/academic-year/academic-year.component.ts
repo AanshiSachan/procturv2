@@ -169,8 +169,7 @@ export class AcademicYearComponent implements OnInit {
   saveAcademicYearInformation(row2, index) {
     let start_date_new = row2.start_date
     let end_date_new = row2.end_date
-    let academic_year_new = row2.inst_acad_year.toString().split("-");
-
+   
     if (moment(start_date_new).date() === moment(end_date_new).date()){
 
       let msg = {
@@ -208,14 +207,7 @@ export class AcademicYearComponent implements OnInit {
       }
       this.appC.popToast(acad);
     }
-    else if (academic_year_new[0] == academic_year_new[1]) {
-      let acad = {
-        type: "error",
-        title: "Incorrect Details",
-        body: "Start year and end year cannot be same"
-      }
-      this.appC.popToast(acad);
-    }
+    
     else {
 
       let data = {

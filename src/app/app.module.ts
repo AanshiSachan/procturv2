@@ -43,6 +43,7 @@ import { CityAreaMapComponent } from './components/city-area-map/city-area-map.c
 import { CityAreaService } from './services/area-city-service/area-city.service';
 
 
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -67,7 +68,8 @@ import { CityAreaService } from './services/area-city-service/area-city.service'
     ComingSoonComponent,
     OverlayMenuComponent,
     SlotComponent,
-    CityAreaMapComponent
+    CityAreaMapComponent,
+  
   ],
   entryComponents: [
   ],

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, ElementRef, Renderer2, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, Input,Output, OnChanges, ElementRef, Renderer2, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, EventEmitter } from '@angular/core';
 import { ColumnSetting, ColumnMap } from './layout.model';
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
 
@@ -12,6 +12,8 @@ export class TableLayoutComponent implements OnChanges {
     @Input() settings: ColumnSetting[];
     @Input() isMulti: boolean = false;
     @Input() tableName: string = '';
+
+    @Output() sortData=new EventEmitter<String>();
     isAllSelected: boolean = false;
     columnMaps: ColumnMap[];
     selectedRowGroup: any[] = [];
@@ -45,5 +47,9 @@ export class TableLayoutComponent implements OnChanges {
         }
     }
 
+
+    getSortedData(ev){
+      this.sortData.emit(ev.target.id);
+    }
 
 }

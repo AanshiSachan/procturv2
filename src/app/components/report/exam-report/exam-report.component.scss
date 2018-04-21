@@ -75,27 +75,15 @@ p {
      width:100%   
      }
 
-
-     .search-filter-wrapper {
-        .normal-field {
-            padding: 7px 10px;
-            border: 1px solid #ccc;
-            width: 65%;
-            box-sizing: border-box;
-            margin: 0;
-            float: left;
-            height: 35px;
-            font-size: 14px;
-        }
-    }
     .search-filter-wrapper {
         .normal-field {
             padding: 7px 10px;
             border: 1px solid #ccc;
-            width: 65%;
+            width: 15%;
             box-sizing: border-box;
-            margin: 0;
-            float: left;
+            margin-right:10px;
+            margin-bottom: 5px;
+            float: right;
             height: 35px;
             font-size: 14px;
         }

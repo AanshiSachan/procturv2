@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
-
+   biometricAttendanceEnable:boolean=true;
   constructor(
     private route: Router
   ) {
@@ -15,6 +15,7 @@ export class ReportComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.biometricAttendanceEnable = sessionStorage.getItem('biometric_attendance_feature') == '1';
     this.removeFullscreen();
     this.removeSideNavSelection();
     this.checkUserAccess();
@@ -49,6 +50,7 @@ export class ReportComponent implements OnInit {
   switchActiveView(id) {
     document.getElementById('home').classList.remove('active');
     document.getElementById('attendance').classList.remove('active');
+    document.getElementById('biometric').classList.remove('active');
     document.getElementById('sms').classList.remove('active');
     document.getElementById('fee').classList.remove('active');
     document.getElementById('exam').classList.remove('active');
@@ -59,6 +61,7 @@ export class ReportComponent implements OnInit {
     switch (id) {
       case 'home': { document.getElementById('home').classList.add('active'); break; }
       case 'attendance': { document.getElementById('attendance').classList.add('active'); break; }
+      case 'biometric' : {document.getElementById('biometric').classList.add('active'); break;}
       case 'sms': { document.getElementById('sms').classList.add('active'); break; }
       case 'fee': { document.getElementById('fee').classList.add('active'); break; }
       case 'exam': { document.getElementById('exam').classList.add('active'); break; }
@@ -72,5 +75,6 @@ export class ReportComponent implements OnInit {
   checkUserAccess() {
     this.route.navigateByUrl('/reports/sms');
   }
+  
 
 }
