@@ -228,7 +228,7 @@
                         </td>
                         <td>
                           <div class="field-wrapper">
-                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.fees_amount" name="label">
+                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.fees_amount" (keyup)="feeInstallmentChnge(row)" name="label">
                           </div>
                         </td>
                         <td>
@@ -347,7 +347,7 @@
                         </td>
                         <td>
                           <div class="field-wrapper">
-                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.fees_amount" name="label">
+                            <input type="number" min="0" class="editCellInput" [(ngModel)]="row.fees_amount" (keyup)="feeTypesAmountChnge(row)" name="label">
                           </div>
                         </td>
                         <td>

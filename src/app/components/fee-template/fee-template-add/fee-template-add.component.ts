@@ -18,7 +18,7 @@ export class FeeTemplateAddComponent implements OnInit {
     fee_amount: "",
     master_course_name: '',
     course_id: -1,
-    tax_type: 1,
+    tax_type: "inclusive",
     apply_tax: false,
     tax_amount: 0,
     total_fee: 0,
@@ -115,12 +115,16 @@ export class FeeTemplateAddComponent implements OnInit {
     }
   }
 
+  onAmountKeyUp() {
+    if (this.addNewTemplate.tax_type == "inclusive") {
+      this.calculateAmount(true);
+    } else {
+      this.calculateAmount(false);
+    }
+  }
+
   onTaxTypeChanges() {
-    if (this.addNewTemplate.tax_type == 1) {
-      this.addNewTemplate.apply_tax = false;
-      this.addNewTemplate.tax_amount = 0;
-      this.addNewTemplate.total_fee = Number(this.addNewTemplate.fee_amount);
-    } else if (this.addNewTemplate.tax_type == 2) {
+    if (this.addNewTemplate.tax_type == "inclusive") {
       this.addNewTemplate.apply_tax = true;
       this.calculateAmount(true);
     } else {
@@ -159,8 +163,8 @@ export class FeeTemplateAddComponent implements OnInit {
       let test: any = {};
       test.day_type = 1;
       test.days = 0;
-      if (this.addNewTemplate.apply_tax == true) {
-        if (this.addNewTemplate.tax_type == 2) {
+      if (this.enableTaxOptions == "1") {
+        if (this.addNewTemplate.tax_type == "inclusive") {
           test.initial_fee_amount = amount - tax_amount;
           test.tax = tax_amount;
         } else {
@@ -378,9 +382,10 @@ export class FeeTemplateAddComponent implements OnInit {
 
   userChangedAmountTotalAmount(data, event) {
     if (data.service_tax_applicable == "Y") {
-      data.tax = data.totalAmount * 0.01 * this.feeStructure.registeredServiceTax;
+      data.tax = data.totalAmount - Math.floor(Number(data.totalAmount) * 100 / (100 + this.feeStructure.registeredServiceTax));
       data.initial_fee_amount = data.totalAmount - data.tax;
     } else {
+      data.initial_fee_amount = data.totalAmount;
       data.tax = 0;
     }
   }
