@@ -211,7 +211,7 @@
                           <i class="fa fa-trash-o " aria-hidden="true"></i>
                         </span> -->
                         <span class="pull-right">
-                          <span class="" (click)="editClass(class)" title="Edit">
+                          <span *ngIf="!isLangInstitute" class="" (click)="editClass(class)" title="Edit">
                             <i class="fas fa-edit" style="font-family: FontAwesome;font-size: 20px;color: rgba(0, 0, 255, 0.49019607843137253);"></i>
                           </span>
                           <span class="mail-notification" (click)="notify(class)" title="Send Reminder"></span>

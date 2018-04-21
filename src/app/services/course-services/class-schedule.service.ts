@@ -22,7 +22,7 @@ export class ClassScheduleService {
             this.headers = new HttpHeaders({
                 "Content-Type": "application/json",
                 "Authorization": this.Authorization
-            }); 
+            });
         })
         this.auth.currentInstituteId.subscribe(id => {
             this.institute_id = id;
@@ -270,6 +270,14 @@ export class ClassScheduleService {
     createWeeklyBatchPost(data) {
         let url = this.baseURL + "/api/v1/batchClsSched";
         return this.http.post(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    sendNotification(schID , type) {
+        let url = this.baseURL + "/api/v1/batchClsSched/notify/" + this.institute_id + "/" + schID + "/" + type;
+        return this.http.get(url, { headers: this.headers }).map(
             this.successCallback,
             this.errorCallBack
         )

@@ -118,4 +118,30 @@ export class ManageBatchService {
             this.errorCallBack
         )
     }
+
+       //  Get acadmeic Year Details
+
+       getAcadYear() {
+        let url = this.baseURL + "/api/v1/academicYear/all/" + this.institute_id;
+        return this.http.get(url, { headers: this.headers }).map(
+            data => {
+                return data;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
+
+    getFeeTemplate(batch_id) {
+        let url = this.baseURL + "/api/v1/student_wise/feeStructure/" + this.institute_id + "/batch/" + batch_id + "/fetch";
+        return this.http.get(url, { headers: this.headers }).map(
+            res => {
+                return res;
+            },
+            error => {
+                return error;
+            }
+        )
+    }
 }
