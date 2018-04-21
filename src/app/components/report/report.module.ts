@@ -32,7 +32,8 @@ import { postEmailService } from '../../services/report-services/post-email.serv
 import{searchPipe} from '../shared/pipes/searchBarPipe';
 import{arraySortPipe} from '../shared/pipes/sortBarPipe';
 import { AttendanceReportServiceService } from '../../services/attendance-report/attendance-report-service.service';
-
+import { BiometricComponent } from './biometric/biometric.component';
+import {BiometricServiceService} from '../../services/biometric-service/biometric-service.service';
 
 @NgModule({
     imports: [
@@ -62,7 +63,9 @@ import { AttendanceReportServiceService } from '../../services/attendance-report
         EmailReportComponent,
         ProfitLossComponent,
         searchPipe,
-        arraySortPipe
+        arraySortPipe,
+        BiometricComponent,
+        
     ],
     entryComponents: [
     ],
@@ -71,7 +74,8 @@ import { AttendanceReportServiceService } from '../../services/attendance-report
         postSMSService, ExamService,
         AttendanceReportServiceService,
         getEmailService,
-        postEmailService
+        postEmailService,
+        BiometricServiceService
 
     ],
     exports: [

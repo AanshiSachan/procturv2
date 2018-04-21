@@ -51,6 +51,7 @@ export class AttendanceReportComponent implements OnInit {
   typeAttendancePro: any[] = [];
   pagedPostDataPro: any[] = [];
   queryParamsPro: any[] = [];
+ 
   pageDetailedDataPro: any[] = [];
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'student_id', header: 'Student id' },
@@ -66,7 +67,7 @@ export class AttendanceReportComponent implements OnInit {
   getData = {
     standard_id: "",
     subject_id: "",
-    institution_id:sessionStorage.getItem('institute_id'),
+    institution_id: sessionStorage.getItem('institute_id'),
     course_id: "",
     batch_id: "",
     master_course_name: "",
@@ -77,7 +78,7 @@ export class AttendanceReportComponent implements OnInit {
   queryParams = {
     standard_id: -1,
     subject_id: -1,
-    institution_id:this.institute_id.currentInstituteId,
+    institution_id: this.institute_id.currentInstituteId,
     course_id: -1,
     batch_id: -1,
     master_course_name: "",
@@ -88,7 +89,7 @@ export class AttendanceReportComponent implements OnInit {
 
   @ViewChild('attendanceTable') attenTable: ElementRef;
   @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
-  
+
 
   constructor(
     private reportService: AttendanceReportServiceService,
@@ -133,7 +134,7 @@ export class AttendanceReportComponent implements OnInit {
     this.queryParams = {
       subject_id: -1,
       standard_id: i,
-      institution_id:this.institute_id.currentInstituteId,
+      institution_id: this.institute_id.currentInstituteId,
       course_id: -1,
       batch_id: -1,
       master_course_name: "",
@@ -213,7 +214,7 @@ export class AttendanceReportComponent implements OnInit {
     this.queryParams = {
       subject_id: i,
       standard_id: this.queryParams.standard_id,
-      institution_id:this.institute_id.currentInstituteId,
+      institution_id: this.institute_id.currentInstituteId,
       course_id: -1,
       batch_id: this.queryParams.batch_id,
       master_course_name: "",
@@ -271,10 +272,10 @@ export class AttendanceReportComponent implements OnInit {
   }
 
 
- 
+
   postDetails() {
     if (this.isProfessional) {
-      if (this.queryParams.from_date == "" || this.queryParams.to_date == "" || this.queryParams.batch_id == -1 || this.queryParams.subject_id==-1 || this.queryParams.standard_id==-1) {
+      if (this.queryParams.from_date == "" || this.queryParams.to_date == "" || this.queryParams.batch_id == -1 || this.queryParams.subject_id == -1 || this.queryParams.standard_id == -1) {
 
         let msg = {
           type: "error",
@@ -296,14 +297,14 @@ export class AttendanceReportComponent implements OnInit {
         this.addReportPopUp = true;
         this.reportService.postDetailedData(this.queryParams).subscribe(
           (data: any) => {
-            
+
             this.dateWiseAttendancePro = data;
             console.log(this.dateWiseAttendancePro);
             this.dataTypeAttendancePro = data.map((ele) => {
               this.typeAttendancePro = ele.attendanceDateType;
-              
+
             });
-            
+
             this.attendanceIndex0Pro = this.typeAttendancePro[0];
             this.attendanceIndexiPro = this.typeAttendancePro.length;
             this.attendanceIndexiOfPro = this.typeAttendancePro[this.attendanceIndexiPro - 1];
@@ -347,7 +348,7 @@ export class AttendanceReportComponent implements OnInit {
             this.dataTypeAttendance = this.dateWiseAttendance.map((ele) => {
               this.typeAttendance = ele.attendanceDateType;
             })
-            
+
             this.attendanceIndex0 = this.typeAttendance[0];
             this.attendanceIndexi = this.typeAttendance.length;
             this.attendanceIndexiOf = this.typeAttendance[this.attendanceIndexi - 1];
@@ -365,9 +366,9 @@ export class AttendanceReportComponent implements OnInit {
       }
     }
   }
- 
+
   closeReportPopup() {
-    if(this.pagedPostData.length==0){
+    if (this.pagedPostData.length == 0) {
       this.addReportPopUp = false;
     }
     this.addReportPopUp = false;
@@ -380,8 +381,8 @@ export class AttendanceReportComponent implements OnInit {
     if (this.isProfessional) {
       this.pagedPostDataPro = this.getDataFromDataSource(startindex);
     }
-    else{
-    this.pagedPostData = this.getDataFromDataSource(startindex);
+    else {
+      this.pagedPostData = this.getDataFromDataSource(startindex);
     }
   }
 
@@ -447,32 +448,32 @@ export class AttendanceReportComponent implements OnInit {
   sortedData(ev) {
     console.log(ev);
   }
-  getColor(status){
-    switch(status){
+  getColor(status) {
+    switch (status) {
       case 'A': return 'red';
       case 'L': return 'blue';
     }
   }
-  DownloadJsonToCsv(getData){
+  DownloadJsonToCsv(getData) {
     console.log(this.attenTable);
-    
-    
-    var uri = 'data:application/vnd.ms-excel;base64,'
-    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
-    , base64 = function (s) { return window.btoa((encodeURIComponent(s))) }
-    , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
-    return function (table, name, filename) {
-        if (!table.nodeType) table = this.attenTable.nativeElement;
-        let ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
 
-        let xl = this.xlsDownloader.nativeElement;
-        
-        xl.setAttribute("href", 'ctx');
-        xl.setAttribute("download", name);
-        xl.click();
-        
+
+    var uri = 'data:application/vnd.ms-excel;base64,'
+      , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+      , base64 = function (s) { return window.btoa((encodeURIComponent(s))) }
+      , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+    return function (table, name, filename) {
+      if (!table.nodeType) table = this.attenTable.nativeElement;
+      let ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+
+      let xl = this.xlsDownloader.nativeElement;
+
+      xl.setAttribute("href", 'ctx');
+      xl.setAttribute("download", name);
+      xl.click();
+
     }
   }
-
+  
 
 }

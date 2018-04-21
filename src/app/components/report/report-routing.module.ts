@@ -10,6 +10,7 @@ import { FeeReportComponent } from './fee-report/fee-report.component';
 import { ProfitLossComponent } from './profit-loss/profit-loss.component';
 import { ReportCardComponent } from './report-card/report-card.component';
 import { TimeTableComponent } from './time-table/time-table.component';
+import {BiometricComponent} from './biometric/biometric.component';
 
 @NgModule({
     imports: [
@@ -32,12 +33,16 @@ import { TimeTableComponent } from './time-table/time-table.component';
                         component: AttendanceReportComponent
                     },
                     {
+                        path: 'biometric',
+                        component: BiometricComponent
+                    },
+                    {
                         path: 'sms',
                         component: SmsReportComponent
                     },
                     {
                         path: 'fee',
-                        component: FeeReportComponent 
+                        component: FeeReportComponent
                     },
                     {
                         path: 'exam',
