@@ -397,7 +397,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             this.updateFormData.walkin_followUpTime.minute = timeObj.minute;
           }
           this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
-          this.updateFormData.is_follow_up_time_notification = res.is_follow_up_time_notification;
+          this.updateFormData.followUpTime = res.followUpTime;
+          if(res.followUpTime != "" && res.followUpTime != null && res.followUpDate != null && res.followUpDate != ""){
+            this.updateFormData.is_follow_up_time_notification = true;
+          }else{
+            this.updateFormData.is_follow_up_time_notification = false;
+          }
           this.updateFormComments = res.comments;
           this.updateFormCommentsOn = res.commentedOn;
           this.updateFormCommentsBy = res.commentedBy;
