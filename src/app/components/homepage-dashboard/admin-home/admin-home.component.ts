@@ -1064,6 +1064,17 @@ export class AdminHomeComponent implements OnInit {
   }
 
   rescheduleClass() {
+
+    if (this.reschedReason == null || this.reschedReason == "") {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: 'Please provide reschedule reason'
+      }
+      this.appC.popToast(msg);
+      return;
+    }
+
     let check = this.checkIfTimeProvided(this.timepicker.reschedStartTime.hour);
     if (check) {
       let startTime = this.timepicker.reschedStartTime.hour.split(' ');
@@ -1389,6 +1400,15 @@ export class AdminHomeComponent implements OnInit {
   }
 
   cancelBatchClass() {
+    if (this.cancellationReason == "" || this.cancellationReason == null) {
+      let msg = {
+        type: 'error',
+        title: 'Cancellation Reason',
+        body: 'Please provide cancellation reason'
+      }
+      this.appC.popToast(msg);
+      return;
+    }
     let obj = {
       batch_id: this.classMarkedForAction.batch_id,
       cancelSchd: this.getCancelReason()
@@ -1397,7 +1417,7 @@ export class AdminHomeComponent implements OnInit {
       res => {
         let msg = {
           type: 'success',
-          title: 'Course Schedule Cancelled',
+          title: 'Batch Schedule Cancelled',
           body: 'The requested scheduled has been cancelled'
         }
         this.appC.popToast(msg);
