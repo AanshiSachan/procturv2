@@ -48,7 +48,7 @@ export class TemplateHomeComponent implements OnInit {
   additionalInstallment = {
     days: 0,
     day_type: 1,
-    fee_type: 0,
+    fee_type: -1,
     fees_amount: 0,
     initial_fee_amount: 0,
     is_referenced: 'N',
@@ -464,6 +464,15 @@ export class TemplateHomeComponent implements OnInit {
 
 
   addAdditionalInst() {
+    if(this.additionalInstallment.fee_type == -1){
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: "Please provide fee type"
+      }
+      this.appC.popToast(msg);
+      return;
+    }
     if (Number(this.additionalInstallment.initial_fee_amount) > 0 && this.additionalInstallment.days != null) {
       // this.additionalInstallment.fees_amount = this.additionalInstallment.initial_fee_amount;
       if (this.additionalInstallment.fees_amount == 0) {
@@ -481,7 +490,7 @@ export class TemplateHomeComponent implements OnInit {
       this.additionalInstallment = {
         days: 0,
         day_type: 1,
-        fee_type: 0,
+        fee_type: -1,
         fees_amount: 0,
         initial_fee_amount: 0,
         is_referenced: 'N',
