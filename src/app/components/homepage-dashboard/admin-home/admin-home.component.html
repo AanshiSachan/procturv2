@@ -1261,10 +1261,10 @@
                   </div>
                 </div>
 
-                <div class="" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor')">
-                  <button class="btn" (click)="sendSmsForApp('1')">Send SMS For App Download</button>
-                  <button class="btn" (click)="sendSmsForApp('2')">Send SMS For App Upgradation</button>
-                  <button class="btn" (click)="sendSmsForApp('3')">Send SMS For Alternate Login Registration</button>
+                <div class="row btn-loginGroup" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor')">
+                  <button class="btn" (click)="sendSmsForApp('1')">SMS For App Download</button>
+                  <button class="btn" (click)="sendSmsForApp('2')">SMS For App Upgradation</button>
+                  <button class="btn" (click)="sendSmsForApp('3')">SMS For Alternate Login Registration</button>
                   <button class="btn" (click)="sendSmsForApp('4')">Send Credentials</button>
                 </div>
 

@@ -40,7 +40,7 @@ export class ManageBatchComponent implements OnInit {
     batch_code: '',
     start_date: '',
     end_date: '',
-    is_active: false,
+    is_active: true,
   }
   PageIndex: number = 1;
   displayBatchSize: number = 10;
@@ -226,6 +226,11 @@ export class ManageBatchComponent implements OnInit {
       this.addNewBatch.end_date = moment(this.addNewBatch.end_date).format("YYYY-MM-DD");
     }
 
+    if (this.addNewBatch.teacher_id == "-1") {
+      this.messageToast('error', 'Error', 'Provide provide faculty name.');
+      return;
+    }
+
     if (this.addNewBatch.start_date > this.addNewBatch.end_date) {
       this.messageToast('error', 'Error', 'Provide valid details of Start Date.');
       return;
@@ -236,10 +241,8 @@ export class ManageBatchComponent implements OnInit {
       this.addNewBatch.is_active = 'N';
     }
     this.addNewBatch.is_exam_grad_feature = 0;
-    console.log(this.addNewBatch);
     this.apiService.addNewBatch(this.addNewBatch).subscribe(
       res => {
-        console.log(res);
         this.messageToast('success', 'Added Batch', "Successfully created batch.");
         this.clearFormData();
         this.getAllBatchesList();
@@ -252,7 +255,6 @@ export class ManageBatchComponent implements OnInit {
   }
 
   updateTableRow(rowDetails, index) {
-    this.isRippleLoad = true;
     let dataToSend: any = {
       batch_code: rowDetails.batch_code,
       batch_name: rowDetails.batch_name,
@@ -268,7 +270,8 @@ export class ManageBatchComponent implements OnInit {
       this.messageToast('error', 'Error', 'Provide valid dates.');
       return;
     }
-    if (!(dataToSend.end_date > this.editRowDetails.end_date)) {
+    let endDate = moment(this.editRowDetails.end_date).format("YYYY-MM-DD");
+    if (!(dataToSend.end_date >= endDate)) {
       this.messageToast('error', 'Error', 'Batch end date can only be extended.');
       return;
     }
@@ -276,18 +279,17 @@ export class ManageBatchComponent implements OnInit {
       this.messageToast('error', 'Error', 'Batch Code can not be greater than 4 digits.');
       return;
     }
+    this.isRippleLoad = true;
     this.apiService.updateDataToServer(dataToSend, rowDetails.batch_id).subscribe(
       data => {
-        console.log(data);
+        this.isRippleLoad = false;
         document.getElementById(("row" + index).toString()).classList.remove('editComp');
         document.getElementById(("row" + index).toString()).classList.add('displayComp');
         this.messageToast('success', 'Updated', 'Details Updated Successfully.');
         this.getAllBatchesList();
-        this.isRippleLoad = false;
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
         this.messageToast('error', 'Error', error.error.message);
       }
     )
