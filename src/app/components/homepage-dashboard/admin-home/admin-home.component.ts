@@ -908,7 +908,7 @@ export class AdminHomeComponent implements OnInit {
     let obj = {
       attendance_note: this.attendanceNote,
       date: moment(new Date()).format("YYYY-MM-DD"),
-      home_work_status: detail.home_work_status,
+      home_work_status: d.home_work_status,
       homework_assigned: this.homework,
       isStatusModified: "Y",
       is_home_work_status_changed: d.is_home_work_status_changed,

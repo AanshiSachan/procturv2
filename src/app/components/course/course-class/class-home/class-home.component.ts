@@ -308,15 +308,10 @@ export class ClassHomeComponent implements OnInit {
     if (this.batchData.standard_id == -1 && this.batchData.subject_id == -1 && this.batchData.batch_id == -1) {
       return true
     } else {
-      if (this.batchData.standard_id > 0) {
-        if (this.batchData.batch_id > 0) {
-          return true;
-        } else {
-          this.messageToast('error', 'Error', 'Please provide batch');
-          return false;
-        }
+      if (this.batchData.batch_id != -1) {
+        return true;
       } else {
-        this.messageToast('error', 'Error', 'Please select master course');
+        this.messageToast('error', 'Error', 'Please provide batch details');
         return false;
       }
     }
@@ -661,6 +656,8 @@ export class ClassHomeComponent implements OnInit {
   }
 
   onBatchMasterCourseSelection(event) {
+    this.batchData.subject_id = -1;
+    this.batchData.batch_id = -1;
     this.getCombinedData();
   }
 
