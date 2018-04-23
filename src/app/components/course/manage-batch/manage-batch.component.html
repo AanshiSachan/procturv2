@@ -127,16 +127,29 @@
       <div class="row" style="margin-top: 15px;">
         <div class="c-lg-6 c-sm-6 c-md-6">
           <div class="field-checkbox-wrapper">
-            <input type="checkbox" class="form-checkbox" [(ngModel)]="addNewBatch.is_active">
-            <label>Is Active</label>
+            <input type="checkbox" id="isActiveCH" name="isActiveCH" class="form-checkbox" [(ngModel)]="addNewBatch.is_active">
+            <label for="isActiveCH">Is Active</label>
           </div>
         </div>
+        <div class="c-lg-6 c-sm-6 c-md-6" *ngIf="examGradeFeature == '1'">
+          <div class="field-checkbox-wrapper">
+            <input id="enableChkBX" name="enableChkBX" type="checkbox" class="form-checkbox" [(ngModel)]="addNewBatch.is_exam_grad_feature">
+            <label for="enableChkBX">Enable Exam Grading System</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
         <div class="c-lg-6 c-sm-6 c-md-6">
-          <aside class="pull-left create-cancel-small ">
+
+        </div>
+        <div class="c-lg-6 c-sm-6 c-md-6">
+          <aside class="pull-left">
             <button class="btn fullBlue" (click)="addNewBatchToList()">Add</button>
           </aside>
         </div>
       </div>
+
 
     </section>
     <div id="" class="courses-list-table" style="margin-left: -15px">
@@ -373,7 +386,7 @@
           <div class="pull-right">
             <div class="search-filter-wrapper">
               <input #searchVal type="text" class="normal-field pull-right" placeholder="Search" style="font-size:12px;margin-right: 15px;"
-                id="searchStudent" name="searchData" (keyup)="searchStudent(searchVal) ">
+                id="searchStudent" name="searchData" [(ngModel)]="searchData">
             </div>
           </div>
         </div>
@@ -412,7 +425,7 @@
               </th>
             </thead>
             <tbody>
-              <tr id="row{{i}}" *ngFor="let row of studentList; let i = index; trackBy: i;">
+              <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
                 <td>
                   <div class="field-checkbox-wrapper">
                     <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned" (ngModelChange)="onCheckBoxClicked(row , $event , i)">

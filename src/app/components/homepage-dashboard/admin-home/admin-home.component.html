@@ -198,7 +198,7 @@
                               </div>
                             </li>
                             <li class="class_room">
-                              {{class.class_room_name}}                              
+                              {{class.class_room_name}}
                             </li>
                             <li class="batch">
                               <div>{{class.batch_name}}</div>
@@ -927,6 +927,12 @@
                   <button class="btn" style=" margin-top: 15px;" (click)="fetchDataFromFields()">Go</button>
                 </div> -->
 
+                <div *ngIf="studentList.length > 0" class="pull-right" style="margin-top: 15px">
+                  <div class="search-filter">
+                    <input type="text" [(ngModel)]="searchData" class="normal-field" placeholder="Search" name="searchData" #searchVal>
+                  </div>
+                </div>
+
               </div>
 
               <div class="row filter-section" *ngIf="!isProfessional">
@@ -1194,7 +1200,7 @@
                           <th class="dateSection">
                             Date
                           </th>
-                          <th>
+                          <th style="text-align: left">
                             Message
                           </th>
                         </tr>
