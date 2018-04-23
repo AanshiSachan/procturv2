@@ -399,7 +399,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -515,7 +515,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       }
       this.studentServerImage = data.photo;
       /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
-
+      debugger;
       this.updateStudentFeeDetails();
       this.isRippleLoad = false;
       /* For Batch Model Fetch the Student Batches */
@@ -542,11 +542,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 assignDate: el.created_date == "" ? moment().format('YYYY-MM-DD') : moment(el.created_date).format('YYYY-MM-DD')
               }
               this.batchList.push(obj);
-            }); 
+            });
             this.updateAssignedBatches(this.batchList);
           },
           err => {
-            let msg = err.message;
+            let msg = err.error.message;
             this.isRippleLoad = false;
             let obj = {
               type: 'error',
@@ -582,7 +582,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.updateAssignedBatches(this.batchList);
           },
           err => {
-            let msg = err.message;
+            let msg = err.error.message;
             this.isRippleLoad = false;
             let obj = {
               type: 'error',
@@ -658,6 +658,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   updateAssignedBatches(arr: any[]) {
     let batchString: any[] = [];
+    this.studentAddFormData.assignedBatches = [];
+    this.studentAddFormData.batchJoiningDates = [];
+    this.studentAddFormData.assignedBatchescademicYearArray = [""];
+    this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [""];
     let temp: any[] = [];
     let tempDate: any[] = [];
     arr.forEach(el => {
@@ -676,9 +680,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
           this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
         }
-      }
-      else {
-
       }
     });
     this.studentAddFormData.assignedBatches = temp;
@@ -971,7 +972,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.inventoryItemsArr = data;
       },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -1016,7 +1017,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         });
       },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -1426,7 +1427,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
         },
         err => {
-          let msg = err.message;
+          let msg = err.error.message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -1505,7 +1506,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         // console.log(this.slots);
       },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -1525,7 +1526,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.updateSlotsByStudent();
       },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -1693,7 +1694,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             });
           },
           err => {
-            let msg = err.message;
+            let msg = err.error.message;
             this.isRippleLoad = false;
             let obj = {
               type: 'error',
@@ -1744,7 +1745,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         }
       },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -2025,7 +2026,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.closeConfigureFees();
         },
         err => {
-          let msg = err.message;
+          let msg = err.error.message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -2453,7 +2454,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.addFeeOther.service_tax = el.fee_type_tax;
       },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -2855,7 +2856,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
         },
         err => {
-          let msg = err.message;
+          let msg = err.error.message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -2965,7 +2966,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
         },
         err => {
-          let msg = err.message;
+          let msg = err.error.message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -2993,7 +2994,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.studentAddedNotifier();
         },
         err => {
-          let msg = err.message;
+          let msg = err.error.message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -3136,7 +3137,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           }
         },
         err => {
-          let msg = err.message;
+          let msg = err.error.message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -3396,7 +3397,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.remove('editComp');
         },
         err => {
-          let msg = err.message;
+          let msg = err.error.message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -3418,7 +3419,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.chequePdcList.splice(i, 1);
         },
         err => {
-          let msg = err.message;
+          let msg = err.error.message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -3837,7 +3838,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               this.closePaymentDetails();
             },
             err => {
-              let msg = err.message;
+              let msg = err.error.message;
               this.isRippleLoad = false;
               let obj = {
                 type: 'error',
@@ -3958,7 +3959,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.closePaymentDetails();
           },
           err => {
-            let msg = err.message;
+            let msg = err.error.message;
             this.isRippleLoad = false;
             let obj = {
               type: 'error',
@@ -4102,7 +4103,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             },
             err => {
               this.isRippleLoad = false;
-              let msg = err.message;
+              let msg = err.error.message;
               this.isRippleLoad = false;
               let obj = {
                 type: 'error',
@@ -4230,7 +4231,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.closePartialPayment();
           },
           err => {
-            let msg = err.message;
+            let msg = err.error.message;
             this.isRippleLoad = false;
             let obj = {
               type: 'error',
@@ -4584,7 +4585,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.isDefineFees = false;
       },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',

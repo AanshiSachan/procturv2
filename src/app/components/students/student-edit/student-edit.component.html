@@ -256,12 +256,10 @@
 
                 <div id="assignCoursesParent" class="form-wrapper field-view" *ngIf="isAcad" (click)="openAssignBatch()">
                   <label (click)="openAssignBatch()" for="assignCourses">
-                    <a>Assign Courses</a>
                   </label>
 
                   <textarea style="height:107px;margin-left:-9px; background: #efefef;padding:5px;margin-top:0px" [ngModel]="assignedBatchString"
-                    name="assignCourses" class="form-ctrl" readonly="true"></textarea>
-
+                   placeholder="Assign Courses" name="assignCourses" class="form-ctrl" readonly="true"></textarea>
                 </div>
 
                 <!-- ================================================================= -->
@@ -319,8 +317,9 @@
                 </div>
 
                 <div id="assignCoursesParent" class="field-wrapper" *ngIf="isProfessional" (click)="openAssignBatch()" [ngClass]="{'has-value': assignedBatchString != ''}">
-                  <input type="text" [ngModel]="assignedBatchString" name="courseName" id="assignCourses" class="form-ctrl" readonly="true">
-                  <label (click)="openAssignBatch()" for="assignCourses">Assign Batch</label>
+                  <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" cols="1" rows="1"
+                   placeholder="Assign Batch" [ngModel]="assignedBatchString" id="assignCourses" class="form-ctrl" readonly="true"></textarea>
+                  <label (click)="openAssignBatch()" for="assignCourses"></label>
                 </div>
 
                 <!-- ================================================================= -->
