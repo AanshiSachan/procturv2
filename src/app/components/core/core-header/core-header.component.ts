@@ -21,6 +21,7 @@ export class CoreHeaderComponent implements OnInit {
 
     this.log.currentInstitute.subscribe(res => {
       this.instituteName = res;
+      this.updatePermissions();
     });
 
     this.log.currentUsername.subscribe(res => {
@@ -123,51 +124,47 @@ export class CoreHeaderComponent implements OnInit {
 
 
   hasEnquiryAccess(): boolean {
-    if (sessionStorage.getItem('permissions') == '') {
+    let permissionArray = sessionStorage.getItem('permissions');
+    if (permissionArray == "" || permissionArray == null) {
       return true;
-    }
+    } 
     else {
-      if (JSON.parse(sessionStorage.getItem('permissions')).includes('110') || JSON.parse(sessionStorage.getItem('permissions')).includes('115')) {
-        return true;
-      }
-      else {
-        return false;
-      }
+      let data = JSON.parse(permissionArray);
+      let id = 115;
+      let id2 = 110;
+      return (data.indexOf(id) == "-1" && data.indexOf(id2) == "-1")
     }
   }
 
 
   hasStudentAccess(): boolean {
-    if (sessionStorage.getItem('permissions') == '') {
+    let permissionArray = sessionStorage.getItem('permissions');
+    if (permissionArray == "" || permissionArray == null) {
       return true;
-    }
+    } 
     else {
-      if (JSON.parse(sessionStorage.getItem('permissions')).includes('301') || JSON.parse(sessionStorage.getItem('permissions')).includes('302') || JSON.parse(sessionStorage.getItem('permissions')).includes('303')) {
-        return true;
-      }
-      else {
-        return false;
-      }
+      let data = JSON.parse(permissionArray);
+      let id = 301;
+      let id2 = 303;
+      return (data.indexOf(id) == "-1" && data.indexOf(id2) == "-1")
     }
   }
 
   hasCourseAccess(): boolean {
-    if (sessionStorage.getItem('permissions') == '') {
+    let permissionArray = sessionStorage.getItem('permissions');
+    if (permissionArray == "" || permissionArray == null) {
       return true;
-    }
+    } 
     else {
-      if (JSON.parse(sessionStorage.getItem('permissions')).includes('402')) {
-        return true;
-      }
-      else {
-        return false;
-      }
+      let data = JSON.parse(permissionArray);
+      let id = 402;
+      return (data.indexOf(id) == "-1")
     }
   }
 
   updatePermissions() {
-    /* this.hasEnquiry = this.hasEnquiryAccess();
+    this.hasEnquiry = this.hasEnquiryAccess();
     this.hasStudent = this.hasStudentAccess();
-    this.hasClass = this.hasCourseAccess(); */
+    this.hasClass = this.hasCourseAccess();
   }
 }
