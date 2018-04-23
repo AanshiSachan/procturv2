@@ -203,6 +203,7 @@
                                     {{class.class_room_name}}
                                 </span>
                               </div>                              
+
                             </li>
                             <li class="batch">
                               <div>{{class.batch_name}}</div>
@@ -212,7 +213,7 @@
                             </li>
                           </ul>
                           <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">View Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
@@ -931,6 +932,12 @@
                   <button class="btn" style=" margin-top: 15px;" (click)="fetchDataFromFields()">Go</button>
                 </div> -->
 
+                <div *ngIf="studentList.length > 0" class="pull-right" style="margin-top: 15px">
+                  <div class="search-filter">
+                    <input type="text" [(ngModel)]="searchData" class="normal-field" placeholder="Search" name="searchData" #searchVal>
+                  </div>
+                </div>
+
               </div>
 
               <div class="row filter-section" *ngIf="!isProfessional">
@@ -1198,7 +1205,7 @@
                           <th class="dateSection">
                             Date
                           </th>
-                          <th>
+                          <th style="text-align: left">
                             Message
                           </th>
                         </tr>
@@ -1265,10 +1272,10 @@
                   </div>
                 </div>
 
-                <div class="" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor')">
-                  <button class="btn" (click)="sendSmsForApp('1')">Send SMS For App Download</button>
-                  <button class="btn" (click)="sendSmsForApp('2')">Send SMS For App Upgradation</button>
-                  <button class="btn" (click)="sendSmsForApp('3')">Send SMS For Alternate Login Registration</button>
+                <div class="row btn-loginGroup" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor')">
+                  <button class="btn" (click)="sendSmsForApp('1')">SMS For App Download</button>
+                  <button class="btn" (click)="sendSmsForApp('2')">SMS For App Upgradation</button>
+                  <button class="btn" (click)="sendSmsForApp('3')">SMS For Alternate Login Registration</button>
                   <button class="btn" (click)="sendSmsForApp('4')">Send Credentials</button>
                 </div>
 

@@ -612,9 +612,9 @@
                         {{row.note}}
                       </td>
                       <td>
-                        <a style="cursor:pointer" (click)="deleteFromCustomTable(row , index)">Delete</a>
-                        <a style="cursor:pointer" *ngIf="row.schd_id !='0'" (click)="notifyOfCustomClass(row , index)">Notify</a>
-                        <a style="cursor:pointer" *ngIf="row.schd_id !='0'" (click)="cancelClassOfCustomClass(row , index)">Cancel Class</a>
+                        <a style="cursor:pointer; margin-right: 5px" (click)="deleteFromCustomTable(row , index)">Delete</a>
+                        <a style="cursor:pointer; margin-right: 5px" *ngIf="row.schd_id !='0'" (click)="notifyOfCustomClass(row , index)">Notify</a>
+                        <a style="cursor:pointer;" *ngIf="row.schd_id !='0'" (click)="cancelClassOfCustomClass(row , index)">Cancel Class</a>
                       </td>
                     </tr>
                     <tr *ngIf="customTable.length == 0">
@@ -746,8 +746,8 @@
                             {{row.note}}
                           </td>
                           <td>
-                            <a style="cursor:pointer" *ngIf="row.schd_id != '0'" (click)="cancelExtraClassSchedule(row)">Cancel Class</a>
-                            <a style="cursor:pointer" *ngIf="row.schd_id != '0'" (click)="notifyExtraClassSchedule(row)">Notify</a>
+                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="cancelExtraClassSchedule(row)">Cancel</a>
+                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="notifyExtraClassSchedule(row)">Notify</a>
                             <a style="cursor:pointer" (click)="deleteExtraClassSchedule(row , index)">Delete</a>
                           </td>
                         </tr>
@@ -808,7 +808,7 @@
                           {{row.cancel_note}}
                         </td>
                         <td>
-                          <a style="cursor:pointer" (click)="notifyOfCancelClass(row)">Notify</a>
+                          <a style="cursor:pointer;margin-right: 5px" (click)="notifyOfCancelClass(row)">Notify</a>
                           <span>Last Notified</span> {{row.last_notify_sent_time}}
                         </td>
                       </tr>

@@ -89,7 +89,7 @@ export class TeacherAddComponent implements OnInit {
     formData.is_employee_to_be_create = "N";
     this.teacherAPIService.addNewTeacherDetails(formData).subscribe(
       data => {
-        this.messageToast('success', 'Updated', 'Details Updated Successfully.');
+        this.messageToast('success', 'Added', 'Faculty Added Successfully.');
         this.route.navigateByUrl('teacher');
       },
       err => {
