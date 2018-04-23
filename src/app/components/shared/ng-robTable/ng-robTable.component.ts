@@ -34,7 +34,8 @@ export class RobTableComponent implements OnChanges {
     selectedRow: number;
     rowSelectedCount: number = 0;
     rowSelectedId: any[] = [];
-    dummyArr: any[] = [0, 1, 2, 3, 4,];
+    /* Number of line for skeleton screen */
+    dummyArr: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     userIdArray: any = [];
     asc: boolean = false;
     caret = true;

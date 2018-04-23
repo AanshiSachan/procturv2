@@ -12,6 +12,7 @@ import { LoginService } from '../../../services/login-services/login.service';
 import { CampaignService } from '../../../services/campaign-services/campaign.service';
 import { addCampaign } from '../../../model/add-campaign';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import {AuthenticatorService} from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-campaign-bulk',
@@ -38,7 +39,7 @@ export class CampaignBulkComponent implements OnInit {
 
   isProfessional: boolean = false;
 
-  constructor(private fetchData: CampaignService, private router: Router, private login: LoginService, private appC: AppComponent, private prefill: FetchprefilldataService  ) { }
+  constructor(private fetchData: CampaignService, private router: Router, private login: LoginService, private appC: AppComponent, private prefill: FetchprefilldataService, private auth: AuthenticatorService) { }
 
   ngOnInit() {
 
@@ -81,7 +82,8 @@ export class CampaignBulkComponent implements OnInit {
 
   /* base64 data to be converted to xls file */
   downloadTemplate() {
-    window.open("http://test999.proctur.com/doc/lead_upload_form.xls", "_blank");
+    console.log(this.auth.getBaseUrl);
+    //window.open("http://test999.proctur.com/doc/lead_upload_form.xls", "_blank");
   }
 
   /* convert base64 string to byte array */

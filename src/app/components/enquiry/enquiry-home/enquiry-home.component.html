@@ -599,7 +599,8 @@
             <div class="clearfix">
               <aside class="pull-left popup-btn">
                 <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                <input type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
+                <input *ngIf="selectedRow.status != 12 && selectedRow.status != 1" type="button" value="Update & Register" class="fullBlue btn" (click)="updateRegisterEnquiry()">
+                <input *ngIf="selectedRow.status != 12 && selectedRow.status != 1" type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
               </aside>
             </div>
           </div>

@@ -198,7 +198,12 @@
                               </div>
                             </li>
                             <li class="class_room">
-                              {{class.class_room_name}}
+                              <div>
+                                <span>
+                                    {{class.class_room_name}}
+                                </span>
+                              </div>                              
+
                             </li>
                             <li class="batch">
                               <div>{{class.batch_name}}</div>
@@ -1295,8 +1300,6 @@
       </div>
     </div> -->
   </proctur-widget>
-
-  <!-- ///////////////View Details POP up //////////////////////////////////// -->
 
   <proctur-widget *ngIf="viewDetailsPopUp">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeViewDetailsPopUp()" close-button>

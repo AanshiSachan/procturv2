@@ -307,7 +307,7 @@
                   </div>
                 </div>
 
-                <div class="field-wrapper has-value" *ngIf="isProfessional">
+                <div class="field-wrapper has-value hide" *ngIf="isProfessional">
                   <select id="status" [(ngModel)]="studentAddFormData.language_inst_status" name="status" class="form-ctrl">
                     <option></option>
                     <option *ngFor="let status of langStatus" [value]="status.data_key" [attr.selected]="status.data_key == 'admitted' ? 
