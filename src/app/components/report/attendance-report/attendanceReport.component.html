@@ -90,12 +90,25 @@
 
                     <div class="c-lg-4 inner-main">
                         <div class="form-btn">
-                            <div class="c-lg-6 inner-btn">
-                                <button class="btn fullBlue" (click)="getPostData()">Summary Report</button>
+                            <div *ngIf="!isProfessional">
+                                <div class="c-lg-6 inner-btn">
+                                    <button class="btn fullBlue" (click)="getPostData()">Summary Report</button>
+                                </div>
                             </div>
-
-                            <div class="c-lg-6 outer-btn">
-                                <button class="btn fullBlue" (click)="postDetails()">Detail Report</button>
+                            <div *ngIf="isProfessional">
+                                <div class="c-lg-6 inner-btn">
+                                    <button class="btn fullBlue" (click)="getPostData()">Summary Report</button>
+                                </div>
+                            </div>
+                            <div *ngIf="isProfessional">
+                                <div class="c-lg-6 outer-btn">
+                                    <button class="btn fullBlue" (click)="postDetails()">Detail Report</button>
+                                </div>
+                            </div>
+                            <div *ngIf="!isProfessional">
+                                <div class="c-lg-6 outer-btn">
+                                    <button class="btn fullBlue" (click)="postDetails()">Detail Report</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -167,32 +180,31 @@
             <h5>({{attendanceIndex0Pro.class_date}} to {{attendanceIndexiOfPro.class_date}})</h5>
         </div>
         <div popup-content class="main-student-table" *ngIf=!isProfessional>
-            <button (click)="DownloadJsonToCsv(dateWiseAttendance)">excel</button>
-            <a id="xlsDownloader" #xlsDownloader>oo</a>
+            <a class="fa fa-file-excel-o" style="font-size:30px; padding-bottom:10px; float:right;display:inline-block;" (click)="DownloadJsonToCsv()"></a>
+            <a class="hide" #xlsDownloader></a>
+
             <div class="table table-responsive student-table">
                 <table #attendanceTable>
                     <thead>
                         <tr>
+
                             <th>
-                                Student Id
+                                Name/Id
+
                             </th>
-                            <th>
-                                Student Name
-                            </th>
-                                <th *ngFor="let k of i.typeAttendance">
-                                    {{k.class_date}}
-                                    <br> ({{k.start_time}}) to ({{k.end_time}})
-                                </th>
-                            
-                            <th>
-                                Total Present
+                            <th *ngFor="let k of typeAttendance">
+                                {{k.class_date | date:"dd/MMM"}}
                             </th>
 
                             <th>
-                                Total absent
+                                Present
+                            </th>
+
+                            <th>
+                                Absent
                             </th>
                             <th>
-                                Total leave
+                                Leave
                             </th>
 
                             <th>
@@ -203,11 +215,13 @@
                     <tbody>
 
                         <tr *ngFor="let i of pageDetailedData; let j=index">
-                            <td>
-                                {{i.student_id}}
-                            </td>
+
                             <td>
                                 {{i.student_name}}
+                                <br>
+                                <span style="font-color:blue; font-size:12px;">
+                                    <p style="color:blue;">{{i.student_id}}</p>
+                                </span>
                             </td>
 
                             <td *ngFor="let k of i.attendanceDateType" [style.color]="getColor(k.status)">
@@ -250,14 +264,14 @@
                     <thead>
                         <tr>
                             <th>
-                                Student Id
+                                Id
                             </th>
                             <th>
-                                Student Name
+                                Name
                             </th>
                             <th *ngFor="let k of typeAttendancePro">
-                                {{k.class_date}}
-                                <br> ({{k.start_time}}) to ({{k.end_time}})
+                                {{k.class_date | date:"dd/MMM"}}
+
                             </th>
                             <th>
                                 Total Present
