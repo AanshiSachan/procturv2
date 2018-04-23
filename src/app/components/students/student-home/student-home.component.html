@@ -387,7 +387,7 @@
             </div> -->
             <student-sidebar *ngIf="isSideBar" [rowData]="selectedRow" [customComponent]="studentCustomComponent" [studentDetails]="studentDetailsById"
                 (closeSide)="closeSideBar($event)" (editStudent)="editStudent($event)" (deleteStudent)="deleteStudentOpen($event)"
-                (leaveEvent)="markStudentLeave($event)" (editNotes)="openEditComment($event)" (pdcEdit)="editFeePDCDetails($event)">
+                (leaveEvent)="markStudentLeave($event)" (editNotes)="openEditComment($event)" (pdcEdit)="editFeePDCDetails($event)" (invEdit)="editInventory($event)">
             </student-sidebar>
         </div>
     </aside>

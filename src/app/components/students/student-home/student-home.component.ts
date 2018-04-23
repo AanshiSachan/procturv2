@@ -1139,6 +1139,12 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.router.navigate(['/student/edit/' + event]);
   }
 
+  editInventory(e){
+    sessionStorage.setItem('editInv', "true");
+    localStorage.setItem('studentId', e);
+    this.router.navigate(['/student/edit/' + e]);
+  }
+
   notifySelectedStudent() {
     this.isNotifyStudent = true;
     this.getAllMessageFromServer();

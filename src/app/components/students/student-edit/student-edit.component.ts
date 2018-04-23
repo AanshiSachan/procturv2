@@ -327,6 +327,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (sessionStorage.getItem('editPdc') != "" && sessionStorage.getItem('editPdc') != null) {
       this.switchToView('feeDetails-icon');
     }
+    if (sessionStorage.getItem('editInv') != "" && sessionStorage.getItem('editInv') != null) {
+      this.switchToView('inventory-icon');
+    }
+    
     this.updateStudentForm(this.route.snapshot.paramMap.get('id'));
   }
   /* ============================================================================================================================ */
@@ -455,6 +459,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   ngOnDestroy() {
     sessionStorage.setItem('editPdc', '');
+    sessionStorage.setItem('editInv', '');
+    
   }
   /* ============================================================================================================================ */
   /* Function to navigate through the Student Add Form on button Click Save/Submit*/
@@ -3107,7 +3113,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let msg = {
       type: 'success',
       title: 'Student Registered',
-      body: 'Student details have been updated to database'
+      body: 'Student details have been updated'
     }
     this.appC.popToast(msg);
     this.router.navigate(['/student']);
