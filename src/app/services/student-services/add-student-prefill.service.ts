@@ -126,7 +126,6 @@ export class AddStudentPrefillService {
   /* return the list of custom component for the selected institute ID */
   fetchEnquiryCC(id): Observable<any> {
     let url = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" + this.institute_id + "?id=" + id + "&isSearhable=undefined&page=1";
-    debugger;
     return this.http.get(url, { headers: this.headers })
       .map(
         data => {
@@ -146,7 +145,7 @@ export class AddStudentPrefillService {
 
   /* return the list of batch for students  */
   fetchBatchDetails(): Observable<any> {
-    this.urlBatchData = this.baseUrl + "/api/v1/batches/all/" + this.institute_id + "?active=Y"
+    this.urlBatchData = this.baseUrl + "/api/v1/batches/all/" + this.institute_id + "?active=Y&isFeeTemplates=Y"
 
     return this.http.get(this.urlBatchData, { headers: this.headers })
       .map(
@@ -339,7 +338,7 @@ export class AddStudentPrefillService {
   }
 
   fetchStudentBatchDetails(id): Observable<any> {
-    let urlBatchById = this.baseUrl + "/api/v1/studentBatchMap/" + id;
+    let urlBatchById = this.baseUrl + "/api/v1/studentBatchMap/" + id +"?isFeeTemplates=Y";
     return this.http.get(urlBatchById, { headers: this.headers }).map(
       res => {
         if (res != null) {

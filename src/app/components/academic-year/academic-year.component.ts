@@ -29,7 +29,7 @@ export class AcademicYearComponent implements OnInit {
     desc: "",
     start_date: "",
     end_date: "",
-    inst_id: this.auth.getInstituteId(),
+    inst_id: "",
     default_academic_year: 0
   }
 
@@ -43,11 +43,14 @@ export class AcademicYearComponent implements OnInit {
 
 
   ngOnInit() {
+    
     this.getAllAcademicFromServer();
     this.removeFullscreen();
     this.removeSelectionFromSideNav();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
+    this.addAcademicYearTemplate.inst_id = sessionStorage.getItem('institute_id');
+    
   }
 
 
@@ -86,8 +89,8 @@ export class AcademicYearComponent implements OnInit {
       this.appC.popToast(acad);
 
     }
-   
-    else if(moment(start_date_new).date() > moment(end_date_new).date()){
+
+    else if (moment(start_date_new).date() > moment(end_date_new).date()) {
       let msg = {
         type: "error",
         title: "Incorrect Details",
@@ -97,7 +100,7 @@ export class AcademicYearComponent implements OnInit {
 
     }
 
-    else if (moment(start_date_new).date() === moment(end_date_new).date() ){
+    else if (moment(start_date_new).date() == moment(end_date_new).date()) {
       {
         let acad = {
           type: "error",
@@ -139,9 +142,10 @@ export class AcademicYearComponent implements OnInit {
             desc: "",
             start_date: "",
             end_date: "",
-            inst_id: this.auth.getInstituteId(),
+            inst_id: this.addAcademicYearTemplate.inst_id,
             default_academic_year: 0
           }
+         
           this.toggleCreateNewAcademicYear();
           this.getAllAcademicFromServer();
         },
@@ -158,9 +162,6 @@ export class AcademicYearComponent implements OnInit {
     }
 
   }
-
-
-
   editRowTable(row, index) {
     document.getElementById(("row" + index).toString()).classList.remove('displayComp');
     document.getElementById(("row" + index).toString()).classList.add('editComp');
@@ -169,18 +170,9 @@ export class AcademicYearComponent implements OnInit {
   saveAcademicYearInformation(row2, index) {
     let start_date_new = row2.start_date
     let end_date_new = row2.end_date
-   
-    if (moment(start_date_new).date() === moment(end_date_new).date()){
 
-      let msg = {
-        type: "error",
-        title: "Incorrect Details",
-        body: "Start Date and End date should not be same"
-      }
-      this.appC.popToast(msg);
 
-    }
-    else if(moment(start_date_new).date() > moment(end_date_new).date()){
+    if (moment(start_date_new).date() > moment(end_date_new).date()) {
       let msg = {
         type: "error",
         title: "Incorrect Details",
@@ -207,7 +199,7 @@ export class AcademicYearComponent implements OnInit {
       }
       this.appC.popToast(acad);
     }
-    
+
     else {
 
       let data = {

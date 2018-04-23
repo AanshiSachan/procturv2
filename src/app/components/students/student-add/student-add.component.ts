@@ -347,35 +347,15 @@ export class StudentAddComponent implements OnInit {
         this.busyPrefill = this.getlangStudentStatus();
         this.convertToStudentDetected();
       }
-      this.busyPrefill = this.getSlots();
-      this.busyPrefill = this.getlangStudentStatus();
+      this.getSlots();
+      this.getlangStudentStatus();
 
-      this.studentPrefillService.fetchBatchDetails().subscribe(data => {
-        this.batchList = [];
-        data.forEach(el => {
-          if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
-            el.feeTemplateList.forEach(e => {
-              if (e.is_default == 1) {
-                el.selected_fee_template_id = e.template_id;
-              }
-            })
-          }
-          if (el.academic_year_id == '-1') {
-            el.academic_year_id = this.defaultAcadYear;
-          }
-          let obj = {
-            isSelected: false,
-            data: el,
-            assignDate: moment().format('YYYY-MM-DD')
-          }
-          this.batchList.push(obj);
-        });
-      });
+      this.updateBatchList();
     }
     else if (!this.isProfessional) {
       if (localStorage.getItem('studentPrefill') != null && localStorage.getItem('studentPrefill') != undefined) {
-        this.busyPrefill = this.getSlots();
-        this.busyPrefill = this.getlangStudentStatus();
+        this.getSlots();
+        this.getlangStudentStatus();
         this.convertToStudentDetected();
       }
       this.isRippleLoad = true;
@@ -404,6 +384,30 @@ export class StudentAddComponent implements OnInit {
     }
   }
 
+
+  updateBatchList(){
+    this.studentPrefillService.fetchBatchDetails().subscribe(data => {
+      this.batchList = [];
+      data.forEach(el => {
+        if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
+          el.feeTemplateList.forEach(e => {
+            if (e.is_default == 1) {
+              el.selected_fee_template_id = e.template_id;
+            }
+          })
+        }
+        if (el.academic_year_id == '-1') {
+          el.academic_year_id = this.defaultAcadYear;
+        }
+        let obj = {
+          isSelected: false,
+          data: el,
+          assignDate: moment().format('YYYY-MM-DD')
+        }
+        this.batchList.push(obj);
+      });
+    });
+  }
 
 
   /* Navigate or check for submission */
@@ -466,7 +470,7 @@ export class StudentAddComponent implements OnInit {
       }
     },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -714,7 +718,7 @@ export class StudentAddComponent implements OnInit {
         this.inventoryItemsArr = data;
       },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -731,7 +735,7 @@ export class StudentAddComponent implements OnInit {
         this.instituteList = data;
       },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -749,7 +753,7 @@ export class StudentAddComponent implements OnInit {
       this.standardList = data;
     },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -765,7 +769,7 @@ export class StudentAddComponent implements OnInit {
         this.pdcStatus = data;
       },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -787,7 +791,7 @@ export class StudentAddComponent implements OnInit {
         });
       },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -878,7 +882,7 @@ export class StudentAddComponent implements OnInit {
           this.isRippleLoad = false;
         },
         err => {
-          let msg = err.message;
+          let msg = err.error.message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -1116,7 +1120,8 @@ export class StudentAddComponent implements OnInit {
       }
       this.isRippleLoad = true;
       
-      this.studentAddFormData.enquiry_id = this.institute_enquiry_id;
+      this.studentAddFormData.enquiry_id = this.institute_enquiry_id; 
+      debugger;
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
           this.isRippleLoad = false;
@@ -1149,7 +1154,7 @@ export class StudentAddComponent implements OnInit {
           }
         },
         err => {
-          let msg = err.message;
+          let msg = err.error.message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -1240,7 +1245,7 @@ export class StudentAddComponent implements OnInit {
         // console.log(this.slots);
       },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -1260,7 +1265,7 @@ export class StudentAddComponent implements OnInit {
         this.langStatus = res;
       },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -1512,7 +1517,7 @@ export class StudentAddComponent implements OnInit {
           }
         },
         err => {
-          let msg = err.message;
+          let msg = err.error.message;
           this.isRippleLoad = false;
           let obj = {
             type: 'error',
@@ -1602,7 +1607,7 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.parent_name = this.enquiryData.parent_email;
     this.studentAddFormData.parent_phone = this.enquiryData.parent_name;
     this.studentAddFormData.parent_email = this.enquiryData.parent_phone;
-    this.institute_enquiry_id = this.enquiryData.enquiry_id;
+    this.institute_enquiry_id = this.enquiryData.institute_enquiry_id;
     this.studentAddFormData.enquiry_id = this.enquiryData.enquiry_id;
     this.fetchEnquiryCustomComponentDetails();
     localStorage.removeItem('studentPrefill');
@@ -1610,14 +1615,14 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   fetchEnquiryCustomComponentDetails() {
-    let id = this.enquiryData.institute_enquiry_id;
+    let id = this.institute_enquiry_id;
     this.studentPrefillService.fetchEnquiryCC(id).subscribe(
       res => {
         this.enquiryCustomComp = res;
         this.filterStudentCustomComp();
       },
       err => {
-        let msg = err.message;
+        let msg = err.error.message;
         this.isRippleLoad = false;
         let obj = {
           type: 'error',
@@ -2834,7 +2839,7 @@ export class StudentAddComponent implements OnInit {
     else{
       let amount = fee.initial_fee_amount;
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-        return this.precisionRound(((fee.tax / 100) * amount), -1);
+        return this.precisionRound(((fee.service_tax / 100) * amount), -1);
       }
       else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
         return 0;
@@ -4571,7 +4576,7 @@ export class StudentAddComponent implements OnInit {
             },
             err => {
               this.isRippleLoad = false;
-              let msg = err.message;
+              let msg = err.error.message;
               this.isRippleLoad = false;
               let obj = {
                 type: 'error',
@@ -4833,7 +4838,7 @@ export class StudentAddComponent implements OnInit {
               this.closePartialPayment();
             },
             err => {
-              let msg = err.message;
+              let msg = err.error.message;
               this.isRippleLoad = false;
               let obj = {
                 type: 'error',

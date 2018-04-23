@@ -37,6 +37,7 @@ import { ColumnSetting } from '../../shared/custom-table/layout.model';
 export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
+  isConvertToStudent: boolean;
   sortBy: string = 'followUpDateTime';
   /* =========================================================================== */
   /* =========================================================================== */
@@ -379,6 +380,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.cd.markForCheck();
       }
       else if (message == 'update') {
+        
         this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
           this.cd.markForCheck();
           this.updateFormData.priority = this.getPriority(res.priority);
@@ -2068,6 +2070,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /* =========================================================================== */
   /* =========================================================================== */
 
+  updateRegisterEnquiry(){
+    this.isConvertToStudent = true;
+    this.pushUpdatedEnquiry();
+  }
 
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
@@ -2110,8 +2116,26 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
               body: 'Your enquiry has been successfully submitted'
             }
             this.appC.popToast(msg);
-            this.closePopup();
-            this.busy = this.loadTableDatatoSource(this.instituteData);
+            if(this.isConvertToStudent){
+              let obj = {
+                name: this.selectedRow.name,
+                phone: this.selectedRow.phone,
+                email: this.selectedRow.email,
+                gender: this.selectedRow.gender,
+                dob: moment(this.selectedRow.dob).format("YYYY-MM-DD"),
+                parent_email: this.selectedRow.parent_email,
+                parent_name: this.selectedRow.parent_name,
+                parent_phone: this.selectedRow.parent_phone,
+                enquiry_id: this.selectedRow.institute_enquiry_id,
+                institute_enquiry_id : this.selectedRow.institute_enquiry_id
+              }
+              localStorage.setItem('studentPrefill', JSON.stringify(obj));
+              this.router.navigate(['student/add']);
+            }
+            else{
+              this.closePopup();
+              this.busy = this.loadTableDatatoSource(this.instituteData);
+            }
           },
           err => {
             this.isRippleLoad = false;

@@ -870,7 +870,8 @@ export class EnquiryAddComponent implements OnInit {
                   parent_email: this.newEnqData.parent_email,
                   parent_name: this.newEnqData.parent_name,
                   parent_phone: this.newEnqData.parent_phone,
-                  enquiry_id: instituteEnqId
+                  enquiry_id: instituteEnqId,
+                  institute_enquiry_id : instituteEnqId
                 }
                 localStorage.setItem('studentPrefill', JSON.stringify(obj));
                 this.router.navigate(['student/add']);

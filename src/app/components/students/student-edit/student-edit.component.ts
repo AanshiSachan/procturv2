@@ -523,8 +523,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         /* Fetching the student Slots */
         this.getSlots();
         this.studentPrefillService.fetchStudentBatchDetails(id).subscribe(
-          res => {
-            res.forEach(el => {
+          data => {
+            this.batchList = [];
+            data.forEach(el => {
               if (el.feeTemplateList != null && el.feeTemplateList.length != 0 && el.selected_fee_template_id == -1) {
                 el.feeTemplateList.forEach(e => {
                   if (e.is_default == 1) {
@@ -541,7 +542,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
                 assignDate: el.created_date == "" ? moment().format('YYYY-MM-DD') : moment(el.created_date).format('YYYY-MM-DD')
               }
               this.batchList.push(obj);
-            });
+            }); 
             this.updateAssignedBatches(this.batchList);
           },
           err => {
@@ -665,6 +666,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           temp.push(el.data.batch_id.toString());
           tempDate.push(moment(el.assignDate).format('YYYY-MM-DD'));
           batchString.push(el.data.batch_name);
+          this.studentAddFormData.assignedBatchescademicYearArray.push(el.data.academic_year_id);
+          this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.push(el.data.selected_fee_template_id);
         }
         else {
           temp.push(el.data.course_id.toString());
@@ -938,6 +941,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getTaxAmounted(fee) {
+
     if (fee.fee_type_name == "INSTALLMENT") {
       let amount = fee.initial_fee_amount;
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
@@ -950,7 +954,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     else {
       let amount = fee.initial_fee_amount;
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-        return this.precisionRound(((fee.tax / 100) * amount), -1);
+        return this.precisionRound(((fee.service_tax / 100) * amount), -1);
       }
       else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
         return 0;
@@ -1658,7 +1662,11 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     else {
       /* Fetch Course Mapped to Master Course */
       if (this.isProfessional) {
-
+        this.studentPrefillService.fetchCourseList(id).subscribe(
+          res => {
+            this.courseList = res;
+          }
+        )
       }
       /* fetch batch details */
       else {

@@ -251,7 +251,7 @@ $color-highlight: lighten($color-base, 7%);
             li {
                 width: 15%;
                 padding: 10px 10px 0px;
-                text-transform: uppercase;
+                text-transform: capitalize;
                 color: black;
                 font-size: 12px;
                 &:first-child{

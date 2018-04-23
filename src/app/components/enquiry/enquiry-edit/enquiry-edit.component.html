@@ -332,7 +332,8 @@
         </div>
         <aside class="pull-right">
           <input type="button" value="Cancel" class="btn cancle" (click)="clearLocalAndRoute()">
-          <input type="button" value="Submit" [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitForm()">
+          <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" style="display: inline-block;" type="button" value="Save & Register Enquiry" [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitRegisterForm()">
+          <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" type="button" value="Save Enquiry" [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitForm()">
         </aside>
       </section>
 
@@ -491,7 +492,7 @@
                 <div class="clearfix">
                   <aside class="pull-right popup-btn">
                     <input type="button" value="Cancel" class="btn" (click)="commentHandlerClose()">
-                    <input type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
+                    <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
                   </aside>
                 </div>
               </div>
