@@ -2909,6 +2909,10 @@ export class StudentAddComponent implements OnInit {
           this.userCustommizedFee = res.customFeeSchedules;
           this.discountReason = res.discount_fee_reason;
           this.userCustommizedFee.forEach(el => {
+
+            el.fees_amount = this.precisionRound(el.fees_amount, -1);
+            el.initial_fee_amount = this.precisionRound(el.initial_fee_amount, -1);
+
             el.due_date = moment(el.due_date).format("YYYY-MM-DD");
 
             /* Taxes Here */

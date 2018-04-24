@@ -1215,18 +1215,18 @@
                 </li>
                 <li [ngClass]="{'hide': taxEnableCheck == '0'}">
                   <div class="form-wrapper disable">
-                    <input type="number" class="form-ctrl" readonly="true" name="amt" [ngModel]="updateInitialAmount(fee.fees_amount, i)">
+                    <input type="text" OnlyNumber="true" class="form-ctrl" readonly="true" name="amt" [ngModel]="updateInitialAmount(fee.fees_amount, i)">
                   </div>
                 </li>
                 <li [ngClass]="{'hide': taxEnableCheck == '0'}">
                   <div class="form-wrapper disable">
-                    <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getTaxedAmount(fee.initial_fee_amount, fee.service_tax_applicable, i)">
+                    <input type="text" OnlyNumber="true" class="form-ctrl" readonly="true" name="tax" [ngModel]="getTaxedAmount(fee.initial_fee_amount, fee.service_tax_applicable, i)">
                   </div>
                 </li>
                 <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
                   <div class="form-wrapper" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
-                    <input *ngIf="fee.is_referenced == 'Y'" readonly="true" type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount">
-                    <input *ngIf="fee.is_referenced == 'N'" type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
+                    <input *ngIf="fee.is_referenced == 'Y'" readonly="true" type="text" OnlyNumber="true" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount">
+                    <input *ngIf="fee.is_referenced == 'N'" type="text" OnlyNumber="true" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
                   </div>
                 </li>
                 <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
@@ -1270,13 +1270,13 @@
               <li>
                 <div class="form-wrapper">
                   <label for="amt">Amount</label>
-                  <input type="number" class="form-ctrl" [(ngModel)]="addFeeOther.initial_fee_amount" name="amt">
+                  <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="addFeeOther.initial_fee_amount" name="amt">
                 </div>
               </li>
               <li>
                 <div class="form-wrapper">
                   <label for="taxamt">Tax</label>
-                  <input style="background: #dddddd;" type="number" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax" name="taxamt">
+                  <input style="background: #dddddd;" type="text" OnlyNumber="true" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax" name="taxamt">
                 </div>
               </li>
               <li>
@@ -1309,18 +1309,18 @@
                 </li>
                 <li>
                   <div class="form-wrapper">
-                    <input type="number" class="form-ctrl" name="amt" [(ngModel)]="fee.initial_fee_amount">
+                    <input type="text" OnlyNumber="true" class="form-ctrl" name="amt" [(ngModel)]="fee.initial_fee_amount">
                   </div>
                 </li>
                 <li class="tax">
                   <div class="form-wrapper">
-                    <input type="number" class="form-ctrl" readonly="true" name="tax" [ngModel]="getOtherTaxes(fee.initial_fee_amount, fee.service_tax, i)">
+                    <input type="text" OnlyNumber="true" class="form-ctrl" readonly="true" name="tax" [ngModel]="getOtherTaxes(fee.initial_fee_amount, fee.service_tax, i)">
                   </div>
                 </li>
                 <li>
                   <div class="form-wrapper" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
-                    <input *ngIf="fee.is_referenced == 'Y'" readonly="true" type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount">
-                    <input *ngIf="fee.is_referenced == 'N'" type="number" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, fee.service_tax,i)">
+                    <input *ngIf="fee.is_referenced == 'Y'" readonly="true" type="text" OnlyNumber="true" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount">
+                    <input *ngIf="fee.is_referenced == 'N'" type="text" OnlyNumber="true" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount" (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, fee.service_tax,i)">
                   </div>
                 </li>
                 <li>

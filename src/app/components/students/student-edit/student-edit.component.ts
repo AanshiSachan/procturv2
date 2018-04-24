@@ -788,7 +788,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.paymentStatusArr = [];
         this.isRippleLoad = false;
         if (res.customFeeSchedules != null) {
-
           res.customFeeSchedules = this.uniqueConvertFeeJson(res.customFeeSchedules);
           this.totalAmountPaid = res.studentwise_total_fees_amount;
           this.service_tax = res.registeredServiceTax;
@@ -808,6 +807,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.userCustommizedFee = res.customFeeSchedules;
           this.discountReason = res.discount_fee_reason;
           this.userCustommizedFee.forEach(el => {
+
+            el.fees_amount = this.precisionRound(el.fees_amount, -1);
+            el.initial_fee_amount = this.precisionRound(el.initial_fee_amount, -1);
+
             el.due_date = moment(el.due_date).format("YYYY-MM-DD");
 
             /* Taxes Here */
@@ -1044,8 +1047,8 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
     if (inventory != null && institute != null && standard != null) {
       let customComp = this.studentPrefillService.fetchCustomComponentById(this.student_id).subscribe(data => {
-        data.forEach(el => {
 
+        data.forEach(el => {
           let obj = {
             data: el,
             id: el.component_id,
@@ -1073,7 +1076,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             }
           }
           if (el.type == 3) {
-
             obj = {
               data: el,
               id: el.component_id,
@@ -1099,7 +1101,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               selected: [],
               selectedString: '',
               type: el.type,
-              value: el.enq_custom_value == "" ? false : true,
+              value: this.getCustomComponentCheckboxValue(el.enq_custom_value),
             }
           }
           else if (el.type != 2 && el.type != 4 && el.type != 3) {
@@ -1125,6 +1127,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     }
   }
   /* ============================================================================================================================ */
+  getCustomComponentCheckboxValue(e): boolean{
+    if(e == 'Y'){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getAllocatedUnits(obj): number {

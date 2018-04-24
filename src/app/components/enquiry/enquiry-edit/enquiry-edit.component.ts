@@ -504,7 +504,7 @@ export class EnquiryEditComponent implements OnInit {
                 selected: [],
                 selectedString: '',
                 type: el.type,
-                value: el.enq_custom_value == "" ? false : true,
+                value: el.enq_custom_value == "Y" ? true : false,
               }
             }
             else if (el.type != 2 && el.type != 4 && el.type != 3) {
