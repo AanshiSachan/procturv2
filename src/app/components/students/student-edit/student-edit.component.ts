@@ -330,7 +330,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     if (sessionStorage.getItem('editInv') != "" && sessionStorage.getItem('editInv') != null) {
       this.switchToView('inventory-icon');
     }
-    
+
     this.updateStudentForm(this.route.snapshot.paramMap.get('id'));
   }
   /* ============================================================================================================================ */
@@ -460,7 +460,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     sessionStorage.setItem('editPdc', '');
     sessionStorage.setItem('editInv', '');
-    
+
   }
   /* ============================================================================================================================ */
   /* Function to navigate through the Student Add Form on button Click Save/Submit*/
@@ -545,7 +545,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               let obj = {
                 isSelected: el.isAssigned == "Y" ? true : false,
                 data: el,
-                assignDate: el.created_date == "" ? moment().format('YYYY-MM-DD') : moment(el.created_date).format('YYYY-MM-DD')
+                assignDate: this.getAssignDate(el.created_date)
               }
               this.batchList.push(obj);
             });
@@ -581,7 +581,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               let obj = {
                 isSelected: el.isAssigned == "Y" ? true : false,
                 data: el,
-                assignDate: el.created_date == "" ? moment().format('YYYY-MM-DD') : moment(el.created_date).format('YYYY-MM-DD')
+                assignDate: this.getAssignDate(el.created_date)
               }
               this.batchList.push(obj);
             });
@@ -601,6 +601,14 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     });
   }
   /* ============================================================================================================================ */
+  getAssignDate(e): string {
+    if (e == '' || e == null) {
+      return moment().format('YYYY-MM-DD')
+    }
+    else {
+      return moment(e).format('YYYY-MM-DD')
+    }
+  }
   /* ============================================================================================================================ */
   getBatchSelected(i) {
     return this.batchList[i].isSelected;
@@ -1694,7 +1702,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               let obj = {
                 isSelected: el.isAssigned == "Y" ? true : false,
                 data: el,
-                assignDate: el.created_date == "" ? moment().format('YYYY-MM-DD') : moment(el.created_date).format('YYYY-MM-DD')
+                assignDate: this.getAssignDate(el.created_date)
               }
               this.batchList.push(obj);
             });
