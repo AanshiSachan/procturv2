@@ -347,9 +347,9 @@
           <div style="display: inline-block;" class="field-checkbox-wrapper">
             <input type="checkbox" value="" [(ngModel)]="addNextCheck" class="form-checkbox" id="addNextEnquiry" name="addNextEnquiry">
             <label for="addNextEnquiry">Add Next Enquiry</label>
-          </div>
+          </div> 
           <input style="display: inline-block;" type="button" value="Cancel" class="btn cancle" routerLink="/enquiry">
-          <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" style="display: inline-block;" type="button" value="Add & Register Enquiry" [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitRegisterForm()">
+          <input *ngIf="newEnqData.status != 12 && newEnqData.status != 1" style="display: inline-block;" type="button" value="Add & Register Enquiry" [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitRegisterForm()">
           <input style="display: inline-block;" type="button" value="Add Enquiry" [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitForm(myForm)">
         </aside>
       </section>
