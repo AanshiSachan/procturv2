@@ -2667,7 +2667,9 @@ export class StudentAddComponent implements OnInit {
     this.totalFeePaid = 0;
 
     this.userCustommizedFee.forEach(el => {
-
+      el.fees_amount = parseInt(el.fees_amount);
+      el.initial_fee_amount = parseInt(el.initial_fee_amount);
+      
       if (el.due_date == "Invalid date" || el.due_date == "null") {
         el.due_date = moment(new Date(el.due_date)).format("YYYY-MM-DD");
       }

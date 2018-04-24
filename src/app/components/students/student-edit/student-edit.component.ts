@@ -4516,7 +4516,9 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
     this.userCustommizedFee.forEach(el => {
       el.due_date = moment(el.due_date).format("YYYY-MM-DD");
-
+      el.fees_amount = parseInt(el.fees_amount);
+      el.initial_fee_amount = parseInt(el.initial_fee_amount);
+      
       /* Taxes Here */
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         if (el.fee_type_name == "INSTALLMENT") {
