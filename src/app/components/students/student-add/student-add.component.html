@@ -556,7 +556,7 @@
                 <div class="purple">
                   <span *ngIf="userCustommizedFee.length == 0">NA</span>
                   <span *ngIf="userCustommizedFee.length != 0 ">&#8377; {{totalDicountAmount | commaSeprator}}</span>
-                  <a *ngIf="userCustommizedFee.length != 0" (click)="openDiscountApply()">Add more</a>
+                  <a *ngIf="totalAmountDue != 0" (click)="openDiscountApply()">Add</a>
                 </div>
               </li>
               <li>
