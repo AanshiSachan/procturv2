@@ -1096,7 +1096,7 @@ export class EnquiryEditComponent implements OnInit {
 
   onCitySelctionChanges(event) {
     this.areaListDataSource = [];
-    if (event != -1) {
+    if (event != -1 && event != "" && event != null) {
       let obj = {
         city: event
       }
