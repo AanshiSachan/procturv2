@@ -464,7 +464,7 @@ export class TemplateHomeComponent implements OnInit {
 
 
   addAdditionalInst() {
-    if(this.additionalInstallment.fee_type == -1){
+    if (this.additionalInstallment.fee_type == -1) {
       let msg = {
         type: 'error',
         title: 'Error',
@@ -557,9 +557,9 @@ export class TemplateHomeComponent implements OnInit {
 
   feeTypesAmountChnge(data) {
     if (data.service_tax == 0) {
-      data.initial_fee_amount = data.fees_amount;
+      data.initial_fee_amount = Math.floor(Number(data.fees_amount));
     } else {
-      data.initial_fee_amount = Number(data.fees_amount) - Number((data.fees_amount * data.service_tax) / 100);
+      data.initial_fee_amount = Math.floor(Number(data.fees_amount)) - Math.floor(Number(data.fees_amount) - Number((data.fees_amount * 100) / (100 + data.service_tax)));
       data.initial_fee_amount = Math.floor(data.initial_fee_amount);
     }
     this.calculateTotalAmount();
