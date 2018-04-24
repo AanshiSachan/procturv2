@@ -416,23 +416,24 @@ export class FeeTemplateAddComponent implements OnInit {
 
   userChangedAmountTotalAmount(data, event) {
     if (data.service_tax_applicable == "Y") {
-      data.tax = data.totalAmount - Math.floor(Number(data.totalAmount) * 100 / (100 + this.feeStructure.registeredServiceTax));
-      data.initial_fee_amount = data.totalAmount - data.tax;
+      data.tax = Math.floor(data.totalAmount - Math.floor(Number(data.totalAmount) * 100 / (100 + this.feeStructure.registeredServiceTax)));
+      data.initial_fee_amount = Math.floor(Number(data.totalAmount - data.tax));
     } else {
-      data.initial_fee_amount = data.totalAmount;
+      data.initial_fee_amount = Math.floor(Number(data.totalAmount));
       data.tax = 0;
     }
   }
 
   userChangeAdditionalFeeAmount(data, event) {
+    let input = Math.floor(Number(event.currentTarget.value))
     if (data.service_tax > 0) {
-      let tax = Number(event.currentTarget.value) * 0.01 * data.service_tax;
-      data.initial_fee_amount = Math.floor(Number(event.currentTarget.value) - tax);
-      if (Number(data.initial_fee_amount + tax) != Number(event.currentTarget.value)) {
-        data.initial_fee_amount = data.initial_fee_amount + Number(event.currentTarget.value) - Number(data.initial_fee_amount + tax);
+      let tax = Math.floor(input * 0.01 * data.service_tax);
+      data.initial_fee_amount = Math.floor(input - tax);
+      if (Number(data.initial_fee_amount + tax) != input) {
+        data.initial_fee_amount = Math.floor(data.initial_fee_amount + input - Number(data.initial_fee_amount + tax));
       }
     } else {
-      data.initial_fee_amount = Number(event.currentTarget.value);
+      data.initial_fee_amount = input;
       data.tax = 0;
     }
   }
