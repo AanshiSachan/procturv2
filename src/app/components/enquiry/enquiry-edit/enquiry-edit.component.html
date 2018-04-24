@@ -88,10 +88,10 @@
                   </div>
 
                   <!-- city -->
-                  <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.city != -1}">
+                  <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.city != ''}">
                     <select id="cityDdn" class="form-ctrl" [(ngModel)]="editEnqData.city" (ngModelChange)="onCitySelctionChanges($event)" name="city">
                       <option value="-1"></option>
-                      <option *ngFor="let city of cityListDataSource" [value]="city.id">{{city.city}}</option>
+                      <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
                     </select>
                     <label for="cityDdn">City
                       <span *ngIf="isCityMandatory == 1">*</span>
@@ -99,10 +99,10 @@
                   </div>
 
                   <!-- area -->
-                  <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.area != -1}">
+                  <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.area != ''}">
                     <select id="areaDdn" class="form-ctrl" [(ngModel)]="editEnqData.area" name="area">
                       <option value="-1"></option>
-                      <option *ngFor="let area of areaListDataSource" [value]="area.id">{{area.area}}</option>
+                      <option *ngFor="let area of areaListDataSource" [value]="area.area">{{area.area}}</option>
                     </select>
                     <label for="areaDdn">Area
                     </label>
