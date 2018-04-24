@@ -1132,7 +1132,7 @@ export class StudentAddComponent implements OnInit {
             let msg = {
               type: 'success',
               title: 'Student Registered',
-              body: 'Student details have been updated to database'
+              body: 'Student details Updated'
             }
             this.appC.popToast(msg);
             if (this.studentAddnMove) {
@@ -1982,7 +1982,10 @@ export class StudentAddComponent implements OnInit {
           this.isFeeApplied = true;
           this.discountReason = "";
           res.customFeeSchedules.forEach(el => {
-            el.due_date = new Date(el.due_date);
+            if(el.due_date == null){
+              el.due_date = moment(new Date()).format("YYYY-MM-DD");
+            }
+ 
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
               if (el.fee_type_name == "INSTALLMENT") {
@@ -2014,6 +2017,12 @@ export class StudentAddComponent implements OnInit {
           this.splitCustomizedFee();
           this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
           this.updateTableInstallment();
+
+          this.instalmentTableData.forEach(e => {
+            if(e.due_date == null){
+              e.due_date = moment(new Date()).format("YYYY-MM-DD");
+            }
+          })
           this.closeConfigureFees();
         },
         err => {
@@ -2028,14 +2037,12 @@ export class StudentAddComponent implements OnInit {
     }
     /* fee id not found */
     else if ((this.feeTempSelected == "" || this.feeTempSelected == null)) {
-
       let msg = {
         type: 'error',
         title: 'No Template Selected',
         body: 'Please select a template from dropdown list'
       }
       this.appC.popToast(msg);
-
     }
     /* date invalid not selected */
     else if (dd == "" || dd == null || dd == "Invalid date") {
@@ -2046,9 +2053,16 @@ export class StudentAddComponent implements OnInit {
       }
       this.appC.popToast(msg);
     }
-    //this.studentPrefillService.getFeeStructureById(this.feeTempSelected, this.feeStructureForm);
   }
   /* ============================================================================================================================ */
+  updateInstallmentTableDate(e, i){
+    if(e == null || e == "Invalid date"){
+      this.instalmentTableData[i].due_date = moment().format("YYYY-MM-DD");
+    }
+    else{
+      this.instalmentTableData[i].due_date = moment(e).format("YYYY-MM-DD");
+    }
+  }
   /* ============================================================================================================================ */
   paymentValueUpdate(bol, id) {
     if (bol) {
@@ -2636,6 +2650,9 @@ export class StudentAddComponent implements OnInit {
     this.instalmentTableData = [];
     this.otherFeeTableData = [];
     this.feeTemplateById.customFeeSchedules.forEach(el => {
+      if(el.due_date == null){
+        el.due_date = moment(new Date()).format("YYYY-MM-DD");
+      }
       if (el.fee_type_name === "INSTALLMENT") {
         this.instalmentTableData.push(el);
       }
@@ -2657,6 +2674,7 @@ export class StudentAddComponent implements OnInit {
     for (var i = 0; i < this.otherFeeTableData.length; i++) {
       this.otherFeeTableData[i].installment_no = this.instalmentTableData.length + i + 1;
     }
+
     this.userCustommizedFee = [];
     this.userCustommizedFee = this.instalmentTableData.concat(this.otherFeeTableData);
     this.totalTaxAmount = 0;
@@ -2669,9 +2687,8 @@ export class StudentAddComponent implements OnInit {
     this.userCustommizedFee.forEach(el => {
       el.fees_amount = parseInt(el.fees_amount);
       el.initial_fee_amount = parseInt(el.initial_fee_amount);
-      
       if (el.due_date == "Invalid date" || el.due_date == "null") {
-        el.due_date = moment(new Date(el.due_date)).format("YYYY-MM-DD");
+        el.due_date = moment(new Date()).format("YYYY-MM-DD");
       }
       else if (el.due_date != "Invalid date" && el.due_date != "null") {
         el.due_date = moment(el.due_date).format("YYYY-MM-DD");
@@ -2762,6 +2779,7 @@ export class StudentAddComponent implements OnInit {
 
     this.postService.allocateStudentFees(obj).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.splitCustomizedFee();
         this.updateStudentFeeDetails();
         this.userHasFees = true;
@@ -2776,6 +2794,7 @@ export class StudentAddComponent implements OnInit {
           body: ""
         }
         this.appC.popToast(obj);
+        this.isRippleLoad = false;
       }
     );
   }
@@ -3034,6 +3053,7 @@ export class StudentAddComponent implements OnInit {
     this.instalmentTableData = [];
     this.otherFeeTableData = [];
     arr.forEach(el => {
+      el.due_date = new Date(el.due_date);
       if (el.fee_type_name === "INSTALLMENT") {
         this.instalmentTableData.push(el);
       }

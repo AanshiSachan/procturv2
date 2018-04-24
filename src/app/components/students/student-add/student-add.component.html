@@ -1202,12 +1202,12 @@
               <li [ngClass]="{'bigger': taxEnableCheck == '0'}">Action</li>
             </ul>
             <div class="table-data">
-              <ul class="table-row" *ngFor="let fee of instalmentTableData| orderBy: key : reverse; let i = index;">
+              <ul class="table-row" *ngFor="let fee of instalmentTableData; let i = index;">
                 <li [ngClass]="{'bigger': taxEnableCheck == '0'}">{{i+1}}</li>
                 <li class="date">
                   <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'N'">
                     <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="sortTableByDate(i)"
-                      [(ngModel)]="fee.due_date" readonly="true" bsDatepicker>
+                      [ngModel]="fee.due_date" (ngModelChange)="updateInstallmentTableDate($event, i)" readonly="true" bsDatepicker>
                   </div>
                   <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'Y'">
                     <label style="padding: 5px;float: left;text-align: left;">{{fee.due_date | date: "dd-MMM-yyyy"}}</label>

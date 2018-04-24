@@ -4480,6 +4480,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.instalmentTableData = [];
     this.otherFeeTableData = [];
     this.feeTemplateById.customFeeSchedules.forEach(el => {
+      el.due_date = new Date(el.due_date);
       if (el.fee_type_name === "INSTALLMENT") {
         this.instalmentTableData.push(el);
       }
@@ -4518,7 +4519,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       el.due_date = moment(el.due_date).format("YYYY-MM-DD");
       el.fees_amount = parseInt(el.fees_amount);
       el.initial_fee_amount = parseInt(el.initial_fee_amount);
-      
+
       /* Taxes Here */
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         if (el.fee_type_name == "INSTALLMENT") {
