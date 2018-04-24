@@ -66,6 +66,31 @@ export class TeacherListComponent implements OnInit {
     this.route.navigateByUrl('teacher/view');
   }
 
+  deleteTeacherDeatils(row){
+    if (confirm("Are you sure, you want to delete this teacher?")){
+      this.ApiService.deleteTeacher(row.teacher_id).subscribe(
+        res => {
+          let data = {
+            type: "success",
+            title: "Deleted",
+            body: "Faculty Deleted Successfully"
+          }
+          this.toastCtrl.popToast(data);
+          this.getDataFromServer();
+        },
+        err => {
+          console.log(err);
+          let data = {
+            type: "error",
+            title: "Error",
+            body: err.error.message
+          }
+          this.toastCtrl.popToast(data);
+        }
+      )
+    }
+  }
+
   searchTeacher(searchVal) {
     if (searchVal.value != "" && searchVal.value != null) {
       let searchData = this.teacherListDataSource.filter(item =>
