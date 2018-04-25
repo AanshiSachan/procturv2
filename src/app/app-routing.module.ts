@@ -76,6 +76,12 @@ import { CityAreaMapComponent } from './components/city-area-map/city-area-map.c
                     loadChildren: 'app/components/campaign/campaign.module#CampaignModule',
                     canLoad: [AuthGuard]
                 },
+
+                {
+                    path: 'event',
+                    loadChildren:'app/components/event-home/event-home.module',
+                    canLoad:[AuthGuard]
+                },
                 {
                     path: 'exams',
                     loadChildren: 'app/components/exam-home/exam-home.module#ExamHomeModule',

@@ -4,10 +4,15 @@ import { ExamService } from '../../../services/report-services/exam.service';
 import { AppComponent } from '../../../app.component';
 import { FilterPipe } from './filter.pipe';
 import { lang } from 'moment';
+import {ViewChild} from '@angular/core';
+
+import {ElementRef,Directive} from '@angular/core';
+
 @Component({
   selector: 'app-exam-report',
   templateUrl: './exam-report.component.html',
-  styleUrls: ['./exam-report.component.scss']
+  styleUrls: ['./exam-report.component.scss'],
+  
 })
 export class ExamReportComponent implements OnInit {
   isProfessional: boolean = true;
@@ -20,8 +25,9 @@ export class ExamReportComponent implements OnInit {
   displayBatchSize: number = 10;
   Tdata: boolean = false;
   courseData: any[] = [];
-  batchCourseData: any = [];
   
+  batchCourseData: any = [];
+
 
   subjectData: any[] = [];
   masterCourses: any[] = [];
@@ -37,7 +43,8 @@ export class ExamReportComponent implements OnInit {
   fetchApiData: any = [];
   dataExamIndex: any[] = [];
   typeDataForm: any[] = [];
-
+  @ViewChild('examTable') examTable: ElementRef;
+  @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
 
   projectSettings: ColumnSetting[] = [
 
@@ -80,8 +87,8 @@ export class ExamReportComponent implements OnInit {
     this.addReportPopup = false;
   }
 
-/* select exam repo fill master courses==================================================================================
-================================================================================== */
+  /* select exam repo fill master courses==================================================================================
+  ================================================================================== */
   fetchExamData() {
     if (this.isProfessional) {
       this.examdata.batchExamReport(this.queryParam).subscribe((res) => {
@@ -102,7 +109,7 @@ export class ExamReportComponent implements OnInit {
   }
   /*======================================================================================================
 ======================================================================================================== */
- 
+
   getCourseData(i) {
 
     if (this.isProfessional) {
@@ -118,7 +125,7 @@ export class ExamReportComponent implements OnInit {
           this.batchCourseData = res.subjectLi;
           /*update*/
           this.getSubjectData = res.batchLi;
-        
+
           if (this.batchCourseData == null) {
             let obj = {
               type: "info",
@@ -140,18 +147,18 @@ export class ExamReportComponent implements OnInit {
 
       this.examdata.getCourses(i).subscribe(
         (data: any) => {
-          console.log(data);
+
           this.courseData = data.coursesList;
-          console.log(this.courseData);
-          if(this.courseData==null){
+
+          if (this.courseData == null) {
             let obj = {
               type: "info",
               title: "There is no Record in this  Field",
               Body: "Don't go in next field"
-            } 
+            }
             this.appC.popToast(obj);
           }
-           },
+        },
         (error: any) => {
 
           let obj = {
@@ -175,12 +182,12 @@ export class ExamReportComponent implements OnInit {
 
       this.examdata.batchExamReport(this.queryParam).subscribe(
         (res) => {
-          console.log(res);
+
           this.getSubjectData = res.batchLi;
 
-          console.log(this.getSubjectData);
-        
-          if (this.getSubjectData==null) {
+
+
+          if (this.getSubjectData == null) {
             let obj = {
               type: "info",
               title: "There is no Record in this Field",
@@ -188,16 +195,16 @@ export class ExamReportComponent implements OnInit {
             }
             this.appC.popToast(obj);
           }
-         })
+        })
     }
     else {
       this.fetchFieldData.exam_schd_id = "";
       this.fetchFieldData.batch_id = "";
       this.examdata.getSubject(i).subscribe((data: any) => {
-        console.log(data);
+
         this.subjectData = data.batchesList;
-        console.log(this.subjectData);
-        if(this.subjectData==null){
+
+        if (this.subjectData == null) {
           let obj = {
             type: "info",
             title: "There is no Record in this  Field",
@@ -206,34 +213,33 @@ export class ExamReportComponent implements OnInit {
           this.appC.popToast(obj);
         }
       })
-    } }
+    }
+  }
 
- 
-
-/*=======================================================================================
-========================================================================================== */
+  /*=======================================================================================
+  ========================================================================================== */
   getExamScheduleData(i) {
 
     this.fetchFieldData.exam_schd_id = "";
     console.log(i);
     this.examdata.getExamSchedule(i).subscribe((data: any) => {
-      console.log(data);
-       this.exam_Sch_Data = data.otherSchd;
-        console.log(this.exam_Sch_Data);
-        if(this.exam_Sch_Data==null){
-          let obj = {
-            type: "info",
-            title: "There is no Record in this  Field",
-            Body: "Don't go in next field"
-          }
-          this.appC.popToast(obj);
+
+      this.exam_Sch_Data = data.otherSchd;
+
+      if (this.exam_Sch_Data == null) {
+        let obj = {
+          type: "info",
+          title: "There is no Record in this  Field",
+          Body: "Don't go in next field"
         }
-        })
+        this.appC.popToast(obj);
+      }
+    })
   }
-    /*view btn*/
+  /*view btn*/
   fetchExamReport() {
 
-    console.log(this.fetchFieldData);
+
     if (this.isProfessional) {
       if (this.queryParam.standard_id == -1 || this.queryParam.subject_id == -1 || this.fetchFieldData.batch_id == "" || this.fetchFieldData
         .exam_schd_id == "") {
@@ -260,7 +266,7 @@ export class ExamReportComponent implements OnInit {
             this.Tdata = true;
             this.totalRecords = this.examSource.length;
             this.fetchTableDataByPage(this.pageIndex);
-            console.log(res);
+
           },
           err => {
             console.log(err);
@@ -328,14 +334,10 @@ export class ExamReportComponent implements OnInit {
               this.dateSource = this.detailSource.map((store) => {
                 this.dateStore = store.detailExamReportList;
               });
-
-              console.log(this.detailSource);
-              console.log(res);
-
               this.addReportPopup = true;
             },
             err => {
-              console.log(err);
+
             }
           )
       }
@@ -358,14 +360,11 @@ export class ExamReportComponent implements OnInit {
               this.dateSource = this.detailSource.map((store) => {
                 this.dateStore = store.detailExamReportList;
               });
-
-              console.log(this.detailSource);
-              console.log(res);
               this.fetchTableDataByPage(this.pageIndex);
               this.addReportPopup = true;
             },
             err => {
-              console.log(err);
+
             }
           )
       }
@@ -374,9 +373,8 @@ export class ExamReportComponent implements OnInit {
   }
 
 
-
-/*=========================================================================================
-========================================================================================== */
+  /*=========================================================================================
+  ========================================================================================== */
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
@@ -404,6 +402,22 @@ export class ExamReportComponent implements OnInit {
     this.addReportPopup = false;
 
   }
+
+  /*================================================
+  ============================================== */
+
+downloadJsonToCSV(){
+  console.log(this.xlsDownloader);
+    let link = this.xlsDownloader.nativeElement;
+    let outer = this.examTable.nativeElement.outerHTML.replace(/ /g, '%20');
+    let data_type = 'data:application/vnd.ms-excel';
+
+    link.setAttribute('href',  data_type + ',' +outer);
+    link.setAttribute('download', 'test.xls');
+    link.click();
+  }
+
+
 
   switchActiveView(id) {
 
