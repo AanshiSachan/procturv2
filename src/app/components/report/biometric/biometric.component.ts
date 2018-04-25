@@ -14,6 +14,7 @@ export class BiometricComponent implements OnInit {
   courses: any[] = [];
   masterCourseNames: boolean = true;
   students: any = "";
+  isProfessional: boolean = true;
   constructor(private reportService: BiometricServiceService,
     private appc: AppComponent,
     private institute_id: AuthenticatorService) { }
@@ -24,6 +25,7 @@ export class BiometricComponent implements OnInit {
   getMasterCourses() {
     this.reportService.getAllData().subscribe(
       (data: any) => {
+        console.log(data);
         this.masterCourse = data;
       },
       (error) => {
@@ -43,12 +45,23 @@ export class BiometricComponent implements OnInit {
     )
 
   }
+
   showMaster(i) {
     if (i == 1) {
       this.masterCourseNames = true;
     }
     else {
       this.masterCourseNames = false;
+    }
+  }
+
+  getInstitute() {
+    let type: any = sessionStorage.getItem('institute_type');
+    if (type == 'LANG') {
+      this.isProfessional = true;
+    }
+    else {
+      this.isProfessional = false;
     }
   }
 }

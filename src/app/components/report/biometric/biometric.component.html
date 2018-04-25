@@ -9,56 +9,62 @@
         <aside class="pull-right">
         </aside>
         <section class="filter-form">
-          <div class="c-lg-12">
-
-            <div class="c-lg-3">
-              <div class="form-field form-wrapper" style="padding-left:none; margin-left:none">
-                <label>Select user type</label>
-                <select class="side-form-ctrl" [(ngModel)]="students" (ngModelChange)="showMaster($event)">
-                  <option selected="selected" [value]="1">Students</option>
-                  <option [value]="3">Teachers</option>
-                  <option [value]="0">Custom</option>
-                  <option [value]="1000">Others</option>
-                  <option [value]="100">Admin</option>
-                </select>
-              </div>
-            </div>
-            <div class="c-lg-3">
-              <div class="form-field form-wrapper">
-                <label> Name</label>
-                <input type="text" placeholder="Name" class="side-form-ctrl">
-              </div>
-            </div>
-           
-            <div *ngIf="masterCourseNames">
-              <div class="c-lg-1">
-                <h2>OR</h2>
+          <div class="row">
+            <div class="c-lg-12">
+              <div class="c-lg-3">
+                <div class="form-field form-wrapper" style="padding-left:none; margin-left:none">
+                  <label>Role</label>
+                  <select class="side-form-ctrl" [(ngModel)]="students" (ngModelChange)="showMaster($event)">
+                    <option selected="selected" [value]="1">Students</option>
+                    <option [value]="3">Teachers</option>
+                    <option [value]="0">Custom</option>
+                    <option [value]="1000">Others</option>
+                    <option [value]="100">Admin</option>
+                  </select>
+                </div>
               </div>
               <div class="c-lg-3">
                 <div class="form-field form-wrapper">
+                  <label> Name</label>
+                  <input type="text" placeholder="Name" class="side-form-ctrl">
+                </div>
+              </div>
+              <div class="c-lg-3">
+                <div class="form-field form-wrapper">
+                  <label> Select Date</label>
+                  <input type="text" class="side-form-ctrl" bsDatepicker>
+                </div>
+              </div>
+              <div class="c-lg-3" style="margin-top:38px;">
+                <button class="btn fullBlue">Go</button>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="masterCourseNames"  style="margin-top:-13px;">
+            <hr>
+            <div class="row" style="margin-top:-20px;">
+              <div class="c-lg-3" style="margin-left:15px;">
+                <div class="form-field form-wrapper">
                   <label>Master Course</label>
-                  <select class="side-form-ctrl" [(ngModel)]="master" (ngModelChange)="getCourses($event)" name="masterCourse">
-                    <option *ngFor="let i of masterCourse" [value]="i.master_course">{{i.master_course}}</option>
+                  <select class="side-form-ctrl" [(ngModel)]="master" (ngModelChange)="getCourses($event)">
+                    <option *ngFor="let i of masterCourse">
+                      {{i.master_course}}
+                    </option>
                   </select>
                 </div>
               </div>
-              <div class="c-lg-2">
-                <div class="form-field form-wrapper datePickerBox">
-                  <label>Course</label>
+              <div class="c-lg-3" style="padding-left:5px;">
+                <div class="form-field form-wrapper">
+                  <label> Course</label>
                   <select class="side-form-ctrl">
-                    <option *ngFor="let i of courses">{{i.course_name}}</option>
+                    <option *ngFor="let i of courses">
+                      {{i.course_name}}
+                    </option>
                   </select>
                 </div>
               </div>
             </div>
           </div>
-          <div class="c-lg-12" style="text-align:right; margin-right:15px;">
-            
-              <button class="btn fullBlue">Go</button>
-            
-          </div>
-
-
         </section>
       </section>
     </section>
