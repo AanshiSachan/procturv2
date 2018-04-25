@@ -12,12 +12,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class CoreSidednavComponent implements OnInit {
 
   logs: string = ''
+  isLangInstitute: boolean = false;
 
   constructor(private login: LoginService, private route: Router) { }
 
 
   ngOnInit() {
-
+    this.checkInstituteType();
     /* Create SideNavigation if user is authenticated */
     this.login.currentSidenav.subscribe(el => {
       /* confirmation from service of registering the authkey */
@@ -365,6 +366,13 @@ export class CoreSidednavComponent implements OnInit {
     }
   }
 
-
+  checkInstituteType() {
+    let type: any = sessionStorage.getItem('institute_type');
+    if (type == "LANG") {
+      this.isLangInstitute = true;
+    } else {
+      this.isLangInstitute = false;
+    }
+  }
 
 }

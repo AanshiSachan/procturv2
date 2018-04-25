@@ -104,7 +104,8 @@
                         </g>
                     </svg>
                 </i>
-                <span id="li3">Course</span>
+                <span *ngIf="isLangInstitute" id="li3">Batch</span>
+                <span *ngIf="!isLangInstitute" id="li3">Course</span>
             </li>
             <li routerLink="activity" class="hide" id="lifour" (click)="setActive($event)">
                 <i class="icon" id="li4">

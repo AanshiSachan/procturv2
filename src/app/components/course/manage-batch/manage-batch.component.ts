@@ -250,6 +250,7 @@ export class ManageBatchComponent implements OnInit {
         this.messageToast('success', 'Added Batch', "Successfully created batch.");
         this.clearFormData();
         this.getAllBatchesList();
+        this.createNewBatch = false;
       },
       error => {
         console.log(error);
