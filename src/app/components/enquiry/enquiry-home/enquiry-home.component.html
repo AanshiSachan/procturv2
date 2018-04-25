@@ -41,9 +41,10 @@
           <li class="optMenu" #optMenu>
             <div class="enq-dropdown-content" *ngIf="isEnquiryOptions" (mouseleave)="isEnquiryOptions = false">
               <ul>
-                <li class="export-icon" (click)="downloadAllEnquiries()">
+                <li class="excel-icon" (click)="downloadAllEnquiries()">
+                  <i class="fa fa-file-excel-o" aria-hidden="true" style="font-family: FontAwesome;font-size: 16px;color: #aaa;"></i>
                   <a id="enq_download"></a>
-                  <label>Export</label>
+                  <label class="labelName">Export</label>
                 </li>
                 <li class="export-icon">
                   <label id="upload" routerLink='upload'>
@@ -599,7 +600,8 @@
             <div class="clearfix">
               <aside class="pull-left popup-btn">
                 <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                <input *ngIf="selectedRow.status != 12 && selectedRow.status != 1" type="button" value="Update & Register" class="fullBlue btn" (click)="updateRegisterEnquiry()">
+                <input *ngIf="selectedRow.status != 12 && selectedRow.status != 1" type="button" value="Update & Register" class="fullBlue btn"
+                  (click)="updateRegisterEnquiry()">
                 <input *ngIf="selectedRow.status != 12 && selectedRow.status != 1" type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
               </aside>
             </div>
