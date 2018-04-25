@@ -174,9 +174,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     All: { value: 'All', prop: 'All', checked: false, disabled: false },
     Pending: { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false },
     Open: { value: 'Open', prop: 'Open', checked: false, disabled: false },
-    InProgress: { value: 'In-Progress', prop: 'InProgress', checked: false, disabled: false },
+    In_Progress: { value: 'In-Progress', prop: 'In_Progress', checked: false, disabled: false },
     Registered: { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-    Admitted: { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
+    Student_Admitted: { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
     Inactive: { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
   };
 
@@ -184,9 +184,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     { value: 'All', prop: 'All', checked: false, disabled: false },
     { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false },
     { value: 'Open', prop: 'Open', checked: false, disabled: false },
-    { value: 'InProgress', prop: 'InProgress', checked: false, disabled: false },
+    { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
     { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-    { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
+    { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
     { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
   ];
 
@@ -787,6 +787,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
   statusFilterUpdater(e) {
+    debugger;
     this.stats[e.prop].checked = e.checked;
     this.statusFilter(e);
   }
@@ -801,10 +802,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     if (checkerObj.prop == "All") {
       this.statusString = [];
       if (checkerObj.checked) {
-        this.stats.Admitted.checked = false;
+        this.stats.Student_Admitted.checked = false;
         this.stats.Inactive.checked = false;
         this.stats.Open.checked = false;
-        this.stats.InProgress.checked = false;
+        this.stats.In_Progress.checked = false;
         this.stats.Registered.checked = false;
         this.stats.Pending.checked = false;
         this.stats.All.checked = true;
@@ -841,10 +842,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     else if (checkerObj.prop == "Pending") {
-      this.stats.Admitted.checked = false;
+      this.stats.Student_Admitted.checked = false;
       this.stats.Inactive.checked = false;
       this.stats.Open.checked = false;
-      this.stats.InProgress.checked = false;
+      this.stats.In_Progress.checked = false;
       this.stats.Registered.checked = false;
       this.stats.Pending.checked = true;
       this.stats.All.checked = false;
@@ -879,10 +880,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       this.busy = this.loadTableDatatoSource(this.instituteData);
     }
 
-    else if (checkerObj.prop == "Admitted") {
+    else if (checkerObj.prop == "Student_Admitted") {
       this.stats.All.checked = false;
 
-      if (this.stats.Admitted.checked) {
+      if (this.stats.Student_Admitted.checked) {
         this.statusString.push('12');
 
         let stat = this.statusString.join(',');
@@ -927,10 +928,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
         if (this.statusString.length == 0) {
           this.stats.All.checked = true;
-          this.stats.Admitted.checked = false;
+          this.stats.Student_Admitted.checked = false;
           this.stats.Inactive.checked = false;
           this.stats.Open.checked = false;
-          this.stats.InProgress.checked = false;
+          this.stats.In_Progress.checked = false;
           this.stats.Registered.checked = false;
           this.instituteData = {
             name: "",
@@ -1049,10 +1050,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
         if (this.statusString.length == 0) {
           this.stats.All.checked = true;
-          this.stats.Admitted.checked = false;
+          this.stats.Student_Admitted.checked = false;
           this.stats.Inactive.checked = false;
           this.stats.Open.checked = false;
-          this.stats.InProgress.checked = false;
+          this.stats.In_Progress.checked = false;
           this.stats.Registered.checked = false;
           this.instituteData = {
             name: "",
@@ -1166,10 +1167,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         }
         if (this.statusString.length == 0) {
           this.stats.All.checked = true;
-          this.stats.Admitted.checked = false;
+          this.stats.Student_Admitted.checked = false;
           this.stats.Inactive.checked = false;
           this.stats.Open.checked = false;
-          this.stats.InProgress.checked = false;
+          this.stats.In_Progress.checked = false;
           this.stats.Registered.checked = false;
           this.instituteData = {
             name: "",
@@ -1239,10 +1240,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
     }
 
-    else if (checkerObj.prop == "InProgress") {
+    else if (checkerObj.prop == "In_Progress") {
       this.stats.All.checked = false;
 
-      if (this.stats.InProgress.checked) {
+      if (this.stats.In_Progress.checked) {
         this.statusString.push('3');
 
         let stat = this.statusString.join(',');
@@ -1287,10 +1288,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
         if (this.statusString.length == 0) {
           this.stats.All.checked = true;
-          this.stats.Admitted.checked = false;
+          this.stats.Student_Admitted.checked = false;
           this.stats.Inactive.checked = false;
           this.stats.Open.checked = false;
-          this.stats.InProgress.checked = false;
+          this.stats.In_Progress.checked = false;
           this.stats.Registered.checked = false;
           this.instituteData = {
             name: "",
@@ -1407,10 +1408,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
         if (this.statusString.length == 0) {
           this.stats.All.checked = true;
-          this.stats.Admitted.checked = false;
+          this.stats.Student_Admitted.checked = false;
           this.stats.Inactive.checked = false;
           this.stats.Open.checked = false;
-          this.stats.InProgress.checked = false;
+          this.stats.In_Progress.checked = false;
           this.stats.Registered.checked = false;
           this.instituteData = {
             name: "",
@@ -1489,9 +1490,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       All: { value: 'All', prop: 'All', checked: false, disabled: false },
       Pending: { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false },
       Open: { value: 'Open', prop: 'Open', checked: false, disabled: false },
-      InProgress: { value: 'In-Progress', prop: 'InProgress', checked: false, disabled: false },
+      In_Progress: { value: 'In-Progress', prop: 'In_Progress', checked: false, disabled: false },
       Registered: { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-      Admitted: { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
+      Student_Admitted: { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
       Inactive: { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
     };
 
@@ -1499,9 +1500,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       { value: 'All', prop: 'All', checked: false, disabled: false },
       { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false },
       { value: 'Open', prop: 'Open', checked: false, disabled: false },
-      { value: 'InProgress', prop: 'InProgress', checked: false, disabled: false },
+      { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
       { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-      { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
+      { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
       { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
     ];
 
@@ -1614,7 +1615,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.busy = this.loadTableDatatoSource(this.instituteData);
       }
 
-      if (filter == "InProgress") {
+      if (filter == "In_Progress") {
         this.instituteData = {
           name: "",
           phone: "",
@@ -1690,7 +1691,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.stats.All.checked = true;
     this.stats.Open.checked = false;
     this.stats.Registered.checked = false;
-    this.stats.Admitted.checked = false;
+    this.stats.Student_Admitted.checked = false;
     this.stats.Registered.checked = false;
     this.stats.Inactive.checked = false;
     this.statusString = [];
@@ -1699,7 +1700,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
       { value: 'Open/In-Progress', prop: 'Open', checked: false, disabled: false },
       { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-      { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
+      { value: 'Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
       { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
     ];
     this.indexJSON = [];
@@ -3037,7 +3038,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.stats.All.checked = true;
     this.stats.Open.checked = false;
     this.stats.Registered.checked = false;
-    this.stats.Admitted.checked = false;
+    this.stats.Student_Admitted.checked = false;
     this.stats.Registered.checked = false;
     this.stats.Inactive.checked = false;
     this.statusString = [];
@@ -3318,7 +3319,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.stats.All.checked = true;
     this.stats.Open.checked = false;
     this.stats.Registered.checked = false;
-    this.stats.Admitted.checked = false;
+    this.stats.Student_Admitted.checked = false;
     this.stats.Registered.checked = false;
     this.statusString = [];
     this.instituteData.filtered_statuses = this.statusString.join(',');
