@@ -1131,8 +1131,8 @@ export class StudentAddComponent implements OnInit {
             this.student_id = res.generated_id;
             let msg = {
               type: 'success',
-              title: 'Student Registered',
-              body: 'Student details Updated'
+              title: 'Student Added',
+              body: 'Student details Updated Successfully'
             }
             this.appC.popToast(msg);
             if (this.studentAddnMove) {
