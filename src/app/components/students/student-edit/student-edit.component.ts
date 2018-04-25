@@ -515,15 +515,17 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.fetchService.getStudentById(id).subscribe(data => {
       this.studentAddFormData = data;
       this.studentAddFormData.school_name = data.school_name;
+      this.fetchCourseFromMaster(data.standard_id);      
       if (this.studentAddFormData.assignedBatchescademicYearArray == null) {
         this.studentAddFormData.assignedBatchescademicYearArray = [""];
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray = [""];
       }
       this.studentServerImage = data.photo;
+
       /* Fetch Student Fee Realated Data from Server and Allocate Selected Fees */
-      debugger;
       this.updateStudentFeeDetails();
       this.isRippleLoad = false;
+
       /* For Batch Model Fetch the Student Batches */
       if (this.isProfessional) {
         /* Fetching the student Slots */
@@ -1681,6 +1683,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   fetchCourseFromMaster(id) {
+    
     if (id == null || id == '') {
       this.courseList = [];
     }

@@ -1603,7 +1603,7 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.student_phone = this.enquiryData.phone;
     this.studentAddFormData.student_email = this.enquiryData.email;
     this.studentAddFormData.student_sex = this.enquiryData.gender;
-    this.studentAddFormData.dob = this.enquiryData.dob;
+    this.studentAddFormData.dob = new Date(this.enquiryData.dob);
     this.studentAddFormData.parent_name = this.enquiryData.parent_email;
     this.studentAddFormData.parent_phone = this.enquiryData.parent_name;
     this.studentAddFormData.parent_email = this.enquiryData.parent_phone;
@@ -1639,7 +1639,7 @@ export class StudentAddComponent implements OnInit {
   filterStudentCustomComp() {
     this.customComponents.forEach(c => {
       if (c.data.on_both == "Y") {
-        c = this.updateEnquiryComponent(c.id);
+        this.updateEnquiryComponent(c.id);
       }
     });
   }
@@ -1647,9 +1647,12 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* arg1::studentComp arg2:: enquiryComp */
   updateEnquiryComponent(id): any {
+    debugger;
+    let temp = this.enquiryCustomComp.map(e => {
+      e.id = id;
+    });
 
     this.enquiryCustomComp.forEach(el => {
-
       if (el.component_id == id && el.type == 4) {
         let obj = {
           data: el,
