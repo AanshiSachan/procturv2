@@ -266,7 +266,7 @@
                 <!-- ================================================================= -->
                 <!-- Professional Model For student Update -->
 
-                <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.standard_id != ''}">
+                <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.standard_id != '-1'}">
                   <select id="masterCourse" name="masterCourse" [(ngModel)]="studentAddFormData.standard_id" (ngModelChange)="fetchCourseFromMaster($event)"
                     class="form-ctrl">
                     <option value="-1"></option>
@@ -277,12 +277,10 @@
                   <label for="masterCourse">Master Course</label>
                 </div>
 
-                <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.subject_id != ''}">
+                <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.subject_id != '-1'}">
                   <select id="course" [(ngModel)]="studentAddFormData.subject_id" name="course" class="form-ctrl">
-                    <option></option>
-                    <option *ngFor="let list of courseList" [value]="list.subject_id">
-                      {{list.subject_name}}
-                    </option>
+                    <option value="-1"></option>
+                    <option *ngFor="let list of courseList" [selected]="studentAddFormData.subject_id == list.subject_id" [value]="list.subject_id">{{list.subject_name}}</option>
                   </select>
                   <label for="course">Course</label>
                 </div>

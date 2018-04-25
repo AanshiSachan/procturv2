@@ -1603,7 +1603,7 @@ export class StudentAddComponent implements OnInit {
     this.studentAddFormData.student_phone = this.enquiryData.phone;
     this.studentAddFormData.student_email = this.enquiryData.email;
     this.studentAddFormData.student_sex = this.enquiryData.gender;
-    this.studentAddFormData.dob = this.enquiryData.dob;
+    this.studentAddFormData.dob = new Date(this.enquiryData.dob);
     this.studentAddFormData.parent_name = this.enquiryData.parent_email;
     this.studentAddFormData.parent_phone = this.enquiryData.parent_name;
     this.studentAddFormData.parent_email = this.enquiryData.parent_phone;
@@ -1639,7 +1639,8 @@ export class StudentAddComponent implements OnInit {
   filterStudentCustomComp() {
     this.customComponents.forEach(c => {
       if (c.data.on_both == "Y") {
-        c = this.updateEnquiryComponent(c.id);
+        c.value = this.updateEnquiryComponent(c.id);
+        c.data.enq_custom_value = this.updateEnquiryComponent(c.id);
       }
     });
   }
@@ -1647,55 +1648,25 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* arg1::studentComp arg2:: enquiryComp */
   updateEnquiryComponent(id): any {
+    let result:any;
 
     this.enquiryCustomComp.forEach(el => {
-
-      if (el.component_id == id && el.type == 4) {
-        let obj = {
-          data: el,
-          id: el.component_id,
-          is_required: el.is_required,
-          is_searchable: el.is_searchable,
-          label: el.label,
-          prefilled_data: this.createPrefilledDataType4(el.prefilled_data.split(','), el.enq_custom_value.split(','), el.defaultValue),
-          selected: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? this.getDefaultArr(el.defaultValue) : el.enq_custom_value.split(','),
-          selectedString: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value,
-          type: el.type,
-          value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
+      if(el.component_id == id){
+        debugger;
+        if (el.type == 4) {
+          result = (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value;
         }
-        return obj;
-      }
-      if (el.component_id == id && el.type == 2) {
-        let obj = {
-          data: el,
-          id: el.component_id,
-          is_required: el.is_required,
-          is_searchable: el.is_searchable,
-          label: el.label,
-          prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
-          selected: [],
-          selectedString: '',
-          type: el.type,
-          value: el.enq_custom_value == "Y" ? true : false,
+        if (el.type == 2) {
+          result = el.enq_custom_value == "Y" ? true : false
         }
-        return obj;
-      }
-      else if (el.component_id == id && el.type != 2 && el.type != 4) {
-        let obj = {
-          data: el,
-          id: el.component_id,
-          is_required: el.is_required,
-          is_searchable: el.is_searchable,
-          label: el.label,
-          prefilled_data: this.createPrefilledData(el.prefilled_data.split(',')),
-          selected: [],
-          selectedString: '',
-          type: el.type,
-          value: el.enq_custom_value
+        else if (el.type != 2 && el.type != 4) {
+          result = el.enq_custom_value;
         }
-        return obj;
       }
     });
+
+    return result;
+
   }
 
   /* ============================================================================================================================ */
