@@ -35,6 +35,7 @@ import { TimeTableComponent } from './time-table/time-table.component';
                         path: 'sms',
                         component: SmsReportComponent
                     },
+                    
                     {
                         path: 'fee',
                         component: FeeReportComponent 

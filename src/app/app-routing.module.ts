@@ -56,6 +56,7 @@ import { CityAreaMapComponent } from './components/city-area-map/city-area-map.c
                     loadChildren: 'app/components/employee-home/employee-home.module#EmployeeHomeModule',
                     canLoad: [AuthGuard]
                 },
+                
                 {
                     path: 'reports',
                     loadChildren: 'app/components/report/report.module#ReportModule',
@@ -78,8 +79,8 @@ import { CityAreaMapComponent } from './components/city-area-map/city-area-map.c
                 },
 
                 {
-                    path: 'event',
-                    loadChildren:'app/components/event-home/event-home.module',
+                    path: 'classRoom',
+                    loadChildren:'app/components/class-room/class-room.module',
                     canLoad:[AuthGuard]
                 },
                 {

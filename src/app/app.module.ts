@@ -45,7 +45,7 @@ import { SharedModule } from './components/shared/shared.module';
 import { SlotApiService } from './services/slot-service/slot.service';
 import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
 import { CityAreaService } from './services/area-city-service/area-city.service';
-import { ClassRoomComponent } from './class-room/class-room.component';
+//import { ClassRoomComponent } from './class-room/class-room.component';
 
 
 
@@ -74,7 +74,7 @@ import { ClassRoomComponent } from './class-room/class-room.component';
     OverlayMenuComponent,
     SlotComponent,
     CityAreaMapComponent,
-    ClassRoomComponent,
+  //  ClassRoomComponent,
   
   ],
   entryComponents: [

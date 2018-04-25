@@ -149,7 +149,7 @@
 
   <div class="" popup-content>
     <div class="details-wrapper" *ngIf="!isProfessional">
-        <input type="button" value="X" class="btn" style="margin-left:602px;margin-bottom:10px;color:blue" (click)="downloadJsonToCSV()">
+        <a class="fa fa-file-excel-o pull-right" style="margin-left:200px;margin-bottom:10px;font-size:36px" (click)="downloadJsonToCSV()"></a>
         <a class="hide" #xlsDownloader></a>
 
       <div class="table table-responsive student-table stu-table">
@@ -189,14 +189,12 @@
     </div>
   
     <div class="details-wrapper" *ngIf="isProfessional">
-        <input type="button" value="X" class="btn"  style="margin-left:602px;margin-bottom:10px;color:blue" (click)="downloadJsonToCSV()" #examTable>
-
+      <a class="fa fa-file-excel-o pull-right" style="margin-left:200px;margin-bottom:10px;font-size:36px" (click)="downloadJsonToCSV()"></a>
       <a class="hide" #xlsDownloader></a>
       <div class="table table-responsive student-table stu-table">
           
         <table #examTable>
-    
-
+          
           <thead>
             <tr>
               <th>
