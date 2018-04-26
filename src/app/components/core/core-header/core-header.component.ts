@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { Router } from '@angular/router';
+import 'rxjs/add/operator/map'
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
+import { Subscription, } from 'rxjs';
+import 'rxjs/Rx';
 
+import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 
 @Component({
   selector: 'core-header',
@@ -10,12 +16,34 @@ import { Router } from '@angular/router';
 })
 export class CoreHeaderComponent implements OnInit {
 
+  isResultDisplayed: boolean;
   instituteName: string;
   userName: string;
   menuToggler: boolean = false;
   hasEnquiry: boolean = true;
   hasStudent: boolean = true;
   hasClass: boolean = true;
+  enquiryResult:any[] = [];
+  studentResult:any[] = [];
+
+  globalSearchForm: any = {
+    name: '',
+    phone: '',
+    instituteId: sessionStorage.getItem('institute_id'),
+    start_index: '-1',
+    batch_size: '5'
+  }
+
+  @ViewChild('searchInput') searchInput: ElementRef;
+  @ViewChild('seachResult') seachResult: ElementRef;
+  @ViewChild('form') form: any;
+
+
+  private userInput: string;
+
+  constructor(private log: LoginService, private router: Router, private fetchService: FetchprefilldataService) {
+    
+  }
 
   ngOnInit() {
 
@@ -29,9 +57,15 @@ export class CoreHeaderComponent implements OnInit {
     });
 
     this.checkUserHadAccess();
-  }
 
-  constructor(private log: LoginService, private router: Router) {
+    this.form.valueChanges
+    .debounceTime(2000)
+    .distinctUntilChanged()
+    .subscribe(data => {
+      this.userInput = data.userInput;
+      this.filterGlobal(data.userInput)
+    });
+
   }
 
   logout() {
@@ -127,7 +161,7 @@ export class CoreHeaderComponent implements OnInit {
     let permissionArray = sessionStorage.getItem('permissions');
     if (permissionArray == "" || permissionArray == null) {
       return true;
-    } 
+    }
     else {
       let data = JSON.parse(permissionArray);
       let id = 115;
@@ -141,7 +175,7 @@ export class CoreHeaderComponent implements OnInit {
     let permissionArray = sessionStorage.getItem('permissions');
     if (permissionArray == "" || permissionArray == null) {
       return true;
-    } 
+    }
     else {
       let data = JSON.parse(permissionArray);
       let id = 301;
@@ -154,7 +188,7 @@ export class CoreHeaderComponent implements OnInit {
     let permissionArray = sessionStorage.getItem('permissions');
     if (permissionArray == "" || permissionArray == null) {
       return true;
-    } 
+    }
     else {
       let data = JSON.parse(permissionArray);
       let id = 402;
@@ -167,4 +201,55 @@ export class CoreHeaderComponent implements OnInit {
     this.hasStudent = this.hasStudentAccess();
     this.hasClass = this.hasCourseAccess();
   }
+
+  triggerSearchBox($event) {
+    $event.preventDefault();
+    this.isResultDisplayed = true;
+    this.seachResult.nativeElement.classList.add('searchView');
+  }
+
+  closeSearch(e) {
+    this.isResultDisplayed = e;
+    this.seachResult.nativeElement.classList.remove('searchView');
+    //this.userInput = '';
+  }
+
+  filterGlobal(value){
+    if(value != null && value != undefined){
+      if(value.trim() != '' && value.length >= 4){
+        let obj = this.getSearchObject(value);
+
+        this.fetchService.globalSearch(obj).subscribe(
+          res => {
+            this.enquiryResult = res.map(e => e.source == "Enquiry");
+            this.studentResult = res.map(s => s.source == "Student");
+          },
+          err => {
+            console.log(err);
+          }
+        )
+      }
+      else{
+
+      }
+    }
+
+  }
+
+  getSearchObject(e): any{
+    let obj = this.globalSearchForm;
+    /* Name detected */
+    if(isNaN(e)){
+      this.globalSearchForm.name = e;
+      this.globalSearchForm.phone = ''; 
+      return this.globalSearchForm;
+    }
+    /* Nmber detected */
+    else{
+      this.globalSearchForm.phone = e;
+      this.globalSearchForm.name = '';
+      return this.globalSearchForm;
+    }
+  }
+
 }

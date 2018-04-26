@@ -42,7 +42,7 @@ import { SlotApiService } from './services/slot-service/slot.service';
 import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
 import { CityAreaService } from './services/area-city-service/area-city.service';
 
-
+import { SearchBoxComponent } from './components/core/search-box/search-box.component';
 
 @NgModule({
   imports: [
@@ -69,9 +69,10 @@ import { CityAreaService } from './services/area-city-service/area-city.service'
     OverlayMenuComponent,
     SlotComponent,
     CityAreaMapComponent,
-  
+    SearchBoxComponent
   ],
   entryComponents: [
+    SearchBoxComponent
   ],
   providers: [
     FetchenquiryService,

@@ -64,6 +64,19 @@ export class FetchprefilldataService {
   }
 
 
+  globalSearch(obj): Observable<any>{
+    obj.instituteId = this.institute_id;
+    let url = this.baseUrl +"/api/v1/students/globalSearch"
+    return this.http.post(url, obj, {headers: this.headers}).map(
+      res => {
+        return res.json();
+      },
+      err => {
+        return err.json();
+      }
+    );
+  }
+
 
   getAllFinancialYear() {
     let url = this.baseUrl + "/api/v1/academicYear/all/" + this.institute_id;

@@ -1,0 +1,59 @@
+<div class="search-dropdown-box search-item">
+  <ul class="sdb search-item"  *ngIf="searchResult.length == 0">
+    <li>
+        <h6>
+            <span>
+              No Recent Search
+            </span>
+          </h6>
+    </li>
+  </ul>
+  <ul class="sdb search-item"  *ngIf="searchResult.length != 0">
+    <li>
+      <h5>
+        <span>
+          In Students
+        </span>
+        <a href="#">View More</a>
+      </h5>
+      <ul class="in-student-list">
+        <li *ngFor="let student of studentResult">
+          <a href="">
+            <img src="" alt="" />
+            <span class="sdb-right">
+              <label>
+                <strong>Puneet</strong> Sharma
+              </label>
+              <span>
+                +91 8549381921 | Enrolment ID : 23493L
+              </span>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <h5>
+        <span>
+          In Enquiry
+        </span>
+        <a href="#">View More</a>
+      </h5>
+      <ul class="in-student-list">
+        <li *ngFor="let enquiry of enquiryResult">
+          <a href="">
+            <img src="" alt="" />
+            <span class="sdb-right">
+              <label>
+                <strong>Puneet</strong> Sharma
+              </label>
+              <span>
+                +91 8549381921 | Enrolment ID : 23493L
+              </span>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
