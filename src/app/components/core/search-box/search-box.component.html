@@ -1,59 +1,112 @@
 <div class="search-dropdown-box search-item">
-  <ul class="sdb search-item"  *ngIf="searchResult.length == 0">
-    <li>
+
+  <section *ngIf="resultStat == 0">
+    <ul>
+      <li>
         <h6>
-            <span>
-              No Recent Search
-            </span>
-          </h6>
-    </li>
-  </ul>
-  <ul class="sdb search-item"  *ngIf="searchResult.length != 0">
-    <li>
-      <h5>
-        <span>
-          In Students
-        </span>
-        <a href="#">View More</a>
-      </h5>
-      <ul class="in-student-list">
-        <li *ngFor="let student of studentResult">
-          <a href="">
-            <img src="" alt="" />
-            <span class="sdb-right">
-              <label>
-                <strong>Puneet</strong> Sharma
-              </label>
-              <span>
-                +91 8549381921 | Enrolment ID : 23493L
+          <span>
+            <div class="skeleton">
+            </div>
+          </span>
+        </h6>
+      </li>
+      <li>
+        <h6>
+          <span>
+            <div class="skeleton">
+            </div>
+          </span>
+        </h6>
+      </li>
+    </ul>
+  </section>
+
+  <section *ngIf="resultStat == 1">
+
+    <!-- No Result, No Recent Search -->
+    <ul class="sdb search-item" *ngIf="searchResult.length == 0 && recentlySearched.size == 0">
+      <li>
+        <h6>
+          <span>
+            No Recent Search
+          </span>
+        </h6>
+      </li>
+    </ul>
+
+    <!-- No Result, Few Recent Search -->
+    <ul class="sdb search-item" *ngIf="searchResult.length == 0 && recentlySearched.size != 0">
+      <li>
+        <h5>
+          <span>
+            Your Recent Search
+          </span>
+          <!-- <a>View More</a> -->
+        </h5>
+        <ul class="in-student-list">
+          <li (click)="searchThisAgain(rs)" *ngFor="let rs of recentlySearched">
+            <a>
+              <span class="sdb-right">
+                <label>
+                  <strong>{{rs}}</strong>
+                </label>
               </span>
-            </span>
-          </a>
-        </li>
-      </ul>
-    </li>
-    <li>
-      <h5>
-        <span>
-          In Enquiry
-        </span>
-        <a href="#">View More</a>
-      </h5>
-      <ul class="in-student-list">
-        <li *ngFor="let enquiry of enquiryResult">
-          <a href="">
-            <img src="" alt="" />
-            <span class="sdb-right">
-              <label>
-                <strong>Puneet</strong> Sharma
-              </label>
-              <span>
-                +91 8549381921 | Enrolment ID : 23493L
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <!-- Result-->
+    <ul class="sdb search-item" *ngIf="searchResult.length != 0">
+      <li>
+        <h5>
+          <span>
+            In Students
+          </span>
+          <a>View More</a>
+        </h5>
+        <ul class="in-student-list">
+          <li (click)="studentSelected(student)" *ngFor="let student of studentResult">
+            <a>
+              <img src="" alt="" />
+              <span class="sdb-right">
+                <label>
+                  <strong>{{student.name}}</strong>
+                </label>
+                <span>
+                  +91 {{student.phone}} | Enrolment ID : {{student.displayId}}
+                </span>
               </span>
-            </span>
-          </a>
-        </li>
-      </ul>
-    </li>
-  </ul>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <h5>
+          <span>
+            In Enquiry
+          </span>
+          <a>View More</a>
+        </h5>
+        <ul class="in-student-list">
+          <li (click)="enquirySelected(enquiry)" *ngFor="let enquiry of enquiryResult">
+            <a>
+              <img src="" alt="" />
+              <span class="sdb-right">
+                <label>
+                  <strong>{{enquiry.name}}</strong>
+                </label>
+                <span>
+                  +91 {{enquiry.phone}} | Enrolment ID : {{enquiry.displayId}}
+                </span>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+  </section>
+
 </div>

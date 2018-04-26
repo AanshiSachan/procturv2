@@ -8,38 +8,69 @@ import { Router } from '@angular/router';
     styleUrls: ['./search-box.component.scss']
 })
 export class SearchBoxComponent implements OnInit, OnChanges {
-    
-    searchResult: any[] = [];
+
+    private searchResult: any[] = [];
+
+    private recentlySearched = new Set;
+
     @Input() searchValue: any;
+
     @Input() studentResult: any[] = [];
     @Input() enquiryResult: any[] = [];
-    @Output() closeSearch = new EventEmitter<any>();
+    @Input() resultStat: any = 1;
 
-    constructor(private router: Router, private cd: ChangeDetectorRef, private renderer: Renderer2, private eRef: ElementRef){
+    @Output() closeSearch = new EventEmitter<any>();
+    @Output() searchAgain = new EventEmitter<string>();
+    @Output() enqSelected = new EventEmitter<any>();
+    @Output() stuSelected = new EventEmitter<any>();
+
+
+    constructor(private router: Router, private cd: ChangeDetectorRef, private renderer: Renderer2, private eRef: ElementRef) {
     }
 
     ngOnInit() {
+
+        if (sessionStorage.getItem('recentSearch') != null && sessionStorage.getItem('recentSearch') != undefined && sessionStorage.getItem('recentSearch') != '' && this.recentlySearched.size == 0 && sessionStorage.getItem('recentSearch') != '{}') {
+            this.recentlySearched = JSON.parse(sessionStorage.getItem('recentSearch'));
+        }
     }
 
     ngOnChanges() {
         this.studentResult;
         this.enquiryResult;
+        this.searchValue;
         this.updateResult();
 
     }
 
     @HostListener("document:click", ['$event'])
     onWindowClick(event) {
-      if(this.eRef.nativeElement.contains(event.target)) {
-      } else {
-        if(!event.target.classList.contains('search-item')){
-            this.closeSearch.emit(false);
+        if (this.eRef.nativeElement.contains(event.target)) {
+        } else {
+            if (!event.target.classList.contains('search-item')) {
+                this.closeSearch.emit(false);
+            }
         }
-      }
     }
 
-    updateResult(){
+    updateResult() {
         this.searchResult = this.studentResult.concat(this.enquiryResult);
+        if (this.searchValue != null && this.searchValue != undefined) {
+            this.recentlySearched.add(this.searchValue);
+            sessionStorage.setItem('recentSearch', JSON.stringify(this.recentlySearched));
+        }
     }
-    
+
+    searchThisAgain(rs) {
+        this.searchAgain.emit(rs);
+    }
+
+    studentSelected(s) {
+        this.stuSelected.emit(s);
+    }
+
+    enquirySelected(e) {
+        this.enqSelected.emit(e);
+    }
+
 }

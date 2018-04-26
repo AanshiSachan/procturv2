@@ -11,9 +11,9 @@
     <div class="search-item pull-left" id="searchHeader">
       <section class="header-search search-item">
         <div class="pos-rel search-item">
-          <form #form="ngForm">
-            <input type="text" [ngClass]="{'has-focus': isResultDisplayed}" class="form-ctrl-head searchbox search-item" [(ngModel)]="userInput"
-             name="userInput" #searchInput (focus)="triggerSearchBox($event)">
+          <form autocomplete="off" #form="ngForm">
+            <input autocomplete="false" type="text" [ngClass]="{'has-focus': isResultDisplayed}" class="form-ctrl-head searchbox search-item" [(ngModel)]="userInput"
+              name="userInput" #searchInput (focus)="triggerSearchBox($event)">
             <button class="form-btn-head">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="504 4 22 22">
                 <defs>
@@ -48,7 +48,9 @@
         </div>
       </section>
       <section class="search-dropdown search-item" #seachResult>
-        <search-box (closeSearch)="closeSearch($event)" [studentResult]="studentResult" [enquiryResult]="enquiryResult"></search-box>
+        <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat" 
+        [studentResult]="studentResult" (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)" [enquiryResult]="enquiryResult">
+        </search-box>
       </section>
     </div>
     <div class="pull-right" id="loginTube">

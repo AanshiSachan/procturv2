@@ -666,11 +666,13 @@ export class EnquiryEditComponent implements OnInit {
   /* Function to fetch subject when user selects a standard from dropdown */
   fetchSubject(value) {
     if (value != null && value != '' && value != '-1') {
-      this.editEnqData.subject_id = '-1';
+      //this.editEnqData.subject_id = '-1';
       this.enqSub = [];
       this.editEnqData.standard_id = value;
       this.prefill.getEnqSubjects(this.editEnqData.standard_id).subscribe(
-        data => { this.enqSub = data; }
+        data => { 
+          this.enqSub = data; 
+        }
       )
     }
     else {

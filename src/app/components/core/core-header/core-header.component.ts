@@ -23,26 +23,28 @@ export class CoreHeaderComponent implements OnInit {
   hasEnquiry: boolean = true;
   hasStudent: boolean = true;
   hasClass: boolean = true;
-  enquiryResult:any[] = [];
-  studentResult:any[] = [];
+  enquiryResult: any[] = [];
+  studentResult: any[] = [];
+  inputValue: any;
 
   globalSearchForm: any = {
     name: '',
     phone: '',
     instituteId: sessionStorage.getItem('institute_id'),
-    start_index: '-1',
+    start_index: '0',
     batch_size: '5'
   }
 
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChild('seachResult') seachResult: ElementRef;
   @ViewChild('form') form: any;
+  resultStat: any = 1;
 
 
   private userInput: string;
 
   constructor(private log: LoginService, private router: Router, private fetchService: FetchprefilldataService) {
-    
+
   }
 
   ngOnInit() {
@@ -59,16 +61,19 @@ export class CoreHeaderComponent implements OnInit {
     this.checkUserHadAccess();
 
     this.form.valueChanges
-    .debounceTime(2000)
-    .distinctUntilChanged()
-    .subscribe(data => {
-      this.userInput = data.userInput;
-      this.filterGlobal(data.userInput)
-    });
+      .debounceTime(1000)
+      .distinctUntilChanged()
+      .subscribe(data => {
+        this.userInput = data.userInput;
+        this.enquiryResult = [];
+        this.studentResult = [];
+        this.filterGlobal(data.userInput)
+      });
 
   }
 
   logout() {
+    this.clearSearch();
     if (this.log.logoutUser()) {
       this.router.navigateByUrl('/authPage');
     }
@@ -170,7 +175,6 @@ export class CoreHeaderComponent implements OnInit {
     }
   }
 
-
   hasStudentAccess(): boolean {
     let permissionArray = sessionStorage.getItem('permissions');
     if (permissionArray == "" || permissionArray == null) {
@@ -214,42 +218,57 @@ export class CoreHeaderComponent implements OnInit {
     //this.userInput = '';
   }
 
-  filterGlobal(value){
-    if(value != null && value != undefined){
-      if(value.trim() != '' && value.length >= 4){
+  filterGlobal(value) {
+    if (value != null && value != undefined) {
+      if (value.trim() != '' && value.length >= 4) {
         let obj = this.getSearchObject(value);
-
+        this.inputValue = value;
+        /* Loading Shows */
+        this.resultStat = 0;
         this.fetchService.globalSearch(obj).subscribe(
           res => {
-            this.enquiryResult = res.map(e => e.source == "Enquiry");
-            this.studentResult = res.map(s => s.source == "Student");
+            this.resultStat = 1;
+            this.enquiryResult = res.filter(e => e.source == "Enquiry");
+            this.studentResult = res.filter(s => s.source == "Student");
           },
           err => {
-            console.log(err);
           }
         )
       }
-      else{
+      else {
 
       }
     }
 
   }
 
-  getSearchObject(e): any{
+  getSearchObject(e): any {
     let obj = this.globalSearchForm;
     /* Name detected */
-    if(isNaN(e)){
+    if (isNaN(e)) {
       this.globalSearchForm.name = e;
-      this.globalSearchForm.phone = ''; 
+      this.globalSearchForm.phone = '';
       return this.globalSearchForm;
     }
     /* Nmber detected */
-    else{
+    else {
       this.globalSearchForm.phone = e;
       this.globalSearchForm.name = '';
       return this.globalSearchForm;
     }
+  }
+
+  clearSearch() {
+    this.enquiryResult = [];
+    this.studentResult = [];
+  }
+
+  selectedStudent(s) {
+    this.router.navigateByUrl('/enquiry/edit/' + s.id);
+  }
+
+  selectedEnquiry(e) {
+    this.router.navigateByUrl('/student/edit/' + e.id);
   }
 
 }

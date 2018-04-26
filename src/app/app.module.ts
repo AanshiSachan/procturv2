@@ -16,7 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /* Services */
 import { FetchenquiryService } from './services/enquiry-services/fetchenquiry.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
-import { PopupHandlerService } from './services/enquiry-services/popup-handler.service';
+
 import { PostEnquiryDataService } from './services/enquiry-services/post-enquiry-data.service';
 import { AuthenticatorService } from './services/authenticator.service';
 import { LoginService } from './services/login-services/login.service';
@@ -77,7 +77,6 @@ import { SearchBoxComponent } from './components/core/search-box/search-box.comp
   providers: [
     FetchenquiryService,
     FetchprefilldataService,
-    PopupHandlerService,
     PostEnquiryDataService,
     AuthenticatorService,
     LoginService,
