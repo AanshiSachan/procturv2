@@ -187,7 +187,6 @@
                 <table #attendanceTable>
                     <thead>
                         <tr>
-
                             <th>
                                 Name/Id
                             </th>
@@ -257,9 +256,11 @@
         </div>
 
         <div popup-content class="main-student-table" *ngIf=isProfessional>
+            <a class="fa fa-file-excel-o" style="font-size:30px; padding-bottom:10px; float:right;display:inline-block;" (click)="DownloadJsonToCsv()"></a>
+            <a class="hide" #xlsDownloader></a>
 
             <div class="table table-responsive student-table">
-                <table>
+                <table  #attendanceTable>
                     <thead>
                         <tr>
                             <th>

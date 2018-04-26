@@ -334,7 +334,50 @@ p {
     -o-transition: all 0.5s ease-in;
     transition: all 0.5s ease-in;
 }
-
+.main{
+    margin-top:-25px;
+    .form-wrapper{
+        position: relative;
+        &.datePickerBox {
+            .side-form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url('../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 0;
+                top: 20px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
+.student-table{
+    height: 450px;
+    overflow-y: scroll;
+    ::-webkit-scrollbar{
+        display: block;
+    }
+    .common-elements{
+        height: 450px;
+        overflow-y: scroll;
+    }
+    .student-elements{
+        height: 350px;
+        overflow-y: scroll;
+    }
+}
+.records{
+    font-size:20px;
+    font-weight:bold;
+    text-align: center;
+}
 .popupWrapperMob.showPopupMob {
     z-index: 100;
     visibility: visible;
