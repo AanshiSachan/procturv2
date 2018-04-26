@@ -160,7 +160,7 @@ export class CourseCourseListComponent implements OnInit {
       (res: any) => {
         res.forEach(element => {
           if (element.assigned_fee_template_id == -1) {
-            if (this.deafultTemplate != null && this.deafultTemplate != "" && this.deafultTemplate.length > 0) {
+            if (this.deafultTemplate != null && this.deafultTemplate != "") {
               element.assigned_fee_template_id = this.deafultTemplate.template_id;
             }
           }
@@ -177,6 +177,7 @@ export class CourseCourseListComponent implements OnInit {
   }
 
   defaultTemplateDet(data) {
+    debugger
     data.forEach(element => {
       if (element.is_default == 1) {
         this.deafultTemplate = element;

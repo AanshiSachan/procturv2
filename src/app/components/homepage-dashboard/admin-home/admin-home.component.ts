@@ -1569,6 +1569,15 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
+  markAttendaceHideCourse() {
+    let date = moment(this.courseLevelSchedDate).format('DD-MM-YYYY');;
+    if (date > moment().format('DD-MM-YYYY')) {
+      return "hide";
+    } else {
+      return "";
+    }
+  }
+
   getClassStatus(row) {
     if (moment(row.class_date).format('DD-MM-YYYY') == moment().format('DD-MM-YYYY')) {
       let currentTime: any = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })

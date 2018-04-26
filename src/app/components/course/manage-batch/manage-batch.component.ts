@@ -361,7 +361,14 @@ export class ManageBatchComponent implements OnInit {
   getAllStudentList(rowDetails) {
     this.isRippleLoad = true;
     this.apiService.getStudentListFromServer(rowDetails.batch_id).subscribe(
-      res => {
+      (res: any) => {
+        res.forEach(element => {
+          if (element.assigned_fee_template_id == -1) {
+            if (this.deafultTemplate != null && this.deafultTemplate != "") {
+              element.assigned_fee_template_id = this.deafultTemplate.template_id;
+            }
+          }
+        });
         this.studentListDataSource = res;
         this.studentList = this.keepCloning(res);
         this.getHeaderCheckBoxValue();
