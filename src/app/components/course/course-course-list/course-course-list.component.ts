@@ -177,7 +177,6 @@ export class CourseCourseListComponent implements OnInit {
   }
 
   defaultTemplateDet(data) {
-    debugger
     data.forEach(element => {
       if (element.is_default == 1) {
         this.deafultTemplate = element;
