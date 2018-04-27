@@ -3579,12 +3579,21 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   closeDiscountApply() {
     this.isDiscountApply = false;
-    this.discountApplyForm = {
-      type: 'amount',
-      value: null,
-      reason: '',
-      state: 'all'
-    }
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+  fetchDiscountData(e){
+    this.discountReason = e.reason;
+    this.instalmentTableData = e.installment;
+
+    this.isDiscountApplied = true;
+    this.applyDiscountCustomFeeSchedule();
+    this.totalDicountAmount = this.totalDicountAmount + parseInt(e.value);
+    this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
+    this.totalAmountDue = this.totalFeeWithTax - this.totalPaidAmount - this.totalDicountAmount;
+    this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
+
+    this.updateDiscount(); 
   }
   /* ============================================================================================================================ */
   deselectAllSelectedCheckbox() {
