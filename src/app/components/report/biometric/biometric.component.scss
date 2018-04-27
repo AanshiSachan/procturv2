@@ -358,19 +358,95 @@ p {
         }
     }
 }
-.student-table{
-    height: 450px;
-    overflow-y: scroll;
-    ::-webkit-scrollbar{
+.borderWithText{
+    :horizontal{
         display: block;
     }
-    .common-elements{
-        height: 450px;
-        overflow-y: scroll;
+}
+.common{
+    heigth:400px;
+    background-color:#efefef;
+    .student-table{
+        height: 380px;
+        ::-webkit-scrollbar{
+            display: block;
+        }
+        table{
+            thead{
+                tr{
+                    th{
+                        padding:13px 0px;
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    td{
+                        padding:0px 0px;
+                    }
+                }
+            }
+        }
+        .common-elements{
+            position:relative;
+            top:10%;
+            left:10px;
+            bottom: 10%;
+            width:98%;
+            height: 380px;
+            overflow-y: auto;
+        }
     }
-    .student-elements{
-        height: 350px;
-        overflow-y: scroll;
+}
+.students{
+    height:320px;
+  background-color: #efefef;
+    .student-table{
+        height: 300px;
+        ::-webkit-scrollbar{
+            display: block;
+        }
+        table{
+            thead{
+                tr{
+                    th{
+                        padding:13px 0px;
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    td{
+                        padding:0px 0px;
+                    }
+                }
+            }
+        }
+        
+        .common-elements{
+            height: 450px;
+            overflow-y: scroll;
+        }
+        .student-elements{
+            position:relative;
+            top:10%;
+            left:10px;
+            bottom: 10%;
+            width:98%;
+            height: 300px;
+            overflow-y: auto;
+        }
+    }
+}
+.tablePopup{
+    table{
+        thead{
+            tr{
+                th{
+                    padding:13px 0px;
+                }
+            }
+        }
     }
 }
 .records{

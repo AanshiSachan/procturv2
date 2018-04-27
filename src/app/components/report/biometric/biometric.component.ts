@@ -21,11 +21,21 @@ export class BiometricComponent implements OnInit {
   popupCtrl: any = "";
   addAcademicPopUp: boolean = false;
   isRippleLoad: boolean = true;
-  teachersData: any[] = [];
+  monthAttendance: any[] = [];
   showStudentTable: boolean = false;
   showTeachersTable: boolean = false;
   othersData: any[] = [];
   showCustomTable: boolean = false;
+  PageIndex: number = 1;
+  pagedisplaysize: number = 10;
+  totalRow: number;
+  showTable: boolean = false;
+  showMonth: boolean = false;
+  studentsDisplayData: any[] = [];
+  showRange: boolean = false;
+  showWeek: boolean = false;
+  weekAttendance: any[] = [];
+  range: any[] = [];
   getData = {
     school_id: -1,
     name: "",
@@ -35,9 +45,8 @@ export class BiometricComponent implements OnInit {
     master_course_name: "",
     course_id: -1,
     subject_id: -1,
-    user_Type: "",
-    
-    // biometric_attendance_date:""
+    user_Type: 1,
+    biometric_attendance_date: moment().format('YYYY-MM-DD')
   }
   getAllData = {
     from_date: "",
@@ -77,7 +86,7 @@ export class BiometricComponent implements OnInit {
   }
   fetchDataByName() {
 
-    if (this.getData.user_Type == "1") {
+    if (this.getData.user_Type == 1) {
       this.showStudentTable = true;
       this.showTeachersTable = false;
       this.showCustomTable = false;
@@ -85,7 +94,9 @@ export class BiometricComponent implements OnInit {
         (data: any) => {
 
           this.studentsData = data;
-
+          this.totalRow = data.length;
+          this.PageIndex = 1;
+          this.fetchTableDataByPage(this.PageIndex);
         },
         (error) => {
           this.isRippleLoad = false;
@@ -93,13 +104,17 @@ export class BiometricComponent implements OnInit {
         }
       )
     }
-    else if (this.getData.user_Type == "3") {
+    else if (this.getData.user_Type == 3) {
       this.showTeachersTable = true;
       this.showStudentTable = false;
       this.showCustomTable = false;
+
       this.reportService.getAttendanceReportTeachers(this.getData).subscribe(
         (data: any) => {
-          this.teachersData = data;
+          this.studentsData = data;
+          this.totalRow = data.length;
+          this.PageIndex = 1;
+          this.fetchTableDataByPage(this.PageIndex);
         },
         (error: any) => {
           return error;
@@ -112,7 +127,10 @@ export class BiometricComponent implements OnInit {
       this.showCustomTable = true;
       this.reportService.getAttendanceReportOthers(this.getData).subscribe(
         (data: any) => {
-          this.othersData = data;
+          this.studentsData = data;
+          this.totalRow = data.length;
+          this.PageIndex = 1;
+          this.fetchTableDataByPage(this.PageIndex);
         },
         (error: any) => {
           return error;
@@ -120,13 +138,13 @@ export class BiometricComponent implements OnInit {
       )
     }
   }
-  
+
   viewOlderRecords(i) {
     this.getAllData = {
       from_date: "",
       institute_id: this.reportService.institute_id,
       to_date: "",
-      user_id: i.student_id
+      user_id: i.user_id
     }
     this.addReportPopUp = true;
     this.reportService.getAllFinalReport(this.getAllData).subscribe(
@@ -145,24 +163,83 @@ export class BiometricComponent implements OnInit {
     if (i == 1) {
       this.showTeachersTable = false;
       this.masterCourseNames = true;
-      this.teachersData = [];
+
       this.showCustomTable = false;
-      this.othersData = [];
+
     }
     else {
       this.showStudentTable = false;
       this.masterCourseNames = false;
-      this.studentsData = [];
+
     }
   }
   popupChange() {
     if (this.popupCtrl == 2) {
+
       this.addReportPopUp = false;
       this.addAcademicPopUp = true;
+      this.showRange = true;
+      this.showMonth = false;
+      this.showWeek = false;
+
+    }
+    else if (this.popupCtrl == 0) {
+
+      this.getAllData = {
+        from_date: moment().subtract('months', 1).format('YYYY-MM-DD'),
+        institute_id: this.reportService.institute_id,
+        to_date: moment().format('YYYY-MM-DD'),
+        user_id: this.getAllData.user_id
+      }
+      this.addReportPopUp = false;
+      this.addAcademicPopUp = true;
+      this.showMonth = true;
+      this.showRange = false;
+      this.showWeek = false;
+      this.reportService.getAllFinalReport(this.getAllData).subscribe(
+        (data: any) => {
+          this.monthAttendance = data;
+        },
+        (error: any) => {
+          return error;
+        }
+      )
+
+    }
+    else if (this.popupCtrl == 1) {
+      this.getAllData = {
+        from_date: moment().subtract('days', 7).format('YYYY-MM-DD'),
+        institute_id: this.reportService.institute_id,
+        to_date: moment().format('YYYY-MM-DD'),
+        user_id: this.getAllData.user_id
+      }
+      this.addReportPopUp = false;
+      this.addAcademicPopUp = true;
+      this.showMonth = false;
+      this.showRange = false;
+      this.showWeek = true;
+      this.reportService.getAllFinalReport(this.getAllData).subscribe(
+        (data: any) => {
+          this.weekAttendance = data;
+        },
+        (error: any) => {
+
+        }
+      )
+
     }
     else {
       this.addAcademicPopUp = false;
       this.addReportPopUp = true;
+      this.reportService.getAllFinalReport(this.getAllData).subscribe(
+        (data: any) => {
+
+        },
+        (error: any) => {
+
+        }
+      )
+
     }
   }
   closeReportAcademicPopup() {
@@ -177,4 +254,84 @@ export class BiometricComponent implements OnInit {
       this.isProfessional = false;
     }
   }
+  showDataTable() {
+
+    this.getAllData = {
+      from_date: moment(this.getAllData.from_date).format('YYYY-MM-DD'),
+      institute_id: this.reportService.institute_id,
+      to_date: moment(this.getAllData.to_date).format('YYYY-MM-DD'),
+      user_id: this.getAllData.user_id
+    }
+    let diff = moment(this.getAllData.from_date).diff(moment(this.getAllData.to_date), 'months');
+    // let futureDate = moment(this.getAllData.to_date).add('days',1);
+    if (diff < -2) {
+      let msg = {
+        type: "error",
+        title: "Incorrect Details",
+        body: "Range should not be more than 2 months"
+      }
+
+      this.appc.popToast(msg);
+    }
+    else if(this.getAllData.from_date >= this.getAllData.to_date){
+      let msg = {
+        type: "error",
+        title: "Incorrect Details",
+        body: "From date cannot be Greater than to date"
+      }
+
+      this.appc.popToast(msg);
+    }
+    // else if(this.getAllData.to_date == 'futureDate'){
+    //   let msg = {
+    //     type: "error",
+    //     title: "Incorrect Details",
+    //     body: "Future Date is not allowed"
+    //   }
+
+    //   this.appc.popToast(msg);
+    // }
+    
+    else{
+    this.reportService.getAllFinalReport(this.getAllData).subscribe(
+      (data: any) => {
+        this.range = data;
+      },
+      (error) => {
+        return error;
+      }
+    )
+    this.showTable = true;
+
+  }
+}
+  //pagination functions
+  fetchTableDataByPage(index) {
+    this.PageIndex = index;
+    let startindex = this.pagedisplaysize * (index - 1);
+
+    this.studentsDisplayData = this.getDataFromDataSource(startindex);
+
+  }
+
+  fetchNext() {
+    this.PageIndex++;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
+  fetchPrevious() {
+    if (this.PageIndex != 1) {
+      this.PageIndex--;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
+  }
+
+  getDataFromDataSource(startindex) {
+
+    let d = this.studentsData.slice(startindex, startindex + this.pagedisplaysize);
+    return d;
+
+  }
+
+
 }

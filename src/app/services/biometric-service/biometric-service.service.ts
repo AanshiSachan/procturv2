@@ -42,7 +42,7 @@ export class BiometricServiceService {
       )
     }
     getAttendanceReport(obj){
-      // obj.biometric_attendance_date=moment(obj.biometric_attendance_date).format('YYYY-MM-DD');
+      obj.biometric_attendance_date=moment(obj.biometric_attendance_date).format('YYYY-MM-DD');
       let url=this.baseUrl + "/api/v1/students/manage/" + this.institute_id;
       return this.http.post(url , obj ,{headers:this.headers} ).map(
         (data : any)=>{
@@ -54,6 +54,7 @@ export class BiometricServiceService {
       )
     }
     getAttendanceReportTeachers(obj){
+      obj.biometric_attendance_date=moment(obj.biometric_attendance_date).format('YYYY-MM-DD');
       let url=this.baseUrl + "/api/v1/teachers/manage/" +this.institute_id;
       return this.http.post(url, obj ,{headers:this.headers}).map(
         (data :any)=>{
@@ -65,6 +66,7 @@ export class BiometricServiceService {
       )
     }
     getAttendanceReportOthers(obj){
+      obj.biometric_attendance_date=moment(obj.biometric_attendance_date).format('YYYY-MM-DD');
       let isActive = obj.is_active_status == 1? "Y": "N";
       let url=this.baseUrl + "/api/v1/profiles/all/" + this.institute_id + "?active=" +isActive;
       return this.http.post(url , obj, {headers:this.headers}).map(
