@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CourseExamComponent } from './course-exam.component';
 import { CourseExamRouting } from './course-exam.routing.module';
+import { ExamCourseService } from '../../../services/course-services/exam-schedule.service';
+import { ProcturWidgetComponent } from '../../homepage-dashboard/proctur-widget/proctur-widget.component';
 
 @NgModule({
     imports: [
@@ -18,10 +20,11 @@ import { CourseExamRouting } from './course-exam.routing.module';
     ],
     exports: [],
     declarations: [
-        CourseExamComponent
+        CourseExamComponent,
+        ProcturWidgetComponent
     ],
     providers: [
-
+        ExamCourseService
     ]
 })
 
