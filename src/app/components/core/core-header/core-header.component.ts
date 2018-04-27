@@ -277,11 +277,11 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   selectedStudent(s) {
-    this.router.navigateByUrl('/student/edit/' + s.id);
+    this.router.navigate(['/student'], { queryParams: { id: s.id } });
   }
 
   selectedEnquiry(e) {
-    this.router.navigateByUrl('/enquiry/edit/' + e.id);
+    this.router.navigate(['/enquiry'], { queryParams: { id: e.id } });
   }
 
   searchAgain(e) {
@@ -293,7 +293,6 @@ export class CoreHeaderComponent implements OnInit {
       source: e,
       input: this.userInput
     }
-    console.log(obj);
     this.closeSearch(false)
     this.searchViewMore.emit(obj);
   }

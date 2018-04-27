@@ -180,11 +180,13 @@ export class AppComponent implements OnInit {
   }
 
   studentSelected(s) {
-    this.router.navigateByUrl('/student/edit/' + s.id);
+    this.closeSearchArea();
+    this.router.navigate(['/student'], { queryParams: { id: s.id } });
   }
 
   enquirySelected(e) {
-    this.router.navigateByUrl('/enquiry/edit/' + e.id);
+    this.closeSearchArea();
+    this.router.navigate(['/enquiry'], { queryParams: { id: e.id } });
   }
 
 }

@@ -3,7 +3,7 @@ import {
   AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
   SimpleChanges, OnChanges
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
 import { instituteInfo } from '../../../model/instituteinfo';
@@ -320,10 +320,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService,
     private router: Router, private fb: FormBuilder, private pops: PopupHandlerService, private postdata: PostEnquiryDataService,
-    private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef) {
+    private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef, private actRoute: ActivatedRoute) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
+    
+    this.actRoute.queryParams.subscribe(e => {
+      if(e.id != null && e.id != undefined && e.id != ''){
+        this.router.navigate(['/enquiry/edit/' + e.id]);
+      }
+    });
+    
   }
 
   /* =========================================================================== */
