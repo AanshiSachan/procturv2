@@ -6,6 +6,7 @@ import { ErrorComponent } from './components/error/error.component';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
 import { SlotComponent } from './components/slot/slot.component';
 import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
+import { ClassRoomComponent } from './components/class-room/class-room.component';
 
 @NgModule({
     imports: [
@@ -56,7 +57,7 @@ import { CityAreaMapComponent } from './components/city-area-map/city-area-map.c
                     loadChildren: 'app/components/employee-home/employee-home.module#EmployeeHomeModule',
                     canLoad: [AuthGuard]
                 },
-                
+
                 {
                     path: 'reports',
                     loadChildren: 'app/components/report/report.module#ReportModule',
@@ -76,12 +77,6 @@ import { CityAreaMapComponent } from './components/city-area-map/city-area-map.c
                     path: 'campaign',
                     loadChildren: 'app/components/campaign/campaign.module#CampaignModule',
                     canLoad: [AuthGuard]
-                },
-
-                {
-                    path: 'classRoom',
-                    loadChildren:'app/components/class-room/class-room.module',
-                    canLoad:[AuthGuard]
                 },
                 {
                     path: 'exams',
@@ -119,6 +114,10 @@ import { CityAreaMapComponent } from './components/city-area-map/city-area-map.c
                     path: 'areaCity',
                     component: CityAreaMapComponent,
                     // canLoad: [AuthGuard]
+                },
+                {
+                    path: 'classroom',
+                    component: ClassRoomComponent
                 },
                 { path: 'comingsoon', component: ComingSoonComponent },
                 { path: '**', component: ErrorComponent },
