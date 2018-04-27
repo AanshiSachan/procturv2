@@ -342,23 +342,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     /* Fetch prefill data after table data load completes */
 
     /* Dropdown items for Bulk Actions */
-    this.bulkAddItems = [
-      {
-        label: 'Send SMS', icon: 'fa-envelope-o', command: () => {
-          this.sendBulkSms();
-        }
-      },
-      {
-        label: 'Delete Enquiries', icon: 'fa-trash-o', command: () => {
-          this.bulkDeleteEnquiries();
-        }
-      },
-      {
-        label: 'Assign Enquiries', icon: 'fa-buysellads', command: () => {
-          this.bulkAssignEnquiriesOpen();
-        }
-      }
-    ];
+    this.roleManagementForBulkAdd();
     /* Load paginated enquiry data from server */
     let params = sessionStorage.getItem('dashBoardParam');
     if (params != "" && params != null && params != undefined) {
@@ -380,7 +364,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.cd.markForCheck();
       }
       else if (message == 'update') {
-        
+
         this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
           this.cd.markForCheck();
           this.updateFormData.priority = this.getPriority(res.priority);
@@ -400,9 +384,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           }
           this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
           this.updateFormData.followUpTime = res.followUpTime;
-          if(res.followUpTime != "" && res.followUpTime != null && res.followUpDate != null && res.followUpDate != ""){
+          if (res.followUpTime != "" && res.followUpTime != null && res.followUpDate != null && res.followUpDate != "") {
             this.updateFormData.is_follow_up_time_notification = true;
-          }else{
+          } else {
             this.updateFormData.is_follow_up_time_notification = false;
           }
           this.updateFormComments = res.comments;
@@ -2076,7 +2060,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /* =========================================================================== */
   /* =========================================================================== */
 
-  updateRegisterEnquiry(){
+  updateRegisterEnquiry() {
     this.isConvertToStudent = true;
     this.pushUpdatedEnquiry();
   }
@@ -2122,7 +2106,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
               body: 'Your enquiry has been successfully submitted'
             }
             this.appC.popToast(msg);
-            if(this.isConvertToStudent){
+            if (this.isConvertToStudent) {
               let obj = {
                 name: this.selectedRow.name,
                 phone: this.selectedRow.phone,
@@ -2133,12 +2117,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
                 parent_name: this.selectedRow.parent_name,
                 parent_phone: this.selectedRow.parent_phone,
                 enquiry_id: this.selectedRow.institute_enquiry_id,
-                institute_enquiry_id : this.selectedRow.institute_enquiry_id
+                institute_enquiry_id: this.selectedRow.institute_enquiry_id
               }
               localStorage.setItem('studentPrefill', JSON.stringify(obj));
               this.router.navigate(['student/add']);
             }
-            else{
+            else {
               this.closePopup();
               this.busy = this.loadTableDatatoSource(this.instituteData);
             }
@@ -3949,6 +3933,49 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       this.currentDirection = "desc";
     }
   }
+
+  roleManagementForBulkAdd() {
+    this.bulkAddItems = [];
+    let permissionArray: any = sessionStorage.getItem('permissions');
+    if (permissionArray == "" || permissionArray == null) {
+      this.giveFullPermisionOfBulfAction();
+    } else {
+      if (permissionArray != undefined) {
+        if (permissionArray.indexOf('115') != -1) {
+          this.giveFullPermisionOfBulfAction();
+        } else {
+          this.bulkAddItems = [
+            {
+              label: 'Send SMS', icon: 'fa-envelope-o', command: () => {
+                this.sendBulkSms();
+              }
+            }
+          ];
+        }
+      }
+    }
+  }
+
+  giveFullPermisionOfBulfAction() {
+    this.bulkAddItems = [
+      {
+        label: 'Send SMS', icon: 'fa-envelope-o', command: () => {
+          this.sendBulkSms();
+        }
+      },
+      {
+        label: 'Delete Enquiries', icon: 'fa-trash-o', command: () => {
+          this.bulkDeleteEnquiries();
+        }
+      },
+      {
+        label: 'Assign Enquiries', icon: 'fa-buysellads', command: () => {
+          this.bulkAssignEnquiriesOpen();
+        }
+      }
+    ];
+  }
+
 }
 
 

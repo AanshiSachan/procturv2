@@ -91,6 +91,10 @@ export class CoreHeaderComponent implements OnInit {
           document.getElementById('divSettingTag').classList.remove('hide');
           document.getElementById('divGeneralSettingTag').classList.remove('hide');
         }
+        if (permissionArray.indexOf('115') != -1) {
+          document.getElementById('divManageFormTag').classList.remove('hide');
+          document.getElementById('divAreaAndMap').classList.remove('hide');
+        }
       }
     }
   }
@@ -120,45 +124,55 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divSettingTag').classList.add('hide');
     document.getElementById('divGeneralSettingTag').classList.add('hide');
     document.getElementById('divManageFormTag').classList.add('hide');
+    document.getElementById('divAreaAndMap').classList.add('hide');
   }
 
 
   hasEnquiryAccess(): boolean {
-    let permissionArray = sessionStorage.getItem('permissions');
+    let permissionArray: any = sessionStorage.getItem('permissions');
     if (permissionArray == "" || permissionArray == null) {
       return true;
-    } 
+    }
     else {
-      let data = JSON.parse(permissionArray);
       let id = 115;
       let id2 = 110;
-      return (data.indexOf(id) == "-1" && data.indexOf(id2) == "-1")
+      if (permissionArray.indexOf(id) != -1 || permissionArray.indexOf(id2) != -1) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
 
   hasStudentAccess(): boolean {
-    let permissionArray = sessionStorage.getItem('permissions');
+    let permissionArray: any = sessionStorage.getItem('permissions');
     if (permissionArray == "" || permissionArray == null) {
       return true;
-    } 
+    }
     else {
-      let data = JSON.parse(permissionArray);
       let id = 301;
       let id2 = 303;
-      return (data.indexOf(id) == "-1" && data.indexOf(id2) == "-1")
+      if (permissionArray.indexOf(id) != -1 && permissionArray.indexOf(id2) != "-1") {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
   hasCourseAccess(): boolean {
-    let permissionArray = sessionStorage.getItem('permissions');
+    let permissionArray: any = sessionStorage.getItem('permissions');
     if (permissionArray == "" || permissionArray == null) {
       return true;
-    } 
+    }
     else {
-      let data = JSON.parse(permissionArray);
       let id = 402;
-      return (data.indexOf(id) == "-1")
+      if (permissionArray.indexOf(id) != -1) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
