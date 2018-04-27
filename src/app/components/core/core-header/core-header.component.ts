@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subscription, } from 'rxjs';
 import 'rxjs/Rx';
-
+import { AppComponent } from '../../../app.component';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 
 @Component({
@@ -41,9 +41,11 @@ export class CoreHeaderComponent implements OnInit {
   resultStat: any = 1;
 
 
+  @Output() searchViewMore = new EventEmitter<any>();
+
   private userInput: string;
 
-  constructor(private log: LoginService, private router: Router, private fetchService: FetchprefilldataService) {
+  constructor(private log: LoginService, private router: Router, private fetchService: FetchprefilldataService, private appC: AppComponent) {
 
   }
 
@@ -223,13 +225,24 @@ export class CoreHeaderComponent implements OnInit {
       if (value.trim() != '' && value.length >= 4) {
         let obj = this.getSearchObject(value);
         this.inputValue = value;
+        this.searchViewMore.emit(null);
         /* Loading Shows */
         this.resultStat = 0;
         this.fetchService.globalSearch(obj).subscribe(
           res => {
             this.resultStat = 1;
-            this.enquiryResult = res.filter(e => e.source == "Enquiry");
-            this.studentResult = res.filter(s => s.source == "Student");
+            if (res.length != 0) {
+              this.enquiryResult = res.filter(e => e.source == "Enquiry");
+              this.studentResult = res.filter(s => s.source == "Student");
+            }
+            else {
+              let obj = {
+                type: "info",
+                title: "No Records Found",
+                body: "Please try with a different keyword"
+              }
+              this.appC.popToast(obj);
+            }
           },
           err => {
           }
@@ -264,11 +277,25 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   selectedStudent(s) {
-    this.router.navigateByUrl('/enquiry/edit/' + s.id);
+    this.router.navigateByUrl('/student/edit/' + s.id);
   }
 
   selectedEnquiry(e) {
-    this.router.navigateByUrl('/student/edit/' + e.id);
+    this.router.navigateByUrl('/enquiry/edit/' + e.id);
+  }
+
+  searchAgain(e) {
+    this.userInput = e;
+  }
+
+  viewMoreRecods(e) {
+    let obj = {
+      source: e,
+      input: this.userInput
+    }
+    console.log(obj);
+    this.closeSearch(false)
+    this.searchViewMore.emit(obj);
   }
 
 }

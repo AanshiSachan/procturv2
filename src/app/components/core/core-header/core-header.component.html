@@ -12,10 +12,10 @@
       <section class="header-search search-item">
         <div class="pos-rel search-item">
           <form autocomplete="off" #form="ngForm">
-            <input autocomplete="false" type="text" [ngClass]="{'has-focus': isResultDisplayed}" class="form-ctrl-head searchbox search-item" [(ngModel)]="userInput"
+            <input autocomplete="off" type="text" [ngClass]="{'has-focus': isResultDisplayed}" class="form-ctrl-head searchbox search-item" [(ngModel)]="userInput"
               name="userInput" #searchInput (focus)="triggerSearchBox($event)">
-            <button class="form-btn-head">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="504 4 22 22">
+            <button class="form-btn-head search-item">
+              <svg class="search-item" xmlns="http://www.w3.org/2000/svg" viewBox="504 4 22 22">
                 <defs>
                   <style>
                     .cls-1,
@@ -49,7 +49,7 @@
       </section>
       <section class="search-dropdown search-item" #seachResult>
         <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat" 
-        [studentResult]="studentResult" (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)" [enquiryResult]="enquiryResult">
+        [studentResult]="studentResult" (viewAll)="viewMoreRecods($event)" (searchAgain)="searchAgain($event)" (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)" [enquiryResult]="enquiryResult">
         </search-box>
       </section>
     </div>

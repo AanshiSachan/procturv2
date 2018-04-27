@@ -1,21 +1,133 @@
-<div class="main-wrapper" >
+<div class="main-wrapper">
     <overlay-menu *ngIf="isMenuVisible"></overlay-menu>
-    <core-header class="hide">
+    <core-header (searchViewMore)="searchViewMore($event)" class="hide">
     </core-header>
     <div id="middleWrapper">
         <main>
-            <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" 
-            [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+            <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
             </loaders-css>
             <core-sidednav class="hide">
             </core-sidednav>
             <section class="middle-section clearFix">
                 <div>
-                <toaster-container [toasterconfig]="config"></toaster-container>
+                    <toaster-container [toasterconfig]="config"></toaster-container>
                 </div>
                 <router-outlet>
                 </router-outlet>
             </section>
         </main>
     </div>
+
+    <proctur-popup [sizeWidth]="'large'" *ngIf="isSearchMore">
+
+        <span class="closePopup pos-abs fbold show" (click)="closeSearchArea()" close-button>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                    <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                        <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                        <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                    </g>
+                    <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                    />
+                </g>
+            </svg>
+        </span>
+
+        <h2 popup-header>Found {{searchResult.length}} Records</h2>
+
+        <div class="content-wrapper" popup-content>
+           <div class="content-scroller"> 
+            <section class="search-dropdown search-item" #seachResult>
+                <div class="search-dropdown-box search-item">
+
+                    <section *ngIf="resultStat == 0">
+                        <ul>
+                            <li>
+                                <h6>
+                                    <span>
+                                        <div class="skeleton">
+                                        </div>
+                                    </span>
+                                </h6>
+                            </li>
+                            <li>
+                                <h6>
+                                    <span>
+                                        <div class="skeleton">
+                                        </div>
+                                    </span>
+                                </h6>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <!-- Result-->
+                        <ul class="sdb search-item" *ngIf="searchResult.length != 0">
+                            <li *ngIf="studentResult.length != 0">
+                                <h5>
+                                    <span>
+                                        In Students
+                                    </span>
+                                </h5>
+                                <ul class="in-student-list">
+                                    <li (click)="studentSelected(student)" *ngFor="let student of studentResult">
+                                        <a>
+                                            <img src="" alt="" />
+                                            <span class="sdb-right">
+                                                <label>
+                                                    <strong>{{student.name}}</strong>
+                                                </label>
+                                                <span>
+                                                    +91 {{student.phone}} | Enrolment ID : {{student.displayId}}
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li *ngIf="enquiryResult.length != 0">
+                                <h5>
+                                    <span>
+                                        In Enquiry
+                                    </span>
+
+                                </h5>
+                                <ul class="in-student-list">
+                                    <li (click)="enquirySelected(enquiry)" *ngFor="let enquiry of enquiryResult">
+                                        <a>
+                                            <img src="" alt="" />
+                                            <span class="sdb-right">
+                                                <label>
+                                                    <strong>{{enquiry.name}}</strong>
+                                                </label>
+                                                <span>
+                                                    +91 {{enquiry.phone}} | Enrolment ID : {{enquiry.displayId}}
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </section>
+
+                </div>
+            </section>
+            </div>
+        </div>
+
+        <!-- <div class="" popup-footer>
+            <div class="clearfix">
+                <aside class="pull-right popup-btn">
+                    <input type="button" value="Cancel" class="btn">
+                    <input type="button" value="Confirm" class="fullBlue btn">
+                </aside>
+            </div>
+        </div> -->
+
+    </proctur-popup>
+
+
 </div>

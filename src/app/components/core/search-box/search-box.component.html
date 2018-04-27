@@ -43,12 +43,15 @@
           </span>
           <!-- <a>View More</a> -->
         </h5>
-        <ul class="in-student-list">
-          <li (click)="searchThisAgain(rs)" *ngFor="let rs of recentlySearched">
+        <ul class="in-student-list search-item">
+          <li class="search-item" *ngFor="let rs of recentlySearched">
             <a>
-              <span class="sdb-right">
-                <label>
+              <span class="sdb-right search-item">
+                <label class="recent search-item" (click)="searchThisAgain(rs)">
                   <strong>{{rs}}</strong>
+                </label>
+                <label class="delete search-item">
+                    <img class="search-item" src="./assets/images/cross.png" (click)="deleteRecent(rs)" alt="delete">
                 </label>
               </span>
             </a>
@@ -59,12 +62,12 @@
 
     <!-- Result-->
     <ul class="sdb search-item" *ngIf="searchResult.length != 0">
-      <li>
+      <li *ngIf="studentResult.length != 0">
         <h5>
           <span>
             In Students
           </span>
-          <a>View More</a>
+          <a (click)="fullView('student')">View More</a>
         </h5>
         <ul class="in-student-list">
           <li (click)="studentSelected(student)" *ngFor="let student of studentResult">
@@ -82,12 +85,12 @@
           </li>
         </ul>
       </li>
-      <li>
+      <li *ngIf="enquiryResult.length != 0">
         <h5>
           <span>
             In Enquiry
           </span>
-          <a>View More</a>
+          <a (click)="fullView('enquiry')">View More</a>
         </h5>
         <ul class="in-student-list">
           <li (click)="enquirySelected(enquiry)" *ngFor="let enquiry of enquiryResult">

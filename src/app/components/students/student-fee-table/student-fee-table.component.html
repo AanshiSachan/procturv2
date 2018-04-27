@@ -1,0 +1,226 @@
+<proctur-popup [sizeWidth]="'large'">
+
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopups($event)" close-button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                </g>
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                />
+            </g>
+        </svg>
+    </span>
+
+    <h2 popup-header style="padding: 10px 5px;">Define Fee Schedule</h2>
+
+    <div class="fee-definations" popup-content>
+        <div class="fee-container">
+
+            <div class="installment-container">
+
+                <div class="installment-header">
+                    <div class="pull-left">
+                        EDIT FEE INSTALLMENTS
+
+                        <span class="installment-count"></span>
+                    </div>
+                    <div class="pull-right">
+
+                    </div>
+                </div>
+
+                <div class="installment-adder">
+                    <ul>
+                        <li>
+                            <div class="form-wrapper datePickerBox">
+                                <label for="dddue_date">Due Date</label>
+                                <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" readonly="true" id="dddue_date" name="dddue_date"
+                                    [(ngModel)]="addFeeInstallment.due_date" bsDatepicker>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-wrapper">
+                                <label for="amountinst">Amount</label>
+                                <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="addFeeInstallment.initial_fee_amount" id="amountinst"
+                                    name="amountinst">
+                            </div>
+                        </li>
+                        <li>
+                            <button type="submit" class="btn fee-adder" (click)="addNewInstallmentFee()">
+                                <i></i>
+                                Add
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="installment-table">
+                    <ul class="table-header">
+                        <li [ngClass]="{'bigger': taxEnableCheck == '0'}">#</li>
+                        <li class="date" [ngClass]="{'bigger': taxEnableCheck == '0'}">Due Date</li>
+                        <li [ngClass]="{'hide': taxEnableCheck == '0'}">Amount</li>
+                        <li [ngClass]="{'hide': taxEnableCheck == '0'}">Tax</li>
+                        <li [ngClass]="{'bigger': taxEnableCheck == '0'}">Fee Incl Tax</li>
+                        <li [ngClass]="{'bigger': taxEnableCheck == '0'}">Action</li>
+                    </ul>
+                    <div class="table-data">
+                        <ul class="table-row" *ngFor="let fee of installmentData; let i = index;">
+                            <li [ngClass]="{'bigger': taxEnableCheck == '0'}">{{i+1}}</li>
+                            <li class="date">
+                                <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'N'">
+                                    <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd" (ngModelChange)="updateTableInstallment()"
+                                        [(ngModel)]="fee.due_date" readonly="true" bsDatepicker>
+                                </div>
+                                <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'Y'">
+                                    <label style="padding: 5px;float: left;text-align: left;">{{fee.due_date | date: "dd-MMM-yyyy"}}</label>
+                                </div>
+                            </li>
+                            <li [ngClass]="{'hide': taxEnableCheck == '0'}">
+                                <div class="form-wrapper disable">
+                                    <input type="text" OnlyNumber="true" class="form-ctrl" readonly="true" name="amt" [ngModel]="updateInitialAmount(fee.fees_amount, i)">
+                                </div>
+                            </li>
+                            <li [ngClass]="{'hide': taxEnableCheck == '0'}">
+                                <div class="form-wrapper disable">
+                                    <input type="text" OnlyNumber="true" class="form-ctrl" readonly="true" name="tax" [ngModel]="getTaxedAmount(fee.initial_fee_amount, fee.service_tax_applicable, i)">
+                                </div>
+                            </li>
+                            <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
+                                <div class="form-wrapper" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
+                                    <input *ngIf="fee.is_referenced == 'Y'" readonly="true" type="text" OnlyNumber="true" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount">
+                                    <input *ngIf="fee.is_referenced == 'N'" type="text" OnlyNumber="true" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount"
+                                        (ngModelChange)="updateInitialAmount(fee.fees_amount, i)">
+                                </div>
+                            </li>
+                            <li [ngClass]="{'bigger': taxEnableCheck == '0'}">
+                                <a *ngIf="fee.is_referenced == 'N'" (click)="deleteInstallment(i)">
+                                    <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
+                                </a>
+                                <a *ngIf="fee.is_referenced == 'Y'" class="paid-fee">Paid</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="additional-container">
+                <div class="additional-header">
+                    <div class="pull-left">
+                        EDIT ADDITIONAL FEES
+                    </div>
+                    <div class="pull-right">
+                    </div>
+                </div>
+
+                <div class="additional-adder">
+                    <ul>
+                        <li>
+                            <div class="form-wrapper">
+                                <label for="feetype">Fee Type</label>
+                                <select id="feetype" class="form-ctrl" [(ngModel)]="addFeeOther.fee_type" (ngModelChange)="updateOtherFeeData($event)" name="feetype">
+                                    <option value="" selected>Select Fee Type</option>
+                                    <option [value]="type.id" *ngFor="let type of getOtherFeesArray()">{{type.value}}</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-wrapper datePickerBox">
+                                <label for="dd">Due Date</label>
+                                <input type="text" value="" class="form-ctrl bsDatepicker" readonly="true" id="dd" name="dd" [(ngModel)]="addFeeOther.due_date"
+                                    bsDatepicker>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-wrapper">
+                                <label for="amt">Amount</label>
+                                <input type="text" OnlyNumber="true" class="form-ctrl" [(ngModel)]="addFeeOther.initial_fee_amount" id="amt" name="amt">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-wrapper">
+                                <label for="taxamt">Tax</label>
+                                <input style="background: #dddddd;" type="text" OnlyNumber="true" readonly="true" class="form-ctrl" [ngModel]="addFeeOther.service_tax"
+                                    id="taxamt" name="taxamt">
+                            </div>
+                        </li>
+                        <li>
+                            <button type="submit" class="btn fee-adder" (click)="addNewOtherFee()">
+                                <i></i>
+                                Add
+                            </button>
+                        </li>
+                        <li></li>
+                    </ul>
+                </div>
+
+                <div class="additional-table">
+                    <ul class="table-header">
+                        <li>Fee Type</li>
+                        <li class="date">Due Date</li>
+                        <li>Amount</li>
+                        <li class="tax">Tax</li>
+                        <li>Fee Incl Tax</li>
+                        <li>Action</li>
+                    </ul>
+
+                    <div class="table-data" *ngIf="additionalData.length !=0">
+                        <ul class="table-row" *ngFor="let fee of additionalData; let i = index">
+                            <li>{{fee.fee_type_name}}</li>
+                            <li class="date">
+                                <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'N'">
+                                    <input type="text" value="" [disabled]="fee.is_referenced == 'Y'" class="form-ctrl bsDatepicker" name="dd"
+                                        [(ngModel)]="fee.due_date" readonly="true" bsDatepicker>
+                                </div>
+                                <div class="form-wrapper datePickerBox" [ngClass]="{'disable': fee.is_referenced == 'Y'}" *ngIf="fee.is_referenced == 'Y'">
+                                    <label style="padding: 5px;float: left;text-align: left;">{{fee.due_date | date: "dd-MMM-yyyy"}}</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="form-wrapper disable">
+                                    <input type="text" OnlyNumber="true" readonly="true" class="form-ctrl" name="amt" [(ngModel)]="fee.initial_fee_amount">
+                                </div>
+                            </li>
+                            <li class="tax">
+                                <div class="form-wrapper disable">
+                                    <input type="text" OnlyNumber="true" class="form-ctrl" readonly="true" name="tax" [ngModel]="getOtherTaxes(fee.initial_fee_amount, fee.service_tax, i)">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="form-wrapper" [ngClass]="{'disable': fee.is_referenced == 'Y'}">
+                                    <input *ngIf="fee.is_referenced == 'Y'" readonly="true" type="text" OnlyNumber="true" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount">
+                                    <input *ngIf="fee.is_referenced == 'N'" type="text" OnlyNumber="true" class="form-ctrl" name="amttax" [(ngModel)]="fee.fees_amount"
+                                        (ngModelChange)="updateAdditionalInitialAmount(fee.fees_amount, fee.service_tax,i)">
+                                </div>
+                            </li>
+                            <li>
+                                <a (click)="deleteOtherFee(i)" *ngIf="fee.is_referenced == 'N'">
+                                    <i style="font-family: FontAwesome;" class="fa fa-trash" aria-hidden="true"></i> Delete
+                                </a>
+                                <a *ngIf="fee.is_referenced == 'Y'" class="paid-fee">Paid</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="table-data" *ngIf="additionalData.length ==0">
+                        <h3>No Additional Fees Applied</h3>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="" popup-footer>
+        <div class="clearfix">
+            <aside class="pull-right popup-btn">
+                <input type="button" value="Cancel" class="btn" (click)="closePopups($event)">
+                <input type="button" value="Apply" (click)="applyAction($event)" class="fullBlue btn">
+            </aside>
+        </div>
+    </div>
+
+</proctur-popup>

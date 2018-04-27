@@ -28,7 +28,6 @@ $color-highlight: lighten($color-base, 7%);
     }
 }
 
-
 .sdb {
     cursor: pointer;
     &>li {
@@ -72,6 +71,7 @@ $color-highlight: lighten($color-base, 7%);
         }
     }
 }
+
 .in-student-list {
     &>li {
         margin-bottom: 0px;
@@ -103,6 +103,26 @@ $color-highlight: lighten($color-base, 7%);
                     cursor: pointer;
                     strong {
                         font-weight: 600;
+                    }
+                    &.recent {
+                        display: inline-block;
+                        margin-bottom: 6px;
+                        color: rgba(30, 35, 40, 0.7);
+                        width: 85%;
+                    }
+                    &.delete {
+                        display: inline-block;
+                        margin-bottom: 6px;
+                        color: rgba(30, 35, 40, 0.7);
+                        width: 10%;
+                        img {
+                            float: left;
+                            width: 14px;
+                            height: 14px;
+                            border-radius: 50%;
+                            margin-right: 0px;
+                            cursor: pointer;
+                        }
                     }
                 }
                 span {

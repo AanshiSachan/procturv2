@@ -69,7 +69,8 @@ export class FetchprefilldataService {
     let url = this.baseUrl +"/api/v1/students/globalSearch"
     return this.http.post(url, obj, {headers: this.headers}).map(
       res => {
-        if(res != null){
+        let data = res['_body'];
+        if(data != null && data != ''){
           return res.json();
         }
         else{

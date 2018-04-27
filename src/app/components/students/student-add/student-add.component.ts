@@ -385,7 +385,7 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  updateBatchList(){
+  updateBatchList() {
     this.studentPrefillService.fetchBatchDetails().subscribe(data => {
       this.batchList = [];
       data.forEach(el => {
@@ -502,16 +502,16 @@ export class StudentAddComponent implements OnInit {
     this.totalDicountAmount = data.studentwise_total_fees_discount;
     data.customFeeSchedules.forEach(el => {
       /* Taxes Here */
-      
+
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-        if (el.fee_type_name == "INSTALLMENT"){
+        if (el.fee_type_name == "INSTALLMENT") {
           let tax = el.initial_fee_amount * (this.service_tax / 100);
           this.totalTaxAmount += this.precisionRound(tax, -1);
           if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
             el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
           }
         }
-        else{
+        else {
           let tax = el.initial_fee_amount * (el.service_tax / 100);
           this.totalTaxAmount += this.precisionRound(tax, -1);
         }
@@ -1119,8 +1119,8 @@ export class StudentAddComponent implements OnInit {
         this.studentAddFormData.student_sex = "M";
       }
       this.isRippleLoad = true;
-      
-      this.studentAddFormData.enquiry_id = this.institute_enquiry_id; 
+
+      this.studentAddFormData.enquiry_id = this.institute_enquiry_id;
       debugger;
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
@@ -1648,10 +1648,10 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* arg1::studentComp arg2:: enquiryComp */
   updateEnquiryComponent(id): any {
-    let result:any;
+    let result: any;
 
     this.enquiryCustomComp.forEach(el => {
-      if(el.component_id == id){
+      if (el.component_id == id) {
         debugger;
         if (el.type == 4) {
           result = (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value;
@@ -1743,17 +1743,28 @@ export class StudentAddComponent implements OnInit {
   addInstituteData() {
     this.prefill.createNewInstitute(this.createInstitute).subscribe(
       el => {
-      if (el.message === "OK") {
-        this.prefill.getSchoolDetails().subscribe(
-          data => {
-            this.school = data;
-            this.instituteList = this.school;
-            this.instituteList.forEach(el => {
-              el.edit = false;
-            });
+        if (el.message === "OK") {
+          this.prefill.getSchoolDetails().subscribe(
+            data => {
+              this.school = data;
+              this.instituteList = this.school;
+              this.instituteList.forEach(el => {
+                el.edit = false;
+              });
 
-            this.closeAddInstitute();
-          },
+              this.closeAddInstitute();
+            },
+            err => {
+              let alert = {
+                type: 'error',
+                title: 'Failed To Add Institute',
+                body: 'There was an error processing your request'
+              }
+              this.appC.popToast(alert);
+            }
+          );
+        }
+        else {
           err => {
             let alert = {
               type: 'error',
@@ -1762,27 +1773,16 @@ export class StudentAddComponent implements OnInit {
             }
             this.appC.popToast(alert);
           }
-        );
-      }
-      else {
-        err => {
-          let alert = {
-            type: 'error',
-            title: 'Failed To Add Institute',
-            body: 'There was an error processing your request'
-          }
-          this.appC.popToast(alert);
         }
-      }
-    },
-    err => {
-      let alert = {
-        type: 'error',
-        title: 'Failed To Add Institute',
-        body: 'There was an error processing your request'
-      }
-      this.appC.popToast(alert);
-    });
+      },
+      err => {
+        let alert = {
+          type: 'error',
+          title: 'Failed To Add Institute',
+          body: 'There was an error processing your request'
+        }
+        this.appC.popToast(alert);
+      });
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -1953,10 +1953,10 @@ export class StudentAddComponent implements OnInit {
           this.isFeeApplied = true;
           this.discountReason = "";
           res.customFeeSchedules.forEach(el => {
-            if(el.due_date == null){
+            if (el.due_date == null) {
               el.due_date = moment(new Date()).format("YYYY-MM-DD");
             }
- 
+
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
               this.service_tax = res.registeredServiceTax;
               if (el.fee_type_name == "INSTALLMENT") {
@@ -1990,7 +1990,7 @@ export class StudentAddComponent implements OnInit {
           this.updateTableInstallment();
 
           this.instalmentTableData.forEach(e => {
-            if(e.due_date == null){
+            if (e.due_date == null) {
               e.due_date = moment(new Date()).format("YYYY-MM-DD");
             }
           })
@@ -2026,11 +2026,11 @@ export class StudentAddComponent implements OnInit {
     }
   }
   /* ============================================================================================================================ */
-  updateInstallmentTableDate(e, i){
-    if(e == null || e == "Invalid date"){
+  updateInstallmentTableDate(e, i) {
+    if (e == null || e == "Invalid date") {
       this.instalmentTableData[i].due_date = moment().format("YYYY-MM-DD");
     }
-    else{
+    else {
       this.instalmentTableData[i].due_date = moment(e).format("YYYY-MM-DD");
     }
   }
@@ -2105,7 +2105,7 @@ export class StudentAddComponent implements OnInit {
   closePaymentDetails() {
     this.isPaymentPdc = false;
     this.genPdcAck = false;
-    this.sendPdcAck= false;
+    this.sendPdcAck = false;
     this.feeTemplateById.payment_mode = "Cash";
     this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
     this.isFeePaymentUpdate = false;
@@ -2433,7 +2433,7 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
-  updateAdditionalInitialAmount(amount, tax,index) {
+  updateAdditionalInitialAmount(amount, tax, index) {
     if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
       let value: number = 0;
       value = this.precisionRound((amount / ((tax / 100) + 1)), -1);
@@ -2621,7 +2621,7 @@ export class StudentAddComponent implements OnInit {
     this.instalmentTableData = [];
     this.otherFeeTableData = [];
     this.feeTemplateById.customFeeSchedules.forEach(el => {
-      if(el.due_date == null){
+      if (el.due_date == null) {
         el.due_date = moment(new Date()).format("YYYY-MM-DD");
       }
       if (el.fee_type_name === "INSTALLMENT") {
@@ -2634,6 +2634,128 @@ export class StudentAddComponent implements OnInit {
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
+  fetchCustomFeeSchedule(e) {
+    this.isRippleLoad = true;
+
+    this.userCustommizedFee = e;
+    this.totalTaxAmount = 0;
+    this.totalInitalAmount = 0;
+    this.totalFeeWithTax = 0;
+    this.totalAmountDue = 0;
+    this.totalPaidAmount = 0;
+    this.totalFeePaid = 0;
+
+    this.userCustommizedFee.forEach(el => {
+      el.due_date = moment(el.due_date).format("YYYY-MM-DD");
+      el.fees_amount = parseInt(el.fees_amount);
+      el.initial_fee_amount = parseInt(el.initial_fee_amount);
+
+      /* Taxes Here */
+      if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+        if (el.fee_type_name == "INSTALLMENT") {
+          let tax = el.initial_fee_amount * (this.service_tax / 100);
+          this.totalTaxAmount += this.precisionRound(tax, -1);
+          if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
+            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+          }
+        }
+        else {
+          let tax = el.initial_fee_amount * (el.service_tax / 100);
+          this.totalTaxAmount += this.precisionRound(tax, -1);
+          if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
+            el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
+          }
+        }
+      }
+      else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+        this.service_tax = 0;
+        this.totalTaxAmount = 0;
+      }
+
+      if (el.is_referenced == "N") {
+        this.totalAmountDue += el.fees_amount
+      }
+
+      /* AMount Paid */
+      else if (el.is_referenced == "Y") {
+        /* Partial Paid */
+        if (el.is_partially_paid == 1) {
+          this.totalPaidAmount += el.amount_paid;
+          this.totalAmountDue += el.balance_amount
+        }
+        /* Fully Paid */
+        else if (el.is_partially_paid == 0) {
+          this.totalPaidAmount += el.amount_paid;
+        }
+      }
+
+      this.totalInitalAmount += parseInt(el.initial_fee_amount);
+      this.totalFeeWithTax += parseInt(el.fees_amount);
+
+      let obj = {
+        uiSelected: el.is_referenced == "Y" ? true : false,
+        isPaid: el.is_referenced == "Y" ? true : false
+      }
+      this.paymentStatusArr.push(obj);
+
+    });
+
+    this.totalFeeWithTax = this.totalFeeWithTax + this.totalDicountAmount;
+
+    this.feeTemplateById.studentwise_total_fees_amount = this.totalFeeWithTax;
+    this.feeTemplateById.studentwise_total_fees_amount_paid = this.totalPaidAmount;
+    this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalFeeWithTax - this.totalPaidAmount;
+    this.feeTemplateById.customFeeSchedules = this.userCustommizedFee;
+
+    let obj = {
+      customFeeSchedules: [],
+      discount_fee_reason: "",
+      is_delete_other_fee_types: 0,
+      is_undo: this.is_undo,
+      studentArray: [],
+      studentwise_fees_tax_applicable: "",
+      studentwise_total_fees_amount: "",
+      studentwise_total_fees_discount: 0,
+      template_effective_date: "",
+      template_id: ""
+    }
+
+    this.isFeeApplied = true;
+    this.isPaymentPdc = false;
+    obj.customFeeSchedules = this.getFeeStructure(this.userCustommizedFee);
+    obj.discount_fee_reason = this.discountReason;
+    obj.is_undo = this.is_undo;
+    obj.studentArray.push(this.student_id);
+    obj.studentwise_fees_tax_applicable = this.feeTemplateById.studentwise_fees_tax_applicable;
+    obj.studentwise_total_fees_amount = this.totalAmountDue.toString();
+    obj.studentwise_total_fees_discount = this.feeTemplateById.studentwise_total_fees_discount;
+    obj.template_effective_date = moment(this.feeTemplateById.template_effective_date).format("YYYY-MM-DD");
+    obj.template_id = this.feeTemplateById.template_id;
+
+    this.postService.allocateStudentFees(obj).subscribe(
+      res => {
+        this.splitCustomizedFee();
+        this.updateStudentFeeDetails();
+        this.userHasFees = true;
+        this.isRippleLoad = false;
+        this.isDefineFees = false;
+      },
+      err => {
+        let msg = err.error.message;
+        this.isRippleLoad = false;
+        let obj = {
+          type: 'error',
+          title: msg,
+          body: ""
+        }
+        this.appC.popToast(obj);
+      }
+    );
+
+  }
+  /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
+
   createCustomFeeSchedule() {
     this.isRippleLoad = true;
     this.instalmentTableData.sort(function (d1, d2) {
@@ -2667,14 +2789,14 @@ export class StudentAddComponent implements OnInit {
 
       /* Taxes Here */
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-        if (el.fee_type_name == "INSTALLMENT"){
+        if (el.fee_type_name == "INSTALLMENT") {
           let tax = el.initial_fee_amount * (this.service_tax / 100);
           this.totalTaxAmount += this.precisionRound(tax, -1);
           if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
             el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
           }
         }
-        else{
+        else {
           let tax = el.initial_fee_amount * (el.service_tax / 100);
           this.totalTaxAmount += this.precisionRound(tax, -1);
           if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
@@ -2819,7 +2941,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getTaxAmounted(fee) {
-    if (fee.fee_type_name == "INSTALLMENT"){
+    if (fee.fee_type_name == "INSTALLMENT") {
       let amount = fee.initial_fee_amount;
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         return this.precisionRound(((this.service_tax / 100) * amount), -1);
@@ -2828,7 +2950,7 @@ export class StudentAddComponent implements OnInit {
         return 0;
       }
     }
-    else{
+    else {
       let amount = fee.initial_fee_amount;
       if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
         return this.precisionRound(((fee.service_tax / 100) * amount), -1);
@@ -2909,14 +3031,14 @@ export class StudentAddComponent implements OnInit {
 
             /* Taxes Here */
             if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-              if (el.fee_type_name == "INSTALLMENT"){
+              if (el.fee_type_name == "INSTALLMENT") {
                 let tax = el.initial_fee_amount * (this.service_tax / 100);
                 this.totalTaxAmount += this.precisionRound(tax, -1);
                 if (parseInt(el.initial_fee_amount) == parseInt(el.fees_amount)) {
                   el.fees_amount = this.precisionRound(el.initial_fee_amount + tax, -1);
                 }
               }
-              else{
+              else {
                 let tax = el.initial_fee_amount * (el.service_tax / 100);
                 this.totalTaxAmount += this.precisionRound(tax, -1);
               }
@@ -3697,7 +3819,7 @@ export class StudentAddComponent implements OnInit {
 
   }
   /* ============================================================================================================================ */
-  closePDCPop(){
+  closePDCPop() {
     this.selectedCheque = null;
     this.isPdcApply = false
   }
@@ -3746,7 +3868,7 @@ export class StudentAddComponent implements OnInit {
     )
 
   }
-  
+
   /* ============================================================================================================================ */
   chequeSelectedForAction(i) {
     this.selectedCheque = i;
@@ -3850,7 +3972,7 @@ export class StudentAddComponent implements OnInit {
         }
       )
     }
-    else{
+    else {
       let obj = {
         type: "error",
         title: "No PDC Selected",
@@ -3886,7 +4008,7 @@ export class StudentAddComponent implements OnInit {
         }
       )
     }
-    else{
+    else {
       let obj = {
         type: "error",
         title: "No PDC Selected",
@@ -3896,7 +4018,7 @@ export class StudentAddComponent implements OnInit {
     }
   }
   /* ============================================================================================================================ */
-   /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   feePdcSelected(obj) {
     //console.log(obj);
     if (obj === '') {
@@ -4026,7 +4148,7 @@ export class StudentAddComponent implements OnInit {
   /* ============================================================================================================================ */
   applyDiscount() {
     this.deselectAllSelectedCheckbox();
-    
+
     /* Form is correctly filled */
     if (this.discountApplyForm.type != '' && this.discountApplyForm.value > 0 && this.discountApplyForm.reason != '' && this.discountApplyForm.reason != ' ') {
       /* discount in form of amount */
@@ -4044,7 +4166,7 @@ export class StudentAddComponent implements OnInit {
         else {
           /* apply discount to all */
           if (this.discountApplyForm.state === 'all') {
-        
+
             /* Stores the index of all unpaid installments */
             let installmentPaidArr: any[] = this.calculateLengthPaid(this.instalmentTableData);
 
@@ -4052,7 +4174,7 @@ export class StudentAddComponent implements OnInit {
             let unPaidArr: any[] = [];
             installmentPaidArr.forEach(e => { unPaidArr.push(this.instalmentTableData[e]) });
 
-            if(unPaidArr.length != 0){
+            if (unPaidArr.length != 0) {
               let discount = this.precisionRound((this.discountApplyForm.value / installmentPaidArr.length), -1);
               /* discount is applicable to all installments, then proceed else alert */
               if (unPaidArr.every(e => e.fees_amount > discount)) {
@@ -4082,9 +4204,9 @@ export class StudentAddComponent implements OnInit {
                   body: 'Discount cannot be applied evenly to all installment'
                 }
                 this.appC.popToast(msg);
-              }  
+              }
             }
-            else{
+            else {
               let msg = {
                 type: 'error',
                 title: 'Discount Not Applicable',
@@ -4092,7 +4214,7 @@ export class StudentAddComponent implements OnInit {
               }
               this.appC.popToast(msg);
             }
-     
+
           }
           /* apply to Last installment */
           else {
@@ -4100,7 +4222,7 @@ export class StudentAddComponent implements OnInit {
             let installmentPaidArr: any[] = this.calculateLengthPaid(this.instalmentTableData);
             /* json for storing data for unpaid installments */
 
-            if(installmentPaidArr.length != 0){
+            if (installmentPaidArr.length != 0) {
               let lastUnPaid: any = this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]];
               if (lastUnPaid.fees_amount > this.discountApplyForm.value) {
                 this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount = this.precisionRound((this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount - this.discountApplyForm.value), -1);
@@ -4129,12 +4251,12 @@ export class StudentAddComponent implements OnInit {
                 this.appC.popToast(msg);
               }
             }
-            else{
+            else {
               let obj = {
                 type: 'error',
                 title: 'Error Processing Discount',
                 body: 'No applicable installment found to apply discount'
-              }              
+              }
               this.appC.popToast(obj);
             }
 
@@ -4167,7 +4289,7 @@ export class StudentAddComponent implements OnInit {
             //console.log(unPaidArr);
             let discount = this.precisionRound((discountValue / installmentPaidArr.length), -1);
             /* discount is applicable to all installments, then proceed else alert */
-            if(unPaidArr.length != 0){
+            if (unPaidArr.length != 0) {
               if (unPaidArr.every(e => e.fees_amount > discount)) {
                 installmentPaidArr.forEach(i => {
                   this.instalmentTableData[i].fees_amount = this.precisionRound((this.instalmentTableData[i].fees_amount - discount), -1);
@@ -4196,9 +4318,9 @@ export class StudentAddComponent implements OnInit {
                 }
                 this.appC.popToast(msg);
               }
-  
+
             }
-            else{
+            else {
               let obj = {
                 type: 'error',
                 title: "Error Provecessing Discount",
@@ -4211,52 +4333,52 @@ export class StudentAddComponent implements OnInit {
 
           /* apply to Last installment */
           else {
-          
+
             /* Stores the index of all unpaid installments */
             let installmentPaidArr: any[] = this.calculateLengthPaid(this.instalmentTableData);
 
-            if(installmentPaidArr.length != 0){
-            /* json for storing data for unpaid installments */
-            let lastUnPaid: any = this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]];
-            /* discount applicable proceed, else throw error */
-            if (lastUnPaid.fees_amount > discountValue) {
-              this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount = this.precisionRound((this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount - discountValue), -1);
+            if (installmentPaidArr.length != 0) {
+              /* json for storing data for unpaid installments */
+              let lastUnPaid: any = this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]];
+              /* discount applicable proceed, else throw error */
+              if (lastUnPaid.fees_amount > discountValue) {
+                this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount = this.precisionRound((this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount - discountValue), -1);
 
-              if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
-                this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]].initial_fee_amount = this.precisionRound((((this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount * 100) / (this.service_tax + 100))), -1);
-              }
-              else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
-                this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]].initial_fee_amount = this.precisionRound((((this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount * 100) / (100))), -1);
-              }
+                if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '1') {
+                  this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]].initial_fee_amount = this.precisionRound((((this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount * 100) / (this.service_tax + 100))), -1);
+                }
+                else if (sessionStorage.getItem('enable_tax_applicable_fee_installments') == '0') {
+                  this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]].initial_fee_amount = this.precisionRound((((this.instalmentTableData[installmentPaidArr[installmentPaidArr.length - 1]].fees_amount * 100) / (100))), -1);
+                }
 
-              this.isDiscountApplied = true;
-              this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason) : moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason);
-              this.applyDiscountCustomFeeSchedule();
-              this.totalDicountAmount = this.totalDicountAmount + discountValue;
-              this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
-              this.totalAmountDue = this.totalFeeWithTax - this.totalPaidAmount - this.totalDicountAmount;
-              this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
-              this.updateDiscount();
+                this.isDiscountApplied = true;
+                this.discountReason = this.discountReason.length > 0 ? this.discountReason + '?' + moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason) : moment().format('DD-MMM-YYYY hh:mm:ss' + "#" + this.discountApplyForm.value + "#" + this.discountApplyForm.reason);
+                this.applyDiscountCustomFeeSchedule();
+                this.totalDicountAmount = this.totalDicountAmount + discountValue;
+                this.feeTemplateById.studentwise_total_fees_discount = this.totalDicountAmount;
+                this.totalAmountDue = this.totalFeeWithTax - this.totalPaidAmount - this.totalDicountAmount;
+                this.feeTemplateById.studentwise_total_fees_balance_amount = this.totalAmountDue;
+                this.updateDiscount();
+              }
+              /* error */
+              else {
+                let msg = {
+                  type: 'error',
+                  title: 'Unable To Process Request',
+                  body: 'The discount amount exceed the last installment amount'
+                }
+                this.appC.popToast(msg);
+              }
             }
-            /* error */
             else {
-              let msg = {
-                type: 'error',
-                title: 'Unable To Process Request',
-                body: 'The discount amount exceed the last installment amount'
-              }
-              this.appC.popToast(msg);
-            }
-            }
-            else{
               let obj = {
                 type: 'error',
                 title: "Error Provecessing Discount",
                 body: "Discount cannot be applied to any installment"
               }
-              this.appC.popToast(obj);              
+              this.appC.popToast(obj);
             }
-            
+
           }
         }
 
@@ -4272,7 +4394,7 @@ export class StudentAddComponent implements OnInit {
       this.appC.popToast(msg);
     }
   }
-   /* ============================================================================================================================ */
+  /* ============================================================================================================================ */
   updateDiscount() {
     let obj = {
       customFeeSchedules: [],
@@ -4626,7 +4748,7 @@ export class StudentAddComponent implements OnInit {
         this.isRippleLoad = true;
         this.postService.payPartialFeeAmount(obj).subscribe(
           res => {
-            if (this.genPdcAck || this.sendPdcAck) {  
+            if (this.genPdcAck || this.sendPdcAck) {
               if (this.genPdcAck) {
                 let doc = res;
                 let yr = doc.otherDetails.financial_year;
@@ -5012,7 +5134,7 @@ export class StudentAddComponent implements OnInit {
   }
 
 
-  
+
 }
 
 

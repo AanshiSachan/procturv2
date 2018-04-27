@@ -357,6 +357,18 @@ header {
                         strong {
                             font-weight: 600;
                         }
+                        &.recent{
+                            display: inline-block;
+                            margin-bottom: 6px;
+                            width: 60%;
+                        }
+                        &.delete{
+                            display: inline-block;
+                            margin-bottom: 6px;
+                            font-family: FontAwesome;
+                            color: rgba(30, 35, 40, 0.7);
+                            width: 35%;
+                        }
                     }
                     span {
                         font-size: 12px;
