@@ -25,7 +25,6 @@
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.1",
     "@nsalaun/ng-logger": "^2.0.1",
     "@types/js-base64": "^2.3.0",
-    "alasql": "^0.4.5",
     "angucomplete-alt": "^3.0.0",
     "angular-2-dropdown-multiselect": "^1.5.4",
     "angular-highcharts": "^4.1.0",
@@ -49,7 +48,6 @@
     "ngx-bootstrap": "^2.0.0-beta.8",
     "primeng": "^4.3.0",
     "rxjs": "^5.1.0",
-    "xlsx": "^0.12.10",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {

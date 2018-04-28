@@ -8,7 +8,7 @@ import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { searchPipe } from '../../shared/pipes/searchBarPipe';
 import { arraySortPipe } from '../../shared/pipes/sortBarPipe';
 import { start } from 'repl';
-import * as XLSX from 'xlsx';
+
 
 
 @Component({
