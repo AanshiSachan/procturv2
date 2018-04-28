@@ -335,7 +335,49 @@ export class CourseExamComponent implements OnInit {
     this.leaveCount = 0;
   }
 
-  updateCourseAttendance(){
+  markAllPresent(e) {
+    if (e.target.checked) {
+      this.studentList.forEach(e => {
+        if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
+          //Do Nothing
+        } else {
+          document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
+          document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
+          document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
+          document.getElementById('presentBtn' + e.student_id).classList.add('classPresentBtn');
+          e.dateLi[0].status = "P";
+        }
+      });
+    }
+    else {
+      this.studentList.forEach(e => {
+        if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
+          //Do Nothing
+        } else {
+          document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
+          document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
+          document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
+          e.dateLi[0].status = "A";
+        }
+      });
+    }
+    this.getTotalCountForCourse(this.studentList);
+  }
+
+  checkCheckAllChkboxStatus() {
+    let check = false;
+    for (let i = 0; i < this.studentList.length; i++) {
+      if (this.studentList[i].dateLi[0].status == "P") {
+        check = true;
+      } else {
+        check = false;
+        break;
+      }
+    }
+    return check;
+  }
+
+  updateCourseAttendance() {
 
   }
 

@@ -299,7 +299,7 @@
 <!-- ///////// POPUP/////////////////////////////////// -->
 <!-- ///////// POPUP/////////////////////////////////// -->
 
-<!-- <section id="popup " class="popupWrapper fadeIn " *ngIf="markAttendancePopUp">
+<section id="popup " class="popupWrapper fadeIn " *ngIf="markAttendancePopUp">
     <div class="popup pos-abs popup-body-container ">
         <div class="popup-wrapper pos-rel ">
             <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeWeeklySchedulePopup()">
@@ -318,115 +318,86 @@
             </span>
             <div class="popup-content">
                 <h2>Mark/Update Exam Attendance</h2>
-                <div class="row">
-                    
-                </div>
 
-                <div class="row extraMargin">
-                    <div class="field-checkbox-wrapper pull-left">
-                        <input type="checkbox" [(ngModel)]="weeklyScheduleCan.is_notified" name="enableSMS" class="form-checkbox" id="NotifyStusde">
-                        <label for="NotifyStusde">Notify students</label>
+                <div class="attendanceWrapperCourse">
+
+                    <div class="row filterSection">
+                        <div class="c-sm-3 c-md-3 c-lg-3">
+                            <h3>Total Students : {{studentList.length}} </h3>
+                        </div>
+
+                        <div class="c-sm-6 c-md-6 c-lg-6">
+
+                            <span class="leave">{{leaveCount}}</span>
+                            <h5>Leave</h5>
+
+                            <span class="absent">{{absentCount}}</span>
+                            <h5>Absent</h5>
+
+                            <span class="present">{{presentCount}}</span>
+                            <h5>Present</h5>
+                        </div>
+
+                        <div class="c-sm-3 c-md-3 c-lg-3">
+                            <div class="field-checkbox-wrapper">
+                                <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkCheckAllChkboxStatus()" (change)="markAllPresent($event)">
+                                <label for="MarkAllPresent">Mark All Present</label>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="pull-right" style="margin-right: 15px">
-                        <button class="btn" (click)="closeWeeklySchedulePopup()">Close</button>
-                        <button class="btn fullBlue" (click)="cancelWeeklySchedule()">Cancel Class</button>
+
+                    <div class="attendanceMain">
+                        <div class="table-scroll-wrapper">
+                            <div class="table table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size: 14px;font-weight: 600;">Student Id</th>
+                                            <th style="font-size: 14px;font-weight: 600;">Student Name</th>
+                                            <th style="font-size: 14px;font-weight: 600;">Attendance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let s of studentList; let i=index;">
+                                            <td>
+                                                {{s.student_disp_id}}
+                                            </td>
+                                            <td>
+                                                {{s.student_name}}
+                                            </td>
+                                            <td>
+                                                <div class="btnGroup">
+                                                    <button id="leaveBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s , i)"
+                                                        class="btn" [ngClass]="getClassForLeave(s)">L</button>
+                                                    <button id="absentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
+                                                        class="btn" [ngClass]="getClassForAbsent(s)">A</button>
+                                                    <button id="presentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
+                                                        class="btn" [ngClass]="getClassForPresent(s)">P</button>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                        <tr *ngIf="studentList.length == 0">
+                                            <td colspan="3">
+                                                No Students Record
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="clearfix" style="margin-top: 10px" <aside class="pull-right popup-btn">
+                        <input type="button" value="Cancel" class="btn" (click)="closeCourseLevelAttendance()">
+                        <input type="button" value="Mark Attendance" (click)="updateCourseAttendance()" class="fullBlue btn">
+                        </aside>
+                    </div>
+
                 </div>
 
             </div>
         </div>
     </div>
-</section> -->
-
-
-
-<!-- <proctur-widget *ngIf="markAttendancePopUp">
-    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeCourseLevelAttendance()" close-button>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
-                  305.77) rotate(45)" />
-                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
-                  305.77) rotate(45)" />
-                </g>
-                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                />
-            </g>
-        </svg>
-    </span>
-    <h2 widget-header>Mark/Update Exam Attendance</h2>
-
-    <div class="attendanceWrapperCourse" widget-content>
-
-        <div class="row filterSection">
-            <div class="c-sm-3 c-md-3 c-lg-3">
-                <h3>Total Students : {{studentList.length}} </h3>
-            </div>
-
-            <div class="c-sm-6 c-md-6 c-lg-6">
-
-                <span class="leave">{{leaveCount}}</span>
-                <h5>Leave</h5>
-
-                <span class="absent">{{absentCount}}</span>
-                <h5>Absent</h5>
-
-                <span class="present">{{presentCount}}</span>
-                <h5>Present</h5>
-            </div>
-
-        </div>
-
-        <div class="attendanceMain">
-            <div class="table-scroll-wrapper">
-                <div class="table table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="font-size: 14px;font-weight: 600;">Student Id</th>
-                                <th style="font-size: 14px;font-weight: 600;">Student Name</th>
-                                <th style="font-size: 14px;font-weight: 600;">Attendance</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let s of studentList; let i=index;">
-                                <td>
-                                    {{s.student_disp_id}}
-                                </td>
-                                <td>
-                                    {{s.student_name}}
-                                </td>
-                                <td>
-                                    <div class="btnGroup">
-                                        <button id="leaveBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s , i)"
-                                            class="btn" [ngClass]="getClassForLeave(s)">L</button>
-                                        <button id="absentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
-                                            class="btn" [ngClass]="getClassForAbsent(s)">A</button>
-                                        <button id="presentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
-                                            class="btn" [ngClass]="getClassForPresent(s)">P</button>
-                                    </div>
-                                </td>
-
-                            </tr>
-                            <tr *ngIf="studentList.length == 0">
-                                <td colspan="3">
-                                    No Students Record
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="" widget-footer>
-        <div class="clearfix" style="padding-top: 15px">
-            <aside class="pull-right popup-btn">
-                <input type="button" value="Cancel" class="btn" (click)="closeCourseLevelAttendance()">
-                <input type="button" value="Mark Attendance" (click)="updateCourseAttendance()" class="fullBlue btn">
-            </aside>
-        </div>
-    </div>
-</proctur-widget> -->
+</section>
