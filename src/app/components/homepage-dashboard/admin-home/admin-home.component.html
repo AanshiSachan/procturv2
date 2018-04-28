@@ -39,7 +39,7 @@
                 </div>
               </li>
 
-              <li [ngClass]="{hide : (permissionArray != '' && permissionArray != null)}" class="fees-state item" data-id="3">
+              <li [ngClass]="{hide : checkRoleMAnagement()}" class="fees-state item" data-id="3">
                 <div class="item-content">
                   <fee-widget></fee-widget>
                 </div>
@@ -175,7 +175,7 @@
                             </li>
                           </ul>
                           <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHideCourse()" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
@@ -200,9 +200,9 @@
                             <li class="class_room">
                               <div>
                                 <span>
-                                    {{class.class_room_name}}
+                                  {{class.class_room_name}}
                                 </span>
-                              </div>                              
+                              </div>
 
                             </li>
                             <li class="batch">
@@ -226,8 +226,7 @@
                 </div>
               </li>
 
-              <li [ngClass]="{hide : (permissionArray != '' && permissionArray != null)}" class="general-state item" style="height: 150px;"
-                data-id="4">
+              <li [ngClass]="{hide : checkRoleMAnagement()}" class="general-state item" style="height: 150px;" data-id="4">
                 <div class="item-content">
                   <general-widget></general-widget>
                 </div>

@@ -65,6 +65,7 @@ export class ManageBatchComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.checkTabSelection();
     this.examGradeFeature = JSON.parse(sessionStorage.getItem('institute_info')).is_exam_grad_feature;
     this.getAllBatchesList()
     this.getMasterCourseList();
@@ -361,7 +362,14 @@ export class ManageBatchComponent implements OnInit {
   getAllStudentList(rowDetails) {
     this.isRippleLoad = true;
     this.apiService.getStudentListFromServer(rowDetails.batch_id).subscribe(
-      res => {
+      (res: any) => {
+        res.forEach(element => {
+          if (element.assigned_fee_template_id == -1) {
+            if (this.deafultTemplate != null && this.deafultTemplate != "") {
+              element.assigned_fee_template_id = this.deafultTemplate.template_id;
+            }
+          }
+        });
         this.studentListDataSource = res;
         this.studentList = this.keepCloning(res);
         this.getHeaderCheckBoxValue();
@@ -591,6 +599,21 @@ export class ManageBatchComponent implements OnInit {
         });
       }
     }
+  }
+
+  checkTabSelection() {
+    setTimeout(() => {
+      this.hideAllTabs();
+      document.getElementById('liManageBatch').classList.add('active');
+    }, 200)
+  }
+
+  hideAllTabs() {
+    document.getElementById('liStandard').classList.remove('active');
+    document.getElementById('liSubject').classList.remove('active');
+    document.getElementById('liManageBatch').classList.remove('active');
+    // document.getElementById('liExam').classList.add('hide');
+    document.getElementById('liClass').classList.remove('active');
   }
 
 }

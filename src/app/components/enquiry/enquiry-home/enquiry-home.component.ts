@@ -349,23 +349,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     /* Fetch prefill data after table data load completes */
 
     /* Dropdown items for Bulk Actions */
-    this.bulkAddItems = [
-      {
-        label: 'Send SMS', icon: 'fa-envelope-o', command: () => {
-          this.sendBulkSms();
-        }
-      },
-      {
-        label: 'Delete Enquiries', icon: 'fa-trash-o', command: () => {
-          this.bulkDeleteEnquiries();
-        }
-      },
-      {
-        label: 'Assign Enquiries', icon: 'fa-buysellads', command: () => {
-          this.bulkAssignEnquiriesOpen();
-        }
-      }
-    ];
+    this.roleManagementForBulkAdd();
     /* Load paginated enquiry data from server */
     let params = sessionStorage.getItem('dashBoardParam');
     if (params != "" && params != null && params != undefined) {
@@ -378,11 +362,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     /* Fetch the status of message from  popup handler service */
     this.pops.currentMessage.subscribe(message => {
       this.cd.markForCheck();
+
       if(this.selectedRow.institute_enquiry_id != null && this.selectedRow.institute_enquiry_id != undefined){
         if (message == 'sms') {
           this.cd.markForCheck();
           this.smsServicesInvoked();
           this.message = message;
+
           this.cd.markForCheck();
           this.smsSelectedRows = this.selectedRow;
           this.cd.markForCheck();
@@ -2086,7 +2072,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /* =========================================================================== */
   /* =========================================================================== */
 
-  updateRegisterEnquiry(){
+  updateRegisterEnquiry() {
     this.isConvertToStudent = true;
     this.pushUpdatedEnquiry();
   }
@@ -2139,7 +2125,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
               body: 'Your enquiry has been successfully submitted'
             }
             this.appC.popToast(msg);
-            if(this.isConvertToStudent){
+            if (this.isConvertToStudent) {
               let obj = {
                 name: this.selectedRow.name,
                 phone: this.selectedRow.phone,
@@ -2150,12 +2136,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
                 parent_name: this.selectedRow.parent_name,
                 parent_phone: this.selectedRow.parent_phone,
                 enquiry_id: this.selectedRow.institute_enquiry_id,
-                institute_enquiry_id : this.selectedRow.institute_enquiry_id
+                institute_enquiry_id: this.selectedRow.institute_enquiry_id
               }
               localStorage.setItem('studentPrefill', JSON.stringify(obj));
               this.router.navigate(['student/add']);
             }
-            else{
+            else {
               this.closePopup();
               this.busy = this.loadTableDatatoSource(this.instituteData);
             }
@@ -3966,6 +3952,49 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       this.currentDirection = "desc";
     }
   }
+
+  roleManagementForBulkAdd() {
+    this.bulkAddItems = [];
+    let permissionArray: any = sessionStorage.getItem('permissions');
+    if (permissionArray == "" || permissionArray == null) {
+      this.giveFullPermisionOfBulfAction();
+    } else {
+      if (permissionArray != undefined) {
+        if (permissionArray.indexOf('115') != -1) {
+          this.giveFullPermisionOfBulfAction();
+        } else {
+          this.bulkAddItems = [
+            {
+              label: 'Send SMS', icon: 'fa-envelope-o', command: () => {
+                this.sendBulkSms();
+              }
+            }
+          ];
+        }
+      }
+    }
+  }
+
+  giveFullPermisionOfBulfAction() {
+    this.bulkAddItems = [
+      {
+        label: 'Send SMS', icon: 'fa-envelope-o', command: () => {
+          this.sendBulkSms();
+        }
+      },
+      {
+        label: 'Delete Enquiries', icon: 'fa-trash-o', command: () => {
+          this.bulkDeleteEnquiries();
+        }
+      },
+      {
+        label: 'Assign Enquiries', icon: 'fa-buysellads', command: () => {
+          this.bulkAssignEnquiriesOpen();
+        }
+      }
+    ];
+  }
+
 }
 
 

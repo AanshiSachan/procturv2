@@ -1569,6 +1569,15 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
+  markAttendaceHideCourse() {
+    let date = moment(this.courseLevelSchedDate).format('DD-MM-YYYY');;
+    if (date > moment().format('DD-MM-YYYY')) {
+      return "hide";
+    } else {
+      return "";
+    }
+  }
+
   getClassStatus(row) {
     if (moment(row.class_date).format('DD-MM-YYYY') == moment().format('DD-MM-YYYY')) {
       let currentTime: any = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
@@ -2547,6 +2556,20 @@ export class AdminHomeComponent implements OnInit {
       this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "Y";
     }
     this.getTotalCountForCourse(this.courseLevelStudentAtt);
+  }
+
+  checkRoleMAnagement() {
+    let userType: any = Number(sessionStorage.getItem('userType'));
+    if (userType != 3) {
+      let permissionArray = sessionStorage.getItem('permissions');
+      if (permissionArray == "" || permissionArray == null) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
   }
 
 }
