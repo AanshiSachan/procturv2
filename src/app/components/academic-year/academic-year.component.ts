@@ -30,6 +30,7 @@ export class AcademicYearComponent implements OnInit {
     start_date: "",
     end_date: "",
     inst_id: "",
+    created_date: "",
     default_academic_year: 0
   }
 
@@ -43,14 +44,13 @@ export class AcademicYearComponent implements OnInit {
 
 
   ngOnInit() {
-    
+
     this.getAllAcademicFromServer();
     this.removeFullscreen();
     this.removeSelectionFromSideNav();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.addAcademicYearTemplate.inst_id = sessionStorage.getItem('institute_id');
-    
   }
 
 
@@ -145,7 +145,7 @@ export class AcademicYearComponent implements OnInit {
             inst_id: this.addAcademicYearTemplate.inst_id,
             default_academic_year: 0
           }
-         
+
           this.toggleCreateNewAcademicYear();
           this.getAllAcademicFromServer();
         },
@@ -163,8 +163,10 @@ export class AcademicYearComponent implements OnInit {
 
   }
   editRowTable(row, index) {
+    
     document.getElementById(("row" + index).toString()).classList.remove('displayComp');
     document.getElementById(("row" + index).toString()).classList.add('editComp');
+    
   }
 
   saveAcademicYearInformation(row2, index) {
@@ -208,8 +210,11 @@ export class AcademicYearComponent implements OnInit {
         start_date: row2.start_date,
         end_date: row2.end_date,
         inst_id: row2.inst_id,
-        default_academic_year: row2.default_academic_year
+        default_academic_year: row2.default_academic_year,
+        created_date: row2.created_date
       }
+      console.log(data.created_date);
+      console.log(data.start_date);
       this.academicyearservice.editAcademicYear(data, row2.inst_acad_year_id).subscribe(
         res => {
           this.cancelEditRow(index);

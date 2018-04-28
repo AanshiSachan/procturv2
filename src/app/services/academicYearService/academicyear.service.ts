@@ -66,7 +66,9 @@ export class AcademicyearService {
     let url=this.baseUrl + "/api/v1/academicYear/" +id;
     obj.start_date = moment(obj.start_date).format("YYYY-MM-DD");
     obj.end_date = moment(obj.end_date).format("YYYY-MM-DD");
+    obj.created_date = moment(obj.created_date).format("DD-MM-YYYY");
     console.log(obj.start_date);
+    console.log(obj.created_date);
     return this.http.put(url, obj, {headers:this.headers}).map(
       data =>{
        

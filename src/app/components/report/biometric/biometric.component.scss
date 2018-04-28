@@ -334,7 +334,126 @@ p {
     -o-transition: all 0.5s ease-in;
     transition: all 0.5s ease-in;
 }
-
+.main{
+    margin-top:-25px;
+    .form-wrapper{
+        position: relative;
+        &.datePickerBox {
+            .side-form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url('../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 0;
+                top: 20px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
+.borderWithText{
+    :horizontal{
+        display: block;
+    }
+}
+.common{
+    heigth:400px;
+    background-color:#efefef;
+    .student-table{
+        height: 380px;
+        ::-webkit-scrollbar{
+            display: block;
+        }
+        table{
+            thead{
+                tr{
+                    th{
+                        padding:13px 0px;
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    td{
+                        padding:0px 0px;
+                    }
+                }
+            }
+        }
+        .common-elements{
+            position:relative;
+            top:10%;
+            left:10px;
+            bottom: 10%;
+            width:98%;
+            height: 380px;
+            overflow-y: auto;
+        }
+    }
+}
+.students{
+    height:320px;
+  background-color: #efefef;
+    .student-table{
+        height: 300px;
+        ::-webkit-scrollbar{
+            display: block;
+        }
+        table{
+            thead{
+                tr{
+                    th{
+                        padding:13px 0px;
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    td{
+                        padding:0px 0px;
+                    }
+                }
+            }
+        }
+        
+        .common-elements{
+            height: 450px;
+            overflow-y: scroll;
+        }
+        .student-elements{
+            position:relative;
+            top:10%;
+            left:10px;
+            bottom: 10%;
+            width:98%;
+            height: 300px;
+            overflow-y: auto;
+        }
+    }
+}
+.tablePopup{
+    table{
+        thead{
+            tr{
+                th{
+                    padding:13px 0px;
+                }
+            }
+        }
+    }
+}
+.records{
+    font-size:20px;
+    font-weight:bold;
+    text-align: center;
+}
 .popupWrapperMob.showPopupMob {
     z-index: 100;
     visibility: visible;

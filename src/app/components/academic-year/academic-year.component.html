@@ -127,7 +127,7 @@
                 <td class="view-comp edit">
                   {{row.end_date | date:'dd-MMM-yyyy'}}
                 </td>
-                <td class="edit-comp ">
+                <td class="edit-comp">
                   <div class="field-wrapper has-value">
                     <input type="text" value="" class="form-ctrl editCellInput"  name="endDate" readonly="true" [(ngModel)]="row.end_date"
                       bsDatepicker/>
@@ -137,8 +137,9 @@
                   {{row.created_date | date:'dd-MMM-yyyy'}}
                 </td>
                 <td class="edit-comp">
-                  <div class="field-wrapper">
-                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.created_date" name="label" disabled>
+                  <div class="field-wrapper has-value">
+                    <input type="text" value="" class="form-ctrl editCellInput"  name="endDate" readonly="true" [(ngModel)]="row.created_date"
+                      bsDatepicker/>
                   </div>
                 </td>
                 <td class="view-comp">
