@@ -1,0 +1,75 @@
+
+<!--
+
+    <div id="divSlotTable">
+        <div class="table-scroll-wrapper">
+          <div class="table table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    Event Name
+                  </th>
+                  <th>
+                    Event Type
+                  </th>
+                  <th>
+                    Description
+                  </th>
+                  <th>
+                      Date
+                    </th>
+                  <th>
+                    Edit
+                  </th>
+                  <th>Delete
+                  </th>
+                  <th>Send Push Notification 
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="classRoomData.length !=0">
+                <tr id="row{{i}}" class="displayComp" *ngFor="let row of pagedclassRoomData; let i = index; trackBy: i;">
+                  <td>
+                    {{i + 1}}
+                  </td>
+  
+                  <td class="view-comp">
+                    {{row.class_room_name}}
+                  </td>
+                  <td class="edit-comp">
+                    <div class="field-wrapper">
+                      <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" name="label">
+                    </div>
+                  </td>
+  
+                  <td class="view-comp">
+                    {{row.class_room_desc}}
+                  </td>
+  
+                  <td class="edit-comp">
+                    <div class="field-wrapper">
+                      <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_desc" name="label">
+                    </div>
+                  </td>
+  
+                  <td class="view-comp">
+                    <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
+                  </td>
+                  <td class="edit-comp">
+                    <a class="anchorTagCursor" (click)="saveclassRoomInfo(row , i)">Update</a>
+                  </td>
+  
+                </tr>
+              </tbody>
+              <tbody *ngIf="classRoomData.length ==0">
+                <td colspan="4" style="text-align: center">
+                  ClassList Record Not
+                </td>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>-->
+  
+  

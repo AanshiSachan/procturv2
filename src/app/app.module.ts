@@ -47,6 +47,7 @@ import { CityAreaMapComponent } from './components/city-area-map/city-area-map.c
 import { CityAreaService } from './services/area-city-service/area-city.service';
 import { ClassRoomComponent } from './components/class-room/class-room.component';
 import { ClassRoomService } from './services/class-roomService/class-roomlist.service';
+//import { EventManagmentComponent } from './components/src/app/components/event-managment/event-managment.component';
 //import { ClassRoomComponent } from './class-room/class-room.component';
 
 
@@ -77,6 +78,7 @@ import { ClassRoomService } from './services/class-roomService/class-roomlist.se
     SlotComponent,
     CityAreaMapComponent,
     ClassRoomComponent,
+//    EventManagmentComponent,
 
   ],
   entryComponents: [

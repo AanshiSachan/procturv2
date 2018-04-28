@@ -10,6 +10,7 @@ import { AppComponent } from '../../app.component';
   styleUrls: ['./class-room.component.scss']
 })
 export class ClassRoomComponent {
+
   classRoomData: any = [];
   totalRow = 0;
   pagedclassRoomData: any[] = [];
@@ -21,10 +22,12 @@ export class ClassRoomComponent {
   displayBatchSize: number = 10;
 
 
-  constructor(
+  constructor
+    (
     private ClassList: ClassRoomService,
     private login: LoginService,
-    private AppC: AppComponent) {
+    private AppC: AppComponent
+    ) {
     this.removeFullscreen();
     this.removeSelectionFromSideNav();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
@@ -34,40 +37,30 @@ export class ClassRoomComponent {
   ngOnInit() {
     this.getClassList();
   }
-/*=========================fetching class list========================================
-====================================================================================== */
+
+  /*=========================fetching class list========================================
+  ====================================================================================== */
+
   getClassList() {
     this.ClassList.fetchClassList().subscribe(
       res => {
         this.classRoomData = res;
         this.totalRow = res.length;
         this.fetchTableDataByPage(this.pageIndex);
-        console.log(res);
       }),
       err => {
         console.log(err);
       }
   }
 
-  /* saveRecordList() {
-     this.ClassList.fetchClassList().subscribe(
-       res => {
-         this.saveclassListData = res;
-         console.log(res);
-
-       });
-   err => {
-     console.log(err);
-    }}*/
-
-/*=====================================================================================
-======================================================================================*/
+  /*=====================================================================================
+  ======================================================================================*/
   editRowTable(row, index) {
     document.getElementById(("row" + index).toString()).classList.remove('displayComp');
     document.getElementById(("row" + index).toString()).classList.add('editComp');
   }
-/*===================================(+)(-)====================================
-=============================================================================== */
+  /*===================================(+)(-)====================================
+  =============================================================================== */
   toggleCreateNewList() {
     if (this.CreateNewList == false) {
       this.CreateNewList = true;
@@ -79,8 +72,9 @@ export class ClassRoomComponent {
       document.getElementById('showAddBtn').style.display = '';
     }
   }
-/*====================================adding new class room=======================
-================================================================================= */
+  /*====================================adding new class room=======================
+  ================================================================================= */
+
   addNewclassRoom(Room_ele, Desc_ele) {
     if (Room_ele && Desc_ele != "" && Room_ele && Desc_ele != null) {
       let classRoomobj = {
@@ -91,22 +85,25 @@ export class ClassRoomComponent {
         data => {
           let msg = {
             type: 'success',
-            title: "",
-            body: "ClassRoom added successfully."
+            title: "Added",
+            body: "ClassRoom Added Successfully."
           }
           this.AppC.popToast(msg);
           this.getClassList();
+          this.toggleCreateNewList();
         },
         error => {
+          console.log(error);
           let msg = {
             type: "error",
-            title: "",
-            body: "An Error Occured"
+            title: "Error",
+            body: error.error.message
           }
           this.AppC.popToast(msg);
         }
       )
-    } else {
+    }
+    else {
       let data = {
         type: 'error',
         title: "Error",
@@ -116,6 +113,7 @@ export class ClassRoomComponent {
       return;
     }
   }
+
   /*===================================saving classroom info========================
   ================================================================================= */
   saveclassRoomInfo(row, index) {
@@ -127,8 +125,7 @@ export class ClassRoomComponent {
     }
     this.ClassList.updateclassListData(data).subscribe(
       res => {
-        console.log(res);
-        //this.getClassList();
+        this.getClassList();
       }),
       error => {
         let msg = {
@@ -140,8 +137,8 @@ export class ClassRoomComponent {
       }
 
   }
-  
-/*==================pagination================================================ */
+
+  /*==================pagination================================================ */
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
@@ -164,8 +161,8 @@ export class ClassRoomComponent {
     let t = this.classRoomData.slice(startindex, startindex + this.displayBatchSize);
     return t;
   }
-    /*==================================================================================
-    ====================================================================================== */
+  /*==================================================================================
+  ====================================================================================== */
   removeFullscreen() {
     var header = document.getElementsByTagName('core-header');
     var sidebar = document.getElementsByTagName('core-sidednav');
