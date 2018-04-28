@@ -25,6 +25,7 @@ import * as moment from 'moment';
 })
 export class EnquiryEditComponent implements OnInit {
 
+  isConvertToStudent: boolean = false;
   /* Variable Declarations */
   enqstatus: any = [];
   enqPriority: any = [];
@@ -503,7 +504,7 @@ export class EnquiryEditComponent implements OnInit {
                 selected: [],
                 selectedString: '',
                 type: el.type,
-                value: el.enq_custom_value == "" ? false : true,
+                value: el.enq_custom_value == "Y" ? true : false,
               }
             }
             else if (el.type != 2 && el.type != 4 && el.type != 3) {
@@ -665,11 +666,13 @@ export class EnquiryEditComponent implements OnInit {
   /* Function to fetch subject when user selects a standard from dropdown */
   fetchSubject(value) {
     if (value != null && value != '' && value != '-1') {
-      this.editEnqData.subject_id = '-1';
+      //this.editEnqData.subject_id = '-1';
       this.enqSub = [];
       this.editEnqData.standard_id = value;
       this.prefill.getEnqSubjects(this.editEnqData.standard_id).subscribe(
-        data => { this.enqSub = data; }
+        data => { 
+          this.enqSub = data; 
+        }
       )
     }
     else {
@@ -697,6 +700,11 @@ export class EnquiryEditComponent implements OnInit {
     }
   }
 
+
+  submitRegisterForm(){
+    this.isConvertToStudent = true;
+    this.submitForm();
+  }
 
 
   /* Function to submit validated form data */
@@ -732,7 +740,25 @@ export class EnquiryEditComponent implements OnInit {
                 body: "Your enquiry has been successfully edited"
               }
               this.appC.popToast(msg);
-              this.clearLocalAndRoute()
+              if(this.isConvertToStudent){
+                let obj = { 
+                  name: this.editEnqData.name,
+                  phone: this.editEnqData.phone,
+                  email: this.editEnqData.email,
+                  gender: this.editEnqData.gender,
+                  dob: moment(this.editEnqData.dob).format("YYYY-MM-DD"),
+                  parent_email: this.editEnqData.parent_email,
+                  parent_name: this.editEnqData.parent_name,
+                  parent_phone: this.editEnqData.parent_phone,
+                  enquiry_id: this.institute_enquiry_id,
+                  institute_enquiry_id : this.institute_enquiry_id
+                }
+                localStorage.setItem('studentPrefill', JSON.stringify(obj));
+                this.router.navigate(['student/add']);
+              }
+              else{
+                this.clearLocalAndRoute()
+              }
             }
             else if (data.statusCode != 200) {
               let msg = {
@@ -1072,7 +1098,7 @@ export class EnquiryEditComponent implements OnInit {
 
   onCitySelctionChanges(event) {
     this.areaListDataSource = [];
-    if (event != -1) {
+    if (event != -1 && event != "" && event != null) {
       let obj = {
         city: event
       }

@@ -88,10 +88,10 @@
                   </div>
 
                   <!-- city -->
-                  <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.city != -1}">
+                  <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.city != ''}">
                     <select id="cityDdn" class="form-ctrl" [(ngModel)]="editEnqData.city" (ngModelChange)="onCitySelctionChanges($event)" name="city">
                       <option value="-1"></option>
-                      <option *ngFor="let city of cityListDataSource" [value]="city.id">{{city.city}}</option>
+                      <option *ngFor="let city of cityListDataSource" [value]="city.city">{{city.city}}</option>
                     </select>
                     <label for="cityDdn">City
                       <span *ngIf="isCityMandatory == 1">*</span>
@@ -99,10 +99,10 @@
                   </div>
 
                   <!-- area -->
-                  <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.area != -1}">
+                  <div class="field-wrapper" [ngClass]="{'has-value': editEnqData.area != ''}">
                     <select id="areaDdn" class="form-ctrl" [(ngModel)]="editEnqData.area" name="area">
                       <option value="-1"></option>
-                      <option *ngFor="let area of areaListDataSource" [value]="area.id">{{area.area}}</option>
+                      <option *ngFor="let area of areaListDataSource" [value]="area.area">{{area.area}}</option>
                     </select>
                     <label for="areaDdn">Area
                     </label>
@@ -165,7 +165,7 @@
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.parent_name != ''}">
                     <input type="text" value="" id="guardianName" class="form-ctrl" [(ngModel)]="editEnqData.parent_name" name="guardianName"
                       pattern="^([a-zA-Z .-]){1,30}$" maxlength="50" #guardianName="ngModel" />
-                    <label for="guardianName">Guardian Name</label>
+                    <label for="guardianName">Parent Name</label>
                     <div *ngIf="guardianName.invalid && (guardianName.dirty || guardianName.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianName.errors.pattern">
                         Only Alphabets . - Allowed.
@@ -177,14 +177,14 @@
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.parent_phone != ''}">
                     <input type="text" value="" id="guardianContact" class="form-ctrl" [(ngModel)]="editEnqData.parent_phone" name="guardianContact"
                       maxlength="10" minlength="10" OnlyNumber="true" />
-                    <label for="guardianContact">Guardian Contact</label>
+                    <label for="guardianContact">Parent Contact</label>
                   </div>
 
                   <!-- Email -->
                   <div class="field-wrapper " [ngClass]="{'has-value': editEnqData.parent_email != ''}">
                     <input type="text" value="" id="guardianEmail" class="form-ctrl" [(ngModel)]="editEnqData.parent_email" name="guardianEmail"
                       pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$" #guardianEmail="ngModel" />
-                    <label for="guardianEmail">Guardian Email</label>
+                    <label for="guardianEmail">Parent Email</label>
                     <div *ngIf="guardianEmail.invalid && (guardianEmail.dirty || guardianEmail.touched)" class="alert invalid-alert">
                       <div *ngIf="guardianEmail.errors.pattern">
                         Enter email in format eg. someone@xyz.com
@@ -332,7 +332,8 @@
         </div>
         <aside class="pull-right">
           <input type="button" value="Cancel" class="btn cancle" (click)="clearLocalAndRoute()">
-          <input type="button" value="Submit" [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitForm()">
+          <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" style="display: inline-block;" type="button" value="Save & Register Enquiry" [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitRegisterForm()">
+          <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" type="button" value="Save Enquiry" [disabled]="!myForm.form.valid" class="btn fullBlue" (click)="submitForm()">
         </aside>
       </section>
 
@@ -491,7 +492,7 @@
                 <div class="clearfix">
                   <aside class="pull-right popup-btn">
                     <input type="button" value="Cancel" class="btn" (click)="commentHandlerClose()">
-                    <input type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
+                    <input *ngIf="editEnqData.status != 12 && editEnqData.status != 1" type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
                   </aside>
                 </div>
               </div>

@@ -3,9 +3,7 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-
 /* =================================================================================== */
-
 
 /* =================================================================================== */
 
@@ -45,6 +43,19 @@
             box-shadow: 0px 0px 2px 0px #313030;
             ul {
                 list-style: none;
+                .excel-icon {
+                    cursor: pointer;
+                    height: auto;
+                    .labelName {
+                        cursor: pointer;
+                        margin-left: 5px;
+                        font-size: 15px;
+                        color: #888;
+                        &:hover {
+                            color: $common-blue;
+                        }
+                    }
+                }
                 .export-icon {
                     background: url('../../../../assets/images/expand.svg') no-repeat;
                     margin: 10px 0px 0px 2px;
@@ -122,7 +133,6 @@
         }
     }
 }
-
 
 /* =================================================================================== */
 
@@ -215,15 +225,11 @@
     cursor: pointer;
 }
 
+/* =================================================================================== */
 
 /* =================================================================================== */
 
-
 /* =================================================================================== */
-
-
-/* =================================================================================== */
-
 
 /* =================================================================================== */
 
@@ -258,12 +264,9 @@
     }
 }
 
-
 /* =================================================================================== */
 
-
 /* =================================================================================== */
-
 
 /* =================================================================================== */
 
@@ -274,7 +277,7 @@
     max-height: 375px;
     overflow: hidden;
     width: 100%;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -301,7 +304,7 @@ screen and (max-height: 768px) {
         .table-scroll-wrapper {
             /* max-height: 400px; */
         }
-         ::-webkit-scrollbar {
+        ::-webkit-scrollbar {
             display: block;
             width: 7px;
             height: 7px;
@@ -396,12 +399,9 @@ screen and (max-height: 768px) {
     }
 }
 
-
 /* =================================================================================== */
 
-
 /* =================================================================================== */
-
 
 /* =================================================================================== */
 
@@ -415,12 +415,9 @@ screen and (max-height: 768px) {
     }
 }
 
-
 /* =================================================================================== */
 
-
 /* =================================================================================== */
-
 
 /* =================================================================================== */
 
@@ -439,15 +436,11 @@ screen and (max-height: 768px) {
     }
 }
 
+/* =================================================================================== */
 
 /* =================================================================================== */
 
-
 /* =================================================================================== */
-
-
-/* =================================================================================== */
-
 
 /* Data table Settings */
 
@@ -657,12 +650,10 @@ screen and (max-height: 768px) {
     cursor: pointer;
     color: #0084f6;
     padding: 0px;
-    
     font-size: 14px;
     .ui-button {
         background: #fff;
         color: #0084f6 !important;
-
         font-size: 14px;
         height: 30px !important;
         font-weight: 600;
@@ -690,14 +681,11 @@ screen and (max-height: 768px) {
         left: 0px !important;
         outline: none;
         box-shadow: none;
-
         font-size: 14px;
         text-align: left;
         .ui-menu-list {
-
             font-size: 14px;
             .ui-menuitem {
-
                 font-size: 14px;
                 width: 100%;
                 max-width: 200px;
@@ -715,7 +703,6 @@ screen and (max-height: 768px) {
                     color: white !important;
                     a {
                         color: white !important;
-
                         font-size: 14px !important;
                     }
                 }
@@ -724,7 +711,6 @@ screen and (max-height: 768px) {
                     color: white !important;
                     a {
                         color: white !important;
-
                         font-size: 14px !important;
                     }
                 }
@@ -733,7 +719,6 @@ screen and (max-height: 768px) {
                     color: white !important;
                     a {
                         color: white !important;
-
                         font-size: 14px !important;
                     }
                 }
@@ -878,7 +863,6 @@ screen and (max-height: 768px) {
         float: left;
     }
 }
-
 
 /*=======================filter type==============*/
 
@@ -1038,7 +1022,6 @@ screen and (max-height: 768px) {
     margin-top: 20px;
 }
 
-
 /*===========================================action tooltip of table===================*/
 
 .enquiry-action {
@@ -1167,7 +1150,6 @@ screen and (max-height: 768px) {
     width: 28px;
 }
 
-
 /**===============================search data=========================*/
 
 .search-data {
@@ -1196,7 +1178,6 @@ screen and (max-height: 768px) {
         }
     }
 }
-
 
 /*=====================================mobile head menu css===========================*/
 
@@ -1250,7 +1231,6 @@ ul.customDropdown.visibleDropdown {
 ul.customDropdown li:hover {
     background: #f5f5f5;
 }
-
 
 /* popUp Scss */
 
@@ -1406,7 +1386,6 @@ ul.customDropdown li:hover {
     bottom: 0;
 }
 
-
 /*=========================================registration popup form css==================*/
 
 .registration-fee-form {
@@ -1469,7 +1448,6 @@ ul.customDropdown li:hover {
     }
 }
 
-
 /*=======================================confirmation =========================*/
 
 .confirmation-popup-content {
@@ -1517,10 +1495,20 @@ ul.customDropdown li:hover {
 .update-enquiry-form {
     max-height: 380px;
     overflow: hidden;
+    ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
     .right-aside-wrapper {
         width: 38%;
         max-height: 360px;
         overflow: auto;
+        ::-webkit-scrollbar {
+            display: block;
+            width: 7px;
+            height: 7px;
+        }
         .row {
             margin: 10px 5px 20px;
         }
@@ -1546,7 +1534,7 @@ ul.customDropdown li:hover {
                 max-height: 400px;
                 overflow-y: auto;
                 overflow-x: hidden;
-                 ::-webkit-scrollbar {
+                ::-webkit-scrollbar {
                     display: block;
                     width: 7px;
                     height: 7px;
@@ -1771,9 +1759,7 @@ ul.customDropdown li:hover {
     }
 }
 
-
 /* ======================== DropDown Menu ================================= */
-
 
 /* Dropdown Button */
 
@@ -1789,7 +1775,6 @@ ul.customDropdown li:hover {
     height: 35px;
     cursor: pointer;
 }
-
 
 /* The container <div> - needed to position the dropdown content */
 
@@ -1895,7 +1880,7 @@ ul.customDropdown li:hover {
     background: white;
     border-left: 1px solid rgba(211, 212, 213, 0.5);
     box-shadow: -3px 0px 6px rgba(119, 119, 119, 0.26);
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: none;
         width: 7px;
         height: 7px;
@@ -1904,7 +1889,7 @@ ul.customDropdown li:hover {
         height: 560px;
         overflow-x: hidden;
         overflow-y: auto;
-         ::-webkit-scrollbar {
+        ::-webkit-scrollbar {
             display: none;
             width: 7px;
             height: 7px;
@@ -1959,7 +1944,7 @@ ul.customDropdown li:hover {
     }
     label {
         font-size: 12px;
-        font-weight: 400; 
+        font-weight: 400;
         color: rgba(0, 0, 0, 0.77);
         padding-bottom: 2px;
         text-decoration: none;
@@ -2112,5 +2097,12 @@ ul.customDropdown li:hover {
     to {
         background-position: 0 0, 100% 0, /* move highlight to right */
         100px 0, 100px 40px, 100px 80px, 100px 120px;
+    }
+}
+
+.visibiltyClass {
+    height: 70px !important;
+    .upload-icon {
+        visibility: hidden;
     }
 }

@@ -40,7 +40,7 @@
                     </div>
                     <div class="field-radio-wrapper">
                       <input type="radio" (click)="checkInputType($event)" name="sFilter" value="Manual" class="form-radio" id="idTeacher">
-                      <label for="Inactive">Teacher</label>
+                      <label for="Inactive">Faculty</label>
                     </div>
                     <div class="field-radio-wrapper">
                       <input type="radio" (click)="checkInputType($event)" name="sFilter" value="Manual" class="form-radio" id="idBatch">
@@ -56,7 +56,7 @@
                             {{subject.teacher_name}}
                           </option>
                         </select>
-                        <label for="sc">Select Teacher</label>
+                        <label for="sc">Select Faculty</label>
                       </div>
                     </div>
 
@@ -218,7 +218,7 @@
                           <span *ngIf="!isLangInstitute" class="" (click)="editClass(class)" title="Edit">
                             <i class="fas fa-edit" style="font-family: FontAwesome;font-size: 20px;color: rgba(0, 0, 255, 0.49019607843137253);"></i>
                           </span>
-                          <span class="mail-notification" (click)="notify(class)" title="Send Reminder"></span>
+                          <span *ngIf="!isLangInstitute" class="mail-notification" (click)="notify(class)" title="Send Reminder"></span>
                         </span>
                       </h4>
                     </div>
@@ -236,7 +236,7 @@
                           <td style="width:15%">{{sc.teacher_name}}</td>
                           <td style="width:15%">{{sc.topics_covered}}</td>
                           <td style="width:15%">
-                            <div class="action-box ">
+                            <div class="action-box" *ngIf="!isLangInstitute">
                               <span class="mail-notification" (click)="notifySubjectLevel(sc ,class )" title="Send Reminder"></span>
                               <span class="reschedule-icon" (click)="rescheduleClassData(sc)" title="Reschedule"></span>
                               <span class="delete-btn" style="font-family: FontAwesome;" (click)="CancelClass(sc)" title="Cancel Class">

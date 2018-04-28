@@ -396,7 +396,7 @@
               <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
                 <div class="field-wrapper">
                   <input type="number" class="form-ctrl" formControlName="alloted_units" id="Unit" name="Unit" (focus)="inputClickedCheck($event)">
-                  <label for="Unit">Unit
+                  <label for="Unit">Available Unit
                     <span style="color:red">*</span>
                   </label>
                   <div *ngIf="addItemForm.controls['alloted_units'].invalid && (addItemForm.controls['alloted_units'].dirty || addItemForm.controls['alloted_units'].touched)"
@@ -664,7 +664,7 @@
             <tbody>
               <tr id="row{{i}}" *ngFor="let row of allocationHistoryList; let i = index; trackBy: i;">
                 <td>
-                  {{i + 1}
+                  {{i + 1}}
                 </td>
                 <td>
                   {{row.created_date}}

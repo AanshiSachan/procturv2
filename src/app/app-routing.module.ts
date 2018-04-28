@@ -98,7 +98,7 @@ import { CityAreaMapComponent } from './components/city-area-map/city-area-map.c
                 },
                 {
                     path: 'academic',
-                    loadChildren: 'app/components/academic-year/academic year.module#academicYearModule',
+                    loadChildren: 'app/components/academic-year/academic-year.module#AcademicYearModule',
                 },
                 {
                     path: 'setting',

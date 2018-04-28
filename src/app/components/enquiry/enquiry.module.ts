@@ -26,6 +26,8 @@ import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 import { SharedModule } from '../shared/shared.module';
 import { OnlyNumber } from './enquiry-directives/onlynumber.directive';
 
+import { PopupHandlerService } from '../../services/enquiry-services/popup-handler.service';
+
 @NgModule({
     imports: [
         FormsModule,
@@ -63,9 +65,11 @@ import { OnlyNumber } from './enquiry-directives/onlynumber.directive';
         SmsOptionComponent,
         UserEnquiryComponent,
         CommentTooltipComponent,
-        EnquirySidebarComponent
+        EnquirySidebarComponent,
+        
     ],
     providers: [
+        PopupHandlerService,
     ]
 })
 export class EnquiryModule {

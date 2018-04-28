@@ -12,7 +12,8 @@ export class OnlyNumber {
   @HostListener('keydown', ['$event']) onKeyDown(event) {
     let e = <KeyboardEvent> event;
     if (this.OnlyNumber) {
-      if ([46, 8, 9, 27, 13, 110, 190].indexOf(e.keyCode) !== -1 ||
+      /* add 190 below to add support for .(decimal) */
+      if ([46, 8, 9, 27, 13, 110].indexOf(e.keyCode) !== -1 ||
         // Allow: Ctrl+A
         (e.keyCode == 65 && e.ctrlKey === true) ||
         // Allow: Ctrl+C

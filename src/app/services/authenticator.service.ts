@@ -28,19 +28,19 @@ export class AuthenticatorService {
     // public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
 
     constructor() {
-        console.log("Auth constructor called");
+        //console.log("Auth constructor called");
         this.getAuthToken();
         this.getInstituteId();
     }
 
 
     changeInstituteId(id: string){
-        console.log("institute id changed "+id);
+        //console.log("institute id changed "+id);
         this.instituteId.next(id);
     }
 
     changeAuthenticationKey(key: string){
-        console.log("Auth changed " +key);
+        //console.log("Auth changed " +key);
         this.authToken.next(key);
         this.institute_type = sessionStorage.getItem('institute_type');
     }

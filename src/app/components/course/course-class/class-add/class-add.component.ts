@@ -825,6 +825,9 @@ export class ClassAddComponent implements OnInit {
 
   cancelCourseSchedule() {
     let dataTosend = this.makeCancelClassJson();
+    if (dataTosend == false) {
+      return false;
+    }
     if (dataTosend != undefined) {
       this.classService.cancelClassSchedule(dataTosend).subscribe(
         res => {
@@ -844,7 +847,7 @@ export class ClassAddComponent implements OnInit {
     let text = document.getElementById('idTexboxReason').value;
     if (text == "" || text == null || text == undefined) {
       this.messageToast('error', 'Error', 'Please provide cancellation reason');
-      return
+      return false;
     }
     let chkbxValue = document.getElementById('idChkbxEnable').checked;
     if (chkbxValue == true) {
@@ -1690,6 +1693,9 @@ export class ClassAddComponent implements OnInit {
 
   cancelBatchSchedule() {
     let data = this.makeJSONToSendBatchDet();
+    if (data == false) {
+      return;
+    }
     this.classService.cancelClassSchedule(data).subscribe(
       res => {
         this.messageToast('success', 'Notified', 'Cancelled Successfully');
@@ -1708,7 +1714,7 @@ export class ClassAddComponent implements OnInit {
     let text = document.getElementById('idTexboxReason').value;
     if (text == "" || text == null || text == undefined) {
       this.messageToast('error', 'Error', 'Please provide cancellation reason');
-      return
+      return false;
     }
     let chkbxValue = document.getElementById('idChkbxEnable').checked;
     if (chkbxValue == true) {

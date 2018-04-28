@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
@@ -137,28 +137,35 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     private studentFetch: FetchStudentService, private login: LoginService,
     private appC: AppComponent, private studentPrefill: AddStudentPrefillService,
     private widgetService: WidgetService,
-    private postService: PostStudentDataService) {
+    private postService: PostStudentDataService, private actRoute: ActivatedRoute) {
 
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-
-    if (this.isProfessional) {
-      this.StudentSettings = [
-        { primaryKey: 'student_disp_id', header: 'Student Id.' },
-        { primaryKey: 'student_name', header: 'Name.' },
-        { primaryKey: 'student_phone', header: 'Contact No.' },
-        { primaryKey: 'student_class', header: 'Class' },
-        { primaryKey: 'noOfBatchesAssigned', header: 'Batch Assigned' }
-      ];
-    }
-    else {
-      this.StudentSettings = [
-        { primaryKey: 'student_disp_id', header: 'Student Id.' },
-        { primaryKey: 'student_name', header: 'Name.' },
-        { primaryKey: 'student_phone', header: 'Contact No.' },
-        { primaryKey: 'student_class', header: 'Class' },
-        { primaryKey: 'noOfBatchesAssigned', header: 'Course Assigned' }
-      ];
-    }
+    this.actRoute.queryParams.subscribe(e => {
+      
+      if (e.id != null && e.id != undefined && e.id != '') {
+        this.router.navigate(['/student/edit/' + e.id]);
+      }
+      else{
+        this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+        if (this.isProfessional) {
+          this.StudentSettings = [
+            { primaryKey: 'student_disp_id', header: 'Student Id.' },
+            { primaryKey: 'student_name', header: 'Name.' },
+            { primaryKey: 'student_phone', header: 'Contact No.' },
+            { primaryKey: 'student_class', header: 'Class' },
+            { primaryKey: 'noOfBatchesAssigned', header: 'Batch Assigned' }
+          ];
+        }
+        else {
+          this.StudentSettings = [
+            { primaryKey: 'student_disp_id', header: 'Student Id.' },
+            { primaryKey: 'student_name', header: 'Name.' },
+            { primaryKey: 'student_phone', header: 'Contact No.' },
+            { primaryKey: 'student_class', header: 'Class' },
+            { primaryKey: 'noOfBatchesAssigned', header: 'Course Assigned' }
+          ];
+        }
+      }
+    });
   }
 
   /* OnInit function to set toggle default columns and load student data for table*/
@@ -168,7 +175,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     //this.busy = this.loadTableDataSource(this.instituteData);
     this.fetchStudentPrefill();
-    this.loading_message = 3;            
+    this.loading_message = 3;
     this.studentDataSource = [];
     this.totalRow = this.studentDataSource.length;
     this.bulkActionItems = [
@@ -215,7 +222,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
               body: 'We did not find any enquiry for the specified query'
             }
             this.appC.popToast(alert);
-            this.loading_message = 2;            
+            this.loading_message = 2;
             this.studentDataSource = [];
             this.totalRow = this.studentDataSource.length;
           }
@@ -273,18 +280,18 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   }
 
-  getDirection(e){
+  getDirection(e) {
     //console.log(this.currentDirection);
     if (e) {
       this.currentDirection = 'asc';
-      
+
     }
-    else  {
+    else {
       this.currentDirection = 'desc';
-      
+
     }
   }
-  
+
 
   /* fetch the data from server based on specific page number by converting the index into start_index */
   fectchTableDataByPage(index) {
@@ -428,14 +435,14 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.customComponents.forEach(el => {
       //console.log(el);
       if (el.is_searchable == 'Y' && el.value != "") {
-        if(el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date"){
+        if (el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date") {
           let obj = {
             component_id: el.id,
             enq_custom_value: moment(el.value).format("YYYY-MM-DD")
           }
           tempCustomArr.push(obj);
         }
-        else{
+        else {
           let obj = {
             component_id: el.id,
             enq_custom_value: el.value
@@ -1137,6 +1144,12 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     sessionStorage.setItem('editPdc', "true");
     localStorage.setItem('studentId', event);
     this.router.navigate(['/student/edit/' + event]);
+  }
+
+  editInventory(e) {
+    sessionStorage.setItem('editInv', "true");
+    localStorage.setItem('studentId', e);
+    this.router.navigate(['/student/edit/' + e]);
   }
 
   notifySelectedStudent() {

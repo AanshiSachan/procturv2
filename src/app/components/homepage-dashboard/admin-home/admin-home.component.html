@@ -39,7 +39,7 @@
                 </div>
               </li>
 
-              <li [ngClass]="{hide : (permissionArray != '' && permissionArray != null)}" class="fees-state item" data-id="3">
+              <li [ngClass]="{hide : checkRoleMAnagement()}" class="fees-state item" data-id="3">
                 <div class="item-content">
                   <fee-widget></fee-widget>
                 </div>
@@ -175,7 +175,7 @@
                             </li>
                           </ul>
                           <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHideCourse()" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
@@ -198,7 +198,12 @@
                               </div>
                             </li>
                             <li class="class_room">
-                              {{class.class_room_name}}                              
+                              <div>
+                                <span>
+                                  {{class.class_room_name}}
+                                </span>
+                              </div>
+
                             </li>
                             <li class="batch">
                               <div>{{class.batch_name}}</div>
@@ -208,7 +213,7 @@
                             </li>
                           </ul>
                           <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">View Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
@@ -221,8 +226,7 @@
                 </div>
               </li>
 
-              <li [ngClass]="{hide : (permissionArray != '' && permissionArray != null)}" class="general-state item" style="height: 150px;"
-                data-id="4">
+              <li [ngClass]="{hide : checkRoleMAnagement()}" class="general-state item" style="height: 150px;" data-id="4">
                 <div class="item-content">
                   <general-widget></general-widget>
                 </div>
@@ -806,7 +810,7 @@
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCourseCancelClass()">
           <input *ngIf="!isProfessional" type="button" value="Update Schedule" (click)="cancelCourseClass()" class="fullBlue btn">
-          <input *ngIf="isProfessional" type="button" value="Update Schedule" (click)="cancelBatchClass()" class="fullBlue btn">
+          <input *ngIf="isProfessional" type="button" value="Cancel Class" (click)="cancelBatchClass()" class="fullBlue btn">
         </aside>
       </div>
     </div>
@@ -926,6 +930,12 @@
                 <!-- <div class="c-sm-3 c-md-3 c-lg-3">
                   <button class="btn" style=" margin-top: 15px;" (click)="fetchDataFromFields()">Go</button>
                 </div> -->
+
+                <div *ngIf="studentList.length > 0" class="pull-right" style="margin-top: 15px">
+                  <div class="search-filter">
+                    <input type="text" [(ngModel)]="searchData" class="normal-field" placeholder="Search" name="searchData" #searchVal>
+                  </div>
+                </div>
 
               </div>
 
@@ -1194,7 +1204,7 @@
                           <th class="dateSection">
                             Date
                           </th>
-                          <th>
+                          <th style="text-align: left">
                             Message
                           </th>
                         </tr>
@@ -1261,10 +1271,10 @@
                   </div>
                 </div>
 
-                <div class="" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor')">
-                  <button class="btn" (click)="sendSmsForApp('1')">Send SMS For App Download</button>
-                  <button class="btn" (click)="sendSmsForApp('2')">Send SMS For App Upgradation</button>
-                  <button class="btn" (click)="sendSmsForApp('3')">Send SMS For Alternate Login Registration</button>
+                <div class="row btn-loginGroup" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor')">
+                  <button class="btn" (click)="sendSmsForApp('1')">SMS For App Download</button>
+                  <button class="btn" (click)="sendSmsForApp('2')">SMS For App Upgradation</button>
+                  <button class="btn" (click)="sendSmsForApp('3')">SMS For Alternate Login Registration</button>
                   <button class="btn" (click)="sendSmsForApp('4')">Send Credentials</button>
                 </div>
 
@@ -1289,8 +1299,6 @@
       </div>
     </div> -->
   </proctur-widget>
-
-  <!-- ///////////////View Details POP up //////////////////////////////////// -->
 
   <proctur-widget *ngIf="viewDetailsPopUp">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeViewDetailsPopUp()" close-button>

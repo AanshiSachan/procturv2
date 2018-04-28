@@ -53,7 +53,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   @ViewChild('three') three: ElementRef;
   @ViewChild('four') four: ElementRef;
 
-
+  isLangInstitute: boolean = false;
   notifyme: boolean = false;
   followUpTime: any;
   walkin_followUpTime: any;
@@ -105,6 +105,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
 
   constructor(private prefill: FetchprefilldataService, private cd: ChangeDetectorRef, private appC: AppComponent) {
     this.isEnquiryAdministrator();
+    this.checkInstituteType();
   }
 
 
@@ -485,4 +486,14 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
       }
     }
   }
+
+  checkInstituteType() {
+    let type: any = sessionStorage.getItem('institute_type');
+    if (type == "LANG") {
+      this.isLangInstitute = true;
+    } else {
+      this.isLangInstitute = false;
+    }
+  }
+
 }

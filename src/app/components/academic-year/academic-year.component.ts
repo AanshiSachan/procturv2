@@ -51,7 +51,6 @@ export class AcademicYearComponent implements OnInit {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.addAcademicYearTemplate.inst_id = sessionStorage.getItem('institute_id');
-
   }
 
 
