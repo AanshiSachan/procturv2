@@ -24,41 +24,59 @@ export class CoreSidednavComponent implements OnInit {
       /* confirmation from service of registering the authkey */
       if (el == "authorized") {
 
-        if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
-          document.getElementById('lione').classList.remove('hide');
-          document.getElementById('litwo').classList.remove('hide');
-          document.getElementById('lithree').classList.remove('hide');
-          document.getElementById('lifour').classList.remove('hide');
-          document.getElementById('lifive').classList.remove('hide');
-          document.getElementById('lisix').classList.remove('hide');
-          document.getElementById('liseven').classList.remove('hide');
-          document.getElementById('lieight').classList.remove('hide');
-          document.getElementById('linine').classList.remove('hide');
-          document.getElementById('lizero').classList.remove('active');
-          //document.getElementById('liten').classList.remove('hide');
-        }
-        else {
-          /* array to store the user permissions, if the permission length is less than equal to one
-          remove the first and last char and validate if its admin or not */
-          let permissions: any[] = [];
+        let userType: any = Number(sessionStorage.getItem('userType'));
+        if (userType != 3) {
+          if (sessionStorage.getItem('permissions') == null || sessionStorage.getItem('permissions') == undefined || sessionStorage.getItem('permissions') == '') {
+            document.getElementById('lione').classList.remove('hide');
+            document.getElementById('litwo').classList.remove('hide');
+            document.getElementById('lithree').classList.remove('hide');
+            document.getElementById('lifour').classList.remove('hide');
+            document.getElementById('lifive').classList.remove('hide');
+            document.getElementById('lisix').classList.remove('hide');
+            document.getElementById('liseven').classList.remove('hide');
+            document.getElementById('lieight').classList.remove('hide');
+            document.getElementById('linine').classList.remove('hide');
+            document.getElementById('lizero').classList.remove('active');
+            //document.getElementById('liten').classList.remove('hide');
+          }
+          else {
+            /* array to store the user permissions, if the permission length is less than equal to one
+            remove the first and last char and validate if its admin or not */
+            let permissions: any[] = [];
 
-          /* ; */
-          permissions = JSON.parse(sessionStorage.getItem('permissions'));
-          this.hasEnquiry(permissions);
-          this.hasStudent(permissions);
-          this.hasCourse(permissions);
-          this.hasActivity(permissions);
-          this.hasEmployee(permissions);
-          this.hasReport(permissions);
-          this.hasInventory(permissions);
-          this.hasExpense(permissions);
-          this.hasCampaign(permissions);
-          //this.hasExam(permissions);
+            /* ; */
+            permissions = JSON.parse(sessionStorage.getItem('permissions'));
+            this.hasEnquiry(permissions);
+            this.hasStudent(permissions);
+            this.hasCourse(permissions);
+            this.hasActivity(permissions);
+            this.hasEmployee(permissions);
+            this.hasReport(permissions);
+            this.hasInventory(permissions);
+            this.hasExpense(permissions);
+            this.hasCampaign(permissions);
+            //this.hasExam(permissions);
 
-          /* single permission or admin */
-          /* if (permissions.length <= 1) {
-              let last = permissions.pop().slice(1, -1);
+            /* single permission or admin */
+            /* if (permissions.length <= 1) {
+                let last = permissions.pop().slice(1, -1);
+                permissions.push(last);
+                this.hasEnquiry(permissions);
+                this.hasStudent(permissions);
+                this.hasCourse(permissions);
+                this.hasActivity(permissions);
+                this.hasEmployee(permissions);
+                this.hasReport(permissions);
+                this.hasInventory(permissions);
+                this.hasExpense(permissions);
+                this.hasCampaign(permissions);
+                this.hasExam(permissions);
+            } */
+            /* check for the user roles and authenticate his oredeal */
+            /* else {
+              let last = permissions.pop().slice(0, -1);
               permissions.push(last);
+              let first = permissions[0].slice(0, -1);
               this.hasEnquiry(permissions);
               this.hasStudent(permissions);
               this.hasCourse(permissions);
@@ -69,23 +87,10 @@ export class CoreSidednavComponent implements OnInit {
               this.hasExpense(permissions);
               this.hasCampaign(permissions);
               this.hasExam(permissions);
-          } */
-          /* check for the user roles and authenticate his oredeal */
-          /* else {
-            let last = permissions.pop().slice(0, -1);
-            permissions.push(last);
-            let first = permissions[0].slice(0, -1);
-            this.hasEnquiry(permissions);
-            this.hasStudent(permissions);
-            this.hasCourse(permissions);
-            this.hasActivity(permissions);
-            this.hasEmployee(permissions);
-            this.hasReport(permissions);
-            this.hasInventory(permissions);
-            this.hasExpense(permissions);
-            this.hasCampaign(permissions);
-            this.hasExam(permissions);
-          } */
+            } */
+          }
+        } else {
+          this.teacherLoginFound();
         }
       }
     });
@@ -110,7 +115,7 @@ export class CoreSidednavComponent implements OnInit {
 
 
   hasCourse(permissions) {
-    if (permissions.includes('401') || permissions.includes('402') || permissions.includes('403') || permissions.includes('404') || permissions.includes('405') || permissions.includes('406') || permissions.includes('501') || permissions.includes('502') || permissions.includes('505') || permissions.includes('701') ||  permissions.includes('704')) {
+    if (permissions.includes('401') || permissions.includes('402') || permissions.includes('403') || permissions.includes('404') || permissions.includes('405') || permissions.includes('406') || permissions.includes('501') || permissions.includes('502') || permissions.includes('505') || permissions.includes('701') || permissions.includes('704')) {
       document.getElementById('lithree').classList.remove('hide');
     }
   }
@@ -373,6 +378,15 @@ export class CoreSidednavComponent implements OnInit {
     } else {
       this.isLangInstitute = false;
     }
+  }
+
+
+  /// Teacher Role Found
+
+  teacherLoginFound() {
+    document.getElementById('lithree').classList.remove('hide');
+    document.getElementById('lifour').classList.remove('hide');
+    document.getElementById('lisix').classList.remove('hide');
   }
 
 }

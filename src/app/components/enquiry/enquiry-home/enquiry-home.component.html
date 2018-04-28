@@ -39,7 +39,7 @@
             </p>
           </li>
           <li class="optMenu" #optMenu>
-            <div class="enq-dropdown-content" *ngIf="isEnquiryOptions" (mouseleave)="isEnquiryOptions = false">
+            <div [ngClass]="{'visibiltyClass':(isEnquiryAdmin == false)}" class="enq-dropdown-content" *ngIf="isEnquiryOptions" (mouseleave)="isEnquiryOptions = false">
               <ul>
                 <li class="excel-icon" (click)="downloadAllEnquiries()">
                   <i class="fa fa-file-excel-o" aria-hidden="true" style="font-family: FontAwesome;font-size: 16px;color: #aaa;"></i>

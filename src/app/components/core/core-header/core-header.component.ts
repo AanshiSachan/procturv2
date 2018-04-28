@@ -18,17 +18,17 @@ export class CoreHeaderComponent implements OnInit {
   hasClass: boolean = true;
 
   ngOnInit() {
-
     this.log.currentInstitute.subscribe(res => {
       this.instituteName = res;
       this.updatePermissions();
+      this.AddBtnPermision();
     });
 
     this.log.currentUsername.subscribe(res => {
       this.userName = res;
     });
 
-    this.checkUserHadAccess();
+    this.checkPermissionArrayData();
   }
 
   constructor(private log: LoginService, private router: Router) {
@@ -59,6 +59,16 @@ export class CoreHeaderComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
+
+  checkPermissionArrayData() {
+    let userType: any = Number(sessionStorage.getItem('userType'));
+    if (userType != 3) {
+      this.checkUserHadAccess();
+    } else {
+      //this is for teacher type
+      this.hideAllFields();
+    }
+  }
 
   checkUserHadAccess() {
     const permissionArray = sessionStorage.getItem('permissions');
@@ -181,4 +191,14 @@ export class CoreHeaderComponent implements OnInit {
     this.hasStudent = this.hasStudentAccess();
     this.hasClass = this.hasCourseAccess();
   }
+
+  AddBtnPermision() {
+    let userType: any = Number(sessionStorage.getItem('userType'));
+    if (userType === 3) {
+      this.hasEnquiry = false;
+      this.hasStudent = false;
+      this.hasClass = false;
+    }
+  }
+
 }
