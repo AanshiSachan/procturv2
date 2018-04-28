@@ -13,7 +13,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { updateEnquiryForm } from '../../../model/update-enquiry-form';
-import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import { Ng2SmartTableModule, LocalDataSource } from '../../../../assets/imported_modules/ng2-smart-table';
 import { MenuItem } from 'primeng/primeng';
 import { CampaignService } from '../../../services/campaign-services/campaign.service';

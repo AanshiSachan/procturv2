@@ -83,7 +83,7 @@ export class CampaignBulkComponent implements OnInit {
   /* base64 data to be converted to xls file */
   downloadTemplate() {
     //console.log(this.auth.getBaseUrl);
-    window.open("http://app.proctur.com/doc/lead_upload_form.xls", "_blank");
+    window.open("https://app.proctur.com/doc/lead_upload_form.xls", "_blank");
   }
 
   /* convert base64 string to byte array */
@@ -124,7 +124,7 @@ export class CampaignBulkComponent implements OnInit {
     
                 //
     
-                let urlPostXlsDocument = "http://app.proctur.com/CampaignListUpload";
+                let urlPostXlsDocument = "https://app.proctur.com/CampaignListUpload";
     
                 let xhr: XMLHttpRequest = new XMLHttpRequest();
     

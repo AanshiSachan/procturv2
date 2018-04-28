@@ -1,0 +1,115 @@
+<div class="search-dropdown-box search-item">
+
+  <section *ngIf="resultStat == 0">
+    <ul>
+      <li>
+        <h6>
+          <span>
+            <div class="skeleton">
+            </div>
+          </span>
+        </h6>
+      </li>
+      <li>
+        <h6>
+          <span>
+            <div class="skeleton">
+            </div>
+          </span>
+        </h6>
+      </li>
+    </ul>
+  </section>
+
+  <section *ngIf="resultStat == 1">
+
+    <!-- No Result, No Recent Search -->
+    <ul class="sdb search-item" *ngIf="searchResult.length == 0 && recentlySearched.size == 0">
+      <li>
+        <h6>
+          <span>
+            No Recent Search
+          </span>
+        </h6>
+      </li>
+    </ul>
+
+    <!-- No Result, Few Recent Search -->
+    <ul class="sdb search-item" *ngIf="searchResult.length == 0 && recentlySearched.size != 0">
+      <li>
+        <h5>
+          <span>
+            Your Recent Search
+          </span>
+          <!-- <a>View More</a> -->
+        </h5>
+        <ul class="in-student-list search-item">
+          <li class="search-item" *ngFor="let rs of recentlySearched">
+            <a>
+              <span class="sdb-right search-item">
+                <label class="recent search-item" (click)="searchThisAgain(rs)">
+                  <strong>{{rs}}</strong>
+                </label>
+                <label class="delete search-item">
+                    <img class="search-item" src="./assets/images/cross.png" (click)="deleteRecent(rs)" alt="delete">
+                </label>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <!-- Result-->
+    <ul class="sdb search-item" *ngIf="searchResult.length != 0">
+      <li *ngIf="studentResult.length != 0">
+        <h5>
+          <span>
+            In Students
+          </span>
+          <a (click)="fullView('student')">View More</a>
+        </h5>
+        <ul class="in-student-list">
+          <li (click)="studentSelected(student)" *ngFor="let student of studentResult">
+            <a>
+              <img src="" alt="" />
+              <span class="sdb-right">
+                <label>
+                  <strong>{{student.name}}</strong>
+                </label>
+                <span>
+                  +91 {{student.phone}} | Enrolment ID : {{student.displayId}}
+                </span>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li *ngIf="enquiryResult.length != 0">
+        <h5>
+          <span>
+            In Enquiry
+          </span>
+          <a (click)="fullView('enquiry')">View More</a>
+        </h5>
+        <ul class="in-student-list">
+          <li (click)="enquirySelected(enquiry)" *ngFor="let enquiry of enquiryResult">
+            <a>
+              <img src="" alt="" />
+              <span class="sdb-right">
+                <label>
+                  <strong>{{enquiry.name}}</strong>
+                </label>
+                <span>
+                  +91 {{enquiry.phone}} | Enrolment ID : {{enquiry.displayId}}
+                </span>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+  </section>
+
+</div>

@@ -3,7 +3,7 @@ import {
   AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
   SimpleChanges, OnChanges
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
 import { instituteInfo } from '../../../model/instituteinfo';
@@ -320,10 +320,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService,
     private router: Router, private fb: FormBuilder, private pops: PopupHandlerService, private postdata: PostEnquiryDataService,
-    private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef) {
+    private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef, private actRoute: ActivatedRoute) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
+    
+    this.actRoute.queryParams.subscribe(e => {
+      if(e.id != null && e.id != undefined && e.id != ''){
+        this.router.navigate(['/enquiry/edit/' + e.id]);
+      }
+    });
+    
   }
 
   /* =========================================================================== */
@@ -355,51 +362,56 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     /* Fetch the status of message from  popup handler service */
     this.pops.currentMessage.subscribe(message => {
       this.cd.markForCheck();
-      if (message == 'sms') {
-        this.cd.markForCheck();
-        this.smsServicesInvoked();
-        this.message = message;
-        this.cd.markForCheck();
-        this.smsSelectedRows = this.selectedRow;
-        this.cd.markForCheck();
-      }
-      else if (message == 'update') {
 
-        this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
+      if(this.selectedRow.institute_enquiry_id != null && this.selectedRow.institute_enquiry_id != undefined){
+        if (message == 'sms') {
           this.cd.markForCheck();
-          this.updateFormData.priority = this.getPriority(res.priority);
-          this.updateFormData.follow_type = this.getFollowUp(res.follow_type);
-          this.updateFormData.statusValue = this.selectedRow.statusValue;
-          this.updateFormData.followUpDate = moment(this.selectedRow.followUpDate).format('YYYY-MM-DD');
-          if (res.followUpTime != '' && res.followUpTime != null) {
-            let timeObj = this.convertTimeToFormat(this.selectedRow.followUpTime);
-            this.hour = timeObj.hour + " " + timeObj.meridian;
-            this.minute = timeObj.minute;
-          }
+          this.smsServicesInvoked();
+          this.message = message;
 
-          if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null) {
-            let timeObj = this.convertTimeToFormat(res.walkin_followUpTime);
-            this.updateFormData.walkin_followUpTime.hour = timeObj.hour + " " + timeObj.meridian;
-            this.updateFormData.walkin_followUpTime.minute = timeObj.minute;
-          }
-          this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
-          this.updateFormData.followUpTime = res.followUpTime;
-          if (res.followUpTime != "" && res.followUpTime != null && res.followUpDate != null && res.followUpDate != "") {
-            this.updateFormData.is_follow_up_time_notification = true;
-          } else {
-            this.updateFormData.is_follow_up_time_notification = false;
-          }
-          this.updateFormComments = res.comments;
-          this.updateFormCommentsOn = res.commentedOn;
-          this.updateFormCommentsBy = res.commentedBy;
-          this.updateFormData.assigned_to = res.assigned_to;
           this.cd.markForCheck();
-        });
-        this.message = message;
-      }
-      else {
-        this.message = message
-        this.cd.markForCheck();
+          this.smsSelectedRows = this.selectedRow;
+          this.cd.markForCheck();
+        }
+        else if (message == 'update') {
+          
+          this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
+            this.cd.markForCheck();
+            this.updateFormData.priority = this.getPriority(res.priority);
+            this.updateFormData.follow_type = this.getFollowUp(res.follow_type);
+            this.updateFormData.statusValue = this.selectedRow.statusValue;
+            this.updateFormData.followUpDate = moment(this.selectedRow.followUpDate).format('YYYY-MM-DD');
+            if (res.followUpTime != '' && res.followUpTime != null) {
+              let timeObj = this.convertTimeToFormat(this.selectedRow.followUpTime);
+              this.hour = timeObj.hour + " " + timeObj.meridian;
+              this.minute = timeObj.minute;
+            }
+  
+            if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null) {
+              let timeObj = this.convertTimeToFormat(res.walkin_followUpTime);
+              this.updateFormData.walkin_followUpTime.hour = timeObj.hour + " " + timeObj.meridian;
+              this.updateFormData.walkin_followUpTime.minute = timeObj.minute;
+            }
+            this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
+            this.updateFormData.followUpTime = res.followUpTime;
+            if(res.followUpTime != "" && res.followUpTime != null && res.followUpDate != null && res.followUpDate != ""){
+              this.updateFormData.is_follow_up_time_notification = true;
+            }else{
+              this.updateFormData.is_follow_up_time_notification = false;
+            }
+            this.updateFormComments = res.comments;
+            this.updateFormCommentsOn = res.commentedOn;
+            this.updateFormCommentsBy = res.commentedBy;
+            this.updateFormData.assigned_to = res.assigned_to;
+            this.cd.markForCheck();
+          });
+          this.message = message;
+        }
+        else {
+          this.message = message
+          this.cd.markForCheck();
+        }
+  
       }
     });
 
@@ -2073,7 +2085,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       this.updateFormData.follow_type = this.getFollowUpReverse(this.updateFormData.follow_type);
       this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
       let followupdateTime: string = "";
-      if (this.hour != '') {
+      if (this.hour != '' && this.hour != null && this.hour != undefined) {
         let time = this.timeChanges(this.hour);
         let followUpTime = time.hour + ":" + this.minute + " " + time.meridian;
         followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + followUpTime;
@@ -2081,7 +2093,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       }
       followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
 
-      if (this.updateFormData.walkin_followUpTime.hour != "") {
+      if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.hour != null && this.updateFormData.walkin_followUpTime.hour != undefined) {
         let time = this.timeChanges(this.updateFormData.walkin_followUpTime.hour);
         let walkin_followUpTime = time.hour + ":" + this.updateFormData.walkin_followUpTime.minute + " " + time.meridian;
         this.updateFormData.walkin_followUpTime = walkin_followUpTime;
@@ -2094,6 +2106,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.updateFormData.walkin_followUpDate = walkinfollowUpDate;
       } else {
         this.updateFormData.walkin_followUpDate = "";
+      }
+
+      if(this.updateFormData.is_follow_up_time_notification){
+        this.updateFormData.is_follow_up_time_notification = 1;
+      }
+      else if(!this.updateFormData.is_follow_up_time_notification) {
+        this.updateFormData.is_follow_up_time_notification = 0;
       }
 
       this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData)
