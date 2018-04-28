@@ -41,6 +41,17 @@ export class BiometricServiceService {
         }
       )
     }
+    getSubjects(obj){
+      let url=this.baseUrl + "/api/v1/courseMaster/fetch/courses/" + this.institute_id + "/" + obj;
+      return this.http.get(url , {headers:this.headers}).map(
+        (data:any)=>{
+          return data;
+        },
+        (error:any)=>{
+          return error;
+        }
+      ) 
+    }
     getAttendanceReport(obj){
       obj.biometric_attendance_date=moment(obj.biometric_attendance_date).format('YYYY-MM-DD');
       let url=this.baseUrl + "/api/v1/students/manage/" + this.institute_id;

@@ -40,8 +40,11 @@
                   <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getData.biometric_attendance_date">
                 </div>
               </div>
-              <div class="c-lg-3" style="margin-top:38px;">
+              <div class="c-lg-1" style="margin-top:38px;">
                 <button class="btn fullBlue" (click)="fetchDataByName()">Go</button>
+              </div>
+              <div class="c-lg-2" style="margin-top:38px;" *ngIf="showButton">
+                <button class="btn fullBlue" (click)="fetchAbsentiesReport()">Send SMS to Absenties</button>
               </div>
             </div>
           </div>
@@ -51,7 +54,7 @@
               <div class="c-lg-3" style="margin-left:15px;">
                 <div class="form-field form-wrapper">
                   <label>Master Course</label>
-                  <select class="side-form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourses($event)" [value]="getData.course_id">
+                  <select class="side-form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourses($event)" [value]="getData.master_course_name">
                     <option *ngFor="let i of masterCourse">
                       {{i.master_course}}
                     </option>
@@ -134,356 +137,429 @@
                   </tbody>
                 </table>
               </div>
-            </div> 
-              <!-- Paginator Here -->
-              <div class="row filter-res pagination" style="width: 100%;">
-                <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                  <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                    [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
-                  </pagination>
-                </div>
+            </div>
+            <!-- Paginator Here -->
+            <div class="row filter-res pagination" style="width: 100%;">
+              <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                  [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+                </pagination>
               </div>
             </div>
+          </div>
 
-            <div class="students" *ngIf="showStudentTable">
-              <div class="table table-responsive student-table skeleton">
-                <div class="student-elements">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>
-                          Student Id
-                        </th>
-                        <th>
-                          Student Name
-                        </th>
-                        <th>
-                          Mobile
-                        </th>
-                        <th>
-                          Is active
-                        </th>
-                        <th>
-                          In time
-                        </th>
-                        <th>
-                          Out Time
-                        </th>
-                        <th>
-                          View Older Records
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
+          <div class="students" *ngIf="showStudentTable">
+            <div class="table table-responsive student-table skeleton">
+              <div class="student-elements">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Student Id
+                      </th>
+                      <th>
+                        Student Name
+                      </th>
+                      <th>
+                        Mobile
+                      </th>
+                      <th>
+                        Is active
+                      </th>
+                      <th>
+                        In time
+                      </th>
+                      <th>
+                        Out Time
+                      </th>
+                      <th>
+                        View Older Records
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
 
-                      <tr *ngFor="let i of studentsDisplayData">
-                        <td>
-                          {{i.student_id}}
-                        </td>
-                        <td>
-                          {{i.student_name}}
-                        </td>
-                        <td>
-                          {{i.student_phone}}
-                        </td>
+                    <tr *ngFor="let i of studentsDisplayData">
+                      <td>
+                        {{i.student_id}}
+                      </td>
+                      <td>
+                        {{i.student_name}}
+                      </td>
+                      <td>
+                        {{i.student_phone}}
+                      </td>
 
-                        <td>
-                          {{i.is_active}}
-                        </td>
-                        <td>
-                          {{i.in_time}}
-                        </td>
-                        <td>
-                          {{i.out_time}}
-                        </td>
-                        <td>
-                          <button class="btn fullBlue" (click)="viewOlderRecords(i)">View</button>
-                        </td>
-                      </tr>
-                      <tr *ngIf="studentsData.length == 0" class="records">
-                        <td colspan="7" class="records">
-                          No Records Found
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <!-- Paginator Here -->
-              <div class="row filter-res pagination" style="width: 100%;">
-                <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                  <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                    [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
-                  </pagination>
-                </div>
+                      <td>
+                        {{i.is_active}}
+                      </td>
+                      <td>
+                        {{i.in_time}}
+                      </td>
+                      <td>
+                        {{i.out_time}}
+                      </td>
+                      <td>
+                        <button class="btn fullBlue" (click)="viewOlderRecords(i)">View</button>
+                      </td>
+                    </tr>
+                    <tr *ngIf="studentsData.length == 0" class="records">
+                      <td colspan="7" class="records">
+                        No Records Found
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
-            <div class="common" *ngIf="showCustomTable">
-              <div class="table table-responsive student-table">
-                <div class="common-elements">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>
-                          Id
-                        </th>
-                        <th>
-                          Name
-                        </th>
-                        <th>
-                          Contact No.
-                        </th>
-                        <th>
-                          Is active
-                        </th>
-                        <th>
-                          In time
-                        </th>
-                        <th>
-                          Out Time
-                        </th>
-                        <th>
-                          View Older Records
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-
-                      <tr *ngFor="let i of studentsDisplayData">
-                        <td>
-                          {{i.user_id}}
-                        </td>
-                        <td>
-                          {{i.name}}
-                        </td>
-                        <td>
-                          {{i.username}}
-                        </td>
-
-                        <td>
-                          {{i.is_active}}
-                        </td>
-                        <td>
-                          {{i.in_time}}
-                        </td>
-                        <td>
-                          {{i.out_time}}
-                        </td>
-                        <td>
-                          <button class="btn fullBlue" (click)="viewOlderRecords(i)">View</button>
-                        </td>
-                      </tr>
-                      <tr *ngIf="studentsData.length == 0" class="records">
-                        <td colspan="7" class="records">
-                          No Records Found
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <!-- Paginator Here -->
-              <div class="row filter-res pagination" style="width: 100%;">
-                <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                  <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                    [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
-                  </pagination>
-                </div>
+            <!-- Paginator Here -->
+            <div class="row filter-res pagination" style="width: 100%;">
+              <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                  [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+                </pagination>
               </div>
             </div>
+          </div>
+          <div class="common" *ngIf="showCustomTable">
+            <div class="table table-responsive student-table">
+              <div class="common-elements">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Id
+                      </th>
+                      <th>
+                        Name
+                      </th>
+                      <th>
+                        Contact No.
+                      </th>
+                      <th>
+                        Is active
+                      </th>
+                      <th>
+                        In time
+                      </th>
+                      <th>
+                        Out Time
+                      </th>
+                      <th>
+                        View Older Records
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr *ngFor="let i of studentsDisplayData">
+                      <td>
+                        {{i.user_id}}
+                      </td>
+                      <td>
+                        {{i.name}}
+                      </td>
+                      <td>
+                        {{i.username}}
+                      </td>
+
+                      <td>
+                        {{i.is_active}}
+                      </td>
+                      <td>
+                        {{i.in_time}}
+                      </td>
+                      <td>
+                        {{i.out_time}}
+                      </td>
+                      <td>
+                        <button class="btn fullBlue" (click)="viewOlderRecords(i)">View</button>
+                      </td>
+                    </tr>
+                    <tr *ngIf="studentsData.length == 0" class="records">
+                      <td colspan="7" class="records">
+                        No Records Found
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- Paginator Here -->
+            <div class="row filter-res pagination" style="width: 100%;">
+              <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                  [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
+                </pagination>
+              </div>
+            </div>
+          </div>
 
 
-            <proctur-popup [sizeWidth]="'small'" *ngIf="addReportPopUp">
+          <proctur-popup [sizeWidth]="'small'" *ngIf="addReportPopUp">
 
-              <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                  <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                    <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                      <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                      <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-                    </g>
-                    <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                    />
+            <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                  <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
                   </g>
-                </svg>
-              </span>
+                  <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                  />
+                </g>
+              </svg>
+            </span>
 
-              <div popup-header class="popup-header-content">
-                <h2 style="font-decoration:italic; font-size:23px;">Older Records</h2>
-              </div>
-              <div popup-content class="main-student-table">
-                <div class="row">
-                  <div class="c-lg-2">
+            <div popup-header class="popup-header-content">
+              <h2 style="font-decoration:italic; font-size:23px;">Older Records</h2>
+            </div>
+            <div popup-content class="main-student-table">
+              <div class="row">
+                <div class="c-lg-2">
+                </div>
+                <div class="c-lg-5">
+                  <div class="form-field form-wrapper">
+                    <select class="side-form-ctrl" [(ngModel)]="popupCtrl">
+                      <option [value]="0">Previous Month</option>
+                      <option [value]="1">Previous Week </option>
+                      <option [value]="2">By Range</option>
+                    </select>
                   </div>
-                  <div class="c-lg-5">
-                    <div class="form-field form-wrapper">
-                      <select class="side-form-ctrl" [(ngModel)]="popupCtrl">
-                        <option [value]="0">Previous Month</option>
-                        <option [value]="1">Previous Week </option>
-                        <option [value]="2">By Range</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="c-lg-2">
-                    <div class="form-field form-wrapper">
-                      <button class="btn fullBlue" (click)="popupChange()">Go</button>
-                    </div>
+                </div>
+                <div class="c-lg-2">
+                  <div class="form-field form-wrapper">
+                    <button class="btn fullBlue" (click)="popupChange()">Go</button>
                   </div>
                 </div>
               </div>
+            </div>
 
-            </proctur-popup>
+          </proctur-popup>
 
-            <proctur-popup [sizeWidth]="'large'" *ngIf="addAcademicPopUp">
+          <proctur-popup [sizeWidth]="'large'" *ngIf="addAcademicPopUp">
 
-              <span class="closePopup pos-abs fbold show" (click)="closeReportAcademicPopup()" close-button>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                  <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                    <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                      <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                      <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-                    </g>
-                    <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                    />
+            <span class="closePopup pos-abs fbold show" (click)="closeReportAcademicPopup()" close-button>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                  <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
                   </g>
-                </svg>
-              </span>
+                  <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                  />
+                </g>
+              </svg>
+            </span>
 
-              <div popup-header class="popup-header-content" *ngIf="showMonth">
-                <h2 style="font-decoration:italic; font-size:20px; margin-top:-10px;">Previous Month records</h2>
+            <div popup-header class="popup-header-content" *ngIf="showMonth">
+              <h2 style="font-decoration:italic; font-size:20px; margin-top:-10px;">Previous Month records</h2>
+            </div>
+            <div popup-content class="main-student-table" *ngIf="showMonth">
+
+              <div class="table table-responsive tablePopup">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Date
+                      </th>
+                      <th>
+                        In Time
+                      </th>
+                      <th>
+                        Out time
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let i of monthAttendance">
+                      <td>
+                        {{i.attendance_date}}
+                      </td>
+                      <td>
+                        {{i.in_time}}
+                      </td>
+                      <td>
+                        {{i.out_time}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <div popup-content class="main-student-table" *ngIf="showMonth">
 
-                <div class="table table-responsive tablePopup">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>
-                          Date
-                        </th>
-                        <th>
-                          In Time
-                        </th>
-                        <th>
-                          Out time
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let i of monthAttendance">
-                        <td>
-                          {{i.attendance_date}}
-                        </td>
-                        <td>
-                          {{i.in_time}}
-                        </td>
-                        <td>
-                          {{i.out_time}}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
+            </div>
 
 
-              <div popup-header class="popup-header-content" *ngIf="showRange">
-                <h2 style="font-decoration:italic; font-size:20px; margin-top:-10px;">Select Range</h2>
-              </div>
-              <div popup-content class="main-student-table" *ngIf="showRange">
-                <div class="row">
-                  <div class="c-lg-5 main">
-                    <div class="form-field form-wrapper datePickerBox">
-                      <label for="from">From</label>
-                      <input type="text" class="side-form-ctrl bsDatepicker" name="from" bsDatepicker [(ngModel)]="getAllData.from_date">
-                    </div>
-                  </div>
-                  <div class="c-lg-5 main">
-                    <div class="form-field form-wrapper datePickerBox">
-                      <label for="to">To</label>
-                      <input type="text" class="side-form-ctrl bsDatepicker" name="to" bsDatepicker [(ngModel)]="getAllData.to_date">
-                    </div>
-                  </div>
-                  <div class="c-lg-2">
-                    <div class="form-field form-wrapper">
-                      <button class="btn fullBlue" style="margin-top:-14px" (click)="showDataTable()">Go</button>
-                    </div>
+            <div popup-header class="popup-header-content" *ngIf="showRange">
+              <h2 style="font-decoration:italic; font-size:20px; margin-top:-10px;">Select Range</h2>
+            </div>
+            <div popup-content class="main-student-table" *ngIf="showRange">
+              <div class="row">
+                <div class="c-lg-5 main">
+                  <div class="form-field form-wrapper datePickerBox">
+                    <label for="from">From</label>
+                    <input type="text" class="side-form-ctrl bsDatepicker" name="from" bsDatepicker [(ngModel)]="getAllData.from_date">
                   </div>
                 </div>
-                <div class="table table-responsive tablePopup" *ngIf="showTable">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>
-                          Date
-                        </th>
-                        <th>
-                          In Time
-                        </th>
-                        <th>
-                          Out time
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let i of range">
-                        <td>
-                          {{i.attendance_date}}
-                        </td>
-                        <td>
-                          {{i.in_time}}
-                        </td>
-                        <td>
-                          {{i.out_time}}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div class="c-lg-5 main">
+                  <div class="form-field form-wrapper datePickerBox">
+                    <label for="to">To</label>
+                    <input type="text" class="side-form-ctrl bsDatepicker" name="to" bsDatepicker [(ngModel)]="getAllData.to_date">
+                  </div>
                 </div>
-
-              </div>
-              <div popup-header class="popup-header-content" *ngIf="showWeek">
-                <h2 style="font-decoration:italic; font-size:20px; margin-top:-10px;">Previous Week Records</h2>
-              </div>
-              <div popup-content class="main-student-table" *ngIf="showWeek">
-
-                <div class="table table-responsive tablePopup">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>
-                          Date
-                        </th>
-                        <th>
-                          In Time
-                        </th>
-                        <th>
-                          Out time
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let i of weekAttendance">
-                        <td>
-                          {{i.attendance_date}}
-                        </td>
-                        <td>
-                          {{i.in_time}}
-                        </td>
-                        <td>
-                          {{i.out_time}}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div class="c-lg-2">
+                  <div class="form-field form-wrapper">
+                    <button class="btn fullBlue" style="margin-top:-14px" (click)="showDataTable()">Go</button>
+                  </div>
                 </div>
-
+              </div>
+              <div class="table table-responsive tablePopup" *ngIf="showTable">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Date
+                      </th>
+                      <th>
+                        In Time
+                      </th>
+                      <th>
+                        Out time
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let i of range">
+                      <td>
+                        {{i.attendance_date}}
+                      </td>
+                      <td>
+                        {{i.in_time}}
+                      </td>
+                      <td>
+                        {{i.out_time}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
 
-            </proctur-popup>
+            </div>
+            <div popup-header class="popup-header-content" *ngIf="showWeek">
+              <h2 style="font-decoration:italic; font-size:20px; margin-top:-10px;">Previous Week Records</h2>
+            </div>
+            <div popup-content class="main-student-table" *ngIf="showWeek">
+
+              <div class="table table-responsive tablePopup">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Date
+                      </th>
+                      <th>
+                        In Time
+                      </th>
+                      <th>
+                        Out time
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let i of weekAttendance">
+                      <td>
+                        {{i.attendance_date}}
+                      </td>
+                      <td>
+                        {{i.in_time}}
+                      </td>
+                      <td>
+                        {{i.out_time}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+
+          </proctur-popup>
+
+          <proctur-popup [sizeWidth]="'large'" *ngIf="addAbsentiesPopup">
+
+            <span class="closePopup pos-abs fbold show" (click)="closeAbsentiesPopup()" close-button>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                  <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                  </g>
+                  <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                  />
+                </g>
+              </svg>
+            </span>
+
+            <div popup-header class="popup-header-content">
+              <h2 style="font-decoration:italic; font-size:23px;">SMS to absent students</h2>
+            </div>
+
+            <div popup-content class="main-student-table">
+              <div class="c-lg-12" style="margin-top:-20px;">
+                <div class="c-lg-3">
+                  <div class="form-field form-wrapper">
+                    <label>Master Course</label>
+                    <select class="side-form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourses($event)" >
+                      <option *ngFor="let i of masterCourse" [value]="i.master_course">
+                        {{i.master_course}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="c-lg-3" >
+                  <div class="form-field form-wrapper">
+                    <label> Course</label>
+                    <select class="side-form-ctrl" [(ngModel)]="getData.course_id" (ngModelChange)="getSubjects($event)" >
+                      <option *ngFor="let i of courses" [value]="i.course_id">
+                        {{i.course_name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="c-lg-3" >
+                  <div class="form-field form-wrapper">
+                    <label> Subject</label>
+                    <select class="side-form-ctrl" [(ngModel)]="getData.batch_id" >
+                      <option *ngFor="let i of subjects">
+                        {{i.subject_name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="c-lg-3 main" style="margin-top:0px;">
+                  <div class="form-field form-wrapper datePickerBox" style="padding-top:0px;">
+                    <label>Date</label>
+                    <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="c-lg-5">
+
+                </div>
+                <div class="c-lg-3" >
+                  <div class="form-field form-wrapper">
+                    <button class="btn fullBlue">View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </proctur-popup>
+
+
         </section>
       </section>
     </section>
   </aside>
-  </div>
+</div>

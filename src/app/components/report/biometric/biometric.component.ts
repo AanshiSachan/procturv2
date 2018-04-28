@@ -36,6 +36,10 @@ export class BiometricComponent implements OnInit {
   showWeek: boolean = false;
   weekAttendance: any[] = [];
   range: any[] = [];
+  addAbsentiesPopup = false;
+  showButton: boolean = true;
+  masters: any[] = [];
+  subjects: any[] = [];
   getData = {
     school_id: -1,
     name: "",
@@ -47,6 +51,15 @@ export class BiometricComponent implements OnInit {
     subject_id: -1,
     user_Type: 1,
     biometric_attendance_date: moment().format('YYYY-MM-DD')
+  }
+  getAbsentiesData = {
+    batch_id: -1,
+    course_id: -1,
+    from_date: "",
+    institution_id: "",
+    master_course_name: "",
+    standard_id: -1,
+    subject_id:-1
   }
   getAllData = {
     from_date: "",
@@ -84,8 +97,71 @@ export class BiometricComponent implements OnInit {
     )
 
   }
+  getSubjects(i) {
+    this.reportService.getSubjects(i).subscribe(
+      (data: any) => {
+        this.subjects = data.batchesList;
+      },
+      (error: any) => {
+        return error;
+      }
+    )
+  }
   fetchDataByName() {
+    this.studentsData = [];
+    if (this.getData.biometric_attendance_date == "" && this.getData.user_Type == 1) {
+      if (this.getData.user_Type == 1) {
+        this.showStudentTable = true;
+        this.showTeachersTable = false;
+        this.showCustomTable = false;
+        this.reportService.getAttendanceReport(this.getData).subscribe(
+          (data: any) => {
 
+            this.studentsData = data;
+            this.totalRow = data.length;
+            this.PageIndex = 1;
+            this.fetchTableDataByPage(this.PageIndex);
+          },
+          (error) => {
+            this.isRippleLoad = false;
+            return error;
+          }
+        )
+      }
+      else if (this.getData.user_Type == 3) {
+        this.showTeachersTable = true;
+        this.showStudentTable = false;
+        this.showCustomTable = false;
+
+        this.reportService.getAttendanceReportTeachers(this.getData).subscribe(
+          (data: any) => {
+            this.studentsData = data;
+            this.totalRow = data.length;
+            this.PageIndex = 1;
+            this.fetchTableDataByPage(this.PageIndex);
+          },
+          (error: any) => {
+            return error;
+          }
+        )
+      }
+      else {
+        this.showStudentTable = false;
+        this.showTeachersTable = false;
+        this.showCustomTable = true;
+        this.reportService.getAttendanceReportOthers(this.getData).subscribe(
+          (data: any) => {
+            this.studentsData = data;
+            this.totalRow = data.length;
+            this.PageIndex = 1;
+            this.fetchTableDataByPage(this.PageIndex);
+          },
+          (error: any) => {
+            return error;
+          }
+        )
+      }
+    }
     if (this.getData.user_Type == 1) {
       this.showStudentTable = true;
       this.showTeachersTable = false;
@@ -159,21 +235,23 @@ export class BiometricComponent implements OnInit {
   closeReportPopup() {
     this.addReportPopUp = false;
   }
+
   showMaster(i) {
     if (i == 1) {
       this.showTeachersTable = false;
       this.masterCourseNames = true;
-
       this.showCustomTable = false;
-
+      this.showButton = true;
     }
     else {
       this.showStudentTable = false;
       this.masterCourseNames = false;
-
+      this.showButton = false;
     }
   }
   popupChange() {
+    this.monthAttendance = [];
+    this.weekAttendance = [];
     if (this.popupCtrl == 2) {
 
       this.addReportPopUp = false;
@@ -199,6 +277,7 @@ export class BiometricComponent implements OnInit {
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {
           this.monthAttendance = data;
+
         },
         (error: any) => {
           return error;
@@ -221,18 +300,6 @@ export class BiometricComponent implements OnInit {
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {
           this.weekAttendance = data;
-        },
-        (error: any) => {
-
-        }
-      )
-
-    }
-    else {
-      this.addAcademicPopUp = false;
-      this.addReportPopUp = true;
-      this.reportService.getAllFinalReport(this.getAllData).subscribe(
-        (data: any) => {
 
         },
         (error: any) => {
@@ -241,6 +308,7 @@ export class BiometricComponent implements OnInit {
       )
 
     }
+
   }
   closeReportAcademicPopup() {
     this.addAcademicPopUp = false;
@@ -254,8 +322,9 @@ export class BiometricComponent implements OnInit {
       this.isProfessional = false;
     }
   }
-  showDataTable() {
 
+  showDataTable() {
+    this.range = [];
     this.getAllData = {
       from_date: moment(this.getAllData.from_date).format('YYYY-MM-DD'),
       institute_id: this.reportService.institute_id,
@@ -273,7 +342,7 @@ export class BiometricComponent implements OnInit {
 
       this.appc.popToast(msg);
     }
-    else if(this.getAllData.from_date >= this.getAllData.to_date){
+    else if (this.getAllData.from_date >= this.getAllData.to_date) {
       let msg = {
         type: "error",
         title: "Incorrect Details",
@@ -291,20 +360,30 @@ export class BiometricComponent implements OnInit {
 
     //   this.appc.popToast(msg);
     // }
-    
-    else{
-    this.reportService.getAllFinalReport(this.getAllData).subscribe(
-      (data: any) => {
-        this.range = data;
-      },
-      (error) => {
-        return error;
-      }
-    )
-    this.showTable = true;
 
+    else {
+      this.reportService.getAllFinalReport(this.getAllData).subscribe(
+        (data: any) => {
+          this.range = data;
+
+        },
+        (error) => {
+          return error;
+        }
+
+      )
+      this.showTable = true;
+
+    }
   }
-}
+  fetchAbsentiesReport() {
+    this.addAbsentiesPopup = true;
+  }
+
+  closeAbsentiesPopup() {
+
+    this.addAbsentiesPopup = false;
+  }
   //pagination functions
   fetchTableDataByPage(index) {
     this.PageIndex = index;
