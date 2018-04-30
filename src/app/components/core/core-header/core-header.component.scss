@@ -43,7 +43,7 @@ header {
         padding-right: 35px;
         height: 35px;
         font-size: 16px;
-        color: #ccd1d9;
+        color: black;
     }
     .form-btn-head {
         background: transparent;
@@ -254,18 +254,18 @@ header {
 .header-search {
     .form-ctrl-head {
         &.searchbox {
-            width: 161px;
+            width: 300px;
             transition: 0.5s ease;
             border-radius: 5px;
             &.has-focus {
-                width: 322px;
+                width: 600px;
             }
         }
     }
     &:hover {
         .form-ctrl-head {
             &.searchbox {
-                width: 322px;
+                width: 600px;
                 transition: 0.5s;
                 border-radius: 5px;
             }
@@ -298,7 +298,7 @@ header {
     border-radius: 0;
     padding: 8px 16px;
     box-sizing: border-box;
-    width: 322px;
+    width: 600px;
     left: 251px;
     margin-top: 10px;
     &.searchView {
@@ -419,7 +419,7 @@ header {
         }
     }
     .search-dropdown {
-        width: 244px;
+        width: 245px;
         left: 171px;
         margin-top: 10px;
     }

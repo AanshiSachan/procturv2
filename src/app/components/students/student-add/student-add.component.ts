@@ -340,11 +340,11 @@ export class StudentAddComponent implements OnInit {
     this.enableBiometric = sessionStorage.getItem('biometric_attendance_feature');
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-    this.busyPrefill = this.fetchPrefillFormData();
+     this.fetchPrefillFormData();
     if (this.isProfessional) {
       if (localStorage.getItem('studentPrefill') != null && localStorage.getItem('studentPrefill') != undefined) {
-        this.busyPrefill = this.getSlots();
-        this.busyPrefill = this.getlangStudentStatus();
+         this.getSlots();
+         this.getlangStudentStatus();
         this.convertToStudentDetected();
       }
       this.getSlots();
@@ -1483,7 +1483,7 @@ export class StudentAddComponent implements OnInit {
         this.studentAddFormData.student_sex = "M";
       }
 
-      this.busyPrefill = this.postService.quickAddStudent(this.studentAddFormData).subscribe(
+       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
           let statusCode = res.statusCode;
           if (statusCode == 200) {
@@ -3308,7 +3308,7 @@ export class StudentAddComponent implements OnInit {
       if (this.studentAddFormData.student_sex == null || this.studentAddFormData.student_sex == "") {
         this.studentAddFormData.student_sex = "M";
       }
-      this.busyPrefill = this.postService.quickAddStudent(this.studentAddFormData).subscribe(
+       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
           let statusCode = res.statusCode;
           if (statusCode == 200) {

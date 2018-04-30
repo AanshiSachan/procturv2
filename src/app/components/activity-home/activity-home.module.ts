@@ -3,9 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ActivityHomeComponent } from './activity-home.component';
 import { ActivityHomeRoutingModule } from "./activity-home-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MultiselectDropdownModule } from '../../../assets/imported_modules/multiselect-dropdown';
-import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
-import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import 'moment';
@@ -20,9 +17,6 @@ import { HomeComponent } from './home/home.component';
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        MultiselectDropdownModule,
-        BusyModule,
-        NgLoggerModule.forRoot(Level.LOG),
         CommonModule,
         ActivityHomeRoutingModule,
         BsDatepickerModule,

@@ -61,7 +61,9 @@ export class SearchBoxComponent implements OnInit, OnChanges {
                 sessionStorage.setItem('recentSearch', JSON.stringify(this.recentlySearched));
             }
             else{
-                this.recentlySearched.delete(this.recentlySearched[0]);
+                let value = this.recentlySearched.values();
+                let del = value.next().value;
+                this.recentlySearched.delete(del);
                 this.recentlySearched.add(this.searchValue);
                 sessionStorage.setItem('recentSearch', JSON.stringify(this.recentlySearched));
             }
