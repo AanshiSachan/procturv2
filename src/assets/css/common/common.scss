@@ -360,7 +360,6 @@ h1 {
     font-size: 18px;
     font-weight: 600;
     line-height: 1.2;
-    padding-bottom: 10px;
 }
 
 h2 {
@@ -400,7 +399,6 @@ h3 {
 
 .pull-right {
     float: $pull-R;
-
 }
 
 .mR10 {
@@ -840,7 +838,7 @@ table tr.selected {
     padding: 7px 12px;
     background: #fff;
     border: 1px solid #ccc;
-    margin-left: 80px;
+    margin-left: 10px;
     display: inline-block;
     font-size: 14px;
     font-weight: 600;
@@ -874,7 +872,6 @@ table tr.selected {
 
 .btn.normal-btn {
     margin: 0;
-    margin-left: 3px;
 }
 
 .middle-bottom .btn.redBtn {
@@ -1026,7 +1023,6 @@ p.error-msg {
         font-size: 16px;
         margin-bottom: 10px;
         font-weight: 600;
-
         a {
             display: inline-block;
             margin-top: 3px;

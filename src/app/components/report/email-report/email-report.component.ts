@@ -30,8 +30,8 @@ export class EmailReportComponent {
 
   emailFetchForm: any = {
     institution_id: parseInt(sessionStorage.getItem('institute_id')),
-    from_date: moment().format("YYYY-MM-DD"),
-    to_date: moment().format("YYYY-MM-DD"),
+    from_date: '',
+    to_date: '',
   }
 
   constructor(
@@ -41,7 +41,7 @@ export class EmailReportComponent {
   ) {
     this.switchActiveView('email');
   }
-
+   
   ngOnInit() {
     this.pageIndex = 1;
     this.emailSource = [];
@@ -51,20 +51,34 @@ export class EmailReportComponent {
         this.totalRecords = res.length;
         this.fetchTableDataByPage(this.pageIndex);
         console.log(res);
-
+       
       },
       err => {
         console.log(err);
-        let obj = {
-          type: "error",
-          title: "Unable to Fetch Report",
-          body: ""
-        }
-        this.appC.popToast(obj);
+        
       }
-    )
-    
+    ) 
+    // this.getAllEmailMessages();
   }
+
+  // getAllEmailMessages() {
+  //   this.pageIndex = 1;
+  //   this.emailSource = [];
+  //   this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
+  //     res => {
+  //       this.emailDataSource = res;
+  //       this.totalRecords = res.length;
+  //       this.fetchTableDataByPage(this.pageIndex);
+  //       console.log(res);
+       
+  //     },
+  //     err => {
+  //       console.log(err);
+        
+  //     }
+  //   )
+  // }
+
 
   isTimeValid(): boolean {
     let v = moment(this.emailFetchForm.from_date).diff(moment(this.emailFetchForm.to_date))
@@ -75,11 +89,9 @@ export class EmailReportComponent {
       return false;
     }
   }
-
-  /* fetching email info by date */
-    fetchemailByDate() {
+   fetchemailByDate() {
     if (this.isTimeValid()) {
-    
+      //this.getAllEmailMessages();
       this.ngOnInit();
     }
     else {
@@ -89,10 +101,36 @@ export class EmailReportComponent {
         Body: "From date cannot be greater than To date"
       }
       this.appC.popToast(obj);
-
+      
     }
   }
 
+  // getEmailRepo(obj) {
+  //   if (obj.start_index == 0) {
+  //     return this.apiService.getEmailMessages(obj).subscribe(
+  //       res => {
+  //         if (res.length != 0) {
+  //           this.smsSource = res;
+  //           this.totalRecords = res[0].totalRecords;
+
+  //         }
+  //         else {
+  //           this.smsSource = [];
+  //           this.totalRecords = 0;
+  //         }
+  //       }
+  //     )
+
+  //   }
+  
+  //   else {
+  //     return this.apiService.getEmailMessages(obj).subscribe(
+  //       res => {
+  //         this.smsSource = res;
+  //       }
+  //     )
+  //   }
+  // }
 
   // pagination functions 
 
