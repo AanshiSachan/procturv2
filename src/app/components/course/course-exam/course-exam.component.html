@@ -155,7 +155,7 @@
                         </div>
                     </div>
 
-                    <div class="">
+                    <div class="btnAdd">
                         <button class="btn fullBlue" (click)="addNewExamSchedule()">Add</button>
                     </div>
 
@@ -209,7 +209,7 @@
                                     </td>
                                     <td>
                                         <div class="action-Menu">
-                                            <a *ngIf="row.schd_id == 0" (click)="deleteExamSchedule(row,i)">Delete</a>
+                                            <a *ngIf="row.schd_id == 0 || (currentDate < row.exam_date)" (click)="deleteExamSchedule(row,i)">Delete</a>
                                             <a *ngIf="row.schd_id != 0" (click)="markAttendanceSchedule(row)">Mark Attendance</a>
                                             <a *ngIf="row.schd_id != 0" (click)="cancelExamSchedule(row)">Cancel Exam</a>
                                             <a *ngIf="row.schd_id != 0" (click)="notifyExamSchedule(row)">Notify</a>
@@ -226,62 +226,60 @@
                     </div>
                 </div>
 
-                <div class="row pull-right">
-                    <button class="btn fullBlue" *ngIf="examScheduleData.otherSchd.length ==0" click="addDataToExamSchedule()">Add</button>
-                    <button class="btn fullBlue" *ngIf="examScheduleData.otherSchd.length !=0" click="addDataToExamSchedule()">Update</button>
+                <div class="row btn-Group">
+                    <button class="btn fullBlue pull-right" *ngIf="examSchedule.length > 0" (click)="addDataToExamSchedule()">Add</button>
+                    <!-- <button class="btn fullBlue pull-right" *ngIf="examScheduleData.otherSchd.length !=0" (click)="addDataToExamSchedule()">Update</button> -->
                 </div>
 
-                <div class="row">
+                <h3 class="row">Cancelled Exams</h3>
 
-                    <h3>Cancelled Exams</h3>
-
-                    <div class="cancelClass-table">
-                        <div class="">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Start Time</th>
-                                        <th>End Time</th>
-                                        <th>Total Marks</th>
-                                        <th>Cancel Reason</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let row of cancelledSchedule ; let i= index ; trackBy : index">
-                                        <td>
-                                            {{row.exam_date}}
-                                        </td>
-                                        <td>
-                                            {{row.start_time}}
-                                        </td>
-                                        <td>
-                                            {{row.end_time}}
-                                        </td>
-                                        <td>
-                                            {{row.total_marks}}
-                                        </td>
-                                        <td>
-                                            {{row.exam_desc}}
-                                        </td>
-                                        <td>
-                                            <div class="action-Menu">
-                                                <a title="Send notification for cancelled exam schedule" (click)="notifyCancelClass(row)">Notify</a>
-                                                <a title="Uncancel Schedule" (click)="unCancelClass(row)">Uncancel Class</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr *ngIf="cancelledSchedule.length ==0">
-                                        <td colspan="6">
-                                            No Cancelled Schedule
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                <div class="cancelClass-table">
+                    <div class="">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Total Marks</th>
+                                    <th>Cancel Reason</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of cancelledSchedule ; let i= index ; trackBy : index">
+                                    <td>
+                                        {{row.exam_date}}
+                                    </td>
+                                    <td>
+                                        {{row.start_time}}
+                                    </td>
+                                    <td>
+                                        {{row.end_time}}
+                                    </td>
+                                    <td>
+                                        {{row.total_marks}}
+                                    </td>
+                                    <td>
+                                        {{row.exam_desc}}
+                                    </td>
+                                    <td>
+                                        <div class="action-Menu">
+                                            <a title="Send notification for cancelled exam schedule" (click)="notifyCancelClass(row)">Notify</a>
+                                            <a title="Uncancel Schedule" *ngIf="(currentDate < row.exam_date)" (click)="unCancelClass(row)">Uncancel Class</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="cancelledSchedule.length ==0">
+                                    <td colspan="6">
+                                        No Cancelled Schedule
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+
 
             </div>
 
@@ -302,7 +300,7 @@
 <section id="popup " class="popupWrapper fadeIn " *ngIf="markAttendancePopUp">
     <div class="popup pos-abs popup-body-container ">
         <div class="popup-wrapper pos-rel ">
-            <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeWeeklySchedulePopup()">
+            <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeCourseLevelAttendance()">
                 <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
                     <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
                         <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
@@ -320,6 +318,21 @@
                 <h2>Mark/Update Exam Attendance</h2>
 
                 <div class="attendanceWrapperCourse">
+
+                    <div class="row attendance-Note">
+                        <div class="c-sm-6 c-md-6 c-lg-6">
+                            <div class="form-wrapper">
+                                <label for="attedNote">Attendance Note</label>
+                                <textarea class="side-form-ctrl" [(ngModel)]="attendanceNote" id="attedNote" name="attedNote"></textarea>
+                            </div>
+                        </div>
+                        <div class="c-sm-6 c-md-6 c-lg-6" style="margin-top: 20px;">
+                            <div class="field-checkbox-wrapper">
+                                <input type="checkbox" value="" id="msgAbsentees" name="msgAbsentees" class="form-checkbox" [(ngModel)]="smsAbsenteesChkbx">
+                                <label for="msgAbsentees">Send Sms For Absentees</label>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row filterSection">
                         <div class="c-sm-3 c-md-3 c-lg-3">
@@ -389,9 +402,68 @@
                         </div>
                     </div>
 
-                    <div class="clearfix" style="margin-top: 10px" <aside class="pull-right popup-btn">
-                        <input type="button" value="Cancel" class="btn" (click)="closeCourseLevelAttendance()">
-                        <input type="button" value="Mark Attendance" (click)="updateCourseAttendance()" class="fullBlue btn">
+                    <div class="clearfix" style="margin-top: 10px">
+                        <aside class="pull-right popup-btn">
+                            <input type="button" value="Cancel" class="btn" (click)="closeCourseLevelAttendance()">
+                            <input type="button" value="Mark Attendance" (click)="updateCourseAttendance()" class="fullBlue btn">
+                        </aside>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+
+<section id="popup " class="popupWrapper fadeIn " *ngIf="cancelExamPopUp">
+    <div class="popup pos-abs popup-body-container ">
+        <div class="popup-wrapper pos-rel ">
+            <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeCancelExamPopUp()">
+                <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
+                    <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
+                        <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
+                            <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
+                          rotate(45) " />
+                            <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
+                          rotate(45) " />
+                        </g>
+                        <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
+                          " height="16 " transform="translate(1012 297) " />
+                    </g>
+                </svg>
+            </span>
+            <div class="popup-content">
+                <h2>Batch Exam Schedule ({{cancelExamData.exam_date}} ({{cancelExamData.start_time}} - {{cancelExamData.end_time}}))
+                    Cancellation
+                </h2>
+
+                <div class="cancel-Class-Wrapper">
+
+                    <div class="row attendance-Note">
+                        <div class="c-sm-6 c-md-6 c-lg-6">
+                            <div class="form-wrapper">
+                                <label for="cancelTxtBx">Cancellation Reason</label>
+                                <textarea class="side-form-ctrl" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx" name="cancelTxtBx"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix" style="margin-top: 10px">
+                        <aside class="pull-left" style="margin-top: 10px">
+                            <div class="field-checkbox-wrapper">
+                                <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent" class="form-checkbox" [(ngModel)]="cancelPopUpData.notify">
+                                <label for="chkBxNotifyStudent">Notify Students</label>
+                            </div>
+                        </aside>
+                        <aside class="pull-right popup-btn">
+                            <input type="button" value="Close" class="btn" (click)="closeCancelExamPopUp()">
+                            <input type="button" value="Cancel Class" (click)="cancelExamClassSchedule()" class="fullBlue btn">
                         </aside>
                     </div>
 

@@ -92,6 +92,38 @@ export class ExamCourseService {
         )
     }
 
+    markAttendance(data) {
+        let url = this.baseURL + "/api/v1/attendance/exam";
+        return this.http.put(url, data, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    cancelExamSchedule(obj) {
+        let url = this.baseURL + "/api/v1/batchExamSched/cancel";
+        return this.http.put(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    notifyCancelledClass(obj) {
+        let url = this.baseURL + "/api/v1/coursePlanner/notify";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    uncancelClassSchedule(obj) {
+        let url = this.baseURL + "/api/v1/batchExamSched/unCancel";
+        return this.http.put(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
     ///////////////////////////////////
 
 

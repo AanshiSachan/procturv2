@@ -47,6 +47,14 @@ export class CourseExamComponent implements OnInit {
   absentCount: number = 0;
   presentCount: number = 0;
   leaveCount: number = 0;
+  attendanceNote: string = "";
+  smsAbsenteesChkbx: boolean = false;
+  cancelExamData: any = "";
+  cancelPopUpData = {
+    reason: "",
+    notify: false
+  }
+  currentDate: any = moment().format("YYYY-MM-DD");
 
   constructor(
     private apiService: ExamCourseService,
@@ -103,6 +111,8 @@ export class CourseExamComponent implements OnInit {
 
   batchModelGoClick() {
     if (this.batchData.batch_id != -1) {
+      this.cancelledSchedule = [];
+      this.examSchedule = [];
       this.apiService.getExamSchedule(this.batchData.batch_id).subscribe(
         (res: any) => {
           this.showContentSection = true;
@@ -112,15 +122,11 @@ export class CourseExamComponent implements OnInit {
           if (res.otherSchd != "" && res.otherSchd != null) {
             if (res.otherSchd.length > 0) {
               this.examSchedule = res.otherSchd;
-            } else {
-              this.examSchedule = [];
             }
           }
           if (res.cancelSchd != "" && res.cancelSchd != null) {
             if (res.cancelSchd.length > 0) {
               this.cancelledSchedule = res.cancelSchd;
-            } else {
-              this.cancelledSchedule = [];
             }
           }
         },
@@ -144,7 +150,7 @@ export class CourseExamComponent implements OnInit {
 
   addNewExamSchedule() {
     this.batchAdderData.total_marks = Number(this.batchAdderData.total_marks);
-    if (this.batchAdderData.total_marks >= 0) {
+    if (this.batchAdderData.total_marks > 0) {
       let obj: any = {};
       obj.total_marks = this.batchAdderData.total_marks;
       obj.exam_date = this.batchAdderData.exam_date;
@@ -182,7 +188,8 @@ export class CourseExamComponent implements OnInit {
     this.apiService.serverRequestToSaveSchedule(dataToSend, type).subscribe(
       res => {
         console.log(res);
-        this.messageNotifier
+        this.messageNotifier('success', 'Successfully', 'Schedule Created Successfully');
+        this.batchModelGoClick();
       },
       err => {
         console.log(err);
@@ -235,12 +242,54 @@ export class CourseExamComponent implements OnInit {
 
   cancelExamSchedule(data) {
     this.cancelExamPopUp = true;
+    this.cancelExamData = data;
+  }
+
+  closeCancelExamPopUp() {
+    this.cancelExamPopUp = false;
+    this.cancelExamData = "";
+    this.cancelPopUpData = {
+      reason: "",
+      notify: false
+    }
+  }
+
+  cancelExamClassSchedule() {
+    if (this.cancelPopUpData.reason.trim() == "" || null) {
+      this.messageNotifier('error', 'Error', 'Please provide cancellation reason');
+      return;
+    }
+    let notify: any = "";
+    if (this.cancelPopUpData.notify) {
+      notify = "Y";
+    } else {
+      notify = "N";
+    }
+    let obj: any = {
+      batch_id: this.batchData.batch_id,
+      exam_freq: "OTHER",
+      cancelSchd: [{
+        schd_id: this.cancelExamData.schd_id,
+        exam_desc: this.cancelPopUpData.reason,
+        is_notified: notify
+      }]
+    }
+    this.apiService.cancelExamSchedule(obj).subscribe(
+      res => {
+        this.messageNotifier('success', 'Successfully Cancelled', 'Exam Schedule Cancelled Successfully');
+        this.batchModelGoClick();
+        this.closeCancelExamPopUp();
+      },
+      err => {
+        console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
   }
 
   // Mark Attendance Popup
 
   markAttendanceSchedule(data) {
-    debugger
     this.markAttendancePopUp = true;
     this.markAttendanceData = data;
     this.getStudentList();
@@ -252,9 +301,14 @@ export class CourseExamComponent implements OnInit {
       batch_id: this.batchData.batch_id
     }
     this.apiService.fetchStudentList(obj).subscribe(
-      res => {
+      (res: any) => {
         this.studentList = res;
         this.getTotalCountForCourse(res);
+        if (res.length > 0) {
+          this.attendanceNote = res[0].dateLi[0].attendance_note;
+        } else {
+          this.attendanceNote = "";
+        }
       },
       err => {
         console.log(err);
@@ -263,7 +317,7 @@ export class CourseExamComponent implements OnInit {
   }
 
   getDisability(s): boolean {
-    if (s.dateLi[0].serverStatus == "L") {
+    if (s.dateLi[0].status == "L" && s.dateLi[0].isStatusModified == "N") {
       return true;
     }
     else {
@@ -278,12 +332,15 @@ export class CourseExamComponent implements OnInit {
     if (event.target.innerText == "L") {
       document.getElementById('leaveBtnCourse' + rowData.student_id).classList.add('classLeaveBtn');
       this.studentList[index].dateLi[0].status = "L";
+      this.studentList[index].dateLi[0].isStatusModified = "Y";
     } else if (event.target.innerText == "A") {
       document.getElementById('absentBtnCourse' + rowData.student_id).classList.add('classAbsentBtn');
       this.studentList[index].dateLi[0].status = "A";
+      this.studentList[index].dateLi[0].isStatusModified = "Y";
     } else {
       document.getElementById('presentBtnCourse' + rowData.student_id).classList.add('classPresentBtn');
       this.studentList[index].dateLi[0].status = "P";
+      this.studentList[index].dateLi[0].isStatusModified = "Y";
     }
     this.getTotalCountForCourse(this.studentList);
   }
@@ -333,6 +390,9 @@ export class CourseExamComponent implements OnInit {
     this.absentCount = 0;
     this.presentCount = 0;
     this.leaveCount = 0;
+    this.attendanceNote = "";
+    this.smsAbsenteesChkbx = false;
+    this.markAttendanceData = "";
   }
 
   markAllPresent(e) {
@@ -341,11 +401,12 @@ export class CourseExamComponent implements OnInit {
         if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
           //Do Nothing
         } else {
-          document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
-          document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
-          document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
-          document.getElementById('presentBtn' + e.student_id).classList.add('classPresentBtn');
+          document.getElementById('leaveBtnCourse' + e.student_id).classList.remove('classLeaveBtn');
+          document.getElementById('absentBtnCourse' + e.student_id).classList.remove('classAbsentBtn');
+          document.getElementById('presentBtnCourse' + e.student_id).classList.remove('classPresentBtn');
+          document.getElementById('presentBtnCourse' + e.student_id).classList.add('classPresentBtn');
           e.dateLi[0].status = "P";
+          e.dateLi[0].isStatusModified = "Y";
         }
       });
     }
@@ -354,10 +415,11 @@ export class CourseExamComponent implements OnInit {
         if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
           //Do Nothing
         } else {
-          document.getElementById('leaveBtn' + e.student_id).classList.remove('classLeaveBtn');
-          document.getElementById('absentBtn' + e.student_id).classList.remove('classAbsentBtn');
-          document.getElementById('presentBtn' + e.student_id).classList.remove('classPresentBtn');
+          document.getElementById('leaveBtnCourse' + e.student_id).classList.remove('classLeaveBtn');
+          document.getElementById('absentBtnCourse' + e.student_id).classList.remove('classAbsentBtn');
+          document.getElementById('presentBtnCourse' + e.student_id).classList.remove('classPresentBtn');
           e.dateLi[0].status = "A";
+          e.dateLi[0].isStatusModified = "Y";
         }
       });
     }
@@ -378,7 +440,86 @@ export class CourseExamComponent implements OnInit {
   }
 
   updateCourseAttendance() {
+    let dataToSend = this.makeJsonForAttendceMark();
+    console.log(dataToSend);
+    this.apiService.markAttendance(dataToSend).subscribe(
+      res => {
+        this.messageNotifier('success', 'Attendance Marked', 'Attendance Marked Successfully');
+        this.closeCourseLevelAttendance();
+      },
+      err => {
+        console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
 
+  makeJsonForAttendceMark() {
+    let notify: any = "";
+    if (this.smsAbsenteesChkbx) {
+      notify = "Y";
+    } else {
+      notify = "N";
+    }
+    let obj: any = [];
+    for (let i = 0; i < this.studentList.length; i++) {
+      let test: any = {};
+      test.batch_id = this.batchData.batch_id;
+      test.isNotify = notify;
+      test.student_id = this.studentList[i].student_id;
+      test.dateLi = [{
+        date: this.studentList[i].dateLi[0].date,
+        status: this.studentList[i].dateLi[0].status,
+        isStatusModified: this.studentList[i].dateLi[0].isStatusModified,
+        attendance_note: this.attendanceNote,
+        schId: this.studentList[i].dateLi[0].schId.toString()
+      }]
+      obj.push(test);
+    }
+    return obj;
+  }
+
+
+  // Cancel table Action///////
+
+  notifyCancelClass(data) {
+    if (confirm('Are you sure, You want to notify?')) {
+      let obj = {
+        batch_id: this.batchData.batch_id,
+        class_schedule_id: data.schd_id,
+        is_exam_schedule: 'Y'
+      };
+      this.apiService.notifyCancelledClass(obj).subscribe(
+        res => {
+          this.messageNotifier('success', 'Success', 'Notified Successfully');
+        },
+        err => {
+          console.log(err);
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
+
+  unCancelClass(data) {
+    if (confirm("Are you sure, you want  to uncancel the exam schedule??")) {
+      let obj = {
+        batch_id: this.batchData.batch_id,
+        cancelSchd: [{
+          schd_id: data.schd_id
+        }]
+      };
+      this.apiService.uncancelClassSchedule(obj).subscribe(
+        res => {
+          this.messageNotifier('success', 'Uncancelled Succesfully', 'Exam Uncancelled Successfully');
+          this.batchModelGoClick();
+        },
+        err => {
+          console.log(err);
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }
   }
 
   ////////// Course Model 

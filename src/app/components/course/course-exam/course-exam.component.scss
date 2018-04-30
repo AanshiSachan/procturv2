@@ -9,6 +9,28 @@
     padding: 10px 10px;
 }
 
+.langModelCss {
+    .examAdder {
+        .btnAdd {
+            margin-top: 20px;
+        }
+    }
+    .row {
+        margin-top: 10px;
+    }
+    .btn-Group {
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+    .cancelClass-table {
+        margin-top: 5px;
+    }
+    h3 {
+        margin-top: 10px;
+        margin-left: 0px;
+    }
+}
+
 .common-search-filter {
     margin-top: 5px;
     padding: 15px 5px 10px 5px;
@@ -69,7 +91,6 @@
         color: rgba(0, 0, 0, 0.77);
         padding-bottom: 2px;
         text-decoration: none;
-        text-transform: uppercase;
         -webkit-font-smoothing: antialiased;
     }
     .side-form-ctrl {
@@ -264,8 +285,7 @@
 
 .torlMarksWidth {
     width: 50px !important;
-} 
-
+}
 
 //////////////POPUP CSSS/////////////////
 /* popUp Scss */
@@ -368,11 +388,9 @@
 .fadeIn {
     opacity: 1;
     visibility: visible;
-} 
+}
 
 // =======================================css for mob popup
-
-
 .popupWrapperMob {
     position: fixed;
     width: 100%;
@@ -422,6 +440,6 @@
 
 .popupWrapperMob.showPopupMob .popup-mob {
     bottom: 0;
-} 
+}
 
 //////////////////////////
