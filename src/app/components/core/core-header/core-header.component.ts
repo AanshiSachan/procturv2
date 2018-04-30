@@ -59,7 +59,7 @@ export class CoreHeaderComponent implements OnInit {
     this.log.currentUsername.subscribe(res => {
       this.userName = res;
     });
-    
+
     this.checkPermissionArrayData();
 
     this.checkUserHadAccess();
@@ -242,6 +242,7 @@ export class CoreHeaderComponent implements OnInit {
       this.hasStudent = false;
       this.hasClass = false;
     }
+  }
 
   triggerSearchBox($event) {
     $event.preventDefault();
