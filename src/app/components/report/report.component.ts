@@ -27,7 +27,7 @@ export class ReportComponent implements OnInit {
     document.getElementById('lithree').classList.remove('active');
     document.getElementById('lifour').classList.remove('active');
     document.getElementById('lifive').classList.remove('active');
-    document.getElementById('lisix').classList.add('active');
+    document.getElementById('lisix').classList.remove('active');
     document.getElementById('liseven').classList.remove('active');
     document.getElementById('lieight').classList.remove('active');
     document.getElementById('linine').classList.remove('active');

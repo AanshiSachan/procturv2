@@ -120,23 +120,23 @@
             <div class="table-body" *ngIf="SummaryReports">
                 <div class="filter-box clearFix">
                     <div id="basic-search" class="search-filter-wrapper" *ngIf=!isProfessional>
-                        <input #search type="text" class="normal-field" placeholder="Search" style="font-size:12px; margin: 50px 5px 0px -5px;" [(ngModel)]="pagedPostData.student_name"
+                        <input #search type="text" class="normal-field" placeholder="Search" style="font-size:12px; margin: 50px 5px 0px -5px;" [(ngModel)]="postData.student_name"
                             name="searchData" (keyup.enter)="searchDatabase()">
                     </div>
                     <div id="basic-search" class="search-filter-wrapper" *ngIf=isProfessional>
-                        <input #search type="text" class="normal-field" placeholder="Search" style="font-size:12px; margin: 50px 5px 0px -5px;" [(ngModel)]="pagedPostDataPro.student_name"
+                        <input #search type="text" class="normal-field" placeholder="Search" style="font-size:12px; margin: 50px 5px 0px -5px;" [(ngModel)]="postData.student_name"
                             name="searchData" (keyup.enter)="searchDatabase()">
                     </div>
                 </div>
                 <div class="table-content">
                     <div class="table-heading">
                         <div *ngIf=!isProfessional>
-                            <proctur-table [records]="pagedPostData | lockFilter : pagedPostData.student_name : pagedPostData.student_id :pagedPostData.student_phone : pagedPostData.doj : spent_percentage | sortPipe : pagedPostData.student_name | sortPipe : pagedPostData.student_id"
+                            <proctur-table [records]="pagedPostData | lockFilter : postData.student_name : postData.student_disp_id :postData.student_phone : postData.doj : spent_percentage | sortPipe : postData.student_name | sortPipe : postData.student_id"
                                 (sortData)="sortedData($event)" [tableName]="'sms'" [settings]="projectSettings">
                             </proctur-table>
                         </div>
                         <div *ngIf=isProfessional>
-                            <proctur-table [records]="pagedPostDataPro | lockFilter : pagedPostDataPro.student_name : pagedPostDataPro.student_id :pagedPostDataPro.student_phone : pagedPostDataPro.doj : spent_percentage | sortPipe : pagedPostDataPro.student_name"
+                            <proctur-table [records]="queryParamsPro | lockFilter : queryParamsPro.student_name : queryParamsPro.student_disp_id :queryParamsPro.student_phone : queryParamsPro.doj : spent_percentage | sortPipe : queryParamsPro.student_name"
                                 [tableName]="'sms'" [settings]="projectSettings">
                             </proctur-table>
                         </div>
@@ -188,7 +188,10 @@
                     <thead>
                         <tr>
                             <th>
-                                Name/Id
+                                Name
+                            </th>
+                            <th>
+                                Id
                             </th>
                             <th *ngFor="let k of typeAttendance">
                                 {{k.class_date | date:"dd/MMM"}}
@@ -216,10 +219,11 @@
 
                             <td>
                                 {{i.student_name}}
-                                <br>
-                                <span style="font-color:blue; font-size:12px;">
-                                    <p style="color:blue;">{{i.student_id}}</p>
-                                </span>
+
+                            </td>
+                            <td>
+                                {{i.student_disp_id}}
+
                             </td>
 
                             <td *ngFor="let k of i.attendanceDateType" [style.color]="getColor(k.status)">
@@ -239,9 +243,9 @@
                             </td>
                         </tr>
                         <tr *ngIf="pageDetailedData.length == 0">
-                            <td>
-                                No Records Found
-                            </td>
+                            <td colspan="7" class="records">
+                            No Records Found
+                        </td>
                         </tr>
                     </tbody>
                 </table>
@@ -260,7 +264,7 @@
             <a class="hide" #xlsDownloader></a>
 
             <div class="table table-responsive student-table">
-                <table  #attendanceTable>
+                <table #attendanceTable>
                     <thead>
                         <tr>
                             <th>

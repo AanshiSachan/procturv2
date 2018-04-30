@@ -100,6 +100,20 @@ export class BiometricServiceService {
         }
       )
     }
+    fetchAbsentiesData(obj){
+      obj.from_date = moment(obj.from_date).format('YYYY-MM-DD');
+      let url =this.baseUrl + "/api/v1/attendance/fetchAbsentsStudentsData";
+      return this.http.post(url , obj ,{headers:this.headers}).map(
+        (data:any)=>{
+          return data;
+        },
+        (error:any)=>{
+          return error;
+        }
+      )
+
+      
+    }
   }
 
 

@@ -40,6 +40,8 @@ export class BiometricComponent implements OnInit {
   showButton: boolean = true;
   masters: any[] = [];
   subjects: any[] = [];
+  absentiesRecords: any[] = [];
+  absentTable: boolean = false;
   getData = {
     school_id: -1,
     name: "",
@@ -56,10 +58,10 @@ export class BiometricComponent implements OnInit {
     batch_id: -1,
     course_id: -1,
     from_date: "",
-    institution_id: "",
-    master_course_name: "",
+    institution_id: this.reportService.institute_id,
+    master_course_name: -1,
     standard_id: -1,
-    subject_id:-1
+    subject_id: -1
   }
   getAllData = {
     from_date: "",
@@ -75,9 +77,13 @@ export class BiometricComponent implements OnInit {
     this.getMasterCourses();
   }
   getMasterCourses() {
+    
+    this.getData.biometric_attendance_date = moment().format('YYYY-MM-DD');
+    this.getData.name = "";
+    this.getData.master_course_name = "";
     this.reportService.getAllData().subscribe(
       (data: any) => {
-
+        
         this.masterCourse = data;
         this.isRippleLoad = false;
       },
@@ -109,59 +115,6 @@ export class BiometricComponent implements OnInit {
   }
   fetchDataByName() {
     this.studentsData = [];
-    if (this.getData.biometric_attendance_date == "" && this.getData.user_Type == 1) {
-      if (this.getData.user_Type == 1) {
-        this.showStudentTable = true;
-        this.showTeachersTable = false;
-        this.showCustomTable = false;
-        this.reportService.getAttendanceReport(this.getData).subscribe(
-          (data: any) => {
-
-            this.studentsData = data;
-            this.totalRow = data.length;
-            this.PageIndex = 1;
-            this.fetchTableDataByPage(this.PageIndex);
-          },
-          (error) => {
-            this.isRippleLoad = false;
-            return error;
-          }
-        )
-      }
-      else if (this.getData.user_Type == 3) {
-        this.showTeachersTable = true;
-        this.showStudentTable = false;
-        this.showCustomTable = false;
-
-        this.reportService.getAttendanceReportTeachers(this.getData).subscribe(
-          (data: any) => {
-            this.studentsData = data;
-            this.totalRow = data.length;
-            this.PageIndex = 1;
-            this.fetchTableDataByPage(this.PageIndex);
-          },
-          (error: any) => {
-            return error;
-          }
-        )
-      }
-      else {
-        this.showStudentTable = false;
-        this.showTeachersTable = false;
-        this.showCustomTable = true;
-        this.reportService.getAttendanceReportOthers(this.getData).subscribe(
-          (data: any) => {
-            this.studentsData = data;
-            this.totalRow = data.length;
-            this.PageIndex = 1;
-            this.fetchTableDataByPage(this.PageIndex);
-          },
-          (error: any) => {
-            return error;
-          }
-        )
-      }
-    }
     if (this.getData.user_Type == 1) {
       this.showStudentTable = true;
       this.showTeachersTable = false;
@@ -215,13 +168,9 @@ export class BiometricComponent implements OnInit {
     }
   }
 
+
   viewOlderRecords(i) {
-    this.getAllData = {
-      from_date: "",
-      institute_id: this.reportService.institute_id,
-      to_date: "",
-      user_id: i.user_id
-    }
+    this.getAllData.user_id = i.user_id;
     this.addReportPopUp = true;
     this.reportService.getAllFinalReport(this.getAllData).subscribe(
       (data: any) => {
@@ -384,7 +333,28 @@ export class BiometricComponent implements OnInit {
 
     this.addAbsentiesPopup = false;
   }
-  //pagination functions
+  viewAbsentiesRecord() {
+    this.absentTable = true;
+    if (this.getAbsentiesData.from_date == "") {
+      let msg = {
+        type: "error",
+        title: "Incorrect Details",
+        body: "Please specify absent date"
+      }
+
+      this.appc.popToast(msg);
+    }
+    else {
+      this.reportService.fetchAbsentiesData(this.getAbsentiesData).subscribe(
+        (data: any) => {
+          this.absentiesRecords = data;
+        },
+        (error: any) => {
+          return error;
+        }
+      )
+    }
+  }  //pagination functions
   fetchTableDataByPage(index) {
     this.PageIndex = index;
     let startindex = this.pagedisplaysize * (index - 1);
