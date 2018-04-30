@@ -77,11 +77,13 @@ export class BiometricComponent implements OnInit {
     this.getMasterCourses();
   }
   getMasterCourses() {
+    
     this.getData.biometric_attendance_date = moment().format('YYYY-MM-DD');
     this.getData.name = "";
+    this.getData.master_course_name = "";
     this.reportService.getAllData().subscribe(
       (data: any) => {
-
+        
         this.masterCourse = data;
         this.isRippleLoad = false;
       },

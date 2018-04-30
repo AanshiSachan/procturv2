@@ -53,7 +53,7 @@ export class AttendanceReportComponent implements OnInit {
   queryParamsPro: any[] = [];
   pageDetailedDataPro: any[] = [];
   projectSettings: ColumnSetting[] = [
-    { primaryKey: 'student_id', header: 'Student id' },
+    { primaryKey: 'student_disp_id', header: 'Student id' },
     { primaryKey: 'student_name', header: 'Student name' },
     { primaryKey: 'student_phone', header: 'Contact no' },
     { primaryKey: 'doj', header: 'Joining date' },
@@ -369,9 +369,6 @@ export class AttendanceReportComponent implements OnInit {
   }
 
   closeReportPopup() {
-    if (this.pagedPostData.length == 0) {
-      this.addReportPopUp = false;
-    }
     this.addReportPopUp = false;
   }
   // pagination functions 

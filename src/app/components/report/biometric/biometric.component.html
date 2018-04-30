@@ -8,6 +8,9 @@
         <h2 class="pull-left">
           Biometric Report
         </h2>
+        <div class="c-lg-2" *ngIf="showButton" style="float:right; padding-top:20px;">
+          <button class="btn fullBlue" (click)="fetchAbsentiesReport()">Send SMS to Absenties</button>
+        </div>
         <aside class="pull-right">
         </aside>
         <section class="filter-form">
@@ -25,7 +28,13 @@
                   </select>
                 </div>
               </div>
-              <div class="c-lg-3">
+              <div class="c-lg-3 main" style="margin-top:0px;">
+                <div class="form-field form-wrapper datePickerBox">
+                  <label> Select Date</label>
+                  <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getData.biometric_attendance_date">
+                </div>
+              </div>
+              <div class="c-lg-4">
                 <div class="form-field form-wrapper">
                   <label> Name</label>
                   <input type="text" placeholder="Name" class="side-form-ctrl" [(ngModel)]="getData.name" [value]="getData.is_active_status">
@@ -34,27 +43,25 @@
               <div class="form-field form-wrapper hide">
                 <input type="text" placeholder="Name" class="side-form-ctrl" [(ngModel)]="getData.is_active_status">
               </div>
-              <div class="c-lg-3 main" style="margin-top:0px;">
-                <div class="form-field form-wrapper datePickerBox">
-                  <label> Select Date</label>
-                  <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getData.biometric_attendance_date">
-                </div>
-              </div>
-              <div class="c-lg-1" style="margin-top:38px;">
-                <button class="btn fullBlue" (click)="fetchDataByName()">Go</button>
-              </div>
-              <div class="c-lg-2" style="margin-top:38px;" *ngIf="showButton">
-                <button class="btn fullBlue" (click)="fetchAbsentiesReport()">Send SMS to Absenties</button>
-              </div>
+
+
             </div>
           </div>
           <div *ngIf="masterCourseNames" style="margin-top:-13px;">
-            <hr>
+
+
+            <div style="width:100%">
+            <hr style="font-weight:200; width:22%; display:inline-block; margin-bottom:7px;">
+          
+            <h2 style="text-align:center; margin-bottom:-31px; display:inline-block;">OR</h2>
+            <hr style="font-weight:200; width:22%; display:inline-block; margin-bottom:7px;">
+            </div>
             <div class="row" style="margin-top:-20px;">
               <div class="c-lg-3" style="margin-left:15px;">
                 <div class="form-field form-wrapper">
                   <label>Master Course</label>
                   <select class="side-form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourses($event)" [value]="getData.master_course_name">
+                    <option value="-1"></option>
                     <option *ngFor="let i of masterCourse">
                       {{i.master_course}}
                     </option>
@@ -65,12 +72,17 @@
                 <div class="form-field form-wrapper">
                   <label> Course</label>
                   <select class="side-form-ctrl" [(ngModel)]="getData.course_id">
+                    <option value="-1"></option>
                     <option *ngFor="let i of courses">
                       {{i.course_name}}
                     </option>
                   </select>
                 </div>
               </div>
+              <div class="c-lg-1" style="margin-top:38px;">
+                <button class="btn fullBlue" (click)="fetchDataByName()">Go</button>
+              </div>
+
             </div>
           </div>
           <div class="common" *ngIf="showTeachersTable">
@@ -564,9 +576,7 @@
                     <thead>
                       <tr>
                         <th>
-                          <div class="field-checkbox-wrapper">
-                            <input type="checkbox" class="form-checkbox" name="checkbox" value="car" checked>
-                          </div>
+
                           Student ID
                         </th>
                         <th>
@@ -580,9 +590,7 @@
                     <tbody class="view">
                       <tr *ngFor="let i of absentiesRecords">
                         <td>
-                          <div class="field-checkbox-wrapper">
-                            <input type="checkbox" class="rowCheckbox form-checkbox" name="checkbox" value="car" checked>
-                          </div>
+
                           {{i.student_disp_id}}
 
                         </td>
@@ -608,6 +616,7 @@
               </div>
             </div>
           </proctur-popup>
+
         </section>
       </section>
     </section>
