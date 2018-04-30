@@ -313,10 +313,12 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   selectedStudent(s) {
+    this.closeSearch(false);
     this.router.navigate(['/student'], { queryParams: { id: s.id } });
   }
 
   selectedEnquiry(e) {
+    this.closeSearch(false);
     this.router.navigate(['/enquiry'], { queryParams: { id: e.id } });
   }
 

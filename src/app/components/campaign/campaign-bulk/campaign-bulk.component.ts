@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn, NgForm } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
-import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from '../../../../assets/imported_modules/multiselect-dropdown';
 import * as moment from 'moment';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';

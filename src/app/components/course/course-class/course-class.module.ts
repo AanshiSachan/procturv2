@@ -9,8 +9,6 @@ import { ClassHomeComponent } from './class-home/class-home.component';
 import { ClassAddComponent } from './class-add/class-add.component';
 import 'moment';
 import 'hammerjs';
-import { BusyModule, BusyConfig } from '../../../../assets/imported_modules/angular2-busy/build';
-import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { BsDatepickerModule } from '../../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { TimepickerModule } from '../../../../assets/imported_modules/ngx-bootstrap/timepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
@@ -20,8 +18,6 @@ import { ClassScheduleService } from '../../../services/course-services/class-sc
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        BusyModule,
-        NgLoggerModule.forRoot(Level.LOG),
         CommonModule,
         BsDatepickerModule,
         TimepickerModule,

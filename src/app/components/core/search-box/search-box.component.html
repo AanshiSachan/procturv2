@@ -39,7 +39,7 @@
       <li>
         <h5>
           <span>
-            Your Recent Search
+            Your Recent Searches
           </span>
           <!-- <a>View More</a> -->
         </h5>
@@ -51,7 +51,7 @@
                   <strong>{{rs}}</strong>
                 </label>
                 <label class="delete search-item">
-                    <img class="search-item" src="./assets/images/cross.png" (click)="deleteRecent(rs)" alt="delete">
+                  <img class="search-item" src="./assets/images/cross.png" (click)="deleteRecent(rs)" alt="delete">
                 </label>
               </span>
             </a>
@@ -70,18 +70,39 @@
           <a (click)="fullView('student')">View More</a>
         </h5>
         <ul class="in-student-list">
-          <li (click)="studentSelected(student)" *ngFor="let student of studentResult">
-            <a>
-              <img src="" alt="" />
-              <span class="sdb-right">
-                <label>
-                  <strong>{{student.name}}</strong>
-                </label>
-                <span>
-                  +91 {{student.phone}} | Enrolment ID : {{student.displayId}}
-                </span>
-              </span>
-            </a>
+          <li *ngFor="let student of studentResult">
+            <ul>
+              <li>
+                <a (click)="studentSelected(student)">
+                  <img src="" alt="" />
+                  <span class="sdb-right">
+                    <label>
+                      <strong>{{student.name}}</strong>
+                    </label>
+                    <span>
+                      +91 {{student.phone}} | Enrolment ID : {{student.displayId}}
+                    </span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a class="markers">
+                  Edit Student
+                </a>
+                <a class="markers">
+                  Manage Fee
+                </a>
+                <a class="markers">
+                  Manage Inventory
+                </a>
+                <a class="markers">
+                  Mark Leave
+                </a>
+                <a class="markers">
+                  Delete
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </li>
@@ -94,17 +115,33 @@
         </h5>
         <ul class="in-student-list">
           <li (click)="enquirySelected(enquiry)" *ngFor="let enquiry of enquiryResult">
-            <a>
-              <img src="" alt="" />
-              <span class="sdb-right">
-                <label>
-                  <strong>{{enquiry.name}}</strong>
-                </label>
-                <span>
-                  +91 {{enquiry.phone}} | Enrolment ID : {{enquiry.displayId}}
-                </span>
-              </span>
-            </a>
+            <ul>
+              <li>
+                <a>
+                  <img src="" alt="" />
+                  <span class="sdb-right">
+                    <label>
+                      <strong>{{enquiry.name}}</strong>
+                    </label>
+                    <span>
+                      +91 {{enquiry.phone}} | Enrolment ID : {{enquiry.displayId}}
+                    </span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a class="markers">
+                  Edit Enquiry
+                </a>
+                <a class="markers">
+                  Delete Enquiry
+                </a>
+                <a class="markers">
+                  Update Enquiry
+                </a>
+              </li>
+            </ul>
+
           </li>
         </ul>
       </li>

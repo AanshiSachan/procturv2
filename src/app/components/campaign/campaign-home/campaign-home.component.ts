@@ -7,7 +7,6 @@ import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
-import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from '../../../../assets/imported_modules/multiselect-dropdown';
 import * as moment from 'moment';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
@@ -202,7 +201,7 @@ export class CampaignHomeComponent implements OnInit {
     this.login.changeNameStatus(sessionStorage.getItem('name'));
 
     /* Load paginated campaign data from server */
-    this.busy = this.loadTableDatatoSource(this.instituteData);
+    this.loadTableDatatoSource(this.instituteData);
 
 
   }
@@ -573,7 +572,7 @@ export class CampaignHomeComponent implements OnInit {
     } else {
       queryParam.date = finaldate
 
-      this.busy = this.postData.saveSMSservice(queryParam).subscribe(
+      this.postData.saveSMSservice(queryParam).subscribe(
         res => {
           let msg = {
             type: 'success',
@@ -665,7 +664,7 @@ export class CampaignHomeComponent implements OnInit {
         mobile: this.phone
       }
 
-      this.busy = this.postData.campaignSMSTestService(queryParam).subscribe(
+      this.postData.campaignSMSTestService(queryParam).subscribe(
         res => {
           let msg = {
             type: 'success',

@@ -833,7 +833,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
     }
 
@@ -873,7 +873,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         closedReason: "",
         enqCustomLi: null
       };
-      this.busy = this.loadTableDatatoSource(this.instituteData);
+       this.loadTableDatatoSource(this.instituteData);
     }
 
     else if (checkerObj.prop == "Student_Admitted") {
@@ -912,7 +912,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
 
       }
 
@@ -957,7 +957,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
 
         else if (this.statusString.length != 0) {
@@ -991,7 +991,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
       }
 
@@ -1035,7 +1035,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           enqCustomLi: null
         };
 
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       else {
@@ -1079,7 +1079,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
@@ -1112,7 +1112,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
       }
 
@@ -1153,7 +1153,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       else {
@@ -1196,7 +1196,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
@@ -1229,7 +1229,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
 
       }
@@ -1272,7 +1272,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       else {
@@ -1317,7 +1317,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
@@ -1350,7 +1350,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
 
       }
@@ -1393,7 +1393,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       else {
@@ -1437,7 +1437,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
@@ -1470,7 +1470,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
 
       }
@@ -1542,7 +1542,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       if (filter == "Closed") {
@@ -1575,7 +1575,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       if (filter == "Open") {
@@ -1608,7 +1608,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       if (filter == "In_Progress") {
@@ -1641,7 +1641,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       if (filter == "Registered") {
@@ -1674,7 +1674,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
     }
@@ -1733,7 +1733,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         closedReason: "",
         enqCustomLi: null
       };
-      this.busy = this.loadTableDatatoSource(this.instituteData);
+       this.loadTableDatatoSource(this.instituteData);
 
     }
     /* date is filled */
@@ -1767,7 +1767,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         closedReason: "",
         enqCustomLi: null
       };
-      this.busy = this.loadTableDatatoSource(this.instituteData);
+       this.loadTableDatatoSource(this.instituteData);
     }
     /* Searchbar filled date empty */
     else if ((this.searchBarData != "" || this.searchBarData != " " || this.searchBarData != null) &&
@@ -1806,7 +1806,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
         /* invalid string raise alert */
@@ -1853,7 +1853,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
         /* send data as enquiry number */
@@ -1888,7 +1888,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
       }
@@ -1929,7 +1929,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
         /* invalid string raise alert */
@@ -1976,7 +1976,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
         /* send data as enquiry number */
@@ -2011,7 +2011,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
       }
@@ -2143,7 +2143,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             }
             else {
               this.closePopup();
-              this.busy = this.loadTableDatatoSource(this.instituteData);
+               this.loadTableDatatoSource(this.instituteData);
             }
           },
           err => {
@@ -2213,7 +2213,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   deleteEnquiry() {
     this.isRippleLoad = true;
     //console.log(this.selectedRow.institute_enquiry_id);
-    this.busy = this.postdata.deleteEnquiryById(this.selectedRow.institute_enquiry_id).subscribe(
+     this.postdata.deleteEnquiryById(this.selectedRow.institute_enquiry_id).subscribe(
       res => {
         this.isRippleLoad = false;
         let alert = {
@@ -2224,7 +2224,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.appC.popToast(alert);
         this.closePopup();
         this.cd.markForCheck();
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       },
       err => {
         this.isRippleLoad = false;
@@ -2235,7 +2235,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         }
         this.appC.popToast(alert);
         this.closePopup();
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
     )
   }
@@ -2996,7 +2996,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           title: 'Enquiries Assigned',
         }
         this.appC.popToast(msg);
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
         this.bulkAssignEnquiriesClose();
         this.cd.markForCheck();
       },
@@ -3090,7 +3090,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     else if (this.advancedFilterForm.followUpDate == null || this.advancedFilterForm.followUpDate != '' || this.advancedFilterForm.followUpDate != 'Invalid date') {
       this.advancedFilterForm.is_recent = "Y";
     }
-    this.busy = this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
+     this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
       data => {
         this.isRippleLoad = false;
         this.sourceEnquiry = data;
@@ -3305,7 +3305,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
     this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
     this.instituteData.filtered_statuses = this.statusString.join(',');
-    this.busy = this.loadTableDatatoSource(this.instituteData);
+     this.loadTableDatatoSource(this.instituteData);
   }
 
 
@@ -3326,7 +3326,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.stats.Registered.checked = false;
     this.statusString = [];
     this.instituteData.filtered_statuses = this.statusString.join(',');
-    this.busy = this.loadTableDatatoSource(this.instituteData);
+     this.loadTableDatatoSource(this.instituteData);
   }
 
   /* =========================================================================== */
@@ -3377,7 +3377,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       order_by: "",
       commentShow: 'false'
     };
-    this.busy = this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
+     this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
       res => {
         this.isRippleLoad = false;
         let byteArr = this.convertBase64ToArray(res.document);
@@ -3615,7 +3615,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.instituteData.order_by = this.currentDirection;
     this.instituteData.filtered_statuses = this.statusString.join(',');
     this.cd.markForCheck();
-    this.busy = this.loadTableDatatoSource(this.instituteData);
+     this.loadTableDatatoSource(this.instituteData);
 
   }
 
@@ -3909,7 +3909,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           this.cd.markForCheck();
           this.appC.popToast(msg);
           this.closePopup();
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         },
         err => {
           this.isRippleLoad = false;
