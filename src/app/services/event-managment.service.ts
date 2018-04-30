@@ -5,7 +5,6 @@ import { Observer } from 'rxjs/Observer';
 import * as moment from 'moment';
 import { AuthenticatorService } from './authenticator.service';
 
-
 @Injectable()
 export class EventManagmentService {
   baseUrl: string = '';
@@ -22,16 +21,38 @@ export class EventManagmentService {
 }
 
 getListEventDesc(obj){
-let url = this.baseUrl + "/api/v1/holiday_manager/getDeatil/" + this.institute_id;
-return this.http.post(url,obj,{headers:this.headers}).map(
+let url = this.baseUrl + "/api/v1/holiday_manager/getDetail/" + this.institute_id;
+//obj.institute_id= this.institute_id;
+return this.http.post(url, obj, {headers:this.headers}).map(
   res=>{
     return res
   },
   error=>{
     return error
-  },)}
-
+  },
+)}
+saveEventDescData(obj){
+  let url = this.baseUrl +"/api/v1/holiday_manager/create/";
+  return this.http.post(url,obj,{headers: this.headers}).map(
+    res=>{
+      return res
+    },
+    error=>{
+      return error
+    },
+  )}
   
-
-
+sendNotifiation(obj){
+  let url = this.baseUrl +"/api/v1/pushNotification/send/";
+  return this.http.post(url,obj,{headers: this.headers}).map(
+    res=>{
+      return res
+    },
+    error=>{
+      return error
+    },
+  )}
 }
+
+
+

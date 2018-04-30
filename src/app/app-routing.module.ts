@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 /* import { CanDeactivateGuard }      from './guards/can-deactivate-guard.service'; */
 import { AuthGuard } from './guards/auth.guard';
@@ -7,7 +7,7 @@ import { ComingSoonComponent } from './components/coming-soon/coming-soon.compon
 import { SlotComponent } from './components/slot/slot.component';
 import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
 import { ClassRoomComponent } from './components/class-room/class-room.component';
-
+import {EventManagmentComponent} from './components/event-managment/event-managment.component';
 @NgModule({
     imports: [
         RouterModule.forRoot(
@@ -118,6 +118,10 @@ import { ClassRoomComponent } from './components/class-room/class-room.component
                 {
                     path: 'classroom',
                     component: ClassRoomComponent
+                },
+                {
+                    path:'Event',
+                    component:EventManagmentComponent
                 },
                 { path: 'comingsoon', component: ComingSoonComponent },
                 { path: '**', component: ErrorComponent },
