@@ -327,7 +327,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     
     this.actRoute.queryParams.subscribe(e => {
       if(e.id != null && e.id != undefined && e.id != ''){
-        this.router.navigate(['/enquiry/edit/' + e.id]);
+        if(e.action == undefined ||e.action == undefined || e.action == ''){
+          this.router.navigate(['/enquiry/edit/' + e.id]);          
+        }
+        else{
+          console.log(e);
+        }
       }
     });
     

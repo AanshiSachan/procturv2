@@ -59,7 +59,7 @@ export class CoreHeaderComponent implements OnInit {
     this.log.currentUsername.subscribe(res => {
       this.userName = res;
     });
-    
+
     this.checkPermissionArrayData();
 
     this.checkUserHadAccess();
@@ -242,7 +242,7 @@ export class CoreHeaderComponent implements OnInit {
       this.hasStudent = false;
       this.hasClass = false;
     }
-  }  
+  }
 
   triggerSearchBox($event) {
     $event.preventDefault();
@@ -333,6 +333,16 @@ export class CoreHeaderComponent implements OnInit {
     }
     this.closeSearch(false)
     this.searchViewMore.emit(obj);
+  }
+
+  actionSelected(d) {
+    this.closeSearch(false);
+    if (d.data.source == "Student") {
+      this.router.navigate(['/student'], { queryParams: { id: d.data.id, action: d.action } });
+    }
+    else {
+      this.router.navigate(['/enquiry'], { queryParams: { id: d.data.id, action: d.action } });
+    }
   }
 
 }
