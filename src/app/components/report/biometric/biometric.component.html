@@ -510,28 +510,32 @@
                 <div class="c-lg-3">
                   <div class="form-field form-wrapper">
                     <label>Master Course</label>
-                    <select class="side-form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourses($event)" >
+
+                    <select class="side-form-ctrl" [(ngModel)]="getAbsentiesData.master_course_name" (ngModelChange)="getCourses($event)">
+                      <option value="-1"></option>
                       <option *ngFor="let i of masterCourse" [value]="i.master_course">
                         {{i.master_course}}
                       </option>
                     </select>
                   </div>
                 </div>
-                <div class="c-lg-3" >
+                <div class="c-lg-3">
                   <div class="form-field form-wrapper">
                     <label> Course</label>
-                    <select class="side-form-ctrl" [(ngModel)]="getData.course_id" (ngModelChange)="getSubjects($event)" >
+                    <select class="side-form-ctrl" [(ngModel)]="getAbsentiesData.course_id" (ngModelChange)="getSubjects($event)">
+                      <option value="-1"></option>
                       <option *ngFor="let i of courses" [value]="i.course_id">
                         {{i.course_name}}
                       </option>
                     </select>
                   </div>
                 </div>
-                <div class="c-lg-3" >
+                <div class="c-lg-3">
                   <div class="form-field form-wrapper">
                     <label> Subject</label>
-                    <select class="side-form-ctrl" [(ngModel)]="getData.batch_id" >
-                      <option *ngFor="let i of subjects">
+                    <select class="side-form-ctrl" [(ngModel)]="getAbsentiesData.subject_id">
+                      <option value="-1"></option>
+                      <option *ngFor="let i of subjects" [value]="i.subject_id">
                         {{i.subject_name}}
                       </option>
                     </select>
@@ -540,7 +544,7 @@
                 <div class="c-lg-3 main" style="margin-top:0px;">
                   <div class="form-field form-wrapper datePickerBox" style="padding-top:0px;">
                     <label>Date</label>
-                    <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker>
+                    <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getAbsentiesData.from_date">
                   </div>
                 </div>
               </div>
@@ -548,16 +552,62 @@
                 <div class="c-lg-5">
 
                 </div>
-                <div class="c-lg-3" >
+                <div class="c-lg-3">
                   <div class="form-field form-wrapper">
-                    <button class="btn fullBlue">View</button>
+                    <button class="btn fullBlue" (click)="viewAbsentiesRecord()">View</button>
+                  </div>
+                </div>
+              </div>
+              <div class="table table-responsive tablePopup" *ngIf="absentTable">
+                <div class="absentView">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>
+                          <div class="field-checkbox-wrapper">
+                            <input type="checkbox" class="form-checkbox" name="checkbox" value="car" checked>
+                          </div>
+                          Student ID
+                        </th>
+                        <th>
+                          Student Name
+                        </th>
+                        <th>
+                          Joining Date
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="view">
+                      <tr *ngFor="let i of absentiesRecords">
+                        <td>
+                          <div class="field-checkbox-wrapper">
+                            <input type="checkbox" class="rowCheckbox form-checkbox" name="checkbox" value="car" checked>
+                          </div>
+                          {{i.student_disp_id}}
+
+                        </td>
+                        <td>
+                          {{i.student_name}}
+                        </td>
+                        <td>
+                          {{i.doj}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="c-lg-12" *ngIf="absentTable">
+                <div class="c-lg-5">
+                </div>
+                <div class="c-lg-3 fix">
+                  <div class="form-field form-wrapper ">
+                    <button class="btn fullBlue">Send SMS</button>
                   </div>
                 </div>
               </div>
             </div>
           </proctur-popup>
-
-
         </section>
       </section>
     </section>
