@@ -59,13 +59,29 @@
 
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': courseData.master_course != ''}">
-                            <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="courseData.master_course">
+                            <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="courseData.master_course" (ngModelChange)="getCourseList(event)">
                                 <option value="-1"></option>
                                 <option [value]="master.master_course" *ngFor="let  master of masterCourseList">
                                     {{master.master_course}}
                                 </option>
                             </select>
-                            <label for="ddnMAsterCourse">Select Master Course</label>
+                            <label for="ddnMAsterCourse">Master Course
+                                <span style="color:red">*</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="c-sm-3 c-md-3 c-lg-3">
+                        <div class="field-wrapper" [ngClass]="{'has-value': courseData.course_id != -1}">
+                            <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="courseData.course_id">
+                                <option value="-1"></option>
+                                <option [value]="master.course_id" *ngFor="let  master of courseList.coursesList">
+                                    {{master.course_name}}
+                                </option>
+                            </select>
+                            <label for="ddnMAsterCourse">Course
+                                <span style="color:red">*</span>
+                            </label>
                         </div>
                     </div>
 
@@ -113,8 +129,8 @@
                             <label for="csd">Date
                                 <span style="color:red">*</span>
                             </label>
-                            <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker constantHeight" [(ngModel)]="batchAdderData.exam_date" readonly="true"
-                                name="csd" bsDatepicker>
+                            <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker constantHeight" [(ngModel)]="batchAdderData.exam_date"
+                                readonly="true" name="csd" bsDatepicker>
                         </div>
                     </div>
 
@@ -309,6 +325,10 @@
             </div>
 
             <div *ngIf="!isLangInstitute">
+
+                <div class="row">
+                    <!-- <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton> -->
+                </div>
 
             </div>
 

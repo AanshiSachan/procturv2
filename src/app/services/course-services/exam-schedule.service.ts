@@ -163,6 +163,12 @@ export class ExamCourseService {
         )
     }
 
-
+    fetchCourseListData(data) {
+        let url = this.baseURL + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + data;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
 
 }

@@ -57,8 +57,14 @@ export class CourseExamComponent implements OnInit {
   currentDate: any = moment().format("YYYY-MM-DD");
   courseData = {
     master_course: '',
+    course_id: -1,
     requested_date: moment().format("YYYY-MM-DD")
   }
+  types: any = [
+    { label: 'Course', value: 'course' },
+    { label: 'Subject', value: 'subject' }
+  ];
+  selectedType: string = "course";
 
   constructor(
     private apiService: ExamCourseService,
@@ -539,8 +545,21 @@ export class CourseExamComponent implements OnInit {
     )
   }
 
+  getCourseList(event) {
+    if (event != -1) {
+      this.apiService.fetchCourseListData(this.courseData.master_course).subscribe(
+        res => {
+          this.courseList = res;
+        },
+        err => {
+          console.log(err);
+        }
+      )
+    }
+  }
+
   getExamSchedule() {
-    if (this.courseData.master_course != "") {
+    if (this.courseData.master_course != "" && this.courseData.course_id != -1) {
       this.apiService.getSchedule(this.courseData).subscribe(
         (res: any) => {
           this.examScheduleData = res;
@@ -550,6 +569,8 @@ export class CourseExamComponent implements OnInit {
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
+    } else {
+      this.messageNotifier('error', 'Error', 'Please Provide Mandatory Fields');
     }
   }
 
@@ -587,6 +608,12 @@ export class CourseExamComponent implements OnInit {
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
+  }
+
+  //Toggle Buttons////
+
+  onChanged(event) {
+
   }
 
 
