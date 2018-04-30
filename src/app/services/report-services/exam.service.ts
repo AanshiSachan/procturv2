@@ -6,7 +6,6 @@ import * as moment from 'moment';
 import { AuthenticatorService } from "../authenticator.service";
 
 
-
 @Injectable()
 export class ExamService {
     baseUrl: string = '';
@@ -43,65 +42,54 @@ export class ExamService {
         )
     }
 
-batchExamReport(obj):Observable<any>{
-    let url = this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/"+ this.institute_id+"?standard_id="+obj.standard_id+"&subject_id="+obj.subject_id+"&assigned=N";
-    return this.http.get(url,{ headers: this.headers }).map(
-        res => {
-            return res;
-        },
-        err => {
-            return err;
-        }
-    
-    )
-}
 
-getCourses(obj): Observable<any> {
-    let url=this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + obj
-    return this.http.get(url, {headers:this.headers}).map(
-      data=>{
-        return data;
-      },
-      error=>{
-        return error;
-      }
-      
-    )
-  }
- 
-  getSubject(obj){
+    getCourses(obj): Observable<any> {
+        let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + obj
+        return this.http.get(url, { headers: this.headers }).map(
+            data => {
+                return data;
+            },
+            error => {
+                return error;
+            }
 
-    let url=this.baseUrl + "/api/v1/courseMaster/fetch/courses/" + this.institute_id + "/" + obj
-    return this.http.get(url, {headers:this.headers}).map(
-      data =>{
-        return data;
-      },
-      error=>{
-        return error;
-      }
-      
-    )}
+        )
+    }
 
 
+    getSubject(obj) {
 
+        let url = this.baseUrl + "/api/v1/courseMaster/fetch/courses/" + this.institute_id + "/" + obj
+        return this.http.get(url, { headers: this.headers }).map(
+            data => {
+                return data;
+            },
+            error => {
+                return error;
+            }
 
-  getExamSchedule(obj){
+        )
 
-    let url=this.baseUrl + "/api/v1/batchExamSched/"  + obj
-    return this.http.get(url, {headers:this.headers}).map(
-      data =>{
-        return data;
-      },
-      error=>{
-        return error;
-      }
-)
+    }
 
-  }
+    getExamSchedule(obj) {
 
- viewExamData(obj){
- 
-  let url = this.baseUrl + "/api/v1/reports/StdExam"
+        let url = this.baseUrl + "/api/v1/batchExamSched/" + obj
+        return this.http.get(url, { headers: this.headers }).map(
+            data => {
+                return data;
+            },
+            error => {
+                return error;
+            }
+
+        )
+
+    }
+
+    viewExamData(obj) {
+
+        let url = this.baseUrl + "/api/v1/reports/StdExam"
         return this.http.post(url, obj, { headers: this.headers }).map(
             res => {
                 return res;
