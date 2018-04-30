@@ -3,7 +3,7 @@ import {
   AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
   SimpleChanges, OnChanges
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
 import { instituteInfo } from '../../../model/instituteinfo';
@@ -37,6 +37,7 @@ import { ColumnSetting } from '../../shared/custom-table/layout.model';
 export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
+  isConvertToStudent: boolean;
   sortBy: string = 'followUpDateTime';
   /* =========================================================================== */
   /* =========================================================================== */
@@ -54,7 +55,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   checkedStatus = []; filtered = []; enqstatus: any[] = []; enqPriority: any[] = []; campaignList: any[] = [];
   enqFollowType: any[] = []; enqAssignTo: any[] = []; enqStd: any[] = []; enqSubject: any[] = []; sources: any[] = [];
   enqScholarship: any[] = []; enqSub2: any[] = []; paymentMode: any[] = []; schools: any[] = []; commentFormData: any = {};
-  today: any = Date.now(); searchBarData: any = null; searchBarDate: any = moment().format('YYYY-MM-DD');
+  today: any = Date.now(); searchBarData: any = null; searchBarDate: any = "";
   displayBatchSize: number = 100; incrementFlag: boolean = true; updateFormComments: any = [];
   updateFormCommentsBy: any = []; updateFormCommentsOn: any = []; PageIndex: number = 1;
   maxPageSize: number = 0; totalEnquiry: number = 0; isProfessional: boolean = false;
@@ -173,9 +174,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     All: { value: 'All', prop: 'All', checked: false, disabled: false },
     Pending: { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false },
     Open: { value: 'Open', prop: 'Open', checked: false, disabled: false },
-    InProgress: { value: 'In-Progress', prop: 'InProgress', checked: false, disabled: false },
+    In_Progress: { value: 'In-Progress', prop: 'In_Progress', checked: false, disabled: false },
     Registered: { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-    Admitted: { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
+    Student_Admitted: { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
     Inactive: { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
   };
 
@@ -183,9 +184,9 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     { value: 'All', prop: 'All', checked: false, disabled: false },
     { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false },
     { value: 'Open', prop: 'Open', checked: false, disabled: false },
-    { value: 'InProgress', prop: 'InProgress', checked: false, disabled: false },
+    { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
     { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-    { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
+    { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
     { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
   ];
 
@@ -319,10 +320,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService,
     private router: Router, private fb: FormBuilder, private pops: PopupHandlerService, private postdata: PostEnquiryDataService,
-    private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef) {
+    private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef, private actRoute: ActivatedRoute) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
+    
+    this.actRoute.queryParams.subscribe(e => {
+      if(e.id != null && e.id != undefined && e.id != ''){
+        this.router.navigate(['/enquiry/edit/' + e.id]);
+      }
+    });
+    
   }
 
   /* =========================================================================== */
@@ -341,23 +349,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     /* Fetch prefill data after table data load completes */
 
     /* Dropdown items for Bulk Actions */
-    this.bulkAddItems = [
-      {
-        label: 'Send SMS', icon: 'fa-envelope-o', command: () => {
-          this.sendBulkSms();
-        }
-      },
-      {
-        label: 'Delete Enquiries', icon: 'fa-trash-o', command: () => {
-          this.bulkDeleteEnquiries();
-        }
-      },
-      {
-        label: 'Assign Enquiries', icon: 'fa-buysellads', command: () => {
-          this.bulkAssignEnquiriesOpen();
-        }
-      }
-    ];
+    this.roleManagementForBulkAdd();
     /* Load paginated enquiry data from server */
     let params = sessionStorage.getItem('dashBoardParam');
     if (params != "" && params != null && params != undefined) {
@@ -370,45 +362,56 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     /* Fetch the status of message from  popup handler service */
     this.pops.currentMessage.subscribe(message => {
       this.cd.markForCheck();
-      if (message == 'sms') {
-        this.cd.markForCheck();
-        this.smsServicesInvoked();
-        this.message = message;
-        this.cd.markForCheck();
-        this.smsSelectedRows = this.selectedRow;
-        this.cd.markForCheck();
-      }
-      else if (message == 'update') {
-        this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
-          this.cd.markForCheck();
-          this.updateFormData.priority = this.getPriority(res.priority);
-          this.updateFormData.follow_type = this.getFollowUp(res.follow_type);
-          this.updateFormData.statusValue = this.selectedRow.statusValue;
-          this.updateFormData.followUpDate = moment(this.selectedRow.followUpDate).format('YYYY-MM-DD');
-          if (res.followUpTime != '' && res.followUpTime != null) {
-            let timeObj = this.convertTimeToFormat(this.selectedRow.followUpTime);
-            this.hour = timeObj.hour + " " + timeObj.meridian;
-            this.minute = timeObj.minute;
-          }
 
-          if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null) {
-            let timeObj = this.convertTimeToFormat(res.walkin_followUpTime);
-            this.updateFormData.walkin_followUpTime.hour = timeObj.hour + " " + timeObj.meridian;
-            this.updateFormData.walkin_followUpTime.minute = timeObj.minute;
-          }
-          this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
-          this.updateFormData.is_follow_up_time_notification = res.is_follow_up_time_notification;
-          this.updateFormComments = res.comments;
-          this.updateFormCommentsOn = res.commentedOn;
-          this.updateFormCommentsBy = res.commentedBy;
-          this.updateFormData.assigned_to = res.assigned_to;
+      if(this.selectedRow.institute_enquiry_id != null && this.selectedRow.institute_enquiry_id != undefined){
+        if (message == 'sms') {
           this.cd.markForCheck();
-        });
-        this.message = message;
-      }
-      else {
-        this.message = message
-        this.cd.markForCheck();
+          this.smsServicesInvoked();
+          this.message = message;
+
+          this.cd.markForCheck();
+          this.smsSelectedRows = this.selectedRow;
+          this.cd.markForCheck();
+        }
+        else if (message == 'update') {
+          
+          this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
+            this.cd.markForCheck();
+            this.updateFormData.priority = this.getPriority(res.priority);
+            this.updateFormData.follow_type = this.getFollowUp(res.follow_type);
+            this.updateFormData.statusValue = this.selectedRow.statusValue;
+            this.updateFormData.followUpDate = moment(this.selectedRow.followUpDate).format('YYYY-MM-DD');
+            if (res.followUpTime != '' && res.followUpTime != null) {
+              let timeObj = this.convertTimeToFormat(this.selectedRow.followUpTime);
+              this.hour = timeObj.hour + " " + timeObj.meridian;
+              this.minute = timeObj.minute;
+            }
+  
+            if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null) {
+              let timeObj = this.convertTimeToFormat(res.walkin_followUpTime);
+              this.updateFormData.walkin_followUpTime.hour = timeObj.hour + " " + timeObj.meridian;
+              this.updateFormData.walkin_followUpTime.minute = timeObj.minute;
+            }
+            this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
+            this.updateFormData.followUpTime = res.followUpTime;
+            if(res.followUpTime != "" && res.followUpTime != null && res.followUpDate != null && res.followUpDate != ""){
+              this.updateFormData.is_follow_up_time_notification = true;
+            }else{
+              this.updateFormData.is_follow_up_time_notification = false;
+            }
+            this.updateFormComments = res.comments;
+            this.updateFormCommentsOn = res.commentedOn;
+            this.updateFormCommentsBy = res.commentedBy;
+            this.updateFormData.assigned_to = res.assigned_to;
+            this.cd.markForCheck();
+          });
+          this.message = message;
+        }
+        else {
+          this.message = message
+          this.cd.markForCheck();
+        }
+  
       }
     });
 
@@ -780,6 +783,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
   statusFilterUpdater(e) {
+    debugger;
     this.stats[e.prop].checked = e.checked;
     this.statusFilter(e);
   }
@@ -794,10 +798,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     if (checkerObj.prop == "All") {
       this.statusString = [];
       if (checkerObj.checked) {
-        this.stats.Admitted.checked = false;
+        this.stats.Student_Admitted.checked = false;
         this.stats.Inactive.checked = false;
         this.stats.Open.checked = false;
-        this.stats.InProgress.checked = false;
+        this.stats.In_Progress.checked = false;
         this.stats.Registered.checked = false;
         this.stats.Pending.checked = false;
         this.stats.All.checked = true;
@@ -829,15 +833,15 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
     }
 
     else if (checkerObj.prop == "Pending") {
-      this.stats.Admitted.checked = false;
+      this.stats.Student_Admitted.checked = false;
       this.stats.Inactive.checked = false;
       this.stats.Open.checked = false;
-      this.stats.InProgress.checked = false;
+      this.stats.In_Progress.checked = false;
       this.stats.Registered.checked = false;
       this.stats.Pending.checked = true;
       this.stats.All.checked = false;
@@ -869,13 +873,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         closedReason: "",
         enqCustomLi: null
       };
-      this.busy = this.loadTableDatatoSource(this.instituteData);
+       this.loadTableDatatoSource(this.instituteData);
     }
 
-    else if (checkerObj.prop == "Admitted") {
+    else if (checkerObj.prop == "Student_Admitted") {
       this.stats.All.checked = false;
 
-      if (this.stats.Admitted.checked) {
+      if (this.stats.Student_Admitted.checked) {
         this.statusString.push('12');
 
         let stat = this.statusString.join(',');
@@ -908,7 +912,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
 
       }
 
@@ -920,10 +924,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
         if (this.statusString.length == 0) {
           this.stats.All.checked = true;
-          this.stats.Admitted.checked = false;
+          this.stats.Student_Admitted.checked = false;
           this.stats.Inactive.checked = false;
           this.stats.Open.checked = false;
-          this.stats.InProgress.checked = false;
+          this.stats.In_Progress.checked = false;
           this.stats.Registered.checked = false;
           this.instituteData = {
             name: "",
@@ -953,7 +957,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
 
         else if (this.statusString.length != 0) {
@@ -987,7 +991,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
       }
 
@@ -1031,7 +1035,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           enqCustomLi: null
         };
 
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       else {
@@ -1042,10 +1046,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
         if (this.statusString.length == 0) {
           this.stats.All.checked = true;
-          this.stats.Admitted.checked = false;
+          this.stats.Student_Admitted.checked = false;
           this.stats.Inactive.checked = false;
           this.stats.Open.checked = false;
-          this.stats.InProgress.checked = false;
+          this.stats.In_Progress.checked = false;
           this.stats.Registered.checked = false;
           this.instituteData = {
             name: "",
@@ -1075,7 +1079,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
@@ -1108,7 +1112,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
       }
 
@@ -1149,7 +1153,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       else {
@@ -1159,10 +1163,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         }
         if (this.statusString.length == 0) {
           this.stats.All.checked = true;
-          this.stats.Admitted.checked = false;
+          this.stats.Student_Admitted.checked = false;
           this.stats.Inactive.checked = false;
           this.stats.Open.checked = false;
-          this.stats.InProgress.checked = false;
+          this.stats.In_Progress.checked = false;
           this.stats.Registered.checked = false;
           this.instituteData = {
             name: "",
@@ -1192,7 +1196,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
@@ -1225,17 +1229,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
 
       }
 
     }
 
-    else if (checkerObj.prop == "InProgress") {
+    else if (checkerObj.prop == "In_Progress") {
       this.stats.All.checked = false;
 
-      if (this.stats.InProgress.checked) {
+      if (this.stats.In_Progress.checked) {
         this.statusString.push('3');
 
         let stat = this.statusString.join(',');
@@ -1268,7 +1272,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       else {
@@ -1280,10 +1284,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
         if (this.statusString.length == 0) {
           this.stats.All.checked = true;
-          this.stats.Admitted.checked = false;
+          this.stats.Student_Admitted.checked = false;
           this.stats.Inactive.checked = false;
           this.stats.Open.checked = false;
-          this.stats.InProgress.checked = false;
+          this.stats.In_Progress.checked = false;
           this.stats.Registered.checked = false;
           this.instituteData = {
             name: "",
@@ -1313,7 +1317,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
@@ -1346,7 +1350,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
 
       }
@@ -1389,7 +1393,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       else {
@@ -1400,10 +1404,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
         if (this.statusString.length == 0) {
           this.stats.All.checked = true;
-          this.stats.Admitted.checked = false;
+          this.stats.Student_Admitted.checked = false;
           this.stats.Inactive.checked = false;
           this.stats.Open.checked = false;
-          this.stats.InProgress.checked = false;
+          this.stats.In_Progress.checked = false;
           this.stats.Registered.checked = false;
           this.instituteData = {
             name: "",
@@ -1433,7 +1437,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
@@ -1466,7 +1470,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
 
       }
@@ -1474,16 +1478,17 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
 
   }
+
   /* =========================================================================== */
   checkIfRoutedFromEnquiry() {
-    let filter = sessionStorage.getItem('dashBoardParam');
+
     this.stats = {
       All: { value: 'All', prop: 'All', checked: false, disabled: false },
       Pending: { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false },
       Open: { value: 'Open', prop: 'Open', checked: false, disabled: false },
-      InProgress: { value: 'In-Progress', prop: 'InProgress', checked: false, disabled: false },
+      In_Progress: { value: 'In-Progress', prop: 'In_Progress', checked: false, disabled: false },
       Registered: { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-      Admitted: { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
+      Student_Admitted: { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
       Inactive: { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
     };
 
@@ -1491,17 +1496,22 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       { value: 'All', prop: 'All', checked: false, disabled: false },
       { value: 'Pending Followup', prop: 'Pending', checked: true, disabled: false },
       { value: 'Open', prop: 'Open', checked: false, disabled: false },
-      { value: 'InProgress', prop: 'InProgress', checked: false, disabled: false },
+      { value: 'In_Progress', prop: 'In_Progress', checked: false, disabled: false },
       { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-      { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
+      { value: 'Student_Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
       { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
     ];
 
-    if (filter == "" || filter == null || filter == undefined) {
+    if (sessionStorage.getItem('dashBoardParam') == "" || sessionStorage.getItem('dashBoardParam') == null || sessionStorage.getItem('dashBoardParam') == undefined) {
       return;
     }
     else {
+      let obj = JSON.parse(sessionStorage.getItem('dashBoardParam'));
+      let filter = obj.type;
+      let fromDate = obj.dateR[0];
+      let toDate = obj.dateR[1];
       this.searchBarData = '';
+
       if (filter == "Admitted") {
         this.instituteData = {
           name: "",
@@ -1522,8 +1532,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           slot_id: -1,
           filtered_slots: "",
           isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
+          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
+          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
           updateDate: "",
           updateDateFrom: "",
           updateDateTo: "",
@@ -1532,7 +1542,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       if (filter == "Closed") {
@@ -1546,7 +1556,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           status: -1,
           filtered_statuses: "1",
           follow_type: "",
-          followUpDate: this.searchBarDate,
+          followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
           standard_id: -1,
@@ -1555,8 +1565,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           slot_id: -1,
           filtered_slots: "",
           isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
+          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
+          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
           updateDate: "",
           updateDateFrom: "",
           updateDateTo: "",
@@ -1565,8 +1575,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       if (filter == "Open") {
@@ -1580,7 +1589,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           status: -1,
           filtered_statuses: "0",
           follow_type: "",
-          followUpDate: this.searchBarDate,
+          followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
           standard_id: -1,
@@ -1589,8 +1598,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           slot_id: -1,
           filtered_slots: "",
           isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
+          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
+          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
           updateDate: "",
           updateDateFrom: "",
           updateDateTo: "",
@@ -1599,10 +1608,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
-      if (filter == "InProgress") {
+      if (filter == "In_Progress") {
         this.instituteData = {
           name: "",
           phone: "",
@@ -1613,7 +1622,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           status: -1,
           filtered_statuses: "3",
           follow_type: "",
-          followUpDate: this.searchBarDate,
+          followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
           standard_id: -1,
@@ -1622,8 +1631,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           slot_id: -1,
           filtered_slots: "",
           isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
+          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
+          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
           updateDate: "",
           updateDateFrom: "",
           updateDateTo: "",
@@ -1632,10 +1641,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
-      if (filter == "Registered")  {
+      if (filter == "Registered") {
         this.instituteData = {
           name: "",
           phone: "",
@@ -1646,7 +1655,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           status: -1,
           filtered_statuses: "11",
           follow_type: "",
-          followUpDate: this.searchBarDate,
+          followUpDate: "",
           enquiry_date: "",
           assigned_to: -1,
           standard_id: -1,
@@ -1655,8 +1664,8 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           slot_id: -1,
           filtered_slots: "",
           isDashbord: "N",
-          enquireDateFrom: "",
-          enquireDateTo: "",
+          enquireDateFrom: moment(fromDate).format("YYYY-MM-DD"),
+          enquireDateTo: moment(toDate).format("YYYY-MM-DD"),
           updateDate: "",
           updateDateFrom: "",
           updateDateTo: "",
@@ -1665,23 +1674,20 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
     }
   }
 
   /* =========================================================================== */
-
-
-
   /* Function to search data on smart table */
   searchDatabase() {
     this.clearFilterAdvanced();
     this.stats.All.checked = true;
     this.stats.Open.checked = false;
     this.stats.Registered.checked = false;
-    this.stats.Admitted.checked = false;
+    this.stats.Student_Admitted.checked = false;
     this.stats.Registered.checked = false;
     this.stats.Inactive.checked = false;
     this.statusString = [];
@@ -1690,7 +1696,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       { value: 'Pending Followup', prop: 'Pending', checked: false, disabled: false },
       { value: 'Open/In-Progress', prop: 'Open', checked: false, disabled: false },
       { value: 'Registered', prop: 'Registered', checked: false, disabled: false },
-      { value: 'Admitted', prop: 'Student Admitted', checked: false, disabled: false },
+      { value: 'Admitted', prop: 'Student_Admitted', checked: false, disabled: false },
       { value: 'Inactive', prop: 'Inactive', checked: false, disabled: false },
     ];
     this.indexJSON = [];
@@ -1727,7 +1733,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         closedReason: "",
         enqCustomLi: null
       };
-      this.busy = this.loadTableDatatoSource(this.instituteData);
+       this.loadTableDatatoSource(this.instituteData);
 
     }
     /* date is filled */
@@ -1761,7 +1767,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         closedReason: "",
         enqCustomLi: null
       };
-      this.busy = this.loadTableDatatoSource(this.instituteData);
+       this.loadTableDatatoSource(this.instituteData);
     }
     /* Searchbar filled date empty */
     else if ((this.searchBarData != "" || this.searchBarData != " " || this.searchBarData != null) &&
@@ -1800,7 +1806,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
         /* invalid string raise alert */
@@ -1847,7 +1853,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
         /* send data as enquiry number */
@@ -1882,7 +1888,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
       }
@@ -1923,7 +1929,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
         /* invalid string raise alert */
@@ -1970,7 +1976,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
         /* send data as enquiry number */
@@ -2005,7 +2011,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
       }
@@ -2066,6 +2072,10 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   /* =========================================================================== */
   /* =========================================================================== */
 
+  updateRegisterEnquiry() {
+    this.isConvertToStudent = true;
+    this.pushUpdatedEnquiry();
+  }
 
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
@@ -2075,7 +2085,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       this.updateFormData.follow_type = this.getFollowUpReverse(this.updateFormData.follow_type);
       this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
       let followupdateTime: string = "";
-      if (this.hour != '') {
+      if (this.hour != '' && this.hour != null && this.hour != undefined) {
         let time = this.timeChanges(this.hour);
         let followUpTime = time.hour + ":" + this.minute + " " + time.meridian;
         followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + followUpTime;
@@ -2083,7 +2093,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       }
       followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
 
-      if (this.updateFormData.walkin_followUpTime.hour != "") {
+      if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.hour != null && this.updateFormData.walkin_followUpTime.hour != undefined) {
         let time = this.timeChanges(this.updateFormData.walkin_followUpTime.hour);
         let walkin_followUpTime = time.hour + ":" + this.updateFormData.walkin_followUpTime.minute + " " + time.meridian;
         this.updateFormData.walkin_followUpTime = walkin_followUpTime;
@@ -2098,6 +2108,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.updateFormData.walkin_followUpDate = "";
       }
 
+      if(this.updateFormData.is_follow_up_time_notification){
+        this.updateFormData.is_follow_up_time_notification = 1;
+      }
+      else if(!this.updateFormData.is_follow_up_time_notification) {
+        this.updateFormData.is_follow_up_time_notification = 0;
+      }
+
       this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData)
         .subscribe(
           res => {
@@ -2108,8 +2125,26 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
               body: 'Your enquiry has been successfully submitted'
             }
             this.appC.popToast(msg);
-            this.closePopup();
-            this.busy = this.loadTableDatatoSource(this.instituteData);
+            if (this.isConvertToStudent) {
+              let obj = {
+                name: this.selectedRow.name,
+                phone: this.selectedRow.phone,
+                email: this.selectedRow.email,
+                gender: this.selectedRow.gender,
+                dob: moment(this.selectedRow.dob).format("YYYY-MM-DD"),
+                parent_email: this.selectedRow.parent_email,
+                parent_name: this.selectedRow.parent_name,
+                parent_phone: this.selectedRow.parent_phone,
+                enquiry_id: this.selectedRow.institute_enquiry_id,
+                institute_enquiry_id: this.selectedRow.institute_enquiry_id
+              }
+              localStorage.setItem('studentPrefill', JSON.stringify(obj));
+              this.router.navigate(['student/add']);
+            }
+            else {
+              this.closePopup();
+               this.loadTableDatatoSource(this.instituteData);
+            }
           },
           err => {
             this.isRippleLoad = false;
@@ -2178,7 +2213,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   deleteEnquiry() {
     this.isRippleLoad = true;
     //console.log(this.selectedRow.institute_enquiry_id);
-    this.busy = this.postdata.deleteEnquiryById(this.selectedRow.institute_enquiry_id).subscribe(
+     this.postdata.deleteEnquiryById(this.selectedRow.institute_enquiry_id).subscribe(
       res => {
         this.isRippleLoad = false;
         let alert = {
@@ -2189,7 +2224,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.appC.popToast(alert);
         this.closePopup();
         this.cd.markForCheck();
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       },
       err => {
         this.isRippleLoad = false;
@@ -2200,7 +2235,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         }
         this.appC.popToast(alert);
         this.closePopup();
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
     )
   }
@@ -2961,7 +2996,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           title: 'Enquiries Assigned',
         }
         this.appC.popToast(msg);
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
         this.bulkAssignEnquiriesClose();
         this.cd.markForCheck();
       },
@@ -3006,7 +3041,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.stats.All.checked = true;
     this.stats.Open.checked = false;
     this.stats.Registered.checked = false;
-    this.stats.Admitted.checked = false;
+    this.stats.Student_Admitted.checked = false;
     this.stats.Registered.checked = false;
     this.stats.Inactive.checked = false;
     this.statusString = [];
@@ -3049,10 +3084,16 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.closeEnquiryFullDetails();
     this.isSideBar = false;
     this.isRippleLoad = true;
-    this.busy = this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
+    if (this.advancedFilterForm.followUpDate != null && this.advancedFilterForm.followUpDate != '' && this.advancedFilterForm.followUpDate != 'Invalid date') {
+      this.advancedFilterForm.is_recent = "N";
+    }
+    else if (this.advancedFilterForm.followUpDate == null || this.advancedFilterForm.followUpDate != '' || this.advancedFilterForm.followUpDate != 'Invalid date') {
+      this.advancedFilterForm.is_recent = "Y";
+    }
+     this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
       data => {
         this.isRippleLoad = false;
-        this.sourceEnquiry = data
+        this.sourceEnquiry = data;
         /* pagination defination here */
         if (this.sourceEnquiry.length != 0) {
           this.totalEnquiry = data[0].totalcount;
@@ -3264,7 +3305,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
     this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
     this.instituteData.filtered_statuses = this.statusString.join(',');
-    this.busy = this.loadTableDatatoSource(this.instituteData);
+     this.loadTableDatatoSource(this.instituteData);
   }
 
 
@@ -3281,11 +3322,11 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.stats.All.checked = true;
     this.stats.Open.checked = false;
     this.stats.Registered.checked = false;
-    this.stats.Admitted.checked = false;
+    this.stats.Student_Admitted.checked = false;
     this.stats.Registered.checked = false;
     this.statusString = [];
     this.instituteData.filtered_statuses = this.statusString.join(',');
-    this.busy = this.loadTableDatatoSource(this.instituteData);
+     this.loadTableDatatoSource(this.instituteData);
   }
 
   /* =========================================================================== */
@@ -3336,7 +3377,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       order_by: "",
       commentShow: 'false'
     };
-    this.busy = this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
+     this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
       res => {
         this.isRippleLoad = false;
         let byteArr = this.convertBase64ToArray(res.document);
@@ -3574,7 +3615,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.instituteData.order_by = this.currentDirection;
     this.instituteData.filtered_statuses = this.statusString.join(',');
     this.cd.markForCheck();
-    this.busy = this.loadTableDatatoSource(this.instituteData);
+     this.loadTableDatatoSource(this.instituteData);
 
   }
 
@@ -3868,7 +3909,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           this.cd.markForCheck();
           this.appC.popToast(msg);
           this.closePopup();
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         },
         err => {
           this.isRippleLoad = false;
@@ -3911,6 +3952,49 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       this.currentDirection = "desc";
     }
   }
+
+  roleManagementForBulkAdd() {
+    this.bulkAddItems = [];
+    let permissionArray: any = sessionStorage.getItem('permissions');
+    if (permissionArray == "" || permissionArray == null) {
+      this.giveFullPermisionOfBulfAction();
+    } else {
+      if (permissionArray != undefined) {
+        if (permissionArray.indexOf('115') != -1) {
+          this.giveFullPermisionOfBulfAction();
+        } else {
+          this.bulkAddItems = [
+            {
+              label: 'Send SMS', icon: 'fa-envelope-o', command: () => {
+                this.sendBulkSms();
+              }
+            }
+          ];
+        }
+      }
+    }
+  }
+
+  giveFullPermisionOfBulfAction() {
+    this.bulkAddItems = [
+      {
+        label: 'Send SMS', icon: 'fa-envelope-o', command: () => {
+          this.sendBulkSms();
+        }
+      },
+      {
+        label: 'Delete Enquiries', icon: 'fa-trash-o', command: () => {
+          this.bulkDeleteEnquiries();
+        }
+      },
+      {
+        label: 'Assign Enquiries', icon: 'fa-buysellads', command: () => {
+          this.bulkAssignEnquiriesOpen();
+        }
+      }
+    ];
+  }
+
 }
 
 

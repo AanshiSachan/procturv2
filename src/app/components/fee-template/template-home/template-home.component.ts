@@ -48,7 +48,7 @@ export class TemplateHomeComponent implements OnInit {
   additionalInstallment = {
     days: 0,
     day_type: 1,
-    fee_type: 0,
+    fee_type: -1,
     fees_amount: 0,
     initial_fee_amount: 0,
     is_referenced: 'N',
@@ -464,6 +464,15 @@ export class TemplateHomeComponent implements OnInit {
 
 
   addAdditionalInst() {
+    if (this.additionalInstallment.fee_type == -1) {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: "Please provide fee type"
+      }
+      this.appC.popToast(msg);
+      return;
+    }
     if (Number(this.additionalInstallment.initial_fee_amount) > 0 && this.additionalInstallment.days != null) {
       // this.additionalInstallment.fees_amount = this.additionalInstallment.initial_fee_amount;
       if (this.additionalInstallment.fees_amount == 0) {
@@ -481,7 +490,7 @@ export class TemplateHomeComponent implements OnInit {
       this.additionalInstallment = {
         days: 0,
         day_type: 1,
-        fee_type: 0,
+        fee_type: -1,
         fees_amount: 0,
         initial_fee_amount: 0,
         is_referenced: 'N',
@@ -544,6 +553,27 @@ export class TemplateHomeComponent implements OnInit {
   cancelTemplateName() {
     this.isHeaderEdit = false;
     this.selectedTemplate.template_name = this.templateName;
+  }
+
+  feeTypesAmountChnge(data) {
+    if (data.service_tax == 0) {
+      data.initial_fee_amount = Math.floor(Number(data.fees_amount));
+    } else {
+      data.initial_fee_amount = Math.floor(Number(data.fees_amount)) - Math.floor(Number(data.fees_amount) - Number((data.fees_amount * 100) / (100 + data.service_tax)));
+      data.initial_fee_amount = Math.floor(data.initial_fee_amount);
+    }
+    this.calculateTotalAmount();
+  }
+
+  feeInstallmentChnge(data) {
+    if (data.service_tax_applicable == "N") {
+      data.initial_fee_amount = data.fees_amount;
+    } else {
+      data.tax = data.fees_amount - Math.floor(Number(data.fees_amount) * 100 / (100 + data.service_tax));
+      data.taxAmount = data.tax;
+      data.initial_fee_amount = data.fees_amount - data.tax;
+    }
+    this.calculateTotalAmount();
   }
 
 }

@@ -265,11 +265,13 @@
                             <input readonly="true" class="side-form-ctrl blocked" [(ngModel)]="rowData.parent_name" type="text" name="ParentName" id="ParentName">
                         </div>
                         <div class="form-wrapper ">
-                            <label for="Standard">Standard</label>
+                            <label *ngIf="isLangInstitute" for="Standard">Master Course</label>
+                            <label *ngIf="!isLangInstitute" for="Standard">Standard</label>
                             <input readonly="true" id="Standard" class="side-form-ctrl blocked" [(ngModel)]="rowData.standard" type="text" name="Standard">
                         </div>
                         <div class="form-wrapper ">
-                            <label for="Subject">Subject</label>
+                            <label *ngIf="isLangInstitute" for="Subject">Course</label>
+                            <label *ngIf="!isLangInstitute" for="Subject">Subject</label>
                             <input readonly="true" id="Subject" class="side-form-ctrl blocked" [(ngModel)]="rowData.subjects" type="text" name="Subject">
                         </div>
                         <div class="form-wrapper ">

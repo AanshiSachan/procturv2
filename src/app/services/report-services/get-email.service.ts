@@ -14,11 +14,18 @@ export class getEmailService {
 
 
     /* set default value for each url, header and autherization on service creation */
-    constructor(private http: HttpClient, private auth1: AuthenticatorService, ) {
-        this.Authorization = sessionStorage.getItem('Authorization');
-        this.institute_id = sessionStorage.getItem('institute_id');
-        this.baseUrl = this.auth1.getBaseUrl();
-        this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
+    constructor(private http: HttpClient, private auth: AuthenticatorService, ) {
+        this.auth.currentAuthKey.subscribe(key => {
+            this.Authorization = key;
+            this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
+        })
+        this.auth.currentInstituteId.subscribe(id => {
+            this.institute_id = id;
+        });
+        // this.Authorization = sessionStorage.getItem('Authorization');
+        // this.institute_id = sessionStorage.getItem('institute_id');
+        this.baseUrl = this.auth.getBaseUrl();
+ 
     }
 
     getEmailMessages(obj): Observable<any> {

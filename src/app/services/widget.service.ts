@@ -11,9 +11,6 @@ import * as moment from 'moment';
 @Injectable()
 export class WidgetService {
 
-
-
-
     baseUrl: string = '';
     Authorization: any;
     headers;
@@ -21,10 +18,16 @@ export class WidgetService {
 
 
     constructor(private http: HttpClient, private auth: AuthenticatorService) {
-        this.institute_id = this.auth.getInstituteId();
-        this.Authorization = this.auth.getAuthToken();
+        this.auth.currentAuthKey.subscribe(key => {
+            this.Authorization = key;
+            this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
+        })
+        this.auth.currentInstituteId.subscribe(id => {
+            this.institute_id = id;
+        });
+        // this.institute_id = this.auth.getInstituteId();
+        // this.Authorization = this.auth.getAuthToken();
         this.baseUrl = this.auth.getBaseUrl();
-        this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
     }
 
 
@@ -154,6 +157,19 @@ export class WidgetService {
         )
     }
 
+
+    cancelBatchSchedule(obj) {
+        let url = this.baseUrl +"/api/v1/batchClsSched/cancel";
+
+        return this.http.put(url, obj, {headers: this.headers}).map(
+            res => {
+                return res;
+            },
+            err => {
+                return err;
+            }
+        )
+    }
 
     notifyStudentSchedule(obj) {
         let url = this.baseUrl + "/api/v1/coursePlanner/notify";

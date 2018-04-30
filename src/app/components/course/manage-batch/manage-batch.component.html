@@ -18,14 +18,13 @@
         </div>
       </div>
     </div>
-    <section class="clearFix create-standard-form " *ngIf="createNewBatch ">
-
+    <section class="clearFix create-standard-form " *ngIf="createNewBatch">
 
       <div class="row">
         <div class="c-lg-6 c-sm-6 c-md-6">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewBatch.standard_id != ''}">
             <select id="" class="form-ctrl halfwidth" name="row.standard_id" [(ngModel)]="addNewBatch.standard_id" (change)="onMasterCourseSelection(addNewBatch.standard_id)">
-              <option value="-1">"---Select---"</option>
+              <option value="-1"></option>
               <option *ngFor="let opt of courseList" [value]="opt.standard_id">
                 {{opt.standard_name}}
               </option>
@@ -38,7 +37,7 @@
         <div class="c-lg-6 c-sm-6 c-md-6">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewBatch.subject_id != ''}">
             <select id="" class="form-ctrl halfwidth" name="row.subject_id" [(ngModel)]="addNewBatch.subject_id">
-              <option value="-1">"---Select---"</option>
+              <option value="-1"></option>
               <option *ngFor="let opt of subjectList" [value]="opt.subject_id">
                 {{opt.subject_name}}
               </option>
@@ -54,7 +53,7 @@
         <div class="c-lg-6 c-sm-6 c-md-6">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewBatch.class_room_id != ''}">
             <select id="" class="form-ctrl halfwidth" name="row.class_room_id" [(ngModel)]="addNewBatch.class_room_id">
-              <option value="-1">"---Select---"</option>
+              <option value="-1"></option>
               <option *ngFor="let opt of classRoomList" [value]="opt.class_room_id">
                 {{opt.class_room_name}}
               </option>
@@ -66,12 +65,13 @@
         <div class="c-lg-6 c-sm-6 c-md-6">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewBatch.teacher_id != ''}">
             <select id="" class="form-ctrl halfwidth" name="row.teacher_id" [(ngModel)]="addNewBatch.teacher_id">
-              <option value="-1">"---Select---"</option>
+              <option value="-1"></option>
               <option *ngFor="let opt of teacherList" [value]="opt.teacher_id">
                 {{opt.teacher_name}}
               </option>
             </select>
             <label>Faculty Name
+              <span style="color:red">*</span>
             </label>
           </div>
         </div>
@@ -126,18 +126,32 @@
       <div class="row" style="margin-top: 15px;">
         <div class="c-lg-6 c-sm-6 c-md-6">
           <div class="field-checkbox-wrapper">
-            <input type="checkbox" class="form-checkbox" [(ngModel)]="addNewBatch.is_active">
-            <label>Is Active</label>
+            <input type="checkbox" id="isActiveCH" name="isActiveCH" class="form-checkbox" [(ngModel)]="addNewBatch.is_active">
+            <label for="isActiveCH">Is Active</label>
           </div>
         </div>
+        <div class="c-lg-6 c-sm-6 c-md-6" *ngIf="examGradeFeature == '1'">
+          <div class="field-checkbox-wrapper">
+            <input id="enableChkBX" name="enableChkBX" type="checkbox" class="form-checkbox" [(ngModel)]="addNewBatch.is_exam_grad_feature">
+            <label for="enableChkBX">Enable Exam Grading System</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
         <div class="c-lg-6 c-sm-6 c-md-6">
-          <aside class="pull-left create-cancel-small ">
-            <button class="btn fullBlue" (click)="addNewBatchToList() ">Add</button>
+
+        </div>
+        <div class="c-lg-6 c-sm-6 c-md-6">
+          <aside class="pull-left">
+            <button class="btn fullBlue" (click)="addNewBatchToList()">Add</button>
           </aside>
         </div>
       </div>
 
     </section>
+
+
     <div id="" class="courses-list-table" style="margin-left: -15px">
       <div class="table-scroll-wrapper tableBatchClass">
         <div class="table table-responsive ">
@@ -252,7 +266,8 @@
                 </td>
                 <td class="edit-comp">
                   <div class="field-wrapper">
-                    <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="row.end_date" name="endDate" bsDatepicker id="endDate">
+                    <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="row.end_date" name="endDate" bsDatepicker
+                      id="endDate">
                     <label for="endDate">
                     </label>
                   </div>
@@ -283,7 +298,7 @@
                 </td>
 
                 <td>
-                  {{row.total_students}}
+                  <span *ngIf="row.is_active == 'Y'">{{row.total_students}}</span>
                 </td>
 
                 <td class="view-comp">
@@ -371,7 +386,7 @@
           <div class="pull-right">
             <div class="search-filter-wrapper">
               <input #searchVal type="text" class="normal-field pull-right" placeholder="Search" style="font-size:12px;margin-right: 15px;"
-                id="searchStudent" name="searchData" (keyup)="searchStudent(searchVal) ">
+                id="searchStudent" name="searchData" [(ngModel)]="searchData">
             </div>
           </div>
         </div>
@@ -384,7 +399,7 @@
                 <div class="field-checkbox-wrapper">
                   <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked" (click)="selectAllCheckBox(idSelectAll)">
                   <label></label>
-                  <span>Assign?UnAssign</span>
+                  <span>Assign/UnAssign</span>
                 </div>
               </th>
               <th>
@@ -397,20 +412,23 @@
                 Contact No.
               </th>
               <th>
-                Joining Date
-              </th>
-              <th>
                 Institution Name
               </th>
               <th>
                 Standard Class
               </th>
+              <th>
+                Academic Year
+              </th>
+              <th>
+                Fee Template
+              </th>
             </thead>
             <tbody>
-              <tr id="row{{i}}" *ngFor="let row of studentList; let i = index; trackBy: i;">
+              <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
                 <td>
                   <div class="field-checkbox-wrapper">
-                    <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
+                    <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned" (ngModelChange)="onCheckBoxClicked(row , $event , i)">
                     <label></label>
                   </div>
                 </td>
@@ -424,13 +442,30 @@
                   {{row.student_phone}}
                 </td>
                 <td>
-                  {{row.doj}}
-                </td>
-                <td>
                   {{row.school}}
                 </td>
                 <td>
                   {{row.student_class}}
+                </td>
+                <td>
+                  <div class="field-wrapper">
+                    <select class="form-ctrl" [(ngModel)]="row.academic_year" style="background: transparent">
+                      <option value="-1">Select</option>
+                      <option *ngFor="let opt of academicList" [value]="opt.inst_acad_year_id">
+                        {{opt.inst_acad_year}}
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="field-wrapper">
+                    <select class="form-ctrl" [(ngModel)]="row.assigned_fee_template_id" style="background: transparent">
+                      <option value="-1">Select</option>
+                      <option *ngFor="let opt of feeTemplateDataSource" [value]="opt.template_id">
+                        {{opt.template_name}}
+                      </option>
+                    </select>
+                  </div>
                 </td>
               </tr>
               <tr *ngIf="(studentList.length == 0)">
@@ -443,7 +478,7 @@
         </div>
 
         <div class="pull-right">
-          <button class="btn" (click)="saveChanges()">Save</button>
+          <button class="btn fullBlue" (click)="saveChanges()">Save</button>
         </div>
       </div>
     </div>

@@ -35,136 +35,13 @@
 
               <li class="enquiry-state item" data-id="2">
                 <div class="item-content">
-                  <!-- <div class="actb-top-header clearfix">
-                    <span class="heading">
-                      Enquiry Stats
-                    </span>
-                    <button class="pull-right drag-button hide">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
-                        />
-                      </svg>
-                    </button>
-                    <button class="pull-right" (click)="openCalendar('enqWidDate')">
-
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <g fill="#0084F6" fill-rule="nonzero">
-                          <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
-                          />
-                          <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
-                          />
-                        </g>
-                      </svg>
-                    </button>
-                    <input type="text" value="" id="enqWidDate" class="widgetDatepicker bsDatepicker" name="enqWidDate" [(ngModel)]="enquiryDate"
-                      (ngModelChange)="updateEnqChartByDate($event)" readonly="true" bsDaterangepicker/>
-                    <span class="enquiry-state-date pull-right">
-                      {{getEnqStartDate()| date: 'dd MMM yyyy'}} To {{getEnqEndDate()| date: 'dd MMM yyyy'}}
-                    </span>
-                  </div>
-                  <div class="enq-state-bottom">
-                    <div class="enq-left">
-                      <div id="enqChart" [chart]="chart">
-                      </div>
-                    </div>
-                    <div class="enq-right">
-                      <div class="enq-state-details">
-                        <div class="enq">
-                          <div class="enqs-label">
-                            <span class=""></span>
-                            <label>Total Enquiries</label>
-                          </div>
-                          <div class="enqs-value">
-                            {{getDetails('total')}}
-                          </div>
-                        </div>
-                        <div class="enq">
-                          <div class="enqs-label">
-                            <span class="open"></span>
-                            <label>Open</label>
-                          </div>
-                          <div class="enqs-value">
-                            {{getDetails('open')}}
-                          </div>
-                        </div>
-                        <div class="enq">
-                          <div class="enqs-label">
-                            <span class="inprogress"></span>
-                            <label>In Progress</label>
-                          </div>
-                          <div class="enqs-value">
-                            {{getDetails('ip')}}
-                          </div>
-                        </div>
-                        <div class="enq">
-                          <div class="enqs-label">
-                            <span class="admmited"></span>
-                            <label>Admitted</label>
-                          </div>
-                          <div class="enqs-value">
-                            {{getDetails('admitted')}}
-                          </div>
-                        </div>
-                        <div class="enq">
-                          <div class="enqs-label">
-                            <span class="closed"></span>
-                            <label>Closed</label>
-                          </div>
-                          <div class="enqs-value">
-                            {{getDetails('closed')}}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div> -->
                   <enquiry-widget></enquiry-widget>
                 </div>
               </li>
 
-              <li [ngClass]="{hide : (permissionArray != '' && permissionArray != null)}" class="fees-state item" data-id="3">
+              <li [ngClass]="{hide : checkRoleMAnagement()}" class="fees-state item" data-id="3">
                 <div class="item-content">
-                  <div class="actb-top-header clearfix">
-                    <span class="heading">
-                      Fees stats
-                    </span>
-                    <button class="pull-right drag-button hide">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493 0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85 6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683 1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494 0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494 0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z"
-                        />
-                      </svg>
-                    </button>
-                    <button class="pull-right" (click)="openCalendar('feeWidDate')">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <g fill="#0084F6" fill-rule="nonzero">
-                          <path d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z"
-                          />
-                          <path d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z"
-                          />
-                        </g>
-                      </svg>
-                    </button>
-                    <input type="text" value="" id="feeWidDate" class="widgetDatepicker bsDatepicker" name="enqWidDate" [(ngModel)]="feeDate"
-                      (ngModelChange)="updateFeeByDate()" readonly="true" bsDaterangepicker/>
-                    <span class="enquiry-state-date pull-right">
-                      {{getFeeStartDate()| date: 'dd MMM yyyy'}} To {{getFeeEndDate()| date: 'dd MMM yyyy'}}
-                    </span>
-                  </div>
-                  <div class="fees-state-bottom">
-                    <ul>
-                      <li>
-                        <label>Total Fees Collection</label>
-                        <div>Rs. {{getFeeAmount('total') | commaSeprator}}</div>
-                      </li>
-                      <li>
-                        <label>Total Fees Collection(others)</label>
-                        <div>Rs. {{getFeeAmount('pending') | commaSeprator}} </div>
-                      </li>
-                      <li>
-                        <label>Total Dues</label>
-                        <div>Rs. {{getFeeAmount('past') | commaSeprator}}</div>
-                      </li>
-                    </ul>
-                  </div>
+                  <fee-widget></fee-widget>
                 </div>
               </li>
 
@@ -245,11 +122,11 @@
                         <li class="batch">Courses</li>
                       </ul>
                       <ul class="sche-head" *ngIf="isProfessional">
-                        <li>Timings</li>
+                        <li class="timings">Timings</li>
                         <li class="cls-type">Class type</li>
-                        <li>Class Room</li>
-                        <li>Batch</li>
-                        <li>Faculty</li>
+                        <li class="class_room">Class Room</li>
+                        <li class="batch">Batch</li>
+                        <li class="faculty">Faculty</li>
                       </ul>
                       <div class="schedule-scroller" *ngIf="!isProfessional && isSubjectView">
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
@@ -298,7 +175,7 @@
                             </li>
                           </ul>
                           <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
-                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHideCourse()" (click)="initiateCourseMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateCourseMarkAttendance(i, class)">Update Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
@@ -310,9 +187,8 @@
                       <div class="schedule-scroller" *ngIf="isProfessional">
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
-                            <li>
+                            <li class="timings">
                               <div>{{class.start_time}} - {{class.end_time}}</div>
-                              <p>{{class.class_room_name}}</p>
                             </li>
                             <li class="cls-type">
                               <div>
@@ -321,27 +197,28 @@
                                 <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
                               </div>
                             </li>
-                            <li>
+                            <li class="class_room">
+                              <div>
+                                <span>
+                                  {{class.class_room_name}}
+                                </span>
+                              </div>
+
+                            </li>
+                            <li class="batch">
                               <div>{{class.batch_name}}</div>
                             </li>
-                            <li>
+                            <li class="faculty">
                               <div>{{class.teacher_name}}</div>
                             </li>
                           </ul>
                           <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
-                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="markAttendaceHide(class)"
-                              (click)="initiateMarkAttendance(i, class)">
-                              Mark Attendance</a>
-                            <a class="fish-chips" *ngIf="class.is_attendance_marked == 'Y'" style="cursor:pointer" (click)="initiateMarkAttendance(i, class)">
-                              View Attendance</a>
-                            <a class="fish-chips" *ngIf='class.is_attendance_marked !="Y"' style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
-                              (click)="initiateCancelClass()">Cancel</a>
-                            <a class="fish-chips" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="getReminderAndCancel(class)"
-                              (click)="initiateRemiderClass(i, class)">Class Reminder</a>
-                            <a class="fish-chips" *ngIf="class.is_attendance_marked != 'Y'" style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
-                              (click)="initiateRescheduleClass()">Reschedule</a>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
+                            <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">View Attendance</span>
+                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
+                            <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
+                            <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
                           </div>
-
                         </div>
                       </div>
                     </div>
@@ -349,48 +226,9 @@
                 </div>
               </li>
 
-              <li [ngClass]="{hide : (permissionArray != '' && permissionArray != null)}" class="general-state item" style="height: 150px;"
-                data-id="4">
+              <li [ngClass]="{hide : checkRoleMAnagement()}" class="general-state item" style="height: 150px;" data-id="4">
                 <div class="item-content">
-                  <div class="actb-top-header clearfix">
-                    <span class="heading">
-                      Account Details
-                    </span>
-                    <button class="pull-right drag-button hide">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="#0C8AF6" fill-rule="nonzero" d="M19.723 11.927a.487.487 0 0 0-.107-.16l-1.683-1.684a.493.493
-                              0 1 0-.698.697l.842.842h-5.7v-5.7l.878.879a.492.492 0 1 0 .698-.698l-1.72-1.72a.493.493 0 0 0-.697-.001L9.85
-                              6.066a.494.494 0 0 0 .697.698l.843-.842-.001 5.7H5.692l.84-.842a.493.493 0 0 0-.697-.697l-1.683
-                              1.684a.49.49 0 0 0 0 .697l1.72 1.72a.49.49 0 0 0 .698 0 .493.493 0 0 0 0-.697l-.88-.879h5.7v5.7l-.842-.841a.494.494
-                              0 0 0-.697.697l1.684 1.684a.49.49 0 0 0 .697 0l1.721-1.721a.493.493 0 1 0-.698-.698l-.879.88v-5.7h5.702l-.88.878a.494.494
-                              0 0 0 .698.698l1.72-1.72.004-.005a.506.506 0 0 0 .141-.345.496.496 0 0 0-.038-.188z" />
-                      </svg>
-                    </button>
-                  </div>
-                  <div class="general-s-bottom">
-                    <ul>
-                      <li>
-                        <label>Total active students</label>
-                        <a>{{genralStats.total}}/{{genralStats.student_limit}}</a>
-                      </li>
-                      <li>
-                        <label> Transactional Sms balance</label>
-                        <a>{{instituteSetting.institute_sms_quota_available}}</a>
-                      </li>
-                      <li>
-                        <label>Promotional Sms balance</label>
-                        <a>{{instituteSetting.institute_campaign_sms_quota_available}}</a>
-                      </li>
-                      <li>
-                        <label>Allocated Storage/Download Limit</label>
-                        <a>{{storageData.storage_allocated}} GB</a>
-                      </li>
-                      <li>
-                        <label>Expiry date</label>
-                        <div>{{genralStats.expiry}}</div>
-                      </li>
-                    </ul>
-                  </div>
+                  <general-widget></general-widget>
                 </div>
               </li>
 
@@ -946,7 +784,8 @@
     </span>
 
     <h2 widget-header>Cancel Schedule
-      <span style="font-weight: 300">{{classMarkedForAction.master_course}}</span> - {{classMarkedForAction.coursee_names}}
+      <span *ngIf="!isProfessional" style="font-weight: 300">{{classMarkedForAction.master_course}}</span> - {{classMarkedForAction.coursee_names}}
+      <span *ngIf="isProfessional" style="font-weight: 300">{{classMarkedForAction.batch_name}}</span>
     </h2>
 
     <div class="CancelWrapper" widget-content>
@@ -970,7 +809,8 @@
       <div class="clearfix">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeCourseCancelClass()">
-          <input type="button" value="Update Schedule" (click)="cancelCourseClass()" class="fullBlue btn">
+          <input *ngIf="!isProfessional" type="button" value="Update Schedule" (click)="cancelCourseClass()" class="fullBlue btn">
+          <input *ngIf="isProfessional" type="button" value="Cancel Class" (click)="cancelBatchClass()" class="fullBlue btn">
         </aside>
       </div>
     </div>
@@ -1091,6 +931,12 @@
                   <button class="btn" style=" margin-top: 15px;" (click)="fetchDataFromFields()">Go</button>
                 </div> -->
 
+                <div *ngIf="studentList.length > 0" class="pull-right" style="margin-top: 15px">
+                  <div class="search-filter">
+                    <input type="text" [(ngModel)]="searchData" class="normal-field" placeholder="Search" name="searchData" #searchVal>
+                  </div>
+                </div>
+
               </div>
 
               <div class="row filter-section" *ngIf="!isProfessional">
@@ -1167,7 +1013,7 @@
                     <tr>
                       <th>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" class="form-checkbox" [checked]="allChecked" (click)="checkAllChechboxes($event , studentList)">
+                          <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus()" (click)="checkAllChechboxes($event , studentList)">
                           <label></label>
                         </div>
                       </th>
@@ -1232,7 +1078,7 @@
                     <tr>
                       <th>
                         <div class="field-checkbox-wrapper">
-                          <input type="checkbox" class="form-checkbox" [checked]="allChecked" (click)="checkAllChechboxes($event , studentList)">
+                          <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus()" (click)="checkAllChechboxes($event , studentList)">
                           <label></label>
                         </div>
                       </th>
@@ -1358,7 +1204,7 @@
                           <th class="dateSection">
                             Date
                           </th>
-                          <th>
+                          <th style="text-align: left">
                             Message
                           </th>
                         </tr>
@@ -1425,10 +1271,10 @@
                   </div>
                 </div>
 
-                <div class="" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor')">
-                  <button class="btn" (click)="sendSmsForApp('1')">Send SMS For App Download</button>
-                  <button class="btn" (click)="sendSmsForApp('2')">Send SMS For App Upgradation</button>
-                  <button class="btn" (click)="sendSmsForApp('3')">Send SMS For Alternate Login Registration</button>
+                <div class="row btn-loginGroup" *ngIf="studentSelected && (selectedOption == 'showTable' || selectedOption == 'filter' || selectedOption == 'showTutor')">
+                  <button class="btn" (click)="sendSmsForApp('1')">SMS For App Download</button>
+                  <button class="btn" (click)="sendSmsForApp('2')">SMS For App Upgradation</button>
+                  <button class="btn" (click)="sendSmsForApp('3')">SMS For Alternate Login Registration</button>
                   <button class="btn" (click)="sendSmsForApp('4')">Send Credentials</button>
                 </div>
 
@@ -1453,9 +1299,6 @@
       </div>
     </div> -->
   </proctur-widget>
-
-
-  <!-- ///////////////View Details POP up //////////////////////////////////// -->
 
   <proctur-widget *ngIf="viewDetailsPopUp">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeViewDetailsPopUp()" close-button>

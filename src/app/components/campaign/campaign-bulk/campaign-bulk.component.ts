@@ -5,13 +5,13 @@ import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn, NgForm } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
-import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from '../../../../assets/imported_modules/multiselect-dropdown';
 import * as moment from 'moment';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { CampaignService } from '../../../services/campaign-services/campaign.service';
 import { addCampaign } from '../../../model/add-campaign';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
+import {AuthenticatorService} from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-campaign-bulk',
@@ -38,7 +38,7 @@ export class CampaignBulkComponent implements OnInit {
 
   isProfessional: boolean = false;
 
-  constructor(private fetchData: CampaignService, private router: Router, private login: LoginService, private appC: AppComponent, private prefill: FetchprefilldataService  ) { }
+  constructor(private fetchData: CampaignService, private router: Router, private login: LoginService, private appC: AppComponent, private prefill: FetchprefilldataService, private auth: AuthenticatorService) { }
 
   ngOnInit() {
 
@@ -81,7 +81,8 @@ export class CampaignBulkComponent implements OnInit {
 
   /* base64 data to be converted to xls file */
   downloadTemplate() {
-    window.open("http://test999.proctur.com/doc/lead_upload_form.xls", "_blank");
+    //console.log(this.auth.getBaseUrl);
+    window.open("https://app.proctur.com/doc/lead_upload_form.xls", "_blank");
   }
 
   /* convert base64 string to byte array */
@@ -122,7 +123,7 @@ export class CampaignBulkComponent implements OnInit {
     
                 //
     
-                let urlPostXlsDocument = "http://test999.proctur.com/CampaignListUpload";
+                let urlPostXlsDocument = "https://app.proctur.com/CampaignListUpload";
     
                 let xhr: XMLHttpRequest = new XMLHttpRequest();
     

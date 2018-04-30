@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { InstituteSettingsComponent } from './institute-settings.component';
 import { SharedModule } from '../shared/shared.module';
-import { InstituteSettingService } from '../../services/institute-setting-service/institute-setting-service';
+import { InstituteSettingService } from '../../services/institute-setting-service/institute-setting.service';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({

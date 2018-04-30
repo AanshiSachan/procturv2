@@ -60,7 +60,7 @@ export class CreateCustomCompComponent implements OnInit {
 
   ngOnInit() {
 
-    this.busy = this.fetchPrefillData();
+    this.fetchPrefillData();
 
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
@@ -120,7 +120,7 @@ export class CreateCustomCompComponent implements OnInit {
         /* Validate Prefilled Data */
         if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
           if (this.validateDropdownDefvalue(this.createCustomComponentForm.prefilled_data, this.createCustomComponentForm.defaultValue)) {
-            this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+            this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
               res => {
                 let alert = {
                   type: 'success',
@@ -166,38 +166,28 @@ export class CreateCustomCompComponent implements OnInit {
       else if (this.createCustomComponentForm.type == "5") {
         /* Date cannot be searchable and does not a default value */
         if (this.createCustomComponentForm.is_searchable == "N" && this.createCustomComponentForm.defaultValue.trim() == "") {
-          if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
-            this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
-              res => {
-                let alert = {
-                  type: 'success',
-                  title: 'Form-Field Updated',
-                }
-                this.isNewComponent = false;
-                document.getElementById('addComponent-icon').innerHTML = "+"
-                this.clearComponentForm();
-                this.appC.popToast(alert);
-                this.fetchPrefillData();
-              },
-              err => {
-                let alert = {
-                  type: 'error',
-                  title: 'Failed To Add Form-Field',
-                  body: 'There was an error processing your request' + JSON.parse(err._body).message
-                }
-                this.appC.popToast(alert);
+          this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+            res => {
+              let alert = {
+                type: 'success',
+                title: 'Form-Field Updated',
               }
-            );
-            this.busy = this.fetchPrefillData();
-          }
-          else {
-            let alert = {
-              type: 'error',
-              title: 'Invalid Input',
-              body: 'Prefill data has to be unique and non-empty'
+              this.isNewComponent = false;
+              document.getElementById('addComponent-icon').innerHTML = "+"
+              this.clearComponentForm();
+              this.appC.popToast(alert);
+              this.fetchPrefillData();
+            },
+            err => {
+              let alert = {
+                type: 'error',
+                title: 'Failed To Add Form-Field',
+                body: 'There was an error processing your request' + JSON.parse(err._body).message
+              }
+              this.appC.popToast(alert);
             }
-            this.appC.popToast(alert);
-          }
+          );
+          this.fetchPrefillData();
         }
         else {
           let obj = {
@@ -211,7 +201,7 @@ export class CreateCustomCompComponent implements OnInit {
 
       /* Textbox and Checkbox */
       else if (this.createCustomComponentForm.type != "3" && this.createCustomComponentForm.type != "4" && this.createCustomComponentForm.type != "5") {
-        this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+        this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
           res => {
             let alert = {
               type: 'success',
@@ -232,7 +222,7 @@ export class CreateCustomCompComponent implements OnInit {
             this.appC.popToast(alert);
           }
         );
-        this.busy = this.fetchPrefillData();
+        this.fetchPrefillData();
         /* if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
         }
         else {
@@ -374,34 +364,24 @@ export class CreateCustomCompComponent implements OnInit {
       else if (data.type == "5") {
         /* Date cannot be searchable and does not a default value */
         if (data.is_searchable == "N" && data.defaultValue.trim() == "") {
-          if (this.validateDropDown(data.prefilled_data)) {
-            this.postdata.updateCustomComponent(data).subscribe(
-              res => {
-                let alert = {
-                  type: 'success',
-                  title: 'Form-Field Updated',
-                }
-                this.appC.popToast(alert);
-                this.cancelEditRow();
-              },
-              err => {
-                let alert = {
-                  type: 'error',
-                  title: 'Failed To Update Component',
-                  body: JSON.parse(err._body).message
-                }
-                this.appC.popToast(alert);
+          this.postdata.updateCustomComponent(data).subscribe(
+            res => {
+              let alert = {
+                type: 'success',
+                title: 'Form-Field Updated',
               }
-            );
-          }
-          else {
-            let alert = {
-              type: 'error',
-              title: 'Invalid Input',
-              body: 'Prefill data has to be unique and non-empty'
+              this.appC.popToast(alert);
+              this.cancelEditRow();
+            },
+            err => {
+              let alert = {
+                type: 'error',
+                title: 'Failed To Update Component',
+                body: JSON.parse(err._body).message
+              }
+              this.appC.popToast(alert);
             }
-            this.appC.popToast(alert);
-          }
+          );
         }
         else {
           let obj = {

@@ -29,7 +29,6 @@ header {
     }
 }
 
-
 /*===========================header search tube========================*/
 
 .header-search {
@@ -44,14 +43,14 @@ header {
         padding-right: 35px;
         height: 35px;
         font-size: 16px;
-        color: #ccd1d9;
+        color: black;
     }
     .form-btn-head {
         background: transparent;
         position: absolute;
         width: 37px;
         top: 0;
-        right: 0;
+        right: 2px;
         height: 100%;
         cursor: pointer;
         svg {
@@ -60,9 +59,7 @@ header {
     }
 }
 
-
 /*===========================header menu navigation=============================*/
-
 
 /* =================right side nav bar==================*/
 
@@ -253,16 +250,44 @@ header {
     z-index: 11;
 }
 
-
-
-
-
 // search css for header
-.header-search .form-ctrl-head
-{
-    width: 322px;
+.header-search {
+    .form-ctrl-head {
+        &.searchbox {
+            width: 300px;
+            transition: 0.5s ease;
+            border-radius: 5px;
+            &.has-focus {
+                width: 600px;
+            }
+        }
+    }
+    &:hover {
+        .form-ctrl-head {
+            &.searchbox {
+                width: 600px;
+                transition: 0.5s;
+                border-radius: 5px;
+            }
+        }
+    }
 }
-.search-dropdown{
+
+.header-search {
+    .form-ctrl-head {
+        &.searchbox {
+            &:focus {
+                .search-dropdown {
+                    opacity: 1;
+                    visibility: visible;
+                    transform: translateY(0);
+                }
+            }
+        }
+    }
+}
+
+.search-dropdown {
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s ease;
@@ -273,23 +298,29 @@ header {
     border-radius: 0;
     padding: 8px 16px;
     box-sizing: border-box;
-    width: 100%;
-    .sdb{
-        &>li{
+    width: 600px;
+    left: 251px;
+    margin-top: 10px;
+    &.searchView {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    .sdb {
+        &>li {
             padding: 8px 0;
             border-bottom: 2px solid rgba(211, 212, 213, 0.2);
             margin-bottom: 16px;
-            &:last-child{
+            &:last-child {
                 border-bottom: 0;
                 margin-bottom: 0;
             }
-            h5{
+            h5 {
                 display: flex;
                 justify-content: space-between;
-                color:#1e2328;    
-                font-size: 14px;  
-                           
-                span{
+                color: #1e2328;
+                font-size: 14px;
+                span {
                     text-transform: uppercase;
                     opacity: 0.8;
                     margin-bottom: 4px;
@@ -297,38 +328,49 @@ header {
                 }
                 margin-bottom: 12px;
             }
-
         }
     }
-    .in-student-list{
-        &>li{
+    .in-student-list {
+        &>li {
             margin-bottom: 0px;
-            a{
+            a {
                 display: block;
                 margin: 0 -15px;
                 padding: 8px 15px;
-                &:hover{
+                &:hover {
                     background: rgba(27, 96, 163, 0.09019607843137255);
                 }
-                img{
+                img {
                     float: left;
                     width: 24px;
                     height: 24px;
                     border-radius: 50%;
                     margin-right: 12px;
                 }
-                .sdb-right{
+                .sdb-right {
                     display: block;
                     overflow: hidden;
                     color: rgba(30, 35, 40, 0.7);
-                    label{
+                    label {
                         display: block;
                         margin-bottom: 6px;
-                        strong{
+                        strong {
                             font-weight: 600;
                         }
+                        &.recent{
+                            display: inline-block;
+                            margin-bottom: 6px;
+                            width: 60%;
+                        }
+                        &.delete{
+                            display: inline-block;
+                            margin-bottom: 6px;
+                            font-family: FontAwesome;
+                            color: rgba(30, 35, 40, 0.7);
+                            width: 35%;
+                        }
                     }
-                    span{
+                    span {
                         font-size: 12px;
                     }
                 }
@@ -336,14 +378,49 @@ header {
         }
     }
 }
-.header-search .form-ctrl-head:focus + .search-dropdown{
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-@media only screen and (max-width: 960px) and (min-width: 768px)
-{
-    .header-search .form-ctrl-head {
-        width: 244px;
+
+@media only screen and (max-width: 960px) and (min-width: 768px) {
+    // search css for header
+    .header-search {
+        position: relative;
+        left: 170px;
+        top: 7px;
+        .form-ctrl-head {
+            &.searchbox {
+                width: 122px;
+                transition: 0.5s ease;
+                border-radius: 5px;
+                &.has-focus {
+                    width: 244px;
+                }
+            }
+        }
+        &:hover {
+            .form-ctrl-head {
+                &.searchbox {
+                    width: 244px;
+                    transition: 0.5s;
+                    border-radius: 5px;
+                }
+            }
+        }
+    }
+    .header-search {
+        .form-ctrl-head {
+            &.searchbox {
+                &:focus {
+                    .search-dropdown {
+                        opacity: 1;
+                        visibility: visible;
+                        transform: translateY(0);
+                    }
+                }
+            }
+        }
+    }
+    .search-dropdown {
+        width: 245px;
+        left: 171px;
+        margin-top: 10px;
     }
 }

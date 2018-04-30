@@ -5,7 +5,7 @@ declare var Croppie: any;
 @Component({
   selector: 'proctur-image',
   templateUrl: './picture-crop.component.html',
-  styleUrls: ['./picture-crop.component.css']
+  styleUrls: ['./picture-crop.component.scss']
 })
 
 export class PictureCropComponent implements OnInit, OnChanges {
@@ -28,6 +28,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
   @Input() containerHeight: string = '200px';
   @Input() readonly: boolean = false;
   @Input() serverImg: string;
+  @Input() isSidenav: boolean = false;
   @Input() defaultImg: string = 'assets/images/bluecamera.png';
 
   @Output() getImage = new EventEmitter<boolean>();
@@ -49,6 +50,9 @@ export class PictureCropComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    if(this.isSidenav){
+      this.imgContainer.nativeElement.classList.add("small")
+    }
     this.setContainerSize();
     this.setReadOnly();
     this.setRemoveImg();
@@ -107,13 +111,15 @@ export class PictureCropComponent implements OnInit, OnChanges {
     this.isCrop = true;
     const context = this.canvas.nativeElement.getContext('2d');
     context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
-    document.getElementById('my-image').setAttribute('src', this.canvas.nativeElement.toDataURL('image/png'));
+    this.cropper.nativeElement.setAttribute('src', this.canvas.nativeElement.toDataURL('image/png'));
+    //document.getElementById('my-image').setAttribute('src', this.canvas.nativeElement.toDataURL('image/png'));
     this.getImage.emit(true);
     this.func();
   }
 
   func() {
-    const uploadImage = document.getElementById('my-image');
+    //const uploadImage = document.getElementById('my-image');
+    let uploadImage = this.cropper.nativeElement;
     this.vanilla = new Croppie(uploadImage, {
       viewport: { width: 300, height: 300 },
       boundary: { width: 400, height: 400 },
@@ -171,12 +177,14 @@ export class PictureCropComponent implements OnInit, OnChanges {
   }
 
   readFile(file: any): any {
+    //debugger;
     this.isMenuVisible = false;
     const reader = new FileReader();
     const preview = this.cropper.nativeElement;
 
     reader.addEventListener('load', () => {
-      document.getElementById('my-image').setAttribute('src', reader.result);
+      preview.setAttribute('src', reader.result);
+      //document.getElementById('my-image').setAttribute('src', reader.result);
       this.func();
       this.isCrop = true;
       this.modalButton.nativeElement.click();

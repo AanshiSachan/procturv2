@@ -54,14 +54,14 @@
   "dependencies": {},
   "description": "An Angular Toaster Notification library based on AngularJS-Toaster",
   "devDependencies": {
-    "@angular/animations": "4.1.0",
-    "@angular/common": "4.1.0",
-    "@angular/compiler": "4.1.0",
-    "@angular/compiler-cli": "4.1.0",
-    "@angular/core": "4.1.0",
-    "@angular/platform-browser": "4.1.0",
-    "@angular/platform-browser-dynamic": "4.1.0",
-    "@angular/platform-server": "4.1.0",
+    "@angular/animations": ">=4.1.0",
+    "@angular/common": ">=4.1.0",
+    "@angular/compiler": ">=4.1.0",
+    "@angular/compiler-cli": ">=4.1.0",
+    "@angular/core": ">=4.1.0",
+    "@angular/platform-browser": ">=4.1.0",
+    "@angular/platform-browser-dynamic": ">=4.1.0",
+    "@angular/platform-server": ">=4.1.0",
     "@types/jasmine": "2.5.47",
     "@types/node": "7.0.12",
     "awesome-typescript-loader": "3.1.2",
@@ -84,15 +84,15 @@
     "remap-istanbul": "0.8.3",
     "rimraf": "2.5.4",
     "rollup": "0.41.6",
-    "rxjs": "5.2.0",
+    "rxjs": ">=5.2.0",
     "source-map-loader": "0.2.0",
     "ts-helpers": "1.1.2",
     "tslint": "5.3.2",
-    "typescript": "2.3.2",
+    "typescript": ">=2.3.2",
     "typings": "2.1.0",
     "uglify-js": "2.8.18",
-    "webpack": "2.3.2",
-    "zone.js": "0.8.5"
+    "webpack": ">=2.3.2",
+    "zone.js": ">=0.8.5"
   },
   "directories": {},
   "dist": {
@@ -124,10 +124,10 @@
   "name": "angular2-toaster",
   "optionalDependencies": {},
   "peerDependencies": {
-    "@angular/common": "^4.0.0",
-    "@angular/compiler": "^4.0.0",
-    "@angular/core": "^4.0.0",
-    "rxjs": "^5.0.0-beta.11"
+    "@angular/common": ">=4.0.0",
+    "@angular/compiler": ">=4.0.0",
+    "@angular/core": ">=4.0.0",
+    "rxjs": ">=5.0.0-beta.11"
   },
   "readme": "ERROR: No README data found!",
   "repository": {

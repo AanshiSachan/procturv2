@@ -1,4 +1,4 @@
-<section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}" (click)="inputClicked()">
+<section class="middle-section clearFix">
 
   <!-- Header and Navigation -->
   <section class="middle-top mb0 clearFix">
@@ -419,7 +419,17 @@
               <input type="button" class="btn pull-right" value="Add SMS/Message" id="btnNewSmsAdd" (click)="createNewSMS()">
             </div>
             <div class="row addSection" *ngIf="createNew">
-              <h3>Add Promotional Message</h3>
+              <h3>Add Promotional Message
+                <div class="questionInfo inline-relative">
+                  <span class="qInfoIcon i-class">i</span>
+                  <div class="tooltip-box-field md">
+                    Promotional SMS : These messages are sent with the objective
+                    <br>of promoting your product or service. Promotional SMS can be
+                    <br>send only from 9AM to 9PM and only to those numbers
+                    <br>that are not on the DND
+                  </div>
+                </div>
+              </h3>
               <div class="row">
                 <div class="c-cm-6 c-md-6 c-lg-6">
                   <div class="field-wrapper">
@@ -433,8 +443,8 @@
                   </span>
                 </div>
                 <div class="c-sm-4 c-md-4 c-lg-4 btnActionGrp">
-                  <input type="button" class="btn" value="Save" (click)="addNewMessage()">
                   <input type="button" class="btn" value="Cancel" (click)="closeAddDiv()">
+                  <input type="button" class="btn fullBlue" value="Save" (click)="addNewMessage()">
                 </div>
               </div>
             </div>

@@ -112,10 +112,19 @@ export class ScheduleHomeComponent implements OnInit {
       }
       this.apiService.createNewStandard(this.newStandardDetails).subscribe(
         res => {
+          let msg = "";
+          let titleMsg = "";
+          if (this.isLangInstitue) {
+            titleMsg = "Master Course Added";
+            msg = "Master Course added Successfull!!";
+          } else {
+            titleMsg = "Standard Added";
+            msg = "New Standard added Successfull!";
+          }
           let data = {
             type: "success",
-            title: "Standard Added",
-            body: "New Standard added Successfull!"
+            title: titleMsg,
+            body: msg
           }
           this.toastCtrl.popToast(data);
           this.newStandardDetails = {
@@ -322,14 +331,23 @@ export class ScheduleHomeComponent implements OnInit {
   }
 
   checkInstituteType() {
+    let userType: any = Number(sessionStorage.getItem('userType'));
     const permissionArray = sessionStorage.getItem('permissions');
     let type: any = sessionStorage.getItem('institute_type');
     if (type == "LANG") {
       this.isLangInstitue = true;
-      this.routeToSubTabsForLang(permissionArray);
+      if (userType != 3) {
+        this.routeToSubTabsForLang(permissionArray);
+      } else {
+        this.teacherLoginFound();
+      }
     } else {
       this.isLangInstitue = false;
-      this.routeToSubTabsForNotLang(permissionArray);
+      if (userType != 3) {
+        this.routeToSubTabsForNotLang(permissionArray);
+      } else {
+        this.teacherLoginFound();
+      }
     }
   }
 
@@ -354,6 +372,14 @@ export class ScheduleHomeComponent implements OnInit {
       this.route.navigateByUrl('course/courselist');
     } else if (data.indexOf('701') >= 0 || data.indexOf('704') >= 0) {
       this.route.navigateByUrl('course/class');
+    }
+  }
+
+  teacherLoginFound() {
+    if (this.isLangInstitue) {
+      this.route.navigateByUrl('course/managebatch');
+    } else {
+      this.route.navigateByUrl('course/courselist');
     }
   }
 

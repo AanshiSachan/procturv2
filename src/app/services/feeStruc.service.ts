@@ -20,10 +20,17 @@ export class FeeStrucService {
 
 
     constructor(private http: HttpClient, private auth: AuthenticatorService) {
-        this.institute_id = this.auth.getInstituteId();
-        this.Authorization = this.auth.getAuthToken();
+        this.auth.currentAuthKey.subscribe(key => {
+            this.Authorization = key;
+            this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
+        })
+        this.auth.currentInstituteId.subscribe(id => {
+            this.institute_id = id;
+        });
+        // this.institute_id = this.auth.getInstituteId();
+        // this.Authorization = this.auth.getAuthToken();
         this.baseUrl = this.auth.getBaseUrl();
-        this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
+
     }
 
 
@@ -116,4 +123,21 @@ export class FeeStrucService {
         )
     }
 
+    // Lang Model Changes
+
+    getAllStandard() {
+        let url = this.baseUrl + "/api/v1/standards/all/" + this.institute_id + "?active=Y";
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    getCoursesOfStandard(id) {
+        let url = this.baseUrl + "/api/v1/subjects/standards/" + id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
 }

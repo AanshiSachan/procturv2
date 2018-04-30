@@ -8,15 +8,12 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import 'moment';
 import 'hammerjs';
 import { FilterPipe } from './exam-report/filter.pipe';
-import { MultiselectDropdownModule } from '../../../assets/imported_modules/multiselect-dropdown';
-import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
-import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/timepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import { ReportHomeComponent } from './report-home/report-home.component';
 import { SmsReportComponent } from './sms-report/sms-report.component';
-import { AttendanceReportComponent } from './attendance-report/attendance-report.component';
+import { AttendanceReportComponent } from './attendance-report/attendanceReport.component';
 import { FeeReportComponent } from './fee-report/fee-report.component';
 import { ExamReportComponent } from './exam-report/exam-report.component';
 import { ReportCardComponent } from './report-card/report-card.component';
@@ -32,15 +29,13 @@ import { postEmailService } from '../../services/report-services/post-email.serv
 import{searchPipe} from '../shared/pipes/searchBarPipe';
 import{arraySortPipe} from '../shared/pipes/sortBarPipe';
 import { AttendanceReportServiceService } from '../../services/attendance-report/attendance-report-service.service';
-
+import { BiometricComponent } from './biometric/biometric.component';
+import {BiometricServiceService} from '../../services/biometric-service/biometric-service.service';
 
 @NgModule({
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        MultiselectDropdownModule,
-        BusyModule,
-        NgLoggerModule.forRoot(Level.LOG),
         CommonModule,
         ReportRoutingModule,
         BsDatepickerModule,
@@ -62,7 +57,9 @@ import { AttendanceReportServiceService } from '../../services/attendance-report
         EmailReportComponent,
         ProfitLossComponent,
         searchPipe,
-        arraySortPipe
+        arraySortPipe,
+        BiometricComponent,
+        
     ],
     entryComponents: [
     ],
@@ -71,7 +68,8 @@ import { AttendanceReportServiceService } from '../../services/attendance-report
         postSMSService, ExamService,
         AttendanceReportServiceService,
         getEmailService,
-        postEmailService
+        postEmailService,
+        BiometricServiceService
 
     ],
     exports: [

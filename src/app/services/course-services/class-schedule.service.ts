@@ -17,13 +17,19 @@ export class ClassScheduleService {
     institute_id;
 
     constructor(private http: HttpClient, private auth: AuthenticatorService) {
-        this.institute_id = this.auth.getInstituteId();
-        this.Authorization = this.auth.getAuthToken();
-        this.baseURL = this.auth.getBaseUrl();
-        this.headers = new HttpHeaders({
-            "Content-Type": "application/json",
-            "Authorization": this.Authorization
+        this.auth.currentAuthKey.subscribe(key => {
+            this.Authorization = key;
+            this.headers = new HttpHeaders({
+                "Content-Type": "application/json",
+                "Authorization": this.Authorization
+            });
+        })
+        this.auth.currentInstituteId.subscribe(id => {
+            this.institute_id = id;
         });
+        // this.institute_id = this.auth.getInstituteId();
+        // this.Authorization = this.auth.getAuthToken();
+        this.baseURL = this.auth.getBaseUrl();
     }
 
     getAllSubBranches(): Observable<any> {
@@ -253,7 +259,15 @@ export class ClassScheduleService {
         )
     }
 
-    createWeeklyBatch(data) {
+    createWeeklyBatchPost(data) {
+        let url = this.baseURL + "/api/v1/batchClsSched";
+        return this.http.post(url, data, { headers: this.headers }).map(
+            this.successCallback,
+            this.errorCallBack
+        )
+    }
+
+    createCustomBatchPUT(data) {
         let url = this.baseURL + "/api/v1/batchClsSched";
         return this.http.put(url, data, { headers: this.headers }).map(
             this.successCallback,
@@ -261,9 +275,9 @@ export class ClassScheduleService {
         )
     }
 
-    createWeeklyBatchPost(data) {
-        let url = this.baseURL + "/api/v1/batchClsSched";
-        return this.http.post(url, data, { headers: this.headers }).map(
+    sendNotification(schID, type) {
+        let url = this.baseURL + "/api/v1/batchClsSched/notify/" + this.institute_id + "/" + schID + "/" + type;
+        return this.http.get(url, { headers: this.headers }).map(
             this.successCallback,
             this.errorCallBack
         )
@@ -307,7 +321,7 @@ export class ClassScheduleService {
     }
 
     getCombinedDataFromServer(standard_id, subject_id) {
-        let url = this.baseURL + "/api/v1/batches/fetchCombinedBatchData/100057?standard_id=" + standard_id + "&subject_id=" + subject_id + "&assigned=N";
+        let url = this.baseURL + "/api/v1/batches/fetchCombinedBatchData/"+this.institute_id +"?standard_id=" + standard_id + "&subject_id=" + subject_id + "&assigned=N";
         return this.http.get(url, { headers: this.headers }).map(
             this.successCallback,
             this.errorCallBack
@@ -328,7 +342,7 @@ export class ClassScheduleService {
     }
 
 
-    
+
 
 
 

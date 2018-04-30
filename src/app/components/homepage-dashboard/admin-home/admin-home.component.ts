@@ -28,7 +28,7 @@ import { WidgetService } from '../../../services/widget.service';
 })
 export class AdminHomeComponent implements OnInit {
 
-  storageData: any = {
+  public storageData: any = {
     storage_allocated: 0
   };
   public isProfessional: boolean = false;
@@ -54,7 +54,7 @@ export class AdminHomeComponent implements OnInit {
   public AllPresent: boolean = true;
   public teacher_id: number = -1;
   public schedStat: any = {};
-  public feeStat: any = null;
+
   is_notified: any = 'Y';
   public genralStats: any = {
     sms: 0,
@@ -67,7 +67,7 @@ export class AdminHomeComponent implements OnInit {
   public schedSelected: boolean = false;
   public isOptionVisible: boolean = false;
   public enquiryDate: any[] = [];
-  public feeDate: any[] = [];
+
   public schedDate: any[] = [];
   public currentPlan: any = null;
   public classMarkedForAction: any;
@@ -203,13 +203,8 @@ export class AdminHomeComponent implements OnInit {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
-    this.enquiryDate[0] = new Date();
-    this.enquiryDate[1] = new Date();
-    this.feeDate[0] = new Date();
-    this.feeDate[1] = new Date();
     this.schedDate[0] = new Date();
     this.schedDate[1] = new Date();
-
   }
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -279,7 +274,7 @@ export class AdminHomeComponent implements OnInit {
     )
 
     //this.fetchEnqWidgetData();
-    this.fetchFeeWidgetData();
+    //this.fetchFeeWidgetData();
     this.getStorageData();
 
     if (this.isProfessional) {
@@ -344,7 +339,7 @@ export class AdminHomeComponent implements OnInit {
     );
   }
 
-  fetchFeeWidgetData() {
+  /* fetchFeeWidgetData() {
     let obj = {
       standard_id: -1,
       batch_id: -1,
@@ -364,10 +359,9 @@ export class AdminHomeComponent implements OnInit {
       },
       err => { }
     );
-  }
+  } */
 
   fetchBatchWidgetData() {
-
   }
 
   getOrder() {
@@ -467,7 +461,7 @@ export class AdminHomeComponent implements OnInit {
     )
   }
 
-  updateFeeByDate(e) {
+  /* updateFeeByDate(e) {
     let obj = {
       standard_id: -1,
       batch_id: -1,
@@ -489,7 +483,7 @@ export class AdminHomeComponent implements OnInit {
       },
       err => { }
     )
-  }
+  } */
 
   updateschedByDate(e) {
     let obj = {
@@ -558,13 +552,7 @@ export class AdminHomeComponent implements OnInit {
     return this.enquiryDate[1];
   }
 
-  getFeeStartDate() {
-    return this.feeDate[0];
-  }
 
-  getFeeEndDate() {
-    return this.feeDate[1];
-  }
 
   getSchedStartDate() {
     return this.schedDate[0];
@@ -583,23 +571,7 @@ export class AdminHomeComponent implements OnInit {
     }
   }
 
-  getFeeAmount(id: String): number {
 
-    if (this.feeStat != null && this.feeStat != undefined && this.feeStat.length != 0) {
-      if (id === 'total') {
-        return this.feeStat[0].total_fees_collected;
-      }
-      else if (id === 'pending') {
-        return this.feeStat[0].total_fees_collected_other;
-      }
-      else if (id === 'past') {
-        return this.feeStat[0].total_dues_pending;
-      }
-    }
-    else {
-      return 0
-    }
-  }
 
   userScheduleSelected(i, selected) {
     this.selectedRow = i;
@@ -741,6 +713,12 @@ export class AdminHomeComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
+          let msg = {
+            type: 'error',
+            title: 'Error',
+            body: err.error.message
+          }
+          this.appC.popToast(msg);
         }
       )
     }
@@ -930,7 +908,7 @@ export class AdminHomeComponent implements OnInit {
     let obj = {
       attendance_note: this.attendanceNote,
       date: moment(new Date()).format("YYYY-MM-DD"),
-      home_work_status: detail.home_work_status,
+      home_work_status: d.home_work_status,
       homework_assigned: this.homework,
       isStatusModified: "Y",
       is_home_work_status_changed: d.is_home_work_status_changed,
@@ -1086,6 +1064,17 @@ export class AdminHomeComponent implements OnInit {
   }
 
   rescheduleClass() {
+
+    if (this.reschedReason == null || this.reschedReason == "") {
+      let msg = {
+        type: 'error',
+        title: 'Error',
+        body: 'Please provide reschedule reason'
+      }
+      this.appC.popToast(msg);
+      return;
+    }
+
     let check = this.checkIfTimeProvided(this.timepicker.reschedStartTime.hour);
     if (check) {
       let startTime = this.timepicker.reschedStartTime.hour.split(' ');
@@ -1370,6 +1359,7 @@ export class AdminHomeComponent implements OnInit {
   initiateCourseCancelClass(i, selected) {
     this.selectedRow = i;
     this.classMarkedForAction = selected;
+
     this.isCourseCancel = true;
   }
 
@@ -1407,6 +1397,53 @@ export class AdminHomeComponent implements OnInit {
         this.appC.popToast(msg);
       }
     )
+  }
+
+  cancelBatchClass() {
+    if (this.cancellationReason == "" || this.cancellationReason == null) {
+      let msg = {
+        type: 'error',
+        title: 'Cancellation Reason',
+        body: 'Please provide cancellation reason'
+      }
+      this.appC.popToast(msg);
+      return;
+    }
+    let obj = {
+      batch_id: this.classMarkedForAction.batch_id,
+      cancelSchd: this.getCancelReason()
+    }
+    this.widgetService.cancelBatchSchedule(obj).subscribe(
+      res => {
+        let msg = {
+          type: 'success',
+          title: 'Batch Schedule Cancelled',
+          body: 'The requested scheduled has been cancelled'
+        }
+        this.appC.popToast(msg);
+        this.closeCourseCancelClass();
+        this.fetchScheduleWidgetData();
+      },
+      err => {
+        let msg = {
+          type: 'error',
+          title: 'Failed To Cancel Schedule',
+          body: err.cancelResponseMessage
+        }
+        this.appC.popToast(msg);
+      }
+    )
+  }
+
+  getCancelReason(): any[] {
+    let temp = [];
+    let obj = {
+      cancel_note: this.cancellationReason,
+      is_notified: this.is_notified,
+      schd_id: this.classMarkedForAction.schd_id
+    }
+    temp.push(obj);
+    return temp;
   }
 
   initiateCourseRemiderClass() {
@@ -1526,6 +1563,15 @@ export class AdminHomeComponent implements OnInit {
 
   markAttendaceHide(row) {
     if (moment(row.class_date).format('DD-MM-YYYY') > moment().format('DD-MM-YYYY')) {
+      return "hide";
+    } else {
+      return "";
+    }
+  }
+
+  markAttendaceHideCourse() {
+    let date = moment(this.courseLevelSchedDate).format('DD-MM-YYYY');;
+    if (date > moment().format('DD-MM-YYYY')) {
       return "hide";
     } else {
       return "";
@@ -1877,11 +1923,11 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.fetchStudentListData(this.sendNotification.batch_id).subscribe(
       res => {
         this.showTableFlag = true;
-        //console.log(res);
         this.studentList = this.addKeys(res, true);
+        this.selectedOption = "filter";
       },
       err => {
-        //console.log(err);
+        console.log(err);
       }
     )
   }
@@ -2510,6 +2556,20 @@ export class AdminHomeComponent implements OnInit {
       this.courseLevelStudentAtt[index].dateLi[0].home_work_status = "Y";
     }
     this.getTotalCountForCourse(this.courseLevelStudentAtt);
+  }
+
+  checkRoleMAnagement() {
+    let userType: any = Number(sessionStorage.getItem('userType'));
+    if (userType != 3) {
+      let permissionArray = sessionStorage.getItem('permissions');
+      if (permissionArray == "" || permissionArray == null) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
   }
 
 }

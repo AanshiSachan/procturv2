@@ -1,6 +1,6 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
-<div class="middle-section clearFix" id="enquiryList" #enquiryManager [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
+<div class="middle-section clearFix" id="enquiryList" #enquiryManager>
   <!-- Main View -->
   <aside class="middle-full" #enqPage>
     <!-- Navigation to other tabs -->
@@ -39,11 +39,12 @@
             </p>
           </li>
           <li class="optMenu" #optMenu>
-            <div class="enq-dropdown-content" *ngIf="isEnquiryOptions" (mouseleave)="isEnquiryOptions = false">
+            <div [ngClass]="{'visibiltyClass':(isEnquiryAdmin == false)}" class="enq-dropdown-content" *ngIf="isEnquiryOptions" (mouseleave)="isEnquiryOptions = false">
               <ul>
-                <li class="export-icon" (click)="downloadAllEnquiries()">
+                <li class="excel-icon" (click)="downloadAllEnquiries()">
+                  <i class="fa fa-file-excel-o" aria-hidden="true" style="font-family: FontAwesome;font-size: 16px;color: #aaa;"></i>
                   <a id="enq_download"></a>
-                  <label>Export</label>
+                  <label class="labelName">Export</label>
                 </li>
                 <li class="export-icon">
                   <label id="upload" routerLink='upload'>
@@ -486,7 +487,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row" *ngIf="updateFormData.followUpDateTime != '' &&  updateFormData.followUpDate != ''">
+              <div class="row" *ngIf="updateFormData.followUpTime != '' &&  updateFormData.followUpDate != ''">
                 <div class="c-lg-6 c-md-6 c-sm-6" style="margin-top: 10px">
                   <div class="form-checkbox-wrapper">
                     <div class="field-checkbox-wrapper">
@@ -599,7 +600,9 @@
             <div class="clearfix">
               <aside class="pull-left popup-btn">
                 <input type="button" value="Cancel" class="btn" (click)="closePopup()">
-                <input type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
+                <input *ngIf="selectedRow.status != 12 && selectedRow.status != 1" type="button" value="Update & Register" class="fullBlue btn"
+                  (click)="updateRegisterEnquiry()">
+                <input *ngIf="selectedRow.status != 12 && selectedRow.status != 1" type="button" value="Update" class="fullBlue btn" (click)="pushUpdatedEnquiry()">
               </aside>
             </div>
           </div>

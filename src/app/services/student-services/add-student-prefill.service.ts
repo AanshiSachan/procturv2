@@ -27,12 +27,19 @@ export class AddStudentPrefillService {
 
 
   constructor(private http: Http, private auth: AuthenticatorService) {
-    this.Authorization = this.auth.getAuthToken();
-    this.institute_id = this.auth.getInstituteId();
+    this.auth.currentAuthKey.subscribe( key => {
+      this.Authorization = key;
+      this.headers = new Headers();
+      this.headers.append("Content-Type", "application/json");
+      this.headers.append("Authorization", this.Authorization);
+    }) 
+    this.auth.currentInstituteId.subscribe( id => {
+      this.institute_id = id;
+    });
+    // this.Authorization = this.auth.getAuthToken();
+    // this.institute_id = this.auth.getInstituteId();
     this.baseUrl = this.auth.getBaseUrl();
-    this.headers = new Headers();
-    this.headers.append("Content-Type", "application/json");
-    this.headers.append("Authorization", this.Authorization);
+
   }
 
 
@@ -119,7 +126,6 @@ export class AddStudentPrefillService {
   /* return the list of custom component for the selected institute ID */
   fetchEnquiryCC(id): Observable<any> {
     let url = this.baseUrl + "/api/v1/enquiry/fetchCustomEnquiryComponents/" + this.institute_id + "?id=" + id + "&isSearhable=undefined&page=1";
-    debugger;
     return this.http.get(url, { headers: this.headers })
       .map(
         data => {
@@ -139,7 +145,7 @@ export class AddStudentPrefillService {
 
   /* return the list of batch for students  */
   fetchBatchDetails(): Observable<any> {
-    this.urlBatchData = this.baseUrl + "/api/v1/batches/all/" + this.institute_id + "?active=Y"
+    this.urlBatchData = this.baseUrl + "/api/v1/batches/all/" + this.institute_id + "?active=Y&isFeeTemplates=Y"
 
     return this.http.get(this.urlBatchData, { headers: this.headers })
       .map(
@@ -332,7 +338,7 @@ export class AddStudentPrefillService {
   }
 
   fetchStudentBatchDetails(id): Observable<any> {
-    let urlBatchById = this.baseUrl + "/api/v1/studentBatchMap/" + id;
+    let urlBatchById = this.baseUrl + "/api/v1/studentBatchMap/" + id +"?isFeeTemplates=Y";
     return this.http.get(urlBatchById, { headers: this.headers }).map(
       res => {
         if (res != null) {

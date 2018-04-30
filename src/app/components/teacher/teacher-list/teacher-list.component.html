@@ -4,7 +4,7 @@
   <section class="middle-top mb0 clearFix" style="margin-bottom: 15px;">
     <div class="pull-left" style="margin-top:20px;">
       <h1>
-        Teacher(s)
+        Faculty
       </h1>
     </div>
     <div class="">
@@ -14,14 +14,14 @@
             <div class="option-wrap">
               <img src="assets/images/plus.png" alt="Add Teacher" style="vertical-align: -webkit-baseline-middle;">
               <span class="tooltip tooltipWrapper">
-                Add Teacher
+                Add Faculty
               </span>
             </div>
           </button>
         </div>
       </div>
       <div class="search-filter-wrapper">
-        <input type="text" style="width:25%" #teacherSearch class="normal-field pull-right" id="searchTeacher" placeholder="Search Teacher"
+        <input type="text" style="width:25%" #teacherSearch class="normal-field pull-right" id="searchTeacher" placeholder="Search"
           (keyup)="searchTeacher(teacherSearch)">
       </div>
     </div>
@@ -34,7 +34,7 @@
           <thead>
             <tr>
               <th>
-                Teacher Name
+                Faculty Name
               </th>
               <th>
                 Contact No
@@ -68,8 +68,12 @@
                 {{row.is_active}}
               </td>
               <td class="anchorTags">
-                <a class="anchorTagCursor" (click)="editTeacherDeatils(row)">
-                  <i class="edit-icon" aria-hidden="true" title="Edit" style="margin-right:5px"></i>Edit</a>
+                <a class="anchorTagCursor" (click)="editTeacherDeatils(row)" style="margin-right:5px">
+                  <i class="edit-icon" aria-hidden="true" title="Edit" style="margin-right:5px"></i>Edit
+                </a>
+                <a class="anchorTagCursor" (click)="deleteTeacherDeatils(row)">
+                  <i class="fa fa-trash" aria-hidden="true" title="Delete" style="margin-right:5px"></i>Delete
+                </a>
               </td>
               <td class="anchorTags">
                 <a class="anchorTagCursor" (click)="viewTeacherActivity(row)">

@@ -6,24 +6,18 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
-import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn, NgForm } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
-import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from '../../../../assets/imported_modules/multiselect-dropdown';
 import * as moment from 'moment';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
 import { instituteInfo } from '../../../model/instituteinfo';
 import { updateEnquiryForm } from '../../../model/update-enquiry-form';
-import { FetchenquiryService } from '../../../services/enquiry-services/fetchenquiry.service';
-import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
-import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
-import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
-import { Logger } from '@nsalaun/ng-logger';
 import { Ng2SmartTableModule, LocalDataSource } from '../../../../assets/imported_modules/ng2-smart-table';
 import { MenuItem } from 'primeng/primeng';
 import { CampaignService } from '../../../services/campaign-services/campaign.service';
 import { SmsOptionComponent } from './sms-option.component';
 import { error } from 'util';
+import { NgForm } from '@angular/forms';
 
 
 
@@ -191,10 +185,11 @@ export class CampaignHomeComponent implements OnInit {
   enableApprove = sessionStorage.getItem('allow_sms_approve_feature');
   isAdmin = sessionStorage.getItem('permissions');
 
-  constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService,
-    private router: Router, private logger: Logger, private fb: FormBuilder,
-    private pops: PopupHandlerService,
-    private appC: AppComponent, private login: LoginService, private cd: ChangeDetectorRef,
+  constructor(
+    private router: Router,
+    private appC: AppComponent,
+    private login: LoginService,
+    private cd: ChangeDetectorRef,
     private postData: CampaignService,
   ) { }
 
@@ -206,7 +201,7 @@ export class CampaignHomeComponent implements OnInit {
     this.login.changeNameStatus(sessionStorage.getItem('name'));
 
     /* Load paginated campaign data from server */
-    this.busy = this.loadTableDatatoSource(this.instituteData);
+    this.loadTableDatatoSource(this.instituteData);
 
 
   }
@@ -227,8 +222,6 @@ export class CampaignHomeComponent implements OnInit {
     if (obj.start_index == 0) {
       return this.postData.campaignUploadList(obj).subscribe(
         data => {
-          debugger
-          console.log("date" + data);
           if (data.length != 0) {
             data = data.sort(function (a, b) {
               return moment(a.created_date).unix() - moment(b.created_date).unix();
@@ -292,7 +285,6 @@ export class CampaignHomeComponent implements OnInit {
     }
     else {
       return this.postData.campaignUploadList(obj).subscribe(data => {
-        console.log("data else" + data);
         if (data.length != 0) {
           if (this.indexJSON.length != 0) {
             data.forEach(el => {
@@ -477,7 +469,6 @@ export class CampaignHomeComponent implements OnInit {
 
   /* common function to close popups */
   closePopup() {
-    console.log("close popup");
     this.message = "";
     this.testMessagePopUp = false;
     this.selectedMessage = [];
@@ -521,7 +512,7 @@ export class CampaignHomeComponent implements OnInit {
   /* Service to fetch sms records from server and update table*/
   smsServicesInvoked() {
     /* store the data from server and update table */
-    this.enquire.fetchAllSms().subscribe(
+    this.postData.fetchAllSms().subscribe(
       data => {
         this.cd.markForCheck();
         this.smsPopSource = new LocalDataSource(data);
@@ -570,7 +561,6 @@ export class CampaignHomeComponent implements OnInit {
 
     let finaldate = date + " " + hours + ":" + minutes + " " + meridian;
 
-    console.log(finaldate);
 
     if (this.selectedMessage == null || this.selectedMessage.length == 0) {
       let msg = {
@@ -581,9 +571,8 @@ export class CampaignHomeComponent implements OnInit {
 
     } else {
       queryParam.date = finaldate
-      console.log(queryParam);
 
-      this.busy = this.postData.saveSMSservice(queryParam).subscribe(
+      this.postData.saveSMSservice(queryParam).subscribe(
         res => {
           let msg = {
             type: 'success',
@@ -594,9 +583,6 @@ export class CampaignHomeComponent implements OnInit {
         error => {
           console.log(error);
           let err_msg = JSON.parse(error._body);
-          console.log(error.statusText);
-          console.log(err_msg);
-          console.log(err_msg.message);
           let msg = {
             type: 'error',
             title: error.statusText,
@@ -621,7 +607,6 @@ export class CampaignHomeComponent implements OnInit {
 
     [].forEach.call(node, function (el) {
       if (el.type == "text" && el.tagName == "INPUT") {
-        console.log(el.value);
         el.value = '';
       }
     });
@@ -642,8 +627,6 @@ export class CampaignHomeComponent implements OnInit {
   }
 
   selectMessage(message, i) {
-    console.log(message);
-    console.log(i);
   }
 
   /* Function to handle event on table row click*/
@@ -655,9 +638,6 @@ export class CampaignHomeComponent implements OnInit {
 
   /* checkbox clicked event  */
   rowCheckBoxClick(state, id, no, message) {
-    console.log(state);
-    console.log(id);
-    console.log(no);
 
 
     if (state) {
@@ -670,9 +650,6 @@ export class CampaignHomeComponent implements OnInit {
 
       this.smsMessageTest.splice(pop_index, 1);
     }
-
-    console.log(this.selectedMessage);
-    console.log(this.smsMessageTest);
 
   }
 
@@ -687,7 +664,7 @@ export class CampaignHomeComponent implements OnInit {
         mobile: this.phone
       }
 
-      this.busy = this.postData.campaignSMSTestService(queryParam).subscribe(
+      this.postData.campaignSMSTestService(queryParam).subscribe(
         res => {
           let msg = {
             type: 'success',
@@ -698,9 +675,6 @@ export class CampaignHomeComponent implements OnInit {
         error => {
           console.log(error);
           let err_msg = JSON.parse(error._body);
-          console.log(error.statusText);
-          console.log(err_msg);
-          console.log(err_msg.message);
           let msg = {
             type: 'error',
             title: error.statusText,
@@ -909,7 +883,6 @@ export class CampaignHomeComponent implements OnInit {
   }
 
   deleteRow(row, index) {
-    debugger
     if (confirm('Do you want to delete this Message>?')) {
       this.postData.deleteMessage(row.message_id).subscribe(
         res => {
@@ -936,7 +909,6 @@ export class CampaignHomeComponent implements OnInit {
 
 
   saveInformation(row, index) {
-    debugger
     if (row.message.trim() != "" && row.message.trim() != null) {
       let obj = {
         message: row.message.trim()
@@ -952,7 +924,6 @@ export class CampaignHomeComponent implements OnInit {
           this.getSMSList('');
         },
         err => {
-          console.log(err);
           let msg = {
             type: 'error',
             title: "Error",

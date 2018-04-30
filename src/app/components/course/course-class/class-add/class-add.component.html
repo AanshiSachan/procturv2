@@ -1,6 +1,6 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
-<section class="middle-section clearFix" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
+<section class="middle-section clearFix">
   <section class="cal-view">
     <aside class="boxPadding15">
       <!-- ==================================================================================== -->
@@ -355,101 +355,74 @@
 
         <!-- ==================================================================================== -->
         <!-- ========================== Account 4 Batch Schedule ================================= -->
-        <section *ngIf="isClassFormFilled && isProfessional">
+        <section class="batch-schedule" *ngIf="isClassFormFilled && isProfessional">
 
-          <div class="row">
-
-            <div class="c-lg-3 c-md-3 c-sm-3">
-              <select class="side-form-ctrl" name="row.category_id" (ngModelChange)="scheduleSelection($event)" [(ngModel)]="batchFrequency">
-                <option value="1">Weekly</option>
-                <option value="2">Custom</option>
-              </select>
+          <div class="filter-Section">
+            <div class="row">
+              <div class="c-lg-4 c-md-4 c-sm-4">
+                <select class="side-form-ctrl" name="row.category_id" (ngModelChange)="scheduleSelection($event)" [(ngModel)]="batchFrequency">
+                  <option value="1">Weekly</option>
+                  <option value="2">Custom</option>
+                </select>
+              </div>
             </div>
+          </div>
 
-            <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="batchFrequency == '1'">
-              <fieldset>
-                <legend>Start Time</legend>
-                <div class="row">
-                  <div class="c-sm-6 c-md-6 c-lg-6 c-xs-6">
-                    <div class="time-picker">
-                      <div class="form-wrapper has-value">
-                        <select id="hour" class="side-form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="mainStartTime.hour" name="hour" style="background: transparent">
-                          <option *ngFor="let hour of hourArr" [value]="hour">
-                            {{hour}}
+          <div class="weekly-Schedule" *ngIf="batchFrequency == '1'">
+
+            <div class="weeklyDiv">
+
+              <div class="row weeklyAdd">
+                <div class="c-sm-2 c-md-2 c-lg-2">
+                  <div class="form-wrapper timepick">
+                    <label for="startTime">Start Time</label>
+                    <div class="tbox">
+                      <div class="times">
+                        <select id="" class="mins side-form-ctrl" [(ngModel)]="mainStartTime.hour" name="startTime">
+                          <option [value]="time" *ngFor="let time of times">
+                            {{time}}
                           </option>
                         </select>
-                        <label for="hour">Hour</label>
                       </div>
-                    </div>
-                    <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6">
-                      <div class="form-wrapper has-value">
-                        <select id="minute" class="side-form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="mainStartTime.minute" name="minute"
-                          style="background: transparent">
+                      <div class="times">
+                        <select id="" class="mers side-form-ctrl" [(ngModel)]="mainStartTime.minute" name="minute">
                           <option *ngFor="let minute of minArr" [value]="minute">
                             {{minute}}
                           </option>
                         </select>
-                        <label for="minute">Minute</label>
                       </div>
                     </div>
-                    <!-- <div class="form-wrapper has-value">
-                        <select id="hour" class="side-form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="mainStartTime.meridian" name="meridian"
-                          style="background: transparent">
-                          <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                            {{meridian}}
+                  </div>
+                </div>
+                <div class="c-sm-2 c-md-2 c-lg-2">
+                  <div class="form-wrapper timepick">
+                    <label for="startTime">End Time</label>
+                    <div class="tbox">
+                      <div class="times">
+                        <select id="" class="mins side-form-ctrl" [(ngModel)]="mainEndTime.hour" name="startTime">
+                          <option [value]="time" *ngFor="let time of times">
+                            {{time}}
                           </option>
                         </select>
-                        <label for="meridian">Meridian</label>
-                      </div> -->
+                      </div>
+                      <div class="times">
+                        <select id="" class="mers side-form-ctrl" [(ngModel)]="mainEndTime.minute" name="minute">
+                          <option *ngFor="let minute of minArr" [value]="minute">
+                            {{minute}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </fieldset>
-            </div>
-
-            <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="batchFrequency == '1'">
-              <fieldset>
-                <legend>End Time</legend>
-                <div class="time-picker">
-                  <div class="form-wrapper has-value">
-                    <select id="hour" class="side-form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="mainEndTime.hour" name="hour" style="background: transparent">
-                      <option *ngFor="let hour of hourArr" [value]="hour">
-                        {{hour}}
-                      </option>
-                    </select>
-                    <label for="hour">Hour</label>
-                  </div>
-                  <div class="form-wrapper has-value">
-                    <select id="minute" class="side-form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="mainEndTime.minute" name="minute" style="background: transparent">
-                      <option *ngFor="let minute of minArr" [value]="minute">
-                        {{minute}}
-                      </option>
-                    </select>
-                    <label for="minute">Minute</label>
-                  </div>
-                  <div class="form-wrapper has-value">
-                    <select id="hour" class="side-form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="mainEndTime.meridian" name="meridian"
-                      style="background: transparent">
-                      <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                        {{meridian}}
-                      </option>
-                    </select>
-                    <label for="hour">Meridian</label>
-                  </div>
+                <div class="pull-right btnGroup">
+                  <button class="btn" (click)="applyButtonClick()">Apply</button>
+                  <button class="btn" *ngIf="showCancelWeeklyBtn" (click)="cancelWeeklyScheduledClass()">Cancel Weekly Scheduled Class</button>
                 </div>
-              </fieldset>
-            </div>
+              </div>
 
-            <div class="c-lg-3 c-md-3 c-sm-3" *ngIf="batchFrequency == '1'">
-              <button class="btn" (click)="applyButtonClick()">Apply</button>
-              <button class="btn" (click)="cancelWeeklyScheduledClass()">Cancel Weekly Scheduled Class</button>
-            </div>
-
-          </div>
-
-          <div class="" *ngIf="batchFrequency == '1'">
-            <div class="class-wrapper">
-              <div class="table-scroll-wrapper marginTopBottom">
-                <div class="table table-responsive">
+              <div class="table-scroll-wrapper">
+                <div class="table-responsive">
                   <table>
                     <thead>
                       <tr>
@@ -468,65 +441,49 @@
                       <tr *ngFor="let row of weekDaysTable; let i=index ; trackBy : index ">
                         <td>
                           <div class="field-checkbox-wrapper">
-                            <input type="checkbox" name="chk" name="checkbx" id="checkbx" [(ngModel)]="row.uiSelected" class="form-checkbox">
-                            <label for="checkbx"></label>
+                            <input type="checkbox" name="chk" name="checkbx" id="checkbx{{i}}" [(ngModel)]="row.uiSelected" class="form-checkbox">
+                            <label for="checkbx{{i}}">
+                              {{row.data_value}}
+                            </label>
                           </div>
-                          {{row.data_value}}
                         </td>
                         <td>
-                          <div class="time-picker">
-                            <div class="form-wrapper has-value">
-                              <select id="hour" class="side-form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="row.start_time.hour" name="hour" style="background: transparent">
-                                <option *ngFor="let hour of hourArr" [value]="hour">
-                                  {{hour}}
-                                </option>
-                              </select>
-                              <label for="hour">Hour</label>
-                            </div>
-                            <div class="field-wrapper has-value">
-                              <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="row.start_time.minute" name="minute" style="background: transparent">
-                                <option *ngFor="let minute of minArr" [value]="minute">
-                                  {{minute}}
-                                </option>
-                              </select>
-                              <label for="minute">Minute</label>
-                            </div>
-                            <div class="field-wrapper has-value">
-                              <select id="meridian" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="row.start_time.meridian" name="meridian"
-                                style="background: transparent">
-                                <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                                  {{meridian}}
-                                </option>
-                              </select>
-                              <label for="meridian">Meridian</label>
+                          <div class="form-wrapper timepick">
+                            <div class="tbox">
+                              <div class="times">
+                                <select id="" class="mins side-form-ctrl" [(ngModel)]="row.start_time.hour" name="startTime">
+                                  <option [value]="time" *ngFor="let time of times">
+                                    {{time}}
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="times">
+                                <select id="" class="mers side-form-ctrl" [(ngModel)]="row.start_time.minute" name="minute">
+                                  <option *ngFor="let minute of minArr" [value]="minute">
+                                    {{minute}}
+                                  </option>
+                                </select>
+                              </div>
                             </div>
                           </div>
                         </td>
                         <td>
-                          <div class="time-picker">
-                            <div class="field-wrapper has-value">
-                              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="row.end_time.hour" name="hour" style="background: transparent">
-                                <option *ngFor="let hour of hourArr" [value]="hour">
-                                  {{hour}}
-                                </option>
-                              </select>
-                              <label for="hour">Hour</label>
-                            </div>
-                            <div class="field-wrapper has-value">
-                              <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="row.end_time.minute" name="minute" style="background: transparent">
-                                <option *ngFor="let minute of minArr" [value]="minute">
-                                  {{minute}}
-                                </option>
-                              </select>
-                              <label for="minute">Minute</label>
-                            </div>
-                            <div class="field-wrapper has-value">
-                              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="row.end_time.meridian" name="meridian" style="background: transparent">
-                                <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                                  {{meridian}}
-                                </option>
-                              </select>
-                              <label for="meridian">Meridian</label>
+                          <div class="form-wrapper timepick">
+                            <div class="tbox">
+                              <div class="times">
+                                <select id="" class="mins side-form-ctrl" [(ngModel)]="row.end_time.hour" name="startTime">
+                                  <option [value]="time" *ngFor="let time of times">
+                                    {{time}}
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="times">
+                                <select id="" class="mers side-form-ctrl" [(ngModel)]="row.end_time.minute" name="minute">
+                                  <option *ngFor="let minute of minArr" [value]="minute">
+                                    {{minute}}
+                                  </option>
+                                </select>
+                              </div>
                             </div>
                           </div>
                         </td>
@@ -541,16 +498,151 @@
                 </div>
               </div>
 
-              <div class="row">
-                <button class="btn pull-right" [disabled]="weekDaysTable.length > 0" style="margin-right: 10px;" (click)="updateWeeklySchedule()">Update</button>
+              <div class="row btn-table" style="margin-top: 5px;">
+                <button class="btn fullBlue pull-right" (click)="updateWeeklySchedule()">Update</button>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="custom-Schedule" *ngIf="batchFrequency == '2'">
+
+            <div class="row adderCustom">
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': custom.date!=''}">
+                  <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="custom.date" readonly="true" name="csd"
+                    bsDatepicker>
+                  <label for="csd">Date
+                    <span style="color:red">*</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="c-sm-2 c-md-2 c-lg-2">
+                <div class="form-wrapper timepick">
+                  <label for="startTime">Start Time</label>
+                  <div class="tbox">
+                    <div class="times">
+                      <select id="" class="mins side-form-ctrl" [(ngModel)]="custom.start_hour" name="startTime">
+                        <option [value]="time" *ngFor="let time of times">
+                          {{time}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="times">
+                      <select id="" class="mers side-form-ctrl" [(ngModel)]="custom.start_minute" name="minute">
+                        <option *ngFor="let minute of minArr" [value]="minute">
+                          {{minute}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="c-sm-2 c-md-2 c-lg-2">
+                <div class="form-wrapper timepick">
+                  <label for="startTime">End Time</label>
+                  <div class="tbox">
+                    <div class="times">
+                      <select id="" class="mins side-form-ctrl" [(ngModel)]="custom.end_hour" name="startTime">
+                        <option [value]="time" *ngFor="let time of times">
+                          {{time}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="times">
+                      <select id="" class="mers side-form-ctrl" [(ngModel)]="custom.end_minute" name="minute">
+                        <option *ngFor="let minute of minArr" [value]="minute">
+                          {{minute}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="c-lg-3 c-md-3 c-sm-3">
+                <div class="field-wrapper" [ngClass]="{'has-value' : custom.desc != ''}">
+                  <textarea class="form-ctrl" [(ngModel)]="custom.desc" id="customDescTxt" name="customDescTxt"></textarea>
+                  <label for="customDescTxt">Description</label>
+                </div>
+              </div>
+
+              <div class="" style="margin-top: 10px">
+                <button class="btn fullBlue" (click)="addNewCustomClass()">Add</button>
               </div>
             </div>
 
-            <div class="extra-wrapper">
-              <div class="row">
+            <div class="table-scroll-wrapper">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Date
+                      </th>
+                      <th>
+                        Start Time
+                      </th>
+                      <th>
+                        End Time
+                      </th>
+                      <th>
+                        Class Description
+                      </th>
+                      <th>
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of customTable; let i=index ; trackBy : index">
+                      <td>
+                        {{row.class_date}}
+                      </td>
+                      <td>
+                        {{row.start_time}}
+                      </td>
+                      <td>
+                        {{row.end_time}}
+                      </td>
+                      <td>
+                        {{row.note}}
+                      </td>
+                      <td>
+                        <a style="cursor:pointer; margin-right: 5px" (click)="deleteFromCustomTable(row , index)">Delete</a>
+                        <a style="cursor:pointer; margin-right: 5px" *ngIf="row.schd_id !='0'" (click)="notifyOfCustomClass(row , index)">Notify</a>
+                        <a style="cursor:pointer;" *ngIf="row.schd_id !='0'" (click)="cancelClassOfCustomClass(row , index)">Cancel Class</a>
+                      </td>
+                    </tr>
+                    <tr *ngIf="customTable.length == 0">
+                      <td colspan="5">
+                        No Custom Schedule Found
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="row">
+              <button class="btn fullBlue pull-right" style="margin-right: 15px" (click)="updateCustomClass()">Update</button>
+            </div>
+
+          </div>
+
+          <div class="common-section" *ngIf="showHideCommonSection()">
+
+            <div class="divExtraClass">
+
+              <h4>Extra Class</h4>
+
+              <div class="row adder-Row">
 
                 <div class="c-lg-3 c-md-3 c-sm-3">
-                  <div class="field-wrapper datePickerBox">
+                  <div class="field-wrapper datePickerBox has-value">
                     <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="addExtraClass.date" readonly="true" name="csd"
                       bsDatepicker>
                     <label for="csd">Date
@@ -559,88 +651,66 @@
                   </div>
                 </div>
 
-                <div class="c-lg-3 c-md-3 c-sm-3">
-                  <fieldset>
-                    <legend>Start Time</legend>
-                    <div class="time-picker">
-                      <div class="field-wrapper has-value">
-                        <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.start_hour" name="hour" style="background: transparent">
-                          <option *ngFor="let hour of hourArr" [value]="hour">
-                            {{hour}}
+                <div class="c-sm-2 c-md-2 c-lg-2">
+                  <div class="form-wrapper timepick">
+                    <label for="startTime">Start Time</label>
+                    <div class="tbox">
+                      <div class="times">
+                        <select id="" class="mins side-form-ctrl" [(ngModel)]="addExtraClass.start_hour" name="startTime">
+                          <option [value]="time" *ngFor="let time of times">
+                            {{time}}
                           </option>
                         </select>
-                        <label for="hour">Hour</label>
                       </div>
-                      <div class="field-wrapper has-value">
-                        <select id="minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.start_minute" name="minute"
-                          style="background: transparent">
+                      <div class="times">
+                        <select id="" class="mers side-form-ctrl" [(ngModel)]="addExtraClass.start_minute" name="minute">
                           <option *ngFor="let minute of minArr" [value]="minute">
                             {{minute}}
                           </option>
                         </select>
-                        <label for="minute">Minute</label>
-                      </div>
-                      <div class="field-wrapper has-value">
-                        <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.start_meridian" name="meridian"
-                          style="background: transparent">
-                          <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                            {{meridian}}
-                          </option>
-                        </select>
-                        <label for="hour">Meridian</label>
                       </div>
                     </div>
-                  </fieldset>
+                  </div>
+                </div>
+
+                <div class="c-sm-2 c-md-2 c-lg-2">
+                  <div class="form-wrapper timepick">
+                    <label for="startTime">End Time</label>
+                    <div class="tbox">
+                      <div class="times">
+                        <select id="" class="mins side-form-ctrl" [(ngModel)]="addExtraClass.end_hour" name="startTime">
+                          <option [value]="time" *ngFor="let time of times">
+                            {{time}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="times">
+                        <select id="" class="mers side-form-ctrl" [(ngModel)]="addExtraClass.end_minute" name="minute">
+                          <option *ngFor="let minute of minArr" [value]="minute">
+                            {{minute}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="c-lg-3 c-md-3 c-sm-3">
-                  <fieldset>
-                    <legend>End Time</legend>
-                    <div class="time-picker">
-                      <div class="field-wrapper has-value">
-                        <select id="endTime_hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.end_hour" name="hour"
-                          style="background: transparent">
-                          <option *ngFor="let hour of hourArr" [value]="hour">
-                            {{hour}}
-                          </option>
-                        </select>
-                        <label for="endTime_hour">Hour</label>
-                      </div>
-                      <div class="field-wrapper has-value">
-                        <select id="endTime_minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.end_minute" name="minute"
-                          style="background: transparent">
-                          <option *ngFor="let minute of minArr" [value]="minute">
-                            {{minute}}
-                          </option>
-                        </select>
-                        <label for="endTime_minute">Minute</label>
-                      </div>
-                      <div class="field-wrapper has-value">
-                        <select id="endTime_meridian" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="addExtraClass.end_meridian" name="meridian"
-                          style="background: transparent">
-                          <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                            {{meridian}}
-                          </option>
-                        </select>
-                        <label for="endTime_meridian">Meridian</label>
-                      </div>
-                    </div>
-                  </fieldset>
+                  <div class="field-wrapper" [ngClass]="{'has-value':addExtraClass.desc != ''}">
+                    <textarea class="form-ctrl textBox" id="divDesc" name="desc" [(ngModel)]="addExtraClass.desc"></textarea>
+                    <label for="divDesc">Class Description</label>
+                  </div>
                 </div>
-                <div>
-                  <label>Class Description</label>
-                  <textarea [(ngModel)]="addExtraClass.desc" id="txtAreaDesc"></textarea>
-                </div>
-                <div>
-                  <button class="btn" (click)="addNewExtraClass()">Add</button>
+
+                <div style="padding-top: 10px">
+                  <button class="btn fullBlue" (click)="addNewExtraClass()">Add</button>
                 </div>
 
               </div>
-              <div>
-                <h3>Extra Class</h3>
 
-                <div class="table-scroll-wrapper marginTopBottom">
-                  <div class="table table-responsive">
+              <div class="extraClass">
+                <div class="table-scroll-wrapper">
+                  <div class="table-responsive">
                     <table>
                       <thead>
                         <tr>
@@ -676,8 +746,8 @@
                             {{row.note}}
                           </td>
                           <td>
-                            <a style="cursor:pointer" (click)="cancelExtraClassSchedule(row)">Cancel Class</a>
-                            <a style="cursor:pointer" (click)="notifyExtraClassSchedule(row)">Notify</a>
+                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="cancelExtraClassSchedule(row)">Cancel</a>
+                            <a style="cursor:pointer;margin-right: 5px" *ngIf="row.schd_id != '0'" (click)="notifyExtraClassSchedule(row)">Notify</a>
                             <a style="cursor:pointer" (click)="deleteExtraClassSchedule(row , index)">Delete</a>
                           </td>
                         </tr>
@@ -691,14 +761,17 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <button class="btn pull-right" style="margin-right: 10px;" [disabled]="extraClassTable.length > 0" (click)="updateExtraClass()">Update</button>
+
+              <div class="row btn-table">
+                <button class="btn fullBlue pull-right" style="margin-right: 10px" (click)="updateExtraClass()">Update</button>
               </div>
+
             </div>
 
-            <div class="cancel-wrapper">
-              <h3>Cancelled Class</h3>
-              <div class="table-scroll-wrapper marginTopBottom">
+            <div class="divCancelClass">
+              <h4>Cancelled Class</h4>
+
+              <div class="table-scroll-wrapper cancelTable">
                 <div class="table table-responsive">
                   <table>
                     <thead>
@@ -735,7 +808,7 @@
                           {{row.cancel_note}}
                         </td>
                         <td>
-                          <a style="cursor:pointer" (click)="notifyCancelClass(row)">Notify</a>
+                          <a style="cursor:pointer;margin-right: 5px" (click)="notifyOfCancelClass(row)">Notify</a>
                           <span>Last Notified</span> {{row.last_notify_sent_time}}
                         </td>
                       </tr>
@@ -748,151 +821,11 @@
                   </table>
                 </div>
               </div>
+
             </div>
 
           </div>
 
-          <div class="" *ngIf="batchFrequency == '2'">
-
-            <div class="row rowAllignCustomAdd">
-              <div class="c-lg-2 c-md-2 c-sm-2">
-                <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': custom.date!=''}">
-                  <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="custom.date" readonly="true" name="csd"
-                    bsDatepicker>
-                  <label for="csd">Date
-                    <span style="color:red">*</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="c-lg-3 c-md-3 c-sm-3">
-                <fieldset>
-                  <legend style="color: #0084f6;">Start Time</legend>
-                  <div class="time-picker">
-                    <div class="field-wrapper has-value">
-                      <select id="startTime_hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.start_hour" name="hour" style="background: transparent">
-                        <option *ngFor="let hour of hourArr" [value]="hour">
-                          {{hour}}
-                        </option>
-                      </select>
-                      <label for="startTime_hour">Hour</label>
-                    </div>
-                    <div class="field-wrapper has-value">
-                      <select id="startTime_minute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.start_minute" name="minute"
-                        style="background: transparent">
-                        <option *ngFor="let minute of minArr" [value]="minute">
-                          {{minute}}
-                        </option>
-                      </select>
-                      <label for="minute">Minute</label>
-                    </div>
-                    <div class="field-wrapper has-value">
-                      <select id="startTime_meridian" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.start_meridian" name="meridian"
-                        style="background: transparent">
-                        <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                          {{meridian}}
-                        </option>
-                      </select>
-                      <label for="startTime_meridian">Meridian</label>
-                    </div>
-                  </div>
-                </fieldset>
-              </div>
-              <div class="c-lg-3 c-md-3 c-sm-3">
-                <fieldset>
-                  <legend style="color: #0084f6;">End Time</legend>
-                  <div class="time-picker">
-                    <div class="field-wrapper has-value">
-                      <select id="endTimehour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.end_hour" name="hour" style="background: transparent">
-                        <option *ngFor="let hour of hourArr" [value]="hour">
-                          {{hour}}
-                        </option>
-                      </select>
-                      <label for="endTimehour">Hour</label>
-                    </div>
-                    <div class="field-wrapper has-value">
-                      <select id="endTimeminute" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.end_minute" name="minute" style="background: transparent">
-                        <option *ngFor="let minute of minArr" [value]="minute">
-                          {{minute}}
-                        </option>
-                      </select>
-                      <label for="endTimeminute">Minute</label>
-                    </div>
-                    <div class="field-wrapper has-value">
-                      <select id="endTimeMeridian" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="custom.end_meridian" name="meridian"
-                        style="background: transparent">
-                        <option *ngFor="let meridian of meridianArr" [value]="meridian">
-                          {{meridian}}
-                        </option>
-                      </select>
-                      <label for="endTimeMeridian">Meridian</label>
-                    </div>
-                  </div>
-                </fieldset>
-              </div>
-              <div class="c-lg-2 c-md-2 c-sm-2">
-                <textarea class="textBoxContent" [(ngModel)]="custom.desc" id="txtAreaDesc" placeholder="Class Description"></textarea>
-              </div>
-              <div class="c-lg-2 c-md-2 c-sm-2">
-                <button class="btn" (click)="addNewCustomClass()">Add</button>
-              </div>
-            </div>
-
-            <div class="table-scroll-wrapper customTableWrapper" *ngIf="customTable.length > 0 ">
-              <div class="table table-responsive">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>
-                        Date
-                      </th>
-                      <th>
-                        Start Time
-                      </th>
-                      <th>
-                        End Time
-                      </th>
-                      <th>
-                        Class Description
-                      </th>
-                      <th>
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let row of customTable; let i=index ; trackBy : index">
-                      <td>
-                        {{row.class_date}}
-                      </td>
-                      <td>
-                        {{row.start_time}}
-                      </td>
-                      <td>
-                        {{row.end_time}}
-                      </td>
-                      <td>
-                        {{row.desc}}
-                      </td>
-                      <td>
-                        <a style="cursor:pointer" (click)="deleteFromCustomTable(row , index)">Delete</a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div class="pull-right" *ngIf="customTable.length > 0">
-              <button class="btn" (click)="updateCustomClass()" style="margin-top: 10px;">Update</button>
-            </div>
-
-
-
-
-
-
-          </div>
 
         </section>
 
@@ -1241,7 +1174,7 @@
 <!-- //////////////////////////////////////// Cancellation PopUp///////////////////////////////////////////// -->
 <!-- //////////////////////////////////////// Cancellation PopUp///////////////////////////////////////////// -->
 
-<section id="popup " class="popupWrapper fadeIn " *ngIf="showPopUpCancellation ">
+<section id="popup " class="popupWrapper fadeIn " *ngIf="showPopUpCancellation">
   <div class="popup pos-abs popup-body-container ">
     <div class="popup-wrapper pos-rel ">
       <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closePopup()">
@@ -1259,7 +1192,8 @@
         </svg>
       </span>
       <div class="popup-content cancelWraper">
-        <h2>Cancel Schedule {{cancelRowSelected.subject_name}}</h2>
+        <h2 *ngIf="isProfessional">Cancel Schedule {{cancelRowSelected.batch_name}}</h2>
+        <h2 *ngIf="!isProfessional">Cancel Schedule {{cancelRowSelected.subject_name}}</h2>
         <div class="row" style="margin:20px 10px">
           <div class="field-wrapper c-sm-6 c-md-6 c-lg-6">
             <textarea class="textBox" id="idTexboxReason" placeholder="Cancellation Reason"></textarea>
@@ -1278,6 +1212,136 @@
           <div class="pull-right" *ngIf="isProfessional" style="margin-right: 15px">
             <button class="btn" (click)="closePopup()">Close</button>
             <button class="btn fullBlue" (click)="cancelBatchSchedule()">Cancel Class</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ///////////////////////////////////////////Warning PopUp///////////////////////////////////////////////////// -->
+<!-- ///////////////////////////////////////////Warning PopUp///////////////////////////////////////////////////// -->
+<!-- ///////////////////////////////////////////Warning PopUp///////////////////////////////////////////////////// -->
+<!-- ///////////////////////////////////////////Warning PopUp///////////////////////////////////////////////////// -->
+<!-- ///////////////////////////////////////////Warning PopUp///////////////////////////////////////////////////// -->
+<!-- ///////////////////////////////////////////Warning PopUp///////////////////////////////////////////////////// -->
+<section id="popup " class="popupWrapper fadeIn " *ngIf="showWarningPopup">
+  <div class="popup pos-abs popup-body-container ">
+    <div class="popup-wrapper pos-rel ">
+      <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeWarningPopUp()">
+        <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
+          <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
+            <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
+              <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
+                      rotate(45) " />
+              <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
+                      rotate(45) " />
+            </g>
+            <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
+                      " height="16 " transform="translate(1012 297) " />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content">
+        <div class="" *ngIf="batchFrequency == '1'">
+          <div class="row warningNote ">
+            <h5>
+              Weekly Schedule already exist for the batch.You are trying to modify the batch schedule from weekly to other.If you do so,
+              changes (mentioned below) will be applied.
+              <br> -Extra Classes (except who have not been scheduled) will be deleted.
+              <br> -Already existing cancelled classes will be deleted.
+              <br> -Weekly classes (except who have not been scheduled) will be deleted and rest of the weekly classes will be
+              moved to extra classes. Other Schedule already exist for the batch.
+              <br> You are trying to modify the batch schedule from other to weekly.
+              <br> If you do so, changes (mentioned below) will be applied.
+              <br> -Extra Classes (except who have not been scheduled) will be deleted.
+              <br> -Already existing cancelled classes will be deleted.
+              <br> -Custom classes (except who have not been scheduled) will be deleted and rest of the custom classes will be
+              moved to extra classes
+            </h5>
+          </div>
+          <div class="row">
+            <div class="pull-right" style="margin-right: 20px;">
+              <input class="btn" type="button" value="Close" (click)="closeWarningPopUp()">
+              <input class="btn fullBlue" type="button" value="Add" (click)="createWeeklySchedule()">
+            </div>
+          </div>
+        </div>
+        <div class="" *ngIf="batchFrequency == '2'">
+          <div class="row warningNote">
+            <h5>
+              Weekly Schedule already exist for the batch.
+              <br> You are trying to modify the batch schedule from weekly to other.
+              <br> If you do so,changes (mentioned below) will be applied.
+              <br> -Extra Classes (except who have not been scheduled) will be deleted.
+              <br> -Already existing cancelled classes will be deleted.
+              <br> -Weekly classes (except who have not been scheduled) will be deleted and rest of the weekly classes will be
+              moved to extra classes
+            </h5>
+          </div>
+          <div class="row">
+            <div class="pull-right" style="margin-right: 20px;">
+              <input class="btn" type="button" value="Close" (click)="closeWarningPopUp()">
+              <input class="btn fullBlue" type="button" value="Add" (click)="createCustomClasses()">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- //////////////////////////////////////// Cancel Weekly Schedule ///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancel Weekly Schedule///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancel Weekly Schedule///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancel Weekly Schedule///////////////////////////////////////////// -->
+<!-- //////////////////////////////////////// Cancel Weekly Schedule///////////////////////////////////////////// -->
+
+<section id="popup " class="popupWrapper fadeIn " *ngIf="cancelWeeklySchedulePop">
+  <div class="popup pos-abs popup-body-container ">
+    <div class="popup-wrapper pos-rel ">
+      <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeWeeklySchedulePopup()">
+        <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
+          <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
+            <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
+              <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
+                    rotate(45) " />
+              <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
+                    rotate(45) " />
+            </g>
+            <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
+                    " height="16 " transform="translate(1012 297) " />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content cancelWraper">
+        <h2 *ngIf="isProfessional">Batch Weekly Schedule Cancellation</h2>
+        <div class="row">
+          <div class="c-lg-6 c-md-6 c-sm-6">
+            <div class="field-wrapper datePickerBox has-value">
+              <input type="text" value="" id="dateWee" class="form-ctrl bsDatepicker" [(ngModel)]="weeklyScheduleCan.date" readonly="true"
+                name="csd" bsDatepicker>
+              <label for="dateWee">Date
+                <span style="color:red">*</span>
+              </label>
+            </div>
+          </div>
+          <div class="field-wrapper c-sm-6 c-md-6 c-lg-6">
+            <textarea class="textBox" id="idTexboxReason" [(ngModel)]="weeklyScheduleCan.cancel_note" placeholder="Cancellation Reason"></textarea>
+          </div>
+        </div>
+
+        <div class="row extraMargin">
+          <div class="field-checkbox-wrapper pull-left">
+            <input type="checkbox" [(ngModel)]="weeklyScheduleCan.is_notified" name="enableSMS" class="form-checkbox" id="NotifyStusde">
+            <label for="NotifyStusde">Notify students</label>
+          </div>
+          <div class="pull-right" style="margin-right: 15px">
+            <button class="btn" (click)="closeWeeklySchedulePopup()">Close</button>
+            <button class="btn fullBlue" (click)="cancelWeeklySchedule()">Cancel Class</button>
           </div>
         </div>
 

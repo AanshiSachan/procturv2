@@ -40,7 +40,8 @@ export class ManageBatchComponent implements OnInit {
     batch_code: '',
     start_date: '',
     end_date: '',
-    is_active: false,
+    is_active: true,
+    is_exam_grad_feature: false
   }
   PageIndex: number = 1;
   displayBatchSize: number = 10;
@@ -51,6 +52,12 @@ export class ManageBatchComponent implements OnInit {
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5];
   selectedRow: number;
+  academicList: any = [];
+  feeTemplateDataSource: any = [];
+  deafultTemplate: any;
+  studentUnAssigned: boolean = false;
+  examGradeFeature: any = "";
+  searchData: any = "";
 
   constructor(
     private apiService: ManageBatchService,
@@ -58,17 +65,19 @@ export class ManageBatchComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.checkTabSelection();
+    this.examGradeFeature = JSON.parse(sessionStorage.getItem('institute_info')).is_exam_grad_feature;
     this.getAllBatchesList()
     this.getMasterCourseList();
     this.getAllClassRoom();
     this.getAllTeacherList();
+    this.getAcademicYearDetails();
   }
 
   getAllBatchesList() {
     this.isRippleLoad = true;
     this.apiService.getBatchListFromServer().subscribe(
       (res: any) => {
-        console.log('batch', res);
         this.batchesListDataSource = res;
         this.totalRow = res.length;
         this.fetchTableDataByPage(this.PageIndex);
@@ -136,7 +145,6 @@ export class ManageBatchComponent implements OnInit {
     this.isRippleLoad = true;
     this.apiService.getBatchClassRoomListFromServer().subscribe(
       data => {
-        console.log('ClassRoom List', data);
         this.classRoomList = data;
         this.isRippleLoad = false;
       },
@@ -152,7 +160,6 @@ export class ManageBatchComponent implements OnInit {
     this.isRippleLoad = true;
     this.apiService.getTeachersListFromServer().subscribe(
       res => {
-        console.log('TeacherList', res);
         this.teacherList = res;
         this.isRippleLoad = false;
       },
@@ -168,7 +175,6 @@ export class ManageBatchComponent implements OnInit {
     this.isRippleLoad = true;
     this.apiService.getMasterCourseListFromServer().subscribe(
       res => {
-        console.log('masterCourse', res);
         this.courseList = res;
         this.isRippleLoad = false;
       },
@@ -221,6 +227,11 @@ export class ManageBatchComponent implements OnInit {
       this.addNewBatch.end_date = moment(this.addNewBatch.end_date).format("YYYY-MM-DD");
     }
 
+    if (this.addNewBatch.teacher_id == "-1") {
+      this.messageToast('error', 'Error', 'Provide provide faculty name.');
+      return;
+    }
+
     if (this.addNewBatch.start_date > this.addNewBatch.end_date) {
       this.messageToast('error', 'Error', 'Provide valid details of Start Date.');
       return;
@@ -230,14 +241,17 @@ export class ManageBatchComponent implements OnInit {
     } else {
       this.addNewBatch.is_active = 'N';
     }
-    this.addNewBatch.is_exam_grad_feature = 0;
-    console.log(this.addNewBatch);
+    if (this.addNewBatch.is_exam_grad_feature == true) {
+      this.addNewBatch.is_exam_grad_feature = 1;
+    } else {
+      this.addNewBatch.is_exam_grad_feature = 0;
+    }
     this.apiService.addNewBatch(this.addNewBatch).subscribe(
       res => {
-        console.log(res);
         this.messageToast('success', 'Added Batch', "Successfully created batch.");
         this.clearFormData();
         this.getAllBatchesList();
+        this.createNewBatch = false;
       },
       error => {
         console.log(error);
@@ -247,7 +261,6 @@ export class ManageBatchComponent implements OnInit {
   }
 
   updateTableRow(rowDetails, index) {
-    this.isRippleLoad = true;
     let dataToSend: any = {
       batch_code: rowDetails.batch_code,
       batch_name: rowDetails.batch_name,
@@ -263,7 +276,8 @@ export class ManageBatchComponent implements OnInit {
       this.messageToast('error', 'Error', 'Provide valid dates.');
       return;
     }
-    if (!(dataToSend.end_date > this.editRowDetails.end_date)) {
+    let endDate = moment(this.editRowDetails.end_date).format("YYYY-MM-DD");
+    if (!(dataToSend.end_date >= endDate)) {
       this.messageToast('error', 'Error', 'Batch end date can only be extended.');
       return;
     }
@@ -271,18 +285,17 @@ export class ManageBatchComponent implements OnInit {
       this.messageToast('error', 'Error', 'Batch Code can not be greater than 4 digits.');
       return;
     }
+    this.isRippleLoad = true;
     this.apiService.updateDataToServer(dataToSend, rowDetails.batch_id).subscribe(
       data => {
-        console.log(data);
+        this.isRippleLoad = false;
         document.getElementById(("row" + index).toString()).classList.remove('editComp');
         document.getElementById(("row" + index).toString()).classList.add('displayComp');
         this.messageToast('success', 'Updated', 'Details Updated Successfully.');
         this.getAllBatchesList();
-        this.isRippleLoad = false;
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
         this.messageToast('error', 'Error', error.error.message);
       }
     )
@@ -310,17 +323,55 @@ export class ManageBatchComponent implements OnInit {
 
   addStudentToBatch(rowDetails) {
     this.addStudentPopUp = true;
-    this.getAllStudentList(rowDetails);
     this.batchDetails = rowDetails;
+    this.getAllFeeTemplate();
+    this.getAllStudentList(rowDetails);
+  }
+
+  getAcademicYearDetails() {
+    this.academicList = [];
+    this.apiService.getAcadYear().subscribe(
+      res => {
+        this.academicList = res;
+      },
+      err => {
+      }
+    )
+  }
+
+  getAllFeeTemplate() {
+    this.apiService.getFeeTemplate(this.batchDetails.batch_id).subscribe(
+      res => {
+        this.feeTemplateDataSource = res;
+        this.defaultTemplateDet(res);
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  defaultTemplateDet(data) {
+    data.forEach(element => {
+      if (element.is_default == 1) {
+        this.deafultTemplate = element;
+      }
+    });
   }
 
   getAllStudentList(rowDetails) {
     this.isRippleLoad = true;
     this.apiService.getStudentListFromServer(rowDetails.batch_id).subscribe(
-      res => {
-        console.log("Student list", res);
-        this.studentListDataSource = this.keepCloning(res);
-        this.studentList = res;
+      (res: any) => {
+        res.forEach(element => {
+          if (element.assigned_fee_template_id == -1) {
+            if (this.deafultTemplate != null && this.deafultTemplate != "") {
+              element.assigned_fee_template_id = this.deafultTemplate.template_id;
+            }
+          }
+        });
+        this.studentListDataSource = res;
+        this.studentList = this.keepCloning(res);
         this.getHeaderCheckBoxValue();
         this.isRippleLoad = false;
       },
@@ -332,19 +383,53 @@ export class ManageBatchComponent implements OnInit {
     )
   }
 
+  onCheckBoxClicked(data, event, index) {
+    debugger
+    this.studentUnAssigned = false;
+    let prevData: any = "";
+    for (let i = 0; i < this.studentListDataSource.length; i++) {
+      if (this.studentListDataSource[i].student_id == data.student_id) {
+        prevData = this.studentListDataSource[i];
+        if (prevData.assigned != event) {
+          if (prevData.assigned == true && event == false) {
+            // Student Unassigned
+            this.studentUnAssigned = true;
+          } else if (prevData.assigned == false && event == true) {
+            // Student Assigned
+            this.studentUnAssigned = false;
+          }
+        } else {
+          // No Changes Performed
+        }
+      }
+    }
+  }
+
   saveChanges() {
-    this.isRippleLoad = true;
+    if (this.studentUnAssigned) {
+      if (confirm("If you unassign the student from batch then corresponding unpaid fee instalments might be deleted.")) {
+        this.saveStudentListToServer();
+      }
+    } else {
+      this.saveStudentListToServer();
+    }
+  }
+
+  saveStudentListToServer() {
+    let data = this.getCheckedRows();
     let dataToSend = {
       batch_id: this.batchDetails.batch_id,
-      studentArray: this.getCheckedRows(),
+      studentAssignedUnassigned_and_AcademicYearMapping: data,
     };
+    this.isRippleLoad = true;
     this.apiService.saveUpdatedList(dataToSend, this.batchDetails.batch_id).subscribe(
       res => {
-        console.log(res);
         this.messageToast('success', 'Saved', 'Changes saved successfully.');
         this.studentList = [];
         this.addStudentPopUp = false;
         this.isRippleLoad = false;
+        this.getAllBatchesList();
+        this.searchData = "";
       },
       err => {
         this.isRippleLoad = false;
@@ -355,19 +440,16 @@ export class ManageBatchComponent implements OnInit {
   }
 
   getCheckedRows() {
-    console.log(this.studentListDataSource);
-    console.log(this.studentList);
     let test = {};
     for (let i = 0; i < this.studentListDataSource.length; i++) {
       for (let t = 0; t < this.studentList.length; t++) {
         if (this.studentList[t].student_id == this.studentListDataSource[i].student_id) {
           if (this.studentList[t].assigned != this.studentListDataSource[i].assigned) {
-            test[this.studentList[t].student_id] = this.studentList[t].assigned;
+            test[this.studentList[t].student_id] = [this.studentList[t].assigned.toString(), this.studentList[t].academic_year.toString(), this.studentList[i].assigned_fee_template_id.toString()];
           }
         }
       }
     }
-    console.log(test);
     return test;
   }
 
@@ -380,7 +462,6 @@ export class ManageBatchComponent implements OnInit {
 
 
   searchStudent(element) {
-    debugger
     if (element.value != '' && element.value != null) {
       let searchData = this.studentListDataSource.filter(item =>
         Object.keys(item).some(
@@ -518,6 +599,21 @@ export class ManageBatchComponent implements OnInit {
         });
       }
     }
+  }
+
+  checkTabSelection() {
+    setTimeout(() => {
+      this.hideAllTabs();
+      document.getElementById('liManageBatch').classList.add('active');
+    }, 200)
+  }
+
+  hideAllTabs() {
+    document.getElementById('liStandard').classList.remove('active');
+    document.getElementById('liSubject').classList.remove('active');
+    document.getElementById('liManageBatch').classList.remove('active');
+    // document.getElementById('liExam').classList.add('hide');
+    document.getElementById('liClass').classList.remove('active');
   }
 
 }

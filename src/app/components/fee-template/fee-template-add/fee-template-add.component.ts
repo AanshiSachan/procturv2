@@ -18,7 +18,7 @@ export class FeeTemplateAddComponent implements OnInit {
     fee_amount: "",
     master_course_name: '',
     course_id: -1,
-    tax_type: 1,
+    tax_type: "inclusive",
     apply_tax: false,
     tax_amount: 0,
     total_fee: 0,
@@ -28,7 +28,7 @@ export class FeeTemplateAddComponent implements OnInit {
   additionalInstallment = {
     days: 0,
     day_type: 1,
-    fee_type: 0,
+    fee_type: -1,
     fees_amount: 0,
     initial_fee_amount: 0,
     is_referenced: 'N',
@@ -45,6 +45,7 @@ export class FeeTemplateAddComponent implements OnInit {
   discountAmount: any = 0
   showDetails: boolean = false;
   enableTaxOptions: any = 0;
+  isLangInstitute: boolean = false;
 
   constructor(
     private apiService: FeeStrucService,
@@ -57,6 +58,7 @@ export class FeeTemplateAddComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkInstituteType();
     this.enableTaxOptions = sessionStorage.getItem('enable_tax_applicable_fee_installments');
     this.getAllMasterCourseList();
     this.getDetailOfFeeStructur()
@@ -81,27 +83,19 @@ export class FeeTemplateAddComponent implements OnInit {
   }
 
   getAllMasterCourseList() {
-    this.apiService.getMasterCourse().subscribe(
-      res => {
-        this.masterCourseList = res;
-      },
-      err => {
-        let msg = {
-          type: "error",
-          title: "",
-          body: "An Error Occured"
-        }
-        this.appC.popToast(msg);
-      }
-    )
-  }
-
-  onMasterCourseSelection() {
-    this.CourseList = [];
-    if (this.addNewTemplate.master_course_name != "-1") {
-      this.apiService.getCourse(this.addNewTemplate.master_course_name).subscribe(
+    if (this.isLangInstitute) {
+      this.apiService.getAllStandard().subscribe(
         res => {
-          this.CourseList = res;
+          this.masterCourseList = res;
+        },
+        err => {
+          console.log(err);
+        }
+      )
+    } else {
+      this.apiService.getMasterCourse().subscribe(
+        res => {
+          this.masterCourseList = res;
         },
         err => {
           let msg = {
@@ -115,12 +109,47 @@ export class FeeTemplateAddComponent implements OnInit {
     }
   }
 
+  onMasterCourseSelection() {
+    this.CourseList = [];
+    if (this.addNewTemplate.master_course_name != "-1") {
+
+      if (this.isLangInstitute) {
+        this.apiService.getCoursesOfStandard(this.addNewTemplate.master_course_name).subscribe(
+          res => {
+            this.CourseList = res;
+          },
+          err => {
+            console.log(err);
+          }
+        )
+      } else {
+        this.apiService.getCourse(this.addNewTemplate.master_course_name).subscribe(
+          res => {
+            this.CourseList = res;
+          },
+          err => {
+            let msg = {
+              type: "error",
+              title: "",
+              body: "An Error Occured"
+            }
+            this.appC.popToast(msg);
+          }
+        )
+      }
+    }
+  }
+
+  onAmountKeyUp() {
+    if (this.addNewTemplate.tax_type == "inclusive") {
+      this.calculateAmount(true);
+    } else {
+      this.calculateAmount(false);
+    }
+  }
+
   onTaxTypeChanges() {
-    if (this.addNewTemplate.tax_type == 1) {
-      this.addNewTemplate.apply_tax = false;
-      this.addNewTemplate.tax_amount = 0;
-      this.addNewTemplate.total_fee = Number(this.addNewTemplate.fee_amount);
-    } else if (this.addNewTemplate.tax_type == 2) {
+    if (this.addNewTemplate.tax_type == "inclusive") {
       this.addNewTemplate.apply_tax = true;
       this.calculateAmount(true);
     } else {
@@ -159,8 +188,8 @@ export class FeeTemplateAddComponent implements OnInit {
       let test: any = {};
       test.day_type = 1;
       test.days = 0;
-      if (this.addNewTemplate.apply_tax == true) {
-        if (this.addNewTemplate.tax_type == 2) {
+      if (this.enableTaxOptions == "1") {
+        if (this.addNewTemplate.tax_type == "inclusive") {
           test.initial_fee_amount = amount - tax_amount;
           test.tax = tax_amount;
         } else {
@@ -236,6 +265,10 @@ export class FeeTemplateAddComponent implements OnInit {
   }
 
   addAdditionalInst() {
+    if (this.additionalInstallment.fee_type == -1) {
+      this.messageNotifier('error', 'Error', 'Please Select Fee Type');
+      return;
+    }
     if (Number(this.additionalInstallment.initial_fee_amount) > 0) {
       if (this.additionalInstallment.fees_amount == 0) {
         if (this.additionalInstallment.service_tax == 0) {
@@ -252,7 +285,7 @@ export class FeeTemplateAddComponent implements OnInit {
       this.additionalInstallment = {
         days: 0,
         day_type: 1,
-        fee_type: 0,
+        fee_type: -1,
         fees_amount: 0,
         initial_fee_amount: 0,
         is_referenced: 'N',
@@ -301,7 +334,6 @@ export class FeeTemplateAddComponent implements OnInit {
       return;
     }
     let data: any = {
-      course_id: this.addNewTemplate.course_id,
       is_default: defaultValue,
       customFeeSchedules: feeSch,
       studentwise_total_fees_amount: this.totalAmount.toString(),
@@ -310,6 +342,12 @@ export class FeeTemplateAddComponent implements OnInit {
       template_id: 0,
       template_name: this.addNewTemplate.template_name
     };
+    if (this.isLangInstitute) {
+      data.course_id = '-1';
+      data.subject_id = this.addNewTemplate.course_id;
+    } else {
+      data.course_id = this.addNewTemplate.course_id;
+    }
     this.apiService.updateFeeTemplate(data).subscribe(
       res => {
         let msg = {
@@ -378,28 +416,39 @@ export class FeeTemplateAddComponent implements OnInit {
 
   userChangedAmountTotalAmount(data, event) {
     if (data.service_tax_applicable == "Y") {
-      data.tax = data.totalAmount * 0.01 * this.feeStructure.registeredServiceTax;
-      data.initial_fee_amount = data.totalAmount - data.tax;
+      data.tax = Math.floor(data.totalAmount - Math.floor(Number(data.totalAmount) * 100 / (100 + this.feeStructure.registeredServiceTax)));
+      data.initial_fee_amount = Math.floor(Number(data.totalAmount - data.tax));
     } else {
+      data.initial_fee_amount = Math.floor(Number(data.totalAmount));
       data.tax = 0;
     }
   }
 
   userChangeAdditionalFeeAmount(data, event) {
+    let input = Math.floor(Number(event.currentTarget.value))
     if (data.service_tax > 0) {
-      let tax = event * 0.01 * data.service_tax;
-      data.initial_fee_amount = Math.floor(event - tax);
-      if (Number(data.initial_fee_amount + tax) != Number(event)) {
-        data.initial_fee_amount = data.initial_fee_amount + Number(event) - Number(data.initial_fee_amount + tax);
+      let tax = Math.floor(input * 0.01 * data.service_tax);
+      data.initial_fee_amount = Math.floor(input - tax);
+      if (Number(data.initial_fee_amount + tax) != input) {
+        data.initial_fee_amount = Math.floor(data.initial_fee_amount + input - Number(data.initial_fee_amount + tax));
       }
     } else {
-      data.initial_fee_amount = event;
+      data.initial_fee_amount = input;
       data.tax = 0;
     }
   }
 
   deleteAdditionalRow(row, index) {
     this.otherInstList.splice(index, 1);
+  }
+
+  checkInstituteType() {
+    let type: any = sessionStorage.getItem('institute_type');
+    if (type == "LANG") {
+      this.isLangInstitute = true;
+    } else {
+      this.isLangInstitute = false;
+    }
   }
 
 }

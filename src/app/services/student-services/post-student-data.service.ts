@@ -18,12 +18,19 @@ export class PostStudentDataService {
     baseUrl: string = '';
 
     constructor(private http: Http, private auth: AuthenticatorService) {
-        this.authorization = this.auth.getAuthToken();
-        this.institute_id = this.auth.getInstituteId();
+        this.auth.currentAuthKey.subscribe(key => {
+            this.authorization = key;
+            this.headers = new Headers();
+            this.headers.append("Content-Type", "application/json");
+            this.headers.append("Authorization", this.authorization);
+        })
+        this.auth.currentInstituteId.subscribe(id => {
+            this.institute_id = id;
+        });
+        // this.authorization = this.auth.getAuthToken();
+        // this.institute_id = this.auth.getInstituteId();
         this.baseUrl = this.auth.getBaseUrl();
-        this.headers = new Headers();
-        this.headers.append("Content-Type", "application/json");
-        this.headers.append("Authorization", this.authorization);
+
     }
 
     quickAddStudent(form) {
@@ -124,7 +131,7 @@ export class PostStudentDataService {
     }
 
     allocateStudentFees(obj) {
-        if(obj.hasOwnProperty('paid_date')){
+        if (obj.hasOwnProperty('paid_date')) {
             obj.paid_date = moment(obj.paid_date).format("YYYY-MM-DD");
         }
         let urlFeeUpdate = this.baseUrl + "/api/v1/studentWise/fee/schedule/students/save/" + this.institute_id;
@@ -170,7 +177,7 @@ export class PostStudentDataService {
 
 
     generateAcknowledge(chid, id, email): Observable<any> {
-        let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" +id +"?ChequeIds=" +chid + "&sendEmail=" +email;
+        let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" + id + "?ChequeIds=" + chid + "&sendEmail=" + email;
         return this.http.post(urlsend, null, { headers: this.headers }).map(
             res => { return res.json(); },
             err => { return err.json(); }
@@ -178,7 +185,7 @@ export class PostStudentDataService {
     }
 
     sendAcknowledge(chid, id): Observable<any> {
-        let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" + id + "?ChequeIds=" +chid + "&sendEmail=Y";
+        let urlsend = this.baseUrl + "/api/v1/student_cheque/generateAck/" + this.institute_id + "/" + id + "?ChequeIds=" + chid + "&sendEmail=Y";
 
         return this.http.post(urlsend, null, { headers: this.headers }).map(
             res => { return res.json(); },
@@ -207,16 +214,16 @@ export class PostStudentDataService {
         )
     }
 
-    payPartialFeeAmount(obj): any{
-        let url = this.baseUrl +"/api/v1/studentWise/fee/students/" +this.institute_id +"/save";
-        return this.http.post(url, obj, {headers: this.headers}).map(
+    payPartialFeeAmount(obj): any {
+        let url = this.baseUrl + "/api/v1/studentWise/fee/students/" + this.institute_id + "/save";
+        return this.http.post(url, obj, { headers: this.headers }).map(
             res => {
                 return res.json();
             },
             err => {
                 return err;
             }
-            
+
         )
 
     }

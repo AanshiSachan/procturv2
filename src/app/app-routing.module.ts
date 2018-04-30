@@ -79,11 +79,6 @@ import {EventManagmentComponent} from './components/event-managment/event-managm
                     canLoad: [AuthGuard]
                 },
                 {
-                    path: 'exams',
-                    loadChildren: 'app/components/exam-home/exam-home.module#ExamHomeModule',
-                    canLoad: [AuthGuard]
-                },
-                {
                     path: 'fee',
                     loadChildren: 'app/components/fee-template/fee-template.module#FeeTemplateModule',
                     canLoad: [AuthGuard]
@@ -100,7 +95,7 @@ import {EventManagmentComponent} from './components/event-managment/event-managm
                 },
                 {
                     path: 'academic',
-                    loadChildren: 'app/components/academic-year/academic year.module#academicYearModule',
+                    loadChildren: 'app/components/academic-year/academic-year.module#AcademicYearModule',
                 },
                 {
                     path: 'setting',

@@ -16,8 +16,6 @@ import { EnquirySidebarComponent } from './enquiry-home/enquiry-sidebar/enquiry-
 import { FormsModule, ReactiveFormsModule,FormBuilder,Validators,FormControl } from "@angular/forms";
 import 'moment';
 import 'hammerjs';
-import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
-import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/timepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
@@ -26,12 +24,12 @@ import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
 import { SharedModule } from '../shared/shared.module';
 import { OnlyNumber } from './enquiry-directives/onlynumber.directive';
 
+import { PopupHandlerService } from '../../services/enquiry-services/popup-handler.service';
+
 @NgModule({
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        BusyModule,
-        NgLoggerModule.forRoot(Level.LOG),
         CommonModule,
         EnquiryRoutingModule,
         BsDatepickerModule,
@@ -63,9 +61,11 @@ import { OnlyNumber } from './enquiry-directives/onlynumber.directive';
         SmsOptionComponent,
         UserEnquiryComponent,
         CommentTooltipComponent,
-        EnquirySidebarComponent
+        EnquirySidebarComponent,
+        
     ],
     providers: [
+        PopupHandlerService,
     ]
 })
 export class EnquiryModule {

@@ -73,24 +73,24 @@
         <div class="row" *ngIf="isLoginView">
           <div class="field-wrapper has-value" [ngClass]="{'has-value': loginDataForm.alternate_email_id != ''}">
             <input class="form-ctrl" type="text" [(ngModel)]="loginDataForm.alternate_email_id" name="alternate_email_id" id="emailid"
-              autofocus #emailid="ngModel" required authInput (keyup.enter)="loginViaServer()">
+              placeholder="Enter your Mobile or Email" #emailid="ngModel" required authInput (keyup.enter)="loginViaServer()">
             <div *ngIf="emailid.invalid && (emailid.dirty || emailid.touched || no_email_found)" class="alert invalid-alert">
               <div *ngIf="emailid.errors.required">
                 Please enter valid Email ID/Mobile number
               </div>
             </div>
-            <label for="emailid">Enter your Mobile or Email</label>
+            <label for="emailid"></label>
           </div>
           <div class="row" style="margin:0;">
             <div class="field-wrapper has-value password" [ngClass]="{'has-value': loginDataForm.password != ''}">
               <input class="form-ctrl" type="password" [(ngModel)]="loginDataForm.password" name="password" id="password" #password="ngModel"
-                autofocus required authInput (keyup.enter)="loginViaServer()">
+                placeholder="Password" required authInput (keyup.enter)="loginViaServer()">
               <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert invalid-alert">
                 <div *ngIf="password.errors.required">
                   Please enter Password
                 </div>
               </div>
-              <label for="password">Password</label>
+              <label for="password"></label>
             </div>
           </div>
           <div class="row">

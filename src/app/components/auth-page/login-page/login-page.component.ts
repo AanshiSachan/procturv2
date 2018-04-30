@@ -9,6 +9,7 @@ import { LoginAuth } from '../../../model/login-auth';
 import { instituteList } from '../../../model/institute-list-auth-popup';
 import { InstituteLoginInfo } from '../../../model/multiInstituteLoginData';
 import { LoaderHandlingService } from '../../../services/loading-services/loader-handling.service';
+import { AuthenticatorService } from '../../../services/authenticator.service';
 
 @Component({
   selector: 'app-login-page',
@@ -87,7 +88,7 @@ export class LoginPageComponent {
 
 
   constructor(private login: LoginService, private route: Router, private actroute: ActivatedRoute,
-    private toastCtrl: AppComponent) {
+    private toastCtrl: AppComponent, private auth: AuthenticatorService) {
 
     /* hide header and sidebar from the view onInit to give the user the full screen view of the web app  */
     if (sessionStorage.getItem('Authorization') != null) {
@@ -109,11 +110,6 @@ export class LoginPageComponent {
 
   }
 
-
-
-
-
-
   /* Function to hide element with tag name header and sidebar */
   fullscreenLogin() {
     var header = document.getElementsByTagName('core-header');
@@ -126,10 +122,6 @@ export class LoginPageComponent {
       el.classList.add('hide');
     });
   }
-
-
-
-
 
   /*
     When user fill the login form and tries to login : ( START - 0)
@@ -162,10 +154,6 @@ export class LoginPageComponent {
   }
   //END - 0
 
-
-
-
-
   //Method to decide where to take user when he/she Logs in (START - 1)
   checkForAuthOptions(res) {
     let login_option: number = res.login_option;
@@ -192,10 +180,6 @@ export class LoginPageComponent {
   }
   //End - 1
 
-
-
-
-
   //if login is fails ( Start - 2)
   alternateLoginFailure() {
     let data = {
@@ -207,8 +191,6 @@ export class LoginPageComponent {
   }
   //End -2
 
-
-
   validInstituteCheck(data): boolean {
     let instIdArr = this.login.getAllInstituteId();
     if (instIdArr.indexOf(data.institution_id) == -1) {
@@ -218,12 +200,11 @@ export class LoginPageComponent {
     }
   }
 
-
   //if login is successfull ( Start - 3)
   alternateLoginSuccess(res) {
     if (!this.validInstituteCheck(res)) {
       this.route.navigateByUrl('/authPage');
-      console.log('Institute ID Not Found');
+      //console.log('Institute ID Not Found');
       let data = {
         type: "error",
         title: "Institute not registered",
@@ -236,8 +217,15 @@ export class LoginPageComponent {
     }
     else {
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
+
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
       let Authorization = btoa(institute_data.userid + "|" + institute_data.userType + ":" + institute_data.password + ":" + institute_data.institution_id);
+
+      sessionStorage.setItem('Authorization', Authorization);
+      sessionStorage.setItem('institute_id', institute_data.institution_id);
+
+      this.auth.changeAuthenticationKey(Authorization);
+      this.auth.changeInstituteId(institute_data.institution_id);
 
       sessionStorage.setItem('about_us_image', institute_data.about_us_image);
       sessionStorage.setItem('about_us_text', institute_data.about_us_text);
@@ -262,7 +250,6 @@ export class LoginPageComponent {
       sessionStorage.setItem('institution_header1', institute_data.institution_header1);
       sessionStorage.setItem('institution_header2', institute_data.institution_header2);
       sessionStorage.setItem('institution_header3', institute_data.institution_header3);
-      sessionStorage.setItem('institute_id', institute_data.institution_id);
       sessionStorage.setItem('institution_logo', institute_data.institution_logo);
       sessionStorage.setItem('institution_name', institute_data.institution_name);
       sessionStorage.setItem('institute_name', institute_data.institute_name);
@@ -290,7 +277,6 @@ export class LoginPageComponent {
       sessionStorage.setItem('user_permission', institute_data.user_permission);
       sessionStorage.setItem('user_type_name', institute_data.user_type_name);
       sessionStorage.setItem('username', institute_data.username);
-      sessionStorage.setItem('Authorization', Authorization);
       sessionStorage.setItem('username', institute_data.username);
       sessionStorage.setItem('userid', institute_data.userid);
       sessionStorage.setItem('message', institute_data.message);
@@ -312,11 +298,6 @@ export class LoginPageComponent {
   }
   //End - 3
 
-
-
-
-
-
   //if login email is not verified ( Start - 4 )
   alternateLoginEmailNotVerified() {
     let data = {
@@ -327,11 +308,6 @@ export class LoginPageComponent {
     this.toastCtrl.popToast(data);
   }
   //End - 4
-
-
-
-
-
 
   //if login email is registered in multi insititute ( Start - 5 )
   alternateLoginMultiInstitute(data) {
@@ -350,10 +326,6 @@ export class LoginPageComponent {
   //End - 5
 
 
-
-
-
-
   alternateLoginMultiInstituteData(u_id, inst_id) {
     this.multiInstituteLoginInfo.userid = u_id;
     this.multiInstituteLoginInfo.institution_id = inst_id;
@@ -366,11 +338,6 @@ export class LoginPageComponent {
       this.checkForAuthOptions(el);
     });
   }
-
-
-
-
-
 
 
   //if user mobile no. is not verified ( Start - 6 )
@@ -389,11 +356,6 @@ export class LoginPageComponent {
       .map(() => --this.counter);
   }
   //END - 6
-
-
-
-
-
 
   //if login email is registered as multi user ( Start - 7 )
   alternateLoginMultiUser(data) {
@@ -416,10 +378,6 @@ export class LoginPageComponent {
   }
 
 
-
-
-
-
   alternateLoginMultiUserData(u_id, u_role, inst_id) {
     this.multiUserLoginInfo.userid = u_id;
     this.multiUserLoginInfo.user_role = u_role;
@@ -435,12 +393,8 @@ export class LoginPageComponent {
   //END - 7
 
 
-
-
-
-
   alternateLoginOTPVerification() {
-    console.log("##### trying to Validate OTP #####");
+    //console.log("##### trying to Validate OTP #####");
     //console.log(this.otpVerificationInfo);
     if (this.otpVerificationInfo.otp_code == null || this.otpVerificationInfo.otp_code == "") {
       let data = {
@@ -478,9 +432,6 @@ export class LoginPageComponent {
   }
 
 
-
-
-
   alternateLoginOTPRegenerate() {
     console.log("##### in Regenerate Method ######");
     //console.log(this.OTPRegenerateData);
@@ -490,9 +441,6 @@ export class LoginPageComponent {
       this.OTPVerification(el);
     })
   }
-
-
-
 
 
   forgotPassword() {
@@ -527,14 +475,9 @@ export class LoginPageComponent {
   }
 
 
-
-
-
   showInstituteList() {
     this.isInstituteListPop = true;
   }
-
-
 
 
   showUserList() {
@@ -542,11 +485,9 @@ export class LoginPageComponent {
   }
 
 
-
   closeUserList() {
     this.isUserListPop = false;
   }
-
 
 
   /* function to hide isInstituteList popup */
@@ -555,12 +496,9 @@ export class LoginPageComponent {
   }
 
 
-
   showOTPValidationModal() {
     this.OTPVerificationPopUp = true;
   }
-
-
 
 
   /* function to hide popup to add institute */
@@ -569,14 +507,10 @@ export class LoginPageComponent {
   }
 
 
-
-
   openGetAdvice() {
     let url = "http://proctur.com/get_advice.html";
     window.open(url);
   }
-
-
 
 
   removeFullscreen() {
@@ -597,8 +531,19 @@ export class LoginPageComponent {
 
 
   createRoleBasedSidenav() {
-    this.login.changeSidenavStatus('authorized');
-    this.route.navigateByUrl('home');
+    this.auth.currentInstituteId.subscribe(id => {
+      /* If Id has been updated to the services then proceed */
+      if(id != null){
+        this.login.changeSidenavStatus('authorized');
+        this.route.navigateByUrl('home');
+      }
+      /* If Id Not set then recall the function as user has successfully logged in */
+      else{
+        this.auth.changeAuthenticationKey(sessionStorage.getItem('Authorization'));
+        this.auth.changeInstituteId(sessionStorage.getItem('institute_id'));
+        this.createRoleBasedSidenav();
+      }
+    });
   }
 
 }

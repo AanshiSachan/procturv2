@@ -61,7 +61,7 @@
     .row {
         margin: 0px 10px;
         .field-wrapper {
-            width: 40%;
+            width: 60%;
         }
     }
 }
@@ -564,6 +564,12 @@
                             color: #777;
                             &.bigger {
                                 width: 20%;
+                            }
+                            &.tax {
+                                width: 10% !important;
+                            }
+                            &.date {
+                                width: 20% !important;
                             }
                         }
                     }
@@ -1847,6 +1853,28 @@ input[type=number]::-webkit-outer-spin-button {
         right: 0px;
         bottom: 5px;
         z-index: 2;
+    }
+    .field-wrapper {
+        position: relative;
+        padding-top: 10px;
+        &.datePickerBox {
+            .form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url('../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 35px;
+                top: 18px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
     }
 }
 
