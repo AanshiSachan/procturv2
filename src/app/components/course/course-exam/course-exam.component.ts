@@ -55,6 +55,10 @@ export class CourseExamComponent implements OnInit {
     notify: false
   }
   currentDate: any = moment().format("YYYY-MM-DD");
+  courseData = {
+    master_course: '',
+    requested_date: moment().format("YYYY-MM-DD")
+  }
 
   constructor(
     private apiService: ExamCourseService,
@@ -153,7 +157,7 @@ export class CourseExamComponent implements OnInit {
     if (this.batchAdderData.total_marks > 0) {
       let obj: any = {};
       obj.total_marks = this.batchAdderData.total_marks;
-      obj.exam_date = this.batchAdderData.exam_date;
+      obj.exam_date = moment(this.batchAdderData.exam_date).format('YYYY-MM-DD');
       let start_time = moment(this.createTimeInFormat(this.batchAdderData.start_time.hour, this.batchAdderData.start_time.minute, 'comp'), 'h:mma');
       let end_time = moment(this.createTimeInFormat(this.batchAdderData.end_time.hour, this.batchAdderData.end_time.minute, 'comp'), 'h:mma');
       if (!(start_time.isBefore(end_time))) {
@@ -524,11 +528,6 @@ export class CourseExamComponent implements OnInit {
 
   ////////// Course Model 
 
-  courseData = {
-    master_course: '',
-    requested_date: moment().format("YYYY-MM-DD")
-  }
-
   getMasterCourseList() {
     this.apiService.getMasterCourse().subscribe(
       res => {
@@ -542,7 +541,7 @@ export class CourseExamComponent implements OnInit {
 
   getExamSchedule() {
     if (this.courseData.master_course != "") {
-      this.apiService.getExamSchedule(this.courseData).subscribe(
+      this.apiService.getSchedule(this.courseData).subscribe(
         (res: any) => {
           this.examScheduleData = res;
         },
@@ -554,6 +553,63 @@ export class CourseExamComponent implements OnInit {
     }
   }
 
+  ////cancel Exam popup/////
+
+  cancelExamCourse() {
+    this.cancelExamPopUp = true;
+  }
+
+  cancelCourseExam() {
+    if (this.cancelPopUpData.reason.trim() == "" || null) {
+      this.messageNotifier('error', 'Error', 'Please Provide Cancellation Reason');
+      return;
+    }
+    let notify: any = "";
+    if (this.cancelPopUpData.notify) {
+      notify = "Y";
+    } else {
+      notify = "N";
+    }
+    let obj = {
+      cancel_reason: this.cancelPopUpData.reason,
+      course_exam_schedule_id: '0',
+      course_id: '',
+      is_cancel_notify: notify,
+      requested_date: this.courseData.requested_date
+    }
+    this.apiService.cancelExamScheduleCourse(obj).subscribe(
+      res => {
+        this.messageNotifier('error', 'Error', 'Canelled Successfully');
+        this.closeCancelExamPopUp();
+      },
+      err => {
+        console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+
+  // Send Reminder
+
+  sendReminderForCourse(data) {
+    if (confirm('Are you sure, You want to notify?')) {
+      let obj = {
+        course_exam_schedule_id: '',
+        course_id: '',
+        requested_date: this.courseData.requested_date
+      }
+      this.apiService.sendReminder(obj).subscribe(
+        res => {
+          this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfull');
+        },
+        err => {
+          console.log(err);
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
+    }
+  }
 
   // Helper Function
 

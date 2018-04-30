@@ -146,6 +146,23 @@ export class ExamCourseService {
         )
     }
 
+    sendReminder(obj) {
+        let url = this.baseURL + "/api/v1/courseExamSchedule/sendReminder";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    cancelExamScheduleCourse(obj) {
+        obj.inst_id = this.institute_id;
+        let url = this.baseURL + "/api/v1/courseExamSchedule/cancel";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
 
 
 }

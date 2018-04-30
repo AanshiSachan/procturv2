@@ -22,7 +22,7 @@
                                     {{master.standard_name}}
                                 </option>
                             </select>
-                            <label for="ddnMAsterCourse">Select Master Course</label>
+                            <label for="ddnMAsterCourse">Master Course</label>
                         </div>
                     </div>
                     <div class="c-sm-3 c-md-3 c-lg-3">
@@ -33,7 +33,7 @@
                                     {{master.subject_name}}
                                 </option>
                             </select>
-                            <label for="ddnMAsterCourse">Select Master Course</label>
+                            <label for="ddnMAsterCourse">Course</label>
                         </div>
                     </div>
                     <div class="c-sm-3 c-md-3 c-lg-3">
@@ -51,24 +51,39 @@
                         <button class="btn fullBlue" (click)="batchModelGoClick()">Go</button>
                     </div>
                 </div>
-
             </div>
 
             <div *ngIf="!isLangInstitute">
 
-            </div>
+                <div class="row">
 
-            <div class="row batchTimeDet" *ngIf="showContentSection">
-                <div class="c-sm-3 c-md-3 c-lg-3">
-                </div>
+                    <div class="c-sm-3 c-md-3 c-lg-3">
+                        <div class="field-wrapper" [ngClass]="{'has-value': courseData.master_course != ''}">
+                            <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="courseData.master_course">
+                                <option value="-1"></option>
+                                <option [value]="master.master_course" *ngFor="let  master of masterCourseList">
+                                    {{master.master_course}}
+                                </option>
+                            </select>
+                            <label for="ddnMAsterCourse">Select Master Course</label>
+                        </div>
+                    </div>
 
-                <div class="c-sm-6 c-md-6 c-lg-6">
-                    <span>Batch Start Date : {{batchStartDate}}</span>
-                    &emsp;
-                    <span>Batch End Date : {{batchEndDate}} </span>
-                </div>
+                    <div class="c-sm-3 c-md-3 c-lg-3">
 
-                <div class="c-sm-3 c-md-3 c-lg-3">
+                        <div class="field-wrapper datePickerBox has-value">
+                            <input type="text" value="" id="reqDate" class="form-ctrl bsDatepicker" [(ngModel)]="courseData.requested_date" readonly="true"
+                                name="reqDate" bsDatepicker>
+                            <label for="reqDate">Class Schedule Date
+                                <span style="color:red">*</span>
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div class="c-sm-3 c-md-3 c-lg-3">
+                        <button class="btn fullBlue" (click)="getExamSchedule()">Go</button>
+                    </div>
                 </div>
 
             </div>
@@ -81,6 +96,16 @@
 
             <div *ngIf="isLangInstitute" class="langModelCss">
 
+                <div class="row">
+
+                    <div class="c-sm-6 c-md-6 c-lg-6">
+                        <span class="spanText">Batch Start Date : {{batchStartDate}}</span>
+                        &emsp;
+                        <span class="spanText">Batch End Date : {{batchEndDate}} </span>
+                    </div>
+
+                </div>
+
                 <div class="row examAdder">
 
                     <div class="c-lg-2 c-md-2 c-sm-2">
@@ -88,7 +113,7 @@
                             <label for="csd">Date
                                 <span style="color:red">*</span>
                             </label>
-                            <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker" [(ngModel)]="batchAdderData.exam_date" readonly="true"
+                            <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker constantHeight" [(ngModel)]="batchAdderData.exam_date" readonly="true"
                                 name="csd" bsDatepicker>
                         </div>
                     </div>
@@ -99,14 +124,14 @@
                             <label for="startTime">Start Time</label>
                             <div class="tbox">
                                 <div class="times">
-                                    <select id="" class="mins side-form-ctrl" [(ngModel)]="batchAdderData.start_time.hour" name="startTime">
+                                    <select id="" class="mins side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.start_time.hour" name="startTime">
                                         <option [value]="time" *ngFor="let time of times">
                                             {{time}}
                                         </option>
                                     </select>
                                 </div>
                                 <div class="times">
-                                    <select id="" class="mers side-form-ctrl" [(ngModel)]="batchAdderData.start_time.minute" name="minute">
+                                    <select id="" class="mers side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.start_time.minute" name="minute">
                                         <option *ngFor="let minute of minArr" [value]="minute">
                                             {{minute}}
                                         </option>
@@ -123,14 +148,14 @@
                             <label for="startTime">End Time</label>
                             <div class="tbox">
                                 <div class="times">
-                                    <select id="" class="mins side-form-ctrl" [(ngModel)]="batchAdderData.end_time.hour" name="startTime">
+                                    <select id="" class="mins side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.end_time.hour" name="startTime">
                                         <option [value]="time" *ngFor="let time of times">
                                             {{time}}
                                         </option>
                                     </select>
                                 </div>
                                 <div class="times">
-                                    <select id="" class="mers side-form-ctrl" [(ngModel)]="batchAdderData.end_time.minute" name="minute">
+                                    <select id="" class="mers side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.end_time.minute" name="minute">
                                         <option *ngFor="let minute of minArr" [value]="minute">
                                             {{minute}}
                                         </option>
@@ -144,14 +169,14 @@
                     <div class="c-sm-2 c-lg-2 c-md-2">
                         <div class="form-wrapper">
                             <label for="customDescTxt">Description</label>
-                            <textarea class="side-form-ctrl" [(ngModel)]="batchAdderData.exam_desc" id="customDescTxt" name="customDescTxt"></textarea>
+                            <textarea class="side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.exam_desc" id="customDescTxt" name="customDescTxt"></textarea>
                         </div>
                     </div>
 
-                    <div class="c-sm-2 c-lg-2 c-md-2">
+                    <div class="c-sm-1 c-lg-1 c-md-1">
                         <div class="form-wrapper">
                             <label for="inpTotalMarks">Total Marks</label>
-                            <input type="number" class="side-form-ctrl" [(ngModel)]="batchAdderData.total_marks">
+                            <input type="number" class="side-form-ctrl torlMarksWidth constantHeight" [(ngModel)]="batchAdderData.total_marks">
                         </div>
                     </div>
 
@@ -227,7 +252,7 @@
                 </div>
 
                 <div class="row btn-Group">
-                    <button class="btn fullBlue pull-right" *ngIf="examSchedule.length > 0" (click)="addDataToExamSchedule()">Add</button>
+                    <button class="btn fullBlue pull-right" *ngIf="examSchedule.length > 0" (click)="addDataToExamSchedule()">Create Exam Schedule</button>
                     <!-- <button class="btn fullBlue pull-right" *ngIf="examScheduleData.otherSchd.length !=0" (click)="addDataToExamSchedule()">Update</button> -->
                 </div>
 
@@ -439,8 +464,11 @@
                 </svg>
             </span>
             <div class="popup-content">
-                <h2>Batch Exam Schedule ({{cancelExamData.exam_date}} ({{cancelExamData.start_time}} - {{cancelExamData.end_time}}))
+                <h2 *ngIf="isLangInstitute">Batch Exam Schedule ({{cancelExamData.exam_date}} ({{cancelExamData.start_time}} - {{cancelExamData.end_time}}))
                     Cancellation
+                </h2>
+                <h2 *ngIf="!isLangInstitute">
+                    Course Exam Schedule Cancellation
                 </h2>
 
                 <div class="cancel-Class-Wrapper">
@@ -461,9 +489,13 @@
                                 <label for="chkBxNotifyStudent">Notify Students</label>
                             </div>
                         </aside>
-                        <aside class="pull-right popup-btn">
+                        <aside *ngIf="isLangInstitute" class="pull-right popup-btn">
                             <input type="button" value="Close" class="btn" (click)="closeCancelExamPopUp()">
                             <input type="button" value="Cancel Class" (click)="cancelExamClassSchedule()" class="fullBlue btn">
+                        </aside>
+                        <aside *ngIf="!isLangInstitute" class="pull-right popup-btn">
+                            <input type="button" value="Close" class="btn" (click)="closeCancelExamPopUp()">
+                            <input type="button" value="Cancel Course Exam" (click)="cancelCourseExam()" class="fullBlue btn">
                         </aside>
                     </div>
 
