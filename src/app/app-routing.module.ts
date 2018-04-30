@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 /* import { CanDeactivateGuard }      from './guards/can-deactivate-guard.service'; */
 import { AuthGuard } from './guards/auth.guard';
@@ -6,7 +6,8 @@ import { ErrorComponent } from './components/error/error.component';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
 import { SlotComponent } from './components/slot/slot.component';
 import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
-
+import { ClassRoomComponent } from './components/class-room/class-room.component';
+import {EventManagmentComponent} from './components/event-managment/event-managment.component';
 @NgModule({
     imports: [
         RouterModule.forRoot(
@@ -56,6 +57,7 @@ import { CityAreaMapComponent } from './components/city-area-map/city-area-map.c
                     loadChildren: 'app/components/employee-home/employee-home.module#EmployeeHomeModule',
                     canLoad: [AuthGuard]
                 },
+
                 {
                     path: 'reports',
                     loadChildren: 'app/components/report/report.module#ReportModule',
@@ -107,6 +109,14 @@ import { CityAreaMapComponent } from './components/city-area-map/city-area-map.c
                     path: 'areaCity',
                     component: CityAreaMapComponent,
                     // canLoad: [AuthGuard]
+                },
+                {
+                    path: 'classroom',
+                    component: ClassRoomComponent
+                },
+                {
+                    path:'Event',
+                    component:EventManagmentComponent
                 },
                 { path: 'comingsoon', component: ComingSoonComponent },
                 { path: '**', component: ErrorComponent },

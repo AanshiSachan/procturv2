@@ -40,7 +40,7 @@ import { CustomButtonTableComponent } from './custom-button-table/custom-button-
         QuickFilterComponent,
         AppLoaderComponent,
         PictureCropComponent,
-        CommaSeprationAmount,
+        CommaSeprationAmount,SearchPipe,
         ProcturPopUpComponent,
         SearchPipe,
         CustomButtonTableComponent

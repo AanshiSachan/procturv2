@@ -30,6 +30,8 @@ export class getEmailService {
 
     getEmailMessages(obj): Observable<any> {
         let url = this.baseUrl + "/api/v1/alerts/config/emailReport";
+        obj.from_date = moment(obj.from_date).format("YYYY-MM-DD")
+        obj.to_date = moment(obj.to_date).format("YYYY-MM-DD")
         return this.http.post(url, obj, { headers: this.headers }).map(
             res => {
                 return res;

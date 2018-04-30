@@ -41,6 +41,11 @@ import { SharedModule } from './components/shared/shared.module';
 import { SlotApiService } from './services/slot-service/slot.service';
 import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
 import { CityAreaService } from './services/area-city-service/area-city.service';
+import { ClassRoomComponent } from './components/class-room/class-room.component';
+import { ClassRoomService } from './services/class-roomService/class-roomlist.service';
+import {EventManagmentService} from './services/event-managment.service';
+import { EventManagmentComponent } from './components/event-managment/event-managment.component';
+//import { ClassRoomComponent } from './class-room/class-room.component';
 
 import { SearchBoxComponent } from './components/core/search-box/search-box.component';
 
@@ -69,6 +74,9 @@ import { SearchBoxComponent } from './components/core/search-box/search-box.comp
     OverlayMenuComponent,
     SlotComponent,
     CityAreaMapComponent,
+    ClassRoomComponent,
+  EventManagmentComponent,
+
     SearchBoxComponent
   ],
   entryComponents: [
@@ -83,7 +91,8 @@ import { SearchBoxComponent } from './components/core/search-box/search-box.comp
     AuthGuard,
     LoaderHandlingService,
     SlotApiService,
-    CityAreaService
+    CityAreaService,
+    ClassRoomService
   ],
   bootstrap: [AppComponent]
 })
