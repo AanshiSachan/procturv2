@@ -3,7 +3,7 @@ import {
   AfterViewInit, OnDestroy, ElementRef, Renderer2, ChangeDetectionStrategy, ChangeDetectorRef,
   SimpleChanges, OnChanges
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { EnquiryCampaign } from '../../../model/enquirycampaign';
 import { instituteInfo } from '../../../model/instituteinfo';
@@ -320,10 +320,22 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(private enquire: FetchenquiryService, private prefill: FetchprefilldataService,
     private router: Router, private fb: FormBuilder, private pops: PopupHandlerService, private postdata: PostEnquiryDataService,
-    private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef) {
+    private appC: AppComponent, private login: LoginService, private rd: Renderer2, private cd: ChangeDetectorRef, private actRoute: ActivatedRoute) {
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
     }
+    
+    this.actRoute.queryParams.subscribe(e => {
+      if(e.id != null && e.id != undefined && e.id != ''){
+        if(e.action == undefined ||e.action == undefined || e.action == ''){
+          this.router.navigate(['/enquiry/edit/' + e.id]);          
+        }
+        else{
+          console.log(e);
+        }
+      }
+    });
+    
   }
 
   /* =========================================================================== */
@@ -355,51 +367,56 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     /* Fetch the status of message from  popup handler service */
     this.pops.currentMessage.subscribe(message => {
       this.cd.markForCheck();
-      if (message == 'sms') {
-        this.cd.markForCheck();
-        this.smsServicesInvoked();
-        this.message = message;
-        this.cd.markForCheck();
-        this.smsSelectedRows = this.selectedRow;
-        this.cd.markForCheck();
-      }
-      else if (message == 'update') {
 
-        this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
+      if(this.selectedRow.institute_enquiry_id != null && this.selectedRow.institute_enquiry_id != undefined){
+        if (message == 'sms') {
           this.cd.markForCheck();
-          this.updateFormData.priority = this.getPriority(res.priority);
-          this.updateFormData.follow_type = this.getFollowUp(res.follow_type);
-          this.updateFormData.statusValue = this.selectedRow.statusValue;
-          this.updateFormData.followUpDate = moment(this.selectedRow.followUpDate).format('YYYY-MM-DD');
-          if (res.followUpTime != '' && res.followUpTime != null) {
-            let timeObj = this.convertTimeToFormat(this.selectedRow.followUpTime);
-            this.hour = timeObj.hour + " " + timeObj.meridian;
-            this.minute = timeObj.minute;
-          }
+          this.smsServicesInvoked();
+          this.message = message;
 
-          if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null) {
-            let timeObj = this.convertTimeToFormat(res.walkin_followUpTime);
-            this.updateFormData.walkin_followUpTime.hour = timeObj.hour + " " + timeObj.meridian;
-            this.updateFormData.walkin_followUpTime.minute = timeObj.minute;
-          }
-          this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
-          this.updateFormData.followUpTime = res.followUpTime;
-          if (res.followUpTime != "" && res.followUpTime != null && res.followUpDate != null && res.followUpDate != "") {
-            this.updateFormData.is_follow_up_time_notification = true;
-          } else {
-            this.updateFormData.is_follow_up_time_notification = false;
-          }
-          this.updateFormComments = res.comments;
-          this.updateFormCommentsOn = res.commentedOn;
-          this.updateFormCommentsBy = res.commentedBy;
-          this.updateFormData.assigned_to = res.assigned_to;
           this.cd.markForCheck();
-        });
-        this.message = message;
-      }
-      else {
-        this.message = message
-        this.cd.markForCheck();
+          this.smsSelectedRows = this.selectedRow;
+          this.cd.markForCheck();
+        }
+        else if (message == 'update') {
+          
+          this.prefill.fetchCommentsForEnquiry(this.selectedRow.institute_enquiry_id).subscribe(res => {
+            this.cd.markForCheck();
+            this.updateFormData.priority = this.getPriority(res.priority);
+            this.updateFormData.follow_type = this.getFollowUp(res.follow_type);
+            this.updateFormData.statusValue = this.selectedRow.statusValue;
+            this.updateFormData.followUpDate = moment(this.selectedRow.followUpDate).format('YYYY-MM-DD');
+            if (res.followUpTime != '' && res.followUpTime != null) {
+              let timeObj = this.convertTimeToFormat(this.selectedRow.followUpTime);
+              this.hour = timeObj.hour + " " + timeObj.meridian;
+              this.minute = timeObj.minute;
+            }
+  
+            if (res.walkin_followUpTime != "" && res.walkin_followUpTime != null) {
+              let timeObj = this.convertTimeToFormat(res.walkin_followUpTime);
+              this.updateFormData.walkin_followUpTime.hour = timeObj.hour + " " + timeObj.meridian;
+              this.updateFormData.walkin_followUpTime.minute = timeObj.minute;
+            }
+            this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
+            this.updateFormData.followUpTime = res.followUpTime;
+            if(res.followUpTime != "" && res.followUpTime != null && res.followUpDate != null && res.followUpDate != ""){
+              this.updateFormData.is_follow_up_time_notification = true;
+            }else{
+              this.updateFormData.is_follow_up_time_notification = false;
+            }
+            this.updateFormComments = res.comments;
+            this.updateFormCommentsOn = res.commentedOn;
+            this.updateFormCommentsBy = res.commentedBy;
+            this.updateFormData.assigned_to = res.assigned_to;
+            this.cd.markForCheck();
+          });
+          this.message = message;
+        }
+        else {
+          this.message = message
+          this.cd.markForCheck();
+        }
+  
       }
     });
 
@@ -821,7 +838,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
     }
 
@@ -861,7 +878,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         closedReason: "",
         enqCustomLi: null
       };
-      this.busy = this.loadTableDatatoSource(this.instituteData);
+       this.loadTableDatatoSource(this.instituteData);
     }
 
     else if (checkerObj.prop == "Student_Admitted") {
@@ -900,7 +917,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
 
       }
 
@@ -945,7 +962,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
 
         else if (this.statusString.length != 0) {
@@ -979,7 +996,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
       }
 
@@ -1023,7 +1040,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           enqCustomLi: null
         };
 
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       else {
@@ -1067,7 +1084,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
@@ -1100,7 +1117,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
       }
 
@@ -1141,7 +1158,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       else {
@@ -1184,7 +1201,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
@@ -1217,7 +1234,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
 
       }
@@ -1260,7 +1277,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       else {
@@ -1305,7 +1322,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
@@ -1338,7 +1355,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
 
       }
@@ -1381,7 +1398,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       else {
@@ -1425,7 +1442,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
         else if (this.statusString.length != 0) {
           let stat = this.statusString.join(',');
@@ -1458,7 +1475,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             closedReason: "",
             enqCustomLi: null
           };
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         }
 
       }
@@ -1530,7 +1547,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       if (filter == "Closed") {
@@ -1563,7 +1580,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       if (filter == "Open") {
@@ -1596,7 +1613,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       if (filter == "In_Progress") {
@@ -1629,7 +1646,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
       if (filter == "Registered") {
@@ -1662,7 +1679,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           closedReason: "",
           enqCustomLi: null
         };
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
 
     }
@@ -1721,7 +1738,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         closedReason: "",
         enqCustomLi: null
       };
-      this.busy = this.loadTableDatatoSource(this.instituteData);
+       this.loadTableDatatoSource(this.instituteData);
 
     }
     /* date is filled */
@@ -1755,7 +1772,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         closedReason: "",
         enqCustomLi: null
       };
-      this.busy = this.loadTableDatatoSource(this.instituteData);
+       this.loadTableDatatoSource(this.instituteData);
     }
     /* Searchbar filled date empty */
     else if ((this.searchBarData != "" || this.searchBarData != " " || this.searchBarData != null) &&
@@ -1794,7 +1811,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
         /* invalid string raise alert */
@@ -1841,7 +1858,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
         /* send data as enquiry number */
@@ -1876,7 +1893,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
       }
@@ -1917,7 +1934,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
         /* invalid string raise alert */
@@ -1964,7 +1981,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
         /* send data as enquiry number */
@@ -1999,7 +2016,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             enqCustomLi: null
           };
 
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
 
         }
       }
@@ -2073,7 +2090,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       this.updateFormData.follow_type = this.getFollowUpReverse(this.updateFormData.follow_type);
       this.updateFormData.priority = this.getPriorityReverse(this.updateFormData.priority);
       let followupdateTime: string = "";
-      if (this.hour != '') {
+      if (this.hour != '' && this.hour != null && this.hour != undefined) {
         let time = this.timeChanges(this.hour);
         let followUpTime = time.hour + ":" + this.minute + " " + time.meridian;
         followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY') + " " + followUpTime;
@@ -2081,7 +2098,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       }
       followupdateTime = moment(this.updateFormData.followUpDate).format('DD-MMM-YY');
 
-      if (this.updateFormData.walkin_followUpTime.hour != "") {
+      if (this.updateFormData.walkin_followUpTime.hour != "" && this.updateFormData.walkin_followUpTime.hour != null && this.updateFormData.walkin_followUpTime.hour != undefined) {
         let time = this.timeChanges(this.updateFormData.walkin_followUpTime.hour);
         let walkin_followUpTime = time.hour + ":" + this.updateFormData.walkin_followUpTime.minute + " " + time.meridian;
         this.updateFormData.walkin_followUpTime = walkin_followUpTime;
@@ -2094,6 +2111,13 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.updateFormData.walkin_followUpDate = walkinfollowUpDate;
       } else {
         this.updateFormData.walkin_followUpDate = "";
+      }
+
+      if(this.updateFormData.is_follow_up_time_notification){
+        this.updateFormData.is_follow_up_time_notification = 1;
+      }
+      else if(!this.updateFormData.is_follow_up_time_notification) {
+        this.updateFormData.is_follow_up_time_notification = 0;
       }
 
       this.postdata.updateEnquiryForm(this.selectedRow.institute_enquiry_id, this.updateFormData)
@@ -2124,7 +2148,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             }
             else {
               this.closePopup();
-              this.busy = this.loadTableDatatoSource(this.instituteData);
+               this.loadTableDatatoSource(this.instituteData);
             }
           },
           err => {
@@ -2194,7 +2218,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   deleteEnquiry() {
     this.isRippleLoad = true;
     //console.log(this.selectedRow.institute_enquiry_id);
-    this.busy = this.postdata.deleteEnquiryById(this.selectedRow.institute_enquiry_id).subscribe(
+     this.postdata.deleteEnquiryById(this.selectedRow.institute_enquiry_id).subscribe(
       res => {
         this.isRippleLoad = false;
         let alert = {
@@ -2205,7 +2229,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         this.appC.popToast(alert);
         this.closePopup();
         this.cd.markForCheck();
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       },
       err => {
         this.isRippleLoad = false;
@@ -2216,7 +2240,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         }
         this.appC.popToast(alert);
         this.closePopup();
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
       }
     )
   }
@@ -2977,7 +3001,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           title: 'Enquiries Assigned',
         }
         this.appC.popToast(msg);
-        this.busy = this.loadTableDatatoSource(this.instituteData);
+         this.loadTableDatatoSource(this.instituteData);
         this.bulkAssignEnquiriesClose();
         this.cd.markForCheck();
       },
@@ -3071,7 +3095,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     else if (this.advancedFilterForm.followUpDate == null || this.advancedFilterForm.followUpDate != '' || this.advancedFilterForm.followUpDate != 'Invalid date') {
       this.advancedFilterForm.is_recent = "Y";
     }
-    this.busy = this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
+     this.enquire.getAllEnquiry(this.advancedFilterForm).subscribe(
       data => {
         this.isRippleLoad = false;
         this.sourceEnquiry = data;
@@ -3286,7 +3310,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
     this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
     this.instituteData.filtered_statuses = this.statusString.join(',');
-    this.busy = this.loadTableDatatoSource(this.instituteData);
+     this.loadTableDatatoSource(this.instituteData);
   }
 
 
@@ -3307,7 +3331,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.stats.Registered.checked = false;
     this.statusString = [];
     this.instituteData.filtered_statuses = this.statusString.join(',');
-    this.busy = this.loadTableDatatoSource(this.instituteData);
+     this.loadTableDatatoSource(this.instituteData);
   }
 
   /* =========================================================================== */
@@ -3358,7 +3382,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
       order_by: "",
       commentShow: 'false'
     };
-    this.busy = this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
+     this.enquire.fetchAllEnquiryAsXls(obj).subscribe(
       res => {
         this.isRippleLoad = false;
         let byteArr = this.convertBase64ToArray(res.document);
@@ -3596,7 +3620,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     this.instituteData.order_by = this.currentDirection;
     this.instituteData.filtered_statuses = this.statusString.join(',');
     this.cd.markForCheck();
-    this.busy = this.loadTableDatatoSource(this.instituteData);
+     this.loadTableDatatoSource(this.instituteData);
 
   }
 
@@ -3890,7 +3914,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
           this.cd.markForCheck();
           this.appC.popToast(msg);
           this.closePopup();
-          this.busy = this.loadTableDatatoSource(this.instituteData);
+           this.loadTableDatatoSource(this.instituteData);
         },
         err => {
           this.isRippleLoad = false;

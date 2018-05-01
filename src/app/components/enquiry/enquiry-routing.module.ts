@@ -19,6 +19,10 @@ import { EnquiryHomeComponent } from './enquiry-home/enquiry-home.component';
                         component: EnquiryHomeComponent
                     },
                     {
+                        path: 'home',
+                        component: EnquiryHomeComponent
+                    },
+                    {
                         path: 'add',
                         component: EnquiryAddComponent,
                         pathMatch: 'prefix'

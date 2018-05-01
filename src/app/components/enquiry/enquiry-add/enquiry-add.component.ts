@@ -12,7 +12,6 @@ import { FetchenquiryService } from '../../../services/enquiry-services/fetchenq
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import { LoginService } from '../../../services/login-services/login.service';
-import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
 
 
@@ -162,7 +161,7 @@ export class EnquiryAddComponent implements OnInit {
   areaListDataSource: any = [];
 
   constructor(private prefill: FetchprefilldataService, private router: Router,
-    private logger: Logger, private appC: AppComponent, private poster: PostEnquiryDataService, private login: LoginService) {
+   private appC: AppComponent, private poster: PostEnquiryDataService, private login: LoginService) {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
@@ -195,7 +194,7 @@ export class EnquiryAddComponent implements OnInit {
   ngOnInit() {
     this.isCityMandatory = JSON.parse(sessionStorage.getItem('institute_info')).enable_routing;
     this.isEnquiryAdministrator();
-    this.busy = this.FetchEnquiryPrefilledData();
+    this.FetchEnquiryPrefilledData();
 
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));

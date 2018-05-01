@@ -1,6 +1,6 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
-<section class="homewrap middle-section clearFix" (click)="inputClicked($event)" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
+<section class="homewrap middle-section clearFix">
   <form (ngSubmit)="save()" #myForm="ngForm">
     <!-- Left Side Form -->
     <aside class="pull-left middle-left " id="addNewEnquiry">

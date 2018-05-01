@@ -6,6 +6,8 @@ import { AcademicYearComponent } from './academic-year.component';
 import { AcademicyearService } from '../../services/academicYearService/academicyear.service';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { DatePipe } from '@angular/common';
+import {HomeComponent} from './home/home.component';
+
 @NgModule({
     imports: [
         RouterModule.forChild([
@@ -13,6 +15,17 @@ import { DatePipe } from '@angular/common';
                 path: '',
                 component: AcademicYearComponent,
                 pathMatch: 'prefix',
+                children: [
+                    {
+                        path: '',
+                        component: HomeComponent
+                    },
+                    {
+                        path: 'list',
+                        component: HomeComponent,
+                        pathMatch: 'prefix',
+                    },
+                ]
             }
         ]),
         SharedModule,
@@ -23,9 +36,7 @@ import { DatePipe } from '@angular/common';
         RouterModule
     ],
     declarations: [
-        
-        AcademicYearComponent 
-    
+        AcademicYearComponent    
 ],
     providers: [
          AcademicyearService

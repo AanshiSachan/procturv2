@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
@@ -9,7 +9,6 @@ import { instituteInfo } from '../../../model/instituteinfo';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
 import { FetchStudentService } from '../../../services/student-services/fetch-student.service';
 import { MenuItem } from 'primeng/primeng';
-import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from '../../../../assets/imported_modules/multiselect-dropdown';
 import * as moment from 'moment';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
@@ -27,6 +26,7 @@ import { WidgetService } from '../../../services/widget.service';
 })
 export class StudentHomeComponent implements OnInit, OnChanges {
 
+  isConfirmBulkDelete: boolean;
   isNotifyStudent: boolean;
   isMarkLeave: boolean;
   /* Variable declaration */
@@ -137,28 +137,40 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     private studentFetch: FetchStudentService, private login: LoginService,
     private appC: AppComponent, private studentPrefill: AddStudentPrefillService,
     private widgetService: WidgetService,
-    private postService: PostStudentDataService) {
+    private postService: PostStudentDataService, private actRoute: ActivatedRoute) {
 
-    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.actRoute.queryParams.subscribe(e => {
 
-    if (this.isProfessional) {
-      this.StudentSettings = [
-        { primaryKey: 'student_disp_id', header: 'Student Id.' },
-        { primaryKey: 'student_name', header: 'Name.' },
-        { primaryKey: 'student_phone', header: 'Contact No.' },
-        { primaryKey: 'student_class', header: 'Class' },
-        { primaryKey: 'noOfBatchesAssigned', header: 'Batch Assigned' }
-      ];
-    }
-    else {
-      this.StudentSettings = [
-        { primaryKey: 'student_disp_id', header: 'Student Id.' },
-        { primaryKey: 'student_name', header: 'Name.' },
-        { primaryKey: 'student_phone', header: 'Contact No.' },
-        { primaryKey: 'student_class', header: 'Class' },
-        { primaryKey: 'noOfBatchesAssigned', header: 'Course Assigned' }
-      ];
-    }
+      if (e.id != null && e.id != undefined && e.id != '') {
+        if(e.action == undefined ||e.action == undefined || e.action == ''){
+          this.router.navigate(['/student/edit/' + e.id]);
+        }
+        else{
+          console.log(e);
+        }
+      }
+      else {
+        this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+        if (this.isProfessional) {
+          this.StudentSettings = [
+            { primaryKey: 'student_disp_id', header: 'Student Id.' },
+            { primaryKey: 'student_name', header: 'Name.' },
+            { primaryKey: 'student_phone', header: 'Contact No.' },
+            { primaryKey: 'student_class', header: 'Class' },
+            { primaryKey: 'noOfBatchesAssigned', header: 'Batch Assigned' }
+          ];
+        }
+        else {
+          this.StudentSettings = [
+            { primaryKey: 'student_disp_id', header: 'Student Id.' },
+            { primaryKey: 'student_name', header: 'Name.' },
+            { primaryKey: 'student_phone', header: 'Contact No.' },
+            { primaryKey: 'student_class', header: 'Class' },
+            { primaryKey: 'noOfBatchesAssigned', header: 'Course Assigned' }
+          ];
+        }
+      }
+    });
   }
 
   /* OnInit function to set toggle default columns and load student data for table*/
@@ -166,17 +178,17 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.isRippleLoad = true;
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-    //this.busy = this.loadTableDataSource(this.instituteData);
+    // this.loadTableDataSource(this.instituteData);
     this.fetchStudentPrefill();
-    this.loading_message = 3;            
+    this.loading_message = 3;
     this.studentDataSource = [];
     this.totalRow = this.studentDataSource.length;
     this.bulkActionItems = [
-      // {
-      //   label: 'Mark Leave', icon: 'fas fa-exclamation', command: () => {
-      //     this.markLeave();
-      //   }
-      // },
+      {
+        label: 'Delete', icon: 'fas fa-trash', command: () => {
+          this.deleteBulkStudent();
+        }
+      },
       {
         label: 'Send Notification', icon: 'far fa-bell', command: () => {
           this.notifySelectedStudent();
@@ -215,7 +227,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
               body: 'We did not find any enquiry for the specified query'
             }
             this.appC.popToast(alert);
-            this.loading_message = 2;            
+            this.loading_message = 2;
             this.studentDataSource = [];
             this.totalRow = this.studentDataSource.length;
           }
@@ -273,18 +285,18 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   }
 
-  getDirection(e){
+  getDirection(e) {
     //console.log(this.currentDirection);
     if (e) {
       this.currentDirection = 'asc';
-      
+
     }
-    else  {
+    else {
       this.currentDirection = 'desc';
-      
+
     }
   }
-  
+
 
   /* fetch the data from server based on specific page number by converting the index into start_index */
   fectchTableDataByPage(index) {
@@ -294,7 +306,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     //this.instituteData.sorted_by = sessionStorage.getItem('sorted_by') != null ? sessionStorage.getItem('sorted_by') : '';
     //this.instituteData.order_by = sessionStorage.getItem('order_by') != null ? sessionStorage.getItem('order_by') : '';
     //this.instituteData.filtered_statuses = this.statusString.join(',');
-    this.busy = this.loadTableDataSource(this.instituteData);
+    this.loadTableDataSource(this.instituteData);
   }
 
   /* Fetch next set of data from server and update table */
@@ -355,9 +367,21 @@ export class StudentHomeComponent implements OnInit, OnChanges {
         this.closeSideBar();
         this.appC.popToast(msg);
         this.closeDeletePopup();
-        this.busy = this.loadTableDataSource(this.instituteData);
+        this.loadTableDataSource(this.instituteData);
       }
     );
+  }
+
+  confirmDeleteBulk() {
+    this.isConfirmBulkDelete = true;
+  }
+
+  cancelDeleteBulk() {
+    this.isConfirmBulkDelete = false;
+  }
+
+  deleteBulkStudent() {
+    console.log(this.selectedRowGroup);
   }
 
   deleteStudentOpen(row) {
@@ -428,14 +452,14 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.customComponents.forEach(el => {
       //console.log(el);
       if (el.is_searchable == 'Y' && el.value != "") {
-        if(el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date"){
+        if (el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date") {
           let obj = {
             component_id: el.id,
             enq_custom_value: moment(el.value).format("YYYY-MM-DD")
           }
           tempCustomArr.push(obj);
         }
-        else{
+        else {
           let obj = {
             component_id: el.id,
             enq_custom_value: el.value
@@ -451,7 +475,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
     this.advancedFilterForm.is_active_status = parseInt(this.advancedFilterForm.is_active_status);
     this.instituteData = this.advancedFilterForm;
-    this.busy = this.loadTableDataSource(this.instituteData);
+    this.loadTableDataSource(this.instituteData);
     this.closeAdFilter();
   }
 
@@ -484,7 +508,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.instituteData.start_index = 0;
     this.studentDataSource = [];
     this.isRippleLoad = true;
-    this.busy = this.studentFetch.fetchAllStudentDetails(this.instituteData).subscribe(
+    this.studentFetch.fetchAllStudentDetails(this.instituteData).subscribe(
       res => {
         this.isRippleLoad = false;
         if (res.length != 0) {
@@ -532,7 +556,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       course_id: -1
     }
 
-    this.busy = this.studentFetch.downloadStudentTableasXls(this.instituteData).subscribe(
+    this.studentFetch.downloadStudentTableasXls(this.instituteData).subscribe(
       res => {
         let byteArr = this.convertBase64ToArray(res.document);
         let format = res.format;
@@ -786,7 +810,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
         sorted_by: '',
         order_by: ''
       };
-      this.busy = this.loadTableDataSource(this.instituteData);
+      this.loadTableDataSource(this.instituteData);
     }/* valid input detected, check for type of input */
     else {
       /* If input is of type string then validate string validity*/
@@ -808,7 +832,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
           sorted_by: '',
           order_by: ''
         };
-        this.busy = this.loadTableDataSource(this.instituteData);
+        this.loadTableDataSource(this.instituteData);
       }/* If not string then use the data as a number*/
       else {
         this.instituteData = {
@@ -828,7 +852,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
           sorted_by: '',
           order_by: ''
         };
-        this.busy = this.loadTableDataSource(this.instituteData);
+        this.loadTableDataSource(this.instituteData);
       }
 
     }
@@ -972,7 +996,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     if (id != 'noOfBatchesAssigned') {
       this.instituteData.sorted_by = id;
       this.instituteData.order_by = this.currentDirection;
-      this.busy = this.loadTableDataSource(this.instituteData);
+      this.loadTableDataSource(this.instituteData);
     }
   }
 
@@ -1139,7 +1163,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.router.navigate(['/student/edit/' + event]);
   }
 
-  editInventory(e){
+  editInventory(e) {
     sessionStorage.setItem('editInv', "true");
     localStorage.setItem('studentId', e);
     this.router.navigate(['/student/edit/' + e]);
@@ -1165,6 +1189,8 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   closeNotifyStudent() {
     this.isNotifyStudent = false;
   }
+
+
 
   // SEND NOTIFICATION POPUP
 

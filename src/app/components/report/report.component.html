@@ -5,11 +5,11 @@
                 <li id="home" (click)="switchActiveView('home')" class="hide">
                     <a routerLink="/reports/home">Home</a>
                 </li>
-                <li id="attendance" (click)="switchActiveView('attendance')" class="hide">
+                <li id="attendance" (click)="switchActiveView('attendance')" class="">
                     <a routerLink="/reports/attendance">Attendance</a>
                 </li>
 
-                <li id="biometric" *ngIf=biometricAttendanceEnable (click)="switchActiveView('biometric')" class="hide">
+                <li id="biometric" *ngIf=biometricAttendanceEnable (click)="switchActiveView('biometric')" class="">
                     <a routerLink="/reports/biometric">Biometric Attendance</a>
                 </li>
 

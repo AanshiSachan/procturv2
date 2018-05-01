@@ -2558,5 +2558,19 @@ export class AdminHomeComponent implements OnInit {
     this.getTotalCountForCourse(this.courseLevelStudentAtt);
   }
 
+  checkRoleMAnagement() {
+    let userType: any = Number(sessionStorage.getItem('userType'));
+    if (userType != 3) {
+      let permissionArray = sessionStorage.getItem('permissions');
+      if (permissionArray == "" || permissionArray == null) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  }
+
 }
 

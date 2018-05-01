@@ -8,9 +8,9 @@ import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { searchPipe } from '../../shared/pipes/searchBarPipe';
 import { arraySortPipe } from '../../shared/pipes/sortBarPipe';
 import { start } from 'repl';
-// import * as FileSaver from 'file-saver';
-// import * as XLSX from 'xlsx';
- 
+
+
+
 @Component({
   selector: 'app-attendance-report',
   templateUrl: './attendanceReport.component.html',
@@ -51,10 +51,9 @@ export class AttendanceReportComponent implements OnInit {
   typeAttendancePro: any[] = [];
   pagedPostDataPro: any[] = [];
   queryParamsPro: any[] = [];
- 
   pageDetailedDataPro: any[] = [];
   projectSettings: ColumnSetting[] = [
-    { primaryKey: 'student_id', header: 'Student id' },
+    { primaryKey: 'student_disp_id', header: 'Student id' },
     { primaryKey: 'student_name', header: 'Student name' },
     { primaryKey: 'student_phone', header: 'Contact no' },
     { primaryKey: 'doj', header: 'Joining date' },
@@ -87,7 +86,7 @@ export class AttendanceReportComponent implements OnInit {
   }
 
 
-  @ViewChild('attendanceTable') attenTable: ElementRef;
+  @ViewChild('attendanceTable') attendanceTable: ElementRef;
   @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
 
 
@@ -100,381 +99,369 @@ export class AttendanceReportComponent implements OnInit {
 
   ngOnInit() {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
-    //this.getMasterCourseData();
+    this.getMasterCourseData();
   }
-  
-  // getMasterCourseData() {
-  //   if (this.isProfessional) {
 
-  //     this.reportService.masterCoursePro(this.queryParams).subscribe(
-  //       (data: any) => {
-  //         this.masterCoursePro = data.standardLi;
-  //         this.subjectPro = data.batchLi;
-  //         console.log(this.masterCoursePro);
-  //       },
-  //       (error: any) => {
-  //         return error;
-  //       }
-  //     )
+  getMasterCourseData() {
+    if (this.isProfessional) {
 
-
-  //   }
-  //   else {
-  //     this.reportService.getMasterCourse().subscribe(
-  //       (data: any) => {
-  //         this.masterCourses = data;
-  //         console.log(this.masterCourses);
-  //       },
-  //       (error: any) => {
-  //         return error;
-  //       }
-  //     )
-  //   }
-  // }
-  // getCourseData(i) {
-  //   this.queryParams = {
-  //     subject_id: -1,
-  //     standard_id: i,
-  //     institution_id: this.institute_id.currentInstituteId,
-  //     course_id: -1,
-  //     batch_id: -1,
-  //     master_course_name: "",
-  //     from_date: "",
-  //     to_date: ""
-  //   }
-  //   if (this.isProfessional) {
-
-  //     this.reportService.masterCoursePro(this.queryParams).subscribe(
-  //       (data: any) => {
-  //         this.subjectPro = data.subjectLi;
-  //       },
-  //       (error: any) => {
-  //         return error;
-  //       }
-  //     )
-  //     this.batchPro = [];
-  //     this.subjectPro = [];
-  //   }
-  //   else {
-  //     this.getData.batch_id = "";
-  //     this.getData.course_id = "";
-  //     this.reportService.getCourses(i).subscribe(
-
-  //       (data: any) => {
-  //         this.courses = data.coursesList;
-  //         // this.getPostData();
-  //       }
-  //       ,
-  //       (error: any) => {
-  //         return error;
-  //       }
-  //     )
-  //     this.courses = [];
-  //     this.batchCourses = [];
-
-  //   }
-
-  // }
-  // getSubjectData(i) {
-
-  //   this.queryParams = {
-  //     subject_id: i,
-  //     standard_id: this.queryParams.standard_id,
-  //     institution_id: this.institute_id.currentInstituteId,
-  //     course_id: -1,
-  //     batch_id: -1,
-  //     master_course_name: "",
-  //     from_date: "",
-  //     to_date: ""
-  //   }
-  //   if (this.isProfessional) {
-
-  //     this.reportService.masterCoursePro(this.queryParams).subscribe(
-  //       (data: any) => {
-  //         this.batchPro = data.batchLi;
-  //       },
-  //       (error: any) => {
-  //         return error;
-  //       }
-  //     )
-  //     this.batchPro = [];
-  //   }
-  //   else {
-  //     this.getData.batch_id = "";
-  //     this.reportService.getSubject(i).subscribe(
-  //       (data: any) => {
-  //         this.batchCourses = data.batchesList;
-  //         // this.getPostData();
-  //       }
-  //     )
-  //     this.batchCourses = [];
-  //   }
-  // }
-
-  // getBatchData(i) {
-  //   this.queryParams = {
-  //     subject_id: i,
-  //     standard_id: this.queryParams.standard_id,
-  //     institution_id: this.institute_id.currentInstituteId,
-  //     course_id: -1,
-  //     batch_id: this.queryParams.batch_id,
-  //     master_course_name: "",
-  //     from_date: "",
-  //     to_date: ""
-  //   }
-  //   if (this.isProfessional) {
-  //     this.reportService.postDataToTablePro(this.queryParams).subscribe(
-  //       (data: any) => {
-  //         // this.getPostData();
-  //       }
-  //     )
-  //   }
-  //   else {
-  //     this.reportService.postDataToTable(this.getData).subscribe(
-  //       (data: any) => {
-  //         // this.getPostData();
-  //       }
-  //     )
-  //   }
-  // }
+      this.reportService.masterCoursePro(this.queryParams).subscribe(
+        (data: any) => {
+          this.masterCoursePro = data.standardLi;
+          this.subjectPro = data.batchLi;
+          console.log(this.masterCoursePro);
+        },
+        (error: any) => {
+          return error;
+        }
+      )
 
 
-  // getPostData() {
-  //   this.SummaryReports = true;
-  //   if (this.isProfessional) {
-  //     this.reportService.postDataToTablePro(this.queryParams).subscribe(
-  //       (data: any) => {
-  //         this.queryParams = data;
-  //         this.queryParamsPro = data;
-  //         this.totalRow = data.length;
-  //         this.PageIndex = 1;
-  //         this.fetchTableDataByPage(this.PageIndex);
+    }
+    else {
+      this.reportService.getMasterCourse().subscribe(
+        (data: any) => {
+          this.masterCourses = data;
+          console.log(this.masterCourses);
+        },
+        (error: any) => {
+          return error;
+        }
+      )
+    }
+  }
+  getCourseData(i) {
+    this.queryParams = {
+      subject_id: -1,
+      standard_id: i,
+      institution_id: this.institute_id.currentInstituteId,
+      course_id: -1,
+      batch_id: -1,
+      master_course_name: "",
+      from_date: "",
+      to_date: ""
+    }
+    if (this.isProfessional) {
 
-  //       },
-  //       (error: any) => {
-  //         return error;
-  //       }
-  //     )
-  //   }
-  //   else {
-  //     this.reportService.postDataToTable(this.getData).subscribe(
-  //       (data: any) => {
-  //         this.postData = data;
-  //         this.totalRow = data.length;
-  //         this.PageIndex = 1;
-  //         this.fetchTableDataByPage(this.PageIndex);
+      this.reportService.masterCoursePro(this.queryParams).subscribe(
+        (data: any) => {
+          this.subjectPro = data.subjectLi;
+        },
+        (error: any) => {
+          return error;
+        }
+      )
+      this.batchPro = [];
+      this.subjectPro = [];
+    }
+    else {
+      this.getData.batch_id = "";
+      this.getData.course_id = "";
+      this.reportService.getCourses(i).subscribe(
 
-  //       },
-  //       (error: any) => {
-  //         return error;
-  //       }
-  //     )
-  //   }
-  // }
+        (data: any) => {
+          this.courses = data.coursesList;
+          // this.getPostData();
+        }
+        ,
+        (error: any) => {
+          return error;
+        }
+      )
+      this.courses = [];
+      this.batchCourses = [];
 
+    }
 
+  }
+  getSubjectData(i) {
 
-  // postDetails() {
-  //   if (this.isProfessional) {
-  //     if (this.queryParams.from_date == "" || this.queryParams.to_date == "" || this.queryParams.batch_id == -1 || this.queryParams.subject_id == -1 || this.queryParams.standard_id == -1) {
+    this.queryParams = {
+      subject_id: i,
+      standard_id: this.queryParams.standard_id,
+      institution_id: this.institute_id.currentInstituteId,
+      course_id: -1,
+      batch_id: -1,
+      master_course_name: "",
+      from_date: "",
+      to_date: ""
+    }
+    if (this.isProfessional) {
 
-  //       let msg = {
-  //         type: "error",
-  //         title: "Incorrect Details",
-  //         body: "All fields Are required"
-  //       }
-  //       this.appc.popToast(msg);
-  //     }
-  //     else if (this.queryParams.from_date > this.queryParams.to_date) {
-  //       let msg = {
-  //         type: "error",
-  //         title: "Incorrect Details",
-  //         body: "From Date Must Be less than to date"
-  //       }
-  //       this.appc.popToast(msg);
-  //     }
-  //     else {
+      this.reportService.masterCoursePro(this.queryParams).subscribe(
+        (data: any) => {
+          this.batchPro = data.batchLi;
+        },
+        (error: any) => {
+          return error;
+        }
+      )
+      this.batchPro = [];
+    }
+    else {
+      this.getData.batch_id = "";
+      this.reportService.getSubject(i).subscribe(
+        (data: any) => {
+          this.batchCourses = data.batchesList;
+          // this.getPostData();
+        }
+      )
+      this.batchCourses = [];
+    }
+  }
 
-  //       this.addReportPopUp = true;
-  //       this.reportService.postDetailedData(this.queryParams).subscribe(
-  //         (data: any) => {
-
-  //           this.dateWiseAttendancePro = data;
-  //           console.log(this.dateWiseAttendancePro);
-  //           this.dataTypeAttendancePro = data.map((ele) => {
-  //             this.typeAttendancePro = ele.attendanceDateType;
-
-  //           });
-
-  //           this.attendanceIndex0Pro = this.typeAttendancePro[0];
-  //           this.attendanceIndexiPro = this.typeAttendancePro.length;
-  //           this.attendanceIndexiOfPro = this.typeAttendancePro[this.attendanceIndexiPro - 1];
-
-  //           this.totalRowPopup = data.length;
-  //           this.PageIndexPopup = 1;
-  //           this.fetchTableDataByPagePopup(this.PageIndexPopup);
-  //           ;
-  //         },
-  //         (error: any) => {
-  //           return error;
-
-  //         }
-  //       )
-  //     }
-  //   }
-  //   else {
-  //     if (this.getData.master_course_name == "" || this.getData.course_id == "" || this.getData.batch_id == "" || this.getData.from_date == "" || this.getData.to_date == "") {
-
-  //       let msg = {
-  //         type: "error",
-  //         title: "Incorrect Details",
-  //         body: "All fields Are required"
-  //       }
-  //       this.appc.popToast(msg);
-  //     }
-  //     else if (this.getData.from_date > this.getData.to_date) {
-  //       let msg = {
-  //         type: "error",
-  //         title: "Incorrect Details",
-  //         body: "From Date Must Be less than to date"
-  //       }
-  //       this.appc.popToast(msg);
-  //     }
-  //     else {
-
-  //       this.addReportPopUp = true;
-  //       this.reportService.postDetailedData(this.getData).subscribe(
-  //         (data: any) => {
-  //           this.dateWiseAttendance = data;
-  //           this.dataTypeAttendance = this.dateWiseAttendance.map((ele) => {
-  //             this.typeAttendance = ele.attendanceDateType;
-  //           })
-
-  //           this.attendanceIndex0 = this.typeAttendance[0];
-  //           this.attendanceIndexi = this.typeAttendance.length;
-  //           this.attendanceIndexiOf = this.typeAttendance[this.attendanceIndexi - 1];
-
-  //           this.totalRowPopup = data.length;
-  //           this.PageIndexPopup = 1;
-  //           this.fetchTableDataByPagePopup(this.PageIndexPopup);
-  //           ;
-  //         },
-  //         (error: any) => {
-  //           return error;
-
-  //         }
-  //       )
-  //     }
-  //   }
-  // }
-
-  // closeReportPopup() {
-  //   if (this.pagedPostData.length == 0) {
-  //     this.addReportPopUp = false;
-  //   }
-  //   this.addReportPopUp = false;
-  // }
-  // // pagination functions 
-  // //for summary report
-  // fetchTableDataByPage(index) {
-  //   this.PageIndex = index;
-  //   let startindex = this.pagedisplaysize * (index - 1);
-  //   if (this.isProfessional) {
-  //     this.pagedPostDataPro = this.getDataFromDataSource(startindex);
-  //   }
-  //   else {
-  //     this.pagedPostData = this.getDataFromDataSource(startindex);
-  //   }
-  // }
-
-  // fetchNext() {
-  //   this.PageIndex++;
-  //   this.fetchTableDataByPage(this.PageIndex);
-  // }
-
-  // fetchPrevious() {
-  //   if (this.PageIndex != 1) {
-  //     this.PageIndex--;
-  //     this.fetchTableDataByPage(this.PageIndex);
-  //   }
-  // }
-
-  // getDataFromDataSource(startindex) {
-  //   if (this.isProfessional) {
-  //     let t = this.queryParamsPro.slice(startindex, startindex + this.pagedisplaysize);
-  //     return t;
-  //   }
-  //   else {
-  //     let t = this.postData.slice(startindex, startindex + this.pagedisplaysize);
-  //     return t;
-  //   }
-  // }
-
-  // //for detailed report
-
-  // fetchTableDataByPagePopup(index) {
-  //   this.PageIndexPopup = index;
-  //   let startindex = this.pagedisplaysizePopup * (index - 1);
-  //   if (this.isProfessional) {
-  //     this.pageDetailedDataPro = this.getDataFromDataSourcePopup(startindex);
-  //   }
-  //   else {
-  //     this.pageDetailedData = this.getDataFromDataSourcePopup(startindex);
-  //   }
-  // }
-
-  // fetchNextPopup() {
-  //   this.PageIndexPopup++;
-  //   this.fetchTableDataByPage(this.PageIndexPopup);
-  // }
-
-  // fetchPreviousPopup() {
-  //   if (this.PageIndexPopup != 1) {
-  //     this.PageIndexPopup--;
-  //     this.fetchTableDataByPage(this.PageIndexPopup);
-  //   }
-  // }
-
-  // getDataFromDataSourcePopup(startindex) {
-  //   if (this.isProfessional) {
-  //     let d = this.dateWiseAttendancePro.slice(startindex, startindex + this.pagedisplaysizePopup);
-  //     return d;
-  //   }
-  //   else {
-  //     let d = this.dateWiseAttendance.slice(startindex, startindex + this.pagedisplaysizePopup);
-  //     return d;
-  //   }
-  // }
-
-  // sortedData(ev) {
-  //   console.log(ev);
-  // }
-  // getColor(status) {
-  //   switch (status) {
-  //     case 'A': return 'red';
-  //     case 'L': return 'blue';
-  //   }
-  // }
-  // DownloadJsonToCsv(getData) {
-  //   console.log(this.attenTable);
+  getBatchData(i) {
+    this.queryParams = {
+      subject_id: i,
+      standard_id: this.queryParams.standard_id,
+      institution_id: this.institute_id.currentInstituteId,
+      course_id: -1,
+      batch_id: this.queryParams.batch_id,
+      master_course_name: "",
+      from_date: "",
+      to_date: ""
+    }
+    if (this.isProfessional) {
+      this.reportService.postDataToTablePro(this.queryParams).subscribe(
+        (data: any) => {
+          // this.getPostData();
+        }
+      )
+    }
+    else {
+      this.reportService.postDataToTable(this.getData).subscribe(
+        (data: any) => {
+          // this.getPostData();
+        }
+      )
+    }
+  }
 
 
-  //   var uri = 'data:application/vnd.ms-excel;base64,'
-  //     , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
-  //     , base64 = function (s) { return window.btoa((encodeURIComponent(s))) }
-  //     , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
-  //   return function (table, name, filename) {
-  //     if (!table.nodeType) table = this.attenTable.nativeElement;
-  //     let ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+  getPostData() {
+    this.SummaryReports = true;
+    if (this.isProfessional) {
+      this.reportService.postDataToTablePro(this.queryParams).subscribe(
+        (data: any) => {
+          this.queryParams = data;
+          this.queryParamsPro = data;
+          this.totalRow = data.length;
+          this.PageIndex = 1;
+          this.fetchTableDataByPage(this.PageIndex);
 
-  //     let xl = this.xlsDownloader.nativeElement;
+        },
+        (error: any) => {
+          return error;
+        }
+      )
+    }
+    else {
+      this.reportService.postDataToTable(this.getData).subscribe(
+        (data: any) => {
+          this.postData = data;
+          this.totalRow = data.length;
+          this.PageIndex = 1;
+          this.fetchTableDataByPage(this.PageIndex);
 
-  //     xl.setAttribute("href", 'ctx');
-  //     xl.setAttribute("download", name);
-  //     xl.click();
+        },
+        (error: any) => {
+          return error;
+        }
+      )
+    }
+  }
 
-  //   }
-  // }
-  
+
+
+  postDetails() {
+    
+    if (this.isProfessional) {
+      if (this.queryParams.from_date == "" || this.queryParams.to_date == "" || this.queryParams.batch_id == -1 || this.queryParams.subject_id == -1 || this.queryParams.standard_id == -1) {
+
+        let msg = {
+          type: "error",
+          title: "Incorrect Details",
+          body: "All fields Are required"
+        }
+        this.appc.popToast(msg);
+      }
+      else if (this.queryParams.from_date > this.queryParams.to_date) {
+        let msg = {
+          type: "error",
+          title: "Incorrect Details",
+          body: "From Date Must Be less than to date"
+        }
+        this.appc.popToast(msg);
+      }
+      else {
+
+        this.addReportPopUp = true;
+        this.reportService.postDetailedData(this.queryParams).subscribe(
+          (data: any) => {
+
+            this.dateWiseAttendancePro = data;
+            console.log(this.dateWiseAttendancePro);
+            this.dataTypeAttendancePro = data.map((ele) => {
+              this.typeAttendancePro = ele.attendanceDateType;
+
+            });
+
+            this.attendanceIndex0Pro = this.typeAttendancePro[0];
+            this.attendanceIndexiPro = this.typeAttendancePro.length;
+            this.attendanceIndexiOfPro = this.typeAttendancePro[this.attendanceIndexiPro - 1];
+
+            this.totalRowPopup = data.length;
+            this.PageIndexPopup = 1;
+            this.fetchTableDataByPagePopup(this.PageIndexPopup);
+            ;
+          },
+          (error: any) => {
+            return error;
+
+          }
+        )
+      }
+    }
+    else {
+      if (this.getData.master_course_name == "" || this.getData.course_id == "" || this.getData.batch_id == "" || this.getData.from_date == "" || this.getData.to_date == "") {
+
+        let msg = {
+          type: "error",
+          title: "Incorrect Details",
+          body: "All fields Are required"
+        }
+        this.appc.popToast(msg);
+      }
+      else if (this.getData.from_date > this.getData.to_date) {
+        let msg = {
+          type: "error",
+          title: "Incorrect Details",
+          body: "From Date Must Be less than to date"
+        }
+        this.appc.popToast(msg);
+      }
+      else {
+
+        this.addReportPopUp = true;
+        this.reportService.postDetailedData(this.getData).subscribe(
+          (data: any) => {
+            this.dateWiseAttendance = data;
+            this.dataTypeAttendance = this.dateWiseAttendance.map((ele) => {
+              this.typeAttendance = ele.attendanceDateType;
+            })
+
+            this.attendanceIndex0 = this.typeAttendance[0];
+            this.attendanceIndexi = this.typeAttendance.length;
+            this.attendanceIndexiOf = this.typeAttendance[this.attendanceIndexi - 1];
+
+            this.totalRowPopup = data.length;
+            this.PageIndexPopup = 1;
+            this.fetchTableDataByPagePopup(this.PageIndexPopup);
+            ;
+          },
+          (error: any) => {
+            return error;
+
+          }
+        )
+      }
+    }
+  }
+
+  closeReportPopup() {
+    this.addReportPopUp = false;
+  }
+  // pagination functions 
+  //for summary report
+  fetchTableDataByPage(index) {
+    this.PageIndex = index;
+    let startindex = this.pagedisplaysize * (index - 1);
+    if (this.isProfessional) {
+      this.pagedPostDataPro = this.getDataFromDataSource(startindex);
+    }
+    else {
+      this.pagedPostData = this.getDataFromDataSource(startindex);
+    }
+  }
+
+  fetchNext() {
+    this.PageIndex++;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
+  fetchPrevious() {
+    if (this.PageIndex != 1) {
+      this.PageIndex--;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
+  }
+
+  getDataFromDataSource(startindex) {
+    if (this.isProfessional) {
+      let t = this.queryParamsPro.slice(startindex, startindex + this.pagedisplaysize);
+      return t;
+    }
+    else {
+      let t = this.postData.slice(startindex, startindex + this.pagedisplaysize);
+      return t;
+    }
+  }
+
+  //for detailed report
+
+  fetchTableDataByPagePopup(index) {
+    this.PageIndexPopup = index;
+    let startindex = this.pagedisplaysizePopup * (index - 1);
+    if (this.isProfessional) {
+      this.pageDetailedDataPro = this.getDataFromDataSourcePopup(startindex);
+    }
+    else {
+      this.pageDetailedData = this.getDataFromDataSourcePopup(startindex);
+    }
+  }
+
+  fetchNextPopup() {
+    this.PageIndexPopup++;
+    this.fetchTableDataByPage(this.PageIndexPopup);
+  }
+
+  fetchPreviousPopup() {
+    if (this.PageIndexPopup != 1) {
+      this.PageIndexPopup--;
+      this.fetchTableDataByPage(this.PageIndexPopup);
+    }
+  }
+
+  getDataFromDataSourcePopup(startindex) {
+    if (this.isProfessional) {
+      let d = this.dateWiseAttendancePro.slice(startindex, startindex + this.pagedisplaysizePopup);
+      return d;
+    }
+    else {
+      let d = this.dateWiseAttendance.slice(startindex, startindex + this.pagedisplaysizePopup);
+      return d;
+    }
+  }
+
+  sortedData(ev) {
+    console.log(ev);
+  }
+  getColor(status) {
+    switch (status) {
+      case 'A': return 'red';
+      case 'L': return 'blue';
+    }
+  }
+
+  DownloadJsonToCsv() {
+    console.log(this.attendanceTable.nativeElement.innerHtml);
+    let link = this.xlsDownloader.nativeElement;
+    let outer = this.attendanceTable.nativeElement.outerHTML.replace(/ /g, '%20');
+    let data_type = 'data:application/vnd.ms-excel';
+
+    link.setAttribute('href',  data_type + ',' +outer);
+    link.setAttribute('download', 'test.xls');
+    link.click();
+  }
 
 }

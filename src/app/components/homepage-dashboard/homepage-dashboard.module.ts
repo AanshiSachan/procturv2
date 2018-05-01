@@ -3,9 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HomepageDashboardComponent } from './homepage-dashboard.component';
 import { HomepageDashboardRoutingModule } from "./homepage-dashboard-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MultiselectDropdownModule } from '../../../assets/imported_modules/multiselect-dropdown';
-import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
-import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem, SelectButtonModule } from 'primeng/primeng';
 import 'moment';
@@ -24,9 +21,6 @@ import { GeneralWidgetComponent } from './general-widget/general-widget.componen
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        MultiselectDropdownModule,
-        BusyModule,
-        NgLoggerModule.forRoot(Level.LOG),
         CommonModule,
         HomepageDashboardRoutingModule,
         BsDatepickerModule,

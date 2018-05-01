@@ -1495,10 +1495,20 @@ ul.customDropdown li:hover {
 .update-enquiry-form {
     max-height: 380px;
     overflow: hidden;
+    ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
     .right-aside-wrapper {
         width: 38%;
         max-height: 360px;
         overflow: auto;
+        ::-webkit-scrollbar {
+            display: block;
+            width: 7px;
+            height: 7px;
+        }
         .row {
             margin: 10px 5px 20px;
         }
@@ -2087,5 +2097,12 @@ ul.customDropdown li:hover {
     to {
         background-position: 0 0, 100% 0, /* move highlight to right */
         100px 0, 100px 40px, 100px 80px, 100px 120px;
+    }
+}
+
+.visibiltyClass {
+    height: 70px !important;
+    .upload-icon {
+        visibility: hidden;
     }
 }

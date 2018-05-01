@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn, NgForm } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
-import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from '../../../../assets/imported_modules/multiselect-dropdown';
 import * as moment from 'moment';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
@@ -83,7 +82,7 @@ export class CampaignBulkComponent implements OnInit {
   /* base64 data to be converted to xls file */
   downloadTemplate() {
     //console.log(this.auth.getBaseUrl);
-    window.open("http://app.proctur.com/doc/lead_upload_form.xls", "_blank");
+    window.open("https://app.proctur.com/doc/lead_upload_form.xls", "_blank");
   }
 
   /* convert base64 string to byte array */
@@ -124,7 +123,7 @@ export class CampaignBulkComponent implements OnInit {
     
                 //
     
-                let urlPostXlsDocument = "http://app.proctur.com/CampaignListUpload";
+                let urlPostXlsDocument = "https://app.proctur.com/CampaignListUpload";
     
                 let xhr: XMLHttpRequest = new XMLHttpRequest();
     

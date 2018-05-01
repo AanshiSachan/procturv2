@@ -34,7 +34,7 @@ export class EnquiryBulkaddComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.busy = this.fetchBulkUploadStatusData();
+    this.fetchBulkUploadStatusData();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
   }

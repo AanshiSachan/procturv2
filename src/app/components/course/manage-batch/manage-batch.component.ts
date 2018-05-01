@@ -65,6 +65,7 @@ export class ManageBatchComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.checkTabSelection();
     this.examGradeFeature = JSON.parse(sessionStorage.getItem('institute_info')).is_exam_grad_feature;
     this.getAllBatchesList()
     this.getMasterCourseList();
@@ -598,6 +599,21 @@ export class ManageBatchComponent implements OnInit {
         });
       }
     }
+  }
+
+  checkTabSelection() {
+    setTimeout(() => {
+      this.hideAllTabs();
+      document.getElementById('liManageBatch').classList.add('active');
+    }, 200)
+  }
+
+  hideAllTabs() {
+    document.getElementById('liStandard').classList.remove('active');
+    document.getElementById('liSubject').classList.remove('active');
+    document.getElementById('liManageBatch').classList.remove('active');
+    // document.getElementById('liExam').classList.add('hide');
+    document.getElementById('liClass').classList.remove('active');
   }
 
 }

@@ -91,27 +91,32 @@ export class CourseComponent implements OnInit {
 
 
   checkUserAcessForNotLang() {
+    let userType: any = Number(sessionStorage.getItem('userType'));
     const permissionArray = sessionStorage.getItem('permissions');
-    if (permissionArray == "" || permissionArray == null) {
-      this.showAllTabs();
-      this.checkWhichTabIsOpen();
-    } else {
-      this.hideAllTabs();
-      if (permissionArray != null && permissionArray != "") {
-        if (permissionArray.indexOf('501') != -1) {
-          document.getElementById('liStandard').classList.remove('hide');
+    if (userType != 3) {
+      if (permissionArray == "" || permissionArray == null) {
+        this.showAllTabs();
+        this.checkWhichTabIsOpen();
+      } else {
+        this.hideAllTabs();
+        if (permissionArray != null && permissionArray != "") {
+          if (permissionArray.indexOf('501') != -1) {
+            document.getElementById('liStandard').classList.remove('hide');
+          }
+          if (permissionArray.indexOf('502') != -1) {
+            document.getElementById('liSubject').classList.remove('hide');
+          }
+          if (permissionArray.indexOf('505') != -1) {
+            document.getElementById('liManageBatch').classList.remove('hide');
+          }
+          if (permissionArray.indexOf('701') >= 0 || permissionArray.indexOf('704') >= 0) {
+            document.getElementById('liClass').classList.remove('hide');
+          }
+          this.routeToSubTabs(permissionArray);
         }
-        if (permissionArray.indexOf('502') != -1) {
-          document.getElementById('liSubject').classList.remove('hide');
-        }
-        if (permissionArray.indexOf('505') != -1) {
-          document.getElementById('liManageBatch').classList.remove('hide');
-        }
-        if (permissionArray.indexOf('701') >= 0 || permissionArray.indexOf('704') >= 0) {
-          document.getElementById('liClass').classList.remove('hide');
-        }
-        this.routeToSubTabs(permissionArray);
       }
+    } else {
+      this.teacherLoginFound();
     }
   }
 
@@ -132,27 +137,32 @@ export class CourseComponent implements OnInit {
   }
 
   checkUserAcessForLang() {
+    let userType: any = Number(sessionStorage.getItem('userType'));
     const permissionArray = sessionStorage.getItem('permissions');
-    if (permissionArray == "" || permissionArray == null) {
-      this.showAllTabs();
-      this.checkWhichTabIsOpen();
-    } else {
-      this.hideAllTabs();
-      if (permissionArray != null && permissionArray != "") {
-        if (permissionArray.indexOf('501') != -1) {
-          document.getElementById('liStandard').classList.remove('hide');
+    if (userType != 3) {
+      if (permissionArray == "" || permissionArray == null) {
+        this.showAllTabs();
+        this.checkWhichTabIsOpen();
+      } else {
+        this.hideAllTabs();
+        if (permissionArray != null && permissionArray != "") {
+          if (permissionArray.indexOf('501') != -1) {
+            document.getElementById('liStandard').classList.remove('hide');
+          }
+          if (permissionArray.indexOf('502')) {
+            document.getElementById('liSubject').classList.remove('hide');
+          }
+          if (permissionArray.indexOf('401') != -1) {
+            document.getElementById('liManageBatch').classList.remove('hide');
+          }
+          if (permissionArray.indexOf('402') >= 0 || permissionArray.indexOf('704') >= 0) {
+            document.getElementById('liClass').classList.remove('hide');
+          }
+          this.routeToSubTabsForLang(permissionArray);
         }
-        if (permissionArray.indexOf('502')) {
-          document.getElementById('liSubject').classList.remove('hide');
-        }
-        if (permissionArray.indexOf('401') != -1) {
-          document.getElementById('liManageBatch').classList.remove('hide');
-        }
-        if (permissionArray.indexOf('402') >= 0 || permissionArray.indexOf('704') >= 0) {
-          document.getElementById('liClass').classList.remove('hide');
-        }
-        this.routeToSubTabsForLang(permissionArray);
       }
+    } else {
+      this.teacherLoginFound();
     }
   }
 
@@ -188,6 +198,19 @@ export class CourseComponent implements OnInit {
     // document.getElementById('liCourses').classList.add('hide');
     document.getElementById('liExam').classList.add('hide');
     document.getElementById('liClass').classList.add('hide');
+  }
+
+  teacherLoginFound() {
+    this.hideAllTabs();
+    document.getElementById('liManageBatch').classList.remove('hide');
+    document.getElementById('liClass').classList.remove('hide');
+    if (this.isLangInstitue) {
+      this.router.navigateByUrl('course/managebatch');
+      this.switchActiveView('liManageBatch');
+    } else {
+      this.router.navigateByUrl('course/courselist');
+      this.switchActiveView('liManageBatch');
+    }
   }
 
 }
