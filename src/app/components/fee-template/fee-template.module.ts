@@ -2,9 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FeeTemplateRoutingModule } from "./fee-template-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MultiselectDropdownModule } from '../../../assets/imported_modules/multiselect-dropdown';
-import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
-import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import { FeeTemplateHomeComponent } from './fee-template.component'
@@ -22,9 +19,6 @@ import { FeeTemplateAddComponent } from './fee-template-add/fee-template-add.com
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        MultiselectDropdownModule,
-        BusyModule,
-        NgLoggerModule.forRoot(Level.LOG),
         CommonModule,
         FeeTemplateRoutingModule,
         BsDatepickerModule,

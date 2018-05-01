@@ -19,6 +19,7 @@ import { CommaSeprationAmount } from './pipes/commaSepratorPipe';
 
 import { ProcturPopUpComponent } from './proctur-popup/proctur-popup.component';
 import { SearchPipe } from './pipes/tablesSearchPipe';
+import { CustomButtonTableComponent } from './custom-button-table/custom-button-table.component';
 
 
 
@@ -41,7 +42,8 @@ import { SearchPipe } from './pipes/tablesSearchPipe';
         PictureCropComponent,
         CommaSeprationAmount,
         ProcturPopUpComponent,
-        SearchPipe
+        SearchPipe,
+        CustomButtonTableComponent
     ],
     exports: [
         CommonModule,

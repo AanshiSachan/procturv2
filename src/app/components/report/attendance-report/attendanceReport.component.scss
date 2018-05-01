@@ -15,8 +15,10 @@ p {
 .popup-content{
     position: relative;
     left:5%;
+    overflow-x: hidden;
     table{
-        overflow-y: scroll;
+        overflow-y: auto;
+        overflow-x:auto;
         width:95%;
     }
     h5{
@@ -33,7 +35,7 @@ p {
     }
     
     .student-table{
-        overflow-x: scroll;
+        overflow-x: auto;
         height:400px;
     }
 }
@@ -76,7 +78,11 @@ p {
         }
     }
 }
-
+.records {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
 .form-field{
 
     display: inline-block;
@@ -92,7 +98,7 @@ p {
         display: block;
     }
     .table-heading{
-        overflow-x: scroll;
+        overflow-x: auto;
         height:350px;
     }
 }

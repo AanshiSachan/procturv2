@@ -198,7 +198,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.isRippleLoad = true;
     this.getInstType();
     this.student_id = this.route.snapshot.paramMap.get('id');
-    this.busyPrefill = this.fetchPrefillFormData();
+     this.fetchPrefillFormData();
   }
 
   /* ============================================================================================================================ */
@@ -2408,7 +2408,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         this.studentAddFormData.assignedCourse_Subject_FeeTemplateArray.reverse();
       }
       this.isRippleLoad = true;
-      this.busyPrefill = this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
+       this.postService.quickEditStudent(this.studentAddFormData, this.student_id).subscribe(
         res => {
           this.isRippleLoad = false;
           let statusCode = res.statusCode;

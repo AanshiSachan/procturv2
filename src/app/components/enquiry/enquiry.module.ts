@@ -16,8 +16,6 @@ import { EnquirySidebarComponent } from './enquiry-home/enquiry-sidebar/enquiry-
 import { FormsModule, ReactiveFormsModule,FormBuilder,Validators,FormControl } from "@angular/forms";
 import 'moment';
 import 'hammerjs';
-import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
-import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/timepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
@@ -32,8 +30,6 @@ import { PopupHandlerService } from '../../services/enquiry-services/popup-handl
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        BusyModule,
-        NgLoggerModule.forRoot(Level.LOG),
         CommonModule,
         EnquiryRoutingModule,
         BsDatepickerModule,

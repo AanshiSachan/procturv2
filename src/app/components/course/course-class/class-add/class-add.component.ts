@@ -264,7 +264,7 @@ export class ClassAddComponent implements OnInit {
   updateCourseList(ev) {
     this.isRippleLoad = true;
     this.isClassFormFilled = false;
-    this.busy = this.classService.getCourseFromMasterById(ev).subscribe(
+    this.classService.getCourseFromMasterById(ev).subscribe(
       res => {
         if (res.coursesList) {
           this.courseList = res.coursesList;

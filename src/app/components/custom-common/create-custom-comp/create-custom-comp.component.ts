@@ -60,7 +60,7 @@ export class CreateCustomCompComponent implements OnInit {
 
   ngOnInit() {
 
-    this.busy = this.fetchPrefillData();
+    this.fetchPrefillData();
 
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
@@ -120,7 +120,7 @@ export class CreateCustomCompComponent implements OnInit {
         /* Validate Prefilled Data */
         if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
           if (this.validateDropdownDefvalue(this.createCustomComponentForm.prefilled_data, this.createCustomComponentForm.defaultValue)) {
-            this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+            this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
               res => {
                 let alert = {
                   type: 'success',
@@ -166,7 +166,7 @@ export class CreateCustomCompComponent implements OnInit {
       else if (this.createCustomComponentForm.type == "5") {
         /* Date cannot be searchable and does not a default value */
         if (this.createCustomComponentForm.is_searchable == "N" && this.createCustomComponentForm.defaultValue.trim() == "") {
-          this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+          this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
             res => {
               let alert = {
                 type: 'success',
@@ -187,7 +187,7 @@ export class CreateCustomCompComponent implements OnInit {
               this.appC.popToast(alert);
             }
           );
-          this.busy = this.fetchPrefillData();
+          this.fetchPrefillData();
         }
         else {
           let obj = {
@@ -201,7 +201,7 @@ export class CreateCustomCompComponent implements OnInit {
 
       /* Textbox and Checkbox */
       else if (this.createCustomComponentForm.type != "3" && this.createCustomComponentForm.type != "4" && this.createCustomComponentForm.type != "5") {
-        this.busy = this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
+        this.postdata.addNewCustomComponent(this.createCustomComponentForm).subscribe(
           res => {
             let alert = {
               type: 'success',
@@ -222,7 +222,7 @@ export class CreateCustomCompComponent implements OnInit {
             this.appC.popToast(alert);
           }
         );
-        this.busy = this.fetchPrefillData();
+        this.fetchPrefillData();
         /* if (this.validateDropDown(this.createCustomComponentForm.prefilled_data)) {
         }
         else {

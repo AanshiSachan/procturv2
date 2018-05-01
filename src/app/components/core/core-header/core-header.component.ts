@@ -313,10 +313,12 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   selectedStudent(s) {
+    this.closeSearch(false);
     this.router.navigate(['/student'], { queryParams: { id: s.id } });
   }
 
   selectedEnquiry(e) {
+    this.closeSearch(false);
     this.router.navigate(['/enquiry'], { queryParams: { id: e.id } });
   }
 
@@ -331,6 +333,16 @@ export class CoreHeaderComponent implements OnInit {
     }
     this.closeSearch(false)
     this.searchViewMore.emit(obj);
+  }
+
+  actionSelected(d) {
+    this.closeSearch(false);
+    if (d.data.source == "Student") {
+      this.router.navigate(['/student'], { queryParams: { id: d.data.id, action: d.action } });
+    }
+    else {
+      this.router.navigate(['/enquiry'], { queryParams: { id: d.data.id, action: d.action } });
+    }
   }
 
 }

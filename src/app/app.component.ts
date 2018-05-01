@@ -127,7 +127,6 @@ export class AppComponent implements OnInit {
 
   closeSearchArea() {
     this.isSearchMore = false;
-
   }
 
   filterGlobal(value) {

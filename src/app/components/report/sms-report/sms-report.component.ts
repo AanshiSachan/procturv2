@@ -68,7 +68,7 @@ export class SmsReportComponent implements OnInit {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-    this.busy = this.getSmsReport(this.smsFetchForm);
+     this.getSmsReport(this.smsFetchForm);
   }
 
 
