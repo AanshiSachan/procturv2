@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ExamCourseService } from '../../../services/course-services/exam-schedule.service';
 import { AppComponent } from '../../../app.component';
 import * as moment from 'moment';
+import { SelectItem } from 'primeng/components/common/api';
+import { MenuItem } from 'primeng/primeng';
+import { element } from 'protractor';
+
 
 @Component({
   selector: 'app-course-exam',
@@ -60,11 +64,31 @@ export class CourseExamComponent implements OnInit {
     course_id: -1,
     requested_date: moment().format("YYYY-MM-DD")
   }
-  types: any = [
+  types: SelectItem[] = [
     { label: 'Course', value: 'course' },
     { label: 'Subject', value: 'subject' }
   ];
   selectedType: string = "course";
+  courseModelAdder = {
+    start_time: {
+      hour: "12 PM",
+      minute: '00'
+    },
+    end_time: {
+      hour: "1 PM",
+      minute: "00"
+    },
+    total_marks: 0,
+    exam_desc: "",
+    room_no: ""
+  };
+  coursetableAdder = {
+    batch_id: -1,
+    total_marks: 0
+  };
+  subjectList: any = [];
+  courseTableList: any = [];
+  selectedCourseList: any = [];
 
   constructor(
     private apiService: ExamCourseService,
@@ -563,6 +587,9 @@ export class CourseExamComponent implements OnInit {
       this.apiService.getSchedule(this.courseData).subscribe(
         (res: any) => {
           this.examScheduleData = res;
+          this.calculateDataAsPerSelection(res);
+          this.showContentSection = true;
+          console.log(res);
         },
         err => {
           console.log(err);
@@ -572,6 +599,78 @@ export class CourseExamComponent implements OnInit {
     } else {
       this.messageNotifier('error', 'Error', 'Please Provide Mandatory Fields');
     }
+  }
+
+  calculateDataAsPerSelection(result) {
+    debugger
+    if (result != null) {
+      if (result.coursesList.length > 0) {
+        for (let i = 0; i < result.coursesList.length; i++) {
+          if (this.courseData.course_id == result.coursesList[i].course_id) {
+            this.selectedCourseList = result.coursesList[i];
+            this.batchStartDate = result.coursesList[i].start_date;
+            this.batchEndDate = result.coursesList[i].end_date;
+            this.subjectList = result.coursesList[i].batchesList;
+            if (result.coursesList[i].courseClassSchdList != null && result.coursesList[i].courseClassSchdList.length > 0) {
+              this.courseTableList = result.coursesList[i].courseClassSchdList;
+              if (result.coursesList[i].courseClassSchdList.length > 0) {
+                this.courseModelAdder.start_time = this.breakTimeFormat(result.coursesList[i].courseClassSchdList[0].start_time);
+                this.courseModelAdder.end_time = this.breakTimeFormat(result.coursesList[i].courseClassSchdList[0].end_time);
+                this.courseModelAdder.exam_desc = result.coursesList[i].courseClassSchdList[0].class_desc;
+                this.courseModelAdder.room_no = result.coursesList[i].courseClassSchdList[0].room_no;
+                let total_marks: number = 0;
+                result.coursesList[i].courseClassSchdList.forEach(element => {
+                  total_marks = Number(element.total_marks) + total_marks;
+                })
+                this.courseModelAdder.total_marks = total_marks;
+              }
+            } else {
+              this.courseTableList = [];
+            }
+          }
+        }
+      }
+    }
+  }
+
+  addNewExamSubjectCourse() {
+    debugger
+    if (this.coursetableAdder.batch_id != -1 && this.coursetableAdder.total_marks > 0) {
+      let obj: any = {};
+      obj.total_marks = this.coursetableAdder.total_marks;
+      obj.class_schedule_id = '0';
+      let selectedSubject = this.getSubjectName(this.coursetableAdder.batch_id);
+      obj.subject_name = selectedSubject.subject_name;
+      obj.batch_id = this.coursetableAdder.batch_id;
+      obj.otherData = selectedSubject;
+      this.courseTableList.push(obj);
+      this.courseModelAdder.total_marks += Number(this.coursetableAdder.total_marks);
+      this.coursetableAdder = {
+        batch_id: -1,
+        total_marks: 0
+      };
+    } else {
+      if (this.coursetableAdder.batch_id != -1) {
+        this.messageNotifier('error', 'Error', 'Please Provide Subject');
+        return;
+      }
+      if (this.coursetableAdder.total_marks == 0) {
+        this.messageNotifier('error', 'Error', 'Please Provide Marks');
+        return;
+      }
+    }
+  }
+
+  getSubjectName(id) {
+    for (let i = 0; i < this.subjectList.length; i++) {
+      if (this.subjectList[i].batch_id == id) {
+        return this.subjectList[i];
+      }
+    }
+  }
+
+  deleteFromCourse(data, index) {
+    this.courseTableList.splice(index, 1);
   }
 
   ////cancel Exam popup/////
@@ -613,7 +712,7 @@ export class CourseExamComponent implements OnInit {
   //Toggle Buttons////
 
   onChanged(event) {
-
+    this.selectedType = event.value;
   }
 
 
@@ -639,6 +738,13 @@ export class CourseExamComponent implements OnInit {
   }
 
   // Helper Function
+
+  breakTimeFormat(time) {
+    let obj: any = {};
+    obj.hour = time.split(':')[0] + " " + time.split(':')[1].split(' ')[1];
+    obj.minute = time.split(':')[1].split(' ')[0];
+    return obj;
+  }
 
   createTimeInFormat(hrMeri, minute, format) {
     let time = hrMeri.split(' ');

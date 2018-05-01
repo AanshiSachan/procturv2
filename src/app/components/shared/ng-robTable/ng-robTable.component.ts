@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges, ElementRef, Renderer2, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ColumnSetting, ColumnMap } from './ng-robTable-layout.model';
-import { Event } from '_debugger';
 import * as moment from 'moment';
 
 @Component({

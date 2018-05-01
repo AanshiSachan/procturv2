@@ -324,10 +324,152 @@
 
             </div>
 
-            <div *ngIf="!isLangInstitute">
+            <div *ngIf="!isLangInstitute" class="courseModelWrapper">
 
-                <div class="row">
-                    <!-- <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton> -->
+
+                <div class="row dateInfo">
+
+                    <div class="c-sm-6 c-md-6 c-lg-6">
+                        <span class="spanText">Course Start Date : {{batchStartDate}}</span>
+                        &emsp;
+                        <span class="spanText">Course End Date : {{batchEndDate}} </span>
+                    </div>
+
+                </div>
+
+                <div class="row spli-Btn">
+                    <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton>
+                </div>
+
+                <div class="row course-model" *ngIf="selectedType == 'course'">
+
+                    <div class="row basic-detail">
+
+                        <div class="c-sm-2 c-lg-2 c-md-2">
+
+                            <div class="form-wrapper timepick">
+                                <label for="startTime">Start Time</label>
+                                <div class="tbox">
+                                    <div class="times">
+                                        <select id="" class="mins side-form-ctrl constantHeight" [(ngModel)]="courseModelAdder.start_time.hour" name="startTime">
+                                            <option [value]="time" *ngFor="let time of times">
+                                                {{time}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="times">
+                                        <select id="" class="mers side-form-ctrl constantHeight" [(ngModel)]="courseModelAdder.start_time.minute" name="minute">
+                                            <option *ngFor="let minute of minArr" [value]="minute">
+                                                {{minute}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="c-sm-2 c-lg-2 c-md-2">
+
+                            <div class="form-wrapper timepick">
+                                <label for="startTime">End Time</label>
+                                <div class="tbox">
+                                    <div class="times">
+                                        <select id="" class="mins side-form-ctrl constantHeight" [(ngModel)]="courseModelAdder.end_time.hour" name="startTime">
+                                            <option [value]="time" *ngFor="let time of times">
+                                                {{time}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="times">
+                                        <select id="" class="mers side-form-ctrl constantHeight" [(ngModel)]="courseModelAdder.end_time.minute" name="minute">
+                                            <option *ngFor="let minute of minArr" [value]="minute">
+                                                {{minute}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="c-sm-1 c-lg-1 c-md-1">
+                            <div class="form-wrapper">
+                                <label for="inpTotalMarks">Total Marks</label>
+                                <input type="number" class="side-form-ctrl torlMarksWidth constantHeight" [(ngModel)]="courseModelAdder.total_marks">
+                            </div>
+                        </div>
+
+                        <div class="c-sm-2 c-lg-2 c-md-2">
+                            <div class="form-wrapper">
+                                <label for="customDescTxt">Description</label>
+                                <textarea class="side-form-ctrl constantHeight" [(ngModel)]="courseModelAdder.exam_desc" id="customDescTxt" name="customDescTxt"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="c-sm-1 c-lg-1 c-md-1">
+                            <div class="form-wrapper">
+                                <label for="inpTotalMarks">Room No</label>
+                                <input type="string" class="side-form-ctrl constantHeight torlMarksWidth" [(ngModel)]="courseModelAdder.room_no">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="subject-table">
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Marks</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="adder-table">
+                                    <td>
+                                        <div class="form-wrapper">
+                                            <select id="" class="side-form-ctrl constantHeight subjectName" [(ngModel)]="coursetableAdder.batch_id" name="startTime">
+                                                <option value="-1"></option>
+                                                <option [value]="time.batch_id" *ngFor="let time of subjectList">
+                                                    {{time.subject_name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-wrapper">
+                                            <input type="string" class="side-form-ctrl constantHeight torlMarksWidth" [(ngModel)]="coursetableAdder                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         .total_marks">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="btn fullBlue" (click)="addNewExamSubjectCourse()">Add</button>
+                                    </td>
+                                </tr>
+                                <tr *ngFor="let data of courseTableList; let i= index ; trackBy : index">
+                                    <td>
+                                        {{data.subject_name}}
+                                    </td>
+                                    <td>
+                                        {{data.total_marks}}
+                                    </td>
+                                    <td>
+                                        <div class="action-Menu">
+                                            <a (click)="deleteFromCourse(data , i)">Delete</a>
+                                            <a *ngIf="data.class_schedule_id != 0">Cancel Exam</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <div class="row subject-model" *ngIf="selectedType != 'course'">
+
                 </div>
 
             </div>
