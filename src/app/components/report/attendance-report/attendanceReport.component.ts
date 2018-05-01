@@ -61,7 +61,7 @@ export class AttendanceReportComponent implements OnInit {
     { primaryKey: 'total_attended', header: 'Present' },
     { primaryKey: 'total_absent', header: 'Absent' },
     { primaryKey: 'total_leave', header: 'Leave' },
-    { primaryKey: 'spent_percentage', header: 'Attendance' }
+    { primaryKey: 'spent_percentage', header: 'Attendance(%)' }
   ];
   getData = {
     standard_id: "",
@@ -75,11 +75,11 @@ export class AttendanceReportComponent implements OnInit {
   }
   /*for professional*/
   queryParams = {
-    standard_id: -1,
-    subject_id: -1,
-    institution_id: this.institute_id.currentInstituteId,
+    standard_id: "",
+    subject_id: "",
+    institution_id: sessionStorage.getItem('institute_id'),
     course_id: -1,
-    batch_id: -1,
+    batch_id: "",
     master_course_name: "",
     from_date: "",
     to_date: ""
@@ -132,11 +132,11 @@ export class AttendanceReportComponent implements OnInit {
   }
   getCourseData(i) {
     this.queryParams = {
-      subject_id: -1,
+      subject_id: "",
       standard_id: i,
-      institution_id: this.institute_id.currentInstituteId,
+      institution_id: sessionStorage.getItem('institute_id'),
       course_id: -1,
-      batch_id: -1,
+      batch_id: "",
       master_course_name: "",
       from_date: "",
       to_date: ""
@@ -179,9 +179,9 @@ export class AttendanceReportComponent implements OnInit {
     this.queryParams = {
       subject_id: i,
       standard_id: this.queryParams.standard_id,
-      institution_id: this.institute_id.currentInstituteId,
+      institution_id: sessionStorage.getItem('institute_id'),
       course_id: -1,
-      batch_id: -1,
+      batch_id: "",
       master_course_name: "",
       from_date: "",
       to_date: ""
@@ -214,7 +214,7 @@ export class AttendanceReportComponent implements OnInit {
     this.queryParams = {
       subject_id: i,
       standard_id: this.queryParams.standard_id,
-      institution_id: this.institute_id.currentInstituteId,
+      institution_id: sessionStorage.getItem('institute_id'),
       course_id: -1,
       batch_id: this.queryParams.batch_id,
       master_course_name: "",
@@ -243,7 +243,7 @@ export class AttendanceReportComponent implements OnInit {
     if (this.isProfessional) {
       this.reportService.postDataToTablePro(this.queryParams).subscribe(
         (data: any) => {
-          this.queryParams = data;
+          
           this.queryParamsPro = data;
           this.totalRow = data.length;
           this.PageIndex = 1;
@@ -276,7 +276,7 @@ export class AttendanceReportComponent implements OnInit {
   postDetails() {
     
     if (this.isProfessional) {
-      if (this.queryParams.from_date == "" || this.queryParams.to_date == "" || this.queryParams.batch_id == -1 || this.queryParams.subject_id == -1 || this.queryParams.standard_id == -1) {
+      if (this.queryParams.from_date == "" || this.queryParams.to_date == "" || this.queryParams.batch_id == "" || this.queryParams.subject_id == "" || this.queryParams.standard_id == "") {
 
         let msg = {
           type: "error",
