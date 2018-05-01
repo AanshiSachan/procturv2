@@ -1,7 +1,72 @@
 .space-size{
-    font-size:22px;
+    font-size:15px;
+    margin-top:40x;
+}
+.sky-form{
+    margin-left: 321px;
+}
+.form-wrapper{
+    .btn{
+        &.spaze-bird{
+            width: 60%;
+            padding: 0px;
+            margin-left: 70px;
+        
+    }
+}
 }
 .row{
-    margin-left: 219px;
-    margin-top: 21px;
+    
+    margin-top: 12px;
 }
+.form-wrapper {
+    background: transparent;
+    margin: 2px 0px;
+    .btn {
+        margin-top: 10px;
+        width: 30%;
+    }
+    label {
+        padding-left: 25px;
+        font-size: 12px;
+        font-weight: 400; //font-family: -webkit-body;
+        color: 0084f6;
+        text-decoration: none;
+        text-transform: uppercase;
+        -webkit-font-smoothing: antialiased;
+        width: 100%;
+   &.l1{
+    padding-left: 14px;
+   }
+    }
+
+.side-form-ctrl {
+    background: white;
+    border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+    width: 85%;
+    padding-left: 10px;
+    margin-left: 22px;
+    height: 30px;
+    padding: 0px 5px;
+    font-weight: 600;
+    font-size: 14px;
+    color: black;
+    &.bsDatepicker {
+        padding-left: 10px;
+        margin-left: 8px;
+        width: 86%;
+    }
+}
+}
+.field-data{
+    margin-left:5px;
+}
+.margin-head{
+
+padding-left: 8px;
+
+}
+.form-wrapper {
+    &.sky-valley{
+padding-left: 42px;
+}}

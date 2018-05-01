@@ -92,7 +92,8 @@ import { SearchBoxComponent } from './components/core/search-box/search-box.comp
     LoaderHandlingService,
     SlotApiService,
     CityAreaService,
-    ClassRoomService
+    ClassRoomService,
+    EventManagmentService
   ],
   bootstrap: [AppComponent]
 })

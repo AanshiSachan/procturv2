@@ -10,10 +10,15 @@ import { AppComponent } from '../../app.component';
 export class EventManagmentComponent implements OnInit {
   isProfessional:boolean =false;
   eventRecord: any=[];
+  endDateBox:boolean=false;
+  getHoliday:any=[];
+  getEvent:any=[];
   totalRow = 0;
+  generalDataField:boolean=false;
   pagedSourceData: any[] = [];
   pageIndex: number = 1;
   displayBatchSize: number = 10;
+  closeVarPopup:boolean=false;
 
 
   /*========================================================================================
@@ -21,7 +26,7 @@ export class EventManagmentComponent implements OnInit {
   list_obj={
     year:-1,
     month:-1, 
-   event_type: 0,
+   event_type: "0",
    }
 
      sendNotify_obj={
@@ -30,15 +35,14 @@ export class EventManagmentComponent implements OnInit {
      }
       saveDataObj= {
       event_end_date:"",
-      event_type:"1",
+      event_type:"",
       holiday_date:moment().format("YYYY-MM-DD"),
-      holiday_desc:"fdd",
+      holiday_desc:"",
       holiday_long_desc:"",
-      holiday_name:"education",
-      holiday_type:"1",
+      holiday_name:"",
+      holiday_type:"",
       image:null,
-      institution_id:"100058",
-      public_url:""
+     public_url:""
       }
     
   constructor(private eve_mnge :EventManagmentService, private appc:AppComponent) { 
@@ -52,6 +56,7 @@ export class EventManagmentComponent implements OnInit {
   }
 
 getAllListData(){
+
   this.eve_mnge.getListEventDesc(this.list_obj).subscribe(
     res=>{
       console.log(res);
@@ -92,12 +97,13 @@ isTimeValid(): boolean {
   }
 }
 
-
-saveEventData(){
-  
-  this.eve_mnge.saveEventDescData(this.saveDataObj).subscribe(
+getEvents()
+{
+  this.eve_mnge.getEventdata().subscribe(
   res=>{
     console.log(res);
+    this.getEvent= res;
+    console.log(this.getEvent);
   },
   error=>{
     console.log(error);
@@ -105,8 +111,61 @@ saveEventData(){
 )
 }
 
+eventchange(para){
+  if(this.saveDataObj.event_type=="2"){
+this.generalDataField=true;
+  }
+  else{
+    this.generalDataField=false;
+  }
+}
+getHolidays(){
+  this.eve_mnge.getHolidayData().subscribe(
+    res=>{
+      console.log(res);
+      this.getHoliday= res;
+    },
+    error=>{
+      console.log(error);
+    }
+  )
+}
+
+saveEventData(){
+  
+  this.eve_mnge.saveEventDescData(this.saveDataObj).subscribe(
+  res=>{
+    console.log(res);
+    this.getAllListData();
+    this.closeVarPopup= false;
+  },
+  error=>{
+    console.log(error);
+  }
+)
+}
+
+checkChange(para){
+  if(para==true){
+this.endDateBox=true;
+  }
+  else{
+    this.endDateBox=false;
+  }
+}
+/*
+editForm(i){
+  this.eve_mnge.editEventData(this.).subscribe(
+    res=>{
+      console.log(res);
+    },
+    error=>{
+      console.log(error);
+    }
+  )}
+*/
 sendNotificationAlert(){
-  if(this.list_obj.event_type= 2){
+  if(this.list_obj.event_type=="2"){
     alert("are u sure u want to send notification ");
   
   this.eve_mnge.sendNotifiation(this.sendNotify_obj).subscribe(
@@ -118,7 +177,16 @@ sendNotificationAlert(){
     }
   )
   }}
+  
+  addPopup(){
+    this.closeVarPopup=true;
+this.getEvents();
+this.getHolidays();
 
+  }
+  closeReportPopup(){
+this.closeVarPopup=false;
+  }
 /*====================================================pagination */
 fetchTableDataByPage(index) {
   this.pageIndex = index;

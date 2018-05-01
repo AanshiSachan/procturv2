@@ -26,7 +26,6 @@
     "@types/js-base64": "^2.3.0",
     "angucomplete-alt": "^3.0.0",
     "angular-highcharts": "^4.1.0",
-    "angular2-busy": "^2.0.4",
     "angular2-datatable-custom": "^0.7.3",
     "angular2-ladda": "^1.2.1",
     "angular2-loaders-css": "^2.0.0",

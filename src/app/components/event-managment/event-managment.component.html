@@ -5,41 +5,71 @@
     </h1>
     <section class="middle-main clearFix">
       <div class="clearFix add-edit">
-        <span class="pull-right space-size">Add</span>
+        <input type="button" class="normal-btn fullBlue btn pull-right space-size" value="Add Event" (click)="addPopup()" />
       </div>
-      <div class="row">
-        <div class="c-sm-2 c-xs-2 c-lg-2 c-md-62form-wrapper">
-          <label>Month</label>
-          <select class="side-form-ctrl" id="two" [(ngModel)]="list_obj.month">
-            <option></option>
-            <option name="month">{{month}}</option>
-          </select>
-        </div>
+      <form class="sky-form">
+        <div class="row">
+          <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 form-wrapper">
+            <label>Month</label>
+            <select class="side-form-ctrl" id="two" [(ngModel)]="list_obj.month">
+              
+              <option value="-1" name="month">month</option>
+              <option value="1">January</option>
+              <option value="2">february</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+              
+              
+            </select>
+          </div>
 
 
-        <div class="c-sm-2 c-xs-2 c-lg-2 c-md-62form-wrapper">
-          <label>Year</label>
-          <select class="side-form-ctrl" id="two" [(ngModel)]="list_obj.year">
-            <option>
-            </option>
-            <option name="month">{{year}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="c-sm-2 c-xs-2 c-lg-2 c-md-62form-wrapper">
-          <div class="field-radio-wrapper">
-            <input class="form-radio" type="radio" name="discount" value="all" id='r1' [(ngModel)]="list_obj.event_type">
-            <label for="r1">Holiday</label>
+          <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 form-wrapper">
+            <label>Year</label>
+            <select class="side-form-ctrl" id="two" [(ngModel)]="list_obj.year">
+              
+              <option name="month">{{year}}</option>
+              <option value="2015">2015</option>
+              <option value="2016">2016</option>
+              <option value="2017">2017</option>
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+              <option value="2020">2020</option>
+            </select>
           </div>
         </div>
-        <div class="c-sm-2 c-xs-2 c-lg-2 c-md-62form-wrapper">
-          <div class="field-radio-wrapper">
-            <input class="form-radio" type="radio" name="discount" value="all" id='r1' [(ngModel)]="list_obj.event_type">
-            <label for="r1">General</label>
+        <div class="row">
+          <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 form-wrapper sky-valley">
+            <div class="field-radio-wrapper margin-head">
+              <input class="form-radio" type="radio" name="discount" value="1" id='r1' [(ngModel)]="list_obj.event_type">
+              <label for="r1" class="l1">Holiday</label>
+            </div>
           </div>
-        </div>
-      </div>
+          <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 form-wrapper sky-valley">
+            <div class="field-radio-wrapper  margin-head">
+              <input class="form-radio" type="radio" name="discount" value="2" id='r2' [(ngModel)]="list_obj.event_type">
+              <label for="r2" class="l1">General</label>
+            </div>
+          </div>
+          </div>
+          <div class="row">
+            <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 form-wrapper">
+                <div class="field-radio-wrapper">
+              <input type="button" class="normal-btn fullBlue btn spaze-bird" value="Go" (click)="getAllListData()" />
+            </div>
+            </div>
+          </div>
+
+        
+      </form>
     </section>
   </section>
 </div>
@@ -50,9 +80,9 @@
       <table>
         <thead>
           <tr>
-              <th>
-                  S.No.
-                </th>
+            <th>
+              S.No.
+            </th>
             <th>
               Event Name
             </th>
@@ -95,18 +125,18 @@
               {{row.event_date_range}}
             </td>
             <td class="view-comp">
-                <span class="pull-right"  style="cursor: pointer;padding-right: 9% !important;text-align: left;">
-                    <i class="edit-icon" aria-hidden="true" style="margin-right: 5px;" title="Edit"></i>Edit
-                  </span>
-              </td>
-              <td class="view-comp">
-                  <span class="pull-right"  style="cursor: pointer;padding-right: 9% !important;text-align: left;">
-                      <i class="fa fa-trash-o" aria-hidden="true" style="margin-right: 5px;" title="Edit"></i>Delete
-                    </span>
-                
-                </td>
+              <span class="pull-right" style="cursor: pointer;padding-right: 9% !important;text-align: left;">
+                <i class="edit-icon" aria-hidden="true" style="margin-right: 5px;" title="Edit" (click)="editForm()"></i>Edit
+              </span>
+            </td>
             <td class="view-comp">
-              <a href= ""onclick="sendNotificationAlert(27)">send</a>
+              <span class="pull-right" style="cursor: pointer;padding-right: 9% !important;text-align: left;">
+                <i class="fa fa-trash-o" aria-hidden="true" style="margin-right: 5px;" title="delete"></i>Delete
+              </span>
+
+            </td>
+            <td class="view-comp">
+              <a href="" onclick="sendNotificationAlert(27)">send</a>
             </td>
           </tr>
         </tbody>
@@ -130,9 +160,9 @@
 
 </div>
 
-<!--
 
-<proctur-popup [sizeWidth]="'large'">
+
+<proctur-popup [sizeWidth]="'medium'" *ngIf="closeVarPopup">
 
   <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -146,51 +176,100 @@
       </g>
     </svg>
   </span>
+  <div class="" popup-content>
+    <h2 popup-header>Create Event</h2>
+    <div class="row margin-top">
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
+        <label>event type</label>
+        <select class="side-form-ctrl" [(ngModel)]="saveDataObj.event_type" (ngModelChange)="eventchange($event)">
+          <option *ngFor="let i of getEvent" [value]="i.data_key">{{i.data_value}}</option>
+        </select>
+      </div>
 
-  <h2 popup-header>Create Event</h2>
-  <div class="c-sm-2 c-xs-2 c-lg-2 c-md-62form-wrapper">
-    <label>Event Type</label>
-    <select class="side-form-ctrl" id="two" [(ngModel)]="list_obj.year">
-      <option>
-      </option>
-      <option name="HOLIDAY">{{year}}</option>
-    </select>
-  </div>
-  <div class="c -sm-2 c-xs-2 c-lg-2 c-md-2">
-    <lable>Holiday Type</lable>
-    <select class="side-form-ctrl" id="two" [(ngModel)]="">
-      <option></option>
-      <option name="GOVERNMENT">{{}}</option>
-    </select>
-  </div>
 
-  <div class="c-lg-2 c-md-2 c-sm-2">
-    <div class="field-wrapper">
-      <input type="text" class="form-ctrl" name="eventName" [(ngModel)]="">
-      <label>Event Name*
-        <span>*</span>
-      </label>
+      <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 form-wrapper">
+        <div class="field-wrapper">
+          <input type="text" class="form-ctrl" [(ngModel)]="saveDataObj.holiday_name">
+          <label>Event Name*</label>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="c-lg-2 c-md-2 c-sm-2">
-    <div class="field-wrapper">
-      <input type="text" class="form-ctrl" name="eventName" [(ngModel)]="">
-      <label>Description
-        <span>*</span>
-      </label>
+
+    <div class="row">
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
+        <label>holiday type</label>
+        <select class="side-form-ctrl" [(ngModel)]="saveDataObj.holiday_type">
+          <option *ngFor="let i of getHoliday" [value]="i.data_key">{{i.data_value}}</option>
+
+        </select>
+      </div>
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper" *ngIf="endDateBox">
+        <div class="form-date form-wrapper datePickerBox">
+          <label>Event End Date</label>
+          <input type="text" class="side-form-ctrl  bsDatepicker" bsDatepicker [(ngModel)]="saveDataObj.event_end_date" />
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="c-lg-2 c-md-2 c-sm-2">
-    <div class="field-wrapper">
-      <input type="text" class="form-ctrl" name="eventName" [(ngModel)]="">
-      <label>Long Description
-        <span>*</span>
-      </label>
+
+    <div class="row">
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
+        <div class="form-date form-wrapper datePickerBox">
+          <label>Event Date</label>
+          <input type="text" class="side-form-ctrl  bsDatepicker" bsDatepicker [(ngModel)]="saveDataObj.holiday_date" />
+        </div>
+      </div>
     </div>
+
+    <div class="row" *ngIf="generalDataField">
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
+        <div class="field-checkbox-wrapper field-data" style="padding-left:10px">
+          <input class="form-checkbox" name="enddatecheckbox" type="checkbox" (change)="checkChange($event.target.checked)" />
+          <label>add End Date</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="field-wrapper">
+          <input type="text" class="form-ctrl" name="eventName" [(ngModel)]="saveDataObj.holiday_desc" />
+          <label>Description
+            <span>*</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="field-wrapper">
+          <input type="text" class="form-ctrl" name="eventName" [(ngModel)]="saveDataObj.holiday_long_desc" />
+          <label>Long Description
+            <span>*</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="generalDataField">
+      <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 form-wrapper">
+        <div class="field-wrapper">
+          <input type="text" class="form-ctrl" [(ngModel)]="saveDataObj.public_url">
+          <label>public Url</label>
+        </div>
+      </div>
+
+
+      <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 form-wrapper">
+        <div class="field-wrapper">
+          <input type="file" class="form-ctrl" [(ngModel)]="saveDataObj.image">
+          <label>public Url</label>
+        </div>
+      </div>
+    </div>
+
+
+    <input type="button" class="normal-btn fullBlue btn pull-right space-size" value="save" (click)="saveEventData()" />
+
   </div>
 
-
-  popup-content>
-
-</proctur-popup>-->
+</proctur-popup>

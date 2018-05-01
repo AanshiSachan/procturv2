@@ -31,8 +31,43 @@ return this.http.post(url, obj, {headers:this.headers}).map(
     return error
   },
 )}
+getEventdata(){
+  let url = this.baseUrl +"/api/v1/masterData/type/EVENT_TYPE/";
+  return this.http.get(url,{headers: this.headers}).map(
+    res=>{
+      return res
+    },
+    error=>{
+      return error
+    },
+  )}
+  getHolidayData(){
+    let url = this.baseUrl +"/api/v1/masterData/type/HOLIDAY_TYPE/"
+  return this.http.get(url,{headers: this.headers}).map(
+    res=>{
+      return res
+    },
+    error=>{
+      return error
+    },
+  )}
+  editEventData(obj){
+    let url = this.baseUrl + "/api/v1/holiday_manager/fetch/" + this.institute_id + "/" + obj;
+  
+  return this.http.get(url,{headers: this.headers}).map(
+    res=>{
+      return res
+    },
+    error=>{
+      return error
+    },
+  )}
+  
+
+
 saveEventDescData(obj){
   let url = this.baseUrl +"/api/v1/holiday_manager/create/";
+  obj.institution_id= this.institute_id;
   return this.http.post(url,obj,{headers: this.headers}).map(
     res=>{
       return res
@@ -44,6 +79,7 @@ saveEventDescData(obj){
   
 sendNotifiation(obj){
   let url = this.baseUrl +"/api/v1/pushNotification/send/";
+  obj.institution_id= this.institute_id;
   return this.http.post(url,obj,{headers: this.headers}).map(
     res=>{
       return res
