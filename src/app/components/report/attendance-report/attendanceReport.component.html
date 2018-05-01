@@ -4,7 +4,10 @@
 
             <section class="middle-top mb0 clearFix sms-header">
                 <h2 class="pull-left">
-                    Attendance Report
+                    <a routerLink="/reports/home">
+                        <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i>
+                    </a>
+                    <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Attendance Report
                 </h2>
                 <aside class="pull-right">
                 </aside>
@@ -244,8 +247,8 @@
                         </tr>
                         <tr *ngIf="pageDetailedData.length == 0">
                             <td colspan="7" class="records">
-                            No Records Found
-                        </td>
+                                No Records Found
+                            </td>
                         </tr>
                     </tbody>
                 </table>

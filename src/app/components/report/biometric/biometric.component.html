@@ -6,7 +6,10 @@
 
       <section class="middle-top mb0 clearFix sms-header">
         <h2 class="pull-left">
-          Biometric Report
+          <a routerLink="/reports/home">
+            <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i>
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Biometric Report
         </h2>
         <div class="c-lg-2" *ngIf="showButton" style="float:right; padding-top:20px;">
           <button class="btn fullBlue" (click)="fetchAbsentiesReport()">Send SMS to Absenties</button>
@@ -51,10 +54,10 @@
 
 
             <div style="width:100%">
-            <hr style="font-weight:200; width:22%; display:inline-block; margin-bottom:7px;">
-          
-            <h2 style="text-align:center; margin-bottom:-31px; display:inline-block;">OR</h2>
-            <hr style="font-weight:200; width:22%; display:inline-block; margin-bottom:7px;">
+              <hr style="font-weight:200; width:22%; display:inline-block; margin-bottom:7px;">
+
+              <h2 style="text-align:center; margin-bottom:-31px; display:inline-block;">OR</h2>
+              <hr style="font-weight:200; width:22%; display:inline-block; margin-bottom:7px;">
             </div>
             <div class="row" style="margin-top:-20px;">
               <div class="c-lg-3" style="margin-left:15px;">

@@ -3,7 +3,9 @@
         <section class="middle-main clearFix">
             <section class="middle-top mb0 clearFix sms-header">
                 <h2 class="pull-left">
-                    Exam Report
+                    <a routerLink="/reports/home">
+                        <i style="font-family: 'FontAwesome'; font-size: 24px;cursor: pointer;" class="fas fa-home"></i>
+                    </a> <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>  Exam Report
                 </h2>
                 <aside class="pull-right">
                 </aside>
@@ -33,7 +35,7 @@
                 <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
                     <label>Exam Schedule</label>
                     <select class="side-form-ctrl" [(ngModel)]=" fetchFieldData.exam_schd_id">
-                  <option value="" selected></option>
+                        <option value="" selected></option>
                         <option *ngFor="let i of Exam_Sch_Data" [value]="i.schd_id" name="Exam Schedule">{{i.exam_date}}({{i.start_time}}-{{i.end_time}})</option>
                     </select>
                 </div>
@@ -50,64 +52,64 @@
 </div>
 <section class="sms-table-wrapper" *ngIf="Tdata">
     <div class="table table-responsive student-table">
-        
-<div class="search-filter-wrapper" id="adFilterExitVisible">
-    
-    <input #search type="text"  class="normal-field" [(ngModel)]="pagedExamSource.student_name" style="font-size:12px" placeholder="Serach here">
-            </div>
-     <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name :pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj" [tableName]="'Exam'" 
-        [settings]="projectSettings">
-          
+
+        <div class="search-filter-wrapper" id="adFilterExitVisible">
+
+            <input #search type="text" class="normal-field" [(ngModel)]="pagedExamSource.student_name" style="font-size:12px" placeholder="Serach here">
+        </div>
+        <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name :pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
+            [tableName]="'Exam'" [settings]="projectSettings">
+
         </proctur-table>
     </div>
-    
+
 
     <div class="row filter-res pagination" style="width: 100%;">
         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-    <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-            [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
-          </pagination>
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
+            </pagination>
         </div>
-      </div>
+    </div>
 </section>
 
 
 <proctur-popup [sizeWidth]="'large'" *ngIf="addReportPopup">
 
-        <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
-                <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
-                    <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
-                        <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
-                        <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
-                    </g>
-                    <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
-                    />
+    <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
                 </g>
-            </svg>
-        </span>
-        <div popup-header class="popup-header-content">
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                />
+            </g>
+        </svg>
+    </span>
+    <div popup-header class="popup-header-content">
 
-           <h2>DataWise Exam Report</h2>
-           <!--<h3>{{dataExamIndex0}}to{{dataExamIndexi of.}}</h3>-->
-            
-        </div>
-        <div class="table table-responsive student-table">
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>
-                            Student Name
-                        </th>
-                        <th>
-                            Student Id
-                        </th>
+        <h2>DataWise Exam Report</h2>
+        <!--<h3>{{dataExamIndex0}}to{{dataExamIndexi of.}}</h3>-->
 
-                    </tr>
-                </thead>
-            </table>     
-                    </div>
-           
+    </div>
+    <div class="table table-responsive student-table">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Student Name
+                    </th>
+                    <th>
+                        Student Id
+                    </th>
+
+                </tr>
+            </thead>
+        </table>
+    </div>
+
 
 </proctur-popup>
