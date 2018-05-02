@@ -41,8 +41,11 @@ import { SharedModule } from './components/shared/shared.module';
 import { SlotApiService } from './services/slot-service/slot.service';
 import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
 import { CityAreaService } from './services/area-city-service/area-city.service';
-
+import {EventManagmentService} from './services/event-managment.service';
+import {ClassRoomService} from './services/class-roomService/class-roomlist.service';
 import { SearchBoxComponent } from './components/core/search-box/search-box.component';
+import { ClassRoomComponent } from './components/class-room/class-room.component';
+import { EventManagmentComponent } from './components/event-managment/event-managment.component';
 
 @NgModule({
   imports: [
@@ -68,6 +71,8 @@ import { SearchBoxComponent } from './components/core/search-box/search-box.comp
     ComingSoonComponent,
     OverlayMenuComponent,
     SlotComponent,
+    ClassRoomComponent,
+    EventManagmentComponent,
     CityAreaMapComponent,
     SearchBoxComponent
   ],
@@ -84,8 +89,8 @@ import { SearchBoxComponent } from './components/core/search-box/search-box.comp
     LoaderHandlingService,
     SlotApiService,
     CityAreaService,
-    // ClassRoomService,
-    // EventManagmentService
+    ClassRoomService,
+    EventManagmentService
   ],
   bootstrap: [AppComponent]
 })
