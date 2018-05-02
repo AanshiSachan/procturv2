@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ColumnSetting } from '../../shared/custom-table/layout.model';
 
 @Component({
   selector: 'app-fee-report',
@@ -6,6 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./fee-report.component.scss']
 })
 export class FeeReportComponent implements OnInit {
+
+  feeSettings: ColumnSetting[] = [
+    { primaryKey: 'id', header: 'ID' },
+    { primaryKey: 'name', header: 'Name' },
+    { primaryKey: 'total_fee', header: 'Total Fee' },
+    { primaryKey: 'amt_paid', header: 'Amount Paid' },
+    { primaryKey: 'past_due', header: 'Past Dues' },
+    { primaryKey: 'future_duedate', header: 'Next Future Due Date' },
+    { primaryKey: 'future_dueamt', header: 'Next Future Amount' },
+    { primaryKey: 'pdcdate', header: 'PDC Date' },
+    { primaryKey: 'balance', header: 'Amount Still Payable' },
+  ];
+
+  feeDataSource:any[] = [];
 
   constructor() { 
     this.switchActiveView('fee');

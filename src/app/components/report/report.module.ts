@@ -31,6 +31,7 @@ import{arraySortPipe} from '../shared/pipes/sortBarPipe';
 import { AttendanceReportServiceService } from '../../services/attendance-report/attendance-report-service.service';
 import { BiometricComponent } from './biometric/biometric.component';
 import {BiometricServiceService} from '../../services/biometric-service/biometric-service.service';
+import { ReportWidgetComponent } from './report-widget/report-widget.component';
 
 @NgModule({
     imports: [
@@ -59,6 +60,7 @@ import {BiometricServiceService} from '../../services/biometric-service/biometri
         searchPipe,
         arraySortPipe,
         BiometricComponent,
+        ReportWidgetComponent,
         
     ],
     entryComponents: [

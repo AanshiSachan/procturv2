@@ -1,10 +1,13 @@
-<div class="middle-section clear-fix">
+<div class="clear-fix">
     <aside class="middle-full">
         <section class="middle-main clearFix">
 
             <section class="middle-top mb0 clearFix sms-header">
                 <h2 class="pull-left">
-                    Attendance Report
+                    <a routerLink="/reports/home">
+                        <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i>
+                    </a>
+                    <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Attendance Report
                 </h2>
                 <aside class="pull-right">
                 </aside>
@@ -131,8 +134,7 @@
                 <div class="table-content">
                     <div class="table-heading">
                         <div *ngIf=!isProfessional>
-                            <proctur-table [records]="pagedPostData | lockFilter : postData.student_name : postData.student_disp_id :postData.student_phone : postData.doj : spent_percentage | sortPipe : postData.student_name | sortPipe : postData.student_id"
-                                (sortData)="sortedData($event)" [tableName]="'sms'" [settings]="projectSettings">
+                            <proctur-table [records]="pagedPostData" (sortData)="sortedData($event)" [tableName]="'sms'" [settings]="projectSettings">
                             </proctur-table>
                         </div>
                         <div *ngIf=isProfessional>
@@ -184,7 +186,7 @@
             <a class="hide" #xlsDownloader></a>
 
             <div class="table table-responsive student-table">
-                <table #attendanceTable>
+                <table >
                     <thead>
                         <tr>
                             <th>
@@ -242,14 +244,81 @@
                                 {{i.spent_percentage}}%
                             </td>
                         </tr>
-                        <tr *ngIf="pageDetailedData.length == 0">
+                        <tr *ngIf="pageDetailedData.length == 0" class="records">
                             <td colspan="7" class="records">
-                            No Records Found
-                        </td>
+                                No Records Found
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <div class="table table-responsive student-table" class="hide">
+                    <table #attendanceTable>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Id
+                                </th>
+                                <th *ngFor="let k of typeAttendance">
+                                    {{k.class_date | date:"dd/MMM"}}
+                                </th>
+    
+                                <th>
+                                    Present
+                                </th>
+    
+                                <th>
+                                    Absent
+                                </th>
+                                <th>
+                                    Leave
+                                </th>
+    
+                                <th>
+                                    Percentage
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    
+                            <tr *ngFor="let i of dateWiseAttendance; let j=index">
+    
+                                <td>
+                                    {{i.student_name}}
+    
+                                </td>
+                                <td>
+                                    {{i.student_disp_id}}
+    
+                                </td>
+    
+                                <td *ngFor="let k of i.attendanceDateType" [style.color]="getColor(k.status)">
+                                    {{k.status}}
+                                </td>
+                                <td>
+                                    {{i.total_attended}}
+                                </td>
+                                <td style="color:red;">
+                                    {{i.total_absent}}
+                                </td>
+                                <td style="color:blue;">
+                                    {{i.total_leave}}
+                                </td>
+                                <td style="color:blue;">
+                                    {{i.spent_percentage}}%
+                                </td>
+                            </tr>
+                            <tr *ngIf="dateWiseAttendance.length == 0" class="records">
+                                <td colspan="7" class="records">
+                                    No Records Found
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             <div class="row filter-res pagination" style="width: 100%;" *ngIf=!isProfessional>
                 <div class="c-lg-12 c-md-12 c-sm-12 align-right">
                     <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
@@ -264,7 +333,7 @@
             <a class="hide" #xlsDownloader></a>
 
             <div class="table table-responsive student-table">
-                <table #attendanceTable>
+                <table >
                     <thead>
                         <tr>
                             <th>
@@ -320,13 +389,77 @@
                             </td>
                         </tr>
                         <tr *ngIf="pageDetailedDataPro.length == 0">
-                            <td style="align:center; font-style:bold;">
+                            <td class="records" colspan="7">
                                 No Records Found
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <div class="table table-responsive student-table" class="hide">
+                    <table #attendanceTable>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th *ngFor="let k of typeAttendancePro">
+                                    {{k.class_date | date:"dd/MMM"}}
+    
+                                </th>
+                                <th>
+                                    Total Present
+                                </th>
+    
+                                <th>
+                                    Total absent
+                                </th>
+                                <th>
+                                    Total leave
+                                </th>
+    
+                                <th>
+                                    Percentage
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    
+                            <tr *ngFor="let i of dateWiseAttendancePro; let j=index">
+                                <td>
+                                    {{i.student_id}}
+                                </td>
+                                <td>
+                                    {{i.student_name}}
+                                </td>
+                                <td *ngFor="let k of i.attendanceDateType" [style.color]="getColor(k.status)">
+                                    {{k.status}}
+                                </td>
+                                <td>
+                                    {{i.total_attended}}
+                                </td>
+                                <td style="color:red;">
+                                    {{i.total_absent}}
+                                </td>
+                                <td style="color:blue;">
+                                    {{i.total_leave}}
+                                </td>
+    
+                                <td style="color:blue;">
+                                    {{i.spent_percentage}}%
+                                </td>
+                            </tr>
+                            <tr *ngIf="dateWiseAttendancePro.length == 0">
+                                <td class="records" colspan="7">
+                                    No Records Found
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             <div class="row filter-res pagination" style="width: 100%;" *ngIf=isProfessional>
                 <div class="c-lg-12 c-md-12 c-sm-12 align-right">
                     <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"

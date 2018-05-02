@@ -7,10 +7,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
-   biometricAttendanceEnable:boolean=true;
-  constructor(
-    private route: Router
-  ) {
+
+  biometricAttendanceEnable:boolean=true;
+
+  constructor(private route: Router) {
 
   }
 
@@ -18,7 +18,6 @@ export class ReportComponent implements OnInit {
     this.biometricAttendanceEnable = sessionStorage.getItem('biometric_attendance_feature') == '1';
     this.removeFullscreen();
     this.removeSideNavSelection();
-    this.checkUserAccess();
   }
 
   removeSideNavSelection() {
@@ -72,9 +71,9 @@ export class ReportComponent implements OnInit {
     }
   }
 
-  checkUserAccess() {
-    this.route.navigateByUrl('/reports/sms');
-  }
+  // checkUserAccess() {
+  //   this.route.navigateByUrl('/reports/sms');
+  // }
   
 
 }

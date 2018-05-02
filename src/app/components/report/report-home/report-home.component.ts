@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppComponent } from '../../../app.component';
+import { LoginService } from '../../../services/login-services/login.service';
 
 @Component({
   selector: 'app-report-home',
@@ -8,14 +10,26 @@ import { Router } from '@angular/router';
 })
 export class ReportHomeComponent implements OnInit {
 
-  constructor(
-    private route: Router
-  ) {
+  isProfessional: boolean;
+
+  isProfitnloss: boolean
+  isEmail: boolean
+  isTimetable: boolean
+  isReportCard: boolean
+  isExam: boolean
+  isFee: boolean
+  isBiometric: boolean
+  isAttendance: boolean
+
+  constructor(private router: Router, private appC: AppComponent, private login: LoginService) {
     this.switchActiveView('home');
   }
 
   ngOnInit() {
-    this.route.navigateByUrl('/reports/sms');
+    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
+    this.fetchAndUpdatePermissions();
   }
 
 
@@ -42,6 +56,35 @@ export class ReportHomeComponent implements OnInit {
     }
   }
 
+  fetchAndUpdatePermissions() {
+    let permissions = sessionStorage.getItem('permissions');
 
+    /* Admin Account Detected */
+    if (permissions == '' || permissions == null || permissions == undefined) {
+      if (sessionStorage.getItem('userType') == '0') {
+        this.isProfitnloss = true;
+        this.isEmail = true;
+        this.isTimetable = true;
+        this.isReportCard = true;
+        this.isExam = true;
+        this.isFee = true;
+        this.isBiometric = true;
+        this.isAttendance = true;
+      }
+      else{
+        this.isProfitnloss = false;
+        this.isEmail = false;
+        this.isTimetable = false;
+        this.isReportCard = false;
+        this.isExam = false;
+        this.isFee = false;
+        this.isBiometric = false;
+        this.isAttendance = false;
+      }
+    }
+    else {
+      console.log(permissions);
+    }
+  }
 
 }
