@@ -20,8 +20,17 @@ $color-highlight: lighten($color-base, 7%);
     }
 }
 
-.filter-form {
+.attendance-container{
+    height: 85vh;
     background: #efefef;
+    padding: 5px;
+    overflow: auto; 
+}
+
+.filter-form {
+    background: #fff;
+    box-shadow: 0px 0px 2px 2px #dadada;
+    border-radius: 10px;
     .row {
         margin: 5px 15px;
     }
@@ -52,7 +61,7 @@ $color-highlight: lighten($color-base, 7%);
                 z-index: 1;
                 background: transparent;
                 width: 100%;
-                padding: 3px;
+                padding: 5px;
                 display: block;
                 border: 1px solid #dadada;
             }
@@ -61,7 +70,7 @@ $color-highlight: lighten($color-base, 7%);
                 background: url('../../../../assets/images/calendar.svg') no-repeat;
                 position: absolute;
                 right: 5px;
-                top: 27px;
+                top: 30px;
                 width: 21px;
                 height: 21px;
                 z-index: 0;
@@ -118,7 +127,7 @@ $color-highlight: lighten($color-base, 7%);
     }
     .form-date {
         display: inline-block;
-        width: 40%;
+        width: 45%;
     }
     .table-content {
         height: 350px;
@@ -135,17 +144,7 @@ $color-highlight: lighten($color-base, 7%);
         margin-bottom: 5px;
         background: #efefef;
     }
-    .search-filter-wrapper {
-        .normal-field {
-            padding: 7px 10px;
-            width: 20%;
-            box-sizing: border-box;
-            margin-right: 10px;
-            float: right;
-            height: 35px;
-            font-size: 14px;
-        }
-    }
+
     .form-wrapper {
         .datePickerBox {
             padding-right: 10px;
@@ -364,5 +363,19 @@ $color-highlight: lighten($color-base, 7%);
             width: 7px;
             height: 7px;
         }
+    }
+}
+
+.search-filter-wrapper {
+    margin: 10px 5px 10px 5px;
+    float: right;
+    .search-field {
+        font-size:12px;
+        padding: 7px 10px;
+        width: 200px;
+        box-sizing: border-box;
+        float: right;
+        height: 35px;
+        font-size: 14px;
     }
 }

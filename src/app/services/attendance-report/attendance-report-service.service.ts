@@ -2,10 +2,10 @@ import { Injectable, } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatorService } from "../authenticator.service";
 import { Observable } from 'rxjs/observable';
+import * as moment from 'moment';
+
 @Injectable()
 export class AttendanceReportServiceService {
-
-
   baseUrl: string = '';
   Authorization: any;
   headers;
@@ -13,8 +13,6 @@ export class AttendanceReportServiceService {
   standard_id;
   subject_id;
   assigned;
-
-
 
   constructor(private http: HttpClient, private auth: AuthenticatorService) {
     this.auth.currentAuthKey.subscribe(key => {
@@ -31,7 +29,8 @@ export class AttendanceReportServiceService {
     //this.headers = new HttpHeaders({ "Content-Type": "application/json", "Authorization": this.Authorization });
 
   }
-  getMasterCourse() {
+
+  getMasterCourse(): Observable<any> {
     let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all"
     return this.http.get(url, { headers: this.headers }).map(
       data => {
@@ -42,6 +41,7 @@ export class AttendanceReportServiceService {
       }
     )
   }
+
   getCourses(obj) {
     let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + obj
     return this.http.get(url, { headers: this.headers }).map(
@@ -68,35 +68,45 @@ export class AttendanceReportServiceService {
     )
 
   }
-  postDataToTable(obj){
-    let url=this.baseUrl + "/api/v1/reports/attendance";
-    return this.http.post(url ,obj, {headers:this.headers}).map(
-      data =>{
+
+  postDataToTable(obj) {
+    debugger;
+    obj.from_date = moment(obj.from_date).format('YYYY-MM-DD');
+    obj.to_date = moment(obj.to_date).format('YYYY-MM-DD');
+
+    let url = this.baseUrl + "/api/v1/reports/attendance";
+    return this.http.post(url, obj, { headers: this.headers }).map(
+      data => {
         return data;
       },
-      error =>{
+      error => {
         return error;
       }
     )
   }
-  postDataToTablePro(obj){
-    let url=this.baseUrl + "/api/v1/reports/attendance";
-    return this.http.post(url ,obj, {headers:this.headers}).map(
-      data =>{
+
+  postDataToTablePro(obj) {
+    
+    obj.from_date = moment(obj.from_date).format('YYYY-MM-DD');
+    obj.to_date = moment(obj.to_date).format('YYYY-MM-DD');
+
+    let url = this.baseUrl + "/api/v1/reports/attendance";
+    return this.http.post(url, obj, { headers: this.headers }).map(
+      data => {
         return data;
       },
-      error =>{
+      error => {
         return error;
       }
     )
   }
-  postDetailedData(obj){
-    let url=this.baseUrl + "/api/v1/reports/attendance/monthlyAttendanceReport";
-    return this.http.post(url, obj, {headers:this.headers}).map(
-      data =>{
+  postDetailedData(obj) {
+    let url = this.baseUrl + "/api/v1/reports/attendance/monthlyAttendanceReport";
+    return this.http.post(url, obj, { headers: this.headers }).map(
+      data => {
         return data;
       },
-      error=>{
+      error => {
         return error;
       }
 
@@ -104,16 +114,16 @@ export class AttendanceReportServiceService {
   }
   /* =========================================================================== */
   /* =========================================================================== */
-/*for professional*/
+  /*for professional*/
 
-  masterCoursePro(obj){
+  fetchMasterCourseProfessional(obj) {
 
-    let url=this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id +  "?standard_id=" + obj.standard_id +"&subject_id=" + obj.subject_id + "&assigned=N" ;
-    return this.http.get(url, {headers:this.headers}).map(
-      data=>{
+    let url = this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id + "?standard_id=" + obj.standard_id + "&subject_id=" + obj.subject_id + "&assigned=N";
+    return this.http.get(url, { headers: this.headers }).map(
+      data => {
         return data;
       },
-      error=>{
+      error => {
         return error;
       }
     )
