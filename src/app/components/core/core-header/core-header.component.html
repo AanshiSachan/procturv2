@@ -12,8 +12,8 @@
       <section class="header-search search-item">
         <div class="pos-rel search-item">
           <form autocomplete="off" #form="ngForm">
-            <input autocomplete="off" maxlength="20" type="text" [ngClass]="{'has-focus': isResultDisplayed}" class="form-ctrl-head searchbox search-item" [(ngModel)]="userInput"
-              name="userInput" #searchInput (focus)="triggerSearchBox($event)">
+            <input autocomplete="off" maxlength="20" type="text" [ngClass]="{'has-focus': isResultDisplayed}" class="form-ctrl-head searchbox search-item"
+              [(ngModel)]="userInput" name="userInput" #searchInput (focus)="triggerSearchBox($event)">
             <button class="form-btn-head search-item">
               <svg class="search-item" xmlns="http://www.w3.org/2000/svg" viewBox="504 4 22 22">
                 <defs>
@@ -48,9 +48,9 @@
         </div>
       </section>
       <section class="search-dropdown search-item" #seachResult>
-        <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat" 
-        [studentResult]="studentResult" (viewAll)="viewMoreRecods($event)" (searchAgain)="searchAgain($event)" (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)" [enquiryResult]="enquiryResult"
-        (actionSelected)="actionSelected($event)">
+        <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat" [studentResult]="studentResult"
+          (viewAll)="viewMoreRecods($event)" (searchAgain)="searchAgain($event)" (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)"
+          [enquiryResult]="enquiryResult" (actionSelected)="actionSelected($event)">
         </search-box>
       </section>
     </div>
@@ -154,7 +154,7 @@
               </i>
               <div class="dropdown">
                 <ul class="user-detail">
-          
+
                   <li>
                     <div id="divAdminTag">
                       <strong>Administration</strong>
@@ -173,32 +173,37 @@
                         </strong>
                         <div>
                           <ul>
+
                             <li id="divTeacherTag">
                               <span>
                                 <a routerLink="/teacher">Faculty</a>
                               </span>
                             </li>
+
                             <li id="divFeeTag">
                               <span>
                                 <a routerLink="/fee">Fee</a>
                               </span>
                             </li>
+
                             <!-- <li>
                               <span>
                                 <a>Topic</a>
                               </span>
                             </li> -->
+
                             <li id="divSlotTag">
                               <span>
                                 <a routerLink="/slot">Slot</a>
                               </span>
                             </li>
-                             <li id="divClassRoomTag">
+
+                            <li id="divClassRoomTag">
                               <span>
-                                <a routerLink="/classRoom">Class Room</a>
+                                <a routerLink="/classroom">Class Room</a>
                               </span>
                             </li>
-                             <li id="divManageTag">
+                            <li id="divManageTag">
                               <span>
                                 <a routerLink="/eventManagment">Event</a>
                               </span>
@@ -251,6 +256,7 @@
 
                     </ul>
                   </li>
+                  
                 </ul>
               </div>
             </li>

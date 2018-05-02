@@ -1,7 +1,7 @@
 <div class="middle-section clearFix">
     <section class="middle-top mb0 clearFix" style="padding-bottom:0px;">
       <h1 class="pull-left marginhead">
-        ClassRoom
+        Classroom
       </h1>
     </section>
   
@@ -11,7 +11,7 @@
         <a (click)="toggleCreateNewList()">
           <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
           <i id="showCloseBtn" style="display:none;border:none;" class="closeBtnClass">-</i>
-          <span>Add classRoom</span>
+          <span>Add Classroom</span>
         </a>
       </div>
       <section class="clearFix create-standard-form" *ngIf="CreateNewList">
@@ -19,22 +19,23 @@
         <div class="row">
           <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3 grid-container">
             <div class="field-wrapper" [ngClass]="{'has-value': idAddRoom.value!= ''}">
-              <input type="text" #idAddRoom class="form-ctrl" name="ClassRoom_Name" id="ClassRoom_Name">
-              <label for="ClassRoom_Name">ClassRoomName*</label>
+              <input type="text" #idAddRoom class="form-ctrl" name="Classroom_Name" id="Classroom_Name">
+              <label for="Classroom_Name">Classroom Name*</label>
             </div>
           </div>
           <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3 grid-container">
             <div class="field-wrapper" [ngClass]="{'has-value': idAddDesc.value!= ''}">
-              <input type="text" #idAddDesc class="form-ctrl" name="ClassRoomDesc" id="ClassRoomDesc">
-              <label for="ClassRoomDesc">ClassRoomDescription*</label>
+              <input type="text" #idAddDesc class="form-ctrl" name="ClassroomDesc" id="ClassroomDesc">
+              <label for="ClassroomDesc">Classroom Description*</label>
             </div>
           </div>
           <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3 grid-container">
             <aside class="pull-left create-cancel-small">
-              <button class="btn pull-right fullBlue btnclass" (click)="addNewclassRoom(idAddRoom.value,idAddDesc.value)">Save</button>
+              <button class="btn pull-right fullBlue btnclass" (click)="addNewClassroom(idAddRoom.value,idAddDesc.value)">Save</button>
             </aside>
           </div>
         </div>
+        
       </section>
   
       <div id="divSlotTable">
@@ -57,8 +58,11 @@
                   </th>
                 </tr>
               </thead>
-              <tbody *ngIf="classRoomData.length !=0">
-                <tr id="row{{i}}" class="displayComp" *ngFor="let row of pagedclassRoomData; let i = index; trackBy: i;">
+
+              <tbody *ngIf="ClassroomData.length !=0">
+
+                <tr id="row{{i}}" class="displayComp" *ngFor="let row of pagedClassroomData; let i = index; trackBy: i;">
+
                   <td>
                     {{i + 1}}
                   </td>
@@ -66,9 +70,11 @@
                   <td class="view-comp">
                     {{row.class_room_name}}
                   </td>
+
                   <td class="edit-comp">
                     <div class="field-wrapper">
-                      <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" name="label">
+                      <textarea id="" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" name="label" cols="1" rows="1"></textarea>
+                      <!-- <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" name="label"> -->
                     </div>
                   </td>
   
@@ -85,13 +91,14 @@
                   <td class="view-comp">
                     <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
                   </td>
+
                   <td class="edit-comp">
-                    <a class="anchorTagCursor" (click)="saveclassRoomInfo(row , i)">Update</a>
+                    <a class="anchorTagCursor" (click)="saveClassroomInfo(row , i)">Update</a>
                   </td>
   
                 </tr>
               </tbody>
-              <tbody *ngIf="classRoomData.length ==0">
+              <tbody *ngIf="ClassroomData.length ==0">
                 <td colspan="4" style="text-align: center">
                   ClassList Record Not
                 </td>
