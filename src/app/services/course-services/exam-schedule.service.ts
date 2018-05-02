@@ -171,4 +171,13 @@ export class ExamCourseService {
         )
     }
 
+    updateExamSch(data) {
+        data.inst_id = this.institute_id;
+        let url = this.baseURL + "/api/v1/courseExamSchedule/update";
+        return this.http.post(url, data, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
 }

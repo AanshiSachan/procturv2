@@ -89,6 +89,7 @@ export class CourseExamComponent implements OnInit {
   subjectList: any = [];
   courseTableList: any = [];
   selectedCourseList: any = [];
+  viewList: any = [];
 
   constructor(
     private apiService: ExamCourseService,
@@ -602,7 +603,6 @@ export class CourseExamComponent implements OnInit {
   }
 
   calculateDataAsPerSelection(result) {
-    debugger
     if (result != null) {
       if (result.coursesList.length > 0) {
         for (let i = 0; i < result.coursesList.length; i++) {
@@ -634,7 +634,6 @@ export class CourseExamComponent implements OnInit {
   }
 
   addNewExamSubjectCourse() {
-    debugger
     if (this.coursetableAdder.batch_id != -1 && this.coursetableAdder.total_marks > 0) {
       let obj: any = {};
       obj.total_marks = this.coursetableAdder.total_marks;
@@ -671,6 +670,111 @@ export class CourseExamComponent implements OnInit {
 
   deleteFromCourse(data, index) {
     this.courseTableList.splice(index, 1);
+  }
+
+  saveExamScheduleCourse() {
+    debugger
+    let dataToSend = this.makeDataJsonToSend();
+    if (dataToSend == false) {
+      return;
+    }
+    console.log(dataToSend);
+    this.apiService.updateExamSch(dataToSend).subscribe(
+      res => {
+        this.messageNotifier('success', 'Success', 'Exam Schedule Added Successfully');
+        this.getExamSchedule();
+      },
+      err => {
+        console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  makeDataJsonToSend() {
+    let total: number = 0;
+    let obj: any = {};
+    let start_time = moment(this.createTimeInFormat(this.courseModelAdder.start_time.hour, this.courseModelAdder.start_time.minute, 'comp'), 'h:mma');
+    let end_time = moment(this.createTimeInFormat(this.courseModelAdder.end_time.hour, this.courseModelAdder.end_time.minute, 'comp'), 'h:mma');
+    let startTime = this.createTimeInFormat(this.courseModelAdder.start_time.hour, this.courseModelAdder.start_time.minute, '');
+    let endTime = this.createTimeInFormat(this.courseModelAdder.end_time.hour, this.courseModelAdder.end_time.minute, '');
+    if (!(start_time.isBefore(end_time))) {
+      this.messageNotifier('error', 'Error', 'Please provide correct start time and end time');
+      return false;
+    }
+    if (moment(this.courseData.requested_date).format('YYYY-MM-DD') != this.examScheduleData.requested_date) {
+      this.messageNotifier('error', 'Error', 'Data has been changes. Please press Go button');
+      return false;
+    }
+    if (this.courseModelAdder.total_marks > 0) {
+      obj.master_course = this.courseData.master_course;
+      obj.requested_date = moment(this.courseData.requested_date).format('YYYY-MM-DD');
+      obj.coursesList = [];
+      if (this.examScheduleData.coursesList.length > 0) {
+        for (let i = 0; i < this.examScheduleData.coursesList.length; i++) {
+          if (this.examScheduleData.coursesList[i].course_id == this.courseData.course_id) {
+            let test: any = {};
+            test.course_id = this.examScheduleData.coursesList[i].course_id.toString();
+            test.courseClassSchdList = [];
+            total = 0;
+            for (let t = 0; t < this.courseTableList.length; t++) {
+              let classLi: any = {};
+              classLi.batch_id = this.courseTableList[t].batch_id.toString();
+              classLi.start_time = startTime;
+              classLi.end_time = endTime;
+              classLi.class_desc = this.courseModelAdder.exam_desc;
+              classLi.duration = end_time.diff(start_time, 'minutes');
+              classLi.total_marks = this.courseTableList[t].total_marks.toString();
+              classLi.room_no = this.courseModelAdder.room_no;
+              classLi.class_schedule_id = this.courseTableList[t].class_schedule_id.toString();
+              total += Number(this.courseTableList[t].total_marks);
+              test.courseClassSchdList.push(classLi);
+            }
+            if (Number(total) != Number(this.courseModelAdder.total_marks)) {
+              this.messageNotifier('error', 'Error', 'Please check total marks provided');
+              return false;
+            }
+            test.exam_start_time = startTime;
+            test.exam_end_time = endTime;
+            test.course_exam_schedule_id = this.examScheduleData.coursesList[i].course_exam_schedule_id.toString();
+            obj.coursesList.push(test);
+          } else {
+            let data: any = {};
+            let timeStart: any = null;
+            let timeEnd: any = null;
+            data.course_id = this.examScheduleData.coursesList[i].course_id.toString();
+            data.courseClassSchdList = [];
+            data.course_exam_schedule_id = 0;
+            if (this.examScheduleData.coursesList[i].courseClassSchdList.length > 0) {
+              let courseSch = this.examScheduleData.coursesList[i].courseClassSchdList;
+              for (let j = 0; j < courseSch.length; j++) {
+                let classLi: any = {};
+                timeStart = courseSch[j].start_time;
+                timeEnd = courseSch[j].end_time;
+                classLi.batch_id = courseSch[j].batch_id.toString();
+                classLi.start_time = courseSch[j].start_time;
+                classLi.end_time = courseSch[j].end_time;
+                classLi.class_desc = courseSch[j].class_desc;
+                classLi.duration = end_time.diff(start_time, 'minutes');
+                classLi.total_marks = courseSch[j].total_marks.toString();
+                classLi.room_no = courseSch[j].room_no;
+                classLi.class_schedule_id = courseSch[j].class_schedule_id.toString();
+                data.courseClassSchdList.push(classLi);
+              }
+              data.course_exam_schedule_id = this.examScheduleData.coursesList[i].course_exam_schedule_id.toString();
+            }
+            data.exam_start_time = timeStart;
+            data.exam_end_time = timeEnd;
+            obj.coursesList.push(data);
+          }
+        }
+      }
+
+    } else {
+      this.messageNotifier('error', 'Error', 'Please provide total marks');
+      return false;
+    }
+    return obj;
   }
 
   ////cancel Exam popup/////
