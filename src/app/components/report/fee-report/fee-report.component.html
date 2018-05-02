@@ -1,0 +1,102 @@
+<div class="report-wrapper clearFix">
+    <aside class="middle-full">
+        <section class="middle-main clearFix">
+
+            <div class="header">
+                <section class="middle-top mb0 clearFix report-header">
+                    <h2 class="pull-left">
+                        <a routerLink="/reports/home">
+                            <i style="font-family: 'FontAwesome'; font-size: 24px;cursor: pointer;" class="fas fa-home"></i>
+                        </a>
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Fee Report
+                    </h2>
+                    <aside class="pull-right">
+                    </aside>
+                </section>
+
+                <section class="fee-filter">
+                    <div class="c-lg-4">
+                        <div class="form-wrapper">
+                            <input type="text" class="form-ctrl" placeholder="Search Name/Phone No.">
+                        </div>
+                    </div>
+                    <div class="c-lg-2">
+                        <div class="form-wrapper">
+                            <select name="" id="" class="form-ctrl">
+                                <option value="">Select Dues</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="c-lg-1 filter-btn">
+                        <button class="btn fullBlue">Go</button>
+                    </div>
+                    <div style="margin-top: 10px" class="c-lg-2 filter-btn">
+                        <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Advance Filter</a>
+                        <a href="javascript:void(0);" id="adFilterExit" class="closeAdFilter hide" (click)="closeAdFilter()">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="3712 291 16 16">
+                                <g id="Group_1214" data-name="Group 1214" transform="translate(2700 -6)">
+                                    <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                                        <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                                        <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                                    </g>
+                                    <rect id="Rectangle_686" data-name="Rectangle 686" class="cls-2" width="16" height="16" transform="translate(1012 297)" />
+                                </g>
+                            </svg>
+                            Close Advance Filter
+                        </a>
+                    </div>
+                    <div class="c-lg-3"></div>
+                </section>
+            </div>
+
+            <section class="fee-info">
+                <div class="c-lg-8">
+                    <div class="c-lg-1"></div>
+                    <div class="c-lg-4">
+                        <ul>
+                            <li class="key">
+                                Total Fees Collection
+                            </li>
+                            <li class="value">
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="c-lg-4">
+                        <ul>
+                            <li class="key">
+                                Total Fees collection others
+                            </li>
+                            <li class="value">
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="c-lg-3">
+                        <ul>
+                            <li class="key">
+                                Total Dues
+                            </li>
+                            <li class="value">
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="c-lg-4">
+                    <div class="form-wrapper">
+                        <input type="text" name="" placeholder="Search" class="form-ctrl" id="">
+                    </div>
+                </div>
+            </section>
+
+            <section class="fee-table">
+                <div class="table-content">
+                    <ng-robTable [records]="feeDataSource" [tableName]="'feereport'" [settings]="feeSettings">
+                    </ng-robTable>
+                </div>
+            </section>
+
+        </section>
+    </aside>
+</div>

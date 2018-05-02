@@ -3,7 +3,8 @@
         <section class="middle-main clearFix report-box">
             <section>
                 
-                <div class="c-lg-4">
+                <!-- SMS -->
+                <div *ngIf="isSms" class="c-lg-4">
                     <ul class="card" routerLink="/reports/sms">
                         <li>
                             SMS
@@ -13,7 +14,9 @@
                         </li>
                     </ul>
                 </div>
-                <div class="c-lg-4">
+
+                <!-- Attendance -->
+                <div *ngIf="isAttendance" class="c-lg-4">
                     <ul class="card" routerLink="/reports/attendance">
                         <li>
                             Attendance
@@ -23,7 +26,9 @@
                         </li>
                     </ul>
                 </div>
-                <div class="c-lg-4">
+
+                <!-- Biometric -->
+                <div *ngIf="isBiometric"  class="c-lg-4">
                     <ul class="card" routerLink="/reports/biometric">
                         <li>
                             Biometric Attendance
@@ -34,7 +39,8 @@
                     </ul>
                 </div>
 
-                <div class="c-lg-4">
+                <!-- Fee -->
+                <div *ngIf="isFee"  class="c-lg-4">
                     <ul class="card" routerLink="/reports/fee">
                         <li>
                             Fee
@@ -44,7 +50,9 @@
                         </li>
                     </ul>
                 </div>
-                <div class="c-lg-4">
+
+                <!-- Exam -->
+                <div *ngIf="isExam"  class="c-lg-4">
                     <ul class="card" routerLink="/reports/exam">
                         <li>
                             Exam
@@ -54,7 +62,9 @@
                         </li>
                     </ul>
                 </div>
-                <div class="c-lg-4">
+
+                <!-- Report Card -->
+                <div *ngIf="isReportCard"  class="c-lg-4">
                     <ul class="card" routerLink="/reports/reportCard">
                         <li>
                             Report Card
@@ -65,7 +75,8 @@
                     </ul>
                 </div>
 
-                <div class="c-lg-4">
+                <!-- Timetable -->
+                <div *ngIf="isTimetable"  class="c-lg-4">
                     <ul class="card" routerLink="/reports/timeTable">
                         <li>
                             Time Table
@@ -75,7 +86,9 @@
                         </li>
                     </ul>
                 </div>
-                <div class="c-lg-4">
+
+                <!-- Email -->
+                <div *ngIf="isEmail"  class="c-lg-4">
                     <ul class="card" routerLink="/reports/email">
                         <li>
                             Email
@@ -85,7 +98,9 @@
                         </li>
                     </ul>
                 </div>
-                <div class="c-lg-4">
+
+                <!-- profit n loss -->
+                <div *ngIf="isProfitnloss"  class="c-lg-4">
                     <ul class="card" routerLink="/reports/profitNloss">
                         <li>
                             Profit and Loss

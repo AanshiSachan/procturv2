@@ -80,8 +80,17 @@ export class StudentBulkComponent implements OnInit {
   uploadHandler(event) {
 
     for (let file of event.files) {
-      if (file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.type == 'application/vnd.ms-excel') {
-
+      //console.log(file);
+      if (
+        file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || 
+        file.type == 'application/vnd.ms-excel' ||
+        file.type == 'text/csv' ||
+        file.type == 'application/xls' ||
+        file.type == 'application/excel' ||
+        file.type == 'application/msexcel' ||
+        file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+        file.type == 'application/x-excel'
+      ) {
         let fileString: string = '';
         var reader = new FileReader();
         reader.readAsDataURL(file);
@@ -90,7 +99,6 @@ export class StudentBulkComponent implements OnInit {
           this.uploader(fileString);
         }
         reader.onerror = function (error) {
-          
         }
       }
       else {

@@ -1,5 +1,4 @@
 @import "variables";
-
 /* Scrollbar thickness changed here for vertical display */
 
 ::-webkit-scrollbar {
@@ -8,7 +7,6 @@
     height: 7px;
 }
 
-
 /* Track */
 
 ::-webkit-scrollbar-track {
@@ -16,7 +14,6 @@
     -webkit-border-radius: 5px;
     border-radius: 5px;
 }
-
 
 /* Handle */
 
@@ -56,7 +53,7 @@
     padding: 5px;
 }
 
- ::ng-deep .bs-datepicker-head {
+::ng-deep .bs-datepicker-head {
     //background-color: #004c80;
     color: white;
     border-top: 1px solid white;
@@ -66,7 +63,7 @@
     font-weight: 800;
 }
 
- ::ng-deep .bs-datepicker-body {
+::ng-deep .bs-datepicker-body {
     padding: 0px;
     border: 1px solid rgba(119, 119, 119, 0.28);
 }
@@ -104,7 +101,7 @@
 .table-responsive {
     max-width: 100%;
     overflow: auto;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
     }
 }
@@ -115,7 +112,7 @@
     padding: 5px;
     background: #efefef;
     box-shadow: 0px 2px 5px 0px rgba(38, 0, 0, 0.2);
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
     }
 }
@@ -231,31 +228,34 @@ textarea {
     }
 }
 
-.pagination {
-    li {
-        /* a {
-            &:hover {
-                color: #23527c !important;
-                background-color: none !important;
-                border-color: none !important;
-                outline: none !important;
-            }
-            &:focus {
-                z-index: 2 !important;
-                color: #23527c !important;
-                background-color: none !important;
-                border-color: none !important;
-                outline: none !important;
-            }
-        } */
-        /*         .active {
-            background: $common-blue;
-            color: white;
-            line-height: 18px;
-            padding: 4px 8px 0px 8px;
-            margin: 0px 0px -3px 0px;
-        } */
+.form-wrapper {
+    background: transparent;
+    margin: 10px 0px;
+   align-content: center;
+
+    label {
+        padding-left:10px;
+        font-size: 12px;
+        font-weight: 400; 
+        color: 0084f6;
+        text-decoration: none;
+        text-transform: uppercase;
+        -webkit-font-smoothing: antialiased;
+        width:100%;
     }
+    .form-ctrl {
+        background: white;
+        border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+        width: 100%;
+        padding-left:10px;
+        margin-left: 10px;
+        height: 35px;
+        padding: 0px 5px;
+        font-weight: 400;
+        font-size: 14px;
+        color: black;
+    }
+   
 }
 
 .time-picker {
@@ -297,21 +297,25 @@ input[type="text"][disabled] {
     background: transparent !important;
 }
 
+.report-wrapper {
+    background: #efefef;
+    height: 85vh;
+    width: 100%;
+    padding: 5px;
+    .report-header{
+        background: #fff;
+        padding: 5px;
+    }
+}
+/* ================================================================================================= */
 
 /* ================================================================================================= */
 
+/* ================================================================================================= */
 
 /* ================================================================================================= */
 
-
 /* ================================================================================================= */
-
-
-/* ================================================================================================= */
-
-
-/* ================================================================================================= */
-
 
 /* ================================================================================================= */
 
@@ -449,11 +453,9 @@ h3 {
     overflow: hidden;
 }
 
-
 /*===============================call grid view css====================*/
 
 @import "grid";
-
 /* ========================================== Common Fields CSS============================*/
 
 .table-responsive {
@@ -499,7 +501,6 @@ h3 {
         }
     }
 }
-
 
 /* text field  */
 
@@ -548,7 +549,6 @@ h3 {
     color: $common-blue;
     font-size: 12px;
 }
-
 
 /*radio button  */
 
@@ -614,7 +614,6 @@ h3 {
     color: $common-blue;
 }
 
-
 /*checkbox  */
 
 .field-checkbox-wrapper .form-checkbox {
@@ -675,7 +674,6 @@ h3 {
     color: $common-blue;
 }
 
-
 /*navigation   */
 
 .useFul li {
@@ -685,7 +683,6 @@ h3 {
 .useFul nav {
     margin-left: 200px;
 }
-
 
 /*===========================================common Table CSS===============================*/
 
@@ -722,11 +719,11 @@ th {
         font-size: 14px !important;
         color: #000000;
     }
-    a{
+    a {
         font-size: 14px !important;
         color: #000000;
     }
-    &:first-child{
+    &:first-child {
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
     }
@@ -739,7 +736,6 @@ td {
 table tr {
     transition: all 0.1s;
 }
-
 
 /* table tr:nth-child(even) {
     background: #efefef;
@@ -780,7 +776,6 @@ table tr {
     border-left: 1px solid hsla(210, 2%, 83%, .5);
     border-right: 1px solid hsla(210, 2%, 83%, .5);
     cursor: pointer;
-
     td {
         border-top: 1px solid hsla(210, 2%, 83%, .5);
         border-bottom: 2px solid hsla(210, 2%, 83%, .5);
@@ -1200,8 +1195,8 @@ select.form-new-field {
     }
 }
 
-.questionInfo{
-    &.inline-relative{
+.questionInfo {
+    &.inline-relative {
         display: inline-block;
         position: relative;
     }
@@ -1345,7 +1340,6 @@ select.form-new-field {
 
 @media only screen and (max-width:640px) {}
 
-
 /*======================================common menu icon=====================*/
 
 .edit-icon {
@@ -1378,7 +1372,6 @@ input:-webkit-autofill {
     padding: 0px !important;
     margin-bottom: 0px !important;
 }
-
 
 .popupWrapper {
     position: fixed;
@@ -1498,14 +1491,14 @@ input:-webkit-autofill {
     height: 100%;
     overflow: hidden;
     visibility: visible;
-    .row{
+    .row {
         margin: 0px;
     }
-    .content-wrapper{
+    .content-wrapper {
         margin: 5px;
-        max-height:480px;
-        overflow: hidden; 
-        .content-scroller{
+        max-height: 480px;
+        overflow: hidden;
+        .content-scroller {
             max-height: 475px;
             overflow-x: hidden;
             overflow-y: scroll;
