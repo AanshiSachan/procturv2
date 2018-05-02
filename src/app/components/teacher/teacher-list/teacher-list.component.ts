@@ -22,6 +22,7 @@ export class TeacherListComponent implements OnInit {
   dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5];
   selectedRow: number;
+  searchValue: string = "";
 
   constructor(
     private ApiService: TeacherAPIService,
@@ -34,6 +35,7 @@ export class TeacherListComponent implements OnInit {
   }
 
   getDataFromServer() {
+    this.PageIndex = 1;
     this.isRippleLoad = true;
     this.ApiService.getAllTeacherList().subscribe(
       (data: any) => {
@@ -70,6 +72,8 @@ export class TeacherListComponent implements OnInit {
     if (confirm("Are you sure, you want to delete this teacher?")){
       this.ApiService.deleteTeacher(row.teacher_id).subscribe(
         res => {
+          this.searchValue = "";
+          this.searchDataFlag = false;
           let data = {
             type: "success",
             title: "Deleted",
@@ -91,11 +95,11 @@ export class TeacherListComponent implements OnInit {
     }
   }
 
-  searchTeacher(searchVal) {
-    if (searchVal.value != "" && searchVal.value != null) {
+  searchTeacher() {
+    if (this.searchValue != "" && this.searchValue != null) {
       let searchData = this.teacherListDataSource.filter(item =>
         Object.keys(item).some(
-          k => item[k] != null && item[k].toString().toLowerCase().includes(searchVal.value.toLowerCase()))
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchValue.toLowerCase()))
       );
       this.searchData = searchData;
       this.totalRow = searchData.length;
