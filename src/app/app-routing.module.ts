@@ -94,7 +94,7 @@ import { EventManagmentComponent } from './components/event-managment/event-mana
                     canLoad: [AuthGuard]
                 },
                 {
-                 path:'classRoom',
+                 path:'classroom',
                  component:ClassRoomComponent,
                  canLoad:[AuthGuard]
                 },
