@@ -71,7 +71,7 @@
         </h5>
         <ul class="in-student-list">
           <li *ngFor="let student of studentResult">
-            <ul>
+            <ul class="holder">
               <li>
                 <a (click)="studentSelected(student)">
                   <img src="" alt="" />
@@ -115,7 +115,7 @@
         </h5>
         <ul class="in-student-list">
           <li *ngFor="let enquiry of enquiryResult">
-            <ul>
+            <ul class="holder">
               <li>
                 <a (click)="enquirySelected(enquiry)">
                   <img src="" alt="" />
