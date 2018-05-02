@@ -142,7 +142,12 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.actRoute.queryParams.subscribe(e => {
 
       if (e.id != null && e.id != undefined && e.id != '') {
-        this.router.navigate(['/student/edit/' + e.id]);
+        if(e.action == undefined ||e.action == undefined || e.action == ''){
+          this.router.navigate(['/student/edit/' + e.id]);
+        }
+        else{
+          console.log(e);
+        }
       }
       else {
         this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';

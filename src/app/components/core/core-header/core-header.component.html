@@ -49,7 +49,8 @@
       </section>
       <section class="search-dropdown search-item" #seachResult>
         <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat" 
-        [studentResult]="studentResult" (viewAll)="viewMoreRecods($event)" (searchAgain)="searchAgain($event)" (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)" [enquiryResult]="enquiryResult">
+        [studentResult]="studentResult" (viewAll)="viewMoreRecods($event)" (searchAgain)="searchAgain($event)" (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)" [enquiryResult]="enquiryResult"
+        (actionSelected)="actionSelected($event)">
         </search-box>
       </section>
     </div>
@@ -181,26 +182,26 @@
                                 <a routerLink="/fee">Fee</a>
                               </span>
                             </li>
-                             <li id="divTopicTag">
+                            <!-- <li>
                               <span>
-                                <a routerLink="/Topic">Topic</a>
+                                <a>Topic</a>
                               </span>
-                            </li> 
-                             <li id="divSlotTag">
+                            </li> -->
+                            <li id="divSlotTag">
                               <span>
                                 <a routerLink="/slot">Slot</a>
                               </span>
                             </li>
-                             <li id="divClassRoom">
+                            <!-- <li>
                               <span>
-                                <a routerLink="/classroom">Class Room</a>
+                                <a>Class Room</a>
                               </span>
-                            </li> 
-                             <li id= "divEvent">
+                            </li> -->
+                            <!-- <li>
                               <span>
-                                <a routerLink="/Event">Event</a>
+                                <a>Event</a>
                               </span>
-                            </li> 
+                            </li> -->
                             <li id="divAcademicTag">
                               <span>
                                 <a routerLink="/academic">Academic Year</a>
@@ -209,8 +210,6 @@
                           </ul>
                         </div>
                       </li>
-                      <!--==-->
-                  
 
                       <li class="hide">
                         <strong>

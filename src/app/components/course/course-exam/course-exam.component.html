@@ -1,49 +1,527 @@
-<div class="warning-content">
-  <h1>Under Construction</h1>
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<section class="middle-section">
+
+    <section class="exam-schedule">
+
+        <div class="heading-section">
+            <h1>
+                Exam Schedule
+            </h1>
+        </div>
+
+        <div class="common-search-filter">
+
+            <div *ngIf="isLangInstitute">
+                <div class="row">
+                    <div class="c-sm-3 c-md-3 c-lg-3">
+                        <div class="field-wrapper" [ngClass]="{'has-value': batchData.standard_id != '-1'}">
+                            <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="batchData.standard_id" (ngModelChange)="onBatchMasterCourseSelection($event)">
+                                <option value="-1"></option>
+                                <option [value]="master.standard_id" *ngFor="let  master of masterCourseList">
+                                    {{master.standard_name}}
+                                </option>
+                            </select>
+                            <label for="ddnMAsterCourse">Master Course</label>
+                        </div>
+                    </div>
+                    <div class="c-sm-3 c-md-3 c-lg-3">
+                        <div class="field-wrapper" [ngClass]="{'has-value': batchData.subject_id != '-1'}">
+                            <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="batchData.subject_id" (ngModelChange)="onBatchCourseSelection($event)">
+                                <option value="-1"></option>
+                                <option [value]="master.subject_id" *ngFor="let  master of courseList">
+                                    {{master.subject_name}}
+                                </option>
+                            </select>
+                            <label for="ddnMAsterCourse">Course</label>
+                        </div>
+                    </div>
+                    <div class="c-sm-3 c-md-3 c-lg-3">
+                        <div class="field-wrapper" [ngClass]="{'has-value': batchData.batch_id != '-1'}">
+                            <select id="sc" class="form-ctrl" [(ngModel)]="batchData.batch_id">
+                                <option value="-1"></option>
+                                <option [value]="subject.batch_id" *ngFor="let subject of batchesList">
+                                    {{subject.batch_name}}
+                                </option>
+                            </select>
+                            <label for="sc">Batch</label>
+                        </div>
+                    </div>
+                    <div class="c-sm-3 c-md-3 c-lg-3">
+                        <button class="btn fullBlue" (click)="batchModelGoClick()">Go</button>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="!isLangInstitute">
+
+                <div class="row">
+
+                    <div class="c-sm-3 c-md-3 c-lg-3">
+                        <div class="field-wrapper" [ngClass]="{'has-value': courseData.master_course != ''}">
+                            <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="courseData.master_course" (ngModelChange)="getCourseList(event)">
+                                <option value="-1"></option>
+                                <option [value]="master.master_course" *ngFor="let  master of masterCourseList">
+                                    {{master.master_course}}
+                                </option>
+                            </select>
+                            <label for="ddnMAsterCourse">Master Course
+                                <span style="color:red">*</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="c-sm-3 c-md-3 c-lg-3">
+                        <div class="field-wrapper" [ngClass]="{'has-value': courseData.course_id != -1}">
+                            <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="courseData.course_id">
+                                <option value="-1"></option>
+                                <option [value]="master.course_id" *ngFor="let  master of courseList.coursesList">
+                                    {{master.course_name}}
+                                </option>
+                            </select>
+                            <label for="ddnMAsterCourse">Course
+                                <span style="color:red">*</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="c-sm-3 c-md-3 c-lg-3">
+
+                        <div class="field-wrapper datePickerBox has-value">
+                            <input type="text" value="" id="reqDate" class="form-ctrl bsDatepicker" [(ngModel)]="courseData.requested_date" readonly="true"
+                                name="reqDate" bsDatepicker>
+                            <label for="reqDate">Class Schedule Date
+                                <span style="color:red">*</span>
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div class="c-sm-3 c-md-3 c-lg-3">
+                        <button class="btn fullBlue" (click)="getExamSchedule()">Go</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="content-section" *ngIf="showContentSection">
+
+            <h3>Schedule</h3>
+
+            <div *ngIf="isLangInstitute" class="langModelCss">
+
+                <div class="row">
+
+                    <div class="c-sm-6 c-md-6 c-lg-6">
+                        <span class="spanText">Batch Start Date : {{batchStartDate}}</span>
+                        &emsp;
+                        <span class="spanText">Batch End Date : {{batchEndDate}} </span>
+                    </div>
+
+                </div>
+
+                <div class="row examAdder">
+
+                    <div class="c-lg-2 c-md-2 c-sm-2">
+                        <div class="form-wrapper datePickerBox">
+                            <label for="csd">Date
+                                <span style="color:red">*</span>
+                            </label>
+                            <input type="text" value="" id="csd" class="side-form-ctrl bsDatepicker constantHeight" [(ngModel)]="batchAdderData.exam_date"
+                                readonly="true" name="csd" bsDatepicker>
+                        </div>
+                    </div>
+
+                    <div class="c-sm-2 c-lg-2 c-md-2">
+
+                        <div class="form-wrapper timepick">
+                            <label for="startTime">Start Time</label>
+                            <div class="tbox">
+                                <div class="times">
+                                    <select id="" class="mins side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.start_time.hour" name="startTime">
+                                        <option [value]="time" *ngFor="let time of times">
+                                            {{time}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="times">
+                                    <select id="" class="mers side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.start_time.minute" name="minute">
+                                        <option *ngFor="let minute of minArr" [value]="minute">
+                                            {{minute}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="c-sm-2 c-lg-2 c-md-2">
+
+                        <div class="form-wrapper timepick">
+                            <label for="startTime">End Time</label>
+                            <div class="tbox">
+                                <div class="times">
+                                    <select id="" class="mins side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.end_time.hour" name="startTime">
+                                        <option [value]="time" *ngFor="let time of times">
+                                            {{time}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="times">
+                                    <select id="" class="mers side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.end_time.minute" name="minute">
+                                        <option *ngFor="let minute of minArr" [value]="minute">
+                                            {{minute}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="c-sm-2 c-lg-2 c-md-2">
+                        <div class="form-wrapper">
+                            <label for="customDescTxt">Description</label>
+                            <textarea class="side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.exam_desc" id="customDescTxt" name="customDescTxt"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="c-sm-1 c-lg-1 c-md-1">
+                        <div class="form-wrapper">
+                            <label for="inpTotalMarks">Total Marks</label>
+                            <input type="number" class="side-form-ctrl torlMarksWidth constantHeight" [(ngModel)]="batchAdderData.total_marks">
+                        </div>
+                    </div>
+
+                    <div class="btnAdd">
+                        <button class="btn fullBlue" (click)="addNewExamSchedule()">Add</button>
+                    </div>
+
+                </div>
+
+                <div class="table-wrapper-Lang">
+                    <div class="">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Start Time
+                                    </th>
+                                    <th>
+                                        End Time
+                                    </th>
+                                    <th>
+                                        Total Marks
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of examSchedule ; let i= index ; trackBy : index">
+                                    <td>
+                                        {{row.exam_date}}
+                                    </td>
+                                    <td>
+                                        {{row.start_time}}
+                                    </td>
+                                    <td>
+                                        {{row.end_time}}
+                                    </td>
+                                    <td>
+                                        <div class="form-wrapper">
+                                            <input type="text" class="side-form-ctrl torlMarksWidth" name="label" [(ngModel)]="row.total_marks">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-wrapper">
+                                            <input type="textbox" class="side-form-ctrl" name="label" [(ngModel)]="row.exam_desc">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="action-Menu">
+                                            <a *ngIf="row.schd_id == 0 || (currentDate < row.exam_date)" (click)="deleteExamSchedule(row,i)">Delete</a>
+                                            <a *ngIf="row.schd_id != 0" (click)="markAttendanceSchedule(row)">Mark Attendance</a>
+                                            <a *ngIf="row.schd_id != 0" (click)="cancelExamSchedule(row)">Cancel Exam</a>
+                                            <a *ngIf="row.schd_id != 0" (click)="notifyExamSchedule(row)">Notify</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="examSchedule.length == 0">
+                                    <td colspan="6">
+                                        No Schedule OF Exam
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row btn-Group">
+                    <button class="btn fullBlue pull-right" *ngIf="examSchedule.length > 0" (click)="addDataToExamSchedule()">Create Exam Schedule</button>
+                    <!-- <button class="btn fullBlue pull-right" *ngIf="examScheduleData.otherSchd.length !=0" (click)="addDataToExamSchedule()">Update</button> -->
+                </div>
+
+                <h3 class="row">Cancelled Exams</h3>
+
+                <div class="cancelClass-table">
+                    <div class="">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Total Marks</th>
+                                    <th>Cancel Reason</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of cancelledSchedule ; let i= index ; trackBy : index">
+                                    <td>
+                                        {{row.exam_date}}
+                                    </td>
+                                    <td>
+                                        {{row.start_time}}
+                                    </td>
+                                    <td>
+                                        {{row.end_time}}
+                                    </td>
+                                    <td>
+                                        {{row.total_marks}}
+                                    </td>
+                                    <td>
+                                        {{row.exam_desc}}
+                                    </td>
+                                    <td>
+                                        <div class="action-Menu">
+                                            <a title="Send notification for cancelled exam schedule" (click)="notifyCancelClass(row)">Notify</a>
+                                            <a title="Uncancel Schedule" *ngIf="(currentDate < row.exam_date)" (click)="unCancelClass(row)">Uncancel Class</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="cancelledSchedule.length ==0">
+                                    <td colspan="6">
+                                        No Cancelled Schedule
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
 
-  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100.001px"
-      height="70px" viewBox="0 0 100 68">
-      <g id="large">
-          <path d="M55.777,38.473l6.221-1.133c0.017-1.791-0.123-3.573-0.41-5.324l-6.321-0.19c-0.438-2.053-1.135-4.048-2.076-5.931
-          l4.82-4.094c-0.868-1.552-1.874-3.028-3.005-4.417l-5.569,2.999c-1.385-1.54-2.98-2.921-4.771-4.099l2.124-5.954
-          c-0.759-0.452-1.543-0.878-2.357-1.269c-0.811-0.39-1.625-0.732-2.449-1.046l-3.325,5.381c-2.038-0.665-4.113-1.052-6.183-1.174
-          L31.34,6.002c-1.792-0.02-3.571,0.119-5.32,0.406l-0.191,6.32c-2.056,0.439-4.051,1.137-5.936,2.08l-4.097-4.82
-          c-1.546,0.872-3.022,1.875-4.407,3.006l2.996,5.566c-1.54,1.384-2.925,2.985-4.104,4.778c-2.16-0.771-4.196-1.498-5.953-2.127
-          c-0.449,0.765-0.875,1.544-1.265,2.354c-0.39,0.811-0.733,1.63-1.049,2.457c1.587,0.981,3.424,2.119,5.377,3.325
-          c-0.662,2.037-1.049,4.117-1.172,6.186l-6.218,1.136c-0.021,1.789,0.12,3.566,0.407,5.321l6.32,0.188
-          c0.442,2.06,1.143,4.057,2.082,5.937l-4.818,4.095c0.872,1.549,1.873,3.026,3.009,4.412l5.563-2.998
-          c1.392,1.54,2.989,2.92,4.777,4.099l-2.121,5.954c0.756,0.446,1.538,0.871,2.348,1.258c0.813,0.394,1.633,0.739,2.462,1.05
-          l3.326-5.375c2.033,0.662,4.109,1.05,6.175,1.17l1.137,6.221c1.791,0.019,3.569-0.123,5.323-0.407l0.194-6.324
-          c2.053-0.438,4.045-1.136,5.927-2.079l4.093,4.817c1.55-0.865,3.026-1.87,4.414-2.999l-2.995-5.572
-          c1.537-1.385,2.914-2.98,4.093-4.772l5.953,2.127c0.448-0.761,0.878-1.545,1.268-2.356c0.388-0.808,0.729-1.631,1.047-2.458
-          l-5.378-3.324C55.268,42.615,55.655,40.542,55.777,38.473z M42.302,42.435c-3.002,6.243-10.495,8.872-16.737,5.866
-          c-6.244-2.999-8.872-10.493-5.867-16.736c3.002-6.244,10.495-8.873,16.736-5.869C42.676,28.698,45.306,36.19,42.302,42.435z"
-              fill="none" stroke="#E43" />
-          <animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" from="0 31 37" to="360 31 37" repeatCount="indefinite">
-          </animateTransform>
-      </g>
-      <g id="small">
-          <path d="M93.068,19.253L99,16.31c-0.371-1.651-0.934-3.257-1.679-4.776l-6.472,1.404c-0.902-1.436-2.051-2.735-3.42-3.819
-          l2.115-6.273c-0.706-0.448-1.443-0.867-2.213-1.238c-0.774-0.371-1.559-0.685-2.351-0.958l-3.584,5.567
-          c-1.701-0.39-3.432-0.479-5.118-0.284L73.335,0c-1.652,0.367-3.256,0.931-4.776,1.672l1.404,6.47
-          c-1.439,0.899-2.744,2.047-3.835,3.419c-2.208-0.746-4.38-1.476-6.273-2.114c-0.451,0.71-0.874,1.448-1.244,2.229
-          c-0.371,0.764-0.68,1.541-0.954,2.329c1.681,1.078,3.612,2.323,5.569,3.579c-0.399,1.711-0.486,3.449-0.291,5.145
-          c-2.086,1.034-4.143,2.055-5.936,2.945c0.368,1.648,0.929,3.25,1.67,4.769c1.954-0.426,4.193-0.912,6.468-1.405
-          c0.906,1.449,2.06,2.758,3.442,3.853l-2.117,6.27c0.708,0.449,1.439,0.865,2.218,1.236c0.767,0.371,1.551,0.685,2.338,0.96
-          c1.081-1.68,2.319-3.612,3.583-5.574c1.714,0.401,3.457,0.484,5.156,0.288L82.695,42c1.651-0.371,3.252-0.931,4.773-1.676
-          c-0.425-1.952-0.912-4.194-1.404-6.473c1.439-0.902,2.744-2.057,3.835-3.436l6.273,2.11c0.444-0.7,0.856-1.43,1.225-2.197
-          c0.372-0.777,0.691-1.569,0.963-2.361l-5.568-3.586C93.181,22.677,93.269,20.939,93.068,19.253z M84.365,24.062
-          c-1.693,3.513-5.908,4.991-9.418,3.302c-3.513-1.689-4.99-5.906-3.301-9.419c1.688-3.513,5.906-4.991,9.417-3.302
-          C84.573,16.331,86.05,20.549,84.365,24.062z" fill="none" stroke="#E43" />
-          <animateTransform attributeName="transform" begin="0s" dur="2s" type="rotate" from="0 78 21" to="-360 78 21" repeatCount="indefinite"></animateTransform>
-      </g>
-  </svg>
+            </div>
 
-  <br>
+            <div *ngIf="!isLangInstitute">
 
-  <h3>
-      Please forgive the inconvenience.
-      <br />
-  </h3>
-</div>
+                <div class="row">
+                    <!-- <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton> -->
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</section>
+
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+
+<section id="popup " class="popupWrapper fadeIn " *ngIf="markAttendancePopUp">
+    <div class="popup pos-abs popup-body-container ">
+        <div class="popup-wrapper pos-rel ">
+            <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeCourseLevelAttendance()">
+                <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
+                    <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
+                        <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
+                            <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
+                      rotate(45) " />
+                            <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
+                      rotate(45) " />
+                        </g>
+                        <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
+                      " height="16 " transform="translate(1012 297) " />
+                    </g>
+                </svg>
+            </span>
+            <div class="popup-content">
+                <h2>Mark/Update Exam Attendance</h2>
+
+                <div class="attendanceWrapperCourse">
+
+                    <div class="row attendance-Note">
+                        <div class="c-sm-6 c-md-6 c-lg-6">
+                            <div class="form-wrapper">
+                                <label for="attedNote">Attendance Note</label>
+                                <textarea class="side-form-ctrl" [(ngModel)]="attendanceNote" id="attedNote" name="attedNote"></textarea>
+                            </div>
+                        </div>
+                        <div class="c-sm-6 c-md-6 c-lg-6" style="margin-top: 20px;">
+                            <div class="field-checkbox-wrapper">
+                                <input type="checkbox" value="" id="msgAbsentees" name="msgAbsentees" class="form-checkbox" [(ngModel)]="smsAbsenteesChkbx">
+                                <label for="msgAbsentees">Send Sms For Absentees</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row filterSection">
+                        <div class="c-sm-3 c-md-3 c-lg-3">
+                            <h3>Total Students : {{studentList.length}} </h3>
+                        </div>
+
+                        <div class="c-sm-6 c-md-6 c-lg-6">
+
+                            <span class="leave">{{leaveCount}}</span>
+                            <h5>Leave</h5>
+
+                            <span class="absent">{{absentCount}}</span>
+                            <h5>Absent</h5>
+
+                            <span class="present">{{presentCount}}</span>
+                            <h5>Present</h5>
+                        </div>
+
+                        <div class="c-sm-3 c-md-3 c-lg-3">
+                            <div class="field-checkbox-wrapper">
+                                <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkCheckAllChkboxStatus()" (change)="markAllPresent($event)">
+                                <label for="MarkAllPresent">Mark All Present</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="attendanceMain">
+                        <div class="table-scroll-wrapper">
+                            <div class="table table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size: 14px;font-weight: 600;">Student Id</th>
+                                            <th style="font-size: 14px;font-weight: 600;">Student Name</th>
+                                            <th style="font-size: 14px;font-weight: 600;">Attendance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let s of studentList; let i=index;">
+                                            <td>
+                                                {{s.student_disp_id}}
+                                            </td>
+                                            <td>
+                                                {{s.student_name}}
+                                            </td>
+                                            <td>
+                                                <div class="btnGroup">
+                                                    <button id="leaveBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s , i)"
+                                                        class="btn" [ngClass]="getClassForLeave(s)">L</button>
+                                                    <button id="absentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
+                                                        class="btn" [ngClass]="getClassForAbsent(s)">A</button>
+                                                    <button id="presentBtnCourse{{s.student_id}}" [disabled]="getDisability(s)" (click)="markAttendaceBtnClickCourse($event , s, i)"
+                                                        class="btn" [ngClass]="getClassForPresent(s)">P</button>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                        <tr *ngIf="studentList.length == 0">
+                                            <td colspan="3">
+                                                No Students Record
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix" style="margin-top: 10px">
+                        <aside class="pull-right popup-btn">
+                            <input type="button" value="Cancel" class="btn" (click)="closeCourseLevelAttendance()">
+                            <input type="button" value="Mark Attendance" (click)="updateCourseAttendance()" class="fullBlue btn">
+                        </aside>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+<!-- ///////// POPUP/////////////////////////////////// -->
+
+<section id="popup " class="popupWrapper fadeIn " *ngIf="cancelExamPopUp">
+    <div class="popup pos-abs popup-body-container ">
+        <div class="popup-wrapper pos-rel ">
+            <span class="closePopup pos-abs fbold show " id="popupCloseBtn " (click)="closeCancelExamPopUp()">
+                <svg xmlns="http://www.w3.org/2000/svg " viewBox="9310 2185 16 16 ">
+                    <g id="Group_1228 " data-name="Group 1228 " transform="translate(8298 1888) ">
+                        <g id="Group_1213 " data-name="Group 1213 " transform="translate(34.189 -7.77) ">
+                            <line id="Line_274 " data-name="Line 274 " class="cls-1 " y2="19.798 " transform="translate(992.81 305.77)
+                          rotate(45) " />
+                            <line id="Line_275 " data-name="Line 275 " class="cls-1 " x1="19.798 " transform="translate(978.81 305.77)
+                          rotate(45) " />
+                        </g>
+                        <rect id="Rectangle_686 " data-name="Rectangle 686 " style="stroke:none; " class="cls-2 " width="16
+                          " height="16 " transform="translate(1012 297) " />
+                    </g>
+                </svg>
+            </span>
+            <div class="popup-content">
+                <h2 *ngIf="isLangInstitute">Batch Exam Schedule ({{cancelExamData.exam_date}} ({{cancelExamData.start_time}} - {{cancelExamData.end_time}}))
+                    Cancellation
+                </h2>
+                <h2 *ngIf="!isLangInstitute">
+                    Course Exam Schedule Cancellation
+                </h2>
+
+                <div class="cancel-Class-Wrapper">
+
+                    <div class="row attendance-Note">
+                        <div class="c-sm-6 c-md-6 c-lg-6">
+                            <div class="form-wrapper">
+                                <label for="cancelTxtBx">Cancellation Reason</label>
+                                <textarea class="side-form-ctrl" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx" name="cancelTxtBx"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix" style="margin-top: 10px">
+                        <aside class="pull-left" style="margin-top: 10px">
+                            <div class="field-checkbox-wrapper">
+                                <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent" class="form-checkbox" [(ngModel)]="cancelPopUpData.notify">
+                                <label for="chkBxNotifyStudent">Notify Students</label>
+                            </div>
+                        </aside>
+                        <aside *ngIf="isLangInstitute" class="pull-right popup-btn">
+                            <input type="button" value="Close" class="btn" (click)="closeCancelExamPopUp()">
+                            <input type="button" value="Cancel Class" (click)="cancelExamClassSchedule()" class="fullBlue btn">
+                        </aside>
+                        <aside *ngIf="!isLangInstitute" class="pull-right popup-btn">
+                            <input type="button" value="Close" class="btn" (click)="closeCancelExamPopUp()">
+                            <input type="button" value="Cancel Course Exam" (click)="cancelCourseExam()" class="fullBlue btn">
+                        </aside>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

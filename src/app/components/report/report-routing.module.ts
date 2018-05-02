@@ -40,7 +40,6 @@ import {BiometricComponent} from './biometric/biometric.component';
                         path: 'sms',
                         component: SmsReportComponent
                     },
-                    
                     {
                         path: 'fee',
                         component: FeeReportComponent
