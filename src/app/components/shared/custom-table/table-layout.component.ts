@@ -1,10 +1,11 @@
-import { Component, Input,Output, OnChanges, ElementRef, Renderer2, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnChanges, ElementRef, Renderer2, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, EventEmitter } from '@angular/core';
 import { ColumnSetting, ColumnMap } from './layout.model';
 import { document } from '../../../../assets/imported_modules/ngx-bootstrap/utils/facade/browser';
 
 @Component({
     selector: 'proctur-table',
     templateUrl: 'table-layout.component.html',
+    styleUrls: ['./table-layout.component.scss'],
     /* changeDetection: ChangeDetectionStrategy.OnPush */
 })
 export class TableLayoutComponent implements OnChanges {
@@ -12,11 +13,16 @@ export class TableLayoutComponent implements OnChanges {
     @Input() settings: ColumnSetting[];
     @Input() isMulti: boolean = false;
     @Input() tableName: string = '';
-
-    @Output() sortData=new EventEmitter<String>();
+    @Input() dummyArr: any[] ;
+    @Input() columnMap: any[] ;
+    @Input() dataStatus: boolean;
+    @Output() sortData = new EventEmitter<String>();
     isAllSelected: boolean = false;
     columnMaps: ColumnMap[];
     selectedRowGroup: any[] = [];
+    
+    
+    
 
     constructor(private rd: Renderer2, private cd: ChangeDetectorRef) { }
 
@@ -30,7 +36,7 @@ export class TableLayoutComponent implements OnChanges {
                 return new ColumnMap({ primaryKey: key });
             });
         }
-        
+
     }
 
 
@@ -48,8 +54,14 @@ export class TableLayoutComponent implements OnChanges {
     }
 
 
-    getSortedData(ev){
-      this.sortData.emit(ev.target.id);
+    getSortedData(ev) {
+        console.log(ev.target)
+        for(let i=0; i<this.settings.length ; i++){
+            if(ev.target.id == this.settings[i].header){
+                this.sortData.emit(this.settings[i].primaryKey);
+            }
+        }
+        
     }
 
 }

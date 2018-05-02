@@ -42,6 +42,10 @@ export class BiometricComponent implements OnInit {
   subjects: any[] = [];
   absentiesRecords: any[] = [];
   absentTable: boolean = false;
+  dummyArr: any[] = [0, 1, 2, 0, 1, 2];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5,6];
+  dataStatus : boolean = false;
+  showTeacherButton : boolean =true;
   getData = {
     school_id: -1,
     name: "",
@@ -115,25 +119,31 @@ export class BiometricComponent implements OnInit {
   }
   fetchDataByName() {
     this.studentsData = [];
+    this.showTeacherButton = true;
     if (this.getData.user_Type == 1) {
+      this.showTeacherButton = true;
       this.showStudentTable = true;
       this.showTeachersTable = false;
       this.showCustomTable = false;
+      this.dataStatus = true;
       this.reportService.getAttendanceReport(this.getData).subscribe(
         (data: any) => {
-
+          this.dataStatus =  false;
           this.studentsData = data;
           this.totalRow = data.length;
           this.PageIndex = 1;
           this.fetchTableDataByPage(this.PageIndex);
+        
         },
         (error) => {
+          this.dataStatus =  false;
           this.isRippleLoad = false;
           return error;
         }
       )
     }
     else if (this.getData.user_Type == 3) {
+      this.showTeacherButton = true;
       this.showTeachersTable = true;
       this.showStudentTable = false;
       this.showCustomTable = false;
@@ -151,6 +161,7 @@ export class BiometricComponent implements OnInit {
       )
     }
     else {
+      this.showTeacherButton = true;
       this.showStudentTable = false;
       this.showTeachersTable = false;
       this.showCustomTable = true;
@@ -187,12 +198,14 @@ export class BiometricComponent implements OnInit {
 
   showMaster(i) {
     if (i == 1) {
+      this.showTeacherButton=true;
       this.showTeachersTable = false;
       this.masterCourseNames = true;
       this.showCustomTable = false;
       this.showButton = true;
     }
     else {
+      this.showTeacherButton=true;
       this.showStudentTable = false;
       this.masterCourseNames = false;
       this.showButton = false;

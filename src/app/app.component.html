@@ -36,85 +36,121 @@
         <h2 popup-header>Found {{searchResult.length}} Records</h2>
 
         <div class="content-wrapper" popup-content>
-           <div class="content-scroller"> 
-            <section class="search-dropdown search-item" #seachResult>
-                <div class="search-dropdown-box search-item">
+            <div class="content-scroller">
+                <section class="search-dropdown search-item" #seachResult>
+                    <div class="search-dropdown-box search-item">
 
-                    <section *ngIf="resultStat == 0">
-                        <ul>
-                            <li>
-                                <h6>
-                                    <span>
-                                        <div class="skeleton">
-                                        </div>
-                                    </span>
-                                </h6>
-                            </li>
-                            <li>
-                                <h6>
-                                    <span>
-                                        <div class="skeleton">
-                                        </div>
-                                    </span>
-                                </h6>
-                            </li>
-                        </ul>
-                    </section>
+                        <section *ngIf="resultStat == 0">
+                            <ul>
+                                <li>
+                                    <h6>
+                                        <span>
+                                            <div class="skeleton">
+                                            </div>
+                                        </span>
+                                    </h6>
+                                </li>
+                                <li>
+                                    <h6>
+                                        <span>
+                                            <div class="skeleton">
+                                            </div>
+                                        </span>
+                                    </h6>
+                                </li>
+                            </ul>
+                        </section>
 
-                    <section>
-                        <!-- Result-->
-                        <ul class="sdb search-item" *ngIf="searchResult.length != 0">
-                            <li *ngIf="studentResult.length != 0">
-                                <h5>
-                                    <span>
-                                        In Students
-                                    </span>
-                                </h5>
-                                <ul class="in-student-list">
-                                    <li (click)="studentSelected(student)" *ngFor="let student of studentResult">
-                                        <a>
-                                            <img src="" alt="" />
-                                            <span class="sdb-right">
-                                                <label>
-                                                    <strong>{{student.name}}</strong>
-                                                </label>
-                                                <span>
-                                                    +91 {{student.phone}} | Enrolment ID : {{student.displayId}}
-                                                </span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li *ngIf="enquiryResult.length != 0">
-                                <h5>
-                                    <span>
-                                        In Enquiry
-                                    </span>
+                        <section>
+                            <!-- Result-->
+                            <ul class="sdb search-item" *ngIf="searchResult.length != 0">
+                                <li *ngIf="studentResult.length != 0">
+                                    <h5>
+                                        <span>
+                                            In Students
+                                        </span>
+                                    </h5>
+                                    <ul class="in-student-list">
+                                        <li *ngFor="let student of studentResult">
+                                            <ul class="holder">
+                                                <li>
+                                                    <a (click)="studentSelected(student)">
+                                                        <img src="" alt="" />
+                                                        <span class="sdb-right">
+                                                            <label>
+                                                                <strong>{{student.name}}</strong>
+                                                            </label>
+                                                            <span>
+                                                                +91 {{student.phone}} | Enrolment ID : {{student.displayId}}
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="markers" (click)="performAction('studentEdit', student)">
+                                                        Edit Student
+                                                    </a>
+                                                    <a class="markers" (click)="performAction('studentFee', student)">
+                                                        Manage Fee
+                                                    </a>
+                                                    <a class="markers" (click)="performAction('studentInventory', student)">
+                                                        Manage Inventory
+                                                    </a>
+                                                    <a class="markers hide" (click)="performAction('studentLeave', student)">
+                                                        Mark Leave
+                                                    </a>
+                                                    <a class="markers hide" (click)="performAction('studentDelete', student)">
+                                                        Delete
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li *ngIf="enquiryResult.length != 0">
+                                    <h5>
+                                        <span>
+                                            In Enquiry
+                                        </span>
 
-                                </h5>
-                                <ul class="in-student-list">
-                                    <li (click)="enquirySelected(enquiry)" *ngFor="let enquiry of enquiryResult">
-                                        <a>
-                                            <img src="" alt="" />
-                                            <span class="sdb-right">
-                                                <label>
-                                                    <strong>{{enquiry.name}}</strong>
-                                                </label>
-                                                <span>
-                                                    +91 {{enquiry.phone}} | Enrolment ID : {{enquiry.displayId}}
-                                                </span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                                    </h5>
+                                    <ul class="in-student-list">
+                                        <li *ngFor="let enquiry of enquiryResult">
+                                            <ul class="holder">
+                                                <li>
+                                                    <a (click)="enquirySelected(enquiry)">
+                                                        <img src="" alt="" />
+                                                        <span class="sdb-right">
+                                                            <label>
+                                                                <strong>{{enquiry.name}}</strong>
+                                                            </label>
+                                                            <span>
+                                                                +91 {{enquiry.phone}} | Enrolment ID : {{enquiry.displayId}}
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="markers" (click)="performAction('enquiryEdit',enquiry)">
+                                                        Edit Enquiry
+                                                    </a>
+                                                    <a class="markers hide" (click)="performAction('enquiryDelete')">
+                                                        Delete Enquiry
+                                                    </a>
+                                                    <a class="markers hide" (click)="performAction('enquiryUpdate',enquiry)">
+                                                        Update Enquiry
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
 
-                    </section>
+                        </section>
 
-                </div>
-            </section>
+                    </div>
+                </section>
             </div>
         </div>
 
