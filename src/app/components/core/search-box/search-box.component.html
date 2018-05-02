@@ -95,10 +95,10 @@
                 <a class="markers" (click)="performAction('studentInventory', student)">
                   Manage Inventory
                 </a>
-                <a class="markers" (click)="performAction('studentLeave', student)">
+                <a class="markers hide" (click)="performAction('studentLeave', student)">
                   Mark Leave
                 </a>
-                <a class="markers" (click)="performAction('studentDelete', student)">
+                <a class="markers hide" (click)="performAction('studentDelete', student)">
                   Delete
                 </a>
               </li>
@@ -114,10 +114,10 @@
           <a (click)="fullView('enquiry')">View More</a>
         </h5>
         <ul class="in-student-list">
-          <li (click)="enquirySelected(enquiry)" *ngFor="let enquiry of enquiryResult">
+          <li *ngFor="let enquiry of enquiryResult">
             <ul>
               <li>
-                <a>
+                <a (click)="enquirySelected(enquiry)">
                   <img src="" alt="" />
                   <span class="sdb-right">
                     <label>
@@ -133,15 +133,14 @@
                 <a class="markers" (click)="performAction('enquiryEdit',enquiry)">
                   Edit Enquiry
                 </a>
-                <!-- <a class="markers" (click)="performAction('enquiryDelete')">
+                <a class="markers hide" (click)="performAction('enquiryDelete')">
                   Delete Enquiry
-                </a> -->
-                <a class="markers" (click)="performAction('enquiryUpdate',enquiry)">
+                </a>
+                <a class="markers hide" (click)="performAction('enquiryUpdate',enquiry)">
                   Update Enquiry
                 </a>
               </li>
             </ul>
-
           </li>
         </ul>
       </li>

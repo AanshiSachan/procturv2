@@ -140,13 +140,33 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     private postService: PostStudentDataService, private actRoute: ActivatedRoute) {
 
     this.actRoute.queryParams.subscribe(e => {
-
       if (e.id != null && e.id != undefined && e.id != '') {
         if(e.action == undefined ||e.action == undefined || e.action == ''){
           this.router.navigate(['/student/edit/' + e.id]);
         }
         else{
-          console.log(e);
+          switch (e.action) {
+            case 'studentEdit': {
+              this.router.navigate(['/student/edit/' + e.id]);              
+              break;
+            }
+            case 'studentFee': {
+              this.editFeePDCDetails(e.id);
+              break;
+            }
+            case 'studentInventory': {
+              this.editInventory(e.id);
+              break;
+            }
+            case 'studentLeave': {
+              console.log(e);
+              break;
+            }
+            case 'studentDelete': {
+              console.log(e);
+              break;
+            }
+          }
         }
       }
       else {

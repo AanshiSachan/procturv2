@@ -36,7 +36,8 @@ import {HomeComponent} from './home/home.component';
         RouterModule
     ],
     declarations: [
-        AcademicYearComponent    
+        AcademicYearComponent,
+        HomeComponent  
 ],
     providers: [
          AcademicyearService
