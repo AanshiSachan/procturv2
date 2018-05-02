@@ -22,7 +22,7 @@
       </div>
       <div class="search-filter-wrapper">
         <input type="text" style="width:25%" #teacherSearch class="normal-field pull-right" id="searchTeacher" placeholder="Search"
-          (keyup)="searchTeacher(teacherSearch)">
+         [(ngModel)]="searchValue" (keyup)="searchTeacher()">
       </div>
     </div>
   </section>
