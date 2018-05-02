@@ -6,3 +6,7 @@ gulp.task('zip', function () {
         .pipe(zip('test.zip'))
         .pipe(gulp.dest('./distribution'));
 });
+
+// gulp.task('ftp', funnction() {
+   
+// });

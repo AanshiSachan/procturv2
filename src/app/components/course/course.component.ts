@@ -56,9 +56,9 @@ export class CourseComponent implements OnInit {
       this.switchActiveView('liSubject');
     } else if (this.router.url.includes('courselist')) {
       this.switchActiveView('liManageBatch');
-    } /* else if (this.router.url.includes('exam')) {
+    } else if (this.router.url.includes('exam')) {
       this.switchActiveView('liExam');
-    } */ else if (this.router.url.includes('class')) {
+    } else if (this.router.url.includes('class')) {
       this.switchActiveView('liClass');
     } else if (this.router.url.includes('managebatch')) {
       this.switchActiveView('liManageBatch');
@@ -69,7 +69,7 @@ export class CourseComponent implements OnInit {
     setTimeout(() => {
       document.getElementById('liStandard').classList.remove('active');
       document.getElementById('liSubject').classList.remove('active');
-      //document.getElementById('liExam').classList.remove('active');
+      document.getElementById('liExam').classList.remove('active');
       document.getElementById('liClass').classList.remove('active');
       document.getElementById('liManageBatch').classList.remove('active');
       // document.getElementById('liCourses').classList.remove('active');
@@ -187,7 +187,7 @@ export class CourseComponent implements OnInit {
     document.getElementById('liSubject').classList.remove('hide');
     document.getElementById('liManageBatch').classList.remove('hide');
     // document.getElementById('liCourses').classList.remove('hide');
-    // document.getElementById('liExam').classList.remove('hide');
+    document.getElementById('liExam').classList.remove('hide');
     document.getElementById('liClass').classList.remove('hide');
   }
 
@@ -196,7 +196,7 @@ export class CourseComponent implements OnInit {
     document.getElementById('liSubject').classList.add('hide');
     document.getElementById('liManageBatch').classList.add('hide');
     // document.getElementById('liCourses').classList.add('hide');
-    // document.getElementById('liExam').classList.add('hide');
+    document.getElementById('liExam').classList.add('hide');
     document.getElementById('liClass').classList.add('hide');
   }
 

@@ -49,7 +49,8 @@
       </section>
       <section class="search-dropdown search-item" #seachResult>
         <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat" 
-        [studentResult]="studentResult" (viewAll)="viewMoreRecods($event)" (searchAgain)="searchAgain($event)" (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)" [enquiryResult]="enquiryResult">
+        [studentResult]="studentResult" (viewAll)="viewMoreRecods($event)" (searchAgain)="searchAgain($event)" (stuSelected)="selectedStudent($event)" (enqSelected)="selectedEnquiry($event)" [enquiryResult]="enquiryResult"
+        (actionSelected)="actionSelected($event)">
         </search-box>
       </section>
     </div>

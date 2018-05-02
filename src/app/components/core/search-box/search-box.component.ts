@@ -23,8 +23,9 @@ export class SearchBoxComponent implements OnInit, OnChanges {
     @Output() searchAgain = new EventEmitter<string>();
     @Output() enqSelected = new EventEmitter<any>();
     @Output() stuSelected = new EventEmitter<any>();
+    @Output() actionSelected = new EventEmitter<any>();
     @Output() viewAll = new EventEmitter<any>();
-    
+
 
     constructor(private router: Router, private cd: ChangeDetectorRef, private renderer: Renderer2, private eRef: ElementRef) {
     }
@@ -56,11 +57,11 @@ export class SearchBoxComponent implements OnInit, OnChanges {
     updateResult() {
         this.searchResult = this.studentResult.concat(this.enquiryResult);
         if (this.searchValue != null && this.searchValue != undefined) {
-            if(this.recentlySearched.size <= 10){
+            if (this.recentlySearched.size <= 5) {
                 this.recentlySearched.add(this.searchValue);
                 sessionStorage.setItem('recentSearch', JSON.stringify(this.recentlySearched));
             }
-            else{
+            else {
                 let value = this.recentlySearched.values();
                 let del = value.next().value;
                 this.recentlySearched.delete(del);
@@ -83,14 +84,75 @@ export class SearchBoxComponent implements OnInit, OnChanges {
         this.enqSelected.emit(e);
     }
 
-    deleteRecent(rs){
+    deleteRecent(rs) {
         this.recentlySearched.delete(rs);
     }
 
-
-    fullView(id){
+    fullView(id) {
         console.log(id);
         this.viewAll.emit(id);
+    }
+
+    performAction(a: string, d) {
+        switch (a) {
+            case 'studentEdit': {
+                let obj = {
+                    action: a,
+                    data: d
+                }
+                this.actionSelected.emit(obj);
+                break;
+            }
+            case 'studentFee': {
+                let obj = {
+                    action: a,
+                    data: d
+                }
+                this.actionSelected.emit(obj);
+                break;
+            }
+            case 'studentInventory': {
+                let obj = {
+                    action: a,
+                    data: d
+                }
+                this.actionSelected.emit(obj);
+                break;
+            }
+            case 'studentLeave': {
+                let obj = {
+                    action: a,
+                    data: d
+                }
+                this.actionSelected.emit(obj);
+                break;
+            }
+            case 'studentDelete': {
+                let obj = {
+                    action: a,
+                    data: d
+                }
+                this.actionSelected.emit(obj);
+                break;
+            }
+            case 'enquiryEdit': {
+                let obj = {
+                    action: a,
+                    data: d
+                }
+                this.actionSelected.emit(obj);
+                break;
+            }
+            case 'enquiryUpdate': {
+                let obj = {
+                    action: a,
+                    data: d
+                }
+                this.actionSelected.emit(obj);
+                break;
+            }
+
+        }
     }
 
 }

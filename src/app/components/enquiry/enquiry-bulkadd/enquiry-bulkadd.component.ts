@@ -88,6 +88,7 @@ export class EnquiryBulkaddComponent implements OnInit {
   /* function to upload the xls file as formdata */
   uploadHandler(event) {
     for (let file of event.files) {
+      
       let formdata = new FormData();
       formdata.append("file", file);
       let base = this.auth.getBaseUrl();

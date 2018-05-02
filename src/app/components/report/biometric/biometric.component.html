@@ -1,12 +1,15 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
-<div class="middle-section clear-fix">
+<div class="clear-fix">
   <aside class="middle-full">
     <section class="middle-main clearFix">
 
       <section class="middle-top mb0 clearFix sms-header">
         <h2 class="pull-left">
-          Biometric Report
+          <a routerLink="/reports/home">
+            <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i>
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Biometric Report
         </h2>
         <div class="c-lg-2" *ngIf="showButton" style="float:right;">
           <button class="btn fullBlue" (click)="fetchAbsentiesReport()">Send SMS to Absenties</button>
@@ -61,6 +64,7 @@
                     {{i.master_course}}
                   </option>
                 </select>
+
               </div>
             </div>
             <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames">

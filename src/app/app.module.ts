@@ -83,7 +83,13 @@ import { SearchBoxComponent } from './components/core/search-box/search-box.comp
     AuthGuard,
     LoaderHandlingService,
     SlotApiService,
+<<<<<<< HEAD
+    CityAreaService,
+    ClassRoomService,
+    EventManagmentService
+=======
     CityAreaService
+>>>>>>> ET-PhaseTwoBranch
   ],
   bootstrap: [AppComponent]
 })
