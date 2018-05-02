@@ -1,6 +1,8 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
-</loaders-css>
+ </loaders-css>
+
 <section class="middle-section clearFix">
+
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <section class="" id="studentFlow">
@@ -241,8 +243,8 @@
                 <!-- ================================================================= -->
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
-                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class_key != ''}">
-                  <select id="standard" [(ngModel)]="studentAddFormData.student_class_key" (ngModelChange)="updateMasterCourseList($event)"
+                <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}">
+                  <select id="standard" [(ngModel)]="studentAddFormData.student_class" (ngModelChange)="updateMasterCourseList($event)"
                     name="standard" class="form-ctrl">
                     <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
@@ -1143,6 +1145,7 @@
   <student-fee-table *ngIf="isDefineFees" (closePopup)="closeAllFeePops($event)" (apply)="fetchCustomFeeSchedule($event)"
     [installmentData]="instalmentTableData" [additionalData]="otherFeeTableData" [feeTemplateData]="feeTemplateById">
   </student-fee-table>
+
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Apply Discounts ============================ -->
@@ -1150,6 +1153,7 @@
   [installmentData]="instalmentTableData" [additionalData]="otherFeeTableData" [feeTemplateData]="feeTemplateById"
   [discountReason]="discountReason" [totalAmountDue]="totalAmountDue">
   </student-discount>
+
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- ===============Manage PDC ============================ -->
@@ -1343,6 +1347,7 @@
     </div>
 
   </student-pop-up>
+
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Fees Payment Manager=============================== -->
@@ -1653,7 +1658,7 @@
     </div>
 
   </student-pop-up>
-  <!-- ======================================================== -->
-  <!-- ======================================================== -->
 
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
 </section>

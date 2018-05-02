@@ -227,7 +227,6 @@ textarea {
         text-decoration: underline;
     }
 }
-
 .time-picker {
     .field-wrapper {
         display: inline-block;
@@ -1634,6 +1633,26 @@ input:-webkit-autofill {
                     font-size: 12px;
                     cursor: pointer;
                 }
+            }
+            &.markers {
+                display: inline-block;
+                margin: 0px;
+                padding: 8px 10px;
+            }
+        }
+
+    }
+    .holder{
+        li{
+            &:last-child{
+                display: none;
+            }
+        }
+        &:hover{
+            li{
+                &:last-child{
+                    display: block;
+                }  
             }
         }
     }

@@ -5,6 +5,7 @@ import { document } from '../../../../assets/imported_modules/ngx-bootstrap/util
 @Component({
     selector: 'proctur-table',
     templateUrl: 'table-layout.component.html',
+    styleUrls: ['./table-layout.component.scss'],
     /* changeDetection: ChangeDetectionStrategy.OnPush */
 })
 export class TableLayoutComponent implements OnChanges {

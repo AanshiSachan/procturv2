@@ -1,0 +1,28 @@
+.table {
+    tr {
+        th{
+            text-align: left;
+            &.Message    {
+                width: 20%;
+            }
+            &.Contact{
+                text-align: right;
+            }
+            &.Date{
+                text-align: right;
+            }            
+        }
+        td {
+            text-align: left;
+            &.Message    {
+                width: 20%;
+            }
+            &.Contact{
+                text-align: right;
+            }
+            &.Date{
+                text-align: right;
+            }
+        }
+    }
+}

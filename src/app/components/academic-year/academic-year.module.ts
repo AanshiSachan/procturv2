@@ -37,7 +37,7 @@ import {HomeComponent} from './home/home.component';
     ],
     declarations: [
         AcademicYearComponent,
-        HomeComponent 
+        HomeComponent
 ],
     providers: [
          AcademicyearService

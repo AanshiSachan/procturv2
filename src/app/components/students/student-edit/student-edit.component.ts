@@ -406,6 +406,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     this.fetchService.getStudentById(id).subscribe(data => {
       this.studentAddFormData = data;
       this.studentAddFormData.school_name = data.school_name;
+      this.studentAddFormData.student_class = data.student_class_key;
       this.fetchCourseFromMaster(data.standard_id);      
       if (this.studentAddFormData.assignedBatchescademicYearArray == null) {
         this.studentAddFormData.assignedBatchescademicYearArray = [""];
@@ -954,7 +955,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
     if (inventory != null && institute != null && standard != null) {
       let customComp = this.studentPrefillService.fetchCustomComponentById(this.student_id).subscribe(data => {
-
         data.forEach(el => {
           let obj = {
             data: el,
@@ -995,7 +995,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
               type: el.type,
               value: (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value
             }
-            console.log(obj);
           }
           if (el.type == 2) {
             obj = {
@@ -1029,7 +1028,6 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           this.customComponents.push(obj);
         });
       });
-      //console.log(this.customComponents);
       return customComp;
     }
   }
@@ -1294,7 +1292,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         if (el.value != '' && el.type != 2 && el.type != 5) {
           let obj = {
             component_id: el.id,
-            enq_custom_id: "0",
+            enq_custom_id: el.data.enq_custom_id,
             enq_custom_value: el.value
           }
           customArr.push(obj);
@@ -1304,7 +1302,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           if (el.value == "Y" || el.value == true) {
             let obj = {
               component_id: el.id,
-              enq_custom_id: "0",
+              enq_custom_id: el.data.enq_custom_id,
               enq_custom_value: "Y"
             }
             customArr.push(obj);
@@ -1312,7 +1310,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           else if (el.value == "N" || el.value == false) {
             let obj = {
               component_id: el.id,
-              enq_custom_id: "0",
+              enq_custom_id: el.data.enq_custom_id,
               enq_custom_value: "N"
             }
             customArr.push(obj);
@@ -1322,7 +1320,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
         else if (el.type == 5 && el.value != "" && el.value != null && el.value != "Invalid date") {
           let obj = {
             component_id: el.id,
-            enq_custom_id: "0",
+            enq_custom_id: el.data.enq_custom_id,
             enq_custom_value: moment(el.value).format("YYYY-MM-DD")
           }
           customArr.push(obj);
@@ -4422,7 +4420,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
     let temp: any[] = [];
     let total = this.total_amt_tobe_paid;
     let remaining = 0;
-    debugger;
+
     /* only installment whose checkboxes have been checked */
     this.installmentMarkedForPayment.forEach(e => {
       /* e gives the index of the fee installment on the array */

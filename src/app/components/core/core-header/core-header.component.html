@@ -12,7 +12,7 @@
       <section class="header-search search-item">
         <div class="pos-rel search-item">
           <form autocomplete="off" #form="ngForm">
-            <input autocomplete="off" type="text" [ngClass]="{'has-focus': isResultDisplayed}" class="form-ctrl-head searchbox search-item" [(ngModel)]="userInput"
+            <input autocomplete="off" maxlength="20" type="text" [ngClass]="{'has-focus': isResultDisplayed}" class="form-ctrl-head searchbox search-item" [(ngModel)]="userInput"
               name="userInput" #searchInput (focus)="triggerSearchBox($event)">
             <button class="form-btn-head search-item">
               <svg class="search-item" xmlns="http://www.w3.org/2000/svg" viewBox="504 4 22 22">
@@ -58,6 +58,7 @@
       <section class="login-tube">
         <nav>
           <ul class="login-nav">
+
             <li class="pos-rel">
               <div class="user-info">
                 <i class="icons">
@@ -86,6 +87,7 @@
                 </div>
               </div>
             </li>
+
             <!-- <li class="pos-rel">
               <div class="notification">
                 <i class="icons">
@@ -106,6 +108,7 @@
                 <span class="notify-value">3</span>
               </div>
             </li> -->
+
             <li class="pos-rel" *ngIf="(hasEnquiry || hasStudent || hasClass)">
               <i class="icons">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="1128 2 24 24">
@@ -134,10 +137,7 @@
                 </ul>
               </div>
             </li>
-            <!-- <li class="pos-rel">
-              <i style="font-family: FontAwesome;font-size: 30px;" class="fas fa-home" (click)="goToHome()">
-              </i>
-            </li> -->
+
             <li class="pos-rel">
               <i class="icons">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="1171 2 24 24">
@@ -154,6 +154,7 @@
               </i>
               <div class="dropdown">
                 <ul class="user-detail">
+          
                   <li>
                     <div id="divAdminTag">
                       <strong>Administration</strong>
@@ -253,6 +254,7 @@
                 </ul>
               </div>
             </li>
+
           </ul>
         </nav>
       </section>
