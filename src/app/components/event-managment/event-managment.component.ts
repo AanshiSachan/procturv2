@@ -195,7 +195,9 @@ export class EventManagmentComponent implements OnInit {
         this.newUpdateObj.event_end_date= res.event_end_date;
         this.newUpdateObj.image= res.image;
         this.newUpdateObj.public_url= res.public_url;
+      console.log(this.newUpdateObj);  
       },
+      
       error => {
         console.log(error);
       }
@@ -240,7 +242,7 @@ export class EventManagmentComponent implements OnInit {
     this.closeEditPopup = true;
     this.getEvents();
     this.getHolidays();
-    //this.updateEventForm(holidayId);
+    this.updateEventForm(holidayId);
 
   }
   deleteEntryData(holidayId) {
