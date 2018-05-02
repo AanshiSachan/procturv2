@@ -189,33 +189,41 @@ export class AppComponent implements OnInit {
   }
 
   performAction(a: string, data) {
+
     let d = data.id
     switch (a) {
       case 'studentEdit': {
+        this.closeSearchArea();
         this.router.navigate(['/student'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'studentFee': {
+        this.closeSearchArea();
         this.router.navigate(['/student'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'studentInventory': {
+        this.closeSearchArea();
         this.router.navigate(['/student'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'studentLeave': {
+        this.closeSearchArea();
         this.router.navigate(['/student'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'studentDelete': {
+        this.closeSearchArea();
         this.router.navigate(['/student'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'enquiryEdit': {
+        this.closeSearchArea();
         this.router.navigate(['/enquiry'], { queryParams: { id: d, action: a } });
         break;
       }
       case 'enquiryUpdate': {
+        this.closeSearchArea();
         this.router.navigate(['/enquiry'], { queryParams: { id: d, action: a } });
         break;
       }
