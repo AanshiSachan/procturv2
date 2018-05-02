@@ -113,11 +113,11 @@ export class AppComponent implements OnInit {
   }
 
   searchViewMore(e) {
-    if(e != null){
+    if (e != null) {
       this.isSearchMore = true;
       this.filterGlobal(e.input);
     }
-    else{
+    else {
       this.closeSearchArea();
       this.searchResult = [];
       this.enquiryResult = [];
@@ -188,5 +188,47 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/enquiry'], { queryParams: { id: e.id } });
   }
 
-}
+  performAction(a: string, data) {
 
+    let d = data.id
+    switch (a) {
+      case 'studentEdit': {
+        this.closeSearchArea();
+        this.router.navigate(['/student'], { queryParams: { id: d, action: a } });
+        break;
+      }
+      case 'studentFee': {
+        this.closeSearchArea();
+        this.router.navigate(['/student'], { queryParams: { id: d, action: a } });
+        break;
+      }
+      case 'studentInventory': {
+        this.closeSearchArea();
+        this.router.navigate(['/student'], { queryParams: { id: d, action: a } });
+        break;
+      }
+      case 'studentLeave': {
+        this.closeSearchArea();
+        this.router.navigate(['/student'], { queryParams: { id: d, action: a } });
+        break;
+      }
+      case 'studentDelete': {
+        this.closeSearchArea();
+        this.router.navigate(['/student'], { queryParams: { id: d, action: a } });
+        break;
+      }
+      case 'enquiryEdit': {
+        this.closeSearchArea();
+        this.router.navigate(['/enquiry'], { queryParams: { id: d, action: a } });
+        break;
+      }
+      case 'enquiryUpdate': {
+        this.closeSearchArea();
+        this.router.navigate(['/enquiry'], { queryParams: { id: d, action: a } });
+        break;
+      }
+
+    }
+  }
+
+}

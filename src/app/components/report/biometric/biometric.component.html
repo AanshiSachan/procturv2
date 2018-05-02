@@ -1,14 +1,17 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
-<div class="middle-section clear-fix">
+<div class="clear-fix">
   <aside class="middle-full">
     <section class="middle-main clearFix">
 
       <section class="middle-top mb0 clearFix sms-header">
         <h2 class="pull-left">
-          Biometric Report
+          <a routerLink="/reports/home">
+            <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i>
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Biometric Report
         </h2>
-        <div class="c-lg-2" *ngIf="showButton" style="float:right; padding-top:20px;">
+        <div class="c-lg-2" *ngIf="showButton" style="float:right;">
           <button class="btn fullBlue" (click)="fetchAbsentiesReport()">Send SMS to Absenties</button>
         </div>
         <aside class="pull-right">
@@ -47,44 +50,39 @@
 
             </div>
           </div>
-          <div *ngIf="masterCourseNames" style="margin-top:-13px;">
 
+          <hr style="width:20%; display:inline-block;  border:1px inset; margin-left:26px;" *ngIf="masterCourseNames">
+          <h2 style="display:inline-block;  margin-top:-24px;" *ngIf="masterCourseNames">OR</h2>
+          <hr style="width:21%; display:inline-block;  border:1px inset;" *ngIf="masterCourseNames">
+          <div class="row">
+            <div class="c-lg-3" style="margin-left:15px;" *ngIf="masterCourseNames">
+              <div class="form-field form-wrapper">
+                <label>Master Course</label>
+                <select class="side-form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourses($event)" [value]="getData.master_course_name">
+                  <option value="-1"></option>
+                  <option *ngFor="let i of masterCourse">
+                    {{i.master_course}}
+                  </option>
+                </select>
 
-            <div style="width:100%">
-            <hr style="font-weight:200; width:22%; display:inline-block; margin-bottom:7px;">
-          
-            <h2 style="text-align:center; margin-bottom:-31px; display:inline-block;">OR</h2>
-            <hr style="font-weight:200; width:22%; display:inline-block; margin-bottom:7px;">
+              </div>
             </div>
-            <div class="row" style="margin-top:-20px;">
-              <div class="c-lg-3" style="margin-left:15px;">
-                <div class="form-field form-wrapper">
-                  <label>Master Course</label>
-                  <select class="side-form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourses($event)" [value]="getData.master_course_name">
-                    <option value="-1"></option>
-                    <option *ngFor="let i of masterCourse">
-                      {{i.master_course}}
-                    </option>
-                  </select>
-                </div>
+            <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames">
+              <div class="form-field form-wrapper">
+                <label> Course</label>
+                <select class="side-form-ctrl" [(ngModel)]="getData.course_id">
+                  <option value="-1"></option>
+                  <option *ngFor="let i of courses">
+                    {{i.course_name}}
+                  </option>
+                </select>
               </div>
-              <div class="c-lg-3" style="padding-left:5px;">
-                <div class="form-field form-wrapper">
-                  <label> Course</label>
-                  <select class="side-form-ctrl" [(ngModel)]="getData.course_id">
-                    <option value="-1"></option>
-                    <option *ngFor="let i of courses">
-                      {{i.course_name}}
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="c-lg-1" style="margin-top:38px;">
-                <button class="btn fullBlue" (click)="fetchDataByName()">Go</button>
-              </div>
-
+            </div>
+            <div class="c-lg-1">
+              <button class="btn fullBlue" (click)="fetchDataByName()" style="margin-top: 35px;">GO</button>
             </div>
           </div>
+         
           <div class="common" *ngIf="showTeachersTable">
             <div class="table table-responsive student-table">
               <div class="common-elements">
@@ -161,7 +159,7 @@
           </div>
 
           <div class="students" *ngIf="showStudentTable">
-            <div class="table table-responsive student-table skeleton">
+            <div class="table table-responsive student-table">
               <div class="student-elements">
                 <table>
                   <thead>
@@ -189,11 +187,11 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody *ngIf="studentsDisplayData.length != 0">
 
                     <tr *ngFor="let i of studentsDisplayData">
                       <td>
-                        {{i.student_id}}
+                        {{i.student_disp_id}}
                       </td>
                       <td>
                         {{i.student_name}}
@@ -215,7 +213,17 @@
                         <button class="btn fullBlue" (click)="viewOlderRecords(i)">View</button>
                       </td>
                     </tr>
-                    <tr *ngIf="studentsData.length == 0" class="records">
+                  </tbody>
+                  <tbody *ngIf="studentsDisplayData.length == 0 && dataStatus === true">
+                    <tr *ngFor="let dummy of dummyArr">
+                      <td *ngFor="let c of columnMaps" style="padding:10px;">
+                        <div class="skeleton">
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="studentsDisplayData.length == 0 && dataStatus === false" class="records">
+                    <tr>
                       <td colspan="7" class="records">
                         No Records Found
                       </td>

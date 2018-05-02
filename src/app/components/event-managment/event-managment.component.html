@@ -1,0 +1,387 @@
+<div class="middle-section clearFix">
+  <section class="middle-top mb0 clearFix" style="padding-bottom:0px;">
+    <h1 class="pull-left marginhead">
+      Manage Events
+    </h1>
+    
+    <section class="middle-main clearFix">
+      <div class="clearFix add-edit">
+        <input type="button" class="normal-btn fullBlue btn pull-right space-size" value="Add Event" (click)="addPopup()"/>
+      </div>
+      <form class="sky-form">
+        <div class="row">
+          <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 form-wrapper">
+            <label>Month</label>
+            <select class="side-form-ctrl" id="two" name="month" [(ngModel)]="list_obj.month">
+              
+              <option value="-1" name="month">month</option>
+              <option value="1">January</option>
+              <option value="2">february</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+              
+              
+            </select>
+          </div>
+
+
+          <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 form-wrapper">
+            <label>Year</label>
+            <select class="side-form-ctrl" name="year" id="two" [(ngModel)]="list_obj.year">
+              
+              <option name="month">{{year}}</option>
+              <option value="2015">2015</option>
+              <option value="2016">2016</option>
+              <option value="2017">2017</option>
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+              <option value="2020">2020</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 form-wrapper sky-valley">
+            <div class="field-radio-wrapper margin-head">
+              <input class="form-radio" type="radio" name="discount" value="1" id='r1' [(ngModel)]="list_obj.event_type">
+              <label for="r1" class="l1">Holiday</label>
+            </div>
+          </div>
+          <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 form-wrapper sky-valley">
+            <div class="field-radio-wrapper  margin-head">
+              <input class="form-radio" type="radio" name="discount" value="2" id='r2' [(ngModel)]="list_obj.event_type">
+              <label for="r2" class="l1">General</label>
+            </div>
+          </div>
+          </div>
+          <div class="row">
+            <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 form-wrapper">
+                <div class="field-radio-wrapper">
+              <input type="button" class="normal-btn fullBlue btn spaze-bird" value="Go" (click)="getAllListData()" />
+            </div>
+            </div>
+          </div>
+         </form>
+    </section>
+  </section>
+</div>
+
+<div id="divSlotTable">
+  <div class="table-scroll-wrapper">
+    <div class="table table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              S.No.
+            </th>
+            <th>
+              Event Name
+            </th>
+            <th>
+              Event Type
+            </th>
+            <th>
+              Description
+            </th>
+            <th>
+              Date
+            </th>
+            <th>
+              Edit
+            </th>
+            <th>Delete
+            </th>
+            <th>Send Push Notification
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="eventRecord.length !=0">
+          <tr id="row{{i}}" class="displayComp" *ngFor="let row of  pagedSourceData; let i = index; trackBy: i;">
+            <td>
+              {{i + 1}}
+            </td>
+
+            <td class="view-comp">
+              {{row.event_type}}
+            </td>
+
+            <td class="view-comp">
+              {{row.event_type_name}}
+            </td>
+            <td class="view-comp">
+              {{row.holiday_desc}}
+            </td>
+
+            <td class="view-comp">
+              {{row.event_date_range}}
+            </td>
+            <td class="view-comp">
+              <span class="pull-right" style="cursor: pointer;padding-right: 9% !important;text-align: left;">
+                <i class="edit-icon" aria-hidden="true" style="margin-right: 5px;" title="Edit" (click)="updatePopup(row.holidayId)"></i>Edit
+              </span>
+            </td>
+            <td class="view-comp">
+              <span class="pull-right" style="cursor: pointer;padding-right: 9% !important;text-align: left;">
+                <i class="fa fa-trash-o" aria-hidden="true" style="margin-right: 5px;" title="delete" (click)="deleteEntryData(row.holidayId)"></i>Delete
+              </span>
+
+            </td>
+            <td class="view-comp">
+              <a href="" onclick="sendNotificationAlert(27)">send</a>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="eventRecord.length ==0">
+          <td colspan="4" style="text-align: center">
+            ClassList Record Not
+          </td>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Paginator Here -->
+  <div class="row filter-res pagination" style="width: 100%;">
+    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+        [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+      </pagination>
+    </div>
+  </div>
+
+</div>
+
+
+
+<proctur-popup [sizeWidth]="'medium'" *ngIf="closeVarPopup">
+
+  <span class="closePopup pos-abs fbold show" (click)="closeReportPopup()" close-button>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+        </g>
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+        />
+      </g>
+    </svg>
+  </span>
+  <div class="" popup-content>
+    <h2 popup-header>Create Event</h2>
+    <div class="row margin-top">
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
+        <label>event type</label>
+        <select class="side-form-ctrl" [(ngModel)]="saveDataObj.event_type" (ngModelChange)="eventchange($event)">
+          <option *ngFor="let i of getEvent" [value]="i.data_key">{{i.data_value}}</option>
+        </select>
+      </div>
+
+
+      <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 form-wrapper">
+        <div class="field-wrapper"  [ngClass]="{'has-value':saveDataObj.holiday_name != ''}">
+          <input type="text" class="form-ctrl" [(ngModel)]="saveDataObj.holiday_name">
+          <label>Event Name*</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
+        <label>holiday type</label>
+        <select class="side-form-ctrl" [(ngModel)]="saveDataObj.holiday_type">
+          <option *ngFor="let i of getHoliday" [value]="i.data_key">{{i.data_value}}</option>
+
+        </select>
+      </div>
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper" *ngIf="endDateBox">
+        <div class="form-date form-wrapper datePickerBox">
+          <label>Event End Date</label>
+          <input type="text" class="side-form-ctrl  bsDatepicker" bsDatepicker [(ngModel)]="saveDataObj.event_end_date" />
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
+        <div class="form-date form-wrapper datePickerBox">
+          <label>Event Date</label>
+          <input type="text" class="side-form-ctrl  bsDatepicker" bsDatepicker [(ngModel)]="saveDataObj.holiday_date" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="generalDataField">
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
+        <div class="field-checkbox-wrapper field-data" style="padding-left:10px">
+          <input class="form-checkbox" name="enddatecheckbox" type="checkbox" (change)="checkChange($event.target.checked)" />
+          <label>add End Date</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="field-wrapper" [ngClass]="{'has-value':saveDataObj.holiday_desc!= ''}">
+          <input type="text" class="form-ctrl" name="eventName" [(ngModel)]="saveDataObj.holiday_desc" />
+          <label>Description
+            <span>*</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="field-wrapper" [ngClass]="{'has-value':saveDataObj.holiday_long_desc!= ''}">
+          <input type="text" class="form-ctrl" name="eventName" [(ngModel)]="saveDataObj.holiday_long_desc" />
+          <label>Long Description
+            <span>*</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="generalDataField">
+      <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 form-wrapper">
+        <div class="field-wrapper">
+          <input type="text" class="form-ctrl" [(ngModel)]="saveDataObj.public_url">
+          <label>public Url</label>
+        </div>
+      </div>
+
+
+      <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 form-wrapper">
+        <div class="field-wrapper">
+          <input type="file" class="form-ctrl" [(ngModel)]="saveDataObj.image">
+          <label>public Url</label>
+        </div>
+      </div>
+    </div>
+
+
+    <input type="button" class="normal-btn fullBlue btn pull-right space-size" value="save" (click)="saveEventData()" />
+    
+
+  </div>
+
+</proctur-popup>
+
+<proctur-popup [sizeWidth]="'medium'" *ngIf="closeEditPopup">
+
+  <span class="closePopup pos-abs fbold show" (click)="closeUpdateReportPopup()" close-button>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+      <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+        <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+          <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+          <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+        </g>
+        <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+        />
+      </g>
+    </svg>
+  </span>
+  <div class="" popup-content>
+    <h2 popup-header>Update Event</h2>
+    <div class="row margin-top">
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
+        <label>event type</label>
+        <select class="side-form-ctrl" [(ngModel)]="updateListObj.event_type" (ngModelChange)="eventchange($event)">
+          <option *ngFor="let i of getEvent" [value]="i.data_key">{{i.data_value}}</option>
+        </select>
+      </div>
+
+          
+      <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 form-wrapper">
+        <div class="field-wrapper" [ngClass]="{'has-value':updateListObj.holiday_name!= ''}">
+          <input type="text" class="form-ctrl" [(ngModel)]="updateListObj.holiday_name">
+          <label>Event Name*</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
+        <label>holiday type</label>
+        <select class="side-form-ctrl" [(ngModel)]="updateListObj.holiday_type">
+          <option *ngFor="let i of getHoliday" [value]="i.data_key">{{i.data_value}}</option>
+
+        </select>
+      </div>
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper" *ngIf="endDateBox">
+        <div class="form-date form-wrapper datePickerBox">
+          <label>Event End Date</label>
+          <input type="text" class="side-form-ctrl  bsDatepicker" bsDatepicker [(ngModel)]="updateListObj.event_end_date" />
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
+        <div class="form-date form-wrapper datePickerBox">
+          <label>Event Date</label>
+          <input type="text" class="side-form-ctrl  bsDatepicker" bsDatepicker [(ngModel)]="updateListObj.holiday_date" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="generalDataField">
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
+        <div class="field-checkbox-wrapper field-data" style="padding-left:10px">
+          <input class="form-checkbox" name="enddatecheckbox" type="checkbox" (change)="checkChange($event.target.checked)" />
+          <label>add End Date</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="field-wrapper" [ngClass]="{'has-value':updateListObj.holiday_desc!= ''}">
+          <input type="text" class="form-ctrl" name="eventName" [(ngModel)]="updateListObj.holiday_desc" />
+          <label>Description
+            <span>*</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="c-lg-6 c-md-6 c-sm-6">
+        <div class="field-wrapper" [ngClass]="{'has-value':updateListObj.holiday_long_desc!= ''}">
+          <input type="text" class="form-ctrl" name="eventName" [(ngModel)]="updateListObj.holiday_long_desc" />
+          <label>Long Description
+            <span>*</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="generalDataField">
+      <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 form-wrapper">
+        <div class="field-wrapper">
+          <input type="text" class="form-ctrl" [(ngModel)]="updateListObj.public_url">
+          <label>public Url</label>
+        </div>
+      </div>
+
+
+      <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 form-wrapper">
+        <div class="field-wrapper">
+          <input type="file" class="form-ctrl" [(ngModel)]="updateListObj.image">
+          <label>public Url</label>
+        </div>
+      </div>
+    </div>
+
+
+    <input type="button" class="normal-btn fullBlue btn pull-right space-size" value="Update" (click)="updatePopupData()"/>
+     
+  </div>
+
+</proctur-popup>

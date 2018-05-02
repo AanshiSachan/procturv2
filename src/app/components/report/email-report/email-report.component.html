@@ -1,4 +1,6 @@
-<div class="middle-section clearFix sms-view-wrapper">
+
+<div class="clearFix sms-view-wrapper">
+
 
   <aside class="middle-full">
 
@@ -7,7 +9,9 @@
       <section class="middle-top mb0 clearFix sms-header">
 
         <h1 class="pull-left">
-          Email Report
+          <a routerLink="/reports/home">
+            <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i>
+          </a> <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>  Email Report
         </h1>
 
         <aside class="pull-right">
@@ -100,7 +104,7 @@
 
         <div class="row filter-res pagination" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
               [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
             </pagination>
           </div>
