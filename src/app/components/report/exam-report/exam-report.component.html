@@ -5,7 +5,8 @@
                 <h2 class="pull-left">
                     <a routerLink="/reports/home">
                         <i style="font-family: 'FontAwesome'; font-size: 24px;cursor: pointer;" class="fas fa-home"></i>
-                    </a> <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>  Exam Report
+                    </a>
+                    <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Exam Report
                 </h2>
                 <aside class="pull-right">
                 </aside>
@@ -29,14 +30,14 @@
                     <label>Subject</label>
                     <select class="side-form-ctrl" [(ngModel)]=" fetchFieldData.batch_id" (ngModelChange)="getExamScheduleData($event)">
                         <option value="" selected></option>
-                        <option *ngFor="let i of SubjectData" [value]="i.batch_id" name="Subject">{{i.subject_name}}</option>
+                        <option *ngFor="let i of subjectData" [value]="i.batch_id" name="Subject">{{i.subject_name}}</option>
                     </select>
                 </div>
                 <div class="c-sm-3 c-xs-3 c-lg-3 c-md-3 form-wrapper">
                     <label>Exam Schedule</label>
                     <select class="side-form-ctrl" [(ngModel)]=" fetchFieldData.exam_schd_id">
                         <option value="" selected></option>
-                        <option *ngFor="let i of Exam_Sch_Data" [value]="i.schd_id" name="Exam Schedule">{{i.exam_date}}({{i.start_time}}-{{i.end_time}})</option>
+                        <option *ngFor="let i of exam_Sch_Data" [value]="i.schd_id" name="Exam Schedule">{{i.exam_date}}({{i.start_time}}-{{i.end_time}})</option>
                     </select>
                 </div>
                 <div class="c-lg-4 c-md-4 c-sm-4 pull-Right">
@@ -91,7 +92,7 @@
     <div popup-header class="popup-header-content">
 
         <h2>DataWise Exam Report</h2>
-        <!--<h3>{{dataExamIndex0}}to{{dataExamIndexi of.}}</h3>-->
+
 
     </div>
     <div class="table table-responsive student-table">
