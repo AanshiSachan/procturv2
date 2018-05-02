@@ -57,6 +57,7 @@ export class AttendanceReportComponent implements OnInit {
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6];
   dataStatus: boolean = false;
+  
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'student_disp_id', header: 'Student id' },
     { primaryKey: 'student_name', header: 'Student name' },
@@ -68,7 +69,8 @@ export class AttendanceReportComponent implements OnInit {
     { primaryKey: 'total_leave', header: 'Leave' },
     { primaryKey: 'spent_percentage', header: 'Attendance(%)' }
   ];
-  getData = {
+  
+  attendanceFetchForm = {
     standard_id: "",
     subject_id: "",
     institution_id: sessionStorage.getItem('institute_id'),
@@ -111,6 +113,7 @@ export class AttendanceReportComponent implements OnInit {
   }
 
   getMasterCourseData() {
+    
     if (this.isProfessional) {
 
       this.reportService.masterCoursePro(this.queryParams).subscribe(
@@ -166,8 +169,8 @@ export class AttendanceReportComponent implements OnInit {
       this.subjectPro = [];
     }
     else {
-      this.getData.batch_id = "";
-      this.getData.course_id = "";
+      this.attendanceFetchForm.batch_id = "";
+      this.attendanceFetchForm.course_id = "";
       this.reportService.getCourses(i).subscribe(
 
         (data: any) => {
@@ -211,7 +214,7 @@ export class AttendanceReportComponent implements OnInit {
       this.batchPro = [];
     }
     else {
-      this.getData.batch_id = "";
+      this.attendanceFetchForm.batch_id = "";
       this.reportService.getSubject(i).subscribe(
         (data: any) => {
           this.batchCourses = data.batchesList;
@@ -241,7 +244,7 @@ export class AttendanceReportComponent implements OnInit {
       )
     }
     else {
-      this.reportService.postDataToTable(this.getData).subscribe(
+      this.reportService.postDataToTable(this.attendanceFetchForm).subscribe(
         (data: any) => {
           // this.getPostData();
         }
@@ -270,7 +273,7 @@ export class AttendanceReportComponent implements OnInit {
       )
     }
     else {
-      this.reportService.postDataToTable(this.getData).subscribe(
+      this.reportService.postDataToTable(this.attendanceFetchForm).subscribe(
         (data: any) => {
           this.dataStatus = false;
           this.postData = data;
@@ -337,7 +340,7 @@ export class AttendanceReportComponent implements OnInit {
       }
     }
     else {
-      if (this.getData.master_course_name == "" || this.getData.course_id == "" || this.getData.batch_id == "" || this.getData.from_date == "" || this.getData.to_date == "") {
+      if (this.attendanceFetchForm.master_course_name == "" || this.attendanceFetchForm.course_id == "" || this.attendanceFetchForm.batch_id == "" || this.attendanceFetchForm.from_date == "" || this.attendanceFetchForm.to_date == "") {
 
         let msg = {
           type: "error",
@@ -346,7 +349,7 @@ export class AttendanceReportComponent implements OnInit {
         }
         this.appc.popToast(msg);
       }
-      else if (this.getData.from_date > this.getData.to_date) {
+      else if (this.attendanceFetchForm.from_date > this.attendanceFetchForm.to_date) {
         let msg = {
           type: "error",
           title: "Incorrect Details",
@@ -357,7 +360,7 @@ export class AttendanceReportComponent implements OnInit {
       else {
 
         this.addReportPopUp = true;
-        this.reportService.postDetailedData(this.getData).subscribe(
+        this.reportService.postDetailedData(this.attendanceFetchForm).subscribe(
           (data: any) => {
             this.dateWiseAttendance = data;
             this.dataTypeAttendance = this.dateWiseAttendance.map((ele) => {
