@@ -42,7 +42,7 @@ export class BiometricComponent implements OnInit {
   subjects: any[] = [];
   absentiesRecords: any[] = [];
   absentTable: boolean = false;
-  dummyArr: any[] = [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4];
+  dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5,6];
   dataStatus : boolean = false;
   showTeacherButton : boolean =true;

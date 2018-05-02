@@ -88,7 +88,43 @@ sendNotifiation(obj){
       return error
     },
   )}
-}
+updateEventData(holidayId){
+  let url = this.baseUrl +"/api/v1/holiday_manager/fetch/"+this.institute_id +"/"+holidayId
+   return this.http.get(url, {headers: this.headers}).map(
+    res=>{
+      return res
+    },
+    error=>{
+      return error
+    },
+  )}
 
 
 
+  getUpdateEventData(obj){
+    let url = this.baseUrl +"/api/v1/holiday_manager/update/";
+    obj.institution_id= this.institute_id;
+    return this.http.put(url,obj,{headers: this.headers}).map(
+      res=>{
+        return res
+      },
+      error=>{
+        return error
+      },
+    )}
+  
+    deleteEventData(holidayId){
+      let url = this.baseUrl +"/api/v1/holiday_manager/delete/"+this.institute_id +"/"+ holidayId
+  
+      return this.http.delete(url, {headers: this.headers}).map(
+        res=>{
+          return res
+        },
+        error=>{
+          return error
+        },
+      )}
+    
+    }
+
+  

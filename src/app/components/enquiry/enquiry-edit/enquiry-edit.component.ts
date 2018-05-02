@@ -246,7 +246,7 @@ export class EnquiryEditComponent implements OnInit {
           if (dd != '' && dd != "Invalid date" && dd != null) {
             let obj: any = {};
             obj.component_id = e.id;
-            obj.enq_custom_id = 0;
+            obj.enq_custom_id = e.data.enq_custom_id;
             obj.enq_custom_value = moment(e.value).format("YYYY-MM-DD");
             tempArr.push(obj);
           }
@@ -258,7 +258,7 @@ export class EnquiryEditComponent implements OnInit {
             if (e.value.trim() != '') {
               let obj: any = {};
               obj.component_id = e.id;
-              obj.enq_custom_id = 0;
+              obj.enq_custom_id = e.data.enq_custom_id;
               obj.enq_custom_value = e.value;
               tempArr.push(obj);
             }
@@ -267,14 +267,14 @@ export class EnquiryEditComponent implements OnInit {
             if (e.value) {
               let obj: any = {};
               obj.component_id = e.id;
-              obj.enq_custom_id = 0;
+              obj.enq_custom_id = e.data.enq_custom_id;
               obj.enq_custom_value = "Y";
               tempArr.push(obj);
             }
             else {
               let obj: any = {};
               obj.component_id = e.id;
-              obj.enq_custom_id = 0;
+              obj.enq_custom_id = e.data.enq_custom_id;
               obj.enq_custom_value = "N";
               tempArr.push(obj);
             }

@@ -42,39 +42,6 @@
         </div>
       </section>
 
-      <!-- <div class="sms-table-controller">
-        <div class="c-lg-12 c-md-12 c-sm-12 align-left">
-          
-          <ul class="record-list">
-          
-            <li>
-              <label>
-                Showing {{ getMin() }} to {{ getMax() }} of {{ count }} Records
-              </label>
-            </li>
-          
-            <li>
-              <div class="bulk-dropdown">
-                <label class="bulk-dropbtn">
-                  Records per page :
-                  <button class="bulk-dropbtn-border" id="bulk-action" #bulkaction (click)="bulkActionFunctionOpen()" type="button" data-toggle="dropdown">
-                    {{displayBatchSize}}
-                    <span class="caret"></span>
-                  </button>
-                </label>
-                <div id="bulk-drop" class="bulk-dropdown-content hide" (click)="bulkActionFunctionClose()" (mouseleave)="bulkActionFunctionClose()">
-                  <a *ngFor="let size of sizeArr" (click)="updateTableBatchSize(size)">
-                    {{size}}
-                  </a>
-                </div>
-              </div>
-            </li>
-         
-          </ul>
-       
-        </div>
-      </div> -->
-
       <section class="sms-table-wrapper">
 
         <div class="table table-responsive student-table">

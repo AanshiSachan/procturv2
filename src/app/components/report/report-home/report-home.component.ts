@@ -17,6 +17,7 @@ export class ReportHomeComponent implements OnInit {
   isTimetable: boolean
   isReportCard: boolean
   isExam: boolean
+  isSms: boolean
   isFee: boolean
   isBiometric: boolean
   isAttendance: boolean
@@ -67,6 +68,7 @@ export class ReportHomeComponent implements OnInit {
         this.isTimetable = true;
         this.isReportCard = true;
         this.isExam = true;
+        this.isSms = true;
         this.isFee = true;
         this.isBiometric = true;
         this.isAttendance = true;
@@ -80,6 +82,7 @@ export class ReportHomeComponent implements OnInit {
         this.isFee = false;
         this.isBiometric = false;
         this.isAttendance = false;
+        this.isSms = false;
       }
     }
     else {
