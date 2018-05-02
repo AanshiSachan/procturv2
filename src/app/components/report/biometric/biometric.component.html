@@ -159,7 +159,7 @@
           </div>
 
           <div class="students" *ngIf="showStudentTable">
-            <div class="table table-responsive student-table skeleton">
+            <div class="table table-responsive student-table">
               <div class="student-elements">
                 <table>
                   <thead>
@@ -183,7 +183,7 @@
                         Out Time
                       </th>
                       <th>
-                        View Older Records {{studentsDisplayData.length}} {{dataStatus}}
+                        View Older Records
                       </th>
                     </tr>
                   </thead>
@@ -214,15 +214,15 @@
                       </td>
                     </tr>
                   </tbody>
-                  <tbody *ngIf="studentsDisplayData.length === 0 && dataStatus === true">
+                  <tbody *ngIf="studentsDisplayData.length == 0 && dataStatus === true">
                     <tr *ngFor="let dummy of dummyArr">
-                      <td *ngFor="let c of columnMaps">
+                      <td *ngFor="let c of columnMaps" style="padding:10px;">
                         <div class="skeleton">
                         </div>
                       </td>
                     </tr>
                   </tbody>
-                  <tbody *ngIf="studentsDisplayData.length === 0 && dataStatus === false" class="records">
+                  <tbody *ngIf="studentsDisplayData.length == 0 && dataStatus === false" class="records">
                     <tr>
                       <td colspan="7" class="records">
                         No Records Found

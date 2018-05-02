@@ -23,7 +23,15 @@
             </td>
         </tr>
     </tbody>
-    <tbody *ngIf="records.length == 0">
+    <tbody *ngIf="records.length == 0 && dataStatus === true">
+        <tr *ngFor="let dummy of dummyArr">
+            <td *ngFor="let c of columnMap" style="padding:10px;">
+                <div class="skeleton">
+                </div>
+            </td>
+        </tr>
+    </tbody>
+    <tbody *ngIf="records.length == 0 && dataStatus === false">
         <tr>
             <td colspan="10">
                 <label style="font-size: 16px;font-weight: 600;">No Records Found</label>
