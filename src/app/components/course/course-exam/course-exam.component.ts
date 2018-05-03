@@ -832,10 +832,11 @@ export class CourseExamComponent implements OnInit {
     }
     this.apiService.cancelExamScheduleCourse(obj).subscribe(
       res => {
-        this.messageNotifier('error', 'Error', 'Canelled Successfully');
+        this.messageNotifier('success', 'Successfully Cancelled', 'Cancelled Successfully');
         this.closeCancelExamPopUp();
       },
       err => {
+        debugger
         console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
@@ -856,7 +857,7 @@ export class CourseExamComponent implements OnInit {
       let obj = {
         course_exam_schedule_id: data.selectedCourseList.course_exam_schedule_id,
         course_id: this.courseData.course_id,
-        requested_date: this.courseData.requested_date
+        requested_date: moment(this.courseData.requested_date).format('YYYY-MM-DD')
       }
       this.apiService.sendReminder(obj).subscribe(
         res => {
