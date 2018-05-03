@@ -72,10 +72,10 @@
     </section>
   </section>
 </div>
-<!--<div class="search-filter-wrapper" id="adFilterExitVisible">
+<div class="search-filter-wrapper">
 
-  <input #search type="text" class="normal-field" [(ngModel)]="row." style="font-size:12px" placeholder="Serach here">
- </div>-->
+  <input #search type="textbox" class="normal-field" [(ngModel)]="searchDataFilter" style="font-size:12px" placeholder="Serach here">
+ </div>
 <div id="divSlotTable">
   <div class="table-scroll-wrapper">
     <div class="table table-responsive">
@@ -107,7 +107,7 @@
           </tr>
         </thead>
         <tbody *ngIf="eventRecord.length !=0">
-          <tr id="row{{i}}" class="displayComp" *ngFor="let row of  pagedSourceData; let i = index; trackBy: i;">
+          <tr id="row{{i}}" class="displayComp" *ngFor="let row of pagedSourceData|filter:searchDataFilter; let i = index; trackBy: i;">
             <td>
               {{i + 1}}
             </td>

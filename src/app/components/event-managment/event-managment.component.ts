@@ -10,18 +10,19 @@ import { AppComponent } from '../../app.component';
 export class EventManagmentComponent implements OnInit {
   isProfessional: boolean = false;
   eventRecord: any = [];
-  endDatecheckbox:boolean= false;
+  endDatecheckbox: boolean = false;
   endDateBox: boolean = false;
   getHoliday: any = [];
-  checker:boolean=false;
+  checker: boolean = false;
   getEvent: any = [];
-  endDateofEvent:boolean=false;
+  endDateofEvent: boolean = false;
   closeEditPopup: boolean = false;
   totalRow = 0;
-  generalUpdateDataField:boolean=false;
+  generalUpdateDataField: boolean = false;
   generalDataField: boolean = false;
   pagedSourceData: any[] = [];
   pageIndex: number = 1;
+  searchDataFilter = "";
   displayBatchSize: number = 10;
   closeVarPopup: boolean = false;
 
@@ -51,13 +52,13 @@ export class EventManagmentComponent implements OnInit {
   }
   updateListObj: any;
 
-  newUpdateObj={
+  newUpdateObj = {
     event_end_date: "",
     event_type: "",
     holiday_date: moment().format("YYYY-MM-DD"),
     holiday_desc: "",
     holiday_long_desc: "",
-    holidayId:"",
+    holidayId: "",
     holiday_name: "",
     holiday_type: "",
     image: null,
@@ -73,8 +74,8 @@ export class EventManagmentComponent implements OnInit {
     this.getAllListData();
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
   }
-/*=====================================get list of records=================================
-============================================================================================ */
+  /*=====================================get list of records=================================
+  ============================================================================================ */
   getAllListData() {
 
     this.eve_mnge.getListEventDesc(this.list_obj).subscribe(
@@ -89,36 +90,8 @@ export class EventManagmentComponent implements OnInit {
       }
     )
   }
-/*
-  isTimeValid(): boolean {
-    let v = moment(this.saveDataObj.holiday_date).diff(moment(this.saveDataObj.event_end_date))
-    if (v <= 0) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
-  
-  fetcheventByDate() {
-    if (this.isTimeValid()) {
-
-      this.saveEventData();
-    }
-    else {
-      let obj = {
-        type: "error",
-        title: "Invalid Date Range Selected",
-        Body: "From date cannot be greater than To date"
-      }
-      this.appc.popToast(obj);
-
-    }
-  }
-*/
-/*================================================get events==============================
-============================================================================================= */
+  /*================================================get events==============================
+  ============================================================================================= */
   getEvents() {
     this.eve_mnge.getEventdata().subscribe(
       res => {
@@ -131,8 +104,8 @@ export class EventManagmentComponent implements OnInit {
       }
     )
   }
-   /*=====================================get holidays============================================
-  =============================================================================================== */
+  /*=====================================get holidays============================================
+ =============================================================================================== */
   getHolidays() {
     this.eve_mnge.getHolidayData().subscribe(
       res => {
@@ -144,8 +117,8 @@ export class EventManagmentComponent implements OnInit {
       }
     )
   }
-/*==============================================validate event=============================
-========================================================================================== */
+  /*==============================================validate event=============================
+  ========================================================================================== */
   eventchange(para) {
     if (this.saveDataObj.event_type == "2") {
       this.generalDataField = true;
@@ -156,20 +129,63 @@ export class EventManagmentComponent implements OnInit {
   }
   /*========================================validate event at updatetime=======================
   ==============================================================================================  */
-  eventchangeUpdate(para){
-if(this.newUpdateObj.event_type=="2"){
-  this.generalUpdateDataField=true;
-}
-else{
-  this.generalUpdateDataField=false;
-}
+  eventchangeUpdate(para) {
+    if (this.newUpdateObj.event_type == "2") {
+      this.generalUpdateDataField = true;
+    }
+    else {
+      this.generalUpdateDataField = false;
+    }
   }
-  saveEventData() {
+  isTimeValid(): boolean {
+    let v = moment(this.saveDataObj.holiday_date).diff(moment(this.saveDataObj.event_end_date))
+    if (v <= 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 
+  RunisTimeValid(){
+    if(this.saveDataObj.event_type!==""&&this.saveDataObj.holiday_name!==""&&this.saveDataObj.holiday_type!==""){
+      this.isTimeValid();
+    }
+    else{
+      let obj = {
+        type: "error",
+        title: "Field is Empty",
+        Body: "invalid data range"
+      }
+      this.appc.popToast(obj);
+    }
+  }
+
+  saveEventData() {
+    if(!this.isTimeValid()){
+      let obj = {
+        type: "error",
+        title: "Invalid Date Range Selected",
+        Body: "From date cannot be greater than To date"
+      }
+      this.appc.popToast(obj);
+
+  }
+  else if(this.saveDataObj.event_type!==""&&this.saveDataObj.event_end_date!==""&&this.saveDataObj.holiday_date!==""&&this.saveDataObj.holiday_desc!==""&&this.saveDataObj.holiday_long_desc!==""&&this.saveDataObj.holiday_name!==""&&this.saveDataObj.holiday_type!==""&&this.saveDataObj.image!==""&&this.saveDataObj.public_url!==""){
+    let obj = {
+      type: "error",
+      title: "Field is Empty",
+      Body: "From date cannot be greater than To date"
+    }
+    this.appc.popToast(obj);
+
+  }
+  else{
     this.eve_mnge.saveEventDescData(this.saveDataObj).subscribe(
       res => {
         console.log(res);
         this.getAllListData();
+
         this.closeVarPopup = false;
       },
       error => {
@@ -177,10 +193,23 @@ else{
       }
     )
   }
+  }
+  
+
   /*==========================================get update data================================
   ========================================================================================== */
+  isTimeValidData(): boolean {
+    let v = moment(this.saveDataObj.holiday_date).diff(moment(this.saveDataObj.event_end_date))
+    if (v <= 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
   updatePopupData() {
-  
+    if (this.isTimeValidData()) {
+
     this.newUpdateObj.event_end_date = moment(this.newUpdateObj.event_end_date).format('YYYY-MM-DD');
     this.newUpdateObj.holiday_date = moment(this.newUpdateObj.holiday_date).format('YYYY-MM-DD');
     this.eve_mnge.getUpdateEventData(this.newUpdateObj).subscribe(
@@ -194,19 +223,29 @@ else{
       }
     )
   }
+  else {
+    let obj = {
+      type: "error",
+      title: "Invalid Date Range Selected",
+      Body: "From date cannot be greater than To date"
+    }
+    this.appc.popToast(obj);
+
+  }
+}
 
 
   checkChange(para) {
     if (para == true) {
-      this.endDatecheckbox=true;
-      this.endDateBox=true;
-      this.endDateofEvent=true;
-      
+      this.endDatecheckbox = true;
+      this.endDateBox = true;
+      this.endDateofEvent = true;
+
     }
     else {
       this.endDatecheckbox = false;
-      this.endDateBox=false;
-      this.endDateofEvent=false;
+      this.endDateBox = false;
+      this.endDateofEvent = false;
     }
   }
   /*=============================================edit update=========================
@@ -219,31 +258,31 @@ else{
         this.updateListObj = res;
         this.newUpdateObj.event_type = res.event_type;
         this.newUpdateObj.holiday_date = moment(res.holiday_date).format("YYYY-MM-DD");
-        this.newUpdateObj.holiday_desc=res.holiday_desc;
-        this.newUpdateObj.holiday_long_desc=res.holiday_long_desc;
-        this.newUpdateObj.holiday_name= res.holiday_name;
-        this.newUpdateObj.holiday_type= res.holiday_type;
-        this.newUpdateObj.holidayId= res.holidayId;
-        this.newUpdateObj.event_end_date= moment(res.event_end_date).format("YYYY-MM-DD");
-        this.newUpdateObj.image= res.image;
-        this.newUpdateObj.public_url= res.public_url;
-        if(res.event_end_date==""){
-          this.checker=false;
+        this.newUpdateObj.holiday_desc = res.holiday_desc;
+        this.newUpdateObj.holiday_long_desc = res.holiday_long_desc;
+        this.newUpdateObj.holiday_name = res.holiday_name;
+        this.newUpdateObj.holiday_type = res.holiday_type;
+        this.newUpdateObj.holidayId = res.holidayId;
+        this.newUpdateObj.event_end_date = moment(res.event_end_date).format("YYYY-MM-DD");
+        this.newUpdateObj.image = res.image;
+        this.newUpdateObj.public_url = res.public_url;
+        if (res.event_end_date == "") {
+          this.checker = false;
 
         }
-        else{
-          this.checker=true;
+        else {
+          this.checker = true;
         }
-      console.log(this.newUpdateObj);  
+        console.log(this.newUpdateObj);
       },
-      
+
       error => {
         console.log(error);
       }
     )
   }
-/*===================================================delete event data========================
-============================================================================================== */
+  /*===================================================delete event data========================
+  ============================================================================================== */
   deleteEventDataFromList(holidayId) {
     this.eve_mnge.deleteEventData(holidayId).subscribe(
       res => {
@@ -255,22 +294,22 @@ else{
       }
     )
   }
-/*==================================send notification to EventType="GENERAL"======================
-============================================================================================== */
+  /*==================================send notification to EventType="GENERAL"======================
+  ============================================================================================== */
 
   sendNotificationAlert(e) {
-     var prompt =  confirm("Are you sure,you want to Send Push Notification?");
-    if(prompt){
-        this.sendNotify_obj.event_id= e;
-       this.eve_mnge.sendNotifiation(this.sendNotify_obj).subscribe(
+    var prompt = confirm("Are you sure,you want to Send Push Notification?");
+    if (prompt) {
+      this.sendNotify_obj.event_id = e;
+      this.eve_mnge.sendNotifiation(this.sendNotify_obj).subscribe(
         res => {
 
         },
         error => {
-      }
+        }
       )
     }
-    else{
+    else {
 
     }
   }
@@ -289,14 +328,14 @@ else{
 
   }
   deleteEntryData(holidayId) {
-    var prompt =  confirm("Are you sure, you want to delete the Event?");
-    if(prompt){
+    var prompt = confirm("Are you sure, you want to delete the Event?");
+    if (prompt) {
       this.deleteEventDataFromList(holidayId);
     }
-    else{
-      
+    else {
+
     }
-  
+
   }
   closeReportPopup() {
     this.closeVarPopup = false;
