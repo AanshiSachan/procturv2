@@ -92,6 +92,8 @@ export class ClassRoomComponent {
           }
           this.AppC.popToast(msg);
           this.getClassList();
+          this.enterclassdata="";
+          this.enterclassdataDesc="";
           this.toggleCreateNewList();
         },
         error => {
@@ -101,6 +103,8 @@ export class ClassRoomComponent {
             title: "Error",
             body: error.error.message
           }
+          this.enterclassdata="";
+          this.enterclassdataDesc="";
           this.AppC.popToast(msg);
         }
       )
@@ -112,6 +116,8 @@ export class ClassRoomComponent {
         body: "Please fill ClassRoom Name."
       }
       this.AppC.popToast(data);
+      this.enterclassdata="";
+      this.enterclassdataDesc="";
       return;
     }
   }
