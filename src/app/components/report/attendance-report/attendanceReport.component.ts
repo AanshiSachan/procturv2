@@ -77,7 +77,7 @@ export class AttendanceReportComponent implements OnInit {
     course_id: "",
     batch_id: "",
     master_course_name: "",
-    from_date: "",
+    from_date:"" ,
     to_date: ""
   }
   /*for professional*/
@@ -266,6 +266,7 @@ export class AttendanceReportComponent implements OnInit {
     this.SummaryReports = true;
     this.dataStatus = true;
     this.PageIndex = 1;
+
     if (this.isProfessional) {
       this.reportService.postDataToTablePro(this.queryParams).subscribe(
         (data: any) => {
@@ -282,6 +283,12 @@ export class AttendanceReportComponent implements OnInit {
       )
     }
     else {
+     if(this.attendanceFetchForm.from_date == "Invalid date"){
+      this.attendanceFetchForm.from_date="";
+     }
+     if(this.attendanceFetchForm.to_date == "Invalid date"){
+      this.attendanceFetchForm.to_date="";
+     }
       this.reportService.postDataToTable(this.attendanceFetchForm).subscribe(
         (data: any) => {
           this.dataStatus = false;
@@ -320,11 +327,13 @@ export class AttendanceReportComponent implements OnInit {
         this.appc.popToast(msg);
       }
       else {
-
+        this.pageDetailedDataPro = [];
+        this.typeAttendancePro=[];
         this.addReportPopUp = true;
+        this.dataStatus = true;
         this.reportService.postDetailedData(this.queryParams).subscribe(
           (data: any) => {
-
+            this.dataStatus = false;
             this.dateWiseAttendancePro = data;
             console.log(this.dateWiseAttendancePro);
             this.dataTypeAttendancePro = data.map((ele) => {
@@ -367,10 +376,13 @@ export class AttendanceReportComponent implements OnInit {
         this.appc.popToast(msg);
       }
       else {
-
+        this.dataStatus = true;
+        this.typeAttendance=[];
+        this.pageDetailedData=[];
         this.addReportPopUp = true;
         this.reportService.postDetailedData(this.attendanceFetchForm).subscribe(
           (data: any) => {
+            this.dataStatus = false;
             this.dateWiseAttendance = data;
             this.dataTypeAttendance = this.dateWiseAttendance.map((ele) => {
               this.typeAttendance = ele.attendanceDateType;
@@ -551,10 +563,24 @@ export class AttendanceReportComponent implements OnInit {
     link.click();
   }
 
+  dateMan(){
+    let arr = [];
+    this.typeAttendance.map((ele)=>{
+      let month = ele.class_date.split("-")[1];
+      arr.push(month);
+    })
+    arr.map(()=>{
+
+    })
+    arr = Array.from(new Set(arr));
+    return arr;
+  }
+
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
+      this.PageIndex = 1;
       let searchData: any;
       if (this.isProfessional) {
         searchData = this.queryParamsPro.filter(item =>

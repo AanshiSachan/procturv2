@@ -3,8 +3,6 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-
-
 body {
     background: #EEEEF4;
     color: #999;
@@ -52,7 +50,7 @@ p {
         overflow: hidden;
         padding-top: 10px;
         padding-bottom: 10px;
-        height: 350px;
+        height: auto;
         background: #EEEEF4;
         .absentView {
             overflow: auto;
@@ -150,9 +148,13 @@ p {
 }
 
 .filter-box {
-    padding: 10px 0px;
-    margin-bottom: 5px;
-    background: #efefef;
+    padding: 6px 0px;
+    margin-bottom: 7px;
+    /* background: #efefef; */
+    margin-top: 40px;
+    border: 2px inset;
+   
+
 }
 
 .search-filter-wrapper {
@@ -174,7 +176,11 @@ p {
         width: 10%;
     }
 }
-
+.records {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
 .popup-header-content {
     h2 {
         text-align: center;
@@ -188,6 +194,16 @@ p {
     }
 }
 
+.filterSectionWrapper{
+    background: white;
+    box-shadow: 0px 0px 2px 2px #dadada;
+    border-radius: 10px;
+}
+.background{
+    background: #efefef;
+    height: 100%;
+    padding:5px;
+}
 .middle-section {
     padding: 5px 15px;
     width: 100%;
@@ -197,42 +213,43 @@ p {
             color: black;
             font-weight: unset;
             padding-top: 20px;
-        }
+        }   
     }
-    .form-wrapper {
-        background: transparent;
-        margin: 25px 0px;
-        align-content: center;
-        .btn {
-            margin-top: -15px;
-            width: 70%;
-        }
-        label {
-            padding-left: 10px;
-            font-size: 12px;
-            font-weight: 400;
-            color: 0084f6;
-            text-decoration: none;
-            text-transform: uppercase;
-            -webkit-font-smoothing: antialiased;
-            width: 100%;
-        }
-        .side-form-ctrl {
-            background: white;
-            border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
-            width: 100%;
+}
+
+.form-wrapper {
+    background: transparent;
+    margin: 25px 0px;
+    align-content: center;
+    .btn {
+        margin-top: -15px;
+        width: 70%;
+    }
+    label {
+        padding-left: 10px;
+        font-size: 12px;
+        font-weight: 400;
+        color: 0084f6;
+        text-decoration: none;
+        text-transform: uppercase;
+        -webkit-font-smoothing: antialiased;
+        width: 100%;
+    }
+    .side-form-ctrl {
+        background: white;
+        border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+        width: 100%;
+        padding-left: 10px;
+        margin-left: 10px;
+        height: 30px;
+        padding: 0px 5px;
+        font-weight: 600;
+        font-size: 14px;
+        color: black;
+        &.bsDatepicker {
             padding-left: 10px;
             margin-left: 10px;
-            height: 30px;
-            padding: 0px 5px;
-            font-weight: 600;
-            font-size: 14px;
-            color: black;
-            &.bsDatepicker {
-                padding-left: 10px;
-                margin-left: 10px;
-                width: 100%;
-            }
+            width: 100%;
         }
     }
 }
@@ -529,7 +546,6 @@ $color-base: #efefef;
 $color-base: #efefef;
 $color-highlight: lighten($color-base,
 7%);
-
 .skeleton {
     position: relative;
     overflow: hidden;
@@ -537,7 +553,6 @@ $color-highlight: lighten($color-base,
     height: 12px;
     background: $color-base;
     border-radius: 2px;
-    
     &::after {
         content: '';
         position: absolute;
@@ -547,8 +562,5 @@ $color-highlight: lighten($color-base,
         height: 100%;
         background: linear-gradient(90deg, $color-base, $color-highlight, $color-base);
         animation: progress 1s ease-in-out infinite;
-
-       
-}
-
+    }
 }

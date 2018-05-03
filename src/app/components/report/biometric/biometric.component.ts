@@ -46,6 +46,11 @@ export class BiometricComponent implements OnInit {
   columnMaps: any[] = [0, 1, 2, 3, 4, 5,6];
   dataStatus : boolean = false;
   showTeacherButton : boolean =true;
+  direction = 0;
+  searchText = "";
+  searchData=[];
+  searchflag: boolean = false;
+  columnMapRecords: any[] = [0, 1, 2];
   getData = {
     school_id: -1,
     name: "",
@@ -118,9 +123,11 @@ export class BiometricComponent implements OnInit {
     )
   }
   fetchDataByName() {
-    this.studentsData = [];
+    
+   
     this.showTeacherButton = true;
     if (this.getData.user_Type == 1) {
+      this.studentsDisplayData = [];
       this.showTeacherButton = true;
       this.showStudentTable = true;
       this.showTeachersTable = false;
@@ -128,6 +135,7 @@ export class BiometricComponent implements OnInit {
       this.dataStatus = true;
       this.reportService.getAttendanceReport(this.getData).subscribe(
         (data: any) => {
+         
           this.dataStatus =  false;
           this.studentsData = data;
           this.totalRow = data.length;
@@ -224,13 +232,15 @@ export class BiometricComponent implements OnInit {
 
     }
     else if (this.popupCtrl == 0) {
-
+     this.monthAttendance = [];
+     this.dataStatus = true;
       this.getAllData = {
         from_date: moment().subtract('months', 1).format('YYYY-MM-DD'),
         institute_id: this.reportService.institute_id,
         to_date: moment().format('YYYY-MM-DD'),
         user_id: this.getAllData.user_id
       }
+   
       this.addReportPopUp = false;
       this.addAcademicPopUp = true;
       this.showMonth = true;
@@ -238,6 +248,7 @@ export class BiometricComponent implements OnInit {
       this.showWeek = false;
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {
+          this.dataStatus = false;
           this.monthAttendance = data;
 
         },
@@ -248,6 +259,8 @@ export class BiometricComponent implements OnInit {
 
     }
     else if (this.popupCtrl == 1) {
+      this.weekAttendance =[];
+      this.dataStatus =true;
       this.getAllData = {
         from_date: moment().subtract('days', 7).format('YYYY-MM-DD'),
         institute_id: this.reportService.institute_id,
@@ -261,6 +274,7 @@ export class BiometricComponent implements OnInit {
       this.showWeek = true;
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {
+          this.dataStatus =false;
           this.weekAttendance = data;
 
         },
@@ -287,14 +301,18 @@ export class BiometricComponent implements OnInit {
 
   showDataTable() {
     this.range = [];
+    this.dataStatus = true;
     this.getAllData = {
       from_date: moment(this.getAllData.from_date).format('YYYY-MM-DD'),
       institute_id: this.reportService.institute_id,
       to_date: moment(this.getAllData.to_date).format('YYYY-MM-DD'),
       user_id: this.getAllData.user_id
     }
+    console.log(this.getAllData.from_date);
     let diff = moment(this.getAllData.from_date).diff(moment(this.getAllData.to_date), 'months');
-    // let futureDate = moment(this.getAllData.to_date).add('days',1);
+    let futureDate = moment(this.getAllData.to_date).add('days',1).format('YYYY-MM-DD');
+    console.log(futureDate);
+    console.log(this.getAllData.to_date);
     if (diff < -2) {
       let msg = {
         type: "error",
@@ -313,19 +331,11 @@ export class BiometricComponent implements OnInit {
 
       this.appc.popToast(msg);
     }
-    // else if(this.getAllData.to_date == 'futureDate'){
-    //   let msg = {
-    //     type: "error",
-    //     title: "Incorrect Details",
-    //     body: "Future Date is not allowed"
-    //   }
-
-    //   this.appc.popToast(msg);
-    // }
-
+    
     else {
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {
+          this.dataStatus = false;
           this.range = data;
 
         },
@@ -346,6 +356,48 @@ export class BiometricComponent implements OnInit {
 
     this.addAbsentiesPopup = false;
   }
+
+  sortedData(ev) {
+    
+    (this.direction == 0 || this.direction == -1) ? (this.direction = 1) : (this.direction = -1);
+    
+      this.studentsData = this.studentsData.sort((a:any, b:any)=>{
+        if(a[ev] < b[ev]){
+            return -1*this.direction;
+        }
+        else if(a[ev] > b[ev]){
+            return this.direction;
+        }
+        else{
+            return 0;
+        }
+    });
+
+    
+    this.PageIndex = 1;
+    this.fetchTableDataByPage(this.PageIndex);
+  }
+
+  searchDatabase(){
+    if (this.searchText != "" && this.searchText != null) {
+      this.PageIndex = 1;
+      let searchData: any;
+      searchData = this.studentsData.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
+      );
+      this.searchData =searchData;
+      this.totalRow = searchData.length;
+      this.searchflag = true;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
+    else {
+      this.searchflag = false;
+      this.fetchTableDataByPage(this.PageIndex);
+      
+    }
+  }
+  
   viewAbsentiesRecord() {
     this.absentTable = true;
     if (this.getAbsentiesData.from_date == "") {
@@ -389,11 +441,32 @@ export class BiometricComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
-
+    if (this.searchflag) {
+      let t = this.searchData.slice(startindex, startindex + this.pagedisplaysize);
+      return t;
+    }
+    else{
     let d = this.studentsData.slice(startindex, startindex + this.pagedisplaysize);
     return d;
-
+    }
   }
 
+
+
+  dateValidationForFuture(e){
+    console.log(e);
+    let today = moment(new Date);
+    let selected = moment(e);
+
+    let diff = moment(selected.diff(today))['_i'];
+    
+    if(diff <= 0){
+
+    }
+    else{
+      this.getAllData.to_date = moment(new Date).format("YYYY-MM-DD");
+    }
+
+  }
 
 }
