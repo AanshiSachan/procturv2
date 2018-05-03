@@ -25,7 +25,7 @@ export class AuthenticatorService {
     currentAuthKey = this.authToken.asObservable();
 
      public baseUrl: string = "http://test999.proctur.com/StdMgmtWebAPI";
-    // public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
+    //  public baseUrl: string = "https://app.proctur.com/StdMgmtWebAPI";
 
     constructor() {
         //console.log("Auth constructor called");

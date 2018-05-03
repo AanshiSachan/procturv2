@@ -13,6 +13,8 @@ export class ClassRoomComponent {
 
   classRoomData: any = [];
   totalRow = 0;
+  enterclassdataDesc:string="";
+  enterclassdata: string="";
   pagedclassRoomData: any[] = [];
   addClasslistData: any[] = [];
   saveclassListData: any = [];
