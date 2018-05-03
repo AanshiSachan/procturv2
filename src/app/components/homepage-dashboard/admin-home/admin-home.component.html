@@ -188,7 +188,7 @@
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
                             <li class="timings">
-                              <div>{{class.start_time}} - {{class.end_time}}</div>
+                              <div>{{class.start_time}} - {{class.end_time}} ({{class.class_date}})</div>
                             </li>
                             <li class="cls-type">
                               <div>
