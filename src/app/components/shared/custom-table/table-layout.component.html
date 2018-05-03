@@ -7,7 +7,7 @@
                     <label>asdf</label>
                 </div>
             </th>
-            <th (click)="getSortedData($event)" id="{{map.header}}" *ngFor="let map of columnMaps">{{ map.header }}</th>
+            <th class="{{map.header}}" (click)="getSortedData(map.primaryKey)" id="{{map.header}}" *ngFor="let map of columnMaps">{{ map.header }}</th>
         </tr>
     </thead>
     <tbody *ngIf="records.length != 0">
@@ -18,7 +18,7 @@
                     <label>asdf</label>
                 </div>
             </td>
-            <td *ngFor="let map of columnMaps" [ctStyleCell]="record[map.access(record)]">
+            <td class="{{map.header}}" *ngFor="let map of columnMaps" [ctStyleCell]="record[map.access(record)]">
                 {{ record[map.access(record)] | formatCell:map.format }}
             </td>
         </tr>

@@ -53,7 +53,7 @@ export class AttendanceReportComponent implements OnInit {
   queryParamsPro: any[] = [];
   pageDetailedDataPro: any[] = [];
   property = "";
-  direction = -1;
+  direction = 0;
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6];
   dataStatus: boolean = false;
@@ -102,7 +102,9 @@ export class AttendanceReportComponent implements OnInit {
     private reportService: AttendanceReportServiceService,
     private appc: AppComponent,
     private institute_id: AuthenticatorService
-  ) { }
+  ) { 
+    console.log(moment(moment().format('DD-MM-YYYY')).diff(moment('03-02-2018'),'months'));
+  }
 
 
   ngOnInit() {
@@ -469,13 +471,36 @@ export class AttendanceReportComponent implements OnInit {
   }
 
   sortedData(ev) {
-    this.property = ev;
-    if (this.direction == -1) {
-      this.direction = 1;
+    (this.direction == 0 || this.direction == -1) ? (this.direction = 1) : (this.direction = -1)
+    if (this.isProfessional) {
+      this.queryParamsPro = this.queryParamsPro.sort((a:any, b:any)=>{
+        if(a[ev] < b[ev]){
+            return -1*this.direction;
+        }
+        else if(a[ev] > b[ev]){
+            return this.direction;
+        }
+        else{
+            return 0;
+        }
+    })
     }
-    else {
-      this.direction = -1;
+    else{
+      this.postData = this.postData.sort((a:any, b:any)=>{
+        if(a[ev] < b[ev]){
+            return -1*this.direction;
+        }
+        else if(a[ev] > b[ev]){
+            return this.direction;
+        }
+        else{
+            return 0;
+        }
+    });
+
     }
+    this.PageIndex = 1;
+    this.fetchTableDataByPage(this.PageIndex);
   }
   getColor(status) {
     switch (status) {
@@ -523,6 +548,4 @@ export class AttendanceReportComponent implements OnInit {
       }
     }
   }
-
-
 }

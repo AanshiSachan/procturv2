@@ -16,6 +16,7 @@ import { FetchprefilldataService } from '../../../services/fetchprefilldata.serv
 })
 export class CoreHeaderComponent implements OnInit {
 
+  isProfessional: boolean;
   isResultDisplayed: boolean;
   instituteName: string;
   userName: string;
@@ -46,7 +47,6 @@ export class CoreHeaderComponent implements OnInit {
   private userInput: string;
 
   constructor(private log: LoginService, private router: Router, private fetchService: FetchprefilldataService, private appC: AppComponent) {
-
   }
 
   ngOnInit() {
@@ -116,7 +116,12 @@ export class CoreHeaderComponent implements OnInit {
   checkUserHadAccess() {
     const permissionArray = sessionStorage.getItem('permissions');
     if (permissionArray == null || permissionArray == "") {
-      this.showAllFields();
+      if(sessionStorage.getItem('userType') == '0'){
+        this.showAllFields();
+      }
+      else if(sessionStorage.getItem('userType') == '3'){
+        this.showTeacherFields();
+      }
     } else {
       if (permissionArray != undefined) {
         this.hideAllFields();
@@ -128,7 +133,7 @@ export class CoreHeaderComponent implements OnInit {
           document.getElementById('divMasterTag').classList.remove('hide');
           document.getElementById('divFeeTag').classList.remove('hide');
         }
-        if (permissionArray.indexOf('507') != -1) {
+        if (permissionArray.indexOf('507') != -1 && this.isProfessional) {
           document.getElementById('divMasterTag').classList.remove('hide');
           document.getElementById('divSlotTag').classList.remove('hide');
         }
@@ -158,12 +163,36 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divMasterTag').classList.remove('hide');
     document.getElementById('divTeacherTag').classList.remove('hide');
     document.getElementById('divFeeTag').classList.remove('hide');
-    document.getElementById('divSlotTag').classList.remove('hide');
     document.getElementById('divAcademicTag').classList.remove('hide');
     document.getElementById('divSettingTag').classList.remove('hide');
     document.getElementById('divGeneralSettingTag').classList.remove('hide');
     document.getElementById('divManageFormTag').classList.remove('hide');
     document.getElementById('divAreaAndMap').classList.remove('hide');
+    if(this.isProfessional){
+      document.getElementById('divSlotTag').classList.remove('hide');
+    }
+    else if(!this.isProfessional){
+      document.getElementById('divSlotTag').classList.add('hide');
+    }
+  }
+
+  showTeacherFields(){
+    document.getElementById('divAdminTag').classList.add('hide');
+    document.getElementById('divMyAccountTag').classList.add('hide');
+    document.getElementById('divMasterTag').classList.add('hide');
+    document.getElementById('divTeacherTag').classList.remove('hide');
+    document.getElementById('divFeeTag').classList.add('hide');
+    document.getElementById('divAcademicTag').classList.add('hide');
+    document.getElementById('divSettingTag').classList.add('hide');
+    document.getElementById('divGeneralSettingTag').classList.add('hide');
+    document.getElementById('divManageFormTag').classList.add('hide');
+    document.getElementById('divAreaAndMap').classList.add('hide');
+    if(this.isProfessional){
+      document.getElementById('divSlotTag').classList.remove('hide');
+    }
+    else if(!this.isProfessional){
+      document.getElementById('divSlotTag').classList.add('hide');
+    }
   }
 
   hideAllFields() {
@@ -179,7 +208,6 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divManageFormTag').classList.add('hide');
     document.getElementById('divAreaAndMap').classList.add('hide');
   }
-
 
   hasEnquiryAccess(): boolean {
     let permissionArray: any = sessionStorage.getItem('permissions');
@@ -229,6 +257,8 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   updatePermissions() {
+    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    this.checkUserHadAccess();
     this.hasEnquiry = this.hasEnquiryAccess();
     this.hasStudent = this.hasStudentAccess();
     this.hasClass = this.hasCourseAccess();

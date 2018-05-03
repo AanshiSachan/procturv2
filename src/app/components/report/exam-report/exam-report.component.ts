@@ -132,23 +132,6 @@ fetchExamData() {
     }
   )
 };
-
-  /*  
-  else{
-    this.examdata.viewExamData(o).subscribe(
-      res => {
-        this.ExamSource=res;
-        this.Tdata = true;
-        console.log(res);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-    }
-  */
-
-
   getCourseData(i) {
     this.fetchFieldData.exam_schd_id = "";
     this.fetchFieldData.batch_id = "";

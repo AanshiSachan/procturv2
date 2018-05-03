@@ -83,11 +83,11 @@
 
                         <div class="form-date form-wrapper datePickerBox" *ngIf="isProfessional">
                             <label>From date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.from_date" bsDatepicker/>
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.from_date" format="yyyy/mm/dd" data-date-end-date="0d" bsDatepicker/>
                         </div>
                         <div class="form-date form-wrapper datePickerBox" *ngIf="isProfessional">
                             <label>To date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.to_date" bsDatepicker/>
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.to_date" format="yyyy/mm/dd" data-date-end-date="0d" bsDatepicker/>
                         </div>
                     </div>
 
@@ -141,7 +141,7 @@
                             
                         </div>
                         <div *ngIf=isProfessional>
-                            <proctur-table [records]="queryParamsPro | lockFilter : queryParamsPro.student_name : queryParamsPro.student_disp_id :queryParamsPro.student_phone : queryParamsPro.doj : spent_percentage | sortPipe : queryParamsPro.student_name"
+                            <proctur-table [records]="queryParamsPro"
                                 [tableName]="'sms'" [settings]="projectSettings" [dataStatus]="dataStatus"  [columnMap]="columnMaps" [dummyArr]="dummyArr">
                             </proctur-table>
 

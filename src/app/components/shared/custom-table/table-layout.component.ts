@@ -5,9 +5,7 @@ import { document } from '../../../../assets/imported_modules/ngx-bootstrap/util
 @Component({
     selector: 'proctur-table',
     templateUrl: 'table-layout.component.html',
-    styleUrls: [
-        'table-layout.component.scss'
-    ]
+    styleUrls: ['./table-layout.component.scss'],
     /* changeDetection: ChangeDetectionStrategy.OnPush */
 })
 export class TableLayoutComponent implements OnChanges {
@@ -57,13 +55,8 @@ export class TableLayoutComponent implements OnChanges {
 
 
     getSortedData(ev) {
-        console.log(ev.target)
-        for(let i=0; i<this.settings.length ; i++){
-            if(ev.target.id == this.settings[i].header){
-                this.sortData.emit(this.settings[i].primaryKey);
-            }
-        }
-        
+        // console.log(ev.target)
+               this.sortData.emit(ev);   
     }
 
 }

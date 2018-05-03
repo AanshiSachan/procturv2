@@ -1,4 +1,3 @@
-
 $color-base: #efefef;
 $color-base: #efefef;
 $color-highlight: lighten($color-base,
@@ -19,5 +18,34 @@ $color-highlight: lighten($color-base,
         height: 100%;
         background: linear-gradient(90deg, $color-base, $color-highlight, $color-base);
         animation: progress 1s ease-in-out infinite;
+  }
+}
+
+.table {
+    tr {
+        th{
+            text-align: left;
+            &.Message    {
+                width: 20%;
+            }
+            &.Contact{
+                text-align: right;
+            }
+            &.Date{
+                text-align: right;
+            }            
+        }
+        td {
+            text-align: left;
+            &.Message    {
+                width: 20%;
+            }
+            &.Contact{
+                text-align: right;
+            }
+            &.Date{
+                text-align: right;
+            }
+        }
     }
 }
