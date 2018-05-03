@@ -160,7 +160,7 @@ export class EventManagmentComponent implements OnInit {
   updatePopupData() {
     console.log(this.updateListObj);
 
-    this.eve_mnge.getUpdateEventData(this.updateListObj).subscribe(
+    this.eve_mnge.getUpdateEventData(this.newUpdateObj).subscribe(
       res => {
         console.log(res);
         this.closeEditPopup = false;
@@ -181,19 +181,29 @@ export class EventManagmentComponent implements OnInit {
     }
   }
 
- /* updateEventForm(holidayId) {
+  updateEventForm(holidayId) {
     this.eve_mnge.updateEventData(holidayId).subscribe(
       res => {
         console.log(res);
         this.updateListObj = res;
-        this.newUpdateObj=res.
+        this.newUpdateObj.event_type = res.event_type;
+        this.newUpdateObj.holiday_date = res.holiday_date;
+        this.newUpdateObj.holiday_desc=res.holiday_desc;
+        this.newUpdateObj.holiday_long_desc=res.holiday_long_desc;
+        this.newUpdateObj.holiday_name= res.holiday_name;
+        this.newUpdateObj.holiday_type= res.holiday_type;
+        this.newUpdateObj.event_end_date= res.event_end_date;
+        this.newUpdateObj.image= res.image;
+        this.newUpdateObj.public_url= res.public_url;
+      console.log(this.newUpdateObj);  
       },
+      
       error => {
         console.log(error);
       }
     )
   }
-*/
+
   deleteEventDataFromList(holidayId) {
     this.eve_mnge.deleteEventData(holidayId).subscribe(
       res => {
@@ -232,7 +242,7 @@ export class EventManagmentComponent implements OnInit {
     this.closeEditPopup = true;
     this.getEvents();
     this.getHolidays();
-    //this.updateEventForm(holidayId);
+    this.updateEventForm(holidayId);
 
   }
   deleteEntryData(holidayId) {

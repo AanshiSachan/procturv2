@@ -1,6 +1,6 @@
 <div class="clear-fix">
     <aside class="middle-full">
-        <section class="middle-main clearFix">
+        <section class="middle-main clearFix attendance-container">
 
             <section class="middle-top mb0 clearFix sms-header">
                 <h2 class="pull-left">
@@ -16,30 +16,28 @@
             <section class="filter-form">
                 <div class="row">
 
+                    <!-- Master Course / Standard  -->
                     <div class="c-lg-3">
                         <div class="form-wrapper" *ngIf=!isProfessional>
                             <label>Master Course</label>
-                            <select class="side-form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourseData($event)" name="masterCourse">
-
+                            <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.master_course_name" (ngModelChange)="getCourseData($event)"
+                                name="masterCourse">
                                 <option *ngFor="let i of masterCourses" [value]="i.master_course">{{i.master_course}}</option>
-
                             </select>
                         </div>
                         <div class="form-wrapper" *ngIf=isProfessional>
                             <label>Master Course</label>
                             <select class="side-form-ctrl" [(ngModel)]="queryParams.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
-
                                 <option *ngFor="let i of masterCoursePro" [value]="i.standard_id">{{i.standard_name}}</option>
-
                             </select>
                         </div>
                     </div>
 
+                    <!-- Standard/ Subject -->
                     <div class="c-lg-3">
                         <div class="form-wrapper" *ngIf=!isProfessional>
                             <label> Course</label>
-                            <select class="side-form-ctrl" [(ngModel)]="getData.course_id" (ngModelChange)="getSubjectData($event)">
-
+                            <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.course_id" (ngModelChange)="getSubjectData($event)">
                                 <option *ngFor="let i of courses" [value]="i.course_id" name="subjectCourse">{{i.course_name}}</option>
                             </select>
                         </div>
@@ -55,8 +53,8 @@
 
                     <div class="c-lg-3">
                         <div class="form-wrapper" *ngIf=!isProfessional>
-                            <label>Batch Name</label>
-                            <select class="side-form-ctrl" [(ngModel)]="getData.batch_id" (ngModelChange)="getBatchData($event)">
+                            <label>Subject</label>
+                            <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.batch_id" (ngModelChange)="getBatchData($event)">
 
                                 <option *ngFor="let i of batchCourses" [value]="i.batch_id" name="batchCourse">{{i.batch_name}}</option>
                             </select>
@@ -73,11 +71,11 @@
                     <div class="c-lg-3">
                         <div class="form-date form-wrapper datePickerBox" *ngIf="!isProfessional">
                             <label>From date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="getData.from_date" bsDatepicker/>
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="attendanceFetchForm.from_date" bsDatepicker/>
                         </div>
                         <div class="form-date form-wrapper datePickerBox" *ngIf="!isProfessional">
                             <label>To date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="getData.to_date" bsDatepicker/>
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="attendanceFetchForm.to_date" bsDatepicker/>
                         </div>
 
 
@@ -125,24 +123,26 @@
 
             <div class="table-body" *ngIf="SummaryReports">
                 <div class="filter-box clearFix">
-                    <div id="basic-search" class="search-filter-wrapper" *ngIf=!isProfessional>
-                        <input #search type="text" class="normal-field" placeholder="Search" style="font-size:12px; margin: 50px 5px 0px -5px;" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
-                    </div>
-                    <div id="basic-search" class="search-filter-wrapper" *ngIf=isProfessional>
-                        <input #search type="text" class="normal-field" placeholder="Search" style="font-size:12px; margin: 50px 5px 0px -5px;" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
+                    <div id="basic-search" class="search-filter-wrapper">
+                        <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText"
+                            name="searchData" (keyup)="searchDatabase()">
                     </div>
                 </div>
                 <div class="table-content">
                     <div class="table-heading">
                         <div *ngIf=!isProfessional>
-                            <proctur-table [records]="pagedPostData" (sortData)="sortedData($event)" [tableName]="'sms'"
-                                [settings]="projectSettings" [dataStatus]="dataStatus"  [columnMap]="columnMaps" [dummyArr]="dummyArr">
+                            <proctur-table [records]="pagedPostData" (sortData)="sortedData($event)" [tableName]="'sms'" [settings]="projectSettings"
+                                [dataStatus]="dataStatus" [columnMap]="columnMaps" [dummyArr]="dummyArr">
                             </proctur-table>
-                            
                         </div>
                         <div *ngIf=isProfessional>
                             <proctur-table [records]="queryParamsPro"
+<<<<<<< HEAD
                                 [tableName]="'sms'" [settings]="projectSettings" [dataStatus]="dataStatus"  [columnMap]="columnMaps" [dummyArr]="dummyArr">
+=======
+                                [tableName]="'sms'" [settings]="projectSettings" [dataStatus]="dataStatus" [columnMap]="columnMaps"
+                                [dummyArr]="dummyArr">
+>>>>>>> 5e9cd03cf2ba8664d8d2150c5a4f316f71761750
                             </proctur-table>
 
                         </div>
@@ -151,12 +151,13 @@
                     <div class="row filter-res pagination" style="width: 100%;">
                         <div class="c-lg-12 c-md-12 c-sm-12 align-right">
                             <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-                                [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow" >
+                                [page]="PageIndex" [perPage]="pagedisplaysize" [count]="totalRow">
                             </pagination>
                         </div>
                     </div>
                 </div>
             </div>
+
         </section>
     </aside>
 
@@ -200,8 +201,7 @@
                                 Id
                             </th>
                             <th *ngFor="let k of typeAttendance">
-                                {{k.class_date | date:"dd/MMM"}}
-                                ({{k.start_time}} - {{k.end_time}})
+                                {{k.class_date | date:"dd/MMM"}} ({{k.start_time}} - {{k.end_time}})
                             </th>
 
                             <th>

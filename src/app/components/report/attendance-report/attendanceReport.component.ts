@@ -55,8 +55,9 @@ export class AttendanceReportComponent implements OnInit {
   property = "";
   direction = 0;
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
-  columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   dataStatus: boolean = false;
+
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'student_disp_id', header: 'Student id' },
     { primaryKey: 'student_name', header: 'Student name' },
@@ -68,7 +69,8 @@ export class AttendanceReportComponent implements OnInit {
     { primaryKey: 'total_leave', header: 'Leave' },
     { primaryKey: 'spent_percentage', header: 'Attendance(%)' }
   ];
-  getData = {
+
+  attendanceFetchForm = {
     standard_id: "",
     subject_id: "",
     institution_id: sessionStorage.getItem('institute_id'),
@@ -89,15 +91,17 @@ export class AttendanceReportComponent implements OnInit {
     from_date: "",
     to_date: ""
   };
+  
   searchText: string = "";
   searchflag: boolean = false;
-  searchData : any =[];
+  searchData: any = [];
 
 
   @ViewChild('attendanceTable') attendanceTable: ElementRef;
   @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
 
-
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   constructor(
     private reportService: AttendanceReportServiceService,
     private appc: AppComponent,
@@ -106,21 +110,25 @@ export class AttendanceReportComponent implements OnInit {
     console.log(moment(moment().format('DD-MM-YYYY')).diff(moment('03-02-2018'),'months'));
   }
 
-
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   ngOnInit() {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.getMasterCourseData();
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
+  /* this is ussed to fetch details for dropdown for master course/ Standard */
   getMasterCourseData() {
+
     if (this.isProfessional) {
 
-      this.reportService.masterCoursePro(this.queryParams).subscribe(
+      this.reportService.fetchMasterCourseProfessional(this.queryParams).subscribe(
         (data: any) => {
 
           this.masterCoursePro = data.standardLi;
           this.subjectPro = data.batchLi;
-          console.log(this.masterCoursePro);
         },
         (error: any) => {
           this.dataStatus = false;
@@ -131,18 +139,18 @@ export class AttendanceReportComponent implements OnInit {
 
     }
     else {
-      this.reportService.getMasterCourse().subscribe(
-        (data: any) => {
-          this.masterCourses = data;
-          console.log(this.masterCourses);
-        },
-        (error: any) => {
+      this.reportService.getMasterCourse().subscribe(data => {
+        this.masterCourses = data;
+      },
+        error => {
           return error;
         }
       )
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   getCourseData(i) {
     this.queryParams = {
       subject_id: "",
@@ -155,8 +163,7 @@ export class AttendanceReportComponent implements OnInit {
       to_date: ""
     }
     if (this.isProfessional) {
-
-      this.reportService.masterCoursePro(this.queryParams).subscribe(
+      this.reportService.fetchMasterCourseProfessional(this.queryParams).subscribe(
         (data: any) => {
           this.subjectPro = data.subjectLi;
         },
@@ -168,13 +175,11 @@ export class AttendanceReportComponent implements OnInit {
       this.subjectPro = [];
     }
     else {
-      this.getData.batch_id = "";
-      this.getData.course_id = "";
+      this.attendanceFetchForm.batch_id = "";
+      this.attendanceFetchForm.course_id = "";
       this.reportService.getCourses(i).subscribe(
-
         (data: any) => {
           this.courses = data.coursesList;
-          // this.getPostData();
         }
         ,
         (error: any) => {
@@ -188,6 +193,8 @@ export class AttendanceReportComponent implements OnInit {
 
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   getSubjectData(i) {
 
     this.queryParams = {
@@ -202,7 +209,7 @@ export class AttendanceReportComponent implements OnInit {
     }
     if (this.isProfessional) {
 
-      this.reportService.masterCoursePro(this.queryParams).subscribe(
+      this.reportService.fetchMasterCourseProfessional(this.queryParams).subscribe(
         (data: any) => {
           this.batchPro = data.batchLi;
         },
@@ -213,7 +220,7 @@ export class AttendanceReportComponent implements OnInit {
       this.batchPro = [];
     }
     else {
-      this.getData.batch_id = "";
+      this.attendanceFetchForm.batch_id = "";
       this.reportService.getSubject(i).subscribe(
         (data: any) => {
           this.batchCourses = data.batchesList;
@@ -224,6 +231,8 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   getBatchData(i) {
     this.queryParams = {
       subject_id: i,
@@ -243,7 +252,7 @@ export class AttendanceReportComponent implements OnInit {
       )
     }
     else {
-      this.reportService.postDataToTable(this.getData).subscribe(
+      this.reportService.postDataToTable(this.attendanceFetchForm).subscribe(
         (data: any) => {
           // this.getPostData();
         }
@@ -251,7 +260,8 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
-
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   getPostData() {
     this.SummaryReports = true;
     this.dataStatus = true;
@@ -272,7 +282,7 @@ export class AttendanceReportComponent implements OnInit {
       )
     }
     else {
-      this.reportService.postDataToTable(this.getData).subscribe(
+      this.reportService.postDataToTable(this.attendanceFetchForm).subscribe(
         (data: any) => {
           this.dataStatus = false;
           this.postData = data;
@@ -287,8 +297,8 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
-
-
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   postDetails() {
 
     if (this.isProfessional) {
@@ -339,7 +349,7 @@ export class AttendanceReportComponent implements OnInit {
       }
     }
     else {
-      if (this.getData.master_course_name == "" || this.getData.course_id == "" || this.getData.batch_id == "" || this.getData.from_date == "" || this.getData.to_date == "") {
+      if (this.attendanceFetchForm.master_course_name == "" || this.attendanceFetchForm.course_id == "" || this.attendanceFetchForm.batch_id == "" || this.attendanceFetchForm.from_date == "" || this.attendanceFetchForm.to_date == "") {
 
         let msg = {
           type: "error",
@@ -348,7 +358,7 @@ export class AttendanceReportComponent implements OnInit {
         }
         this.appc.popToast(msg);
       }
-      else if (this.getData.from_date > this.getData.to_date) {
+      else if (this.attendanceFetchForm.from_date > this.attendanceFetchForm.to_date) {
         let msg = {
           type: "error",
           title: "Incorrect Details",
@@ -359,7 +369,7 @@ export class AttendanceReportComponent implements OnInit {
       else {
 
         this.addReportPopUp = true;
-        this.reportService.postDetailedData(this.getData).subscribe(
+        this.reportService.postDetailedData(this.attendanceFetchForm).subscribe(
           (data: any) => {
             this.dateWiseAttendance = data;
             this.dataTypeAttendance = this.dateWiseAttendance.map((ele) => {
@@ -385,9 +395,12 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   closeReportPopup() {
     this.addReportPopUp = false;
   }
+
   // pagination functions 
   //for summary report
   fetchTableDataByPage(index) {
@@ -401,11 +414,15 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   fetchNext() {
     this.PageIndex++;
     this.fetchTableDataByPage(this.PageIndex);
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   fetchPrevious() {
     if (this.PageIndex != 1) {
       this.PageIndex--;
@@ -413,6 +430,8 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   getDataFromDataSource(startindex) {
     if (this.isProfessional) {
       if (this.searchflag) {
@@ -435,7 +454,6 @@ export class AttendanceReportComponent implements OnInit {
   }
 
   //for detailed report
-
   fetchTableDataByPagePopup(index) {
     this.PageIndexPopup = index;
     let startindex = this.pagedisplaysizePopup * (index - 1);
@@ -447,11 +465,15 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   fetchNextPopup() {
     this.PageIndexPopup++;
     this.fetchTableDataByPage(this.PageIndexPopup);
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   fetchPreviousPopup() {
     if (this.PageIndexPopup != 1) {
       this.PageIndexPopup--;
@@ -459,6 +481,8 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   getDataFromDataSourcePopup(startindex) {
     if (this.isProfessional) {
       let d = this.dateWiseAttendancePro.slice(startindex, startindex + this.pagedisplaysizePopup);
@@ -470,6 +494,8 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   sortedData(ev) {
     (this.direction == 0 || this.direction == -1) ? (this.direction = 1) : (this.direction = -1)
     if (this.isProfessional) {
@@ -502,6 +528,9 @@ export class AttendanceReportComponent implements OnInit {
     this.PageIndex = 1;
     this.fetchTableDataByPage(this.PageIndex);
   }
+
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   getColor(status) {
     switch (status) {
       case 'A': return 'red';
@@ -509,6 +538,8 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   DownloadJsonToCsv() {
     console.log(this.attendanceTable.nativeElement.innerHtml);
     let link = this.xlsDownloader.nativeElement;
@@ -520,6 +551,8 @@ export class AttendanceReportComponent implements OnInit {
     link.click();
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
       let searchData: any;
@@ -538,7 +571,8 @@ export class AttendanceReportComponent implements OnInit {
       this.totalRow = searchData.length;
       this.searchflag = true;
       this.fetchTableDataByPage(this.PageIndex);
-    } else {
+    }
+    else {
       this.searchflag = false;
       this.fetchTableDataByPage(this.PageIndex);
       if (this.isProfessional) {

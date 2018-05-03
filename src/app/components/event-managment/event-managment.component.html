@@ -293,15 +293,24 @@
     <div class="row margin-top">
       <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
         <label>event type</label>
+<<<<<<< HEAD
         <select class="side-form-ctrl" [(ngModel)]="updateListObj.event_type" (ngModelChange)="eventchange($event)">
+=======
+        <select class="side-form-ctrl" [(ngModel)]="newUpdateObj.event_type" (ngModelChange)="eventchange($event)">
+>>>>>>> 5e9cd03cf2ba8664d8d2150c5a4f316f71761750
           <option *ngFor="let i of getEvent" [value]="i.data_key">{{i.data_value}}</option>
         </select>
       </div>
 
           
       <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 form-wrapper">
+<<<<<<< HEAD
         <div class="field-wrapper" [ngClass]="{'has-value':updateListObj.holiday_name!= ''}">
           <input type="text" class="form-ctrl" [(ngModel)]="updateListObj.holiday_name">
+=======
+        <div class="field-wrapper" [ngClass]="{'has-value':newUpdateObj.holiday_name!= ''}">
+          <input type="text" class="form-ctrl" [(ngModel)]="newUpdateObj.holiday_name">
+>>>>>>> 5e9cd03cf2ba8664d8d2150c5a4f316f71761750
           <label>Event Name*</label>
         </div>
       </div>
@@ -310,7 +319,11 @@
     <div class="row">
       <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
         <label>holiday type</label>
+<<<<<<< HEAD
         <select class="side-form-ctrl" [(ngModel)]="updateListObj.holiday_type">
+=======
+        <select class="side-form-ctrl" [(ngModel)]="newUpdateObj.holiday_type">
+>>>>>>> 5e9cd03cf2ba8664d8d2150c5a4f316f71761750
           <option *ngFor="let i of getHoliday" [value]="i.data_key">{{i.data_value}}</option>
 
         </select>
@@ -318,7 +331,11 @@
       <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper" *ngIf="endDateBox">
         <div class="form-date form-wrapper datePickerBox">
           <label>Event End Date</label>
+<<<<<<< HEAD
           <input type="text" class="side-form-ctrl  bsDatepicker" bsDatepicker [(ngModel)]="updateListObj.event_end_date" />
+=======
+          <input type="text" class="side-form-ctrl  bsDatepicker" bsDatepicker [(ngModel)]="newUpdateObj.event_end_date" />
+>>>>>>> 5e9cd03cf2ba8664d8d2150c5a4f316f71761750
         </div>
       </div>
     </div>
@@ -328,7 +345,11 @@
       <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
         <div class="form-date form-wrapper datePickerBox">
           <label>Event Date</label>
+<<<<<<< HEAD
           <input type="text" class="side-form-ctrl  bsDatepicker" bsDatepicker [(ngModel)]="updateListObj.holiday_date" />
+=======
+          <input type="text" class="side-form-ctrl  bsDatepicker" bsDatepicker [(ngModel)]="newUpdateObj.holiday_date" />
+>>>>>>> 5e9cd03cf2ba8664d8d2150c5a4f316f71761750
         </div>
       </div>
     </div>
@@ -344,8 +365,13 @@
 
     <div class="row">
       <div class="c-lg-6 c-md-6 c-sm-6">
+<<<<<<< HEAD
         <div class="field-wrapper" [ngClass]="{'has-value':updateListObj.holiday_desc!= ''}">
           <input type="text" class="form-ctrl" name="eventName" [(ngModel)]="updateListObj.holiday_desc" />
+=======
+        <div class="field-wrapper" [ngClass]="{'has-value':newUpdateObj.holiday_desc!= ''}">
+          <input type="text" class="form-ctrl" name="eventName" [(ngModel)]="newUpdateObj.holiday_desc" />
+>>>>>>> 5e9cd03cf2ba8664d8d2150c5a4f316f71761750
           <label>Description
             <span>*</span>
           </label>
@@ -353,8 +379,13 @@
       </div>
 
       <div class="c-lg-6 c-md-6 c-sm-6">
+<<<<<<< HEAD
         <div class="field-wrapper" [ngClass]="{'has-value':updateListObj.holiday_long_desc!= ''}">
           <input type="text" class="form-ctrl" name="eventName" [(ngModel)]="updateListObj.holiday_long_desc" />
+=======
+        <div class="field-wrapper" [ngClass]="{'has-value':newUpdateObj.holiday_long_desc!= ''}">
+          <input type="text" class="form-ctrl" name="eventName" [(ngModel)]="newUpdateObj.holiday_long_desc" />
+>>>>>>> 5e9cd03cf2ba8664d8d2150c5a4f316f71761750
           <label>Long Description
             <span>*</span>
           </label>
@@ -373,7 +404,11 @@
 
       <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 form-wrapper">
         <div class="field-wrapper">
+<<<<<<< HEAD
           <input type="file" class="form-ctrl" [(ngModel)]="updateListObj.image">
+=======
+          <input type="file" class="form-ctrl" [(ngModel)]="newUpdateObj.image">
+>>>>>>> 5e9cd03cf2ba8664d8d2150c5a4f316f71761750
           <label>public Url</label>
         </div>
       </div>

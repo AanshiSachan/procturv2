@@ -1561,8 +1561,8 @@ export class AdminHomeComponent implements OnInit {
 
   }
 
-  markAttendaceHide(row) {
-    if (moment(row.class_date).format('DD-MM-YYYY') > moment().format('DD-MM-YYYY')) {
+  markAttendaceHide(row) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    if (moment(row.class_date) > moment()) {
       return "hide";
     } else {
       return "";
@@ -1570,8 +1570,8 @@ export class AdminHomeComponent implements OnInit {
   }
 
   markAttendaceHideCourse() {
-    let date = moment(this.courseLevelSchedDate).format('DD-MM-YYYY');;
-    if (date > moment().format('DD-MM-YYYY')) {
+    let date = moment(this.courseLevelSchedDate);
+    if (date > moment()) {
       return "hide";
     } else {
       return "";

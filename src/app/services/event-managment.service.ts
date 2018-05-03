@@ -88,7 +88,7 @@ sendNotifiation(obj){
       return error
     },
   )}
-updateEventData(holidayId){
+updateEventData(holidayId):any{
   let url = this.baseUrl +"/api/v1/holiday_manager/fetch/"+this.institute_id +"/"+holidayId
    return this.http.get(url, {headers: this.headers}).map(
     res=>{
