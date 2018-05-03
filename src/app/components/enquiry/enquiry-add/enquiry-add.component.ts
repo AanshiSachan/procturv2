@@ -76,7 +76,7 @@ export class EnquiryAddComponent implements OnInit {
     closedReason: "",
     demo_by_id: "",
     status: "0",
-    assigned_to: "-1",
+    assigned_to: sessionStorage.getItem('userid'),
     followUpTime: "",
     lead_id: -1,
     enqCustomLi: []
@@ -412,6 +412,7 @@ export class EnquiryAddComponent implements OnInit {
   }
 
   fetchCustomComponentData() {
+    this.customComponents = [];
     this.prefill.fetchCustomComponentEmpty()
       .subscribe(
         data => {
@@ -743,7 +744,7 @@ export class EnquiryAddComponent implements OnInit {
       closedReason: "",
       demo_by_id: "",
       status: "0",
-      assigned_to: "-1",
+      assigned_to: sessionStorage.getItem('userid'),
       followUpTime: "",
       lead_id: -1,
       enqCustomLi: []
@@ -751,6 +752,9 @@ export class EnquiryAddComponent implements OnInit {
     this.hour = '';
     this.minute = '';
     this.meridian = '';
+    this.customComponents.forEach(el => {
+      el.value = '';
+    });
     this.fetchCustomComponentData();
   }
 

@@ -432,6 +432,7 @@
           <div class="update-enquiry-form overflowHidden">
 
             <aside class="pull-right form-wrapper right-aside-wrapper">
+
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
@@ -456,6 +457,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value datePickerBox">
@@ -487,6 +489,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="row" *ngIf="updateFormData.followUpTime != '' &&  updateFormData.followUpDate != ''">
                 <div class="c-lg-6 c-md-6 c-sm-6" style="margin-top: 10px">
                   <div class="form-checkbox-wrapper">
@@ -498,6 +501,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
@@ -525,6 +529,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value datePickerBox">
@@ -567,6 +572,7 @@
                   </div>
                 </div>
               </div>
+
             </aside>
 
 
@@ -967,17 +973,17 @@
                   <div class="row" *ngIf="isMessageAddOpen">
                     <section class="clearFix new-sms-form">
                       <div class="row">
-                        <div class="c-lg-6 c-sm-6 c-md-6 c-xs-6 pull-left new-sms-wrapper">
+                        <div class="c-lg-6 pull-left new-sms-wrapper">
                           <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="enter new SMS here"
                             [(ngModel)]="newSmsString.data" (keyup)="smsStringUpdate($event)" aria-haspopup="true" value="">
                             </textarea>
                         </div>
 
-                        <div class="c-lg-2 c-sm-2 c-md-2 c-xs-2">
+                        <div class="c-lg-1">
                           <label>{{newSmsString.length}}</label>
                         </div>
 
-                        <div class="c-lg-4 c-sm-4 c-md-4 c-xs-4 pull-right">
+                        <div class="c-lg-5 pull-right">
                           <aside class="pull-left create-cancel-small">
                             <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()">
                             <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()">
@@ -1183,17 +1189,17 @@
                   <div class="row" *ngIf="isMessageAddOpen">
                     <section class="clearFix new-sms-form">
                       <div class="row">
-                        <div class="c-lg-6 c-sm-6 c-md-6 c-xs-6 pull-left new-sms-wrapper">
+                        <div class="c-lg-6 pull-left new-sms-wrapper">
                           <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="enter new SMS here"
                             [(ngModel)]="newSmsString.data" (keyup)="smsStringUpdate($event)" aria-haspopup="true" value="">
                                 </textarea>
                         </div>
 
-                        <div class="c-lg-2 c-sm-2 c-md-2 c-xs-2">
+                        <div class="c-lg-1">
                           <label>{{newSmsString.length}}</label>
                         </div>
 
-                        <div class="c-lg-4 c-sm-4 c-md-4 c-xs-4 pull-right">
+                        <div class="c-lg-5 pull-right">
                           <aside class="pull-left create-cancel-small">
                             <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()">
                             <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()">
