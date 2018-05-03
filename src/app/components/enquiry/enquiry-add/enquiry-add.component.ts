@@ -161,7 +161,7 @@ export class EnquiryAddComponent implements OnInit {
   areaListDataSource: any = [];
 
   constructor(private prefill: FetchprefilldataService, private router: Router,
-   private appC: AppComponent, private poster: PostEnquiryDataService, private login: LoginService) {
+    private appC: AppComponent, private poster: PostEnquiryDataService, private login: LoginService) {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     if (sessionStorage.getItem('Authorization') == null) {
       this.router.navigate(['/authPage']);
@@ -239,6 +239,7 @@ export class EnquiryAddComponent implements OnInit {
       lead_id: -1,
       enqCustomLi: []
     };
+
   }
 
 
@@ -403,12 +404,15 @@ export class EnquiryAddComponent implements OnInit {
         this.cityListDataSource = data;
       },
       err => {
-        console.log(err);
+
       }
     )
 
+    this.fetchCustomComponentData();
+  }
 
-    return this.prefill.fetchCustomComponentEmpty()
+  fetchCustomComponentData() {
+    this.prefill.fetchCustomComponentEmpty()
       .subscribe(
         data => {
           data.forEach(el => {
@@ -481,15 +485,11 @@ export class EnquiryAddComponent implements OnInit {
                 value: el.enq_custom_value
               }
             }
-
             this.customComponents.push(obj);
           });
           this.emptyCustomComponent = this.componentListObject;
-        }
-      );
+        });
   }
-
-
 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -751,12 +751,7 @@ export class EnquiryAddComponent implements OnInit {
     this.hour = '';
     this.minute = '';
     this.meridian = '';
-    this.customComponents.forEach(el => {
-      el.value = '';
-      el.selectedString = '';
-      el.selected = [];
-    });
-
+    this.fetchCustomComponentData();
   }
 
   updateCustomComponent(v, comp) {
@@ -870,7 +865,7 @@ export class EnquiryAddComponent implements OnInit {
                   parent_name: this.newEnqData.parent_name,
                   parent_phone: this.newEnqData.parent_phone,
                   enquiry_id: instituteEnqId,
-                  institute_enquiry_id : instituteEnqId
+                  institute_enquiry_id: instituteEnqId
                 }
                 localStorage.setItem('studentPrefill', JSON.stringify(obj));
                 this.router.navigate(['student/add']);
@@ -882,7 +877,6 @@ export class EnquiryAddComponent implements OnInit {
                     title: "New Enquiry Added",
                     body: "Your enquiry has been submitted"
                   }
-
                   //form.reset();
                   this.appC.popToast(msg);
                   this.clearFormData();
@@ -1220,42 +1214,42 @@ export class EnquiryAddComponent implements OnInit {
   addInstituteData() {
     this.prefill.createNewInstitute(this.createInstitute).subscribe(
       el => {
-      if (el.message === "OK") {
-        this.prefill.getSchoolDetails().subscribe(
-          data => {
-            this.school = data;
-            this.instituteList = this.school;
-            this.instituteList.forEach(el => {
-              el.edit = false;
-            });
+        if (el.message === "OK") {
+          this.prefill.getSchoolDetails().subscribe(
+            data => {
+              this.school = data;
+              this.instituteList = this.school;
+              this.instituteList.forEach(el => {
+                el.edit = false;
+              });
 
-            this.closeAddInstitute();
-          },
-          err => {
-            let alert = {
-              type: 'error',
-              title: 'Failed To Add Institute',
-              body: 'There was an error processing your request'
+              this.closeAddInstitute();
+            },
+            err => {
+              let alert = {
+                type: 'error',
+                title: 'Failed To Add Institute',
+                body: 'There was an error processing your request'
+              }
+              this.appC.popToast(alert);
             }
-            this.appC.popToast(alert);
-          }
-        );
-        // console.log("institute Added");
+          );
+          // console.log("institute Added");
+        }
+        else {
+          // console.log("Institute Name already exist!");
+        }
+      },
+      err => {
+        console.log(err);
+        let alert = {
+          type: 'error',
+          title: 'Failed To Add Institute',
+          body: JSON.parse(err._body).message
+        }
+        this.appC.popToast(alert);
       }
-      else {
-        // console.log("Institute Name already exist!");
-      }
-    },
-    err => {
-      console.log(err);
-      let alert = {
-        type: 'error',
-        title: 'Failed To Add Institute',
-        body: JSON.parse(err._body).message
-      }
-      this.appC.popToast(alert);
-    }
-  );
+    );
   }
 
   /* toggle visibility of new institute form */
