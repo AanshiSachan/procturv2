@@ -69,26 +69,6 @@ export class CourseExamComponent implements OnInit {
     { label: 'Subject', value: 'subject' }
   ];
   selectedType: string = "course";
-  courseModelAdder = {
-    start_time: {
-      hour: "12 PM",
-      minute: '00'
-    },
-    end_time: {
-      hour: "1 PM",
-      minute: "00"
-    },
-    total_marks: 0,
-    exam_desc: "",
-    room_no: ""
-  };
-  coursetableAdder = {
-    batch_id: -1,
-    total_marks: 0
-  };
-  subjectList: any = [];
-  courseTableList: any = [];
-  selectedCourseList: any = [];
   viewList: any = [];
 
   constructor(
@@ -603,78 +583,127 @@ export class CourseExamComponent implements OnInit {
   }
 
   calculateDataAsPerSelection(result) {
+    this.viewList = [];
     if (result != null) {
       if (result.coursesList.length > 0) {
         for (let i = 0; i < result.coursesList.length; i++) {
           if (this.courseData.course_id == result.coursesList[i].course_id) {
-            this.selectedCourseList = result.coursesList[i];
-            this.batchStartDate = result.coursesList[i].start_date;
-            this.batchEndDate = result.coursesList[i].end_date;
-            this.subjectList = result.coursesList[i].batchesList;
+            let obj: any = {};
+            obj.selectedCourseList = result.coursesList[i];
+            obj.batchStartDate = result.coursesList[i].start_date;
+            obj.batchEndDate = result.coursesList[i].end_date;
+            obj.subjectList = result.coursesList[i].batchesList;
+            obj.courseModelAdder = {
+              start_time: {
+                hour: "12 PM",
+                minute: '00'
+              },
+              end_time: {
+                hour: "1 PM",
+                minute: "00"
+              },
+              total_marks: 0,
+              exam_desc: "",
+              room_no: ""
+            };
+            obj.coursetableAdder = {
+              batch_id: -1,
+              total_marks: 0
+            };
             if (result.coursesList[i].courseClassSchdList != null && result.coursesList[i].courseClassSchdList.length > 0) {
-              this.courseTableList = result.coursesList[i].courseClassSchdList;
+              obj.courseTableList = result.coursesList[i].courseClassSchdList;
               if (result.coursesList[i].courseClassSchdList.length > 0) {
-                this.courseModelAdder.start_time = this.breakTimeFormat(result.coursesList[i].courseClassSchdList[0].start_time);
-                this.courseModelAdder.end_time = this.breakTimeFormat(result.coursesList[i].courseClassSchdList[0].end_time);
-                this.courseModelAdder.exam_desc = result.coursesList[i].courseClassSchdList[0].class_desc;
-                this.courseModelAdder.room_no = result.coursesList[i].courseClassSchdList[0].room_no;
+                obj.courseModelAdder.start_time = this.breakTimeFormat(result.coursesList[i].courseClassSchdList[0].start_time);
+                obj.courseModelAdder.end_time = this.breakTimeFormat(result.coursesList[i].courseClassSchdList[0].end_time);
+                obj.courseModelAdder.exam_desc = result.coursesList[i].courseClassSchdList[0].class_desc;
+                obj.courseModelAdder.room_no = result.coursesList[i].courseClassSchdList[0].room_no;
                 let total_marks: number = 0;
                 result.coursesList[i].courseClassSchdList.forEach(element => {
                   total_marks = Number(element.total_marks) + total_marks;
                 })
-                this.courseModelAdder.total_marks = total_marks;
+                obj.courseModelAdder.total_marks = total_marks;
               }
             } else {
-              this.courseTableList = [];
+              obj.courseTableList = [];
             }
+            this.viewList.push(obj);
           }
         }
       }
     }
   }
 
-  addNewExamSubjectCourse() {
-    if (this.coursetableAdder.batch_id != -1 && this.coursetableAdder.total_marks > 0) {
+  addNewExamSubjectCourse(index) {
+    if (this.viewList[index].coursetableAdder.batch_id != -1 && this.viewList[index].coursetableAdder.total_marks > 0) {
       let obj: any = {};
-      obj.total_marks = this.coursetableAdder.total_marks;
+      obj.total_marks = this.viewList[index].coursetableAdder.total_marks;
       obj.class_schedule_id = '0';
-      let selectedSubject = this.getSubjectName(this.coursetableAdder.batch_id);
+      let selectedSubject = this.getSubjectName(this.viewList[index].subjectList, this.viewList[index].coursetableAdder.batch_id);
       obj.subject_name = selectedSubject.subject_name;
-      obj.batch_id = this.coursetableAdder.batch_id;
+      obj.batch_id = this.viewList[index].coursetableAdder.batch_id;
       obj.otherData = selectedSubject;
-      this.courseTableList.push(obj);
-      this.courseModelAdder.total_marks += Number(this.coursetableAdder.total_marks);
-      this.coursetableAdder = {
+      this.viewList[index].courseTableList.push(obj);
+      if (this.viewList[index].coursetableAdder.length > 1) {
+        this.viewList[index].courseModelAdder.total_marks += Number(this.viewList[index].coursetableAdder.total_marks);
+      }
+      this.viewList[index].coursetableAdder = {
         batch_id: -1,
         total_marks: 0
       };
     } else {
-      if (this.coursetableAdder.batch_id != -1) {
+      if (this.viewList[index].coursetableAdder.batch_id != -1) {
         this.messageNotifier('error', 'Error', 'Please Provide Subject');
         return;
       }
-      if (this.coursetableAdder.total_marks == 0) {
+      if (this.viewList[index].coursetableAdder.total_marks == 0) {
         this.messageNotifier('error', 'Error', 'Please Provide Marks');
         return;
       }
     }
   }
 
-  getSubjectName(id) {
-    for (let i = 0; i < this.subjectList.length; i++) {
-      if (this.subjectList[i].batch_id == id) {
-        return this.subjectList[i];
+  getSubjectName(data, id) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].batch_id == id) {
+        return data[i];
       }
     }
   }
 
-  deleteFromCourse(data, index) {
-    this.courseTableList.splice(index, 1);
+  addMoreSchedule() {
+    let obj: any = {};
+    obj.batchStartDate = this.viewList[0].batchStartDate;
+    obj.batchEndDate = this.viewList[0].batchEndDate;
+    obj.courseModelAdder = {
+      start_time: {
+        hour: "12 PM",
+        minute: '00'
+      },
+      end_time: {
+        hour: "1 PM",
+        minute: "00"
+      },
+      total_marks: 0,
+      exam_desc: "",
+      room_no: ""
+    };
+    obj.coursetableAdder = {
+      batch_id: -1,
+      total_marks: 0
+    };
+    obj.selectedCourseList = this.viewList[0].selectedCourseList;
+    obj.selectedCourseList.course_exam_schedule_id = '-1';
+    obj.courseTableList = [];
+    obj.subjectList = this.viewList[0].subjectList;
+    this.viewList.push(obj);
+  }
+
+  deleteFromCourse(data, index, j) {
+    this.viewList[j].courseTableList.splice(index, 1);
   }
 
   saveExamScheduleCourse() {
-    debugger
-    let dataToSend = this.makeDataJsonToSend();
+    let dataToSend = this.makeDataJsonToSendServer();
     if (dataToSend == false) {
       return;
     }
@@ -691,62 +720,63 @@ export class CourseExamComponent implements OnInit {
     )
   }
 
-  makeDataJsonToSend() {
-    let total: number = 0;
-    let obj: any = {};
-    let start_time = moment(this.createTimeInFormat(this.courseModelAdder.start_time.hour, this.courseModelAdder.start_time.minute, 'comp'), 'h:mma');
-    let end_time = moment(this.createTimeInFormat(this.courseModelAdder.end_time.hour, this.courseModelAdder.end_time.minute, 'comp'), 'h:mma');
-    let startTime = this.createTimeInFormat(this.courseModelAdder.start_time.hour, this.courseModelAdder.start_time.minute, '');
-    let endTime = this.createTimeInFormat(this.courseModelAdder.end_time.hour, this.courseModelAdder.end_time.minute, '');
-    if (!(start_time.isBefore(end_time))) {
-      this.messageNotifier('error', 'Error', 'Please provide correct start time and end time');
-      return false;
+
+  makeDataJsonToSendServer() {
+    /// This section makes json for perticular selected course
+    let data: any = {};
+    let total = 0;
+    data.master_course = this.courseData.master_course;
+    data.requested_date = moment(this.courseData.requested_date).format('YYYY-MM-DD');
+    data.coursesList = [];
+    for (let i = 0; i < this.viewList.length; i++) {
+      let test: any = {};
+      test.course_id = this.viewList[i].selectedCourseList.course_id;
+      test.course_exam_schedule_id = this.viewList[i].selectedCourseList.course_exam_schedule_id;
+      let check = this.validateTime(this.viewList[i].courseModelAdder.start_time, this.viewList[i].courseModelAdder.end_time);
+      if (check == false) {
+        return;
+      }
+      let startTime = this.createTimeInFormat(this.viewList[i].courseModelAdder.start_time.hour, this.viewList[i].courseModelAdder.start_time.minute, '');
+      let endTime = this.createTimeInFormat(this.viewList[i].courseModelAdder.end_time.hour, this.viewList[i].courseModelAdder.end_time.minute, '');
+      test.exam_start_time = startTime;
+      test.exam_end_time = endTime;
+      test.courseClassSchdList = [];
+      if (this.viewList[i].courseTableList.length > 0) {
+        for (let j = 0; j < this.viewList[i].courseTableList.length; j++) {
+          let classLi: any = {};
+          classLi.batch_id = this.viewList[i].courseTableList[j].batch_id.toString();
+          classLi.start_time = startTime;
+          classLi.end_time = endTime;
+          classLi.class_desc = this.viewList[i].courseModelAdder.exam_desc;
+          classLi.duration = check;
+          classLi.total_marks = this.viewList[i].courseTableList[j].total_marks.toString();
+          classLi.room_no = this.viewList[i].courseModelAdder.room_no;
+          classLi.class_schedule_id = this.viewList[i].courseTableList[j].class_schedule_id.toString();
+          total += Number(this.viewList[i].courseTableList[j].total_marks);
+          test.courseClassSchdList.push(classLi);
+        }
+        if (total != this.viewList[i].courseModelAdder.total_marks) {
+          this.messageNotifier('error', 'Error', 'Please check total marks provided');
+          return false;
+        }
+      }
+      total = 0;
+      data.coursesList.push(test);
     }
-    if (moment(this.courseData.requested_date).format('YYYY-MM-DD') != this.examScheduleData.requested_date) {
-      this.messageNotifier('error', 'Error', 'Data has been changes. Please press Go button');
-      return false;
-    }
-    if (this.courseModelAdder.total_marks > 0) {
-      obj.master_course = this.courseData.master_course;
-      obj.requested_date = moment(this.courseData.requested_date).format('YYYY-MM-DD');
-      obj.coursesList = [];
-      if (this.examScheduleData.coursesList.length > 0) {
-        for (let i = 0; i < this.examScheduleData.coursesList.length; i++) {
-          if (this.examScheduleData.coursesList[i].course_id == this.courseData.course_id) {
-            let test: any = {};
-            test.course_id = this.examScheduleData.coursesList[i].course_id.toString();
-            test.courseClassSchdList = [];
-            total = 0;
-            for (let t = 0; t < this.courseTableList.length; t++) {
-              let classLi: any = {};
-              classLi.batch_id = this.courseTableList[t].batch_id.toString();
-              classLi.start_time = startTime;
-              classLi.end_time = endTime;
-              classLi.class_desc = this.courseModelAdder.exam_desc;
-              classLi.duration = end_time.diff(start_time, 'minutes');
-              classLi.total_marks = this.courseTableList[t].total_marks.toString();
-              classLi.room_no = this.courseModelAdder.room_no;
-              classLi.class_schedule_id = this.courseTableList[t].class_schedule_id.toString();
-              total += Number(this.courseTableList[t].total_marks);
-              test.courseClassSchdList.push(classLi);
-            }
-            if (Number(total) != Number(this.courseModelAdder.total_marks)) {
-              this.messageNotifier('error', 'Error', 'Please check total marks provided');
-              return false;
-            }
-            test.exam_start_time = startTime;
-            test.exam_end_time = endTime;
-            test.course_exam_schedule_id = this.examScheduleData.coursesList[i].course_exam_schedule_id.toString();
-            obj.coursesList.push(test);
-          } else {
-            let data: any = {};
-            let timeStart: any = null;
-            let timeEnd: any = null;
-            data.course_id = this.examScheduleData.coursesList[i].course_id.toString();
-            data.courseClassSchdList = [];
-            data.course_exam_schedule_id = 0;
-            if (this.examScheduleData.coursesList[i].courseClassSchdList.length > 0) {
-              let courseSch = this.examScheduleData.coursesList[i].courseClassSchdList;
+
+    /// This section makes json for unselected course
+    if (this.examScheduleData.coursesList.length > 0) {
+      for (let i = 0; i < this.examScheduleData.coursesList.length; i++) {
+        if (this.examScheduleData.coursesList[i].course_id != this.courseData.course_id) {
+          let unselected: any = {};
+          let timeStart: any = null;
+          let timeEnd: any = null;
+          unselected.course_id = this.examScheduleData.coursesList[i].course_id.toString();
+          unselected.courseClassSchdList = [];
+          unselected.course_exam_schedule_id = 0;
+          if (this.examScheduleData.coursesList[i].courseClassSchdList != null) {
+            let courseSch = this.examScheduleData.coursesList[i].courseClassSchdList;
+            if (courseSch.length > 0) {
               for (let j = 0; j < courseSch.length; j++) {
                 let classLi: any = {};
                 timeStart = courseSch[j].start_time;
@@ -755,32 +785,31 @@ export class CourseExamComponent implements OnInit {
                 classLi.start_time = courseSch[j].start_time;
                 classLi.end_time = courseSch[j].end_time;
                 classLi.class_desc = courseSch[j].class_desc;
-                classLi.duration = end_time.diff(start_time, 'minutes');
+                classLi.duration = courseSch[j].duration;
                 classLi.total_marks = courseSch[j].total_marks.toString();
                 classLi.room_no = courseSch[j].room_no;
                 classLi.class_schedule_id = courseSch[j].class_schedule_id.toString();
-                data.courseClassSchdList.push(classLi);
+                unselected.courseClassSchdList.push(classLi);
               }
-              data.course_exam_schedule_id = this.examScheduleData.coursesList[i].course_exam_schedule_id.toString();
+              unselected.course_exam_schedule_id = this.examScheduleData.coursesList[i].course_exam_schedule_id.toString();
             }
-            data.exam_start_time = timeStart;
-            data.exam_end_time = timeEnd;
-            obj.coursesList.push(data);
           }
+          unselected.exam_start_time = timeStart;
+          unselected.exam_end_time = timeEnd;
+          data.coursesList.push(unselected);
         }
       }
 
-    } else {
-      this.messageNotifier('error', 'Error', 'Please provide total marks');
-      return false;
     }
-    return obj;
+    return data;
   }
+
 
   ////cancel Exam popup/////
 
-  cancelExamCourse() {
+  cancelExamCourse(data) {
     this.cancelExamPopUp = true;
+    this.cancelExamData = data;
   }
 
   cancelCourseExam() {
@@ -796,10 +825,10 @@ export class CourseExamComponent implements OnInit {
     }
     let obj = {
       cancel_reason: this.cancelPopUpData.reason,
-      course_exam_schedule_id: '0',
-      course_id: '',
+      course_exam_schedule_id: this.cancelExamData.selectedCourseList.course_exam_schedule_id,
+      course_id: this.courseData.course_id,
       is_cancel_notify: notify,
-      requested_date: this.courseData.requested_date
+      requested_date: moment(this.courseData.requested_date).format('YYYY-MM-DD')
     }
     this.apiService.cancelExamScheduleCourse(obj).subscribe(
       res => {
@@ -822,11 +851,11 @@ export class CourseExamComponent implements OnInit {
 
   // Send Reminder
 
-  sendReminderForCourse(data) {
+  sendReminderForCourse(data, index) {
     if (confirm('Are you sure, You want to notify?')) {
       let obj = {
-        course_exam_schedule_id: '',
-        course_id: '',
+        course_exam_schedule_id: data.selectedCourseList.course_exam_schedule_id,
+        course_id: this.courseData.course_id,
         requested_date: this.courseData.requested_date
       }
       this.apiService.sendReminder(obj).subscribe(
@@ -842,6 +871,18 @@ export class CourseExamComponent implements OnInit {
   }
 
   // Helper Function
+
+  validateTime(start, end) {
+    let start_time = moment(this.createTimeInFormat(start.hour, start.minute, 'comp'), 'h:mma');
+    let end_time = moment(this.createTimeInFormat(end.hour, end.minute, 'comp'), 'h:mma');
+    if (!(start_time.isBefore(end_time))) {
+      this.messageNotifier('error', 'Error', 'Please provide correct start time and end time');
+      return false;
+    } else {
+      let duration = end_time.diff(start_time, 'minutes');
+      return duration;
+    }
+  }
 
   breakTimeFormat(time) {
     let obj: any = {};
