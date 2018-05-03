@@ -404,9 +404,20 @@
                                 {{i.spent_percentage}}%
                             </td>
                         </tr>
-                        <tr *ngIf="pageDetailedDataPro.length == 0">
-                            <td class="records" colspan="7">
+                        
+                    </tbody>
+                    <tbody *ngIf="pageDetailedDataPro.length == 0 && dataStatus === false" class="records">
+                        <tr>
+                            <td colspan="7" class="records">
                                 No Records Found
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="pageDetailedDataPro.length == 0 && dataStatus === true">
+                        <tr *ngFor="let dummy of dummyArr">
+                            <td *ngFor="let c of columnMaps" style="padding:10px;">
+                                <div class="skeleton">
+                                </div>
                             </td>
                         </tr>
                     </tbody>
