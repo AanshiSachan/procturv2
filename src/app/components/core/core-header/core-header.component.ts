@@ -180,19 +180,17 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divAdminTag').classList.add('hide');
     document.getElementById('divMyAccountTag').classList.add('hide');
     document.getElementById('divMasterTag').classList.add('hide');
-    document.getElementById('divTeacherTag').classList.remove('hide');
+    document.getElementById('divTeacherTag').classList.add('hide');
     document.getElementById('divFeeTag').classList.add('hide');
     document.getElementById('divAcademicTag').classList.add('hide');
     document.getElementById('divSettingTag').classList.add('hide');
     document.getElementById('divGeneralSettingTag').classList.add('hide');
     document.getElementById('divManageFormTag').classList.add('hide');
     document.getElementById('divAreaAndMap').classList.add('hide');
-    if(this.isProfessional){
-      document.getElementById('divSlotTag').classList.remove('hide');
-    }
-    else if(!this.isProfessional){
-      document.getElementById('divSlotTag').classList.add('hide');
-    }
+    document.getElementById('divSlotTag').classList.add('hide');
+    document.getElementById('divClassRoomTag').classList.add('hide');
+    document.getElementById('divManageTag').classList.add('hide');
+    document.getElementById('divAcademicTag').classList.add('hide');
   }
 
   hideAllFields() {
