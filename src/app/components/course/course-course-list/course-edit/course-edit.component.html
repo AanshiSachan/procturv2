@@ -99,7 +99,7 @@
                             </div>
                           </td>
                           <td>
-                            <a style="cursor:pointer" (click)="removeRowFromTable(row , i)">Delete</a>
+                            <a *ngIf="row.course_id == '0'" style="cursor:pointer" (click)="removeRowFromTable(row , i)">Delete</a>
                           </td>
                         </tr>
                       </tbody>
