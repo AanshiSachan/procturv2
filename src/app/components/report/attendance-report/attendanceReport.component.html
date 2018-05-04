@@ -214,7 +214,7 @@
                             <th>
                                 Id
                             </th>
-                            <th *ngFor="let k of typeAttendancePro">
+                            <th *ngFor="let k of typeAttendance">
                                 <div>
                                     {{k.class_date | date:"dd MMM"}}
                                     <br>
@@ -222,7 +222,7 @@
                                         ( {{k.start_time}} - {{k.end_time}} )
                                     </span>
                                     <br>
-                                    <span *ngIf="k.class_desc != '' || k.class_desc !=null">
+                                    <span *ngIf="k.class_desc != '' || k.class_desc !=null" class="madeDate">
                                         {{k.class_desc}}
                                     </span>
                                 </div>
@@ -301,7 +301,7 @@
                             <th>
                                 Id
                             </th>
-                            <th *ngFor="let k of typeAttendancePro">
+                            <th *ngFor="let k of typeAttendance">
                                 <div>
                                     {{k.class_date | date:"dd MMM"}}
                                     <br>
