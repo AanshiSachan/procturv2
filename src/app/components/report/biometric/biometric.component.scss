@@ -3,16 +3,7 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-body {
-    background: #EEEEF4;
-    color: #999;
-}
 
-h1 {
-    font-weight: 100;
-    font-size: 27pt;
-    color: #E43;
-}
 
 .filter-form {
     padding-top: 30px;
@@ -204,6 +195,10 @@ p {
     background: #efefef;
     height: 100%;
     padding:5px;
+    overflow: auto;
+    ::-webkit-scrollbar {
+        display: block;
+    }
 }
 .middle-section {
     padding: 5px 15px;
