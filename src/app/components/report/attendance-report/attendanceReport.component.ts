@@ -165,6 +165,7 @@ export class AttendanceReportComponent implements OnInit {
 
     this.queryParams.standard_id = i;
     this.queryParams.subject_id = "-1";
+    this.queryParams.batch_id = "-1";
 
     if (this.isProfessional) {
 
@@ -647,7 +648,7 @@ export class AttendanceReportComponent implements OnInit {
     link.click();
   }
 
-  
+
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   searchDatabase() {
@@ -680,33 +681,45 @@ export class AttendanceReportComponent implements OnInit {
       }
     }
   }
-  dateValidationForFuture(e) {
-    console.log(e);
+
+  dateValidationForFuture(e, key) {
+
     let today = moment(new Date);
     let selected = moment(e);
 
     let diff = moment(selected.diff(today))['_i'];
 
     if (diff <= 0) {
-
     }
     else {
-      this.queryParams.from_date = moment(new Date()).format('YYYY-MM-DD');
-      this.queryParams.to_date = moment(new Date()).format("YYYY-MM-DD");
-      this.attendanceFetchForm.from_date = moment(new Date()).format('YYYY-MM-DD');
-      this.attendanceFetchForm.to_date = moment(new Date()).format("YYYY-MM-DD");
-
-      let msg={
-        type:"info",
+      let msg = {
+        type: "info",
         body: "You cannot select future date"
-        }
-        this.appc.popToast(msg);
-        this.isRippleLoad = false;
-
       }
+      this.appc.popToast(msg);
+      this.isRippleLoad = false;
 
+      if (this.isProfessional) {
+        if (key == 'to') {
+          this.queryParams.to_date = moment(new Date()).format("YYYY-MM-DD");
+        }
+        if (key == 'from') {
+          this.queryParams.from_date = moment(new Date()).format('YYYY-MM-DD');
+        }
+      }
+      else {
+        if (key == 'to') {
+          this.attendanceFetchForm.to_date = moment(new Date()).format("YYYY-MM-DD");
+        }
+        if (key == 'from') {
+          this.attendanceFetchForm.from_date = moment(new Date()).format('YYYY-MM-DD');
 
+        }
+      }
     }
 
+
   }
+
+}
 

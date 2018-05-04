@@ -19,7 +19,7 @@
                 <div class="row">
 
                     <!-- Master Course / Standard  -->
-                    <div class="c-lg-3">
+                    <div class="c-lg-4">
                         <div class="form-wrapper" *ngIf=!isProfessional>
                             <label>Master Course</label>
                             <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.master_course_name" (ngModelChange)="getCourseData($event)"
@@ -38,7 +38,7 @@
                     </div>
 
                     <!-- Standard/ Subject -->
-                    <div class="c-lg-3">
+                    <div class="c-lg-4">
                         <div class="form-wrapper" *ngIf=!isProfessional>
                             <label> Course</label>
                             <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.course_id" (ngModelChange)="getSubjectData($event)">
@@ -57,7 +57,7 @@
 
                     </div>
 
-                    <div class="c-lg-3">
+                    <div class="c-lg-4">
                         <div class="form-wrapper" *ngIf=!isProfessional>
                             <label>Subject</label>
                             <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.batch_id" (ngModelChange)="getBatchData($event)">
@@ -74,33 +74,37 @@
                         </div>
                     </div>
 
-                    <div class="c-lg-3">
+                </div>
+
+                <div class="row">
+
+                    <div class="c-lg-4">
                         <div class="form-date form-wrapper datePickerBox" *ngIf="!isProfessional">
                             <label>From date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="attendanceFetchForm.from_date" bsDatepicker/>
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="attendanceFetchForm.from_date"  (ngModelChange)="dateValidationForFuture($event, 'from')" bsDatepicker/>
                         </div>
-                        <div class="form-date form-wrapper datePickerBox" *ngIf="!isProfessional">
-                            <label>To date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="attendanceFetchForm.to_date" bsDatepicker/>
-                        </div>
-
 
                         <div class="form-date form-wrapper datePickerBox" *ngIf="isProfessional">
                             <label>From date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.from_date" (ngModelChange)="dateValidationForFuture($event)"
-                                bsDatepicker/>
-                        </div>
-                        <div class="form-date form-wrapper datePickerBox" *ngIf="isProfessional">
-                            <label>To date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.to_date" (ngModelChange)="dateValidationForFuture($event)"
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.from_date" (ngModelChange)="dateValidationForFuture($event, 'from')"
                                 bsDatepicker/>
                         </div>
                     </div>
 
-                </div>
+                    <div class="c-lg-4">
+                        <div class="form-date form-wrapper datePickerBox" *ngIf="!isProfessional">
+                            <label>To date</label>
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="attendanceFetchForm.to_date" (ngModelChange)="dateValidationForFuture($event, 'to')" bsDatepicker/>
+                        </div>
 
-                <div class="row">
-                    <div class="c-lg-8"></div>
+                        <div class="form-date form-wrapper datePickerBox" *ngIf="isProfessional">
+                            <label>To date</label>
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.to_date" (ngModelChange)="dateValidationForFuture($event, 'to')"
+                                bsDatepicker/>
+                        </div>
+
+                    </div>
+
                     <div class="c-lg-4 inner-main">
                         <div class="form-btn">
                             <div *ngIf="!isProfessional">
