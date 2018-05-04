@@ -139,12 +139,12 @@
                     <div class="table-heading">
                         <div *ngIf=!isProfessional>
                             <proctur-table [records]="pagedPostData" (sortData)="sortedData($event)" [tableName]="'sms'" [settings]="projectSettings"
-                                [dataStatus]="dataStatus" [columnMap]="columnMaps" [dummyArr]="dummyArr" [direction]="direction">
+                                [dataStatus]="dataStatus" [sortingEnabled]="sortingEnabled" [columnMap]="columnMaps" [dummyArr]="dummyArr" [direction]="direction">
                             </proctur-table>
                         </div>
                         <div *ngIf=isProfessional>
                             <proctur-table [records]="queryParamsPro" [tableName]="'sms'" [settings]="projectSettings" [dataStatus]="dataStatus" [columnMap]="columnMaps"
-                                (sortData)="sortedData($event)" [dummyArr]="dummyArr" [direction]="direction">
+                                (sortData)="sortedData($event)" [dummyArr]="dummyArr" [direction]="direction" [sortingEnabled]="sortingEnabled">
                             </proctur-table>
 
                         </div>

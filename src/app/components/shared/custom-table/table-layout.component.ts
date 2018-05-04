@@ -13,22 +13,23 @@ export class TableLayoutComponent implements OnChanges {
     @Input() settings: ColumnSetting[];
     @Input() isMulti: boolean = false;
     @Input() tableName: string = '';
-    @Input() dummyArr: any[] ;
-    @Input() columnMap: any[] ;
+    @Input() dummyArr: any[];
+    @Input() columnMap: any[];
     @Input() dataStatus: boolean;
-    @Input() direction:number;
+    @Input() direction: number;
+    @Input() sortingEnabled: boolean;
     @Output() sortData = new EventEmitter<String>();
     isAllSelected: boolean = false;
     columnMaps: ColumnMap[];
     selectedRowGroup: any[] = [];
-    
-    
-    
+    sortedBy: string = null;
+
+
 
     constructor(private rd: Renderer2, private cd: ChangeDetectorRef) { }
 
     ngOnChanges() {
-
+        this.sortingEnabled;
         if (this.settings) {
             this.columnMaps = this.settings
                 .map(col => new ColumnMap(col));
@@ -56,9 +57,22 @@ export class TableLayoutComponent implements OnChanges {
 
 
     getSortedData(ev) {
-        // console.log(ev.target)
+        if (this.sortingEnabled) {
+            this.sortedBy = ev;
+            this.sortData.emit(ev);
+        }
         console.log(ev);
-               this.sortData.emit(ev);   
+
     }
 
+
+    getCaretVisiblity(e, dir): boolean {
+        if (this.sortingEnabled && this.sortedBy == e) {
+            return true;
+        }
+        
+        else {
+            return false;
+        }
+    }
 }
