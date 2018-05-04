@@ -1,6 +1,6 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
-<div class="clear-fix">
+<div class="clear-fix background">
   <aside class="middle-full">
     <section class="middle-main clearFix">
 
@@ -11,78 +11,85 @@
           </a>
           <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Biometric Report
         </h2>
-        <div class="c-lg-2" *ngIf="showButton" style="float:right;">
+        <div class="c-lg-2 hide" *ngIf="showButton" style="float:right;">
           <button class="btn fullBlue" (click)="fetchAbsentiesReport()">Send SMS to Absenties</button>
         </div>
         <aside class="pull-right">
         </aside>
-        <section class="filter-form">
-          <div class="row">
-            <div class="c-lg-12">
-              <div class="c-lg-3">
-                <div class="form-field form-wrapper" style="padding-left:none; margin-left:none">
-                  <label>Role</label>
-                  <select class="side-form-ctrl" [(ngModel)]="getData.user_Type" (ngModelChange)="showMaster($event)">
-                    <option selected [value]="1">Students</option>
-                    <option [value]="3">Teachers</option>
-                    <option [value]="0">Custom</option>
-                    <option [value]="1000">Others</option>
-                    <option [value]="100">Admin</option>
+        <section class="filter-form ">
+
+          <div class="filterSectionWrapper">
+
+            <div class="row">
+              <div class="c-lg-12">
+                <div class="c-lg-3">
+                  <div class="form-wrapper" style="padding-left:none; margin-left:none">
+                    <label>Role</label>
+                    <select class="side-form-ctrl" [(ngModel)]="getData.user_Type" (ngModelChange)="showMaster($event)">
+                      <option selected [value]="1">Students</option>
+                      <option [value]="3">Teachers</option>
+                      <option [value]="0">Custom</option>
+                      <option [value]="1000">Others</option>
+                      <option [value]="100">Admin</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="c-lg-3 main" style="margin-top:0px;">
+                  <div class="form-wrapper datePickerBox">
+                    <label> Select Date</label>
+                    <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getData.biometric_attendance_date">
+                  </div>
+                </div>
+                <div class="c-lg-4">
+                  <div class="form-wrapper">
+                    <label> Name</label>
+                    <input type="text" placeholder="Name" class="side-form-ctrl" [(ngModel)]="getData.name" [value]="getData.is_active_status">
+                  </div>
+                </div>
+                <div class="filter-box c-lg-2">
+                  <div id="basic-search">
+                    <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <hr style="width:24%; display:inline-block;  border:1px inset; margin-left:26px;" *ngIf="masterCourseNames">
+            <h2 style="display:inline-block;  margin-top:-24px;" *ngIf="masterCourseNames">OR</h2>
+            <hr style="width:24%; display:inline-block;  border:1px inset;" *ngIf="masterCourseNames">
+
+            <div class="row">
+              <div class="c-lg-3" style="margin-left:15px;" *ngIf="masterCourseNames">
+                <div class="form-wrapper">
+                  <label>Master Course</label>
+                  <select class="side-form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourses($event)">
+                    <option value="-1"></option>
+                    <option *ngFor="let i of masterCourse" [value]="i.master_course">
+                      {{i.master_course}}
+                    </option>
+                  </select>
+
+                </div>
+              </div>
+              <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames">
+                <div class="form-wrapper">
+                  <label> Course</label>
+                  <select class="side-form-ctrl" [(ngModel)]="getData.course_id">
+                    <option value="-1"></option>
+                    <option *ngFor="let i of courses" [value]="i.course_id">
+                      {{i.course_name}}
+                    </option>
                   </select>
                 </div>
               </div>
-              <div class="c-lg-3 main" style="margin-top:0px;">
-                <div class="form-field form-wrapper datePickerBox">
-                  <label> Select Date</label>
-                  <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getData.biometric_attendance_date">
-                </div>
+              <div class="c-lg-1">
+                <button class="btn fullBlue" (click)="fetchDataByName()" style="margin-top: 35px;">GO</button>
               </div>
-              <div class="c-lg-4">
-                <div class="form-field form-wrapper">
-                  <label> Name</label>
-                  <input type="text" placeholder="Name" class="side-form-ctrl" [(ngModel)]="getData.name" [value]="getData.is_active_status">
-                </div>
-              </div>
-              <div class="form-field form-wrapper hide">
-                <input type="text" placeholder="Name" class="side-form-ctrl" [(ngModel)]="getData.is_active_status">
-              </div>
-
-
             </div>
+
           </div>
 
-          <hr style="width:20%; display:inline-block;  border:1px inset; margin-left:26px;" *ngIf="masterCourseNames">
-          <h2 style="display:inline-block;  margin-top:-24px;" *ngIf="masterCourseNames">OR</h2>
-          <hr style="width:21%; display:inline-block;  border:1px inset;" *ngIf="masterCourseNames">
-          <div class="row">
-            <div class="c-lg-3" style="margin-left:15px;" *ngIf="masterCourseNames">
-              <div class="form-field form-wrapper">
-                <label>Master Course</label>
-                <select class="side-form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourses($event)" [value]="getData.master_course_name">
-                  <option value="-1"></option>
-                  <option *ngFor="let i of masterCourse">
-                    {{i.master_course}}
-                  </option>
-                </select>
-
-              </div>
-            </div>
-            <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames">
-              <div class="form-field form-wrapper">
-                <label> Course</label>
-                <select class="side-form-ctrl" [(ngModel)]="getData.course_id">
-                  <option value="-1"></option>
-                  <option *ngFor="let i of courses">
-                    {{i.course_name}}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="c-lg-1">
-              <button class="btn fullBlue" (click)="fetchDataByName()" style="margin-top: 35px;">GO</button>
-            </div>
-          </div>
-         
           <div class="common" *ngIf="showTeachersTable">
             <div class="table table-responsive student-table">
               <div class="common-elements">
@@ -112,7 +119,7 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody *ngIf="studentsDisplayData.length != 0 ">
 
                     <tr *ngFor="let i of studentsDisplayData">
                       <td>
@@ -139,7 +146,17 @@
                         <button class="btn fullBlue" (click)="viewOlderRecords(i)">View</button>
                       </td>
                     </tr>
-                    <tr *ngIf="studentsData.length == 0" class="records">
+                  </tbody>
+                  <tbody *ngIf="studentsDisplayData.length == 0 && dataStatus === true">
+                    <tr *ngFor="let dummy of dummyArr">
+                      <td *ngFor="let c of columnMaps" style="padding:10px;">
+                        <div class="skeleton">
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="studentsDisplayData.length == 0 && dataStatus === false" class="records">
+                    <tr>
                       <td colspan="7" class="records">
                         No Records Found
                       </td>
@@ -164,30 +181,31 @@
                 <table>
                   <thead>
                     <tr>
-                      <th>
+                      <th (click)="sortedData('student_disp_id')">
+                          <i class="fa fa-caret-up" *ngIf="direction==1"></i><i class="fa fa-caret-down" *ngIf="direction!=1"></i>
                         Student Id
-                      </th>
-                      <th>
+                      </th >
+                      <th (click)="sortedData('student_name')">
+                          <i class="fa fa-caret-up" *ngIf="direction==1"></i><i class="fa fa-caret-down" *ngIf="direction!=1"></i>
                         Student Name
                       </th>
-                      <th>
+                      <th (click)="sortedData('student_phone')">
+                          <i class="fa fa-caret-up" *ngIf="direction==1"></i><i class="fa fa-caret-down" *ngIf="direction!=1"></i>
                         Mobile
                       </th>
                       <th>
                         Is active
                       </th>
-                      <th>
-                        In time
+                      <th >
                       </th>
-                      <th>
-                        Out Time
+                      <th >
                       </th>
-                      <th>
+                      <th >
                         View Older Records
                       </th>
                     </tr>
                   </thead>
-                  <tbody *ngIf="studentsDisplayData.length != 0">
+                  <tbody *ngIf="studentsDisplayData.length != 0 ">
 
                     <tr *ngFor="let i of studentsDisplayData">
                       <td>
@@ -270,7 +288,7 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody *ngIf="studentsDisplayData.length != 0 ">
 
                     <tr *ngFor="let i of studentsDisplayData">
                       <td>
@@ -296,7 +314,17 @@
                         <button class="btn fullBlue" (click)="viewOlderRecords(i)">View</button>
                       </td>
                     </tr>
-                    <tr *ngIf="studentsData.length == 0" class="records">
+                  </tbody>
+                  <tbody *ngIf="studentsDisplayData.length == 0 && dataStatus == true">
+                    <tr *ngFor="let dummy of dummyArr">
+                      <td *ngFor="let c of columnMaps" style="padding:10px;">
+                        <div class="skeleton">
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="studentsDisplayData.length == 0 && dataStatus == false" class="records">
+                    <tr>
                       <td colspan="7" class="records">
                         No Records Found
                       </td>
@@ -373,7 +401,8 @@
             </span>
 
             <div popup-header class="popup-header-content" *ngIf="showMonth">
-              <h2 style="font-decoration:italic; font-size:20px; margin-top:-10px;">Previous Month records</h2>
+              <h2 style="font-decoration:italic; font-size:20px; ">Previous Month records</h2>
+              
             </div>
             <div popup-content class="main-student-table" *ngIf="showMonth">
 
@@ -392,7 +421,7 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody *ngIf="monthAttendance.length != 0">
                     <tr *ngFor="let i of monthAttendance">
                       <td>
                         {{i.attendance_date}}
@@ -405,6 +434,22 @@
                       </td>
                     </tr>
                   </tbody>
+                  <tbody *ngIf="monthAttendance.length == 0 && dataStatus === true">
+                    <tr *ngFor="let dummy of dummyArr">
+                      <td *ngFor="let c of columnMapRecords" style="padding:10px;">
+                        <div class="skeleton">
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                  <tbody *ngIf="monthAttendance.length == 0 && dataStatus === false">
+                    <tr>
+                      <td colspan="3" class="records">
+                        No Records Found
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
 
@@ -412,7 +457,7 @@
 
 
             <div popup-header class="popup-header-content" *ngIf="showRange">
-              <h2 style="font-decoration:italic; font-size:20px; margin-top:-10px;">Select Range</h2>
+              <h2 style="font-decoration:italic; font-size:20px;">Select Range</h2>
             </div>
             <div popup-content class="main-student-table" *ngIf="showRange">
               <div class="row">
@@ -425,12 +470,12 @@
                 <div class="c-lg-5 main">
                   <div class="form-field form-wrapper datePickerBox">
                     <label for="to">To</label>
-                    <input type="text" class="side-form-ctrl bsDatepicker" name="to" bsDatepicker [(ngModel)]="getAllData.to_date">
+                    <input type="text" class="side-form-ctrl bsDatepicker" name="to" bsDatepicker [(ngModel)]="getAllData.to_date" (ngModelChange)="dateValidationForFuture($event)">
                   </div>
                 </div>
                 <div class="c-lg-2">
                   <div class="form-field form-wrapper">
-                    <button class="btn fullBlue" style="margin-top:-14px" (click)="showDataTable()">Go</button>
+                    <button class="btn fullBlue"  (click)="showDataTable()">Go</button>
                   </div>
                 </div>
               </div>
@@ -449,7 +494,7 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody *ngIf="range.length != 0">
                     <tr *ngFor="let i of range">
                       <td>
                         {{i.attendance_date}}
@@ -462,12 +507,28 @@
                       </td>
                     </tr>
                   </tbody>
+                  <tbody *ngIf="range.length == 0 && dataStatus === true">
+                    <tr *ngFor="let dummy of dummyArr">
+                      <td *ngFor="let c of columnMapRecords" style="padding:10px;">
+                        <div class="skeleton">
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                  <tbody *ngIf="range.length == 0 && dataStatus === false">
+                    <tr>
+                      <td colspan="3" class="records">
+                        No Records Found
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
 
             </div>
             <div popup-header class="popup-header-content" *ngIf="showWeek">
-              <h2 style="font-decoration:italic; font-size:20px; margin-top:-10px;">Previous Week Records</h2>
+              <h2 style="font-decoration:italic; font-size:20px; ">Previous Week Records</h2>
             </div>
             <div popup-content class="main-student-table" *ngIf="showWeek">
 
@@ -486,16 +547,32 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody *ngIf="weekAttendance.length!=0">
                     <tr *ngFor="let i of weekAttendance">
                       <td>
                         {{i.attendance_date}}
                       </td>
-                      <td>
+                      <td>  
                         {{i.in_time}}
                       </td>
                       <td>
                         {{i.out_time}}
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="weekAttendance.length == 0 && dataStatus === true">
+                    <tr *ngFor="let dummy of dummyArr">
+                      <td *ngFor="let c of columnMapRecords" style="padding:10px;">
+                        <div class="skeleton">
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                  <tbody *ngIf="weekAttendance.length == 0 && dataStatus === false">
+                    <tr>
+                      <td colspan="3" class="records">
+                        No Records Found
                       </td>
                     </tr>
                   </tbody>

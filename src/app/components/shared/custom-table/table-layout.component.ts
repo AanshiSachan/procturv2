@@ -16,6 +16,7 @@ export class TableLayoutComponent implements OnChanges {
     @Input() dummyArr: any[] ;
     @Input() columnMap: any[] ;
     @Input() dataStatus: boolean;
+    @Input() direction:number;
     @Output() sortData = new EventEmitter<String>();
     isAllSelected: boolean = false;
     columnMaps: ColumnMap[];
@@ -55,13 +56,9 @@ export class TableLayoutComponent implements OnChanges {
 
 
     getSortedData(ev) {
-        console.log(ev.target)
-        for(let i=0; i<this.settings.length ; i++){
-            if(ev.target.id == this.settings[i].header){
-                this.sortData.emit(this.settings[i].primaryKey);
-            }
-        }
-        
+        // console.log(ev.target)
+        console.log(ev);
+               this.sortData.emit(ev);   
     }
 
 }

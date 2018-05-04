@@ -53,7 +53,7 @@ export class AttendanceReportComponent implements OnInit {
   queryParamsPro: any[] = [];
   pageDetailedDataPro: any[] = [];
   property = "";
-  direction = -1;
+  direction = 0;
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   dataStatus: boolean = false;
@@ -77,7 +77,7 @@ export class AttendanceReportComponent implements OnInit {
     course_id: "",
     batch_id: "",
     master_course_name: "",
-    from_date: "",
+    from_date:"" ,
     to_date: ""
   }
   /*for professional*/
@@ -106,7 +106,9 @@ export class AttendanceReportComponent implements OnInit {
     private reportService: AttendanceReportServiceService,
     private appc: AppComponent,
     private institute_id: AuthenticatorService
-  ) { }
+  ) { 
+    console.log(moment(moment().format('DD-MM-YYYY')).diff(moment('03-02-2018'),'months'));
+  }
 
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
@@ -264,6 +266,7 @@ export class AttendanceReportComponent implements OnInit {
     this.SummaryReports = true;
     this.dataStatus = true;
     this.PageIndex = 1;
+
     if (this.isProfessional) {
       this.reportService.postDataToTablePro(this.queryParams).subscribe(
         (data: any) => {
@@ -280,6 +283,12 @@ export class AttendanceReportComponent implements OnInit {
       )
     }
     else {
+     if(this.attendanceFetchForm.from_date == "Invalid date"){
+      this.attendanceFetchForm.from_date="";
+     }
+     if(this.attendanceFetchForm.to_date == "Invalid date"){
+      this.attendanceFetchForm.to_date="";
+     }
       this.reportService.postDataToTable(this.attendanceFetchForm).subscribe(
         (data: any) => {
           this.dataStatus = false;
@@ -318,11 +327,13 @@ export class AttendanceReportComponent implements OnInit {
         this.appc.popToast(msg);
       }
       else {
-
+        this.pageDetailedDataPro = [];
+        this.typeAttendancePro=[];
         this.addReportPopUp = true;
+        this.dataStatus = true;
         this.reportService.postDetailedData(this.queryParams).subscribe(
           (data: any) => {
-
+            this.dataStatus = false;
             this.dateWiseAttendancePro = data;
             console.log(this.dateWiseAttendancePro);
             this.dataTypeAttendancePro = data.map((ele) => {
@@ -365,10 +376,13 @@ export class AttendanceReportComponent implements OnInit {
         this.appc.popToast(msg);
       }
       else {
-
+        this.dataStatus = true;
+        this.typeAttendance=[];
+        this.pageDetailedData=[];
         this.addReportPopUp = true;
         this.reportService.postDetailedData(this.attendanceFetchForm).subscribe(
           (data: any) => {
+            this.dataStatus = false;
             this.dateWiseAttendance = data;
             this.dataTypeAttendance = this.dateWiseAttendance.map((ele) => {
               this.typeAttendance = ele.attendanceDateType;
@@ -495,13 +509,36 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   sortedData(ev) {
-    this.property = ev;
-    if (this.direction == -1) {
-      this.direction = 1;
+    (this.direction == 0 || this.direction == -1) ? (this.direction = 1) : (this.direction = -1)
+    if (this.isProfessional) {
+      this.queryParamsPro = this.queryParamsPro.sort((a:any, b:any)=>{
+        if(a[ev] < b[ev]){
+            return -1*this.direction;
+        }
+        else if(a[ev] > b[ev]){
+            return this.direction;
+        }
+        else{
+            return 0;
+        }
+    })
     }
-    else {
-      this.direction = -1;
+    else{
+      this.postData = this.postData.sort((a:any, b:any)=>{
+        if(a[ev] < b[ev]){
+            return -1*this.direction;
+        }
+        else if(a[ev] > b[ev]){
+            return this.direction;
+        }
+        else{
+            return 0;
+        }
+    });
+
     }
+    this.PageIndex = 1;
+    this.fetchTableDataByPage(this.PageIndex);
   }
 
   /* ================================================================================================================================ */
@@ -526,10 +563,24 @@ export class AttendanceReportComponent implements OnInit {
     link.click();
   }
 
+  dateMan(){
+    let arr = [];
+    this.typeAttendance.map((ele)=>{
+      let month = ele.class_date.split("-")[1];
+      arr.push(month);
+    })
+    arr.map(()=>{
+
+    })
+    arr = Array.from(new Set(arr));
+    return arr;
+  }
+
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
+      this.PageIndex = 1;
       let searchData: any;
       if (this.isProfessional) {
         searchData = this.queryParamsPro.filter(item =>
@@ -557,5 +608,4 @@ export class AttendanceReportComponent implements OnInit {
       }
     }
   }
-
 }

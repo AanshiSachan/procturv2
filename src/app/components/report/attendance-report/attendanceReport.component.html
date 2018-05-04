@@ -81,11 +81,13 @@
 
                         <div class="form-date form-wrapper datePickerBox" *ngIf="isProfessional">
                             <label>From date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.from_date" bsDatepicker/>
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.from_date" format="yyyy/mm/dd" data-date-end-date="0d"
+                                bsDatepicker/>
                         </div>
                         <div class="form-date form-wrapper datePickerBox" *ngIf="isProfessional">
                             <label>To date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.to_date" bsDatepicker/>
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.to_date" format="yyyy/mm/dd" data-date-end-date="0d"
+                                bsDatepicker/>
                         </div>
                     </div>
 
@@ -124,21 +126,19 @@
             <div class="table-body" *ngIf="SummaryReports">
                 <div class="filter-box clearFix">
                     <div id="basic-search" class="search-filter-wrapper">
-                        <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText"
-                            name="searchData" (keyup)="searchDatabase()">
+                        <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
                     </div>
                 </div>
                 <div class="table-content">
                     <div class="table-heading">
                         <div *ngIf=!isProfessional>
                             <proctur-table [records]="pagedPostData" (sortData)="sortedData($event)" [tableName]="'sms'" [settings]="projectSettings"
-                                [dataStatus]="dataStatus" [columnMap]="columnMaps" [dummyArr]="dummyArr">
+                                [dataStatus]="dataStatus" [columnMap]="columnMaps" [dummyArr]="dummyArr" [direction]="direction">
                             </proctur-table>
                         </div>
                         <div *ngIf=isProfessional>
-                            <proctur-table [records]="queryParamsPro"
-                                [tableName]="'sms'" [settings]="projectSettings" [dataStatus]="dataStatus" [columnMap]="columnMaps"
-                                [dummyArr]="dummyArr">
+                            <proctur-table [records]="queryParamsPro" [tableName]="'sms'" [settings]="projectSettings" [dataStatus]="dataStatus" [columnMap]="columnMaps"
+                                [dummyArr]="dummyArr" [direction]="direction">
                             </proctur-table>
 
                         </div>
@@ -199,7 +199,6 @@
                             <th *ngFor="let k of typeAttendance">
                                 {{k.class_date | date:"dd/MMM"}} ({{k.start_time}} - {{k.end_time}})
                             </th>
-
                             <th>
                                 Present
                             </th>
@@ -400,9 +399,20 @@
                                 {{i.spent_percentage}}%
                             </td>
                         </tr>
-                        <tr *ngIf="pageDetailedDataPro.length == 0">
-                            <td class="records" colspan="7">
+
+                    </tbody>
+                    <tbody *ngIf="pageDetailedDataPro.length == 0 && dataStatus === false" class="records">
+                        <tr>
+                            <td colspan="7" class="records">
                                 No Records Found
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="pageDetailedDataPro.length == 0 && dataStatus === true">
+                        <tr *ngFor="let dummy of dummyArr">
+                            <td *ngFor="let c of columnMaps" style="padding:10px;">
+                                <div class="skeleton">
+                                </div>
                             </td>
                         </tr>
                     </tbody>
