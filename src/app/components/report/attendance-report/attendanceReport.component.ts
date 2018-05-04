@@ -149,7 +149,7 @@ export class AttendanceReportComponent implements OnInit {
     }
     else {
       this.reportService.getMasterCourse().subscribe(data => {
-
+        this.isRippleLoad = false;
         this.masterCourses = data;
       },
         error => {
