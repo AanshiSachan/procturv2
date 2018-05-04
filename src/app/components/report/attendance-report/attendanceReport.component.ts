@@ -54,6 +54,7 @@ export class AttendanceReportComponent implements OnInit {
   pageDetailedDataPro: any[] = [];
   property = "";
   direction = 0;
+  sortingEnabled:boolean = true;
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
   columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   columnMaps2: any[] = [0, 1, 2, 3, 4, 5];
@@ -594,6 +595,7 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   sortedData(ev) {
+    this.sortingEnabled = true;
     (this.direction == 0 || this.direction == -1) ? (this.direction = 1) : (this.direction = -1)
     if (this.isProfessional) {
       this.queryParamsPro = this.queryParamsPro.sort((a: any, b: any) => {

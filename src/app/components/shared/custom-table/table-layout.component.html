@@ -7,7 +7,10 @@
                     <label>asdf</label>
                 </div>
             </th>
-            <th class="{{map.header}}" (click)="getSortedData(map.primaryKey)" id="{{map.header}}" *ngFor="let map of columnMaps"><i class="fa fa-caret-up" *ngIf="direction==1"></i><i class="fa fa-caret-down" *ngIf="direction!=1"></i>{{ map.header }}</th>
+            <th class="{{map.header}}" (click)="getSortedData(map.primaryKey)" id="{{map.header}}" *ngFor="let map of columnMaps">
+                <i class="fa fa-caret-up" *ngIf="getCaretVisiblity(map.primaryKey, 'up') && direction==1"></i>
+                <i class="fa fa-caret-down" *ngIf="getCaretVisiblity(map.primaryKey, 'down') && direction==-1"></i>
+                {{ map.header }}</th>
         </tr>
     </thead>
     <tbody *ngIf="records.length != 0">
