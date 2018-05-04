@@ -219,6 +219,7 @@ export class BiometricComponent implements OnInit {
       this.showButton = false;
     }
   }
+
   popupChange() {
     this.monthAttendance = [];
     this.weekAttendance = [];
@@ -289,6 +290,7 @@ export class BiometricComponent implements OnInit {
   closeReportAcademicPopup() {
     this.addAcademicPopUp = false;
   }
+  
   getInstitute() {
     let type: any = sessionStorage.getItem('institute_type');
     if (type == 'LANG') {
