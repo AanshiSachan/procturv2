@@ -79,8 +79,8 @@ export class AttendanceReportComponent implements OnInit {
     course_id: "",
     batch_id: "",
     master_course_name: "",
-    from_date: "",
-    to_date: ""
+    from_date: moment(new Date()).format('YYYY-MM-DD'),
+    to_date: moment(new Date()).format('YYYY-MM-DD')
   }
   /*for professional*/
   queryParams = {
@@ -90,8 +90,8 @@ export class AttendanceReportComponent implements OnInit {
     course_id: -1,
     batch_id: "-1",
     master_course_name: "",
-    from_date: "",
-    to_date: ""
+    from_date:  moment(new Date()).format('YYYY-MM-DD'),
+    to_date: moment(new Date()).format('YYYY-MM-DD')
   };
 
   searchText: string = "";
@@ -357,6 +357,7 @@ export class AttendanceReportComponent implements OnInit {
           body: "All fields Are required"
         }
         this.appc.popToast(msg);
+        this.dataStatus = false;
         this.isRippleLoad = false;
       }
       else if (this.queryParams.from_date > this.queryParams.to_date) {
@@ -366,10 +367,9 @@ export class AttendanceReportComponent implements OnInit {
           body: "From Date Must Be less than to date"
         }
         this.appc.popToast(msg);
+        this.dataStatus = false;
         this.isRippleLoad = false;
       }
-
-
 
       else if (diff < -4) {
         let msg = {
@@ -379,16 +379,18 @@ export class AttendanceReportComponent implements OnInit {
         }
 
         this.appc.popToast(msg);
+        this.dataStatus = false;
         this.isRippleLoad = false;
       }
 
       else {
         this.pageDetailedDataPro = [];
         this.typeAttendancePro = [];
-        this.dataStatus = true;
+        
         this.reportService.postDetailedData(this.queryParams).subscribe(
           (data: any) => {
             this.isRippleLoad = false;
+            this.dataStatus = false;
             if (data.length) {
               this.dataStatus = false;
               this.dateWiseAttendancePro = data;
@@ -418,6 +420,7 @@ export class AttendanceReportComponent implements OnInit {
           },
           (error: any) => {
             this.isRippleLoad = false;
+            this.dataStatus = false;
             return error;
 
           }
@@ -438,6 +441,7 @@ export class AttendanceReportComponent implements OnInit {
           body: "All fields Are required"
         }
         this.appc.popToast(msg);
+        this.dataStatus = false;
         this.isRippleLoad = false;
       }
       else if (this.attendanceFetchForm.from_date > this.attendanceFetchForm.to_date) {
@@ -447,6 +451,7 @@ export class AttendanceReportComponent implements OnInit {
           body: "From Date Must Be less than to date"
         }
         this.appc.popToast(msg);
+        this.dataStatus = false;
         this.isRippleLoad = false;
       }
       else if (diff < -4) {
@@ -457,10 +462,11 @@ export class AttendanceReportComponent implements OnInit {
         }
 
         this.appc.popToast(msg);
+        this.dataStatus = false;
         this.isRippleLoad = false;
       }
       else {
-        this.dataStatus = true;
+        this.dataStatus = false;
         this.typeAttendance = [];
         this.pageDetailedData = [];
         this.addReportPopUp = true;
@@ -485,6 +491,7 @@ export class AttendanceReportComponent implements OnInit {
           },
           (error: any) => {
             this.isRippleLoad = false;
+            this.dataStatus = false;
             return error;
 
           }
@@ -565,9 +572,9 @@ export class AttendanceReportComponent implements OnInit {
 
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
-  fetchNextPopup() {
+  fetchNextPopupRange() {
     this.PageIndexPopup++;
-    this.fetchTableDataByPage(this.PageIndexPopup);
+    this.fetchTableDataByPagePopup(this.PageIndexPopup);
   }
 
   /* ================================================================================================================================ */
@@ -575,7 +582,7 @@ export class AttendanceReportComponent implements OnInit {
   fetchPreviousPopup() {
     if (this.PageIndexPopup != 1) {
       this.PageIndexPopup--;
-      this.fetchTableDataByPage(this.PageIndexPopup);
+      this.fetchTableDataByPagePopup(this.PageIndexPopup);
     }
   }
 

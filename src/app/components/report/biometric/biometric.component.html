@@ -98,7 +98,7 @@
             <div class="table table-responsive student-table">
               <div class="filter-box">
                 <div id="basic-search">
-                  <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
+                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
                 </div>
               </div>
               <div class="common-elements">
@@ -186,6 +186,11 @@
 
           <div class="students" *ngIf="showStudentTable">
             <div class="table table-responsive student-table">
+              <div class="filter-box">
+                <div id="basic-search">
+                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
+                </div>
+              </div>
               <div class="student-elements">
                 <table>
                   <thead>
@@ -276,6 +281,11 @@
           </div>
           <div class="common" *ngIf="showCustomTable">
             <div class="table table-responsive student-table">
+              <div class="filter-box box">
+                <div id="basic-search">
+                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
+                </div>
+              </div>
               <div class="common-elements">
                 <table>
                   <thead>
