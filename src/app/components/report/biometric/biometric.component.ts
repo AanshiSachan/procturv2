@@ -98,7 +98,8 @@ export class BiometricComponent implements OnInit {
     
     this.reportService.getAllData().subscribe(
       (data: any) => {
-        
+        this.getData.master_course_name = "";
+    this.getData.course_id = -1;
         this.masterCourse = data;
         this.isRippleLoad = false;
       },
@@ -146,6 +147,8 @@ export class BiometricComponent implements OnInit {
       this.dataStatus = true;
       this.reportService.getAttendanceReport(this.getData).subscribe(
         (data: any) => {
+          this.getData.master_course_name = "";
+          this.getData.course_id = -1;
           this.isRippleLoad = false;
           this.dataStatus = false;
           this.studentsData = data;
@@ -169,6 +172,8 @@ export class BiometricComponent implements OnInit {
 
       this.reportService.getAttendanceReportTeachers(this.getData).subscribe(
         (data: any) => {
+          this.getData.master_course_name = "";
+          this.getData.course_id = -1;
           this.isRippleLoad = false;
           this.studentsData = data;
           this.totalRow = data.length;
@@ -188,6 +193,8 @@ export class BiometricComponent implements OnInit {
       this.showCustomTable = true;
       this.reportService.getAttendanceReportOthers(this.getData).subscribe(
         (data: any) => {
+          this.getData.master_course_name = "";
+          this.getData.course_id = -1;
           this.isRippleLoad = false;
           this.studentsData = data;
           this.totalRow = data.length;

@@ -29,12 +29,14 @@ export class SmsReportComponent implements OnInit {
   sizeArr: any[] = [25, 50, 100, 150, 200, 500, 1000];
   displayBatchSize: number = 1000;
   PageIndex: number = 1;
-  maxPageSize: number = 0; 
+  maxPageSize: number = 0;
   totalRecords: number = 0;
   currentDirection = 'desc';
   busy: Subscription;
-  perPage:number = 10;
-
+  perPage: number = 10;
+  searchText = "";
+  searchData = [];
+  searchflag: boolean = false;
 
 
   projectSettings: ColumnSetting[] = [
@@ -64,12 +66,12 @@ export class SmsReportComponent implements OnInit {
   }
 
 
-  
+
   ngOnInit() {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
-     this.getSmsReport(this.smsFetchForm);
+    this.getSmsReport(this.smsFetchForm);
   }
 
 
@@ -77,21 +79,21 @@ export class SmsReportComponent implements OnInit {
 
   getSmsReport(obj) {
 
-    if(obj.start_index == 0){
+    if (obj.start_index == 0) {
       return this.getSms.fetchSmsReport(obj).subscribe(
         res => {
-          if(res.length != 0){
+          if (res.length != 0) {
             this.smsSource = res;
             this.totalRecords = res[0].totalCount;
           }
-          else{
+          else {
             this.smsSource = [];
             this.totalRecords = 0;
           }
         }
       )
     }
-    else{
+    else {
       return this.getSms.fetchSmsReport(obj).subscribe(
         res => {
           this.smsSource = res;
@@ -99,7 +101,7 @@ export class SmsReportComponent implements OnInit {
       )
     }
   }
- 
+
 
 
   /* Customiized click detection strategy */
@@ -198,7 +200,30 @@ export class SmsReportComponent implements OnInit {
     return max;
   }
 
+  searchDatabase() {
+    if (this.searchText != "" && this.searchText != null) {
+      let searchData: any;
+      searchData = this.smsSource.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
+      );
+      this.smsSource = searchData;
+      this.searchflag = true;
+
+    }
+    else {
+      this.getSms.fetchSmsReport(this.smsFetchForm).subscribe(
+        res => {
+          this.smsSource = res;
+          this.searchflag = false;
+        }
+      )
+      }
+    }
+  }
+  
+
+    
 
 
 
-}

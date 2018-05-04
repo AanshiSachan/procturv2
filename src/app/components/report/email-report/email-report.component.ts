@@ -17,7 +17,9 @@ export class EmailReportComponent {
   displayBatchSize: number = 10;
   emailSource: any[] = [];
   emailDataSource: any = [];
-
+  searchText = "";
+  searchData = [];
+  searchflag: boolean = false;
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'sentDateTime', header: 'Sent Date' },
     { primaryKey: 'emailId', header: 'Email' },
@@ -161,5 +163,24 @@ export class EmailReportComponent {
   switchActiveView(id) {
     document.getElementById('email').classList.remove('active');
   }
+  searchDatabase() {
+    if (this.searchText != "" && this.searchText != null) {
+      let searchData: any;
+      searchData = this.emailSource.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
+      );
+      this.emailSource= searchData;
+      this.searchflag = true;
 
+    }
+    else {
+      this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
+        res => {
+          this.emailSource = res;
+          this.searchflag = false;
+        }
+      )
+      }
+    }
 }
