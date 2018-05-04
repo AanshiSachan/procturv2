@@ -66,7 +66,7 @@ export class TableLayoutComponent implements OnChanges {
     }
 
 
-    getCaretVisiblity(e, dir): boolean {
+    getCaretVisiblity(e): boolean {
         if (this.sortingEnabled && this.sortedBy == e) {
             return true;
         }

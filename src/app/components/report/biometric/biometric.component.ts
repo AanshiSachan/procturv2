@@ -43,14 +43,16 @@ export class BiometricComponent implements OnInit {
   absentiesRecords: any[] = [];
   absentTable: boolean = false;
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
-  columnMaps: any[] = [0, 1, 2, 3, 4, 5,6];
-  dataStatus : boolean = false;
-  showTeacherButton : boolean =true;
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6];
+  dataStatus: boolean = false;
+  showTeacherButton: boolean = true;
   direction = 0;
   searchText = "";
-  searchData=[];
+  searchData = [];
   searchflag: boolean = false;
   columnMapRecords: any[] = [0, 1, 2];
+  sortedenabled: boolean = true;
+  sortedBy: string = "";
   getData = {
     school_id: -1,
     name: "",
@@ -86,13 +88,13 @@ export class BiometricComponent implements OnInit {
     this.getMasterCourses();
   }
   getMasterCourses() {
-    
+
     this.getData.biometric_attendance_date = moment().format('YYYY-MM-DD');
     this.getData.name = "";
     this.getData.master_course_name = "";
     this.reportService.getAllData().subscribe(
       (data: any) => {
-        
+
         this.masterCourse = data;
         this.isRippleLoad = false;
       },
@@ -123,8 +125,8 @@ export class BiometricComponent implements OnInit {
     )
   }
   fetchDataByName() {
-    
-   
+
+
     this.showTeacherButton = true;
     if (this.getData.user_Type == 1) {
       this.studentsDisplayData = [];
@@ -135,16 +137,16 @@ export class BiometricComponent implements OnInit {
       this.dataStatus = true;
       this.reportService.getAttendanceReport(this.getData).subscribe(
         (data: any) => {
-         
-          this.dataStatus =  false;
+
+          this.dataStatus = false;
           this.studentsData = data;
           this.totalRow = data.length;
           this.PageIndex = 1;
           this.fetchTableDataByPage(this.PageIndex);
-        
+
         },
         (error) => {
-          this.dataStatus =  false;
+          this.dataStatus = false;
           this.isRippleLoad = false;
           return error;
         }
@@ -206,14 +208,14 @@ export class BiometricComponent implements OnInit {
 
   showMaster(i) {
     if (i == 1) {
-      this.showTeacherButton=true;
+      this.showTeacherButton = true;
       this.showTeachersTable = false;
       this.masterCourseNames = true;
       this.showCustomTable = false;
       this.showButton = true;
     }
     else {
-      this.showTeacherButton=true;
+      this.showTeacherButton = true;
       this.showStudentTable = false;
       this.masterCourseNames = false;
       this.showButton = false;
@@ -233,15 +235,15 @@ export class BiometricComponent implements OnInit {
 
     }
     else if (this.popupCtrl == 0) {
-     this.monthAttendance = [];
-     this.dataStatus = true;
+      this.monthAttendance = [];
+      this.dataStatus = true;
       this.getAllData = {
         from_date: moment().subtract('months', 1).format('YYYY-MM-DD'),
         institute_id: this.reportService.institute_id,
         to_date: moment().format('YYYY-MM-DD'),
         user_id: this.getAllData.user_id
       }
-   
+
       this.addReportPopUp = false;
       this.addAcademicPopUp = true;
       this.showMonth = true;
@@ -260,8 +262,8 @@ export class BiometricComponent implements OnInit {
 
     }
     else if (this.popupCtrl == 1) {
-      this.weekAttendance =[];
-      this.dataStatus =true;
+      this.weekAttendance = [];
+      this.dataStatus = true;
       this.getAllData = {
         from_date: moment().subtract('days', 7).format('YYYY-MM-DD'),
         institute_id: this.reportService.institute_id,
@@ -275,7 +277,7 @@ export class BiometricComponent implements OnInit {
       this.showWeek = true;
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {
-          this.dataStatus =false;
+          this.dataStatus = false;
           this.weekAttendance = data;
 
         },
@@ -290,7 +292,7 @@ export class BiometricComponent implements OnInit {
   closeReportAcademicPopup() {
     this.addAcademicPopUp = false;
   }
-  
+
   getInstitute() {
     let type: any = sessionStorage.getItem('institute_type');
     if (type == 'LANG') {
@@ -312,7 +314,7 @@ export class BiometricComponent implements OnInit {
     }
     console.log(this.getAllData.from_date);
     let diff = moment(this.getAllData.from_date).diff(moment(this.getAllData.to_date), 'months');
-    let futureDate = moment(this.getAllData.to_date).add('days',1).format('YYYY-MM-DD');
+    let futureDate = moment(this.getAllData.to_date).add('days', 1).format('YYYY-MM-DD');
     console.log(futureDate);
     console.log(this.getAllData.to_date);
     if (diff < -2) {
@@ -333,7 +335,7 @@ export class BiometricComponent implements OnInit {
 
       this.appc.popToast(msg);
     }
-    
+
     else {
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {
@@ -360,27 +362,40 @@ export class BiometricComponent implements OnInit {
   }
 
   sortedData(ev) {
-    
-    (this.direction == 0 || this.direction == -1) ? (this.direction = 1) : (this.direction = -1);
-    
-      this.studentsData = this.studentsData.sort((a:any, b:any)=>{
-        if(a[ev] < b[ev]){
-            return -1*this.direction;
+    this.sortedenabled = true;
+   if(this.sortedenabled){
+      (this.direction == 0 || this.direction == -1) ? (this.direction = 1) : (this.direction = -1);
+    this.sortedBy = ev;
+      this.studentsData = this.studentsData.sort((a: any, b: any) => {
+        if (a[ev] < b[ev]) {
+          return -1 * this.direction;
         }
-        else if(a[ev] > b[ev]){
-            return this.direction;
+        else if (a[ev] > b[ev]) {
+          return this.direction;
         }
-        else{
-            return 0;
+        else {
+          return 0;
         }
-    });
+      });
 
-    
-    this.PageIndex = 1;
-    this.fetchTableDataByPage(this.PageIndex);
+
+      this.PageIndex = 1;
+      this.fetchTableDataByPage(this.PageIndex);
+    }
   }
+    getCaretVisiblity(e): boolean {
+      
+      if (this.sortedenabled && this.sortedBy == e) {
+          return true;
+      }
+      
+      else {
+          return false;
+      }
+  }
+  
 
-  searchDatabase(){
+  searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
       this.PageIndex = 1;
       let searchData: any;
@@ -388,7 +403,7 @@ export class BiometricComponent implements OnInit {
         Object.keys(item).some(
           k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
       );
-      this.searchData =searchData;
+      this.searchData = searchData;
       this.totalRow = searchData.length;
       this.searchflag = true;
       this.fetchTableDataByPage(this.PageIndex);
@@ -396,10 +411,10 @@ export class BiometricComponent implements OnInit {
     else {
       this.searchflag = false;
       this.fetchTableDataByPage(this.PageIndex);
-      
+
     }
   }
-  
+
   viewAbsentiesRecord() {
     this.absentTable = true;
     if (this.getAbsentiesData.from_date == "") {
@@ -447,25 +462,25 @@ export class BiometricComponent implements OnInit {
       let t = this.searchData.slice(startindex, startindex + this.pagedisplaysize);
       return t;
     }
-    else{
-    let d = this.studentsData.slice(startindex, startindex + this.pagedisplaysize);
-    return d;
+    else {
+      let d = this.studentsData.slice(startindex, startindex + this.pagedisplaysize);
+      return d;
     }
   }
 
 
 
-  dateValidationForFuture(e){
+  dateValidationForFuture(e) {
     console.log(e);
     let today = moment(new Date);
     let selected = moment(e);
 
     let diff = moment(selected.diff(today))['_i'];
-    
-    if(diff <= 0){
+
+    if (diff <= 0) {
 
     }
-    else{
+    else {
       this.getAllData.to_date = moment(new Date).format("YYYY-MM-DD");
     }
 
