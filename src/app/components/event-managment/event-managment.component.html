@@ -14,7 +14,7 @@
             <label>Month</label>
             <select class="side-form-ctrl" id="two" name="month" [(ngModel)]="list_obj.month">
               
-              <option value="-1" name="month">month</option>
+              <option value="-1" name="month">Month</option>
               <option value="1">January</option>
               <option value="2">february</option>
               <option value="3">March</option>
@@ -36,8 +36,8 @@
           <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2 form-wrapper">
             <label>Year</label>
             <select class="side-form-ctrl" name="year" id="two" [(ngModel)]="list_obj.year">
+              <option value="-1" name="year">Year</option>
               
-              <option name="month">{{year}}</option>
               <option value="2015">2015</option>
               <option value="2016">2016</option>
               <option value="2017">2017</option>
@@ -72,7 +72,10 @@
     </section>
   </section>
 </div>
+<div class="search-filter-wrapper">
 
+  <input #search type="textbox" class="normal-field" [(ngModel)]="searchDataFilter" style="font-size:12px" placeholder="Serach here">
+ </div>
 <div id="divSlotTable">
   <div class="table-scroll-wrapper">
     <div class="table table-responsive">
@@ -104,7 +107,7 @@
           </tr>
         </thead>
         <tbody *ngIf="eventRecord.length !=0">
-          <tr id="row{{i}}" class="displayComp" *ngFor="let row of  pagedSourceData; let i = index; trackBy: i;">
+          <tr id="row{{i}}" class="displayComp" *ngFor="let row of pagedSourceData|filter:searchDataFilter; let i = index; trackBy: i;">
             <td>
               {{i + 1}}
             </td>
@@ -135,7 +138,7 @@
 
             </td>
             <td class="view-comp">
-              <a href="" onclick="sendNotificationAlert(27)">send</a>
+              <a *ngIf="row.event_type==2"  (click)="sendNotificationAlert(row.holidayId)">send</a>
             </td>
           </tr>
         </tbody>
@@ -293,7 +296,7 @@
     <div class="row margin-top">
       <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
         <label>event type</label>
-        <select class="side-form-ctrl" [(ngModel)]="newUpdateObj.event_type" (ngModelChange)="eventchange($event)">
+        <select class="side-form-ctrl" [(ngModel)]="newUpdateObj.event_type" (ngModelChange)="eventchangeUpdate($event)">
           <option *ngFor="let i of getEvent" [value]="i.data_key">{{i.data_value}}</option>
         </select>
       </div>
@@ -315,7 +318,7 @@
 
         </select>
       </div>
-      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper" *ngIf="endDateBox">
+      <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper" *ngIf="endDateofEvent">
         <div class="form-date form-wrapper datePickerBox">
           <label>Event End Date</label>
           <input type="text" class="side-form-ctrl  bsDatepicker" bsDatepicker [(ngModel)]="newUpdateObj.event_end_date" />
@@ -333,10 +336,10 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="generalDataField">
+    <div class="row" *ngIf="generalUpdateDataField">
       <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6 form-wrapper">
         <div class="field-checkbox-wrapper field-data" style="padding-left:10px">
-          <input class="form-checkbox" name="enddatecheckbox" type="checkbox" (change)="checkChange($event.target.checked)" />
+          <input class="form-checkbox" name="enddatecheckbox" [(ngModel)]="checker" type="checkbox" (change)="checkChange($event.target.checked)" />
           <label>add End Date</label>
         </div>
       </div>
@@ -362,10 +365,10 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="generalDataField">
+    <div class="row" *ngIf="generalUpdateDataField">
       <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 form-wrapper">
         <div class="field-wrapper">
-          <input type="text" class="form-ctrl" [(ngModel)]="updateListObj.public_url">
+          <input type="text" class="form-ctrl" [(ngModel)]="newUpdateObj.public_url">
           <label>public Url</label>
         </div>
       </div>
@@ -374,7 +377,7 @@
       <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 form-wrapper">
         <div class="field-wrapper">
           <input type="file" class="form-ctrl" [(ngModel)]="newUpdateObj.image">
-          <label>public Url</label>
+          <label>File</label>
         </div>
       </div>
     </div>

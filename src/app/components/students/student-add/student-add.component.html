@@ -1229,14 +1229,14 @@
               <li>Bank*</li>
               <li>Cheque Number*</li>
               <li>Cheque Date*</li>
-              <li>Clearing Date*</li>
+              <li>Clearing Date</li>
               <li>Cheque Amount*</li>
               <li>Status</li>
               <li>Action</li>
             </ul>
             <div class="table-data" *ngIf="chequePdcList.length != 0">
               <ul class="table-row displayComp" [id]='ch.student_id +ch.cheque_id' *ngFor="let ch of chequePdcList; let i = index;">
-                <li (click)="chequeSelectedForAction(i)">
+                <li (click)="chequeSelectedForAction(ch)">
                   <div class="field-radio-wrapper">
                     <input type="radio" name="pdcGen" class="form-radio" id="pdcAddlist{{i}}">
                     <label for="pdcAddlist{{i}}"></label>
@@ -1406,10 +1406,10 @@
 
         <!-- Cheque Payment PDC updates -->
         <div class="row pdcChequePayment" *ngIf="isPaymentPdc">
-          <h5>Cheque Details</h5>
+          <h5></h5>
 
           <div class="" [ngClass]="{'hide': chequePdcList.length == 0}">
-            <div class="c-lg-6">
+            <div class="c-lg-12">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForPayment != ''}">
                 <select id="pMode" name="pMode" [(ngModel)]="pdcSelectedForPayment" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
                   <option value=""></option>
@@ -1428,7 +1428,7 @@
             </div>
           </div>
 
-          <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.bank_name != ''}">
               <input [readonly]="isPdcFeePaymentSelected" type="text" value="" id="Pdcf" class="form-ctrl" [(ngModel)]="pdcSelectedForm.bank_name"
                 name="" />
@@ -1436,7 +1436,7 @@
             </div>
           </div>
 
-          <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="c-lg-12">
             <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': pdcSelectedForm.cheque_date != ''}">
               <input *ngIf="isPdcFeePaymentSelected" type="text" value="" id="pdcDateCheq" class="form-ctrl bsDatepicker" readonly="true"
                 [(ngModel)]="pdcSelectedForm.cheque_date" name="">
@@ -1447,7 +1447,7 @@
             </div>
           </div>
 
-          <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_no != ''}">
               <input [readonly]="isPdcFeePaymentSelected" type="text" minlength="6" maxlength="6" OnlyNumber="true" class="form-ctrl" name=""
                 [(ngModel)]="pdcSelectedForm.cheque_no" />
@@ -1455,7 +1455,7 @@
             </div>
           </div>
 
-          <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_amount != ''}">
               <input type="text" readonly="true" value="" id="idChequAmount" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
               />
@@ -1563,10 +1563,10 @@
         </div>
         <!-- Cheque Payment PDC updates -->
         <div class="row pdcChequePayment" *ngIf="isPaymentPdc">
-          <h5>Cheque Details</h5>
+          <h5></h5>
 
           <div class="" [ngClass]="{'hide': chequePdcList.length == 0}">
-            <div class="c-lg-6">
+            <div class="c-lg-12">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForPayment != ''}">
                 <select id="pMode" name="pMode" [(ngModel)]="pdcSelectedForPayment" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
                   <option value=""></option>
@@ -1585,7 +1585,7 @@
             </div>
           </div>
 
-          <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.bank_name != ''}">
               <input [readonly]="isPdcFeePaymentSelected" type="text" value="" id="idbankname" class="form-ctrl" [(ngModel)]="pdcSelectedForm.bank_name"
                 name="" />
@@ -1593,7 +1593,7 @@
             </div>
           </div>
 
-          <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="c-lg-12">
             <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': pdcSelectedForm.cheque_date != ''}">
               <input *ngIf="isPdcFeePaymentSelected" type="text" value="" id="chequEDate" class="form-ctrl bsDatepicker" readonly="true"
                 [(ngModel)]="pdcSelectedForm.cheque_date" name="">
@@ -1604,7 +1604,7 @@
             </div>
           </div>
 
-          <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_no != ''}">
               <input [readonly]="isPdcFeePaymentSelected" type="text" id="cnub" minlength="6" maxlength="6" OnlyNumber="true" class="form-ctrl"
                 name="" [(ngModel)]="pdcSelectedForm.cheque_no" />
@@ -1612,13 +1612,14 @@
             </div>
           </div>
 
-          <div class="c-lg-6 c-md-6 c-sm-6">
+          <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_amount != ''}">
               <input readonly="true" type="text" value="" id="camt" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
               />
               <label for="camt">Cheque Amount*</label>
             </div>
           </div>
+          
         </div>
 
         <div class="row" style="margin-top: 10px;">

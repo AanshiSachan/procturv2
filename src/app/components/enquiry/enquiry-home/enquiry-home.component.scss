@@ -1527,7 +1527,8 @@ ul.customDropdown li:hover {
     .right-aside-wrapper {
         width: 38%;
         max-height: 360px;
-        overflow: auto;
+        overflow-x: hidden;
+        overflow-y: scroll;
         ::-webkit-scrollbar {
             display: block;
             width: 7px;
