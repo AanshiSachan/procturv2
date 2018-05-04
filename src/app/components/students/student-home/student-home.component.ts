@@ -205,11 +205,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     this.totalRow = this.studentDataSource.length;
     this.bulkActionItems = [
       {
-        label: 'Delete', icon: 'fas fa-trash', command: () => {
-          this.deleteBulkStudent();
-        }
-      },
-      {
         label: 'Send Notification', icon: 'far fa-bell', command: () => {
           this.notifySelectedStudent();
         }
@@ -1449,10 +1444,9 @@ export class StudentHomeComponent implements OnInit, OnChanges {
           let msg = {
             type: 'error',
             title: 'error',
-            body: err.error.message
+            body: err.message
           };
           this.appC.popToast(msg);
-          console.log(err);
         }
       )
 

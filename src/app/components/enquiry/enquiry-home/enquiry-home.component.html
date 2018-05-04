@@ -462,7 +462,7 @@
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value datePickerBox">
                     <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit"
-                      bsDatepicker readonly="true" />
+                      (ngModelChange)="isNotifyDisplayed()" bsDatepicker readonly="true" />
                     <label for="followUPdateEdit">Follow Up Date</label>
                     <span class="date-clear" name="followupdate" (click)="clearupdateDate()">clear</span>
                   </div>
@@ -472,14 +472,14 @@
                     <label for="walkintime">Follow Up Time</label>
                     <div class="tbox" style=" width: 100%;">
                       <div class="times" style=" width: 85px; display: inline-block; ">
-                        <select id="walkintime" class="side-form-ctrl mins" [(ngModel)]="hour" name="walkintime">
+                        <select id="walkintime" class="side-form-ctrl mins" [(ngModel)]="hour" (ngModelChange)="isNotifyDisplayed()" name="walkintime">
                           <option [value]="time" *ngFor="let time of times">
                             {{time}}
                           </option>
                         </select>
                       </div>
                       <div class="times " style=" width: 45px; display: inline-block; ">
-                        <select id="minute" class="side-form-ctrl mers" [(ngModel)]="minute" name="minute" style="width: 70px;">
+                        <select id="minute" class="side-form-ctrl mers" [(ngModel)]="minute" (ngModelChange)="isNotifyDisplayed()" name="minute" style="width: 70px;">
                           <option *ngFor="let minute of minArr" [value]="minute">
                             {{minute}}
                           </option>
@@ -490,7 +490,7 @@
                 </div>
               </div>
 
-              <div class="row" *ngIf="updateFormData.followUpTime != '' &&  updateFormData.followUpDate != ''">
+              <div class="row" *ngIf="isNotifyVisible">
                 <div class="c-lg-6 c-md-6 c-sm-6" style="margin-top: 10px">
                   <div class="form-checkbox-wrapper">
                     <div class="field-checkbox-wrapper">

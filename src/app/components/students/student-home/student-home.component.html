@@ -344,7 +344,7 @@
                         <div class="table table-responsive student-table">
                             <ng-robTable [records]="studentDataSource" [defaultSort]="sortBy" [reset]="isSideBar" [tableName]="'student'" [settings]="StudentSettings"
                                 (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="loading_message"
-                                [key1]="'isActive'" [primaryKey]="'student_id'" (rowIdArr)="getSelected($event)" (rowUserIDArrayList)="getSelectedUserIDS($event)"
+                                [key1]="'isActive'" [primaryKey]="'student_id'" (rowIdArr)="getSelected($event)" (rowUserId)="getSelectedUserIDS($event)"
                                 (sortById)="sortTableById($event)" (sortDirection)="getDirection($event)">
                             </ng-robTable>
                         </div>
@@ -592,32 +592,6 @@
                 </span>
                 <div class="popup-content">
                     <h2>Send Notification</h2>
-                    <!-- <div class="update-enquiry-form overflowHidden">
-                        <div class="notify-wrapper">
-                            <div class="row">
-                                <div class="c-md-6">
-                                    <ul>
-                                        <li>Delivery Mode</li>
-                                        <li>
-                                            
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="c-md-6">
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="">
-                            <div class="clearfix">
-                                <aside class="pull-right popup-btn">
-                                    <input type="button" value="Cancel" class="btn" (click)="closeNotifyStudent()">
-                                    <input type="button" value="Send" class="fullBlue btn" (click)="updateComment()">
-                                </aside>
-                            </div>
-                        </div>
-                    </div> -->
-
 
                     <div class="notification-content-wrapper">
 

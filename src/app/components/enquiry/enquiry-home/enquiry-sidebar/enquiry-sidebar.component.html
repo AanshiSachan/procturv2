@@ -88,7 +88,7 @@
                             <div class="form-wrapper datepicker ">
                                 <label for="followUPdateEdit">Follow Up Date</label>
                                 <input type="text" class="side-form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate"
-                                    [(ngModel)]="FollowUpNewDate" id="followUPdateEdit" readonly="true" bsDatepicker/>
+                                (ngModelChange)="isNotifyDisplayed()" id="followUPdateEdit" readonly="true" bsDatepicker/>
                                 <span class="date-clear" name="followupdate" (click)="updateFormData.followUpDate = ''">X</span>
                             </div>
 
@@ -101,14 +101,14 @@
                                         <div class="tbox">
                                             <div class="times">
                                                 <select id="followuptime" class="mins side-form-ctrl" [(ngModel)]="followUpTime" (ngModelChange)="timeChanges($event, 'followUpTime')"
-                                                    name="followuptime">
+                                                   (change)="isNotifyDisplayed()" name="followuptime">
                                                     <option [value]="time" *ngFor="let time of times">
                                                         {{time}}
                                                     </option>
                                                 </select>
                                             </div>
                                             <div class="times">
-                                                <select id="minute" class="mers side-form-ctrl" [(ngModel)]="timeObj.fminute" name="minute">
+                                                <select id="minute" class="mers side-form-ctrl" [(ngModel)]="timeObj.fminute" name="minute" (change)="isNotifyDisplayed()">
                                                     <option *ngFor="let minute of minArr" [value]="minute">
                                                         {{minute}}
                                                     </option>
@@ -117,7 +117,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div *ngIf="row.followUpDate !='' && row.followUpTime != ''">
+                                
+                                <div *ngIf="isNotifyVisible">
                                     <div class="form-checkbox-wrapper">
                                         <div class="field-checkbox-wrapper">
                                             <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox" style="display:inline-block;"

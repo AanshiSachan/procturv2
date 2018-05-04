@@ -30,8 +30,8 @@ export class EmailReportComponent {
 
   emailFetchForm: any = {
     institution_id: parseInt(sessionStorage.getItem('institute_id')),
-    from_date: '',
-    to_date: '',
+    from_date: moment(new Date()).format('YYYY-MM-DD'),
+    to_date: moment(new Date()).format('YYYY-MM-DD'),
   }
 
   constructor(
