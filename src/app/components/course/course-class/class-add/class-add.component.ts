@@ -264,7 +264,7 @@ export class ClassAddComponent implements OnInit {
   updateCourseList(ev) {
     this.isRippleLoad = true;
     this.isClassFormFilled = false;
-    this.busy = this.classService.getCourseFromMasterById(ev).subscribe(
+    this.classService.getCourseFromMasterById(ev).subscribe(
       res => {
         if (res.coursesList) {
           this.courseList = res.coursesList;
@@ -308,7 +308,7 @@ export class ClassAddComponent implements OnInit {
   updateSubjectList(ev) {
     this.isRippleLoad = true;
     this.isClassFormFilled = false;
-    this.fetchMasterBatchModule.subject_id = (ev == '-1' ? '-1' : this.fetchMasterBatchModule.subject_id);
+    this.fetchMasterBatchModule.subject_id = '-1';
     this.classService.getStandardSubjectList(ev, this.fetchMasterBatchModule.subject_id, this.fetchMasterBatchModule.assigned).subscribe(
       res => {
         this.isRippleLoad = false;

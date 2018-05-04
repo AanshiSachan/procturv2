@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { ExamService } from '../../../services/report-services/exam.service';
 import { AppComponent } from '../../../app.component';
-import {FilterPipe} from './filter.pipe';
+import { FilterPipe } from './filter.pipe';
 @Component({
   selector: 'app-exam-report',
   templateUrl: './exam-report.component.html',
@@ -15,28 +15,17 @@ export class ExamReportComponent implements OnInit {
   displayBatchSize: number = 10;
   Tdata: boolean = false;
   courseData: any[] = [];
-  subData = "";
-  SubjectData: any[] = [];
+  subjectData: any[] = [];
   masterCourses: any[] = [];
   masterData = "";
-  addReportPopup:boolean= false;
-  examTypeEntry:any[]=[];
-  Exam_sche_Data = "";
-  Exam_Sch_Data: any[] = [];
-  ExamSource: any = [];
-  DetailSource :any=[];
-  pagedExamSource:any[] = [];
-  studentName="";
-  FetchApiData: any = [];
-  dataExamIndex :any[]=[];
-  typeDataForm :any[]=[];
-  
-
+  addReportPopup: boolean = false;
+  exam_Sch_Data: any[] = [];
+  examSource: any = [];
+  DetailSource: any = [];
+  pagedExamSource: any[] = [];
 
 
   projectSettings: ColumnSetting[] = [
-
-   
     { primaryKey: 'student_id', header: 'Student Id' },
     { primaryKey: 'student_name', header: 'Student Name' },
     { primaryKey: 'total_marks', header: 'Total Marks' },
@@ -46,7 +35,7 @@ export class ExamReportComponent implements OnInit {
     { primaryKey: 'doj', header: 'Joining Date' }
   ]
 
-  constructor(private examdata: ExamService,private appC: AppComponent) {
+  constructor(private examdata: ExamService, private appC: AppComponent) {
     this.switchActiveView('exam');
   }
 
@@ -57,32 +46,29 @@ export class ExamReportComponent implements OnInit {
     batch_id: '',
     exam_schd_id: ''
   }
-
-
-
   ngOnInit() {
     this.fetchExamData();
     this.pageIndex = 1;
   }
-  closeReportPopup(){
+  /*==============================================================================
+  ======================================================================================= */
+  closeReportPopup() {
 
-    this.addReportPopup=false;
+    this.addReportPopup = false;
   }
-fetchExamData() {
+  /*========================================================================================
+  ========================================================================================== */
+  fetchExamData() {
 
     this.examdata.ExamReport().subscribe(
       (data: any) => {
         this.masterCourses = data;
-        console.log(this.masterCourses);
       }
     )
-
   }
-
+  /*=============================================================================================
+  ============================================================================================== */
   fetchExamReport() {
-
-    console.log(this.fetchFieldData);
-
     if (this.fetchFieldData.subject_id == "" || this.fetchFieldData.standard_id == "" || this.fetchFieldData.batch_id == "" ||
       this.fetchFieldData.exam_schd_id == "") {
 
@@ -103,52 +89,34 @@ fetchExamData() {
       }
       this.examdata.viewExamData(o).subscribe(
         res => {
-          this.ExamSource = res;
+          this.examSource = res;
           this.Tdata = true;
-          this.totalRecords = this.ExamSource.length;
+          this.totalRecords = this.examSource.length;
           this.fetchTableDataByPage(this.pageIndex);
-          console.log(res);
+
         },
         err => {
-          console.log(err);
+
         }
       );
     }
   }
+  /*=============================================================================
+  =========================================================================================== */
 
+  fetchDetailReport() {
+    this.examdata.viewDetailData(this.fetchFieldData.batch_id)
+      .subscribe(
+        res => {
+          this.DetailSource = res;
 
-  fetchDetailReport(){
-
-  this.examdata.viewDetailData(this.fetchFieldData.batch_id)
-   
-  .subscribe(
-    res=>{
-      this.DetailSource=res;
-      console.log(res);
-      this.addReportPopup=true;
-    },
-    err=>{
-      console.log(err);
-    }
-  )
-};
-
-  /*  
-  else{
-    this.examdata.viewExamData(o).subscribe(
-      res => {
-        this.ExamSource=res;
-        this.Tdata = true;
-        console.log(res);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-    }
-  */
-
-
+          this.addReportPopup = true;
+        },
+        err => {
+        })
+  };
+  /*====================================================================================
+  ======================================================================================= */
   getCourseData(i) {
     this.fetchFieldData.exam_schd_id = "";
     this.fetchFieldData.batch_id = "";
@@ -156,51 +124,46 @@ fetchExamData() {
 
     this.examdata.getCourses(i).subscribe(
       (data: any) => {
-        console.log(data);
+
         this.courseData = data.coursesList;
-        console.log(this.courseData);
+
       },
       (error: any) => {
         return error;
       }
     )
   }
-  
+  /*====================================================================================
+  ======================================================================================= */
   getSubData(i) {
-    console.log(i);
+
     this.fetchFieldData.exam_schd_id = "";
     this.fetchFieldData.batch_id = "";
     this.examdata.getSubject(i).subscribe((data: any) => {
-      console.log(data);
-      this.SubjectData = data.batchesList;
-      console.log(this.SubjectData);
+      this.subjectData = data.batchesList;
+
     })
   }
-
+  /*=====================================================================================
+  ======================================================================================== */
   getExamScheduleData(i) {
-    console.log(this.SubjectData);
-           
     this.fetchFieldData.exam_schd_id = "";
-    console.log(i);
     this.examdata.getExamSchedule(i).subscribe((data: any) => {
-      console.log(data);
-      this.Exam_Sch_Data = data.otherSchd;
-      console.log(this.Exam_Sch_Data);
+      this.exam_Sch_Data = data.otherSchd;
     })
   }
-
+  /*==============================pagination ===========================================
+  =========================================================================================*/
 
   fetchTableDataByPage(index) {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
     this.pagedExamSource = this.getDataFromDataSource(startindex);
   }
-
   fetchNext() {
     this.pageIndex++;
     this.fetchTableDataByPage(this.pageIndex);
   }
-
   fetchPrevious() {
     if (this.pageIndex != 1) {
       this.pageIndex--;
@@ -209,13 +172,10 @@ fetchExamData() {
   }
 
   getDataFromDataSource(startindex) {
-    let t = this.ExamSource.slice(startindex, startindex + this.displayBatchSize);
+    let t = this.examSource.slice(startindex, startindex + this.displayBatchSize);
     return t;
   }
-
-
   switchActiveView(id) {
     document.getElementById('email').classList.remove('active');
   }
-
 }

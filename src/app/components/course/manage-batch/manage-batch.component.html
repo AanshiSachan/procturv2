@@ -4,7 +4,7 @@
 
   <section class="middle-main clearFix" style="padding-left: 15px;">
     <div class="row">
-      <div class="clearFix add-edit pull-left">
+      <div class="clearFix add-edit pull-left" [ngClass]="{'hide' : checkIfUserHadAccess()}">
         <a (click)="togglecreateNewBatch()">
           <i id="showAddBtn" class="addBtnClass">+</i>
           <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>

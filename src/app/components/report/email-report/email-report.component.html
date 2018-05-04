@@ -1,119 +1,78 @@
-<div class="middle-section clearFix sms-view-wrapper" [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
+<div class="clearFix sms-view-wrapper">
+
 
   <aside class="middle-full">
 
     <section class="middle-main clearFix">
+      <div class="filter-box">
 
-      <section class="middle-top mb0 clearFix sms-header">
+        <section class="middle-top mb0 clearFix sms-header">
 
-        <h1 class="pull-left">
-          Email Report
-        </h1>
+          <h1 class="pull-left">
+            <a routerLink="/reports/home">
+              <i style="font-family: 'FontAwesome';font-size: 24px; cursor: pointer;" class="fas fa-home"></i>
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> Email Report
+          </h1>
 
-        <aside class="pull-right">
-          <!-- <input type="button" value="Add Enquiry" class="btn" routerLink='/enquiry/add' />
+          <aside class="pull-right">
+            <!-- <input type="button" value="Add Enquiry" class="btn" routerLink='/enquiry/add' />
             <input type="button" value="Upload Enquiry" routerLink='/enquiry/upload' class="btn"> -->
-        </aside>
+          </aside>
 
-      </section>
+        </section>
 
-      <section class="sms-filter-wrapper">
-        <div class="row">
-          <div class="c-lg-8 c-md-8 c-sm-8">
-            <div class="field-wrapper datePickerBox has-value">
-              <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.from_date" readonly="false"
-                name="fromDate" bsDatepicker/>
-              <label for="fromDate">Sent From</label>
+        <section class="sms-filter-wrapper">
+          <div class="row">
+            <div class="c-lg-8 c-md-8 c-sm-8">
+              <div class="field-wrapper datePickerBox has-value">
+                <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.from_date" readonly="false"
+                  name="fromDate" bsDatepicker/>
+                <label for="fromDate">Sent From</label>
+              </div>
+              <div class="field-wrapper datePickerBox has-value">
+                <input type="text" value="" id="updateDate" readonly="false" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.to_date"
+                  name="toDate" bsDatepicker/>
+                <label for="toDate">Sent To</label>
+              </div>
             </div>
-            <div class="field-wrapper datePickerBox has-value">
-              <input type="text" value="" id="updateDate" readonly="false" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.to_date"
-                name="toDate" bsDatepicker/>
-              <label for="toDate">Sent To</label>
+            <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
+              <div class="btn-sms-search">
+                <input type="button" class="normal-btn fullBlue btn" value="Go" (click)="fetchemailByDate()" />
+              </div>
             </div>
           </div>
-          <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
-            <div class="btn-sms-search">
-              <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="fetchemailByDate()" />
-            </div>
+        </section>
+      </div>
+
+      <section class="table-control">
+        <div class="c-lg-8">
+          <!-- <div *ngIf="emailSource.length">
+            <span>
+              {{emailSource.length}} Email
+            </span>
+          </div> -->
+        </div>
+        <div class="c-lg-4">
+          <div class="field-wrapper">
+            <input type="text" placeholder="Search"  class="form-ctrl" (keyup)="searchDatabase()" [(ngModel)]="searchText">
           </div>
         </div>
       </section>
-
-      <!-- <div class="sms-table-controller">
-          <div class="c-lg-12 c-md-12 c-sm-12 align-left">
-            
-            <ul class="record-list">
-            
-              <li>
-                <label>
-                  Showing {{ getMin() }} to {{ getMax() }} of {{ count }} Records
-                </label>
-              </li>
-            
-              <li>
-                <div class="bulk-dropdown">
-                  <label class="bulk-dropbtn">
-                    Records per page :
-                    <button class="bulk-dropbtn-border" id="bulk-action" #bulkaction (click)="bulkActionFunctionOpen()" type="button" data-toggle="dropdown">
-                      {{displayBatchSize}}
-                      <span class="caret"></span>
-                    </button>
-                  </label>
-                  <div id="bulk-drop" class="bulk-dropdown-content hide" (click)="bulkActionFunctionClose()" (mouseleave)="bulkActionFunctionClose()">
-                    <a *ngFor="let size of sizeArr" (click)="updateTableBatchSize(size)">
-                      {{size}}
-                    </a>
-                  </div>
-                </div>
-              </li>
-           
-            </ul>
-         
-          </div>
-        </div> -->
 
       <section class="sms-table-wrapper">
 
         <div class="table table-responsive student-table">
-
           <proctur-table [records]="emailSource" [tableName]="'Email'" [settings]="projectSettings">
           </proctur-table>
         </div>
 
-
-        <!--
-         <div class="sms-table-controller">
-            
-            <ul class="record-list">
-            
-              <li>
-                <label>
-                  Showing {{ getMin() }} to {{ getMax() }} of {{ count }} Records
-                </label>
-              </li>
-            </ul>
-          </div>-->
-
-
-        <!-- Paginator Here -->
-
-
-        <div class="row filter-res pagination" style="width: 100%;">
+        <!-- <div class="row filter-res pagination" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
               [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
             </pagination>
           </div>
-        </div>
-
-
-        <!-- <div class="filter-res pagination" style="width: 100%;float:left">
-          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-              [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
-            </pagination>
-          </div>
-
         </div> -->
 
       </section>

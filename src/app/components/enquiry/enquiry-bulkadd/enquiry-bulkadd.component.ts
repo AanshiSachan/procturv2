@@ -34,7 +34,7 @@ export class EnquiryBulkaddComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.busy = this.fetchBulkUploadStatusData();
+    this.fetchBulkUploadStatusData();
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
@@ -88,6 +88,7 @@ export class EnquiryBulkaddComponent implements OnInit {
   /* function to upload the xls file as formdata */
   uploadHandler(event) {
     for (let file of event.files) {
+      
       let formdata = new FormData();
       formdata.append("file", file);
       let base = this.auth.getBaseUrl();

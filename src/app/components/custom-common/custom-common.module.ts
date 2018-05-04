@@ -10,7 +10,6 @@ import { BooleanConverter } from './create-custom-comp/create-custom-comp.compon
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CreateCustomCompComponent } from './create-custom-comp/create-custom-comp.component';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
-import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
 import { OnlyNumber } from './onlynumber.directive';
 import {SharedModule} from '../shared/shared.module'
 
@@ -21,7 +20,6 @@ import {SharedModule} from '../shared/shared.module'
         CommonModule,
         CustomCommonRoutingModule,
         BsDatepickerModule,
-        BusyModule,
         SharedModule
     ],
     declarations: [

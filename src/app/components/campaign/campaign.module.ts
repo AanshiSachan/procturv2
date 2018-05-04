@@ -3,9 +3,6 @@ import { CommonModule } from '@angular/common';
 import { CampaignComponent } from './campaign.component';
 import { CampaignRoutingModule } from "./campaign-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MultiselectDropdownModule } from '../../../assets/imported_modules/multiselect-dropdown';
-import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
-import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
 import 'moment';
@@ -21,16 +18,13 @@ import { CampaignService } from '../../services/campaign-services/campaign.servi
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        MultiselectDropdownModule,
-        BusyModule,
-        NgLoggerModule.forRoot(Level.LOG),
         CommonModule,
         CampaignRoutingModule,
         BsDatepickerModule,
         FileUploadModule,
         SplitButtonModule,
         MenuModule,
-        SharedModule
+         SharedModule
     ],
     declarations: [
         CampaignComponent,

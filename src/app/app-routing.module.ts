@@ -6,6 +6,8 @@ import { ErrorComponent } from './components/error/error.component';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
 import { SlotComponent } from './components/slot/slot.component';
 import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
+import { ClassRoomComponent } from './components/class-room/class-room.component';
+import { EventManagmentComponent } from './components/event-managment/event-managment.component';
 
 @NgModule({
     imports: [
@@ -77,11 +79,6 @@ import { CityAreaMapComponent } from './components/city-area-map/city-area-map.c
                     canLoad: [AuthGuard]
                 },
                 {
-                    path: 'exams',
-                    loadChildren: 'app/components/exam-home/exam-home.module#ExamHomeModule',
-                    canLoad: [AuthGuard]
-                },
-                {
                     path: 'fee',
                     loadChildren: 'app/components/fee-template/fee-template.module#FeeTemplateModule',
                     canLoad: [AuthGuard]
@@ -95,6 +92,16 @@ import { CityAreaMapComponent } from './components/city-area-map/city-area-map.c
                     path: 'slot',
                     component: SlotComponent,
                     canLoad: [AuthGuard]
+                },
+                {
+                 path:'classroom',
+                 component:ClassRoomComponent,
+                 canLoad:[AuthGuard]
+                },
+                {
+                path:'eventManagment',
+                component:EventManagmentComponent,
+                canLoad:[AuthGuard]
                 },
                 {
                     path: 'academic',

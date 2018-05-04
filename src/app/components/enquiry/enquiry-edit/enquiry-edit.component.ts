@@ -14,7 +14,6 @@ import { LoginService } from '../../../services/login-services/login.service';
 import { PostEnquiryDataService } from '../../../services/enquiry-services/post-enquiry-data.service';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 import { AppComponent } from '../../../app.component';
-import { Logger } from '@nsalaun/ng-logger';
 import * as moment from 'moment';
 
 
@@ -166,7 +165,7 @@ export class EnquiryEditComponent implements OnInit {
 
 
   /* Return to login if Auth fails else return to enqiury list if no row selected found, else store the rowdata to local variable */
-  constructor(private prefill: FetchprefilldataService, private router: Router, private logger: Logger, private pops: PopupHandlerService,
+  constructor(private prefill: FetchprefilldataService, private router: Router, private pops: PopupHandlerService,
     private poster: PostEnquiryDataService, private appC: AppComponent, private login: LoginService, private route: ActivatedRoute) {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     if (sessionStorage.getItem('Authorization') == null) {
@@ -247,7 +246,7 @@ export class EnquiryEditComponent implements OnInit {
           if (dd != '' && dd != "Invalid date" && dd != null) {
             let obj: any = {};
             obj.component_id = e.id;
-            obj.enq_custom_id = 0;
+            obj.enq_custom_id = e.data.enq_custom_id;
             obj.enq_custom_value = moment(e.value).format("YYYY-MM-DD");
             tempArr.push(obj);
           }
@@ -259,7 +258,7 @@ export class EnquiryEditComponent implements OnInit {
             if (e.value.trim() != '') {
               let obj: any = {};
               obj.component_id = e.id;
-              obj.enq_custom_id = 0;
+              obj.enq_custom_id = e.data.enq_custom_id;
               obj.enq_custom_value = e.value;
               tempArr.push(obj);
             }
@@ -268,14 +267,14 @@ export class EnquiryEditComponent implements OnInit {
             if (e.value) {
               let obj: any = {};
               obj.component_id = e.id;
-              obj.enq_custom_id = 0;
+              obj.enq_custom_id = e.data.enq_custom_id;
               obj.enq_custom_value = "Y";
               tempArr.push(obj);
             }
             else {
               let obj: any = {};
               obj.component_id = e.id;
-              obj.enq_custom_id = 0;
+              obj.enq_custom_id = e.data.enq_custom_id;
               obj.enq_custom_value = "N";
               tempArr.push(obj);
             }
@@ -666,11 +665,13 @@ export class EnquiryEditComponent implements OnInit {
   /* Function to fetch subject when user selects a standard from dropdown */
   fetchSubject(value) {
     if (value != null && value != '' && value != '-1') {
-      this.editEnqData.subject_id = '-1';
+      //this.editEnqData.subject_id = '-1';
       this.enqSub = [];
       this.editEnqData.standard_id = value;
       this.prefill.getEnqSubjects(this.editEnqData.standard_id).subscribe(
-        data => { this.enqSub = data; }
+        data => { 
+          this.enqSub = data; 
+        }
       )
     }
     else {

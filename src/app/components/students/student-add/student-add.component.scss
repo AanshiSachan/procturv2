@@ -61,8 +61,16 @@
     .row {
         margin: 0px 10px;
         .field-wrapper {
-            width: 60%;
+            width: 250px;
         }
+    }
+    .questionInfo {
+        position: relative;
+        left: 56%;
+        top: -30px;
+        height: 20px;
+        width: 20px;
+        z-index: 2;
     }
 }
 
@@ -331,6 +339,7 @@
                         margin: 0px;
                         border: none;
                         padding: 0;
+                        width: 100%;
                         &.datePickerBox {
                             .bsDatepicker {
                                 cursor: pointer;
@@ -579,6 +588,7 @@
                         margin: 0px;
                         border: none;
                         padding: 0;
+                        width: 75%;
                         &.datePickerBox {
                             .bsDatepicker {
                                 cursor: pointer;
@@ -2400,7 +2410,7 @@ input[type=number]::-webkit-outer-spin-button {
         }
     }
     .pdcChequePayment {
-        margin-top: 15px;
+        margin: 15px 0px !important;
     }
 }
 

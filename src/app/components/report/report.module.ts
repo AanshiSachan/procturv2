@@ -8,9 +8,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import 'moment';
 import 'hammerjs';
 import { FilterPipe } from './exam-report/filter.pipe';
-import { MultiselectDropdownModule } from '../../../assets/imported_modules/multiselect-dropdown';
-import { BusyModule, BusyConfig } from '../../../assets/imported_modules/angular2-busy/build';
-import { NgLoggerModule, Level } from '@nsalaun/ng-logger';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { TimepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/timepicker';
 import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
@@ -34,14 +31,12 @@ import{arraySortPipe} from '../shared/pipes/sortBarPipe';
 import { AttendanceReportServiceService } from '../../services/attendance-report/attendance-report-service.service';
 import { BiometricComponent } from './biometric/biometric.component';
 import {BiometricServiceService} from '../../services/biometric-service/biometric-service.service';
+import { ReportWidgetComponent } from './report-widget/report-widget.component';
 
 @NgModule({
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        MultiselectDropdownModule,
-        BusyModule,
-        NgLoggerModule.forRoot(Level.LOG),
         CommonModule,
         ReportRoutingModule,
         BsDatepickerModule,
@@ -65,6 +60,7 @@ import {BiometricServiceService} from '../../services/biometric-service/biometri
         searchPipe,
         arraySortPipe,
         BiometricComponent,
+        ReportWidgetComponent,
         
     ],
     entryComponents: [

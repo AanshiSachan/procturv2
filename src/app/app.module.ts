@@ -16,7 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /* Services */
 import { FetchenquiryService } from './services/enquiry-services/fetchenquiry.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
-import { PopupHandlerService } from './services/enquiry-services/popup-handler.service';
+
 import { PostEnquiryDataService } from './services/enquiry-services/post-enquiry-data.service';
 import { AuthenticatorService } from './services/authenticator.service';
 import { LoginService } from './services/login-services/login.service';
@@ -41,9 +41,12 @@ import { SharedModule } from './components/shared/shared.module';
 import { SlotApiService } from './services/slot-service/slot.service';
 import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
 import { CityAreaService } from './services/area-city-service/area-city.service';
-
-
-
+import {EventManagmentService} from './services/event-managment.service';
+import {ClassRoomService} from './services/class-roomService/class-roomlist.service';
+import { SearchBoxComponent } from './components/core/search-box/search-box.component';
+import { ClassRoomComponent } from './components/class-room/class-room.component';
+import { EventManagmentComponent } from './components/event-managment/event-managment.component';
+import {FilterPipe} from './components/event-managment/filterpipe';
 @NgModule({
   imports: [
     BrowserModule,
@@ -68,22 +71,27 @@ import { CityAreaService } from './services/area-city-service/area-city.service'
     ComingSoonComponent,
     OverlayMenuComponent,
     SlotComponent,
+    ClassRoomComponent,
+    FilterPipe,
+    EventManagmentComponent,
     CityAreaMapComponent,
-  
+    SearchBoxComponent
   ],
   entryComponents: [
+    SearchBoxComponent
   ],
   providers: [
     FetchenquiryService,
     FetchprefilldataService,
-    PopupHandlerService,
     PostEnquiryDataService,
     AuthenticatorService,
     LoginService,
     AuthGuard,
     LoaderHandlingService,
     SlotApiService,
-    CityAreaService
+    CityAreaService,
+    ClassRoomService,
+    EventManagmentService
   ],
   bootstrap: [AppComponent]
 })

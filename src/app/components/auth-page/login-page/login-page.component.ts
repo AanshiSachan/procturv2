@@ -274,6 +274,7 @@ export class LoginPageComponent {
       sessionStorage.setItem('userCat', institute_data.userCat);
       sessionStorage.setItem('userTimeGrp', institute_data.userTimeGrp);
       sessionStorage.setItem('userType', institute_data.userType);
+      this.login.changeUserType(institute_data.userType);
       sessionStorage.setItem('user_permission', institute_data.user_permission);
       sessionStorage.setItem('user_type_name', institute_data.user_type_name);
       sessionStorage.setItem('username', institute_data.username);
@@ -289,9 +290,11 @@ export class LoginPageComponent {
       sessionStorage.setItem('permitted_roles', JSON.stringify(res.data.featureDivMapping));
       if (res.data.permissions == undefined || res.data.permissions == undefined || res.data.permissions == null) {
         sessionStorage.setItem('permissions', '');
+        this.login.changePermissions('');
       }
       else {
         sessionStorage.setItem('permissions', JSON.stringify(res.data.permissions.split(',')));
+        this.login.changePermissions(JSON.stringify(res.data.permissions.split(',')));
       }
       this.createRoleBasedSidenav();
     }

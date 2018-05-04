@@ -101,7 +101,7 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
   updateFormCommentsBy: any[] = [];
   updateFormCommentsOn: any[] = [];
   sourceName: any = "";
-
+  isNotifyVisible:boolean = false;
 
   constructor(private prefill: FetchprefilldataService, private cd: ChangeDetectorRef, private appC: AppComponent) {
     this.isEnquiryAdministrator();
@@ -149,6 +149,9 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
     this.walkin_followUpTime = '';
     this.prefill.fetchAllDataEnquiry(id).subscribe(res => {
       this.rowData.dob = res.dob;
+      this.rowData.parent_name = res.parent_name;
+      this.rowData.parent_email = res.parent_email;
+      this.rowData.parent_phone = res.parent_phone;
       this.updateFormData.followUpDate = res.followUpDate;
       this.cd.markForCheck();
       this.updateFormData.assigned_to = res.assigned_to;
@@ -171,7 +174,13 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
       this.updateFormCommentsOn = res.commentedOn;
       this.updateFormCommentsBy = res.commentedBy;
       if (res.followUpDate != "" && res.followUpDate != null && res.followUpTime != "" && res.followUpTime != null) {
-        this.notifyme = true;
+        if(res.is_follow_up_time_notification == 1){
+          this.notifyme = true;
+        }
+        else{
+          this.notifyme = false;
+        }
+
       }else{
         this.notifyme = false;
       }
@@ -493,6 +502,30 @@ export class EnquirySidebarComponent implements OnChanges, OnDestroy {
       this.isLangInstitute = true;
     } else {
       this.isLangInstitute = false;
+    }
+  }
+
+  isNotifyDisplayed(){
+    this.cd.markForCheck();
+    if(this.updateFormData.followUpDate != '' && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate !="Invalid date"){
+      if(this.followUpTime != '' && this.followUpTime != null && this.followUpTime != undefined){
+        if(this.timeObj.fminute != '' && this.timeObj.fminute != null && this.timeObj.fminute != 'Invalid date'){
+          this.cd.markForCheck();
+          this.isNotifyVisible = true;
+        }
+        else{
+          this.cd.markForCheck();
+          this.isNotifyVisible = false;          
+        }
+      }
+      else{
+        this.cd.markForCheck();
+        this.isNotifyVisible = false;
+      }
+    }
+    else{
+      this.cd.markForCheck();
+      this.isNotifyVisible = false;
     }
   }
 

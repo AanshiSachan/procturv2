@@ -69,7 +69,19 @@
                     }
                 }
                 .upload-icon {
-                    background: url('../../../../assets/images/pdf_download.svg') no-repeat;
+                    background: url('../../../../assets/images/upload.svg') no-repeat;
+                    margin: 10px 0px 0px 2px;
+                    background-size: 20px auto;
+                    padding: 0px 0px 0px 25px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    color: #888;
+                    &:hover {
+                        color: $common-blue;
+                    }
+                }
+                .download-icon{
+                    background: url('../../../../assets/images/download.svg') no-repeat;
                     margin: 10px 0px 0px 2px;
                     background-size: 20px auto;
                     padding: 0px 0px 0px 25px;
@@ -112,7 +124,19 @@
                         }
                     }
                     .upload-icon {
-                        background: url('../../../../assets/images/pdf_download.svg') no-repeat;
+                        background: url('../../../../assets/images/upload.svg') no-repeat;
+                        margin: 10px 0px 0px 2px;
+                        background-size: 20px auto;
+                        padding: 0px 0px 0px 25px;
+                        cursor: pointer;
+                        font-size: 14px;
+                        color: #888;
+                        &:hover {
+                            color: $common-blue;
+                        }
+                    }
+                    .download-icon{
+                        background: url('../../../../assets/images/download.svg') no-repeat;
                         margin: 10px 0px 0px 2px;
                         background-size: 20px auto;
                         padding: 0px 0px 0px 25px;
@@ -1495,10 +1519,21 @@ ul.customDropdown li:hover {
 .update-enquiry-form {
     max-height: 380px;
     overflow: hidden;
+    ::-webkit-scrollbar {
+        display: block;
+        width: 7px;
+        height: 7px;
+    }
     .right-aside-wrapper {
         width: 38%;
         max-height: 360px;
-        overflow: auto;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        ::-webkit-scrollbar {
+            display: block;
+            width: 7px;
+            height: 7px;
+        }
         .row {
             margin: 10px 5px 20px;
         }
@@ -2087,5 +2122,12 @@ ul.customDropdown li:hover {
     to {
         background-position: 0 0, 100% 0, /* move highlight to right */
         100px 0, 100px 40px, 100px 80px, 100px 120px;
+    }
+}
+
+.visibiltyClass {
+    height: 70px !important;
+    .upload-icon {
+        visibility: hidden;
     }
 }

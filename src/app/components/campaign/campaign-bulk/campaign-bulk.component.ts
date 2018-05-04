@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidatorFn, NgForm } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
-import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from '../../../../assets/imported_modules/multiselect-dropdown';
 import * as moment from 'moment';
 import { Pipe, PipeTransform } from '@angular/core';
 import { LoginService } from '../../../services/login-services/login.service';
@@ -83,7 +82,7 @@ export class CampaignBulkComponent implements OnInit {
   /* base64 data to be converted to xls file */
   downloadTemplate() {
     //console.log(this.auth.getBaseUrl);
-    window.open("http://app.proctur.com/doc/lead_upload_form.xls", "_blank");
+    window.open("https://app.proctur.com/doc/lead_upload_form.xls", "_blank");
   }
 
   /* convert base64 string to byte array */
@@ -108,8 +107,16 @@ export class CampaignBulkComponent implements OnInit {
           response= res;  
           if (response.statusCode >= 200 && response.statusCode < 300) {                
             for (let file of event.files) {
-              if(file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-                file.type == 'application/vnd.ms-excel' ){
+              if(
+                file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || 
+                file.type == 'application/vnd.ms-excel' ||
+                file.type == 'text/csv' ||
+                file.type == 'application/xls' ||
+                file.type == 'application/excel' ||
+                file.type == 'application/msexcel' ||
+                file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+                file.type == 'application/x-excel' 
+              ){
                 let formdata = new FormData();
     
                 formdata.append("campaign_list_file", file);
@@ -124,7 +131,7 @@ export class CampaignBulkComponent implements OnInit {
     
                 //
     
-                let urlPostXlsDocument = "http://app.proctur.com/CampaignListUpload";
+                let urlPostXlsDocument = "https://app.proctur.com/CampaignListUpload";
     
                 let xhr: XMLHttpRequest = new XMLHttpRequest();
     

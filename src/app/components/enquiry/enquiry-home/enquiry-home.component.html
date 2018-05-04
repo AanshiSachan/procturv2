@@ -1,6 +1,6 @@
 <loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
 </loaders-css>
-<div class="middle-section clearFix" id="enquiryList" #enquiryManager [ngBusy]="{busy: busy, message: 'Loading...', delay: 100, maxDuration: 1000}">
+<div class="middle-section clearFix" id="enquiryList" #enquiryManager>
   <!-- Main View -->
   <aside class="middle-full" #enqPage>
     <!-- Navigation to other tabs -->
@@ -39,19 +39,19 @@
             </p>
           </li>
           <li class="optMenu" #optMenu>
-            <div class="enq-dropdown-content" *ngIf="isEnquiryOptions" (mouseleave)="isEnquiryOptions = false">
+            <div [ngClass]="{'visibiltyClass':(isEnquiryAdmin == false)}" class="enq-dropdown-content" *ngIf="isEnquiryOptions" (mouseleave)="isEnquiryOptions = false">
               <ul>
                 <li class="excel-icon" (click)="downloadAllEnquiries()">
                   <i class="fa fa-file-excel-o" aria-hidden="true" style="font-family: FontAwesome;font-size: 16px;color: #aaa;"></i>
                   <a id="enq_download"></a>
                   <label class="labelName">Export</label>
                 </li>
-                <li class="export-icon">
+                <li class="upload-icon">
                   <label id="upload" routerLink='upload'>
                     Upload Enquiry
                   </label>
                 </li>
-                <li class="upload-icon" (click)="downloadSummaryReport()" style="height: 35px;">
+                <li class="download-icon" (click)="downloadSummaryReport()" style="height: 35px;">
                   <a id="summary_download"></a>
                   <label>Download Summary Report</label>
                 </li>
@@ -432,6 +432,7 @@
           <div class="update-enquiry-form overflowHidden">
 
             <aside class="pull-right form-wrapper right-aside-wrapper">
+
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
@@ -456,11 +457,12 @@
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value datePickerBox">
                     <input type="text" class="form-ctrl bsDatepicker" value="" placeholder="" [(ngModel)]="updateFormData.followUpDate" id="followUPdateEdit"
-                      bsDatepicker readonly="true" />
+                      (ngModelChange)="isNotifyDisplayed()" bsDatepicker readonly="true" />
                     <label for="followUPdateEdit">Follow Up Date</label>
                     <span class="date-clear" name="followupdate" (click)="clearupdateDate()">clear</span>
                   </div>
@@ -470,14 +472,14 @@
                     <label for="walkintime">Follow Up Time</label>
                     <div class="tbox" style=" width: 100%;">
                       <div class="times" style=" width: 85px; display: inline-block; ">
-                        <select id="walkintime" class="side-form-ctrl mins" [(ngModel)]="hour" name="walkintime">
+                        <select id="walkintime" class="side-form-ctrl mins" [(ngModel)]="hour" (ngModelChange)="isNotifyDisplayed()" name="walkintime">
                           <option [value]="time" *ngFor="let time of times">
                             {{time}}
                           </option>
                         </select>
                       </div>
                       <div class="times " style=" width: 45px; display: inline-block; ">
-                        <select id="minute" class="side-form-ctrl mers" [(ngModel)]="minute" name="minute" style="width: 70px;">
+                        <select id="minute" class="side-form-ctrl mers" [(ngModel)]="minute" (ngModelChange)="isNotifyDisplayed()" name="minute" style="width: 70px;">
                           <option *ngFor="let minute of minArr" [value]="minute">
                             {{minute}}
                           </option>
@@ -487,7 +489,8 @@
                   </div>
                 </div>
               </div>
-              <div class="row" *ngIf="updateFormData.followUpTime != '' &&  updateFormData.followUpDate != ''">
+
+              <div class="row" *ngIf="isNotifyVisible">
                 <div class="c-lg-6 c-md-6 c-sm-6" style="margin-top: 10px">
                   <div class="form-checkbox-wrapper">
                     <div class="field-checkbox-wrapper">
@@ -498,6 +501,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value">
@@ -525,6 +529,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="c-lg-6 c-md-6 c-sm-6">
                   <div class="field-wrapper has-value datePickerBox">
@@ -567,6 +572,7 @@
                   </div>
                 </div>
               </div>
+
             </aside>
 
 
@@ -967,17 +973,17 @@
                   <div class="row" *ngIf="isMessageAddOpen">
                     <section class="clearFix new-sms-form">
                       <div class="row">
-                        <div class="c-lg-6 c-sm-6 c-md-6 c-xs-6 pull-left new-sms-wrapper">
+                        <div class="c-lg-6 pull-left new-sms-wrapper">
                           <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="enter new SMS here"
                             [(ngModel)]="newSmsString.data" (keyup)="smsStringUpdate($event)" aria-haspopup="true" value="">
                             </textarea>
                         </div>
 
-                        <div class="c-lg-2 c-sm-2 c-md-2 c-xs-2">
+                        <div class="c-lg-1">
                           <label>{{newSmsString.length}}</label>
                         </div>
 
-                        <div class="c-lg-4 c-sm-4 c-md-4 c-xs-4 pull-right">
+                        <div class="c-lg-5 pull-right">
                           <aside class="pull-left create-cancel-small">
                             <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()">
                             <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()">
@@ -1183,17 +1189,17 @@
                   <div class="row" *ngIf="isMessageAddOpen">
                     <section class="clearFix new-sms-form">
                       <div class="row">
-                        <div class="c-lg-6 c-sm-6 c-md-6 c-xs-6 pull-left new-sms-wrapper">
+                        <div class="c-lg-6 pull-left new-sms-wrapper">
                           <textarea cols="1" rows="5" class="new-sms-textarea" autocomplete="off" role="textbox" aria-autocomplete="list" placeholder="enter new SMS here"
                             [(ngModel)]="newSmsString.data" (keyup)="smsStringUpdate($event)" aria-haspopup="true" value="">
                                 </textarea>
                         </div>
 
-                        <div class="c-lg-2 c-sm-2 c-md-2 c-xs-2">
+                        <div class="c-lg-1">
                           <label>{{newSmsString.length}}</label>
                         </div>
 
-                        <div class="c-lg-4 c-sm-4 c-md-4 c-xs-4 pull-right">
+                        <div class="c-lg-5 pull-right">
                           <aside class="pull-left create-cancel-small">
                             <input type="button" value="Cancel" class="btn cancle" (click)="addNewMessage()">
                             <input type="button" class="btn fullBlue" value="Save SMS" (click)="addNewSmsTemplate()">
