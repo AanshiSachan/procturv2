@@ -312,6 +312,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('pager') pager: ElementRef;
   @ViewChild('optMenu') optMenu: ElementRef;
 
+  isNotifyVisible: boolean = false;
 
   /* =========================================================================== */
   /* ===================== Declaration Fin ===================================== */
@@ -410,7 +411,12 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
             this.updateFormData.walkin_followUpDate = res.walkin_followUpDate;
             this.updateFormData.followUpTime = res.followUpTime;
             if (res.followUpTime != "" && res.followUpTime != null && res.followUpDate != null && res.followUpDate != "") {
-              this.updateFormData.is_follow_up_time_notification = true;
+              if (res.is_follow_up_time_notification == 1) {
+                this.updateFormData.is_follow_up_time_notification = true;
+              }
+              else {
+                this.updateFormData.is_follow_up_time_notification = false;
+              }
             } else {
               this.updateFormData.is_follow_up_time_notification = false;
             }
@@ -798,7 +804,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
 
   statusFilterUpdater(e) {
-    debugger;
     this.stats[e.prop].checked = e.checked;
     this.statusFilter(e);
   }
@@ -4008,6 +4013,31 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         }
       }
     ];
+  }
+
+
+  isNotifyDisplayed() {
+    this.cd.markForCheck();
+    if (this.updateFormData.followUpDate != '' && this.updateFormData.followUpDate != null && this.updateFormData.followUpDate != "Invalid date") {
+      if (this.hour != '' && this.hour != null && this.hour != undefined) {
+        if (this.minute != '' && this.minute != null && this.minute != 'Invalid date') {
+          this.cd.markForCheck();
+          this.isNotifyVisible = true;
+        }
+        else {
+          this.cd.markForCheck();
+          this.isNotifyVisible = false;
+        }
+      }
+      else {
+        this.cd.markForCheck();
+        this.isNotifyVisible = false;
+      }
+    }
+    else {
+      this.cd.markForCheck();
+      this.isNotifyVisible = false;
+    }
   }
 
 }
