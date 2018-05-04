@@ -54,9 +54,9 @@
 <section class="sms-table-wrapper" *ngIf="Tdata">
     <div class="table table-responsive student-table">
 
-        <div class="search-filter-wrapper" id="adFilterExitVisible">
+       <div class="search-filter-wrapper" id="adFilterExitVisible">
 
-            <input #search type="text" class="normal-field" [(ngModel)]="pagedExamSource.student_name" style="font-size:12px" placeholder="Serach here">
+         <input #search type="text" class="normal-field" [(ngModel)]="pagedExamSource.student_name" style="font-size:12px" placeholder="Serach here">
         </div>
         <proctur-table [records]="pagedExamSource | filter:pagedExamSource.student_name :pagedExamSource.student_id:pagedExamSource.student_phone:pagedExamSource.doj"
             [tableName]="'Exam'" [settings]="projectSettings">

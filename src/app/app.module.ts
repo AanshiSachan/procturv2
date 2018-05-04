@@ -46,7 +46,7 @@ import {ClassRoomService} from './services/class-roomService/class-roomlist.serv
 import { SearchBoxComponent } from './components/core/search-box/search-box.component';
 import { ClassRoomComponent } from './components/class-room/class-room.component';
 import { EventManagmentComponent } from './components/event-managment/event-managment.component';
-
+import {FilterPipe} from './components/event-managment/filterpipe';
 @NgModule({
   imports: [
     BrowserModule,
@@ -72,6 +72,7 @@ import { EventManagmentComponent } from './components/event-managment/event-mana
     OverlayMenuComponent,
     SlotComponent,
     ClassRoomComponent,
+    FilterPipe,
     EventManagmentComponent,
     CityAreaMapComponent,
     SearchBoxComponent

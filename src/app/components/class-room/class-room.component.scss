@@ -150,3 +150,16 @@ screen and (max-height: 768px) {
 .marginhead {
     margin-bottom: -16px;
 }
+.row{
+
+&.field{
+
+    display: flex;
+ // flex-flow: column-reverse;
+  margin-bottom: 1em;
+}
+}
+
+form{
+    margin:2em 0;
+}
