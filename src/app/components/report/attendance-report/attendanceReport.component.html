@@ -310,7 +310,7 @@
                                     </span>
                                     <br>
                                     <span *ngIf="k.class_desc != '' || k.class_desc !=null">
-                                        {{k.class_desc}}
+                                        ({{k.class_desc}})
                                     </span>
                                 </div>
                             </th>
@@ -398,8 +398,8 @@
                                         ( {{k.start_time}} - {{k.end_time}} )
                                     </span>
                                     <br>
-                                    <span *ngIf="k.class_desc != '' || k.class_desc !=null">
-                                        {{k.class_desc}}
+                                    <span *ngIf="k.class_desc != '' || k.class_desc !=null" class="madeDate">
+                                        ({{k.class_desc}})
                                     </span>
                                 </div>
                             </th>
@@ -482,7 +482,7 @@
                                         ( {{k.start_time}} - {{k.end_time}} )
                                     </span>
                                     <span *ngIf="k.class_desc != '' || k.class_desc !=null">
-                                        {{k.class_desc}}
+                                        ({{k.class_desc}})
                                     </span>
                                 </div>
 
