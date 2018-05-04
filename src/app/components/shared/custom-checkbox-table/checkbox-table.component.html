@@ -8,11 +8,7 @@
                     <label>asdf</label>
                 </div>
             </th>
-            <th style="cursor: pointer;"
-             *ngFor="let map of columnMaps" 
-             (click)="requestSort(map.primaryKey)"
-             [ctStyleCell]="getStyle(map.primaryKey, '')"
-             >{{ map.header }}</th>
+            <th style="cursor: pointer;" *ngFor="let map of columnMaps" (click)="requestSort(map.primaryKey)" [ctStyleCell]="getStyle(map.primaryKey, '')">{{ map.header }}</th>
         </tr>
     </thead>
     <tbody *ngIf="records.length != 0">
@@ -24,14 +20,13 @@
                     <label>asdf</label>
                 </div>
             </td>
-            <td style="cursor:pointer;" *ngFor="let map of columnMaps" 
-            [ctStyleCell]="getStyle(map.primaryKey,record[map.access(record)])" 
-            (click)="userRowClicked($event, i, record)">
+            <td style="cursor:pointer;" *ngFor="let map of columnMaps" [ctStyleCell]="getStyle(map.primaryKey,record[map.access(record)])"
+                (click)="userRowClicked($event, i, record)">
                 {{ record[map.access(record)] | formatCell:map.primaryKey }}
             </td>
         </tr>
     </tbody>
-    <tbody *ngIf="records.length == 0 && dataStatus === 1">
+    <tbody *ngIf="records.length == 0 && dataStatus == 1">
         <tr *ngFor="let dummy of dummyArr">
             <td>
                 <div class="skeleton">
@@ -43,17 +38,17 @@
             </td>
         </tr>
     </tbody>
-    <tbody *ngIf="records.length == 0 && dataStatus === 2">
+    <tbody *ngIf="records.length == 0 && dataStatus == 2">
         <tr>
-            <td colspan='11'>
+            <td colspan='columnMaps.length'>
                 <label style="font-size: 16px;font-weight: 600;">No Records Found</label>
             </td>
         </tr>
     </tbody>
-    <tbody *ngIf="records.length == 0 && dataStatus === 3">
-            <tr>
-                <td colspan='11'>
-                </td>
-            </tr>
-        </tbody>
+    <tbody *ngIf="records.length == 0 && dataStatus == 3">
+        <tr>
+            <td colspan='columnMaps.length'>
+            </td>
+        </tr>
+    </tbody>
 </table>

@@ -20,7 +20,9 @@ export class EmailReportComponent {
   searchText = "";
   searchData = [];
   searchflag: boolean = false;
-  
+  dataStatus:number = 2;
+  isRippleLoad:boolean = false;
+
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'sentDateTime', header: 'Sent Date' },
     { primaryKey: 'emailId', header: 'Email' },
@@ -48,8 +50,10 @@ export class EmailReportComponent {
   ngOnInit() {
     this.pageIndex = 1;
     this.emailSource = [];
+    this.isRippleLoad = true;
     this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.emailDataSource = res;
         this.totalRecords = res.length;
         this.fetchTableDataByPage(this.pageIndex);
@@ -57,6 +61,7 @@ export class EmailReportComponent {
 
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
 
       }
@@ -133,10 +138,15 @@ export class EmailReportComponent {
 
     }
     else {
+      this.isRippleLoad = true;
       this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
         res => {
+          this.isRippleLoad = false;
           this.emailSource = res;
           this.searchflag = false;
+        },
+        err => {
+          this.isRippleLoad = false;
         }
       )
     }

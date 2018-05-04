@@ -37,7 +37,8 @@ export class SmsReportComponent implements OnInit {
   searchText = "";
   searchData = [];
   searchflag: boolean = false;
-
+  dataStatus:number = 2;
+  isRippleLoad:boolean = false;
 
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'name', header: 'Name' },
@@ -78,10 +79,11 @@ export class SmsReportComponent implements OnInit {
 
 
   getSmsReport(obj) {
-
+    this.isRippleLoad = true;
     if (obj.start_index == 0) {
       return this.getSms.fetchSmsReport(obj).subscribe(
         res => {
+          this.isRippleLoad = false;
           if (res.length != 0) {
             this.smsSource = res;
             this.totalRecords = res[0].totalCount;
@@ -90,12 +92,16 @@ export class SmsReportComponent implements OnInit {
             this.smsSource = [];
             this.totalRecords = 0;
           }
+        },
+        err => {
+          this.isRippleLoad = false;
         }
       )
     }
     else {
       return this.getSms.fetchSmsReport(obj).subscribe(
         res => {
+          this.isRippleLoad = false;
           this.smsSource = res;
         }
       )
