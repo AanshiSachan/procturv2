@@ -213,16 +213,22 @@
 
     <div class="row">
       <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6">
-        <div class="form-wrapper datePickerBox">
-          <label for="eventDate">Event Date*</label>
-          <input type="text" class="side-form-ctrl bsDatepicker" name="eventDate" bsDatepicker [(ngModel)]="saveDataObj.holiday_date" />
+        <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': (saveDataObj.holiday_date != '' )}">
+          <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="saveDataObj.holiday_date" readonly="true"
+            name="csd" bsDatepicker>
+          <label for="csd">Event Date
+            <span>*</span>
+          </label>
         </div>
       </div>
 
       <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6" *ngIf="endDateBox">
-        <div class="field-wrapper datePickerBox">
-          <label for="eveendDate">Event End Date</label>
-          <input type="text" class="side-form-ctrl bsDatepicker" name="eveendDate" bsDatepicker [(ngModel)]="saveDataObj.event_end_date" />
+        <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': (saveDataObj.event_end_date != '' )}">
+          <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="saveDataObj.event_end_date" readonly="true"
+            name="csd" bsDatepicker>
+          <label for="csd">Event End Date
+            <span>*</span>
+          </label>
         </div>
       </div>
     </div>
@@ -255,19 +261,19 @@
     <div class="row" *ngIf="saveDataObj.event_type == 2">
       <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
         <div class="form-wrapper">
-          <label for="helpadd">Help
+          <label for="helpadd">Public Url
             <div class="questionInfo inline-relative">
               <span class="qInfoIcon i-class">?</span>
               <div class="tooltip-box-field">
-                  You can specify website URL
-                <br>for the Event. This URL<br> will
-                 be displayed in Student
-                <br> Android/iOS APP as a
-                part of <br>Event Description
+                You can specify website URL
+                <br>for the Event. This URL
+                <br> will be displayed in Student
+                <br> Android/iOS APP as a part of
+                <br>Event Description
               </div>
             </div>
           </label>
-          <input type="text" name="helpadd" class="side-form-ctrl" placeholder="Public Url" [(ngModel)]="saveDataObj.public_url" />
+          <input type="text" name="helpadd" class="side-form-ctrl" [(ngModel)]="saveDataObj.public_url" />
         </div>
       </div>
 
@@ -337,20 +343,28 @@
         </div>
       </div>
     </div>
+
     <div class="row">
       <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6">
-        <div class="field-wrapper datePickerBox">
-          <label for="eventDate">Event Date*</label>
-          <input type="text" readonly="true" name="eventDate" class="form-ctrl  bsDatepicker" bsDatepicker [(ngModel)]="newUpdateObj.holiday_date"
-          />
+        <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': (newUpdateObj.holiday_date != '' )}">
+          <input type="text" value="" id="csd" class="form-ctrl bsDatepicker" [(ngModel)]="newUpdateObj.holiday_date" readonly="true"
+            name="csd" bsDatepicker>
+          <label for="csd">Event Date
+            <span>*</span>
+          </label>
         </div>
       </div>
 
+
+
       <div class="c-sm-6 c-xs-6 c-lg-6 c-md-6" *ngIf="checker">
-        <div class="field-wrapper datePickerBox">
-          <label for="eventenddate">Event End Date</label>
+
+        <div class="field-wrapper datePickerBox" [ngClass]="{'has-value':newUpdateObj.event_end_date!= ''}">
           <input type="text" class="form-ctrl  bsDatepicker" name="eventenddate" bsDatepicker [(ngModel)]="newUpdateObj.event_end_date"
           />
+          <label for="eventenddate">Event End Date
+            <span>*</span>
+          </label>
         </div>
       </div>
 
@@ -384,19 +398,19 @@
     <div class="row" *ngIf="newUpdateObj.event_type == 2">
       <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
         <div class="form-wrapper">
-          <label for="help">Help
+          <label for="help">Public Url
             <div class="questionInfo inline-relative">
               <span class="qInfoIcon i-class">?</span>
               <div class="tooltip-box-field">
                 You can specify website URL
-                <br>for the Event. This URL<br> will
-                 be displayed in Student
-                <br> Android/iOS APP as a
-                part of <br>Event Description
+                <br>for the Event. This URL
+                <br> will be displayed in Student
+                <br> Android/iOS APP as a part of
+                <br>Event Description
               </div>
             </div>
           </label>
-          <input type="text" name="help" class="side-form-ctrl" placeholder="Public Url" [(ngModel)]="newUpdateObj.public_url" />
+          <input type="text" name="help" class="side-form-ctrl" [(ngModel)]="newUpdateObj.public_url" />
         </div>
       </div>
 
