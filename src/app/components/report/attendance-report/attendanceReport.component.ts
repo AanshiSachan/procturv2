@@ -654,22 +654,28 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   searchDatabase() {
+    
     if (this.searchText != "" && this.searchText != null) {
+      
       this.PageIndex = 1;
-      let searchData: any;
-      if (this.isProfessional) {
-        searchData = this.queryParamsPro.filter(item =>
+      let searchRes: any;
+      if (!this.isProfessional) {
+        searchRes = this.postData.filter(item =>
           Object.keys(item).some(
             k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
         );
-      } else {
-        searchData = this.postData.filter(item =>
+      } 
+      else 
+      {
+        searchRes = this.queryParamsPro.filter(item =>
           Object.keys(item).some(
             k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
         );
+        
       }
-      this.searchData = searchData;
-      this.totalRow = searchData.length;
+      
+      this.searchData = searchRes;
+      this.totalRow = searchRes.length;
       this.searchflag = true;
       this.fetchTableDataByPage(this.PageIndex);
     }
