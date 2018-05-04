@@ -1,3 +1,5 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <div class="clear-fix">
     <aside class="middle-full">
         <section class="middle-main clearFix attendance-container">
@@ -22,12 +24,14 @@
                             <label>Master Course</label>
                             <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.master_course_name" (ngModelChange)="getCourseData($event)"
                                 name="masterCourse">
+                                <option value=-1></option>
                                 <option *ngFor="let i of masterCourses" [value]="i.master_course">{{i.master_course}}</option>
                             </select>
                         </div>
                         <div class="form-wrapper" *ngIf=isProfessional>
                             <label>Master Course</label>
                             <select class="side-form-ctrl" [(ngModel)]="queryParams.standard_id" (ngModelChange)="getCourseData($event)" name="masterCourse">
+                                <option value=-1></option>
                                 <option *ngFor="let i of masterCoursePro" [value]="i.standard_id">{{i.standard_name}}</option>
                             </select>
                         </div>
@@ -38,13 +42,15 @@
                         <div class="form-wrapper" *ngIf=!isProfessional>
                             <label> Course</label>
                             <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.course_id" (ngModelChange)="getSubjectData($event)">
+                                <option value=-1></option>
                                 <option *ngFor="let i of courses" [value]="i.course_id" name="subjectCourse">{{i.course_name}}</option>
                             </select>
                         </div>
                         <div class="form-wrapper" *ngIf="isProfessional">
                             <label> Course</label>
-                            <select class="side-form-ctrl" [(ngModel)]="queryParams.subject_id" (ngModelChange)="getSubjectData($event)">
 
+                            <select class="side-form-ctrl" [(ngModel)]="queryParams.subject_id" (ngModelChange)="getSubjectData($event)">
+                                <option value=-1></option>
                                 <option *ngFor="let i of subjectPro" [value]="i.subject_id" name="subjectCourse">{{i.subject_name}}</option>
                             </select>
                         </div>
@@ -55,14 +61,14 @@
                         <div class="form-wrapper" *ngIf=!isProfessional>
                             <label>Subject</label>
                             <select class="side-form-ctrl" [(ngModel)]="attendanceFetchForm.batch_id" (ngModelChange)="getBatchData($event)">
-
+                                <option value=-1></option>
                                 <option *ngFor="let i of batchCourses" [value]="i.batch_id" name="batchCourse">{{i.batch_name}}</option>
                             </select>
                         </div>
                         <div class="form-wrapper" *ngIf=isProfessional>
                             <label>Batch Name</label>
                             <select class="side-form-ctrl" [(ngModel)]="queryParams.batch_id">
-
+                                <option value=-1></option>
                                 <option *ngFor="let i of batchPro" [value]="i.batch_id" name="batchCourse">{{i.batch_name}}</option>
                             </select>
                         </div>
@@ -81,12 +87,12 @@
 
                         <div class="form-date form-wrapper datePickerBox" *ngIf="isProfessional">
                             <label>From date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.from_date" format="yyyy/mm/dd" data-date-end-date="0d"
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.from_date" (ngModelChange)="dateValidationForFuture($event)"
                                 bsDatepicker/>
                         </div>
                         <div class="form-date form-wrapper datePickerBox" *ngIf="isProfessional">
                             <label>To date</label>
-                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.to_date" format="yyyy/mm/dd" data-date-end-date="0d"
+                            <input type="text" class="side-form-ctrl  bsDatepicker" [(ngModel)]="queryParams.to_date" (ngModelChange)="dateValidationForFuture($event)"
                                 bsDatepicker/>
                         </div>
                     </div>
@@ -138,7 +144,7 @@
                         </div>
                         <div *ngIf=isProfessional>
                             <proctur-table [records]="queryParamsPro" [tableName]="'sms'" [settings]="projectSettings" [dataStatus]="dataStatus" [columnMap]="columnMaps"
-                                [dummyArr]="dummyArr" [direction]="direction">
+                                (sortData)="sortedData($event)" [dummyArr]="dummyArr" [direction]="direction">
                             </proctur-table>
 
                         </div>
@@ -186,7 +192,7 @@
             <a class="fa fa-file-excel-o" style="font-size:30px; padding-bottom:10px; float:right;display:inline-block;" (click)="DownloadJsonToCsv()"></a>
             <a class="hide" #xlsDownloader></a>
 
-            <div class="table table-responsive student-table">
+            <div class="table table-responsive student-table madeAttendance">
                 <table>
                     <thead>
                         <tr>
@@ -196,8 +202,18 @@
                             <th>
                                 Id
                             </th>
-                            <th *ngFor="let k of typeAttendance">
-                                {{k.class_date | date:"dd/MMM"}} ({{k.start_time}} - {{k.end_time}})
+                            <th *ngFor="let k of typeAttendancePro">
+                                <div>
+                                    {{k.class_date | date:"dd MMM"}}
+                                    <br>
+                                    <span *ngIf="k.start_date != null || k.end_time != null" class="madeDate">
+                                        ( {{k.start_time}} - {{k.end_time}} )
+                                    </span>
+                                    <br>
+                                    <span *ngIf="k.class_desc != '' || k.class_desc !=null">
+                                        {{k.class_desc}}
+                                    </span>
+                                </div>
                             </th>
                             <th>
                                 Present
@@ -273,10 +289,19 @@
                             <th>
                                 Id
                             </th>
-                            <th *ngFor="let k of typeAttendance">
-                                {{k.class_date | date:"dd/MMM"}}
+                            <th *ngFor="let k of typeAttendancePro">
+                                <div>
+                                    {{k.class_date | date:"dd MMM"}}
+                                    <br>
+                                    <span *ngIf="k.start_date != null || k.end_time != null">
+                                        ( {{k.start_time}} - {{k.end_time}} )
+                                    </span>
+                                    <br>
+                                    <span *ngIf="k.class_desc != '' || k.class_desc !=null">
+                                        {{k.class_desc}}
+                                    </span>
+                                </div>
                             </th>
-
                             <th>
                                 Present
                             </th>
@@ -343,7 +368,7 @@
             <a class="fa fa-file-excel-o" style="font-size:30px; padding-bottom:10px; float:right;display:inline-block;" (click)="DownloadJsonToCsv()"></a>
             <a class="hide" #xlsDownloader></a>
 
-            <div class="table table-responsive student-table">
+            <div class="table table-responsive student-table madeAttendance">
                 <table>
                     <thead>
                         <tr>
@@ -354,8 +379,17 @@
                                 Name
                             </th>
                             <th *ngFor="let k of typeAttendancePro">
-                                {{k.class_date | date:"dd/MMM"}}
-
+                                <div>
+                                    {{k.class_date | date:"dd MMM"}}
+                                    <br>
+                                    <span *ngIf="k.start_date != null || k.end_time != null" class="madeDate">
+                                        ( {{k.start_time}} - {{k.end_time}} )
+                                    </span>
+                                    <br>
+                                    <span *ngIf="k.class_desc != '' || k.class_desc !=null">
+                                        {{k.class_desc}}
+                                    </span>
+                                </div>
                             </th>
                             <th>
                                 Total Present
@@ -418,7 +452,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="table table-responsive student-table" class="hide">
+            <div class="table table-responsive student-table madeAttendance" class="hide">
                 <table #attendanceTable>
                     <thead>
                         <tr>
@@ -429,7 +463,16 @@
                                 Name
                             </th>
                             <th *ngFor="let k of typeAttendancePro">
-                                {{k.class_date | date:"dd/MMM"}}
+                                <div>
+                                    {{k.class_date | date:"dd MMM"}}
+                                    <br>
+                                    <span *ngIf="k.start_date != null || k.end_time != null" class="madeDate">
+                                        ( {{k.start_time}} - {{k.end_time}} )
+                                    </span>
+                                    <span *ngIf="k.class_desc != '' || k.class_desc !=null">
+                                        {{k.class_desc}}
+                                    </span>
+                                </div>
 
                             </th>
                             <th>

@@ -1,6 +1,21 @@
 $color-base: #efefef;
 $color-base: #efefef;
 $color-highlight: lighten($color-base, 7%);
+.madeAttendance{
+    table{
+        thead{
+            tr{
+                padding:5px;
+                th{
+                    padding: 5px;
+                }
+            }
+        }
+    }
+    .madeDate{
+        font-size:12px;
+    }
+}
 .skeleton {
     position: relative;
     overflow: hidden;
