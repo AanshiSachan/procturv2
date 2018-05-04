@@ -344,7 +344,7 @@
                         <div class="table table-responsive student-table">
                             <ng-robTable [records]="studentDataSource" [defaultSort]="sortBy" [reset]="isSideBar" [tableName]="'student'" [settings]="StudentSettings"
                                 (userRowSelect)="userRowSelect($event)" (rowsSelected)="getRowCount($event)" [dataStatus]="loading_message"
-                                [key1]="'isActive'" [primaryKey]="'student_id'" (rowIdArr)="getSelected($event)" (rowUserIDArrayList)="getSelectedUserIDS($event)"
+                                [key1]="'isActive'" [primaryKey]="'student_id'" (rowIdArr)="getSelected($event)" (rowUserId)="getSelectedUserIDS($event)"
                                 (sortById)="sortTableById($event)" (sortDirection)="getDirection($event)">
                             </ng-robTable>
                         </div>

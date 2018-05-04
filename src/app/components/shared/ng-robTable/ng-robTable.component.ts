@@ -28,6 +28,7 @@ export class RobTableComponent implements OnChanges {
     @Output() rowUserId = new EventEmitter<string>();
     @Output() sortDirection=new EventEmitter<boolean>();
 
+
     isAllSelected: boolean = false;
     columnMaps: ColumnMap[];
     selectedRowGroup: any[] = [];
@@ -106,6 +107,7 @@ export class RobTableComponent implements OnChanges {
         $event.stopPropagation();
         this.selectedRow = ev;
         this.userRowSelect.emit(row);
+        this.getSelectedRows();
     }
 
 
