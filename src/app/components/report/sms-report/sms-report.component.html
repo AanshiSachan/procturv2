@@ -1,43 +1,59 @@
-
 <div class="clearFix sms-view-wrapper">
 
   <aside class="middle-full">
 
     <section class="middle-main clearFix">
+      <div class="filter-box">
+        <section class="middle-top mb0 clearFix sms-header">
 
-      <section class="middle-top mb0 clearFix sms-header">
+          <h1 class="pull-left">
+            <a routerLink="/reports/home">
+              <i style="font-family: 'FontAwesome'; font-size: 24px;cursor: pointer;" class="fas fa-home"></i>
+            </a>
+            <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> SMS Report
+          </h1>
 
-        <h1 class="pull-left">
-          <a routerLink="/reports/home">
-            <i style="font-family: 'FontAwesome'; font-size: 24px;cursor: pointer;" class="fas fa-home"></i>
-          </a> <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i> SMS Report
-        </h1>
-
-        <aside class="pull-right">
-          <!-- <input type="button" value="Add Enquiry" class="btn" routerLink='/enquiry/add' />
+          <aside class="pull-right">
+            <!-- <input type="button" value="Add Enquiry" class="btn" routerLink='/enquiry/add' />
           <input type="button" value="Upload Enquiry" routerLink='/enquiry/upload' class="btn"> -->
-        </aside>
+          </aside>
 
-      </section>
+        </section>
 
-      <section class="sms-filter-wrapper">
-        <div class="row">
-          <div class="c-lg-8 c-md-8 c-sm-8">
-            <div class="field-wrapper datePickerBox has-value">
-              <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" readonly="true" name="fromDate" (focus)="inputClicked($event)"
-                [(ngModel)]="smsFetchForm.from_date" bsDatepicker/>
-              <label for="fromDate">Sent From</label>
+        <section class="sms-filter-wrapper">
+          <div class="row">
+            <div class="c-lg-8 c-md-8 c-sm-8">
+              <div class="field-wrapper datePickerBox has-value">
+                <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" readonly="true" name="fromDate" (focus)="inputClicked($event)"
+                  [(ngModel)]="smsFetchForm.from_date" bsDatepicker/>
+                <label for="fromDate">Sent From</label>
+              </div>
+              <div class="field-wrapper datePickerBox has-value">
+                <input type="text" value="" id="updateDate" (focus)="inputClicked($event)" readonly="true" [(ngModel)]="smsFetchForm.to_date"
+                  class="form-ctrl bsDatepicker" name="toDate" bsDatepicker/>
+                <label for="toDate">Sent To</label>
+              </div>
             </div>
-            <div class="field-wrapper datePickerBox has-value">
-              <input type="text" value="" id="updateDate" (focus)="inputClicked($event)" readonly="true" [(ngModel)]="smsFetchForm.to_date"
-                class="form-ctrl bsDatepicker" name="toDate" bsDatepicker/>
-              <label for="toDate">Sent To</label>
+            <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
+              <div class="btn-sms-search">
+                <input type="button" class="normal-btn fullBlue btn" value="Go" (click)="fetchSmsByDate()" />
+              </div>
             </div>
           </div>
-          <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
-            <div class="btn-sms-search">
-              <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="fetchSmsByDate()" />
-            </div>
+        </section>
+      </div>
+
+      <section class="table-control">
+        <div class="c-lg-8">
+          <!-- <div *ngIf="smsSource.length">
+            <span>
+              {{smsSource.length}} Email
+            </span>
+          </div> -->
+        </div>
+        <div class="c-lg-4">
+          <div class="field-wrapper">
+            <input type="text" placeholder="Search" class="form-ctrl">
           </div>
         </div>
       </section>
@@ -53,14 +69,14 @@
 
 
         <!-- Paginator Here-->
-        <div class="filter-res pagination" style="width: 100%;">
+        <!-- <div class="filter-res pagination" style="width: 100%;">
           <div class="c-lg-12 c-md-12 c-sm-12 align-right">
             <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
               [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
             </pagination>
           </div>
 
-        </div>
+        </div> -->
 
       </section>
 

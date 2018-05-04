@@ -50,8 +50,8 @@ export class SmsReportComponent implements OnInit {
 
   smsFetchForm: any = {
     institution_id: parseInt(sessionStorage.getItem('institute_id')),
-    from_date: moment().format('YYYY-MM-DD'),
-    to_date: moment().format('YYYY-MM-DD'),
+    from_date: moment(new Date()).format('YYYY-MM-DD'),
+    to_date: moment(new Date()).format('YYYY-MM-DD'),
     start_index: 0,
     batch_size: this.displayBatchSize,
     sorted_by: "",
