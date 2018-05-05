@@ -153,7 +153,7 @@
                         {{out_time}}
                       </td>
                       <td>
-                        <button class="btn fullBlue" (click)="viewOlderRecords(i)">View</button>
+                        <button class="btn fullBlue btnStudent" (click)="viewOlderRecords(i)">View</button>
                       </td>
                     </tr>
                   </tbody>
@@ -219,8 +219,10 @@
                         Is active
                       </th>
                       <th>
+                        In time
                       </th>
                       <th>
+                        Out
                       </th>
                       <th>
                         View Older Records
@@ -250,7 +252,7 @@
                         {{i.out_time}}
                       </td>
                       <td>
-                        <button class="btn fullBlue" (click)="viewOlderRecords(i)">View</button>
+                        <button class="btn fullBlue btnStudent" (click)="viewOlderRecords(i)">View</button>
                       </td>
                     </tr>
                   </tbody>
@@ -339,7 +341,7 @@
                         {{i.out_time}}
                       </td>
                       <td>
-                        <button class="btn fullBlue" (click)="viewOlderRecords(i)">View</button>
+                        <button class="btn fullBlue btnStudent" (click)="viewOlderRecords(i)">View</button>
                       </td>
                     </tr>
                   </tbody>
@@ -405,7 +407,7 @@
                 </div>
                 <div class="c-lg-2">
                   <div class="form-field form-wrapper">
-                    <button class="btn fullBlue" (click)="popupChange()">Go</button>
+                    <button class="btn fullBlue" style="margin-top:-3px;"  (click)="popupChange()">Go</button>
                   </div>
                 </div>
               </div>

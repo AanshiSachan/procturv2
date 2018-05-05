@@ -133,6 +133,7 @@ export class EmailReportComponent {
   switchActiveView(id) {
     document.getElementById('email').classList.remove('active');
   }
+ 
 
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
@@ -159,5 +160,6 @@ export class EmailReportComponent {
       )
     }
   }
-
 }
+  
+
