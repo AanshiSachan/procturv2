@@ -1904,6 +1904,9 @@ export class AdminHomeComponent implements OnInit {
     this.batchList = [];
     this.courseList = [];
     this.showTableFlag = false;
+    this.sendNotification.subject_id = '-1';
+    this.sendNotification.batch_id = '-1';
+    this.showTableFlag = false;
     this.getMasterCourseAndBatch(this.sendNotification);
   }
 
