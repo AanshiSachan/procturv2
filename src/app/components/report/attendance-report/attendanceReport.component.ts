@@ -410,6 +410,7 @@ export class AttendanceReportComponent implements OnInit {
                 body: "We did not find any attendance marked for the selected dates "
               }
               this.appc.popToast(msg);
+              this.isRippleLoad=false;
             }
 
           },
@@ -490,6 +491,7 @@ export class AttendanceReportComponent implements OnInit {
                 body: "We did not find any attendance marked for the selected dates "
               }
               this.appc.popToast(msg);
+              this.isRippleLoad=false;
             }
           },
           (error: any) => {

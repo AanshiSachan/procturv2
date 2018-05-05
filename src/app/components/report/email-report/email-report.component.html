@@ -26,38 +26,39 @@
 
         <section class="sms-filter-wrapper">
           <div class="row">
-            <div class="c-lg-8 c-md-8 c-sm-8">
+            <div class="c-lg-5">
               <div class="field-wrapper datePickerBox has-value">
-                <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.from_date" readonly="false"
+                <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.from_date" (ngModelChange)="dateValidationForFuture($event)" readonly="false"
                   name="fromDate" bsDatepicker/>
                 <label for="fromDate">Sent From</label>
               </div>
               <div class="field-wrapper datePickerBox has-value">
-                <input type="text" value="" id="updateDate" readonly="false" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.to_date"
+                <input type="text" value="" id="updateDate" readonly="false" class="form-ctrl bsDatepicker" [(ngModel)]="emailFetchForm.to_date" (ngModelChange)="dateValidationForFuture($event)"
                   name="toDate" bsDatepicker/>
                 <label for="toDate">Sent To</label>
               </div>
             </div>
-            <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
+            <div class="c-lg-2">
               <div class="btn-sms-search">
                 <input type="button" class="normal-btn fullBlue btn" value="Go" (click)="fetchemailByDate()" />
               </div>
             </div>
+            <div class="c-lg-5"></div>
           </div>
         </section>
       </div>
 
       <section class="table-control">
         <div class="c-lg-8">
-          <!-- <div *ngIf="emailSource.length">
-              <span>
-                {{emailSource.length}} Email
-              </span>
-            </div> -->
+          <div *ngIf="emailSource.length" class="c-lg-6" style="padding: 15px;font-size: 16px;font-weight: 500;">
+            Showing {{emailSource.length}} emails
+          </div>
+          <div *ngIf="emailSource.length == 0" class="c-lg-6"></div>
+          <div class="c-lg-6"></div>
         </div>
         <div class="c-lg-4">
           <div class="field-wrapper">
-            <input type="text" placeholder="Search" class="form-ctrl" (keyup)="searchDatabase()" [(ngModel)]="searchText">
+            <input style="border: 1px solid #efefef;padding: 5px;width: 70%;float: right;"  type="text" placeholder="Search" class="form-ctrl" (keyup)="searchDatabase()" [(ngModel)]="searchText">
           </div>
         </div>
       </section>

@@ -185,7 +185,7 @@ export class AdminHomeComponent implements OnInit {
     course_id: ''
   }
   loginField = {
-    checkBox: ''
+    checkBox: '0'
   }
   permissionArray = sessionStorage.getItem('permissions');
   settingInfo: any = [];
@@ -1837,7 +1837,8 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('idSendMessage').classList.remove('active');
     document.getElementById(id).classList.add('active');
     document.getElementById(div).classList.remove('hide');
-    document.getElementById('divParentOrGaurdian').classList.remove('hide');
+    document.getElementById('divParentOrGaurdian').classList.remove('hide'); 
+    document.getElementById('sendToHead').classList.remove('hide');
     document.getElementById('chkbxEmailSend').checked = false;
     document.getElementById('sendLoginChkbx').checked = false;
     this.showEmailSubject = false;
@@ -1852,8 +1853,10 @@ export class AdminHomeComponent implements OnInit {
       document.getElementById('chkbxEmailSend').checked = false;
       if (document.getElementById('chkBoxTutorSelection').checked) {
         document.getElementById('divParentOrGaurdian').classList.add('hide');
+        document.getElementById('sendToHead').classList.add('hide');
       } else {
         document.getElementById('divParentOrGaurdian').classList.remove('hide');
+        document.getElementById('sendToHead').classList.remove('hide');
       }
       if (this.selectedOption != "filter") {
         this.whichCheckBoxSelected();
@@ -1906,6 +1909,9 @@ export class AdminHomeComponent implements OnInit {
     this.batchList = [];
     this.courseList = [];
     this.showTableFlag = false;
+    this.sendNotification.subject_id = '-1';
+    this.sendNotification.batch_id = '-1';
+    this.showTableFlag = false;
     this.getMasterCourseAndBatch(this.sendNotification);
   }
 
@@ -1925,16 +1931,20 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('chkBoxTutorSelection').checked = false;
     document.getElementById('chkBoxInActiveSelection').checked = false;
     document.getElementById('chkBoxAluminiSelection').checked = false;
-    this.widgetService.fetchStudentListData(this.sendNotification.batch_id).subscribe(
-      res => {
-        this.showTableFlag = true;
-        this.studentList = this.addKeys(res, true);
-        this.selectedOption = "filter";
-      },
-      err => {
-        console.log(err);
-      }
-    )
+    if(this.sendNotification.batch_id == "-1"){
+      this.showTableFlag = false;
+    }else{
+      this.widgetService.fetchStudentListData(this.sendNotification.batch_id).subscribe(
+        res => {
+          this.showTableFlag = true;
+          this.studentList = this.addKeys(res, true);
+          this.selectedOption = "filter";
+        },
+        err => {
+          console.log(err);
+        }
+      )
+    }
   }
 
 

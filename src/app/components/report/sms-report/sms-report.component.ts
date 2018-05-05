@@ -37,7 +37,7 @@ export class SmsReportComponent implements OnInit {
   searchText = "";
   searchData = [];
   searchflag: boolean = false;
-  dataStatus:number = 2;
+  dataStatus:boolean = true;
   isRippleLoad:boolean = false;
 
   projectSettings: ColumnSetting[] = [
@@ -80,6 +80,7 @@ export class SmsReportComponent implements OnInit {
 
   getSmsReport(obj) {
     this.isRippleLoad = true;
+    this.dataStatus = true;
     if (obj.start_index == 0) {
       return this.getSms.fetchSmsReport(obj).subscribe(
         res => {
@@ -90,6 +91,7 @@ export class SmsReportComponent implements OnInit {
           }
           else {
             this.smsSource = [];
+            this.dataStatus = false;
             this.totalRecords = 0;
           }
         },
@@ -226,6 +228,32 @@ export class SmsReportComponent implements OnInit {
       )
       }
     }
+
+    dateValidationForFuture(e) {
+      console.log(e);
+      let today = moment(new Date);
+      let selected = moment(e);
+  
+      let diff = moment(selected.diff(today))['_i'];
+  
+      if (diff <= 0) {
+  
+      }
+      else {
+        
+        this.smsFetchForm.to_date = moment(new Date).format('YYYY-MM-DD');
+        this.smsFetchForm.from_date = moment(new Date).format('YYYY-MM-DD');
+  
+        let msg = {
+          type: "info",
+          body: "Future date is not allowed"
+        }
+        this.appC.popToast(msg);
+        
+      }
+  
+    }
+  
   }
   
 

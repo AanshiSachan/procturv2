@@ -527,7 +527,7 @@
 
   </proctur-widget>
 
-  <proctur-widget *ngIf="isReminderPop">
+  <proctur-widget *ngIf="isReminderPop" [size]="'50%'">
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeRemiderClass()" close-button>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
         <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
@@ -1157,7 +1157,7 @@
                   <div class="c-sm-4 c-md-4 c-lg-4">
                     <h3>Delivery Mode</h3>
                   </div>
-                  <div class="c-sm-6 c-md-6 c-lg-6">
+                  <div id="sendToHead" class="c-sm-6 c-md-6 c-lg-6">
                     <h3>Send To</h3>
                   </div>
                 </div>
@@ -1269,7 +1269,7 @@
                 <div class="row">
                   <div class="radio-options">
                     <div class="field-radio-wrapper">
-                      <input type="radio" checked="true" [(ngModel)]="loginField.checkBox" value="0" name="student" class="form-radio">
+                      <input type="radio" [checked]="(loginField.checkBox == '0')" [(ngModel)]="loginField.checkBox" value="0" name="student" class="form-radio">
                       <label for="student">Student Only</label>
                     </div>
                     <div class="field-radio-wrapper">

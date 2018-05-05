@@ -209,17 +209,17 @@
                     <thead>
                         <tr>
                             <th>
-                                Name
+                                ID
                             </th>
                             <th>
-                                Id
+                                Name
                             </th>
                             <th *ngFor="let k of typeAttendance">
                                 <div>
                                     {{k.class_date | date:"dd MMM"}}
                                     <br>
                                     <span *ngIf="k.start_date != null || k.end_time != null" class="madeDate">
-                                        ( {{k.start_time}} - {{k.end_time}} )
+                                         {{k.start_time}} - {{k.end_time}} 
                                     </span>
                                     <br>
                                     <span *ngIf="k.class_desc != '' || k.class_desc !=null" class="madeDate">
@@ -248,11 +248,11 @@
                         <tr *ngFor="let i of pageDetailedData; let j=index">
 
                             <td>
-                                {{i.student_name}}
+                                {{i.student_disp_id}}
 
                             </td>
                             <td>
-                                {{i.student_disp_id}}
+                                {{i.student_name}}
 
                             </td>
 
@@ -296,10 +296,10 @@
                     <thead>
                         <tr>
                             <th>
-                                Name
+                                ID
                             </th>
                             <th>
-                                Id
+                                Name
                             </th>
                             <th *ngFor="let k of typeAttendance">
                                 <div>
@@ -335,11 +335,11 @@
                         <tr *ngFor="let i of dateWiseAttendance; let j=index">
 
                             <td>
-                                {{i.student_name}}
+                                {{i.student_disp_id}}
 
                             </td>
                             <td>
-                                {{i.student_disp_id}}
+                                {{i.student_name}}
 
                             </td>
 
@@ -369,7 +369,7 @@
             </div>
             <div class="row filter-res pagination" style="width: 100%;" *ngIf=!isProfessional>
                 <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-                    <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopup()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
+                    <pagination (goPage)="fetchTableDataByPagePopup($event)" (goNext)="fetchNextPopupRange()" (goPrev)="fetchPreviousPopup()" [pagesToShow]="10"
                         [page]="PageIndexPopup" [perPage]="pagedisplaysizePopup" [count]="totalRowPopup">
                     </pagination>
                 </div>
@@ -385,7 +385,7 @@
                     <thead>
                         <tr>
                             <th>
-                                Id
+                                ID
                             </th>
                             <th>
                                 Name
@@ -423,7 +423,7 @@
 
                         <tr *ngFor="let i of pageDetailedDataPro; let j=index">
                             <td>
-                                {{i.student_id}}
+                                {{i.student_disp_id}}
                             </td>
                             <td>
                                 {{i.student_name}}
@@ -469,7 +469,7 @@
                     <thead>
                         <tr>
                             <th>
-                                Id
+                                ID
                             </th>
                             <th>
                                 Name
@@ -507,7 +507,7 @@
 
                         <tr *ngFor="let i of dateWiseAttendancePro; let j=index">
                             <td>
-                                {{i.student_id}}
+                                {{i.student_disp_id}}
                             </td>
                             <td>
                                 {{i.student_name}}

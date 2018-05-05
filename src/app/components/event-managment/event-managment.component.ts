@@ -175,6 +175,28 @@ export class EventManagmentComponent implements OnInit {
       }
       this.saveDataObj.event_end_date = moment(this.saveDataObj.event_end_date).format('YYYY-MM-DD');
     }
+   if(this.saveDataObj.holiday_desc.length>80){
+      let obj={
+        type: "error",
+        title: "Error",
+        body: "Description should not be greater than 80"
+      
+      }
+      this.appc.popToast(obj);
+      return ;
+
+    }
+
+    if(this.saveDataObj.holiday_long_desc.length>300){
+      let obj={
+        type: "error",
+        title: "Error",
+        body: "Longdescription should not be greater than 300"
+      
+      }
+      this.appc.popToast(obj);
+      return;
+    }
     this.saveDataObj.holiday_date = moment(this.saveDataObj.holiday_date).format('YYYY-MM-DD');
     this.eve_mnge.saveEventDescData(this.saveDataObj).subscribe(
       res => {
@@ -186,6 +208,17 @@ export class EventManagmentComponent implements OnInit {
         this.appc.popToast(obj);
         this.getAllListData();
         this.closeVarPopup = false;
+       this.saveDataObj = {
+          event_end_date: "",
+          event_type: "1",
+          holiday_date: moment().format("YYYY-MM-DD"),
+          holiday_desc: "",
+          holiday_long_desc: "",
+          holiday_name: "",
+          holiday_type: "1",
+          image: null,
+          public_url: ""
+        }
       },
       error => {
         console.log(error);
@@ -239,6 +272,30 @@ export class EventManagmentComponent implements OnInit {
         return;
       }
     }
+
+    if(this.newUpdateObj.holiday_desc.length>80){
+      let obj={
+        type: "error",
+        title: "Error",
+        body: "Description should not be greater than 80"
+      
+      }
+      this.appc.popToast(obj);
+      return ;
+
+    }
+
+    if(this.newUpdateObj.holiday_long_desc.length>300){
+      let obj={
+        type: "error",
+        title: "Error",
+        body: "Longdescription should not be greater than 300"
+      
+      }
+      this.appc.popToast(obj);
+      return;
+    }
+  
     this.newUpdateObj.holiday_date = moment(this.newUpdateObj.holiday_date).format('YYYY-MM-DD');
     this.eve_mnge.getUpdateEventData(this.newUpdateObj).subscribe(
       res => {

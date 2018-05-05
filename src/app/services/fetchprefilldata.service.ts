@@ -547,9 +547,17 @@ export class FetchprefilldataService {
     );
   }
 
+  fetchUserCreatedComponentStudent(){
+    let urlUserComponent = this.baseUrl + "/api/v1/instCustomComp/getAll/" + this.institute_id + "?page=2";
+
+    return this.http.get(urlUserComponent, { headers: this.headers }).map(
+      res => {
+        return res.json();
+      }
+    );
+  }
 
   fetchUserCreatedComponent() {
-
     let urlUserComponent = this.baseUrl + "/api/v1/instCustomComp/getAll/" + this.institute_id + "?page=1";
 
     return this.http.get(urlUserComponent, { headers: this.headers }).map(
@@ -557,7 +565,6 @@ export class FetchprefilldataService {
         return res.json();
       }
     );
-
   }
 
 
