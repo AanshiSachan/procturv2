@@ -30,13 +30,11 @@ export class StudentCustomComponent implements OnInit {
     is_required: "N",
     is_searchable: "N",
     label: "",
-    page: 1,
+    page: 2,
     prefilled_data: "",
     sequence_number: "",
     type: "",
-    on_both: "Y",
-    defaultValue: "",
-    is_external: "N"
+    defaultValue: ""
   }
   editCustomComponentForm: any = {
     comp_length: "",
@@ -45,13 +43,11 @@ export class StudentCustomComponent implements OnInit {
     is_required: "N",
     is_searchable: "N",
     label: "",
-    page: 1,
+    page: 2,
     prefilled_data: "",
     sequence_number: "",
     type: "",
-    on_both: "Y",
-    defaultValue: "",
-    is_external: "N"
+    defaultValue: ""
   }
   busy: Subscription;
 
@@ -59,9 +55,7 @@ export class StudentCustomComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.fetchPrefillData();
-
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
 
@@ -77,10 +71,9 @@ export class StudentCustomComponent implements OnInit {
     );
 
 
-    return this.prefill.fetchUserCreatedComponent().subscribe(
+    return this.prefill.fetchUserCreatedComponentStudent().subscribe(
       res => {
         this.userCreatedComponent = res;
-
       }
     );
   }
@@ -101,11 +94,12 @@ export class StudentCustomComponent implements OnInit {
         is_required: "N",
         is_searchable: "N",
         label: "",
-        page: 1,
+        page: 2,
         prefilled_data: "",
         sequence_number: "",
-        type: ""
-      };
+        type: "",
+        defaultValue: ""
+      }
       document.getElementById('addComponent-icon').innerHTML = "+"
     }
   }
@@ -300,13 +294,11 @@ export class StudentCustomComponent implements OnInit {
       is_required: "N",
       is_searchable: "N",
       label: "",
-      page: 1,
+      page: 2,
       prefilled_data: "",
       sequence_number: "",
       type: "",
-      on_both: "Y",
-      defaultValue: "",
-      is_external: "N"
+      defaultValue: ""
     }
     this.fetchPrefillData();
     this.isEdit = false;
@@ -444,11 +436,11 @@ export class StudentCustomComponent implements OnInit {
       is_required: "N",
       is_searchable: "N",
       label: "",
-      page: 1,
+      page: 2,
       prefilled_data: "",
       sequence_number: "",
       type: "",
-      on_both: "Y"
+      defaultValue: ""
     }
   }
 
@@ -466,13 +458,11 @@ export class StudentCustomComponent implements OnInit {
       is_required: "N",
       is_searchable: "N",
       label: "",
-      page: 1,
+      page: 2,
       prefilled_data: "",
       sequence_number: "",
       type: "",
-      on_both: "Y",
-      defaultValue: "",
-      is_external: "N"
+      defaultValue: ""
     }
   }
 
@@ -495,13 +485,11 @@ export class StudentCustomComponent implements OnInit {
           is_required: "N",
           is_searchable: "N",
           label: "",
-          page: 1,
+          page: 2,
           prefilled_data: "",
           sequence_number: "",
           type: "",
-          on_both: "Y",
-          defaultValue: "",
-          is_external: "N"
+          defaultValue: ""
         }
       },
       err => {
@@ -519,13 +507,11 @@ export class StudentCustomComponent implements OnInit {
           is_required: "N",
           is_searchable: "N",
           label: "",
-          page: 1,
+          page: 2,
           prefilled_data: "",
           sequence_number: "",
           type: "",
-          on_both: "Y",
-          defaultValue: "",
-          is_external: "N"
+          defaultValue: ""
         }
       }
     );
