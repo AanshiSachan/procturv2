@@ -390,7 +390,7 @@
             </span>
 
             <div popup-header class="popup-header-content">
-              <h2 style="font-decoration:italic; font-size:23px;">Older Records</h2>
+              <h2 style=" font-size:23px;">Older Records</h2>
             </div>
             <div popup-content class="main-student-table">
               <div class="row">
@@ -405,10 +405,8 @@
                     </select>
                   </div>
                 </div>
-                <div class="c-lg-2">
-                  <div class="form-field form-wrapper">
-                    <button class="btn fullBlue" style="margin-top:-3px;"  (click)="popupChange()">Go</button>
-                  </div>
+                <div class="c-lg-2" style="padding: 15px;">
+                  <button class="btn fullBlue" style="margin-top:-3px;" (click)="popupChange()">Go</button>
                 </div>
               </div>
             </div>
@@ -431,7 +429,7 @@
             </span>
 
             <div popup-header class="popup-header-content" *ngIf="showMonth">
-              <h2 style="font-decoration:italic; font-size:20px; ">Previous Month records</h2>
+              <h2 style=" font-size:20px; ">Previous Month records</h2>
 
             </div>
             <div popup-content class="main-student-table" *ngIf="showMonth">
@@ -487,28 +485,25 @@
 
 
             <div popup-header class="popup-header-content" *ngIf="showRange">
-              <h2 style="font-decoration:italic; font-size:20px;">Select Range</h2>
+              <h2 style=" font-size:20px;">Select Range</h2>
             </div>
             <div popup-content class="main-student-table" *ngIf="showRange">
-              <div class="row">
-                <div class="c-lg-5 main">
+              <div class="c-lg-4">
                   <div class="form-field form-wrapper datePickerBox">
-                    <label for="from">From</label>
-                    <input type="text" class="side-form-ctrl bsDatepicker" name="from" bsDatepicker [(ngModel)]="getAllData.from_date">
-                  </div>
-                </div>
-                <div class="c-lg-5 main">
-                  <div class="form-field form-wrapper datePickerBox">
-                    <label for="to">To</label>
-                    <input type="text" class="side-form-ctrl bsDatepicker" name="to" bsDatepicker [(ngModel)]="getAllData.to_date" (ngModelChange)="dateValidationForFuture($event)">
-                  </div>
-                </div>
-                <div class="c-lg-2">
-                  <div class="form-field form-wrapper">
-                    <button class="btn fullBlue" (click)="showDataTable()">Go</button>
-                  </div>
-                </div>
+                      <label for="from">From</label>
+                      <input type="text" class="side-form-ctrl bsDatepicker" name="from" bsDatepicker [(ngModel)]="getAllData.from_date">
+                    </div>
               </div>
+              <div class="c-lg-4">
+                  <div class="form-field form-wrapper datePickerBox">
+                      <label for="to">To</label>
+                      <input type="text" class="side-form-ctrl bsDatepicker" name="to" bsDatepicker [(ngModel)]="getAllData.to_date" (ngModelChange)="dateValidationForFuture($event)">
+                    </div>
+              </div>
+              <div class="c-lg-4" style="padding: 27px 0px 0px 0px">
+                  <button class="btn fullBlue" (click)="showDataTable()">Go</button>
+              </div>
+              
               <div class="table table-responsive tablePopup" *ngIf="showTable">
                 <table>
                   <thead>
@@ -558,7 +553,7 @@
 
             </div>
             <div popup-header class="popup-header-content" *ngIf="showWeek">
-              <h2 style="font-decoration:italic; font-size:20px; ">Previous Week Records</h2>
+              <h2 style=" font-size:20px; ">Previous Week Records</h2>
             </div>
             <div popup-content class="main-student-table" *ngIf="showWeek">
 
@@ -629,7 +624,7 @@
             </span>
 
             <div popup-header class="popup-header-content">
-              <h2 style="font-decoration:italic; font-size:23px;">SMS to absent students</h2>
+              <h2 style=" font-size:23px;">SMS to absent students</h2>
             </div>
 
             <div popup-content class="main-student-table">

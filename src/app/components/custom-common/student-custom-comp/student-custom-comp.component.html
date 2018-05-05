@@ -5,7 +5,7 @@
     <div class="row">
 
       <h1 class="pull-left">
-        Manage Form Field (On Both)
+        Manage Student Form Field
       </h1>
 
       <aside class="pull-right">
@@ -92,7 +92,7 @@
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.sequence_number != ''}">
-          <input type="text" id="sequencenumber"class="form-ctrl" OnlyNumber="true" maxlength="3" [(ngModel)]="createCustomComponentForm.sequence_number"
+          <input type="text" id="sequencenumber" class="form-ctrl" OnlyNumber="true" maxlength="3" [(ngModel)]="createCustomComponentForm.sequence_number"
             name="sequencenumber">
           <label for="sequencenumber">Sequence (Numerals Only)</label>
         </div>
@@ -100,14 +100,15 @@
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.comp_length != ''}">
-          <input type="text" class="form-ctrl" id="complength" OnlyNumber="true" [(ngModel)]="createCustomComponentForm.comp_length" name="complength">
+          <input type="text" class="form-ctrl" id="complength" OnlyNumber="true" [(ngModel)]="createCustomComponentForm.comp_length"
+            name="complength">
           <label for="complength">Max- Length (Numerals Only)</label>
         </div>
       </div>
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': createCustomComponentForm.defaultValue != ''}">
-          <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.defaultValue" name="defVal"id="defVal">
+          <input type="text" class="form-ctrl" [(ngModel)]="createCustomComponentForm.defaultValue" name="defVal" id="defVal">
           <label for="defVal">Default Value</label>
         </div>
       </div>
@@ -137,12 +138,10 @@
 
     <div class="row" style="margin-top:12px">
       <div class="c-lg-4">
-          <h4>Total Count:{{userCreatedComponent.length}}</h4>
+        <h4>Total Count:{{userCreatedComponent.length}}</h4>
       </div>
       <div class="c-lg-4"></div>
-      <div class="c-lg-4">
-        <button class="btn pull-right" [routerLink]="['../customizedOnly']">Student Form Fields</button>
-      </div>
+      <div class="c-lg-4"></div>
     </div>
 
 
@@ -221,7 +220,7 @@
           />
         </g>
       </svg>
-    </span> 
+    </span>
 
     <h2 popup-header>Edit Field</h2>
 
@@ -300,7 +299,8 @@
 
       <div class="c-lg-4">
         <div class="field-wrapper" [ngClass]="{'has-value': editCustomComponentForm.comp_length != null}">
-          <input type="text" class="form-ctrl" OnlyNumber="true" [(ngModel)]="editCustomComponentForm.comp_length" name="complength" id="complength">
+          <input type="text" class="form-ctrl" OnlyNumber="true" [(ngModel)]="editCustomComponentForm.comp_length" name="complength"
+            id="complength">
           <label for="complength">Max- Length (Numerals Only)</label>
         </div>
       </div>
