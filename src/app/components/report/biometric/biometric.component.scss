@@ -21,6 +21,9 @@ p {
     margin-bottom: 5px;
     margin-top:-30px;
 }
+.btnStudent{
+    margin:5px;
+}
 .box{
 
 }
@@ -569,5 +572,27 @@ $color-highlight: lighten($color-base,
         height: 100%;
         background: linear-gradient(90deg, $color-base, $color-highlight, $color-base);
         animation: progress 1s ease-in-out infinite;
+    }
+}
+
+.form-wrapper {
+    position: relative;
+    &.datePickerBox {
+        .side-form-ctrl {
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            background: transparent;
+        }
+        &:after {
+            content: '';
+            background: url('../../../../assets/images/calendar.svg') no-repeat;
+            position: absolute;
+            right: 0;
+            top: 20px;
+            width: 21px;
+            height: 21px;
+            z-index: 0;
+        }
     }
 }

@@ -36,7 +36,7 @@ $color-highlight: lighten($color-base, 7%);
 
 .activity-left {
     width: 100%;
-    padding: 24px 24px 0px 24px;
+    padding: 5px 24px 0px 24px;
 }
 
 .activity-right {
@@ -144,7 +144,7 @@ $color-highlight: lighten($color-base, 7%);
     }
     .schedule-scroller {
         min-height: 300px;
-        max-height: 300px;
+        max-height: 50vh;
         overflow-x: hidden;
         overflow-y: auto;
     }

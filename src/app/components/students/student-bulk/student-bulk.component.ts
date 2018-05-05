@@ -152,7 +152,7 @@ export class StudentBulkComponent implements OnInit {
       institute_id: sessionStorage.getItem('institute_id')
     }
     let base = this.auth.getBaseUrl();
-    let urlPostXlsDocument = base +"/api/v1/students/bulkUpload";
+    let urlPostXlsDocument = base +"/api/v1/students/studentBulkUploadV2";
 
     let xhr: XMLHttpRequest = new XMLHttpRequest();
     xhr.open("POST", urlPostXlsDocument, true);

@@ -20,7 +20,7 @@ export class EmailReportComponent {
   searchText = "";
   searchData = [];
   searchflag: boolean = false;
-  dataStatus: number = 2;
+  dataStatus: boolean = true;
   isRippleLoad: boolean = false;
 
   projectSettings: ColumnSetting[] = [
@@ -49,26 +49,34 @@ export class EmailReportComponent {
 
   ngOnInit() {
     this.pageIndex = 1;
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
+    this.getAllEmailMessages();
+  }
+
+  getAllEmailMessages() {
+    this.dataStatus = true;
     this.emailSource = [];
     this.isRippleLoad = true;
+    
     this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
       res => {
         this.isRippleLoad = false;
         this.emailDataSource = res;
         this.totalRecords = res.length;
-        this.fetchTableDataByPage(this.pageIndex);
-        console.log(res);
-
+        if (res.length == 0) {
+          this.dataStatus = false;
+        }
+        this.emailSource = res;
+        //this.fetchTableDataByPage(this.pageIndex);
       },
       err => {
+        this.dataStatus = false;
         this.isRippleLoad = false;
-        console.log(err);
-
       }
-    )
-    // this.getAllEmailMessages();
-  }
+    );
 
+  }
 
 
   isTimeValid(): boolean {
@@ -80,10 +88,10 @@ export class EmailReportComponent {
       return false;
     }
   }
+
   fetchemailByDate() {
     if (this.isTimeValid()) {
-      //this.getAllEmailMessages();
-      this.ngOnInit();
+      this.getAllEmailMessages();
     }
     else {
       let obj = {
@@ -150,6 +158,7 @@ export class EmailReportComponent {
   switchActiveView(id) {
     document.getElementById('email').classList.remove('active');
   }
+ 
 
   searchDatabase() {
     if (this.searchText != "" && this.searchText != null) {
@@ -176,5 +185,6 @@ export class EmailReportComponent {
       )
     }
   }
-
 }
+  
+
