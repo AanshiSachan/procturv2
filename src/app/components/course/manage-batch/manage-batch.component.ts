@@ -616,4 +616,19 @@ export class ManageBatchComponent implements OnInit {
     document.getElementById('liClass').classList.remove('active');
   }
 
+  //  Role Based Access
+  checkIfUserHadAccess() {
+    let permissionArray = sessionStorage.getItem('permissions');
+    let userType: any = Number(sessionStorage.getItem('userType'));
+    if (userType != 3) {
+      if (permissionArray == "" || permissionArray == null) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  }
+
 }

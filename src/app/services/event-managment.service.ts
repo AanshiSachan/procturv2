@@ -78,7 +78,7 @@ saveEventDescData(obj){
   )}
   
 sendNotifiation(obj){
-  let url = this.baseUrl +"/api/v1/pushNotification/send/";
+  let url = this.baseUrl +"/api/v1/pushNotification/send";
   obj.institution_id= this.institute_id;
   return this.http.post(url,obj,{headers: this.headers}).map(
     res=>{
@@ -88,7 +88,7 @@ sendNotifiation(obj){
       return error
     },
   )}
-updateEventData(holidayId){
+updateEventData(holidayId):any{
   let url = this.baseUrl +"/api/v1/holiday_manager/fetch/"+this.institute_id +"/"+holidayId
    return this.http.get(url, {headers: this.headers}).map(
     res=>{
@@ -102,7 +102,7 @@ updateEventData(holidayId){
 
 
   getUpdateEventData(obj){
-    let url = this.baseUrl +"/api/v1/holiday_manager/update/";
+    let url = this.baseUrl +"/api/v1/holiday_manager/update";
     obj.institution_id= this.institute_id;
     return this.http.put(url,obj,{headers: this.headers}).map(
       res=>{

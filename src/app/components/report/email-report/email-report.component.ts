@@ -17,6 +17,11 @@ export class EmailReportComponent {
   displayBatchSize: number = 10;
   emailSource: any[] = [];
   emailDataSource: any = [];
+  searchText = "";
+  searchData = [];
+  searchflag: boolean = false;
+  dataStatus:number = 2;
+  isRippleLoad:boolean = false;
 
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'sentDateTime', header: 'Sent Date' },
@@ -30,8 +35,8 @@ export class EmailReportComponent {
 
   emailFetchForm: any = {
     institution_id: parseInt(sessionStorage.getItem('institute_id')),
-    from_date: '',
-    to_date: '',
+    from_date: moment(new Date()).format('YYYY-MM-DD'),
+    to_date: moment(new Date()).format('YYYY-MM-DD'),
   }
 
   constructor(
@@ -41,43 +46,29 @@ export class EmailReportComponent {
   ) {
     this.switchActiveView('email');
   }
-   
+
   ngOnInit() {
     this.pageIndex = 1;
     this.emailSource = [];
+    this.isRippleLoad = true;
     this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.emailDataSource = res;
         this.totalRecords = res.length;
         this.fetchTableDataByPage(this.pageIndex);
         console.log(res);
-       
+
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
-        
+
       }
-    ) 
+    )
     // this.getAllEmailMessages();
   }
 
-  // getAllEmailMessages() {
-  //   this.pageIndex = 1;
-  //   this.emailSource = [];
-  //   this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
-  //     res => {
-  //       this.emailDataSource = res;
-  //       this.totalRecords = res.length;
-  //       this.fetchTableDataByPage(this.pageIndex);
-  //       console.log(res);
-       
-  //     },
-  //     err => {
-  //       console.log(err);
-        
-  //     }
-  //   )
-  // }
 
 
   isTimeValid(): boolean {
@@ -89,7 +80,7 @@ export class EmailReportComponent {
       return false;
     }
   }
-   fetchemailByDate() {
+  fetchemailByDate() {
     if (this.isTimeValid()) {
       //this.getAllEmailMessages();
       this.ngOnInit();
@@ -101,36 +92,9 @@ export class EmailReportComponent {
         Body: "From date cannot be greater than To date"
       }
       this.appC.popToast(obj);
-      
+
     }
   }
-
-  // getEmailRepo(obj) {
-  //   if (obj.start_index == 0) {
-  //     return this.apiService.getEmailMessages(obj).subscribe(
-  //       res => {
-  //         if (res.length != 0) {
-  //           this.smsSource = res;
-  //           this.totalRecords = res[0].totalRecords;
-
-  //         }
-  //         else {
-  //           this.smsSource = [];
-  //           this.totalRecords = 0;
-  //         }
-  //       }
-  //     )
-
-  //   }
-  
-  //   else {
-  //     return this.apiService.getEmailMessages(obj).subscribe(
-  //       res => {
-  //         this.smsSource = res;
-  //       }
-  //     )
-  //   }
-  // }
 
   // pagination functions 
 
@@ -160,6 +124,32 @@ export class EmailReportComponent {
 
   switchActiveView(id) {
     document.getElementById('email').classList.remove('active');
+  }
+
+  searchDatabase() {
+    if (this.searchText != "" && this.searchText != null) {
+      let searchData: any;
+      searchData = this.emailSource.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
+      );
+      this.emailSource = searchData;
+      this.searchflag = true;
+
+    }
+    else {
+      this.isRippleLoad = true;
+      this.apiService.getEmailMessages(this.emailFetchForm).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.emailSource = res;
+          this.searchflag = false;
+        },
+        err => {
+          this.isRippleLoad = false;
+        }
+      )
+    }
   }
 
 }

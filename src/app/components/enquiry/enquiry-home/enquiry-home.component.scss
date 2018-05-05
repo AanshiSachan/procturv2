@@ -80,6 +80,18 @@
                         color: $common-blue;
                     }
                 }
+                .download-icon{
+                    background: url('../../../../assets/images/download.svg') no-repeat;
+                    margin: 10px 0px 0px 2px;
+                    background-size: 20px auto;
+                    padding: 0px 0px 0px 25px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    color: #888;
+                    &:hover {
+                        color: $common-blue;
+                    }
+                }
                 li {
                     height: 25px;
                     padding: 7px;
@@ -113,6 +125,18 @@
                     }
                     .upload-icon {
                         background: url('../../../../assets/images/upload.svg') no-repeat;
+                        margin: 10px 0px 0px 2px;
+                        background-size: 20px auto;
+                        padding: 0px 0px 0px 25px;
+                        cursor: pointer;
+                        font-size: 14px;
+                        color: #888;
+                        &:hover {
+                            color: $common-blue;
+                        }
+                    }
+                    .download-icon{
+                        background: url('../../../../assets/images/download.svg') no-repeat;
                         margin: 10px 0px 0px 2px;
                         background-size: 20px auto;
                         padding: 0px 0px 0px 25px;
@@ -1503,7 +1527,8 @@ ul.customDropdown li:hover {
     .right-aside-wrapper {
         width: 38%;
         max-height: 360px;
-        overflow: auto;
+        overflow-x: hidden;
+        overflow-y: scroll;
         ::-webkit-scrollbar {
             display: block;
             width: 7px;

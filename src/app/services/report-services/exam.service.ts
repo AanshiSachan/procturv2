@@ -13,7 +13,6 @@ export class ExamService {
     Authorization: string;
     headers: HttpHeaders;
 
-
     /* set default value for each url, header and autherization on service creation */
     constructor(private http: HttpClient, private auth: AuthenticatorService, ) {
         this.auth.currentAuthKey.subscribe(key => {
@@ -41,8 +40,6 @@ export class ExamService {
             }
         )
     }
-
-
     getCourses(obj): Observable<any> {
         let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + obj
         return this.http.get(url, { headers: this.headers }).map(
@@ -55,9 +52,7 @@ export class ExamService {
 
         )
     }
-
-
-    getSubject(obj) {
+getSubject(obj) {
 
         let url = this.baseUrl + "/api/v1/courseMaster/fetch/courses/" + this.institute_id + "/" + obj
         return this.http.get(url, { headers: this.headers }).map(
@@ -99,9 +94,6 @@ export class ExamService {
             }
         )
     }
-
-
-
     viewDetailData(obj) {
 
         let url = this.baseUrl + "/api/v1/reports/StdExam/" + obj

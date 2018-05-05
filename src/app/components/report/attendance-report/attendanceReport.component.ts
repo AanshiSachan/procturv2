@@ -8,7 +8,7 @@ import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { searchPipe } from '../../shared/pipes/searchBarPipe';
 import { arraySortPipe } from '../../shared/pipes/sortBarPipe';
 import { start } from 'repl';
-
+import { LoginService } from '../../../services/login-services/login.service';
 
 
 @Component({
@@ -53,11 +53,13 @@ export class AttendanceReportComponent implements OnInit {
   queryParamsPro: any[] = [];
   pageDetailedDataPro: any[] = [];
   property = "";
-  direction = -1;
+  direction = 0;
+  sortingEnabled:boolean = true;
   dummyArr: any[] = [0, 1, 2, 0, 1, 2];
-  columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6];
+  columnMaps: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+  columnMaps2: any[] = [0, 1, 2, 3, 4, 5];
   dataStatus: boolean = false;
-  
+  isRippleLoad: boolean = false;
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'student_disp_id', header: 'Student id' },
     { primaryKey: 'student_name', header: 'Student name' },
@@ -69,7 +71,7 @@ export class AttendanceReportComponent implements OnInit {
     { primaryKey: 'total_leave', header: 'Leave' },
     { primaryKey: 'spent_percentage', header: 'Attendance(%)' }
   ];
-  
+
   attendanceFetchForm = {
     standard_id: "",
     subject_id: "",
@@ -77,91 +79,104 @@ export class AttendanceReportComponent implements OnInit {
     course_id: "",
     batch_id: "",
     master_course_name: "",
-    from_date: "",
-    to_date: ""
+    from_date: moment(new Date()).format('YYYY-MM-DD'),
+    to_date: moment(new Date()).format('YYYY-MM-DD')
   }
   /*for professional*/
   queryParams = {
     standard_id: "",
-    subject_id: "",
+    subject_id: "-1",
     institution_id: sessionStorage.getItem('institute_id'),
     course_id: -1,
-    batch_id: "",
+    batch_id: "-1",
     master_course_name: "",
-    from_date: "",
-    to_date: ""
+    from_date:  moment(new Date()).format('YYYY-MM-DD'),
+    to_date: moment(new Date()).format('YYYY-MM-DD')
   };
+
   searchText: string = "";
   searchflag: boolean = false;
-  searchData : any =[];
+  searchData: any = [];
 
 
   @ViewChild('attendanceTable') attendanceTable: ElementRef;
   @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
 
-
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   constructor(
+    private login: LoginService,
     private reportService: AttendanceReportServiceService,
     private appc: AppComponent,
     private institute_id: AuthenticatorService
-  ) { }
+  ) {
+    //console.log(moment(moment().format('DD-MM-YYYY')).diff(moment('03-02-2018'),'months'));
+  }
 
-
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   ngOnInit() {
+
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.getMasterCourseData();
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
+  /* this is ussed to fetch details for dropdown for master course/ Standard */
   getMasterCourseData() {
-    
+
+    this.isRippleLoad = true;
     if (this.isProfessional) {
-
-      this.reportService.masterCoursePro(this.queryParams).subscribe(
+      this.reportService.fetchMasterCourseProfessional(this.queryParams).subscribe(
         (data: any) => {
-
+          this.isRippleLoad = false;
           this.masterCoursePro = data.standardLi;
-          this.subjectPro = data.batchLi;
-          console.log(this.masterCoursePro);
+          this.batchPro = data.batchLi;
         },
         (error: any) => {
+          this.isRippleLoad = false;
           this.dataStatus = false;
           return error;
         }
       )
-
-
     }
     else {
-      this.reportService.getMasterCourse().subscribe(
-        (data: any) => {
-          this.masterCourses = data;
-          console.log(this.masterCourses);
-        },
-        (error: any) => {
+      this.reportService.getMasterCourse().subscribe(data => {
+        this.isRippleLoad = false;
+        this.masterCourses = data;
+      },
+        error => {
+          this.isRippleLoad = false;
           return error;
         }
       )
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   getCourseData(i) {
-    this.queryParams = {
-      subject_id: "",
-      standard_id: i,
-      institution_id: sessionStorage.getItem('institute_id'),
-      course_id: -1,
-      batch_id: "",
-      master_course_name: "",
-      from_date: "",
-      to_date: ""
-    }
+    this.isRippleLoad = true;
+
+    this.queryParams.standard_id = i;
+    this.queryParams.subject_id = "-1";
+    this.queryParams.batch_id = "-1";
+
     if (this.isProfessional) {
 
-      this.reportService.masterCoursePro(this.queryParams).subscribe(
+
+      this.reportService.fetchMasterCourseProfessional(this.queryParams).subscribe(
         (data: any) => {
+
+          this.isRippleLoad = false;
           this.subjectPro = data.subjectLi;
+          this.batchPro = data.batchLi;
         },
         (error: any) => {
+          this.isRippleLoad = false;
           return error;
         }
       )
@@ -169,16 +184,22 @@ export class AttendanceReportComponent implements OnInit {
       this.subjectPro = [];
     }
     else {
+
+      this.isRippleLoad = true;
       this.attendanceFetchForm.batch_id = "";
       this.attendanceFetchForm.course_id = "";
       this.reportService.getCourses(i).subscribe(
-
         (data: any) => {
+          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
+          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
+          this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
+          this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
+          this.isRippleLoad = false;
           this.courses = data.coursesList;
-          // this.getPostData();
         }
         ,
         (error: any) => {
+          this.isRippleLoad = false;
           return error;
         }
       )
@@ -189,25 +210,25 @@ export class AttendanceReportComponent implements OnInit {
 
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   getSubjectData(i) {
+    this.isRippleLoad = true;
 
-    this.queryParams = {
-      subject_id: i,
-      standard_id: this.queryParams.standard_id,
-      institution_id: sessionStorage.getItem('institute_id'),
-      course_id: -1,
-      batch_id: "",
-      master_course_name: "",
-      from_date: "",
-      to_date: ""
-    }
+    this.queryParams.standard_id = this.queryParams.standard_id;
     if (this.isProfessional) {
 
-      this.reportService.masterCoursePro(this.queryParams).subscribe(
+      this.reportService.fetchMasterCourseProfessional(this.queryParams).subscribe(
         (data: any) => {
+          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
+          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
+          this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
+          this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
+          this.isRippleLoad = false;
           this.batchPro = data.batchLi;
         },
         (error: any) => {
+          this.isRippleLoad = false;
           return error;
         }
       )
@@ -217,6 +238,11 @@ export class AttendanceReportComponent implements OnInit {
       this.attendanceFetchForm.batch_id = "";
       this.reportService.getSubject(i).subscribe(
         (data: any) => {
+          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
+          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
+          this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
+          this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
+          this.isRippleLoad = false;
           this.batchCourses = data.batchesList;
           // this.getPostData();
         }
@@ -225,20 +251,22 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   getBatchData(i) {
-    this.queryParams = {
-      subject_id: i,
-      standard_id: this.queryParams.standard_id,
-      institution_id: sessionStorage.getItem('institute_id'),
-      course_id: -1,
-      batch_id: this.queryParams.batch_id,
-      master_course_name: "",
-      from_date: "",
-      to_date: ""
-    }
+
+    this.isRippleLoad = true;
+    this.queryParams.standard_id = this.queryParams.standard_id;
+    this.queryParams.batch_id = this.queryParams.batch_id;
     if (this.isProfessional) {
+
       this.reportService.postDataToTablePro(this.queryParams).subscribe(
         (data: any) => {
+          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
+          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
+          this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
+          this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
+          this.isRippleLoad = false;
           // this.getPostData();
         }
       )
@@ -246,20 +274,29 @@ export class AttendanceReportComponent implements OnInit {
     else {
       this.reportService.postDataToTable(this.attendanceFetchForm).subscribe(
         (data: any) => {
+          this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
+          this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
+          this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
+          this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
+          this.isRippleLoad = false;
           // this.getPostData();
         }
       )
     }
   }
 
-
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   getPostData() {
+    this.isRippleLoad = true;
     this.SummaryReports = true;
     this.dataStatus = true;
     this.PageIndex = 1;
+
     if (this.isProfessional) {
       this.reportService.postDataToTablePro(this.queryParams).subscribe(
         (data: any) => {
+          this.isRippleLoad = false;
           this.dataStatus = false;
           this.queryParamsPro = data;
           this.totalRow = data.length;
@@ -268,13 +305,21 @@ export class AttendanceReportComponent implements OnInit {
 
         },
         (error: any) => {
+          this.isRippleLoad = false;
           return error;
         }
       )
     }
     else {
+      if (this.attendanceFetchForm.from_date == "Invalid date") {
+        this.attendanceFetchForm.from_date = "";
+      }
+      if (this.attendanceFetchForm.to_date == "Invalid date") {
+        this.attendanceFetchForm.to_date = "";
+      }
       this.reportService.postDataToTable(this.attendanceFetchForm).subscribe(
         (data: any) => {
+          this.isRippleLoad = false;
           this.dataStatus = false;
           this.postData = data;
           this.totalRow = data.length;
@@ -282,18 +327,26 @@ export class AttendanceReportComponent implements OnInit {
           this.fetchTableDataByPage(this.PageIndex);
         },
         (error: any) => {
+          this.isRippleLoad = false;
           return error;
         }
       )
     }
   }
 
-
-
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   postDetails() {
+    this.isRippleLoad = true;
+    this.dataStatus = true;
+
+    this.queryParams.from_date = moment(this.queryParams.from_date).format('YYYY-MM-DD');
+    this.queryParams.to_date = moment(this.queryParams.to_date).format('YYYY-MM-DD');
+    let diff = moment(this.queryParams.from_date).diff(moment(this.queryParams.to_date), 'months');
+    let futureDate = moment(this.queryParams.to_date).add('days', 1).format('YYYY-MM-DD');
 
     if (this.isProfessional) {
-      if (this.queryParams.from_date == "" || this.queryParams.to_date == "" || this.queryParams.batch_id == "" || this.queryParams.subject_id == "" || this.queryParams.standard_id == "") {
+      if (this.queryParams.from_date == "" || this.queryParams.to_date == "" || this.queryParams.batch_id == "-1" || this.queryParams.batch_id == " " || this.queryParams.subject_id == "" || this.queryParams.standard_id == "-1") {
 
         let msg = {
           type: "error",
@@ -301,6 +354,8 @@ export class AttendanceReportComponent implements OnInit {
           body: "All fields Are required"
         }
         this.appc.popToast(msg);
+        this.dataStatus = false;
+        this.isRippleLoad = false;
       }
       else if (this.queryParams.from_date > this.queryParams.to_date) {
         let msg = {
@@ -309,37 +364,70 @@ export class AttendanceReportComponent implements OnInit {
           body: "From Date Must Be less than to date"
         }
         this.appc.popToast(msg);
+        this.dataStatus = false;
+        this.isRippleLoad = false;
       }
-      else {
 
-        this.addReportPopUp = true;
+      else if (diff < -4) {
+        let msg = {
+          type: "error",
+          title: "Incorrect Details",
+          body: "You cannot select more than 120 days"
+        }
+
+        this.appc.popToast(msg);
+        this.dataStatus = false;
+        this.isRippleLoad = false;
+      }
+
+      else {
+        this.pageDetailedDataPro = [];
+        this.typeAttendancePro = [];
         this.reportService.postDetailedData(this.queryParams).subscribe(
           (data: any) => {
+            this.isRippleLoad = false;
+            this.dataStatus = false;
+            if (data.length) {
+              this.dataStatus = false;
+              this.dateWiseAttendancePro = data;
+              this.dataTypeAttendancePro = data.map((ele) => {
+                this.typeAttendancePro = ele.attendanceDateType;
 
-            this.dateWiseAttendancePro = data;
-            console.log(this.dateWiseAttendancePro);
-            this.dataTypeAttendancePro = data.map((ele) => {
-              this.typeAttendancePro = ele.attendanceDateType;
+              });
 
-            });
+              this.attendanceIndex0Pro = this.typeAttendancePro[0];
+              this.attendanceIndexiPro = this.typeAttendancePro.length;
+              this.attendanceIndexiOfPro = this.typeAttendancePro[this.attendanceIndexiPro - 1];
+              this.addReportPopUp = true;
+              this.totalRowPopup = data.length;
+              this.PageIndexPopup = 1;
+              this.fetchTableDataByPagePopup(this.PageIndexPopup);
+            }
+            else {
+              let msg = {
+                type: "info",
+                title: "No Data Found",
+                body: "We did not find any attendance marked for the selected dates "
+              }
+              this.appc.popToast(msg);
+            }
 
-            this.attendanceIndex0Pro = this.typeAttendancePro[0];
-            this.attendanceIndexiPro = this.typeAttendancePro.length;
-            this.attendanceIndexiOfPro = this.typeAttendancePro[this.attendanceIndexiPro - 1];
-
-            this.totalRowPopup = data.length;
-            this.PageIndexPopup = 1;
-            this.fetchTableDataByPagePopup(this.PageIndexPopup);
-            ;
           },
           (error: any) => {
+            this.isRippleLoad = false;
+            this.dataStatus = false;
             return error;
 
           }
-        )
+        );
       }
     }
     else {
+      this.attendanceFetchForm.from_date = moment(this.attendanceFetchForm.from_date).format('YYYY-MM-DD');
+      this.attendanceFetchForm.to_date = moment(this.attendanceFetchForm.to_date).format('YYYY-MM-DD');
+      let diff = moment(this.attendanceFetchForm.from_date).diff(moment(this.attendanceFetchForm.to_date), 'months');
+      let futureDate = moment(this.attendanceFetchForm.to_date).add('days', 1).format('YYYY-MM-DD');
+      this.isRippleLoad = true;
       if (this.attendanceFetchForm.master_course_name == "" || this.attendanceFetchForm.course_id == "" || this.attendanceFetchForm.batch_id == "" || this.attendanceFetchForm.from_date == "" || this.attendanceFetchForm.to_date == "") {
 
         let msg = {
@@ -348,6 +436,8 @@ export class AttendanceReportComponent implements OnInit {
           body: "All fields Are required"
         }
         this.appc.popToast(msg);
+        this.dataStatus = false;
+        this.isRippleLoad = false;
       }
       else if (this.attendanceFetchForm.from_date > this.attendanceFetchForm.to_date) {
         let msg = {
@@ -356,28 +446,55 @@ export class AttendanceReportComponent implements OnInit {
           body: "From Date Must Be less than to date"
         }
         this.appc.popToast(msg);
+        this.dataStatus = false;
+        this.isRippleLoad = false;
+      }
+      else if (diff < -4) {
+        let msg = {
+          type: "error",
+          title: "Incorrect Details",
+          body: "You cannot select more than 120 days"
+        }
+
+        this.appc.popToast(msg);
+        this.dataStatus = false;
+        this.isRippleLoad = false;
       }
       else {
-
-        this.addReportPopUp = true;
+        this.dataStatus = false;
+        this.typeAttendance = [];
+        this.pageDetailedData = [];
         this.reportService.postDetailedData(this.attendanceFetchForm).subscribe(
           (data: any) => {
-            this.dateWiseAttendance = data;
-            this.dataTypeAttendance = this.dateWiseAttendance.map((ele) => {
-              this.typeAttendance = ele.attendanceDateType;
-
-            })
-
-            this.attendanceIndex0 = this.typeAttendance[0];
-            this.attendanceIndexi = this.typeAttendance.length;
-            this.attendanceIndexiOf = this.typeAttendance[this.attendanceIndexi - 1];
-
-            this.totalRowPopup = data.length;
-            this.PageIndexPopup = 1;
-            this.fetchTableDataByPagePopup(this.PageIndexPopup);
-            ;
+            if(data.length){
+              this.addReportPopUp = true;
+              this.isRippleLoad = false;
+              this.dataStatus = false;
+              this.dateWiseAttendance = data;
+              this.dataTypeAttendance = this.dateWiseAttendance.map((ele) => {
+                this.typeAttendance = ele.attendanceDateType;
+  
+              });
+              this.attendanceIndex0 = this.typeAttendance[0];
+              this.attendanceIndexi = this.typeAttendance.length;
+              this.attendanceIndexiOf = this.typeAttendance[this.attendanceIndexi - 1];
+  
+              this.totalRowPopup = data.length;
+              this.PageIndexPopup = 1;
+              this.fetchTableDataByPagePopup(this.PageIndexPopup);  
+            }
+            else{
+              let msg = {
+                type: "info",
+                title: "No Data Found",
+                body: "We did not find any attendance marked for the selected dates "
+              }
+              this.appc.popToast(msg);
+            }
           },
           (error: any) => {
+            this.isRippleLoad = false;
+            this.dataStatus = false;
             return error;
 
           }
@@ -386,9 +503,12 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   closeReportPopup() {
     this.addReportPopUp = false;
   }
+
   // pagination functions 
   //for summary report
   fetchTableDataByPage(index) {
@@ -402,11 +522,15 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   fetchNext() {
     this.PageIndex++;
     this.fetchTableDataByPage(this.PageIndex);
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   fetchPrevious() {
     if (this.PageIndex != 1) {
       this.PageIndex--;
@@ -414,6 +538,8 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   getDataFromDataSource(startindex) {
     if (this.isProfessional) {
       if (this.searchflag) {
@@ -436,7 +562,6 @@ export class AttendanceReportComponent implements OnInit {
   }
 
   //for detailed report
-
   fetchTableDataByPagePopup(index) {
     this.PageIndexPopup = index;
     let startindex = this.pagedisplaysizePopup * (index - 1);
@@ -448,18 +573,24 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
-  fetchNextPopup() {
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
+  fetchNextPopupRange() {
     this.PageIndexPopup++;
-    this.fetchTableDataByPage(this.PageIndexPopup);
+    this.fetchTableDataByPagePopup(this.PageIndexPopup);
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   fetchPreviousPopup() {
     if (this.PageIndexPopup != 1) {
       this.PageIndexPopup--;
-      this.fetchTableDataByPage(this.PageIndexPopup);
+      this.fetchTableDataByPagePopup(this.PageIndexPopup);
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   getDataFromDataSourcePopup(startindex) {
     if (this.isProfessional) {
       let d = this.dateWiseAttendancePro.slice(startindex, startindex + this.pagedisplaysizePopup);
@@ -471,15 +602,44 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   sortedData(ev) {
-    this.property = ev;
-    if (this.direction == -1) {
-      this.direction = 1;
+    this.sortingEnabled = true;
+    (this.direction == 0 || this.direction == -1) ? (this.direction = 1) : (this.direction = -1)
+    if (this.isProfessional) {
+      this.queryParamsPro = this.queryParamsPro.sort((a: any, b: any) => {
+        if (a[ev] < b[ev]) {
+          return -1 * this.direction;
+        }
+        else if (a[ev] > b[ev]) {
+          return this.direction;
+        }
+        else {
+          return 0;
+        }
+      })
     }
     else {
-      this.direction = -1;
+      this.postData = this.postData.sort((a: any, b: any) => {
+        if (a[ev] < b[ev]) {
+          return -1 * this.direction;
+        }
+        else if (a[ev] > b[ev]) {
+          return this.direction;
+        }
+        else {
+          return 0;
+        }
+      });
+
     }
+    this.PageIndex = 1;
+    this.fetchTableDataByPage(this.PageIndex);
   }
+
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   getColor(status) {
     switch (status) {
       case 'A': return 'red';
@@ -487,6 +647,8 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   DownloadJsonToCsv() {
     console.log(this.attendanceTable.nativeElement.innerHtml);
     let link = this.xlsDownloader.nativeElement;
@@ -498,25 +660,36 @@ export class AttendanceReportComponent implements OnInit {
     link.click();
   }
 
+
+  /* ================================================================================================================================ */
+  /* ================================================================================================================================ */
   searchDatabase() {
+    
     if (this.searchText != "" && this.searchText != null) {
-      let searchData: any;
-      if (this.isProfessional) {
-        searchData = this.queryParamsPro.filter(item =>
+      
+      this.PageIndex = 1;
+      let searchRes: any;
+      if (!this.isProfessional) {
+        searchRes = this.postData.filter(item =>
           Object.keys(item).some(
             k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
         );
-      } else {
-        searchData = this.postData.filter(item =>
+      } 
+      else 
+      {
+        searchRes = this.queryParamsPro.filter(item =>
           Object.keys(item).some(
             k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchText.toLowerCase()))
         );
+        
       }
-      this.searchData = searchData;
-      this.totalRow = searchData.length;
+      
+      this.searchData = searchRes;
+      this.totalRow = searchRes.length;
       this.searchflag = true;
       this.fetchTableDataByPage(this.PageIndex);
-    } else {
+    }
+    else {
       this.searchflag = false;
       this.fetchTableDataByPage(this.PageIndex);
       if (this.isProfessional) {
@@ -527,5 +700,44 @@ export class AttendanceReportComponent implements OnInit {
     }
   }
 
+  dateValidationForFuture(e, key) {
+
+    let today = moment(new Date);
+    let selected = moment(e);
+
+    let diff = moment(selected.diff(today))['_i'];
+
+    if (diff <= 0) {
+    }
+    else {
+      let msg = {
+        type: "info",
+        body: "You cannot select future date"
+      }
+      this.appc.popToast(msg);
+      this.isRippleLoad = false;
+
+      if (this.isProfessional) {
+        if (key == 'to') {
+          this.queryParams.to_date = moment(new Date()).format("YYYY-MM-DD");
+        }
+        if (key == 'from') {
+          this.queryParams.from_date = moment(new Date()).format('YYYY-MM-DD');
+        }
+      }
+      else {
+        if (key == 'to') {
+          this.attendanceFetchForm.to_date = moment(new Date()).format("YYYY-MM-DD");
+        }
+        if (key == 'from') {
+          this.attendanceFetchForm.from_date = moment(new Date()).format('YYYY-MM-DD');
+
+        }
+      }
+    }
+
+
+  }
 
 }
+

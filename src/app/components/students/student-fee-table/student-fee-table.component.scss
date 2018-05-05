@@ -387,6 +387,7 @@
                         margin: 0px;
                         border: none;
                         padding: 0;
+                        width: 75%; 
                         &.datePickerBox {
                             .bsDatepicker {
                                 cursor: pointer;
@@ -489,6 +490,23 @@
                     }
                 }
             }
+        }
+    }
+}
+
+.fee-adder {
+    background: #0084f6 !important;
+    color: white !important;
+    position: relative;
+    top: 21px !important;
+    height: 30px !important;
+    padding: 3px 12px 7px 12px !important;
+    i {
+        display: inline-flex;
+        &::before {
+            font-family: FontAwesome;
+            content: "\f09d";
+            font-size: 12px;
         }
     }
 }

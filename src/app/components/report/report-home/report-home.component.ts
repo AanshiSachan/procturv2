@@ -73,15 +73,15 @@ export class ReportHomeComponent implements OnInit {
         this.isBiometric = true;
         this.isAttendance = true;
       }
-      else{
+      else if (sessionStorage.getItem('userType') == '3') {
         this.isProfitnloss = false;
         this.isEmail = false;
-        this.isTimetable = false;
-        this.isReportCard = false;
-        this.isExam = false;
+        this.isTimetable = true;
+        this.isReportCard = true;
+        this.isExam = true;
         this.isFee = false;
-        this.isBiometric = false;
-        this.isAttendance = false;
+        this.isBiometric = true;
+        this.isAttendance = true;
         this.isSms = false;
       }
     }

@@ -2109,6 +2109,13 @@ export class StudentAddComponent implements OnInit {
     this.feeTemplateById.payment_mode = "Cash";
     this.feeTemplateById.paid_date = moment().format("YYYY-MM-DD");
     this.isFeePaymentUpdate = false;
+    this.pdcSelectedForm = {
+      bank_name: '',
+      cheque_amount: '',
+      cheque_date: moment().format("YYYY-MM-DD"),
+      cheque_no: '',
+      pdc_cheque_id: ''
+    }
   }
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
@@ -3787,6 +3794,7 @@ export class StudentAddComponent implements OnInit {
   deleteUnsavedPdc(i) {
     this.newPdcArr.splice(i, 1);
   }
+ 
   /* ============================================================================================================================ */
   /* ============================================================================================================================ */
   getPdcChequeList() {
@@ -3827,11 +3835,13 @@ export class StudentAddComponent implements OnInit {
       })
 
   }
+ 
   /* ============================================================================================================================ */
   closePDCPop() {
     this.selectedCheque = null;
     this.isPdcApply = false
   }
+ 
   /* ============================================================================================================================ */
   addPdcDataToServer() {
     let temp: any[] = [];
@@ -4047,7 +4057,7 @@ export class StudentAddComponent implements OnInit {
           this.pdcSelectedForm = {
             bank_name: el.bank_name,
             cheque_amount: el.cheque_amount,
-            cheque_date: el.cheque_date,
+            cheque_date: moment(el.cheque_date).format("YYYY-MM-DD"),
             cheque_no: el.cheque_no,
             pdc_cheque_id: el.cheque_id
           }

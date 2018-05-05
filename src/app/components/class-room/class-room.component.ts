@@ -13,6 +13,8 @@ export class ClassRoomComponent {
 
   classRoomData: any = [];
   totalRow = 0;
+  enterclassdataDesc: string = "";
+  enterclassdata: string = "";
   pagedclassRoomData: any[] = [];
   addClasslistData: any[] = [];
   saveclassListData: any = [];
@@ -76,7 +78,7 @@ export class ClassRoomComponent {
   ================================================================================= */
 
   addNewclassRoom(Room_ele, Desc_ele) {
-    if (Room_ele && Desc_ele != "" && Room_ele && Desc_ele != null) {
+    if (Room_ele && Desc_ele != "" && Room_ele && Desc_ele != null && Desc_ele.length < 500) {
       let classRoomobj = {
         class_room_desc: Desc_ele,
         class_room_name: Room_ele
@@ -90,7 +92,10 @@ export class ClassRoomComponent {
           }
           this.AppC.popToast(msg);
           this.getClassList();
+          this.enterclassdata = "";
+          this.enterclassdataDesc = "";
           this.toggleCreateNewList();
+
         },
         error => {
           console.log(error);
@@ -99,9 +104,19 @@ export class ClassRoomComponent {
             title: "Error",
             body: error.error.message
           }
+          this.enterclassdata = "";
+          this.enterclassdataDesc = "";
           this.AppC.popToast(msg);
         }
       )
+    }
+    else if (Desc_ele.length > 500) {
+      let data = {
+        type: 'error',
+        title: "Description should not be greater than 500",
+        body: "error"
+      }
+      this.AppC.popToast(data);
     }
     else {
       let data = {
@@ -110,6 +125,8 @@ export class ClassRoomComponent {
         body: "Please fill ClassRoom Name."
       }
       this.AppC.popToast(data);
+      this.enterclassdata = "";
+      this.enterclassdataDesc = "";
       return;
     }
   }
@@ -123,19 +140,40 @@ export class ClassRoomComponent {
       "class_room_id": row.class_room_id,
 
     }
-    this.ClassList.updateclassListData(data).subscribe(
-      res => {
-        this.getClassList();
-      }),
-      error => {
-        let msg = {
-          type: "error",
-          title: "",
-          body: "An Error Occured"
+    if (data.class_room_name != "" && data.class_room_name != null && data.class_room_desc != "" && data.class_room_desc != null) {
+      if (data.class_room_desc.length > 500) {
+        let data = {
+          type: 'error',
+          title: "Error",
+          body: "Description should not be greater than 500."
         }
-        this.AppC.popToast(msg);
+        this.AppC.popToast(data);
+        return;
       }
 
+      this.ClassList.updateclassListData(data).subscribe(
+        res => {
+          let data = {
+            type: 'success',
+            title: "Successfully",
+            body: "Updated Successfully."
+          }
+          this.AppC.popToast(data);
+          this.getClassList();
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
+    else {
+      let data = {
+        type: 'error',
+        title: "Error",
+        body: "Please fill classRoom name and Description."
+      }
+      this.AppC.popToast(data);
+    }
   }
 
   /*==================pagination================================================ */

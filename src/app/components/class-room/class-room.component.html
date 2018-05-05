@@ -15,27 +15,27 @@
         </a>
       </div>
       <section class="clearFix create-standard-form" *ngIf="CreateNewList">
-  
-        <div class="row">
+  <form action="">
+        <div class="row field">
           <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3 grid-container">
-            <div class="field-wrapper" [ngClass]="{'has-value': idAddRoom.value!= ''}">
-              <input type="text" #idAddRoom class="form-ctrl" name="Classroom_Name" id="Classroom_Name">
+            <div class="field-wrapper" [ngClass]="{'has-value': enterclassdata!= ''}">
+              <input type="text" #idAddRoom class="form-ctrl"  [(ngModel)]="enterclassdata" name="Classroom_Name" id="Classroom_Name">
               <label for="Classroom_Name">Classroom Name*</label>
             </div>
           </div>
           <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3 grid-container">
-            <div class="field-wrapper" [ngClass]="{'has-value': idAddDesc.value!= ''}">
-              <input type="text" #idAddDesc class="form-ctrl" name="ClassroomDesc" id="ClassroomDesc">
+            <div class="field-wrapper" [ngClass]="{'has-value': enterclassdataDesc!= ''}">
+              <input type="text" #idAddDesc class="form-ctrl" [(ngModel)]="enterclassdataDesc"  name="ClassroomDesc" id="ClassroomDesc">
               <label for="ClassroomDesc">Classroom Description*</label>
             </div>
           </div>
           <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3 grid-container">
             <aside class="pull-left create-cancel-small">
-              <button class="btn pull-right fullBlue btnclass" (click)="addNewClassroom(idAddRoom.value,idAddDesc.value)">Save</button>
+              <button class="btn pull-right fullBlue btnclass" (click)="addNewclassRoom(idAddRoom.value,idAddDesc.value)">Save</button>
             </aside>
           </div>
         </div>
-        
+  </form>
       </section>
   
       <div id="divSlotTable">
@@ -59,9 +59,9 @@
                 </tr>
               </thead>
 
-              <tbody *ngIf="ClassroomData.length !=0">
+              <tbody *ngIf="classRoomData.length !=0">
 
-                <tr id="row{{i}}" class="displayComp" *ngFor="let row of pagedClassroomData; let i = index; trackBy: i;">
+                <tr id="row{{i}}" class="displayComp" *ngFor="let row of pagedclassRoomData; let i = index; trackBy: i;">
 
                   <td>
                     {{i + 1}}
@@ -93,12 +93,12 @@
                   </td>
 
                   <td class="edit-comp">
-                    <a class="anchorTagCursor" (click)="saveClassroomInfo(row , i)">Update</a>
+                    <a class="anchorTagCursor" (click)="saveclassRoomInfo(row , i)">Update</a>
                   </td>
   
                 </tr>
               </tbody>
-              <tbody *ngIf="ClassroomData.length ==0">
+              <tbody *ngIf="classRoomData.length ==0">
                 <td colspan="4" style="text-align: center">
                   ClassList Record Not
                 </td>

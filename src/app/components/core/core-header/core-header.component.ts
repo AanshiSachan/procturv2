@@ -40,6 +40,7 @@ export class CoreHeaderComponent implements OnInit {
   @ViewChild('seachResult') seachResult: ElementRef;
   @ViewChild('form') form: any;
   resultStat: any = 1;
+  teacherId : any = 0;
 
 
   @Output() searchViewMore = new EventEmitter<any>();
@@ -114,12 +115,16 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   checkUserHadAccess() {
+    document.getElementById('divProfileTag').classList.add('hide');
     const permissionArray = sessionStorage.getItem('permissions');
     if (permissionArray == null || permissionArray == "") {
-      if(sessionStorage.getItem('userType') == '0'){
+      if (sessionStorage.getItem('userType') == '0') {
         this.showAllFields();
       }
-      else if(sessionStorage.getItem('userType') == '3'){
+      else if (sessionStorage.getItem('userType') == '3') {
+        document.getElementById('divProfileTag').classList.remove('hide');
+        this.teacherId = 0;
+        this.teacherId = JSON.parse(sessionStorage.getItem('institute_info')).teacherId;
         this.showTeacherFields();
       }
     } else {
@@ -168,31 +173,29 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divGeneralSettingTag').classList.remove('hide');
     document.getElementById('divManageFormTag').classList.remove('hide');
     document.getElementById('divAreaAndMap').classList.remove('hide');
-    if(this.isProfessional){
+    if (this.isProfessional) {
       document.getElementById('divSlotTag').classList.remove('hide');
     }
-    else if(!this.isProfessional){
+    else if (!this.isProfessional) {
       document.getElementById('divSlotTag').classList.add('hide');
     }
   }
 
-  showTeacherFields(){
+  showTeacherFields() {
     document.getElementById('divAdminTag').classList.add('hide');
     document.getElementById('divMyAccountTag').classList.add('hide');
     document.getElementById('divMasterTag').classList.add('hide');
-    document.getElementById('divTeacherTag').classList.remove('hide');
+    document.getElementById('divTeacherTag').classList.add('hide');
     document.getElementById('divFeeTag').classList.add('hide');
     document.getElementById('divAcademicTag').classList.add('hide');
     document.getElementById('divSettingTag').classList.add('hide');
     document.getElementById('divGeneralSettingTag').classList.add('hide');
     document.getElementById('divManageFormTag').classList.add('hide');
     document.getElementById('divAreaAndMap').classList.add('hide');
-    if(this.isProfessional){
-      document.getElementById('divSlotTag').classList.remove('hide');
-    }
-    else if(!this.isProfessional){
-      document.getElementById('divSlotTag').classList.add('hide');
-    }
+    document.getElementById('divSlotTag').classList.add('hide');
+    document.getElementById('divClassRoomTag').classList.add('hide');
+    document.getElementById('divManageTag').classList.add('hide');
+    document.getElementById('divAcademicTag').classList.add('hide');
   }
 
   hideAllFields() {
@@ -373,6 +376,11 @@ export class CoreHeaderComponent implements OnInit {
     else {
       this.router.navigate(['/enquiry'], { queryParams: { id: d.data.id, action: d.action } });
     }
+  }
+
+  viewTeacherProfile() {
+    localStorage.setItem('teacherID', this.teacherId);
+    this.router.navigateByUrl('teacher/edit');
   }
 
 }

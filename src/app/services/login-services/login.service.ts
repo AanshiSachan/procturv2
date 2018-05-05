@@ -18,7 +18,7 @@ export class LoginService {
   regenerateOTPurl: string;
   forgotPasswordURL: string;
   baseUrl: string = '';
-  public instituteList: string[] = ['100057','100058','100123', '100180', '100126', '100127', '100174', '100118', '100321', '100423', '100495', '100496', '100497', '100498', '100202', '100203', '100204', '100391', '100213', '100220', '100221', '100392', '100410', '100444', '100231', '100302', '100380', '100438'];
+  public instituteList: string[] = ['100057', '100058', '100123', '100180', '100126', '100127', '100174', '100118', '100321', '100423', '100495', '100496', '100497', '100498', '100202', '100203', '100204', '100391', '100213', '100220', '100221', '100392', '100410', '100444', '100231', '100302', '100380', '100438'];
 
   /* 100533 100423 for divya video purpose */
 
@@ -27,11 +27,24 @@ export class LoginService {
   private userNameSource = new BehaviorSubject<string>('');
   private overlayMenu = new BehaviorSubject<boolean>(false);
   private sideNavSource = new BehaviorSubject<string>('');
+  private permissionSource = new BehaviorSubject<any>('');
+  private userTypeSource = new BehaviorSubject<any>('');
 
   currentInstitute = this.instituteNameSource.asObservable();
   currentSidenav = this.sideNavSource.asObservable();
   currentUsername = this.userNameSource.asObservable();
   currentMenuState = this.overlayMenu.asObservable();
+  currentPermissions = this.permissionSource.asObservable();
+  currentUserType = this.userTypeSource.asObservable();
+
+
+  changePermissions(data: any) {
+    this.permissionSource.next(data);
+  }
+
+  changeUserType(id: string | number) {
+    this.userTypeSource.next(id);
+  }
 
   changeInstituteStatus(institute: string) {
     this.instituteNameSource.next(institute);
@@ -54,7 +67,7 @@ export class LoginService {
     this.urlLogin = this.baseUrl + "/api/v1/alternateLogin";
     this.headers = new Headers();
     this.headers.append("Content-Type", "application/json");
-  } 
+  }
 
 
   postLoginDetails(data): any {
@@ -90,6 +103,7 @@ export class LoginService {
     this.auth.clearStoredData();
     this.auth.changeAuthenticationKey(null);
     this.auth.changeInstituteId(null);
+    this.changeSidenavStatus('unauthorized');
     sessionStorage.clear();
     localStorage.clear();
     return true;
