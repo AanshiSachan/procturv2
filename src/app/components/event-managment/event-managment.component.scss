@@ -21,7 +21,7 @@
 .form-wrapper {
     background: transparent;
     margin: 2px 0px;
-    width: 85%!important;
+    width: 85% !important;
     .btn {
         margin-top: 10px;
         width: 30%;
@@ -104,6 +104,63 @@
         color: $header-bg;
     }
 }
+.updateevents{
+    height: 500px;
+    overflow: hidden;
+    ::-webkit-scrollbar{
+        display: block;
+    }
+    .makeEvents{
+        height: 487px;
+        overflow-y: auto;
+    }
+}
+.datenameEvent{
+    .form-wrapper {
+        position: relative;
+        &.datePickerBox {
+            .side-form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url('../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 47px;
+                top: 20px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
+.dateEvent {
+    .form-wrapper {
+        position: relative;
+        &.datePickerBox {
+            .side-form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url('../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 40px;
+                top: 20px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
 
 .tooltip-box-field {
     width: 170px;
@@ -162,8 +219,7 @@
     }
 }
 
-
-.field-wrapper{
+.field-wrapper {
     position: relative;
     padding-top: 10px;
     width: 73%;

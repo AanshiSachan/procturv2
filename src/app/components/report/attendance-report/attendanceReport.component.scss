@@ -50,6 +50,27 @@ $color-highlight: lighten($color-base, 7%);
         margin: 5px 15px;
     }
     .form-wrapper {
+        position: relative;
+        &.datePickerBox {
+            .side-form-ctrl {
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                background: transparent;
+            }
+            &:after {
+                content: '';
+                background: url('../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                right: 0;
+                top: 20px;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+    .form-wrapper {
         padding: 10px 5px;
         label {
             width: 100%;
