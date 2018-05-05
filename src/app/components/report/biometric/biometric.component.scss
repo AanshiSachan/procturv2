@@ -28,7 +28,7 @@ p {
     position: relative;
     left: 5%;
     table {
-        overflow-y: scroll;
+        overflow-y: auto;
         width: 95%;
     }
     h5 {
@@ -45,7 +45,7 @@ p {
         display: block;
     }
     .student-table {
-        overflow-x: scroll;
+        overflow-x: auto;
         height: 400px;
     }
     .tablePopup {
@@ -119,7 +119,7 @@ p {
                 background: url('../../../../assets/images/calendar.svg') no-repeat;
                 position: absolute;
                 right: 0;
-                top: 20px;
+                top: 27px;
                 width: 21px;
                 height: 21px;
                 z-index: 0;
@@ -144,7 +144,7 @@ p {
         display: block;
     }
     .table-heading {
-        overflow-x: scroll;
+        overflow-x: auto;
         height: 350px;
     }
 }
@@ -405,7 +405,7 @@ p {
     transition: all 0.5s ease-in;
 }
 
-.main {
+.prepare {
     margin-top: -25px;
     .form-wrapper {
         position: relative;
@@ -498,7 +498,7 @@ p {
         }
         .common-elements {
             height: 450px;
-            overflow-y: scroll;
+            overflow-y: auto;
         }
         .student-elements {
             position: relative;

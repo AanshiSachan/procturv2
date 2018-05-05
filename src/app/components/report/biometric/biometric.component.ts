@@ -85,7 +85,7 @@ export class BiometricComponent implements OnInit {
   constructor(private reportService: BiometricServiceService,
     private appc: AppComponent,
     private institute_id: AuthenticatorService,
-  private login:LoginService) { }
+    private login: LoginService) { }
 
   ngOnInit() {
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
@@ -95,10 +95,10 @@ export class BiometricComponent implements OnInit {
   getMasterCourses() {
 
     this.getData.biometric_attendance_date = moment().format('YYYY-MM-DD');
-    
+
     this.reportService.getAllData().subscribe(
       (data: any) => {
-        
+
         this.masterCourse = data;
         this.isRippleLoad = false;
       },
@@ -216,6 +216,12 @@ export class BiometricComponent implements OnInit {
       }
     )
   }
+  showAttendanceReport() {
+    this.showMonth = false;
+    this.showWeek = false;
+    this.showRange = false;
+    this.addReportPopUp = true;
+  }
   closeReportPopup() {
     this.addReportPopUp = false;
   }
@@ -271,11 +277,11 @@ export class BiometricComponent implements OnInit {
             this.dataStatus = false;
             this.monthAttendance = data;
           }
-          else{
+          else {
 
             let msg = {
               type: "info",
-             title:"No Data Found",
+              title: "No Data Found",
               body: "We could not find any data in this range"
             }
             this.appc.popToast(msg);
@@ -316,11 +322,11 @@ export class BiometricComponent implements OnInit {
             this.dataStatus = false;
             this.weekAttendance = data;
           }
-          else{
+          else {
 
             let msg = {
               type: "info",
-             title:"No Data Found",
+              title: "No Data Found",
               body: "We could not find any data in this range"
             }
             this.appc.popToast(msg);
@@ -376,7 +382,19 @@ export class BiometricComponent implements OnInit {
       this.isRippleLoad = false;
       this.appc.popToast(msg);
     }
-    else if (this.getAllData.from_date >= this.getAllData.to_date) {
+    else if (this.getAllData.from_date == null || this.getAllData.from_date == ""
+      || this.getAllData.to_date == "" || this.getAllData.to_date == null ||
+      this.getAllData.from_date == "Invalid date" || this.getAllData.to_date == "Invalid date") {
+      let msg = {
+        type: "info",
+        title: "No records Found",
+        body: "Please select specific date range"
+      }
+      this.dataStatus = false;
+      this.isRippleLoad = false;
+      this.appc.popToast(msg);
+    }
+    else if (this.getAllData.from_date > this.getAllData.to_date) {
       let msg = {
         type: "error",
         title: "Incorrect Details",
@@ -394,11 +412,11 @@ export class BiometricComponent implements OnInit {
             this.dataStatus = false;
             this.range = data;
           }
-          else{
+          else {
 
             let msg = {
               type: "info",
-             title:"No Data Found",
+              title: "No Data Found",
               body: "We could not find any data in this range"
             }
             this.isRippleLoad = false;
@@ -550,7 +568,17 @@ export class BiometricComponent implements OnInit {
 
     }
     else {
-      this.getAllData.to_date = moment(new Date).format("YYYY-MM-DD");
+      this.getData.biometric_attendance_date = moment(new Date).format('YYYY-MM-DD');
+      this.getAllData.to_date = moment(new Date).format('YYYY-MM-DD');
+      this.getAllData.from_date = moment(new Date).format('YYYY-MM-DD');
+
+      let msg = {
+        type: "info",
+        body: "Future date is not allowed"
+      }
+      this.isRippleLoad = false;
+      this.dataStatus=false;
+      this.appc.popToast(msg);
     }
 
   }

@@ -33,10 +33,10 @@
                   </select>
                 </div>
               </div>
-              <div class="c-lg-3 main" style="margin-top:0px;">
+              <div class="c-lg-3 prepare" style="margin-top:0px;">
                 <div class="form-wrapper datePickerBox">
                   <label> Select Date</label>
-                  <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getData.biometric_attendance_date">
+                  <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getData.biometric_attendance_date" (ngModelChange)="dateValidationForFuture($event)">
                 </div>
               </div>
               <div class="c-lg-3">
@@ -429,6 +429,7 @@
             </span>
 
             <div popup-header class="popup-header-content" *ngIf="showMonth">
+
               <h2 style="font-decoration:italic; font-size:20px; ">Previous Month records</h2>
 
             </div>
@@ -485,19 +486,22 @@
 
 
             <div popup-header class="popup-header-content" *ngIf="showRange">
+
               <h2 style="font-decoration:italic; font-size:20px;">Select Range</h2>
+
             </div>
             <div popup-content class="main-student-table" *ngIf="showRange">
               <div class="row">
                 <div class="c-lg-5 main">
                   <div class="form-field form-wrapper datePickerBox">
-                    <label for="from">From</label>
-                    <input type="text" class="side-form-ctrl bsDatepicker" name="from" bsDatepicker [(ngModel)]="getAllData.from_date">
+                    <label for="from" style="margin-top: 10px;">From</label>
+                    <input type="text" class="side-form-ctrl bsDatepicker" name="from" bsDatepicker [(ngModel)]="getAllData.from_date" (ngModelChange)="dateValidationForFuture($event)">
                   </div>
                 </div>
+
                 <div class="c-lg-5 main">
                   <div class="form-field form-wrapper datePickerBox">
-                    <label for="to">To</label>
+                    <label for="to" style="margin-top: 10px;">To</label>
                     <input type="text" class="side-form-ctrl bsDatepicker" name="to" bsDatepicker [(ngModel)]="getAllData.to_date" (ngModelChange)="dateValidationForFuture($event)">
                   </div>
                 </div>
@@ -507,55 +511,56 @@
                   </div>
                 </div>
               </div>
-              <div class="table table-responsive tablePopup" *ngIf="showTable">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>
-                        Date
-                      </th>
-                      <th>
-                        In Time
-                      </th>
-                      <th>
-                        Out time
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody *ngIf="range.length != 0">
-                    <tr *ngFor="let i of range">
-                      <td>
-                        {{i.attendance_date}}
-                      </td>
-                      <td>
-                        {{i.in_time}}
-                      </td>
-                      <td>
-                        {{i.out_time}}
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tbody *ngIf="range.length == 0 && dataStatus === true">
-                    <tr *ngFor="let dummy of dummyArr">
-                      <td *ngFor="let c of columnMapRecords" style="padding:10px;">
-                        <div class="skeleton">
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
+            </div>
+            <div class="table table-responsive tablePopup" *ngIf="showTable">
+              <table>
+                <thead>
+                  <tr>
+                    <th>
+                      Date
+                    </th>
+                    <th>
+                      In Time
+                    </th>
+                    <th>
+                      Out time
+                    </th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="range.length != 0">
+                  <tr *ngFor="let i of range">
+                    <td>
+                      {{i.attendance_date}}
+                    </td>
+                    <td>
+                      {{i.in_time}}
+                    </td>
+                    <td>
+                      {{i.out_time}}
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody *ngIf="range.length == 0 && dataStatus === true">
+                  <tr *ngFor="let dummy of dummyArr">
+                    <td *ngFor="let c of columnMapRecords" style="padding:10px;">
+                      <div class="skeleton">
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
 
-                  <tbody *ngIf="range.length == 0 && dataStatus === false">
-                    <tr>
-                      <td colspan="3" class="records">
-                        No Records Found
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                <tbody *ngIf="range.length == 0 && dataStatus === false">
+                  <tr>
+                    <td colspan="3" class="records">
+                      No Records Found
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
 
             </div>
             <div popup-header class="popup-header-content" *ngIf="showWeek">
+
               <h2 style="font-decoration:italic; font-size:20px; ">Previous Week Records</h2>
             </div>
             <div popup-content class="main-student-table" *ngIf="showWeek">
