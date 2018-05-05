@@ -27,12 +27,12 @@
             <div class="c-lg-5">
               <div class="field-wrapper datePickerBox has-value">
                 <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" readonly="true" name="fromDate" (focus)="inputClicked($event)"
-                  [(ngModel)]="smsFetchForm.from_date" bsDatepicker/>
+                  [(ngModel)]="smsFetchForm.from_date" (ngModelChange)="dateValidationForFuture($event) " bsDatepicker/>
                 <label for="fromDate">Sent From</label>
               </div>
               <div class="field-wrapper datePickerBox has-value">
                 <input type="text" value="" id="updateDate" (focus)="inputClicked($event)" readonly="true" [(ngModel)]="smsFetchForm.to_date"
-                  class="form-ctrl bsDatepicker" name="toDate" bsDatepicker/>
+                  class="form-ctrl bsDatepicker" name="toDate" (ngModelChange)="dateValidationForFuture($event)" bsDatepicker/>
                 <label for="toDate">Sent To</label>
               </div>
             </div>

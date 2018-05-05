@@ -33,10 +33,10 @@
                   </select>
                 </div>
               </div>
-              <div class="c-lg-3 main" style="margin-top:0px;">
+              <div class="c-lg-3 prepare" style="margin-top:0px;">
                 <div class="form-wrapper datePickerBox">
                   <label> Select Date</label>
-                  <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getData.biometric_attendance_date">
+                  <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getData.biometric_attendance_date" (ngModelChange)="dateValidationForFuture($event)">
                 </div>
               </div>
               <div class="c-lg-3">

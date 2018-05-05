@@ -228,6 +228,32 @@ export class SmsReportComponent implements OnInit {
       )
       }
     }
+
+    dateValidationForFuture(e) {
+      console.log(e);
+      let today = moment(new Date);
+      let selected = moment(e);
+  
+      let diff = moment(selected.diff(today))['_i'];
+  
+      if (diff <= 0) {
+  
+      }
+      else {
+        
+        this.smsFetchForm.to_date = moment(new Date).format('YYYY-MM-DD');
+        this.smsFetchForm.from_date = moment(new Date).format('YYYY-MM-DD');
+  
+        let msg = {
+          type: "info",
+          body: "Future date is not allowed"
+        }
+        this.appC.popToast(msg);
+        
+      }
+  
+    }
+  
   }
   
 

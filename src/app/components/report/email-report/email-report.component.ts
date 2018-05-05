@@ -104,6 +104,31 @@ export class EmailReportComponent {
     }
   }
 
+
+  dateValidationForFuture(e) {
+    console.log(e);
+    let today = moment(new Date);
+    let selected = moment(e);
+
+    let diff = moment(selected.diff(today))['_i'];
+
+    if (diff <= 0) {
+
+    }
+    else {
+
+      this.emailFetchForm.to_date = moment(new Date).format('YYYY-MM-DD');
+      this.emailFetchForm.from_date = moment(new Date).format('YYYY-MM-DD');
+
+      let msg = {
+        type: "info",
+        body: "Future date is not allowed"
+      }
+
+      this.appC.popToast(msg);
+    }
+
+  }
   // pagination functions 
 
   fetchTableDataByPage(index) {
