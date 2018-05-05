@@ -24,7 +24,7 @@
 
         <section class="sms-filter-wrapper">
           <div class="row">
-            <div class="c-lg-8 c-md-8 c-sm-8">
+            <div class="c-lg-5">
               <div class="field-wrapper datePickerBox has-value">
                 <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" readonly="true" name="fromDate" (focus)="inputClicked($event)"
                   [(ngModel)]="smsFetchForm.from_date" bsDatepicker/>
@@ -36,26 +36,28 @@
                 <label for="toDate">Sent To</label>
               </div>
             </div>
-            <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
+            <div class="c-lg-2">
               <div class="btn-sms-search">
                 <input type="button" class="normal-btn fullBlue btn" value="Go" (click)="fetchSmsByDate()" />
               </div>
             </div>
+            <div class="c-lg-5"></div>
           </div>
         </section>
       </div>
 
       <section class="table-control">
         <div class="c-lg-8">
-          <!-- <div *ngIf="smsSource.length">
-              <span>
-                {{smsSource.length}} Email
-              </span>
-            </div> -->
+          <div *ngIf="smsSource.length" class="c-lg-6" style="padding: 15px;font-size: 16px;font-weight: 500;">
+            Showing {{smsSource.length}} emails
+          </div>
+          <div *ngIf="smsSource.length == 0" class="c-lg-6"></div>
+          <div class="c-lg-6"></div>
         </div>
         <div class="c-lg-4">
           <div class="field-wrapper">
-            <input type="text" placeholder="Search" class="form-ctrl" (keyup)="searchDatabase()" [(ngModel)]="searchText" #search>
+            <input style="border: 1px solid #efefef;padding: 5px;width: 70%;float: right;" type="text" placeholder="Search" class="form-ctrl"
+              (keyup)="searchDatabase()" [(ngModel)]="searchText" #search>
           </div>
         </div>
       </section>

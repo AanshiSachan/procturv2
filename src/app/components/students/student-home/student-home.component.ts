@@ -401,7 +401,18 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   deleteStudentOpen(row) {
     this.selectedRow = row;
-    this.isDeleteStudentPrompt = true;
+    if(this.selectedRow.noOfBatchesAssigned == 0){
+      this.isDeleteStudentPrompt = true;
+    }
+    else{
+      let msg = {
+        type: 'error',
+        title: "Unable to Delete Student",
+        body: "Requested student cannot be deleted as he/she has been assigned to a batch/course"
+      }
+      this.appC.popToast(msg);
+    }
+
   }
 
   closeDeletePopup() {
