@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventManagmentService } from '../../services/event-managment.service';
 import * as moment from 'moment';
 import { AppComponent } from '../../app.component';
+import { LoginService } from '../../services/login-services/login.service';
 @Component({
   selector: 'app-event-managment',
   templateUrl: './event-managment.component.html',
@@ -25,14 +26,15 @@ export class EventManagmentComponent implements OnInit {
   searchDataFilter = "";
   displayBatchSize: number = 10;
   closeVarPopup: boolean = false;
-
+  searchDataFlag: boolean = false;
+  searchedData: any = [];
 
   /*========================================================================================
   ========================================================================================== */
   list_obj = {
     year: -1,
     month: -1,
-    event_type: "0",
+    event_type: "",
   }
 
   sendNotify_obj = {
@@ -41,12 +43,12 @@ export class EventManagmentComponent implements OnInit {
   }
   saveDataObj = {
     event_end_date: "",
-    event_type: "",
+    event_type: "1",
     holiday_date: moment().format("YYYY-MM-DD"),
     holiday_desc: "",
     holiday_long_desc: "",
     holiday_name: "",
-    holiday_type: "",
+    holiday_type: "1",
     image: null,
     public_url: ""
   }
@@ -65,9 +67,15 @@ export class EventManagmentComponent implements OnInit {
     public_url: ""
   }
 
-  constructor(private eve_mnge: EventManagmentService, private appc: AppComponent) {
+  constructor(
+    private eve_mnge: EventManagmentService,
+    private appc: AppComponent,
+    private login: LoginService,
+  ) {
     this.removeFullscreen();
     this.removeSelectionFromSideNav();
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
   }
 
   ngOnInit() {
@@ -77,10 +85,11 @@ export class EventManagmentComponent implements OnInit {
   /*=====================================get list of records=================================
   ============================================================================================ */
   getAllListData() {
-
+    this.pageIndex = 1;
+    this.searchDataFlag= false;
+    this.searchDataFilter = "";
     this.eve_mnge.getListEventDesc(this.list_obj).subscribe(
       res => {
-        console.log(res);
         this.eventRecord = res;
         this.totalRow = this.eventRecord.length;
         this.fetchTableDataByPage(this.pageIndex);
@@ -92,6 +101,7 @@ export class EventManagmentComponent implements OnInit {
   }
   /*================================================get events==============================
   ============================================================================================= */
+
   getEvents() {
     this.eve_mnge.getEventdata().subscribe(
       res => {
@@ -104,12 +114,13 @@ export class EventManagmentComponent implements OnInit {
       }
     )
   }
+
   /*=====================================get holidays============================================
  =============================================================================================== */
+
   getHolidays() {
     this.eve_mnge.getHolidayData().subscribe(
       res => {
-        console.log(res);
         this.getHoliday = res;
       },
       error => {
@@ -117,26 +128,7 @@ export class EventManagmentComponent implements OnInit {
       }
     )
   }
-  /*==============================================validate event=============================
-  ========================================================================================== */
-  eventchange(para) {
-    if (this.saveDataObj.event_type == "2") {
-      this.generalDataField = true;
-    }
-    else {
-      this.generalDataField = false;
-    }
-  }
-  /*========================================validate event at updatetime=======================
-  ==============================================================================================  */
-  eventchangeUpdate(para) {
-    if (this.newUpdateObj.event_type == "2") {
-      this.generalUpdateDataField = true;
-    }
-    else {
-      this.generalUpdateDataField = false;
-    }
-  }
+
   isTimeValid(): boolean {
     let v = moment(this.saveDataObj.holiday_date).diff(moment(this.saveDataObj.event_end_date))
     if (v <= 0) {
@@ -147,54 +139,93 @@ export class EventManagmentComponent implements OnInit {
     }
   }
 
-  RunisTimeValid(){
-    if(this.saveDataObj.event_type!==""&&this.saveDataObj.holiday_name!==""&&this.saveDataObj.holiday_type!==""){
+  RunisTimeValid() {
+    if (this.saveDataObj.event_type !== "" && this.saveDataObj.holiday_name !== "" && this.saveDataObj.holiday_type !== "") {
       this.isTimeValid();
     }
-    else{
+    else {
       let obj = {
         type: "error",
         title: "Field is Empty",
-        Body: "invalid data range"
+        body: "invalid data range"
       }
       this.appc.popToast(obj);
     }
   }
 
   saveEventData() {
-    if(!this.isTimeValid()){
+    if (this.saveDataObj.holiday_name == "" || this.saveDataObj.holiday_desc == "") {
       let obj = {
         type: "error",
-        title: "Invalid Date Range Selected",
-        Body: "From date cannot be greater than To date"
+        title: "Error",
+        body: "Please Provide Mandatory Fields"
       }
       this.appc.popToast(obj);
-
-  }
-  else if(this.saveDataObj.event_type!==""&&this.saveDataObj.event_end_date!==""&&this.saveDataObj.holiday_date!==""&&this.saveDataObj.holiday_desc!==""&&this.saveDataObj.holiday_long_desc!==""&&this.saveDataObj.holiday_name!==""&&this.saveDataObj.holiday_type!==""&&this.saveDataObj.image!==""&&this.saveDataObj.public_url!==""){
-    let obj = {
-      type: "error",
-      title: "Field is Empty",
-      Body: "From date cannot be greater than To date"
+      return;
     }
-    this.appc.popToast(obj);
+    if (this.saveDataObj.event_end_date != "") {
+      if (!this.isTimeValid()) {
+        let obj = {
+          type: "error",
+          title: "Error",
+          body: "Please check date provided."
+        }
+        this.appc.popToast(obj);
+        return;
+      }
+      this.saveDataObj.event_end_date = moment(this.saveDataObj.event_end_date).format('YYYY-MM-DD');
+    }
+   if(this.saveDataObj.holiday_desc.length>80){
+      let obj={
+        type: "error",
+        title: "Error",
+        body: "Description should not be greater than 80"
+      
+      }
+      this.appc.popToast(obj);
+      return ;
 
-  }
-  else{
+    }
+
+    if(this.saveDataObj.holiday_long_desc.length>300){
+      let obj={
+        type: "error",
+        title: "Error",
+        body: "Longdescription should not be greater than 300"
+      
+      }
+      this.appc.popToast(obj);
+      return;
+    }
+    this.saveDataObj.holiday_date = moment(this.saveDataObj.holiday_date).format('YYYY-MM-DD');
     this.eve_mnge.saveEventDescData(this.saveDataObj).subscribe(
       res => {
-        console.log(res);
+        let obj = {
+          type: "success",
+          title: "Saved",
+          body: "Event Created Successfully."
+        }
+        this.appc.popToast(obj);
         this.getAllListData();
-
         this.closeVarPopup = false;
+       this.saveDataObj = {
+          event_end_date: "",
+          event_type: "1",
+          holiday_date: moment().format("YYYY-MM-DD"),
+          holiday_desc: "",
+          holiday_long_desc: "",
+          holiday_name: "",
+          holiday_type: "1",
+          image: null,
+          public_url: ""
+        }
       },
       error => {
         console.log(error);
       }
     )
   }
-  }
-  
+
 
   /*==========================================get update data================================
   ========================================================================================== */
@@ -207,13 +238,73 @@ export class EventManagmentComponent implements OnInit {
       return false;
     }
   }
-  updatePopupData() {
-    if (this.isTimeValidData()) {
 
-    this.newUpdateObj.event_end_date = moment(this.newUpdateObj.event_end_date).format('YYYY-MM-DD');
+  validateDate(start, end) {
+    let v = moment(start).diff(moment(end))
+    if (v <= 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+
+  updatePopupData() {
+    if (this.newUpdateObj.holiday_name == "" || this.newUpdateObj.holiday_desc == "") {
+      let obj = {
+        type: "error",
+        title: "Error",
+        body: "Please Provide Mandatory Fields"
+      }
+      this.appc.popToast(obj);
+      return;
+    }
+    if (this.newUpdateObj.event_end_date != "") {
+      this.newUpdateObj.event_end_date = moment(this.newUpdateObj.event_end_date).format('YYYY-MM-DD');
+      if (!this.validateDate(this.newUpdateObj.holiday_date, this.newUpdateObj.event_end_date)) {
+        let obj = {
+          type: "error",
+          title: "Error",
+          body: "Please check date provided."
+        }
+        this.appc.popToast(obj);
+        return;
+      }
+    }
+
+    if(this.newUpdateObj.holiday_desc.length>80){
+      let obj={
+        type: "error",
+        title: "Error",
+        body: "Description should not be greater than 80"
+      
+      }
+      this.appc.popToast(obj);
+      return ;
+
+    }
+
+    if(this.newUpdateObj.holiday_long_desc.length>300){
+      let obj={
+        type: "error",
+        title: "Error",
+        body: "Longdescription should not be greater than 300"
+      
+      }
+      this.appc.popToast(obj);
+      return;
+    }
+  
     this.newUpdateObj.holiday_date = moment(this.newUpdateObj.holiday_date).format('YYYY-MM-DD');
     this.eve_mnge.getUpdateEventData(this.newUpdateObj).subscribe(
       res => {
+        let obj = {
+          type: "success",
+          title: "Saved",
+          body: "Event Updated Successfully."
+        }
+        this.appc.popToast(obj);
         console.log(res);
         this.closeEditPopup = false;
         this.getAllListData();
@@ -222,17 +313,9 @@ export class EventManagmentComponent implements OnInit {
         console.log(error);
       }
     )
-  }
-  else {
-    let obj = {
-      type: "error",
-      title: "Invalid Date Range Selected",
-      Body: "From date cannot be greater than To date"
-    }
-    this.appc.popToast(obj);
+
 
   }
-}
 
 
   checkChange(para) {
@@ -254,7 +337,6 @@ export class EventManagmentComponent implements OnInit {
   updateEventForm(holidayId) {
     this.eve_mnge.updateEventData(holidayId).subscribe(
       res => {
-        console.log(res);
         this.updateListObj = res;
         this.newUpdateObj.event_type = res.event_type;
         this.newUpdateObj.holiday_date = moment(res.holiday_date).format("YYYY-MM-DD");
@@ -263,15 +345,15 @@ export class EventManagmentComponent implements OnInit {
         this.newUpdateObj.holiday_name = res.holiday_name;
         this.newUpdateObj.holiday_type = res.holiday_type;
         this.newUpdateObj.holidayId = res.holidayId;
-        this.newUpdateObj.event_end_date = moment(res.event_end_date).format("YYYY-MM-DD");
         this.newUpdateObj.image = res.image;
         this.newUpdateObj.public_url = res.public_url;
-        if (res.event_end_date == "") {
+        if (res.event_type == "1") {
           this.checker = false;
-
+          this.newUpdateObj.event_end_date = "";
         }
         else {
           this.checker = true;
+          this.newUpdateObj.event_end_date = moment(res.event_end_date).format("YYYY-MM-DD");
         }
         console.log(this.newUpdateObj);
       },
@@ -303,7 +385,13 @@ export class EventManagmentComponent implements OnInit {
       this.sendNotify_obj.event_id = e;
       this.eve_mnge.sendNotifiation(this.sendNotify_obj).subscribe(
         res => {
-
+         let obj={
+          type: "success",
+          title: "Saved",
+          body: " Notification Send Successfully."
+        
+         }
+         this.appc.popToast(obj);
         },
         error => {
         }
@@ -318,8 +406,8 @@ export class EventManagmentComponent implements OnInit {
     this.closeVarPopup = true;
     this.getEvents();
     this.getHolidays();
-
   }
+
   updatePopup(holidayId) {
     this.closeEditPopup = true;
     this.getEvents();
@@ -327,6 +415,7 @@ export class EventManagmentComponent implements OnInit {
     this.updateEventForm(holidayId);
 
   }
+
   deleteEntryData(holidayId) {
     var prompt = confirm("Are you sure, you want to delete the Event?");
     if (prompt) {
@@ -337,10 +426,11 @@ export class EventManagmentComponent implements OnInit {
     }
 
   }
+
   closeReportPopup() {
     this.closeVarPopup = false;
-
   }
+
   closeUpdateReportPopup() {
     this.closeEditPopup = false;
   }
@@ -365,9 +455,33 @@ export class EventManagmentComponent implements OnInit {
   }
 
   getClassRoomTableFromSource(startindex) {
-    let t = this.eventRecord.slice(startindex, startindex + this.displayBatchSize);
-    return t;
+    let data = [];
+    if (this.searchDataFlag == true) {
+      data = this.searchedData.slice(startindex, startindex + this.displayBatchSize);
+    } else {
+      data = this.eventRecord.slice(startindex, startindex + this.displayBatchSize);
+    }
+    return data;
   }
+
+
+  searchInList() {
+    if (this.searchDataFilter != "" && this.searchDataFilter != null) {
+      let searchData = this.eventRecord.filter(item =>
+        Object.keys(item).some(
+          k => item[k] != null && item[k].toString().toLowerCase().includes(this.searchDataFilter.toLowerCase()))
+      );
+      this.searchedData = searchData;
+      this.totalRow = searchData.length;
+      this.searchDataFlag = true;
+      this.fetchTableDataByPage(this.pageIndex);
+    } else {
+      this.searchDataFlag = false;
+      this.fetchTableDataByPage(this.pageIndex);
+      this.totalRow = this.eventRecord.length;
+    }
+  }
+
 
   removeFullscreen() {
     var header = document.getElementsByTagName('core-header');

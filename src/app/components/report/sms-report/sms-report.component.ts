@@ -37,7 +37,8 @@ export class SmsReportComponent implements OnInit {
   searchText = "";
   searchData = [];
   searchflag: boolean = false;
-
+  dataStatus:boolean = true;
+  isRippleLoad:boolean = false;
 
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'name', header: 'Name' },
@@ -78,24 +79,31 @@ export class SmsReportComponent implements OnInit {
 
 
   getSmsReport(obj) {
-
+    this.isRippleLoad = true;
+    this.dataStatus = true;
     if (obj.start_index == 0) {
       return this.getSms.fetchSmsReport(obj).subscribe(
         res => {
+          this.isRippleLoad = false;
           if (res.length != 0) {
             this.smsSource = res;
             this.totalRecords = res[0].totalCount;
           }
           else {
             this.smsSource = [];
+            this.dataStatus = false;
             this.totalRecords = 0;
           }
+        },
+        err => {
+          this.isRippleLoad = false;
         }
       )
     }
     else {
       return this.getSms.fetchSmsReport(obj).subscribe(
         res => {
+          this.isRippleLoad = false;
           this.smsSource = res;
         }
       )
@@ -220,10 +228,35 @@ export class SmsReportComponent implements OnInit {
       )
       }
     }
+
+    dateValidationForFuture(e) {
+      console.log(e);
+      let today = moment(new Date);
+      let selected = moment(e);
+  
+      let diff = moment(selected.diff(today))['_i'];
+  
+      if (diff <= 0) {
+  
+      }
+      else {
+        
+        this.smsFetchForm.to_date = moment(new Date).format('YYYY-MM-DD');
+        this.smsFetchForm.from_date = moment(new Date).format('YYYY-MM-DD');
+  
+        let msg = {
+          type: "info",
+          body: "Future date is not allowed"
+        }
+        this.appC.popToast(msg);
+        
+      }
+  
+    }
+  
   }
   
 
     
-
 
 
