@@ -1,3 +1,5 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <div class="clearFix sms-view-wrapper">
 
 
@@ -17,7 +19,7 @@
 
           <aside class="pull-right">
             <!-- <input type="button" value="Add Enquiry" class="btn" routerLink='/enquiry/add' />
-            <input type="button" value="Upload Enquiry" routerLink='/enquiry/upload' class="btn"> -->
+              <input type="button" value="Upload Enquiry" routerLink='/enquiry/upload' class="btn"> -->
           </aside>
 
         </section>
@@ -48,14 +50,14 @@
       <section class="table-control">
         <div class="c-lg-8">
           <!-- <div *ngIf="emailSource.length">
-            <span>
-              {{emailSource.length}} Email
-            </span>
-          </div> -->
+              <span>
+                {{emailSource.length}} Email
+              </span>
+            </div> -->
         </div>
         <div class="c-lg-4">
           <div class="field-wrapper">
-            <input type="text" placeholder="Search"  class="form-ctrl">
+            <input type="text" placeholder="Search" class="form-ctrl" (keyup)="searchDatabase()" [(ngModel)]="searchText">
           </div>
         </div>
       </section>
@@ -63,17 +65,17 @@
       <section class="sms-table-wrapper">
 
         <div class="table table-responsive student-table">
-          <proctur-table [records]="emailSource" [tableName]="'Email'" [settings]="projectSettings">
+          <proctur-table [dataStatus]="dataStatus" [records]="emailSource" [tableName]="'Email'" [settings]="projectSettings">
           </proctur-table>
         </div>
 
         <!-- <div class="row filter-res pagination" style="width: 100%;">
-          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-              [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
-            </pagination>
-          </div>
-        </div> -->
+            <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+              <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
+              </pagination>
+            </div>
+          </div> -->
 
       </section>
 

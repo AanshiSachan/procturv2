@@ -346,7 +346,7 @@ export class AttendanceReportComponent implements OnInit {
     let futureDate = moment(this.queryParams.to_date).add('days', 1).format('YYYY-MM-DD');
 
     if (this.isProfessional) {
-      if (this.queryParams.from_date == "" || this.queryParams.to_date == "" || this.queryParams.batch_id == "" || this.queryParams.subject_id == "" || this.queryParams.standard_id == "") {
+      if (this.queryParams.from_date == "" || this.queryParams.to_date == "" || this.queryParams.batch_id == "-1" || this.queryParams.batch_id == " " || this.queryParams.subject_id == "" || this.queryParams.standard_id == "-1") {
 
         let msg = {
           type: "error",
