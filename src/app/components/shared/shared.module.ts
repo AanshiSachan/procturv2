@@ -3,11 +3,10 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
 import { TableLayoutComponent } from './custom-table/table-layout.component';
-import { FormatCellPipe } from './custom-checkbox-table/checkbox-format-cell.pipe';
-import { StyleCellDirective } from './custom-checkbox-table/checkbox-style-cell.directive';
+import { FormatCellPipe } from './custom-table/format-cell.pipe';
+import { StyleCellDirective } from './custom-table/style-cell.directive';
 import { PaginationComponent } from './pagination/pagination.component';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
-import { CheckboxTableComponent } from './custom-checkbox-table/checkbox-table-layout.component';
 import { AppLoaderComponent } from './app-loader/app-loader.component';
 import { PictureCropComponent } from './img-cropper/picture-crop.component';
 
@@ -19,7 +18,6 @@ import { CommaSeprationAmount } from './pipes/commaSepratorPipe';
 
 import { ProcturPopUpComponent } from './proctur-popup/proctur-popup.component';
 import { SearchPipe } from './pipes/tablesSearchPipe';
-import { CustomButtonTableComponent } from './custom-button-table/custom-button-table.component';
 
 
 
@@ -31,7 +29,6 @@ import { CustomButtonTableComponent } from './custom-button-table/custom-button-
     declarations: [
         TableLayoutComponent,
         RobTableComponent,
-        CheckboxTableComponent,
         FormatCellPipe,
         RobTableCellPipe,
         StyleCellDirective,
@@ -42,14 +39,12 @@ import { CustomButtonTableComponent } from './custom-button-table/custom-button-
         PictureCropComponent,
         CommaSeprationAmount,
         ProcturPopUpComponent,
-        SearchPipe,
-        CustomButtonTableComponent
+        SearchPipe
     ],
     exports: [
         CommonModule,
         TableLayoutComponent,
         RobTableComponent,
-        CheckboxTableComponent,
         PaginationComponent,
         QuickFilterComponent,
         AppLoaderComponent,
