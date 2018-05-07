@@ -181,7 +181,10 @@ export class ClassRoomComponent {
       }
     }
 /*
-
+if( j == index){
+        continue;
+}
+     if (this.classRoomData[j].class_room_name == data.class_room_name) 
 
 
  */

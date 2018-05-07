@@ -69,7 +69,7 @@
               <div class="c-lg-8 c-md-8 c-sm-8">
                 <div class="form-type1">
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_name != ''}">
-                      <label for="sName">Student Name*</label>
+                    <label for="sName">Student Name*</label>
 
                     <input type="text" value="" class="form-ctrl" id="sName" [(ngModel)]="studentAddFormData.student_name" name="sName" maxlength="50"
                       pattern="[a-zA-Z .]+[a-zA-Z .]+" #sname="ngModel" required>
@@ -84,7 +84,7 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_phone != ''}">
-                      <label for="cNumber">Contact Number*</label>
+                    <label for="cNumber">Contact Number*</label>
 
                     <input type="text" value="" id="cNumber" class="form-ctrl" [(ngModel)]="studentAddFormData.student_phone" name="cNumber"
                       maxlength="10" minlength="10" OnlyNumber="true" #cNumber="ngModel" required/>
@@ -96,7 +96,7 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_email != ''}">
-                      <label for="sEmail">Email ID</label>
+                    <label for="sEmail">Email ID</label>
 
                     <input type="text" value="" id="sEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.student_email" name="sEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                       #sEmail="ngModel" />
@@ -108,14 +108,14 @@
                   </div>
 
                   <div class="field-wrapper" *ngIf="enableBiometric == '1'" [ngClass]="{'has-value': studentAddFormData.attendance_device_id != ''}">
-                      <label for="cardId">Attendance Card ID</label>
+                    <label for="cardId">Attendance Card ID</label>
 
                     <input type="text" value="" id="cardId" class="form-ctrl" [(ngModel)]="studentAddFormData.attendance_device_id" name="attCard"
                       #cardId="ngModel" />
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_sex != ''}">
-                      <label for="userGender">Gender</label>
+                    <label for="userGender">Gender</label>
 
                     <select id="userGender" class="form-ctrl" [(ngModel)]="studentAddFormData.student_sex" name="userGender">
                       <option value=""></option>
@@ -126,7 +126,7 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_name != ''}">
-                      <label for="parentName">Parent Name</label>
+                    <label for="parentName">Parent Name</label>
 
                     <input type="text" value="" id="parentName" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_name" name="parentName"
                       maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+" #parentName="ngModel">
@@ -138,14 +138,14 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_phone != ''}">
-                      <label for="parentContactNo">Parent Contact Number</label>
+                    <label for="parentContactNo">Parent Contact Number</label>
 
                     <input type="text" value="" id="parentContactNo" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_phone" name="parentContactNo"
                       maxlength="10" minlength="10" OnlyNumber="true" #parentContactNo="ngModel" />
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.parent_email != ''}">
-                      <label for="parentEmail">Parent Email ID</label>
+                    <label for="parentEmail">Parent Email ID</label>
 
                     <input type="text" value="" id="parentEmail" class="form-ctrl" [(ngModel)]="studentAddFormData.parent_email" name="parentEmail"
                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #parentEmail="ngModel">
@@ -175,20 +175,20 @@
                   <h2>Additional Details</h2>
 
                   <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': studentAddFormData.dob != ''}">
-                      <label for="sdob">Date of Birth</label>
+                    <label for="sdob">Date of Birth</label>
 
                     <input type="text" value="" id="sdob" class="form-ctrl bsDatepicker" name="sdob" [(ngModel)]="studentAddFormData.dob" #sdob="ngModel"
                       readonly="true" bsDatepicker>
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.student_curr_addr != ''}">
-                      <label for="currentAdd">Current Address Line1</label>
+                    <label for="currentAdd">Current Address Line1</label>
 
                     <input type="text" value="" id="currentAdd" name="currentAdd" [(ngModel)]="studentAddFormData.student_curr_addr" class="form-ctrl">
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_name != ''}">
-                      <label for="guardianName">Guardian Name</label>
+                    <label for="guardianName">Guardian Name</label>
 
                     <input type="text" value="" id="guardianName" class="form-ctrl" maxlength="50" pattern="[a-zA-Z .]+[a-zA-Z .]+" name="guardianName"
                       [(ngModel)]="studentAddFormData.guardian_name" #guardianName="ngModel" />
@@ -200,7 +200,7 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_phone != ''}">
-                      <label for="guardianContact">Guardian Contact Number</label>
+                    <label for="guardianContact">Guardian Contact Number</label>
 
                     <input type="text" value="" id="guardianContact" class="form-ctrl" maxlength="10" minlength="10" [(ngModel)]="studentAddFormData.guardian_phone"
                       name="guardianContact" OnlyNumber="true" #guardianContact="ngModel">
@@ -213,7 +213,7 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.guardian_email != ''}">
-                      <label for="guardianEmail">Guardian Email Id</label>
+                    <label for="guardianEmail">Guardian Email Id</label>
 
                     <input type="text" value="" id="guardianEmail" class="form-ctrl" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" name="guardianEmail"
                       [(ngModel)]="studentAddFormData.guardian_email" #guardianEmail="ngModel" />
@@ -225,7 +225,7 @@
                   </div>
 
                   <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.comments != ''}">
-                      <label for="addCommentNote">Add Comment Note</label>
+                    <label for="addCommentNote">Add Comment Note</label>
 
                     <input type="text" value="" name="addCommentNote" [(ngModel)]="studentAddFormData.comments" id="addCommentNote" class="form-ctrl">
                   </div>
@@ -246,7 +246,7 @@
               <div class="box-shadow-lite">
 
                 <div class="field-wrapper datePickerBox has-value" [ngClass]="{'has-value': studentAddFormData.doj != ''}">
-                    <label for="doj">Date of Admission</label>
+                  <label for="doj">Date of Admission</label>
 
                   <input type="text" value="" id="doj" class="form-ctrl bsDatepicker" bsDatepicker name="doj" readonly="true" [(ngModel)]="studentAddFormData.doj"
                   />
@@ -254,7 +254,7 @@
                 </div>
 
                 <div class="field-wrapper" [ngClass]="{'has-value': studentAddFormData.school_name != ''}">
-                    <label for="schoolStitution">School/Institution</label>
+                  <label for="schoolStitution">School/Institution</label>
 
                   <select id="schoolStitution" name="schoolStitution" [(ngModel)]="studentAddFormData.school_name" class="form-ctrl">
                     <option></option>
@@ -269,10 +269,10 @@
                 <!-- ================================================================= -->
                 <!-- Academic Model For student Update -->
                 <div class="field-wrapper" *ngIf="isAcad" [ngClass]="{'has-value': studentAddFormData.student_class != ''}">
-                    <label for="standard">Standard</label>
+                  <label for="standard">Standard</label>
 
-                  <select id="standard" (ngModelChange)="updateMasterCourseList($event)" [(ngModel)]="studentAddFormData.student_class"
-                    name="standard" class="form-ctrl">
+                  <select id="standard" (ngModelChange)="updateMasterCourseList($event)" [(ngModel)]="studentAddFormData.student_class" name="standard"
+                    class="form-ctrl">
                     <option value="-1"></option>
                     <option [value]="standard.standard_id" *ngFor="let standard of standardList">
                       {{standard.standard_name}}
@@ -281,10 +281,10 @@
                 </div>
 
                 <div id="assignCoursesParent" class="field-wrapper field-view" style="height:auto" *ngIf="isAcad" (click)="openAssignBatch()">
-                    <label for="assignCourses">
+                  <label for="assignCourses">
 
-                  <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" [ngModel]="assignedBatchString"
-                    placeholder="Assign Courses" id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
+                    <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" [ngModel]="assignedBatchString"
+                      placeholder="Assign Courses" id="assignCourses" class="form-ctrl" readonly="true" cols="1" rows="1"></textarea>
                   </label>
                   <a style="cursor:pointer" (click)="openAssignBatch()">Assign Courses</a>
                 </div>
@@ -294,7 +294,7 @@
                 <!-- Professional Model For student Update -->
 
                 <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.standard_id != ''}">
-                    <label for="masterCourse">Master Course</label>
+                  <label for="masterCourse">Master Course</label>
 
                   <select id="masterCourse" name="masterCourse" [(ngModel)]="studentAddFormData.standard_id" (ngModelChange)="fetchCourseFromMaster($event)"
                     class="form-ctrl">
@@ -306,7 +306,7 @@
                 </div>
 
                 <div class="field-wrapper" *ngIf="isProfessional" [ngClass]="{'has-value': studentAddFormData.subject_id != ''}">
-                    <label for="course">Course</label>
+                  <label for="course">Course</label>
 
                   <select id="course" [(ngModel)]="studentAddFormData.subject_id" name="course" class="form-ctrl">
                     <option></option>
@@ -317,7 +317,7 @@
                 </div>
 
                 <div id="slotwrapper" class="field-wrapper" *ngIf="isProfessional" (click)="multiselectVisible($event.target.id)">
-                    <label for="slot">Slots</label>
+                  <label for="slot">Slots</label>
 
                   <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
                 </div>
@@ -335,7 +335,7 @@
                 </div>
 
                 <div class="field-wrapper has-value hide" *ngIf="isProfessional">
-                    <label for="status">Status</label>
+                  <label for="status">Status</label>
 
                   <select id="status" [(ngModel)]="studentAddFormData.language_inst_status" name="status" class="form-ctrl">
                     <option></option>
@@ -346,7 +346,7 @@
                 </div>
 
                 <div id="assignCoursesParent" class="field-wrapper" style="height:auto" *ngIf="isProfessional" (click)="openAssignBatch()">
-                    <label (click)="openAssignBatch()" for="assignCourses"></label>
+                  <label (click)="openAssignBatch()" for="assignCourses"></label>
 
                   <textarea style="height:100px;padding:5px;background: #efefef;margin-top:14px" name="assignCoursesParent" cols="1" rows="1"
                     placeholder="Assign Batch" [ngModel]="assignedBatchString" id="assignCourses" class="form-ctrl" readonly="true"></textarea>
@@ -367,7 +367,7 @@
         <section class="middle-bottom clearFix">
           <div class="pull-left">
             <div class="field-checkbox-wrapper">
-                <label for="isStudentActive">Is Active Student</label>
+              <label for="isStudentActive">Is Active Student</label>
 
               <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive" (ngModelChange)="updateFormIsActive($event)"
                 class="form-checkbox" id="isStudentActive">
@@ -422,9 +422,9 @@
 
                 <div class="row" *ngIf="component.type == 1" input-def>
                   <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                      <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
-                      <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
-                   
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                    <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
+
                     <input type="text" value="{{component.value}}" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label}}"
                     />
                   </div>
@@ -433,9 +433,9 @@
                 <div class="row" *ngIf="component.type == 2" input-def>
                   <br>
                   <div class="field-checkbox-wrapper">
-                      <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
-                  
+
                     <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}"
                       value="{{component.value}}">
                   </div>
@@ -443,30 +443,30 @@
 
                 <div class="row" *ngIf="component.type == 3" input-def>
                   <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
-                      <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
-                      <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
-                    
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                    <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
+
                     <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="{{component.label}}">
                       <option value=""></option>
                       <option *ngFor="let opt of component.prefilled_data" value="{{opt.data}}">{{opt.data}}</option>
                     </select>
-                    </div>
+                  </div>
                 </div>
 
                 <div class="row" *ngIf="component.type == 4" input-def>
                   <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)" [ngClass]="{'has-value': component.selectedString != ''}">
-                      <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                    <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
                     <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
-  
+
                     <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
                       readonly="true" />
-                                  </div>
+                  </div>
                   <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
                     <div class="multiselect-wrapper-inner">
                       <ul class="">
                         <li *ngFor="let opt of component.prefilled_data">
                           <div class="field-checkbox-wrapper">
-                              <label for="opt.data">{{opt.data}}</label>
+                            <label for="opt.data">{{opt.data}}</label>
 
                             <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
                               class="form-checkbox">
@@ -479,7 +479,7 @@
 
                 <div class="row" *ngIf="component.type == 5" input-def>
                   <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
-                      <label for="{{component.id}}">{{component.label}} </label>
+                    <label for="{{component.id}}">{{component.label}} </label>
 
                     <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
                       name="{{component.label}}" bsDatepicker/>
@@ -654,7 +654,7 @@
                 <li *ngFor="let installment of feeTemplateById.customFeeSchedules; let i = index">
                   <div class="pull-left">
                     <div class="field-checkbox-wrapper" [class.hide]="installment.is_referenced == 'Y'">
-                        <label for="instl{{i}}"></label>
+                      <label for="instl{{i}}"></label>
 
                       <input type="checkbox" value="" class="form-checkbox" id="instl{{i}}" [(ngModel)]="paymentStatusArr[i].uiSelected" (ngModelChange)="paymentValueUpdate($event, i)"
                       />
@@ -890,7 +890,7 @@
         <div class="row">
           <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6 pull-left">
             <div class="field-wrapper">
-                <label for="instituteName">Institute Name</label>
+              <label for="instituteName">Institute Name</label>
 
               <input type="text" value="" id="instituteName" class="form-ctrl" [(ngModel)]="createInstitute.instituteName" name="instituteName"
               />
@@ -1008,7 +1008,7 @@
               <td>
                 <div class="inst-no">
                   <div class="field-checkbox-wrapper">
-                      <label></label>
+                    <label></label>
 
                     <input type="checkbox" id="batchcheck{{i}}" name="batch" [(ngModel)]="batch.isSelected" class="form-checkbox">
                   </div>
@@ -1085,7 +1085,7 @@
       <div class="row">
         <form #semail="ngForm" (ngSubmit)="registerDuplicateStudent(semail)">
           <div class="field-wrapper">
-              <label for="sEmail2">Student's Email*</label>
+            <label for="sEmail2">Student's Email*</label>
 
             <input type="text" value="" id="sEmail2" class="form-ctrl" [(ngModel)]="studentAddFormData.student_manual_username" name="sEmail2"
               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #sEmail2="ngModel" />
@@ -1139,7 +1139,7 @@
       <div class="row">
 
         <div class="field-wrapper">
-            <label for="feeS">Fee Structure*</label>
+          <label for="feeS">Fee Structure*</label>
 
           <select id="feeS" name="feeS" [(ngModel)]="feeTempSelected" class="form-ctrl">
             <option value="-1"></option>
@@ -1150,7 +1150,7 @@
         </div>
 
         <div class="field-wrapper datePickerBox has-value">
-            <label for="effD">Effective Date*</label>
+          <label for="effD">Effective Date*</label>
 
           <input type="text" value="" id="effD" class="form-ctrl bsDatepicker" [(ngModel)]="feeStructureForm.template_effective_date"
             name="effD" bsDatepicker readonly="true">
@@ -1179,9 +1179,8 @@
   <!-- ======================================================== -->
   <!-- ======================================================== -->
   <!-- =============== Apply Discounts ============================ -->
-  <student-discount *ngIf="isDiscountApply" (closePopup)="closeDiscountApply($event)" (apply)="fetchDiscountData($event)"
-  [installmentData]="instalmentTableData" [additionalData]="otherFeeTableData" [feeTemplateData]="feeTemplateById"
-  [discountReason]="discountReason" [totalAmountDue]="totalAmountDue">
+  <student-discount *ngIf="isDiscountApply" (closePopup)="closeDiscountApply($event)" (apply)="fetchDiscountData($event)" [installmentData]="instalmentTableData"
+    [additionalData]="otherFeeTableData" [feeTemplateData]="feeTemplateById" [discountReason]="discountReason" [totalAmountDue]="totalAmountDue">
   </student-discount>
   <!-- ======================================================== -->
   <!-- ======================================================== -->
@@ -1274,7 +1273,7 @@
               <ul class="table-row displayComp" [id]='ch.student_id +ch.cheque_id' *ngFor="let ch of chequePdcList; let i = index;">
                 <li (click)="chequeSelectedForAction(ch)">
                   <div class="field-radio-wrapper">
-                      <label for="pdcAddlist{{i}}"></label>
+                    <label for="pdcAddlist{{i}}"></label>
 
                     <input type="radio" name="pdcGen" class="form-radio" id="pdcAddlist{{i}}">
                   </div>
@@ -1288,8 +1287,6 @@
                     <input type="text" class="form-ctrl" [(ngModel)]="ch.bank_name" name="">
                   </div>
                 </li>
-
-
                 <!-- Cheque Number -->
                 <li class="view-comp">
                   {{ch.cheque_no}}
@@ -1406,14 +1403,14 @@
         <div class="row">
 
           <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
-              <label for="payamt">Payment for</label>
+            <label for="payamt">Payment for</label>
 
             <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'pay')"
             />
           </div>
 
           <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': feeTemplateById.paid_date != ''}">
-              <label for="pd">Payment Date*</label>
+            <label for="pd">Payment Date*</label>
 
             <input type="text" value="" id="pd" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="feeTemplateById.paid_date"
               name="pd" bsDatepicker>
@@ -1421,7 +1418,7 @@
           </div>
 
           <div class="field-wrapper" [ngClass]="{'has-value': feeTemplateById.payment_mode != ''}">
-              <label for="pMode">Payment Mode*</label>
+            <label for="pMode">Payment Mode*</label>
 
             <select id="pMode" name="pMode" [(ngModel)]="feeTemplateById.payment_mode" (ngModelChange)="paymentModeUpdate($event)" class="form-ctrl">
               <option value="Cash" selected>Cash</option>
@@ -1433,13 +1430,13 @@
           </div>
 
           <div class="field-wrapper" [ngClass]="{'has-value': feeTemplateById.reference_no != ''}">
-              <label for="ref">Reference No.</label>
+            <label for="ref">Reference No.</label>
 
             <input type="text" value="" id="ref" class="form-ctrl" [(ngModel)]="feeTemplateById.reference_no" name="ref" />
           </div>
 
           <div class="field-wrapper" [ngClass]="{'has-value': feeTemplateById.remarks != ''}">
-              <label for="rema">Remarks</label>
+            <label for="rema">Remarks</label>
 
             <input type="text" value="" id="rema" class="form-ctrl" [(ngModel)]="feeTemplateById.remarks" name="rema" />
           </div>
@@ -1453,7 +1450,7 @@
           <div class="" [ngClass]="{'hide': chequePdcList.length == 0}">
             <div class="c-lg-12">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForPayment != ''}">
-                  <label for="pMode">Select PDC Cheque</label>
+                <label for="pMode">Select PDC Cheque</label>
 
                 <select id="pMode" name="pMode" [(ngModel)]="pdcSelectedForPayment" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
                   <option value=""></option>
@@ -1473,7 +1470,7 @@
 
           <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.bank_name != ''}">
-                <label for="Pdcf">Bank Name*</label>
+              <label for="Pdcf">Bank Name*</label>
 
               <input [readonly]="isPdcFeePaymentSelected" type="text" value="" id="Pdcf" class="form-ctrl" [(ngModel)]="pdcSelectedForm.bank_name"
                 name="" />
@@ -1482,7 +1479,7 @@
 
           <div class="c-lg-12">
             <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': pdcSelectedForm.cheque_date != ''}">
-                <label for="pdcDateCheq">Cheque Date*</label>
+              <label for="pdcDateCheq">Cheque Date*</label>
 
               <input *ngIf="isPdcFeePaymentSelected" type="text" value="" id="pdcDateCheq" class="form-ctrl bsDatepicker" readonly="true"
                 [(ngModel)]="pdcSelectedForm.cheque_date" name="">
@@ -1494,7 +1491,7 @@
 
           <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_no != ''}">
-                <label for="">Cheque No.*</label>
+              <label for="">Cheque No.*</label>
 
               <input [readonly]="isPdcFeePaymentSelected" type="text" minlength="6" maxlength="6" OnlyNumber="true" class="form-ctrl" name=""
                 [(ngModel)]="pdcSelectedForm.cheque_no" />
@@ -1503,7 +1500,7 @@
 
           <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_amount != ''}">
-                <label for="idChequAmount">Cheque Amount*</label>
+              <label for="idChequAmount">Cheque Amount*</label>
 
               <input type="text" readonly="true" value="" id="idChequAmount" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
               />
@@ -1516,15 +1513,16 @@
           <a id="payMultiReciept"></a>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
-                <label for="isGenPdc">Generate Fee Receipt</label>
+              <label for="isGenPdc">Generate Fee Receipt</label>
 
               <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
             </div>
           </div>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
               <label for="emailPdc">Email Receipt </label>
+
+              <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
             </div>
           </div>
         </div>
@@ -1575,19 +1573,23 @@
         <div class="row">
 
           <div class="field-wrapper" [ngClass]="{'has-value': total_amt_tobe_paid != ''}">
+            <label for="payamount">Pay Amount</label>
+
             <input type="text" id="payamount" class="form-ctrl" OnlyNumber="true" [(ngModel)]="total_amt_tobe_paid" name="payamt" (ngModelChange)="totalPartialChange($event, 'payone')"
             />
-            <label for="payamount">Pay Amount</label>
           </div>
 
           <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': partialPayObj.paid_date != ''}">
+            <label for="pd">Payment Date*</label>
+
             <input type="text" value="" id="pd" class="form-ctrl bsDatepicker" readonly="true" [(ngModel)]="partialPayObj.paid_date"
               name="pd" bsDatepicker>
-            <label for="pd">Payment Date*</label>
             <span id="paydayClear" class="date-clear" name="cpd" (click)="partialPayObj.paid_date = ''">clear</span>
           </div>
 
           <div class="field-wrapper" [ngClass]="{'has-value': partialPayObj.paymentMode != ''}">
+            <label for="pMode">Payment Mode*</label>
+
             <select id="pMode" name="pMode" [(ngModel)]="partialPayObj.paymentMode" (ngModelChange)="paymentModeUpdate($event)" class="form-ctrl">
               <option value="Cash" selected>Cash</option>
               <option value="Cheque/PDC/DD No.">Cheque/PDC/DD No.</option>
@@ -1595,17 +1597,18 @@
               <option value="Caution Deposit(Refundable)">Caution Deposit(Refundable)</option>
               <option value="Other">Other</option>
             </select>
-            <label for="pMode">Payment Mode*</label>
           </div>
 
           <div class="field-wrapper" [ngClass]="{'has-value': partialPayObj.reference_no != ''}">
-            <input type="text" value="" id="ref" class="form-ctrl" [(ngModel)]="partialPayObj.reference_no" name="ref" />
             <label for="ref">Reference No.</label>
+
+            <input type="text" value="" id="ref" class="form-ctrl" [(ngModel)]="partialPayObj.reference_no" name="ref" />
           </div>
 
           <div class="field-wrapper" [ngClass]="{'has-value': partialPayObj.remarks != ''}">
-            <input type="text" value="" id="rema" class="form-ctrl" [(ngModel)]="partialPayObj.remarks" name="rema" />
             <label for="rema">Remarks</label>
+
+            <input type="text" value="" id="rema" class="form-ctrl" [(ngModel)]="partialPayObj.remarks" name="rema" />
           </div>
 
         </div>
@@ -1616,13 +1619,14 @@
           <div class="" [ngClass]="{'hide': chequePdcList.length == 0}">
             <div class="c-lg-12">
               <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForPayment != ''}">
+                <label for="pMode">Select PDC Cheque</label>
+
                 <select id="pMode" name="pMode" [(ngModel)]="pdcSelectedForPayment" class="form-ctrl" (ngModelChange)="feePdcSelected($event)">
                   <option value=""></option>
                   <option [value]="opt.cheque_id" *ngFor="let opt of chequePdcList" [hidden]="opt.cheque_status_key != 1">
                     {{opt.cheque_date| date:"dd-MMM-yyyy"}} ( &#8377; {{opt.cheque_amount}} )
                   </option>
                 </select>
-                <label for="pMode">Select PDC Cheque</label>
               </div>
               <div class="questionInfo pos-rel">
                 <span class="qInfoIcon">?</span>
@@ -1635,53 +1639,59 @@
 
           <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.bank_name != ''}">
+              <label for="idbankname">Bank Name*</label>
+
               <input [readonly]="isPdcFeePaymentSelected" type="text" value="" id="idbankname" class="form-ctrl" [(ngModel)]="pdcSelectedForm.bank_name"
                 name="" />
-              <label for="idbankname">Bank Name*</label>
             </div>
           </div>
 
           <div class="c-lg-12">
             <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': pdcSelectedForm.cheque_date != ''}">
+              <label for="chequEDate">Cheque Date*</label>
+
               <input *ngIf="isPdcFeePaymentSelected" type="text" value="" id="chequEDate" class="form-ctrl bsDatepicker" readonly="true"
                 [(ngModel)]="pdcSelectedForm.cheque_date" name="">
               <input *ngIf="!isPdcFeePaymentSelected" type="text" value="" id="chequEDate" class="form-ctrl bsDatepicker" readonly="true"
                 [(ngModel)]="pdcSelectedForm.cheque_date" name="" bsDatepicker>
-              <label for="chequEDate">Cheque Date*</label>
               <span *ngIf="!isPdcFeePaymentSelected" id="paydayClear" class="date-clear" (click)="pdcSelectedForm.cheque_date = ''" name="">clear</span>
             </div>
           </div>
 
           <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_no != ''}">
+              <label for="cnub">Cheque No.*</label>
+
               <input [readonly]="isPdcFeePaymentSelected" type="text" id="cnub" minlength="6" maxlength="6" OnlyNumber="true" class="form-ctrl"
                 name="" [(ngModel)]="pdcSelectedForm.cheque_no" />
-              <label for="cnub">Cheque No.*</label>
             </div>
           </div>
 
           <div class="c-lg-12">
             <div class="field-wrapper" [ngClass]="{'has-value': pdcSelectedForm.cheque_amount != ''}">
+              <label for="camt">Cheque Amount*</label>
+
               <input readonly="true" type="text" value="" id="camt" class="form-ctrl" name="" [(ngModel)]="pdcSelectedForm.cheque_amount"
               />
-              <label for="camt">Cheque Amount*</label>
             </div>
           </div>
-          
+
         </div>
 
         <div class="row" style="margin-top: 10px;">
           <a id="payOneReciept"></a>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
               <label for="isGenPdc">Generate Fee Receipt</label>
+
+              <input type="checkbox" value="" name="isGenPdc" [(ngModel)]="genPdcAck" class="form-checkbox" id="isGenPdc">
             </div>
           </div>
           <div class="c-lg-6 c-md-6 c-sm-6">
             <div class="field-checkbox-wrapper">
-              <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
               <label for="emailPdc">Email Receipt</label>
+
+              <input type="checkbox" value="" name="emailPdc" [(ngModel)]="sendPdcAck" class="form-checkbox" id="emailPdc">
             </div>
           </div>
         </div>
