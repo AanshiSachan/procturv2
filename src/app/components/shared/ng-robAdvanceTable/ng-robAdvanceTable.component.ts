@@ -1,55 +1,67 @@
 import { Component, Input, Output, EventEmitter, OnChanges, ElementRef, Renderer2, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { ColumnSetting, ColumnMap } from './checkbox-layout.model';
-import { Event } from '_debugger';
+import { ColumnData, ColumnMapData } from './ng-robAdvanceTable.model';
 import * as moment from 'moment';
 
 @Component({
-    selector: 'proctur-checkbox-table',
-    templateUrl: 'checkbox-table.component.html',
-    styleUrls: ['./checkbox-table.component.scss'],
+    selector: 'rob-table',
+    templateUrl: 'ng-robAdvanceTable.component.html',
+    styleUrls: ['./ng-robAdvanceTable.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CheckboxTableComponent implements OnChanges {
+export class RobAdvanceTableComponent implements OnChanges {
+    headerSort: any;
     @Input() records: any[];
-    @Input() settings: ColumnSetting[];
+    @Input() settings: ColumnData[];
     @Input() tableName: string = '';
     @Input() dataStatus: number;
     @Input() primaryKey: string = '';
     @Input() key1: string;
+    @Input() reset: boolean;
+    @Input() defaultSort:string="";
+
 
     @Output() userRowSelect = new EventEmitter();
     @Output() rowsSelected = new EventEmitter<number>();
     @Output() rowIdArr = new EventEmitter<any[]>();
     @Output() sortById = new EventEmitter<string>();
+    @Output() rowUserId = new EventEmitter<string>();
+    @Output() sortDirection=new EventEmitter<boolean>();
 
 
     isAllSelected: boolean = false;
-    columnMaps: ColumnMap[];
+    columnMaps: ColumnMapData[];
     selectedRowGroup: any[] = [];
     selectedRow: number;
     rowSelectedCount: number = 0;
     rowSelectedId: any[] = [];
-    dummyArr: any[] = [0, 1, 2, 3, 4, 0, 1, 2, 3, 4];
+    /* Number of line for skeleton screen */
+    dummyArr: any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    userIdArray: any = [];
+    asc: boolean = false;
+    caret = true;
 
     @ViewChild('headerCheckbox') hc: ElementRef;
 
     constructor(private rd: Renderer2, private cd: ChangeDetectorRef, private eleRef: ElementRef) { }
 
+
+
     ngOnChanges() {
         this.cd.markForCheck();
         this.dataStatus;
         this.key1;
+        this.defaultSort;
         this.refreshTable();
         if (this.settings) {
             this.columnMaps = this.settings
-                .map(col => new ColumnMap(col));
+                .map(col => new ColumnMapData(col));
         } else {
             this.columnMaps = Object.keys(this.records[0]).map(key => {
-                return new ColumnMap({ primaryKey: key });
+                return new ColumnMapData({ primaryKey: key });
             });
         }
-    }
 
+    }
 
     selectAllRows(ev) {
         this.cd.markForCheck();
@@ -72,12 +84,15 @@ export class CheckboxTableComponent implements OnChanges {
 
     getSelectedRows() {
         this.rowSelectedId = [];
+        this.userIdArray = [];
         this.records.forEach(e => {
             if (e.uiSelected) {
                 this.rowSelectedId.push(e[this.primaryKey]);
+                this.userIdArray.push(e.user_id);
             }
         });
         this.rowIdArr.emit(this.rowSelectedId);
+        this.rowUserId.emit(this.userIdArray);
     }
 
     isAllChecked(): boolean {
@@ -91,6 +106,7 @@ export class CheckboxTableComponent implements OnChanges {
         $event.stopPropagation();
         this.selectedRow = ev;
         this.userRowSelect.emit(row);
+        this.getSelectedRows();
     }
 
 
@@ -122,18 +138,31 @@ export class CheckboxTableComponent implements OnChanges {
 
     refreshTable() {
         this.cd.markForCheck();
-        this.isAllSelected = false;
-        this.selectedRow = null;
-        this.rowSelectedCount = 0;
-        this.rowSelectedId = [];
-        this.hc.nativeElement.checked = false;
-        this.rowIdArr.emit(this.rowSelectedId);
-        this.rowsSelected.emit(this.rowSelectedCount);
+              
+        this.headerSort = this.defaultSort;
+        if (!this.reset) {
+            this.selectedRow = null;
+            this.isAllSelected = false;
+            this.rowSelectedCount = 0;
+            this.rowSelectedId = [];
+            this.rowIdArr.emit(this.rowSelectedId);
+            this.rowsSelected.emit(this.rowSelectedCount);
+            this.records.forEach(x => x.uiSelected = false);
+            this.rowSelectedCount = 0;
+            this.rowsSelected.emit(this.rowSelectedCount);
+            this.getSelectedRows();
+        }
     }
 
 
     requestSort(ev) {
+        this.cd.markForCheck();
+        this.caret = true;
+
+        this.headerSort=ev;
+        (this.asc) ? (this.asc=false) : (this.asc=true);
         this.sortById.emit(ev);
+        this.sortDirection.emit(this.asc);
     }
 
     getStyle(key, value): any {
@@ -143,7 +172,7 @@ export class CheckboxTableComponent implements OnChanges {
                 let cmp = moment(value).unix();
                 let tod = moment(new Date()).subtract(1, 'd').unix();
                 if (cmp > tod) {
-                    return 'left';
+                    return 'blueleft';
                 }
                 else {
                     return 'redleft';
@@ -155,30 +184,45 @@ export class CheckboxTableComponent implements OnChanges {
         }
         /* else for left and right allignment */
         else {
-            if(key == 'enquiry_no'){
+
+            if (key == 'enquiry_no') {
                 return 'left';
             }
-            else if(key == 'enquiry_date'){
+            else if (key == 'enquiry_date') {
                 return 'left';
             }
-            else if(key == 'name'){
+            else if (key == 'name') {
                 return 'left';
             }
-            else if(key == 'phone'){
+            else if (key == 'phone') {
                 return 'right';
             }
-            else if(key == 'statusValue'){
+            else if (key == 'statusValue') {
                 return 'left';
             }
-            else if(key == 'priority'){
+            else if (key == 'priority') {
                 return 'left';
             }
-            else if(key == 'follow_type'){
+            else if (key == 'follow_type') {
                 return 'left';
             }
-            else{
+            else if (key == 'student_class') {
+                return 'width25'
+            }
+            else {
                 return 'left';
             }
         }
     }
+
+    isSorted(map):boolean{
+        if (map.primaryKey != 'noOfBatchesAssigned') {
+            this.cd.markForCheck();
+            return  (map.primaryKey==this.headerSort && this.caret);
+        }
+        else{
+            return false;
+        }
+    }
+
 }

@@ -159,9 +159,9 @@ export class WidgetService {
 
 
     cancelBatchSchedule(obj) {
-        let url = this.baseUrl +"/api/v1/batchClsSched/cancel";
+        let url = this.baseUrl + "/api/v1/batchClsSched/cancel";
 
-        return this.http.put(url, obj, {headers: this.headers}).map(
+        return this.http.put(url, obj, { headers: this.headers }).map(
             res => {
                 return res;
             },
@@ -443,6 +443,77 @@ export class WidgetService {
             err => {
                 return err;
             }
+        )
+    }
+
+
+
+    /// Exam Section
+
+    //get Exam Schedule 
+
+    getExamSchedule(obj) {
+        let url = this.baseUrl + "/api/v1/dashboard/admin/studentExamSchedules/" + this.institute_id;
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    cancelExamSchedule(obj) {
+        let url = this.baseUrl + "/api/v1/batchExamSched/cancel";
+        return this.http.put(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    notifyStudentExam(id) {
+        let url = this.baseUrl + "/api/v1/batchExamSched/notify/" + this.institute_id + "/" + id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    // sendReminder(obj) {
+    //     obj.inst_id = this.institute_id;
+    //     let url = this.baseUrl + "/api/v1/courseExamSchedule/sendReminder";
+    //     return this.http.post(url, obj, { headers: this.headers }).map(
+    //         res => { return res; },
+    //         err => { return err; }
+    //     )
+    // }
+
+    fetchStudentList(data) {
+        let url = this.baseUrl + "/api/v1/attendance/exam";
+        return this.http.post(url, data, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    markAttendance(data) {
+        let url = this.baseUrl + "/api/v1/attendance/exam";
+        return this.http.put(url, data, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    fetchStudentExamDetails(batch_id, Schedule) {
+        let url = this.baseUrl + "/api/v1/StdExam/" + batch_id + '?schd_id=' + Schedule;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    updateAttendanceDetails(obj) {
+        let url = this.baseUrl + "/api/v1/StdExam";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
         )
     }
 

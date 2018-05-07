@@ -147,6 +147,7 @@ export class ExamCourseService {
     }
 
     sendReminder(obj) {
+        obj.inst_id = this.institute_id;
         let url = this.baseURL + "/api/v1/courseExamSchedule/sendReminder";
         return this.http.post(url, obj, { headers: this.headers }).map(
             res => { return res; },
@@ -166,6 +167,15 @@ export class ExamCourseService {
     fetchCourseListData(data) {
         let url = this.baseURL + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + data;
         return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    updateExamSch(data) {
+        data.inst_id = this.institute_id;
+        let url = this.baseURL + "/api/v1/courseExamSchedule/update";
+        return this.http.post(url, data, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }
         )

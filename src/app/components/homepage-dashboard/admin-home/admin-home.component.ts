@@ -330,13 +330,14 @@ export class AdminHomeComponent implements OnInit {
       from_date: moment(this.schedDate[0]).format('YYYY-MM-DD'),
       to_date: moment(this.schedDate[1]).format('YYYY-MM-DD')
     }
-    this.widgetService.fetchSchedWidgetData(obj).subscribe(
-      res => {
-        this.grid.refreshItems().layout();
-        this.schedStat = res;
-      },
-      err => { }
-    );
+    this.getAllExamsAndClass(obj);
+    // this.widgetService.fetchSchedWidgetData(obj).subscribe(
+    //   res => {
+    //     this.grid.refreshItems().layout();
+    //     this.schedStat = res;
+    //   },
+    //   err => { }
+    // );
   }
 
   /* fetchFeeWidgetData() {
@@ -491,13 +492,14 @@ export class AdminHomeComponent implements OnInit {
       to_date: moment(e[1]).format('YYYY-MM-DD')
     }
     this.isOptionVisible = false;
-    this.widgetService.fetchSchedWidgetData(obj).subscribe(
-      res => {
-        this.grid.refreshItems().layout();
-        this.schedStat = res;
-      },
-      err => { }
-    )
+    this.getAllExamsAndClass(obj);
+    // this.widgetService.fetchSchedWidgetData(obj).subscribe(
+    //   res => {
+    //     this.grid.refreshItems().layout();
+    //     this.schedStat = res;
+    //   },
+    //   err => { }
+    // )
   }
 
   getCheckedStatus(id: string) {
@@ -1561,7 +1563,7 @@ export class AdminHomeComponent implements OnInit {
 
   }
 
-  markAttendaceHide(row) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+  markAttendaceHide(row) {
     if (moment(row.class_date) > moment()) {
       return "hide";
     } else {
@@ -1612,6 +1614,9 @@ export class AdminHomeComponent implements OnInit {
 
 
   convertIntOMinutes(time) {
+    if (time == undefined) {
+      return ""
+    }
     let data: any = '';
     let hr = time.split(':')[0];
     let min = time.split(':')[1].split(' ')[0];
@@ -1832,7 +1837,7 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('idSendMessage').classList.remove('active');
     document.getElementById(id).classList.add('active');
     document.getElementById(div).classList.remove('hide');
-    document.getElementById('divParentOrGaurdian').classList.remove('hide'); 
+    document.getElementById('divParentOrGaurdian').classList.remove('hide');
     document.getElementById('sendToHead').classList.remove('hide');
     document.getElementById('chkbxEmailSend').checked = false;
     document.getElementById('sendLoginChkbx').checked = false;
@@ -1926,9 +1931,9 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('chkBoxTutorSelection').checked = false;
     document.getElementById('chkBoxInActiveSelection').checked = false;
     document.getElementById('chkBoxAluminiSelection').checked = false;
-    if(this.sendNotification.batch_id == "-1"){
+    if (this.sendNotification.batch_id == "-1") {
       this.showTableFlag = false;
-    }else{
+    } else {
       this.widgetService.fetchStudentListData(this.sendNotification.batch_id).subscribe(
         res => {
           this.showTableFlag = true;
@@ -2580,6 +2585,435 @@ export class AdminHomeComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  ////Exam Schedule Section
+
+  cancelExamPopUP: boolean = false;
+  tempData: any = [];
+  cancelPopUpData = {
+    reason: "",
+    notify: false
+  };
+  markExamAttendancePopUp: boolean = false;
+  smsAbsenteesChkbx: boolean = false;
+  examMarksPopup: boolean = false;
+  examData: any = "";
+
+  getAllExamsAndClass(obj) {
+    this.widgetService.fetchSchedWidgetData(obj).subscribe(data => {
+      this.grid.refreshItems().layout();
+      this.schedStat = data;
+      this.getExamSchedule(obj);
+      this.addKeyInData(this.schedStat.otherSchd, "isExam", false);
+    }, err => {
+      console.log(err);
+      this.getExamSchedule(obj);
+    })
+  }
+
+  getExamSchedule(obj) {
+    this.widgetService.getExamSchedule(obj).subscribe(
+      (res: any) => {
+        this.addKeyInData(res.otherSchd, "isExam", true);
+        this.schedStat.otherSchd = this.schedStat.otherSchd.concat(res.otherSchd);
+        this.schedStat.otherSchd = this.sortDataByDateTime(this.schedStat.otherSchd);
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+  sortDataByDateTime(data) {
+    let arr: any = data;
+    this.addKeyInData(arr, 'timeStamp', '');
+    arr.map(element => {
+      let hr = element.start_time.split(':')[0] + " " + element.start_time.split(':')[1].split(' ')[1];
+      let min = element.start_time.split(':')[1].split(' ')[0];
+      let t: any;
+      if (element.isExam) {
+        t = moment(element.exam_date).format('YYYY-MM-DD') + " " + this.convertToFullTimeFormat(hr, min);
+      } else {
+        t = moment(element.class_date).format('YYYY-MM-DD') + " " + this.convertToFullTimeFormat(hr, min);
+      }
+      element.timeStamp = moment(t, "YYYY-MM-DD HH:mm");
+    });
+    arr.sort(function (a, b) {
+      return moment(a.timeStamp).unix() - moment(b.timeStamp).unix();
+    })
+    return arr;
+  }
+
+  convertToFullTimeFormat(hr, min) {
+    let result: any = "";
+    let hour: any;
+    let time = hr.split(' ');
+    if (time[1] == "AM") {
+      if (time[0] == "12") {
+        hour = "00";
+      } else {
+        hour = time[0];
+      }
+      result = hour + ":" + min;
+      return result;
+    } else {
+      if (time[0] != "12") {
+        hour = Number(time[0]) + 12;
+      } else {
+        hour = Number(time[0]);
+      }
+      result = hour + ":" + min;
+      return result;
+    }
+  }
+
+  addKeyInData(data, keyname, value) {
+    if (data.length > 0) {
+      data.forEach(element => {
+        element[keyname] = value;
+      });
+    }
+  }
+
+
+  //Attendance Section
+
+  markExamAttendance(data) {
+    this.tempData = data;
+    this.markExamAttendancePopUp = true;
+    this.getStudentList();
+  }
+
+  closeExamAttendance() {
+    this.tempData = "";
+    this.markExamAttendancePopUp = false;
+  }
+
+  getStudentList() {
+    let obj = {
+      attendanceSchdId: this.tempData.schd_id,
+      batch_id: this.tempData.batch_id
+    }
+    this.widgetService.fetchStudentList(obj).subscribe(
+      (res: any) => {
+        this.studentList = res;
+        this.getTotalCountForCourse(res);
+        if (res.length > 0) {
+          this.attendanceNote = res[0].dateLi[0].attendance_note;
+        } else {
+          this.attendanceNote = "";
+        }
+      },
+      err => {
+        console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  checkCheckAllChkboxStatusExam() {
+    let check = false;
+    for (let i = 0; i < this.studentList.length; i++) {
+      if (this.studentList[i].dateLi[0].status == "P") {
+        check = true;
+      } else {
+        check = false;
+        break;
+      }
+    }
+    return check;
+  }
+
+  markAllPresentExam(e) {
+    if (e.target.checked) {
+      this.studentList.forEach(e => {
+        if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
+          //Do Nothing
+        } else {
+          document.getElementById('leaveBtnCourse' + e.student_id).classList.remove('classLeaveBtn');
+          document.getElementById('absentBtnCourse' + e.student_id).classList.remove('classAbsentBtn');
+          document.getElementById('presentBtnCourse' + e.student_id).classList.remove('classPresentBtn');
+          document.getElementById('presentBtnCourse' + e.student_id).classList.add('classPresentBtn');
+          e.dateLi[0].status = "P";
+          e.dateLi[0].isStatusModified = "Y";
+        }
+      });
+    }
+    else {
+      this.studentList.forEach(e => {
+        if (e.dateLi[0].status == "L" && e.dateLi[0].isStatusModified == "N") {
+          //Do Nothing
+        } else {
+          document.getElementById('leaveBtnCourse' + e.student_id).classList.remove('classLeaveBtn');
+          document.getElementById('absentBtnCourse' + e.student_id).classList.remove('classAbsentBtn');
+          document.getElementById('presentBtnCourse' + e.student_id).classList.remove('classPresentBtn');
+          e.dateLi[0].status = "A";
+          e.dateLi[0].isStatusModified = "Y";
+        }
+      });
+    }
+    this.getTotalCountForCourse(this.studentList);
+  }
+
+  markAttendaceExam(event, rowData, index) {
+    if (event.target.innerText == "L") {
+      this.studentList[index].dateLi[0].status = "L";
+      this.studentList[index].dateLi[0].isStatusModified = "Y";
+    } else if (event.target.innerText == "A") {
+      this.studentList[index].dateLi[0].status = "A";
+      this.studentList[index].dateLi[0].isStatusModified = "Y";
+    } else {
+      this.studentList[index].dateLi[0].status = "P";
+      this.studentList[index].dateLi[0].isStatusModified = "Y";
+    }
+    this.getTotalCountForCourse(this.studentList);
+  }
+
+  getDisabilityExam(s): boolean {
+    if (s.dateLi[0].status == "L" && s.dateLi[0].isStatusModified == "N") {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  // Batch Section
+  updateCourseAttendanceExam() {
+    let dataToSend = this.makeJsonForAttendceMark();
+    console.log(dataToSend);
+    this.widgetService.markAttendance(dataToSend).subscribe(
+      res => {
+        this.messageNotifier('success', 'Attendance Marked', 'Attendance Marked Successfully');
+        this.closeExamAttendance();
+      },
+      err => {
+        console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  makeJsonForAttendceMark() {
+    let notify: any = "";
+    if (this.smsAbsenteesChkbx) {
+      notify = "Y";
+    } else {
+      notify = "N";
+    }
+    let obj: any = [];
+    for (let i = 0; i < this.studentList.length; i++) {
+      let test: any = {};
+      test.batch_id = this.tempData.batch_id;
+      test.isNotify = notify;
+      test.student_id = this.studentList[i].student_id;
+      test.dateLi = [{
+        date: this.studentList[i].dateLi[0].date,
+        status: this.studentList[i].dateLi[0].status,
+        isStatusModified: this.studentList[i].dateLi[0].isStatusModified,
+        attendance_note: this.attendanceNote,
+        schId: this.studentList[i].dateLi[0].schId.toString()
+      }]
+      obj.push(test);
+    }
+    return obj;
+  }
+
+  // Cancel Exam Section
+
+  onCancelExamClick(data) {
+    this.cancelExamPopUP = true;
+    this.tempData = data;
+  }
+
+  closeExamPopup() {
+    this.cancelExamPopUP = false;
+    this.tempData = "";
+    this.cancelPopUpData = {
+      reason: "",
+      notify: false
+    }
+  }
+
+
+  // Lang Model 
+  cancelExamClassSchedule() {
+    if (this.cancelPopUpData.reason.trim() == "" || null) {
+      this.messageNotifier('error', 'Error', 'Please provide cancellation reason');
+      return;
+    }
+    let notify: any = "";
+    if (this.cancelPopUpData.notify) {
+      notify = "Y";
+    } else {
+      notify = "N";
+    }
+    let obj: any = {
+      batch_id: this.tempData.batch_id,
+      exam_freq: "OTHER",
+      cancelSchd: [{
+        schd_id: this.tempData.schd_id,
+        exam_desc: this.cancelPopUpData.reason,
+        is_notified: notify
+      }]
+    }
+    this.widgetService.cancelExamSchedule(obj).subscribe(
+      res => {
+        this.messageNotifier('success', 'Successfully Cancelled', 'Exam Schedule Cancelled Successfully');
+        this.fetchScheduleWidgetData();
+        this.closeExamPopup();
+      },
+      err => {
+        console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  // Notify Function ////
+
+  notifyExamSchedule(data) {
+    if (confirm('Are you sure u want to send Exam Schedule SMS to the batch?')) {
+      this.widgetService.notifyStudentExam(data.schd_id).subscribe(
+        res => {
+          this.messageNotifier('success', 'Notified', 'Notification Sent Successfully');
+        },
+        err => {
+          console.log(err);
+        }
+      )
+    }
+  }
+
+  // Send Reminder ///
+
+  // sendReminderForCourse(data) {
+  //   if (confirm('Are you sure, You want to notify?')) {
+  //     let obj = {
+  //       course_exam_schedule_id: data.course_exam_schedule_id,
+  //       course_id: data.course_id,
+  //       requested_date: moment(data.requested_date).format('YYYY-MM-DD')
+  //     }
+  //     this.widgetService.sendReminder(obj).subscribe(
+  //       res => {
+  //         this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfull');
+  //       },
+  //       err => {
+  //         console.log(err);
+  //         this.messageNotifier('error', 'Error', err.error.message);
+  //       }
+  //     )
+  //   }
+  // }
+
+  // Exam Marks Update
+
+  examMarksUpdate(data) {
+    this.tempData = data;
+    this.examMarksPopup = true;
+    this.fetchStudentDetails(data);
+  }
+
+  closeExamMarks() {
+    this.tempData = "";
+    this.examMarksPopup = false;
+  }
+
+  fetchStudentDetails(data) {
+    this.widgetService.fetchStudentExamDetails(data.batch_id, data.schd_id).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.examData = res;
+        this.studentList = this.addKeys(res.studLi, false);
+      },
+      err => {
+        console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  checkForMArks() {
+    let check = false;
+    for (let i = 0; i < this.studentList.length; i++) {
+      if (this.studentList[i].assigned == true) {
+        check = true;
+      } else {
+        check = false;
+        break;
+      }
+    }
+    return check;
+  }
+
+  markAllCheckBoxClick(event) {
+    this.studentList.forEach(element => {
+      element.assigned = event.target.checked;
+    });
+  }
+
+  markSheetExam(event, data) {
+    if (event.target.innerText == "L") {
+      data.attendance = "L";
+      data.isAttendanceUpdated = "Y";
+    } else if (event.target.innerText == "A") {
+      data.attendance = "A";
+      data.isAttendanceUpdated = "Y";
+    } else {
+      data.attendance = "P";
+      data.isAttendanceUpdated = "Y";
+    }
+  }
+
+  updateMarksOnServer(sendSms) {
+    let dataToSend = this.makeJsonForMarks(sendSms);
+    if (dataToSend.studLi.length == 0) {
+      this.messageNotifier('error', 'Error', 'Please Select Student');
+      return;
+    }
+    this.widgetService.updateAttendanceDetails(dataToSend).subscribe(
+      res => {
+        this.messageNotifier('success', "Marks Updated", 'Marks Updated Successfully');
+        this.closeExamMarks();
+      },
+      err => {
+        console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  makeJsonForMarks(sendSms) {
+    let arr: any = {};
+    arr.schd_id = this.examData.schd_id;
+    arr.batch_id = this.examData.batch_id;
+    arr.isStudentExamSMS = sendSms;
+    arr.studLi = [];
+    for (let i = 0; i < this.studentList.length; i++) {
+      if (this.studentList[i].assigned) {
+        let student: any = {};
+        student.student_id = this.studentList[i].student_id;
+        student.marks_obtained = this.studentList[i].marks_obtained;
+        student.student_exam_det_id = this.studentList[i].student_exam_det_id;
+        student.previous_marks_obtained = this.studentList[i].previous_marks_obtained;
+        student.isUpdated = this.studentList[i].isUpdated;
+        student.attendance = this.studentList[i].attendance;
+        student.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
+        student.grade_id = this.studentList[i].grade_id;
+        arr.studLi.push(student);
+      }
+    }
+    return arr;
+  }
+
+  messageNotifier(type, title, msg) {
+    let data = {
+      type: type,
+      title: title,
+      body: msg
+    }
+    this.appC.popToast(data);
   }
 
 }

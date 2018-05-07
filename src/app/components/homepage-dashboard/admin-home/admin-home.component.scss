@@ -578,7 +578,7 @@ fieldset {
     }
     .attendanceMain {
         .table-scroll-wrapper {
-            max-height: 375px;
+            max-height: 300px;
             overflow: auto;
         }
         ::-webkit-scrollbar {
@@ -1074,16 +1074,16 @@ div#enqChart {
             &:last-child {
                 width: 15%;
             }
-            &.timings{
+            &.timings {
                 width: 20% !important;
             }
-            &.class_room{
+            &.class_room {
                 width: 15% !important;
             }
-            &.batch{
+            &.batch {
                 width: 20% !important;
             }
-            &.faculty{
+            &.faculty {
                 width: 25% !important;
             }
             div {
@@ -1118,16 +1118,16 @@ div#enqChart {
                 background: transparent;
                 font-size: 12px;
                 font-size: 12px;
-                &.timings{
+                &.timings {
                     width: 20% !important;
                 }
-                &.class_room{
+                &.class_room {
                     width: 15% !important;
                 }
-                &.batch{
+                &.batch {
                     width: 20% !important;
                 }
-                &.faculty{
+                &.faculty {
                     width: 25% !important;
                 }
             }
@@ -1984,7 +1984,7 @@ div#enqChart {
                         height: 7px;
                     }
                 }
-                .btn-loginGroup{
+                .btn-loginGroup {
                     display: inline-block;
                 }
             }
@@ -2178,6 +2178,17 @@ div#enqChart {
         &:after {
             left: 85% !important;
             top: 10px !important;
+        }
+    }
+}
+
+.attendanceMain {
+    &.table-wrapper-exam {
+        max-height: 350px;
+        overflow: hidden;
+        .exam-Attendance-Table {
+            max-height: 230px !important;
+            overflow: auto;
         }
     }
 }
