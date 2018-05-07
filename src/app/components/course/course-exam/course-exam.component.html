@@ -189,7 +189,7 @@
                         </div>
                     </div>
 
-                    <div class="c-sm-2 c-lg-2 c-md-2">
+                    <div class="c-sm-2 c-lg-2 c-md-2" *ngIf="examScheduleData.is_exam_grad_feature == 0">
                         <div class="form-wrapper" style="width: 75px">
                             <label for="inpTotalMarks">Total Marks</label>
                             <input type="number" class="side-form-ctrl constantHeight" [(ngModel)]="batchAdderData.total_marks">
@@ -217,7 +217,7 @@
                                     <th>
                                         End Time
                                     </th>
-                                    <th>
+                                    <th *ngIf="examScheduleData.is_exam_grad_feature == 0">
                                         Total Marks
                                     </th>
                                     <th>
@@ -239,7 +239,7 @@
                                     <td>
                                         {{row.end_time}}
                                     </td>
-                                    <td>
+                                    <td *ngIf="examScheduleData.is_exam_grad_feature == 0">
                                         <div class="form-wrapper">
                                             <input type="text" class="side-form-ctrl torlMarksWidth" name="label" [(ngModel)]="row.total_marks">
                                         </div>
@@ -253,8 +253,8 @@
                                         <div class="action-Menu">
                                             <a *ngIf="row.schd_id == 0 || (currentDate < row.exam_date)" (click)="deleteExamSchedule(row,i)">Delete</a>
                                             <a *ngIf="row.schd_id != 0" (click)="markAttendanceSchedule(row)">Mark Attendance</a>
-                                            <a *ngIf="row.schd_id != 0" (click)="cancelExamSchedule(row)">Cancel Exam</a>
-                                            <a *ngIf="row.schd_id != 0" (click)="notifyExamSchedule(row)">Notify</a>
+                                            <a *ngIf="row.schd_id != 0 && (currentDate <= row.exam_date)" (click)="cancelExamSchedule(row)">Cancel Exam</a>
+                                            <a *ngIf="row.schd_id != 0 && (currentDate <= row.exam_date)" (click)="notifyExamSchedule(row)">Notify</a>
                                         </div>
                                     </td>
                                 </tr>

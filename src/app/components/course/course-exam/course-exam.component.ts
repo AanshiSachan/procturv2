@@ -164,29 +164,30 @@ export class CourseExamComponent implements OnInit {
   }
 
   addNewExamSchedule() {
-    this.batchAdderData.total_marks = Number(this.batchAdderData.total_marks);
-    if (this.batchAdderData.total_marks > 0) {
-      let obj: any = {};
-      obj.total_marks = this.batchAdderData.total_marks;
-      obj.exam_date = moment(this.batchAdderData.exam_date).format('YYYY-MM-DD');
-      let start_time = moment(this.createTimeInFormat(this.batchAdderData.start_time.hour, this.batchAdderData.start_time.minute, 'comp'), 'h:mma');
-      let end_time = moment(this.createTimeInFormat(this.batchAdderData.end_time.hour, this.batchAdderData.end_time.minute, 'comp'), 'h:mma');
-      if (!(start_time.isBefore(end_time))) {
-        this.messageNotifier('error', 'Error', 'Please provide correct start time and end time');
-        return false;
-      } else {
-        obj.start_time = this.createTimeInFormat(this.batchAdderData.start_time.hour, this.batchAdderData.start_time.minute, '');
-        obj.end_time = this.createTimeInFormat(this.batchAdderData.end_time.hour, this.batchAdderData.end_time.minute, '');
-        obj.duration = end_time.diff(start_time, 'minutes');
+    if (this.examScheduleData.is_exam_grad_feature == "0") {
+      this.batchAdderData.total_marks = Number(this.batchAdderData.total_marks);
+      if (this.batchAdderData.total_marks == 0) {
+        this.messageNotifier('error', 'Error', 'Please Provide Total Marks');
+        return;
       }
-      obj.exam_desc = this.batchAdderData.exam_desc;
-      obj.schd_id = 0;
-      obj.isReferenced = "Y";
-      this.examSchedule.push(obj);
-    } else {
-      this.messageNotifier('error', 'Error', 'Please Provide Total Marks');
-      return;
     }
+    let obj: any = {};
+    obj.total_marks = this.batchAdderData.total_marks;
+    obj.exam_date = moment(this.batchAdderData.exam_date).format('YYYY-MM-DD');
+    let start_time = moment(this.createTimeInFormat(this.batchAdderData.start_time.hour, this.batchAdderData.start_time.minute, 'comp'), 'h:mma');
+    let end_time = moment(this.createTimeInFormat(this.batchAdderData.end_time.hour, this.batchAdderData.end_time.minute, 'comp'), 'h:mma');
+    if (!(start_time.isBefore(end_time))) {
+      this.messageNotifier('error', 'Error', 'Please provide correct start time and end time');
+      return false;
+    } else {
+      obj.start_time = this.createTimeInFormat(this.batchAdderData.start_time.hour, this.batchAdderData.start_time.minute, '');
+      obj.end_time = this.createTimeInFormat(this.batchAdderData.end_time.hour, this.batchAdderData.end_time.minute, '');
+      obj.duration = end_time.diff(start_time, 'minutes');
+    }
+    obj.exam_desc = this.batchAdderData.exam_desc;
+    obj.schd_id = 0;
+    obj.isReferenced = "Y";
+    this.examSchedule.push(obj);
   }
 
   addDataToExamSchedule() {
