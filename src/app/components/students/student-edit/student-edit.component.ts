@@ -514,6 +514,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
   /* ============================================================================================================================ */
   batchChangeAlert(value, index) {
     let ind = null;
+    
     let len = this.batchList.length;
 
     if (value) {
@@ -525,8 +526,15 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
         /* Check if selected ID exist on selected array list */
         this.studentAddFormData.assignedBatches.forEach(e => {
-          if (this.batchList[index].data.course_id == e) {
-            ind = e;
+          if(this.isProfessional){
+            if (this.batchList[index].data.batch_id == e) {
+              ind = e;
+            }
+          }
+          else{
+            if (this.batchList[index].data.course_id == e) {
+              ind = e;
+            }
           }
         });
 

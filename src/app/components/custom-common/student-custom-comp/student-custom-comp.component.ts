@@ -77,7 +77,7 @@ export class StudentCustomComponent implements OnInit {
       }
     );
   }
-  
+
   /* toggle the visibility of the the new component created */
   toggleNewComponentVisisbility() {
 

@@ -15,11 +15,19 @@ p {
 .caret{
     font-family: FontAwesome;
 }
+.excel{
+    font-family: FontAwesome;
+}
 .searchName{
-    padding: 13px;
+    height:35px;
+    width:200px;
+    padding: 7px 10px;
     float: right;
     margin-bottom: 5px;
     margin-top:-30px;
+}
+.btnStudent{
+    margin:5px;
 }
 .box{
 
@@ -28,7 +36,7 @@ p {
     position: relative;
     left: 5%;
     table {
-        overflow-y: scroll;
+        overflow-y: auto;
         width: 95%;
     }
     h5 {
@@ -45,7 +53,7 @@ p {
         display: block;
     }
     .student-table {
-        overflow-x: scroll;
+        overflow-x: auto;
         height: 400px;
     }
     .tablePopup {
@@ -119,7 +127,7 @@ p {
                 background: url('../../../../assets/images/calendar.svg') no-repeat;
                 position: absolute;
                 right: 0;
-                top: 20px;
+                top: 27px;
                 width: 21px;
                 height: 21px;
                 z-index: 0;
@@ -144,7 +152,7 @@ p {
         display: block;
     }
     .table-heading {
-        overflow-x: scroll;
+        overflow-x: auto;
         height: 350px;
     }
 }
@@ -405,7 +413,7 @@ p {
     transition: all 0.5s ease-in;
 }
 
-.main {
+.prepare {
     margin-top: -25px;
     .form-wrapper {
         position: relative;
@@ -436,11 +444,13 @@ p {
     }
 }
 
-.common {
-    heigth: 400px;
+.common-field {
+    margin-top:0px;
+    height: 500px;
     background-color: #efefef;
     .student-table {
-        height: 380px;
+        height: 450px;
+        overflow: hidden;
         ::-webkit-scrollbar {
             display: block;
         }
@@ -462,10 +472,10 @@ p {
         }
         .common-elements {
             position: relative;
-            top: 10%;
+            top: 2%;
             left: 10px;
             bottom: 10%;
-            width: 98%;
+            width: 99%;
             height: 380px;
             overflow-y: auto;
         }
@@ -498,7 +508,7 @@ p {
         }
         .common-elements {
             height: 450px;
-            overflow-y: scroll;
+            overflow-y: auto;
         }
         .student-elements {
             position: relative;
@@ -569,5 +579,27 @@ $color-highlight: lighten($color-base,
         height: 100%;
         background: linear-gradient(90deg, $color-base, $color-highlight, $color-base);
         animation: progress 1s ease-in-out infinite;
+    }
+}
+
+.form-wrapper {
+    position: relative;
+    &.datePickerBox {
+        .side-form-ctrl {
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            background: transparent;
+        }
+        &:after {
+            content: '';
+            background: url('../../../../assets/images/calendar.svg') no-repeat;
+            position: absolute;
+            right: 0;
+            top: 20px;
+            width: 21px;
+            height: 21px;
+            z-index: 0;
+        }
     }
 }

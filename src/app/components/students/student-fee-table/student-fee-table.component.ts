@@ -485,8 +485,10 @@ export class StudentFeeTableComponent implements OnInit, OnChanges {
   /* ============================================================================================================================ */
 
   updateOtherFeeData(e) {
+    this.cd.markForCheck();
     this.studentPrefillService.getFeeDetailsById(e).subscribe(
       el => {
+        this.cd.markForCheck();
         this.addFeeOther.initial_fee_amount = el.fee_amount;
         this.addFeeOther.fee_type_name = el.fee_type;
         this.addFeeOther.service_tax = el.fee_type_tax;

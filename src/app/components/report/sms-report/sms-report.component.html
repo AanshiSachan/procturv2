@@ -1,3 +1,5 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <div class="clearFix sms-view-wrapper">
 
   <aside class="middle-full">
@@ -15,45 +17,47 @@
 
           <aside class="pull-right">
             <!-- <input type="button" value="Add Enquiry" class="btn" routerLink='/enquiry/add' />
-          <input type="button" value="Upload Enquiry" routerLink='/enquiry/upload' class="btn"> -->
+            <input type="button" value="Upload Enquiry" routerLink='/enquiry/upload' class="btn"> -->
           </aside>
 
         </section>
 
         <section class="sms-filter-wrapper">
           <div class="row">
-            <div class="c-lg-8 c-md-8 c-sm-8">
+            <div class="c-lg-5">
               <div class="field-wrapper datePickerBox has-value">
                 <input type="text" value="" id="fromDate" class="form-ctrl bsDatepicker" readonly="true" name="fromDate" (focus)="inputClicked($event)"
-                  [(ngModel)]="smsFetchForm.from_date" bsDatepicker/>
+                  [(ngModel)]="smsFetchForm.from_date" (ngModelChange)="dateValidationForFuture($event) " bsDatepicker/>
                 <label for="fromDate">Sent From</label>
               </div>
               <div class="field-wrapper datePickerBox has-value">
                 <input type="text" value="" id="updateDate" (focus)="inputClicked($event)" readonly="true" [(ngModel)]="smsFetchForm.to_date"
-                  class="form-ctrl bsDatepicker" name="toDate" bsDatepicker/>
+                  class="form-ctrl bsDatepicker" name="toDate" (ngModelChange)="dateValidationForFuture($event)" bsDatepicker/>
                 <label for="toDate">Sent To</label>
               </div>
             </div>
-            <div class="c-lg-4 c-md-4 c-sm-4 pull-left">
+            <div class="c-lg-2">
               <div class="btn-sms-search">
                 <input type="button" class="normal-btn fullBlue btn" value="Go" (click)="fetchSmsByDate()" />
               </div>
             </div>
+            <div class="c-lg-5"></div>
           </div>
         </section>
       </div>
 
       <section class="table-control">
         <div class="c-lg-8">
-          <!-- <div *ngIf="smsSource.length">
-            <span>
-              {{smsSource.length}} Email
-            </span>
-          </div> -->
+          <div *ngIf="smsSource.length" class="c-lg-6" style="padding: 15px;font-size: 16px;font-weight: 500;">
+            Showing {{smsSource.length}} SMS
+          </div>
+          <div *ngIf="smsSource.length == 0" class="c-lg-6"></div>
+          <div class="c-lg-6"></div>
         </div>
         <div class="c-lg-4">
           <div class="field-wrapper">
-            <input type="text" placeholder="Search" class="form-ctrl" (keyup)="searchDatabase()" [(ngModel)]="searchText" #search>
+            <input style="border: 1px solid #efefef;padding: 5px;width: 70%;float: right;" type="text" placeholder="Search" class="form-ctrl"
+              (keyup)="searchDatabase()" [(ngModel)]="searchText" #search>
           </div>
         </div>
       </section>
@@ -62,7 +66,7 @@
 
         <div class="table table-responsive student-table">
 
-          <proctur-table [records]="smsSource" [tableName]="'sms'" [settings]="projectSettings">
+          <proctur-table [dataStatus]="dataStatus" [records]="smsSource" [tableName]="'sms'" [settings]="projectSettings">
           </proctur-table>
 
         </div>
@@ -70,13 +74,13 @@
 
         <!-- Paginator Here-->
         <!-- <div class="filter-res pagination" style="width: 100%;">
-          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-            <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-              [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
-            </pagination>
-          </div>
-
-        </div> -->
+            <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+              <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+                [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRecords">
+              </pagination>
+            </div>
+  
+          </div> -->
 
       </section>
 

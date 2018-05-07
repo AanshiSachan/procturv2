@@ -334,6 +334,7 @@ export class PostEnquiryDataService {
 
   updateCustomComponent(req) {
     req.institution_id = this.institute_id;
+
     let urlUpdateCustomComponent = this.baseUrl + "/api/v1/instCustomComp/update";
 
     return this.http.put(urlUpdateCustomComponent, req, { headers: this.headers }).map(
