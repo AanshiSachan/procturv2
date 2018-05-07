@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CustomCommonComponent } from './custom-common.component';
-import { StudentCustomComponent } from './student-custom-comp/student-custom-comp.component';
 import { CustomCommonRoutingModule } from './custom-common-routing.module';
 import { CheckBoxConverter } from './create-custom-comp/create-custom-comp.component';
 import { BooleanConverter } from './create-custom-comp/create-custom-comp.component';
@@ -12,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CreateCustomCompComponent } from './create-custom-comp/create-custom-comp.component';
 import { BsDatepickerModule } from '../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { OnlyNumber } from './onlynumber.directive';
-import { SharedModule } from '../shared/shared.module'
+import {SharedModule} from '../shared/shared.module'
 
 @NgModule({
     imports: [
@@ -26,7 +25,6 @@ import { SharedModule } from '../shared/shared.module'
     declarations: [
         CustomCommonComponent,
         CreateCustomCompComponent,
-        StudentCustomComponent,
         CheckBoxConverter,
         BooleanConverter,
         OnlyNumber

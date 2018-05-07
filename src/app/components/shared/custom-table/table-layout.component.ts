@@ -24,6 +24,8 @@ export class TableLayoutComponent implements OnChanges {
     selectedRowGroup: any[] = [];
     sortedBy: string = null;
 
+
+
     constructor(private rd: Renderer2, private cd: ChangeDetectorRef) { }
 
     ngOnChanges() {

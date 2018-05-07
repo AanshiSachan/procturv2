@@ -3,10 +3,8 @@
 @import "./src/assets/css/common/common.scss";
 @import "./src/assets/css/common/grid.scss";
 @import "./src/assets/css/common/variables.scss";
-/*  */
-
 .sidebar-wrapper {
-    ::-webkit-scrollbar {
+     ::-webkit-scrollbar {
         display: block;
     }
     .update-form-wrapper {
@@ -24,13 +22,13 @@
         .form-wrapper {
             background: transparent;
             margin: 5px 0px;
-            width: 100%;
+            width:100%;
             &.datepicker {
                 padding-top: 3px;
                 span {
                     // 
-                    position: relative;
-                    right: 25px;
+                    position:relative;
+                    right:25px;
                     font-weight: 600;
                     font-size: 16px;
                     color: red;
@@ -50,20 +48,20 @@
                 }
             }
             label {
-                padding-left: 10px;
+                padding-left:10px;
                 font-size: 12px;
-                font-weight: 400;
+                font-weight: 400; 
                 color: rgba(0, 0, 0, 0.77);
                 text-decoration: none;
                 text-transform: uppercase;
                 -webkit-font-smoothing: antialiased;
-                width: 100%;
+                width:100%;
             }
             .side-form-ctrl {
                 background: white;
                 border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
                 width: 60%;
-                padding-left: 10px;
+                padding-left:10px;
                 margin-left: 10px;
                 height: 30px;
                 padding: 0px 5px;
@@ -100,6 +98,7 @@
                 }
             }
         }
+        
         .form-checkbox-wrapper {
             padding: 0px 15px 0px 10px;
             .field-checkbox-wrapper {
@@ -188,7 +187,7 @@
                     position: relative;
                     right: 60%;
                     top: 50px;
-                    color: #0084f6;
+                     color: #0084f6;
                 }
             }
             .field-wrapper .form-ctrl {
@@ -293,6 +292,7 @@
     }
 }
 
+
 /* Style the buttons that are used to open and close the accordion panel */
 
 .accordion {
@@ -307,12 +307,14 @@
     transition: 0.4s;
 }
 
+
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 
 .active,
 .accordion:hover {
     background-color: #ccc;
 }
+
 
 /* Style the accordion panel. Note: hidden by default */
 
@@ -571,11 +573,21 @@
                         cursor: pointer;
                         width: 20px;
                         text-align: center;
+                        /* &::before {
+                            content: '';
+                            background: url('/assets/images/calendar.svg') no-repeat;
+                            position: absolute;
+                            right: 25px;
+                            top: 0px;
+                            width: 21px;
+                            height: 21px;
+                            z-index: 0;
+                        } */
                     }
                 }
                 label {
                     font-size: 12px;
-                    font-weight: 400;
+                    font-weight: 400; 
                     color: rgba(0, 0, 0, 0.77);
                     padding-bottom: 2px;
                     text-decoration: none;
@@ -654,6 +666,7 @@
     }
 }
 
+
 .wrapper-class {
     .followUpTime {
         padding-left: 0px;
@@ -665,20 +678,22 @@
                 width: 100% !important;
             }
         }
-        .form-wrapper {
-            .tbox {
-                .times {
-                    .side-form-ctrl {
-                        &.mins {
-                            width: 100% !important;
-                        }
-                        &.mers {
-                            width: 100% !important;
-                        }
+    .form-wrapper{
+        
+                .tbox{
+                        .times{
+                                .side-form-ctrl{
+                                                &.mins{
+                                                        width:100% !important;
+                                                      }
+                                                &.mers{
+                                                         width:100% !important;
+                                                    }
+                                                 }
+                                }
                     }
-                }
-            }
-        }
+                 
+    }
     }
 }
 
@@ -691,7 +706,7 @@
     z-index: 2;
     .qInfoIcon {
         width: 20px;
-        margin-left: 22px;
+        margin-left:22px;
         margin-top: 4px;
         height: 20px;
         border: 1px solid #ccc;
@@ -706,8 +721,10 @@
         box-shadow: 0px 0px 1px 0px #ccc inset;
         color: #888;
         transition: all 0.2s linear;
-        &.notify-div {
-            margin-left: 11px;
+
+        &.notify-div{
+         margin-left:11px;
+             
         }
         &:hover {
             border-color: $header-bg;
@@ -717,18 +734,17 @@
     }
 }
 
-.tooltip-box-field {
+.tooltip-box-field{
     width: 190px;
     min-height: 0px;
     white-space: nowrap;
     padding: 0px;
     padding-left: 3px;
 }
+.field-checkbox-wrapper{
 
-.field-checkbox-wrapper {
     position: relative;
     padding-left: 25px;
     margin-bottom: -20px;
-}
 
-
+ }

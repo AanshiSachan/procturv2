@@ -33,16 +33,16 @@
                   </select>
                 </div>
               </div>
-              <div class="c-lg-3 prepare" style="margin-top:0px;">
+              <div class="c-lg-3 main" style="margin-top:0px;">
                 <div class="form-wrapper datePickerBox">
                   <label> Select Date</label>
-                  <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getData.biometric_attendance_date" (ngModelChange)="dateValidationForFuture($event)">
+                  <input type="text" class="side-form-ctrl bsDatepicker" bsDatepicker [(ngModel)]="getData.biometric_attendance_date">
                 </div>
               </div>
               <div class="c-lg-3">
                 <div class="form-wrapper">
                   <label> Name</label>
-                  <input type="text" placeholder="Name" class="side-form-ctrl" [(ngModel)]="getData.name" [value]="getData.is_active_status">
+                  <input type="text" placeholder="Name" class="side-form-ctrl" (change)="courseEmpty()" [(ngModel)]="getData.name" [value]="getData.is_active_status">
                 </div>
               </div>
               <div class="c-lg-3">
@@ -55,7 +55,7 @@
             <hr style="width:45%; display:inline-block;  border:1px inset;" *ngIf="masterCourseNames">
 
             <div class="row">
-              <div class="c-lg-3" style="margin-left:15px;" *ngIf="masterCourseNames">
+              <div class="c-lg-3" style="margin-left:15px;" *ngIf="masterCourseNames && !isProfessional">
                 <div class="form-wrapper">
                   <label>Master Course</label>
                   <select class="side-form-ctrl" [(ngModel)]="getData.master_course_name" (ngModelChange)="getCourses($event)">
@@ -67,7 +67,7 @@
 
                 </div>
               </div>
-              <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames">
+              <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames && !isProfessional">
                 <div class="form-wrapper">
                   <label> Course</label>
                   <select class="side-form-ctrl" [(ngModel)]="getData.course_id">
@@ -78,13 +78,46 @@
                   </select>
                 </div>
               </div>
-              <div class="c-lg-6">
+            <div class="c-lg-3" style="margin-left:15px;" *ngIf="masterCourseNames && isProfessional">
+                <div class="form-wrapper">
+                  <label>Master Course</label>
+                  <select class="side-form-ctrl" [(ngModel)]="getData.standard_id" (ngModelChange)="getCourses($event)">
+                    <option value="-1"></option>
+                    <option *ngFor="let i of masterCoursePro" [value]="i.standard_id">
+                      {{i.standard_name}}
+                    </option>
+                  </select>
 
+                </div>
               </div>
-            </div>
-
+              <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames && isProfessional">
+                <div class="form-wrapper">
+                  <label> Course</label>
+                  <select class="side-form-ctrl" [(ngModel)]="getData.subject_id">
+                    <option value="-1"></option>
+                    <option *ngFor="let i of coursePro" [value]="i.subject_id">
+                      {{i.subject_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="c-lg-3" style="padding-left:5px;" *ngIf="masterCourseNames && isProfessional">
+                <div class="form-wrapper">
+                  <label>Batch</label>
+                  <select class="side-form-ctrl" [(ngModel)]="getData.batch_id">
+                    <option value="-1"></option>
+                    <option *ngFor="let i of batchPro" [value]="i.batch_id">
+                      {{i.batch_name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="c-lg-3" *ngIf="isProfessional">
+              </div>
+              <div class="c-lg-6" *ngIf="!isProfessional">
+              </div>
           </div>
-
+          </div>
           <!-- 
               <div class="filter-box c-lg-2">
                 <div id="basic-search">
@@ -98,8 +131,7 @@
             <div class="table table-responsive student-table">
               <div class="filter-box">
                 <div id="basic-search">
-                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
-                    (keyup)="searchDatabase()">
+                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
                 </div>
               </div>
               <div class="common-elements">
@@ -153,7 +185,7 @@
                         {{out_time}}
                       </td>
                       <td>
-                        <button class="btn fullBlue btnStudent" (click)="viewOlderRecords(i)">View</button>
+                        <button class="btn fullBlue" (click)="viewOlderRecords(i)">View</button>
                       </td>
                     </tr>
                   </tbody>
@@ -189,8 +221,7 @@
             <div class="table table-responsive student-table">
               <div class="filter-box">
                 <div id="basic-search">
-                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
-                    (keyup)="searchDatabase()">
+                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
                 </div>
               </div>
               <div class="student-elements">
@@ -219,10 +250,8 @@
                         Is active
                       </th>
                       <th>
-                        In time
                       </th>
                       <th>
-                        Out
                       </th>
                       <th>
                         View Older Records
@@ -252,7 +281,7 @@
                         {{i.out_time}}
                       </td>
                       <td>
-                        <button class="btn fullBlue btnStudent" (click)="viewOlderRecords(i)">View</button>
+                        <button class="btn fullBlue" (click)="viewOlderRecords(i)">View</button>
                       </td>
                     </tr>
                   </tbody>
@@ -287,8 +316,7 @@
             <div class="table table-responsive student-table">
               <div class="filter-box box">
                 <div id="basic-search">
-                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData"
-                    (keyup)="searchDatabase()">
+                  <input #search type="text" class="search-field searchName" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
                 </div>
               </div>
               <div class="common-elements">
@@ -341,7 +369,7 @@
                         {{i.out_time}}
                       </td>
                       <td>
-                        <button class="btn fullBlue btnStudent" (click)="viewOlderRecords(i)">View</button>
+                        <button class="btn fullBlue" (click)="viewOlderRecords(i)">View</button>
                       </td>
                     </tr>
                   </tbody>
@@ -390,7 +418,7 @@
             </span>
 
             <div popup-header class="popup-header-content">
-              <h2 style=" font-size:23px;">Older Records</h2>
+              <h2 style="font-decoration:italic; font-size:23px;">Older Records</h2>
             </div>
             <div popup-content class="main-student-table">
               <div class="row">
@@ -405,8 +433,10 @@
                     </select>
                   </div>
                 </div>
-                <div class="c-lg-2" style="padding: 15px;">
-                  <button class="btn fullBlue" style="margin-top:-3px;" (click)="popupChange()">Go</button>
+                <div class="c-lg-2">
+                  <div class="form-field form-wrapper">
+                    <button class="btn fullBlue" (click)="popupChange()">Go</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -429,7 +459,7 @@
             </span>
 
             <div popup-header class="popup-header-content" *ngIf="showMonth">
-              <h2 style=" font-size:20px; ">Previous Month records</h2>
+              <h2 style="font-decoration:italic; font-size:20px; ">Previous Month records</h2>
 
             </div>
             <div popup-content class="main-student-table" *ngIf="showMonth">
@@ -485,25 +515,28 @@
 
 
             <div popup-header class="popup-header-content" *ngIf="showRange">
-              <h2 style=" font-size:20px;">Select Range</h2>
+              <h2 style="font-decoration:italic; font-size:20px;">Select Range</h2>
             </div>
             <div popup-content class="main-student-table" *ngIf="showRange">
-              <div class="c-lg-4">
+              <div class="row">
+                <div class="c-lg-5 main">
                   <div class="form-field form-wrapper datePickerBox">
-                      <label for="from">From</label>
-                      <input type="text" class="side-form-ctrl bsDatepicker" name="from" bsDatepicker [(ngModel)]="getAllData.from_date">
-                    </div>
-              </div>
-              <div class="c-lg-4">
+                    <label for="from">From</label>
+                    <input type="text" class="side-form-ctrl bsDatepicker" name="from" bsDatepicker [(ngModel)]="getAllData.from_date">
+                  </div>
+                </div>
+                <div class="c-lg-5 main">
                   <div class="form-field form-wrapper datePickerBox">
-                      <label for="to">To</label>
-                      <input type="text" class="side-form-ctrl bsDatepicker" name="to" bsDatepicker [(ngModel)]="getAllData.to_date" (ngModelChange)="dateValidationForFuture($event)">
-                    </div>
+                    <label for="to">To</label>
+                    <input type="text" class="side-form-ctrl bsDatepicker" name="to" bsDatepicker [(ngModel)]="getAllData.to_date" (ngModelChange)="dateValidationForFuture($event)">
+                  </div>
+                </div>
+                <div class="c-lg-2">
+                  <div class="form-field form-wrapper">
+                    <button class="btn fullBlue" (click)="showDataTable()">Go</button>
+                  </div>
+                </div>
               </div>
-              <div class="c-lg-4" style="padding: 27px 0px 0px 0px">
-                  <button class="btn fullBlue" (click)="showDataTable()">Go</button>
-              </div>
-              
               <div class="table table-responsive tablePopup" *ngIf="showTable">
                 <table>
                   <thead>
@@ -553,7 +586,7 @@
 
             </div>
             <div popup-header class="popup-header-content" *ngIf="showWeek">
-              <h2 style=" font-size:20px; ">Previous Week Records</h2>
+              <h2 style="font-decoration:italic; font-size:20px; ">Previous Week Records</h2>
             </div>
             <div popup-content class="main-student-table" *ngIf="showWeek">
 
@@ -624,7 +657,7 @@
             </span>
 
             <div popup-header class="popup-header-content">
-              <h2 style=" font-size:23px;">SMS to absent students</h2>
+              <h2 style="font-decoration:italic; font-size:23px;">SMS to absent students</h2>
             </div>
 
             <div popup-content class="main-student-table">

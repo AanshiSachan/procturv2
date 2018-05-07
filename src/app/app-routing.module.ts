@@ -24,7 +24,7 @@ import { EventManagmentComponent } from './components/event-managment/event-mana
 
                 },
                 {
-                    path: 'formField',
+                    path: 'custom',
                     loadChildren: 'app/components/custom-common/custom-common.module#CustomCommonModule',
                     canLoad: [AuthGuard]
                 },

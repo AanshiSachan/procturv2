@@ -5,7 +5,7 @@
     <div class="row">
 
       <h1 class="pull-left">
-        Manage Form Field (On Both)
+        Add Form Field
       </h1>
 
       <aside class="pull-right">
@@ -20,7 +20,7 @@
       <div class="clearFix add-edit">
         <a (click)="toggleNewComponentVisisbility()">
           <i id="addComponent-icon" style="border:none;">+</i>
-          <span>Add New Form Field</span>
+          <span>Add New Field</span>
         </a>
       </div>
     </div>
@@ -136,13 +136,7 @@
 
 
     <div class="row" style="margin-top:12px">
-      <div class="c-lg-4">
-          <h4>Total Count:{{userCreatedComponent.length}}</h4>
-      </div>
-      <div class="c-lg-4"></div>
-      <div class="c-lg-4">
-        <button class="btn pull-right" [routerLink]="['../customizedOnly']">Student Form Fields</button>
-      </div>
+      <h4>Total Count:{{userCreatedComponent.length}}</h4>
     </div>
 
 

@@ -21,9 +21,6 @@ p {
     margin-bottom: 5px;
     margin-top:-30px;
 }
-.btnStudent{
-    margin:5px;
-}
 .box{
 
 }
@@ -31,7 +28,7 @@ p {
     position: relative;
     left: 5%;
     table {
-        overflow-y: auto;
+        overflow-y: scroll;
         width: 95%;
     }
     h5 {
@@ -48,7 +45,7 @@ p {
         display: block;
     }
     .student-table {
-        overflow-x: auto;
+        overflow-x: scroll;
         height: 400px;
     }
     .tablePopup {
@@ -122,7 +119,7 @@ p {
                 background: url('../../../../assets/images/calendar.svg') no-repeat;
                 position: absolute;
                 right: 0;
-                top: 27px;
+                top: 20px;
                 width: 21px;
                 height: 21px;
                 z-index: 0;
@@ -147,7 +144,7 @@ p {
         display: block;
     }
     .table-heading {
-        overflow-x: auto;
+        overflow-x: scroll;
         height: 350px;
     }
 }
@@ -408,7 +405,7 @@ p {
     transition: all 0.5s ease-in;
 }
 
-.prepare {
+.main {
     margin-top: -25px;
     .form-wrapper {
         position: relative;
@@ -501,7 +498,7 @@ p {
         }
         .common-elements {
             height: 450px;
-            overflow-y: auto;
+            overflow-y: scroll;
         }
         .student-elements {
             position: relative;
@@ -572,27 +569,5 @@ $color-highlight: lighten($color-base,
         height: 100%;
         background: linear-gradient(90deg, $color-base, $color-highlight, $color-base);
         animation: progress 1s ease-in-out infinite;
-    }
-}
-
-.form-wrapper {
-    position: relative;
-    &.datePickerBox {
-        .side-form-ctrl {
-            cursor: pointer;
-            position: relative;
-            z-index: 1;
-            background: transparent;
-        }
-        &:after {
-            content: '';
-            background: url('../../../../assets/images/calendar.svg') no-repeat;
-            position: absolute;
-            right: 0;
-            top: 20px;
-            width: 21px;
-            height: 21px;
-            z-index: 0;
-        }
     }
 }

@@ -130,8 +130,10 @@ export class AttendanceReportComponent implements OnInit {
 
     this.isRippleLoad = true;
     if (this.isProfessional) {
+
       this.reportService.fetchMasterCourseProfessional(this.queryParams).subscribe(
         (data: any) => {
+
           this.isRippleLoad = false;
           this.masterCoursePro = data.standardLi;
           this.batchPro = data.batchLi;
@@ -142,6 +144,8 @@ export class AttendanceReportComponent implements OnInit {
           return error;
         }
       )
+
+
     }
     else {
       this.reportService.getMasterCourse().subscribe(data => {
@@ -149,7 +153,6 @@ export class AttendanceReportComponent implements OnInit {
         this.masterCourses = data;
       },
         error => {
-          this.isRippleLoad = false;
           return error;
         }
       )
@@ -346,7 +349,7 @@ export class AttendanceReportComponent implements OnInit {
     let futureDate = moment(this.queryParams.to_date).add('days', 1).format('YYYY-MM-DD');
 
     if (this.isProfessional) {
-      if (this.queryParams.from_date == "" || this.queryParams.to_date == "" || this.queryParams.batch_id == "-1" || this.queryParams.batch_id == " " || this.queryParams.subject_id == "" || this.queryParams.standard_id == "-1") {
+      if (this.queryParams.from_date == "" || this.queryParams.to_date == "" || this.queryParams.batch_id == "" || this.queryParams.subject_id == "" || this.queryParams.standard_id == "") {
 
         let msg = {
           type: "error",
@@ -372,7 +375,7 @@ export class AttendanceReportComponent implements OnInit {
         let msg = {
           type: "error",
           title: "Incorrect Details",
-          body: "You cannot select more than 120 days"
+          body: "You cannot select more than 120"
         }
 
         this.appc.popToast(msg);
@@ -383,6 +386,7 @@ export class AttendanceReportComponent implements OnInit {
       else {
         this.pageDetailedDataPro = [];
         this.typeAttendancePro = [];
+        
         this.reportService.postDetailedData(this.queryParams).subscribe(
           (data: any) => {
             this.isRippleLoad = false;
@@ -390,6 +394,7 @@ export class AttendanceReportComponent implements OnInit {
             if (data.length) {
               this.dataStatus = false;
               this.dateWiseAttendancePro = data;
+              console.log(this.dateWiseAttendancePro);
               this.dataTypeAttendancePro = data.map((ele) => {
                 this.typeAttendancePro = ele.attendanceDateType;
 
@@ -410,7 +415,6 @@ export class AttendanceReportComponent implements OnInit {
                 body: "We did not find any attendance marked for the selected dates "
               }
               this.appc.popToast(msg);
-              this.isRippleLoad=false;
             }
 
           },
@@ -420,7 +424,7 @@ export class AttendanceReportComponent implements OnInit {
             return error;
 
           }
-        );
+        )
       }
     }
     else {
@@ -454,7 +458,7 @@ export class AttendanceReportComponent implements OnInit {
         let msg = {
           type: "error",
           title: "Incorrect Details",
-          body: "You cannot select more than 120 days"
+          body: "You cannot select more than 120"
         }
 
         this.appc.popToast(msg);
@@ -465,34 +469,25 @@ export class AttendanceReportComponent implements OnInit {
         this.dataStatus = false;
         this.typeAttendance = [];
         this.pageDetailedData = [];
+        this.addReportPopUp = true;
         this.reportService.postDetailedData(this.attendanceFetchForm).subscribe(
           (data: any) => {
-            if(data.length){
-              this.addReportPopUp = true;
-              this.isRippleLoad = false;
-              this.dataStatus = false;
-              this.dateWiseAttendance = data;
-              this.dataTypeAttendance = this.dateWiseAttendance.map((ele) => {
-                this.typeAttendance = ele.attendanceDateType;
-  
-              });
-              this.attendanceIndex0 = this.typeAttendance[0];
-              this.attendanceIndexi = this.typeAttendance.length;
-              this.attendanceIndexiOf = this.typeAttendance[this.attendanceIndexi - 1];
-  
-              this.totalRowPopup = data.length;
-              this.PageIndexPopup = 1;
-              this.fetchTableDataByPagePopup(this.PageIndexPopup);  
-            }
-            else{
-              let msg = {
-                type: "info",
-                title: "No Data Found",
-                body: "We did not find any attendance marked for the selected dates "
-              }
-              this.appc.popToast(msg);
-              this.isRippleLoad=false;
-            }
+            this.isRippleLoad = false;
+            this.dataStatus = false;
+            this.dateWiseAttendance = data;
+            this.dataTypeAttendance = this.dateWiseAttendance.map((ele) => {
+              this.typeAttendance = ele.attendanceDateType;
+
+            })
+
+            this.attendanceIndex0 = this.typeAttendance[0];
+            this.attendanceIndexi = this.typeAttendance.length;
+            this.attendanceIndexiOf = this.typeAttendance[this.attendanceIndexi - 1];
+
+            this.totalRowPopup = data.length;
+            this.PageIndexPopup = 1;
+            this.fetchTableDataByPagePopup(this.PageIndexPopup);
+            ;
           },
           (error: any) => {
             this.isRippleLoad = false;

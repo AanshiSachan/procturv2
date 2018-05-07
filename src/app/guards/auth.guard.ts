@@ -65,7 +65,7 @@ export class AuthGuard implements CanActivate, CanLoad {
             else if (string.indexOf('slot') >= 0) {
                 return true;
             }
-            else if (string.indexOf('formField') >= 0) {
+            else if (string.indexOf('custom') >= 0) {
                 return true;
             }
             else if (string.indexOf('teacher') >= 0) {

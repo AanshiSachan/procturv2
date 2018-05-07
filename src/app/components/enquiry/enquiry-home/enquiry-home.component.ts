@@ -2099,7 +2099,6 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
-    debugger;
     if (this.validateTime()) {
       this.isRippleLoad = true;
       this.updateFormData.comment = this.updateFormData.comment;

@@ -1,27 +1,27 @@
-@import "./src/assets/css/style.scss";
-@import "./src/assets/css/wrapper.scss";
-@import "./src/assets/css/common/common.scss";
-@import "./src/assets/css/common/grid.scss";
-@import "./src/assets/css/common/variables.scss";
-.middle-section {
-    padding: 0px 0px;
+.space-size{
+    font-size:15px;
+    margin-top:40x;
 }
-
-.filter-section-wrapper {
-    padding: 10px 10px;
-    background: #efefef;
+.sky-form{
+    margin-left: 321px;
 }
-
-.row {
-    margin-top: 10px;
-    margin-left: 0px;
-    margin-right: 0px;
+.form-wrapper{
+    .btn{
+        &.spaze-bird{
+            width: 60%;
+            padding: 0px;
+            margin-left: 70px;
+        
+    }
 }
-
+}
+.row{
+    
+    margin-top: 12px;
+}
 .form-wrapper {
     background: transparent;
     margin: 2px 0px;
-    width: 85% !important;
     .btn {
         margin-top: 10px;
         width: 30%;
@@ -32,196 +32,64 @@
         font-weight: 400; //font-family: -webkit-body;
         color: 0084f6;
         text-decoration: none;
+        text-transform: uppercase;
         -webkit-font-smoothing: antialiased;
         width: 100%;
-        &.l1 {
-            padding-left: 14px;
-        }
+   &.l1{
+    padding-left: 14px;
+   }
     }
-    .side-form-ctrl {
-        background: white;
-        border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
-        width: 85%;
+
+.side-form-ctrl {
+    background: white;
+    border: 1px solid rgba(119, 119, 119, 0.4196078431372549);
+    width: 85%;
+    padding-left: 10px;
+    margin-left: 22px;
+    height: 30px;
+    padding: 0px 5px;
+    font-weight: 600;
+    font-size: 14px;
+    color: black;
+    &.bsDatepicker {
         padding-left: 10px;
-        margin-left: 22px;
-        height: 30px;
-        padding: 4px 5px;
-        font-weight: 600;
-        font-size: 14px;
-        color: black;
-        &.bsDatepicker {
-            // padding-left: 10px;
-            // margin-left: 8px;
-            width: 86%;
-        }
+        margin-left: 8px;
+        width: 86%;
     }
 }
-
-.margin-head {
-    padding-left: 8px;
 }
+.field-data{
+    margin-left:5px;
+}
+.margin-head{
 
-.btn-sms-search {
+padding-left: 8px;
+
+}
+.form-wrapper {
+    &.sky-valley{
+padding-left: 42px;
+}}
+
+.btn-sms-search{
     margin-top: 35px;
-    text-align: center;
-    margin-left: 280px;
-    width: 100%
+text-align: center;
+margin-left: 280px;
+width:100%   
 }
 
 .search-filter-wrapper {
-    margin-top: 10px;
-    .normal-field {
-        padding: 7px 10px;
-        border: 1px solid #ccc; // width: 130px;
-        box-sizing: border-box;
-        margin-right: 10px;
-        margin-bottom: 5px;
-        height: 35px;
-        font-size: 14px;
-        margin-left: 229px;
-    }
-}
+   .normal-field {
+       padding: 7px 10px;
+       border: 1px solid #ccc;
+       width: 15%;
+       box-sizing: border-box;
+       margin-right:10px;
+       margin-bottom: 5px;
+       float: right;
+       height: 35px;
+       font-size: 14px;
+   }
+}    
 
-.qInfoIcon {
-    width: 17px;
-    margin-left: 4px;
-    height: 20px;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    display: block;
-    text-align: center;
-    box-sizing: border-box;
-    line-height: 20px;
-    font-weight: 600;
-    font-size: 12px;
-    cursor: pointer;
-    box-shadow: 0px 0px 1px 0px #ccc inset;
-    color: #888;
-    transition: all 0.2s linear;
-    &:hover {
-        border-color: $header-bg;
-        box-shadow: 0px 0px 1px 0px $header-bg inset;
-        color: $header-bg;
-    }
-}
-.updateevents{
-    height: 500px;
-    overflow: hidden;
-    ::-webkit-scrollbar{
-        display: block;
-    }
-    .makeEvents{
-        height: 487px;
-        overflow-y: auto;
-    }
-}
-.datenameEvent{
-    .form-wrapper {
-        position: relative;
-        &.datePickerBox {
-            .side-form-ctrl {
-                cursor: pointer;
-                position: relative;
-                z-index: 1;
-                background: transparent;
-            }
-            &:after {
-                content: '';
-                background: url('../../../assets/images/calendar.svg') no-repeat;
-                position: absolute;
-                right: 47px;
-                top: 20px;
-                width: 21px;
-                height: 21px;
-                z-index: 0;
-            }
-        }
-    }
-}
-.dateEvent {
-    .form-wrapper {
-        position: relative;
-        &.datePickerBox {
-            .side-form-ctrl {
-                cursor: pointer;
-                position: relative;
-                z-index: 1;
-                background: transparent;
-            }
-            &:after {
-                content: '';
-                background: url('../../../assets/images/calendar.svg') no-repeat;
-                position: absolute;
-                right: 40px;
-                top: 20px;
-                width: 21px;
-                height: 21px;
-                z-index: 0;
-            }
-        }
-    }
-}
 
-.tooltip-box-field {
-    width: 170px;
-    white-space: nowrap;
-    min-height: 41px;
-    line-height: 12px;
-    padding: 5px 5px;
-    overflow: visible;
-    color: black;
-    font-weight: bold;
-    &.lg {
-        width: 200px;
-        white-space: nowrap;
-        min-height: 50px;
-        line-height: 20px;
-        padding: 5px 5px;
-    }
-    &.sm {
-        width: 100px;
-        white-space: nowrap;
-        min-height: 40px;
-        padding: 5px 5px;
-    }
-}
-
-.field-radio-wrapper {
-    .form-radio:checked+label:before {
-        content: '';
-        width: 10px;
-        height: 10px;
-        background: #0084f6;
-        border-radius: 50%;
-        left: 3px;
-        top: 3px;
-    }
-    label {
-        margin-left: 10px;
-    }
-}
-
-.margin-headleft {
-    margin-left: -30px;
-    margin-top: 25px;
-}
-
-.side-form-ctrl {
-    &.datePickerBox {
-        content: '';
-        background: url(/./assets/images/calendar.svg) no-repeat;
-        position: absolute;
-        right: 0;
-        top: 18px;
-        width: 27px;
-        height: 21px;
-        z-index: 0;
-    }
-}
-
-.field-wrapper {
-    position: relative;
-    padding-top: 10px;
-    width: 73%;
-    margin-left: 20px;
-}
