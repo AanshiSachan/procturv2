@@ -468,15 +468,6 @@ export class WidgetService {
         )
     }
 
-    cancelExamScheduleCourse(obj) {
-        obj.inst_id = this.institute_id;
-        let url = this.baseUrl + "/api/v1/courseExamSchedule/cancel";
-        return this.http.post(url, obj, { headers: this.headers }).map(
-            res => { return res; },
-            err => { return err; }
-        )
-    }
-
     notifyStudentExam(id) {
         let url = this.baseUrl + "/api/v1/batchExamSched/notify/" + this.institute_id + "/" + id;
         return this.http.get(url, { headers: this.headers }).map(
@@ -485,14 +476,14 @@ export class WidgetService {
         )
     }
 
-    sendReminder(obj) {
-        obj.inst_id = this.institute_id;
-        let url = this.baseUrl + "/api/v1/courseExamSchedule/sendReminder";
-        return this.http.post(url, obj, { headers: this.headers }).map(
-            res => { return res; },
-            err => { return err; }
-        )
-    }
+    // sendReminder(obj) {
+    //     obj.inst_id = this.institute_id;
+    //     let url = this.baseUrl + "/api/v1/courseExamSchedule/sendReminder";
+    //     return this.http.post(url, obj, { headers: this.headers }).map(
+    //         res => { return res; },
+    //         err => { return err; }
+    //     )
+    // }
 
     fetchStudentList(data) {
         let url = this.baseUrl + "/api/v1/attendance/exam";

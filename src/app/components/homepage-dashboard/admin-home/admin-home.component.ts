@@ -1837,7 +1837,7 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('idSendMessage').classList.remove('active');
     document.getElementById(id).classList.add('active');
     document.getElementById(div).classList.remove('hide');
-    document.getElementById('divParentOrGaurdian').classList.remove('hide'); 
+    document.getElementById('divParentOrGaurdian').classList.remove('hide');
     document.getElementById('sendToHead').classList.remove('hide');
     document.getElementById('chkbxEmailSend').checked = false;
     document.getElementById('sendLoginChkbx').checked = false;
@@ -1931,9 +1931,9 @@ export class AdminHomeComponent implements OnInit {
     document.getElementById('chkBoxTutorSelection').checked = false;
     document.getElementById('chkBoxInActiveSelection').checked = false;
     document.getElementById('chkBoxAluminiSelection').checked = false;
-    if(this.sendNotification.batch_id == "-1"){
+    if (this.sendNotification.batch_id == "-1") {
       this.showTableFlag = false;
-    }else{
+    } else {
       this.widgetService.fetchStudentListData(this.sendNotification.batch_id).subscribe(
         res => {
           this.showTableFlag = true;
@@ -2615,10 +2615,9 @@ export class AdminHomeComponent implements OnInit {
   getExamSchedule(obj) {
     this.widgetService.getExamSchedule(obj).subscribe(
       (res: any) => {
-        debugger
-        console.log(res);
         this.addKeyInData(res.otherSchd, "isExam", true);
-        this.schedStat.otherSchd = Object.assign(this.schedStat.otherSchd, res.otherSchd);
+        this.schedStat.otherSchd = this.schedStat.otherSchd.concat(res.otherSchd);
+        console.log(this.schedStat);
       },
       err => {
         console.log(err);
@@ -2665,6 +2664,7 @@ export class AdminHomeComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
       }
     )
   }
@@ -2828,40 +2828,6 @@ export class AdminHomeComponent implements OnInit {
     )
   }
 
-  // Course Model
-
-  cancelCourseExam() {
-    if (this.cancelPopUpData.reason.trim() == "" || null) {
-      this.messageNotifier('error', 'Error', 'Please Provide Cancellation Reason');
-      return;
-    }
-    let notify: any = "";
-    if (this.cancelPopUpData.notify) {
-      notify = "Y";
-    } else {
-      notify = "N";
-    }
-    let obj = {
-      cancel_reason: this.cancelPopUpData.reason,
-      course_exam_schedule_id: this.tempData.course_exam_schedule_id,
-      course_id: this.tempData.course_id,
-      is_cancel_notify: notify,
-      requested_date: moment(this.tempData.requested_date).format('YYYY-MM-DD')
-    }
-    this.widgetService.cancelExamScheduleCourse(obj).subscribe(
-      res => {
-        this.messageNotifier('success', 'Successfully Cancelled', 'Cancelled Successfully');
-        this.fetchScheduleWidgetData();
-        this.closeExamPopup();
-      },
-      err => {
-        debugger
-        console.log(err);
-        this.messageNotifier('error', 'Error', err.error.message);
-      }
-    )
-  }
-
   // Notify Function ////
 
   notifyExamSchedule(data) {
@@ -2879,24 +2845,24 @@ export class AdminHomeComponent implements OnInit {
 
   // Send Reminder ///
 
-  sendReminderForCourse(data) {
-    if (confirm('Are you sure, You want to notify?')) {
-      let obj = {
-        course_exam_schedule_id: data.course_exam_schedule_id,
-        course_id: data.course_id,
-        requested_date: moment(data.requested_date).format('YYYY-MM-DD')
-      }
-      this.widgetService.sendReminder(obj).subscribe(
-        res => {
-          this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfull');
-        },
-        err => {
-          console.log(err);
-          this.messageNotifier('error', 'Error', err.error.message);
-        }
-      )
-    }
-  }
+  // sendReminderForCourse(data) {
+  //   if (confirm('Are you sure, You want to notify?')) {
+  //     let obj = {
+  //       course_exam_schedule_id: data.course_exam_schedule_id,
+  //       course_id: data.course_id,
+  //       requested_date: moment(data.requested_date).format('YYYY-MM-DD')
+  //     }
+  //     this.widgetService.sendReminder(obj).subscribe(
+  //       res => {
+  //         this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfull');
+  //       },
+  //       err => {
+  //         console.log(err);
+  //         this.messageNotifier('error', 'Error', err.error.message);
+  //       }
+  //     )
+  //   }
+  // }
 
   // Exam Marks Update
 

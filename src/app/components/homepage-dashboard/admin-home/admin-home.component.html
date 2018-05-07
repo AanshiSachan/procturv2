@@ -132,24 +132,28 @@
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
                             <li>
-                              <div>{{class.start_time}} - {{class.end_time}} ({{class.class_date | date:'dd MMM yyyy'}})</div>
+                              <div *ngIf="!class.isExam">{{class.start_time}} - {{class.end_time}} ({{class.class_date}})</div>
+                              <div *ngIf="class.isExam">{{class.start_time}} - {{class.end_time}} ({{class.exam_date}})</div>
                               <p>{{class.class_room_name}}</p>
                             </li>
                             <li class="cls-type">
-                              <div>
+                              <div *ngIf="!class.isExam">
                                 <span *ngIf="class.freq == 'WEEK' || class.freq == 'OTHER'">Regular</span>
                                 <span *ngIf="!(class.freq == 'WEEK' || class.freq == 'OTHER')">Extra</span>
                                 <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
+                              </div>
+                              <div *ngIf="class.isExam">
+                                <span>Exam</span>
                               </div>
                             </li>
                             <li class="cls-name">
                               <div>{{class.batch_name}}</div>
                             </li>
                             <li>
-                              <div>{{class.teacher_name}}</div>
+                              <div *ngIf="!class.isExam">{{class.teacher_name}}</div>
                             </li>
                           </ul>
-                          <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
+                          <div *ngIf="!class.isExam" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' [ngClass]="getReminderAndCancel(class)" style="cursor:pointer"
@@ -157,6 +161,12 @@
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
                               (click)="initiateRemiderClass(i, class)">Class Reminder</span>
                             <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
+                          </div>
+                          <div *ngIf="class.isExam" class="che-action">
+                            <span (click)="markExamAttendance(class)" style="cursor:pointer">Exam Attendance</span>
+                            <span class="" *ngIf="class.isReferenced != 'Y'" (click)="notifyExamSchedule(class)" style="cursor:pointer">Send Reminder</span>
+                            <span class="" *ngIf="class.isReferenced != 'Y'" (click)="onCancelExamClick(class)" style="cursor:pointer">Cancel Exam</span>
+                            <span class="" *ngIf="class.isReferenced== 'Y'" (click)="examMarksUpdate(class)">Exam Marks</span>
                           </div>
                         </div>
                       </div>
@@ -226,10 +236,9 @@
                           </div>
                           <div *ngIf="(class.isExam)" class="che-action">
                             <span class="" (click)="markExamAttendance(class)" style="cursor:pointer">Exam Attendance</span>
-                            <span class="" *ngIf="isProfessional" style="cursor:pointer" (click)="notifyExamSchedule(class)">Notify</span>
-                            <span class="" *ngIf="!isProfessional" (click)="sendReminderForCourse(data)" style="cursor:pointer">Send Reminder</span>
-                            <span class="" style="cursor:pointer" (click)="onCancelExamClick(class)">Cancel Exam</span>
-                            <span class="" style="cursor:pointer" (click)="examMarksUpdate(class)">Exam Marks</span>
+                            <span class="" style="cursor:pointer" (click)="notifyExamSchedule(class)">Notify</span>
+                            <span class="" *ngIf="class.isReferenced != 'Y'" style="cursor:pointer" (click)="onCancelExamClick(class)">Cancel Exam</span>
+                            <span class="" *ngIf="class.isReferenced == 'Y'" style="cursor:pointer" (click)="examMarksUpdate(class)">Exam Marks</span>
                           </div>
                         </div>
                       </div>
@@ -1417,13 +1426,9 @@
               <label for="chkBxNotifyStudent">Notify Students</label>
             </div>
           </aside>
-          <aside *ngIf="isProfessional" class="pull-right popup-btn">
+          <aside class="pull-right popup-btn">
             <input type="button" value="Close" class="btn" (click)="closeExamPopup()">
             <input type="button" value="Cancel Class" (click)="cancelExamClassSchedule()" class="fullBlue btn">
-          </aside>
-          <aside *ngIf="!isProfessional" class="pull-right popup-btn">
-            <input type="button" value="Close" class="btn" (click)="closeExamPopup()">
-            <input type="button" value="Cancel Course Exam" (click)="cancelCourseExam()" class="fullBlue btn">
           </aside>
         </div>
 
@@ -1483,7 +1488,7 @@
           <h5>Present</h5>
         </div>
 
-        <div class="c-sm-3 c-md-3 c-lg-3">
+        <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="isProfessional">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkCheckAllChkboxStatusExam()" (change)="markAllPresentExam($event)">
             <label for="MarkAllPresent">Mark All Present</label>
@@ -1492,8 +1497,8 @@
 
       </div>
 
-      <div class="attendanceMain">
-        <div class="table-scroll-wrapper">
+      <div class="attendanceMain table-wrapper-exam">
+        <div class="table-scroll-wrapper exam-Attendance-Table">
           <div class="table table-responsive">
             <table>
               <thead>
@@ -1638,7 +1643,7 @@
 
                 </tr>
                 <tr *ngIf="studentList.length == 0">
-                  <td colspan="3">
+                  <td colspan="6">
                     No Students Record
                   </td>
                 </tr>
