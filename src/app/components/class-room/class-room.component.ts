@@ -83,6 +83,34 @@ export class ClassRoomComponent {
         class_room_desc: Desc_ele,
         class_room_name: Room_ele
       }
+
+     /* this.classRoomData.map((element)=>{
+        if (this.classRoomData[element].class_room_name == classRoomobj.class_room_name) {
+          let obj = {
+            type: "error",
+            title: "error",
+            body: 'Duplicate Entries are not Allowed',
+          }
+          this.AppC.popToast(obj);
+          return;
+        }
+
+
+      })*/
+     
+      for (var i = 0; i < this.classRoomData.length; i++) {
+        if (this.classRoomData[i].class_room_name == classRoomobj.class_room_name) {
+          let obj = {
+            type: "error",
+            title: "error",
+            body: 'Duplicate Entries are not Allowed',
+          }
+          this.AppC.popToast(obj);
+          return;
+        }
+
+      }
+
       this.ClassList.saveClassroomDetail(classRoomobj).subscribe(
         data => {
           let msg = {
@@ -135,11 +163,28 @@ export class ClassRoomComponent {
   ================================================================================= */
   saveclassRoomInfo(row, index) {
     let data = {
-      "class_room_name": row.class_room_name,
-      "class_room_desc": row.class_room_desc,
-      "class_room_id": row.class_room_id,
+      class_room_name: row.class_room_name,
+      class_room_desc: row.class_room_desc,
+      class_room_id: row.class_room_id,
 
     }
+
+    for (var j = 0; j < this.classRoomData.length; j++) {
+      if (this.classRoomData[j].class_room_name == data.class_room_name) {
+        let data = {
+          type: 'error',
+          title: "Error",
+          body: "Duplicate Entries are not Allowed"
+        }
+        this.AppC.popToast(data);
+        return;
+      }
+    }
+/*
+
+
+
+ */
     if (data.class_room_name != "" && data.class_room_name != null && data.class_room_desc != "" && data.class_room_desc != null) {
       if (data.class_room_desc.length > 500) {
         let data = {
@@ -150,7 +195,6 @@ export class ClassRoomComponent {
         this.AppC.popToast(data);
         return;
       }
-
       this.ClassList.updateclassListData(data).subscribe(
         res => {
           let data = {
