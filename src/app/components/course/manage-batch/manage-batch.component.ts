@@ -574,7 +574,11 @@ export class ManageBatchComponent implements OnInit {
   }
 
   rowSelectEvent(i) {
-    this.selectedRow = i;
+    if (this.createNewBatch == true) {
+      this.selectedRow = null;
+    } else {
+      this.selectedRow = i;
+    }
   }
 
   /* Customiized click detection strategy */
