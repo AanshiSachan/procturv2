@@ -283,7 +283,7 @@
                                     <th>Date</th>
                                     <th>Start Time</th>
                                     <th>End Time</th>
-                                    <th>Total Marks</th>
+                                    <th *ngIf="examScheduleData.is_exam_grad_feature == 0">Total Marks</th>
                                     <th>Cancel Reason</th>
                                     <th>Action</th>
                                 </tr>
@@ -299,7 +299,7 @@
                                     <td>
                                         {{row.end_time}}
                                     </td>
-                                    <td>
+                                    <td *ngIf="examScheduleData.is_exam_grad_feature == 0">
                                         {{row.total_marks}}
                                     </td>
                                     <td>
