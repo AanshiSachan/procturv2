@@ -132,24 +132,28 @@
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
                             <li>
-                              <div>{{class.start_time}} - {{class.end_time}} ({{class.class_date | date:'dd MMM yyyy'}})</div>
+                              <div *ngIf="!class.isExam">{{class.start_time}} - {{class.end_time}} ({{class.class_date}})</div>
+                              <div *ngIf="class.isExam">{{class.start_time}} - {{class.end_time}} ({{class.exam_date}})</div>
                               <p>{{class.class_room_name}}</p>
                             </li>
                             <li class="cls-type">
-                              <div>
+                              <div *ngIf="!class.isExam">
                                 <span *ngIf="class.freq == 'WEEK' || class.freq == 'OTHER'">Regular</span>
                                 <span *ngIf="!(class.freq == 'WEEK' || class.freq == 'OTHER')">Extra</span>
                                 <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
+                              </div>
+                              <div *ngIf="class.isExam">
+                                <span>Exam</span>
                               </div>
                             </li>
                             <li class="cls-name">
                               <div>{{class.batch_name}}</div>
                             </li>
                             <li>
-                              <div>{{class.teacher_name}}</div>
+                              <div *ngIf="!class.isExam">{{class.teacher_name}}</div>
                             </li>
                           </ul>
-                          <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
+                          <div *ngIf="!class.isExam" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">Update Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' [ngClass]="getReminderAndCancel(class)" style="cursor:pointer"
@@ -157,6 +161,12 @@
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" [ngClass]="getReminderAndCancel(class)"
                               (click)="initiateRemiderClass(i, class)">Class Reminder</span>
                             <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
+                          </div>
+                          <div *ngIf="class.isExam" class="che-action">
+                            <span (click)="markExamAttendance(class)" style="cursor:pointer">Exam Attendance</span>
+                            <span class="" *ngIf="class.isReferenced != 'Y'" (click)="notifyExamSchedule(class)" style="cursor:pointer">Send Reminder</span>
+                            <span class="" *ngIf="class.isReferenced != 'Y'" (click)="onCancelExamClick(class)" style="cursor:pointer">Cancel Exam</span>
+                            <span class="" *ngIf="class.isReferenced== 'Y'" (click)="examMarksUpdate(class)">Exam Marks</span>
                           </div>
                         </div>
                       </div>
@@ -188,12 +198,17 @@
                         <div class="ct-disable-wrapper pos-rel" *ngFor="let class of getClassListDetails();let i = index;">
                           <ul class="ct-ongoing" [class.active]="i == selectedRow" (click)="userScheduleSelected(i, class)">
                             <li class="timings">
-                              <div>{{class.start_time}} - {{class.end_time}} ({{class.class_date}})</div>
+                              <div *ngIf="!class.isExam">{{class.start_time}} - {{class.end_time}} ({{class.class_date}})</div>
+                              <div *ngIf="class.isExam">{{class.start_time}} - {{class.end_time}} ({{class.exam_date}})</div>
                             </li>
                             <li class="cls-type">
-                              <div>
+                              <div *ngIf="!class.isExam">
                                 <span *ngIf="class.freq == 'WEEK' || class.freq == 'OTHER'">Regular</span>
                                 <span *ngIf="!(class.freq == 'WEEK' || class.freq == 'OTHER')">Extra</span>
+                                <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
+                              </div>
+                              <div *ngIf="class.isExam">
+                                <span>Exam</span>
                                 <span class="class-type-status" [ngClass]="getClassStatus(class)">ongoing</span>
                               </div>
                             </li>
@@ -212,12 +227,18 @@
                               <div>{{class.teacher_name}}</div>
                             </li>
                           </ul>
-                          <div class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
+                          <div *ngIf="(!class.isExam)" class="che-action" [ngClass]="{hide : checkIfUserHadAccess('101')}">
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked != 'Y'" [ngClass]="markAttendaceHide(class)" (click)="initiateMarkAttendance(i, class)">Mark Attendance</span>
                             <span class="" style="cursor:pointer" *ngIf="class.is_attendance_marked == 'Y'" (click)="initiateMarkAttendance(i, class)">View Attendance</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateCourseCancelClass(i, class)">Cancel</span>
                             <span class="" *ngIf='getVisibility(class) && class.is_attendance_marked!="Y"' style="cursor:pointer" (click)="initiateRemiderClass(i, class)">Class Reminder</span>
                             <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
+                          </div>
+                          <div *ngIf="(class.isExam)" class="che-action">
+                            <span class="" (click)="markExamAttendance(class)" style="cursor:pointer">Exam Attendance</span>
+                            <span class="" style="cursor:pointer" (click)="notifyExamSchedule(class)">Notify</span>
+                            <span class="" *ngIf="class.isReferenced != 'Y'" style="cursor:pointer" (click)="onCancelExamClick(class)">Cancel Exam</span>
+                            <span class="" *ngIf="class.isReferenced == 'Y'" style="cursor:pointer" (click)="examMarksUpdate(class)">Exam Marks</span>
                           </div>
                         </div>
                       </div>
@@ -1355,6 +1376,294 @@
       </div>
     </div>
 
+  </proctur-widget>
+
+  <!-- Exam Popup Section -->
+  <!-- Exam Popup Section -->
+  <!-- Exam Popup Section -->
+  <!-- Exam Popup Section -->
+  <!-- Exam Popup Section -->
+
+
+  <proctur-widget *ngIf="cancelExamPopUP" [size]="'50%'">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeExamPopup()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
+                    305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
+                    305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+
+    <h2 widget-header *ngIf="isLangInstitute">Batch Exam Schedule ({{cancelExamData.exam_date}} ({{cancelExamData.start_time}} - {{cancelExamData.end_time}})) Cancellation
+    </h2>
+    <h2 widget-header *ngIf="!isLangInstitute">
+      Course Exam Schedule Cancellation
+    </h2>
+
+    <div class="" widget-content>
+      <div class="cancel-Class-Wrapper">
+
+        <div class="row attendance-Note">
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="form-wrapper">
+              <label for="cancelTxtBx">Cancellation Reason</label>
+              <textarea class="side-form-ctrl" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx" name="cancelTxtBx"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="clearfix" style="margin-top: 10px">
+          <aside class="pull-left" style="margin-top: 10px">
+            <div class="field-checkbox-wrapper">
+              <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent" class="form-checkbox" [(ngModel)]="cancelPopUpData.notify">
+              <label for="chkBxNotifyStudent">Notify Students</label>
+            </div>
+          </aside>
+          <aside class="pull-right popup-btn">
+            <input type="button" value="Close" class="btn" (click)="closeExamPopup()">
+            <input type="button" value="Cancel Class" (click)="cancelExamClassSchedule()" class="fullBlue btn">
+          </aside>
+        </div>
+
+      </div>
+    </div>
+
+  </proctur-widget>
+
+  <proctur-widget *ngIf="markExamAttendancePopUp">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeExamAttendance()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
+                  305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
+                  305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+    <h2 widget-header>Mark/Update Exam Attendance</h2>
+
+    <div class="attendanceWrapperCourse" widget-content>
+
+      <div class="row attendance-Note">
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="form-wrapper">
+            <label for="attedNote">Attendance Note</label>
+            <textarea class="side-form-ctrl" [(ngModel)]="attendanceNote" id="attedNote" name="attedNote"></textarea>
+          </div>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6" style="margin-top: 20px;">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" id="msgAbsentees" name="msgAbsentees" class="form-checkbox" [(ngModel)]="smsAbsenteesChkbx">
+            <label for="msgAbsentees">Send Sms For Absentees</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row filterSection">
+        <div class="c-sm-3 c-md-3 c-lg-3">
+          <h3>Total Students : {{studentList.length}} </h3>
+        </div>
+
+        <div class="c-sm-6 c-md-6 c-lg-6">
+
+          <span class="leave">{{leaveCount}}</span>
+          <h5>Leave</h5>
+
+          <span class="absent">{{absentCount}}</span>
+          <h5>Absent</h5>
+
+          <span class="present">{{presentCount}}</span>
+          <h5>Present</h5>
+        </div>
+
+        <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="isProfessional">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkCheckAllChkboxStatusExam()" (change)="markAllPresentExam($event)">
+            <label for="MarkAllPresent">Mark All Present</label>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="attendanceMain table-wrapper-exam">
+        <div class="table-scroll-wrapper exam-Attendance-Table">
+          <div class="table table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th style="font-size: 14px;font-weight: 600;">Student Id</th>
+                  <th style="font-size: 14px;font-weight: 600;">Student Name</th>
+                  <th style="font-size: 14px;font-weight: 600;">Attendance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let s of studentList; let i=index;">
+                  <td>
+                    {{s.student_disp_id}}
+                  </td>
+                  <td>
+                    {{s.student_name}}
+                  </td>
+                  <td>
+                    <div class="btnGroup">
+                      <button id="leaveBtnCourse{{s.student_id}}" [disabled]="(s.dateLi[0].status == 'L' && s.dateLi[0].isStatusModified == 'N')"
+                        (click)="markAttendaceExam($event , s , i)" class="btn" [ngClass]="{'classLeaveBtn' : s.dateLi[0].status == 'L'}">L</button>
+                      <button id="absentBtnCourse{{s.student_id}}" [disabled]="(s.dateLi[0].status == 'L' && s.dateLi[0].isStatusModified == 'N')"
+                        (click)="markAttendaceExam($event , s, i)" class="btn" [ngClass]="{'classAbsentBtn' : s.dateLi[0].status == 'A'}">A</button>
+                      <button id="presentBtnCourse{{s.student_id}}" [disabled]="(s.dateLi[0].status == 'L' && s.dateLi[0].isStatusModified == 'N')"
+                        (click)="markAttendaceExam($event , s, i)" class="btn" [ngClass]="{'classPresentBtn' : s.dateLi[0].status == 'P'}">P</button>
+                    </div>
+                  </td>
+
+                </tr>
+                <tr *ngIf="studentList.length == 0">
+                  <td colspan="3">
+                    No Students Record
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="" widget-footer>
+      <div class="clearfix" style="padding-top: 15px">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeExamAttendance()">
+          <input type="button" value="Mark Attendance" (click)="updateCourseAttendanceExam()" class="fullBlue btn">
+        </aside>
+      </div>
+    </div>
+  </proctur-widget>
+
+  <proctur-widget *ngIf="examMarksPopup">
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeExamMarks()" close-button>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+        <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+          <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+            <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81
+                  305.77) rotate(45)" />
+            <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81
+                  305.77) rotate(45)" />
+          </g>
+          <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+          />
+        </g>
+      </svg>
+    </span>
+    <h2 widget-header>Update Student(s) Exam Marks - {{examData.exam_desc}}</h2>
+
+    <div class="attendanceWrapperCourse" widget-content>
+
+      <div class="row filterSection">
+        <div class="c-sm-3 c-md-3 c-lg-3">
+          <h3>Total Students : {{studentList.length}} </h3>
+        </div>
+
+        <!-- <div class="c-sm-6 c-md-6 c-lg-6">
+
+          <span class="leave">{{leaveCount}}</span>
+          <h5>Leave</h5>
+
+          <span class="absent">{{absentCount}}</span>
+          <h5>Absent</h5>
+
+          <span class="present">{{presentCount}}</span>
+          <h5>Present</h5>
+        </div> -->
+
+      </div>
+
+      <div class="attendanceMain">
+        <div class="table-scroll-wrapper">
+          <div class="table table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    <div class="field-checkbox-wrapper">
+                      <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkForMArks()" (change)="markAllCheckBoxClick($event)">
+                      <label></label>
+                    </div>
+                  </th>
+                  <th style="font-size: 14px;font-weight: 600;">Student Id</th>
+                  <th style="font-size: 14px;font-weight: 600;">Student Name</th>
+                  <th style="font-size: 14px;font-weight: 600;">Standard/Class</th>
+                  <th style="font-size: 14px;font-weight: 600;">Marks Obtained</th>
+                  <th style="font-size: 14px;font-weight: 600;">Attendance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let s of studentList; let i=index;">
+                  <td>
+                    <div class="field-checkbox-wrapper">
+                      <input type="checkbox" class="form-checkbox" [(ngModel)]="s.assigned">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>
+                    {{s.student_disp_id}}
+                  </td>
+                  <td>
+                    {{s.student_name}}
+                  </td>
+                  <td>
+                    {{s.student_class}}
+                  </td>
+                  <td>
+                    <div class="form-wrapper" style="width:50px;">
+                      <input type="text" class="side-form-ctrl" [(ngModel)]="s.marks_obtained">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="btnGroup">
+                      <button id="leaveBtnCourse{{s.student_id}}" [disabled]="(s.attendance == 'L' && s.isAttendanceUpdated == 'N')" (click)="markSheetExam($event , s )"
+                        class="btn" [ngClass]="{'classLeaveBtn' : s.attendance == 'L'}">L</button>
+                      <button id="absentBtnCourse{{s.student_id}}" [disabled]="(s.attendance == 'L' && s.isAttendanceUpdated == 'N')" (click)="markSheetExam($event , s )"
+                        class="btn" [ngClass]="{'classAbsentBtn' : s.attendance == 'A'}">A</button>
+                      <button id="presentBtnCourse{{s.student_id}}" [disabled]="(s.attendance == 'L' && s.isAttendanceUpdated == 'N')" (click)="markSheetExam($event , s)"
+                        class="btn" [ngClass]="{'classPresentBtn' : s.attendance == 'P'}">P</button>
+                    </div>
+                  </td>
+
+                </tr>
+                <tr *ngIf="studentList.length == 0">
+                  <td colspan="6">
+                    No Students Record
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="" widget-footer>
+      <div class="clearfix" style="padding-top: 15px">
+        <aside class="pull-right popup-btn">
+          <input type="button" value="Cancel" class="btn" (click)="closeExamMarks()">
+          <input type="button" value="Update Marks" (click)="updateMarksOnServer('N')" class="fullBlue btn">
+          <input type="button" value="Update All And Send SMS" (click)="updateMarksOnServer('Y')" class="fullBlue btn">
+        </aside>
+      </div>
+    </div>
   </proctur-widget>
 
 </section>
