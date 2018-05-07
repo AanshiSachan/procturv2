@@ -26,12 +26,15 @@ import { ExamService } from '../../services/report-services/exam.service';
 import { postSMSService } from '../../services/report-services/post-sms.service';
 import { SharedModule } from '../shared/shared.module';
 import { postEmailService } from '../../services/report-services/post-email.service';
-import{searchPipe} from '../shared/pipes/searchBarPipe';
-import{arraySortPipe} from '../shared/pipes/sortBarPipe';
+import { searchPipe } from '../shared/pipes/searchBarPipe';
+import { arraySortPipe } from '../shared/pipes/sortBarPipe';
 import { AttendanceReportServiceService } from '../../services/attendance-report/attendance-report-service.service';
 import { BiometricComponent } from './biometric/biometric.component';
-import {BiometricServiceService} from '../../services/biometric-service/biometric-service.service';
+import { BiometricServiceService } from '../../services/biometric-service/biometric-service.service';
 import { ReportWidgetComponent } from './report-widget/report-widget.component';
+
+import { GetFeeService } from '../../services/report-services/fee-services/getFee.service';
+import { PostFeeService } from '../../services/report-services/fee-services/postFee.service';
 
 @NgModule({
     imports: [
@@ -61,7 +64,7 @@ import { ReportWidgetComponent } from './report-widget/report-widget.component';
         arraySortPipe,
         BiometricComponent,
         ReportWidgetComponent,
-        
+
     ],
     entryComponents: [
     ],
@@ -71,8 +74,9 @@ import { ReportWidgetComponent } from './report-widget/report-widget.component';
         AttendanceReportServiceService,
         getEmailService,
         postEmailService,
-        BiometricServiceService
-
+        BiometricServiceService,
+        GetFeeService,
+        PostFeeService  
     ],
     exports: [
         FilterPipe

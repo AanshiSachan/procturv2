@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ColumnSetting } from '../../shared/custom-table/layout.model';
+import { ColumnData } from '../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
+import { LoginService } from '../../../services/login-services/login.service';
+import { AppComponent } from '../../../app.component';
+
+import { GetFeeService } from '../../../services/report-services/fee-services/getFee.service';
+import { PostFeeService } from '../../../services/report-services/fee-services/postFee.service';
 
 @Component({
   selector: 'app-fee-report',
@@ -8,7 +13,9 @@ import { ColumnSetting } from '../../shared/custom-table/layout.model';
 })
 export class FeeReportComponent implements OnInit {
 
-  feeSettings: ColumnSetting[] = [
+  isProfessional: boolean = false;
+
+  feeSettings: ColumnData[] = [
     { primaryKey: 'id', header: 'ID' },
     { primaryKey: 'name', header: 'Name' },
     { primaryKey: 'total_fee', header: 'Total Fee' },
@@ -20,17 +27,69 @@ export class FeeReportComponent implements OnInit {
     { primaryKey: 'balance', header: 'Amount Still Payable' },
   ];
 
-  feeDataSource:any[] = [];
+  feeDataSource: any[] = [];
 
-  constructor() { 
+  courseFetchForm:any = {
+    standard_id: -1,
+    subject_id: -1,
+    batch_id: -1
+  }
+
+  constructor(
+    private login: LoginService,
+    private appC: AppComponent, 
+    private getter: GetFeeService,
+    private putter: PostFeeService
+  ) {
     this.switchActiveView('fee');
   }
 
   ngOnInit() {
+    this.isProfessional = sessionStorage.getItem('inst_type') == 'LANG';
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
+
+    this.fetchPrefillDetails();
+
+    this.fetchFeeReportData();
+
   }
 
 
-  switchActiveView(id){
+  fetchPrefillDetails() {
+    this.getBatchCourseDetails();
+  }
+
+  fetchFeeReportData() {
+
+  }
+
+  getBatchCourseDetails() {
+    if (this.isProfessional) {
+      this.updateMasterCourseBatch();
+    }
+    else {
+
+    }
+  }
+
+
+  updateMasterCourseBatch() {
+    this.getter.getBatchDetails(this.courseFetchForm).subscribe(
+      res => {},
+      err => {}
+    )
+  }
+
+
+
+
+
+
+
+
+
+  switchActiveView(id) {
     document.getElementById('home').classList.remove('active');
     document.getElementById('attendance').classList.remove('active');
     document.getElementById('sms').classList.remove('active');
@@ -40,7 +99,7 @@ export class FeeReportComponent implements OnInit {
     document.getElementById('time').classList.remove('active');
     document.getElementById('email').classList.remove('active');
     document.getElementById('profit').classList.remove('active');
-    switch(id){
+    switch (id) {
       case 'home': { document.getElementById('home').classList.add('active'); break; }
       case 'attendance': { document.getElementById('attendance').classList.add('active'); break; }
       case 'sms': { document.getElementById('sms').classList.add('active'); break; }
@@ -48,7 +107,7 @@ export class FeeReportComponent implements OnInit {
       case 'exam': { document.getElementById('exam').classList.add('active'); break; }
       case 'report': { document.getElementById('report').classList.add('active'); break; }
       case 'time': { document.getElementById('time').classList.add('active'); break; }
-      case 'email': { document.getElementById('email').classList.add('active');  break; }
+      case 'email': { document.getElementById('email').classList.add('active'); break; }
       case 'profit': { document.getElementById('profit').classList.add('active'); break; }
     }
   }
