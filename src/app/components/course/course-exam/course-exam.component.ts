@@ -634,32 +634,31 @@ export class CourseExamComponent implements OnInit {
   }
 
   addNewExamSubjectCourse(index) {
-    if (this.viewList[index].coursetableAdder.batch_id != -1 && this.viewList[index].coursetableAdder.total_marks > 0) {
-      let obj: any = {};
-      obj.total_marks = this.viewList[index].coursetableAdder.total_marks;
-      obj.class_schedule_id = '0';
-      let selectedSubject = this.getSubjectName(this.viewList[index].subjectList, this.viewList[index].coursetableAdder.batch_id);
-      obj.subject_name = selectedSubject.subject_name;
-      obj.batch_id = this.viewList[index].coursetableAdder.batch_id;
-      obj.otherData = selectedSubject;
-      this.viewList[index].courseTableList.push(obj);
-      if (this.viewList[index].coursetableAdder.length > 1) {
-        this.viewList[index].courseModelAdder.total_marks += Number(this.viewList[index].coursetableAdder.total_marks);
-      }
-      this.viewList[index].coursetableAdder = {
-        batch_id: -1,
-        total_marks: 0
-      };
-    } else {
-      if (this.viewList[index].coursetableAdder.batch_id != -1) {
-        this.messageNotifier('error', 'Error', 'Please Provide Subject');
-        return;
-      }
+    if (this.viewList[index].coursetableAdder.batch_id == -1) {
+      this.messageNotifier('error', 'Error', 'Please Provide Subject');
+      return;
+    };
+    if (this.viewList[index].selectedCourseList.is_exam_grad_feature == '0') {
       if (this.viewList[index].coursetableAdder.total_marks == 0) {
         this.messageNotifier('error', 'Error', 'Please Provide Marks');
         return;
       }
     }
+    let obj: any = {};
+    obj.total_marks = this.viewList[index].coursetableAdder.total_marks;
+    obj.class_schedule_id = '0';
+    let selectedSubject = this.getSubjectName(this.viewList[index].subjectList, this.viewList[index].coursetableAdder.batch_id);
+    obj.subject_name = selectedSubject.subject_name;
+    obj.batch_id = this.viewList[index].coursetableAdder.batch_id;
+    obj.otherData = selectedSubject;
+    this.viewList[index].courseTableList.push(obj);
+    if (this.viewList[index].coursetableAdder.length > 1) {
+      this.viewList[index].courseModelAdder.total_marks += Number(this.viewList[index].coursetableAdder.total_marks);
+    }
+    this.viewList[index].coursetableAdder = {
+      batch_id: -1,
+      total_marks: 0
+    };
   }
 
   getSubjectName(data, id) {
