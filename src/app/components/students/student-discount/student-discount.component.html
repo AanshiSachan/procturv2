@@ -21,7 +21,7 @@
 
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
 
-                <div class="field-wrapper has-value">
+                <div class="field-wrapper" [ngClass]="{'has-value': discountApplyForm.type != ''}">
                     <select id="dtype" name="dtype" [(ngModel)]="discountApplyForm.type" class="form-ctrl">
                         <option value="amount">Amount</option>
                         <option value="percentage">Percentage</option>
@@ -29,12 +29,12 @@
                     <label for="dtype">Discount Type*</label>
                 </div>
 
-                <div class="field-wrapper">
+                <div class="field-wrapper"  [ngClass]="{'has-value': discountApplyForm.value != ''}">
                     <input type="text" OnlyNumber="true" id="ref" class="form-ctrl" name="ref" [(ngModel)]="discountApplyForm.value" />
                     <label for="ref">Discount Value*</label>
                 </div>
 
-                <div class="field-wrapper">
+                <div class="field-wrapper"  [ngClass]="{'has-value': discountApplyForm.reason != ''}">
                     <input type="text" value="" id="rema" class="form-ctrl" name="rema" [(ngModel)]="discountApplyForm.reason" />
                     <label for="rema">Discount Reason*</label>
                 </div>
