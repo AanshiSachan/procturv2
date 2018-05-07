@@ -2617,12 +2617,55 @@ export class AdminHomeComponent implements OnInit {
       (res: any) => {
         this.addKeyInData(res.otherSchd, "isExam", true);
         this.schedStat.otherSchd = this.schedStat.otherSchd.concat(res.otherSchd);
-        console.log(this.schedStat);
+        this.schedStat.otherSchd = this.sortDataByDateTime(this.schedStat.otherSchd);
       },
       err => {
         console.log(err);
       }
     )
+  }
+
+  sortDataByDateTime(data) {
+    let arr: any = data;
+    this.addKeyInData(arr, 'timeStamp', '');
+    arr.map(element => {
+      let hr = element.start_time.split(':')[0] + " " + element.start_time.split(':')[1].split(' ')[1];
+      let min = element.start_time.split(':')[1].split(' ')[0];
+      let t: any;
+      if (element.isExam) {
+        t = moment(element.exam_date).format('YYYY-MM-DD') + " " + this.convertToFullTimeFormat(hr, min);
+      } else {
+        t = moment(element.class_date).format('YYYY-MM-DD') + " " + this.convertToFullTimeFormat(hr, min);
+      }
+      element.timeStamp = moment(t, "YYYY-MM-DD HH:mm");
+    });
+    arr.sort(function (a, b) {
+      return moment(a.timeStamp).unix() - moment(b.timeStamp).unix();
+    })
+    return arr;
+  }
+
+  convertToFullTimeFormat(hr, min) {
+    let result: any = "";
+    let hour: any;
+    let time = hr.split(' ');
+    if (time[1] == "AM") {
+      if (time[0] == "12") {
+        hour = "00";
+      } else {
+        hour = time[0];
+      }
+      result = hour + ":" + min;
+      return result;
+    } else {
+      if (time[0] != "12") {
+        hour = Number(time[0]) + 12;
+      } else {
+        hour = Number(time[0]);
+      }
+      result = hour + ":" + min;
+      return result;
+    }
   }
 
   addKeyInData(data, keyname, value) {
