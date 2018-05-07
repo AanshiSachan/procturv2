@@ -1,10 +1,10 @@
-export class ColumnSetting {
+export class ColumnData {
     primaryKey: string;
     header?: string;
     format?: string;
     alternativeKeys?: string[];
 }
-export class ColumnMap {
+export class ColumnMapData {
     primaryKey: string;
     private _header: string;
     private _format: string;
