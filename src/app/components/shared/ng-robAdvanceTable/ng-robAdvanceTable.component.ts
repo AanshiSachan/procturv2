@@ -1,10 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges, ElementRef, Renderer2, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-<<<<<<< HEAD:src/app/components/shared/custom-checkbox-table/checkbox-table-layout.component.ts
-import { ColumnSetting, ColumnMap } from './checkbox-layout.model';
-
-=======
 import { ColumnData, ColumnMapData } from './ng-robAdvanceTable.model';
->>>>>>> ET-Phase3:src/app/components/shared/ng-robAdvanceTable/ng-robAdvanceTable.component.ts
 import * as moment from 'moment';
 
 @Component({
