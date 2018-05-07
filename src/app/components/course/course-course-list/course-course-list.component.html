@@ -185,10 +185,10 @@
           <div class="c-sm-2 c-md-2 c-lg-2 btnPadding">
             <button class="btn" (click)="getAllStudentList()">Go</button>
           </div>
-          <div class="pull-right serchBox" *ngIf="studentList.length > 0">
+          <div class="pull-right serchBox">
             <div class="search-filter-wrapper">
               <input #searchVal type="text" class="normal-field pull-right" placeholder="Search" style="font-size:12px;margin-right: 25%;"
-                id="searchStudent" name="searchData" (keyup)="searchStudent(searchVal) ">
+                id="searchStudent" name="searchData" [(ngModel)]="searchData">
             </div>
           </div>
         </div>
@@ -223,7 +223,7 @@
                 </th>
               </thead>
               <tbody>
-                <tr id="row{{i}}" *ngFor="let row of studentList; let i = index; trackBy: i;">
+                <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
                   <td>
                     <div class="field-checkbox-wrapper">
                       <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">

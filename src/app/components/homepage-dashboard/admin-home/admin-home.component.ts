@@ -194,7 +194,19 @@ export class AdminHomeComponent implements OnInit {
   selectedViewDet: any;
   viewDetTable: any = [];
   searchData: string = "";
-  allChecked: boolean = true;
+  allChecked: boolean = true; u
+  cancelExamPopUP: boolean = false;
+  tempData: any = [];
+  cancelPopUpData = {
+    reason: "",
+    notify: false
+  };
+  markExamAttendancePopUp: boolean = false;
+  smsAbsenteesChkbx: boolean = false;
+  examMarksPopup: boolean = false;
+  examData: any = "";
+  examGradeFeature: any;
+  gradesList: any = [];
 
   /* ===================================================================================== */
   /* ===================================================================================== */
@@ -210,6 +222,7 @@ export class AdminHomeComponent implements OnInit {
   /* ===================================================================================== */
   /* ===================================================================================== */
   ngOnInit() {
+    this.examGradeFeature = JSON.parse(sessionStorage.getItem('institute_info')).is_exam_grad_feature;
     this.permissionArray = sessionStorage.getItem('permissions');
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.fetchWidgetPrefill();
@@ -2589,17 +2602,6 @@ export class AdminHomeComponent implements OnInit {
 
   ////Exam Schedule Section
 
-  cancelExamPopUP: boolean = false;
-  tempData: any = [];
-  cancelPopUpData = {
-    reason: "",
-    notify: false
-  };
-  markExamAttendancePopUp: boolean = false;
-  smsAbsenteesChkbx: boolean = false;
-  examMarksPopup: boolean = false;
-  examData: any = "";
-
   getAllExamsAndClass(obj) {
     this.widgetService.fetchSchedWidgetData(obj).subscribe(data => {
       this.grid.refreshItems().layout();
@@ -2913,11 +2915,25 @@ export class AdminHomeComponent implements OnInit {
     this.tempData = data;
     this.examMarksPopup = true;
     this.fetchStudentDetails(data);
+    if (this.examGradeFeature == 1) {
+      this.getAllExamGrades();
+    }
   }
 
   closeExamMarks() {
     this.tempData = "";
     this.examMarksPopup = false;
+  }
+
+  getAllExamGrades() {
+    this.widgetService.getExamGrades().subscribe(
+      res => {
+        this.gradesList = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
   }
 
   fetchStudentDetails(data) {
@@ -2957,9 +2973,15 @@ export class AdminHomeComponent implements OnInit {
     if (event.target.innerText == "L") {
       data.attendance = "L";
       data.isAttendanceUpdated = "Y";
+      if (this.examGradeFeature == 1) {
+        data.grade_id = "-1";
+      }
     } else if (event.target.innerText == "A") {
       data.attendance = "A";
       data.isAttendanceUpdated = "Y";
+      if (this.examGradeFeature == 1) {
+        data.grade_id = "-1";
+      }
     } else {
       data.attendance = "P";
       data.isAttendanceUpdated = "Y";
