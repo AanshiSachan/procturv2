@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
+
 import { TableLayoutComponent } from './custom-table/table-layout.component';
 import { FormatCellPipe } from './custom-table/format-cell.pipe';
 import { StyleCellDirective } from './custom-table/style-cell.directive';
@@ -16,6 +17,10 @@ import { RobTableCellPipe } from './ng-robTable/ng-robTable-format-cell.pipe';
 import { RobTableCellDirective } from './ng-robTable/ng-robTable-cell.directive';
 import { CommaSeprationAmount } from './pipes/commaSepratorPipe';
 
+
+/* Advanced Table Declaration */
+import { RobAdvanceTableComponent } from './ng-robAdvanceTable/ng-robAdvanceTable.component';
+
 import { ProcturPopUpComponent } from './proctur-popup/proctur-popup.component';
 import { SearchPipe } from './pipes/tablesSearchPipe';
 
@@ -29,6 +34,7 @@ import { SearchPipe } from './pipes/tablesSearchPipe';
     declarations: [
         TableLayoutComponent,
         RobTableComponent,
+        RobAdvanceTableComponent,
         FormatCellPipe,
         RobTableCellPipe,
         StyleCellDirective,
@@ -45,6 +51,7 @@ import { SearchPipe } from './pipes/tablesSearchPipe';
         CommonModule,
         TableLayoutComponent,
         RobTableComponent,
+        RobAdvanceTableComponent,
         PaginationComponent,
         QuickFilterComponent,
         AppLoaderComponent,
