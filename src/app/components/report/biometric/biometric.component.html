@@ -354,7 +354,7 @@
 
                     <tr *ngFor="let i of studentsDisplayData">
                       <td>
-                        {{i.user_id}}
+                        {{i.userid}}
                       </td>
                       <td>
                         {{i.name}}
@@ -461,7 +461,16 @@
             </span>
 
             <div popup-header class="popup-header-content" *ngIf="showMonth">
-              <h2 style=" font-size:20px; ">Previous Month records</h2>
+              <h2 style=" font-size:20px; ">Previous Month:
+                <br>
+                <span *ngIf="studentName!=undefined" class="userDisplay">{{studentName}}</span>
+                <span *ngIf="teacherName!=undefined" class="userDisplay">{{teacherName}}</span>
+                <span *ngIf="customName!=undefined" class="userDisplay">{{customName}}</span>
+                <br>
+                <span *ngIf="studentId!=undefined" class="userIdDisplay">#{{studentId}}</span>
+                <span *ngIf="teacherId!=undefined" class="userIdDisplay">#{{teacherId}}</span>
+                <span *ngIf="customId!=undefined" class="userIdDisplay">#{{customId}}</span>
+              </h2>
 
             </div>
             <div popup-content class="main-student-table" *ngIf="showMonth">
@@ -518,7 +527,16 @@
 
 
             <div popup-header class="popup-header-content" *ngIf="showRange">
-              <h2 style=" font-size:20px;">Select Range</h2>
+              <h2 style=" font-size:20px;">Select Range:
+                <br>
+                <span *ngIf="studentName!=undefined" class="userDisplay">{{studentName}}</span>
+                <span *ngIf="teacherName!=undefined" class="userDisplay">{{teacherName}}</span>
+                <span *ngIf="customName!=undefined" class="userDisplay">{{customName}}</span>
+                <br>
+                <span *ngIf="studentId!=undefined" class="userIdDisplay">#{{studentId}}</span>
+                <span *ngIf="teacherId!=undefined" class="userIdDisplay">#{{teacherId}}</span>
+                <span *ngIf="customId!=undefined" class="userIdDisplay">#{{customId}}</span>
+              </h2>
             </div>
             <div popup-content class="main-student-table" *ngIf="showRange">
               <div class="c-lg-4">
@@ -587,7 +605,16 @@
 
             </div>
             <div popup-header class="popup-header-content" *ngIf="showWeek">
-              <h2 style=" font-size:20px; ">Previous Week Records <span></span> </h2>
+              <h2 style=" font-size:20px; ">Previous Week Records:
+                <br>
+                <span *ngIf="studentName!=undefined" class="userDisplay">{{studentName}}</span>
+                <span *ngIf="teacherName!=undefined" class="userDisplay">{{teacherName}}</span>
+                <span *ngIf="customName!=undefined" class="userDisplay">{{customName}}</span>
+                <br>
+                <span *ngIf="studentId!=undefined" class="userIdDisplay">#{{studentId}}</span>
+                <span *ngIf="teacherId!=undefined" class="userIdDisplay">#{{teacherId}}</span>
+                <span *ngIf="customId!=undefined" class="userIdDisplay">#{{customId}}</span>
+              </h2>
             </div>
             <div popup-content class="main-student-table" *ngIf="showWeek">
               <a class="fa fa-file-excel-o excel" style="font-size:30px; padding-bottom:10px; float:right;display:inline-block;" (click)="DownloadJsonToCsv()"></a>

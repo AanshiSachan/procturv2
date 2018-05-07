@@ -82,12 +82,17 @@ export class BiometricComponent implements OnInit {
     to_date: "",
     user_id: ""
   }
-  name: string = "";
+  studentName: string = "";
+  teacherName:string = "";
+  customName:string = "";
   findName: any[] = [];
   masterCoursePro: any[] = [];
   batchPro: any[] = [];
   coursePro: any[] = [];
   nameOfPeople : any[]=[];
+  studentId:string="";
+  teacherId:string="";
+  customId:string="";
 
   @ViewChild('biometricTable') biometricTable: ElementRef;
   @ViewChild('xlsDownloader') xlsDownloader: ElementRef;
@@ -289,6 +294,14 @@ export class BiometricComponent implements OnInit {
 
 
   viewOlderRecords(i) {
+  
+    this.studentName = i.student_name;
+    this.teacherName = i.teacher_name;
+    this.customName = i.name;
+    this.studentId = i.student_disp_id;
+    this.teacherId = i.teacher_id;
+    this.customId = i.userid;
+    console.log(this.teacherName);
     this.getAllData.user_id = i.user_id;
     this.addReportPopUp = true;
     this.dataStatus = true;
@@ -437,11 +450,7 @@ export class BiometricComponent implements OnInit {
       this.showWeek = true;
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {
-          console.log(this.studentsData);
-          this.nameOfPeople=this.studentsData.map(
-            data => 
-            data.student_name
-          )
+          
           this.isRippleLoad = false;
           if (data != null) {
             this.addAcademicPopUp = true;
