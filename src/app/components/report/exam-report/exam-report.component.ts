@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from '../../../services/login-services/login.service';
 import { ColumnSetting } from '../../shared/custom-table/layout.model';
 import { ExamService } from '../../../services/report-services/exam.service';
 import { AppComponent } from '../../../app.component';
@@ -35,7 +36,8 @@ export class ExamReportComponent implements OnInit {
     { primaryKey: 'doj', header: 'Joining Date' }
   ]
 
-  constructor(private examdata: ExamService, private appC: AppComponent) {
+  constructor(private examdata: ExamService, private appC: AppComponent,private login: LoginService,
+  ) {
     this.switchActiveView('exam');
   }
 
@@ -49,6 +51,9 @@ export class ExamReportComponent implements OnInit {
   ngOnInit() {
     this.fetchExamData();
     this.pageIndex = 1;
+    this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
+    this.login.changeNameStatus(sessionStorage.getItem('name'));
+    
   }
   /*==============================================================================
   ======================================================================================= */

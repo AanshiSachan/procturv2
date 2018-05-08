@@ -20,23 +20,24 @@
         <div class="row">
 
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
-
                 <div class="field-wrapper" [ngClass]="{'has-value': discountApplyForm.type != ''}">
+                    <label for="dtype">Discount Type*</label>
+
                     <select id="dtype" name="dtype" [(ngModel)]="discountApplyForm.type" class="form-ctrl">
                         <option value="amount">Amount</option>
                         <option value="percentage">Percentage</option>
                     </select>
-                    <label for="dtype">Discount Type*</label>
                 </div>
-
-                <div class="field-wrapper"  [ngClass]="{'has-value': discountApplyForm.value != ''}">
-                    <input type="text" OnlyNumber="true" id="ref" class="form-ctrl" name="ref" [(ngModel)]="discountApplyForm.value" />
+                <div class="field-wrapper" [ngClass]="{'has-value': discountApplyForm.value != ''}">
                     <label for="ref">Discount Value*</label>
+
+                    <input type="text" OnlyNumber="true" id="ref" class="form-ctrl" name="ref" [(ngModel)]="discountApplyForm.value" />
                 </div>
 
-                <div class="field-wrapper"  [ngClass]="{'has-value': discountApplyForm.reason != ''}">
-                    <input type="text" value="" id="rema" class="form-ctrl" name="rema" [(ngModel)]="discountApplyForm.reason" />
+                <div class="field-wrapper" [ngClass]="{'has-value': discountApplyForm.reason != ''}">
                     <label for="rema">Discount Reason*</label>
+
+                    <input type="text" value="" id="rema" class="form-ctrl" name="rema" [(ngModel)]="discountApplyForm.reason" />
                 </div>
 
                 <div style="margin: 15px 0px">
@@ -45,24 +46,22 @@
 
                 <div class="" style="margin-top:10px;">
                     <div class="field-radio-wrapper">
-                        <input class="form-radio" type="radio" name="discount" value="all" id='r1' [(ngModel)]="discountApplyForm.state" checked>
                         <label for="r1">Equal in all installment</label>
+
+                        <input class="form-radio" type="radio" name="discount" value="all" id='r1' [(ngModel)]="discountApplyForm.state" checked>
                     </div>
 
                     <div class="field-radio-wrapper">
-                        <input class="form-radio" type="radio" name="discount" value="last" id='r2' [(ngModel)]="discountApplyForm.state">
                         <label for="r2">In last installment</label>
+
+                        <input class="form-radio" type="radio" name="discount" value="last" id='r2' [(ngModel)]="discountApplyForm.state">
                     </div>
                 </div>
-
             </div>
             <div class="c-lg-6 c-md-6 c-sm-6 c-xs-6">
-
             </div>
         </div>
-
     </div>
-
     <div class="" popup-footer>
         <div class="clearfix">
             <aside class="pull-right popup-btn">
