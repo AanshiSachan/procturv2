@@ -15,8 +15,23 @@ p {
 .caret{
     font-family: FontAwesome;
 }
+.excel{
+    font-family: FontAwesome;
+}
+.userDisplay{
+    font-weight:100;
+    font-size:19px;
+    color:blue;
+}
+.userIdDisplay{
+    font-weight: 80;
+    font-size:13px;
+    color:blue;
+}
 .searchName{
-    padding: 13px;
+    height:35px;
+    width:200px;
+    padding: 7px 10px;
     float: right;
     margin-bottom: 5px;
     margin-top:-30px;
@@ -439,11 +454,13 @@ p {
     }
 }
 
-.common {
-    heigth: 400px;
+.common-field {
+    margin-top:0px;
+    height: 500px;
     background-color: #efefef;
     .student-table {
-        height: 380px;
+        height: 450px;
+        overflow: hidden;
         ::-webkit-scrollbar {
             display: block;
         }
@@ -465,10 +482,10 @@ p {
         }
         .common-elements {
             position: relative;
-            top: 10%;
+            top: 2%;
             left: 10px;
             bottom: 10%;
-            width: 98%;
+            width: 99%;
             height: 380px;
             overflow-y: auto;
         }
