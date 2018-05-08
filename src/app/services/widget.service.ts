@@ -517,4 +517,12 @@ export class WidgetService {
         )
     }
 
+    getExamGrades() {
+        let url = this.baseUrl + "/api/v1/grade_manager/getDetail/" + this.institute_id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
 }

@@ -1604,7 +1604,10 @@
                   <th style="font-size: 14px;font-weight: 600;">Student Id</th>
                   <th style="font-size: 14px;font-weight: 600;">Student Name</th>
                   <th style="font-size: 14px;font-weight: 600;">Standard/Class</th>
-                  <th style="font-size: 14px;font-weight: 600;">Marks Obtained</th>
+                  <th style="font-size: 14px;font-weight: 600;">
+                    <span *ngIf="examGradeFeature == 0">Marks Obtained</span>
+                    <span *ngIf="examGradeFeature == 1">Grades Obtained</span>
+                  </th>
                   <th style="font-size: 14px;font-weight: 600;">Attendance</th>
                 </tr>
               </thead>
@@ -1625,9 +1628,20 @@
                   <td>
                     {{s.student_class}}
                   </td>
-                  <td>
+                  <td *ngIf="examGradeFeature == 0">
                     <div class="form-wrapper" style="width:50px;">
                       <input type="text" class="side-form-ctrl" [(ngModel)]="s.marks_obtained">
+                    </div>
+                  </td>
+                  <td *ngIf="examGradeFeature == 1">
+                    <div class="form-wrapper" style="width:70px;">
+                      <select id="" class="side-form-ctrl" [(ngModel)]="s.grade_id" name="grade_id" [disabled]="(s.attendance == 'L' && s.isAttendanceUpdated == 'N') || (s.attendance == 'L') || (s.attendance == 'A')"
+                        style="padding: 0px 0px">
+                        <option value="-1"></option>
+                        <option [value]="time.grade_id" *ngFor="let time of gradesList">
+                          {{time.grade}}
+                        </option>
+                      </select>
                     </div>
                   </td>
                   <td>
