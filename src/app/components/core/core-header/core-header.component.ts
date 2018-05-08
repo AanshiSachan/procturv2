@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import 'rxjs/add/operator/map'
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
-import { Subscription, } from 'rxjs';
+import { Subscription } from 'rxjs';
 import 'rxjs/Rx';
 import { AppComponent } from '../../../app.component';
 import { FetchprefilldataService } from '../../../services/fetchprefilldata.service';
@@ -172,7 +172,7 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divSettingTag').classList.remove('hide');
     document.getElementById('divGeneralSettingTag').classList.remove('hide');
     document.getElementById('divManageFormTag').classList.remove('hide');
-    document.getElementById('divAreaAndMap').classList.remove('hide');
+    document.getElementById('divGradesTag').classList.remove('hide');
     if (this.isProfessional) {
       document.getElementById('divSlotTag').classList.remove('hide');
     }
@@ -196,6 +196,7 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divClassRoomTag').classList.add('hide');
     document.getElementById('divManageTag').classList.add('hide');
     document.getElementById('divAcademicTag').classList.add('hide');
+    document.getElementById('divGradesTag').classList.remove('hide');
   }
 
   hideAllFields() {
@@ -210,6 +211,7 @@ export class CoreHeaderComponent implements OnInit {
     document.getElementById('divGeneralSettingTag').classList.add('hide');
     document.getElementById('divManageFormTag').classList.add('hide');
     document.getElementById('divAreaAndMap').classList.add('hide');
+    document.getElementById('divGradesTag').classList.remove('hide');
   }
 
   hasEnquiryAccess(): boolean {
