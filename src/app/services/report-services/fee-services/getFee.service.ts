@@ -63,4 +63,17 @@ export class GetFeeService {
 
     }
 
+
+    getinstallmentData(): Observable<any> {
+
+        let url = this.baseUrl + '/api/v1/studentWise/fee/fetchInstallments/' + this.institute_id;
+
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+
+    }
+
+
 }

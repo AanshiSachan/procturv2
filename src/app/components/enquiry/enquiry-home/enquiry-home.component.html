@@ -74,13 +74,6 @@
               <div class="search-filter-wrapper" id="adFilterExitVisible">
                 <input #search type="text" class="normal-field" placeholder="Search Name/Contact/Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;"
                   [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
-                <!-- followup date handler -->
-                <!-- <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="searchBarDate" style="cursor: pointer;" (keyup.enter)="searchDatabase()"
-                    name="followupdate" bsDatepicker readonly="true" />
-                  <label for="followupdate">Follow up Date</label>
-                  <span class="date-clear" name="followupdate" (click)="clearSearchDate()">clear</span>
-                </div> -->
                 <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
               </div>
             </div>

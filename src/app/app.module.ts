@@ -5,7 +5,7 @@ import { CoreHeaderComponent } from './components/core/core-header/core-header.c
 import { SlotComponent } from './components/slot/slot.component';
 
 /* Modules */
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -91,7 +91,8 @@ import {FilterPipe} from './components/event-managment/filterpipe';
     SlotApiService,
     CityAreaService,
     ClassRoomService,
-    EventManagmentService
+    EventManagmentService,
+    Title
   ],
   bootstrap: [AppComponent]
 })
