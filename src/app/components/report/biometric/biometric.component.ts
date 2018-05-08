@@ -193,9 +193,8 @@ export class BiometricComponent implements OnInit {
       }
     )
   }
+  
   fetchDataByName() {
-
-
     this.showTeacherButton = true;
     if (this.getData.user_Type == 1) {
       this.studentsDisplayData = [];
