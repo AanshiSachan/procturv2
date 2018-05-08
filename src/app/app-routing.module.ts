@@ -94,14 +94,14 @@ import { EventManagmentComponent } from './components/event-managment/event-mana
                     canLoad: [AuthGuard]
                 },
                 {
-                 path:'classroom',
-                 component:ClassRoomComponent,
-                 canLoad:[AuthGuard]
+                    path: 'classroom',
+                    component: ClassRoomComponent,
+                    canLoad: [AuthGuard]
                 },
                 {
-                path:'eventManagment',
-                component:EventManagmentComponent,
-                canLoad:[AuthGuard]
+                    path: 'eventManagment',
+                    component: EventManagmentComponent,
+                    canLoad: [AuthGuard]
                 },
                 {
                     path: 'academic',
@@ -119,6 +119,10 @@ import { EventManagmentComponent } from './components/event-managment/event-mana
                     path: 'areaCity',
                     component: CityAreaMapComponent,
                     // canLoad: [AuthGuard]
+                },
+                {
+                    path: 'manage',
+                    loadChildren: 'app/components/users-management/users-management.module#UserManagementModule',
                 },
                 { path: 'comingsoon', component: ComingSoonComponent },
                 { path: '**', component: ErrorComponent },
