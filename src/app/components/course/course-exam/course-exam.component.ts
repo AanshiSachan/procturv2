@@ -196,7 +196,7 @@ export class CourseExamComponent implements OnInit {
       return;
     }
     let type: string = "";
-    if (this.examScheduleData.otherSchd > 0) {
+    if (this.examScheduleData.otherSchd == 0 || this.examSchedule.otherSchd == null) {
       type = "post";
     } else {
       type = "put";

@@ -5,10 +5,14 @@ import { BsDatepickerModule } from '../../../../assets/imported_modules/ngx-boot
 import { SharedModule } from '../../shared/shared.module';
 import { RoleManagementComponent } from './role-management.component';
 import { RoleManagementRouting } from './role-management.routing';
+import { RoleService } from '../../../services/user-management/role.service';
+import { AddEditRoleComponent } from './add-edit-role/add-edit-role.component';
+import { PickListModule } from 'primeng/primeng';
 
 @NgModule({
     declarations: [
-        RoleManagementComponent
+        RoleManagementComponent,
+        AddEditRoleComponent
     ],
     exports: [],
     imports: [
@@ -17,9 +21,12 @@ import { RoleManagementRouting } from './role-management.routing';
         CommonModule,
         BsDatepickerModule,
         SharedModule,
-        RoleManagementRouting
+        RoleManagementRouting,
+        PickListModule
     ],
-    providers: []
+    providers: [
+        RoleService
+    ]
 })
 
 export class RoleManagementModule {

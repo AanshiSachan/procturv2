@@ -5,6 +5,7 @@ import { UsersComponent } from './users.component';
 import { BsDatepickerModule } from '../../../../assets/imported_modules/ngx-bootstrap/datepicker';
 import { SharedModule } from '../../shared/shared.module';
 import { UserRouting } from './users.routing';
+import { UserService } from '../../../services/user-management/user.service';
 
 
 @NgModule({
@@ -20,7 +21,9 @@ import { UserRouting } from './users.routing';
         CommonModule,
         UserRouting
     ],
-    providers: []
+    providers: [
+        UserService
+    ]
 })
 
 export class UserModule {
