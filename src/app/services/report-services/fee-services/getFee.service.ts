@@ -31,12 +31,36 @@ export class GetFeeService {
 
     getBatchDetails(obj): Observable<any> {
 
-        let url = this.baseUrl +'/api/v1/batches/fetchCombinedBatchData/' +this.institute_id +'?standard_id=' +obj.standard_id +'&subject_id=' +obj.subject_id +'&assigned=N'
+        let url = this.baseUrl + '/api/v1/batches/fetchCombinedBatchData/' + this.institute_id + '?standard_id=' + obj.standard_id + '&subject_id=' + obj.subject_id + '&assigned=N'
 
-        console.log(url);
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
 
-        return null;
     }
 
+
+    getMasterCourses(): Observable<any> {
+
+        let url = this.baseUrl + '/api/v1/courseMaster/fetch/' + this.institute_id + '/all'
+
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+
+    }
+
+    getFeeReportData(obj): Observable<any> {
+
+        let url = this.baseUrl + '/api/v1/studentWise/fee/students/' + this.institute_id
+
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+
+    }
 
 }

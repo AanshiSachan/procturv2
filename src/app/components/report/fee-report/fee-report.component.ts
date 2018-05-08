@@ -16,8 +16,8 @@ export class FeeReportComponent implements OnInit {
   isProfessional: boolean = false;
 
   feeSettings: ColumnData[] = [
-    { primaryKey: 'id', header: 'ID' },
-    { primaryKey: 'name', header: 'Name' },
+    { primaryKey: 'student_disp_id', header: 'ID' },
+    { primaryKey: 'student_name', header: 'Name' },
     { primaryKey: 'total_fee', header: 'Total Fee' },
     { primaryKey: 'amt_paid', header: 'Amount Paid' },
     { primaryKey: 'past_due', header: 'Past Dues' },
@@ -29,15 +29,32 @@ export class FeeReportComponent implements OnInit {
 
   feeDataSource: any[] = [];
 
-  courseFetchForm:any = {
+  courseFetchForm: any = {
     standard_id: -1,
     subject_id: -1,
-    batch_id: -1
+    batch_id: -1,
+    student_name: '',
+    from_date: '',
+    to_date: '',
+    master_course_name: -1,
+    course_id: -1,
+    contact_no: '',
+    type: 0
   }
+
+  due_type: any = '-1';
+
+  search_value: any = '';
+
+  standardList: any[] = [];
+
+  subjectList: any[] = [];
+
+  batchList: any[] = [];
 
   constructor(
     private login: LoginService,
-    private appC: AppComponent, 
+    private appC: AppComponent,
     private getter: GetFeeService,
     private putter: PostFeeService
   ) {
@@ -45,7 +62,7 @@ export class FeeReportComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isProfessional = sessionStorage.getItem('inst_type') == 'LANG';
+    this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
     this.login.changeInstituteStatus(sessionStorage.getItem('institute_name'));
     this.login.changeNameStatus(sessionStorage.getItem('name'));
 
@@ -69,24 +86,133 @@ export class FeeReportComponent implements OnInit {
       this.updateMasterCourseBatch();
     }
     else {
-
+      this.updateMasterCourse();
     }
   }
 
 
   updateMasterCourseBatch() {
     this.getter.getBatchDetails(this.courseFetchForm).subscribe(
-      res => {},
-      err => {}
+      res => {
+        this.batchList = res.batchLi;
+        this.standardList = res.standardLi;
+        this.subjectList = [];
+      },
+      err => {
+        console.log(err);
+      }
     )
   }
 
 
+  updateMasterCourse() {
+    this.getter.getMasterCourses().subscribe(
+      res => {
+        this.standardList = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+
+
+  fetchFeeDetails() {
+
+    if (this.due_type == 'all_dues') {
+      let obj: any = {
+        from_date: '',
+        to_date: '',
+      }
+      /* Name Detected */
+      if (isNaN(this.search_value)) {
+        obj.student_name = this.search_value;
+        obj.contact_no = '';
+      }
+      /* Contact Number Detected */
+      else {
+        obj.contact_no = this.search_value;
+        obj.student_name = '';
+      }
+
+      this.generateReport(obj);
+
+    }
+    else if (this.due_type == 'next_month_dues') {
+      let obj: any = {
+        from_date: '',
+        to_date: '',
+      }
+
+      /* Name Detected */
+      if (isNaN(this.search_value)) {
+        obj.student_name = this.search_value;
+        obj.contact_no = '';
+      }
+      /* Contact Number Detected */
+      else {
+        obj.contact_no = this.search_value;
+        obj.student_name = '';
+      }
 
 
 
+    }
+    else if (this.due_type == 'this_month_dues') {
+      let obj: any = {
+        from_date: '',
+        to_date: '',
+      }
 
 
+      /* Name Detected */
+      if (isNaN(this.search_value)) {
+        obj.student_name = this.search_value;
+        obj.contact_no = '';
+      }
+      /* Contact Number Detected */
+      else {
+        obj.contact_no = this.search_value;
+        obj.student_name = '';
+      }
+
+
+
+    }
+    else if (this.due_type == 'current_dues') {
+      let obj: any = {
+        from_date: '',
+        to_date: '',
+      }
+
+
+      /* Name Detected */
+      if (isNaN(this.search_value)) {
+        obj.student_name = this.search_value;
+        obj.contact_no = '';
+      }
+      /* Contact Number Detected */
+      else {
+        obj.contact_no = this.search_value;
+        obj.student_name = '';
+      }
+
+
+
+    }
+  }
+
+
+  generateReport(obj) {
+    this.getter.getFeeReportData(obj).subscribe(
+      res => {
+        this.feeDataSource = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
 
 
   switchActiveView(id) {
