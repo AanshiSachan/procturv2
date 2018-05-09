@@ -16,35 +16,38 @@
                 <div class="row">
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': batchData.standard_id != '-1'}">
+                            <label for="ddnMAsterCourse">Master Course</label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="batchData.standard_id" (ngModelChange)="onBatchMasterCourseSelection($event)">
                                 <option value="-1"></option>
                                 <option [value]="master.standard_id" *ngFor="let  master of masterCourseList">
                                     {{master.standard_name}}
                                 </option>
                             </select>
-                            <label for="ddnMAsterCourse">Master Course</label>
+
                         </div>
                     </div>
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': batchData.subject_id != '-1'}">
+                            <label for="ddnMAsterCourse">Course</label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="batchData.subject_id" (ngModelChange)="onBatchCourseSelection($event)">
                                 <option value="-1"></option>
                                 <option [value]="master.subject_id" *ngFor="let  master of courseList">
                                     {{master.subject_name}}
                                 </option>
                             </select>
-                            <label for="ddnMAsterCourse">Course</label>
+
                         </div>
                     </div>
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': batchData.batch_id != '-1'}">
+                            <label for="sc">Batch</label>
                             <select id="sc" class="form-ctrl" [(ngModel)]="batchData.batch_id">
                                 <option value="-1"></option>
                                 <option [value]="subject.batch_id" *ngFor="let subject of batchesList">
                                     {{subject.batch_name}}
                                 </option>
                             </select>
-                            <label for="sc">Batch</label>
+
                         </div>
                     </div>
                     <div class="c-sm-3 c-md-3 c-lg-3">
@@ -59,40 +62,43 @@
 
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': courseData.master_course != ''}">
+                            <label for="ddnMAsterCourse">Master Course
+                                <span style="color:red">*</span>
+                            </label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="courseData.master_course" (ngModelChange)="getCourseList(event)">
                                 <option value="-1"></option>
                                 <option [value]="master.master_course" *ngFor="let  master of masterCourseList">
                                     {{master.master_course}}
                                 </option>
                             </select>
-                            <label for="ddnMAsterCourse">Master Course
-                                <span style="color:red">*</span>
-                            </label>
+
                         </div>
                     </div>
 
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': courseData.course_id != -1}">
+                            <label for="ddnMAsterCourse">Course
+                                <span style="color:red">*</span>
+                            </label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="courseData.course_id">
                                 <option value="-1"></option>
                                 <option [value]="master.course_id" *ngFor="let  master of courseList.coursesList">
                                     {{master.course_name}}
                                 </option>
                             </select>
-                            <label for="ddnMAsterCourse">Course
-                                <span style="color:red">*</span>
-                            </label>
+
                         </div>
                     </div>
 
                     <div class="c-sm-3 c-md-3 c-lg-3">
 
                         <div class="field-wrapper datePickerBox has-value">
-                            <input type="text" value="" id="reqDate" class="form-ctrl bsDatepicker" [(ngModel)]="courseData.requested_date" readonly="true"
-                                name="reqDate" bsDatepicker>
                             <label for="reqDate">Exam Schedule Date
                                 <span style="color:red">*</span>
                             </label>
+                            <input type="text" value="" id="reqDate" class="form-ctrl bsDatepicker" [(ngModel)]="courseData.requested_date" readonly="true"
+                                name="reqDate" bsDatepicker>
+
                         </div>
 
                     </div>
@@ -536,8 +542,9 @@
                         </div>
                         <div class="c-sm-6 c-md-6 c-lg-6" style="margin-top: 20px;">
                             <div class="field-checkbox-wrapper">
-                                <input type="checkbox" value="" id="msgAbsentees" name="msgAbsentees" class="form-checkbox" [(ngModel)]="smsAbsenteesChkbx">
                                 <label for="msgAbsentees">Send Sms For Absentees</label>
+                                <input type="checkbox" value="" id="msgAbsentees" name="msgAbsentees" class="form-checkbox" [(ngModel)]="smsAbsenteesChkbx">
+
                             </div>
                         </div>
                     </div>
@@ -561,8 +568,9 @@
 
                         <div class="c-sm-3 c-md-3 c-lg-3">
                             <div class="field-checkbox-wrapper">
-                                <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkCheckAllChkboxStatus()" (change)="markAllPresent($event)">
                                 <label for="MarkAllPresent">Mark All Present</label>
+                                <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkCheckAllChkboxStatus()" (change)="markAllPresent($event)">
+
                             </div>
                         </div>
 
@@ -668,8 +676,9 @@
                     <div class="clearfix" style="margin-top: 10px">
                         <aside class="pull-left" style="margin-top: 10px">
                             <div class="field-checkbox-wrapper">
-                                <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent" class="form-checkbox" [(ngModel)]="cancelPopUpData.notify">
                                 <label for="chkBxNotifyStudent">Notify Students</label>
+                                <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent" class="form-checkbox" [(ngModel)]="cancelPopUpData.notify">
+
                             </div>
                         </aside>
                         <aside *ngIf="isLangInstitute" class="pull-right popup-btn">

@@ -27,7 +27,7 @@ export class CoreHeaderComponent implements OnInit {
   enquiryResult: any[] = [];
   studentResult: any[] = [];
   inputValue: any;
-
+  manageExamGrades:string = "";
   globalSearchForm: any = {
     name: '',
     phone: '',
@@ -51,6 +51,7 @@ export class CoreHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.log.currentInstitute.subscribe(res => {
       this.instituteName = res;
       this.updatePermissions();

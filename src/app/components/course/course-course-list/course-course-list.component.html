@@ -167,19 +167,21 @@
         <div class="row filter-section">
           <div class="c-sm-3 c-md-3 c-lg-3">
             <div class="field-wrapper" [ngClass]="{'has-value' : searchFilter.standard_id != ''}">
+                <label for="standard">Standards</label>
               <select class="form-ctrl" [(ngModel)]="searchFilter.standard_id" name="standard" id="standard">
                 <option value="-1">Select</option>
                 <option *ngFor="let opt of standardList" [value]="opt.standard_id">
                   {{opt.standard_name}}
                 </option>
               </select>
-              <label for="standard">Standards</label>
+             
             </div>
           </div>
           <div class="c-sm-3 c-md-3 c-lg-3 checkBoxWrapper">
             <div class="field-checkbox-wrapper">
+                <label for="assignList">UnAssigned Students</label>
               <input type="checkbox" id="assignList" value="" [(ngModel)]="searchFilter.unassignFlag" name="assignList" class="form-checkbox">
-              <label for="assignList">UnAssigned Students</label>
+              
             </div>
           </div>
           <div class="c-sm-2 c-md-2 c-lg-2 btnPadding">
@@ -199,8 +201,9 @@
               <thead>
                 <th style="padding: 6px 0px 6px 20px;">
                   <div class="field-checkbox-wrapper">
+                      <label></label>
                     <input #idSelectAll type="checkbox" class="form-checkbox" [(ngModel)]="allChecked" (click)="selectAllCheckBox(idSelectAll)">
-                    <label></label>
+                   
                   </div>
                 </th>
                 <th>
@@ -226,8 +229,9 @@
                 <tr id="row{{i}}" *ngFor="let row of (studentList | searchPipe:searchData); let i = index; trackBy: i;">
                   <td>
                     <div class="field-checkbox-wrapper">
+                        <label></label>
                       <input type="checkbox" class="form-checkbox" [(ngModel)]="row.assigned">
-                      <label></label>
+                      
                     </div>
                   </td>
                   <td>

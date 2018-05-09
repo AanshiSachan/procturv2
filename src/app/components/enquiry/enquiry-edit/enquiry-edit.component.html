@@ -18,7 +18,7 @@
 
       <!-- Accordian Menu Element -->
       <section class="middle-main clearFix" id="middleMain">
-        <div class="add-new-enquiry-form accordian-section">
+        <div class="add-new-enquiry-form accordian-section AdFilter-field">
           <ul class="accordian">
             <!-- Basic Form -->
             <li class="active data-filled" id="basicDetails">
@@ -88,7 +88,7 @@
                   <input type="text" value="" id="dob" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.dob" name="dob" readonly='true'
                     bsDatepicker>
 
-                  <span style="top: 20px;right: -50px;" class="date-clear" name="dob" (click)="editEnqData.dob = ''">clear</span>
+                  <span  class="date-clear" name="dob" (click)="editEnqData.dob = ''">clear</span>
                 </div>
 
                 <!-- city -->
@@ -374,7 +374,7 @@
       <section class="enquiry-detail common-right-section">
         <h4>
           <strong>Enquiry Details</strong> (Official Use)</h4>
-        <div class="box-shadow-lite">
+        <div class="box-shadow-lite AdFilter">
           <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': editEnqData.enquiry_date != 'Invalid date'}">
             <label for="enquiryDate">Enquiry Date</label>
             <input type="text" value="" id="enquiryDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.enquiry_date" name="enquiryDate"
@@ -410,7 +410,7 @@
             </select>
 
           </div>
-          <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': editEnqData.followUpDate != ''}">
+          <div class="field-wrapper datePickerBox " [ngClass]="{'has-value': editEnqData.followUpDate != ''}">
             <label for="followUpDate">Follow Up Date</label>
             <input type="text" value="" id="followUpDate" class="form-ctrl bsDatepicker" [(ngModel)]="editEnqData.followUpDate" name="followUpDate"
               readonly='true' bsDatepicker>
