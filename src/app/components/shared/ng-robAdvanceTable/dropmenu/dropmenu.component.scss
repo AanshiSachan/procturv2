@@ -27,12 +27,11 @@
 
 .dd-list-container{
     position: absolute;
-    top: 40px;
     border: 1px solid rgba(119, 119, 119, 0.29);
     right: 50px;
-    z-index: 100;
+    z-index: 1000;
     width: 100%;
-    max-width: 250px;
+    max-width: 300px;
     height: auto;
     background: white;
     box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.611764705882353);

@@ -165,16 +165,16 @@
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
-                                    <label for="slot.label">{{slot.label}}</label>
-                                    <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
                                     <label for="assignCourses">Slots</label>
+                                    <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
                                 </div>
                                 <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
                                     <div class="multiselect-wrapper-inner">
                                         <ul class="">
                                             <li *ngFor="let slot of slots">
                                                 <div class="field-checkbox-wrapper">
-                                                    <input type="checkbox" value="" name="slot.label" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox">
+                                                    <label for="slot.label">{{slot.label}}</label>
+                                                    <input type="checkbox" id={{name="{{slot.label}}"}} value="" name="{{slot.label}}" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox">
                                                 </div>
                                             </li>
                                         </ul>

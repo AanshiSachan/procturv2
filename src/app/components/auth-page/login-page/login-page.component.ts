@@ -22,6 +22,7 @@ export class LoginPageComponent {
 
 
 
+  serverUserData: any;
   /* Variable Declaration */
   loginDataForm: LoginAuth;
   loading = false;
@@ -216,6 +217,7 @@ export class LoginPageComponent {
       return
     }
     else {
+      this.serverUserData = res;
       sessionStorage.setItem('institute_info', JSON.stringify(res.data));
 
       let institute_data = JSON.parse(sessionStorage.getItem('institute_info'));
@@ -296,7 +298,20 @@ export class LoginPageComponent {
         sessionStorage.setItem('permissions', JSON.stringify(res.data.permissions.split(',')));
         this.login.changePermissions(JSON.stringify(res.data.permissions.split(',')));
       }
-      this.createRoleBasedSidenav();
+
+      if (sessionStorage.getItem('userType') == '0') {
+        this.createRoleBasedSidenav();
+      }
+      else if (sessionStorage.getItem('userType') == '1') {
+        sessionStorage.setItem('student_id', JSON.stringify(res.data.studentId));
+        sessionStorage.setItem('user_type_name', 'Student');
+        window.location.href = "https://app.proctur.com/sPortal/dashboard.html#/Dashboard";
+      }
+      else if (sessionStorage.getItem('userType') == '5') {
+        sessionStorage.setItem('student_id', JSON.stringify(res.data.parentStudentList[0].student_id));
+        sessionStorage.setItem('user_type_name', 'Parent');
+        window.location.href = "https://app.proctur.com/sPortal/dashboard.html#/Dashboard";
+      }
     }
   }
   //End - 3
@@ -537,8 +552,20 @@ export class LoginPageComponent {
     this.auth.currentInstituteId.subscribe(id => {
       /* If Id has been updated to the services then proceed */
       if(id != null){
-        this.login.changeSidenavStatus('authorized');
-        this.route.navigateByUrl('home');
+        if (sessionStorage.getItem('userType') == '0') {
+          this.login.changeSidenavStatus('authorized');
+          this.route.navigateByUrl('home');
+        }
+        else if (sessionStorage.getItem('userType') == '1') {
+          sessionStorage.setItem('student_id', JSON.stringify(this.serverUserData.data.studentId));
+          sessionStorage.setItem('user_type_name', 'Student');
+          window.location.href = "https://app.proctur.com/sPortal/dashboard.html#/Dashboard";
+        }
+        else if (sessionStorage.getItem('userType') == '5') {
+          sessionStorage.setItem('student_id', JSON.stringify(this.serverUserData.data.parentStudentList[0].student_id));
+          sessionStorage.setItem('user_type_name', 'Parent');
+          window.location.href = "https://app.proctur.com/sPortal/dashboard.html#/Dashboard";
+        }
       }
       /* If Id Not set then recall the function as user has successfully logged in */
       else{

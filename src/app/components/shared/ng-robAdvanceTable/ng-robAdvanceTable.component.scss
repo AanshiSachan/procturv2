@@ -273,6 +273,10 @@ $color-highlight: lighten($color-base, 7%);
                 &.noOfBatchesAssigned{
                     width: 25%;
                 }
+                &.option-menu{
+                    padding: 0px;
+                    position: relative;
+                }
             }   
         }
         &.ct-ongoing {

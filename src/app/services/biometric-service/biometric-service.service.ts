@@ -24,6 +24,8 @@ export class BiometricServiceService {
     this.baseUrl = this.auth.getBaseUrl();
   }
 
+
+
   getAllData() {
     let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/all"
     return this.http.get(url, { headers: this.headers }).map(
@@ -35,6 +37,7 @@ export class BiometricServiceService {
       }
     )
   }
+
 
   getCourses(obj) {
     let url = this.baseUrl + "/api/v1/courseMaster/fetch/" + this.institute_id + "/" + obj
@@ -48,6 +51,7 @@ export class BiometricServiceService {
     )
   }
 
+
   getSubjects(obj) {
     let url = this.baseUrl + "/api/v1/courseMaster/fetch/courses/" + this.institute_id + "/" + obj;
     return this.http.get(url, { headers: this.headers }).map(
@@ -59,6 +63,44 @@ export class BiometricServiceService {
       }
     )
   }
+
+
+  fetchMasterCourseProfessional(obj) {
+    let url = this.baseUrl + "/api/v1/batches/fetchCombinedBatchData/" + this.institute_id + "?standard_id=" + obj.standard_id + "&subject_id=" + obj.subject_id + "&assigned=N";
+    return this.http.get(url, { headers: this.headers }).map(
+      data => {
+        return data;
+      },
+      error => {
+        return error;
+      }
+    )
+  }
+
+  fetchCourseProfessional(standardId) {
+    let url = this.baseUrl + "/api/v1/subjects/standards/" + standardId;
+    return this.http.get(url, { headers: this.headers }).map(
+      data => {
+        return data;
+      },
+      error => {
+        return error;
+      }
+    )
+  }
+
+  fetchAbsenteesListProfessional(obj) {
+    let url = this.baseUrl + "/api/v1/attendance/fetchAbsentsStudentsData/";
+    return this.http.post(url, obj, { headers: this.headers }).map(
+      data => {
+        return data;
+      },
+      error => {
+        return error;
+      }
+    )
+  }
+
 
   getAttendanceReport(obj) {
     obj.biometric_attendance_date = moment(obj.biometric_attendance_date).format('YYYY-MM-DD');
