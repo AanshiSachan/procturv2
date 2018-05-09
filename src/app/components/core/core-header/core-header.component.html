@@ -13,7 +13,8 @@
         <div class="pos-rel search-item">
           <form autocomplete="off" #form="ngForm">
             <input autocomplete="off" maxlength="20" type="text" [ngClass]="{'has-focus': isResultDisplayed}" class="form-ctrl-head searchbox search-item"
-             placeholder="Seach Enquiry/Student by Name or Contact" [(ngModel)]="userInput" name="userInput" #searchInput (focus)="triggerSearchBox($event)">
+              placeholder="Seach Enquiry/Student by Name or Contact" [(ngModel)]="userInput" name="userInput" #searchInput
+              (focus)="triggerSearchBox($event)">
             <button class="form-btn-head search-item">
               <svg class="search-item" xmlns="http://www.w3.org/2000/svg" viewBox="504 4 22 22">
                 <defs>
@@ -174,11 +175,11 @@
                         <div>
                           <ul>
 
-                              <li id="divProfileTag">
-                                  <span>
-                                    <a (click)="viewTeacherProfile()">Profile</a>
-                                  </span>
-                                </li>
+                            <li id="divProfileTag">
+                              <span>
+                                <a (click)="viewTeacherProfile()">Profile</a>
+                              </span>
+                            </li>
 
                             <li id="divTeacherTag">
                               <span>
@@ -228,9 +229,9 @@
                         </div>
                       </li>
 
-                      <li class="hide">
+                      <li class="">
                         <strong>
-                          <a>Manage Users</a>
+                          <a routerLink="/manage">Manage Users</a>
                         </strong>
                       </li>
 
@@ -267,7 +268,7 @@
 
                     </ul>
                   </li>
-                  
+
                 </ul>
               </div>
             </li>
