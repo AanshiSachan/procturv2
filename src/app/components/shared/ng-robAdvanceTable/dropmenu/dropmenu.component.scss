@@ -1,9 +1,10 @@
 @import "./src/assets/css/common/variables.scss";
 
 .dropdown-trigger{
-    background: white;
+    background: transparent;
     position: absolute;
-    right: 60px;
+    right: 30px;
+    transform: rotate(90deg);
     margin-top: 5px;
     z-index: 100;
 }

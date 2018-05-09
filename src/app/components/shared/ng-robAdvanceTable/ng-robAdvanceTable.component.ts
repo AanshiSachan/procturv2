@@ -233,8 +233,6 @@ export class RobAdvanceTableComponent implements OnChanges {
     }
 
     recordSelected(e){
-        console.log(e);
-
         this.multiOptionSelected.emit(e);
     }
 
