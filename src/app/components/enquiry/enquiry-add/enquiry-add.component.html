@@ -256,15 +256,18 @@
                   </div>
                   <!-- standard -->
                   <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.standard_id != '-1'}">
+
+
                     <label *ngIf="!isProfessional" for="editStandard">Standard</label>
                     <label *ngIf="isProfessional" for="editStandard">Master Course</label>
-                    <div class="questionInfo">
-                      <select id="editStandard" class="form-ctrl" [(ngModel)]="newEnqData.standard_id" (ngModelChange)="fetchSubject($event)" name="editStandard">
-                        <option value="-1"></option>
-                        <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
-                      </select>
+                    <select id="editStandard" class="form-ctrl" [(ngModel)]="newEnqData.standard_id" (ngModelChange)="fetchSubject($event)" name="editStandard">
 
-                      <span class="qInfoIcon">?</span>
+                      <option value="-1"></option>
+                      <option *ngFor="let std of enqStd" [value]="std.standard_id">{{std.standard_name}}</option>
+
+                    </select>
+                    <div class="questionInfo">
+                      <span class="qInfoIcon" style="margin-top:-12px;">?</span>
                       <div class="tooltip-box-field tooltip-size">
                         Enquirer select a standard to fetch related subject
                       </div>
@@ -280,7 +283,7 @@
                     </select>
 
                     <div class="questionInfo">
-                      <span class="qInfoIcon">?</span>
+                      <span class="qInfoIcon" style="margin-top:-12px;">?</span>
                       <div class="tooltip-box-field">
                         Subject with relation to the standard opted
                       </div>
@@ -346,7 +349,7 @@
                       </div>
                     </div>
 
-                    <div class="" *ngIf="component.type == 5" input-def>
+                    <div class="newDate" *ngIf="component.type == 5" input-def>
                       <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
                         <label for="component.id">{{component.label}} </label>
                         <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
@@ -420,15 +423,15 @@
 
           </div>
           <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.status != '-1'}">
-              <label for="eStatus">Enquiry Status</label>
-              <select id="eStatus" class="form-ctrl" [(ngModel)]="newEnqData.status" name="status" disabled>
-                <option value="-1"></option>
-                <option *ngFor="let status of enqstatus" [value]="status.data_key" [attr.selected]="status.data_value == 'Open' ? '' : null"
-                  [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
-              </select>
-    
+            <label for="eStatus">Enquiry Status</label>
+            <select id="eStatus" class="form-ctrl" [(ngModel)]="newEnqData.status" name="status" disabled>
+              <option value="-1"></option>
+              <option *ngFor="let status of enqstatus" [value]="status.data_key" [attr.selected]="status.data_value == 'Open' ? '' : null"
+                [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
+            </select>
+
           </div>
-          
+
           <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.priority != '-1'}">
             <label for="priority">Enquiry Priority</label>
             <select id="priority" class="form-ctrl" [(ngModel)]="newEnqData.priority" name="priority">
