@@ -338,9 +338,10 @@
         <section class="middle-bottom clearFix">
           <div class="pull-left">
             <div class="field-checkbox-wrapper">
-              <label for="isStudentActive">Is Active Student</label>
+
               <input type="checkbox" value="" name="isStudentActive" [(ngModel)]="formIsActive" (ngModelChange)="updateFormIsActive($event)"
                 class="form-checkbox" id="isStudentActive">
+                <label for="isStudentActive">Is Active Student</label>
             </div>
             <!-- <div class="field-checkbox-wrapper">
                 <input type="checkbox" value="" name="quickadd" [(ngModel)]="quickAddStudent" class="form-checkbox" id="quickAddStudent">
