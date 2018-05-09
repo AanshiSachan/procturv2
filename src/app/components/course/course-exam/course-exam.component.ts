@@ -56,7 +56,7 @@ export class CourseExamComponent implements OnInit {
   cancelExamData: any = "";
   cancelPopUpData = {
     reason: "",
-    notify: false
+    notify: true
   }
   currentDate: any = moment().format("YYYY-MM-DD");
   courseData = {
@@ -71,6 +71,7 @@ export class CourseExamComponent implements OnInit {
   selectedType: string = "course";
   viewList: any = [];
   cancelCourseLevel: boolean = false;
+  isRippleLoad: boolean = false;
 
   constructor(
     private apiService: ExamCourseService,
@@ -129,8 +130,10 @@ export class CourseExamComponent implements OnInit {
     if (this.batchData.batch_id != -1) {
       this.cancelledSchedule = [];
       this.examSchedule = [];
+      this.isRippleLoad = true;
       this.apiService.getExamSchedule(this.batchData.batch_id).subscribe(
         (res: any) => {
+          this.isRippleLoad = false;
           this.showContentSection = true;
           this.examScheduleData = res;
           this.batchStartDate = res.batch_start_date;
@@ -147,6 +150,7 @@ export class CourseExamComponent implements OnInit {
           }
         },
         err => {
+          this.isRippleLoad = false;
           console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
@@ -219,13 +223,15 @@ export class CourseExamComponent implements OnInit {
     } else {
       type = "put";
     }
+    this.isRippleLoad = true;
     this.apiService.serverRequestToSaveSchedule(dataToSend, type).subscribe(
       res => {
-        console.log(res);
+        this.isRippleLoad = false;
         this.messageNotifier('success', 'Successfully', 'Schedule Created Successfully');
         this.batchModelGoClick();
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
       }
     )
@@ -285,7 +291,7 @@ export class CourseExamComponent implements OnInit {
     this.cancelExamData = "";
     this.cancelPopUpData = {
       reason: "",
-      notify: false
+      notify: true
     }
   }
 
@@ -477,14 +483,16 @@ export class CourseExamComponent implements OnInit {
   }
 
   updateCourseAttendance() {
+    this.isRippleLoad = true;
     let dataToSend = this.makeJsonForAttendceMark();
-    console.log(dataToSend);
     this.apiService.markAttendance(dataToSend).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.messageNotifier('success', 'Attendance Marked', 'Attendance Marked Successfully');
         this.closeCourseLevelAttendance();
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
@@ -587,14 +595,17 @@ export class CourseExamComponent implements OnInit {
 
   getExamSchedule() {
     if (this.courseData.master_course != "" && this.courseData.course_id != -1) {
+      this.isRippleLoad = true;
       this.apiService.getSchedule(this.courseData).subscribe(
         (res: any) => {
+          this.isRippleLoad = false;
           this.examScheduleData = res;
           this.calculateDataAsPerSelection(res);
           this.showContentSection = true;
           console.log(res);
         },
         err => {
+          this.isRippleLoad = false;
           console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
@@ -725,13 +736,15 @@ export class CourseExamComponent implements OnInit {
     if (dataToSend == false) {
       return;
     }
-    console.log(dataToSend);
+    this.isRippleLoad = true;
     this.apiService.updateExamSch(dataToSend).subscribe(
       res => {
+        this.isRippleLoad = false;
         this.messageNotifier('success', 'Success', 'Exam Schedule Added Successfully');
         this.getExamSchedule();
       },
       err => {
+        this.isRippleLoad = false;
         console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }

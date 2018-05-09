@@ -166,7 +166,7 @@
                             <span (click)="markExamAttendance(class)" style="cursor:pointer">Exam Attendance</span>
                             <span class="" *ngIf="class.isReferenced != 'Y'" (click)="notifyExamSchedule(class)" style="cursor:pointer">Send Reminder</span>
                             <span class="" *ngIf="class.isReferenced != 'Y'" (click)="onCancelExamClick(class)" style="cursor:pointer">Cancel Exam</span>
-                            <span class="" *ngIf="class.isReferenced== 'Y'" (click)="examMarksUpdate(class)">Exam Marks</span>
+                            <span class="" *ngIf="class.isReferenced== 'Y'" (click)="examMarksUpdate(class)" style="cursor:pointer">Exam Marks</span>
                           </div>
                         </div>
                       </div>
@@ -1459,7 +1459,7 @@
       <div class="row attendance-Note">
         <div class="c-sm-6 c-md-6 c-lg-6">
           <div class="form-wrapper">
-            <label for="attedNote">Attendance Note</label>
+            <label for="attedNote">Exam Description</label>
             <textarea class="side-form-ctrl" [(ngModel)]="attendanceNote" id="attedNote" name="attedNote"></textarea>
           </div>
         </div>
