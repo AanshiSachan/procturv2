@@ -24,7 +24,7 @@ import { RobAdvanceTableComponent } from './ng-robAdvanceTable/ng-robAdvanceTabl
 import { ProcturPopUpComponent } from './proctur-popup/proctur-popup.component';
 import { SearchPipe } from './pipes/tablesSearchPipe';
 
-
+import { DropMenuComponent } from './ng-robAdvanceTable/dropmenu/dropmenu.component';
 
 @NgModule({
     imports: [
@@ -45,7 +45,8 @@ import { SearchPipe } from './pipes/tablesSearchPipe';
         PictureCropComponent,
         CommaSeprationAmount,
         ProcturPopUpComponent,
-        SearchPipe
+        SearchPipe,
+        DropMenuComponent
     ],
     exports: [
         CommonModule,
@@ -58,8 +59,14 @@ import { SearchPipe } from './pipes/tablesSearchPipe';
         PictureCropComponent,
         CommaSeprationAmount,
         ProcturPopUpComponent,
-        SearchPipe
+        SearchPipe,
+        DropMenuComponent
     ],
-    providers: [CurrencyPipe]
+    entryComponents: [
+        DropMenuComponent
+    ],
+    providers: [
+        CurrencyPipe
+    ]
 })
 export class SharedModule { }

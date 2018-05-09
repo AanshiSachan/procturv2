@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ColumnData } from '../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
+import { DropData } from '../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
 import { LoginService } from '../../../services/login-services/login.service';
 import { AppComponent } from '../../../app.component';
 
@@ -16,7 +17,7 @@ import * as moment from 'moment';
 export class FeeReportComponent implements OnInit {
 
   installmentList: any;
-  isFilterReversed: boolean;
+  isFilterReversed: boolean = true;
   isProfessional: boolean = false;
 
   feeSettings1: ColumnData[] = [
@@ -46,6 +47,25 @@ export class FeeReportComponent implements OnInit {
   feeDataSource1: any[] = [];
   
   feeDataSource2: any[] = [];
+
+  menuOptions:DropData[] = [
+    {
+      key: 'detailed',
+      header: 'View Detailed Report'
+    },
+    {
+      key: 'history',
+      header: 'Fee Payment History',
+    },
+    {
+      key: 'nextDue',
+      header: 'Next Due Details'
+    },
+    {
+      key: 'receipt',
+      header: 'Fee Receipts',
+    }
+  ];
 
   courseFetchForm: any = {
     standard_id: -1,
@@ -516,10 +536,11 @@ export class FeeReportComponent implements OnInit {
 
   }
 
-
   /* ===================================================================================================== */
   /* ===================================================================================================== */
-
+  optionSelected(e){
+    console.log(e);
+  }
   /* ===================================================================================================== */
   /* ===================================================================================================== */
 

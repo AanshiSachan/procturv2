@@ -179,11 +179,11 @@
 
             <section class="fee-table">
                 <div class="table-content" *ngIf="isFilterReversed">
-                    <rob-table [records]="feeDataSource1" [tableName]="'feereport'" [settings]="feeSettings1">
+                    <rob-table [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)" [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [tableName]="'feereport'" [settings]="feeSettings1">
                     </rob-table>
                 </div>
                 <div class="table-content" *ngIf="!isFilterReversed">
-                    <rob-table [records]="feeDataSource2" [tableName]="'feereport'" [settings]="feeSettings2">
+                    <rob-table [menuOptions]="menuOptions" [isMulti]='true' [hasMenu]="false" [records]="feeDataSource2" [tableName]="'feereport'" [settings]="feeSettings2">
                     </rob-table>
                 </div>
             </section>
