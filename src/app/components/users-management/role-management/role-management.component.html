@@ -1,0 +1,55 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+
+
+<section class="middle-section clearFix">
+  <div class="content-contaioner">
+
+    <div class="head">
+      <h3>Roles</h3>
+      <div class="field-wrapper">
+        <div class="btnWrapper">
+          <button class="btn pull-right" routerLink='addedit'>
+            <div class="option-wrap">
+              <img src="assets/images/plus.png" alt="Add User" style="vertical-align: -webkit-baseline-middle;">
+              <span class="tooltip tooltipWrapper">
+                Add User
+              </span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="roles-table-wrapper">
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>S No.</th>
+              <th>Role</th>
+              <th>Desc</th>
+              <th>Assigned User</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of rolesList; let i = index; trackBy: i">
+              <td>{{i + 1}}</td>
+              <td>{{data.role_name}}</td>
+              <td></td>
+              <td></td>
+              <td>
+                <div class="action-menu">
+                  <a [routerLink]='["addedit" , data.role_id]'>Edit</a>
+                  <a (click)="deleteRole(data)">Delete</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</section>

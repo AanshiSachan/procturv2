@@ -15,7 +15,6 @@
     }
 }
 
-
 /* ======================================================================================================== */
 
 .headEnq {
@@ -132,7 +131,6 @@
     }
 }
 
-
 /* =========================================================================================================== */
 
 .adfilter-submitter {
@@ -143,7 +141,6 @@
         width: 15%;
     }
 }
-
 
 /* ============================================================================================================== */
 
@@ -165,7 +162,7 @@
     background: white;
     border-left: 1px solid rgba(211, 212, 213, 0.5);
     box-shadow: -3px 0px 6px rgba(119, 119, 119, 0.26);
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: none;
         width: 7px;
         height: 7px;
@@ -174,7 +171,7 @@
         height: 90vh;
         overflow-x: hidden;
         overflow-y: auto;
-         ::-webkit-scrollbar {
+        ::-webkit-scrollbar {
             display: none;
             width: 7px;
             height: 7px;
@@ -506,7 +503,6 @@
     margin-top: 20px;
 }
 
-
 /* Data table Settings */
 
 #student-table {
@@ -514,7 +510,7 @@
     margin-top: 0px;
     margin-right: 15px !important;
     width: 100%;
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -529,7 +525,7 @@ screen and (max-height: 768px) {
         margin-right: 15px !important;
         width: 100%;
         .table-scroll-wrapper {}
-         ::-webkit-scrollbar {
+        ::-webkit-scrollbar {
             display: block;
             width: 7px;
             height: 7px;
@@ -538,7 +534,7 @@ screen and (max-height: 768px) {
 }
 
 .table-scroll-wrapper {
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         display: block;
         width: 7px;
         height: 7px;
@@ -717,7 +713,6 @@ screen and (max-height: 768px) {
     height: auto;
 }
 
-
 /*=======================filter type==============*/
 
 .search-enquiry-type-filter {
@@ -866,7 +861,6 @@ screen and (max-height: 768px) {
     margin-top: 20px;
 }
 
-
 /*===========================================action tooltip of table===================*/
 
 .enquiry-action {
@@ -995,7 +989,6 @@ screen and (max-height: 768px) {
     width: 28px;
 }
 
-
 /**===============================search data=========================*/
 
 .search-data {
@@ -1019,7 +1012,6 @@ screen and (max-height: 768px) {
         }
     }
 }
-
 
 /*=====================================mobile head menu css===========================*/
 
@@ -1164,7 +1156,6 @@ ul.customDropdown li:hover {
     background: #f5f5f5;
 }
 
-
 /* :host /deep/ ::-webkit-scrollbar{
     display: none;
 } */
@@ -1178,7 +1169,7 @@ ul.customDropdown li:hover {
 .notification-content-wrapper {
     .marginTenPixel {
         margin: 10px 0px;
-        .radio-options{
+        .radio-options {
             .field-checkbox-wrapper,
             .field-radio-wrapper {
                 position: relative;
@@ -1260,7 +1251,7 @@ ul.customDropdown li:hover {
                     }
                 }
             }
-             ::-webkit-scrollbar {
+            ::-webkit-scrollbar {
                 display: block;
                 width: 7px;
                 height: 7px;
@@ -1286,54 +1277,41 @@ ul.customDropdown li:hover {
         .leave-add {
             padding: 0px 10px;
             width: 40%;
-            .field-wrapper .form-ctrl {
-                display: block;
-                width: 100%;
-                box-sizing: border-box;
-                padding: 10px 0 5px;
-                outline: none;
-                border: 0;
-                border-bottom: solid 1px #e2ebee;
-                height: 36px;
-                z-index: 10;
-                font: 400 13.3333px Arial;
-                box-shadow: none;
-                border-radius: 0;
-                line-height: 24px;
-            }
-            .field-wrapper label {
-                position: absolute;
-                top: 22px;
-                font-size: 14px;
-                left: 20px;
-                z-index: 1;
-                transition: all 0.1s ease-in-out;
-                color: #777;
-            }
             .field-wrapper {
+                position: relative;
+                padding-top: 10px;
+                .form-ctrl {
+                    z-index: 10;
+                }
                 &.datePickerBox {
-                    span {
+                    .form-ctrl {
                         cursor: pointer;
-                        color: rgb(216, 37, 37);
+                        position: relative;
+                        z-index: 10;
+                        background: transparent;
+                    }
+                    &:after {
+                        content: '';
+                        background: url("/./assets/images/calendar.svg") no-repeat;
+                        position: absolute;
+                        right: 20px;
+                        top: 35px;
+                        width: 21px;
+                        height: 21px;
+                        z-index: 0;
                     }
                 }
-            }
-            .field-wrapper .form-ctrl:focus {
-                padding: 12px 0 6px;
-                border-bottom: solid 2px $common-blue;
-                box-shadow: none;
-                line-height: 26px;
-            }
-            .field-wrapper.has-value .form-ctrl+label,
-            .field-wrapper .form-ctrl:focus+label {
-                font-size: 12px;
-                top: 6px;
-                left: 15px;
-            }
-            .field-wrapper.has-value .form-ctrl+label,
-            .field-wrapper .form-ctrl:focus+label {
-                color: $common-blue;
-                font-size: 12px;
+                .date-clear {
+                    position: absolute;
+                    right: 15px;
+                    top: 50px;
+                    cursor: pointer;
+                    color: #0084f6;
+                }
+                label {
+                    font-size: 12px;
+                    z-index: 1;
+                }
             }
         }
     }

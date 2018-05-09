@@ -165,16 +165,17 @@
 
                             <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="isProfessional">
                                 <div id="slotwrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
-                                    <label for="slot.label">{{slot.label}}</label>
-                                    <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
                                     <label for="assignCourses">Slots</label>
+                                    <input id="slot" type="text" [ngModel]="selectedSlotsString" name="slots" class="form-ctrl" readonly="true" />
                                 </div>
                                 <div id="slotmulti" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible('slot')">
                                     <div class="multiselect-wrapper-inner">
                                         <ul class="">
                                             <li *ngFor="let slot of slots">
                                                 <div class="field-checkbox-wrapper">
-                                                    <input type="checkbox" value="" name="slot.label" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox">
+                                                    <input type="checkbox" id="{{slot.label}}" value="" name="{{slot.label}}" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)"
+                                                        class="form-checkbox">
+                                                    <label for="{{slot.label}}">{{slot.label}}</label>
                                                 </div>
                                             </li>
                                         </ul>
@@ -270,8 +271,8 @@
                                 <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
                                     <br>
                                     <div class="field-checkbox-wrapper">
-                                        <label for="{{component.id}}">{{component.label}} </label>
                                         <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="component.label" value="">
+                                        <label for="{{component.id}}">{{component.label}} </label>
                                     </div>
                                 </div>
 
@@ -296,9 +297,9 @@
                                             <ul class="">
                                                 <li *ngFor="let opt of component.prefilled_data">
                                                     <div class="field-checkbox-wrapper">
-                                                        <label for="{{component.id}}">{{component.data}}</label>
                                                         <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
                                                             class="form-checkbox">
+                                                        <label for="{{component.id}}">{{component.data}}</label>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -554,7 +555,7 @@
                                 <div class="field-wrapper c-md-12">
                                     <textarea placeholder="Reason" rows="1" cols="1" style="height: 150px;padding: 10px;margin-top: 30px;border: 1px solid #777;"
                                         id="reason" class="form-ctrl" [(ngModel)]="applyLeave.reason">
-                                            </textarea>
+                                    </textarea>
                                 </div>
                             </aside>
                         </div>
@@ -599,9 +600,9 @@
 
                         <div class="marginTenPixel">
                             <div class="field-checkbox-wrapper">
-                                <label for="loginMessage">Send Login Message</label>
                                 <input type="checkbox" value="" [(ngModel)]="sendNotification.loginMessageChkbx" name="loginMessage" class="form-checkbox"
                                     id="">
+                                <label for="loginMessage">Send Login Message</label>
                             </div>
                         </div>
 
@@ -611,26 +612,26 @@
                             <div class="row marginTenPixel">
                                 <div id="" class="c-sm-4 c-md-4 c-lg-4">
                                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
-                                        <label for="sms">SMS</label>
                                         <input type="checkbox" [(ngModel)]="sendNotification.smsChkbx" value="" name="sms" class="form-checkbox" id="">
+                                        <label for="sms">SMS</label>                                        
                                     </div>
                                     <div class="field-checkbox-wrapper c-sm-6 c-md-6 c-lg-6">
-                                        <label for="mail">Mail</label>
                                         <input type="checkbox" value="" [(ngModel)]="sendNotification.emailChkbx" name="mail" class="form-checkbox" id="">
+                                        <label for="mail">Mail</label>
                                     </div>
                                 </div>
                                 <div id="" class="c-sm-6 c-md-6 c-lg-6">
                                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                                        <label for="student">Student</label>
                                         <input type="checkbox" [(ngModel)]="sendNotification.studentChkbx" value="" name="student" class="form-checkbox" id="">
+                                        <label for="student">Student</label>
                                     </div>
                                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                                        <label for="parent">Parent</label>
                                         <input type="checkbox" value="" name="parent" [(ngModel)]="sendNotification.parentChkbx" class="form-checkbox" id="">
+                                        <label for="parent">Parent</label>
                                     </div>
                                     <div class="field-checkbox-wrapper c-sm-3 c-md-3 c-lg-3">
-                                        <label for="guardian">Guardian</label>
                                         <input type="checkbox" value="" name="guardian" [(ngModel)]="sendNotification.gaurdianChkbx" class="form-checkbox" id="">
+                                        <label for="guardian">Guardian</label>
                                     </div>
                                 </div>
                             </div>
@@ -653,10 +654,6 @@
                                         <thead>
                                             <tr>
                                                 <th>
-                                                    <!-- <div class="field-checkbox-wrapper">
-                                                          <input type="checkbox" class="form-checkbox" [checked]="checkCheckAllChkboxStatus(messageList)" (click)="checkAllChechboxes($event , messageList)">
-                                                          <label></label>
-                                                        </div> -->
                                                 </th>
                                                 <th>
                                                     Date
@@ -699,16 +696,16 @@
                             <div class="marginTenPixel">
                                 <div class="radio-options">
                                     <div class="field-radio-wrapper">
-                                        <label for="student">Student Only</label>
                                         <input type="radio" checked="checked" [(ngModel)]="loginField.checkBox" value="0" name="student" class="form-radio">
+                                        <label for="student">Student Only</label>
                                     </div>
                                     <div class="field-radio-wrapper">
-                                        <label for="parent">Parent Only</label>
                                         <input type="radio" [(ngModel)]="loginField.checkBox" value="1" name="parent" class="form-radio">
+                                        <label for="parent">Parent Only</label>
                                     </div>
                                     <div class="field-radio-wrapper">
-                                        <label for="both">Both</label>
                                         <input type="radio" [(ngModel)]="loginField.checkBox" value="2" name="both" class="form-radio">
+                                        <label for="both">Both</label>
                                     </div>
                                 </div>
                             </div>

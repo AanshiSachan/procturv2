@@ -494,3 +494,11 @@ input[type=number]::-webkit-outer-spin-button {
     padding: 0.4em 0.8em !important;
     border-radius: 0.2em !important;
 }
+
+.mail-notification {
+    width: 20px;
+    height: 20px;
+    background: url(../../../../assets/images/mial_notification.svg) no-repeat;
+    cursor: pointer;
+    display: inline-block;
+}
