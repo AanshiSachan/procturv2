@@ -34,6 +34,14 @@ export class RoleService {
         )
     }
 
+    getAssignedUserList(id) {
+        let url = this.baseUrl + "/api/v1/roleApi/" + id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
     // Add Edit 
 
     getAllFeature() {

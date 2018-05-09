@@ -9,6 +9,8 @@ import { RoleService } from '../../../services/user-management/role.service';
 export class RoleManagementComponent implements OnInit {
 
   rolesList: any = [];
+  userList: any = [];
+  showUserListPopUp: boolean = false;
 
   constructor(
     private apiService: RoleService
@@ -32,8 +34,27 @@ export class RoleManagementComponent implements OnInit {
 
   deleteRole(data) {
     if (confirm('Are you sure, you want to delete the role?')) {
-      
+
     }
+  }
+
+  showAssignedUserList(data) {
+    if (data.total_user_count > 0) {
+      this.apiService.getAssignedUserList(data.role_id).subscribe(
+        res => {
+          this.showUserListPopUp = true;
+          this.userList = res;
+        },
+        err => {
+          console.log(err);
+        }
+      )
+    }
+  }
+
+  closePopUp() {
+    this.showUserListPopUp = false;
+    this.userList = [];
   }
 
 }
