@@ -2618,8 +2618,8 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.getExamSchedule(obj).subscribe(
       (res: any) => {
         this.addKeyInData(res.otherSchd, "isExam", true);
-        this.schedStat.otherSchd = this.schedStat.otherSchd.concat(res.otherSchd);
-        this.schedStat.otherSchd = this.sortDataByDateTime(this.schedStat.otherSchd);
+        let data = this.schedStat.otherSchd.concat(res.otherSchd);
+        this.schedStat.otherSchd = this.sortDataByDateTime(data);
       },
       err => {
         console.log(err);

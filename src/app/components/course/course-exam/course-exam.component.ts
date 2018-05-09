@@ -70,6 +70,7 @@ export class CourseExamComponent implements OnInit {
   ];
   selectedType: string = "course";
   viewList: any = [];
+  cancelCourseLevel: boolean = false;
 
   constructor(
     private apiService: ExamCourseService,
@@ -188,6 +189,19 @@ export class CourseExamComponent implements OnInit {
     obj.schd_id = 0;
     obj.isReferenced = "Y";
     this.examSchedule.push(obj);
+    this.batchAdderData = {
+      exam_date: moment().format("YYYY-MM-DD"),
+      exam_desc: "",
+      start_time: {
+        hour: "12 PM",
+        minute: '00'
+      },
+      end_time: {
+        hour: "1 PM",
+        minute: "00"
+      },
+      total_marks: 0
+    }
   }
 
   addDataToExamSchedule() {
@@ -196,7 +210,11 @@ export class CourseExamComponent implements OnInit {
       return;
     }
     let type: string = "";
-    if (this.examScheduleData.otherSchd == 0 || this.examSchedule.otherSchd == null) {
+    if (this.examScheduleData.otherSchd == 0) {
+      type = "post";
+    } else if (this.examScheduleData.otherSchd == null) {
+      type = "post";
+    } else if (this.examScheduleData.otherSchd == undefined) {
       type = "post";
     } else {
       type = "put";
@@ -262,6 +280,7 @@ export class CourseExamComponent implements OnInit {
   }
 
   closeCancelExamPopUp() {
+    this.cancelCourseLevel = false;
     this.cancelExamPopUp = false;
     this.cancelExamData = "";
     this.cancelPopUpData = {
@@ -328,6 +347,8 @@ export class CourseExamComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+        this.closeCourseLevelAttendance();
       }
     )
   }
@@ -653,9 +674,6 @@ export class CourseExamComponent implements OnInit {
     obj.batch_id = this.viewList[index].coursetableAdder.batch_id;
     obj.otherData = selectedSubject;
     this.viewList[index].courseTableList.push(obj);
-    if (this.viewList[index].coursetableAdder.length > 1) {
-      this.viewList[index].courseModelAdder.total_marks += Number(this.viewList[index].coursetableAdder.total_marks);
-    }
     this.viewList[index].coursetableAdder = {
       batch_id: -1,
       total_marks: 0
@@ -807,12 +825,53 @@ export class CourseExamComponent implements OnInit {
 
   ////cancel Exam popup/////
 
-  cancelExamCourse(data) {
+  cancelExamCourse(data, index, j) {
     this.cancelExamPopUp = true;
-    this.cancelExamData = data;
+    this.cancelExamData = this.viewList[j].courseTableList[index];
   }
 
   cancelCourseExam() {
+    if (this.cancelPopUpData.reason.trim() == "" || null) {
+      this.messageNotifier('error', 'Error', 'Please Provide Cancellation Reason');
+      return;
+    }
+    let notify: any = "";
+    if (this.cancelPopUpData.notify) {
+      notify = "Y";
+    } else {
+      notify = "N";
+    }
+    let obj: any = {
+      batch_id: this.cancelExamData.batch_id,
+      exam_freq: "OTHER",
+      cancelSchd: [{
+        schd_id: this.cancelExamData.class_schedule_id,
+        exam_desc: this.cancelPopUpData.reason,
+        is_notified: notify
+      }]
+    }
+    this.apiService.cancelExamSchedule(obj).subscribe(
+      res => {
+        this.messageNotifier('success', 'Successfully Cancelled', 'Cancelled Successfully');
+        this.closeCancelExamPopUp();
+        this.getExamSchedule();
+      },
+      err => {
+        console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
+      }
+    )
+  }
+
+  // cancel Button next to Send Reminder
+
+  cancelExamForFullCourse(data, index) {
+    this.cancelExamPopUp = true;
+    this.cancelExamData = data;
+    this.cancelCourseLevel = true;
+  }
+
+  cancelCourseLevelExam() {
     if (this.cancelPopUpData.reason.trim() == "" || null) {
       this.messageNotifier('error', 'Error', 'Please Provide Cancellation Reason');
       return;
@@ -834,6 +893,7 @@ export class CourseExamComponent implements OnInit {
       res => {
         this.messageNotifier('success', 'Successfully Cancelled', 'Cancelled Successfully');
         this.closeCancelExamPopUp();
+        this.getExamSchedule();
       },
       err => {
         debugger
@@ -842,6 +902,8 @@ export class CourseExamComponent implements OnInit {
       }
     )
   }
+
+
 
   //Toggle Buttons////
 

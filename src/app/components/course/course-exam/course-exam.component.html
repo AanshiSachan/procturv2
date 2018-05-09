@@ -351,7 +351,7 @@
                             </div>
 
                             <div class="pull-right">
-                                <button (click)="cancelExamCourse(data,j)" class="btn fullBlue small-btn">Cancel</button>
+                                <button (click)="cancelExamForFullCourse(data,j)" class="btn fullBlue small-btn">Cancel</button>
                                 <button (click)="sendReminderForCourse(data,j)" class="btn fullBlue small-btn">Send Reminder</button>
                             </div>
 
@@ -472,7 +472,7 @@
                                         <td>
                                             <div class="action-Menu">
                                                 <a (click)="deleteFromCourse(row , i , j)">Delete</a>
-                                                <a *ngIf="row.class_schedule_id != 0">Cancel Exam</a>
+                                                <a (click)="cancelExamCourse(row , i , j)" *ngIf="row.class_schedule_id != 0">Cancel Exam</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -678,7 +678,8 @@
                         </aside>
                         <aside *ngIf="!isLangInstitute" class="pull-right popup-btn">
                             <input type="button" value="Close" class="btn" (click)="closeCancelExamPopUp()">
-                            <input type="button" value="Cancel Course Exam" (click)="cancelCourseExam()" class="fullBlue btn">
+                            <input *ngIf="cancelCourseLevel" type="button" value="Cancel Course Exam" (click)="cancelCourseLevelExam()" class="fullBlue btn">
+                            <input *ngIf="!cancelCourseLevel" type="button" value="Cancel Course Exam" (click)="cancelCourseExam()" class="fullBlue btn">
                         </aside>
                     </div>
 
