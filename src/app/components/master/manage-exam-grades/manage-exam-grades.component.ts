@@ -14,11 +14,14 @@ export class ManageExamGradesComponent implements OnInit {
     description: "",
     institution_id: sessionStorage.getItem('institute_id')
   }
-  editData:any = {
-    description:"",
-    grade:"",
-    grade_id:"",
-    institution_id:sessionStorage.getItem('institute_id')
+  editData: any = {
+    description: "",
+    grade: "",
+    grade_id: "",
+    institution_id: sessionStorage.getItem('institute_id')
+  }
+  deleteData:any = {
+    grade_id:""
   }
   gotGrades: any[] = [];
   addArray: any[] = [];
@@ -42,7 +45,7 @@ export class ManageExamGradesComponent implements OnInit {
     }
 
   }
-// fetchGrades while api hits first time
+  // fetchGrades while api hits first time
   fetchGrades() {
     this.gradeService.fetchAllData().subscribe(
       (data: any) => {
@@ -54,7 +57,7 @@ export class ManageExamGradesComponent implements OnInit {
       }
     )
   }
-// data added to table
+  // data added to table
   addDataToTable() {
 
     if (this.addData.description == "" || this.addData.grade == "" || this.addData.description == null || this.addData.grade == null) {
@@ -74,10 +77,10 @@ export class ManageExamGradesComponent implements OnInit {
             body: "Grade added successfully"
           }
           this.appC.popToast(msg);
-          this.addData={
-            institution_id:sessionStorage.getItem('institute_id'),
-            description:"",
-            grade:""
+          this.addData = {
+            institution_id: sessionStorage.getItem('institute_id'),
+            description: "",
+            grade: ""
           }
           this.toggleCreateNewgrade();
           this.fetchGrades();
@@ -91,11 +94,79 @@ export class ManageExamGradesComponent implements OnInit {
         }
       )
     }
+
+  }
+  // editing rows 
+  editRowTable(row, index) {
+
+    document.getElementById(("row" + index).toString()).classList.remove('displayComp');
+    document.getElementById(("row" + index).toString()).classList.add('editComp');
+
+  }
+  // put data for edited request
+  saveInformation(row, index) {
+
+    let data = {
+      description: row.description,
+      grade: row.grade,
+      grade_id: row.grade_id,
+      institution_id: sessionStorage.getItem('institute_id')
+    }
+    this.gradeService.saveEdited(data).subscribe(
+      (data: any) => {
+
+        this.cancelEditRow(index);
+        this.fetchGrades();
+        let msg = {
+          type: "success",
+          body: "Grade updated successfully"
+        }
+        this.appC.popToast(msg);
+
+      },
+      error => {
+        let acad = {
+          type: "error",
+          title: "Incorrect Details",
+          body: error.error.message
+        }
+        this.appC.popToast(acad);
+        this.fetchGrades();
+      })
+
+  }
+
+  cancelEditRow(index) {
+    document.getElementById(("row" + index).toString()).classList.add('displayComp');
+    document.getElementById(("row" + index).toString()).classList.remove('editComp');
+  }
+  // delete particular grade
+  deletingGrade(row , index){
+    
+    let data={
+      grade_id: row.grade_id,
+    }
+    this.gradeService.deleteRow(data).subscribe(
+      (data:any)=>{
+
+        this.fetchGrades();
+        let msg = {
+          type: "success",
+          body: "Grade deleted successfully"
+        }
+        this.appC.popToast(msg);
+
+      },
+      error => {
+        let acad = {
+          type: "error",
+          title: "Incorrect Details",
+          body: error.error.message
+        }
+        this.appC.popToast(acad);
+        this.fetchGrades();
+      })
+      }
     
   }
 
-  // put data for edited request
-  saveData(obj){
-    
-  }
-}

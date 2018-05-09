@@ -61,4 +61,16 @@ export class ExamGradeServiceService {
       }
       )
     }
+
+    deleteRow(obj){
+      let url= this.baseUrl + "/api/v1/grade_manager/delete/" + this.institute_id + "/" + obj.grade_id ; 
+      return this.http.delete(url, {headers: this.headers}).map(
+        data => {
+          return data;
+      },
+      error => {
+          return error;
+      }
+      )
+    }
 }
