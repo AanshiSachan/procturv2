@@ -305,11 +305,10 @@
                     <div class="" *ngIf="component.type == 2" input-def>
                       <br>
                       <div class="field-checkbox-wrapper">
-                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
-                        <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                         <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" (ngModelChange)="updateCustomComponent($event, component)"
                           name="{{component.label +i}}" value="">
-
+                          <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                          <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                       </div>
                     </div>
 
@@ -338,10 +337,9 @@
                           <ul class="">
                             <li *ngFor="let opt of component.prefilled_data">
                               <div class="field-checkbox-wrapper">
-                                <label for="opt.data">{{opt.data}}</label>
                                 <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
                                   class="form-checkbox">
-
+                                  <label for="opt.data">{{opt.data}}</label>
                               </div>
                             </li>
                           </ul>
@@ -374,9 +372,9 @@
         </div>
         <aside class="pull-right">
           <div style="display: inline-block;" class="field-checkbox-wrapper">
-            <label for="addNextEnquiry">Add Next Enquiry</label>
-            <input type="checkbox" value="" [(ngModel)]="addNextCheck" class="form-checkbox" id="addNextEnquiry" name="addNextEnquiry">
 
+            <input type="checkbox" value="" [(ngModel)]="addNextCheck" class="form-checkbox" id="addNextEnquiry" name="addNextEnquiry">
+            <label for="addNextEnquiry">Add Next Enquiry</label>
           </div>
           <input style="display: inline-block;" type="button" value="Cancel" class="btn cancle" routerLink="/enquiry">
           <input *ngIf="newEnqData.status != 12 && newEnqData.status != 1" style="display: inline-block;" type="button" value="Add & Register Enquiry"
