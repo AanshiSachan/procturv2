@@ -5,7 +5,7 @@ import { CoreHeaderComponent } from './components/core/core-header/core-header.c
 import { SlotComponent } from './components/slot/slot.component';
 
 /* Modules */
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -47,6 +47,8 @@ import { SearchBoxComponent } from './components/core/search-box/search-box.comp
 import { ClassRoomComponent } from './components/class-room/class-room.component';
 import { EventManagmentComponent } from './components/event-managment/event-managment.component';
 import {FilterPipe} from './components/event-managment/filterpipe';
+import { MasterComponent } from './components/master/master.component';
+import { ManageExamModule } from './components/master/master.module';
 @NgModule({
   imports: [
     BrowserModule,
@@ -54,6 +56,7 @@ import {FilterPipe} from './components/event-managment/filterpipe';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ManageExamModule,
     HttpModule,
     BrowserAnimationsModule,
     Ng2SmartTableModule,
@@ -61,7 +64,7 @@ import {FilterPipe} from './components/event-managment/filterpipe';
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
     SharedModule,
-    Ng2OrderModule
+    Ng2OrderModule,
   ],
   declarations: [
     AppComponent,
@@ -76,6 +79,7 @@ import {FilterPipe} from './components/event-managment/filterpipe';
     EventManagmentComponent,
     CityAreaMapComponent,
     SearchBoxComponent
+   
   ],
   entryComponents: [
     SearchBoxComponent
@@ -91,7 +95,8 @@ import {FilterPipe} from './components/event-managment/filterpipe';
     SlotApiService,
     CityAreaService,
     ClassRoomService,
-    EventManagmentService
+    EventManagmentService,
+    Title
   ],
   bootstrap: [AppComponent]
 })

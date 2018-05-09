@@ -1,3 +1,5 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
 <div class="report-wrapper clearFix">
     <aside class="middle-full">
         <section class="middle-main clearFix">
@@ -14,69 +16,124 @@
                     </aside>
                 </section>
 
-                <section class="fee-filter">
-
-                    <div class="c-lg-3">
-                        <div class="field-wrapper">
-                            <label for="mc">Master Course</label>
-                            <select class="form-ctrl" name="" id="mc">
-                                <option value="-1"></option>
-                            </select>
+                <section class="fee-filter" [ngClass]="{'long': isFilterReversed}">
+                    <div id="primary" *ngIf="!isFilterReversed">
+                        <div class="c-lg-4">
+                            <div class="form-wrapper">
+                                <input [(ngModel)]='search_value' type="text" class="form-ctrl" placeholder="Search Name/Phone No.">
+                            </div>
                         </div>
+                        <div class="c-lg-2">
+                            <div class="form-wrapper">
+                                <select [(ngModel)]="due_type" name="" id="" class="form-ctrl">
+                                    <option value="-1">Select Dues</option>
+                                    <option value="all_dues">All Dues</option>
+                                    <option value="next_month_dues">Next Month Dues</option>
+                                    <option value="this_month_dues">This Month Dues</option>
+                                    <option value="current_dues">Current Dues</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="c-lg-1 filter-btn">
+                            <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                        </div>
+                        <div style="margin-top: 10px" class="c-lg-2 filter-btn">
+                            <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Switch Filter</a>
+                        </div>
+                        <div class="c-lg-3"></div>
                     </div>
-                    <div class="c-lg-3">
-                        <div class="field-wrapper">
-                            <label for="cc">Course</label>
-                            <select class="form-ctrl" name="" id="cc">
-                                <option value="-1"></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="c-lg-3">
-                        <div class="field-wrapper">
-                            <label for="ic">Installment</label>
-                            <select class="form-ctrl" name="" id="ic">
-                                <option value="-1"></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="c-lg-3"></div>
 
-                    <div class="c-lg-12">
-                        <div class="c-lg-3 radio-group">
-                            <div class="c-lg-6 field-radio-wrapper">
-                                <input class="form-radio" type="radio" name="dues" value="all" id='r1' checked>
-                                <label for="r1">All Students</label>
+                    <div id="secondary" *ngIf="isFilterReversed">
+                        <div class="c-lg-12">
+                            <div class="c-lg-3">
+                                <div class="field-wrapper" [ngClass]="{'has-value': true }">
+                                    <label for="mc" *ngIf="isProfessional">Master Course</label>
+                                    <label for="mc" *ngIf="!isProfessional">Standard</label>
+                                    <select [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl" name="mc" id="mc">
+                                        <option value="-1"></option>
+                                        <option *ngFor="let master of standardList" [value]="master.standard_id">{{master.standard_name}}</option>
+                                    </select>
+                                </div>
                             </div>
 
-                            <div class="c-lg-6 field-radio-wrapper">
-                                <input class="form-radio" type="radio" name="dues" value="last" id='r2'>
-                                <label for="r2">Previous Dues</label>
-                            </div>
-                        </div>
-
-                        <div class="c-lg-3">
-                            <div class="field-wrapper datePickerBox">
-                                <label for="ic">From Date</label>
-                                <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" bsDatepicker/>
-                            </div>
-                        </div>
-
-                        <div class="c-lg-3">
-                            <div class="field-wrapper datePickerBox">
-                                <label for="ic">To Date</label>
-                                <input type="text" value="" readonly="true" class="form-ctrl bsDatepicker" bsDatepicker/>
+                            <div class="c-lg-3">
+                                <div class="field-wrapper">
+                                    <label for="cc" *ngIf="isProfessional">Course</label>
+                                    <label for="cc" *ngIf="!isProfessional">Subject</label>
+                                    <select [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList()" class="form-ctrl" name="cc" id="cc">
+                                        <option value="-1"></option>
+                                        <option *ngFor="let course of subjectList" [value]="course.subject_id">{{course.subject_name}}</option>
+                                    </select>
+                                </div>
                             </div>
 
+                            <div class="c-lg-3" *ngIf="isProfessional">
+                                <div class="field-wrapper">
+                                    <label for="ba">Batch</label>
+                                    <select [(ngModel)]="courseFetchForm.batch_id" class="form-ctrl" name="" id="ba">
+                                        <option value="-1"></option>
+                                        <option *ngFor="let batch of batchList" [value]="batch.batch_id">{{batch.batch_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-3">
+                                <div class="field-wrapper">
+                                    <label for="ic">Installment</label>
+                                    <select class="form-ctrl" name="" id="ic">
+                                        <option value="-1"></option>
+                                        <option [value]="i" *ngFor="let i of installmentList">{{i}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
                         </div>
 
-                        <div class="c-lg-3 filter-btn">
+                        <div class="c-lg-12">
+
+                            <div class="c-lg-3 radio-group">
+                                <div class="c-lg-6 field-radio-wrapper">
+                                    <input class="form-radio" type="radio" name="dues" value="0" id='r1' [(ngModel)]="courseFetchForm.type" checked>
+                                    <label for="r1">All Students</label>
+                                </div>
+
+                                <div class="c-lg-6 field-radio-wrapper">
+                                    <input class="form-radio" type="radio" name="dues" value="1" [(ngModel)]="courseFetchForm.type" id='r2'>
+                                    <label for="r2">Previous Dues</label>
+                                </div>
+                            </div>
+
+                            <div class="c-lg-3">
+                                <div class="field-wrapper datePickerBox">
+                                    <label for="ic">From Date</label>
+                                    <input [(ngModel)]="courseFetchForm.from_date" (ngModelChange)="validateFutureDate('from')" type="text" value="" readonly="true"
+                                        class="form-ctrl bsDatepicker" bsDatepicker/>
+                                </div>
+                                <span style="cursor: pointer; color: #ff0000;" (click)="courseFetchForm.from_date = ''">clear</span>
+                            </div>
+
+                            <div class="c-lg-3">
+                                <div class="field-wrapper datePickerBox">
+                                    <label for="ic">To Date</label>
+                                    <input [(ngModel)]="courseFetchForm.to_date" (ngModelChange)="validateFutureDate('to')" type="text" value="" readonly="true"
+                                        class="form-ctrl bsDatepicker" bsDatepicker/>
+                                </div>
+                                <span style="cursor: pointer;color: #ff0000;" (click)="courseFetchForm.to_date = ''">clear</span>
+                            </div>
+
+                            <div class="c-lg-2 filter-btn">
                                 <button class="btn fullBlue" (click)="fetchFeeDetails()">Go</button>
+                            </div>
+
+                            <div class="c-lg-1 filter-btn">
+                                <div class="filter-right pull-right">
+                                    <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Switch Filter</a>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-
                 </section>
-
             </div>
 
             <section class="fee-info">
@@ -121,8 +178,12 @@
             </section>
 
             <section class="fee-table">
-                <div class="table-content">
-                    <rob-table [records]="feeDataSource" [tableName]="'feereport'" [settings]="feeSettings">
+                <div class="table-content" *ngIf="isFilterReversed">
+                    <rob-table [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)" [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1" [tableName]="'feereport'" [settings]="feeSettings1">
+                    </rob-table>
+                </div>
+                <div class="table-content" *ngIf="!isFilterReversed">
+                    <rob-table [menuOptions]="menuOptions" [isMulti]='true' [hasMenu]="false" [records]="feeDataSource2" [tableName]="'feereport'" [settings]="feeSettings2">
                     </rob-table>
                 </div>
             </section>

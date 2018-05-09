@@ -1,5 +1,4 @@
 import { Component, OnInit, OnChanges, HostListener, ElementRef, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2} from '@angular/core';
-import { ViewCell } from '../../../../assets/imported_modules/ng2-smart-table';
 import { PopupHandlerService } from '../../../services/enquiry-services/popup-handler.service';
 import { Router } from '@angular/router';
 

@@ -74,13 +74,6 @@
               <div class="search-filter-wrapper" id="adFilterExitVisible">
                 <input #search type="text" class="normal-field" placeholder="Search Name/Contact/Enquiry No." style="font-size:12px; margin: 0px 5px 0px -5px;"
                   [(ngModel)]="searchBarData" name="searchData" (keyup.enter)="searchDatabase()">
-                <!-- followup date handler -->
-                <!-- <div class="field-wrapper datePickerBox">
-                  <input type="text" value="" id="followupdate" class="form-ctrl" [(ngModel)]="searchBarDate" style="cursor: pointer;" (keyup.enter)="searchDatabase()"
-                    name="followupdate" bsDatepicker readonly="true" />
-                  <label for="followupdate">Follow up Date</label>
-                  <span class="date-clear" name="followupdate" (click)="clearSearchDate()">clear</span>
-                </div> -->
                 <input type="button" class="normal-btn fullBlue btn" value="Search" (click)="searchDatabase()" />
               </div>
             </div>
@@ -235,7 +228,7 @@
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper datePickerBox">
                   <label for="updateDate">Update Date</label>
-                <input type="text" value="" id="updateDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.updateDate" name="UD"
+                <input type="text" value="" id="updateDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.updateDate" name="UD"
                   readonly="true" bsDatepicker/>
                 
                 <span class="date-clear" name="followupdate" (click)="clearadfilterUpdateDate()">clear</span>
@@ -246,7 +239,7 @@
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper datePickerBox">
                   <label for="enquiryFromDate">Enquiry From Date</label>
-                <input type="text" value="" id="enquiryFromDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.enquireDateFrom"
+                <input type="text" value="" id="enquiryFromDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.enquireDateFrom"
                   name="EFD" bsDatepicker readonly="true" />
                 
                 <span class="date-clear" name="followupdate" (click)="clearadfilterEnqFromDate()">clear</span>
@@ -257,7 +250,7 @@
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper datePickerBox">
                   <label for="enquiryToDate">Enquiry To Date</label>
-                <input type="text" value="" id="enquiryToDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.enquireDateTo"
+                <input type="text" value="" id="enquiryToDate" class="form-ctrl bsDatepicker dateFormat " [(ngModel)]="advancedFilterForm.enquireDateTo"
                   name="ETD" bsDatepicker readonly="true" />
                
                 <span class="date-clear" name="followupdate" (click)="clearadfilterEnqToDate()">clear</span>
@@ -268,7 +261,7 @@
             <div class="c-lg-4 c-md-4 c-sm-4">
               <div class="field-wrapper datePickerBox">
                   <label for="followDate">Follow-Up Date</label>
-                <input type="text" value="" id="followDate" class="form-ctrl bsDatepicker" [(ngModel)]="advancedFilterForm.followUpDate"
+                <input type="text" value="" id="followDate" class="form-ctrl bsDatepicker dateFormat" [(ngModel)]="advancedFilterForm.followUpDate"
                   name="FD" readonly="true" bsDatepicker/>
                 
                 <span class="date-clear" name="followupdate" (click)="clearfollowUpDate()">clear</span>

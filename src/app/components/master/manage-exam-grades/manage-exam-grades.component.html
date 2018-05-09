@@ -1,0 +1,117 @@
+<loaders-css [loader]="'ball-scale-ripple-multiple'" class="app-loader-wrapper" [loaderClass]="'blueRipple'" *ngIf="isRippleLoad">
+</loaders-css>
+<div class="clear-fix">
+  <aside class="middle-full ">
+    <section class="middle-main clearFix ">
+      <section class="middle-top mb0 clearFix sms-header">
+
+
+      </section>
+      <section class="filter-form attendance-container">
+        <h2>Manage Grades</h2>
+        <div class="clearFix add-edit">
+          <a (click)="toggleCreateNewgrade()">
+            <i id="showAddBtn" class="addBtnClass">+</i>
+            <i id="showCloseBtn" class="closeBtnClass" style="display:none;">-</i>
+            <span>Create Grade</span>
+          </a>
+        </div>
+        <div class="row create-standard-field" *ngIf=showToggle>
+
+          <div class="c-lg-3 c-md-3 c-sm-3">
+            <div class="field-wrapper">
+              <label for="Create Grade">Create Grade
+
+                <span>*</span>
+              </label>
+              <input type="text" class="form-ctrl" name="grade" id="grade" [(ngModel)]="addData.grade">
+
+            </div>
+          </div>
+          <div class="c-lg-3 c-md-3 c-sm-3">
+            <div class="field-wrapper">
+              <label for="Description">Description
+                <span>*</span>
+              </label>
+              <input type="text" class="form-ctrl" name="Description" id="Description" [(ngModel)]="addData.description">
+
+            </div>
+          </div>
+          <div class="c-lg-3 c-md-3 c-sm-3">
+            <div class="pull-left create-cancel-small">
+              <aside class="pull-left create-cancel-small">
+                <button class="btn fullBlue" style="margin-top:26px;" (click)="addDataToTable()">Add</button>
+              </aside>
+            </div>
+          </div>
+        </div>
+
+        <div class="table table-responsive" style="margin-top:10px;">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  Id
+                </th>
+                <th>
+                  Grade
+                </th>
+                <th>
+                  Description
+                </th>
+                <th>
+                  Create Date
+                </th>
+                <th>
+                  Edit
+                </th>
+                <th>
+                  Delete
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of gotGrades; let i = index; trackBy: i;" class="displayComp" id="row{{i}}">
+                <td>
+                  {{i + 1}}
+                </td>
+
+                <td class="view-comp">
+                  {{row.grade}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.grade" [value]="row.grade_id">
+                  </div>
+                </td>
+                <td class="view-comp">
+                  {{row.description}}
+                </td>
+                <td class="edit-comp">
+                  <div class="field-wrapper">
+                    <input type="text" class="form-ctrl editCellInput" name="label" [(ngModel)]="row.description">
+                  </div>
+                </td>
+                <td disabled>
+                  {{row.created_date}}
+                </td>
+                
+                <td class="view-comp">
+                  <a class="anchorTagCursor" (click)="editRowTable(row, i)">Edit</a>
+                </td>
+                <td class="edit-comp">
+                  <a class="anchorTagCursor" (click)="saveInformation(row, i)"> Save </a>
+                  <a class="anchorTagCursor anchorTag" (click)="cancelEditRow(i)"> Cancel </a>
+                </td>
+                <td>
+                    <a class="anchorTagCursor" (click)="deletingGrade(row , index)"> Delete </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </section>
+  </aside>
+</div>

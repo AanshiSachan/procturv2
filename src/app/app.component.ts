@@ -5,6 +5,8 @@ import { ToasterModule, Toast, ToasterService, ToasterConfig } from '../assets/i
 import { LoaderHandlingService } from './services/loading-services/loader-handling.service';
 import { LoginService } from './services/login-services/login.service';
 import { FetchprefilldataService } from './services/fetchprefilldata.service';
+import { Title } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -50,7 +52,7 @@ export class AppComponent implements OnInit {
 
 
   constructor(toasterService: ToasterService, private router: Router,
-    private load: LoaderHandlingService, private log: LoginService, private fetchService: FetchprefilldataService) {
+    private load: LoaderHandlingService, private log: LoginService, private fetchService: FetchprefilldataService, private titleService: Title) {
     this.toasterService = toasterService;
   }
 
@@ -92,7 +94,7 @@ export class AppComponent implements OnInit {
 
 
 
-  popToast(data) {
+  public popToast(data) {
     var toast: Toast = {
       type: data.type,
       title: data.title,
@@ -102,7 +104,7 @@ export class AppComponent implements OnInit {
   }
 
 
-  removeFullscreen() {
+  public removeFullscreen() {
     var header = document.getElementsByTagName('core-header');
     var sidebar = document.getElementsByTagName('core-sidednav');
 
@@ -116,7 +118,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  searchViewMore(e) {
+  public searchViewMore(e) {
     if (e != null) {
       this.isSearchMore = true;
       this.filterGlobal(e.input);
@@ -129,11 +131,11 @@ export class AppComponent implements OnInit {
     }
   }
 
-  closeSearchArea() {
+  public closeSearchArea() {
     this.isSearchMore = false;
   }
 
-  filterGlobal(value) {
+  public filterGlobal(value) {
     if (value != null && value != undefined) {
       if (value.trim() != '' && value.length >= 4) {
         let obj = this.getSearchObject(value);
@@ -166,7 +168,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  getSearchObject(e): any {
+  public getSearchObject(e): any {
     let obj = this.globalSearchForm;
     /* Name detected */
     if (isNaN(e)) {
@@ -182,17 +184,17 @@ export class AppComponent implements OnInit {
     }
   }
 
-  studentSelected(s) {
+  public studentSelected(s) {
     this.closeSearchArea();
     this.router.navigate(['/student'], { queryParams: { id: s.id } });
   }
 
-  enquirySelected(e) {
+  public enquirySelected(e) {
     this.closeSearchArea();
     this.router.navigate(['/enquiry'], { queryParams: { id: e.id } });
   }
 
-  performAction(a: string, data) {
+  public performAction(a: string, data) {
 
     let d = data.id
     switch (a) {
@@ -233,6 +235,10 @@ export class AppComponent implements OnInit {
       }
 
     }
+  }
+
+  public setTitle(newTitle: string) {
+    this.titleService.setTitle(newTitle);
   }
 
 }
