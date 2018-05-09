@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 
 import { LoginService } from '../../../../services/login-services/login.service';
 import { AppComponent } from '../../../../app.component';
@@ -9,11 +9,26 @@ import { PostFeeService } from '../../../../services/report-services/fee-service
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-view-detail-report',
+  selector: 'view-detail-report',
   templateUrl: './view-detail-report.component.html',
   styleUrls: ['./view-detail-report.component.scss']
 })
-export class ViewDetailComponent {
+export class ViewDetailComponent implements OnChanges {
 
+  @Input() feeData: any;
+  @Output() closeButton = new EventEmitter<any>()
+
+  constructor() { }
+
+  ngOnChanges() {
+    this.feeData;
+    this.updateData();
+  }
+
+
+  updateData() {
+    console.log(this.feeData);
+  }
 }
+
 

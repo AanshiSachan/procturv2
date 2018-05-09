@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 
 import { LoginService } from '../../../../services/login-services/login.service';
 import { AppComponent } from '../../../../app.component';
@@ -13,7 +13,24 @@ import * as moment from 'moment';
   templateUrl: './next-due-detail.component.html',
   styleUrls: ['./next-due-detail.component.scss']
 })
-export class NextDueDetailComponent {
+export class NextDueDetailComponent implements OnChanges {
+
+  @Input() feeData: any;
+  @Output() closeButton = new EventEmitter<any>()
+
+  constructor() { }
+
+  ngOnChanges() {
+    this.feeData;
+    this.updateData();
+  }
+
+
+  updateData() {
+    console.log(this.feeData);
+  }
 
 }
+
+
 

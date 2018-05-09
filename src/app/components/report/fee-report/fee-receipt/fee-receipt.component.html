@@ -1,0 +1,88 @@
+<proctur-popup>
+
+    <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopups()" close-button>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+            <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+                <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+                    <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798" transform="translate(992.81 305.77) rotate(45)" />
+                    <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798" transform="translate(978.81 305.77) rotate(45)" />
+                </g>
+                <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16" transform="translate(1012 297)"
+                />
+            </g>
+        </svg>
+    </span>
+
+    <h2 popup-header>Fee Receipts</h2>
+
+    <div class="receipt-wrapper" popup-content>
+        <div class="table-container">
+            <div class="table table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Receipt no.</th>
+                            <th>Paid On</th>
+                            <th>Payment Mode</th>
+                            <th>Total Amount Paid</th>
+                            <th>Remarks</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="receiptData.length">
+                        <tr *ngFor="let r of receiptData; let i = index;">
+
+                            <td>
+                                {{r.display_invoice_no}}
+                            </td>
+
+                            <td>
+                                {{r.paid_date}}
+                            </td>
+
+                            <td>
+                                {{r.paymentMode}}
+                            </td>
+
+                            <td>
+                                {{r.total_amt_paid}}
+                            </td>
+
+                            <td>
+                                {{r.remarks}}
+                            </td>
+
+                            <td (click)="downloadReceipt(r, i)">
+                                <a class="hide" id="customreceipt{{i}}"></a>
+                                <i style="font-family: FontAwesome;" class="fa fa-cloud-download" aria-hidden="true"></i> Download
+                            </td>
+
+                            <td (click)="emailReceipt(r)">
+                                <i style="font-family: FontAwesome;" class="fa fa-envelope-o" aria-hidden="true"></i> Email
+                            </td>
+
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="receiptData.length == 0">
+                        <tr>
+                            <td colspan="7">
+                                No Data Found
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<!--     <div class="" popup-footer>
+        <div class="clearfix">
+            <aside class="pull-right popup-btn">
+                <input type="button" value="Cancel" class="btn" (click)="closePopups()">
+                <input type="button" value="Apply" (click)="applyAction()" class="fullBlue btn">
+            </aside>
+        </div>
+    </div> -->
+
+</proctur-popup>

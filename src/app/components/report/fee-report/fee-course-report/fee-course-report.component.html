@@ -180,17 +180,20 @@
             <section class="fee-table">
                 <div class="table-content" *ngIf="isFilterReversed">
                     <rob-table [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)" [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1"
-                        [tableName]="'feereport'" [settings]="feeSettings1">
+                       [dataStatus]="dataStatus" [tableName]="'feereport'" [settings]="feeSettings1">
                     </rob-table>
                 </div>
                 <div class="table-content" *ngIf="!isFilterReversed">
                     <rob-table [menuOptions]="menuOptions" [isMulti]='true' [hasMenu]="false" [records]="feeDataSource2" [tableName]="'feereport'"
-                        [settings]="feeSettings2">
+                       [dataStatus]="dataStatus" [settings]="feeSettings2">
                     </rob-table>
                 </div>
             </section>
 
         </section>
     </aside>
+    <fee-receipt [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeeReceipt"></fee-receipt>
+    <next-due-detail [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isNextDueDetail"></next-due-detail>
+    <payment-history [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isFeepaymentHistory"></payment-history>
+    <view-detail-report [feeData]="selectedFeeRecord" (closeButton)="closePopup($event)" *ngIf="isViewDetailReport"></view-detail-report>
 </div>
-

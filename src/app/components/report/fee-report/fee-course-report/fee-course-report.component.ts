@@ -24,7 +24,7 @@ export class FeeCourseReportComponent implements OnInit {
   installmentList: any;
   isFilterReversed: boolean = true;
   isProfessional: boolean = false;
-
+  dataStatus:number = 3;
   feeSettings1: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
     { primaryKey: 'student_name', header: 'Name' },
@@ -174,6 +174,7 @@ export class FeeCourseReportComponent implements OnInit {
     this.getter.getBatchDetails(this.courseFetchForm).subscribe(
       res => {
         this.isRippleLoad = false;
+
         this.batchList = res.batchLi;
         this.standardList = res.standardLi;
         this.subjectList = [];
@@ -361,8 +362,12 @@ export class FeeCourseReportComponent implements OnInit {
     }
     console.log(obj);
     this.isRippleLoad = true;
+    this.dataStatus = 1;
     this.getter.getFeeReportData(obj).subscribe(
       res => {
+        if(res.length == 0){
+          this.dataStatus = 2;
+        }
         this.isRippleLoad = false;
         if (this.isFilterReversed) {
           this.feeDataSource1 = res;
@@ -569,7 +574,12 @@ export class FeeCourseReportComponent implements OnInit {
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
-
+  closePopup(e){
+    this.isFeeReceipt = false;
+    this.isFeepaymentHistory= false;
+    this.isNextDueDetail = false;
+    this.isViewDetailReport = false;
+  }
   /* ===================================================================================================== */
   /* ===================================================================================================== */
 
