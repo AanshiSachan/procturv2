@@ -147,7 +147,7 @@ $color-highlight: lighten($color-base, 7%);
         min-height: 300px;
         max-height: 50vh;
         overflow-x: hidden;
-        overflow-y: auto;
+        overflow-y: visible;
     }
     ul {
         border-bottom: 2px solid rgba(211, 212, 213, 0.5);
