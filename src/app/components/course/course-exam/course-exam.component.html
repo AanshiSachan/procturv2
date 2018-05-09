@@ -578,9 +578,9 @@
                         </div>
                         <div class="c-sm-6 c-md-6 c-lg-6" style="margin-top: 20px;">
                             <div class="field-checkbox-wrapper">
-                                <label for="msgAbsentees">Send Sms For Absentees</label>
+                                
                                 <input type="checkbox" value="" id="msgAbsentees" name="msgAbsentees" class="form-checkbox" [(ngModel)]="smsAbsenteesChkbx">
-
+                                <label for="msgAbsentees">Send Sms For Absentees</label>
                             </div>
                         </div>
                     </div>
@@ -604,9 +604,9 @@
 
                         <div class="c-sm-3 c-md-3 c-lg-3">
                             <div class="field-checkbox-wrapper">
-                                <label for="MarkAllPresent">Mark All Present</label>
+                                
                                 <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkCheckAllChkboxStatus()" (change)="markAllPresent($event)">
-
+                                <label for="MarkAllPresent">Mark All Present</label>
                             </div>
                         </div>
 
@@ -712,9 +712,9 @@
                     <div class="clearfix" style="margin-top: 10px">
                         <aside class="pull-left" style="margin-top: 10px">
                             <div class="field-checkbox-wrapper">
-                                <label for="chkBxNotifyStudent">Notify Students</label>
+                               
                                 <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent" class="form-checkbox" [(ngModel)]="cancelPopUpData.notify">
-
+                                <label for="chkBxNotifyStudent">Notify Students</label>
                             </div>
                         </aside>
                         <aside *ngIf="isLangInstitute" class="pull-right popup-btn">

@@ -35,70 +35,70 @@
                 <div class="radio-options">
                   <div class="radio-main">
                     <div class="field-radio-wrapper">
-                        <label for="active">All</label>
+
                       <input type="radio" checked (click)="checkInputType($event)" name="sFilter" class="form-radio" value="Automatic" id="idAll">
-                      
+                      <label for="active">All</label>
                     </div>
                     <div class="field-radio-wrapper">
-                        <label for="Inactive">Faculty</label>
+
                       <input type="radio" (click)="checkInputType($event)" name="sFilter" value="Manual" class="form-radio" id="idTeacher">
-                      
+                      <label for="Inactive">Faculty</label>
                     </div>
                     <div class="field-radio-wrapper">
-                        <label for="Inactive">Batch</label>
+
                       <input type="radio" (click)="checkInputType($event)" name="sFilter" value="Manual" class="form-radio" id="idBatch">
-                     
+                      <label for="Inactive">Batch</label>
                     </div>
                   </div>
                   <div class="field-main">
                     <div *ngIf="selectedRadioButton == 'Teacher'">
                       <div class="field-wrapper fieldPro" [ngClass]="{'has-value': fetchBatchModule.teacher_id != '-1'}">
-                          <label for="sc">Select Faculty</label>
+                        <label for="sc">Select Faculty</label>
                         <select id="sc" class="form-ctrl" [(ngModel)]="fetchBatchModule.teacher_id">
                           <option value="-1"></option>
                           <option [value]="subject.teacher_id" *ngFor="let subject of teacherList">
                             {{subject.teacher_name}}
                           </option>
                         </select>
-                        
+
                       </div>
                     </div>
 
                     <div *ngIf="selectedRadioButton == 'Batch'" class="field-main">
 
                       <div class="field-wrapper" [ngClass]="{'has-value': batchData.standard_id != '0' && batchData.standard_id != '-1'}">
-                          <label for="smc">Select Master Course</label>
+                        <label for="smc">Select Master Course</label>
                         <select id="smc" class="form-ctrl" [(ngModel)]="batchData.standard_id" (ngModelChange)="onBatchMasterCourseSelection($event)">
                           <option value="0"></option>
                           <option [value]="master.standard_id" *ngFor="let  master of batchMasterCourse">
                             {{master.standard_name}}
                           </option>
                         </select>
-                        
+
                       </div>
 
 
                       <div class="field-wrapper" [ngClass]="{'has-value': batchData.subject_id != '0' && batchData.subject_id != '-1'}">
-                          <label for="sc">Select Course</label>
+                        <label for="sc">Select Course</label>
                         <select id="sc" class="form-ctrl" [(ngModel)]="batchData.subject_id" (ngModelChange)="onSubjectSelection($event)">
                           <option value="0"></option>
                           <option [value]="course.subject_id" *ngFor="let course of subjectListBatch">
                             {{course.subject_name}}
                           </option>
                         </select>
-                        
+
                       </div>
 
 
                       <div class="field-wrapper" [ngClass]="{'has-value': batchData.batch_id != '0' && batchData.batch_id != '-1'}">
-                          <label for="sc">Batch</label>
+                        <label for="sc">Batch</label>
                         <select id="sc" class="form-ctrl" [(ngModel)]="batchData.batch_id">
                           <option value="0"></option>
                           <option [value]="subject.batch_id" *ngFor="let subject of batchList">
                             {{subject.batch_name}}
                           </option>
                         </select>
-                        
+
                       </div>
                     </div>
                   </div>
@@ -114,19 +114,19 @@
                   <div class="row">
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.master_course != '-1'}">
-                          <label for="smc">Select Master Course</label>
+                        <label for="smc">Select Master Course</label>
                         <select id="smc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.master_course" (ngModelChange)="updateCourseList($event)">
                           <option value="-1"></option>
                           <option [value]="master.master_course" *ngFor="let  master of masterCourse">
                             {{master.master_course}}
                           </option>
                         </select>
-                        
+
                       </div>
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.course_id != '-1'}">
-                          <label for="sc">Select Course</label>
+                        <label for="sc">Select Course</label>
                         <select id="sc" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.course_id" (ngModelChange)="updateSubjectList($event)">
                           <option value="-1"></option>
                           <option [value]="course.course_id" *ngFor="let course of courseList.coursesList
@@ -134,38 +134,38 @@
                             {{course.course_name}}
                           </option>
                         </select>
-                        
+
                       </div>
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.subject_id != '-1'}">
-                          <label for="selectsub">Select Subject</label>
+                        <label for="selectsub">Select Subject</label>
                         <select id="selectsub" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.subject_id">
                           <option value="-1"></option>
                           <option [value]="subject.subject_id" *ngFor="let subject of subjectList">
                             {{subject.subject_name}}
                           </option>
                         </select>
-                        
+
                       </div>
                     </div>
                     <div class="c-lg-3 c-md-3 c-sm-3">
                       <div class="field-wrapper" [ngClass]="{'has-value': fetchMasterCourseModule.teacher_id != '-1'}">
-                          <label for="selectteacher">Select Teacher</label>
+                        <label for="selectteacher">Select Teacher</label>
                         <select id="selectteacher" class="form-ctrl" [(ngModel)]="fetchMasterCourseModule.teacher_id">
                           <option value="-1"></option>
                           <option [value]="subject.teacher_id" *ngFor="let subject of teacherList">
                             {{subject.teacher_name}}
                           </option>
                         </select>
-                       
+
                       </div>
                     </div>
                   </div>
                 </div>
-                
-                  <input type="button" class="fullBlue btn" value="Go" (click)="submitMasterCourse()">
-                
+
+                <input type="button" class="fullBlue btn" value="Go" (click)="submitMasterCourse()">
+
 
               </div>
 
@@ -319,10 +319,10 @@
           <div class="row">
             <div class="c-sm-4 c-md-4 c-lg-4">
               <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': reschedDate != ''}">
-                  <label for="reschDate" style="color: black">Reschedule Date</label>
+                <label for="reschDate" style="color: black">Reschedule Date</label>
                 <input type="text" id="reschDate" name="reschDate" readonly="true" class="form-ctrl bsDatepicker" [(ngModel)]="reschedDate"
                   bsDatepicker>
-                
+
               </div>
             </div>
 
@@ -384,17 +384,18 @@
           <div class="clearfix">
             <aside class="pull-left" style="margin-top: 10px;">
               <div class="field-checkbox-wrapper">
-                  <label for="is_reshedule_notified">Notify Students
-                      <div class="questionInfo lefts" style="margin-left: 30px;">
-                        <span class="qInfoIcon">?</span>
-                        <div class="tooltip-box-field">
-                          Reschedule SMS will be sent to student.
-                        </div>
-                      </div>
-                    </label>
+
                 <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus('resheduleNotified')"
                   (change)="notifyRescheduleUpdate($event)">
-                
+                <label for="is_reshedule_notified">Notify Students
+                  <div class="questionInfo lefts" style="margin-left: 30px;">
+                    <span class="qInfoIcon">?</span>
+                    <div class="tooltip-box-field">
+                      Reschedule SMS will be sent to student.
+                    </div>
+                  </div>
+                </label>
+
               </div>
             </aside>
             <aside class="pull-right popup-btn">
@@ -452,9 +453,10 @@
           <div class="clearfix">
             <aside class="pull-left">
               <div class="field-checkbox-wrapper">
-                  <label for="notifyCancel">Notify Students</label>
+
                 <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
-               
+                <label for="notifyCancel">Notify Students</label>
+
               </div>
             </aside>
             <aside class="pull-right popup-btn">

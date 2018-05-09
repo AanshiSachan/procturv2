@@ -447,11 +447,11 @@
                       <tr *ngFor="let row of weekDaysTable; let i=index ; trackBy : index ">
                         <td>
                           <div class="field-checkbox-wrapper">
-                            <label for="checkbx{{i}}">
-                              {{row.data_value}}
-                            </label>
+                            
                             <input type="checkbox" name="chk" name="checkbx" id="checkbx{{i}}" [(ngModel)]="row.uiSelected" class="form-checkbox">
-
+                            <label for="checkbx{{i}}">
+                                {{row.data_value}}
+                              </label>
                           </div>
                         </td>
                         <td>
@@ -1213,9 +1213,9 @@
 
         <div class="row extraMargin">
           <div class="field-checkbox-wrapper pull-left">
-            <label for="idChkbxEnable">Notify students</label>
+           
             <input type="checkbox" checked name="enableSMS" class="form-checkbox" id="idChkbxEnable">
-
+            <label for="idChkbxEnable">Notify students</label>
           </div>
           <div class="pull-right" *ngIf="!isProfessional" style="margin-right: 15px">
             <button class="btn" (click)="closePopup()">Close</button>
@@ -1349,9 +1349,9 @@
 
         <div class="row extraMargin">
           <div class="field-checkbox-wrapper pull-left">
-            <label for="NotifyStusde">Notify students</label>
+            
             <input type="checkbox" [(ngModel)]="weeklyScheduleCan.is_notified" name="enableSMS" class="form-checkbox" id="NotifyStusde">
-
+            <label for="NotifyStusde">Notify students</label>
           </div>
           <div class="pull-right" style="margin-right: 15px">
             <button class="btn" (click)="closeWeeklySchedulePopup()">Close</button>
