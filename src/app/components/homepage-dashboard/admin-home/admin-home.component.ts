@@ -290,12 +290,12 @@ export class AdminHomeComponent implements OnInit {
     //this.fetchFeeWidgetData();
     this.getStorageData();
 
-    if (this.isProfessional) {
-      this.fetchBatchWidgetData();
-    }
-    else {
-      this.fetchScheduleWidgetData();
-    }
+    // if (this.isProfessional) {
+    //   this.fetchBatchWidgetData();
+    // }
+    // else {
+    //   this.fetchScheduleWidgetData();
+    // }
   }
 
   getStorageData() {
@@ -1263,7 +1263,7 @@ export class AdminHomeComponent implements OnInit {
     this.selectedRow = null;
     if (event.value == 'subject') {
       this.isSubjectView = true;
-      this.fetchScheduleWidgetData();
+      // this.fetchScheduleWidgetData(); This function get call twice 
     }
     else if (event.value == 'course') {
       this.isRippleLoad = true;
@@ -2603,6 +2603,7 @@ export class AdminHomeComponent implements OnInit {
   ////Exam Schedule Section
 
   getAllExamsAndClass(obj) {
+    this.schedStat = [];
     this.widgetService.fetchSchedWidgetData(obj).subscribe(data => {
       this.grid.refreshItems().layout();
       this.schedStat = data;
@@ -2618,8 +2619,8 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.getExamSchedule(obj).subscribe(
       (res: any) => {
         this.addKeyInData(res.otherSchd, "isExam", true);
-        let data = this.schedStat.otherSchd.concat(res.otherSchd);
-        this.schedStat.otherSchd = this.sortDataByDateTime(data);
+        let result = this.schedStat.otherSchd.concat(res.otherSchd);
+        this.schedStat.otherSchd = this.sortDataByDateTime(result);
       },
       err => {
         console.log(err);
