@@ -13,7 +13,7 @@ import * as moment from 'moment';
   templateUrl: './payment-history.component.html',
   styleUrls: ['./payment-history.component.scss']
 })
-export class NextDueDetailComponent {
+export class PaymentHistoryComponent {
 
 }
 
