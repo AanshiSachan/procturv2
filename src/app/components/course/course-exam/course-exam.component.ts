@@ -709,7 +709,7 @@ export class CourseExamComponent implements OnInit {
       batch_id: -1,
       total_marks: 0
     };
-    obj.selectedCourseList = this.viewList[0].selectedCourseList;
+    obj.selectedCourseList = Object.assign({}, this.viewList[0].selectedCourseList);
     obj.selectedCourseList.course_exam_schedule_id = '-1';
     obj.courseTableList = [];
     obj.subjectList = this.viewList[0].subjectList;
@@ -931,6 +931,10 @@ export class CourseExamComponent implements OnInit {
         }
       )
     }
+  }
+
+  deleteWholeCourse(data, index) {
+    this.viewList.splice(index, 1);
   }
 
   // Helper Function

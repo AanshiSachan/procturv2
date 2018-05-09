@@ -250,12 +250,28 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="action-Menu">
+
+                                        <div class="action-box">
+                                            <span class="mail-notification" *ngIf="row.schd_id != 0 && (currentDate <= row.exam_date)" (click)="notifyExamSchedule(row)"
+                                                title="Notify">
+                                            </span>
+                                            <span class="delete-btn" style="font-family: FontAwesome;font-size: 20px" *ngIf="row.schd_id == 0 || (currentDate < row.exam_date)"
+                                                (click)="deleteExamSchedule(row,i)" title="Delete">
+                                                <i class="fa fa-trash-o " aria-hidden="true "></i>
+                                            </span>
+                                            <span *ngIf="row.schd_id != 0" (click)="markAttendanceSchedule(row)" title="Mark Attendance">
+                                                <img src="../../../../assets/images/attendance.png" width="20px" height="20px">
+                                            </span>
+                                            <a *ngIf="row.schd_id != 0 && (currentDate <= row.exam_date)" (click)="cancelExamSchedule(row)">Cancel Exam</a>
+                                        </div>
+
+
+                                        <!-- <div class="action-Menu">
                                             <a *ngIf="row.schd_id == 0 || (currentDate < row.exam_date)" (click)="deleteExamSchedule(row,i)">Delete</a>
                                             <a *ngIf="row.schd_id != 0" (click)="markAttendanceSchedule(row)">Mark Attendance</a>
                                             <a *ngIf="row.schd_id != 0 && (currentDate <= row.exam_date)" (click)="cancelExamSchedule(row)">Cancel Exam</a>
                                             <a *ngIf="row.schd_id != 0 && (currentDate <= row.exam_date)" (click)="notifyExamSchedule(row)">Notify</a>
-                                        </div>
+                                        </div> -->
                                     </td>
                                 </tr>
                                 <tr *ngIf="examSchedule.length == 0">
@@ -307,8 +323,18 @@
                                     </td>
                                     <td>
                                         <div class="action-Menu">
-                                            <a title="Send notification for cancelled exam schedule" (click)="notifyCancelClass(row)">Notify</a>
-                                            <a title="Uncancel Schedule" *ngIf="(currentDate < row.exam_date)" (click)="unCancelClass(row)">Uncancel Class</a>
+
+                                            <div class="action-box">
+                                                <span class="mail-notification" title="Send notification for cancelled exam schedule" (click)="notifyCancelClass(row)">
+                                                </span>
+                                                <span class="delete-btn" style="font-family: FontAwesome;font-size: 20px" title="Uncancel Schedule" *ngIf="(currentDate < row.exam_date)"
+                                                    (click)="unCancelClass(row)">
+                                                    <i class="fa fa-trash-o " aria-hidden="true "></i>
+                                                </span>
+                                            </div>
+
+                                            <!-- <a title="Send notification for cancelled exam schedule" (click)="notifyCancelClass(row)">Notify</a>
+                                            <a title="Uncancel Schedule" *ngIf="(currentDate < row.exam_date)" (click)="unCancelClass(row)">Uncancel Class</a> -->
                                         </div>
                                     </td>
                                 </tr>
@@ -351,6 +377,7 @@
                             </div>
 
                             <div class="pull-right">
+                                <button *ngIf="j != 0" (click)="deleteWholeCourse(data, j)" class="btn fullBlue small-btn">Delete</button>
                                 <button (click)="cancelExamForFullCourse(data,j)" class="btn fullBlue small-btn">Cancel</button>
                                 <button (click)="sendReminderForCourse(data,j)" class="btn fullBlue small-btn">Send Reminder</button>
                             </div>
@@ -467,13 +494,22 @@
                                             {{row.subject_name}}
                                         </td>
                                         <td *ngIf="(data.selectedCourseList.is_exam_grad_feature == 0)">
-                                            {{row.total_marks}}
+                                            <div class="form-wrapper">
+                                                <input type="text" class="side-form-ctrl torlMarksWidth" name="label" [(ngModel)]="row.total_marks">
+                                            </div>
                                         </td>
                                         <td>
                                             <div class="action-Menu">
+                                                <span class="delete-btn" style="font-family: FontAwesome;font-size: 20px" (click)="deleteFromCourse(row , i , j)" title="Delete">
+                                                    <i class="fa fa-trash-o " aria-hidden="true "></i>
+                                                    <a (click)="cancelExamCourse(row , i , j)" *ngIf="row.class_schedule_id != 0">Cancel Exam</a>
+                                                </span>
+                                            </div>
+
+                                            <!-- <div class="action-Menu">
                                                 <a (click)="deleteFromCourse(row , i , j)">Delete</a>
                                                 <a (click)="cancelExamCourse(row , i , j)" *ngIf="row.class_schedule_id != 0">Cancel Exam</a>
-                                            </div>
+                                            </div> -->
                                         </td>
                                     </tr>
                                 </tbody>
