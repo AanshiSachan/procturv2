@@ -30,6 +30,10 @@ export class NextDueDetailComponent implements OnChanges {
     console.log(this.feeData);
   }
 
+  closePopups(){
+    this.closeButton.emit(null);
+  }
+
 }
 
 
