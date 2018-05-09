@@ -32,7 +32,7 @@
                 </h4>
               </div>
               <!-- Accordian Form 1 -->
-              <div class="accordian-content">
+              <div class="accordian-content AdFilter-field">
                 <div class="form-type1">
 
                   <!-- Name -->
@@ -95,7 +95,7 @@
                     <input type="text" value="" id="dob" class="form-ctrl bsDatepicker" [(ngModel)]="newEnqData.dob" name="dob" readonly='true'
                       bsDatepicker>
 
-                    <span style="top: 20px;right: -50px;" class="date-clear" name="dob" (click)="newEnqData.dob = ''">clear</span>
+                    <span class="date-clear" name="dob" (click)="newEnqData.dob = ''">clear</span>
                   </div>
 
                   <!-- city -->
@@ -420,14 +420,15 @@
 
           </div>
           <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.status != '-1'}">
-            <label for="eStatus">Enquiry Status</label>
+              <label for="eStatus">Enquiry Status</label>
+              <select id="eStatus" class="form-ctrl" [(ngModel)]="newEnqData.status" name="status" disabled>
+                <option value="-1"></option>
+                <option *ngFor="let status of enqstatus" [value]="status.data_key" [attr.selected]="status.data_value == 'Open' ? '' : null"
+                  [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
+              </select>
+    
           </div>
-          <select id="eStatus" class="form-ctrl" [(ngModel)]="newEnqData.status" name="status" disabled>
-            <option value="-1"></option>
-            <option *ngFor="let status of enqstatus" [value]="status.data_key" [attr.selected]="status.data_value == 'Open' ? '' : null"
-              [hidden]="status.data_key == 12 ? true : false">{{status.data_value}}</option>
-          </select>
-
+          
           <div class="field-wrapper" [ngClass]="{'has-value': newEnqData.priority != '-1'}">
             <label for="priority">Enquiry Priority</label>
             <select id="priority" class="form-ctrl" [(ngModel)]="newEnqData.priority" name="priority">
@@ -455,12 +456,14 @@
 
 
           </div>
-          <div class="field-wrapper datePickerBox " [ngClass]="{'has-value': newEnqData.followUpDate != 'Invalid date'}">
-            <label for="followUpDate">Follow Up Date</label>
-            <input type="text" value="" id="followUpDate" class="form-ctrl bsDatepicker" name="followUpDate" [(ngModel)]="newEnqData.followUpDate"
-              readonly="true" bsDatepicker>
+          <div class="newDate">
+            <div class="field-wrapper datePickerBox " [ngClass]="{'has-value': newEnqData.followUpDate != 'Invalid date'}">
+              <label for="followUpDate">Follow Up Date</label>
+              <input type="text" value="" id="followUpDate" class="form-ctrl bsDatepicker" name="followUpDate" [(ngModel)]="newEnqData.followUpDate"
+                readonly="true" bsDatepicker>
 
-            <span class="date-clear" name="followupdate" (click)="newEnqData.followUpDate = ''">clear</span>
+              <span class="date-clear" name="followupdate" (click)="newEnqData.followUpDate = ''">clear</span>
+            </div>
           </div>
           <!-- <div class="time-picker">
             <div class="field-wrapper" id="hourpar" style="padding-right: 10px;" [ngClass]="{'has-value': hour != ''}">

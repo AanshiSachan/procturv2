@@ -292,6 +292,32 @@
         }
     }
 }
+.AdFilter-field {
+    
+    .field-wrapper {
+        margin: 15px 0;
+        .date-clear {
+            position: absolute;
+            right: 15px;
+            top: 63px;
+            cursor: pointer;
+            color: #0084f6;
+        }
+        &.datePickerBox {
+            
+            &:after {
+                content: '';
+                background: url('../../../../../assets/images/calendar.svg') no-repeat;
+                position: absolute;
+                left: 94% !important;
+                top:33px !important;
+                width: 21px;
+                height: 21px;
+                z-index: 0;
+            }
+        }
+    }
+}
 
 /* Style the buttons that are used to open and close the accordion panel */
 
