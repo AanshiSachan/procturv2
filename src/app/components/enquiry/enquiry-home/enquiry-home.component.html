@@ -200,9 +200,9 @@
                   <ul class="">
                     <li *ngFor="let slot of slots">
                       <div class="field-checkbox-wrapper">
-                          <label for="slot.label">{{slot.label}}</label>
+                         
                         <input type="checkbox" value="" name="slot.label" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox">
-                        
+                        <label for="slot.label">{{slot.label}}</label>
                       </div>
                     </li>
                   </ul>
@@ -306,10 +306,10 @@
               <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
                 <br>
                 <div class="field-checkbox-wrapper">
-                    <label for="{{component.id}}">{{component.label}} </label>
+                  
                   <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="{{component.label}}"
                     value="">
-                 
+                    <label for="{{component.id}}">{{component.label}} </label>
                 </div>
               </div>
 
@@ -336,10 +336,10 @@
                     <ul class="">
                       <li *ngFor="let opt of component.prefilled_data">
                         <div class="field-checkbox-wrapper">
-                            <label for="opt.data">{{opt.data}}</label>
+                           
                           <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
                             class="form-checkbox">
-                         
+                            <label for="opt.data">{{opt.data}}</label>
                         </div>
                       </li>
                     </ul>
@@ -509,10 +509,10 @@
                 <div class="c-lg-6 c-md-6 c-sm-6" style="margin-top: 10px">
                   <div class="form-checkbox-wrapper">
                     <div class="field-checkbox-wrapper">
-                        <label for="notifyme">Notify Me</label>
+                        
                       <input type="checkbox" [(ngModel)]="updateFormData.is_follow_up_time_notification" (ngModelChange)="notifyMe($event)" class="form-checkbox"
                       />
-                     
+                      <label for="notifyme">Notify Me</label>
                     </div>
                   </div>
                 </div>

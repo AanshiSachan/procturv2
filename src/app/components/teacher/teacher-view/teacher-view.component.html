@@ -45,8 +45,8 @@
 
     <div class="clearFix add-edit">
       <a (click)="toggleFilter()">
-        <i id="showAddBtn" class="addBtnClass">+</i>
-        <i id="showCloseBtn" style="display:none" class="closeBtnClass">-</i>
+        <i id="showAddBtn" class="addBtnClass" style="border:none;">+</i>
+        <i id="showCloseBtn" style="display:none ; border:none;" class="closeBtnClass">-</i>
         <span>Filter</span>
       </a>
     </div>
@@ -56,30 +56,33 @@
         </div>
         <div class="c-sm-2">
           <div class="field-wrapper">
+              <label for="">Batch
+                </label>
             <select id="" class="form-ctrl" (focus)="inputClickedCheck($event)" [(ngModel)]="selectedBatch">
               <option *ngFor="let opt of batchesList" [value]="opt.batch_id">
                 {{opt.batch_name}}
               </option>
             </select>
-            <label for="">Batch
-            </label>
+            
           </div>
         </div>
-        <div class="c-sm-8">
-          <div class="field-wrapper datePickerBox c-sm-3" style="margin-right: 10px">
+        <div class="c-sm-8 ">
+          <div class="field-wrapper datePickerBox c-sm-3 madeDate" >
+              <label for="fromDate">From Date</label>
             <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="fromDate" (focus)="inputClickedCheck($event)"
               [(ngModel)]="selectedFromDate" bsDatepicker/>
-            <label for="fromDate" style="margin-left: 15px;">From Date</label>
+           
             <!-- <span class="date-clear" name="fromDate" (click)="clearDate($event)">Clear</span> -->
           </div>
-          <div class="field-wrapper datePickerBox c-sm-3" style="margin-right: 10px">
+          <div class="field-wrapper datePickerBox c-sm-3 madeDate" >
+              <label for="createdDate" >To Date</label>
             <input type="text" value="" class="form-ctrl" style="cursor: pointer;" name="createdDate" (focus)="inputClickedCheck($event)"
               [(ngModel)]="selectedToDate" bsDatepicker />
-            <label for="createdDate" style="margin-left: 15px;">To Date</label>
+          
             <!-- <span class="date-clear" name="createdDate" (click)="clearDate($event)">Clear</span> -->
           </div>
           <div class="c-sm-3">
-            <button class="btn" (click)="searchTeacherInfo()">Go</button>
+            <button class="btn fullBlue" (click)="searchTeacherInfo()" style="margin-top:13%;">Go</button>
           </div>
         </div>
       </div>
