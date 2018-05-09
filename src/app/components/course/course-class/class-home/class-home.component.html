@@ -35,14 +35,14 @@
                 <div class="radio-options">
                   <div class="radio-main">
                     <div class="field-radio-wrapper">
-                        <label for="active">All</label>
+                       
                       <input type="radio" checked (click)="checkInputType($event)" name="sFilter" class="form-radio" value="Automatic" id="idAll">
-                      
+                      <label for="active">All</label>
                     </div>
                     <div class="field-radio-wrapper">
-                        <label for="Inactive">Faculty</label>
+                        
                       <input type="radio" (click)="checkInputType($event)" name="sFilter" value="Manual" class="form-radio" id="idTeacher">
-                      
+                      <label for="Inactive">Faculty</label>
                     </div>
                     <div class="field-radio-wrapper">
                         <label for="Inactive">Batch</label>
@@ -384,6 +384,9 @@
           <div class="clearfix">
             <aside class="pull-left" style="margin-top: 10px;">
               <div class="field-checkbox-wrapper">
+                  
+                <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus('resheduleNotified')"
+                  (change)="notifyRescheduleUpdate($event)">
                   <label for="is_reshedule_notified">Notify Students
                       <div class="questionInfo lefts" style="margin-left: 30px;">
                         <span class="qInfoIcon">?</span>
@@ -392,8 +395,6 @@
                         </div>
                       </div>
                     </label>
-                <input type="checkbox" value="" class="form-checkbox" id="is_reshedule_notified" [checked]="getCheckedStatus('resheduleNotified')"
-                  (change)="notifyRescheduleUpdate($event)">
                 
               </div>
             </aside>
@@ -452,8 +453,9 @@
           <div class="clearfix">
             <aside class="pull-left">
               <div class="field-checkbox-wrapper">
-                  <label for="notifyCancel">Notify Students</label>
+                 
                 <input type="checkbox" value="" class="form-checkbox" id="notifyCancel" [checked]="getCheckedStatus('notifyCancel')" (change)="notifyCancelUpdate($event)">
+                <label for="notifyCancel">Notify Students</label>
                
               </div>
             </aside>

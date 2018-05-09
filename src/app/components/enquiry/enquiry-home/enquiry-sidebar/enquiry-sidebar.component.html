@@ -121,10 +121,10 @@
                                 <div *ngIf="isNotifyVisible">
                                     <div class="form-checkbox-wrapper">
                                         <div class="field-checkbox-wrapper">
-                                                <label for="notifyme">Notify Me</label>
+                                                
                                             <input type="checkbox" [(ngModel)]="notifyme" (ngModelChange)="notifyMe($event)" class="form-checkbox" style="display:inline-block;"
                                                 id="notifyMe">
-                                           
+                                                <label for="notifyme">Notify Me</label>
                                             <div class="questionInfo">
                                                 <span class="qInfoIcon">!</span>
                                                 <div class="tooltip-box-field">
