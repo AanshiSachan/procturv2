@@ -9,7 +9,7 @@ import { PostFeeService } from '../../../../services/report-services/fee-service
 import * as moment from 'moment';
 
 @Component({
-  selector: 'view-detail-report',
+  selector: 'app-view-detail-report',
   templateUrl: './view-detail-report.component.html',
   styleUrls: ['./view-detail-report.component.scss']
 })

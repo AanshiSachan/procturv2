@@ -9,7 +9,7 @@ import { PostFeeService } from '../../../../services/report-services/fee-service
 import * as moment from 'moment';
 
 @Component({
-  selector: 'payment-history',
+  selector: 'app-payment-history',
   templateUrl: './payment-history.component.html',
   styleUrls: ['./payment-history.component.scss']
 })
