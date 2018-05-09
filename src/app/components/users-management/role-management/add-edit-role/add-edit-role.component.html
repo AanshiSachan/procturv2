@@ -18,10 +18,22 @@
             <input type="text" class="form-ctrl" [(ngModel)]="roleName" id="role_name" name="role_name">
           </div>
         </div>
+        <div class="c-sm-3 c-md-3 c-lg-3">
+          <div class="field-wrapper">
+            <label for="role_name">Role Description</label>
+            <input type="text" class="form-ctrl" [(ngModel)]="roleDesc" id="role_desc" name="role_desc">
+          </div>
+        </div>
       </div>
 
       <div *ngIf="roleId != '-1'">
         <h3>Role Name : {{userData.role_name}}</h3>
+        <div>
+          <div class="field-wrapper">
+            <label for="role_name">Role Description</label>
+            <input type="text" class="form-ctrl" [(ngModel)]="userData.role_desc" id="role_desc" name="role_desc">
+          </div>
+        </div>
       </div>
 
     </div>
