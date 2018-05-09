@@ -173,8 +173,8 @@
                                         <ul class="">
                                             <li *ngFor="let slot of slots">
                                                 <div class="field-checkbox-wrapper">
-                                                    <label for="slot.label">{{slot.label}}</label>
-                                                    <input type="checkbox" id={{name="{{slot.label}}"}} value="" name="{{slot.label}}" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox">
+                                                    <label for="{{slot.label}}">{{slot.label}}</label>
+                                                    <input type="checkbox" id="{{slot.label}}" value="" name="{{slot.label}}" [(ngModel)]="slot.status" (ngModelChange)="updateSlotSelected(slot)" class="form-checkbox">
                                                 </div>
                                             </li>
                                         </ul>
