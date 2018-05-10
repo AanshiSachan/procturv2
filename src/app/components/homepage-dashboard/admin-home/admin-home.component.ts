@@ -2785,10 +2785,10 @@ export class AdminHomeComponent implements OnInit {
   // Batch Section
   updateCourseAttendanceExam() {
     let dataToSend = this.makeJsonForAttendceMark();
-    console.log(dataToSend);
     this.widgetService.markAttendance(dataToSend).subscribe(
       res => {
         this.messageNotifier('success', 'Attendance Marked', 'Attendance Marked Successfully');
+        this.fetchScheduleWidgetData();
         this.closeExamAttendance();
       },
       err => {
@@ -2998,6 +2998,7 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.updateAttendanceDetails(dataToSend).subscribe(
       res => {
         this.messageNotifier('success', "Marks Updated", 'Marks Updated Successfully');
+        this.fetchScheduleWidgetData();
         this.closeExamMarks();
       },
       err => {
