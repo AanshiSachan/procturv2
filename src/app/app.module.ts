@@ -3,6 +3,8 @@ import { AppComponent } from './app.component';
 import { CoreSidednavComponent } from './components/core/core-sidednav/core-sidednav.component';
 import { CoreHeaderComponent } from './components/core/core-header/core-header.component';
 import { SlotComponent } from './components/slot/slot.component';
+import { TreeTableModule } from 'primeng/treetable';
+
 
 /* Modules */
 import { BrowserModule } from '@angular/platform-browser';
@@ -41,12 +43,15 @@ import { SharedModule } from './components/shared/shared.module';
 import { SlotApiService } from './services/slot-service/slot.service';
 import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
 import { CityAreaService } from './services/area-city-service/area-city.service';
-import {EventManagmentService} from './services/event-managment.service';
-import {ClassRoomService} from './services/class-roomService/class-roomlist.service';
+import { EventManagmentService } from './services/event-managment.service';
+import { ClassRoomService } from './services/class-roomService/class-roomlist.service';
 import { SearchBoxComponent } from './components/core/search-box/search-box.component';
 import { ClassRoomComponent } from './components/class-room/class-room.component';
 import { EventManagmentComponent } from './components/event-managment/event-managment.component';
-import {FilterPipe} from './components/event-managment/filterpipe';
+import { FilterPipe } from './components/event-managment/filterpipe';
+import { TopicsComponent } from './components/topics/topics.component';
+import { TopicServiceService} from './services/topic-service.service';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -56,7 +61,7 @@ import {FilterPipe} from './components/event-managment/filterpipe';
     HttpClientModule,
     HttpModule,
     BrowserAnimationsModule,
-    Ng2SmartTableModule,
+    Ng2SmartTableModule,TreeTableModule,
     ToasterModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
@@ -75,7 +80,8 @@ import {FilterPipe} from './components/event-managment/filterpipe';
     FilterPipe,
     EventManagmentComponent,
     CityAreaMapComponent,
-    SearchBoxComponent
+    SearchBoxComponent,
+    TopicsComponent,
   ],
   entryComponents: [
     SearchBoxComponent
@@ -91,7 +97,8 @@ import {FilterPipe} from './components/event-managment/filterpipe';
     SlotApiService,
     CityAreaService,
     ClassRoomService,
-    EventManagmentService
+    EventManagmentService,
+    TopicServiceService
   ],
   bootstrap: [AppComponent]
 })

@@ -8,7 +8,7 @@ import { SlotComponent } from './components/slot/slot.component';
 import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
 import { ClassRoomComponent } from './components/class-room/class-room.component';
 import { EventManagmentComponent } from './components/event-managment/event-managment.component';
-
+import {TopicsComponent} from './components/topics/topics.component';
 @NgModule({
     imports: [
         RouterModule.forRoot(
@@ -99,6 +99,12 @@ import { EventManagmentComponent } from './components/event-managment/event-mana
                  canLoad:[AuthGuard]
                 },
                 {
+                    path:'Topics',
+                    component: TopicsComponent,
+                    canLoad:[AuthGuard]
+                },
+               
+                {
                 path:'eventManagment',
                 component:EventManagmentComponent,
                 canLoad:[AuthGuard]
@@ -121,7 +127,7 @@ import { EventManagmentComponent } from './components/event-managment/event-mana
                     // canLoad: [AuthGuard]
                 },
                 { path: 'comingsoon', component: ComingSoonComponent },
-                { path: '**', component: ErrorComponent },
+                { path: '**', component: ErrorComponent },  
             ],
             {
                 useHash: true,

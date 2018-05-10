@@ -168,9 +168,12 @@ export class ClassRoomComponent {
       class_room_id: row.class_room_id,
 
     }
-
+    
     for (var j = 0; j < this.classRoomData.length; j++) {
-      if (this.classRoomData[j].class_room_name == data.class_room_name) {
+      if(j==index){
+        continue;
+      }
+      else if(this.classRoomData[j].class_room_name === row.class_room_name) {
         let data = {
           type: 'error',
           title: "Error",
@@ -179,15 +182,8 @@ export class ClassRoomComponent {
         this.AppC.popToast(data);
         return;
       }
-    }
-/*
-if( j == index){
-        continue;
-}
-     if (this.classRoomData[j].class_room_name == data.class_room_name) 
-
-
- */
+    } 
+     
     if (data.class_room_name != "" && data.class_room_name != null && data.class_room_desc != "" && data.class_room_desc != null) {
       if (data.class_room_desc.length > 500) {
         let data = {
