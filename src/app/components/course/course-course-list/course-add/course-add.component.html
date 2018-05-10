@@ -46,6 +46,7 @@
       </div>
 
       <aside class="pull-left asideWrapper" style="padding-bottom: 10px; width:20%">
+
         <div *ngIf="(subjectList.length > 0)" style="margin-left: 37px;">
           <div class="field-wrapper" [ngClass]="{'has-value': courseDetails.course_name != ''}" style="width:80%">
             <label for="masterCourse">Course Name
@@ -74,7 +75,6 @@
             <!-- <span class="date-clear" name="followupdate" (click)="clearAddEnquiryDate('endDatePicker')">clear</span> -->
           </div>
           <div [ngClass]="{'hideVisibility' : examGradeFeature == 0}" class="field-checkbox-wrapper" style="margin-top: 10px;">
-
             <input type="checkbox" id="allow" value="" [(ngModel)]="courseDetails.allow_exam_grades" name="allow" class="form-checkbox">
             <label for="allow">Allow Exam Grades</label>
           </div>

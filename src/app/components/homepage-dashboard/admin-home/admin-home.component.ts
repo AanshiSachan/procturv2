@@ -199,7 +199,7 @@ export class AdminHomeComponent implements OnInit {
   tempData: any = [];
   cancelPopUpData = {
     reason: "",
-    notify: false
+    notify: true
   };
   markExamAttendancePopUp: boolean = false;
   smsAbsenteesChkbx: boolean = false;
@@ -2785,10 +2785,10 @@ export class AdminHomeComponent implements OnInit {
   // Batch Section
   updateCourseAttendanceExam() {
     let dataToSend = this.makeJsonForAttendceMark();
-    console.log(dataToSend);
     this.widgetService.markAttendance(dataToSend).subscribe(
       res => {
         this.messageNotifier('success', 'Attendance Marked', 'Attendance Marked Successfully');
+        this.fetchScheduleWidgetData();
         this.closeExamAttendance();
       },
       err => {
@@ -2835,7 +2835,7 @@ export class AdminHomeComponent implements OnInit {
     this.tempData = "";
     this.cancelPopUpData = {
       reason: "",
-      notify: false
+      notify: true
     }
   }
 
@@ -2998,6 +2998,7 @@ export class AdminHomeComponent implements OnInit {
     this.widgetService.updateAttendanceDetails(dataToSend).subscribe(
       res => {
         this.messageNotifier('success', "Marks Updated", 'Marks Updated Successfully');
+        this.fetchScheduleWidgetData();
         this.closeExamMarks();
       },
       err => {
@@ -3037,6 +3038,14 @@ export class AdminHomeComponent implements OnInit {
       body: msg
     }
     this.appC.popToast(data);
+  }
+
+  hideFutureExamSchedule(row) {
+    if (moment(row.exam_date) > moment()) {
+      return "hide";
+    } else {
+      return "";
+    }
   }
 
 }

@@ -18,7 +18,9 @@ export class NextDueDetailComponent implements OnChanges {
   @Input() feeData: any;
   @Output() closeButton = new EventEmitter<any>()
 
-  constructor() { }
+  nextDuesData:any[] = [];
+
+  constructor(private getter: GetFeeService, private putter: PostFeeService) { }
 
   ngOnChanges() {
     this.feeData;
@@ -28,6 +30,12 @@ export class NextDueDetailComponent implements OnChanges {
 
   updateData() {
     console.log(this.feeData);
+    this.getter.getFutureDues(this.feeData.student_id).subscribe(
+      res => {
+        this.nextDuesData = res;
+      },
+      err => {}
+    )
   }
 
   closePopups(){

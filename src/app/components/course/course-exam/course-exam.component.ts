@@ -233,6 +233,7 @@ export class CourseExamComponent implements OnInit {
       err => {
         this.isRippleLoad = false;
         console.log(err);
+        this.messageNotifier('error', 'Error', err.error.message);
       }
     )
   }
@@ -273,6 +274,7 @@ export class CourseExamComponent implements OnInit {
         },
         err => {
           console.log(err);
+          this.messageNotifier('error', 'Error', err.error.message);
         }
       )
     }
