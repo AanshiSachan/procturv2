@@ -76,4 +76,20 @@ export class GetFeeService {
     }
 
 
+    getFeeReceipts(id): Observable<any> {
+        let url = this.baseUrl +"/api/v1/studentWise/fee/feesReport/feeReceipts/" +this.institute_id +"/" +id;
+        return this.http.get(url, {headers: this.headers}).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    getReceiptById(obj){
+        let url = this.baseUrl +"/api/v1/studentWise/fee/" +obj.student_id +"/feeReceipt/" +obj.disp_id +"/download?fin_yr=" +obj.fin_yr;
+        return this.http.get(url, {headers: this.headers}).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
 }

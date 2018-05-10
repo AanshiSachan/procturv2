@@ -16,6 +16,7 @@ export class AddEditRoleComponent implements OnInit {
   targetFeatures: any = [];
   cloneFeatureArray: any = [];
   roleName: any = "";
+  roleDesc: any = "";
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -55,7 +56,6 @@ export class AddEditRoleComponent implements OnInit {
   getRolesOfUser(id) {
     this.apiService.getPerticularRoles(id).subscribe(
       (res: any) => {
-        console.log(res);
         this.userData = res;
         let role: any = this.keepCloning(res);
         this.makeTargetArray(role.feautreList);
@@ -133,8 +133,10 @@ export class AddEditRoleComponent implements OnInit {
     }
     if (this.roleId == '-1') {
       obj.role_name = this.roleName;
+      obj.role_desc = this.roleDesc;
     } else {
       obj.role_id = this.userData.role_id;
+      obj.role_desc = this.userData.role_desc;
     }
     for (let i = 0; i < this.targetFeatures.length; i++) {
       obj.feautreList.push(this.targetFeatures[i].feature_id);

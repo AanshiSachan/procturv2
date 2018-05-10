@@ -1267,9 +1267,8 @@
               <ul class="table-row displayComp" [id]='ch.student_id +ch.cheque_id' *ngFor="let ch of chequePdcList; let i = index;">
                 <li (click)="chequeSelectedForAction(ch)">
                   <div class="field-radio-wrapper">
-                    <label for="pdcAddlist{{i}}"></label>
-
                     <input type="radio" name="pdcGen" class="form-radio" id="pdcAddlist{{i}}">
+                    <label for="pdcAddlist{{i}}"></label>
                   </div>
                 </li>
 
@@ -1438,7 +1437,7 @@
         </div>
 
         <!-- Cheque Payment PDC updates -->
-        <div class="row pdcChequePayment" *ngIf="isPaymentPdc">
+        <div style="margin: 5px -5px;" class="row pdcChequePayment" *ngIf="isPaymentPdc">
           <h5></h5>
 
           <div class="" [ngClass]="{'hide': chequePdcList.length == 0}">
@@ -1605,7 +1604,7 @@
 
         </div>
         <!-- Cheque Payment PDC updates -->
-        <div class="row pdcChequePayment" *ngIf="isPaymentPdc">
+        <div style="margin: 5px -5px;" class="row pdcChequePayment" *ngIf="isPaymentPdc">
           <h5></h5>
 
           <div class="" [ngClass]="{'hide': chequePdcList.length == 0}">

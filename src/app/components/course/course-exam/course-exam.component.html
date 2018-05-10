@@ -16,7 +16,7 @@
                 <div class="row">
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': batchData.standard_id != '-1'}">
-                            <label for="ddnMAsterCourse">Master Course</label>
+                            <label for="ddnMAsterCourse">Master Course*</label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="batchData.standard_id" (ngModelChange)="onBatchMasterCourseSelection($event)">
                                 <option value="-1"></option>
                                 <option [value]="master.standard_id" *ngFor="let  master of masterCourseList">
@@ -28,7 +28,7 @@
                     </div>
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': batchData.subject_id != '-1'}">
-                            <label for="ddnMAsterCourse">Course</label>
+                            <label for="ddnMAsterCourse">Course*</label>
                             <select id="ddnMAsterCourse" name="ddnMAsterCourse" class="form-ctrl" [(ngModel)]="batchData.subject_id" (ngModelChange)="onBatchCourseSelection($event)">
                                 <option value="-1"></option>
                                 <option [value]="master.subject_id" *ngFor="let  master of courseList">
@@ -40,7 +40,7 @@
                     </div>
                     <div class="c-sm-3 c-md-3 c-lg-3">
                         <div class="field-wrapper" [ngClass]="{'has-value': batchData.batch_id != '-1'}">
-                            <label for="sc">Batch</label>
+                            <label for="sc">Batch*</label>
                             <select id="sc" class="form-ctrl" [(ngModel)]="batchData.batch_id">
                                 <option value="-1"></option>
                                 <option [value]="subject.batch_id" *ngFor="let subject of batchesList">
@@ -50,7 +50,7 @@
 
                         </div>
                     </div>
-                    <div class="c-sm-3 c-md-3 c-lg-3">
+                    <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 15px">
                         <button class="btn fullBlue" (click)="batchModelGoClick()">Go</button>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
 
                     </div>
 
-                    <div class="c-sm-3 c-md-3 c-lg-3">
+                    <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 15px">
                         <button class="btn fullBlue" (click)="getExamSchedule()">Go</button>
                     </div>
                 </div>
@@ -572,7 +572,7 @@
                     <div class="row attendance-Note">
                         <div class="c-sm-6 c-md-6 c-lg-6">
                             <div class="form-wrapper">
-                                <label for="attedNote">Attendance Note</label>
+                                <label for="attedNote">Exam Description</label>
                                 <textarea class="side-form-ctrl" [(ngModel)]="attendanceNote" id="attedNote" name="attedNote"></textarea>
                             </div>
                         </div>
