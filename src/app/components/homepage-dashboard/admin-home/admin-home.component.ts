@@ -3040,5 +3040,13 @@ export class AdminHomeComponent implements OnInit {
     this.appC.popToast(data);
   }
 
+  hideFutureExamSchedule(row) {
+    if (moment(row.exam_date) > moment()) {
+      return "hide";
+    } else {
+      return "";
+    }
+  }
+
 }
 

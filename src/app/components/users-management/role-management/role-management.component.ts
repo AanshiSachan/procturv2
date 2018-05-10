@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RoleService } from '../../../services/user-management/role.service';
+import { AppComponent } from '../../../app.component';
 
 @Component({
   selector: 'app-role-management',
@@ -13,7 +14,8 @@ export class RoleManagementComponent implements OnInit {
   showUserListPopUp: boolean = false;
 
   constructor(
-    private apiService: RoleService
+    private apiService: RoleService,
+    private toastCtrl: AppComponent
   ) { }
 
   ngOnInit() {
@@ -34,7 +36,16 @@ export class RoleManagementComponent implements OnInit {
 
   deleteRole(data) {
     if (confirm('Are you sure, you want to delete the role?')) {
-
+      this.apiService.deleteRole(data.role_id).subscribe(
+        res => {
+          this.messageNotifier('success', 'Deleted Successfully', 'Role deleted successfully');
+          this.getRolesList();
+        },
+        err => {
+          console.log(err);
+          this.messageNotifier('error', 'Error', err.error.message);
+        }
+      )
     }
   }
 
@@ -47,14 +58,26 @@ export class RoleManagementComponent implements OnInit {
         },
         err => {
           console.log(err);
+          this.messageNotifier('error', 'Error', err.error.message);
         }
       )
+    } else {
+      this.messageNotifier('error', 'Error', 'No user is assigned to this role');
     }
   }
 
   closePopUp() {
     this.showUserListPopUp = false;
     this.userList = [];
+  }
+
+  messageNotifier(type, title, msg) {
+    let data = {
+      type: type,
+      title: title,
+      body: msg
+    }
+    this.toastCtrl.popToast(data);
   }
 
 }
