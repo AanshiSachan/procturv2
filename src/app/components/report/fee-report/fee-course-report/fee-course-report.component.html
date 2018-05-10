@@ -47,8 +47,7 @@
 
                         <div class="c-lg-3">
                             <div class="field-wrapper" [ngClass]="{'has-value': true }">
-                                <label for="mc" *ngIf="isProfessional">Master Course</label>
-                                <label for="mc" *ngIf="!isProfessional">Standard</label>
+                                <label for="mc">Master Course</label>
                                 <select [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl" name="mc" id="mc">
                                     <option value="-1"></option>
                                     <option *ngFor="let master of standardList" [value]="master.standard_id">{{master.standard_name}}</option>
@@ -58,8 +57,7 @@
 
                         <div class="c-lg-3">
                             <div class="field-wrapper">
-                                <label for="cc" *ngIf="isProfessional">Course</label>
-                                <label for="cc" *ngIf="!isProfessional">Subject</label>
+                                <label for="cc">Course</label>
                                 <select [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList()" class="form-ctrl" name="cc" id="cc">
                                     <option value="-1"></option>
                                     <option *ngFor="let course of subjectList" [value]="course.subject_id">{{course.subject_name}}</option>

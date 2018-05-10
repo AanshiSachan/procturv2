@@ -232,7 +232,22 @@ export class FeeCourseReportComponent implements OnInit {
             this.generateReport(obj);
           }
           else {
-
+            let obj = {
+              standard_id: this.courseFetchForm.standard_id,
+              batch_id: this.courseFetchForm.batch_id,
+              type: this.courseFetchForm.type,
+              from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
+              to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
+              installment_id: this.courseFetchForm.installment_id,
+              subject_id: this.courseFetchForm.subject_id,
+              master_course_name: this.courseFetchForm.master_course_name,
+              course_id: this.courseFetchForm.course_id,
+              student_name: this.courseFetchForm.student_name,
+              contact_no: this.courseFetchForm.contact_no,
+              is_fee_report_view: this.courseFetchForm.is_fee_report_view
+            }
+            console.log(obj);
+            this.generateReport(obj);
           }
         }
       }
@@ -585,36 +600,38 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   dateRangeChanges(e) {
     this.isCustomDate = false;
+    this.courseFetchForm.standard_id = '-1';
+    this.courseFetchForm.subject_id = '-1';
+    this.courseFetchForm.batch_id = '-1';
+
     if (this.due_type == 'all_dues') {
       this.courseFetchForm.from_date = '';
       this.courseFetchForm.to_date = '';
     }
+
     else if (this.due_type == 'next_month_dues') {
 
-      let date = new Date();
-      let y = date.getFullYear();
-      let m = date.getMonth();
-      let fDay = new Date(y, m, 1);
-      let lDay = new Date(y, m + 1, 0);
+      let begin = moment().add(1, 'M').format("YYYY-MM-01");
+      let end = moment().add(1, 'M').format("YYYY-MM-") + moment().add(1, 'M').daysInMonth();
 
-      let firstDay = moment(fDay).format("YYYY-MM-DD");
-      let lastDay = moment(lDay).format("YYYY-MM-DD");
-
-      console.log(firstDay);
-      console.log(lastDay);
-
-      this.courseFetchForm.from_date = '';
-      this.courseFetchForm.to_date = '';
+      this.courseFetchForm.from_date = begin;
+      this.courseFetchForm.to_date = end;
     }
+
     else if (this.due_type == 'this_month_dues') {
-      this.courseFetchForm.from_date = '';
-      this.courseFetchForm.to_date = '';
+      let begin = moment().format("YYYY-MM-01");
+      let end = moment().format("YYYY-MM-") + moment().daysInMonth();
+      this.courseFetchForm.from_date = begin;
+      this.courseFetchForm.to_date = end;
     }
+
     else if (this.due_type == 'current_dues') {
-      this.courseFetchForm.from_date = '';
-      this.courseFetchForm.to_date = '';
+      this.courseFetchForm.from_date = moment(new Date()).format("YYYY-MM-DD");
+      this.courseFetchForm.to_date = moment(new Date()).format("YYYY-MM-DD");
     }
     else if (this.due_type == 'custom') {
+      this.courseFetchForm.from_date = '';
+      this.courseFetchForm.to_date = '';
       this.isCustomDate = true;
     }
     else if (this.due_type == '-1') {
