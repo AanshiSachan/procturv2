@@ -33,35 +33,39 @@
       <div class="row create-standard-field">
         <div class="c-lg-3 c-md-3 c-sm-3">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type != '' }">
+              <label for="slotNew">Fee Type Name
+                </label>
             <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type" name="slotNew">
-            <label for="slotNew">Fee Type Name
-            </label>
+            
             <p>(Eg Registration Fee, Library)</p>
           </div>
         </div>
         <div class="c-lg-3 c-md-3 c-sm-3">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type_desc != '' }">
+              <label for="slotNew">Description
+                </label>
             <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type_desc" name="slotNew">
-            <label for="slotNew">Description
-            </label>
+           
           </div>
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_amount != '' }">
+              <label for="slotNew">Amount
+                </label>
             <input type="text" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_amount" name="slotNew">
-            <label for="slotNew">Amount
-            </label>
+            
           </div>
         </div>
         <div class="c-lg-2 c-md-2 c-sm-2">
           <div class="field-wrapper" [ngClass]="{'has-value' : addNewFee.fee_type_tax >= 0 }">
+              <label for="slotNew">Tax(%)
+                </label>
             <input type="number" max="99" #idSlot class="form-ctrl" [(ngModel)]="addNewFee.fee_type_tax" name="slotNew">
-            <label for="slotNew">Tax(%)
-            </label>
+           
           </div>
         </div>
         <div style="margin-top: 1.5%;" class="pull-left create-cancel-small">
-          <button class="btn" (click)="addNewFeeType()">Add</button>
+          <button class="btn fullBlue" (click)="addNewFeeType()">Add</button>
         </div>
       </div>
     </section>
