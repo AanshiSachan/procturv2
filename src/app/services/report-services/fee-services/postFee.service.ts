@@ -29,6 +29,22 @@ export class PostFeeService {
     }
 
 
+    sendBulkSMS(obj): Observable<any> {
+        obj.institution_id = this.institute_id;
+        let url = this.baseUrl + '/api/v1/studentWise/fee/students/sendSMS/' + this.institute_id;
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
 
+    sendBulkFineSMS(obj): Observable<any> {
+        obj.institution_id = this.institute_id;
+        let url = this.baseUrl + '/api/v1/studentWise/fee/students/sendFineSMS/' + this.institute_id;
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
 
 }

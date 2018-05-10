@@ -6,7 +6,7 @@ import { AppComponent } from '../../../../app.component';
 
 import { GetFeeService } from '../../../../services/report-services/fee-services/getFee.service';
 import { PostFeeService } from '../../../../services/report-services/fee-services/postFee.service';
-
+import { MenuItem } from 'primeng/primeng';
 import * as moment from 'moment';
 
 @Component({
@@ -16,7 +16,9 @@ import * as moment from 'moment';
 })
 export class FeeCourseReportComponent implements OnInit {
 
+  selectedRecordsList: any[] = [];
   reportSource: any[] = [];
+  bulkAddItems: MenuItem[];
   isCustomDate: boolean;
   isFeeReceipt: boolean;
   isNextDueDetail: boolean;
@@ -125,6 +127,19 @@ export class FeeCourseReportComponent implements OnInit {
     this.login.changeNameStatus(sessionStorage.getItem('name'));
 
     this.fetchPrefillDetails();
+
+    this.bulkAddItems = [
+      {
+        label: 'Send SMS', icon: 'fa-envelope-o', command: () => {
+          this.sendBulkSms();
+        }
+      },
+      {
+        label: 'Send Fine SMS', icon: 'fa-envelope-o', command: () => {
+          this.sendBulkFineSms();
+        }
+      }
+    ];
 
     this.fetchFeeReportData();
 
@@ -662,15 +677,15 @@ export class FeeCourseReportComponent implements OnInit {
         return this.findMatch(e)
       });
 
-      if(temp.length != 0){
+      if (temp.length != 0) {
         this.feeDataSource1 = temp;
       }
-      else{
+      else {
         this.feeDataSource1 = temp;
         this.dataStatus = 2;
       }
     }
-    else{
+    else {
       this.feeDataSource1 = this.reportSource;
     }
   }
@@ -690,16 +705,78 @@ export class FeeCourseReportComponent implements OnInit {
     return temp;
   }
 
+  /* ===================================================================================================== */
+  /* ===================================================================================================== */
+  selectedRecords(rec) {
+    this.selectedRecordsList = rec;
+  }
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
+  sendBulkSms() {
+    if(confirm("Are you sure u want to send Fee Dues SMS to the selected students?")){
+      let arr: any[] = this.selectedRecordsList.map(e => {
+        return e.student_id;
+      });
+      let obj = {
+        delivery_mode: 0,
+        institution_id: '',
+        student_ids: arr.join(',') 
+      }
+      this.putter.sendBulkSMS(obj).subscribe(
+        res => {
+          let obj = {
+            type: 'success',
+            title: 'SMS Sent',
+            body: ""
+          }
+          this.appC.popToast(obj);
+        },
+        err => {
+          let obj = {
+            type: 'error',
+            title: 'An Error Occured',
+            body: err.error.message
+          }
+          this.appC.popToast(obj);
+        }
+      );
+    }
+  }
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
+  sendBulkFineSms() {
+    if(confirm("Are you sure u want to send Fine SMS to the selected students?")){
+      let arr: any[] = this.selectedRecordsList.map(e => {
+        return e.student_id;
+      });
 
+      let obj = {
+        delivery_mode: 0,
+        institution_id: '',
+        student_ids: arr.join(',') 
+      }
 
-
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
+      this.putter.sendBulkFineSMS(obj).subscribe(
+        res => {
+          let obj = {
+            type: 'success',
+            title: 'SMS Sent',
+            body: ""
+          }
+          this.appC.popToast(obj);
+        },
+        err => {
+          let obj = {
+            type: 'error',
+            title: 'An Error Occured',
+            body: err.error.message
+          }
+          this.appC.popToast(obj);
+        }
+      );
+    }
+  }
 
 }

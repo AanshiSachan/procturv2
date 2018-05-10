@@ -3,7 +3,6 @@
 <div class="report-wrapper clearFix">
     <aside class="middle-full">
         <section class="middle-main clearFix">
-
             <div class="middle-top mb0 clearFix header">
                 <div class="row report-header">
                     <h2 class="pull-left">
@@ -179,7 +178,9 @@
                     </div>
                 </div>
 
-                <div class="c-lg-8"></div>
+                <div class="c-lg-8" style="padding: 15px 5px 0px 5px;">
+                    <p-splitButton label="{{selectedRecordsList.length}} Record Selected" [model]="bulkAddItems" *ngIf="selectedRecordsList.length"></p-splitButton>
+                </div>
 
                 <div class="c-lg-4">
                     <div class="form-wrapper">
@@ -193,7 +194,7 @@
 
             <section class="fee-table">
                 <div class="table-content" *ngIf="isFilterReversed">
-                    <rob-table [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)" [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1"
+                    <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)" [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1"
                         [dataStatus]="dataStatus" [tableName]="'feereport'" [settings]="feeSettings1">
                     </rob-table>
                 </div>
@@ -203,7 +204,6 @@
                     </rob-table>
                 </div>
             </section>
-
         </section>
     </aside>
 
