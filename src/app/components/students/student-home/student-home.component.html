@@ -258,9 +258,8 @@
                                 </div>
                             </div>
 
-                            <custom-student *ngFor="let component of customComponents">
-
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
+                            <custom-student class="c-lg-4 c-md-4 c-sm-4" [ngClass]="{'hide': component.is_searchable == 'N'}" *ngFor="let component of customComponents">
+                                <div class="" *ngIf="component.type == 1 && component.is_searchable == 'Y'" input-def>
                                     <div class="field-wrapper">
                                         <label for="{{component.id}}">{{component.label}} </label>
                                         <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="component.label"
@@ -268,15 +267,15 @@
                                     </div>
                                 </div>
 
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
+                                <div class="" *ngIf="component.type == 2 && component.is_searchable == 'Y'" input-def>
                                     <br>
-                                    <div class="field-checkbox-wrapper">
+                                    <div style="margin: 30px 0px;" class="field-checkbox-wrapper">
                                         <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" name="component.label" value="">
                                         <label for="{{component.id}}">{{component.label}} </label>
                                     </div>
                                 </div>
 
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
+                                <div class="" *ngIf="component.type == 3 && component.is_searchable == 'Y'" input-def>
                                     <div class="field-wrapper">
                                         <label for="{{component.id}}">{{component.label}} </label>
                                         <select id="{{component.id}}" class="form-ctrl" [(ngModel)]="component.value" name="component.label">
@@ -286,7 +285,7 @@
                                     </div>
                                 </div>
 
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
+                                <div class="" *ngIf="component.type == 4 && component.is_searchable == 'Y'" input-def>
                                     <div id="{{component.id}}wrapper" class="field-wrapper" (click)="multiselectVisible($event.target.id)">
                                         <label for="{{component.id}}">{{component.label}} </label>
                                         <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label}}" class="form-ctrl"
@@ -307,14 +306,13 @@
                                     </div>
                                 </div>
 
-                                <div class="c-lg-4 c-md-4 c-sm-4" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
+                                <div class="" *ngIf="component.type == 5 && component.is_searchable == 'Y'" input-def>
                                     <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': component.value != 'Invalid date'}">
                                         <label for="component.id">{{component.label}} </label>
                                         <input type="text" value="" readonly="true" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl bsDatepicker"
                                             name="{{component.label}}" bsDatepicker/>
                                     </div>
                                 </div>
-
                             </custom-student>
 
                             <div class="row adfilter-submitter">
