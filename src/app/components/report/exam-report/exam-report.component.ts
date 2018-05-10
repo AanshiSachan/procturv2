@@ -24,8 +24,8 @@ export class ExamReportComponent implements OnInit {
   examSource: any = [];
   DetailSource: any = [];
   pagedExamSource: any[] = [];
-
-
+  pagedDetailedExamSource:any[]=[];
+  isRippleLoad:boolean = false;
   projectSettings: ColumnSetting[] = [
     { primaryKey: 'student_id', header: 'Student Id' },
     { primaryKey: 'student_name', header: 'Student Name' },
@@ -64,9 +64,10 @@ export class ExamReportComponent implements OnInit {
   /*========================================================================================
   ========================================================================================== */
   fetchExamData() {
-
+this.isRippleLoad = true;
     this.examdata.ExamReport().subscribe(
       (data: any) => {
+        this.isRippleLoad = false
         this.masterCourses = data;
       }
     )
@@ -74,6 +75,7 @@ export class ExamReportComponent implements OnInit {
   /*=============================================================================================
   ============================================================================================== */
   fetchExamReport() {
+    this.isRippleLoad = true;
     if (this.fetchFieldData.subject_id == "" || this.fetchFieldData.standard_id == "" || this.fetchFieldData.batch_id == "" ||
       this.fetchFieldData.exam_schd_id == "") {
 
@@ -83,6 +85,7 @@ export class ExamReportComponent implements OnInit {
         Body: "From date cannot be greater than To date"
       }
       this.appC.popToast(msg);
+      this.isRippleLoad = false
     }
     else {
       let o = {
@@ -93,15 +96,28 @@ export class ExamReportComponent implements OnInit {
         subject_id: ''
       }
       this.examdata.viewExamData(o).subscribe(
-        res => {
-          this.examSource = res;
-          this.Tdata = true;
-          this.totalRecords = this.examSource.length;
-          this.fetchTableDataByPage(this.pageIndex);
-
+        
+        (res:any) => {
+          if(res.length){
+            this.examSource = res;
+            this.Tdata = true;
+            this.totalRecords = this.examSource.length;
+            this.fetchTableDataByPage(this.pageIndex);
+            this.isRippleLoad = false;
+  
+          }
+          else{
+            let msg = {
+              type: "info",
+              title: "No Data Found",
+              body: "We did not find any data in this range "
+            }
+            this.appC.popToast(msg);
+            this.isRippleLoad = false;
+          }
         },
         err => {
-
+          this.isRippleLoad = false
         }
       );
     }
@@ -110,19 +126,39 @@ export class ExamReportComponent implements OnInit {
   =========================================================================================== */
 
   fetchDetailReport() {
+    this.isRippleLoad = true;
     this.examdata.viewDetailData(this.fetchFieldData.batch_id)
       .subscribe(
-        res => {
-          this.DetailSource = res;
+        (res:any) => {
+          console.log(res);
+          if(res.length){
+            this.DetailSource = res;
 
-          this.addReportPopup = true;
+            this.addReportPopup = true;
+            this.pageIndex = 1;
+            this.totalRecords = this.DetailSource.length;
+            this.fetchTableDataByPagePopup(this.pageIndex);
+            this.isRippleLoad = false
+          }
+         else{
+          let msg = {
+            type: "info",
+            title: "No Data Found",
+            body: "We did not find any data in this range "
+          }
+          this.appC.popToast(msg);
+          this.isRippleLoad = false
+         }
+
         },
         err => {
+          this.isRippleLoad = false
         })
   };
   /*====================================================================================
   ======================================================================================= */
   getCourseData(i) {
+    this.isRippleLoad = true;
     this.fetchFieldData.exam_schd_id = "";
     this.fetchFieldData.batch_id = "";
     this.fetchFieldData.subject_id = "";
@@ -131,9 +167,10 @@ export class ExamReportComponent implements OnInit {
       (data: any) => {
 
         this.courseData = data.coursesList;
-
+        this.isRippleLoad = false
       },
       (error: any) => {
+        this.isRippleLoad = false
         return error;
       }
     )
@@ -141,20 +178,22 @@ export class ExamReportComponent implements OnInit {
   /*====================================================================================
   ======================================================================================= */
   getSubData(i) {
-
+    this.isRippleLoad = true;
     this.fetchFieldData.exam_schd_id = "";
     this.fetchFieldData.batch_id = "";
     this.examdata.getSubject(i).subscribe((data: any) => {
       this.subjectData = data.batchesList;
-
+      this.isRippleLoad = false
     })
   }
   /*=====================================================================================
   ======================================================================================== */
   getExamScheduleData(i) {
+    this.isRippleLoad = true;
     this.fetchFieldData.exam_schd_id = "";
     this.examdata.getExamSchedule(i).subscribe((data: any) => {
       this.exam_Sch_Data = data.otherSchd;
+      this.isRippleLoad = false;
     })
   }
   /*==============================pagination ===========================================
@@ -164,6 +203,7 @@ export class ExamReportComponent implements OnInit {
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
     this.pagedExamSource = this.getDataFromDataSource(startindex);
+    
   }
   fetchNext() {
     this.pageIndex++;
@@ -177,9 +217,36 @@ export class ExamReportComponent implements OnInit {
   }
 
   getDataFromDataSource(startindex) {
+   
     let t = this.examSource.slice(startindex, startindex + this.displayBatchSize);
     return t;
+    
+   
   }
+  getDataFromDataSourcePopup(startindex) {
+   
+    let t = this.DetailSource.slice(startindex, startindex + this.displayBatchSize);
+    return t;
+    
+   
+  }
+  fetchTableDataByPagePopup(index) {
+    this.pageIndex = index;
+    let startindex = this.displayBatchSize * (index - 1);
+    this.pagedDetailedExamSource = this.getDataFromDataSourcePopup(startindex);
+    console.log(this.pagedDetailedExamSource);
+  }
+  fetchNextPopup() {
+    this.pageIndex++;
+    this.fetchTableDataByPagePopup(this.pageIndex);
+  }
+  fetchPreviousPopup() {
+    if (this.pageIndex != 1) {
+      this.pageIndex--;
+      this.fetchTableDataByPagePopup(this.pageIndex);
+    }
+  }
+
   switchActiveView(id) {
     document.getElementById('email').classList.remove('active');
   }

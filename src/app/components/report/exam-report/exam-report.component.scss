@@ -12,7 +12,21 @@ h1 {
 p {
     font-weight: 300;
 }
-
+.router{
+    height:85vh;
+    background-color: #efefef;
+}
+.filter-form {
+    background: #fff;
+    box-shadow:-6px 7px 14px -2px #dadada;
+    border-radius: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    .row {
+        margin: 5px 15px;
+    }
+   
+    }
 .middle-section {
     padding: 5px 15px;
     width: 100%;
@@ -69,6 +83,7 @@ p {
 
 
 .btn-sms-search{
+    margin-bottom:5px;
          margin-top: 35px;
      text-align: center;
    margin-left: 280px;
