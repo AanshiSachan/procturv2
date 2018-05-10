@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
 import { LoginService } from '../../../../services/login-services/login.service';
@@ -16,6 +16,7 @@ import * as moment from 'moment';
 })
 export class FeeCourseReportComponent implements OnInit {
 
+  reportSource: any[] = [];
   isCustomDate: boolean;
   isFeeReceipt: boolean;
   isNextDueDetail: boolean;
@@ -100,6 +101,9 @@ export class FeeCourseReportComponent implements OnInit {
 
   batchList: any[] = [];
 
+  userInput: string = ''
+
+  @ViewChild('form') form: any;
 
   constructor(
     private login: LoginService,
@@ -123,6 +127,13 @@ export class FeeCourseReportComponent implements OnInit {
     this.fetchPrefillDetails();
 
     this.fetchFeeReportData();
+
+    this.form.valueChanges
+      .debounceTime(100)
+      .distinctUntilChanged()
+      .subscribe(data => {
+        this.searchDB();
+      });
 
   }
 
@@ -182,7 +193,7 @@ export class FeeCourseReportComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -199,7 +210,7 @@ export class FeeCourseReportComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -228,7 +239,7 @@ export class FeeCourseReportComponent implements OnInit {
               contact_no: this.courseFetchForm.contact_no,
               is_fee_report_view: this.courseFetchForm.is_fee_report_view
             }
-            console.log(obj);
+            //console.log(obj);
             this.generateReport(obj);
           }
           else {
@@ -246,7 +257,7 @@ export class FeeCourseReportComponent implements OnInit {
               contact_no: this.courseFetchForm.contact_no,
               is_fee_report_view: this.courseFetchForm.is_fee_report_view
             }
-            console.log(obj);
+            //console.log(obj);
             this.generateReport(obj);
           }
         }
@@ -362,7 +373,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   generateReport(obj) {
-    console.log(obj);
+    //console.log(obj);
 
     if (obj.from_date == 'Invalid date' || obj.from_date == '') {
       obj.from_date = '';
@@ -376,7 +387,7 @@ export class FeeCourseReportComponent implements OnInit {
     if (obj.to_date != 'Invalid date' && obj.to_date != '') {
       moment(obj.to_date).format('YYYY-MM-DD');
     }
-    console.log(obj);
+    //console.log(obj);
     this.isRippleLoad = true;
     this.dataStatus = 1;
     this.getter.getFeeReportData(obj).subscribe(
@@ -384,6 +395,7 @@ export class FeeCourseReportComponent implements OnInit {
         if (res.length == 0) {
           this.dataStatus = 2;
         }
+        this.reportSource = res;
         this.isRippleLoad = false;
         if (this.isFilterReversed) {
           this.feeDataSource1 = res;
@@ -394,7 +406,7 @@ export class FeeCourseReportComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -450,7 +462,7 @@ export class FeeCourseReportComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -472,7 +484,7 @@ export class FeeCourseReportComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -642,10 +654,41 @@ export class FeeCourseReportComponent implements OnInit {
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
+  searchDB() {
+    //console.log(this.userInput);
+
+    if (this.userInput.trim() != '') {
+      let temp: any[] = this.reportSource.filter(e => {
+        return this.findMatch(e)
+      });
+
+      if(temp.length != 0){
+        this.feeDataSource1 = temp;
+      }
+      else{
+        this.feeDataSource1 = temp;
+        this.dataStatus = 2;
+      }
+    }
+    else{
+      this.feeDataSource1 = this.reportSource;
+    }
+  }
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
+  findMatch(e): boolean {
+    let temp = false;
 
+    for (let key in e) {
+      if (String(e[key]).toLowerCase().indexOf(this.userInput.toLowerCase()) >= 0) {
+        temp = true;
+        break;
+      }
+    }
+
+    return temp;
+  }
 
 
   /* ===================================================================================================== */

@@ -4,8 +4,8 @@
     <aside class="middle-full">
         <section class="middle-main clearFix">
 
-            <div class="header">
-                <section class="middle-top mb0 clearFix report-header">
+            <div class="middle-top mb0 clearFix header">
+                <div class="row report-header">
                     <h2 class="pull-left">
                         <a routerLink="/reports/home">
                             <i style="font-family: 'FontAwesome'; font-size: 24px;cursor: pointer;" class="fas fa-home"></i>
@@ -14,10 +14,10 @@
                     </h2>
                     <aside class="pull-right">
                     </aside>
-                </section>
+                </div>
 
-                <section class="fee-filter" [ngClass]="{'long': isFilterReversed}">
-                    <div id="primary" *ngIf="!isFilterReversed">
+                <div class="row fee-filter" [ngClass]="{'long': isFilterReversed}">
+                    <!-- <div id="primary" *ngIf="!isFilterReversed">
                         <div class="c-lg-4">
                             <div class="form-wrapper">
                                 <input [(ngModel)]='search_value' type="text" class="form-ctrl" placeholder="Search Name/Phone No.">
@@ -41,7 +41,7 @@
                             <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Switch Filter</a>
                         </div>
                         <div class="c-lg-3"></div>
-                    </div>
+                    </div> -->
 
                     <div id="secondary" *ngIf="isFilterReversed">
 
@@ -140,11 +140,12 @@
                         </div>
 
                     </div>
-                </section>
+                </div>
             </div>
 
             <section class="fee-info">
-                <div class="c-lg-8">
+                
+                <div class="c-lg-8 hide">
                     <div class="c-lg-1"></div>
                     <div class="c-lg-4">
                         <ul>
@@ -177,11 +178,17 @@
                         </ul>
                     </div>
                 </div>
+
+                <div class="c-lg-8"></div>
+
                 <div class="c-lg-4">
                     <div class="form-wrapper">
-                        <input type="text" name="" placeholder="Search" class="form-ctrl" id="">
+                        <form autocomplete="off" #form="ngForm">
+                            <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar">
+                        </form>
                     </div>
                 </div>
+
             </section>
 
             <section class="fee-table">
