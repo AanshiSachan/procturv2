@@ -4,14 +4,13 @@
 <section class="middle-section clearFix">
   <div class="content-container">
 
-    <div class="row header">
-      <h2 *ngIf="roleId == '-1'">Role Add</h2>
-      <h2 *ngIf="roleId != '-1'">Role Edit</h2>
+    <div class="header">
+      <h2 *ngIf="roleId == '-1'">Add Role</h2>
+      <h2 *ngIf="roleId != '-1'">Edit Role</h2>
     </div>
 
-    <div class="addEditRole row">
-
-      <div *ngIf="roleId == '-1'">
+    <div class="addEditRole">
+      <div class="row" *ngIf="roleId == '-1'">
         <div class="c-sm-3 c-md-3 c-lg-3">
           <div class="field-wrapper">
             <label for="role_name">Role Name</label>
@@ -26,7 +25,7 @@
         </div>
       </div>
 
-      <div *ngIf="roleId != '-1'">
+      <div class="row" *ngIf="roleId != '-1'">
         <h3>Role Name : {{userData.role_name}}</h3>
         <div>
           <div class="field-wrapper">
@@ -45,7 +44,7 @@
         <ng-template let-car pTemplate="item">
           <div class="ui-helper-clearfix">
             <!-- <img src="assets/showcase/images/demo/car/{{car.brand}}.png" style="display:inline-block;margin:2px 0 2px 2px" width="48"> -->
-            <div style="font-size:14px;float:right;margin:15px 5px 0 0">{{car.feature_name}} - {{car.description}}</div>
+            <div>{{car.feature_name}}</div>
           </div>
         </ng-template>
       </p-pickList>

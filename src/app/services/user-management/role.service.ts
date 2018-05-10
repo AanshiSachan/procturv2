@@ -42,6 +42,14 @@ export class RoleService {
         )
     }
 
+    deleteRole(id) {
+        let url = this.baseUrl + "/api/v1/roleApi/" + id;
+        return this.http.delete(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
     // Add Edit 
 
     getAllFeature() {

@@ -163,7 +163,7 @@
                             <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
                           </div>
                           <div *ngIf="class.isExam" class="che-action">
-                            <span (click)="markExamAttendance(class)" style="cursor:pointer">Exam Attendance</span>
+                            <span (click)="markExamAttendance(class)" [ngClass]="hideFutureExamSchedule(class)" style="cursor:pointer">Exam Attendance</span>
                             <span class="" *ngIf="class.isReferenced != 'Y'" (click)="notifyExamSchedule(class)" style="cursor:pointer">Send Reminder</span>
                             <span class="" *ngIf="class.isReferenced != 'Y'" (click)="onCancelExamClick(class)" style="cursor:pointer">Cancel Exam</span>
                             <span class="" *ngIf="class.isReferenced== 'Y'" (click)="examMarksUpdate(class)" style="cursor:pointer">Exam Marks</span>
@@ -235,7 +235,7 @@
                             <span class="" *ngIf="getVisibility(class) && class.is_attendance_marked!='Y'" style="cursor:pointer" (click)="initiateRescheduleClass(i, class)">Reschedule</span>
                           </div>
                           <div *ngIf="(class.isExam)" class="che-action">
-                            <span class="" (click)="markExamAttendance(class)" style="cursor:pointer">Exam Attendance</span>
+                            <span class="" (click)="markExamAttendance(class)" style="cursor:pointer" [ngClass]="hideFutureExamSchedule(class)">Exam Attendance</span>
                             <span class="" style="cursor:pointer" (click)="notifyExamSchedule(class)">Notify</span>
                             <span class="" *ngIf="class.isReferenced != 'Y'" style="cursor:pointer" (click)="onCancelExamClick(class)">Cancel Exam</span>
                             <span class="" *ngIf="class.isReferenced == 'Y'" style="cursor:pointer" (click)="examMarksUpdate(class)">Exam Marks</span>
