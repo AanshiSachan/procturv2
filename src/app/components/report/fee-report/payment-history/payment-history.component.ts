@@ -18,7 +18,9 @@ export class PaymentHistoryComponent implements OnChanges {
   @Input() feeData: any;
   @Output() closeButton = new EventEmitter<any>()
 
-  constructor() { }
+  pastHIstoryData:any[] = [];
+
+  constructor(private getter: GetFeeService, private putter: PostFeeService) { }
 
   ngOnChanges() {
     this.feeData;
@@ -28,6 +30,13 @@ export class PaymentHistoryComponent implements OnChanges {
 
   updateData() {
     console.log(this.feeData);
+    this.getter.getPaymentHistory(this.feeData.student_id).subscribe(
+      res => {
+        this.pastHIstoryData = res;
+      },
+      err => {}
+    )
+
   }
 
   closePopups(){

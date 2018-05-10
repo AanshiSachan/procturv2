@@ -1,4 +1,4 @@
-<proctur-popup>
+<proctur-popup [sizeWidth]="'large'">
 
     <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closePopups()" close-button>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
@@ -16,16 +16,62 @@
     <h2 popup-header>Payment History</h2>
 
     <div class="history-wrapper" popup-content>
-
+            <div class="table-container">
+                    <div class="table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Paid On</th>
+                                    <th>Course</th>
+                                    <th>Academic Year</th>
+                                    <th>Receipt #</th>
+                                    <th>Installment #</th>
+                                    <th>Fee Type</th>
+                                    <th>Amount</th>
+                                    <th>Tax</th>
+                                    <th>Total Amount</th>
+                                    <th>Amount Paid</th>
+                                    <th>Amount Due</th>
+                                    <th>Payment Mode</th>
+                                    <th>Ref #</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="pastHIstoryData.length">
+                                <tr *ngFor="let p of pastHIstoryData; let i= index;">
+                                    <td>{{p.paid_date}}</td>
+                                    <td>{{p.course_subject_name}}</td>
+                                    <td>{{p.academic_year}}</td>
+                                    <td>{{p.display_invoice_no}}</td>
+                                    <td>{{p.installment_no}}</td>
+                                    <td>{{p.fee_type_name}}</td>
+                                    <td>{{p.total_initial_amount}}</td>
+                                    <td>{{p.total_tax_applied}}</td>
+                                    <td>{{p.total_amount_after_discount_after_tax}}</td>
+                                    <td>{{p.total_amt_paid}}</td>
+                                    <td>{{p.total_balance_amt}}</td>
+                                    <td>{{p.paymentMode}}</td>
+                                    <td>{{p.reference_no}}</td>
+                                    <td>{{p.remarks}}</td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="pastHIstoryData.length == 0">
+                                <tr>
+                                    <td colspan="14">No Data Found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
     </div>
 
-    <div class="" popup-footer>
+    <!-- <div class="" popup-footer>
         <div class="clearfix">
             <aside class="pull-right popup-btn">
                 <input type="button" value="Cancel" class="btn" (click)="closePopups()">
                 <input type="button" value="Apply" (click)="applyAction()" class="fullBlue btn">
             </aside>
         </div>
-    </div>
+    </div> -->
 
 </proctur-popup>

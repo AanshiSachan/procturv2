@@ -18,7 +18,7 @@ export class ViewDetailComponent implements OnChanges {
   @Input() feeData: any;
   @Output() closeButton = new EventEmitter<any>()
 
-  constructor() { }
+  constructor(private getter: GetFeeService, private putter: PostFeeService) { }
 
   ngOnChanges() {
     this.feeData;
@@ -30,11 +30,11 @@ export class ViewDetailComponent implements OnChanges {
     console.log(this.feeData);
   }
 
-  closePopups(){
+  closePopups() {
     this.closeButton.emit(null);
   }
 
-  
+
 }
 
 

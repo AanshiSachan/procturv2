@@ -16,6 +16,7 @@ import * as moment from 'moment';
 })
 export class FeeCourseReportComponent implements OnInit {
 
+  isCustomDate: boolean;
   isFeeReceipt: boolean;
   isNextDueDetail: boolean;
   isFeepaymentHistory: boolean;
@@ -24,7 +25,7 @@ export class FeeCourseReportComponent implements OnInit {
   installmentList: any;
   isFilterReversed: boolean = true;
   isProfessional: boolean = false;
-  dataStatus:number = 3;
+  dataStatus: number = 3;
   feeSettings1: ColumnData[] = [
     { primaryKey: 'student_disp_id', header: 'ID' },
     { primaryKey: 'student_name', header: 'Name' },
@@ -54,10 +55,10 @@ export class FeeCourseReportComponent implements OnInit {
   feeDataSource2: any[] = [];
 
   menuOptions: DropData[] = [
-    {
+    /* {
       key: 'detailed',
       header: 'View Detailed Report'
-    },
+    }, */
     {
       key: 'history',
       header: 'Fee Payment History',
@@ -365,7 +366,7 @@ export class FeeCourseReportComponent implements OnInit {
     this.dataStatus = 1;
     this.getter.getFeeReportData(obj).subscribe(
       res => {
-        if(res.length == 0){
+        if (res.length == 0) {
           this.dataStatus = 2;
         }
         this.isRippleLoad = false;
@@ -556,7 +557,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   performAction(action) {
-    
+
     if (action == 'View Detailed Report') {
       this.isViewDetailReport = true;
     }
@@ -574,16 +575,53 @@ export class FeeCourseReportComponent implements OnInit {
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
-  closePopup(e){
+  closePopup(e) {
     this.isFeeReceipt = false;
-    this.isFeepaymentHistory= false;
+    this.isFeepaymentHistory = false;
     this.isNextDueDetail = false;
     this.isViewDetailReport = false;
   }
   /* ===================================================================================================== */
   /* ===================================================================================================== */
+  dateRangeChanges(e) {
+    this.isCustomDate = false;
+    if (this.due_type == 'all_dues') {
+      this.courseFetchForm.from_date = '';
+      this.courseFetchForm.to_date = '';
+    }
+    else if (this.due_type == 'next_month_dues') {
 
+      let date = new Date();
+      let y = date.getFullYear();
+      let m = date.getMonth();
+      let fDay = new Date(y, m, 1);
+      let lDay = new Date(y, m + 1, 0);
 
+      let firstDay = moment(fDay).format("YYYY-MM-DD");
+      let lastDay = moment(lDay).format("YYYY-MM-DD");
+
+      console.log(firstDay);
+      console.log(lastDay);
+
+      this.courseFetchForm.from_date = '';
+      this.courseFetchForm.to_date = '';
+    }
+    else if (this.due_type == 'this_month_dues') {
+      this.courseFetchForm.from_date = '';
+      this.courseFetchForm.to_date = '';
+    }
+    else if (this.due_type == 'current_dues') {
+      this.courseFetchForm.from_date = '';
+      this.courseFetchForm.to_date = '';
+    }
+    else if (this.due_type == 'custom') {
+      this.isCustomDate = true;
+    }
+    else if (this.due_type == '-1') {
+      this.isCustomDate = false;
+    }
+
+  }
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
