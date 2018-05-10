@@ -29,6 +29,14 @@ export class GetFeeService {
     }
 
 
+    getPaymentHistory(id): Observable<any> {
+        let url = this.baseUrl + "/api/v1/studentWise/fee/feesReport/pastHistory/" + this.institute_id + "/" + id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        );
+    }
+
     getBatchDetails(obj): Observable<any> {
 
         let url = this.baseUrl + '/api/v1/batches/fetchCombinedBatchData/' + this.institute_id + '?standard_id=' + obj.standard_id + '&subject_id=' + obj.subject_id + '&assigned=N'
@@ -77,16 +85,25 @@ export class GetFeeService {
 
 
     getFeeReceipts(id): Observable<any> {
-        let url = this.baseUrl +"/api/v1/studentWise/fee/feesReport/feeReceipts/" +this.institute_id +"/" +id;
-        return this.http.get(url, {headers: this.headers}).map(
+        let url = this.baseUrl + "/api/v1/studentWise/fee/feesReport/feeReceipts/" + this.institute_id + "/" + id;
+        return this.http.get(url, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }
         )
     }
 
-    getReceiptById(obj){
-        let url = this.baseUrl +"/api/v1/studentWise/fee/" +obj.student_id +"/feeReceipt/" +obj.disp_id +"/download?fin_yr=" +obj.fin_yr;
-        return this.http.get(url, {headers: this.headers}).map(
+    getReceiptById(obj): Observable<any> {
+        let url = this.baseUrl + "/api/v1/studentWise/fee/" + obj.student_id + "/feeReceipt/" + obj.disp_id + "/download?fin_yr=" + obj.fin_yr;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    getFutureDues(id): Observable<any> {
+        let url = this.baseUrl + "/api/v1/studentWise/fee/feesReport/futureDues/" + this.institute_id + "/" + id;
+
+        return this.http.get(url, { headers: this.headers }).map(
             res => { return res; },
             err => { return err; }
         )

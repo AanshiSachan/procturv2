@@ -363,7 +363,7 @@
 
                     <!-- <p-selectButton [options]="types" [(ngModel)]="selectedType" (onChange)="onChanged($event)"></p-selectButton> -->
 
-                    <div class="pull-right" *ngIf="selectedType == 'course'">
+                    <div class="pull-right" *ngIf="selectedType == 'course'" style="margin-right:10px;">
                         <button class="btn fullBlue small-btn" (click)="addMoreSchedule()">Add More</button>
                     </div>
 
@@ -382,8 +382,8 @@
                                 <span class="spanText">Course End Date : {{data.batchEndDate}} </span>
                             </div>
 
-                            <div class="pull-right">
-                                <button *ngIf="j != 0" (click)="deleteWholeCourse(data, j)" class="btn fullBlue small-btn">Delete</button>
+                            <div class="pull-right" style="margin-right:10px;">
+                                <button *ngIf="data.selectedCourseList.course_exam_schedule_id == -1" (click)="deleteWholeCourse(data, j)" class="btn fullBlue small-btn">Delete</button>
                                 <button (click)="cancelExamForFullCourse(data,j)" class="btn fullBlue small-btn">Cancel</button>
                                 <button (click)="sendReminderForCourse(data,j)" class="btn fullBlue small-btn">Send Reminder</button>
                             </div>
@@ -508,8 +508,8 @@
                                             <div class="action-Menu">
                                                 <span class="delete-btn" style="font-family: FontAwesome;font-size: 20px" (click)="deleteFromCourse(row , i , j)" title="Delete">
                                                     <i class="fa fa-trash-o " aria-hidden="true "></i>
-                                                    <a (click)="cancelExamCourse(row , i , j)" *ngIf="row.class_schedule_id != 0">Cancel Exam</a>
                                                 </span>
+                                                <a (click)="cancelExamCourse(row , i , j)" *ngIf="row.class_schedule_id != 0">Cancel Exam</a>
                                             </div>
 
                                             <!-- <div class="action-Menu">
@@ -525,7 +525,7 @@
 
                     </div>
 
-                    <div class="row">
+                    <div class="row" style="margin-right:10px;">
                         <button class="btn fullBlue pull-right" (click)="saveExamScheduleCourse()">Save</button>
                     </div>
 
@@ -578,7 +578,7 @@
                         </div>
                         <div class="c-sm-6 c-md-6 c-lg-6" style="margin-top: 20px;">
                             <div class="field-checkbox-wrapper">
-                                
+
                                 <input type="checkbox" value="" id="msgAbsentees" name="msgAbsentees" class="form-checkbox" [(ngModel)]="smsAbsenteesChkbx">
                                 <label for="msgAbsentees">Send Sms For Absentees</label>
                             </div>
@@ -604,7 +604,7 @@
 
                         <div class="c-sm-3 c-md-3 c-lg-3">
                             <div class="field-checkbox-wrapper">
-                                
+
                                 <input type="checkbox" value="" class="form-checkbox" id="MarkPresent" [checked]="checkCheckAllChkboxStatus()" (change)="markAllPresent($event)">
                                 <label for="MarkAllPresent">Mark All Present</label>
                             </div>
@@ -712,7 +712,7 @@
                     <div class="clearfix" style="margin-top: 10px">
                         <aside class="pull-left" style="margin-top: 10px">
                             <div class="field-checkbox-wrapper">
-                               
+
                                 <input type="checkbox" value="" id="chkBxNotifyStudent" name="chkBxNotifyStudent" class="form-checkbox" [(ngModel)]="cancelPopUpData.notify">
                                 <label for="chkBxNotifyStudent">Notify Students</label>
                             </div>
