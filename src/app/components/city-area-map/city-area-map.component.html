@@ -18,11 +18,11 @@
       <div class="row create-standard-field">
         <div class="c-lg-3 c-md-3 c-sm-3">
           <div class="field-wrapper" name="slotNew" [ngClass]="{'has-value' : newCity.city != '' }">
-              <label for="slotNew">City
+              <label for="slotNew">City  <span style="color: red">*</span> </label>
             <input type="text" class="form-ctrl" name="city" [(ngModel)]="newCity.city">
             
-              <span style="color: red">*</span>
-            </label>
+            
+           
           </div>
         </div>
         <div class="c-lg-3 c-md-3 c-sm-3">
@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="c-lg-3 c-md-3 c-sm-3">
-          <button class="btn" (click)="addNewCity()">Save</button>
+          <button class="btn fullBlue" (click)="addNewCity()" style="margin-top:8%;">Save</button>
         </div>
       </div>
 
