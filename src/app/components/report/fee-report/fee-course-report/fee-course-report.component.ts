@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ColumnData } from '../../../shared/ng-robAdvanceTable/ng-robAdvanceTable.model';
 import { DropData } from '../../../shared/ng-robAdvanceTable/dropmenu/dropmenu.model';
 import { LoginService } from '../../../../services/login-services/login.service';
@@ -6,7 +6,7 @@ import { AppComponent } from '../../../../app.component';
 
 import { GetFeeService } from '../../../../services/report-services/fee-services/getFee.service';
 import { PostFeeService } from '../../../../services/report-services/fee-services/postFee.service';
-
+import { MenuItem } from 'primeng/primeng';
 import * as moment from 'moment';
 
 @Component({
@@ -16,6 +16,9 @@ import * as moment from 'moment';
 })
 export class FeeCourseReportComponent implements OnInit {
 
+  selectedRecordsList: any[] = [];
+  reportSource: any[] = [];
+  bulkAddItems: MenuItem[];
   isCustomDate: boolean;
   isFeeReceipt: boolean;
   isNextDueDetail: boolean;
@@ -100,6 +103,9 @@ export class FeeCourseReportComponent implements OnInit {
 
   batchList: any[] = [];
 
+  userInput: string = ''
+
+  @ViewChild('form') form: any;
 
   constructor(
     private login: LoginService,
@@ -122,7 +128,27 @@ export class FeeCourseReportComponent implements OnInit {
 
     this.fetchPrefillDetails();
 
+    this.bulkAddItems = [
+      {
+        label: 'Send SMS', icon: 'fa-envelope-o', command: () => {
+          this.sendBulkSms();
+        }
+      },
+      {
+        label: 'Send Fine SMS', icon: 'fa-envelope-o', command: () => {
+          this.sendBulkFineSms();
+        }
+      }
+    ];
+
     this.fetchFeeReportData();
+
+    this.form.valueChanges
+      .debounceTime(100)
+      .distinctUntilChanged()
+      .subscribe(data => {
+        this.searchDB();
+      });
 
   }
 
@@ -182,7 +208,7 @@ export class FeeCourseReportComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -199,7 +225,7 @@ export class FeeCourseReportComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -228,11 +254,26 @@ export class FeeCourseReportComponent implements OnInit {
               contact_no: this.courseFetchForm.contact_no,
               is_fee_report_view: this.courseFetchForm.is_fee_report_view
             }
-            console.log(obj);
+            //console.log(obj);
             this.generateReport(obj);
           }
           else {
-
+            let obj = {
+              standard_id: this.courseFetchForm.standard_id,
+              batch_id: this.courseFetchForm.batch_id,
+              type: this.courseFetchForm.type,
+              from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
+              to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
+              installment_id: this.courseFetchForm.installment_id,
+              subject_id: this.courseFetchForm.subject_id,
+              master_course_name: this.courseFetchForm.master_course_name,
+              course_id: this.courseFetchForm.course_id,
+              student_name: this.courseFetchForm.student_name,
+              contact_no: this.courseFetchForm.contact_no,
+              is_fee_report_view: this.courseFetchForm.is_fee_report_view
+            }
+            //console.log(obj);
+            this.generateReport(obj);
           }
         }
       }
@@ -347,7 +388,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   /* ===================================================================================================== */
   generateReport(obj) {
-    console.log(obj);
+    //console.log(obj);
 
     if (obj.from_date == 'Invalid date' || obj.from_date == '') {
       obj.from_date = '';
@@ -361,7 +402,7 @@ export class FeeCourseReportComponent implements OnInit {
     if (obj.to_date != 'Invalid date' && obj.to_date != '') {
       moment(obj.to_date).format('YYYY-MM-DD');
     }
-    console.log(obj);
+    //console.log(obj);
     this.isRippleLoad = true;
     this.dataStatus = 1;
     this.getter.getFeeReportData(obj).subscribe(
@@ -369,6 +410,7 @@ export class FeeCourseReportComponent implements OnInit {
         if (res.length == 0) {
           this.dataStatus = 2;
         }
+        this.reportSource = res;
         this.isRippleLoad = false;
         if (this.isFilterReversed) {
           this.feeDataSource1 = res;
@@ -379,7 +421,7 @@ export class FeeCourseReportComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -435,7 +477,7 @@ export class FeeCourseReportComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -457,7 +499,7 @@ export class FeeCourseReportComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -585,36 +627,38 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   dateRangeChanges(e) {
     this.isCustomDate = false;
+    this.courseFetchForm.standard_id = '-1';
+    this.courseFetchForm.subject_id = '-1';
+    this.courseFetchForm.batch_id = '-1';
+
     if (this.due_type == 'all_dues') {
       this.courseFetchForm.from_date = '';
       this.courseFetchForm.to_date = '';
     }
+
     else if (this.due_type == 'next_month_dues') {
 
-      let date = new Date();
-      let y = date.getFullYear();
-      let m = date.getMonth();
-      let fDay = new Date(y, m, 1);
-      let lDay = new Date(y, m + 1, 0);
+      let begin = moment().add(1, 'M').format("YYYY-MM-01");
+      let end = moment().add(1, 'M').format("YYYY-MM-") + moment().add(1, 'M').daysInMonth();
 
-      let firstDay = moment(fDay).format("YYYY-MM-DD");
-      let lastDay = moment(lDay).format("YYYY-MM-DD");
-
-      console.log(firstDay);
-      console.log(lastDay);
-
-      this.courseFetchForm.from_date = '';
-      this.courseFetchForm.to_date = '';
+      this.courseFetchForm.from_date = begin;
+      this.courseFetchForm.to_date = end;
     }
+
     else if (this.due_type == 'this_month_dues') {
-      this.courseFetchForm.from_date = '';
-      this.courseFetchForm.to_date = '';
+      let begin = moment().format("YYYY-MM-01");
+      let end = moment().format("YYYY-MM-") + moment().daysInMonth();
+      this.courseFetchForm.from_date = begin;
+      this.courseFetchForm.to_date = end;
     }
+
     else if (this.due_type == 'current_dues') {
-      this.courseFetchForm.from_date = '';
-      this.courseFetchForm.to_date = '';
+      this.courseFetchForm.from_date = moment(new Date()).format("YYYY-MM-DD");
+      this.courseFetchForm.to_date = moment(new Date()).format("YYYY-MM-DD");
     }
     else if (this.due_type == 'custom') {
+      this.courseFetchForm.from_date = '';
+      this.courseFetchForm.to_date = '';
       this.isCustomDate = true;
     }
     else if (this.due_type == '-1') {
@@ -625,21 +669,114 @@ export class FeeCourseReportComponent implements OnInit {
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
+  searchDB() {
+    //console.log(this.userInput);
+
+    if (this.userInput.trim() != '') {
+      let temp: any[] = this.reportSource.filter(e => {
+        return this.findMatch(e)
+      });
+
+      if (temp.length != 0) {
+        this.feeDataSource1 = temp;
+      }
+      else {
+        this.feeDataSource1 = temp;
+        this.dataStatus = 2;
+      }
+    }
+    else {
+      this.feeDataSource1 = this.reportSource;
+    }
+  }
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
+  findMatch(e): boolean {
+    let temp = false;
 
+    for (let key in e) {
+      if (String(e[key]).toLowerCase().indexOf(this.userInput.toLowerCase()) >= 0) {
+        temp = true;
+        break;
+      }
+    }
 
+    return temp;
+  }
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
+  selectedRecords(rec) {
+    this.selectedRecordsList = rec;
+  }
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
-
-
+  sendBulkSms() {
+    if(confirm("Are you sure u want to send Fee Dues SMS to the selected students?")){
+      let arr: any[] = this.selectedRecordsList.map(e => {
+        return e.student_id;
+      });
+      let obj = {
+        delivery_mode: 0,
+        institution_id: '',
+        student_ids: arr.join(',') 
+      }
+      this.putter.sendBulkSMS(obj).subscribe(
+        res => {
+          let obj = {
+            type: 'success',
+            title: 'SMS Sent',
+            body: ""
+          }
+          this.appC.popToast(obj);
+        },
+        err => {
+          let obj = {
+            type: 'error',
+            title: 'An Error Occured',
+            body: err.error.message
+          }
+          this.appC.popToast(obj);
+        }
+      );
+    }
+  }
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
+  sendBulkFineSms() {
+    if(confirm("Are you sure u want to send Fine SMS to the selected students?")){
+      let arr: any[] = this.selectedRecordsList.map(e => {
+        return e.student_id;
+      });
+
+      let obj = {
+        delivery_mode: 0,
+        institution_id: '',
+        student_ids: arr.join(',') 
+      }
+
+      this.putter.sendBulkFineSMS(obj).subscribe(
+        res => {
+          let obj = {
+            type: 'success',
+            title: 'SMS Sent',
+            body: ""
+          }
+          this.appC.popToast(obj);
+        },
+        err => {
+          let obj = {
+            type: 'error',
+            title: 'An Error Occured',
+            body: err.error.message
+          }
+          this.appC.popToast(obj);
+        }
+      );
+    }
+  }
 
 }

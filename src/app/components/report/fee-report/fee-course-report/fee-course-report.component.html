@@ -3,9 +3,8 @@
 <div class="report-wrapper clearFix">
     <aside class="middle-full">
         <section class="middle-main clearFix">
-
-            <div class="header">
-                <section class="middle-top mb0 clearFix report-header">
+            <div class="middle-top mb0 clearFix header">
+                <div class="row report-header">
                     <h2 class="pull-left">
                         <a routerLink="/reports/home">
                             <i style="font-family: 'FontAwesome'; font-size: 24px;cursor: pointer;" class="fas fa-home"></i>
@@ -14,10 +13,10 @@
                     </h2>
                     <aside class="pull-right">
                     </aside>
-                </section>
+                </div>
 
-                <section class="fee-filter" [ngClass]="{'long': isFilterReversed}">
-                    <div id="primary" *ngIf="!isFilterReversed">
+                <div class="row fee-filter" [ngClass]="{'long': isFilterReversed}">
+                    <!-- <div id="primary" *ngIf="!isFilterReversed">
                         <div class="c-lg-4">
                             <div class="form-wrapper">
                                 <input [(ngModel)]='search_value' type="text" class="form-ctrl" placeholder="Search Name/Phone No.">
@@ -41,14 +40,13 @@
                             <a href="javascript:void(0);" id="adFilterOpen" (click)="openAdFilter()" class="openAdFilter">Switch Filter</a>
                         </div>
                         <div class="c-lg-3"></div>
-                    </div>
+                    </div> -->
 
                     <div id="secondary" *ngIf="isFilterReversed">
 
                         <div class="c-lg-3">
                             <div class="field-wrapper" [ngClass]="{'has-value': true }">
-                                <label for="mc" *ngIf="isProfessional">Master Course</label>
-                                <label for="mc" *ngIf="!isProfessional">Standard</label>
+                                <label for="mc">Master Course</label>
                                 <select [(ngModel)]="courseFetchForm.standard_id" (ngModelChange)="fetchSubjectList()" class="form-ctrl" name="mc" id="mc">
                                     <option value="-1"></option>
                                     <option *ngFor="let master of standardList" [value]="master.standard_id">{{master.standard_name}}</option>
@@ -58,8 +56,7 @@
 
                         <div class="c-lg-3">
                             <div class="field-wrapper">
-                                <label for="cc" *ngIf="isProfessional">Course</label>
-                                <label for="cc" *ngIf="!isProfessional">Subject</label>
+                                <label for="cc">Course</label>
                                 <select [(ngModel)]="courseFetchForm.subject_id" (ngModelChange)="fetchBatchList()" class="form-ctrl" name="cc" id="cc">
                                     <option value="-1"></option>
                                     <option *ngFor="let course of subjectList" [value]="course.subject_id">{{course.subject_name}}</option>
@@ -142,11 +139,12 @@
                         </div>
 
                     </div>
-                </section>
+                </div>
             </div>
 
             <section class="fee-info">
-                <div class="c-lg-8">
+                
+                <div class="c-lg-8 hide">
                     <div class="c-lg-1"></div>
                     <div class="c-lg-4">
                         <ul>
@@ -179,16 +177,24 @@
                         </ul>
                     </div>
                 </div>
+
+                <div class="c-lg-8" style="padding: 15px 5px 0px 5px;">
+                    <p-splitButton label="{{selectedRecordsList.length}} Record Selected" [model]="bulkAddItems" *ngIf="selectedRecordsList.length"></p-splitButton>
+                </div>
+
                 <div class="c-lg-4">
                     <div class="form-wrapper">
-                        <input type="text" name="" placeholder="Search" class="form-ctrl" id="">
+                        <form autocomplete="off" #form="ngForm">
+                            <input type="text" name="searchValue" [(ngModel)]="userInput" placeholder="Search" class="form-ctrl" id="searchBar">
+                        </form>
                     </div>
                 </div>
+
             </section>
 
             <section class="fee-table">
                 <div class="table-content" *ngIf="isFilterReversed">
-                    <rob-table [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)" [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1"
+                    <rob-table (rowIdArr)="selectedRecords($event)" [menuOptions]="menuOptions" (multiOptionSelected)="optionSelected($event)" [isMulti]='true' [hasMenu]="true" [records]="feeDataSource1"
                         [dataStatus]="dataStatus" [tableName]="'feereport'" [settings]="feeSettings1">
                     </rob-table>
                 </div>
@@ -198,7 +204,6 @@
                     </rob-table>
                 </div>
             </section>
-
         </section>
     </aside>
 

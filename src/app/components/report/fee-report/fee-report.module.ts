@@ -16,6 +16,8 @@ import { NextDueDetailComponent } from './next-due-detail/next-due-detail.compon
 import { PaymentHistoryComponent } from './payment-history/payment-history.component';
 import { ViewDetailComponent } from './view-detail-report/view-detail-report.component';
 
+import { FileUploadModule, SplitButtonModule, MenuModule, MenuItem } from 'primeng/primeng';
+
 import { GetFeeService } from '../../../services/report-services/fee-services/getFee.service';
 import { PostFeeService } from '../../../services/report-services/fee-services/postFee.service';
 
@@ -28,7 +30,9 @@ import { FeeReportRoutingModule } from './fee-report-routing.module';
         CommonModule,
         BsDatepickerModule,
         SharedModule,
-        FeeReportRoutingModule
+        FeeReportRoutingModule,
+        SplitButtonModule,
+        MenuModule,
     ],
     declarations: [
         FeeReportComponent,
