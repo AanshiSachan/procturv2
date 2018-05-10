@@ -2995,6 +2995,9 @@ export class AdminHomeComponent implements OnInit {
       this.messageNotifier('error', 'Error', 'Please Select Student');
       return;
     }
+    if (dataToSend == false) {
+      return;
+    }
     this.widgetService.updateAttendanceDetails(dataToSend).subscribe(
       res => {
         this.messageNotifier('success', "Marks Updated", 'Marks Updated Successfully');
@@ -3021,10 +3024,20 @@ export class AdminHomeComponent implements OnInit {
         student.marks_obtained = this.studentList[i].marks_obtained;
         student.student_exam_det_id = this.studentList[i].student_exam_det_id;
         student.previous_marks_obtained = this.studentList[i].previous_marks_obtained;
-        student.isUpdated = this.studentList[i].isUpdated;
+        if (sendSms == "Y") {
+          student.isUpdated = "Y";
+        } else {
+          student.isUpdated = this.studentList[i].isUpdated;
+        }
         student.attendance = this.studentList[i].attendance;
         student.isAttendanceUpdated = this.studentList[i].isAttendanceUpdated;
         student.grade_id = this.studentList[i].grade_id;
+        if (this.examData.is_exam_grad_feature == 0) {
+          if (student.marks_obtained > this.examData.total_marks) {
+            this.messageNotifier('error', 'Error', 'Please check marks you have provided');
+            return false;
+          }
+        }
         arr.studLi.push(student);
       }
     }

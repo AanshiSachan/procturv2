@@ -1545,7 +1545,10 @@
       <div class="clearfix" style="padding-top: 15px">
         <aside class="pull-right popup-btn">
           <input type="button" value="Cancel" class="btn" (click)="closeExamAttendance()">
-          <input type="button" value="Mark Attendance" (click)="updateCourseAttendanceExam()" class="fullBlue btn">
+          <input type="button" *ngIf="tempData.isReferenced == 'N'" value="Mark Attendance" (click)="updateCourseAttendanceExam()"
+            class="fullBlue btn">
+          <input type="button" *ngIf="tempData.isReferenced == 'Y'" value="Update Attendance" (click)="updateCourseAttendanceExam()"
+            class="fullBlue btn">
         </aside>
       </div>
     </div>
@@ -1573,6 +1576,10 @@
       <div class="row filterSection">
         <div class="c-sm-3 c-md-3 c-lg-3">
           <h3>Total Students : {{studentList.length}} </h3>
+        </div>
+
+        <div *ngIf="examData.is_exam_grad_feature == 0" class="pull-right" style="margin-right: 10px">
+          <h3>Total Marks : {{examData.total_marks}}</h3>
         </div>
 
         <!-- <div class="c-sm-6 c-md-6 c-lg-6">
