@@ -3,16 +3,15 @@
 
 
 <section class="middle-section clearFix">
-  <div class="content-contaioner">
+  <div class="content-container">
 
-    <div class="row header-section">
-      <h3>
-        User's List
-      </h3>
-
-      <div class="field-wrapper">
+    <div class="head">
+      <div class="row">
+        <div class="pull-left">
+          <h3>User's List</h3>
+        </div>
         <div class="btnWrapper">
-          <button class="btn pull-right" routerLink='/teacher/add'>
+          <button class="btn pull-right" routerLink='addedit'>
             <div class="option-wrap">
               <img src="assets/images/plus.png" alt="Add User" style="vertical-align: -webkit-baseline-middle;">
               <span class="tooltip tooltipWrapper">
@@ -22,41 +21,43 @@
           </button>
         </div>
       </div>
-
     </div>
+
 
     <div class="filter-section">
       <div class="row">
         <div class="c-sm-3 c-md-3 c-lg-3">
           <div class="field-wrapper">
-            <div class="field-wrapper" [ngClass]="{'has-value': dataFilter.role != ''}">
-              <label for="userType">User Type</label>
-              <select id="userType" class="form-ctrl" [(ngModel)]="dataFilter.role">
-                <option value=""></option>
-                <option value="0">Admin</option>
-                <option value="1">Custom</option>
-                <option value="2">Teacher</option>
-                <option value="3">Student</option>
-                <option value="4">Parent</option>
-                <option value="5">Open App User</option>
-                <option value="6">Others</option>
-              </select>
-            </div>
+            <label for="userType">User Type</label>
+            <select id="userType" class="form-ctrl" [(ngModel)]="dataFilter.role">
+              <option value=""></option>
+              <option value="0">Admin</option>
+              <option value="1">Custom</option>
+              <option value="2">Teacher</option>
+              <option value="3">Student</option>
+              <option value="4">Parent</option>
+              <option value="5">Open App User</option>
+              <option value="6">Others</option>
+            </select>
           </div>
         </div>
-        <div class="c-sm-3 c-md-3 c-lg-3">
+        <div class="c-sm-2 c-md-2 c-lg-2" style="margin-top: 35px;">
           <div class="field-checkbox-wrapper">
             <input type="checkbox" name="check" class="form-checkbox" [(ngModel)]="dataFilter.is_active" id="isAct">
             <label for="isAct">Is Active</label>
           </div>
         </div>
-        <div class="c-sm-3 c-md-3 c-lg-3">
+        <div class="c-sm-3 c-md-3 c-lg-3" style="margin-top: 30px;">
           <button class="btn fullBlue">Go</button>
         </div>
         <div class="c-sm-3 c-md-3 c-lg-3">
 
         </div>
       </div>
+    </div>
+
+    <div>
+      
     </div>
 
   </div>

@@ -6,7 +6,7 @@ import { AppComponent } from '../../../../app.component';
 
 import { GetFeeService } from '../../../../services/report-services/fee-services/getFee.service';
 import { PostFeeService } from '../../../../services/report-services/fee-services/postFee.service';
-
+import { MenuItem } from 'primeng/primeng';
 import * as moment from 'moment';
 
 @Component({
@@ -16,7 +16,9 @@ import * as moment from 'moment';
 })
 export class FeeCourseReportComponent implements OnInit {
 
+  selectedRecordsList: any[] = [];
   reportSource: any[] = [];
+  bulkAddItems: MenuItem[];
   isCustomDate: boolean;
   isFeeReceipt: boolean;
   isNextDueDetail: boolean;
@@ -126,7 +128,18 @@ export class FeeCourseReportComponent implements OnInit {
 
     this.fetchPrefillDetails();
 
-    this.fetchFeeReportData();
+    this.bulkAddItems = [
+      {
+        label: 'Send SMS', icon: 'fa-envelope-o', command: () => {
+          this.sendBulkSms();
+        }
+      },
+      {
+        label: 'Send Fine SMS', icon: 'fa-envelope-o', command: () => {
+          this.sendBulkFineSms();
+        }
+      }
+    ];
 
     this.form.valueChanges
       .debounceTime(100)
@@ -162,8 +175,8 @@ export class FeeCourseReportComponent implements OnInit {
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
-  fetchFeeReportData() {
-
+  batchSelected() {
+    this.due_type = "-1";
   }
 
 
@@ -186,7 +199,6 @@ export class FeeCourseReportComponent implements OnInit {
     this.getter.getBatchDetails(this.courseFetchForm).subscribe(
       res => {
         this.isRippleLoad = false;
-
         this.batchList = res.batchLi;
         this.standardList = res.standardLi;
         this.subjectList = [];
@@ -452,6 +464,7 @@ export class FeeCourseReportComponent implements OnInit {
   fetchSubjectList() {
     this.courseFetchForm.subject_id = -1;
     this.courseFetchForm.batch_id = -1;
+    this.due_type = '-1';
     this.isRippleLoad = true;
     if (this.isProfessional) {
       this.getter.getBatchDetails(this.courseFetchForm).subscribe(
@@ -467,7 +480,17 @@ export class FeeCourseReportComponent implements OnInit {
       )
     }
     else {
-
+      this.getter.getBatchDetails(this.courseFetchForm).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.batchList = res.batchLi;
+          this.subjectList = res.subjectLi;
+        },
+        err => {
+          this.isRippleLoad = false;
+          //console.log(err);
+        }
+      )
     }
   }
 
@@ -475,6 +498,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   fetchBatchList() {
     this.courseFetchForm.batch_id = -1;
+    this.due_type = '-1';
     this.isRippleLoad = true;
     if (this.isProfessional) {
       this.getter.getBatchDetails(this.courseFetchForm).subscribe(
@@ -489,7 +513,16 @@ export class FeeCourseReportComponent implements OnInit {
       )
     }
     else {
-
+      this.getter.getBatchDetails(this.courseFetchForm).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.batchList = res.batchLi;
+        },
+        err => {
+          this.isRippleLoad = false;
+          //console.log(err);
+        }
+      )
     }
   }
   /* ===================================================================================================== */
@@ -662,15 +695,15 @@ export class FeeCourseReportComponent implements OnInit {
         return this.findMatch(e)
       });
 
-      if(temp.length != 0){
+      if (temp.length != 0) {
         this.feeDataSource1 = temp;
       }
-      else{
+      else {
         this.feeDataSource1 = temp;
         this.dataStatus = 2;
       }
     }
-    else{
+    else {
       this.feeDataSource1 = this.reportSource;
     }
   }
@@ -690,16 +723,78 @@ export class FeeCourseReportComponent implements OnInit {
     return temp;
   }
 
+  /* ===================================================================================================== */
+  /* ===================================================================================================== */
+  selectedRecords(rec) {
+    this.selectedRecordsList = rec;
+  }
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
+  sendBulkSms() {
+    if(confirm("Are you sure u want to send Fee Dues SMS to the selected students?")){
+      let arr: any[] = this.selectedRecordsList.map(e => {
+        return e.student_id;
+      });
+      let obj = {
+        delivery_mode: 0,
+        institution_id: '',
+        student_ids: arr.join(',') 
+      }
+      this.putter.sendBulkSMS(obj).subscribe(
+        res => {
+          let obj = {
+            type: 'success',
+            title: 'SMS Sent',
+            body: ""
+          }
+          this.appC.popToast(obj);
+        },
+        err => {
+          let obj = {
+            type: 'error',
+            title: 'An Error Occured',
+            body: err.error.message
+          }
+          this.appC.popToast(obj);
+        }
+      );
+    }
+  }
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
+  sendBulkFineSms() {
+    if(confirm("Are you sure u want to send Fine SMS to the selected students?")){
+      let arr: any[] = this.selectedRecordsList.map(e => {
+        return e.student_id;
+      });
 
+      let obj = {
+        delivery_mode: 0,
+        institution_id: '',
+        student_ids: arr.join(',') 
+      }
 
-
-  /* ===================================================================================================== */
-  /* ===================================================================================================== */
+      this.putter.sendBulkFineSMS(obj).subscribe(
+        res => {
+          let obj = {
+            type: 'success',
+            title: 'SMS Sent',
+            body: ""
+          }
+          this.appC.popToast(obj);
+        },
+        err => {
+          let obj = {
+            type: 'error',
+            title: 'An Error Occured',
+            body: err.error.message
+          }
+          this.appC.popToast(obj);
+        }
+      );
+    }
+  }
 
 }

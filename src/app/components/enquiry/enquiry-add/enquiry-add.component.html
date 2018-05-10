@@ -293,9 +293,9 @@
                   <custom-enquiry *ngFor="let component of customComponents;let i= index;">
 
                     <div class="" *ngIf="component.type == 1" input-def>
-                      <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
-                      <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                       <div class="field-wrapper" [ngClass]="{'has-value': component.value != ''}">
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                         <input type="text" value="" id="{{component.id}}" [(ngModel)]="component.value" class="form-ctrl" name="{{component.label +i}}"
                         />
 
@@ -307,8 +307,8 @@
                       <div class="field-checkbox-wrapper">
                         <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" (ngModelChange)="updateCustomComponent($event, component)"
                           name="{{component.label +i}}" value="">
-                          <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
-                          <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
+                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                        <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
                       </div>
                     </div>
 
@@ -330,7 +330,6 @@
                         <label *ngIf="component.is_required == 'N'" for="component.id">{{component.label}} </label>
                         <input id="{{component.id}}" type="text" [ngModel]="component.selectedString" name="{{component.label +i}}" class="form-ctrl"
                           readonly="true" />
-
                       </div>
                       <div id="{{component.id}}multi" class="hide multiselect-wrapper" (mouseleave)="multiselectVisible(component.id)">
                         <div class="multiselect-wrapper-inner">
@@ -339,7 +338,7 @@
                               <div class="field-checkbox-wrapper">
                                 <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
                                   class="form-checkbox">
-                                  <label for="opt.data">{{opt.data}}</label>
+                                <label for="opt.data">{{opt.data}}</label>
                               </div>
                             </li>
                           </ul>
@@ -496,7 +495,7 @@
           <div class="time-picker">
             <div class="field-wrapper" id="hourpar" style="padding-right: 10px;" [ngClass]="{'has-value': hour != ''}">
               <label for="hour">Hour</label>
-              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="followUpTime" name="hour" style="width: 60px;"
+              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="followUpTime" name="hour" style="width: 75px;"
                 (ngModelChange)="timeChanges($event)">
                 <option *ngFor="let time of times" [value]="time">
                   {{time}}

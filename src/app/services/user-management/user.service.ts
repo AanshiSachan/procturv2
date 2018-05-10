@@ -26,4 +26,21 @@ export class UserService {
         this.baseUrl = this.auth.getBaseUrl();
     }
 
+    getRoles() {
+        let url = this.baseUrl + "/api/v1/roleApi/allRoles/" + this.institute_id;
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
+    createUser(obj) {
+        obj.institute_id = this.institute_id;
+        let url = this.baseUrl + "/api/v1/profiles";
+        return this.http.post(url, obj, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+    }
+
 }

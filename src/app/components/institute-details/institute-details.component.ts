@@ -65,7 +65,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     );
@@ -88,7 +88,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     );
@@ -102,7 +102,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     );
@@ -116,7 +116,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     );
@@ -129,12 +129,12 @@ export class InstituteDetailsComponent implements OnInit {
     this.apiService.updateDetailsToServer(dataToSend).subscribe(
       res => {
         this.isRippleLoad = false;
-        console.log('updated successfully', res);
+        //console.log('updated successfully', res);
         this.messageToast('success', 'Updated Successfully', 'Details Updated Successfully');
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -153,7 +153,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -172,7 +172,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -191,7 +191,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -205,7 +205,7 @@ export class InstituteDetailsComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -285,7 +285,6 @@ export class InstituteDetailsComponent implements OnInit {
   }
 
   checkInputType(event) {
-    debugger
     if (event.target.id == "idManual") {
       this.showPrefix = false;
       this.instDetails.student_id_type = "Manual";
@@ -393,7 +392,7 @@ export class InstituteDetailsComponent implements OnInit {
 
   // errorCallBack = (err) => {
   //   this.isRippleLoad = false;
-  //   console.log(err);
+     //console.log(err);
   //   this.messageToast('error', 'Error', err.error.message);
   // }
 

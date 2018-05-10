@@ -1121,7 +1121,7 @@ export class StudentAddComponent implements OnInit {
       this.isRippleLoad = true;
 
       this.studentAddFormData.enquiry_id = this.institute_enquiry_id;
-      debugger;
+
       this.postService.quickAddStudent(this.studentAddFormData).subscribe(
         res => {
           this.isRippleLoad = false;
@@ -1652,7 +1652,6 @@ export class StudentAddComponent implements OnInit {
 
     this.enquiryCustomComp.forEach(el => {
       if (el.component_id == id) {
-        debugger;
         if (el.type == 4) {
           result = (el.enq_custom_value.trim().split(',').length == 1 && el.enq_custom_value.trim().split(',')[0] == "") ? el.defaultValue : el.enq_custom_value;
         }
@@ -3915,7 +3914,7 @@ export class StudentAddComponent implements OnInit {
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
           this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
-          console.log(el.cheque_status);
+          //console.log(el.cheque_status);
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.add('displayComp');
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.remove('editComp');
         },

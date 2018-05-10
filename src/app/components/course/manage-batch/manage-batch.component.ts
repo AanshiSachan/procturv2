@@ -86,7 +86,7 @@ export class ManageBatchComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
+        //console.log(error);
         this.messageToast('error', 'Error', error.error.message);
       }
     )
@@ -98,14 +98,14 @@ export class ManageBatchComponent implements OnInit {
     document.getElementById(("row" + index).toString()).classList.add('editComp');
     this.apiService.getBatchDetailsForEdit(rowDetails.batch_id).subscribe(
       data => {
-        console.log(data);
+        //console.log(data);
         this.editRowDetails = data;
         this.onMasterCourseSelection(data.standard_id);
         this.isRippleLoad = false;
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
+        //console.log(error);
         this.messageToast('error', 'Error', error.error.message);
       }
     )
@@ -150,7 +150,7 @@ export class ManageBatchComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
+        //console.log(error);
         this.messageToast('error', 'Error', error.error.message);
       }
     )
@@ -165,7 +165,7 @@ export class ManageBatchComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
+        //console.log(error);
         this.messageToast('error', 'Error', error.error.message);
       }
     )
@@ -180,7 +180,7 @@ export class ManageBatchComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
+        //console.log(error);
         this.messageToast('error', 'Error', error.error.message);
       }
     )
@@ -192,13 +192,13 @@ export class ManageBatchComponent implements OnInit {
 
       this.apiService.getPerticularCourseList(data).subscribe(
         res => {
-          console.log('Subject List', res);
+          //console.log('Subject List', res);
           this.subjectList = res;
           this.isRippleLoad = false;
         },
         error => {
           this.isRippleLoad = false;
-          console.log(error);
+          //console.log(error);
           this.messageToast('error', 'Error', error.error.message);
         }
       )
@@ -254,7 +254,7 @@ export class ManageBatchComponent implements OnInit {
         this.createNewBatch = false;
       },
       error => {
-        console.log(error);
+        //console.log(error);
         this.messageToast('error', 'Error', error.error.message);
       }
     )
@@ -346,7 +346,7 @@ export class ManageBatchComponent implements OnInit {
         this.defaultTemplateDet(res);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -377,14 +377,13 @@ export class ManageBatchComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
+        //console.log(error);
         this.messageToast('error', 'Error', error.error.message);
       }
     )
   }
 
   onCheckBoxClicked(data, event, index) {
-    debugger
     this.studentUnAssigned = false;
     let prevData: any = "";
     for (let i = 0; i < this.studentListDataSource.length; i++) {
@@ -433,7 +432,7 @@ export class ManageBatchComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )

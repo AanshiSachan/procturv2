@@ -94,10 +94,11 @@ export class RobAdvanceTableComponent implements OnChanges {
         this.userIdArray = [];
         this.records.forEach(e => {
             if (e.uiSelected) {
-                this.rowSelectedId.push(e[this.primaryKey]);
+                this.rowSelectedId.push(e);
                 this.userIdArray.push(e.user_id);
             }
         });
+
         this.rowIdArr.emit(this.rowSelectedId);
         this.rowUserId.emit(this.userIdArray);
     }
@@ -130,14 +131,14 @@ export class RobAdvanceTableComponent implements OnChanges {
         if (status == false) {
             eve.uiSelected = false;
             this.rowSelectedCount--;
-            this.rowSelectedId = this.removeFromSelectedArr(eve[this.primaryKey]);
+            this.rowSelectedId = this.removeFromSelectedArr(eve);
             this.rowIdArr.emit(this.rowSelectedId);
             this.rowsSelected.emit(this.rowSelectedCount);
         }
         else if (status == true) {
             eve.uiSelected = true;
             this.rowSelectedCount++;
-            this.rowSelectedId.push(eve[this.primaryKey]);
+            this.rowSelectedId.push(eve);
             this.rowIdArr.emit(this.rowSelectedId);
             this.rowsSelected.emit(this.rowSelectedCount);
         }

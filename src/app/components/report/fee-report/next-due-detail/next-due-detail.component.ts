@@ -29,7 +29,7 @@ export class NextDueDetailComponent implements OnChanges {
 
 
   updateData() {
-    console.log(this.feeData);
+    //console.log(this.feeData);
     this.getter.getFutureDues(this.feeData.student_id).subscribe(
       res => {
         this.nextDuesData = res;

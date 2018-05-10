@@ -111,7 +111,7 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
+        //console.log(error);
       }
     )
 
@@ -126,7 +126,7 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error)
+        //console.log(error)
       }
     )
   }
@@ -140,16 +140,16 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
+        //console.log(error);
       }
     )
   }
 
   editRow(row_no, item_id) {
-    console.log(row_no)
+    //console.log(row_no)
     this.isAddUnit = false;
     if (this.selectedRow !== "") {
-      console.log(this.selectedRow);
+      //console.log(this.selectedRow);
       document.getElementById(("row" + this.selectedRow).toString()).classList.add('displayComp');
       document.getElementById(("row" + this.selectedRow).toString()).classList.remove('editComp');
     }
@@ -207,7 +207,7 @@ export class HomeComponent implements OnInit {
           }
           this.appC.popToast(data);
           this.loadTableDatatoSource();
-          console.log('Add Stock Error', error);
+          //console.log('Add Stock Error', error);
         }
       )
     }
@@ -242,7 +242,7 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
+        //console.log(error);
       }
     )
   }
@@ -266,14 +266,14 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
+        //console.log(error);
       }
     )
   }
 
 
   allocationDetails(row, i) {
-    console.log(i);
+    //console.log(i);
     this.itemName = row.item_name;
     this.isRippleLoad = true;
     this.inventoryApi.getInventoryItemHistory(row.item_id).subscribe(
@@ -284,7 +284,7 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
+        //console.log(error);
       }
     )
   }
@@ -315,7 +315,7 @@ export class HomeComponent implements OnInit {
     this.PageIndex = index;
     let startindex = this.studentdisplaysize * (index - 1);
     this.itemList = Array.from(this.getDataFromDataSource(startindex));
-    console.log(this.itemList);
+    //console.log(this.itemList);
   }
 
   fetchNext() {
@@ -359,8 +359,8 @@ export class HomeComponent implements OnInit {
   ///// To add a Item 
 
   addItemDetails() {
-    console.log(this.categoryList);
-    console.log(this.masterCategoryList);
+    //console.log(this.categoryList);
+    //console.log(this.masterCategoryList);
     this.createAddItemForm();
     this.createItemPopUp = true;
   }
@@ -377,12 +377,12 @@ export class HomeComponent implements OnInit {
     this.inventoryApi.getCourseOnBasisOfMasterCourse(courseId).subscribe(
       data => {
         this.isRippleLoad = false;
-        console.log('Change Event Triggered', data);
+        //console.log('Change Event Triggered', data);
         this.courseList = data;
       },
       error => {
         this.isRippleLoad = false;
-        console.log("Error", error);
+        //console.log("Error", error);
       }
     )
   }
@@ -413,7 +413,7 @@ export class HomeComponent implements OnInit {
       },
       error => {
         this.isRippleLoad = false;
-        console.log("Error", error);
+        //console.log("Error", error);
       }
     )
 
@@ -422,7 +422,7 @@ export class HomeComponent implements OnInit {
 
   /////// Multi Branch Data And Function Check Point
   allocateQuantityToSubBranches(row) {
-    console.log(row);
+    //console.log(row);
     this.allocateItemRowClicked = row;
     this.showAllocationBranchPopUp = true;
     this.createAllocationForm();
@@ -448,12 +448,12 @@ export class HomeComponent implements OnInit {
     this.inventoryApi.getItemDetailsForSubBranches(rowId).subscribe(
       data => {
         this.isRippleLoad = false;
-        console.log("getItemInfo", data);
+        //console.log("getItemInfo", data);
         this.allocateItemDetails = data;
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
+        //console.log(error);
       }
     )
   }
@@ -464,11 +464,11 @@ export class HomeComponent implements OnInit {
       data => {
         this.isRippleLoad = false;
         this.subBranchList = data;
-        console.log('All Branches', data);
+        //console.log('All Branches', data);
       },
       error => {
         this.isRippleLoad = false;
-        console.log(error);
+        //console.log(error);
       }
     )
   }
@@ -480,11 +480,11 @@ export class HomeComponent implements OnInit {
       data => {
         this.isRippleLoad = false;
         this.subBranchItemList = data;
-        console.log('Sub Branch Selection', data);
+        //console.log('Sub Branch Selection', data);
       },
       error => {
         this.isRippleLoad = false;
-        console.log('Error', error);
+        //console.log('Error', error);
       }
     )
   }
@@ -526,7 +526,7 @@ export class HomeComponent implements OnInit {
   @HostListener("document:click", ['$event'])
   onWindowClick(event) {
     if (this.ActionInv.nativeElement.contains(event.target)) {
-      // console.log("clicked inside table");
+       //console.log("clicked inside table");
     } else {
       if (document.getElementById('menuList' + this.selectedRow) != null) {
         document.getElementById('menuList' + this.selectedRow).classList.add('hide');
@@ -585,7 +585,7 @@ export class HomeComponent implements OnInit {
         this.loadTableDatatoSource();
       },
       error => {
-        console.log("Allocate Item", error);
+        //console.log("Allocate Item", error);
         let msg = {
           type: 'error',
           title: "Error",

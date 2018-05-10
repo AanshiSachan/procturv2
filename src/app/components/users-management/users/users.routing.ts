@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { UsersComponent } from './users.component';
+import { AddEditUserComponent } from './add-edit-user/add-edit-user.component';
 
 
 @NgModule({
@@ -10,6 +11,14 @@ import { UsersComponent } from './users.component';
                 path: '',
                 component: UsersComponent,
                 pathMatch: 'prefix',
+            },
+            {
+                path: 'addedit',
+                component: AddEditUserComponent
+            },
+            {
+                path: 'addedit/:id',
+                component: AddEditUserComponent
             }
         ])
     ],

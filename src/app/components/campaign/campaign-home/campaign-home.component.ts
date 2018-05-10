@@ -581,7 +581,7 @@ export class CampaignHomeComponent implements OnInit {
           this.appC.popToast(msg);
         },
         error => {
-          console.log(error);
+          //console.log(error);
           let err_msg = JSON.parse(error._body);
           let msg = {
             type: 'error',
@@ -673,7 +673,7 @@ export class CampaignHomeComponent implements OnInit {
           this.appC.popToast(msg);
         },
         error => {
-          console.log(error);
+          //console.log(error);
           let err_msg = JSON.parse(error._body);
           let msg = {
             type: 'error',
@@ -895,7 +895,7 @@ export class CampaignHomeComponent implements OnInit {
           this.getSMSList('');
         },
         err => {
-          console.log(err);
+          //console.log(err);
           let msg = {
             type: 'error',
             title: "Error",
@@ -963,7 +963,7 @@ export class CampaignHomeComponent implements OnInit {
           this.closeAddDiv();
         },
         err => {
-          console.log(err);
+          //console.log(err);
           let msg = {
             type: 'error',
             title: "Error",
@@ -997,7 +997,7 @@ export class CampaignHomeComponent implements OnInit {
           this.closeAddDiv();
         },
         err => {
-          console.log(err);
+          //console.log(err);
           let msg = {
             type: 'error',
             title: "Error",

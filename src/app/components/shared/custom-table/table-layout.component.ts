@@ -59,7 +59,7 @@ export class TableLayoutComponent implements OnChanges {
             this.sortedBy = ev;
             this.sortData.emit(ev);
         }
-        console.log(ev);
+        //console.log(ev);
 
     }
 

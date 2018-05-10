@@ -1245,7 +1245,7 @@ export class EnquiryAddComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        //console.log(err);
         let alert = {
           type: 'error',
           title: 'Failed To Add Institute',
@@ -1780,7 +1780,7 @@ export class EnquiryAddComponent implements OnInit {
           this.areaListDataSource = res;
         },
         err => {
-          console.log(err);
+          //console.log(err);
         }
       )
     }

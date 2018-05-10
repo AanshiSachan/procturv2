@@ -300,7 +300,7 @@ export class BiometricComponent implements OnInit {
     this.studentId = i.student_disp_id;
     this.teacherId = i.teacher_id;
     this.customId = i.userid;
-    console.log(this.teacherName);
+    //console.log(this.teacherName);
     this.getAllData.user_id = i.user_id;
     this.addReportPopUp = true;
     this.dataStatus = true;
@@ -399,7 +399,7 @@ export class BiometricComponent implements OnInit {
       this.showWeek = false;
       this.reportService.getAllFinalReport(this.getAllData).subscribe(
         (data: any) => {
-          console.log(this.studentsData);
+          //console.log(this.studentsData);
           this.nameOfPeople=this.studentsData.map(
             data => data.student_name
           )
@@ -516,11 +516,11 @@ export class BiometricComponent implements OnInit {
       to_date: moment(this.getAllData.to_date).format('YYYY-MM-DD'),
       user_id: this.getAllData.user_id
     }
-    console.log(this.getAllData.from_date);
+    //console.log(this.getAllData.from_date);
     let diff = moment(this.getAllData.from_date).diff(moment(this.getAllData.to_date), 'months');
     let futureDate = moment(this.getAllData.to_date).add('days', 1).format('YYYY-MM-DD');
-    console.log(futureDate);
-    console.log(this.getAllData.to_date);
+    //console.log(futureDate);
+    //console.log(this.getAllData.to_date);
     if (diff < -2) {
       let msg = {
         type: "error",
@@ -721,7 +721,7 @@ export class BiometricComponent implements OnInit {
 
 
   dateValidationForFuture(e) {
-    console.log(e);
+    //console.log(e);
     let today = moment(new Date);
     let selected = moment(e);
 

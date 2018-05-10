@@ -29,7 +29,7 @@ export class PaymentHistoryComponent implements OnChanges {
 
 
   updateData() {
-    console.log(this.feeData);
+    //console.log(this.feeData);
     this.getter.getPaymentHistory(this.feeData.student_id).subscribe(
       res => {
         this.pastHIstoryData = res;

@@ -69,7 +69,7 @@ export class CourseEditComponent implements OnInit {
         this.makeMainTableDataSource();
       },
       error => {
-        console.log(error);
+        //console.log(error);
         this.messageToast('error', 'Error', error.error.message);
       }
     )
@@ -81,7 +81,7 @@ export class CourseEditComponent implements OnInit {
         this.standardNameList = data;
       },
       error => {
-        console.log(error);
+        //console.log(error);
         this.messageToast('error', 'Error', 'Please refresh the page.');
       }
     )
@@ -93,7 +93,7 @@ export class CourseEditComponent implements OnInit {
         this.activeTeachers = data;
       },
       error => {
-        console.log(error);
+        //console.log(error);
         this.messageToast('error', 'Error', 'Please refresh the page.');
       }
     )
@@ -108,7 +108,7 @@ export class CourseEditComponent implements OnInit {
         this.makeMainTableDataSource();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', 'Please refresh the page.');
       }
     )
@@ -122,7 +122,7 @@ export class CourseEditComponent implements OnInit {
         this.messageToast('success', 'Course Updated', 'Course updated sucessfully.')
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )

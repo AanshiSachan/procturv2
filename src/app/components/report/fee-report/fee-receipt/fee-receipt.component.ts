@@ -33,7 +33,7 @@ export class FeeReceiptComponent implements OnChanges {
         this.receiptData = res;
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -61,7 +61,7 @@ export class FeeReceiptComponent implements OnChanges {
         }
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }

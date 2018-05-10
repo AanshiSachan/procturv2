@@ -327,7 +327,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     this.actRoute.queryParams.subscribe(e => {
-      console.log(e);
+      //console.log(e);
       if (e.id != null && e.id != undefined && e.id != '') {
         if (e.action == undefined || e.action == undefined || e.action == '') {
           this.router.navigate(['/enquiry/edit/' + e.id]);
@@ -339,7 +339,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
               break;
             }
             case 'enquiryUpdate': {
-              console.log(e);
+              //console.log(e);
               break;
             }
           }
@@ -2099,7 +2099,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 
   /* Push the updated enquiry to server */
   pushUpdatedEnquiry() {
-    debugger;
+
     if (this.validateTime()) {
       this.isRippleLoad = true;
       this.updateFormData.comment = this.updateFormData.comment;
@@ -3458,7 +3458,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     } else if (this.downloadReportOption == 3) {
@@ -3470,7 +3470,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     } else {
@@ -3482,7 +3482,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -3503,7 +3503,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
         }
       )
     } else {
@@ -4053,7 +4053,7 @@ export class EnquiryHomeComponent implements OnInit, OnDestroy, OnChanges {
 export class DateConverter implements PipeTransform {
   transform(value: any, exponent: any): any {
 
-    console.log(value);
+    //console.log(value);
 
     return null;
 

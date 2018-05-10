@@ -193,7 +193,7 @@ export class CourseCourseListComponent implements OnInit {
         this.defaultTemplateDet(res);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }

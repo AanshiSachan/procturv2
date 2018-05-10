@@ -6,11 +6,13 @@ import { BsDatepickerModule } from '../../../../assets/imported_modules/ngx-boot
 import { SharedModule } from '../../shared/shared.module';
 import { UserRouting } from './users.routing';
 import { UserService } from '../../../services/user-management/user.service';
+import { AddEditUserComponent } from './add-edit-user/add-edit-user.component';
 
 
 @NgModule({
     declarations: [
         UsersComponent,
+        AddEditUserComponent,
     ],
     exports: [],
     imports: [

@@ -105,7 +105,7 @@ export class CourseExamComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -151,7 +151,7 @@ export class CourseExamComponent implements OnInit {
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
@@ -232,7 +232,7 @@ export class CourseExamComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -273,7 +273,7 @@ export class CourseExamComponent implements OnInit {
           this.messageNotifier('success', 'Notified', 'Notification Sent Successfully');
         },
         err => {
-          console.log(err);
+          //console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
@@ -324,7 +324,7 @@ export class CourseExamComponent implements OnInit {
         this.closeCancelExamPopUp();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -354,7 +354,7 @@ export class CourseExamComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
         this.closeCourseLevelAttendance();
       }
@@ -495,7 +495,7 @@ export class CourseExamComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -541,7 +541,7 @@ export class CourseExamComponent implements OnInit {
           this.messageNotifier('success', 'Success', 'Notified Successfully');
         },
         err => {
-          console.log(err);
+          //console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
@@ -562,7 +562,7 @@ export class CourseExamComponent implements OnInit {
           this.batchModelGoClick();
         },
         err => {
-          console.log(err);
+          //console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
@@ -577,7 +577,7 @@ export class CourseExamComponent implements OnInit {
         this.masterCourseList = res;
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -589,7 +589,7 @@ export class CourseExamComponent implements OnInit {
           this.courseList = res;
         },
         err => {
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -604,11 +604,11 @@ export class CourseExamComponent implements OnInit {
           this.examScheduleData = res;
           this.calculateDataAsPerSelection(res);
           this.showContentSection = true;
-          console.log(res);
+          //console.log(res);
         },
         err => {
           this.isRippleLoad = false;
-          console.log(err);
+          //console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
@@ -747,7 +747,7 @@ export class CourseExamComponent implements OnInit {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -872,7 +872,7 @@ export class CourseExamComponent implements OnInit {
         this.getExamSchedule();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -911,8 +911,7 @@ export class CourseExamComponent implements OnInit {
         this.getExamSchedule();
       },
       err => {
-        debugger
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -941,7 +940,7 @@ export class CourseExamComponent implements OnInit {
           this.messageNotifier('success', 'Reminder Sent', 'Reminder Sent Successfull');
         },
         err => {
-          console.log(err);
+          //console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
