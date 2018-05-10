@@ -49,7 +49,7 @@ export class AddEditUserComponent implements OnInit {
         this.rolesList = res;
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }

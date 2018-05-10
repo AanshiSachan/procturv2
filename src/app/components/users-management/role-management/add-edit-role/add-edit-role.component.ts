@@ -48,7 +48,7 @@ export class AddEditRoleComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -61,7 +61,7 @@ export class AddEditRoleComponent implements OnInit {
         this.makeTargetArray(role.feautreList);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -69,7 +69,7 @@ export class AddEditRoleComponent implements OnInit {
   makeTargetArray(arr) {
     this.targetFeatures = [];
     if (arr.length > 0) {
-      console.log(this.featuresArray);
+      //console.log(this.featuresArray);
       for (let i = 0; i < arr.length; i++) {
         for (let t = 0; t < this.featuresArray.length; t++) {
           if (arr[i] == this.featuresArray[t].feature_id) {
@@ -81,7 +81,7 @@ export class AddEditRoleComponent implements OnInit {
     } else {
       this.targetFeatures = [];
     }
-    console.log(this.targetFeatures);
+    //console.log(this.targetFeatures);
   }
 
   createNewRole() {
@@ -120,7 +120,7 @@ export class AddEditRoleComponent implements OnInit {
           this.getRolesOfUser(this.roleId);
         },
         err => {
-          console.log(err);
+          //console.log(err);
           this.messageNotifier('error', 'error', err.error.message);
         }
       )

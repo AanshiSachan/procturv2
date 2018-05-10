@@ -26,10 +26,10 @@ export class RoleManagementComponent implements OnInit {
     this.apiService.getRoles().subscribe(
       res => {
         this.rolesList = res;
-        console.log(res);
+        //console.log(res);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -42,7 +42,7 @@ export class RoleManagementComponent implements OnInit {
           this.getRolesList();
         },
         err => {
-          console.log(err);
+          //console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )
@@ -57,7 +57,7 @@ export class RoleManagementComponent implements OnInit {
           this.userList = res;
         },
         err => {
-          console.log(err);
+          //console.log(err);
           this.messageNotifier('error', 'Error', err.error.message);
         }
       )

@@ -130,7 +130,7 @@ this.isRippleLoad = true;
     this.examdata.viewDetailData(this.fetchFieldData.batch_id)
       .subscribe(
         (res:any) => {
-          console.log(res);
+          //console.log(res);
           if(res.length){
             this.DetailSource = res;
 
@@ -234,7 +234,7 @@ this.isRippleLoad = true;
     this.pageIndex = index;
     let startindex = this.displayBatchSize * (index - 1);
     this.pagedDetailedExamSource = this.getDataFromDataSourcePopup(startindex);
-    console.log(this.pagedDetailedExamSource);
+    //console.log(this.pagedDetailedExamSource);
   }
   fetchNextPopup() {
     this.pageIndex++;

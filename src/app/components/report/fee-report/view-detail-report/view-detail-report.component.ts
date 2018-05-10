@@ -27,7 +27,7 @@ export class ViewDetailComponent implements OnChanges {
 
 
   updateData() {
-    console.log(this.feeData);
+    //console.log(this.feeData);
   }
 
   closePopups() {

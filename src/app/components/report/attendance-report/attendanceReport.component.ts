@@ -653,7 +653,7 @@ export class AttendanceReportComponent implements OnInit {
   /* ================================================================================================================================ */
   /* ================================================================================================================================ */
   DownloadJsonToCsv() {
-    console.log(this.attendanceTable.nativeElement.innerHtml);
+    //console.log(this.attendanceTable.nativeElement.innerHtml);
     let link = this.xlsDownloader.nativeElement;
     let outer = this.attendanceTable.nativeElement.outerHTML.replace(/ /g, '%20');
     let data_type = 'data:application/vnd.ms-excel';

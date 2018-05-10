@@ -141,8 +141,6 @@ export class FeeCourseReportComponent implements OnInit {
       }
     ];
 
-    this.fetchFeeReportData();
-
     this.form.valueChanges
       .debounceTime(100)
       .distinctUntilChanged()
@@ -177,8 +175,8 @@ export class FeeCourseReportComponent implements OnInit {
 
   /* ===================================================================================================== */
   /* ===================================================================================================== */
-  fetchFeeReportData() {
-
+  batchSelected() {
+    this.due_type = "-1";
   }
 
 
@@ -201,7 +199,6 @@ export class FeeCourseReportComponent implements OnInit {
     this.getter.getBatchDetails(this.courseFetchForm).subscribe(
       res => {
         this.isRippleLoad = false;
-
         this.batchList = res.batchLi;
         this.standardList = res.standardLi;
         this.subjectList = [];
@@ -467,6 +464,7 @@ export class FeeCourseReportComponent implements OnInit {
   fetchSubjectList() {
     this.courseFetchForm.subject_id = -1;
     this.courseFetchForm.batch_id = -1;
+    this.due_type = '-1';
     this.isRippleLoad = true;
     if (this.isProfessional) {
       this.getter.getBatchDetails(this.courseFetchForm).subscribe(
@@ -482,7 +480,17 @@ export class FeeCourseReportComponent implements OnInit {
       )
     }
     else {
-
+      this.getter.getBatchDetails(this.courseFetchForm).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.batchList = res.batchLi;
+          this.subjectList = res.subjectLi;
+        },
+        err => {
+          this.isRippleLoad = false;
+          //console.log(err);
+        }
+      )
     }
   }
 
@@ -490,6 +498,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   fetchBatchList() {
     this.courseFetchForm.batch_id = -1;
+    this.due_type = '-1';
     this.isRippleLoad = true;
     if (this.isProfessional) {
       this.getter.getBatchDetails(this.courseFetchForm).subscribe(
@@ -504,7 +513,16 @@ export class FeeCourseReportComponent implements OnInit {
       )
     }
     else {
-
+      this.getter.getBatchDetails(this.courseFetchForm).subscribe(
+        res => {
+          this.isRippleLoad = false;
+          this.batchList = res.batchLi;
+        },
+        err => {
+          this.isRippleLoad = false;
+          //console.log(err);
+        }
+      )
     }
   }
   /* ===================================================================================================== */

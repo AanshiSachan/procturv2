@@ -1710,7 +1710,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
           body: ""
         }
         this.appC.popToast(obj);
-        console.log(err);
+        //console.log(err);
       }
     );
 
@@ -1774,10 +1774,10 @@ export class StudentEditComponent implements OnInit, OnDestroy {
             this.appC.popToast(alert);
           }
         );
-        // console.log("institute Added");
+        //console.log("institute Added");
       }
       else {
-        // console.log("Institute Name already exist!");
+        //console.log("Institute Name already exist!");
       }
     });
   }
@@ -3086,7 +3086,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.postService.updateFeeDetails(obj).subscribe(
         res => {
           this.pdcStatus.forEach(e => { if (e.cheque_status_key == el.cheque_status_key) { el.cheque_status = e.cheque_status } });
-          console.log(el.cheque_status);
+          //console.log(el.cheque_status);
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.add('displayComp');
           document.getElementById((el.student_id + el.cheque_id).toString()).classList.remove('editComp');
         },

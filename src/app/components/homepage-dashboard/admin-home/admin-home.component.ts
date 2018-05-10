@@ -1535,7 +1535,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   getTopicsUpdate() {
-    debugger
+
     this.isRippleLoad = true;
     this.topicsList = [];
     let obj = { batch_id: this.classMarkedForAction.batch_id.toString() };
@@ -1954,7 +1954,7 @@ export class AdminHomeComponent implements OnInit {
           this.selectedOption = "filter";
         },
         err => {
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -2360,7 +2360,7 @@ export class AdminHomeComponent implements OnInit {
         this.closeNotificationPopUp();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         let msg = {
           type: 'error',
           title: 'Error',
@@ -2397,7 +2397,7 @@ export class AdminHomeComponent implements OnInit {
         this.appC.popToast(msg);
       },
       err => {
-        console.log(err);
+        //console.log(err);
         let msg = {
           type: 'error',
           title: 'Error',
@@ -2442,7 +2442,7 @@ export class AdminHomeComponent implements OnInit {
           this.appC.popToast(msg);
         },
         err => {
-          console.log(err);
+          //console.log(err);
           let msg = {
             type: 'error',
             title: 'Error',
@@ -2494,7 +2494,7 @@ export class AdminHomeComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -2610,7 +2610,7 @@ export class AdminHomeComponent implements OnInit {
       this.getExamSchedule(obj);
       this.addKeyInData(this.schedStat.otherSchd, "isExam", false);
     }, err => {
-      console.log(err);
+      //console.log(err);
       this.getExamSchedule(obj);
     })
   }
@@ -2623,7 +2623,7 @@ export class AdminHomeComponent implements OnInit {
         this.schedStat.otherSchd = this.sortDataByDateTime(result);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -2709,7 +2709,7 @@ export class AdminHomeComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -2792,7 +2792,7 @@ export class AdminHomeComponent implements OnInit {
         this.closeExamAttendance();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -2868,7 +2868,7 @@ export class AdminHomeComponent implements OnInit {
         this.closeExamPopup();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -2883,7 +2883,7 @@ export class AdminHomeComponent implements OnInit {
           this.messageNotifier('success', 'Notified', 'Notification Sent Successfully');
         },
         err => {
-          console.log(err);
+          //console.log(err);
         }
       )
     }
@@ -2932,7 +2932,7 @@ export class AdminHomeComponent implements OnInit {
         this.gradesList = res;
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -2940,12 +2940,12 @@ export class AdminHomeComponent implements OnInit {
   fetchStudentDetails(data) {
     this.widgetService.fetchStudentExamDetails(data.batch_id, data.schd_id).subscribe(
       (res: any) => {
-        console.log(res);
+        //console.log(res);
         this.examData = res;
         this.studentList = this.addKeys(res.studLi, false);
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )
@@ -3005,7 +3005,7 @@ export class AdminHomeComponent implements OnInit {
         this.closeExamMarks();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageNotifier('error', 'Error', err.error.message);
       }
     )

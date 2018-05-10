@@ -49,7 +49,7 @@ export class ManageExamGradesComponent implements OnInit {
   fetchGrades() {
     this.gradeService.fetchAllData().subscribe(
       (data: any) => {
-        console.log(data);
+        //console.log(data);
         this.gotGrades = data;
       },
       (error: any) => {

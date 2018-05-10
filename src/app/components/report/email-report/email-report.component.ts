@@ -106,7 +106,7 @@ export class EmailReportComponent {
 
 
   dateValidationForFuture(e) {
-    console.log(e);
+    //console.log(e);
     let today = moment(new Date);
     let selected = moment(e);
 

@@ -51,7 +51,7 @@ export class CityAreaMapComponent implements OnInit {
         this.fetchTableDataByPage(this.PageIndex);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -62,7 +62,7 @@ export class CityAreaMapComponent implements OnInit {
         this.branchesList = res;
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -92,7 +92,7 @@ export class CityAreaMapComponent implements OnInit {
             body: err.error.message
           }
           this.appC.popToast(data);
-          console.log(err);
+          //console.log(err);
         }
       )
     } else {

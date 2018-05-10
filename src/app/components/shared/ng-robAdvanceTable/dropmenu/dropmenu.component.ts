@@ -54,7 +54,7 @@ export class DropMenuComponent implements OnChanges {
 
     /* @HostListener("document:click", ['$event'])
     onWindowClick(event) {
-        console.log(event);
+        //console.log(event);
 
         if (!this.eRef.nativeElement.contains(event.target)) {
             this.showMenu = false;

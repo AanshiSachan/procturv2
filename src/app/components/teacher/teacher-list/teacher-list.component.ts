@@ -83,7 +83,7 @@ export class TeacherListComponent implements OnInit {
           this.getDataFromServer();
         },
         err => {
-          console.log(err);
+          //console.log(err);
           let data = {
             type: "error",
             title: "Error",

@@ -213,8 +213,7 @@ export class HomeComponent implements OnInit {
         default_academic_year: row2.default_academic_year,
         created_date: row2.created_date
       }
-      console.log(data.created_date);
-      console.log(data.start_date);
+
       this.academicyearservice.editAcademicYear(data, row2.inst_acad_year_id).subscribe(
         res => {
           this.cancelEditRow(index);
@@ -256,7 +255,7 @@ export class HomeComponent implements OnInit {
     this.PageIndex = index;
     let startindex = this.studentdisplaysize * (index - 1);
     this.academicTableList = this.getDataFromDataSource(startindex);
-    console.log(this.academicTableList);
+
   }
 
   fetchNext() {

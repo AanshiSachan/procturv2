@@ -67,7 +67,7 @@
                         <div class="c-lg-3">
                             <div class="field-wrapper" *ngIf="isProfessional">
                                 <label for="ba">Batch</label>
-                                <select [(ngModel)]="courseFetchForm.batch_id" class="form-ctrl" name="" id="ba">
+                                <select [(ngModel)]="courseFetchForm.batch_id" class="form-ctrl" (ngModelChange)="batchSelected()" name="" id="ba">
                                     <option value="-1"></option>
                                     <option *ngFor="let batch of batchList" [value]="batch.batch_id">{{batch.batch_name}}</option>
                                 </select>

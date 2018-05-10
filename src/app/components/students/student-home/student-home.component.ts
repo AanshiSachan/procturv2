@@ -159,11 +159,11 @@ export class StudentHomeComponent implements OnInit, OnChanges {
               break;
             }
             case 'studentLeave': {
-              console.log(e);
+              //console.log(e);
               break;
             }
             case 'studentDelete': {
-              console.log(e);
+              //console.log(e);
               break;
             }
           }
@@ -396,7 +396,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   deleteBulkStudent() {
-    console.log(this.selectedRowGroup);
+    //console.log(this.selectedRowGroup);
   }
 
   deleteStudentOpen(row) {
@@ -438,7 +438,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
     else if (id == 2) {
       if (this.selectedRowGroup.length != 0) {
-        console.log('bulk action' + id + 'selected');
+        //console.log('bulk action' + id + 'selected');
       }
       else {
         let msg = {
@@ -754,7 +754,6 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
   /* when the user select the master course then fetch course for the related */
   fetchCourseForMaster(id) {
-    debugger;
     this.advancedFilterForm.subject_id = '-1';
     this.subjectList = [];
     this.studentPrefill.fetchCourseList(id).subscribe(
@@ -1082,7 +1081,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -1141,7 +1140,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
         this.fetchLEaveData();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.isRippleLoad = false;
         let msg = {
           type: 'error',
@@ -1154,10 +1153,10 @@ export class StudentHomeComponent implements OnInit, OnChanges {
   }
 
   deletePerticularLeave(row) {
-    console.log(row);
+    //console.log(row);
     this.studentFetch.cancelLeaveOfDay(row.leave_id).subscribe(
       res => {
-        console.log(res);
+        //console.log(res);
         let msg = {
           type: 'success',
           title: 'Leave Removed',
@@ -1167,7 +1166,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
         this.fetchLEaveData();
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -1250,7 +1249,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -1265,7 +1264,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
       },
       err => {
         this.isRippleLoad = false;
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -1382,7 +1381,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
 
     this.widgetService.sendNotification(obj).subscribe(
       res => {
-        console.log(res);
+        //console.log(res);
         let msg = {
           type: 'success',
           title: 'Message',
@@ -1397,7 +1396,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
           body: err.error.message
         };
         this.appC.popToast(msg);
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -1414,7 +1413,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
     }
     this.widgetService.sendPushNotificationToServer(obj).subscribe(
       res => {
-        console.log(res);
+        //console.log(res);
         let msg = {
           type: 'success',
           title: 'Message',
@@ -1429,7 +1428,7 @@ export class StudentHomeComponent implements OnInit, OnChanges {
           body: err.error.message
         };
         this.appC.popToast(msg);
-        console.log(err);
+        //console.log(err);
       }
     )
   }

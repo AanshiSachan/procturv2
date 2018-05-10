@@ -548,7 +548,7 @@ export class ClassAddComponent implements OnInit {
         this.calculateFieldForTables(res);
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     );
@@ -580,7 +580,7 @@ export class ClassAddComponent implements OnInit {
         this.classScheduleArray = this.constructJSONForTable(res);
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -634,7 +634,7 @@ export class ClassAddComponent implements OnInit {
         this.customListDataSource = res;
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -646,7 +646,7 @@ export class ClassAddComponent implements OnInit {
         this.teacherListDataSource = res;
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -836,7 +836,7 @@ export class ClassAddComponent implements OnInit {
           this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
         },
         err => {
-          console.log(err);
+          //console.log(err);
           this.messageToast('error', 'Error', err.error.message);
         }
       )
@@ -878,7 +878,7 @@ export class ClassAddComponent implements OnInit {
           this.messageToast('success', 'Success', 'Reminder Notification sent successfully');
         },
         err => {
-          console.log(err);
+          //console.log(err);
           this.messageToast('error', 'Error', err.error.message);
         }
       )
@@ -898,7 +898,7 @@ export class ClassAddComponent implements OnInit {
         this.getAllSubjectListFromServer(this.fetchMasterCourseModule);
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -1081,7 +1081,7 @@ export class ClassAddComponent implements OnInit {
         this.showPopUpRecurence = false;
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -1108,7 +1108,7 @@ export class ClassAddComponent implements OnInit {
         this.checkDatesOverLapping(res);
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -1259,7 +1259,7 @@ export class ClassAddComponent implements OnInit {
         this.weekDays = this.addKeyInData(res);
       },
       err => {
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -1436,7 +1436,7 @@ export class ClassAddComponent implements OnInit {
       },
       err => {
         this.messageToast('error', 'Error', err.error.message);
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -1541,7 +1541,7 @@ export class ClassAddComponent implements OnInit {
       },
       err => {
         this.messageToast('error', 'Error', err.error.message);
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -1555,7 +1555,7 @@ export class ClassAddComponent implements OnInit {
       },
       err => {
         this.messageToast('error', 'Error', err.error.message);
-        console.log(err);
+        //console.log(err);
       }
     )
   }
@@ -1679,7 +1679,7 @@ export class ClassAddComponent implements OnInit {
           this.messageToast('success', 'Notified', 'Notification Sent');
         },
         err => {
-          console.log(err);
+          //console.log(err);
           this.messageToast('error', 'Error', err.error.message);
         }
       )
@@ -1703,7 +1703,7 @@ export class ClassAddComponent implements OnInit {
         this.updateTableDataAgain();
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )
@@ -1743,11 +1743,11 @@ export class ClassAddComponent implements OnInit {
   notifyExtraClassCancel(row, type) {
     this.classService.sendNotification(row.schd_id, type).subscribe(
       res => {
-        console.log(res);
+        //console.log(res);
         this.messageToast('success', 'Notified', 'Notification Sent');
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.messageToast('error', 'Error', err.error.message);
       }
     )

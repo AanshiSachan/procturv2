@@ -495,7 +495,7 @@
           <div class="time-picker">
             <div class="field-wrapper" id="hourpar" style="padding-right: 10px;" [ngClass]="{'has-value': hour != ''}">
               <label for="hour">Hour</label>
-              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="followUpTime" name="hour" style="width: 60px;"
+              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty" [(ngModel)]="followUpTime" name="hour" style="width: 75px;"
                 (ngModelChange)="timeChanges($event)">
                 <option *ngFor="let time of times" [value]="time">
                   {{time}}

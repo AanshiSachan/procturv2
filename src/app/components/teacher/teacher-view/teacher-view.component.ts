@@ -62,7 +62,7 @@ export class TeacherViewComponent implements OnInit {
         this.selectedTeacherInformation = data;
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
   }
@@ -73,7 +73,7 @@ export class TeacherViewComponent implements OnInit {
         this.batchesList = data;
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
   }
@@ -104,7 +104,7 @@ export class TeacherViewComponent implements OnInit {
         this.totalHourSpent = this.getPerticularKeyValue(data, 'total_hours', ' ');
       },
       error => {
-        console.log(error)
+        //console.log(error)
       }
     )
   }
@@ -118,7 +118,7 @@ export class TeacherViewComponent implements OnInit {
         this.visitingTotalHour = this.getPerticularKeyValue(data, 'total_hours', ' ');
       },
       error => {
-        console.log(error)
+        //console.log(error)
       }
     )
   }
@@ -142,7 +142,7 @@ export class TeacherViewComponent implements OnInit {
   }
 
   exportDetailsInExcel() {
-    console.log("Excel");
+    //console.log("Excel");
   }
 
   printBtnClick() {
@@ -163,10 +163,10 @@ export class TeacherViewComponent implements OnInit {
     this.ApiService.viewBatchDetails(data, this.selectedTeacherId).subscribe(
       (data: any) => {
         this.teacherTakenClasses = data;
-        console.log(data);
+        //console.log(data);
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
   }
@@ -186,10 +186,10 @@ export class TeacherViewComponent implements OnInit {
     this.ApiService.viewBatchDetails(data, this.selectedTeacherId).subscribe(
       (data: any) => {
         this.guestBatchList = data;
-        console.log(data);
+        //console.log(data);
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     )
   }

@@ -177,7 +177,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
   }
 
   readFile(file: any): any {
-    //debugger;
+
     this.isMenuVisible = false;
     const reader = new FileReader();
     const preview = this.cropper.nativeElement;
@@ -200,7 +200,7 @@ export class PictureCropComponent implements OnInit, OnChanges {
   }
 
   flushModal() {
-    //debugger;
+
     this.isVideo = false;
     this.isSnap = false;
     this.isCrop = false;

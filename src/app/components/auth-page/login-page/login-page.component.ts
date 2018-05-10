@@ -425,7 +425,7 @@ export class LoginPageComponent {
       this.login.validateOTPCode(this.otpVerificationInfo).subscribe(el => {
         //console.log(el);
         if (el.otp_status == 1) {
-          console.log("OTP Expired");
+          //console.log("OTP Expired");
           let data = {
             type: "error",
             title: "OTP Expired",
@@ -433,7 +433,7 @@ export class LoginPageComponent {
           }
           this.toastCtrl.popToast(data);
         } else if (el.otp_status == 2) {
-          console.log("Incorrect OTP");
+          //console.log("Incorrect OTP");
           let data = {
             type: "warning",
             title: "OTP Incorrect",
@@ -441,7 +441,7 @@ export class LoginPageComponent {
           }
           this.toastCtrl.popToast(data);
         } else if (el.login_option == 3) {
-          console.log("OTP Verified Success");
+          //console.log("OTP Verified Success");
           this.alternateLoginSuccess(el);
           this.closeOTPValidationModal();
         }
@@ -451,10 +451,10 @@ export class LoginPageComponent {
 
 
   alternateLoginOTPRegenerate() {
-    console.log("##### in Regenerate Method ######");
+    //console.log("##### in Regenerate Method ######");
     //console.log(this.OTPRegenerateData);
     this.login.regenerateOTP(this.OTPRegenerateData).subscribe(el => {
-      console.log("OTP Regenerate Success");
+      //console.log("OTP Regenerate Success");
       //console.log(el);
       this.OTPVerification(el);
     })
@@ -466,7 +466,7 @@ export class LoginPageComponent {
       alternate_email_id: ""
     }
     if (this.loginDataForm.alternate_email_id == "") {
-      console.log("no email id");
+      //console.log("no email id");
       this.no_email_found = true;
     } else {
       forgotPasswordData.alternate_email_id = this.loginDataForm.alternate_email_id;
