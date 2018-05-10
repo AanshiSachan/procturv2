@@ -118,7 +118,7 @@ export class ExamReportComponent implements OnInit {
 
     if (this.isProfessional) {
       this.batchCourseData = [];
-      
+
       this.fetchFieldData.exam_schd_id = "";
 
       this.queryParam.subject_id = -1;
@@ -402,13 +402,13 @@ export class ExamReportComponent implements OnInit {
     let t = this.examSource.slice(startindex, startindex + this.displayBatchSize);
     return t;
   }
-  
-    fetchTableDataByPagePopup(index) {
-    this.pageIndex = index;
-    let startindex = this.displayBatchSize * (index - 1);
-    this.pagedDetailedExamSource = this.getDataFromDataSourcePopup(startindex);
-    //console.log(this.pagedDetailedExamSource);
-    }
+
+  // fetchTableDataByPagePopup(index) {
+  //   this.pageIndex = index;
+  //   let startindex = this.displayBatchSize * (index - 1);
+  //   this.pagedDetailedExamSource = this.getDataFromDataSourcePopup(startindex);
+  //   //console.log(this.pagedDetailedExamSource);
+  // }
 
   closeExamReport() {
     this.addReportPopup = false;
