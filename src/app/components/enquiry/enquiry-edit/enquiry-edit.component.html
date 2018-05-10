@@ -288,10 +288,11 @@
                     <div class="" *ngIf="component.type == 2" input-def>
                       <br>
                       <div class="field-checkbox-wrapper" [class.has-value]="component.value != ''">
-                        <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
-                        <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
+                       
                         <input class="form-checkbox" id="{{component.id}}" type="checkbox" [(ngModel)]="component.value" (ngModelChange)="fillCustomComponent($event, component)"
                           name="a{{component.label}}" value="">
+                          <label *ngIf="component.is_required == 'Y'" for="{{component.id}}">{{component.label}}*</label>
+                          <label *ngIf="component.is_required == 'N'" for="{{component.id}}">{{component.label}} </label>
 
                       </div>
                     </div>
@@ -321,10 +322,10 @@
                           <ul class="">
                             <li *ngFor="let opt of component.prefilled_data">
                               <div class="field-checkbox-wrapper">
-                                <label for="opt.data">{{opt.data}}</label>
+                               
                                 <input type="checkbox" value="" name="{{opt.data}}" [(ngModel)]="opt.checked" (ngModelChange)="updateMultiSelect(opt, component.id)"
                                   class="form-checkbox">
-
+                                  <label for="opt.data">{{opt.data}}</label>
                               </div>
                             </li>
                           </ul>

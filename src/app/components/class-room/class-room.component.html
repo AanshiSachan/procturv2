@@ -19,14 +19,14 @@
         <div class="row ">
           <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3 ">
             <div class="field-wrapper" [ngClass]="{'has-value': enterclassdata!= ''}">
-              <label for="Classroom_Name">Classroom Name*</label>
+              <label for="Classroom_Name">Classroom Name<span class="astrick">*</span></label>
               <input type="text" #idAddRoom class="form-ctrl" [(ngModel)]="enterclassdata" name="Classroom_Name" id="Classroom_Name">
 
             </div>
           </div>
           <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3">
             <div class="field-wrapper" [ngClass]="{'has-value': enterclassdataDesc!= ''}">
-              <label for="ClassroomDesc">Classroom Description*</label>
+              <label for="ClassroomDesc">Classroom Description<span class="astrick">*</span></label>
               <input type="text" #idAddDesc class="form-ctrl" [(ngModel)]="enterclassdataDesc" name="ClassroomDesc" id="ClassroomDesc">
 
             </div>
