@@ -508,8 +508,8 @@
                                             <div class="action-Menu">
                                                 <span class="delete-btn" style="font-family: FontAwesome;font-size: 20px" (click)="deleteFromCourse(row , i , j)" title="Delete">
                                                     <i class="fa fa-trash-o " aria-hidden="true "></i>
-                                                    <a (click)="cancelExamCourse(row , i , j)" *ngIf="row.class_schedule_id != 0">Cancel Exam</a>
                                                 </span>
+                                                <a (click)="cancelExamCourse(row , i , j)" *ngIf="row.class_schedule_id != 0">Cancel Exam</a>
                                             </div>
 
                                             <!-- <div class="action-Menu">

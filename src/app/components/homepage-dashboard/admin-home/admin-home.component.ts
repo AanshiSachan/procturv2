@@ -199,7 +199,7 @@ export class AdminHomeComponent implements OnInit {
   tempData: any = [];
   cancelPopUpData = {
     reason: "",
-    notify: false
+    notify: true
   };
   markExamAttendancePopUp: boolean = false;
   smsAbsenteesChkbx: boolean = false;
@@ -2835,7 +2835,7 @@ export class AdminHomeComponent implements OnInit {
     this.tempData = "";
     this.cancelPopUpData = {
       reason: "",
-      notify: false
+      notify: true
     }
   }
 
