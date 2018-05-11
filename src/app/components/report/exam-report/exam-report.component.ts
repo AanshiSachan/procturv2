@@ -50,13 +50,11 @@ export class ExamReportComponent implements OnInit {
 
   projectSettings: ColumnSetting[] = [
 
-    { primaryKey: 'student_id', header: 'Student Id' },
+    { primaryKey: 'student_disp_id', header: 'Student ID' },
     { primaryKey: 'student_name', header: 'Student Name' },
-    { primaryKey: 'total_marks', header: 'Total Marks' },
-    { primaryKey: 'marks_obtained', header: 'Marks Obtained' },
     { primaryKey: 'student_phone', header: 'Contact No.' },
-    { primaryKey: 'rank', header: 'Rank' },
-    { primaryKey: 'doj', header: 'Joining Date' }
+    { primaryKey: 'doj', header: 'Joining Date' },
+    { primaryKey: 'grade', header: 'Grade' }
   ];
 
 
@@ -81,6 +79,31 @@ export class ExamReportComponent implements OnInit {
 
   ngOnInit() {
     this.isProfessional = sessionStorage.getItem('institute_type') == 'LANG';
+    if(this.isProfessional){
+      this.projectSettings = [
+    
+        { primaryKey: 'student_disp_id', header: 'Student ID' },
+        { primaryKey: 'student_name', header: 'Student Name' },
+        { primaryKey: 'student_phone', header: 'Contact No.' },
+        { primaryKey: 'doj', header: 'Joining Date' },
+        { primaryKey: 'grade', header: 'Grade' }
+      ];
+    
+    }
+    else{
+      this.projectSettings = [
+        { primaryKey: 'student_id', header: 'Student Id' },
+        { primaryKey: 'student_name', header: 'Student Name' },
+        { primaryKey: 'student_phone', header: 'Contact No.' },
+        { primaryKey: 'doj', header: 'Joining Date' },
+        { primaryKey: 'total_marks', header: 'Total Marks' },
+        { primaryKey: 'marks_obtained', header: 'Marks Obtained' },
+        { primaryKey: 'rank', header: 'Rank' },
+       
+      
+      ];
+
+    }
     this.fetchExamData();
     this.pageIndex = 1;
   }
@@ -191,11 +214,7 @@ export class ExamReportComponent implements OnInit {
 
       this.examdata.batchExamReport(this.queryParam).subscribe(
         (res) => {
-
           this.getSubjectData = res.batchLi;
-
-
-
           if (this.getSubjectData == null) {
             let obj = {
               type: "info",
@@ -203,7 +222,7 @@ export class ExamReportComponent implements OnInit {
               Body: "Don't go in next field"
             }
             this.appC.popToast(obj);
-   }
+          }
         })
     }
     else {
@@ -250,8 +269,7 @@ export class ExamReportComponent implements OnInit {
 
 
     if (this.isProfessional) {
-      if (this.queryParam.standard_id == -1 || this.queryParam.subject_id == -1 || this.fetchFieldData.batch_id == "" || this.fetchFieldData
-        .exam_schd_id == "") {
+      if (this.fetchFieldData.batch_id == "" || this.fetchFieldData.exam_schd_id == "") {
 
         let msg = {
           type: "error",
@@ -322,11 +340,7 @@ export class ExamReportComponent implements OnInit {
   fetchDetailReport() {
     if (this.isProfessional) {
 
-      if (this.queryParam.standard_id == -1 || this.queryParam.subject_id == -1 || this.fetchFieldData.batch_id == ""
-        || this.fetchFieldData.exam_schd_id == "") {
-
-
-
+      if (this.fetchFieldData.batch_id == "" || this.fetchFieldData.exam_schd_id == "") {
         let msg = {
           type: "error",
           title: "Invalid Data Range Selected",
