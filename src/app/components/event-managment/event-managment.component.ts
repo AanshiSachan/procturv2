@@ -211,7 +211,6 @@ export class EventManagmentComponent implements OnInit {
       return;
 
     }
-
     if (this.saveDataObj.holiday_long_desc.length > 300) {
       let obj = {
         type: "error",
@@ -223,7 +222,11 @@ export class EventManagmentComponent implements OnInit {
       return;
     }
     this.saveDataObj.holiday_date = moment(this.saveDataObj.holiday_date).format('YYYY-MM-DD');
-    this.saveDataObj.image = (<HTMLImageElement>document.getElementById('imgAdd')).src.split(',')[1];
+
+    if(this.saveDataObj.event_type == "2"){
+      this.saveDataObj.image = (<HTMLImageElement>document.getElementById('imgAdd')).src.split(',')[1];
+    }
+
     this.eve_mnge.saveEventDescData(this.saveDataObj).subscribe(
       res => {
         let obj = {
