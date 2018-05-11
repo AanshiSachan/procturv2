@@ -236,7 +236,7 @@
                           </div>
                           <div *ngIf="(class.isExam)" class="che-action">
                             <span class="" (click)="markExamAttendance(class)" style="cursor:pointer" [ngClass]="hideFutureExamSchedule(class)">Exam Attendance</span>
-                            <span class="" style="cursor:pointer" (click)="notifyExamSchedule(class)">Notify</span>
+                            <span class="" *ngIf="class.isReferenced != 'Y'" style="cursor:pointer" (click)="notifyExamSchedule(class)">Notify</span>
                             <span class="" *ngIf="class.isReferenced != 'Y'" style="cursor:pointer" (click)="onCancelExamClick(class)">Cancel Exam</span>
                             <span class="" *ngIf="class.isReferenced == 'Y'" style="cursor:pointer" (click)="examMarksUpdate(class)">Exam Marks</span>
                           </div>
@@ -1637,12 +1637,12 @@
                   </td>
                   <td *ngIf="examData.is_exam_grad_feature == 0">
                     <div class="form-wrapper" style="width:50px;">
-                      <input type="text" class="side-form-ctrl" [(ngModel)]="s.marks_obtained">
+                      <input type="text" class="side-form-ctrl" [disabled]="(s.attendance != 'P')" [(ngModel)]="s.marks_obtained">
                     </div>
                   </td>
                   <td *ngIf="examData.is_exam_grad_feature == 1">
                     <div class="form-wrapper" style="width:70px;">
-                      <select id="" class="side-form-ctrl" [(ngModel)]="s.grade_id" name="grade_id" [disabled]="(s.attendance == 'L' && s.isAttendanceUpdated == 'N') || (s.attendance == 'L') || (s.attendance == 'A')"
+                      <select id="" class="side-form-ctrl" [disabled]="(s.attendance != 'P')" [(ngModel)]="s.grade_id" name="grade_id" [disabled]="(s.attendance == 'L' && s.isAttendanceUpdated == 'N') || (s.attendance == 'L') || (s.attendance == 'A')"
                         style="padding: 0px 0px">
                         <option value="-1"></option>
                         <option [value]="time.grade_id" *ngFor="let time of gradesList">

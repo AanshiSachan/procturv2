@@ -708,7 +708,7 @@
                     <div class="row attendance-Note">
                         <div class="c-sm-6 c-md-6 c-lg-6">
                             <div class="form-wrapper">
-                                <label for="cancelTxtBx">Cancellation Reason</label>
+                                <label for="cancelTxtBx">Cancellation Reason*</label>
                                 <textarea class="side-form-ctrl" [(ngModel)]="cancelPopUpData.reason" id="cancelTxtBx" name="cancelTxtBx"></textarea>
                             </div>
                         </div>
@@ -724,7 +724,7 @@
                         </aside>
                         <aside *ngIf="isLangInstitute" class="pull-right popup-btn">
                             <input type="button" value="Close" class="btn" (click)="closeCancelExamPopUp()">
-                            <input type="button" value="Cancel Class" (click)="cancelExamClassSchedule()" class="fullBlue btn">
+                            <input type="button" value="Cancel Exam" (click)="cancelExamClassSchedule()" class="fullBlue btn">
                         </aside>
                         <aside *ngIf="!isLangInstitute" class="pull-right popup-btn">
                             <input type="button" value="Close" class="btn" (click)="closeCancelExamPopUp()">
