@@ -35,7 +35,7 @@ export class EventManagmentComponent implements OnInit {
   list_obj = {
     year: -1,
     month: -1,
-    event_type: "",
+    event_type: "2",
   }
   
   searchText: string = "";
@@ -45,8 +45,8 @@ export class EventManagmentComponent implements OnInit {
 
   sendNotify_obj = {
     event_id: ""
+ }
 
-  }
   saveDataObj = {
     event_end_date: "",
     event_type: "1",
@@ -72,7 +72,6 @@ export class EventManagmentComponent implements OnInit {
     image: null,
     public_url: ""
   }
-
   constructor(
     private eve_mnge: EventManagmentService,
     private appc: AppComponent,
@@ -94,29 +93,24 @@ export class EventManagmentComponent implements OnInit {
     this.pageIndex = 1;
     this.searchDataFlag = false;
     this.searchDataFilter = "";
+    
     this.eve_mnge.getListEventDesc(this.list_obj).subscribe(
       res => {
         this.eventRecord = res;
         this.totalRow = this.eventRecord.length;
         this.fetchTableDataByPage(this.pageIndex);
-      },
-      error => {
-        //console.log(error);
-      }
-    )
-  }
+      },)
+}
   /*================================================get events==============================
   ============================================================================================= */
 
   getEvents() {
     this.eve_mnge.getEventdata().subscribe(
       res => {
-        //console.log(res);
+      
         this.getEvent = res;
-        //console.log(this.getEvent);
       },
       error => {
-        //console.log(error);
       }
     )
   }
@@ -253,12 +247,9 @@ export class EventManagmentComponent implements OnInit {
         }
       },
       error => {
-        //console.log(error);
-      }
+      }  
     )
   }
-
-
   /*==========================================get update data================================
   ========================================================================================== */
   isTimeValidData(): boolean {
@@ -280,8 +271,6 @@ export class EventManagmentComponent implements OnInit {
       return false;
     }
   }
-
-
   updatePopupData() {
     if (this.newUpdateObj.holiday_name == "" || this.newUpdateObj.holiday_desc == "") {
       let obj = {
@@ -338,18 +327,13 @@ export class EventManagmentComponent implements OnInit {
           body: "Event Updated Successfully."
         }
         this.appc.popToast(obj);
-        //console.log(res);
+       
         this.closeEditPopup = false;
         this.getAllListData();
       },
       error => {
-        //console.log(error);
-      }
-    )
-
-
-  }
-
+      
+      })}
 
   checkChange(para) {
     if (para == true) {
@@ -380,10 +364,7 @@ export class EventManagmentComponent implements OnInit {
         this.newUpdateObj.holidayId = res.holidayId;
         if(res.image != null){
           this.newUpdateObj.image = "data:image/png;base64," + res.image;
-          // (<HTMLImageElement>document.getElementById('imgUpdate')).src = res.image;
-          // console.log((<HTMLImageElement>document.getElementById('imgUpdate')).src);
-          // console.log(this.newUpdateObj.image)
-        }
+          }
         this.newUpdateObj.public_url = res.public_url;
         if (res.event_type == "1") {
           this.checker = false;
@@ -395,21 +376,18 @@ export class EventManagmentComponent implements OnInit {
         }
       },
       error => {
-        //console.log(error);
+
       }
     )
-    // (<HTMLImageElement>document.getElementById('imgUpdate')).src = "data:image/png;base64,"+this.newUpdateObj.image;
   }
   /*===================================================delete event data========================
   ============================================================================================== */
   deleteEventDataFromList(holidayId) {
     this.eve_mnge.deleteEventData(holidayId).subscribe(
       res => {
-        //console.log(res);
         this.getAllListData();
       },
       error => {
-        //console.log(error);
       }
     )
   }
@@ -458,11 +436,8 @@ export class EventManagmentComponent implements OnInit {
     if (prompt) {
       this.deleteEventDataFromList(holidayId);
     }
-    else {
-
-    }
-
-  }
+    else {    }
+}
 
   closeReportPopup() {
     this.closeVarPopup = false;
@@ -490,7 +465,6 @@ export class EventManagmentComponent implements OnInit {
       this.fetchTableDataByPage(this.pageIndex);
     }
   }
-
   getClassRoomTableFromSource(startindex) {
     let data = [];
     if (this.searchDataFlag == true) {
@@ -500,8 +474,6 @@ export class EventManagmentComponent implements OnInit {
     }
     return data;
   }
-
-
   searchInList() {
     if (this.searchDataFilter != "" && this.searchDataFilter != null) {
       let searchData = this.eventRecord.filter(item =>
@@ -518,8 +490,6 @@ export class EventManagmentComponent implements OnInit {
       this.totalRow = this.eventRecord.length;
     }
   }
-
-
   removeFullscreen() {
     var header = document.getElementsByTagName('core-header');
     var sidebar = document.getElementsByTagName('core-sidednav');

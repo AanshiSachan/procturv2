@@ -33,17 +33,26 @@
 
             </div>
           </div>
-          <div class="c-lg-2 c-md-2 c-sm-2 c-sx-2" style="margin-top:1%;">
-            <aside class="pull-left create-cancel-small">
-              <button class="btn fullBlue btnclass" (click)="addNewclassRoom(idAddRoom.value,idAddDesc.value)">Save</button>
-            </aside>
+          <div class="c-lg-6 c-md-6 c-sm-6 c-sx-6" style="margin-top:1%;">
+              <button class="btn fullBlue btnclass pull-right" (click)="addNewclassRoom(idAddRoom.value,idAddDesc.value)">Save</button>
           </div>
         </div>
 
   </form>
       </section>
+
       <div id="divSlotTable">
           <div class="table-scroll-wrapper">
+              <div class="filter-box clearFix">
+                  <div id="basic-search" class="search-filter-wrapper">
+                      <input #search type="text" class="search-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
+                  </div>
+              </div>
+              <!-- <div class="pull-right">
+                  <div class="search-filter-wrapper">
+                    <input #search type="textbox" class="normal-field" placeholder="Search" [(ngModel)]="searchText" name="searchData" (keyup)="searchDatabase()">
+                  </div>
+                </div> -->
             <div class="table table-responsive">
               <table>
                 <thead>
@@ -77,7 +86,7 @@
   
                     <td class="edit-comp">
                       <div class="field-wrapper">
-                        <textarea id="" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" name="label" cols="1" rows="1"></textarea>
+                        <textarea id="" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" style="overflow: hidden;" name="label" cols="1" rows="1"></textarea>
                         <!-- <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" name="label"> -->
                       </div>
                     </td>
@@ -88,7 +97,7 @@
     
                     <td class="edit-comp">
                       <div class="field-wrapper">
-                        <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_desc" name="label">
+                        <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_desc" style="overflow: hidden;"  name="label">
                       </div>
                     </td>
     
