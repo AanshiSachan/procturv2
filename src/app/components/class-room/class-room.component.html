@@ -1,4 +1,5 @@
 <div class="middle-section clearFix">
+
   <section class="middle-top mb0 clearFix" style="padding-bottom:0px;">
     <h1 class="pull-left marginhead">
       Classroom
@@ -18,6 +19,7 @@
       <form action="">
         <div class="row ">
           <div class="c-lg-3 c-md-3 c-sm-3 c-sx-3 ">
+
             <div class="field-wrapper" [ngClass]="{'has-value': enterclassdata!= ''}">
               <label for="Classroom_Name">Classroom Name<span class="astrick">*</span></label>
               <input type="text" #idAddRoom class="form-ctrl" [(ngModel)]="enterclassdata" name="Classroom_Name" id="Classroom_Name">
@@ -37,86 +39,88 @@
             </aside>
           </div>
         </div>
-      </form>
-    </section>
 
-    <div id="divSlotTable">
-      <div class="table-scroll-wrapper">
-        <div class="table table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>
-                  S No.
-                </th>
-                <th>
-                  Room Name
-                </th>
-                <th>
-                  Description
-                </th>
-                <th>
-                  Edit
-                </th>
-              </tr>
-            </thead>
-
-            <tbody *ngIf="classRoomData.length !=0">
-
-              <tr id="row{{i}}" class="displayComp" *ngFor="let row of pagedclassRoomData; let i = index; trackBy: i;">
-
-                <td>
-                  {{i + 1}}
-                </td>
-
-                <td class="view-comp">
-                  {{row.class_room_name}}
-                </td>
-
-                <td class="edit-comp">
-                  <div class="field-wrapper">
-                    <textarea id="" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" name="label" cols="1" rows="1"></textarea>
-                    <!-- <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" name="label"> -->
-                  </div>
-                </td>
-
-                <td class="view-comp">
-                  {{row.class_room_desc}}
-                </td>
-
-                <td class="edit-comp">
-                  <div class="field-wrapper">
-                    <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_desc" name="label">
-                  </div>
-                </td>
-
-                <td class="view-comp">
-                  <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
-                </td>
-
-                <td class="edit-comp">
-                  <a class="anchorTagCursor" (click)="saveclassRoomInfo(row , i)">Update</a>
-                </td>
-
-              </tr>
-            </tbody>
-            <tbody *ngIf="classRoomData.length ==0">
-              <td colspan="4" style="text-align: center">
-                ClassList Record Not
-              </td>
-            </tbody>
-          </table>
+  </form>
+      </section>
+      <div id="divSlotTable">
+          <div class="table-scroll-wrapper">
+            <div class="table table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>
+                      S No.
+                    </th>
+                    <th>
+                      Room Name
+                    </th>
+                    <th>
+                      Description
+                    </th>
+                    <th>
+                      Edit
+                    </th>
+                  </tr>
+                </thead>
+  
+                <tbody *ngIf="classRoomData.length !=0">
+  
+                  <tr id="row{{i}}" class="displayComp" *ngFor="let row of pagedclassRoomData; let i = index; trackBy: i;">
+  
+                    <td>
+                      {{i + 1}}
+                    </td>
+    
+                    <td class="view-comp">
+                      {{row.class_room_name}}
+                    </td>
+  
+                    <td class="edit-comp">
+                      <div class="field-wrapper">
+                        <textarea id="" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" name="label" cols="1" rows="1"></textarea>
+                        <!-- <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_name" name="label"> -->
+                      </div>
+                    </td>
+    
+                    <td class="view-comp">
+                      {{row.class_room_desc}}
+                    </td>
+    
+                    <td class="edit-comp">
+                      <div class="field-wrapper">
+                        <input type="text" class="form-ctrl editCellInput" [(ngModel)]="row.class_room_desc" name="label">
+                      </div>
+                    </td>
+    
+                    <td class="view-comp">
+                      <a class="anchorTagCursor" (click)="editRowTable(row , i)">Edit</a>
+                    </td>
+  
+                    <td class="edit-comp">
+                      <a class="anchorTagCursor" (click)="saveclassRoomInfo(row , i)">Update</a>
+                    </td>
+    
+                  </tr>
+                </tbody>
+                <tbody *ngIf="classRoomData.length ==0">
+                  <td colspan="4" style="text-align: center">
+                    ClassList Record Not
+                  </td>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </div>
+    
+        <!-- Paginator Here -->
+        <div class="row filter-res pagination" style="width: 100%;">
+          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+              [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRow">
+            </pagination>
+          </div>
+        </div>
+      </section>
     </div>
-
-    <!-- Paginator Here -->
-    <div class="row filter-res pagination" style="width: 100%;">
-      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
-        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
-          [page]="pageIndex" [perPage]="displayBatchSize" [count]="totalRow">
-        </pagination>
-      </div>
-    </div>
-  </section>
-</div>
+      
+  

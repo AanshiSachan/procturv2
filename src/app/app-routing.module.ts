@@ -8,6 +8,7 @@ import { SlotComponent } from './components/slot/slot.component';
 import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
 import { ClassRoomComponent } from './components/class-room/class-room.component';
 import { EventManagmentComponent } from './components/event-managment/event-managment.component';
+import {TopicsComponent} from './components/topics/topics.component';
 import { MasterComponent } from './components/master/master.component';
 
 @NgModule({
@@ -101,9 +102,18 @@ import { MasterComponent } from './components/master/master.component';
                     canLoad: [AuthGuard]
                 },
                 {
-                    path: 'eventManagment',
-                    component: EventManagmentComponent,
-                    canLoad: [AuthGuard]
+
+                    path:'Topics',
+                    component: TopicsComponent,
+                    canLoad:[AuthGuard]
+                },
+               
+                {
+                path:'eventManagment',
+                component:EventManagmentComponent,
+                canLoad:[AuthGuard]
+
+
                 },
                 {
                     path: 'academic',
@@ -131,7 +141,7 @@ import { MasterComponent } from './components/master/master.component';
                     loadChildren: 'app/components/users-management/users-management.module#UserManagementModule',
                 },
                 { path: 'comingsoon', component: ComingSoonComponent },
-                { path: '**', component: ErrorComponent },
+                { path: '**', component: ErrorComponent },  
             ],
             {
                 useHash: true,

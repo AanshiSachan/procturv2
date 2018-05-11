@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventManagmentService } from '../../services/event-managment.service';
 import * as moment from 'moment';
 import { AppComponent } from '../../app.component';
+import { searchPipe } from '../shared/pipes/searchBarPipe';
 import { LoginService } from '../../services/login-services/login.service';
 @Component({
   selector: 'app-event-managment',
@@ -36,6 +37,11 @@ export class EventManagmentComponent implements OnInit {
     month: -1,
     event_type: "",
   }
+  
+  searchText: string = "";
+  searchflag: boolean = false;
+  searchData: any = [];
+
 
   sendNotify_obj = {
     event_id: ""
@@ -86,7 +92,7 @@ export class EventManagmentComponent implements OnInit {
   ============================================================================================ */
   getAllListData() {
     this.pageIndex = 1;
-    this.searchDataFlag= false;
+    this.searchDataFlag = false;
     this.searchDataFilter = "";
     this.eve_mnge.getListEventDesc(this.list_obj).subscribe(
       res => {
@@ -153,7 +159,32 @@ export class EventManagmentComponent implements OnInit {
     }
   }
 
+  fileUpload(imgId) {
+    var file = (<HTMLFormElement>document.getElementById('fileAdd')).files[0];
+    if (file.size > 1048576) {
+      let obj = {
+        type: "error",
+        title: "Uploaded File Exceeds 1Mb",
+        body: ""
+      }
+      this.appc.popToast(obj);
+      (<HTMLFormElement>document.getElementById('fileAdd')).value = "";
+      return;
+    }
+    var fileReader = new FileReader();
+    var encString="";
+    fileReader.readAsDataURL(file);
+    fileReader.onload = function () {
+      encString = fileReader.result.split(',')[1];
+      (<HTMLImageElement>document.getElementById(imgId)).src = fileReader.result;
+    }
+    fileReader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }
+
   saveEventData() {
+
     if (this.saveDataObj.holiday_name == "" || this.saveDataObj.holiday_desc == "") {
       let obj = {
         type: "error",
@@ -175,29 +206,30 @@ export class EventManagmentComponent implements OnInit {
       }
       this.saveDataObj.event_end_date = moment(this.saveDataObj.event_end_date).format('YYYY-MM-DD');
     }
-   if(this.saveDataObj.holiday_desc.length>80){
-      let obj={
+    if (this.saveDataObj.holiday_desc.length > 80) {
+      let obj = {
         type: "error",
         title: "Error",
         body: "Description should not be greater than 80"
-      
+
       }
       this.appc.popToast(obj);
-      return ;
+      return;
 
     }
 
-    if(this.saveDataObj.holiday_long_desc.length>300){
-      let obj={
+    if (this.saveDataObj.holiday_long_desc.length > 300) {
+      let obj = {
         type: "error",
         title: "Error",
         body: "Longdescription should not be greater than 300"
-      
+
       }
       this.appc.popToast(obj);
       return;
     }
     this.saveDataObj.holiday_date = moment(this.saveDataObj.holiday_date).format('YYYY-MM-DD');
+    this.saveDataObj.image = (<HTMLImageElement>document.getElementById('imgAdd')).src.split(',')[1];
     this.eve_mnge.saveEventDescData(this.saveDataObj).subscribe(
       res => {
         let obj = {
@@ -208,7 +240,7 @@ export class EventManagmentComponent implements OnInit {
         this.appc.popToast(obj);
         this.getAllListData();
         this.closeVarPopup = false;
-       this.saveDataObj = {
+        this.saveDataObj = {
           event_end_date: "",
           event_type: "1",
           holiday_date: moment().format("YYYY-MM-DD"),
@@ -273,30 +305,31 @@ export class EventManagmentComponent implements OnInit {
       }
     }
 
-    if(this.newUpdateObj.holiday_desc.length>80){
-      let obj={
+    if (this.newUpdateObj.holiday_desc.length > 80) {
+      let obj = {
         type: "error",
         title: "Error",
         body: "Description should not be greater than 80"
-      
+
       }
       this.appc.popToast(obj);
-      return ;
+      return;
 
     }
 
-    if(this.newUpdateObj.holiday_long_desc.length>300){
-      let obj={
+    if (this.newUpdateObj.holiday_long_desc.length > 300) {
+      let obj = {
         type: "error",
         title: "Error",
         body: "Longdescription should not be greater than 300"
-      
+
       }
       this.appc.popToast(obj);
       return;
     }
-  
+
     this.newUpdateObj.holiday_date = moment(this.newUpdateObj.holiday_date).format('YYYY-MM-DD');
+    this.newUpdateObj.image = (<HTMLImageElement>document.getElementById('imgUpdate')).src.split(',')[1];
     this.eve_mnge.getUpdateEventData(this.newUpdateObj).subscribe(
       res => {
         let obj = {
@@ -345,7 +378,12 @@ export class EventManagmentComponent implements OnInit {
         this.newUpdateObj.holiday_name = res.holiday_name;
         this.newUpdateObj.holiday_type = res.holiday_type;
         this.newUpdateObj.holidayId = res.holidayId;
-        this.newUpdateObj.image = res.image;
+        if(res.image != null){
+          this.newUpdateObj.image = "data:image/png;base64," + res.image;
+          // (<HTMLImageElement>document.getElementById('imgUpdate')).src = res.image;
+          // console.log((<HTMLImageElement>document.getElementById('imgUpdate')).src);
+          // console.log(this.newUpdateObj.image)
+        }
         this.newUpdateObj.public_url = res.public_url;
         if (res.event_type == "1") {
           this.checker = false;
@@ -355,13 +393,12 @@ export class EventManagmentComponent implements OnInit {
           this.checker = true;
           this.newUpdateObj.event_end_date = moment(res.event_end_date).format("YYYY-MM-DD");
         }
-        //console.log(this.newUpdateObj);
       },
-
       error => {
         //console.log(error);
       }
     )
+    // (<HTMLImageElement>document.getElementById('imgUpdate')).src = "data:image/png;base64,"+this.newUpdateObj.image;
   }
   /*===================================================delete event data========================
   ============================================================================================== */
@@ -385,13 +422,13 @@ export class EventManagmentComponent implements OnInit {
       this.sendNotify_obj.event_id = e;
       this.eve_mnge.sendNotifiation(this.sendNotify_obj).subscribe(
         res => {
-         let obj={
-          type: "success",
-          title: "Saved",
-          body: " Notification Send Successfully."
-        
-         }
-         this.appc.popToast(obj);
+          let obj = {
+            type: "success",
+            title: "Saved",
+            body: " Notification Send Successfully."
+
+          }
+          this.appc.popToast(obj);
         },
         error => {
         }

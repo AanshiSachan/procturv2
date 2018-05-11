@@ -3,6 +3,8 @@ import { AppComponent } from './app.component';
 import { CoreSidednavComponent } from './components/core/core-sidednav/core-sidednav.component';
 import { CoreHeaderComponent } from './components/core/core-header/core-header.component';
 import { SlotComponent } from './components/slot/slot.component';
+import { TreeTableModule } from 'primeng/treetable';
+
 
 /* Modules */
 import { BrowserModule, Title } from '@angular/platform-browser';
@@ -41,11 +43,13 @@ import { SharedModule } from './components/shared/shared.module';
 import { SlotApiService } from './services/slot-service/slot.service';
 import { CityAreaMapComponent } from './components/city-area-map/city-area-map.component';
 import { CityAreaService } from './services/area-city-service/area-city.service';
-import {EventManagmentService} from './services/event-managment.service';
-import {ClassRoomService} from './services/class-roomService/class-roomlist.service';
+import { EventManagmentService } from './services/event-managment.service';
+import { ClassRoomService } from './services/class-roomService/class-roomlist.service';
 import { SearchBoxComponent } from './components/core/search-box/search-box.component';
 import { ClassRoomComponent } from './components/class-room/class-room.component';
 import { EventManagmentComponent } from './components/event-managment/event-managment.component';
+import { TopicsComponent } from './components/topics/topics.component';
+import { TopicServiceService} from './services/topic-service.service';
 import {FilterPipe} from './components/event-managment/filterpipe';
 import { MasterComponent } from './components/master/master.component';
 import { ManageExamModule } from './components/master/master.module';
@@ -59,7 +63,7 @@ import { ManageExamModule } from './components/master/master.module';
     ManageExamModule,
     HttpModule,
     BrowserAnimationsModule,
-    Ng2SmartTableModule,
+    Ng2SmartTableModule,TreeTableModule,
     ToasterModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
@@ -78,8 +82,11 @@ import { ManageExamModule } from './components/master/master.module';
     FilterPipe,
     EventManagmentComponent,
     CityAreaMapComponent,
+
+    TopicsComponent,
     SearchBoxComponent
    
+
   ],
   entryComponents: [
     SearchBoxComponent
@@ -96,6 +103,7 @@ import { ManageExamModule } from './components/master/master.module';
     CityAreaService,
     ClassRoomService,
     EventManagmentService,
+ TopicServiceService,
     Title
   ],
   bootstrap: [AppComponent]
