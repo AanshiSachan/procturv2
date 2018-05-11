@@ -1599,6 +1599,7 @@ export class StudentAddComponent implements OnInit {
   convertToStudentDetected() {
     this.isConvertEnquiry = true;
     this.enquiryData = JSON.parse(localStorage.getItem('studentPrefill'));
+    console.log(this.enquiryData);
     this.studentAddFormData.student_name = this.enquiryData.name;
     this.studentAddFormData.student_phone = this.enquiryData.phone;
     this.studentAddFormData.student_email = this.enquiryData.email;

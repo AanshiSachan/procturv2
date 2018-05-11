@@ -105,6 +105,8 @@ export class FeeCourseReportComponent implements OnInit {
 
   userInput: string = ''
 
+  helpMsg:string = "We can filter data either by selecting master course/ course/ batch or by selecting dues along with date range filter."
+
   @ViewChild('form') form: any;
 
   constructor(
@@ -177,6 +179,7 @@ export class FeeCourseReportComponent implements OnInit {
   /* ===================================================================================================== */
   batchSelected() {
     this.due_type = "-1";
+    this.isCustomDate = false;
   }
 
 
@@ -256,15 +259,15 @@ export class FeeCourseReportComponent implements OnInit {
           }
           else {
             let obj = {
-              standard_id: this.courseFetchForm.standard_id,
+              standard_id: this.courseFetchForm.master_course_name,
               batch_id: this.courseFetchForm.batch_id,
               type: this.courseFetchForm.type,
               from_date: moment(this.courseFetchForm.from_date).format('YYYY-MM-DD'),
               to_date: moment(this.courseFetchForm.to_date).format('YYYY-MM-DD'),
               installment_id: this.courseFetchForm.installment_id,
-              subject_id: this.courseFetchForm.subject_id,
-              master_course_name: this.courseFetchForm.master_course_name,
-              course_id: this.courseFetchForm.course_id,
+              subject_id: this.courseFetchForm.course_id,
+              master_course_name: this.courseFetchForm.standard_id,
+              course_id: this.courseFetchForm.subject_id,
               student_name: this.courseFetchForm.student_name,
               contact_no: this.courseFetchForm.contact_no,
               is_fee_report_view: this.courseFetchForm.is_fee_report_view
@@ -464,6 +467,7 @@ export class FeeCourseReportComponent implements OnInit {
   fetchSubjectList() {
     this.courseFetchForm.subject_id = -1;
     this.courseFetchForm.batch_id = -1;
+    this.isCustomDate = false;
     this.due_type = '-1';
     this.isRippleLoad = true;
     if (this.isProfessional) {
@@ -480,11 +484,12 @@ export class FeeCourseReportComponent implements OnInit {
       )
     }
     else {
-      this.getter.getBatchDetails(this.courseFetchForm).subscribe(
+      let id = this.courseFetchForm.standard_id.replace(/ /g,"%20");
+      this.getter.getCourseData(id).subscribe(
         res => {
           this.isRippleLoad = false;
-          this.batchList = res.batchLi;
-          this.subjectList = res.subjectLi;
+          this.batchList = [];
+          this.subjectList = res.coursesList;
         },
         err => {
           this.isRippleLoad = false;
@@ -499,6 +504,7 @@ export class FeeCourseReportComponent implements OnInit {
   fetchBatchList() {
     this.courseFetchForm.batch_id = -1;
     this.due_type = '-1';
+    this.isCustomDate = false;
     this.isRippleLoad = true;
     if (this.isProfessional) {
       this.getter.getBatchDetails(this.courseFetchForm).subscribe(
@@ -561,7 +567,12 @@ export class FeeCourseReportComponent implements OnInit {
       }
       /* for acad model */
       else {
-
+        if (this.courseFetchForm.standard_id != '-1' && this.courseFetchForm.subject_id != '-1') {
+          return true;
+        }
+        else{
+          return false;
+        }
       }
     }
     else if (this.courseFetchForm.standard_id == '-1' && this.courseFetchForm.subject_id == '-1' && this.courseFetchForm.batch_id == '-1') {
@@ -648,19 +659,20 @@ export class FeeCourseReportComponent implements OnInit {
     this.courseFetchForm.standard_id = '-1';
     this.courseFetchForm.subject_id = '-1';
     this.courseFetchForm.batch_id = '-1';
-
+    this.getBatchCourseDetails();
     if (this.due_type == 'all_dues') {
       this.courseFetchForm.from_date = '';
       this.courseFetchForm.to_date = '';
+      this.courseFetchForm.type = "0";
     }
 
     else if (this.due_type == 'next_month_dues') {
-
       let begin = moment().add(1, 'M').format("YYYY-MM-01");
       let end = moment().add(1, 'M').format("YYYY-MM-") + moment().add(1, 'M').daysInMonth();
 
       this.courseFetchForm.from_date = begin;
       this.courseFetchForm.to_date = end;
+      this.courseFetchForm.type = "1";
     }
 
     else if (this.due_type == 'this_month_dues') {
@@ -668,18 +680,22 @@ export class FeeCourseReportComponent implements OnInit {
       let end = moment().format("YYYY-MM-") + moment().daysInMonth();
       this.courseFetchForm.from_date = begin;
       this.courseFetchForm.to_date = end;
+      this.courseFetchForm.type = "1";
     }
 
     else if (this.due_type == 'current_dues') {
       this.courseFetchForm.from_date = moment(new Date()).format("YYYY-MM-DD");
       this.courseFetchForm.to_date = moment(new Date()).format("YYYY-MM-DD");
+      this.courseFetchForm.type = "1";
     }
     else if (this.due_type == 'custom') {
       this.courseFetchForm.from_date = '';
       this.courseFetchForm.to_date = '';
+      this.courseFetchForm.type = "1";
       this.isCustomDate = true;
     }
     else if (this.due_type == '-1') {
+      this.courseFetchForm.type = "0";
       this.isCustomDate = false;
     }
 

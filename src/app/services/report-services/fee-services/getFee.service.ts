@@ -48,6 +48,17 @@ export class GetFeeService {
 
     }
 
+    getCourseData(id): Observable<any> {
+
+        let url = this.baseUrl + '/api/v1/courseMaster/fetch/' + this.institute_id + '/' +id;
+
+        return this.http.get(url, { headers: this.headers }).map(
+            res => { return res; },
+            err => { return err; }
+        )
+
+    }
+
 
     getMasterCourses(): Observable<any> {
 
