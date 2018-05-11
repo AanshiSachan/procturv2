@@ -226,3 +226,10 @@
     overflow-x: hidden;
     overflow-y: scroll;
 }
+
+.action-menu {
+    a {
+        margin-left: 10px;
+        cursor: pointer;
+    }
+}
