@@ -28,6 +28,43 @@
     background: rgba(7, 27, 119, 0.4);
 }
 
+:host /deep/ .tooltip-arrow {
+ display: none;
+}
+
+::ng-deep .tooltip-arrow {
+    display: none;
+}
+
+:host /deep/ .tooltip-left {
+    top: 0px !important;
+    min-width: 300px;
+}
+
+::ng-deep .tooltip-left {
+    top: 0px;
+}
+
+:host /deep/ .tooltip-right {
+    top: calc(10% - 2.5px);
+    left: calc(10% - 2.5px);
+}
+
+::ng-deep .tooltip-right {
+    top: calc(10% - 2.5px);
+    left: calc(10% - 2.5px);
+}
+
+:host /deep/ .tooltip-top {
+    top: calc(10% - 2.5px);
+    left: calc(10% - 2.5px);
+}
+
+::ng-deep .tooltip-top {
+    top: calc(10% - 2.5px);
+    left: calc(10% - 2.5px);
+}
+
 :host /deep/ .bs-datepicker {
     .bs-datepicker-container {
         padding: 10px; //background: #004b7f;
@@ -117,7 +154,6 @@
     }
 }
 
-
 textarea {
     resize: none;
 }
@@ -206,11 +242,12 @@ input[type="text"][disabled] {
     height: 85vh;
     width: 100%;
     padding: 5px;
-    .report-header{
+    .report-header {
         background: #fff;
         padding: 5px;
     }
 }
+
 /* ================================================================================================= */
 
 /* ================================================================================================= */
@@ -407,6 +444,7 @@ h3 {
 }
 
 /* For DatePicker */
+
 /* .field-wrapper {
     position: relative;
     padding-top: 10px;
@@ -463,8 +501,8 @@ h3 {
     }
     .date-clear {
         position: absolute;
-        right: 15px;
-        top: 65px;
+        right: -35px;
+        top: 35px;
         cursor: pointer;
         color: #0084f6;
     }
@@ -481,8 +519,7 @@ h3 {
     width: 100%;
     box-sizing: border-box;
     padding: 10px 5px 5px;
-    outline: none;
-    //border: 0;
+    outline: none; //border: 0;
     border: solid 1px #e2ebee;
     /* border-bottom: solid 1px #e2ebee; */
     height: 36px;
@@ -697,8 +734,7 @@ th {
         color: #000000;
     }
     &:first-child {
-        border-top-left-radius: 5px;
-        //border-top-right-radius: 5px;
+        border-top-left-radius: 5px; //border-top-right-radius: 5px;
     }
 }
 
@@ -709,7 +745,6 @@ td {
 table tr {
     transition: all 0.1s;
 }
-
 
 table tr {
     background: #ffffff;
@@ -1611,19 +1646,18 @@ input:-webkit-autofill {
                 padding: 8px 10px;
             }
         }
-
     }
-    .holder{
-        li{
-            &:last-child{
+    .holder {
+        li {
+            &:last-child {
                 display: none;
             }
         }
-        &:hover{
-            li{
-                &:last-child{
+        &:hover {
+            li {
+                &:last-child {
                     display: block;
-                }  
+                }
             }
         }
     }

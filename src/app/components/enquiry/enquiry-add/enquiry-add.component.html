@@ -413,8 +413,9 @@
         <h4>
           <strong>Enquiry Details</strong> (Official Use)</h4>
         <div class="box-shadow-lite">
-          <label for="">Enquiry Date</label>
+
           <div class="field-wrapper datePickerBox" [ngClass]="{'has-value': newEnqData.enquiry_date != 'Invalid date'}">
+            <label for="">Enquiry Date</label>
             <input type="text" value="" id="" class="form-ctrl bsDatepicker" [(ngModel)]="newEnqData.enquiry_date" name="enqDate" readonly="true"
               bsDatepicker>
 
@@ -456,14 +457,11 @@
 
 
           </div>
-          <div class="newDate">
-            <div class="field-wrapper datePickerBox " [ngClass]="{'has-value': newEnqData.followUpDate != 'Invalid date'}">
-              <label for="followUpDate">Follow Up Date</label>
-              <input type="text" value="" id="followUpDate" class="form-ctrl bsDatepicker" name="followUpDate" [(ngModel)]="newEnqData.followUpDate"
-                readonly="true" bsDatepicker>
-
-              <span class="date-clear" name="followupdate" (click)="newEnqData.followUpDate = ''">clear</span>
-            </div>
+          <div class="field-wrapper datePickerBox " [ngClass]="{'has-value': newEnqData.followUpDate != 'Invalid date'}">
+            <label for="followUpDate">Follow Up Date</label>
+            <input type="text" value="" id="followUpDate" class="form-ctrl bsDatepicker" name="followUpDate" [(ngModel)]="newEnqData.followUpDate"
+              readonly="true" bsDatepicker>
+            <span class="date-clear" name="followupdate" (click)="newEnqData.followUpDate = ''">clear</span>
           </div>
           <!-- <div class="time-picker">
             <div class="field-wrapper" id="hourpar" style="padding-right: 10px;" [ngClass]="{'has-value': hour != ''}">

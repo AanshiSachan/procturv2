@@ -852,6 +852,7 @@ export class EnquiryAddComponent implements OnInit {
         if (this.hour != '') {
           this.newEnqData.followUpTime = this.hour + ":" + this.minute + " " + this.meridian;
         }
+        this.newEnqData.dob = this.fetchDOB();
         this.poster.postNewEnquiry(this.newEnqData).subscribe(
           data => {
             this.enquiryConfirm = data;
@@ -917,6 +918,15 @@ export class EnquiryAddComponent implements OnInit {
     }
     else {
       this.submitError = true;
+    }
+  }
+
+  fetchDOB(): string{
+    if(this.newEnqData.dob == null || this.newEnqData.dob == '' || this.newEnqData.dob == "Invalid date" ){
+      return '';
+    }
+    else{
+      return moment(this.newEnqData.dob).format('YYYY-MM-DD');
     }
   }
 
